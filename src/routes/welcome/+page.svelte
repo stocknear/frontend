@@ -105,7 +105,7 @@
           You have now {tier} Access!
         </h1>
         <p
-          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-gray-600 dark:text-zinc-400"
+          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-gray-800 dark:text-zinc-300"
         >
           Your subscription pays for itself with just one better trade decision.
           Join thousands of investors making smarter, data-driven choices.
@@ -122,7 +122,7 @@
     </h2>
 
     <p
-      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
     >
       Thank you for subscribing to <strong>Stocknear</strong>! You've made a
       smart investment that typically pays for itself with just one prevented
@@ -130,7 +130,7 @@
     </p>
 
     <p
-      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
     >
       You now have access to the same institutional-grade tools and real-time
       data that hedge funds pay thousands for monthly. Need assistance with any
@@ -145,12 +145,12 @@
 
     {#if ["Pro", "Lifetime"]?.includes(tier)}
       <p
-        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
       >
         Your Pro subscription unlocks:
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400 marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>Real-time options flow and dark pool activity tracking</li>
         <li>AI-powered forecasts and market analysis</li>
@@ -160,12 +160,12 @@
       </ul>
     {:else if tier === "Plus"}
       <p
-        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
       >
         Your Plus subscription unlocks:
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400 marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>Unlimited watchlists and price alerts</li>
         <li>AI-powered forecasts and market analysis</li>

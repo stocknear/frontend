@@ -225,7 +225,7 @@
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
             <div
-              class="mt-5 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              class="mt-5 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
             >
               This page provides statistics and charts on initial public
               offerings (IPOs) in the U.S. stock market. Annual data is
@@ -239,7 +239,7 @@
             </h1>
 
             <div
-              class="mb-2 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              class="mb-2 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
             >
               There have been {data?.getIPOCalendar?.length?.toLocaleString(
                 "en-US",

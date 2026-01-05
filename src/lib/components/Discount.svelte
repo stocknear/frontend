@@ -65,7 +65,7 @@
             >Off</span
           >
         </div>
-        <p class="text-sm text-gray-600 dark:text-zinc-400">
+        <p class="text-sm text-gray-800 dark:text-zinc-300">
           Use code NEWYEAR26 at checkout.
         </p>
       </div>

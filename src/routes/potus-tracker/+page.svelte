@@ -722,7 +722,7 @@
                     class="px-4 py-2 cursor-pointer rounded-full transition {activeIdx ===
                     i
                       ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                      : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                      : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                   >
                     {item.title}
                   </button>
@@ -805,7 +805,7 @@
                             </div>
 
                             <span
-                              class="text-sm sm:text-[1rem] text-gray-600 dark:text-zinc-400"
+                              class="text-sm sm:text-[1rem] text-gray-800 dark:text-zinc-300"
                             >
                               {item.time_formatted}
                               {item.location !== null
@@ -870,7 +870,7 @@
                                 <span>Donald J. Trump</span>
                               </h3>
                               <h4
-                                class="text-sm text-gray-600 dark:text-zinc-400"
+                                class="text-sm text-gray-800 dark:text-zinc-300"
                               >
                                 <div>
                                   Title: {item?.title}
@@ -895,7 +895,7 @@
                           <!-- Description -->
                           <div class="mt-2 w-full">
                             <span
-                              class="text-sm text-gray-600 dark:text-zinc-400"
+                              class="text-sm text-gray-800 dark:text-zinc-300"
                             >
                               {item?.description?.length > 500
                                 ? item?.description?.slice(0, 500) + "..."
@@ -1027,7 +1027,7 @@
                         </div>
                       </div>
 
-                      <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+                      <p class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
                         {item?.content?.length > 500
                           ? item?.content?.slice(0, 500) + "..."
                           : item?.content}
@@ -1036,7 +1036,7 @@
                       <div
                         class="flex flex-row items-center mt-6 w-full border-b border-gray-300 dark:border-zinc-700 pb-2"
                       >
-                        <span class="text-sm text-gray-600 dark:text-zinc-400"
+                        <span class="text-sm text-gray-800 dark:text-zinc-300"
                           >{item?.date}</span
                         >
 
@@ -1075,7 +1075,7 @@
                     </h2>
                   </div>
                   <span
-                    class="p-3 sm:ml-3 sm:mr-3 -mt-4 text-sm text-gray-600 dark:text-zinc-400"
+                    class="p-3 sm:ml-3 sm:mr-3 -mt-4 text-sm text-gray-800 dark:text-zinc-300"
                   >
                     Upgrade now for unlimited access to all data, tools and no
                     ads.
@@ -1097,7 +1097,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
                   Build your Stock Screener to find profitable stocks.
                 </span>
@@ -1117,7 +1117,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
                   Keep track of your favorite stocks in real-time.
                 </span>
@@ -1152,7 +1152,7 @@
         <h3 class="font-semibold">
           <span> Donald J. Trump </span>
         </h3>
-        <h4 class="text-sm text-gray-600 dark:text-zinc-400">{postTitle}</h4>
+        <h4 class="text-sm text-gray-800 dark:text-zinc-300">{postTitle}</h4>
         <div
           class={`mt-2 px-3 py-1 rounded  text-xs sm:text-sm w-fit
                 ${
@@ -1247,12 +1247,12 @@
       </div>
     </div>
 
-    <p class="text-sm text-gray-600 dark:text-zinc-400 mb-4 mt-4">
+    <p class="text-sm text-gray-800 dark:text-zinc-300 mb-4 mt-4">
       {postContent}
     </p>
 
     <div class="border-b border-gray-300 dark:border-zinc-700">
-      <span class="mb-4 text-sm text-gray-600 dark:text-zinc-400"
+      <span class="mb-4 text-sm text-gray-800 dark:text-zinc-300"
         >{postDate}</span
       >
     </div>

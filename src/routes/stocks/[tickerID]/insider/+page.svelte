@@ -950,7 +950,7 @@ ${summaryData.outlook}
         </div>
 
         <p
-          class="mt-4 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+          class="mt-4 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
         >
           We track
           <strong>{totalTransaction}</strong> insider transactions spanning
@@ -1139,7 +1139,7 @@ ${summaryData.outlook}
                     </h3>
                   </div>
                   <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-600 dark:text-zinc-400"
+                    <span class="text-sm text-gray-800 dark:text-zinc-300"
                       >Insider Sentiment:</span
                     >
                     <div class="flex items-center gap-2">
@@ -1567,7 +1567,7 @@ ${summaryData.outlook}
             <div class="flex justify-center mt-4">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 Back to Top <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"

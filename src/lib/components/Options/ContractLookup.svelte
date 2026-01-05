@@ -818,7 +818,7 @@
                               selectedDate = item;
                               loadData("default");
                             }}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {formatDate(item)}
                           </DropdownMenu.Item>
@@ -906,7 +906,7 @@
                             selectedStrike = item;
                             loadData("default");
                           }}
-                          class="cursor-pointer text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {item}
                         </DropdownMenu.Item>
@@ -968,7 +968,7 @@
                             selectedOptionType = item;
                             loadData("optionType");
                           }}
-                          class="cursor-pointer text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {item}
                         </DropdownMenu.Item>
@@ -992,7 +992,7 @@
             {selectedOptionType}
           </h3>
           <h3
-            class="text-gray-600 dark:text-zinc-400 flex flex-row items-center text-sm mb-2 sm:mb-0"
+            class="text-gray-800 dark:text-zinc-300 flex flex-row items-center text-sm mb-2 sm:mb-0"
           >
             {optionSymbol}
           </h3>
@@ -1583,7 +1583,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     Back to Top <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
@@ -1645,13 +1645,13 @@
         >
           {tooltipTitle}
         </h3>
-        <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal"
+        <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal"
           >{infoText?.text ?? "n/a"}</span
         >
         {#if infoText?.equation !== undefined}
           <div class="w-5/6 m-auto mt-5"></div>
           <div
-            class="text-sm w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400"
+            class="text-sm w-full pt-3 pb-3 m-auto text-gray-800 dark:text-zinc-300"
           >
             {infoText?.equation}
           </div>

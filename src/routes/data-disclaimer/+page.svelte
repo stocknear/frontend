@@ -44,7 +44,7 @@
           <div class="w-full m-auto">
             <div>
               <p
-                class="mb-5 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 The financial data presented on Stocknear is provided for
                 informational and educational purposes only. This information
@@ -77,7 +77,7 @@
                 Market Data & Stock Charts
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Our comprehensive market data and real-time stock charts are
                 powered by
@@ -99,7 +99,7 @@
                 Market Coverage
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Stocknear provides comprehensive coverage of securities listed
                 on major U.S. exchanges, including NASDAQ, NYSE, NYSE American,
@@ -114,7 +114,7 @@
                 Financial Fundamentals
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Our fundamental financial data is sourced from
                 <a
@@ -138,7 +138,7 @@
                 Business Metrics Data
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Business Metrics Data, including operational KPIs and non-GAAP
                 unit economics, is provided through our partner
@@ -162,7 +162,7 @@
                 Analyst Coverage & Market Projections
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Our analyst coverage integrates data from multiple authoritative
                 sources. Price targets and analyst ratings are provided by
@@ -188,7 +188,7 @@
                 ETF Analytics
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Our ETF holdings data and analytics are provided through our
                 partnership with
@@ -209,7 +209,7 @@
                 Options Market Data
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Our options market data infrastructure leverages multiple data
                 vendors, combining their feeds into a unified pipeline to
@@ -240,7 +240,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Upgrade now for unlimited access to all data, tools and no ads.
               </span>
@@ -261,7 +261,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Learn more about why we're doing this here
               </span>
@@ -284,7 +284,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Let me know if you need something
               </span>

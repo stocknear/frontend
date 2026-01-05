@@ -26,7 +26,7 @@
   >
     About {$indexTicker}
   </h2>
-  <p class="text-sm text-gray-600 dark:text-zinc-400">
+  <p class="text-sm text-gray-800 dark:text-zinc-300">
     {description}
   </p>
 </div>

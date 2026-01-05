@@ -162,7 +162,7 @@
                   >
                     {formatString(companyName)}
                   </h1>
-                  <p class="mb-0.5 text-sm text-gray-600 dark:text-zinc-400">
+                  <p class="mb-0.5 text-sm text-gray-800 dark:text-zinc-300">
                     CIK Number: {data?.getHedgeFundsData?.cik}
                   </p>
                 </div>

@@ -192,7 +192,7 @@
           See the move before the crowd does
         </h1>
         <p
-          class="text-sm text-gray-600 dark:text-zinc-400 sm:text-base md:text-lg lg:text-xl lg:leading-8"
+          class="text-sm text-gray-800 dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
         >
           Real-time prices, options flow, dark pool orders, news, financials,
           forecasts, and charts for every US stock and ETF. Act faster with

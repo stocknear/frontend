@@ -333,7 +333,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Track real-time options sentiment.
               </span>
@@ -356,7 +356,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Monitor real-time unusual options activity and flow patterns
               </span>
@@ -378,7 +378,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Analyze hidden institutional flow and dark pool trading data
               </span>

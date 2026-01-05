@@ -36,7 +36,7 @@
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+            class="w-full m-auto text-sm sm:text-base text-gray-800 dark:text-zinc-300"
           >
             <div class="">
               <p class="italic mb-2 text-xs text-gray-800 dark:text-zinc-300">
@@ -356,7 +356,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Learn more about why we're doing this here
               </span>
@@ -379,7 +379,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Let me know if you need something
               </span>

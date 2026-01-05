@@ -120,7 +120,7 @@
     <!--Start Trade Modal-->
     <label
       for="priceAlertModal"
-      class="cursor-pointer absolute right-5 top-5 text-[1.8rem] text-gray-400 hover:text-gray-600 dark:text-zinc-400 dark:hover:text-zinc-200 transition"
+      class="cursor-pointer absolute right-5 top-5 text-[1.8rem] text-gray-400 hover:text-gray-800 dark:text-zinc-300 dark:hover:text-zinc-200 transition"
     >
       <svg
         class="w-8 h-8"
@@ -261,7 +261,7 @@
               class="text-sm sm:text-[1rem] font-semibold text-gray-700 dark:text-zinc-200"
               >Quick Summary:</label
             >
-            <p class="text-sm text-gray-600 dark:text-zinc-400">
+            <p class="text-sm text-gray-800 dark:text-zinc-300">
               Your price alert will notify you when the stock price is {condition}
               {targetPrice}.
             </p>

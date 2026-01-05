@@ -44,9 +44,13 @@
 
 <section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
   <div class="mt-5">
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Popular Lists</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
+      Popular Lists
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -78,9 +82,13 @@
   </div>
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Market Cap Groups</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Market Cap Groups
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -122,9 +130,13 @@
   </div>
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Dividends Lists</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Dividends Lists
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -157,9 +169,13 @@
   <!--End Market Cap Group-->
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Exchange Groups</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Exchange Groups
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -185,9 +201,13 @@
   <!--Start Index Group-->
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Index Groups</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Index Groups
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -213,9 +233,13 @@
   <!--End Index Group-->
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Options Lists</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Options Lists
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -274,9 +298,13 @@
 
   <!--Start Other Lists-->
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Other Lists</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Other Lists
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -342,9 +370,13 @@
   <!--Start ETF Lists-->
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">ETF Lists</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      ETF Lists
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -392,11 +424,13 @@
   </div>
 
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
       Category of Stocks Ranked by Market Cap
     </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -493,11 +527,13 @@
 
   <!--Start Non-US Stocks Listed on US Exchanges-->
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
       Non-US Stocks Listed on US Exchanges
     </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
@@ -548,9 +584,13 @@
 
   <!--Start Sector Group-->
   <div>
-    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Sector Groups</h2>
+    <h2
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+    >
+      Sector Groups
+    </h2>
     <ul
-      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
     >
       <li>
         <a

@@ -276,7 +276,7 @@
             >
               Reddit Stock Tracker
             </h1>
-            <p class="text-sm text-gray-600 dark:text-zinc-400">
+            <p class="text-sm text-gray-800 dark:text-zinc-300">
               {getSubredditDescription(currentSubreddit)}
             </p>
           </div>
@@ -296,7 +296,7 @@
                     class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 px-3 py-1 text-xs font-semibold transition {currentSubreddit ===
                     subreddit.name
                       ? 'bg-gray-900/90 text-white dark:bg-zinc-100/90 dark:text-zinc-900'
-                      : 'bg-white/80 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                      : 'bg-white/80 dark:bg-zinc-950/40 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                   >
                     r/{subreddit.name}
                   </button>
@@ -316,7 +316,7 @@
                   class="px-4 py-2 cursor-pointer rounded-full transition {activeIdx ===
                   i
                     ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                    : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                    : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                 >
                   {item?.title}
                 </button>
@@ -324,7 +324,7 @@
             </ul>
           </nav>
 
-          <p class="mt-4 text-sm text-gray-600 dark:text-zinc-400">
+          <p class="mt-4 text-sm text-gray-800 dark:text-zinc-300">
             Overview of r/{currentSubreddit} discussion trends for the selected
             <strong
               >{timePeriod === "oneWeek"
@@ -397,7 +397,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Follow the latest executive orders of the US President
               </span>
@@ -420,7 +420,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Get the latest unusual insider trading in realtime
               </span>

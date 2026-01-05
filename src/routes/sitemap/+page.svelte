@@ -233,7 +233,7 @@
             <div class=" w-full m-auto">
               <div class="content">
                 <p
-                  class="text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                  class="text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                 >
                   Explore a comprehensive list of Stocknear's financial tools
                   and resources. Find real-time stock data, market analysis,
@@ -247,7 +247,7 @@
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
                     {#each tabs as item}
                       <li>
@@ -268,7 +268,7 @@
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
                     {#each data?.getBlogPosts?.slice(0, 15) as item}
                       {#if ["blog", "pre-earnings"]?.includes(item?.category)}
@@ -291,7 +291,7 @@
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
                     {#each data?.getTutorialPost?.slice(0, 15) as item}
                       <li>
@@ -313,7 +313,7 @@
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
                     {#each data?.getBlogPosts
                       ?.filter((item) => item?.category === "term")
@@ -351,7 +351,7 @@
                   />
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
@@ -375,7 +375,7 @@
                   />
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
                   Filter, sort and analyze all stocks to find your next
                   investment.
@@ -399,7 +399,7 @@
                   />
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                   >Keep track of your favorite stocks in real-time.
                 </span>
               </a>

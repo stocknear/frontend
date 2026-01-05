@@ -1144,7 +1144,7 @@
             <div class="flex justify-center mt-4 w-full">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 Back to Top
                 <svg
@@ -1184,7 +1184,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Get realtime updates of your favorite stocks
               </span>
@@ -1207,7 +1207,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Get realtime updates of your portfolio
               </span>

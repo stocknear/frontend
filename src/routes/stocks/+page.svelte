@@ -95,7 +95,7 @@
               All Stock Symbols
             </h1>
             <p
-              class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0"
+              class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
             >
               List of all {rawData?.length} stock symbols we support
             </p>

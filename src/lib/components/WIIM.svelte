@@ -85,7 +85,7 @@
                     <div class="w-full h-full">
                       <div class="flex flex-col items-start">
                         <div class="flex flex-row items-start w-full">
-                          <span class="text-sm text-gray-600 dark:text-zinc-400"
+                          <span class="text-sm text-gray-800 dark:text-zinc-300"
                             >{formatDate(item?.date)}
                             <!--
                             &#183;
@@ -124,7 +124,7 @@
                               {item?.text?.slice(0, 50) + "..."}
 
                               <a
-                                class="inline-block ml-0.5 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                                 href="/pricing"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -139,7 +139,7 @@
                             </span>
                           {:else}
                             <span
-                              class="text-sm text-gray-600 dark:text-zinc-400"
+                              class="text-sm text-gray-800 dark:text-zinc-300"
                             >
                               {item?.text}
                             </span>

@@ -47,7 +47,9 @@
               href="/stocks/{$stockTicker}/statistics/earnings"
               class="flex flex-row items-center hover:text-violet-600 dark:hover:text-violet-400 transition"
             >
-              <h3 class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              <h3
+                class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
                 Next Earnings Release
               </h3>
               <svg
@@ -67,7 +69,7 @@
         </div>
       {/if}
 
-      <div class="text-sm text-gray-600 dark:text-zinc-400">
+      <div class="text-sm text-gray-800 dark:text-zinc-300">
         {$displayCompanyName} is scheduled to release its earnings on
         <strong
           >{new Date(rawData?.date ?? null)?.toLocaleString("en-US", {
@@ -88,7 +90,7 @@
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           ...
           <a
-            class="inline-block ml-0.5 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+            class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
             href="/pricing"
             >Upgrade <svg
               class="w-4 h-4 mb-1 inline-block"

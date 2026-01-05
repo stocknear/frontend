@@ -1140,7 +1140,7 @@ Lower volume today than average suggests less activity or fading interest."
               Option Chain Statistics
             </h3>
 
-            <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+            <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
               This table provides a comprehensive overview of all <strong
                 >{ticker}</strong
               >

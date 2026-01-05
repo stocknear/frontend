@@ -895,7 +895,7 @@
             >
               {selectedStrategy}
             </h2>
-            <p class="mt-3 text-sm text-gray-600 dark:text-zinc-400">
+            <p class="mt-3 text-sm text-gray-800 dark:text-zinc-300">
               {description}
             </p>
 
@@ -1331,7 +1331,7 @@
                 </h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 mb-6">
                   <div>
-                    <div class="text-gray-600 dark:text-zinc-400 text-sm">
+                    <div class="text-gray-800 dark:text-zinc-300 text-sm">
                       {selectedTicker} Current Price
                     </div>
                     <div class="flex items-baseline">
@@ -1346,7 +1346,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       {selectedTicker} Breakeven Price
                       <InfoModal
@@ -1377,7 +1377,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Cost of Trade
                       <InfoModal
@@ -1399,7 +1399,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Maximum Profit
                       <InfoModal
@@ -1417,7 +1417,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Maximum Loss
                       <InfoModal
@@ -1445,7 +1445,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Probability of Profit
                       <InfoModal
@@ -1465,7 +1465,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Prob. of Max Profit
                       <InfoModal
@@ -1483,7 +1483,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Prob. of Max Loss
                       <InfoModal
@@ -1511,7 +1511,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Expected Value (EV)
                       <InfoModal
@@ -1558,7 +1558,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Expected Return
                       <InfoModal
@@ -1600,7 +1600,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Reward/Risk
                       <InfoModal
@@ -1649,7 +1649,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Delta (Δ)
                       <InfoModal
@@ -1686,7 +1686,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Gamma (Γ)
                       <InfoModal
@@ -1723,7 +1723,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Theta (Θ)
                       <InfoModal
@@ -1763,7 +1763,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
+                      class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
                       Vega (ν)
                       <InfoModal

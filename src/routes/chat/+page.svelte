@@ -1009,7 +1009,7 @@
               >
                 Ready to Analyze Stocks?
               </h2>
-              <p class="mb-4 text-gray-600 dark:text-zinc-400">
+              <p class="mb-4 text-gray-800 dark:text-zinc-300">
                 Explore detailed financial data, analyst ratings, and technicals
                 for thousands of stocks.
               </p>

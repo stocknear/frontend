@@ -289,7 +289,7 @@
                                     : "n/a";
                             return `<div class="flex justify-center space-x-8 text-xs sm:text-sm">
                         <div class="flex flex-col items-center">
-                            <span class="text-gray-600 dark:text-zinc-400 font-semibold">${gaugeData.label}</span>
+                            <span class="text-gray-800 dark:text-zinc-300 font-semibold">${gaugeData.label}</span>
                             <span class="text-gray-900 dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
                         </div>
                         <div class="flex flex-col items-center">
@@ -424,7 +424,7 @@
                 {#each gaugeData.stats as stat}
                     <div class="flex flex-col">
                         <div
-                            class="text-gray-600 dark:text-zinc-400 text-sm flex flex-row items-center gap-x-2"
+                            class="text-gray-800 dark:text-zinc-300 text-sm flex flex-row items-center gap-x-2"
                         >
                             <span>{stat.label}</span>
                             <InfoModal

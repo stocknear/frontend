@@ -378,7 +378,7 @@
   <main class="overflow-hidden">
     {#if shareholderList?.length !== 0}
       <div
-        class="mt-3 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+        class="mt-3 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
       >
         <p>
           Total Institutes of {rawData?.investorsHolding?.toLocaleString(
@@ -436,7 +436,7 @@
           Options Activity
         </h1>
 
-        <div class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
           Institutions are holding {callPercentage > 55
             ? "more Calls Contracts as Puts Contracts, indicating a bullish sentiment."
             : callPercentage < 45
@@ -887,7 +887,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             Back to Top <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"

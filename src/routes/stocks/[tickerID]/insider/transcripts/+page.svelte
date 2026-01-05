@@ -589,7 +589,7 @@ ${summaryData.outlook}
                 </div>
                 <div class="flex flex-col items-start sm:items-end gap-3">
                   <div
-                    class="flex items-center gap-2 text-sm text-gray-600 dark:text-zinc-400"
+                    class="flex items-center gap-2 text-sm text-gray-800 dark:text-zinc-300"
                   >
                     <svg
                       class="w-4 h-4"
@@ -699,7 +699,7 @@ ${summaryData.outlook}
                         </h3>
                       </div>
                       <div class="flex items-center gap-3">
-                        <span class="text-sm text-gray-600 dark:text-zinc-400"
+                        <span class="text-sm text-gray-800 dark:text-zinc-300"
                           >Overall Sentiment:</span
                         >
                         <div class="flex items-center gap-2">

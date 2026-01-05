@@ -343,11 +343,11 @@
             >
               User Information
             </h2>
-            <div class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
+            <div class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
               <strong>Email:</strong>
               {data?.user?.email}
             </div>
-            <div class="mt-1 mb-5 text-sm text-gray-600 dark:text-zinc-400">
+            <div class="mt-1 mb-5 text-sm text-gray-800 dark:text-zinc-300">
               <strong>Registered Date:</strong>
               {new Date(data?.user?.created ?? null)?.toLocaleString("en-US", {
                 month: "short",
@@ -370,7 +370,7 @@
             >
               Premium Discord Access
             </h2>
-            <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+            <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
               Gain access to real-time options flow from major institutional
               players, live dark pool activity, instant earnings updates,
               market-moving news, and much more — all designed to keep you ahead
@@ -420,12 +420,12 @@
             {#if pwaInstalled}
               <div class="mt-3">
                 {#if nottifPermGranted === null}
-                  <p class="text-sm text-gray-600 dark:text-zinc-400">
+                  <p class="text-sm text-gray-800 dark:text-zinc-300">
                     Checking permissions...
                   </p>
                 {:else if nottifPermGranted === true}
                   {#if isPushSubscribed}
-                    <p class="mb-3 text-sm text-gray-600 dark:text-zinc-400">
+                    <p class="mb-3 text-sm text-gray-800 dark:text-zinc-300">
                       Push notifications are currently active.
                     </p>
                     <div class="mt-3">
@@ -473,7 +473,7 @@
                       {/if}
                     </div>
                   {:else}
-                    <p class="mb-3 text-sm text-gray-600 dark:text-zinc-400">
+                    <p class="mb-3 text-sm text-gray-800 dark:text-zinc-300">
                       Stay up-to-date with real-time price alerts, the latest
                       stock news, and earnings calls delivered straight to your
                       device.
@@ -496,7 +496,7 @@
                     {/if}
                   {/if}
                 {:else if nottifPermGranted === false}
-                  <p class="text-sm text-gray-600 dark:text-zinc-400">
+                  <p class="text-sm text-gray-800 dark:text-zinc-300">
                     Review your settings and enable notifications to stay
                     updated with Stocknear alerts.
                   </p>
@@ -504,7 +504,7 @@
               </div>
             {:else}
               <div class="mt-2">
-                <p class="mb-5 text-sm text-gray-600 dark:text-zinc-400">
+                <p class="mb-5 text-sm text-gray-800 dark:text-zinc-300">
                   You can activate the push notification only if you downloaded
                   the app.
                 </p>
@@ -528,7 +528,7 @@
             </h2>
             <div class="flex flex-row items-center">
               <span
-                class="text-sm sm:text-[1rem] text-gray-600 dark:text-zinc-400"
+                class="text-sm sm:text-[1rem] text-gray-800 dark:text-zinc-300"
               >
                 Status:
               </span>
@@ -565,7 +565,7 @@
             </div>
             {#if !data?.user?.lifetime}
               {#if subscriptionData?.status_formatted === "Active"}
-                <span class="text-sm text-gray-600 dark:text-zinc-400 pr-5">
+                <span class="text-sm text-gray-800 dark:text-zinc-300 pr-5">
                   Your subscription will automatically renew on {new Date(
                     subscriptionData?.renews_at,
                   )?.toLocaleDateString("en-GB", {
@@ -575,7 +575,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "On Trial"}
-                <span class="text-sm text-gray-600 dark:text-zinc-400 pr-5">
+                <span class="text-sm text-gray-800 dark:text-zinc-300 pr-5">
                   Your subscription will automatically billed on {new Date(
                     subscriptionData?.trial_ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -586,7 +586,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "Cancelled"}
-                <span class="text-sm text-gray-600 dark:text-zinc-400">
+                <span class="text-sm text-gray-800 dark:text-zinc-300">
                   Your subscription will remain active until {new Date(
                     subscriptionData?.ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -599,7 +599,7 @@
             {/if}
 
             <div class="flex flex-col justify-start items-start mt-4 mb-3">
-              <span class="mr-2 text-sm text-gray-600 dark:text-zinc-400">
+              <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
                 Current Plan:
               </span>
               <span class="text-sm text-gray-700 dark:text-zinc-200">
@@ -620,7 +620,7 @@
             {#if ["Plus", "Pro"].includes(data?.user?.tier)}
               <div class="mx-auto w-full mt-6 mb-2">
                 <div class="flex items-center mt-3">
-                  <p class="text-sm text-gray-600 dark:text-zinc-400">
+                  <p class="text-sm text-gray-800 dark:text-zinc-300">
                     <a
                       href="https://app.lemonsqueezy.com/my-orders"
                       target="_blank"
@@ -702,10 +702,10 @@
             >
               Need help?
             </h2>
-            <div class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
+            <div class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
               <strong>Here's how to get support:</strong>
             </div>
-            <div class="mt-2 mb-1 text-sm text-gray-600 dark:text-zinc-400">
+            <div class="mt-2 mb-1 text-sm text-gray-800 dark:text-zinc-300">
               <ul class="list-disc pl-5">
                 <li>
                   Send an email to <a
@@ -765,7 +765,7 @@
       >
         Are you sure?
       </h3>
-      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
+      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
         You will no longer be charged for this subscription, and at the end of
         the billing period, your account will transfer to the Free Plan.
       </span>
@@ -822,7 +822,7 @@
       >
         Reactivate Subscription
       </h3>
-      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
+      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
         Reactivate your Subscription now to unlock unlimited features and gain
         the edge over the competition.
       </span>
@@ -885,7 +885,7 @@
       >
         Are you sure?
       </h3>
-      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
+      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
         You're Account will be upgraded to Plus (Annual Plan). You’ll only be
         charged the difference between your current plan and the new one.
       </span>
@@ -946,7 +946,7 @@
       >
         Are you sure?
       </h3>
-      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
+      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
         You're Account will be upgraded to Pro (Annual Plan). You’ll only be
         charged the difference between your current plan and the new one.
       </span>
@@ -1038,18 +1038,18 @@
 
       {#if installPlatform === "ios"}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-gray-600 dark:text-zinc-400"
+          class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
         >
           <li class="mb-2">Tap on the Safari share button.</li>
           <li class="mb-2">Tap on "Add to Home Screen."</li>
           <li class="mb-4">Tap on "Add."</li>
-          <p class="text-sm mb-4 text-gray-600 dark:text-zinc-400">
+          <p class="text-sm mb-4 text-gray-800 dark:text-zinc-300">
             Note that web apps on iOS can only be installed using Safari.
           </p>
         </ul>
       {:else}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-gray-600 dark:text-zinc-400"
+          class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
         >
           <li class="mb-2">Open Stocknear in Chrome.</li>
           <li class="mb-2">Tap the three-dot menu in the top right.</li>

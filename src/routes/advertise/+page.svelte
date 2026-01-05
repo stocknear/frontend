@@ -39,7 +39,7 @@
 
     <div class="mt-10 grid gap-10 lg:grid-cols-[1.1fr,0.9fr]">
       <main
-        class="space-y-6 text-[0.95rem] leading-relaxed text-gray-600 dark:text-zinc-400"
+        class="space-y-6 text-[0.95rem] leading-relaxed text-gray-800 dark:text-zinc-300"
       >
         <p>
           Stocknear is a daily research hub for self-directed investors. We
@@ -165,7 +165,7 @@
                 class="h-5 w-5 text-gray-400 transition group-hover:text-violet-500 dark:text-zinc-500 dark:group-hover:text-violet-400"
               />
             </div>
-            <p class="text-[0.9rem] text-gray-600 dark:text-zinc-400">
+            <p class="text-[0.9rem] text-gray-800 dark:text-zinc-300">
               Support our mission to democratize financial research for retail
               investors.
             </p>
@@ -186,7 +186,7 @@
                 class="h-5 w-5 text-gray-400 transition group-hover:text-violet-500 dark:text-zinc-500 dark:group-hover:text-violet-400"
               />
             </div>
-            <p class="text-[0.9rem] text-gray-600 dark:text-zinc-400">
+            <p class="text-[0.9rem] text-gray-800 dark:text-zinc-300">
               Have questions? We're here to help with personalized solutions.
             </p>
           </a>

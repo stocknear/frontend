@@ -84,7 +84,7 @@
                   class="px-4 py-2 rounded-full cursor-pointer transition {activeIdx ===
                   i
                     ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                    : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
+                    : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
                 >
                   {item.title}
                 </a>
@@ -103,7 +103,7 @@
                       class="px-3 py-1.5 rounded-full cursor-pointer transition text-sm sm:text-base {displaySection ===
                       item
                         ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                        : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
+                        : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
                     >
                       {item}
                     </a>
@@ -114,7 +114,7 @@
                       class="px-3 py-1.5 rounded-full cursor-pointer transition text-sm sm:text-base {displaySection ===
                       item
                         ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                        : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
+                        : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
                     >
                       {item}
                     </a>

@@ -8,7 +8,7 @@
       >
         Analyst Star Rankings
       </h3>
-      <p class="mt-3 text-base sm:text-lg text-gray-600 dark:text-zinc-400">
+      <p class="mt-3 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
         How we score analyst performance at a glance.
       </p>
     </div>
@@ -39,7 +39,7 @@
             </div>
             Success Rate
           </dt>
-          <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
             The percentage of profitable ratings over the past year.
           </dd>
         </div>
@@ -66,7 +66,7 @@
             </div>
             Average Return
           </dt>
-          <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
             The average one-year return following each rating.
           </dd>
         </div>
@@ -93,7 +93,7 @@
             </div>
             Rating Count
           </dt>
-          <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
             Analysts with more rated ideas carry higher weight.
           </dd>
         </div>
@@ -120,7 +120,7 @@
             </div>
             Recency
           </dt>
-          <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
             Newer ratings carry more weight than older calls.
           </dd>
         </div>

@@ -330,7 +330,7 @@
             {#if financialData?.length > 0}
               <div class="flex flex-col md:flex-row items-end justify-between">
                 <span
-                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-600 dark:text-zinc-400 w-full"
+                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full"
                 >
                   Financials in {financialData?.at(0)?.reportedCurrency}. Fiscal
                   year is
@@ -498,7 +498,7 @@
                 </table>
               </div>
               <div
-                class="sm:flex sm:justify-between text-sm text-gray-600 dark:text-zinc-400"
+                class="sm:flex sm:justify-between text-sm text-gray-800 dark:text-zinc-300"
               >
                 <div>
                   Source: Financial Modeling Prep. <a

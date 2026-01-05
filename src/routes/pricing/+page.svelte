@@ -1506,7 +1506,7 @@
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Pro</h3>
         </div>
-        <p class="text-sm mt-2 text-gray-600 dark:text-zinc-400">
+        <p class="text-sm mt-2 text-gray-800 dark:text-zinc-300">
           Professional tools at retail pricing.
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
@@ -1772,7 +1772,7 @@
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
-              class="underline underline-offset-2 font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="underline underline-offset-2 font-medium text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >Manage your subscription</a
             >
           </p>
@@ -1908,7 +1908,7 @@
                     it for you.
                     <a
                       href={`mailto:${emailAddress}`}
-                      class="text-gray-600 dark:text-zinc-400 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       {emailAddress}
                     </a>
@@ -1953,7 +1953,7 @@
                     We offer a 30 day money back guarantee, no questions asked.
                     Just send an email to <a
                       href={`mailto:${emailAddress}`}
-                      class="text-gray-600 dark:text-zinc-400 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >{emailAddress}</a
                     > and you will get a full refund.
                   </p>

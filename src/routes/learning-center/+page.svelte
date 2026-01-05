@@ -98,7 +98,7 @@
                           {item?.title}
                         </h2>
                         <p
-                          class="mt-3 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+                          class="mt-3 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
                         >
                           {item?.abstract.length > 250
                             ? item?.abstract?.slice(0, 250) + "..."

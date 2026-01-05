@@ -13,7 +13,7 @@
         >
           Built for active traders who want an edge.
         </h3>
-        <p class="mt-4 text-base sm:text-lg text-gray-600 dark:text-zinc-400">
+        <p class="mt-4 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
           You do not need more headlines. You need the flow, catalysts, and
           context that move price. Pro puts real-time options and dark pool
           data, analyst moves, and deep history in one place so you can plan the
@@ -49,7 +49,7 @@
               </div>
               Unlock the full data stack
             </dt>
-            <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
               Get every dataset and tool across Stocknear so you can vet setups
               fast and act with conviction.
             </dd>
@@ -79,7 +79,7 @@
               </div>
               Live options + dark pool flow
             </dt>
-            <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
               Spot unusual activity and large prints as they happen to move
               before the crowd.
             </dd>
@@ -115,7 +115,7 @@
               </div>
               Analyst catalysts that move price
             </dt>
-            <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
               Track upgrades, downgrades, and price targets without chasing
               news.
             </dd>
@@ -146,7 +146,7 @@
               </div>
               Deep history for backtesting
             </dt>
-            <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
+            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
               Validate ideas with premium data and up to 30 years of history.
             </dd>
           </div>

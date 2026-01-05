@@ -3631,7 +3631,7 @@
                     <div class="flex justify-center mt-4">
                         <button
                             on:click={scrollTradingHistoryToTop}
-                            class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                         >
                             Back to Top
                             <svg

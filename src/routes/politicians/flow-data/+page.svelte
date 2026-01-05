@@ -321,7 +321,7 @@
           </div>
 
           <p
-            class="mt-4 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400"
+            class="mt-4 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300"
           >
             Overview of the latest congressional trading activity. The buy-sell
             ratio shows
@@ -717,7 +717,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             Back to Top <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"

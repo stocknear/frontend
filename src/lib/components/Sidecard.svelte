@@ -79,9 +79,9 @@
         animation: false,
       },
       title: {
-        text: `<div class="text-gray-600 dark:text-zinc-400 mt-3 text-center font-normal text-2xl">Price Target: <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
-        <div class="text-gray-600 dark:text-zinc-400 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? "upside" : "downside"})</div>
-        <div class="text-gray-600 dark:text-zinc-400 text-center font-normal text-xl flex justify-center items-center">Analyst Consensus: <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
+        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">Price Target: <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
+        <div class="text-gray-800 dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? "upside" : "downside"})</div>
+        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">Analyst Consensus: <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -359,20 +359,20 @@
       >
         About {$stockTicker}
       </h2>
-      <p class="text-sm text-gray-600 dark:text-zinc-400">
+      <p class="text-sm text-gray-800 dark:text-zinc-300">
         {snippet}
       </p>
       <div class="inline-block">
         <a
           href={`/stocks/${$stockTicker}/profile`}
-          class="w-full text-sm mt-1 cursor-pointer text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="w-full text-sm mt-1 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >
           [Read more]
         </a>
       </div>
 
       <div class="mt-3 grid grid-cols-2 gap-3 w-full">
-        <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Industry</span
@@ -383,7 +383,7 @@
             >{industry}</a
           >
         </div>
-        <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Sector</span
@@ -395,14 +395,14 @@
             >{sector}</a
           >
         </div>
-        <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >IPO Date</span
           >
           <span>{ipoDate}</span>
         </div>
-        <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Employees</span
@@ -415,14 +415,14 @@
               : "n/a"}</a
           >
         </div>
-        <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Stock Exchange</span
           >
           <span>{exchange ?? "n/a"}</span>
         </div>
-        <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+        <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Ticker Symbol</span
@@ -431,7 +431,7 @@
         </div>
         {#if website}
           <div
-            class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400"
+            class="col-span-1 whitespace-nowrap text-sm text-gray-800 dark:text-zinc-300"
           >
             <span
               class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
@@ -470,7 +470,7 @@
         >
           Financial Performance
         </h2>
-        <p class="text-sm text-gray-600 dark:text-zinc-400">
+        <p class="text-sm text-gray-800 dark:text-zinc-300">
           In {financialPerformance?.history?.at(-1)?.date?.slice(0, 4)}, {removeCompanyStrings(
             $displayCompanyName,
           )}'s revenue was {abbreviateNumber(
@@ -527,7 +527,7 @@
         >
           Analyst Forecast
         </h2>
-        <p class="text-sm text-gray-600 dark:text-zinc-400">
+        <p class="text-sm text-gray-800 dark:text-zinc-300">
           According to {numOfAnalyst} analyst ratings, the average rating for {$stockTicker}
           stock is "{consensusRating}." The 12-month stock price forecast is {priceTarget},
           which is {priceTargetUpside > 0 ? "an increase" : "a decrease"} of {priceTargetUpside}%

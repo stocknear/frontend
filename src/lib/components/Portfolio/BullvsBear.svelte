@@ -410,7 +410,7 @@
               </h3>
             </div>
             <div class="flex items-center gap-3">
-              <span class="text-sm text-gray-600 dark:text-zinc-400"
+              <span class="text-sm text-gray-800 dark:text-zinc-300"
                 >Portfolio Sentiment:</span
               >
               <div class="flex items-center gap-2">

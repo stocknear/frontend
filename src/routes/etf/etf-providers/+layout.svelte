@@ -83,7 +83,7 @@
                   />
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
@@ -108,7 +108,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Get the latest top Wall Street analyst ratings
               </span>
@@ -131,7 +131,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Get the latest top Congress trading insights.
               </span>

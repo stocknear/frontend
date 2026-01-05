@@ -142,7 +142,7 @@
           </h3>
         </div>
 
-        <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+        <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
           We use cookies to enhance your browsing experience, analyze site
           traffic, and personalize content.
         </p>
@@ -184,7 +184,7 @@
       >
         >Cookie Preferences</Dialog.Title
       >
-      <Dialog.Description class="text-sm text-gray-600 dark:text-zinc-400">
+      <Dialog.Description class="text-sm text-gray-800 dark:text-zinc-300">
         Manage your cookie preferences. Necessary cookies cannot be disabled as
         they are required for the website to function.
       </Dialog.Description>
@@ -200,7 +200,7 @@
             <h4 class="font-medium text-gray-900 dark:text-white">
               Necessary Cookies
             </h4>
-            <p class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
+            <p class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
               Essential for authentication, security and basic functionality.
               These cannot be disabled.
             </p>
@@ -224,7 +224,7 @@
             <h4 class="font-medium text-gray-900 dark:text-white">
               Analytics Cookies
             </h4>
-            <p class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
+            <p class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
               Help us understand how visitors interact with our website to
               improve user experience.
             </p>
@@ -256,7 +256,7 @@
             <h4 class="font-medium text-gray-900 dark:text-white">
               Marketing Cookies
             </h4>
-            <p class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
+            <p class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
               Used to track visitors across websites for personalized
               advertising.
             </p>

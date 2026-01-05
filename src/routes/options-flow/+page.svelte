@@ -3282,7 +3282,7 @@
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Filter
     </h3>
-    <p class="text-sm mb-6 text-gray-600 dark:text-zinc-400">
+    <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
       Are you sure you want to delete this filter? This action cannot be undone.
     </p>
     <div class="flex justify-end space-x-3">

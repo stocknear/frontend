@@ -533,7 +533,7 @@
   </h2>
 
   <!-- Insightful overview paragraph -->
-  <div class="w-full mt-4 mb-6 text-sm text-gray-600 dark:text-zinc-400">
+  <div class="w-full mt-4 mb-6 text-sm text-gray-800 dark:text-zinc-300">
     <p>
       {#if title === "Gamma"}
         Current Gamma Exposure (GEX) is
@@ -832,7 +832,7 @@
     <div class="flex justify-center mt-4">
       <button
         on:click={scrollToTop}
-        class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
       >
         Back to Top <svg
           class="h-5 w-5 inline-block shrink-0 rotate-180"

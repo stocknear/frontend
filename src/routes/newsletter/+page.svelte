@@ -27,14 +27,14 @@
           >
             Stay informed in just 2 minutes per day
           </h1>
-          <p class="text-[0.95rem] text-gray-600 dark:text-zinc-400">
+          <p class="text-[0.95rem] text-gray-800 dark:text-zinc-300">
             Pre-market Report is a Newsletter that makes it super easy to keep
             up with financial markets.
           </p>
         </div>
 
         <div
-          class="space-y-4 text-[0.95rem] leading-relaxed text-gray-600 dark:text-zinc-400"
+          class="space-y-4 text-[0.95rem] leading-relaxed text-gray-800 dark:text-zinc-300"
         >
           <p>
             Our summaries are presented in short, bullet-point format, so

@@ -21,7 +21,7 @@
           About us
         </h1>
         <p
-          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-600 dark:text-zinc-400"
+          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-800 dark:text-zinc-300"
         >
           Stocknear exists because we believe every investor deserves access to
           the same institutional-grade data that hedge funds pay thousands for.
@@ -45,7 +45,7 @@
           What we stand for
         </h2>
         <p
-          class="mt-4 max-w-2xl text-lg text-gray-600 dark:text-zinc-400 lg:mx-auto"
+          class="mt-4 max-w-2xl text-lg text-gray-800 dark:text-zinc-300 lg:mx-auto"
         >
           Every decision we make is guided by these principles.
         </p>
@@ -80,7 +80,7 @@
                 Data Accuracy First
               </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
+            <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
               We partner with the same data vendors that serve hedge funds. No
               scraped data. No guesswork. Just clean, verified information you
               can trust.
@@ -112,7 +112,7 @@
                 Speed Matters
               </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
+            <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
               Markets move fast. Our platform loads instantly. Every screen,
               every chart, every data point is optimized so you never miss an
               opportunity.
@@ -144,7 +144,7 @@
                 Complete Objectivity
               </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
+            <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
               We show the data. You make the decisions. No hidden agendas, no
               paid promotions, no "hot picks." Just unbiased information for
               every stock.
@@ -176,7 +176,7 @@
                 Built for You
               </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
+            <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
               We're investors too. Every feature is designed based on what we'd
               want to see. Your feedback shapes our roadmap—not venture
               capitalists.
@@ -204,7 +204,7 @@
           >
             From Physics to Finance
           </h2>
-          <p class="mt-4 text-lg text-gray-600 dark:text-zinc-400">
+          <p class="mt-4 text-lg text-gray-800 dark:text-zinc-300">
             The same analytical rigor that explores the universe now powers your
             investment research.
           </p>
@@ -226,7 +226,7 @@
                   Chief of Nothing
                 </p>
               </div>
-              <div class="text-gray-600 dark:text-zinc-400 space-y-3">
+              <div class="text-gray-800 dark:text-zinc-300 space-y-3">
                 <p>
                   Honestly, I never planned to start a fintech company. As a
                   physicist, I was focused on research and academia. But when I
@@ -295,7 +295,7 @@
           Ready to access institutional-grade data?
         </h2>
         <p
-          class="mt-4 text-lg text-gray-600 dark:text-zinc-400 max-w-2xl mx-auto"
+          class="mt-4 text-lg text-gray-800 dark:text-zinc-300 max-w-2xl mx-auto"
         >
           Join thousands of investors who are now data-driven instead of
           emotions. Start with a free account and upgrade when you're ready.

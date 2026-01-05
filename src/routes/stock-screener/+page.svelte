@@ -4095,7 +4095,7 @@ const handleKeyDown = (event) => {
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'general'
                 ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               General
             </button>
@@ -4106,7 +4106,7 @@ const handleKeyDown = (event) => {
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'filters'
                 ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               <span class="">Filters</span>
               <span
@@ -4127,7 +4127,7 @@ const handleKeyDown = (event) => {
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'performance'
                 ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Performance
             </button>
@@ -4140,7 +4140,7 @@ const handleKeyDown = (event) => {
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'analysts'
                 ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Analysts
             </button>
@@ -4153,7 +4153,7 @@ const handleKeyDown = (event) => {
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'dividends'
                 ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Dividends
             </button>
@@ -4166,7 +4166,7 @@ const handleKeyDown = (event) => {
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'financials'
                 ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Financials
             </button>
@@ -4631,7 +4631,7 @@ const handleKeyDown = (event) => {
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             Back to Top <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
@@ -4909,7 +4909,7 @@ const handleKeyDown = (event) => {
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Screener
     </h3>
-    <p class="text-sm mb-6 text-gray-600 dark:text-zinc-400">
+    <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
       Are you sure you want to delete this screener? This action cannot be
       undone.
     </p>
@@ -4967,13 +4967,13 @@ const handleKeyDown = (event) => {
       <h3 class="font-semibold text-2xl mb-5 text-gray-900 dark:text-white">
         {tooltipTitle}
       </h3>
-      <span class=" text-[1rem] font-normal text-gray-600 dark:text-zinc-400"
+      <span class=" text-[1rem] font-normal text-gray-800 dark:text-zinc-300"
         >{infoText?.text ?? "n/a"}</span
       >
       {#if infoText?.equation !== undefined}
         <div class="w-5/6 m-auto mt-5"></div>
         <div
-          class="text-[1rem] w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400"
+          class="text-[1rem] w-full pt-3 pb-3 m-auto text-gray-800 dark:text-zinc-300"
         >
           {infoText?.equation}
         </div>

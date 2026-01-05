@@ -514,7 +514,7 @@
                           >
                             <a
                               href="/industry"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >By Industry</a
                             >
                           </Button>
@@ -526,7 +526,7 @@
                           >
                             <a
                               href="/market-mover/gainers"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Market Mover</a
                             >
                           </Button>
@@ -538,7 +538,7 @@
                           >
                             <a
                               href="/heatmap"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Market Heatmap</a
                             >
                           </Button>
@@ -550,7 +550,7 @@
                           >
                             <a
                               href="/list"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Lists</a
                             >
                           </Button>
@@ -584,7 +584,7 @@
                           >
                             <a
                               href="/etf/new-launches"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >New Launches</a
                             >
                           </Button>
@@ -595,7 +595,7 @@
                           >
                             <a
                               href="/etf/etf-providers"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >ETF Providers</a
                             >
                           </Button>
@@ -629,7 +629,7 @@
                           >
                             <a
                               href="/analysts"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Top Analysts</a
                             >
                           </Button>
@@ -640,7 +640,7 @@
                           >
                             <a
                               href="/analysts/top-stocks"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Top Analyst Stocks</a
                             >
                           </Button>
@@ -652,7 +652,7 @@
                           >
                             <a
                               href="/analysts/analyst-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Analyst Live Flow</a
                             >
                           </Button>
@@ -686,7 +686,7 @@
                           >
                             <a
                               href="/dividends-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Dividends Calendar</a
                             >
                           </Button>
@@ -697,7 +697,7 @@
                           >
                             <a
                               href="/earnings-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Earnings Calendar</a
                             >
                           </Button>
@@ -709,7 +709,7 @@
                           >
                             <a
                               href="/ipos"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >IPO Calendar</a
                             >
                           </Button>
@@ -721,7 +721,7 @@
                           >
                             <a
                               href="/economic-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Economic Calendar</a
                             >
                           </Button>
@@ -733,7 +733,7 @@
                           >
                             <a
                               href="/economic-indicator"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Economic Indicator</a
                             >
                           </Button>
@@ -746,7 +746,7 @@
                           >
                             <a
                               href="/stock-splits-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Splits Calendar</a
                             >
                              
@@ -782,7 +782,7 @@
                           >
                             <a
                               href="/politicians/flow-data"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Congress Flow</a
                             >
                           </Button>
@@ -793,7 +793,7 @@
                           >
                             <a
                               href="/politicians"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >All Politicians</a
                             >
                           </Button>
@@ -827,7 +827,7 @@
                           >
                             <a
                               href="/market-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Market Flow</a
                             >
                           </Button>
@@ -839,7 +839,7 @@
                           >
                             <a
                               href="/news-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >News Flow</a
                             >
                           </Button>
@@ -851,7 +851,7 @@
                           >
                             <a
                               href="/options-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Flow</a
                             >
                           </Button>
@@ -862,7 +862,7 @@
                           >
                             <a
                               href="/unusual-order-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Unusual Order Flow</a
                             >
                           </Button>
@@ -896,7 +896,7 @@
                           >
                             <a
                               href="/stock-screener"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Screener</a
                             >
                           </Button>
@@ -911,7 +911,7 @@
                           >
                             <a
                               href="/options-screener"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Screener</a
                             >
                           </Button>
@@ -946,7 +946,7 @@
                           >
                             <a
                               href="/backtesting"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Backtesting Strategy</a
                             >
                           </Button>
@@ -961,7 +961,7 @@
                           >
                             <a
                               href="/options-calculator"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Calculator</a
                             >
                           </Button>
@@ -996,7 +996,7 @@
                           >
                             <a
                               href="/compare"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Comparison Tool</a
                             >
                           </Button>
@@ -1012,7 +1012,7 @@
                           >
                             <a
                               href="/options-calculator"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Calculator</a
                             >
                           </Button>
@@ -1028,7 +1028,7 @@
                           >
                             <a
                               href="/potus-tracker"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >POTUS Tracker</a
                             >
                           </Button>
@@ -1044,7 +1044,7 @@
                           >
                             <a
                               href="/insider-tracker"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Insider Tracker</a
                             >
                           </Button>
@@ -1060,7 +1060,7 @@
                           >
                             <a
                               href="/reddit-tracker"
-                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Reddit Tracker</a
                             >
                           </Button>
@@ -1117,7 +1117,7 @@
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auot text-gray-800 dark:text-zinc-300 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                         >Backtesting</span
                       >
                     </div>

@@ -76,35 +76,35 @@
   >
     About {$etfTicker}
   </h2>
-  <p class="text-sm text-gray-600 dark:text-zinc-400">
+  <p class="text-sm text-gray-800 dark:text-zinc-300">
     {description}
   </p>
 
   <div
     class="mt-3 grid grid-cols-2 gap-3 w-full border-b border-gray-300 dark:border-zinc-700 lg:border-none pb-8 lg:pb-0"
   >
-    <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+    <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >Asset Class</span
       >
       <span>{assetClass ?? "n/a"}</span>
     </div>
-    <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+    <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >Ticker Symbol</span
       >
       {$etfTicker}
     </div>
-    <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+    <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >Inception Date</span
       >
       <span>{ipoDate}</span>
     </div>
-    <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
+    <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >Provider</span
@@ -117,7 +117,7 @@
     </div>
 
     <div
-      class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400"
+      class="col-span-1 whitespace-nowrap text-sm text-gray-800 dark:text-zinc-300"
     >
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
@@ -131,7 +131,7 @@
     </div>
 
     <div
-      class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400"
+      class="col-span-1 whitespace-nowrap text-sm text-gray-800 dark:text-zinc-300"
     >
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"

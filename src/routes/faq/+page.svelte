@@ -63,7 +63,7 @@
                 1. Is there a guide on how to use Stocknear’s features?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Yes! We've created the
                 <a
@@ -81,7 +81,7 @@
                 2. How long does it take to see earnings releases?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Earnings reports are available on Stocknear within 1-5 minutes
                 after they go live.
@@ -93,21 +93,21 @@
                 3. Why is your data different from other finance sites?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Like other platforms, we source data from third-party providers.
                 With thousands of stocks and funds worldwide, manual data
                 collection is impractical.
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Data providers rely on automated methods, which can lead to
                 variations between platforms. Differences in definitions and
                 collection techniques can cause slight discrepancies.
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 If you notice an inaccuracy, please contact us at <a
                   href={`mailto:${emailAddress}`}
@@ -122,7 +122,7 @@
                 4. Is the Options data real-time or delayed?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Our <a
                   href="/options-flow"
@@ -138,7 +138,7 @@
                 doesn’t?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 We focus on unusual options activity from hedge funds and
                 institutional traders. Retail investor contracts are excluded to
@@ -151,7 +151,7 @@
                 6. Is Dark Pool data real-time or delayed?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Dark Pool data is delayed by 15 minutes. We partner with major
                 exchanges to provide exclusive Wall Street insights typically
@@ -164,7 +164,7 @@
                 7. I found an error in the data. What should I do?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Please email <a
                   href={`mailto:${emailAddress}`}
@@ -173,7 +173,7 @@
                 >, and we’ll investigate immediately.
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 We manually verify every error report and work with data
                 providers to ensure corrections are made at the source.
@@ -185,7 +185,7 @@
                 8. Can I request new features? How can I contact you?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Absolutely! Email us or join our <a
                   href={discordURL}
@@ -203,7 +203,7 @@
                 9. Do you offer an API?
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
                 Not at the moment. We license data from third-party providers
                 and don’t have redistribution rights. However, we plan to offer
@@ -230,7 +230,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Upgrade now for unlimited access to all data, tools and no ads.
               </span>
@@ -251,7 +251,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Learn more about why we're doing this here
               </span>
@@ -274,7 +274,7 @@
                 />
               </div>
               <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
                 Let me know if you need something
               </span>

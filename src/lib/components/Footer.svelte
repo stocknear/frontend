@@ -34,7 +34,7 @@
           <span class="text-xl font-semibold text-gray-900 dark:text-white"
             >Stocknear</span
           >
-          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+          <p class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
             All-in-one Stock Analysis Platform to research your trading ideas.
           </p>
         </div>
@@ -358,7 +358,7 @@
       >
         <!--© 2025 Stocknear. All rights reserved.-->
         <a
-          class="inline-block text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+          class="inline-block text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
           href="https://github.com/stocknear"
           aria-label="Follow on Github"
         >

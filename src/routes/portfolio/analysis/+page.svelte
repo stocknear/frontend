@@ -105,7 +105,9 @@
     }}
 />
 
-<section class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-gray-700 dark:text-zinc-200">
+<section
+    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-gray-700 dark:text-zinc-200"
+>
     <div class="mx-auto w-full space-y-8">
         <!-- Portfolio AI Summary Section -->
         <BullvsBear
@@ -117,10 +119,12 @@
 
         <!--Fundamentals section-->
         <div class="w-full m-auto mt-10">
-            <h2 class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+            <h2
+                class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+            >
                 Portfolio vs US Market
             </h2>
-            <p class="mb-4 text-sm text-gray-600 dark:text-zinc-400 max-w-3xl">
+            <p class="mb-4 text-sm text-gray-800 dark:text-zinc-300 max-w-3xl">
                 Shows your portfolio's weighted-average Valuation, Growth,
                 Efficiency and Margins compared to US market benchmarks -
                 revealing if your holdings are expensive/cheap,

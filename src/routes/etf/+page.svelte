@@ -327,7 +327,7 @@
               All ETF Symbols
             </h1>
             <p
-              class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0"
+              class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
             >
               List of all {originalData?.length} ETF symbols we support
             </p>
@@ -561,7 +561,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     Back to Top <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
