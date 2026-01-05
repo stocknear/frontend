@@ -108,8 +108,8 @@
     const options = {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
+        backgroundColor: $mode === "light" ? "#fff" : "#09090b",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090b",
         height: 360,
         animation: false,
       },
@@ -807,7 +807,7 @@
         use:highcharts={config}
       ></div>
     {/if}
-    <p class="text-sm mb-6">
+    <p class="text-sm mb-6 mt-5">
       {modalLabel} peaked at
       <strong
         >{currentIsGrowth
@@ -834,13 +834,3 @@
     </div>
   </div>
 </dialog>
-
-<style>
-  :global(.metrics-modal .highcharts-background) {
-    fill: #ffffff;
-  }
-
-  :global(.dark .metrics-modal .highcharts-background) {
-    fill: #0a0a0a;
-  }
-</style>

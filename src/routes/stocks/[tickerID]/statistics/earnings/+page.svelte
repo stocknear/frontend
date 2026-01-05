@@ -32,14 +32,7 @@
 
   let timeFrame = "3Y";
   let timeIdx = 0;
-  const plotTabs = [
-    {
-      title: "EPS Surprise",
-    },
-    {
-      title: "Revenue Surprise",
-    },
-  ];
+  const tabs = ["EPS Surprise", "Revenue Surprise"];
 
   function isFutureDate(dateStr: string) {
     if (!dateStr) return false;
@@ -622,22 +615,18 @@
                 <div class="sm:ml-auto">
                   <div class="inline-flex mt-2 sm:mt-0">
                     <div
-                      class="inline-flex rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60"
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+           "
                     >
-                      {#each plotTabs as item, i}
+                      {#each tabs as item, i (item)}
                         <button
                           on:click={() => changeSurprise(i)}
-                          class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-             {i === 0 ? 'rounded-l border' : ''}
-             {i === plotTabs.length - 1
-                            ? 'rounded-r border-t border-r border-b'
-                            : ''}
-             {i !== 0 && i !== plotTabs.length - 1 ? 'border-t border-b' : ''}
-             {timeIdx === i
-                            ? 'bg-gray-100/80 text-gray-900 dark:bg-zinc-800/70 dark:text-white border-gray-300 dark:border-zinc-700'
-                            : 'bg-white/80 border-gray-200 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
+                          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+          {timeIdx === i
+                            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                         >
-                          {item.title}
+                          {item}
                         </button>
                       {/each}
                     </div>

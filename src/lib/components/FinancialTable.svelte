@@ -1081,6 +1081,6 @@
   }
 
   :global(.dark .financial-modal .highcharts-background) {
-    fill: #0a0a0a;
+    fill: #09090b;
   }
 </style>
