@@ -189,14 +189,14 @@
         <h1
           class="mb-3 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
         >
-          Research your Trading Ideas
+          See the move before the crowd does
         </h1>
         <p
           class="text-sm text-gray-600 dark:text-zinc-400 sm:text-base md:text-lg lg:text-xl lg:leading-8"
         >
-          Accurate information on all US Stocks and funds. See stock prices,
-          options data, dark pool orders, news, financials, forecasts, charts
-          and more.
+          Real-time prices, options flow, dark pool orders, news, financials,
+          forecasts, and charts for every US stock and ETF. Act faster with
+          clean signal.
         </p>
         <!--
         <div class="mx-auto max-w-[95%] md:max-w-[85%] mt-5">

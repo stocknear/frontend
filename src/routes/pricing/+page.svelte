@@ -201,7 +201,7 @@
 
     <div class="mx-auto mt-10 text-center max-w-3xl">
       <h1 class="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight">
-        Faster research, smarter trades.
+        Upgrade for real-time edge on every trade.
       </h1>
       <p class="mt-4 text-base sm:text-lg">
         Start free, upgrade anytime. Every tier is built for focus: clean data,
