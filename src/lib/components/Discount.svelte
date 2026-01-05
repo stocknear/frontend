@@ -37,7 +37,7 @@
   });
 
   async function copyPromoCode() {
-    await navigator.clipboard.writeText("XMAS25");
+    await navigator.clipboard.writeText("NEWYEAR26");
     copied = true;
     setTimeout(() => (copied = false), 2000);
   }
@@ -45,34 +45,48 @@
 
 <div class="w-full max-w-xl mx-auto mb-10 mt-5">
   <div
-    class="rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 backdrop-blur-sm px-6 py-7 sm:px-8"
+    class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60 px-6 py-7 sm:px-8"
   >
     <div class="flex flex-col gap-6">
       <!-- Discount display -->
-      <div class="text-center">
-        <p class="text-[11px] uppercase tracking-[0.3em]">Limited offer</p>
-        <div class="mt-2 flex items-baseline justify-center gap-2">
+      <div class="text-center space-y-2">
+        <p
+          class="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
+        >
+          Limited offer
+        </p>
+        <div class="flex items-baseline justify-center gap-2">
           <span
-            class="text-5xl sm:text-6xl font-semibold text-gray-900 dark:text-white tracking-tight"
+            class="text-4xl sm:text-5xl font-semibold text-gray-900 dark:text-white tracking-tight"
             >50%</span
           >
+          <span
+            class="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
+            >Off</span
+          >
         </div>
-        <p class="text-sm">Off all plans</p>
+        <p class="text-sm text-gray-600 dark:text-zinc-400">
+          Use code NEWYEAR26 at checkout.
+        </p>
       </div>
 
       <!-- Promo code -->
       <div class="flex flex-col items-center gap-2">
         <button
           on:click={copyPromoCode}
-          class="cursor-pointer group inline-flex items-center gap-3 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 px-4 py-2 text-sm transition hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/70"
+          type="button"
+          class="cursor-pointer group inline-flex items-center gap-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 px-4 py-2 text-sm transition hover:border-gray-300/80 dark:hover:border-zinc-700/80 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
         >
-          <span class="text-[11px] uppercase tracking-[0.2em]">Code</span>
           <span
-            class="uppercase font-mono text-base font-semibold text-gray-900 dark:text-white tracking-[0.35em]"
-            >newyear26</span
+            class="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-zinc-400"
+            >Promo</span
           >
           <span
-            class=" group-hover:text-violet-500 dark:group-hover:text-violet-400 transition-colors"
+            class="uppercase font-mono text-base font-semibold text-gray-900 dark:text-white tracking-[0.3em]"
+            >NEWYEAR26</span
+          >
+          <span
+            class="group-hover:text-violet-500 dark:group-hover:text-violet-400 transition-colors"
           >
             {#if copied}
               <svg
@@ -105,22 +119,26 @@
             {/if}
           </span>
         </button>
-        {#if copied}
-          <p class="text-center text-emerald-500 dark:text-emerald-400 text-xs">
+        <p class="text-center text-xs text-gray-500 dark:text-zinc-400">
+          {#if copied}
             Copied
-          </p>
-        {/if}
+          {:else}
+            Tap to copy
+          {/if}
+        </p>
       </div>
 
       <!-- Countdown timer -->
-      <div class="border-t border-gray-100 dark:border-zinc-800/80 pt-5">
-        <p class="text-center text-[11px] uppercase tracking-[0.3em]">
+      <div class="border-t border-gray-100/80 dark:border-zinc-800/80 pt-5">
+        <p
+          class="text-center text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
+        >
           Ends in
         </p>
         <div class="mt-3 grid grid-cols-4 gap-2 max-w-sm mx-auto">
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-50/80 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -128,13 +146,14 @@
                 <span style="--value:{days};"></span>
               </span>
             </div>
-            <span class="mt-2 block text-[10px] uppercase tracking-[0.2em]"
+            <span
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
               >Days</span
             >
           </div>
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-50/80 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -142,13 +161,14 @@
                 <span style="--value:{hours};"></span>
               </span>
             </div>
-            <span class="mt-2 block text-[10px] uppercase tracking-[0.2em]"
+            <span
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
               >Hours</span
             >
           </div>
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-50/80 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -156,13 +176,14 @@
                 <span style="--value:{minutes};"></span>
               </span>
             </div>
-            <span class="mt-2 block text-[10px] uppercase tracking-[0.2em]"
+            <span
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
               >Min</span
             >
           </div>
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-50/80 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -170,7 +191,8 @@
                 <span style="--value:{seconds};"></span>
               </span>
             </div>
-            <span class="mt-2 block text-[10px] uppercase tracking-[0.2em]"
+            <span
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
               >Sec</span
             >
           </div>
