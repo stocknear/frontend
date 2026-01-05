@@ -77,16 +77,6 @@
           </a>
         {/if}
       </div>
-
-      <div
-        class="hidden md:flex items-center justify-center rounded-2xl border border-gray-200/70 bg-gray-50/60 p-6 dark:border-zinc-800/80 dark:bg-zinc-900/40"
-      >
-        <img
-          src={logo}
-          class="h-auto w-full max-w-[300px] rounded-xl border border-gray-200/70 dark:border-zinc-800/80"
-          alt="Morning bullets preview"
-        />
-      </div>
     </div>
   </main>
 </div>
