@@ -2530,7 +2530,9 @@
                 {filteredData}
                 {rawData}
               />
-              <UpgradeToPro {data} display={true} />
+              <div class="-mt-10">
+                <UpgradeToPro {data} display={true} />
+              </div>
             </div>
           {:else}
             <Infobox

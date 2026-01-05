@@ -11,12 +11,12 @@
         <h3
           class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          Stop Guessing, Start Knowing.
+          Built for active traders who want an edge.
         </h3>
         <p class="mt-4 text-base sm:text-lg text-gray-600 dark:text-zinc-400">
-          Cut through market noise with <span class="italic">actionable</span> insights
-          that actually help you make confident investment decisions. No more endless
-          research or gut-based guessing.
+          You do not need more headlines. You need the flow, catalysts, and context
+          that move price. Pro puts real-time options and dark pool data, analyst
+          moves, and deep history in one place so you can plan the trade, not chase it.
         </p>
       </div>
 
@@ -46,11 +46,11 @@
                   ></path></svg
                 >
               </div>
-              Unlimited access to all data and tools
+              Unlock the full data stack
             </dt>
             <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
-              Unlimited access to all data and tools, giving you the edge over
-              everyone else in the market.
+              Get every dataset and tool across Stocknear so you can vet setups
+              fast and act with conviction.
             </dd>
           </div>
 
@@ -76,11 +76,11 @@
                   ></path></svg
                 >
               </div>
-              Realtime Options & Dark Pool Data
+              Live options + dark pool flow
             </dt>
             <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
-              Instant access to live options & dark pool data to spot
-              opportunities and trade with precision before the market moves.
+              Spot unusual activity and large prints as they happen to move before
+              the crowd.
             </dd>
           </div>
 
@@ -112,11 +112,11 @@
                   </g></svg
                 >
               </div>
-              Top Wallstreet Analyst Ratings
+              Analyst catalysts that move price
             </dt>
             <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
-              Follow ratings from the best analysts on Wall Street to stay
-              ahead.
+              Track upgrades, downgrades, and price targets without chasing
+              news.
             </dd>
           </div>
 
@@ -143,11 +143,10 @@
                   ></path></svg
                 >
               </div>
-              Up to 30 years financial history
+              Deep history for backtesting
             </dt>
             <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
-              We deliver premium Wall Street data with top-tier accuracy and up
-              to 30 years of history.
+              Validate ideas with premium data and up to 30 years of history.
             </dd>
           </div>
         </dl>
@@ -158,7 +157,7 @@
           href="/pricing"
           class="mt-10 inline-flex justify-center text-[1rem] items-center px-6 py-3 w-fit m-auto rounded-full font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-150 ease-in-out group"
         >
-          Upgrade Now
+          Upgrade to Pro
           <span
             class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
           >
