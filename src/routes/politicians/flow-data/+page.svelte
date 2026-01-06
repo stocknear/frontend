@@ -4,7 +4,6 @@
   import { onMount } from "svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -513,7 +512,7 @@
                                   >
                                     <a
                                       href={`/politicians/${item?.id}`}
-                                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                                       >{getAbbreviatedName(
                                         item?.representative?.replace("_", " "),
                                       )}</a

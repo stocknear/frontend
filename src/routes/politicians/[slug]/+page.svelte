@@ -532,7 +532,9 @@
                 <div
                   class="relative my-3 space-y-2 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
-                  <div class="flex flex-col sm:flex-row sm:items-center">
+                  <div
+                    class="flex flex-col sm:flex-row items-start sm:items-center"
+                  >
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
@@ -553,14 +555,16 @@
                       {/each}
                     </div>
                   </div>
-                  <div class="flex flex-col sm:flex-row sm:items-center">
+                  <div
+                    class="pt-2 sm:pt-0 flex flex-col sm:flex-row items-start sm:items-center"
+                  >
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
                       Top Industries:
                     </div>
                     <div
-                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start"
+                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
                     >
                       {#each mainIndustries as item}
                         <a
