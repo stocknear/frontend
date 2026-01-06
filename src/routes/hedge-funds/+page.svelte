@@ -10,6 +10,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
 
@@ -432,20 +433,18 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <body class="w-full overflow-hidden m-auto">
-    <div
-      class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    <BreadCrumb
+      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
     >
-      <ul>
-        <li>
-          <a
-            href="/"
-            class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-            >Home</a
-          >
-        </li>
-        <li class="text-gray-800 dark:text-zinc-300">Hedge Funds</li>
-      </ul>
-    </div>
+      <li>
+        <a
+          href="/"
+          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
+      </li>
+      <li class="text-gray-800 dark:text-zinc-300">Hedge Funds</li>
+    </BreadCrumb>
 
     <section class="w-full overflow-hidden m-auto sm:mt-10 px-0 mt-10">
       <div class=" flex justify-center w-full m-auto overflow-hidden">

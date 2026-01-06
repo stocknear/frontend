@@ -6,6 +6,7 @@
   import { numberOfUnreadNotification } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
@@ -641,18 +642,9 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300">
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
-        >
-      </li>
-      <li class="text-gray-800 dark:text-zinc-300">Notifications</li>
-    </ul>
-  </div>
+  <BreadCrumb
+    items={[{ label: "Home", href: "/" }, { label: "Notifications" }]}
+  />
 
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
