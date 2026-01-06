@@ -3,13 +3,158 @@
   import { abbreviateNumber } from "$lib/utils";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { page } from "$app/stores";
+  import { onMount } from "svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
   export let data;
-  let rawData = data?.getIndustryOverview;
+  let originalData = data?.getIndustryOverview;
+
+  let rawData = originalData;
 
   $: charNumber = $screenWidth < 640 ? 20 : 30;
 
   let displayList = rawData;
+
+  let inputValue = "";
+  let searchWorker: Worker | undefined;
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  let pagePathName = $page?.url?.pathname;
+
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    displayList = dataSource?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  async function resetTableSearch() {
+    inputValue = "";
+    rawData = originalData;
+    currentPage = 1; // Reset to first page
+    updatePaginatedData();
+  }
+
+  async function search() {
+    inputValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (inputValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        // Reset to original data if filter is empty
+        rawData = originalData;
+        currentPage = 1; // Reset to first page
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker && originalData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: originalData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      rawData = event.data?.output ?? [];
+      currentPage = 1; // Reset to first page after search
+      updatePaginatedData();
+    }
+  };
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  onMount(async () => {
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    updatePaginatedData();
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
+  });
+
+  // Update pagination when originalData or rawData changes
+  $: if (
+    (originalData && originalData.length > 0) ||
+    (rawData && inputValue?.length > 0)
+  ) {
+    updatePaginatedData();
+  }
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
 
   let columns = [
     { key: "industry", label: "Industry Name", align: "left" },
@@ -103,8 +248,59 @@
 
 <section class="w-full overflow-hidden m-auto">
   <!-- Page wrapper -->
+  <div class="items-center lg:overflow-visible px-1">
+    <div
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-gray-300 dark:border-zinc-700"
+    >
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+      >
+        {rawData?.length?.toLocaleString("en-US")} Industries
+      </h2>
+      <div
+        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+      >
+        <div class="relative lg:ml-auto w-full lg:w-fit">
+          <div
+            class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+          >
+            {#if inputValue?.length > 0}
+              <label class="cursor-pointer" on:click={() => resetTableSearch()}>
+                <svg
+                  class="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  ><path
+                    fill="currentColor"
+                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                  /></svg
+                >
+              </label>
+            {/if}
+          </div>
+
+          <input
+            bind:value={inputValue}
+            on:input={search}
+            type="text"
+            placeholder="Find..."
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+          />
+        </div>
+
+        <div class="ml-2">
+          <DownloadData
+            {data}
+            rawData={originalData}
+            title={"insider_tracker"}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="flex justify-center w-full m-auto h-full overflow-hidden">
     <!-- Content area -->
+
     <div
       class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
     >
