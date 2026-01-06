@@ -10,7 +10,15 @@ export const load = async ({ locals }) => {
       },
     });
 
-    const output = await response.json();
+    let output = await response.json();
+
+    // delete industry field and replace with name field
+
+    output = output.map(({ industry, ...rest }) => ({
+      ...rest,
+      name: industry,
+    }));
+
 
     return output;
   };
