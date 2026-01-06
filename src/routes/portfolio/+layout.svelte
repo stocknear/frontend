@@ -86,19 +86,20 @@
           <h1 class=" text-2xl sm:text-3xl font-bold">Portfolio Tracker</h1>
 
           <nav
-            class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap mt-3"
+            class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mt-3"
           >
             <ul
-              class="flex flex-row items-center w-full text-sm sm:text-[1rem]"
+              class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
             >
               <a
                 href={activePortfolioId
                   ? `/portfolio/?id=${activePortfolioId}`
                   : `/portfolio/`}
                 on:click={() => changeSection("overview")}
-                class="p-2 px-5 cursor-pointer {displaySection === 'overview'
-                  ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                  : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
+                'overview'
+                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                  : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 Overview
               </a>
@@ -107,9 +108,10 @@
                   ? `/portfolio/analysis?id=${activePortfolioId}`
                   : `/portfolio/analysis`}
                 on:click={() => changeSection("analysis")}
-                class="p-2 px-5 cursor-pointer {displaySection === 'analysis'
-                  ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                  : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
+                'analysis'
+                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                  : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 Analysis
               </a>
