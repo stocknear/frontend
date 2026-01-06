@@ -616,6 +616,14 @@
               </span>
             </div>
 
+            <div class="flex flex-col justify-start items-start mb-3">
+              <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
+                Credits Available: {data?.user?.credits?.toLocaleString(
+                  "en-US",
+                ) ?? 0}
+              </span>
+            </div>
+
             {#if ["Plus", "Pro"].includes(data?.user?.tier)}
               <div class="mx-auto w-full mt-6 mb-2">
                 <div class="flex items-center mt-3">
