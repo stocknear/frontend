@@ -151,11 +151,9 @@
     </div>
 
     {#if rawData?.length !== 0}
-      <div
-        class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto mt-4"
-      >
+      <div class="w-full m-auto rounded mb-4 overflow-x-auto mt-4">
         <table
-          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+          class="table table-sm table-compact w-full border border-gray-300 dark:border-zinc-700 m-auto"
         >
           <thead>
             <TableHeader {columns} {sortOrders} {sortData} />
@@ -207,7 +205,7 @@
                 <td class="text-sm sm:text-[1rem] text-end">
                   {abbreviateNumber(item?.premium)}
                 </td>
-                <td class="text-sm sm:text-[1rem] text-end">
+                <td class="text-sm sm:text-[1rem] text-end whitespace-nowrap">
                   {item?.transactionType
                     ?.replace("B", "Block")
                     ?.replace("DP", "Dark Pool")}
