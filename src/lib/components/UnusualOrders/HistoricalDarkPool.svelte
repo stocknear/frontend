@@ -76,14 +76,7 @@
 
   const originalData = rawData;
   let activeIdx = 0;
-  const tabs = [
-    {
-      title: "Weekly",
-    },
-    {
-      title: "Quarterly",
-    },
-  ];
+  const tabs = ["Weekly", "Quarterly"];
 
   let config = null;
   let avgVolume = 0;
@@ -572,24 +565,18 @@
         class="mt-5 flex items-center justify-end w-full border-y border-gray-300 dark:border-zinc-700 py-2"
       >
         <div
-          class="inline-flex rounded shadow-sm border border-gray-300 dark:border-gray-700"
+          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+           "
         >
-          {#each tabs as item, i}
+          {#each tabs as item, i (item)}
             <button
               on:click={() => changeTimePeriod(i)}
-              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === tabs?.length - 1
-                ? 'rounded-r border-t border-r border-b'
-                : ''}
-                          {i !== 0 && i !== tabs?.length - 1
-                ? 'border-t border-b'
-                : ''}
-                          {activeIdx === i
-                ? 'bg-black dark:bg-white text-white dark:text-black'
-                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-zinc-700'}"
+              class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+          {activeIdx === i
+                ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
             >
-              {item.title}
+              {item}
             </button>
           {/each}
         </div>
