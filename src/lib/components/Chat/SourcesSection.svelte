@@ -53,7 +53,7 @@
         {#each tickersWithUrls as { ticker, url }}
           <a
             href={url}
-            class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/80 dark:bg-zinc-900/50 px-2.5 py-0.5 text-[0.7rem] font-semibold text-gray-600 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
           >
             {ticker}
           </a>
