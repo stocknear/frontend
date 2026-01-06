@@ -249,7 +249,7 @@
                 >
                     <!-- left -->
                     <div
-                        class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none"
+                        class="min-w-0 text-[0.6rem] sm:text-[0.65rem] leading-none"
                     >
                         <span
                             class="py-0.5 block uppercase font-semibold text-gray-800 dark:text-zinc-300 tracking-wide"
@@ -274,7 +274,7 @@
 
                     <!-- right -->
                     <div
-                        class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none text-right"
+                        class="min-w-0 text-[0.6rem] sm:text-[0.65rem] leading-none text-right"
                     >
                         <span
                             class="py-0.5 block uppercase font-semibold text-gray-800 dark:text-zinc-300 tracking-wide"
