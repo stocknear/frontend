@@ -524,7 +524,7 @@
                 </div>
               </div>
               <div
-                class="border border-gray-300 dark:border-zinc-700 rounded w-full"
+                class="border border-gray-300 dark:border-zinc-700 rounded-2xl w-full"
                 use:highcharts={config}
               ></div>
             {/if}
