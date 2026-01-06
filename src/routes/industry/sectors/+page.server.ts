@@ -10,7 +10,12 @@ export const load = async ({ locals }) => {
       },
     });
 
-    const output = await response.json();
+    let output = await response.json();
+
+       output = output.map(({ sector, ...rest }) => ({
+      ...rest,
+      name: sector,
+    }));
 
     return output;
   };

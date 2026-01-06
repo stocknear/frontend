@@ -8,12 +8,11 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import Infobox from "$lib/components/Infobox.svelte";
 
   export let data;
-  let originalData = (data?.getSectorOverview ?? []).map((item) => ({
-    ...item,
-    name: item?.name ?? item?.sector,
-  }));
+  let originalData = data?.getSectorOverview ?? [];
+
   let rawData = originalData;
   let displayList = rawData;
 
@@ -281,7 +280,9 @@
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
       >
         <div class="relative lg:ml-auto w-full lg:w-fit">
-          <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
+          <div
+            class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+          >
             {#if inputValue?.length > 0}
               <label class="cursor-pointer" on:click={() => resetTableSearch()}>
                 <svg
@@ -307,112 +308,123 @@
         </div>
 
         <div class="ml-2">
-          <DownloadData {data} rawData={originalData} title={"industry_sectors"} />
+          <DownloadData
+            {data}
+            rawData={originalData}
+            title={"all_sectors_overview"}
+          />
         </div>
       </div>
     </div>
   </div>
-  <div class="flex justify-center w-full m-auto h-full overflow-hidden">
-    <!-- Content area -->
-    <div
-      class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
-    >
-      <table
-        class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+
+  {#if displayList?.length > 0}
+    <div class="flex justify-center w-full m-auto h-full overflow-hidden">
+      <!-- Content area -->
+      <div
+        class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
       >
-        <thead>
-          <TableHeader {columns} {sortOrders} {sortData} />
-        </thead>
-        <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
-          {#each displayList as item}
-            <!-- row -->
-            <tr
-              class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
-            >
-              <td
-                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+        <table
+          class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+        >
+          <thead>
+            <TableHeader {columns} {sortOrders} {sortData} />
+          </thead>
+          <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+            {#each displayList as item}
+              <!-- row -->
+              <tr
+                class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
               >
-                <a
-                  href={sectorNavigation?.find(
-                    (listItem) => listItem?.title === item?.sector,
-                  )?.link}
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                <td
+                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                 >
-                  {item?.sector?.length > charNumber
-                    ? item?.sector?.slice(0, charNumber) + "..."
-                    : item?.sector}
-                </a>
-              </td>
+                  <a
+                    href={sectorNavigation?.find(
+                      (listItem) => listItem?.title === item?.name,
+                    )?.link}
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                  >
+                    {item?.name?.length > charNumber
+                      ? item?.name?.slice(0, charNumber) + "..."
+                      : item?.name}
+                  </a>
+                </td>
 
-              <td
-                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-              >
-                {item?.numStocks}
-              </td>
+                <td
+                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                >
+                  {item?.numStocks}
+                </td>
 
-              <td
-                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-              >
-                {abbreviateNumber(item?.totalMarketCap) ?? "n/a"}
-              </td>
+                <td
+                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                >
+                  {abbreviateNumber(item?.totalMarketCap) ?? "n/a"}
+                </td>
 
-              <td
-                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-              >
-                {item?.avgDividendYield?.toFixed(2) ?? "n/a"}%
-              </td>
+                <td
+                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                >
+                  {item?.avgDividendYield?.toFixed(2) ?? "n/a"}%
+                </td>
 
-              <td
-                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-              >
-                {item?.pe?.toFixed(2) ?? "n/a"}
-              </td>
+                <td
+                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                >
+                  {item?.pe?.toFixed(2) ?? "n/a"}
+                </td>
 
-              <td
-                class=" {item?.profitMargin >= 0
-                  ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                  : 'text-rose-600 dark:text-rose-400'}   text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
-              >
-                {abbreviateNumber(item?.profitMargin)}%
-              </td>
+                <td
+                  class=" {item?.profitMargin >= 0
+                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                    : 'text-rose-600 dark:text-rose-400'}   text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
+                >
+                  {abbreviateNumber(item?.profitMargin)}%
+                </td>
 
-              <td
-                class="{item?.avgChange1D >= 0
-                  ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                  : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-              >
-                {item?.avgChange1D?.toFixed(2) ?? "n/a"}%
-              </td>
+                <td
+                  class="{item?.avgChange1D >= 0
+                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                    : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                >
+                  {item?.avgChange1D?.toFixed(2) ?? "n/a"}%
+                </td>
 
-              <td
-                class="{item?.avgChange1W >= 0
-                  ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                  : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-              >
-                {item?.avgChange1W?.toFixed(2) ?? "n/a"}%
-              </td>
+                <td
+                  class="{item?.avgChange1W >= 0
+                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                    : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                >
+                  {item?.avgChange1W?.toFixed(2) ?? "n/a"}%
+                </td>
 
-              <td
-                class="{item?.avgChange1M >= 0
-                  ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                  : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-              >
-                {item?.avgChange1M?.toFixed(2) ?? "n/a"}%
-              </td>
+                <td
+                  class="{item?.avgChange1M >= 0
+                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                    : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                >
+                  {item?.avgChange1M?.toFixed(2) ?? "n/a"}%
+                </td>
 
-              <td
-                class="{item?.avgChange1Y >= 0
-                  ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                  : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-              >
-                {item?.avgChange1Y?.toFixed(2) ?? "n/a"}%
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
+                <td
+                  class="{item?.avgChange1Y >= 0
+                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                    : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                >
+                  {item?.avgChange1Y?.toFixed(2) ?? "n/a"}%
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  {:else}
+    <div class="w-full flex items-center justify-start text-start">
+      <Infobox text={`No results found for "${inputValue}" `} />
+    </div>
+  {/if}
 
   <!-- Pagination controls -->
   {#if displayList?.length > 0}
