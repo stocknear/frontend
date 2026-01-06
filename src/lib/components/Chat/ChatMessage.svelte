@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
+  import { onDestroy, tick } from "svelte";
   import { page } from "$app/stores";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -44,22 +44,21 @@
   let editedContent = "";
   let textareaElement;
 
+  const resizeTextarea = (element) => {
+    if (!element || !element.style) return;
+    try {
+      element.style.height = "0px";
+      element.style.height = `${element.scrollHeight}px`;
+    } catch (e) {
+      console.warn("Error in textarea resize:", e);
+    }
+  };
+
   // Auto-resize textarea when edit mode changes or content changes
-  $: if (isEditMode && textareaElement && editedContent) {
-    setTimeout(() => {
-      if (
-        textareaElement &&
-        textareaElement.style &&
-        textareaElement.scrollHeight
-      ) {
-        try {
-          textareaElement.style.height = "auto";
-          textareaElement.style.height = textareaElement.scrollHeight + "px";
-        } catch (e) {
-          console.warn("Error in reactive textarea resize:", e);
-        }
-      }
-    }, 10);
+  $: if (isEditMode && textareaElement) {
+    tick().then(() => {
+      requestAnimationFrame(() => resizeTextarea(textareaElement));
+    });
   }
   let loadingTime = 0;
   let intervalId: ReturnType<typeof setInterval> | null = null; // Specify type for clarity
@@ -183,27 +182,13 @@
       element.focus();
       element.select();
       // Auto-resize on initial load
-      if (element.style && element.scrollHeight) {
-        try {
-          element.style.height = "auto";
-          element.style.height = element.scrollHeight + "px";
-        } catch (e) {
-          console.warn("Error in focus resize:", e);
-        }
-      }
+      requestAnimationFrame(() => resizeTextarea(element));
     }
   }
 
   // Function to auto-resize textarea
   function autoResize(element) {
-    if (element && element.style && element.scrollHeight) {
-      try {
-        element.style.height = "auto";
-        element.style.height = element.scrollHeight + "px";
-      } catch (e) {
-        console.warn("Error in autoResize:", e);
-      }
-    }
+    requestAnimationFrame(() => resizeTextarea(element));
   }
 </script>
 
@@ -225,11 +210,11 @@
       loading="lazy"
     />
     <div
-      class="rounded-2xl p-3 min-w-14 max-w-full {message?.role === 'user'
+      class="rounded-2xl min-w-14 max-w-full {message?.role === 'user'
         ? 'ml-auto group/turn-messages max-w-[80%]'
         : message?.role === 'system'
-          ? 'mr-auto w-full'
-          : 'mr-auto w-fit border-b rounded-none border-gray-300 dark:border-gray-700'}"
+          ? 'mr-auto w-full bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5'
+          : 'mr-auto w-fit border-b rounded-none border-gray-300 dark:border-zinc-700'}"
     >
       {#if isLoading}
         <div class="py-3">
@@ -242,15 +227,15 @@
           </div>
         </div>
       {:else}
-        <div class="w-full">
+        <div class="w-full {message?.role === 'system' ? 'space-y-4' : ''}">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/90 dark:bg-zinc-950/70"
+              class="p-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/80 dark:bg-zinc-950/60"
             >
               <textarea
                 bind:this={textareaElement}
                 bind:value={editedContent}
-                class="w-96 sm:w-[500px] h-auto resize-none border-0 bg-transparent focus:outline-none"
+                class="w-full min-w-[240px] h-auto resize-none border-0 bg-transparent text-sm text-gray-700 dark:text-zinc-200 placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none overflow-hidden transition-[height] duration-150"
                 placeholder="Edit your message..."
                 on:input={(e) => autoResize(e.target)}
                 use:focus
@@ -261,7 +246,7 @@
                     dispatch("cancel-edit");
                     editedContent = "";
                   }}
-                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-200 dark:hover:bg-zinc-800"
+                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                   >Cancel</button
                 >
                 <button
@@ -273,16 +258,16 @@
                       });
                     }
                   }}
-                  class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100"
-                  >Save & Regenerate</button
+                  class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition hover:opacity-90"
+                >Save & Regenerate</button
                 >
               </div>
             </div>
           {:else}
             <p
-              class="w-full transition-all duration-75 ease-out break-words overflow-wrap-anywhere {message?.role ===
+              class="w-full break-words overflow-wrap-anywhere leading-relaxed {message?.role ===
               'user'
-                ? 'p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white'
+                ? 'p-3 rounded-2xl bg-white/80 dark:bg-zinc-950/60 text-gray-900 dark:text-zinc-100'
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"
@@ -328,13 +313,13 @@
         </div>
         {#if message?.role === "system"}
           {#if !isStreaming}
-            <div class="flex items-center mt-2">
+            <div class="flex items-center gap-2 mt-3 flex-wrap">
               <button
                 type="button"
-                class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 disabled:cursor-not-allowed disabled:opacity-60"
+                class="inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
                 on:click={handleShare}
                 ><div
-                  class="flex flex-row items-center min-w-0 font-medium gap-x-1 justify-center"
+                  class="flex flex-row items-center min-w-0 gap-x-1 justify-center"
                 >
                   <div class="flex shrink-0 items-center justify-center size-4">
                     <svg
@@ -419,12 +404,12 @@
         {#if message?.role === "user"}
           <div class=" relative w-full">
             <div
-              class=" flex flex-wrap items-center justify-end gap-y-4 p-1 select-none focus-within:transition-none hover:transition-none duration-300 group-hover/turn-messages:delay-300 pointer-events-none opacity-0 motion-safe:transition-opacity group-hover/turn-messages:pointer-events-auto group-hover/turn-messages:opacity-100 group-focus-within/turn-messages:pointer-events-auto group-focus-within/turn-messages:opacity-100 has-data-[state=open]:pointer-events-auto has-data-[state=open]:opacity-100"
+              class="flex flex-wrap items-center justify-end gap-2 p-1 select-none focus-within:transition-none hover:transition-none duration-300 group-hover/turn-messages:delay-300 pointer-events-none opacity-0 motion-safe:transition-opacity group-hover/turn-messages:pointer-events-auto group-hover/turn-messages:opacity-100 group-focus-within/turn-messages:pointer-events-auto group-focus-within/turn-messages:opacity-100 has-data-[state=open]:pointer-events-auto has-data-[state=open]:opacity-100"
             >
               <!-- Copy button -->
               <button
                 on:click={handleCopyPrompt}
-                class="cursor-pointer rounded-full text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-white transition"
+                class="cursor-pointer rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-violet-600 dark:hover:text-violet-400"
                 aria-label="Copy"
                 aria-selected="false"
                 data-testid="copy-turn-action-button"
@@ -454,20 +439,8 @@
                   on:click={() => {
                     dispatch("start-edit", { index });
                     editedContent = message?.content || "";
-                    // Force resize after a short delay to ensure the textarea is rendered
-                    setTimeout(() => {
-                      if (textareaElement && textareaElement.style) {
-                        try {
-                          textareaElement.style.height = "auto";
-                          textareaElement.style.height =
-                            textareaElement.scrollHeight + "px";
-                        } catch (e) {
-                          console.warn("Error resizing textarea:", e);
-                        }
-                      }
-                    }, 100);
                   }}
-                  class="cursor-pointer rounded-full text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-white transition"
+                  class="cursor-pointer rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-violet-600 dark:hover:text-violet-400"
                   aria-label="Edit message"
                   aria-selected="false"
                   data-state="closed"
