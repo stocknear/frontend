@@ -440,13 +440,15 @@
 </script>
 
 {#if tickerList?.length > 0}
-  <div class="w-full border-t border-gray-400 dark:border-gray-600 pt-10">
+  <div class="w-full border-t border-gray-300 dark:border-zinc-700 pt-10">
     <div
-      class="border border-gray-300 dark:border-zinc-700 bg-white dark:bg-default rounded p-6"
+      class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-6 sm:p-7"
     >
       <!-- Header -->
       <div class="flex items-center gap-2 mb-6">
-        <div class="ml-auto text-xs">
+        <div
+          class="ml-auto text-xs text-gray-500 dark:text-zinc-400 tabular-nums"
+        >
           {#if displayTickerList?.length > 0}
             {@const firstTicker = displayTickerList[0]}
             {@const firstQuote = stockQuotes[firstTicker]}
@@ -459,14 +461,14 @@
 
       {#if config && isLoaded && Object.keys(stockQuotes)?.length > 0}
         <!-- Stock Price Headers - Side by Side (Always visible for all tickers) -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {#each displayTickerList as ticker, index}
             {@const quote = stockQuotes[ticker]}
             {#if quote}
               <div>
                 <div class="flex items-center gap-2 mb-3">
                   <div
-                    class="size-8 rounded-full bg-black dark:bg-primary flex items-center justify-center overflow-hidden"
+                    class="size-8 rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-100/80 dark:bg-zinc-900/60 flex items-center justify-center overflow-hidden"
                   >
                     <img
                       src={`https://financialmodelingprep.com/image-stock/${ticker}.png`}
@@ -475,17 +477,21 @@
                     />
                   </div>
 
-                  <span class="text-sm sm:text-[1rem] font-semibold">
+                  <span
+                    class="text-sm sm:text-base font-semibold tracking-tight text-gray-900 dark:text-zinc-100"
+                  >
                     {removeCompanyStrings(quote?.name)}
                   </span>
                 </div>
 
                 <div class="flex items-end items-baseline gap-x-2">
-                  <span class="text-2xl font-semibold">
+                  <span
+                    class="text-2xl font-semibold text-gray-900 dark:text-zinc-100 tabular-nums"
+                  >
                     {quote?.price?.toFixed(2) || "n/a"}
                   </span>
                   <span
-                    class={`text-lg ${
+                    class={`text-sm sm:text-base font-semibold tabular-nums ${
                       (quote?.changesPercentage || 0) >= 0
                         ? "text-emerald-600 dark:text-emerald-400"
                         : "text-rose-600 dark:text-rose-400"
@@ -505,7 +511,10 @@
         </div>
 
         <!-- Chart -->
-        <div class="w-full h-[200px] mb-8" use:highcharts={config}></div>
+        <div
+          class="w-full h-[200px] mb-8 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+          use:highcharts={config}
+        ></div>
 
         <!-- Stock Details - Collapsible section (only shows first 2 tickers initially) -->
         <div class="space-y-4">
@@ -514,65 +523,115 @@
             {#if quote}
               <div class="">
                 <div class="flex justify-between items-center mb-4">
-                  <h3 class=" font-medium text-lg">
+                  <h3
+                    class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-400"
+                  >
                     {ticker?.toUpperCase()}
                   </h3>
                 </div>
-                <div class="grid grid-cols-3 gap-x-6 gap-y-2 text-sm">
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">Prev Close</span>
-                    <span>{quote?.previousClose?.toFixed(2) || "n/a"}</span>
+                <div class="grid grid-cols-3 gap-x-8 gap-y-3 text-sm">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >Prev Close</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
+                      >{quote?.previousClose?.toFixed(2) || "n/a"}</span
+                    >
                   </div>
 
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">Day Range</span>
+                  <div class="flex items-baseline justify-between gap-4">
                     <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >Day Range</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
                       >{quote?.dayLow?.toFixed(2)} - {quote?.dayHigh?.toFixed(
                         2,
                       )}</span
                     >
                   </div>
 
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">P/E Ratio</span>
-                    <span>{quote?.pe?.toFixed(2) || "n/a"}</span>
-                  </div>
-
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">Open</span>
-                    <span>{quote?.open?.toFixed(2) || "n/a"}</span>
-                  </div>
-
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">52W Range</span>
+                  <div class="flex items-baseline justify-between gap-4">
                     <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >P/E Ratio</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
+                      >{quote?.pe?.toFixed(2) || "n/a"}</span
+                    >
+                  </div>
+
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >Open</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
+                      >{quote?.open?.toFixed(2) || "n/a"}</span
+                    >
+                  </div>
+
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >52W Range</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
                       >{quote?.yearLow?.toFixed(2)} - {quote?.yearHigh?.toFixed(
                         2,
                       )}</span
                     >
                   </div>
 
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">Dividend Yield</span>
+                  <div class="flex items-baseline justify-between gap-4">
                     <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >Dividend Yield</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
                       >{quote?.dividendYield
                         ? `${(quote.dividendYield * 100).toFixed(3)}%`
                         : "n/a"}</span
                     >
                   </div>
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">Volume</span>
-                    <span>{abbreviateNumber(quote?.volume) || "n/a"}</span>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >Volume</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
+                      >{abbreviateNumber(quote?.volume) || "n/a"}</span
+                    >
                   </div>
 
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">Market Cap</span>
-                    <span>{abbreviateNumber(quote?.marketCap)}</span>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >Market Cap</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
+                      >{abbreviateNumber(quote?.marketCap)}</span
+                    >
                   </div>
 
-                  <div class="flex justify-between items-center gap-4">
-                    <span class=" whitespace-nowrap">EPS</span>
-                    <span>{quote?.eps?.toFixed(2) || "n/a"}</span>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      >EPS</span
+                    >
+                    <span
+                      class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
+                      >{quote?.eps?.toFixed(2) || "n/a"}</span
+                    >
                   </div>
                 </div>
 
@@ -580,7 +639,7 @@
                   <div class="mt-6 font-sans">
                     <a
                       href={tickerUrlMap[ticker]}
-                      class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white hover:underline text-sm"
+                      class="text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 sm:hover:underline"
                     >
                       More about {ticker?.toUpperCase()}
                     </a>
@@ -596,8 +655,7 @@
           <div class="flex justify-center mb-6">
             <button
               on:click={() => (isExpanded = !isExpanded)}
-              class="cursor-pointer px-6 py-2 text-sm font-medium rounded shadow
-                     text-gray-800 dark:text-gray-300 sm:hover:bg-gray-100 dark:sm:hover:bg-primary transition-all duratio-50 border border-gray-300 dark:border-zinc-700"
+              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-gray-600 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
             >
               {#if isExpanded}
                 <span class="flex items-center gap-2">
@@ -644,10 +702,10 @@
         <div class="flex justify-center items-center h-96">
           <div class="relative">
             <label
-              class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              class="rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
               <span
-                class="loading loading-spinner loading-md text-white dark:text-white"
+                class="loading loading-spinner loading-md text-gray-500 dark:text-zinc-300"
               ></span>
             </label>
           </div>

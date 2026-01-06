@@ -140,14 +140,12 @@
 <div class="flex flex-row sm:gap-1 items-center">
   <button
     type="button"
-    class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
+    class="inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
     aria-label="Rewrite response"
     disabled={isStreaming || isSubmitting}
   >
-    <div
-      class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
-    >
+    <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
       <div class="flex shrink-0 items-center justify-center size-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -172,14 +170,12 @@
   {#if !selectedRating}
     <button
       type="button"
-      class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
+      class="inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
       on:click={handleLike}
       aria-label="Like response"
       disabled={isStreaming || isSubmitting}
     >
-      <div
-        class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
-      >
+      <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
         <div class="flex shrink-0 items-center justify-center size-4">
           <Like class="mt-0.5" />
         </div>
@@ -188,14 +184,12 @@
 
     <button
       type="button"
-      class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
+      class="inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
       on:click={openDislikeModal}
       aria-label="Dislike response"
       disabled={isStreaming || isSubmitting}
     >
-      <div
-        class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
-      >
+      <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
         <div class="flex shrink-0 items-center justify-center size-4">
           <Dislike class="mt-0.5" />
         </div>
@@ -203,7 +197,7 @@
     </button>
   {:else}
     <div
-      class="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-300 shadow dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200"
+      class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-50/80 dark:bg-zinc-900/50 text-xs font-semibold text-gray-500 dark:text-zinc-400"
     >
       <div class="flex items-center justify-center size-4">
         {#if selectedRating === "like"}
@@ -222,7 +216,7 @@
 
 {#if isModalOpen}
   <dialog
-    class="modal modal-open overflow-hidden p-3 sm:p-0 bg-[#000]/30 text-muted dark:text-white"
+    class="modal modal-open overflow-hidden p-3 sm:p-0 bg-black/40 text-gray-700 dark:text-zinc-200"
     aria-modal="true"
     role="dialog"
   >
@@ -234,14 +228,16 @@
     ></button>
 
     <div
-      class="modal-box w-full max-w-lg rounded bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
+      class="modal-box w-full max-w-lg rounded-2xl bg-white/90 dark:bg-zinc-950/80 border border-gray-300 dark:border-zinc-700"
     >
       <div class="flex items-center justify-between">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+        <h2
+          class="text-base sm:text-lg font-semibold tracking-tight text-gray-900 dark:text-zinc-100"
+        >
           Provide Feedback
         </h2>
         <button
-          class="cursor-pointer inline-flex size-9 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-lg"
+          class="cursor-pointer inline-flex size-8 items-center justify-center rounded-full text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
           on:click={closeModal}
           aria-label="Close dislike feedback modal"
           disabled={isSubmitting}
@@ -251,11 +247,11 @@
       </div>
 
       <div class="mt-3 space-y-3">
-        <p class="text-sm">
+        <p class="text-xs text-gray-600 dark:text-zinc-400">
           Help us improve by sharing what could be better with this response.
         </p>
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-zinc-700 focus:outline-none placeholder-gray-500 dark:placeholder-gray-300 rounded"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-50/80 dark:bg-zinc-900/60 text-sm text-gray-700 dark:text-zinc-200 placeholder-gray-400 dark:placeholder-zinc-500 focus-visible:outline-none focus-visible:border-violet-400/60"
           placeholder="Tell us what could be improved..."
           bind:value={description}
           disabled={isSubmitting}
@@ -265,7 +261,7 @@
       <div class="mt-6 flex justify-end gap-2">
         <button
           type="button"
-          class="cursor-pointer px-4 py-2 rounded border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+          class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-2 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:opacity-60"
           on:click={closeModal}
           disabled={isSubmitting}
         >
@@ -273,7 +269,7 @@
         </button>
         <button
           type="button"
-          class="cursor-pointer px-4 py-2 rounded bg-black text-white dark:bg-white dark:text-black text-sm font-medium hover:opacity-90 disabled:opacity-60 flex items-center gap-2"
+          class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-gray-900/10 dark:border-zinc-700 bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 px-4 py-2 text-xs font-semibold transition hover:opacity-90 disabled:opacity-60"
           on:click={handleDislikeSubmit}
           disabled={isSubmitting}
         >
