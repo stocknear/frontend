@@ -2,6 +2,7 @@
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import Table from "$lib/components/Table/Table.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
 
@@ -71,18 +72,18 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300">
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
-        >
-      </li>
-      <li class="text-gray-800 dark:text-zinc-300">All Stocks</li>
-    </ul>
-  </div>
+  <BreadCrumb
+    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+  >
+    <li>
+      <a
+        href="/"
+        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >Home</a
+      >
+    </li>
+    <li class="text-gray-800 dark:text-zinc-300">All Stocks</li>
+  </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">

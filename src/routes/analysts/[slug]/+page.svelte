@@ -11,6 +11,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
 
@@ -350,28 +351,28 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-          >Home</a
-        >
-      </li>
-      <li>
-        <a
-          href="/analysts"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-          >Analyst</a
-        >
-      </li>
+  <BreadCrumb
+    containerClass="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+        >Home</a
+      >
+    </li>
+    <li>
+      <a
+        href="/analysts"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+        >Analyst</a
+      >
+    </li>
 
-      <li class="text-gray-500 dark:text-zinc-400">
-        {analystName ?? "n/a"}
-      </li>
-    </ul>
-  </div>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {analystName ?? "n/a"}
+    </li>
+  </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">

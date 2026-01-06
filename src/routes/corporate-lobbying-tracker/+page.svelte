@@ -5,6 +5,7 @@
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
 
@@ -157,18 +158,16 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
-        >
-      </li>
-      <li class="text-muted dark:text-gray-300">Corporate Lobbying Tracker</li>
-    </ul>
-  </div>
+  <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
+    <li>
+      <a
+        href="/"
+        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >Home</a
+      >
+    </li>
+    <li class="text-muted dark:text-gray-300">Corporate Lobbying Tracker</li>
+  </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">

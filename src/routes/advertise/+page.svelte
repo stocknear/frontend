@@ -1,6 +1,7 @@
 <script lang="ts">
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import SEO from "$lib/components/SEO.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
 </script>
@@ -14,20 +15,18 @@
   class="w-full min-h-screen bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200"
 >
   <div class="mx-auto w-full max-w-6xl px-6 py-10 lg:py-14">
-    <div
-      class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    <BreadCrumb
+      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
     >
-      <ul>
-        <li>
-          <a
-            href="/"
-            class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-            >Home</a
-          >
-        </li>
-        <li class="text-gray-800 dark:text-zinc-300">Advertise</li>
-      </ul>
-    </div>
+      <li>
+        <a
+          href="/"
+          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
+      </li>
+      <li class="text-gray-800 dark:text-zinc-300">Advertise</li>
+    </BreadCrumb>
 
     <div class="mt-8 border-b border-gray-200/70 pb-4 dark:border-zinc-700">
       <h1

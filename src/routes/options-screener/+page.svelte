@@ -18,6 +18,7 @@
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
@@ -1393,22 +1394,20 @@
 <section
   class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 mt-5 text-gray-700 dark:text-zinc-200"
 >
-  <div
-    class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  <BreadCrumb
+    containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
   >
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
-        >
-      </li>
-      <li>
-        <span class="text-gray-500 dark:text-zinc-400">Options Screener</span>
-      </li>
-    </ul>
-  </div>
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >Home</a
+      >
+    </li>
+    <li>
+      <span class="text-gray-500 dark:text-zinc-400">Options Screener</span>
+    </li>
+  </BreadCrumb>
 
   <!--Start Build Strategy-->
   <div class="sm:rounded">

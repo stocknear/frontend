@@ -16,6 +16,7 @@
     import highcharts from "$lib/highcharts.ts";
     import InfoModal from "$lib/components/InfoModal.svelte";
     import { goto } from "$app/navigation";
+    import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
     export let data;
     export let form;
@@ -2337,20 +2338,18 @@
 <section
     class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 pt-4"
 >
-    <div class="text-sm sm:text-[1rem] breadcrumbs">
-        <ul>
-            <li>
-                <a
-                    href="/"
-                    class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                    >Home</a
-                >
-            </li>
-            <li>
-                <span class="text-muted dark:text-gray-300">Backtesting</span>
-            </li>
-        </ul>
-    </div>
+    <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
+        <li>
+            <a
+                href="/"
+                class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >Home</a
+            >
+        </li>
+        <li>
+            <span class="text-muted dark:text-gray-300">Backtesting</span>
+        </li>
+    </BreadCrumb>
 
     <!--Start Build Strategy-->
     <div class="sm:rounded">

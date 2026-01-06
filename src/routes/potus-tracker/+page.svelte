@@ -8,6 +8,7 @@
   import avatar from "$lib/images/trump-avatar.jpeg";
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   //import html2canvas from "html2canvas-pro";
 
   export let data;
@@ -591,18 +592,18 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-          >Home</a
-        >
-      </li>
-      <li class="text-gray-500 dark:text-zinc-400">POTUS Tracker</li>
-    </ul>
-  </div>
+  <BreadCrumb
+    containerClass="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+        >Home</a
+      >
+    </li>
+    <li class="text-gray-500 dark:text-zinc-400">POTUS Tracker</li>
+  </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
     <div

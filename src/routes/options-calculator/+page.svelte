@@ -10,6 +10,7 @@
   import Link from "lucide-svelte/icons/square-arrow-out-up-right";
   import Trash from "lucide-svelte/icons/trash";
   import { toast } from "svelte-sonner";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -858,18 +859,18 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-          >Home</a
-        >
-      </li>
-      <li class="text-gray-500 dark:text-zinc-400">Options Calculator</li>
-    </ul>
-  </div>
+  <BreadCrumb
+    containerClass="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+        >Home</a
+      >
+    </li>
+    <li class="text-gray-500 dark:text-zinc-400">Options Calculator</li>
+  </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
     <div

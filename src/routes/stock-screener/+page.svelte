@@ -18,6 +18,7 @@
   } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -3191,22 +3192,20 @@ const handleKeyDown = (event) => {
 <section
   class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 text-gray-700 dark:text-zinc-200"
 >
-  <div
-    class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  <BreadCrumb
+    containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
   >
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
-        >
-      </li>
-      <li>
-        <span class="text-gray-500 dark:text-zinc-400">Stock Screener</span>
-      </li>
-    </ul>
-  </div>
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >Home</a
+      >
+    </li>
+    <li>
+      <span class="text-gray-500 dark:text-zinc-400">Stock Screener</span>
+    </li>
+  </BreadCrumb>
 
   <!--Start Build Strategy-->
   <div class="sm:rounded">

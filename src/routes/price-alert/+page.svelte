@@ -18,6 +18,7 @@
   import PriceAlert from "$lib/components/PriceAlert.svelte";
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
 
@@ -294,20 +295,18 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div
-    class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  <BreadCrumb
+    containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
   >
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
-        >
-      </li>
-      <li class="text-gray-500 dark:text-zinc-400">Price Alert</li>
-    </ul>
-  </div>
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >Home</a
+      >
+    </li>
+    <li class="text-gray-500 dark:text-zinc-400">Price Alert</li>
+  </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="flex justify-center w-full m-auto overflow-hidden">

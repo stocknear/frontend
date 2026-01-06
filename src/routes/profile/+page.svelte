@@ -4,6 +4,7 @@
   import { mode } from "mode-watcher";
   import Crown from "lucide-svelte/icons/crown";
   import Link from "lucide-svelte/icons/link";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import { enhance } from "$app/forms";
   import { isPWAInstalled } from "$lib/utils";
@@ -305,21 +306,19 @@
 <section
   class="text-gray-700 dark:text-zinc-200 w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <div
-    class="text-sm sm:text-[1rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  <BreadCrumb
+    containerClass="text-sm sm:text-[1rem] breadcrumbs text-gray-500 dark:text-zinc-400"
   >
-    <ul>
-      <li>
-        <a
-          href="/"
-          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >
-          Home
-        </a>
-      </li>
-      <li class="text-gray-500 dark:text-zinc-400">My Account</li>
-    </ul>
-  </div>
+    <li>
+      <a
+        href="/"
+        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+      >
+        Home
+      </a>
+    </li>
+    <li class="text-gray-500 dark:text-zinc-400">My Account</li>
+  </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">

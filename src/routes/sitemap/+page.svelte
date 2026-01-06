@@ -2,6 +2,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import { convertToSlug } from "$lib/utils";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
   const tabs = [
@@ -198,23 +199,22 @@
     class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6"
     aria-label="Sitemap Navigation"
   >
-    <nav
-      class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
-      aria-label="Breadcrumb"
+    <BreadCrumb
+      tag="nav"
+      ariaLabel="Breadcrumb"
+      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
     >
-      <ul>
-        <li>
-          <a
-            href="/"
-            class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-            >Home</a
-          >
-        </li>
-        <li class="text-gray-800 dark:text-zinc-300" aria-current="page">
-          Sitemap
-        </li>
-      </ul>
-    </nav>
+      <li>
+        <a
+          href="/"
+          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
+      </li>
+      <li class="text-gray-800 dark:text-zinc-300" aria-current="page">
+        Sitemap
+      </li>
+    </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
       <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
