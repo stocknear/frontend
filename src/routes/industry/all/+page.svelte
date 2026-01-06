@@ -6,6 +6,8 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
 
   export let data;
   let originalData = data?.getIndustryOverview;
@@ -156,6 +158,10 @@
     updatePaginatedData(); // Update display with loaded preference
   }
 
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   let columns = [
     { key: "industry", label: "Industry Name", align: "left" },
     { key: "numStocks", label: "# Stocks", align: "right" },
@@ -193,8 +199,6 @@
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
 
-    let originalData = rawData;
-
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -202,7 +206,13 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      displayList = [...originalData]; // Reset to original data (spread to avoid mutation)
+      if (inputValue?.length > 0) {
+        updatePaginatedData();
+      } else {
+        originalData = [...rawData]; // Reset originalData to rawData
+        currentPage = 1; // Reset to first page
+        updatePaginatedData(); // Reset displayed data
+      }
       return;
     }
 
@@ -236,8 +246,17 @@
       }
     };
 
-    // Sort using the generic comparison function
-    displayList = [...originalData].sort(compareValues);
+    // Sort and update the data
+    if (inputValue?.length > 0) {
+      // If filtering, sort the filtered data
+      rawData = [...rawData].sort(compareValues);
+    } else {
+      // If not filtering, sort the original data
+      originalData = [...originalData].sort(compareValues);
+    }
+
+    currentPage = 1; // Reset to first page when sorting
+    updatePaginatedData(); // Update the displayed data
   };
 </script>
 
@@ -414,4 +433,138 @@
       </table>
     </div>
   </div>
+
+  <!-- Pagination controls -->
+  {#if displayList?.length > 0}
+    <div
+      class="flex flex-row items-center justify-between mt-8 sm:mt-5 px-1"
+    >
+      <!-- Previous and Next buttons -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <svg
+            class="h-5 w-5 inline-block shrink-0 rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Previous</span></Button
+        >
+      </div>
+
+      <!-- Page info and rows selector in center -->
+      <div class="flex flex-row items-center gap-4">
+        <span class="text-sm text-gray-600 dark:text-zinc-300">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span class="truncate text-[0.85rem] sm:text-sm"
+                >{rowsPerPage} Rows</span
+              >
+              <svg
+                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+          >
+            <!-- Dropdown items -->
+            <DropdownMenu.Group class="pb-2">
+              {#each rowsPerPageOptions as item}
+                <DropdownMenu.Item
+                  class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                >
+                  <label
+                    on:click={() => changeRowsPerPage(item)}
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                  >
+                    <span class="text-sm">{item} Rows</span>
+                  </label>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
+
+      <!-- Next button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <span class="hidden sm:inline">Next</span>
+          <svg
+            class="h-5 w-5 inline-block shrink-0 -rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </Button>
+      </div>
+    </div>
+
+    <!-- Back to Top button -->
+    <div class="flex justify-center mt-4">
+      <button
+        on:click={scrollToTop}
+        class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+      >
+        Back to Top <svg
+          class="h-5 w-5 inline-block shrink-0 rotate-180"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  {/if}
 </section>
