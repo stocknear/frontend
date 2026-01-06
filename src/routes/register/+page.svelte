@@ -784,7 +784,7 @@
           You already have an account?
           <a
             href="/login"
-            class="text-gray-900 dark:text-white hover:text-violet-500 transition ml-1"
+            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition ml-1"
             >Sign in</a
           >
         </p>
@@ -795,13 +795,13 @@
           By registering you agree to Stocknear's
           <a
             href="/terms-of-use"
-            class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
             >Terms of Use</a
           >
           and acknowledge that you've read our
           <a
             href="/privacy-policy"
-            class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
             >Privacy Policy</a
           >.
         </p>

@@ -776,7 +776,7 @@
             You don't have an account?
             <a
               href="/register"
-              class="text-gray-900 dark:text-white hover:text-violet-500 transition ml-1"
+              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition ml-1"
               >Sign up</a
             >
           </p>

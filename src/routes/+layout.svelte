@@ -117,8 +117,7 @@
   let promoContext = "";
 
   const PROMO_MODAL_ID = "promotionModal";
-  const PROMO_DELAY_MS = 1000;
-  const FORCE_PROMO_EVERY_REFRESH = true;
+  const PROMO_DELAY_MS = 10000;
   const PROMO_SESSION_START_KEY = "promo_session_start";
   const PROMO_SESSION_SEEN_KEY = "promo_seen_session";
   const PROMO_USER_DAILY_PREFIX = "promo_seen_user_day_";
@@ -162,9 +161,9 @@
 
   const shouldShowPromo = () => {
     if (!browser) return false;
-    if (FORCE_PROMO_EVERY_REFRESH) return true;
-    if (hasSeenPromoThisSession()) return false;
-    if (!data?.user) return true;
+    if (!data?.user) {
+      return !hasSeenPromoThisSession();
+    }
     if (["Pro", "Plus"].includes(data?.user?.tier)) return false;
     return !hasSeenPromoToday();
   };
