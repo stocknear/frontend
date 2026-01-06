@@ -263,7 +263,7 @@
       megaPremium: {
         name: "Mega Premium",
         rules: [
-          { condition: "over", name: "premium", value: "10M" },
+          { condition: "over", name: "premium", value: "500M" },
           { condition: "over", name: "size", value: "5K" },
         ],
       },
