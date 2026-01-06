@@ -50,6 +50,15 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
 
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
+  let selectedPopularStrategy = "";
+  const popularStrategyList = [
+    { key: "darkPoolPrints", label: "Dark Pool Prints" },
+    { key: "blockOrders", label: "Block Orders" },
+    { key: "megaPremium", label: "Mega Premium" },
+    { key: "etfFlow", label: "ETF Flow" },
+    { key: "highVolume", label: "High Volume" },
+    { key: "largeStockFlow", label: "Large Stock Flow" },
+  ];
   let displayRules = [];
   let filteredData = [];
   let filterQuery =
@@ -216,6 +225,7 @@
   }
 
   async function handleResetAll() {
+    selectedPopularStrategy = "";
     ruleOfList = [];
     filteredData = [];
     ruleOfList = [...ruleOfList];
@@ -232,8 +242,104 @@
     displayedData = rawData;
   }
 
+  async function applyPopularStrategy(state: string) {
+    const strategies = {
+      darkPoolPrints: {
+        name: "Dark Pool Prints",
+        rules: [
+          { name: "transactionType", value: ["Dark Pool Order"] },
+          { condition: "over", name: "size", value: "10K" },
+          { condition: "over", name: "premium", value: "5M" },
+        ],
+      },
+      blockOrders: {
+        name: "Block Orders",
+        rules: [
+          { name: "transactionType", value: ["Block Order"] },
+          { condition: "over", name: "size", value: "5K" },
+          { condition: "over", name: "premium", value: "1M" },
+        ],
+      },
+      megaPremium: {
+        name: "Mega Premium",
+        rules: [
+          { condition: "over", name: "premium", value: "10M" },
+          { condition: "over", name: "size", value: "5K" },
+        ],
+      },
+      etfFlow: {
+        name: "ETF Flow",
+        rules: [
+          { name: "assetType", value: ["ETF"] },
+          { condition: "over", name: "size", value: "2K" },
+          { condition: "over", name: "premium", value: "1M" },
+        ],
+      },
+      highVolume: {
+        name: "High Volume",
+        rules: [
+          { condition: "over", name: "volume", value: "10M" },
+          { condition: "over", name: "size", value: "5K" },
+        ],
+      },
+      largeStockFlow: {
+        name: "Large Stock Flow",
+        rules: [
+          { name: "assetType", value: ["Stock"] },
+          { condition: "over", name: "size", value: "10K" },
+          { condition: "over", name: "premium", value: "5M" },
+        ],
+      },
+    };
+
+    const strategy = strategies[state];
+    if (!strategy || selectedPopularStrategy === strategy.name) {
+      return;
+    }
+
+    selectedPopularStrategy = strategy.name;
+    ruleName = "";
+    searchTerm = "";
+    filterQuery = "";
+    quickSearchTerm = "";
+    quickSearchResults = [];
+    showQuickSearchDropdown = false;
+    selectedQuickSearchIndex = -1;
+
+    ruleOfList = [];
+    checkedItems = new Map();
+    Object.keys(allRules).forEach((ruleKey) => {
+      ruleCondition[ruleKey] = allRules[ruleKey].defaultCondition;
+      valueMappings[ruleKey] = allRules[ruleKey].defaultValue;
+    });
+
+    ruleOfList = strategy.rules.map((rule) => ({ ...rule }));
+    ruleOfList.forEach((rule) => {
+      ruleCondition[rule.name] =
+        rule.condition ?? allRules[rule.name].defaultCondition;
+      valueMappings[rule.name] =
+        rule.value ?? allRules[rule.name].defaultValue;
+    });
+
+    displayRules = allRows?.filter((row) =>
+      ruleOfList?.some((rule) => rule.name === row.rule),
+    );
+
+    checkedItems = new Map(
+      ruleOfList
+        ?.filter((rule) => categoricalRules?.includes(rule.name))
+        ?.map((rule) => [
+          rule.name,
+          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+        ]),
+    );
+
+    shouldLoadWorker.set(true);
+  }
+
   async function switchStrategy(item) {
     ruleName = "";
+    selectedPopularStrategy = "";
     selectedStrategy = item?.id ?? "";
 
     ruleOfList =
@@ -304,6 +410,7 @@
       strategyList =
         strategyList?.filter((item) => item.id !== selectedStrategy) ?? [];
       selectedStrategy = strategyList?.at(0)?.id ?? "";
+      selectedPopularStrategy = "";
       ruleOfList =
         strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
 
@@ -419,6 +526,7 @@
       closePopup?.dispatchEvent(new MouseEvent("click"));
 
       selectedStrategy = output.id;
+      selectedPopularStrategy = "";
       strategyList?.unshift(output);
 
       // Sync ruleOfList with what was just created
@@ -593,6 +701,7 @@
 
   function changeRule(state: string) {
     searchTerm = "";
+    selectedPopularStrategy = "";
     ruleName = state;
     handleAddRule();
 
@@ -1420,8 +1529,69 @@
           </span>
         </div>
 
-        <div class="flex flex-row items-center w-full mt-5 justify-end">
-          <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
+        <div class="flex flex-row items-center w-full mt-5">
+          <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
+            <div
+              class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
+            >
+              Popular Filters
+            </div>
+            <div class="relative inline-block text-left grow">
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="w-full border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  >
+                    <span class="truncate"
+                      >{selectedPopularStrategy?.length !== 0
+                        ? selectedPopularStrategy
+                        : "Select popular"}</span
+                    >
+                    <svg
+                      class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                >
+                  <DropdownMenu.Label
+                    class="text-gray-500 dark:text-zinc-400 font-normal"
+                  >
+                    Popular Filters
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Group>
+                    {#each popularStrategyList as item}
+                      <DropdownMenu.Item
+                        on:click={() => applyPopularStrategy(item?.key)}
+                        class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-300"
+                      >
+                        {item?.label}
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+          </div>
+
+          <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
             <div
               class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
             >
