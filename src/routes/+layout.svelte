@@ -10,7 +10,6 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
-  import Promotion from "$lib/components/Promotion.svelte";
   //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
@@ -118,7 +117,8 @@
   let promoContext = "";
 
   const PROMO_MODAL_ID = "promotionModal";
-  const PROMO_DELAY_MS = 10000;
+  const PROMO_DELAY_MS = 1000;
+  const FORCE_PROMO_EVERY_REFRESH = true;
   const PROMO_SESSION_START_KEY = "promo_session_start";
   const PROMO_SESSION_SEEN_KEY = "promo_seen_session";
   const PROMO_USER_DAILY_PREFIX = "promo_seen_user_day_";
@@ -162,6 +162,7 @@
 
   const shouldShowPromo = () => {
     if (!browser) return false;
+    if (FORCE_PROMO_EVERY_REFRESH) return true;
     if (hasSeenPromoThisSession()) return false;
     if (!data?.user) return true;
     if (["Pro", "Plus"].includes(data?.user?.tier)) return false;
@@ -1943,7 +1944,9 @@
 
 -->
 
-<Promotion modalId="promotionModal" showLogout={Boolean(data?.user)} />
+{#await import("$lib/components/Promotion.svelte") then { default: Comp }}
+  <svelte:component this={Comp} />
+{/await}
 
 {#if data?.user?.id}
   {#await import("$lib/components/Feedback.svelte") then { default: Comp }}

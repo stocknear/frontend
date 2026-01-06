@@ -22,7 +22,7 @@
 </svelte:head>
 
 <div
-  class="mb-5 mt-5 relative isolate sm:rounded text-center flex sm:hidden justify-center items-center gap-x-6 overflow-hidden bg-default dark:bg-violet-600 px-6 py-3.5 sm:py-2.5 sm:px-3.5 sm:before:flex-1"
+  class="mb-5 mt-5 relative isolate sm:rounded text-center flex sm:hidden justify-center items-center gap-x-6 overflow-hidden bg-[#101828] dark:bg-secondary/60 px-6 py-3.5 sm:py-2.5 sm:px-3.5 sm:before:flex-1"
 >
   <div class="absolute top-1/2 -z-10 -translate-y-1/2" aria-hidden="true"></div>
   <div

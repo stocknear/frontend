@@ -1,25 +1,19 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
+  import { goto } from "$app/navigation";
 
-  export let modalId = "promotionModal";
-  export let title = "Upgrade for real-time edge on every trade.";
-  export let subtitle = "Upgrade to Pro for unlimited access to all features";
-  export let features = [
-    "Unlimited AI chat & research",
-    "Real-time market data & screeners",
-    "Portfolio tracking & insights",
+  let modalId = "promotionModal";
+  let title = "Upgrade for real-time edge on every trade.";
+  let subtitle = "Upgrade to Pro for unlimited access to all features";
+  let features = [
+    "1,000 credits per month",
+    "Watchlist with up to 300 stocks",
+    "Portfolio with up to 300 stocks",
+    "Real-time options & historical data",
+    "Real-time options flow data",
+    "Real-time unusual orders",
+    "Premium Discord channel access",
   ];
-  export let monthlyLabel = "$19/month";
-  export let monthlyHref = "/pricing";
-  export let yearlyLabel = "$99/year";
-  export let yearlyNote = "Save 57%";
-  export let yearlyHref = "/pricing";
-  export let footerText =
-    "Cancel anytime. We are a small team and your support means everything.";
-  export let contactHref = "/contact";
-  export let chatHref = "/chat";
-  export let showLogout = false;
-  export let logoutAction = "/logout";
 </script>
 
 <input type="checkbox" id={modalId} class="modal-toggle" />
@@ -38,7 +32,7 @@
   >
     <label
       for={modalId}
-      class="cursor-pointer absolute right-3 top-3 text-lg text-gray-400 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
+      class="cursor-pointer absolute right-3 top-3 text-lg text-muted dark:text-white dark:hover:text-white transition"
     >
       <svg
         class="h-8 w-8"
@@ -55,7 +49,7 @@
     <div class="grid grid-cols-1 animate-fade-in-once">
       <div class="flex justify-center pt-6 sm:pt-3">
         <div
-          class="h-12 w-12 rounded-full bg-gray-100/80 dark:bg-zinc-900/60 flex items-center justify-center text-gray-900 dark:text-white"
+          class="h-12 w-12 rounded-full bg-gray-300/80 dark:bg-zinc-900/60 flex items-center justify-center text-gray-900 dark:text-white"
         >
           <svg
             class="h-6 w-6"
@@ -110,49 +104,17 @@
       </ul>
 
       <div class="mt-6 flex flex-col sm:flex-row gap-3">
-        <a
-          href={monthlyHref}
-          class="flex-1 py-2.5 px-4 rounded-full font-semibold transition bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-center"
+        <label
+          for={modalId}
+          on:click={() => goto("/pricing")}
+          class="cursor-pointer flex-1 py-2.5 px-4 rounded-full font-semibold transition bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-center"
         >
-          {monthlyLabel}
-        </a>
-        <a
-          href={yearlyHref}
-          class="flex-1 py-2.5 px-4 rounded-full font-semibold transition bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 dark:bg-zinc-950/80 dark:text-white dark:border-zinc-800 dark:hover:bg-zinc-900 text-center"
-        >
-          <span>{yearlyLabel}</span>
-          <span class="ml-2 text-xs text-gray-500 dark:text-zinc-400">
-            {yearlyNote}
-          </span>
-        </a>
+          Start 7-Day Free Trial
+        </label>
       </div>
 
-      <p class="mt-5 text-center text-xs text-gray-500 dark:text-zinc-400">
-        {footerText}
-        <a
-          class="text-violet-600 dark:text-violet-400 hover:underline ml-1"
-          href={contactHref}
-        >
-          Contact us
-        </a>
-        <span class="mx-1">or</span>
-        <a
-          class="text-violet-600 dark:text-violet-400 hover:underline"
-          href={chatHref}
-        >
-          chat
-        </a>
-        <span class="mx-1">for any issues.</span>
-        {#if showLogout}
-          <form class="inline" action={logoutAction} method="POST">
-            <button
-              type="submit"
-              class="text-violet-600 dark:text-violet-400 hover:underline ml-1"
-            >
-              Logout
-            </button>
-          </form>
-        {/if}
+      <p class="mt-5 text-center text-xs text-gray-800 dark:text-zinc-300">
+        Cancel anytime. We are a small team and your support means everything.
       </p>
     </div>
   </div>
