@@ -24,16 +24,12 @@
 
 
 @layer utilities {
-
   .table {
     tr {
-  @apply border-b border-gray-400 dark:border-zinc-700;
-}
-   
-}
+      @apply border-b border-gray-400 dark:border-zinc-700;
+    }
+  }
 
-
-@layer utilities {
   .scrollbar::-webkit-scrollbar {
     width: 20px;
     height: 20px;
@@ -53,8 +49,6 @@
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #c0a0b9;
   }
-
-}
 
   /* Elegant shimmer text effect - reusable across the website */
   .shimmer-text {
