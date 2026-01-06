@@ -140,7 +140,7 @@
 <div class="flex flex-row sm:gap-1 items-center">
   <button
     type="button"
-    class="inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+    class="cursor-pointer inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
     aria-label="Rewrite response"
     disabled={isStreaming || isSubmitting}
@@ -161,7 +161,7 @@
           <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3"></path>
         </svg>
       </div>
-      <div class="text-align-center relative truncate leading-loose -mb-px">
+      <div class="text-align-center relative truncate leading-none">
         Rewrite
       </div>
     </div>
@@ -170,7 +170,7 @@
   {#if !selectedRating}
     <button
       type="button"
-      class="inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
       on:click={handleLike}
       aria-label="Like response"
       disabled={isStreaming || isSubmitting}
@@ -184,7 +184,7 @@
 
     <button
       type="button"
-      class="inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
       on:click={openDislikeModal}
       aria-label="Dislike response"
       disabled={isStreaming || isSubmitting}
@@ -228,7 +228,7 @@
     ></button>
 
     <div
-      class="modal-box w-full max-w-lg rounded-2xl bg-white/90 dark:bg-zinc-950/80 border border-gray-300 dark:border-zinc-700"
+      class="modal-box w-full max-w-lg rounded-2xl bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700"
     >
       <div class="flex items-center justify-between">
         <h2

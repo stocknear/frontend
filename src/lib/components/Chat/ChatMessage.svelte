@@ -259,7 +259,7 @@
                     }
                   }}
                   class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition hover:opacity-90"
-                >Save & Regenerate</button
+                  >Save & Regenerate</button
                 >
               </div>
             </div>
@@ -313,10 +313,10 @@
         </div>
         {#if message?.role === "system"}
           {#if !isStreaming}
-            <div class="flex items-center gap-2 mt-3 flex-wrap">
+            <div class="flex items-center gap-1 mt-3 flex-wrap">
               <button
                 type="button"
-                class="inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+                class="cursor-pointer inline-flex items-center gap-1 h-8 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 text-xs font-semibold leading-none text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
                 on:click={handleShare}
                 ><div
                   class="flex flex-row items-center min-w-0 gap-x-1 justify-center"
@@ -324,7 +324,7 @@
                   <div class="flex shrink-0 items-center justify-center size-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class=" mt-0.5"
+                      class="h-4 w-4"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -336,9 +336,7 @@
                       ></path></svg
                     >
                   </div>
-                  <div
-                    class="text-align-center relative truncate leading-loose -mb-px"
-                  >
+                  <div class="text-align-center relative truncate leading-none">
                     Share
                   </div>
                 </div></button
