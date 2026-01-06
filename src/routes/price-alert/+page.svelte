@@ -374,7 +374,7 @@
                 </div>
               </div>
 
-              <div class="order-2 sm:order-1 w-full sm:w-fit">
+              <div class="order-2 sm:order-1 w-full">
                 <Combobox.Root
                   items={searchBarData}
                   bind:inputValue
