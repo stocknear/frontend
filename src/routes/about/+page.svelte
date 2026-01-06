@@ -197,7 +197,7 @@
           <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
           >
-            Solo Guy
+            Let me Solo it
           </p>
           <h2
             class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
