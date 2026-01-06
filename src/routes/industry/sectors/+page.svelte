@@ -3,12 +3,165 @@
   import { abbreviateNumber, sectorNavigation } from "$lib/utils";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { page } from "$app/stores";
+  import { onMount } from "svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
 
   export let data;
-  let rawData = data?.getSectorOverview;
+  let originalData = (data?.getSectorOverview ?? []).map((item) => ({
+    ...item,
+    name: item?.name ?? item?.sector,
+  }));
+  let rawData = originalData;
   let displayList = rawData;
 
   $: charNumber = $screenWidth < 640 ? 20 : 30;
+
+  let inputValue = "";
+  let searchWorker: Worker | undefined;
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  let pagePathName = $page?.url?.pathname;
+
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    displayList = dataSource?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  async function resetTableSearch() {
+    inputValue = "";
+    rawData = originalData;
+    currentPage = 1; // Reset to first page
+    updatePaginatedData();
+  }
+
+  async function search() {
+    inputValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (inputValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        // Reset to original data if filter is empty
+        rawData = originalData;
+        currentPage = 1; // Reset to first page
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker && originalData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: originalData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      rawData = event.data?.output ?? [];
+      currentPage = 1; // Reset to first page after search
+      updatePaginatedData();
+    }
+  };
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  onMount(async () => {
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    updatePaginatedData();
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
+  });
+
+  // Update pagination when originalData or rawData changes
+  $: if (
+    (originalData && originalData.length > 0) ||
+    (rawData && inputValue?.length > 0)
+  ) {
+    updatePaginatedData();
+  }
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
 
   let columns = [
     { key: "industry", label: "Industry Name", align: "left" },
@@ -47,8 +200,6 @@
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
 
-    let originalData = rawData;
-
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -56,7 +207,13 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      displayList = [...originalData]; // Reset to original data (spread to avoid mutation)
+      if (inputValue?.length > 0) {
+        updatePaginatedData();
+      } else {
+        originalData = [...rawData]; // Reset originalData to rawData
+        currentPage = 1; // Reset to first page
+        updatePaginatedData(); // Reset displayed data
+      }
       return;
     }
 
@@ -90,8 +247,17 @@
       }
     };
 
-    // Sort using the generic comparison function
-    displayList = [...originalData].sort(compareValues);
+    // Sort and update the data
+    if (inputValue?.length > 0) {
+      // If filtering, sort the filtered data
+      rawData = [...rawData].sort(compareValues);
+    } else {
+      // If not filtering, sort the original data
+      originalData = [...originalData].sort(compareValues);
+    }
+
+    currentPage = 1; // Reset to first page when sorting
+    updatePaginatedData(); // Update the displayed data
   };
 </script>
 
@@ -102,6 +268,50 @@
 
 <section class="w-full overflow-hidden m-auto">
   <!-- Page wrapper -->
+  <div class="items-center lg:overflow-visible px-1">
+    <div
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-gray-300 dark:border-zinc-700"
+    >
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+      >
+        {rawData?.length?.toLocaleString("en-US")} Sectors
+      </h2>
+      <div
+        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+      >
+        <div class="relative lg:ml-auto w-full lg:w-fit">
+          <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
+            {#if inputValue?.length > 0}
+              <label class="cursor-pointer" on:click={() => resetTableSearch()}>
+                <svg
+                  class="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  ><path
+                    fill="currentColor"
+                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                  /></svg
+                >
+              </label>
+            {/if}
+          </div>
+
+          <input
+            bind:value={inputValue}
+            on:input={search}
+            type="text"
+            placeholder="Find..."
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+          />
+        </div>
+
+        <div class="ml-2">
+          <DownloadData {data} rawData={originalData} title={"industry_sectors"} />
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="flex justify-center w-full m-auto h-full overflow-hidden">
     <!-- Content area -->
     <div
@@ -203,4 +413,136 @@
       </table>
     </div>
   </div>
+
+  <!-- Pagination controls -->
+  {#if displayList?.length > 0}
+    <div class="flex flex-row items-center justify-between mt-8 sm:mt-5 px-1">
+      <!-- Previous and Next buttons -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <svg
+            class="h-5 w-5 inline-block shrink-0 rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Previous</span></Button
+        >
+      </div>
+
+      <!-- Page info and rows selector in center -->
+      <div class="flex flex-row items-center gap-4">
+        <span class="text-sm text-gray-600 dark:text-zinc-300">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span class="truncate text-[0.85rem] sm:text-sm"
+                >{rowsPerPage} Rows</span
+              >
+              <svg
+                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+          >
+            <!-- Dropdown items -->
+            <DropdownMenu.Group class="pb-2">
+              {#each rowsPerPageOptions as item}
+                <DropdownMenu.Item
+                  class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                >
+                  <label
+                    on:click={() => changeRowsPerPage(item)}
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                  >
+                    <span class="text-sm">{item} Rows</span>
+                  </label>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
+
+      <!-- Next button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <span class="hidden sm:inline">Next</span>
+          <svg
+            class="h-5 w-5 inline-block shrink-0 -rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </Button>
+      </div>
+    </div>
+
+    <!-- Back to Top button -->
+    <div class="flex justify-center mt-4">
+      <button
+        on:click={scrollToTop}
+        class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+      >
+        Back to Top <svg
+          class="h-5 w-5 inline-block shrink-0 rotate-180"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  {/if}
 </section>
