@@ -10,7 +10,7 @@
 
   let labelEl: HTMLLabelElement;
 
-  let content = { text: "Loading…" };
+  let content = { text: "Loading..." };
 
   async function getInfoText() {
     const cachedData = getCache(parameter, "getInfoText");
@@ -36,21 +36,29 @@
     tippy(labelEl, {
       allowHTML: true,
       placement: "bottom",
-      theme: "light-border",
-      maxWidth: 500,
+      theme: "minimal",
+      maxWidth: 360,
+      appendTo: () => document.body,
+      zIndex: 9999,
       interactive: true,
       trigger: "click mouseenter focus",
       hideOnClick: true,
       touch: ["hold", 500],
       onShow: async (instance) => {
-        instance.setContent("Loading…");
+        instance.setContent(`
+          <div class="info-tooltip">
+            <div class="info-tooltip__title">${label || ""}</div>
+            <div class="info-tooltip__body">Loading...</div>
+          </div>
+        `);
         await getInfoText();
         instance.setContent(`
-           <div class="text-xs sm:text-sm text-white p-2 min-w-72">
-            <p>${content?.text}</p>
+          <div class="info-tooltip">
+            <div class="info-tooltip__title">${label || ""}</div>
+            <div class="info-tooltip__body">${content?.text || "n/a"}</div>
             ${
               content?.equation
-                ? `<div class="mt-4 pt-2 text-sm border-t border-gray-600 w-fit">${content?.equation}</div>`
+                ? `<div class="info-tooltip__equation">${content?.equation}</div>`
                 : ""
             }
           </div>

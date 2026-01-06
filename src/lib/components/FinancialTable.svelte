@@ -760,30 +760,37 @@
       tippy(element, {
         trigger: "mouseenter focus",
         placement: "bottom",
-        theme: "light-border",
+        theme: "minimal",
         allowHTML: true,
+        appendTo: () => document.body,
+        zIndex: 9999,
         interactive: true,
         delay: [200, 100],
         onShow: async (instance) => {
-          instance.setContent("Loading…");
+          instance.setContent(`
+            <div class="info-tooltip">
+              <div class="info-tooltip__title">${infoLabel}</div>
+              <div class="info-tooltip__body">Loading...</div>
+            </div>
+          `);
           try {
             const content = await getInfoText(key);
             instance.setContent(`
-              <div class="text-white w-full mb-3">
-                <h4 class="font-bold mb-1 text-[1rem] w-full">${infoLabel}</h4>
-                <p>${content?.text || "n/a"}</p>
+              <div class="info-tooltip">
+                <div class="info-tooltip__title">${infoLabel}</div>
+                <div class="info-tooltip__body">${content?.text || "n/a"}</div>
                 ${
                   content?.equation
-                    ? `<div class="mt-4 pt-2 text-sm border-t border-gray-600 w-fit">${content?.equation}</div>`
+                    ? `<div class="info-tooltip__equation">${content?.equation}</div>`
                     : ""
                 }
               </div>
             `);
           } catch (error) {
             instance.setContent(`
-              <div class="text-white w-full mb-3">
-                <h4 class="font-bold mb-1 text-[1rem] w-full">${infoLabel}</h4>
-                <p>Error loading information</p>
+              <div class="info-tooltip">
+                <div class="info-tooltip__title">${infoLabel}</div>
+                <div class="info-tooltip__body">Error loading information</div>
               </div>
             `);
           }
