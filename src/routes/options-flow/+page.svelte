@@ -46,6 +46,15 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
 
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
+  let selectedPopularStrategy = "";
+  const popularStrategyList = [
+    { key: "bullishSweeps", label: "Bullish Sweeps" },
+    { key: "bearishSweeps", label: "Bearish Sweeps" },
+    { key: "highPremiumBlocks", label: "High Premium Blocks" },
+    { key: "unusualSizeOI", label: "Unusual Size vs OI" },
+    { key: "etfIndexFlow", label: "ETF & Index Flow" },
+    { key: "repeatedFlow", label: "Repeated Flow" },
+  ];
 
   let displayRules = [];
   let filteredData = [];
@@ -527,6 +536,7 @@
   }
 
   async function handleResetAll() {
+    selectedPopularStrategy = "";
     ruleOfList = [];
     filteredData = [];
     ruleOfList = [...ruleOfList];
@@ -543,8 +553,111 @@
     displayedData = [...rawData];
   }
 
+  async function applyPopularStrategy(state: string) {
+    const strategies = {
+      bullishSweeps: {
+        name: "Bullish Sweeps",
+        rules: [
+          { name: "option_activity_type", value: ["Sweep"] },
+          { name: "sentiment", value: ["Bullish"] },
+          { name: "put_call", value: ["Calls"] },
+          { condition: "under", name: "date_expiration", value: "30" },
+          { condition: "over", name: "cost_basis", value: "200K" },
+        ],
+      },
+      bearishSweeps: {
+        name: "Bearish Sweeps",
+        rules: [
+          { name: "option_activity_type", value: ["Sweep"] },
+          { name: "sentiment", value: ["Bearish"] },
+          { name: "put_call", value: ["Puts"] },
+          { condition: "under", name: "date_expiration", value: "30" },
+          { condition: "over", name: "cost_basis", value: "200K" },
+        ],
+      },
+      highPremiumBlocks: {
+        name: "High Premium Blocks",
+        rules: [
+          { name: "option_activity_type", value: ["Block"] },
+          { condition: "over", name: "cost_basis", value: "1M" },
+          { condition: "over", name: "size", value: "5K" },
+          { condition: "over", name: "open_interest", value: "1K" },
+        ],
+      },
+      unusualSizeOI: {
+        name: "Unusual Size vs OI",
+        rules: [
+          { condition: "over", name: "sizeOIRatio", value: "50%" },
+          { condition: "over", name: "size", value: "2K" },
+          { condition: "over", name: "open_interest", value: "1K" },
+        ],
+      },
+      etfIndexFlow: {
+        name: "ETF & Index Flow",
+        rules: [
+          { name: "underlying_type", value: ["ETF", "Index"] },
+          { name: "option_activity_type", value: ["Sweep", "Block"] },
+          { condition: "over", name: "cost_basis", value: "300K" },
+        ],
+      },
+      repeatedFlow: {
+        name: "Repeated Flow",
+        rules: [
+          { name: "flowType", value: ["Repeated Flow"] },
+          { condition: "over", name: "volume", value: "10K" },
+          { condition: "over", name: "cost_basis", value: "100K" },
+        ],
+      },
+    };
+
+    const strategy = strategies[state];
+    if (!strategy || selectedPopularStrategy === strategy.name) {
+      return;
+    }
+
+    selectedPopularStrategy = strategy.name;
+    ruleName = "";
+    searchTerm = "";
+    filterQuery = "";
+    quickSearchTerm = "";
+    quickSearchResults = [];
+    showQuickSearchDropdown = false;
+    selectedQuickSearchIndex = -1;
+
+    ruleOfList = [];
+    checkedItems = new Map();
+    Object.keys(allRules).forEach((ruleKey) => {
+      ruleCondition[ruleKey] = allRules[ruleKey].defaultCondition;
+      valueMappings[ruleKey] = allRules[ruleKey].defaultValue;
+    });
+
+    ruleOfList = strategy.rules.map((rule) => ({ ...rule }));
+    ruleOfList.forEach((rule) => {
+      ruleCondition[rule.name] =
+        rule.condition ?? allRules[rule.name].defaultCondition;
+      valueMappings[rule.name] =
+        rule.value ?? allRules[rule.name].defaultValue;
+    });
+
+    displayRules = allRows?.filter((row) =>
+      ruleOfList?.some((rule) => rule.name === row.rule),
+    );
+
+    checkedItems = new Map(
+      ruleOfList
+        ?.filter((rule) => categoricalRules?.includes(rule.name))
+        ?.map((rule) => [
+          rule.name,
+          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+        ]),
+    );
+
+    shouldLoadWorker.set(true);
+  }
+
   function changeRule(state: string) {
     searchTerm = "";
+    selectedPopularStrategy = "";
     ruleName = state;
     handleAddRule();
 
@@ -554,6 +667,7 @@
 
   async function switchStrategy(item) {
     ruleName = "";
+    selectedPopularStrategy = "";
     selectedStrategy = item?.id ?? "";
 
     ruleOfList =
@@ -740,6 +854,7 @@
       closePopup?.dispatchEvent(new MouseEvent("click"));
 
       selectedStrategy = output.id;
+      selectedPopularStrategy = "";
       strategyList?.unshift(output);
 
       // Sync ruleOfList with what was just created
@@ -1754,8 +1869,69 @@
             </span>
           </div>
 
-          <div class="flex flex-row items-center w-full mt-5 justify-end">
-            <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
+          <div class="flex flex-row items-center w-full mt-5">
+            <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
+              <div
+                class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
+              >
+                Popular Filters
+              </div>
+              <div class="relative inline-block text-left grow">
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <Button
+                      builders={[builder]}
+                      class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <span class="truncate"
+                        >{selectedPopularStrategy?.length !== 0
+                          ? selectedPopularStrategy
+                          : "Select popular"}</span
+                      >
+                      <svg
+                        class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Content
+                    side="bottom"
+                    align="end"
+                    sideOffset={10}
+                    alignOffset={0}
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                  >
+                    <DropdownMenu.Label
+                      class="text-gray-500 dark:text-zinc-400 font-normal"
+                    >
+                      Popular Strategies
+                    </DropdownMenu.Label>
+                    <DropdownMenu.Separator />
+                    <DropdownMenu.Group>
+                      {#each popularStrategyList as item}
+                        <DropdownMenu.Item
+                          on:click={() => applyPopularStrategy(item?.key)}
+                          class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                        >
+                          {item?.label}
+                        </DropdownMenu.Item>
+                      {/each}
+                    </DropdownMenu.Group>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </div>
+            </div>
+
+            <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
               <div
                 class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
               >
