@@ -560,7 +560,6 @@
                     <h2
                       class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
                     >
-                      {removeCompanyStrings($displayCompanyName)}
                       {category}
                     </h2>
                     <div
