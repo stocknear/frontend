@@ -17,6 +17,12 @@
   let rawData = data?.getOptionsChainStatistics?.table;
   let optionList = rawData?.slice(0, 100);
 
+  let isPro = data?.user?.tier === "Pro" || false;
+  const lockLinkClass =
+    "mt-1 inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition";
+  const lockLinkInlineClass =
+    "inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition";
+
   let configIV;
   let configOI;
   let configOIPutCall;
@@ -705,24 +711,132 @@
             Overview for all option chains of <strong>{ticker}</strong>. As of
             <strong>{overview?.date}</strong>, <strong>{ticker}</strong>
             options have an IV of
-            <strong
-              >{overview?.currentIV ? overview?.currentIV + "%" : "n/a"}</strong
-            >
+            {#if isPro}
+              <strong
+                >{overview?.currentIV ? overview?.currentIV + "%" : "n/a"}</strong
+              >
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
             and an IV rank of
-            <strong>{overview?.ivRank ? overview?.ivRank + "%" : "n/a"}</strong
-            >. The volume is
-            <strong>{overview?.totalVolume?.toLocaleString("en-US")}</strong>
+            {#if isPro}
+              <strong>{overview?.ivRank ? overview?.ivRank + "%" : "n/a"}</strong
+              >
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
+            . The volume is
+            {#if isPro}
+              <strong>{overview?.totalVolume?.toLocaleString("en-US")}</strong>
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
             contracts, which is
-            <strong
-              >{overview?.volumePercentage
-                ? overview?.volumePercentage + "%"
-                : "n/a"}</strong
-            >
+            {#if isPro}
+              <strong
+                >{overview?.volumePercentage
+                  ? overview?.volumePercentage + "%"
+                  : "n/a"}</strong
+              >
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
             of average daily volume of
-            <strong>{overview?.avgDailyVolume?.toLocaleString("en-US")}</strong>
+            {#if isPro}
+              <strong>{overview?.avgDailyVolume?.toLocaleString("en-US")}</strong>
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
             contracts. The volume put-call ratio is
-            <strong>{overview?.putCallRatio}</strong>, indicating a
-            <strong>{overview?.sentiment}</strong> sentiment in the market.
+            {#if isPro}
+              <strong>{overview?.putCallRatio}</strong>
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
+            , indicating a
+            {#if isPro}
+              <strong>{overview?.sentiment}</strong>
+            {:else}
+              <a href="/pricing" class={lockLinkInlineClass}>
+                <svg
+                  class="w-4 h-4 mb-1 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </a>
+            {/if}
+            sentiment in the market.
           </p>
         </div>
 
@@ -758,9 +872,28 @@
               A higher IV suggests more expected movement (often bearish fear or bullish excitement), while a lower IV suggests less expected movement."
                 />
               </div>
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{ivData?.current ? ivData?.current + "%" : "n/a"}</span
-              >
+
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{ivData?.current ? ivData?.current + "%" : "n/a"}</span
+                >
+              {:else}
+                <a
+                  href="/pricing"
+                  class="mt-1 inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -776,11 +909,26 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]">
-                {ivData?.ivRank
-                  ? `${Math?.min(ivData.ivRank, 100)}%`
-                  : "< 0.01%"}
-              </span>
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]">
+                  {ivData?.ivRank
+                    ? `${Math?.min(ivData.ivRank, 100)}%`
+                    : "< 0.01%"}
+                </span>
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -796,11 +944,26 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{ivData?.historicalVolatility
-                  ? ivData?.historicalVolatility + "%"
-                  : "n/a"}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{ivData?.historicalVolatility
+                    ? ivData?.historicalVolatility + "%"
+                    : "n/a"}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col whitespace-nowrap">
@@ -814,9 +977,24 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               A very low IV can signal calm markets or complacency — often seen as bullish for the stock but may indicate limited option premiums."
                 />
               </div>
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{ivData?.ivLow ? ivData?.ivLow + "%" : "n/a"} on {ivData?.ivLowDate}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{ivData?.ivLow ? ivData?.ivLow + "%" : "n/a"} on {ivData?.ivLowDate}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col whitespace-nowrap">
@@ -831,9 +1009,24 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{ivData?.ivHigh ? ivData?.ivHigh + "%" : "n/a"} on {ivData?.ivHighDate}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{ivData?.ivHigh ? ivData?.ivHigh + "%" : "n/a"} on {ivData?.ivHighDate}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
           </div>
         </div>
@@ -890,9 +1083,24 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               Low OI means less interest and lower liquidity."
                 />
               </div>
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{oiData?.total?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{oiData?.total?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -908,9 +1116,24 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{oiData?.putCallRatio}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{oiData?.putCallRatio}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -926,9 +1149,24 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{oiData?.puts?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{oiData?.puts?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -944,9 +1182,24 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{oiData?.calls?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{oiData?.calls?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -960,9 +1213,24 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{oiData?.avgDaily?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{oiData?.avgDaily?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -978,9 +1246,24 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{oiData?.todayVsAvg ? oiData?.todayVsAvg + "%" : "n/a"}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{oiData?.todayVsAvg ? oiData?.todayVsAvg + "%" : "n/a"}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
           </div>
         </div>
@@ -1037,9 +1320,24 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               Low volume suggests less trading and lower interest."
                 />
               </div>
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{volData?.total?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{volData?.total?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -1055,9 +1353,24 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{volData?.putCallRatio}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{volData?.putCallRatio}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -1073,9 +1386,24 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{volData?.puts?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{volData?.puts?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -1091,9 +1419,24 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{volData?.calls?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{volData?.calls?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -1107,9 +1450,24 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{volData?.avgDaily?.toLocaleString("en-US")}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{volData?.avgDaily?.toLocaleString("en-US")}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
 
             <div class="flex flex-col">
@@ -1125,9 +1483,24 @@ Lower volume today than average suggests less activity or fading interest."
                 />
               </div>
 
-              <span class="font-semibold text-sm sm:text-[1rem]"
-                >{volData?.todayVsAvg ? volData?.todayVsAvg + "%" : "n/a"}</span
-              >
+              {#if isPro}
+                <span class="font-semibold text-sm sm:text-[1rem]"
+                  >{volData?.todayVsAvg ? volData?.todayVsAvg + "%" : "n/a"}</span
+                >
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
             </div>
           </div>
         </div>

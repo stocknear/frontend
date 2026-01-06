@@ -679,7 +679,7 @@
                     Fear & Greed
                   </h2>
                   <span class="text-xs italic text-gray-800 dark:text-zinc-300">
-                    {new Date(
+                    Last Update: {new Date(
                       data?.getFearAndGreed?.current?.date,
                     )?.toLocaleDateString("en-US", {
                       month: "short",
