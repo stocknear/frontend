@@ -53,6 +53,7 @@
     { key: "highPremiumBlocks", label: "High Premium Blocks" },
     { key: "unusualSizeOI", label: "Unusual Size vs OI" },
     { key: "etfIndexFlow", label: "ETF & Index Flow" },
+    { key: "zeroDteFlow", label: "0DTE Flow" },
     { key: "repeatedFlow", label: "Repeated Flow" },
   ];
 
@@ -598,6 +599,14 @@
           { name: "underlying_type", value: ["ETF", "Index"] },
           { name: "option_activity_type", value: ["Sweep", "Block"] },
           { condition: "over", name: "cost_basis", value: "300K" },
+        ],
+      },
+      zeroDteFlow: {
+        name: "0DTE Flow",
+        rules: [
+          { condition: "exactly", name: "date_expiration", value: "0" },
+          { name: "option_activity_type", value: ["Sweep", "Block"] },
+          { condition: "over", name: "cost_basis", value: "100K" },
         ],
       },
       repeatedFlow: {
