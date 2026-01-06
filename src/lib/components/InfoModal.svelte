@@ -73,8 +73,8 @@
       content: "Loading...",
       allowHTML: true,
       placement: "bottom",
-      theme: "light-border",
-      maxWidth: 400,
+      theme: "minimal",
+      maxWidth: 360,
       interactive: true,
       trigger: "click mouseenter focus",
       hideOnClick: true,
@@ -84,29 +84,29 @@
         if (callAPI && parameter) {
           // Show loading state immediately
           instance.setContent(`
-            <div class="text-sm text-white p-2 w-full ">
-              <div class="font-semibold text-lg mb-2  ${title ? "" : "hidden"}">${title}</div>
-              <div class="font-normal">Loading...</div>
+            <div class="info-tooltip">
+              <div class="info-tooltip__title ${title ? "" : "hidden"}">${title}</div>
+              <div class="info-tooltip__body">Loading...</div>
             </div>
           `);
 
           getInfoText(parameter).then(() => {
             // Update tooltip content after API call completes
             instance.setContent(`
-              <div class="text-sm text-white p-2 w-full ">
-                <div class="font-semibold text-lg mb-1 ${title ? "" : "hidden"}">${title}</div>
-                <div class="font-normal w-full pt-2 border-t border-gray-500">${content}</div>
-                ${equation ? `<div class="mt-2 pt-2 w-full border-t border-gray-500">${equation}</div>` : ""}
+              <div class="info-tooltip">
+                <div class="info-tooltip__title ${title ? "" : "hidden"}">${title}</div>
+                <div class="info-tooltip__body">${content}</div>
+                ${equation ? `<div class="info-tooltip__equation">${equation}</div>` : ""}
               </div>
             `);
           });
         } else {
           // If callAPI is false, just show the existing content
           instance.setContent(`
-            <div class="text-sm text-white p-2 w-full ">
-              <div class="font-semibold text-lg mb-2 ${title ? "" : "hidden"}">${title}</div>
-              <div class="font-normal mb-2">${content}</div>
-              ${equation ? `<div class="mt-2 pt-2 w-full border-t border-gray-500">${equation}</div>` : ""}
+            <div class="info-tooltip">
+              <div class="info-tooltip__title ${title ? "" : "hidden"}">${title}</div>
+              <div class="info-tooltip__body">${content}</div>
+              ${equation ? `<div class="info-tooltip__equation">${equation}</div>` : ""}
             </div>
           `);
         }
@@ -170,35 +170,42 @@
   />
 
   <dialog {id} class="modal p-3 sm:p-0 text-muted dark:text-white">
-    <label for={id} class="cursor-pointer modal-backdrop bg-[#000]/30"></label>
+    <label
+      for={id}
+      class="cursor-pointer modal-backdrop bg-black/30"
+    ></label>
 
     <!-- Mobile modal content -->
     <div
-      class="modal-box rounded border border-gray-300 dark:border-gray-600 w-full bg-white dark:bg-secondary flex flex-col items-center"
+      class="modal-box rounded-2xl border border-gray-300 dark:border-zinc-700 w-full bg-white/95 dark:bg-zinc-950/95 shadow-none flex flex-col items-center"
     >
-      <div class="mx-auto h-1.5 w-20 shrink-0 rounded-full" />
-      <div class="mb-5 text-center">
+      <div
+        class="mx-auto h-1 w-14 shrink-0 rounded-full bg-gray-200 dark:bg-zinc-800"
+      />
+      <div class="mb-4 mt-3 text-left w-full">
         {#if title}
-          <h3 class="font-bold text-xl sm:text-2xl mb-5">{title}</h3>
+          <h3 class="font-semibold text-lg sm:text-xl mb-3 text-gray-900 dark:text-zinc-100">
+            {title}
+          </h3>
         {/if}
-        <span class="text-[1rem] font-normal">
+        <div class="text-sm leading-relaxed text-gray-700 dark:text-zinc-200">
           {#if isLoading}
             Loading...
           {:else}
             {@html content}
           {/if}
-        </span>
+        </div>
         {#if equation}
-          <div class="mt-4 pt-4 border-t border-gray-300 dark:border-gray-600">
+          <div class="mt-4 pt-4 border-t border-gray-200 dark:border-zinc-800 text-sm">
             {@html equation}
           </div>
         {/if}
       </div>
 
-      <div class=" w-full">
+      <div class="w-full">
         <label
           for={id}
-          class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"
+          class="mt-2 inline-flex w-full justify-center rounded-full border border-gray-300 dark:border-zinc-700 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-700 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-700/80 transition cursor-pointer"
         >
           Close
         </label>
@@ -206,3 +213,51 @@
     </div>
   </dialog>
 {/if}
+
+<style>
+  :global(.tippy-box[data-theme~="minimal"]) {
+    background: rgba(255, 255, 255, 0.96);
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+  }
+
+  :global(.dark .tippy-box[data-theme~="minimal"]) {
+    background: rgba(9, 9, 11, 0.96);
+    color: #e4e4e7;
+    border-color: #3f3f46;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  :global(.tippy-box[data-theme~="minimal"] .tippy-content) {
+    padding: 0;
+  }
+
+  :global(.info-tooltip) {
+    padding: 12px 14px;
+    max-width: 360px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  :global(.info-tooltip__title) {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  :global(.info-tooltip__body) {
+    color: inherit;
+  }
+
+  :global(.info-tooltip__equation) {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(148, 163, 184, 0.4);
+  }
+
+  :global(.dark .info-tooltip__equation) {
+    border-top-color: rgba(63, 63, 70, 0.7);
+  }
+</style>

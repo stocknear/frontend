@@ -1122,7 +1122,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleAction(index)}
-                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
+                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
                             >{item?.action}</label
                           >
                         </td>
@@ -1229,7 +1229,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleOptionType(index)}
-                            class="select-none inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer"
+                            class="select-none inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer"
                             >{item?.optionType}</label
                           >
                         </td>
