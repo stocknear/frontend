@@ -22,7 +22,7 @@
 </svelte:head>
 
 <div
-  class="mb-5 mt-5 relative isolate sm:rounded text-center flex sm:hidden justify-center items-center gap-x-6 overflow-hidden bg-default dark:bg-[#FFC233] px-6 py-3.5 sm:py-2.5 sm:px-3.5 sm:before:flex-1"
+  class="mb-5 mt-5 relative isolate sm:rounded text-center flex sm:hidden justify-center items-center gap-x-6 overflow-hidden bg-default dark:bg-violet-600 px-6 py-3.5 sm:py-2.5 sm:px-3.5 sm:before:flex-1"
 >
   <div class="absolute top-1/2 -z-10 -translate-y-1/2" aria-hidden="true"></div>
   <div
@@ -32,7 +32,7 @@
   <div
     class="w-full flex flex-row justify-between items-center gap-x-4 gap-y-2"
   >
-    <p class="text-lg text-white dark:text-black font-semibold text-start">
+    <p class="text-lg text-white font-semibold text-start">
       Get the app for a better experience.
     </p>
 
@@ -45,7 +45,7 @@
       </label>
       <label
         on:click={setClosedPWA}
-        class="inline-block cursor-pointer text-[1.3rem] text-white dark:text-black"
+        class="inline-block cursor-pointer text-[1.3rem] text-white"
       >
         <svg
           class="ml-2 w-8 h-8"

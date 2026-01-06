@@ -10,6 +10,7 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
+  import Promotion from "$lib/components/Promotion.svelte";
   //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
@@ -113,6 +114,107 @@
   let showCookieConsentAfterDelay = false;
   let cookieConsentDelayTimer: ReturnType<typeof setTimeout> | undefined =
     undefined;
+  let promoTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+  let promoContext = "";
+
+  const PROMO_MODAL_ID = "promotionModal";
+  const PROMO_DELAY_MS = 10000;
+  const PROMO_SESSION_START_KEY = "promo_session_start";
+  const PROMO_SESSION_SEEN_KEY = "promo_seen_session";
+  const PROMO_USER_DAILY_PREFIX = "promo_seen_user_day_";
+
+  const getTodayKey = () => new Date().toISOString().slice(0, 10);
+
+  const getUserPromoKey = () =>
+    `${PROMO_USER_DAILY_PREFIX}${data?.user?.id ?? "anon"}`;
+
+  const hasSeenPromoToday = () => {
+    if (!browser || !data?.user) return false;
+    try {
+      return localStorage.getItem(getUserPromoKey()) === getTodayKey();
+    } catch (error) {
+      console.warn("Failed to read promo state:", error);
+      return false;
+    }
+  };
+
+  const hasSeenPromoThisSession = () => {
+    if (!browser) return false;
+    try {
+      return sessionStorage.getItem(PROMO_SESSION_SEEN_KEY) === "1";
+    } catch (error) {
+      console.warn("Failed to read promo session state:", error);
+      return false;
+    }
+  };
+
+  const markPromoSeen = () => {
+    if (!browser) return;
+    try {
+      sessionStorage.setItem(PROMO_SESSION_SEEN_KEY, "1");
+      if (data?.user) {
+        localStorage.setItem(getUserPromoKey(), getTodayKey());
+      }
+    } catch (error) {
+      console.warn("Failed to persist promo state:", error);
+    }
+  };
+
+  const shouldShowPromo = () => {
+    if (!browser) return false;
+    if (hasSeenPromoThisSession()) return false;
+    if (!data?.user) return true;
+    if (["Pro", "Plus"].includes(data?.user?.tier)) return false;
+    return !hasSeenPromoToday();
+  };
+
+  const openPromotionModal = () => {
+    const modal = document.getElementById(
+      PROMO_MODAL_ID,
+    ) as HTMLInputElement | null;
+    if (modal) {
+      modal.checked = true;
+    }
+  };
+
+  const maybeShowPromotion = () => {
+    if (!shouldShowPromo()) return;
+    openPromotionModal();
+    markPromoSeen();
+  };
+
+  const schedulePromotion = () => {
+    if (!browser) return;
+    if (promoTimer) clearTimeout(promoTimer);
+
+    let sessionStart = Date.now();
+    try {
+      const storedStart = sessionStorage.getItem(PROMO_SESSION_START_KEY);
+      if (storedStart) {
+        const parsed = Number(storedStart);
+        sessionStart = Number.isNaN(parsed) ? sessionStart : parsed;
+      } else {
+        sessionStorage.setItem(
+          PROMO_SESSION_START_KEY,
+          sessionStart.toString(),
+        );
+      }
+    } catch (error) {
+      console.warn("Failed to read promo session start:", error);
+    }
+
+    const elapsed = Date.now() - sessionStart;
+    const delay = Math.max(PROMO_DELAY_MS - elapsed, 0);
+    promoTimer = setTimeout(maybeShowPromotion, delay);
+  };
+
+  $: if (browser) {
+    const nextContext = `${data?.user?.id ?? "guest"}:${data?.user?.tier ?? "none"}`;
+    if (nextContext !== promoContext) {
+      promoContext = nextContext;
+      schedulePromotion();
+    }
+  }
 
   // Initialize GTM dataLayer
   function initDataLayer() {
@@ -279,6 +381,7 @@
     // Cleanup function
     return () => {
       if (cookieConsentDelayTimer) clearTimeout(cookieConsentDelayTimer);
+      if (promoTimer) clearTimeout(promoTimer);
 
       // Clean up worker on unmount
       if (syncWorker) {
@@ -1839,6 +1942,9 @@
 {/if}
 
 -->
+
+<Promotion modalId="promotionModal" showLogout={Boolean(data?.user)} />
+
 {#if data?.user?.id}
   {#await import("$lib/components/Feedback.svelte") then { default: Comp }}
     <svelte:component this={Comp} {data} />
