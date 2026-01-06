@@ -279,7 +279,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+                            class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                           >
                             {symbol}
                           </a>
@@ -287,7 +287,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+                          class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                         >
                           {item?.symbol}
                         </a>
