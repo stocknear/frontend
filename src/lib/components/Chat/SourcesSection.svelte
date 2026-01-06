@@ -34,7 +34,7 @@
 
 {#if sources && sources?.length > 0}
   <div class="w-full mt-6 pt-4 border-t border-gray-300 dark:border-gray-600">
-    <div class="flex items-center gap-2 mb-4">
+    <div class="flex items-center gap-2 mb-2">
       <h3 class="text-[1rem] sm:text-lg font-semibold">Sources</h3>
       <span class="text-sm">({sources?.length})</span>
     </div>
@@ -45,7 +45,7 @@
         {#each tickersWithUrls as { ticker, url }}
           <a
             href={url}
-            class="inline-block badge border-blue-100 dark:border-zinc-700 bg-blue-50 dark:bg-primary font-semibold rounded px-2 text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white"
+            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
           >
             {ticker}
           </a>
