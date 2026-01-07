@@ -3,6 +3,7 @@
   import { calculateIntradayExportCredits } from "$lib/utils";
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import DownloadIcon from "lucide-svelte/icons/download";
 
   export let ticker: string;
   export let user: any;
@@ -133,8 +134,9 @@
 <div class={`flex items-center ${className}`}>
   <Button
     on:click={openModal}
-    class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center px-2.5 py-1 rounded-full text-xs sm:text-sm"
+    class="transition-all  duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center px-2.5 py-1 rounded-full text-xs sm:text-sm"
   >
+    <DownloadIcon class="size-4 mr-1" />
     Export Price
   </Button>
 </div>
@@ -215,14 +217,14 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class="border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full text-sm"
+        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
         disabled={isExporting}
       >
         Close
       </Button>
       <Button
         on:click={startExport}
-        class="border border-violet-500 text-white bg-violet-600 hover:bg-violet-500 px-4 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+        class="border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 px-4 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
         disabled={isExporting}
       >
         {isExporting ? "Preparing..." : "Start export"}
