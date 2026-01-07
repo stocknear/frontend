@@ -89,10 +89,6 @@
             0,
         ).getTime();
 
-        // Get the last close price for the price label
-        const lastClose =
-            rawData?.length > 0 ? rawData[rawData.length - 1]?.close : null;
-
         const options = {
             chart: {
                 backgroundColor: "transparent",
@@ -142,6 +138,8 @@
             },
             yAxis: [
                 {
+                    startOnTick: false,
+                    endOnTick: false,
                     visible: false,
                 },
             ],

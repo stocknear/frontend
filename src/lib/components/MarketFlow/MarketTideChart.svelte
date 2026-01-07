@@ -259,6 +259,8 @@
 
             yAxis: [
                 {
+                    startOnTick: false,
+                    endOnTick: false,
                     title: {
                         text: null,
                     },

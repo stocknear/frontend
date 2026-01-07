@@ -1806,6 +1806,29 @@
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
+                  Does the discount apply forever?
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    Yes — your 50% discount is locked in for as long as your
+                    subscription stays active. If you cancel or your
+                    subscription lapses, the discount ends and re-subscribing
+                    will be at the regular price. After this promo ends, the
+                    next planned discount is Black Friday in November.
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                   >What are the advantages of Stocknear Service?</summary
                 >
                 <div class="collapse-content">
