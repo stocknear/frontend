@@ -3,7 +3,12 @@ import { calculateIntradayExportCredits } from "$lib/utils";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey, user, pb } = locals;
+  const { apiURL, apiKey, user, pb, clientIp } = locals;
+
+    const ipAddress =
+      typeof clientIp === "string" && clientIp?.trim()?.length > 0
+        ? clientIp?.trim()
+        : undefined;
 
   if (!user) {
     return new Response(JSON.stringify({ error: "Authentication required." }), {
@@ -70,6 +75,32 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   } catch (error) {
     console.error("Failed to deduct credits:", error);
   }
+
+  let userInfo;
+
+  try {
+    userInfo = await pb
+      ?.collection('userInfo')
+      ?.getFirstListItem(`user="${user.id}"`);
+  } catch (err) {
+    if (err.status !== 404) {
+      throw err; // real error -> let outer catch handle it
+    }
+  }
+
+
+  // 3) Update if exists, otherwise create
+  if (userInfo) {
+    await pb.collection('userInfo').update(userInfo.id, {
+      ipAddress,
+    });
+  } else {
+    await pb.collection('userInfo').create({
+      user: user.id,
+      ipAddress,
+    });
+  }
+
 
   return new Response(payload, {
     headers: {
