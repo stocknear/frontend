@@ -1,6 +1,9 @@
 <script lang="ts">
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import { calculateIntradayExportCredits } from "$lib/utils";
+  import {
+    calculateIntradayExportCredits,
+    getIntradayExportBounds,
+  } from "$lib/utils";
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import DownloadIcon from "lucide-svelte/icons/download";
@@ -12,15 +15,24 @@
   let exportModalOpen = false;
   let startDate = "";
   let endDate = "";
+  let selectedInterval = "15min";
   let maxDate = "";
   let isExporting = false;
   let errorMessage = "";
   let statusMessage = "";
   let availableCredits = 0;
   let creditCost = 10;
+  let isEligible = false;
+  let creditBounds = { min: 10, max: 50 };
 
   $: availableCredits = user?.credits ?? 0;
-  $: creditCost = calculateIntradayExportCredits(startDate, endDate);
+  $: isEligible = user && ["Plus", "Pro"]?.includes(user?.tier);
+  $: creditBounds = getIntradayExportBounds(selectedInterval);
+  $: creditCost = calculateIntradayExportCredits(
+    startDate,
+    endDate,
+    selectedInterval,
+  );
 
   const formatDateInput = (date: Date) => date.toISOString().split("T")[0];
 
@@ -43,6 +55,11 @@
   const startExport = async () => {
     if (!user) {
       errorMessage = "Sign in to export intraday data.";
+      return;
+    }
+
+    if (!isEligible) {
+      errorMessage = "Upgrade to Plus or Pro to export intraday data.";
       return;
     }
 
@@ -73,7 +90,7 @@
           ticker,
           startDate,
           endDate,
-          interval: "15min",
+          interval: selectedInterval,
         }),
       });
 
@@ -92,7 +109,7 @@
       }
 
       const blob = await response.blob();
-      const fallbackName = `${ticker}_15min_${startDate}_to_${endDate}.csv`;
+      const fallbackName = `${ticker}_${selectedInterval}_${startDate}_to_${endDate}.csv`;
       const filename = getFilename(
         response.headers.get("Content-Disposition") ?? "",
         fallbackName,
@@ -161,7 +178,7 @@
     <h3
       class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-zinc-100"
     >
-      Export 15-min price data
+      Export intraday price data
     </h3>
     <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
       Choose a custom date range for intraday data. This export can take 2-3
@@ -190,14 +207,37 @@
         />
       </label>
     </div>
+    <div class="mt-3">
+      <label class="text-sm text-gray-700 dark:text-zinc-200">
+        Interval
+        <select
+          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
+          bind:value={selectedInterval}
+          disabled={isExporting}
+        >
+          <option value="1hour">1 Hour</option>
+          <option value="30min">30 Min</option>
+          <option value="15min">15 Min</option>
+          <option value="5min">5 Min</option>
+        </select>
+      </label>
+    </div>
 
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
-      <div>Estimated cost: {creditCost} credits (min 10, max 50).</div>
+      <div>
+        Estimated cost: {creditCost} credits (min {creditBounds.min}, max
+        {creditBounds.max}).
+      </div>
       {#if user}
         <div>
           Balance: {availableCredits}
           {user?.tier ? `(${user?.tier})` : ""}
         </div>
+        {#if !isEligible}
+          <div class="text-rose-600 dark:text-rose-400">
+            Available for Plus and Pro only.
+          </div>
+        {/if}
       {:else}
         <div>Sign in to use credits.</div>
       {/if}
@@ -225,7 +265,7 @@
       <Button
         on:click={startExport}
         class="border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 px-4 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
-        disabled={isExporting}
+        disabled={isExporting || !isEligible}
       >
         {isExporting ? "Preparing..." : "Start export"}
       </Button>

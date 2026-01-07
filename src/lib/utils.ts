@@ -2401,13 +2401,24 @@ export const agentOptions = [
 
 export const agentCategory = ["Stocks", "Options", "Investors", "Others"];
 
+export function getIntradayExportBounds(interval = "15min") {
+  const bounds: Record<string, { min: number; max: number }> = {
+    "1hour": { min: 6, max: 30 },
+    "30min": { min: 8, max: 40 },
+    "15min": { min: 10, max: 50 },
+    "5min": { min: 15, max: 70 },
+  };
+
+  return bounds[interval] ?? bounds["15min"];
+}
+
 export function calculateIntradayExportCredits(
   startDate: string,
   endDate: string,
-  minCredits = 10,
-  maxCredits = 50,
+  interval = "15min",
 ) {
-  if (!startDate || !endDate) return minCredits;
+  const bounds = getIntradayExportBounds(interval);
+  if (!startDate || !endDate) return bounds.min;
 
   const start = new Date(`${startDate}T00:00:00Z`);
   const end = new Date(`${endDate}T00:00:00Z`);
@@ -2420,10 +2431,16 @@ export function calculateIntradayExportCredits(
 
   const msPerDay = 24 * 60 * 60 * 1000;
   const diffDays = Math.floor((end.getTime() - start.getTime()) / msPerDay) + 1;
-  const monthBlocks = Math.ceil(diffDays / 30);
-  const cost = monthBlocks * 10;
+  const perDayRates: Record<string, number> = {
+    "1hour": 0.25,
+    "30min": 0.45,
+    "15min": 0.75,
+    "5min": 1.25,
+  };
+  const rate = perDayRates[interval] ?? perDayRates["15min"];
+  const cost = Math.ceil(diffDays * rate);
 
-  return Math.min(maxCredits, Math.max(minCredits, cost));
+  return Math.min(bounds.max, Math.max(bounds.min, cost));
 }
 
 

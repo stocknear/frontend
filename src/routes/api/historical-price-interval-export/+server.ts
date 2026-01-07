@@ -1,14 +1,54 @@
 import type { RequestHandler } from "./$types";
 import { calculateIntradayExportCredits } from "$lib/utils";
 
+const ALLOWED_TIERS = new Set(["Plus", "Pro"]);
+const ALLOWED_INTERVALS = new Set(["1hour", "30min", "15min", "5min"]);
+const HOURLY_LIMITS: Record<string, number> = { Plus: 4, Pro: 12 };
+const DAILY_LIMITS: Record<string, number> = { Plus: 8, Pro: 30 };
+const IP_HOURLY_LIMIT = 20;
+const RECENT_EXPORT_TTL_MS = 5 * 60 * 1000;
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+const DAILY_WINDOW_MS = 24 * 60 * 60 * 1000;
+const RANGE_LIMITS: Record<string, Record<string, number>> = {
+  Plus: { "1hour": 365, "30min": 180, "15min": 90, "5min": 30 },
+  Pro: { "1hour": 730, "30min": 365, "15min": 180, "5min": 60 },
+};
+
+const activeExports = new Map<string, number>();
+const recentExports = new Map<string, number>();
+const userRateBuckets = new Map<string, number[]>();
+const ipRateBuckets = new Map<string, number[]>();
+const dailyRateBuckets = new Map<string, number[]>();
+
+const pruneBucket = (bucket: number[], windowMs: number, now: number) =>
+  bucket.filter((timestamp) => now - timestamp < windowMs);
+
+const checkRateLimit = (
+  bucketMap: Map<string, number[]>,
+  key: string,
+  limit: number,
+  windowMs: number,
+  now: number,
+) => {
+  const bucket = pruneBucket(bucketMap.get(key) ?? [], windowMs, now);
+  if (bucket.length >= limit) {
+    bucketMap.set(key, bucket);
+    return false;
+  }
+  bucket.push(now);
+  bucketMap.set(key, bucket);
+  return true;
+};
+
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const { apiURL, apiKey, user, pb, clientIp } = locals;
 
-    const ipAddress =
-      typeof clientIp === "string" && clientIp?.trim()?.length > 0
-        ? clientIp?.trim()
-        : undefined;
+  const ipAddress =
+    typeof clientIp === "string" && clientIp?.trim()?.length > 0
+      ? clientIp?.trim()
+      : "unknown";
+  const now = Date.now();
 
   if (!user) {
     return new Response(JSON.stringify({ error: "Authentication required." }), {
@@ -17,8 +57,43 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     });
   }
 
+  if (!ALLOWED_TIERS.has(user?.tier)) {
+    return new Response(
+      JSON.stringify({
+        error: "This feature is available for Plus and Pro users only.",
+      }),
+      { status: 403, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  if ((user?.downloadCredits ?? 0) > 500) {
+    return new Response(
+      JSON.stringify({
+        error:
+          "Abusive usage detected. Please read our Terms of Service to understand more.",
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   const startDate = data?.startDate;
   const endDate = data?.endDate;
+  const interval = String(data?.interval ?? "15min").toLowerCase();
+  const ticker = String(data?.ticker ?? "").toUpperCase();
+
+  if (!ALLOWED_INTERVALS.has(interval)) {
+    return new Response(
+      JSON.stringify({ error: "Unsupported interval." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  if (!ticker || !/^[A-Z0-9.\-]{1,12}$/.test(ticker)) {
+    return new Response(JSON.stringify({ error: "Invalid ticker." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   if (!startDate || !endDate) {
     return new Response(JSON.stringify({ error: "Missing date range." }), {
@@ -27,7 +102,83 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     });
   }
 
-  const creditCost = calculateIntradayExportCredits(startDate, endDate);
+  const start = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
+  const today = new Date();
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return new Response(JSON.stringify({ error: "Invalid date format." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (start > end) {
+    return new Response(
+      JSON.stringify({ error: "Start date must be on or before end date." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  if (end > today) {
+    return new Response(
+      JSON.stringify({ error: "End date cannot be in the future." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const rangeDays = Math.floor((end.getTime() - start.getTime()) / msPerDay) + 1;
+  const tierLimits = RANGE_LIMITS[user?.tier] ?? RANGE_LIMITS.Plus;
+  const maxDays = tierLimits[interval] ?? 30;
+  if (rangeDays > maxDays) {
+    return new Response(
+      JSON.stringify({
+        error: `Date range too large. Max ${maxDays} days for ${user?.tier}.`,
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  const userId = user?.id ?? "anonymous";
+  if (activeExports.has(userId)) {
+    return new Response(
+      JSON.stringify({ error: "Another export is already in progress." }),
+      { status: 429, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  const exportKey = `${userId}:${ticker}:${interval}:${startDate}:${endDate}`;
+  const lastExport = recentExports.get(exportKey);
+  if (lastExport && now - lastExport < RECENT_EXPORT_TTL_MS) {
+    return new Response(
+      JSON.stringify({
+        error: "Duplicate export request detected. Please wait a moment.",
+      }),
+      { status: 409, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  if (lastExport && now - lastExport >= RECENT_EXPORT_TTL_MS) {
+    recentExports.delete(exportKey);
+  }
+
+  const hourlyLimit = HOURLY_LIMITS[user?.tier] ?? HOURLY_LIMITS.Plus;
+  const dailyLimit = DAILY_LIMITS[user?.tier] ?? DAILY_LIMITS.Plus;
+  if (
+    !checkRateLimit(userRateBuckets, userId, hourlyLimit, RATE_WINDOW_MS, now) ||
+    !checkRateLimit(ipRateBuckets, ipAddress, IP_HOURLY_LIMIT, RATE_WINDOW_MS, now) ||
+    !checkRateLimit(dailyRateBuckets, userId, dailyLimit, DAILY_WINDOW_MS, now)
+  ) {
+    return new Response(
+      JSON.stringify({ error: "Rate limit exceeded. Try again later." }),
+      { status: 429, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  const creditCost = calculateIntradayExportCredits(
+    startDate,
+    endDate,
+    interval,
+  );
   if (user?.credits < creditCost) {
     return new Response(
       JSON.stringify({
@@ -38,74 +189,81 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
 
   const postData = {
-    ticker: data?.ticker,
+    ticker,
     startDate,
     endDate,
-    interval: data?.interval ?? "15min",
+    interval,
   };
 
-  const response = await fetch(apiURL + "/historical-price-interval-export", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey,
-    },
-    body: JSON.stringify(postData),
-  });
+  activeExports.set(userId, now);
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    return new Response(errorText, {
-      status: response.status,
+  try {
+    const response = await fetch(apiURL + "/historical-price-interval-export", {
+      method: "POST",
       headers: {
-        "Content-Type": response.headers.get("Content-Type") ?? "text/plain",
+        "Content-Type": "application/json",
+        "X-API-KEY": apiKey,
+      },
+      body: JSON.stringify({ ...postData, userTier: user?.tier, userId }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return new Response(errorText, {
+        status: response.status,
+        headers: {
+          "Content-Type": response.headers.get("Content-Type") ?? "text/plain",
+        },
+      });
+    }
+
+    const contentDisposition =
+      response.headers.get("Content-Disposition") ?? "";
+    const contentType = response.headers.get("Content-Type") ?? "text/csv";
+    const payload = await response.arrayBuffer();
+
+    try {
+      await pb?.collection("users")?.update(user?.id, {
+        credits: user?.credits - creditCost,
+        downloadCredits: (user?.downloadCredits ?? 0) + 1,
+      });
+    } catch (error) {
+      console.error("Failed to deduct credits:", error);
+    }
+
+    let userInfo;
+
+    try {
+      userInfo = await pb
+        ?.collection("userInfo")
+        ?.getFirstListItem(`user="${user.id}"`);
+    } catch (err) {
+      if (err.status !== 404) {
+        throw err; // real error -> let outer catch handle it
+      }
+    }
+
+    // 3) Update if exists, otherwise create
+    if (userInfo) {
+      await pb.collection("userInfo").update(userInfo.id, {
+        ipAddress,
+      });
+    } else {
+      await pb.collection("userInfo").create({
+        user: user.id,
+        ipAddress,
+      });
+    }
+
+    recentExports.set(exportKey, now);
+
+    return new Response(payload, {
+      headers: {
+        "Content-Type": contentType,
+        "Content-Disposition": contentDisposition,
       },
     });
+  } finally {
+    activeExports.delete(userId);
   }
-
-  const contentDisposition =
-    response.headers.get("Content-Disposition") ?? "";
-  const contentType = response.headers.get("Content-Type") ?? "text/csv";
-  const payload = await response.arrayBuffer();
-
-  try {
-    await pb?.collection("users")?.update(user?.id, {
-      credits: user?.credits - creditCost,
-    });
-  } catch (error) {
-    console.error("Failed to deduct credits:", error);
-  }
-
-  let userInfo;
-
-  try {
-    userInfo = await pb
-      ?.collection('userInfo')
-      ?.getFirstListItem(`user="${user.id}"`);
-  } catch (err) {
-    if (err.status !== 404) {
-      throw err; // real error -> let outer catch handle it
-    }
-  }
-
-
-  // 3) Update if exists, otherwise create
-  if (userInfo) {
-    await pb.collection('userInfo').update(userInfo.id, {
-      ipAddress,
-    });
-  } else {
-    await pb.collection('userInfo').create({
-      user: user.id,
-      ipAddress,
-    });
-  }
-
-
-  return new Response(payload, {
-    headers: {
-      "Content-Type": contentType,
-      "Content-Disposition": contentDisposition,
-    },
-  });
 };
