@@ -60,7 +60,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  if (!ticker || !/^[A-Z0-9.\-]{1,12}$/.test(ticker)) {
+  if (!ticker || !/^[A-Z0-9.\-^]{1,12}$/.test(ticker)) {
     return new Response(JSON.stringify({ error: "Invalid ticker." }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
