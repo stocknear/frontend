@@ -2401,6 +2401,31 @@ export const agentOptions = [
 
 export const agentCategory = ["Stocks", "Options", "Investors", "Others"];
 
+export function calculateIntradayExportCredits(
+  startDate: string,
+  endDate: string,
+  minCredits = 10,
+  maxCredits = 50,
+) {
+  if (!startDate || !endDate) return minCredits;
+
+  const start = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
+
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return minCredits;
+  }
+
+  if (start > end) return minCredits;
+
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const diffDays = Math.floor((end.getTime() - start.getTime()) / msPerDay) + 1;
+  const monthBlocks = Math.ceil(diffDays / 30);
+  const cost = monthBlocks * 10;
+
+  return Math.min(maxCredits, Math.max(minCredits, cost));
+}
+
 
 export function getCreditFromQuery(query, agentOptions) {
   let totalCredit = 0;

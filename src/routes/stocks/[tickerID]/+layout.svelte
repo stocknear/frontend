@@ -26,6 +26,7 @@
 
   import { convertTimestamp } from "$lib/utils";
   import TickerHeader from "$lib/components/TickerHeader.svelte";
+  import StockPriceExport from "$lib/components/StockPriceExport.svelte";
 
   export let data;
   let prePostData = data?.getPrePostQuote || {};
@@ -549,7 +550,7 @@
                                     document.getElementById("userLogin");
                                   if (modal) modal.checked = true;
                                 }}
-                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm font-semibold lg:px-3 flex-1 md:flex-initial"
+                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm lg:px-3 flex-1 md:flex-initial"
                             ><svg
                               class="size-5 flex-shrink-0"
                               fill="none"
@@ -570,7 +571,7 @@
                           <label
                             on:click={() => ($openPriceAlert = true)}
                             for={data?.user ? "priceAlertModal" : "userLogin"}
-                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm font-semibold lg:px-3 flex-1 md:flex-initial"
+                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm lg:px-3 flex-1 md:flex-initial"
                             ><svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="size-5 flex-shrink-0"
@@ -591,6 +592,11 @@
                             <span class="text-sm md:text-sm">Price Alert</span
                             ></label
                           >
+                          <StockPriceExport
+                            ticker={$stockTicker}
+                            user={data?.user}
+                            className="hidden sm:block sm:flex-1 md:flex-initial"
+                          />
                         </div>
 
                         <!--End Watchlist-->

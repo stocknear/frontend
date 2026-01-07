@@ -1377,14 +1377,6 @@
                     </DropdownMenu.Item>
                   </a>
 
-                  <button
-                    on:click={handleModeChange}
-                    class="cursor-pointer w-full sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition relative flex cursor-default select-none items-center rounded px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none"
-                  >
-                    <span>{$mode === "light" ? "Dark" : "Light"} Mode</span>
-                    <span class="sr-only">Toggle theme</span>
-                  </button>
-
                   <DropdownMenu.Separator
                     class="my-1 h-px bg-gray-200/70 dark:bg-zinc-800/80"
                   />
