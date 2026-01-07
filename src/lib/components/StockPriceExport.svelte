@@ -234,12 +234,22 @@
           {user?.tier ? `(${user?.tier})` : ""}
         </div>
         {#if !isEligible}
-          <div class="text-rose-600 dark:text-rose-400">
+          <div class="text-rose-800 dark:text-rose-400">
             Available for Plus and Pro only.
           </div>
         {/if}
       {:else}
-        <div>Sign in to use credits.</div>
+        <div class="text-rose-800 dark:text-rose-400">
+          Available for Plus and Pro only.
+        </div>
+        <div>
+          <a
+            href="/register"
+            class="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
+            >Sign in</a
+          >
+          to use credits.
+        </div>
       {/if}
     </div>
 
