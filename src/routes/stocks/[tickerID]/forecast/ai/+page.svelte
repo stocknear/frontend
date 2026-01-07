@@ -598,9 +598,7 @@
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           {#if data?.getAIScore?.backtest?.length > 0}
             <div class="">
-              <h1 class="text-xl sm:text-2xl font-bold">
-                {removeCompanyStrings($displayCompanyName)} AI Score Forecast
-              </h1>
+              <h1 class="text-xl sm:text-2xl font-bold">AI Score Forecast</h1>
             </div>
 
             <p class="mt-4">
@@ -913,9 +911,7 @@
 
           {#if Object?.keys(data?.getPriceAnalysis)?.length > 0}
             <div class="">
-              <h1 class="text-xl sm:text-2xl font-bold">
-                {removeCompanyStrings($displayCompanyName)} Trend Forecast
-              </h1>
+              <h1 class="text-xl sm:text-2xl font-bold">Trend Forecast</h1>
             </div>
             <div class="w-full mb-6 mt-3">
               <p class="mt-4">

@@ -845,14 +845,14 @@
           class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between mt-3"
         >
           <h1 class="mb-px text-xl sm:text-2xl font-bold bp:text-3xl sm:pl-1">
-            {removeCompanyStrings($displayCompanyName)} Stock Forecast
+            Stock Forecast
           </h1>
           <div class="flex flex-col w-full sm:w-fit items-end justify-end">
             <div class="inline-flex justify-center w-full rounded sm:w-auto">
               <div
                 class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
               >
-                <div class="">
+                <div class="ml-auto mt-3 sm:mt-0">
                   <div class="inline-flex">
                     <div
                       class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700

@@ -479,7 +479,7 @@
             class="mb-5 flex flex-col justify-between gap-y-2.5 sm:mb-2 sm:flex-row sm:items-end"
           >
             <h1 class="mb-px text-xl font-bold sm:text-2xl sm:pl-1">
-              {removeCompanyStrings($displayCompanyName)} Analyst Ratings
+              Analyst Ratings
             </h1>
             <div>
               <div class="flex flex-col w-full sm:w-fit items-end justify-end">
