@@ -56,7 +56,10 @@
   let totalPages = 1;
   let pagePathName = $page?.url?.pathname;
 
-  let optionQuery = $page.url.searchParams.get("query") || "";
+  let optionContractParam =
+    $page.url.searchParams.get("contract") ||
+    $page.url.searchParams.get("query") ||
+    "";
 
   // Define columns for sorting
   $: columns = [
@@ -107,9 +110,9 @@
     }
   }
 
-  if (optionQuery?.length > 0) {
+  if (optionContractParam?.length > 0) {
     try {
-      const parsedData = parseOptionSymbol(optionQuery);
+      const parsedData = parseOptionSymbol(optionContractParam);
       selectedOptionType = parsedData?.optionType;
       optionData = data?.getData[selectedOptionType];
       selectedDate = parsedData?.dateExpiration;
@@ -628,6 +631,20 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function syncContractParam(contract: string) {
+    if (!browser || !contract) return;
+
+    const currentUrl = new URL(window.location.href);
+    const existingContract = currentUrl.searchParams.get("contract");
+    const legacyContract = currentUrl.searchParams.get("query");
+
+    if (existingContract === contract && !legacyContract) return;
+
+    currentUrl.searchParams.set("contract", contract);
+    currentUrl.searchParams.delete("query");
+    window.history.replaceState({}, "", currentUrl.toString());
+  }
+
   async function loadData(state: string) {
     //isLoaded = false;
     optionData = data?.getData[selectedOptionType] ?? {};
@@ -659,6 +676,7 @@
         selectedOptionType,
         selectedStrike,
       );
+      syncContractParam(optionSymbol);
 
       const output = await getContractHistory(optionSymbol);
       rawDataHistory = output?.history;

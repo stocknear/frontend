@@ -724,9 +724,7 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">
-              {removeCompanyStrings($displayCompanyName)} Revenue
-            </h1>
+            <h1 class="text-xl sm:text-2xl font-bold">Revenue</h1>
           </div>
 
           {#if Object?.keys(data?.getHistoricalRevenue)?.length > 0}

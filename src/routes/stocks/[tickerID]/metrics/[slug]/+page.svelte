@@ -26,6 +26,8 @@
   let filteredDates = [];
   let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier);
 
+  const isSmallScreen = $screenWidth < 640;
+
   // Cache for computed values
   const computeCache = new Map();
 
@@ -96,7 +98,7 @@
     return `${month} '${year}`;
   }
 
-  function plot(metrics, dates, isDarkMode, isSmallScreen, timePeriod, slug) {
+  function plot(metrics, dates, isDarkMode, timePeriod, slug) {
     if (!metrics || metrics.length === 0 || !dates || dates.length === 0)
       return null;
 
@@ -240,7 +242,7 @@
       series: series,
 
       legend: {
-        enabled: true,
+        enabled: isSmallScreen ? false : true,
         itemStyle: { color: isDarkMode ? "#fff" : "#000" },
         itemHoverStyle: { color: isDarkMode ? "#d1d5db" : "#374151" },
       },
@@ -515,12 +517,10 @@
       $screenWidth !== undefined
     ) {
       const isDarkMode = $mode === "dark";
-      const isSmallScreen = $screenWidth < 640;
       config = plot(
         categoryMetrics,
         filteredDates,
         isDarkMode,
-        isSmallScreen,
         $selectedTimePeriod,
         categorySlug,
       );
@@ -566,7 +566,6 @@
                   <h2
                     class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
                   >
-                    {removeCompanyStrings($displayCompanyName)}
                     {categoryName}
                   </h2>
                   <div

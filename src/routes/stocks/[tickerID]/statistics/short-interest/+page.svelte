@@ -315,7 +315,7 @@
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {removeCompanyStrings($displayCompanyName)} Short Interest
+              Short Interest
             </h1>
           </div>
 

@@ -36,7 +36,7 @@
 
     const encodedOptionQuery =
       optionSymbol && optionSymbol.length > 0
-        ? `/options/contract-lookup?query=${encodeURIComponent(optionSymbol)}`
+        ? `/options/contract-lookup?contract=${encodeURIComponent(optionSymbol)}`
         : "";
 
     if (assetType?.toLowerCase() === "index") {

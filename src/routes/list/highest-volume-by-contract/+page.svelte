@@ -467,7 +467,7 @@
                         class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
                       >
                         <a
-                          href={`/stocks/${item?.symbol}/options/contract-lookup?query=${item?.optionSymbol}`}
+                          href={`/stocks/${item?.symbol}/options/contract-lookup?contract=${item?.optionSymbol}`}
                           class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >{item?.symbol}
                           {new Date(item?.expirationDate)?.toLocaleDateString(

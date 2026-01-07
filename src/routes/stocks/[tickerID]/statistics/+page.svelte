@@ -44,7 +44,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {companyName} Statistics
+                Statistics
               </h1>
             </div>
 

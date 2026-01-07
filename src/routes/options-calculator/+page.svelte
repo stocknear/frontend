@@ -1250,7 +1250,7 @@
                           >
                             <a
                               class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                              href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}/options/contract-lookup?query=${userStrategy[index]?.optionSymbol}`}
+                              href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}/options/contract-lookup?contract=${userStrategy[index]?.optionSymbol}`}
                             >
                               <Link class="w-4 h-4 mt-0.5" />
                             </a>

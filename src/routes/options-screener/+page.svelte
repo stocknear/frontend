@@ -2329,7 +2329,7 @@
                     <a
                       href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
                         item?.symbol +
-                        `/options/contract-lookup?query=${item?.optionSymbol}`}
+                        `/options/contract-lookup?contract=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
                       class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
@@ -2443,7 +2443,7 @@
                     <a
                       href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
                         item?.symbol +
-                        `/options/contract-lookup?query=${item?.optionSymbol}`}
+                        `/options/contract-lookup?contract=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
                       class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
@@ -2533,7 +2533,7 @@
                     <a
                       href={`/${item?.assetType}/` +
                         item?.symbol +
-                        `/options/contract-lookup?query=${item?.optionSymbol}`}
+                        `/options/contract-lookup?contract=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
                       class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
