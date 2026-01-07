@@ -4,8 +4,17 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
-export const load = async ({ locals, params }) => {
+export const load = async ({ locals, params, url }) => {
   const { apiKey, apiURL, user } = locals;
+  const contract = url.searchParams.get("contract");
+  const legacyContract = url.searchParams.get("query");
+
+  if (!contract && legacyContract) {
+    const nextUrl = new URL(url.toString());
+    nextUrl.searchParams.set("contract", legacyContract);
+    nextUrl.searchParams.delete("query");
+    throw redirect(301, `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+  }
 
   const getData = async () => {
     const postData = {

@@ -48,6 +48,8 @@
   let sortedData = [];
   let infoText = {};
   let tooltipTitle;
+  let copyLabel = "Copy link";
+  let copyTimer;
 
   // Pagination state
   let currentPage = 1;
@@ -645,6 +647,31 @@
     window.history.replaceState({}, "", currentUrl.toString());
   }
 
+  async function copyContractLink() {
+    if (!browser || !optionSymbol) return;
+
+    const shareUrl = new URL(window.location.href);
+    shareUrl.searchParams.set("contract", optionSymbol);
+    shareUrl.searchParams.delete("query");
+
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl.toString());
+        copyLabel = "Copied!";
+      } else {
+        window.prompt("Copy link:", shareUrl.toString());
+        copyLabel = "Copied!";
+      }
+    } catch (e) {
+      copyLabel = "Copy failed";
+    } finally {
+      if (copyTimer) clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => {
+        copyLabel = "Copy link";
+      }, 2000);
+    }
+  }
+
   async function loadData(state: string) {
     //isLoaded = false;
     optionData = data?.getData[selectedOptionType] ?? {};
@@ -762,11 +789,20 @@
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
-        <h2
-          class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
-        >
-          Option Contract Lookup
-        </h2>
+        <div class="flex flex-row items-center justify-between gap-3 mb-3">
+          <h2
+            class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
+            Option Contract Lookup
+          </h2>
+          <Button
+            on:click={copyContractLink}
+            disabled={!optionSymbol}
+            class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {copyLabel}
+          </Button>
+        </div>
 
         <Infobox
           text="Search for specific option contracts by expiration date, strike price and option type."
