@@ -17,7 +17,7 @@
   let rawData = data?.getOptionsChainStatistics?.table;
   let optionList = rawData?.slice(0, 100);
 
-  let isPro = data?.user?.tier === "Pro" || false;
+  let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
   const lockLinkClass =
     "mt-1 inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition";
   const lockLinkInlineClass =
@@ -711,9 +711,11 @@
             Overview for all option chains of <strong>{ticker}</strong>. As of
             <strong>{overview?.date}</strong>, <strong>{ticker}</strong>
             options have an IV of
-            {#if isPro}
+            {#if isSubscribed}
               <strong
-                >{overview?.currentIV ? overview?.currentIV + "%" : "n/a"}</strong
+                >{overview?.currentIV
+                  ? overview?.currentIV + "%"
+                  : "n/a"}</strong
               >
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
@@ -730,8 +732,9 @@
               </a>
             {/if}
             and an IV rank of
-            {#if isPro}
-              <strong>{overview?.ivRank ? overview?.ivRank + "%" : "n/a"}</strong
+            {#if isSubscribed}
+              <strong
+                >{overview?.ivRank ? overview?.ivRank + "%" : "n/a"}</strong
               >
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
@@ -748,7 +751,7 @@
               </a>
             {/if}
             . The volume is
-            {#if isPro}
+            {#if isSubscribed}
               <strong>{overview?.totalVolume?.toLocaleString("en-US")}</strong>
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
@@ -765,7 +768,7 @@
               </a>
             {/if}
             contracts, which is
-            {#if isPro}
+            {#if isSubscribed}
               <strong
                 >{overview?.volumePercentage
                   ? overview?.volumePercentage + "%"
@@ -786,8 +789,10 @@
               </a>
             {/if}
             of average daily volume of
-            {#if isPro}
-              <strong>{overview?.avgDailyVolume?.toLocaleString("en-US")}</strong>
+            {#if isSubscribed}
+              <strong
+                >{overview?.avgDailyVolume?.toLocaleString("en-US")}</strong
+              >
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
                 <svg
@@ -803,7 +808,7 @@
               </a>
             {/if}
             contracts. The volume put-call ratio is
-            {#if isPro}
+            {#if isSubscribed}
               <strong>{overview?.putCallRatio}</strong>
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
@@ -820,7 +825,7 @@
               </a>
             {/if}
             , indicating a
-            {#if isPro}
+            {#if isSubscribed}
               <strong>{overview?.sentiment}</strong>
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
@@ -873,7 +878,7 @@
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{ivData?.current ? ivData?.current + "%" : "n/a"}</span
                 >
@@ -909,7 +914,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]">
                   {ivData?.ivRank
                     ? `${Math?.min(ivData.ivRank, 100)}%`
@@ -944,7 +949,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{ivData?.historicalVolatility
                     ? ivData?.historicalVolatility + "%"
@@ -977,7 +982,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               A very low IV can signal calm markets or complacency — often seen as bullish for the stock but may indicate limited option premiums."
                 />
               </div>
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{ivData?.ivLow ? ivData?.ivLow + "%" : "n/a"} on {ivData?.ivLowDate}</span
                 >
@@ -1009,7 +1014,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{ivData?.ivHigh ? ivData?.ivHigh + "%" : "n/a"} on {ivData?.ivHighDate}</span
                 >
@@ -1083,7 +1088,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               Low OI means less interest and lower liquidity."
                 />
               </div>
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{oiData?.total?.toLocaleString("en-US")}</span
                 >
@@ -1116,7 +1121,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{oiData?.putCallRatio}</span
                 >
@@ -1149,7 +1154,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{oiData?.puts?.toLocaleString("en-US")}</span
                 >
@@ -1182,7 +1187,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{oiData?.calls?.toLocaleString("en-US")}</span
                 >
@@ -1213,7 +1218,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{oiData?.avgDaily?.toLocaleString("en-US")}</span
                 >
@@ -1246,7 +1251,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{oiData?.todayVsAvg ? oiData?.todayVsAvg + "%" : "n/a"}</span
                 >
@@ -1320,7 +1325,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               Low volume suggests less trading and lower interest."
                 />
               </div>
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{volData?.total?.toLocaleString("en-US")}</span
                 >
@@ -1353,7 +1358,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{volData?.putCallRatio}</span
                 >
@@ -1386,7 +1391,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{volData?.puts?.toLocaleString("en-US")}</span
                 >
@@ -1419,7 +1424,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{volData?.calls?.toLocaleString("en-US")}</span
                 >
@@ -1450,7 +1455,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
                   >{volData?.avgDaily?.toLocaleString("en-US")}</span
                 >
@@ -1483,9 +1488,11 @@ Lower volume today than average suggests less activity or fading interest."
                 />
               </div>
 
-              {#if isPro}
+              {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{volData?.todayVsAvg ? volData?.todayVsAvg + "%" : "n/a"}</span
+                  >{volData?.todayVsAvg
+                    ? volData?.todayVsAvg + "%"
+                    : "n/a"}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
