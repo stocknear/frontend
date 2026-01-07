@@ -3,42 +3,14 @@ import { calculateIntradayExportCredits } from "$lib/utils";
 
 const ALLOWED_TIERS = new Set(["Plus", "Pro"]);
 const ALLOWED_INTERVALS = new Set(["1hour", "30min", "15min", "5min"]);
-const HOURLY_LIMITS: Record<string, number> = { Plus: 4, Pro: 12 };
-const DAILY_LIMITS: Record<string, number> = { Plus: 8, Pro: 30 };
-const IP_HOURLY_LIMIT = 20;
 const RECENT_EXPORT_TTL_MS = 5 * 60 * 1000;
-const RATE_WINDOW_MS = 60 * 60 * 1000;
-const DAILY_WINDOW_MS = 24 * 60 * 60 * 1000;
 const RANGE_LIMITS: Record<string, Record<string, number>> = {
-  Plus: { "1hour": 365, "30min": 180, "15min": 90, "5min": 30 },
-  Pro: { "1hour": 730, "30min": 365, "15min": 180, "5min": 60 },
+  Plus: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 30 },
+  Pro: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 60 },
 };
 
 const activeExports = new Map<string, number>();
 const recentExports = new Map<string, number>();
-const userRateBuckets = new Map<string, number[]>();
-const ipRateBuckets = new Map<string, number[]>();
-const dailyRateBuckets = new Map<string, number[]>();
-
-const pruneBucket = (bucket: number[], windowMs: number, now: number) =>
-  bucket.filter((timestamp) => now - timestamp < windowMs);
-
-const checkRateLimit = (
-  bucketMap: Map<string, number[]>,
-  key: string,
-  limit: number,
-  windowMs: number,
-  now: number,
-) => {
-  const bucket = pruneBucket(bucketMap.get(key) ?? [], windowMs, now);
-  if (bucket.length >= limit) {
-    bucketMap.set(key, bucket);
-    return false;
-  }
-  bucket.push(now);
-  bucketMap.set(key, bucket);
-  return true;
-};
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
@@ -159,19 +131,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
   if (lastExport && now - lastExport >= RECENT_EXPORT_TTL_MS) {
     recentExports.delete(exportKey);
-  }
-
-  const hourlyLimit = HOURLY_LIMITS[user?.tier] ?? HOURLY_LIMITS.Plus;
-  const dailyLimit = DAILY_LIMITS[user?.tier] ?? DAILY_LIMITS.Plus;
-  if (
-    !checkRateLimit(userRateBuckets, userId, hourlyLimit, RATE_WINDOW_MS, now) ||
-    !checkRateLimit(ipRateBuckets, ipAddress, IP_HOURLY_LIMIT, RATE_WINDOW_MS, now) ||
-    !checkRateLimit(dailyRateBuckets, userId, dailyLimit, DAILY_WINDOW_MS, now)
-  ) {
-    return new Response(
-      JSON.stringify({ error: "Rate limit exceeded. Try again later." }),
-      { status: 429, headers: { "Content-Type": "application/json" } },
-    );
   }
 
   const creditCost = calculateIntradayExportCredits(
