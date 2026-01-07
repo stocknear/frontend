@@ -94,14 +94,7 @@
   let groupedEarnings = [];
   let displayList = [];
 
-  const tabs = [
-    {
-      title: "News",
-    },
-    {
-      title: "Earnings Release",
-    },
-  ];
+  const tabs = ["News", "Earnings Release"];
 
   let isLoaded = false;
   let displayWatchList;
@@ -911,16 +904,18 @@
                         >
                           <div class="">
                             <div class="inline-flex">
-                              <div class="inline-flex gap-1">
-                                {#each tabs as item, i}
+                              <div
+                                class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                              >
+                                {#each tabs as item, i (item)}
                                   <button
                                     on:click={() => changeTab(i)}
-                                    class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
-                          {activeIdx === i
-                                      ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                                      : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                                    class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+                                    {activeIdx === i
+                                      ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                                      : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                                   >
-                                    {item.title}
+                                    {item}
                                   </button>
                                 {/each}
                               </div>
