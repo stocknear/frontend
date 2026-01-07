@@ -583,7 +583,7 @@
                       class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Home
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-6 w-6 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
                     </div>
                     <span
@@ -1449,7 +1449,7 @@
                   class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                 >
                   <div
-                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 transition"
+                    class="shadow px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 transition"
                   >
                     <Plus class="w-4 h-4 inline-block mr-2" />
                     <span class="font-semibold">Start new chat</span>

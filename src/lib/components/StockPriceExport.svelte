@@ -151,7 +151,7 @@
 <div class={`flex items-center ${className}`}>
   <Button
     on:click={openModal}
-    class="transition-all  duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center px-2.5 py-1 rounded-full text-xs sm:text-sm"
+    class="shadow transition-all  duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center px-2.5 py-1 rounded-full text-xs sm:text-sm"
   >
     <DownloadIcon class="size-4 mr-1" />
     Export Price
