@@ -508,7 +508,9 @@
   <title>{ticker} Chart | Stocknear</title>
 </svelte:head>
 
-<main class="h-screen w-full bg-slate-50 dark:bg-zinc-950">
+<main
+  class="h-[calc(100vh-56px)] w-full bg-slate-50 dark:bg-zinc-950"
+>
   <div class="flex h-full w-full flex-col">
     <div
       class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 py-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
