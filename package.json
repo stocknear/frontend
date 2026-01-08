@@ -93,6 +93,7 @@
     "highcharts": "^11.4.3",
     "html2canvas": "^1.4.1",
     "jsconfig.json": "^2.3.3",
+    "klinecharts": "^10.0.0-beta1",
     "plotly.js": "^2.35.3",
     "prosemirror-keymap": "^1.2.3",
     "prosemirror-model": "^1.25.1",

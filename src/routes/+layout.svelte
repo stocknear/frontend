@@ -61,6 +61,7 @@
   //import Backtesting from "lucide-svelte/icons/blocks";
 
   export let data;
+  let isChartRoute = false;
 
   BProgress.configure({
     showSpinner: false,
@@ -408,6 +409,7 @@
     if ($page.url.pathname) {
       // Force reactive update of login data
       $loginData = data?.user;
+      isChartRoute = $page.url.pathname.startsWith("/chart");
     }
   }
 
@@ -510,10 +512,11 @@
 <div class="app text-gray-700 dark:text-zinc-200">
   <div class="flex min-h-screen w-full flex-col bg-white dark:bg-zinc-950">
     <div class="w-full">
-      <div
-        class="w-full navbar sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-gray-300 dark:border-zinc-700 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
-      >
-        <Sheet.Root>
+      {#if !isChartRoute}
+        <div
+          class="w-full navbar sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-gray-300 dark:border-zinc-700 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
+        >
+          <Sheet.Root>
           <Sheet.Trigger asChild let:builder>
             <Button
               builders={[builder]}
@@ -1420,12 +1423,14 @@
           </div>
         </div>
       </div>
+      {/if}
       <div>
         <div class="flex w-full">
-          <div class="hidden 3xl:block 3xl:w-[300px]">
-            <aside
-              class="fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-200 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
-            >
+          {#if !isChartRoute}
+            <div class="hidden 3xl:block 3xl:w-[300px]">
+              <aside
+                class="fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-200 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
+              >
               <nav
                 class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
               >
@@ -1900,10 +1905,15 @@
                   </a>
                 {/if}
               </nav>
-            </aside>
-          </div>
+              </aside>
+            </div>
+          {/if}
           <div class="w-full">
-            <main class=" w-full overflow-y-auto sm:p-4">
+            <main
+              class={`w-full ${
+                isChartRoute ? "overflow-hidden p-0" : "overflow-y-auto sm:p-4"
+              }`}
+            >
               <slot />
               <Toaster position="top-center" />
 
@@ -1917,7 +1927,7 @@
         </div>
       </div>
       <div>
-        {#if !$page?.url?.pathname?.startsWith("/chat")}
+        {#if !$page?.url?.pathname?.startsWith("/chat") && !isChartRoute}
           <Footer />
         {/if}
       </div>
@@ -1935,9 +1945,11 @@
 
 -->
 
-{#await import("$lib/components/Promotion.svelte") then { default: Comp }}
-  <svelte:component this={Comp} />
-{/await}
+{#if !isChartRoute}
+  {#await import("$lib/components/Promotion.svelte") then { default: Comp }}
+    <svelte:component this={Comp} />
+  {/await}
+{/if}
 
 {#if data?.user?.id}
   {#await import("$lib/components/Feedback.svelte") then { default: Comp }}
