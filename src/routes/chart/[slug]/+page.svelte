@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import { init, dispose } from "klinecharts";
+  import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData } from "klinecharts";
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
@@ -67,6 +67,95 @@
     { id: "brush", label: "Brush", icon: PencilLine },
     { id: "erase", label: "Eraser", icon: EraserIcon },
   ];
+
+  const toolOverlays: Record<string, string> = {
+    trend: "segment",
+    ray: "rayLine",
+    line: "straightLine",
+    rect: "rect",
+    circle: "circle",
+    brush: "brush",
+  };
+
+  let customOverlaysRegistered = false;
+
+  const registerCustomOverlays = () => {
+    if (customOverlaysRegistered) return;
+
+    registerOverlay({
+      name: "rect",
+      totalStep: 3,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates }) => {
+        if (coordinates.length !== 2) return [];
+        const [start, end] = coordinates;
+        const x = Math.min(start.x, end.x);
+        const y = Math.min(start.y, end.y);
+        const width = Math.abs(end.x - start.x);
+        const height = Math.abs(end.y - start.y);
+        return [
+          {
+            type: "rect",
+            attrs: { x, y, width, height },
+          },
+        ];
+      },
+    });
+
+    registerOverlay({
+      name: "circle",
+      totalStep: 3,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates }) => {
+        if (coordinates.length !== 2) return [];
+        const [center, edge] = coordinates;
+        const dx = edge.x - center.x;
+        const dy = edge.y - center.y;
+        return [
+          {
+            type: "circle",
+            attrs: { x: center.x, y: center.y, r: Math.hypot(dx, dy) },
+          },
+        ];
+      },
+    });
+
+    registerOverlay({
+      name: "brush",
+      totalStep: 2,
+      needDefaultPointFigure: false,
+      needDefaultXAxisFigure: false,
+      needDefaultYAxisFigure: false,
+      performEventMoveForDrawing: ({ points, performPoint }) => {
+        if (!points.length) {
+          points.push(performPoint);
+          return;
+        }
+        const last = points[points.length - 1];
+        if (
+          last.timestamp !== performPoint.timestamp ||
+          last.value !== performPoint.value
+        ) {
+          points.push({ ...performPoint });
+        }
+      },
+      createPointFigures: ({ coordinates }) => {
+        if (coordinates.length < 2) return [];
+        return [
+          {
+            type: "line",
+            attrs: { coordinates },
+          },
+        ];
+      },
+    });
+
+    customOverlaysRegistered = true;
+  };
 
   const toNumber = (value: unknown): number | null => {
     const num = typeof value === "number" ? value : Number(value);
@@ -390,6 +479,30 @@
     });
   }
 
+  function setRange(range: string) {
+    activeRange = range;
+    if (chart) {
+      applyRange(range);
+    }
+  }
+
+  function setChartType(type: "candles" | "line") {
+    chartType = type;
+    if (chart) {
+      applyChartType(type);
+    }
+  }
+
+  function toggleIndicator(name: "ma" | "volume" | "rsi" | "macd") {
+    if (name === "ma") showMA = !showMA;
+    if (name === "volume") showVolume = !showVolume;
+    if (name === "rsi") showRSI = !showRSI;
+    if (name === "macd") showMACD = !showMACD;
+    if (chart) {
+      syncIndicators();
+    }
+  }
+
   function zoomChart(scale: number) {
     if (!chart) return;
     chart.zoomAtCoordinate(scale);
@@ -398,6 +511,38 @@
   function resetView() {
     if (!chart) return;
     applyRange(activeRange);
+  }
+
+  function activateTool(toolId: string) {
+    activeTool = toolId;
+    if (!chart) return;
+
+    if (toolId === "cursor") {
+      chart.setStyles({ crosshair: { show: false } });
+      return;
+    }
+
+    if (toolId === "crosshair") {
+      chart.setStyles({ crosshair: { show: true } });
+      return;
+    }
+
+    if (toolId === "erase") {
+      chart.removeOverlay();
+      activeTool = "cursor";
+      return;
+    }
+
+    if (toolId === "text") {
+      const text = window.prompt("Annotation text") ?? "";
+      chart.createOverlay({ name: "simpleAnnotation", extendData: text });
+      return;
+    }
+
+    const overlayName = toolOverlays[toolId];
+    if (overlayName) {
+      chart.createOverlay({ name: overlayName });
+    }
   }
 
   function formatPrice(value: number | null) {
@@ -432,6 +577,7 @@
 
   onMount(() => {
     if (!chartContainer) return;
+    registerCustomOverlays();
     chart = init(chartContainer, {
       timezone: zone,
     });
@@ -582,7 +728,7 @@
                 ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
                 : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-zinc-900"
             }`}
-            on:click={() => (activeRange = frame)}
+            on:click={() => setRange(frame)}
           >
             {frame}
           </button>
@@ -612,28 +758,28 @@
           >
             <button
               class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => (showMA = !showMA)}
+              on:click={() => toggleIndicator("ma")}
             >
               <span>MA 20/50/200</span>
               {#if showMA}<span>On</span>{:else}<span>Off</span>{/if}
             </button>
             <button
               class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => (showVolume = !showVolume)}
+              on:click={() => toggleIndicator("volume")}
             >
               <span>Volume</span>
               {#if showVolume}<span>On</span>{:else}<span>Off</span>{/if}
             </button>
             <button
               class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => (showRSI = !showRSI)}
+              on:click={() => toggleIndicator("rsi")}
             >
               <span>RSI</span>
               {#if showRSI}<span>On</span>{:else}<span>Off</span>{/if}
             </button>
             <button
               class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => (showMACD = !showMACD)}
+              on:click={() => toggleIndicator("macd")}
             >
               <span>MACD</span>
               {#if showMACD}<span>On</span>{:else}<span>Off</span>{/if}
@@ -649,7 +795,7 @@
                 ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
                 : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-zinc-900"
             }`}
-            on:click={() => (chartType = "candles")}
+            on:click={() => setChartType("candles")}
             aria-label="Candles"
           >
             <ChartCandlestick class="h-4 w-4" />
@@ -660,7 +806,7 @@
                 ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
                 : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-zinc-900"
             }`}
-            on:click={() => (chartType = "line")}
+            on:click={() => setChartType("line")}
             aria-label="Line"
           >
             <ChartLine class="h-4 w-4" />
@@ -680,7 +826,7 @@
                 ? "border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900"
                 : "border-transparent hover:border-slate-200 hover:bg-slate-100 dark:hover:border-zinc-800 dark:hover:bg-zinc-900"
             }`}
-            on:click={() => (activeTool = tool.id)}
+            on:click={() => activateTool(tool.id)}
             aria-label={tool.label}
           >
             <svelte:component this={tool.icon} class="h-4 w-4" />
