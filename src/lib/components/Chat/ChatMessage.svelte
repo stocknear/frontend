@@ -211,7 +211,9 @@
     />
     <div
       class="rounded-2xl min-w-14 max-w-full {message?.role === 'user'
-        ? 'ml-auto group/turn-messages max-w-[80%]'
+        ? isEditMode
+          ? 'ml-auto group/turn-messages w-full max-w-full'
+          : 'ml-auto group/turn-messages max-w-[80%]'
         : message?.role === 'system'
           ? 'mr-auto w-full bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5'
           : 'mr-auto w-fit border-b rounded-none border-gray-300 dark:border-zinc-700'}"

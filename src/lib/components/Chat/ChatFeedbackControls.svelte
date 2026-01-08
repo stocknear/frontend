@@ -140,7 +140,7 @@
 <div class="flex flex-row sm:gap-1 items-center">
   <button
     type="button"
-    class="cursor-pointer inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+    class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
     aria-label="Rewrite response"
     disabled={isStreaming || isSubmitting}
@@ -170,7 +170,7 @@
   {#if !selectedRating}
     <button
       type="button"
-      class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
       on:click={handleLike}
       aria-label="Like response"
       disabled={isStreaming || isSubmitting}
@@ -184,7 +184,7 @@
 
     <button
       type="button"
-      class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
       on:click={openDislikeModal}
       aria-label="Dislike response"
       disabled={isStreaming || isSubmitting}
