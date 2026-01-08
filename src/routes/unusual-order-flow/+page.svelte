@@ -1779,14 +1779,16 @@
               />
 
               <div
-                class="relative w-11 h-6 bg-gray-200/80 dark:bg-zinc-800 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"
+                class="relative w-11 h-6 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all {$isOpen && modeStatus
+                  ? 'bg-emerald-500'
+                  : 'bg-gray-200/80 dark:bg-zinc-800'}"
               ></div>
             </label>
 
             <div class=" ml-3 flex flex-col items-start">
               <span
-                class="text-xs sm:text-sm sm:text-lg {modeStatus
-                  ? ''
+                class="text-xs sm:text-sm sm:text-lg {$isOpen && modeStatus
+                  ? 'text-emerald-600 dark:text-emerald-400'
                   : 'text-gray-500 dark:text-zinc-400'}"
               >
                 Live Flow
