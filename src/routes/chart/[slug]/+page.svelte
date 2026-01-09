@@ -718,15 +718,6 @@
         </div>
       </div>
 
-      <div class="hidden items-center gap-3 text-xs text-slate-500 dark:text-slate-400 lg:flex">
-        <span>{formatTimestamp(displayBar)}</span>
-        <span>O {formatPrice(displayBar?.open ?? null)}</span>
-        <span>H {formatPrice(displayBar?.high ?? null)}</span>
-        <span>L {formatPrice(displayBar?.low ?? null)}</span>
-        <span>C {formatPrice(displayBar?.close ?? null)}</span>
-        <span>V {formatVolume(displayBar?.volume)}</span>
-      </div>
-
       <div class="flex items-center gap-2">
         <button
           class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
@@ -774,15 +765,6 @@
             {frame}
           </button>
         {/each}
-      </div>
-
-      <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400 lg:hidden">
-        <span>{formatTimestamp(displayBar)}</span>
-        <span>O {formatPrice(displayBar?.open ?? null)}</span>
-        <span>H {formatPrice(displayBar?.high ?? null)}</span>
-        <span>L {formatPrice(displayBar?.low ?? null)}</span>
-        <span>C {formatPrice(displayBar?.close ?? null)}</span>
-        <span>V {formatVolume(displayBar?.volume)}</span>
       </div>
 
       <div class="relative flex items-center gap-2">
