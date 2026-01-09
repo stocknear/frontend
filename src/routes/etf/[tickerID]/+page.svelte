@@ -38,6 +38,15 @@
   let quoteVolume = data?.getStockQuote?.volume;
 
   $: previousClose = data?.getStockQuote?.previousClose;
+  const toNum = (v: unknown): number | null => {
+    const n =
+      typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
+    return Number.isFinite(n) ? n : null;
+  };
+  const formatPriceValue = (value: unknown) => {
+    const n = toNum(value);
+    return n !== null ? n.toFixed(2) : "n/a";
+  };
   //============================================//
   const intervals = ["1D", "1W", "1M", "6M", "YTD", "1Y", "MAX"];
 
@@ -184,20 +193,32 @@
         ? data?.getStockQuote?.changesPercentage < 0
         : change < 0;
 
-    // Use the same green for line and gradient, but slightly darker line, lighter gradient
     const lineColor = isNegative
-      ? "#CC261A" // keep red if negative if needed
+      ? $mode === "light"
+        ? "#b42318"
+        : "#f87171"
       : $mode === "light"
-        ? "#137547" // darker green line (adjusted from #047857)
-        : "#00FC50"; // bright green for dark mode
+        ? "#166534"
+        : "#22c55e";
 
     const fillColorStart = isNegative
-      ? "rgba(204, 38, 26, 0.6)" // red fill if negative
-      : "rgba(19, 117, 71, 0.6)"; // green fill start, same tone as lineColor but transparent
+      ? $mode === "light"
+        ? "rgba(180, 35, 24, 0.16)"
+        : "rgba(248, 113, 113, 0.14)"
+      : $mode === "light"
+        ? "rgba(22, 101, 52, 0.16)"
+        : "rgba(34, 197, 94, 0.14)";
 
-    const fillColorEnd = isNegative
-      ? "rgba(204, 38, 26, 0.01)"
-      : "rgba(19, 117, 71, 0.01)"; // fade out transparent to near 0 opacity
+    const fillColorEnd = "rgba(0, 0, 0, 0)";
+
+    const tooltipTextColor = $mode === "light" ? "#0f172a" : "#e5e7eb";
+    const tooltipMutedTextColor = $mode === "light" ? "#6b7280" : "#9ca3af";
+    const tooltipBackground =
+      $mode === "light" ? "rgba(255, 255, 255, 0.92)" : "rgba(9, 9, 11, 0.92)";
+    const tooltipBorder =
+      $mode === "light"
+        ? "rgba(15, 23, 42, 0.08)"
+        : "rgba(255, 255, 255, 0.08)";
 
     const baseDate =
       rawData && rawData?.length ? new Date(rawData?.at(0)?.time) : new Date();
@@ -268,15 +289,16 @@
       tooltip: {
         shared: true,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)", // Semi-transparent black
-        borderColor: "rgba(255, 255, 255, 0.2)", // Slightly visible white border
+        backgroundColor: tooltipBackground,
+        borderColor: tooltipBorder,
         borderWidth: 1,
+        shadow: false,
         style: {
-          color: $mode === "light" ? "black" : "white",
-          fontSize: "16px",
-          padding: "10px",
+          color: tooltipTextColor,
+          fontSize: "12px",
+          padding: "8px",
         },
-        borderRadius: 4,
+        borderRadius: 6,
         formatter: function () {
           if (this.chart?.__rangeSelector?.selecting) {
             return false;
@@ -309,11 +331,13 @@
 
           // Loop through each point in the shared tooltip
           this.points?.forEach((point) => {
-            tooltipContent += `<span class="text-white text-[1rem] font-[501]">${point.series.name}: ${point.y}</span><br>`;
+            tooltipContent += `<div style="font-weight:600; margin-bottom:2px;">${point.series.name}: ${formatPriceValue(
+              point.y,
+            )}</div>`;
           });
 
           // Append the formatted date at the end
-          tooltipContent += `<span class="text-white m-auto text-black text-sm font-normal">${formattedDate}</span><br>`;
+          tooltipContent += `<div style="color:${tooltipMutedTextColor}; margin-top:4px;">${formattedDate}</div>`;
 
           return tooltipContent;
         },
@@ -331,7 +355,7 @@
           dashStyle: "Solid",
         },
         labels: {
-          style: { color: $mode === "light" ? "black" : "white" },
+          style: { color: $mode === "light" ? "#6b7280" : "#9ca3af" },
           distance: 10,
           formatter: function () {
             const date = new Date(this?.value);
@@ -379,10 +403,25 @@
         startOnTick: false,
         endOnTick: false,
         gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
+        gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
         title: { text: null },
         labels: {
-          style: { color: $mode === "light" ? "black" : "white" },
+          style: { color: $mode === "light" ? "#6b7280" : "#9ca3af" },
+          formatter: function () {
+            const plotLineValue =
+              displayData === "1D"
+                ? data?.getStockQuote?.previousClose
+                : priceData?.at(0)?.close;
+            const plotLineNumber = toNum(plotLineValue);
+            if (
+              plotLineNumber !== null &&
+              Math.abs(this.value - plotLineNumber) <
+                Math.max(0.000001, Math.abs(plotLineNumber) * 0.000001)
+            ) {
+              return "";
+            }
+            return this.axis.defaultLabelFormatter.call(this);
+          },
         },
         opposite: true,
         // Add a dashed plot line at the previous close value
@@ -393,7 +432,7 @@
                 ? data?.getStockQuote?.previousClose
                 : priceData?.at(0)?.close,
             dashStyle: "Dash",
-            color: "#fff", // Choose a contrasting color if needed
+            color: $mode === "light" ? "#cbd5e1" : "#334155",
             width: 0.8,
           },
         ],
@@ -413,7 +452,7 @@
           data: displayData === "1D" ? seriesData : priceList,
           animation: false,
           color: lineColor,
-          lineWidth: 2,
+          lineWidth: 1.6,
           marker: {
             enabled: false,
           },
@@ -981,7 +1020,7 @@
                 >
                   <div class="relative">
                     <label
-                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"

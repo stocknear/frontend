@@ -542,7 +542,7 @@
           high,
           low,
           close,
-          volume: 0,
+          volume: toNumber(entry?.volume) ?? 0,
         };
       })
       .filter((bar): bar is KLineData => Boolean(bar))
