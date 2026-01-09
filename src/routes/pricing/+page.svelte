@@ -236,10 +236,13 @@
       <label class="relative inline-flex cursor-pointer items-center">
         <input type="checkbox" bind:checked={mode} class="peer sr-only" />
         <span
-          class="h-8 w-16 rounded-full border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] shadow-none transition peer-checked:bg-[rgb(var(--pricing-accent)/0.12)]"
+          class={`h-8 w-16 rounded-full border border-[rgb(var(--pricing-border)/0.55)]
+          shadow-none transition
+          ${mode ? "bg-emerald-500" : "bg-[rgb(var(--pricing-card)/0.9)]"}`}
         ></span>
+
         <span
-          class="absolute left-1 top-1 h-6 w-6 rounded-full bg-muted dark:bg-white shadow-md transition peer-checked:translate-x-8 dark:bg-zinc-200"
+          class="absolute left-1 top-1 h-6 w-6 rounded-full bg-muted dark:bg-white shadow-md transition peer-checked:translate-x-8 peer-checked:bg-white dark:bg-zinc-200"
         ></span>
       </label>
       <span class={mode ? "text-[rgb(var(--pricing-ink))]" : ""}> Annual </span>
