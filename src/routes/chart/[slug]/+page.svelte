@@ -33,6 +33,7 @@
   let chart: any = null;
   let hoverBar: KLineData | null = null;
   let currentBars: KLineData[] = [];
+  let barIndexByTimestamp = new Map<number, number>();
   let activeRange = "1D";
   let chartType: "candles" | "line" = "candles";
   let showMA = true;
@@ -656,13 +657,7 @@
             size: 13,
             family: tooltipFont,
             weight: 500,
-            template: [
-              { title: "open", value: "{open}" },
-              { title: "high", value: "{high}" },
-              { title: "low", value: "{low}" },
-              { title: "close", value: "{close}" },
-              { title: "volume", value: "{volume}" },
-            ],
+            template: buildCandleTooltipLegends,
           },
         },
       },
@@ -1113,6 +1108,56 @@
     return `${sign}${value.toFixed(2)}%`;
   }
 
+  type CandleTooltipData = {
+    prev: KLineData | null;
+    current: KLineData | null;
+    next: KLineData | null;
+  };
+
+  const buildMaTooltipLegends = (data?: CandleTooltipData) => {
+    if (!chart || !showMA) return [];
+    const indicator =
+      chart.getIndicators({ name: "SN_MA", paneId: "candle_pane" })?.[0] ??
+      null;
+    if (!indicator) return [];
+    const result = indicator.result ?? [];
+    if (!result.length) return [];
+    const timestamp = data?.current?.timestamp;
+    const index =
+      typeof timestamp === "number"
+        ? barIndexByTimestamp.get(timestamp)
+        : undefined;
+    const safeIndex = typeof index === "number" ? index : result.length - 1;
+    if (safeIndex < 0) return [];
+    const point = result[safeIndex] ?? {};
+    const lineStyles =
+      indicator.styles?.lines ?? chart.getStyles()?.indicator?.lines ?? [];
+    const baseColor =
+      chart.getStyles()?.candle?.tooltip?.legend?.color ?? "#e2e8f0";
+    const legends = [];
+    indicator.figures?.forEach((figure, figureIndex) => {
+      const value = point[figure.key];
+      if (typeof value !== "number" || !Number.isFinite(value)) return;
+      legends.push({
+        title: { text: figure.title ?? "", color: baseColor },
+        value: {
+          text: formatPrice(value),
+          color: lineStyles?.[figureIndex]?.color ?? baseColor,
+        },
+      });
+    });
+    return legends;
+  };
+
+  const buildCandleTooltipLegends = (data: CandleTooltipData) => [
+    { title: "open", value: "{open}" },
+    { title: "high", value: "{high}" },
+    { title: "low", value: "{low}" },
+    { title: "close", value: "{close}" },
+    { title: "volume", value: "{volume}" },
+    ...buildMaTooltipLegends(data),
+  ];
+
   function formatTimestamp(bar: KLineData | null) {
     if (!bar) return "--";
     const dt = DateTime.fromMillis(bar.timestamp, { zone });
@@ -1196,6 +1241,10 @@
     syncIndicators();
   }
 
+  $: barIndexByTimestamp = new Map(
+    currentBars.map((bar, index) => [bar.timestamp, index]),
+  );
+
   $: lastBar = currentBars[currentBars.length - 1] ?? null;
   $: displayBar = hoverBar ?? lastBar;
   $: previousClose =
@@ -1223,10 +1272,10 @@
   <title>{ticker} Chart | Stocknear</title>
 </svelte:head>
 
-<main class="h-[calc(100vh-56px)] w-full bg-[#0b0b0b] text-neutral-200">
+<main class="h-[calc(100vh-56px)] w-full bg-[#09090b] text-neutral-200">
   <div class="flex h-full w-full flex-col">
     <div
-      class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-[#0f0f0f] px-3 py-1.5 text-xs"
+      class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-[#09090b] px-3 py-1.5 text-xs"
     >
       <div class="flex items-center gap-3">
         <button
@@ -1456,7 +1505,7 @@
 
     <div class="flex flex-1 overflow-hidden">
       <div
-        class="flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#0f0f0f] py-3"
+        class="flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#09090b] py-3"
       >
         {#each tools as tool}
           <button

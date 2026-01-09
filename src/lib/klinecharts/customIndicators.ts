@@ -27,6 +27,7 @@ function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       name: "",
       calcParamsText: "",
       legends: [],
+      features: [],
     }),
     calc: (dataList, indicator) => {
       const { calcParams, figures } = indicator;
