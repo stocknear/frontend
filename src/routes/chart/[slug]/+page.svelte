@@ -105,14 +105,10 @@
   const volumeFormatter = new Intl.NumberFormat("en-US");
   const tools = [
     { id: "cursor", label: "Cursor", icon: MousePointer2 },
-    { id: "crosshair", label: "Crosshair", icon: CrosshairIcon },
     { id: "trend", label: "Trend Line", icon: TrendingUp },
-    { id: "ray", label: "Ray", icon: ArrowUpRight },
     { id: "line", label: "Line", icon: SlashIcon },
     { id: "rect", label: "Rectangle", icon: SquareIcon },
     { id: "circle", label: "Circle", icon: CircleIcon },
-    { id: "text", label: "Text", icon: TypeIcon },
-    { id: "brush", label: "Brush", icon: PencilLine },
     { id: "erase", label: "Eraser", icon: EraserIcon },
   ];
 
@@ -1353,7 +1349,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-[130px] h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+              class=" h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             >
               <span class="truncate">
                 {selectedStrategyTitle?.length > 0
@@ -1430,13 +1426,14 @@
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
-
-        <button
-          class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
-          on:click={() => handleSave(true)}
-        >
-          Save
-        </button>
+        {#if strategyList?.length > 0 && selectedStrategy}
+          <button
+            class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            on:click={() => handleSave(true)}
+          >
+            Save
+          </button>
+        {/if}
       </div>
     </div>
 
