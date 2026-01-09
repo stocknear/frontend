@@ -39,6 +39,7 @@
   let searchWorker: Worker | undefined;
   let searchQuery = "";
   let inputValue = "";
+  let isSearchPending = false;
   let originalFilteredData = [];
   let currentUnsortedData = []; // Current unsorted data (could be search results or screener results)
   let infoText = {};
@@ -48,7 +49,7 @@
   $: testList = [];
 
   // Update pagination when filteredData changes
-  $: if (filteredData && filteredData.length >= 0) {
+  $: if (filteredData && filteredData.length >= 0 && !isSearchPending) {
     updatePaginatedData();
   }
 
@@ -1812,7 +1813,11 @@
 
   async function resetTableSearch() {
     inputValue = "";
-    search();
+    filteredData = [...originalFilteredData];
+    currentUnsortedData = [...originalFilteredData];
+    currentPage = 1; // Reset to first page
+    isSearchPending = false;
+    updatePaginatedData();
   }
 
   async function switchStrategy(item) {
@@ -1866,7 +1871,13 @@
     originalFilteredData = [...filteredData]; // Store original filtered data for search
     currentUnsortedData = [...filteredData]; // Store current unsorted data
     currentPage = 1; // Reset to first page
-    updatePaginatedData();
+    if (inputValue?.length > 0) {
+      isSearchPending = true;
+      search();
+    } else {
+      isSearchPending = false;
+      updatePaginatedData();
+    }
   };
 
   const handleScreenerMessage = (event) => {
@@ -1893,12 +1904,14 @@
 
     setTimeout(async () => {
       if (inputValue?.length > 0) {
+        isSearchPending = true;
         await loadSearchWorker();
       } else {
         // Reset to original data if filter is empty
         filteredData = [...originalFilteredData];
         currentUnsortedData = [...originalFilteredData];
         currentPage = 1; // Reset to first page
+        isSearchPending = false;
         updatePaginatedData();
       }
     }, 100);
@@ -1910,11 +1923,20 @@
         rawData: originalFilteredData,
         inputValue: inputValue,
       });
+      return;
+    }
+    if (inputValue?.length > 0) {
+      filteredData = [];
+      currentUnsortedData = [];
+      currentPage = 1;
+      isSearchPending = false;
+      updatePaginatedData();
     }
   };
 
   const handleSearchMessage = (event) => {
     if (event.data?.message === "success") {
+      isSearchPending = false;
       filteredData = event.data?.output ?? [];
       currentUnsortedData = [...filteredData]; // Store unsorted search results
       currentPage = 1; // Reset to first page after search
@@ -3030,9 +3052,6 @@ const handleKeyDown = (event) => {
 
   async function changeTab(state) {
     displayTableTab = state;
-    if (inputValue?.length > 0) {
-      search();
-    }
 
     // Clear hover timeout when actually switching tabs
     handleTabHoverLeave();
