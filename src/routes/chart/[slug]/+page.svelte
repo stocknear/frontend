@@ -36,7 +36,36 @@
   let currentBars: KLineData[] = [];
   let barIndexByTimestamp = new Map<number, number>();
   let activeRange = "1D";
-  let chartType: "candles" | "line" = "candles";
+  type ChartTypeId =
+    | "bars"
+    | "candles"
+    | "hollow_candles"
+    | "volume_candles"
+    | "line_step"
+    | "area"
+    | "hlc_area"
+    | "baseline"
+    | "high_low"
+    | "heikin_ashi";
+  type ChartTypeOption = {
+    id: ChartTypeId;
+    label: string;
+    icon: typeof ChartCandlestick | typeof ChartLine;
+  };
+  const chartTypeOptions: ChartTypeOption[] = [
+    { id: "candles", label: "Candles", icon: ChartCandlestick },
+    { id: "bars", label: "Bars", icon: ChartCandlestick },
+    { id: "hollow_candles", label: "Hollow Candles", icon: ChartCandlestick },
+    { id: "volume_candles", label: "Volume Candles", icon: ChartCandlestick },
+    { id: "high_low", label: "High-Low", icon: ChartCandlestick },
+    { id: "heikin_ashi", label: "Heikin Ashi", icon: ChartCandlestick },
+    { id: "line_step", label: "Line Step", icon: ChartLine },
+    { id: "area", label: "Area", icon: ChartLine },
+    { id: "hlc_area", label: "HLC Area", icon: ChartLine },
+    { id: "baseline", label: "Baseline", icon: ChartLine },
+  ];
+  let chartType: ChartTypeId = "candles";
+  let currentChartType: ChartTypeOption | undefined = chartTypeOptions[0];
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
 
@@ -317,6 +346,8 @@
   let indicatorState: Record<string, boolean> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, Boolean(item.defaultEnabled)]),
   );
+  let baselineIndicatorId: string | null = null;
+  let baselineValue: number | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let chartRoot: HTMLElement | null = null;
   let chartMain: HTMLElement | null = null;
@@ -522,6 +553,49 @@
       .sort((a, b) => a.timestamp - b.timestamp);
   }
 
+  const buildHeikinAshi = (bars: KLineData[]) => {
+    const output: KLineData[] = [];
+    let prevOpen = 0;
+    let prevClose = 0;
+    bars.forEach((bar, index) => {
+      const close = (bar.open + bar.high + bar.low + bar.close) / 4;
+      const open =
+        index === 0 ? (bar.open + bar.close) / 2 : (prevOpen + prevClose) / 2;
+      const high = Math.max(bar.high, open, close);
+      const low = Math.min(bar.low, open, close);
+      output.push({
+        ...bar,
+        open,
+        high,
+        low,
+        close,
+      });
+      prevOpen = open;
+      prevClose = close;
+    });
+    return output;
+  };
+
+  const buildHighLowBars = (bars: KLineData[]) =>
+    bars.map((bar) => ({
+      ...bar,
+      open: bar.high,
+      close: bar.low,
+    }));
+
+  const buildHlcAreaBars = (bars: KLineData[]) =>
+    bars.map((bar) => ({
+      ...bar,
+      hlc3: (bar.high + bar.low + bar.close) / 3,
+    }));
+
+  const transformBarsForType = (bars: KLineData[], type: ChartTypeId) => {
+    if (type === "heikin_ashi") return buildHeikinAshi(bars);
+    if (type === "high_low") return buildHighLowBars(bars);
+    if (type === "hlc_area") return buildHlcAreaBars(bars);
+    return bars;
+  };
+
   function computePricePrecision(bars: KLineData[]): number {
     let precision = 2;
     for (const bar of bars) {
@@ -591,7 +665,9 @@
   function applyRange(range: string) {
     if (!chart) return;
     const { bars, period } = getRangeBars(range);
-    currentBars = bars;
+    baselineValue = bars.length ? bars[0].close : null;
+    const displayBars = transformBarsForType(bars, chartType);
+    currentBars = displayBars;
     hoverBar = null;
     chart.setSymbol({
       ticker,
@@ -605,10 +681,11 @@
           callback([], { backward: false, forward: false });
           return;
         }
-        callback(bars, { backward: false, forward: false });
+        callback(displayBars, { backward: false, forward: false });
       },
     });
     chart.scrollToRealTime();
+    syncBaselineIndicator();
   }
 
   const getIndicatorParams = (key: string) =>
@@ -652,6 +729,42 @@
     });
 
     indicatorInstanceIds = nextInstanceIds;
+  }
+
+  function syncBaselineIndicator() {
+    if (!chart) return;
+    if (chartType !== "baseline") {
+      if (baselineIndicatorId) {
+        chart.removeIndicator({ id: baselineIndicatorId });
+        baselineIndicatorId = null;
+      }
+      return;
+    }
+
+    if (baselineValue === null || !Number.isFinite(baselineValue)) {
+      if (baselineIndicatorId) {
+        chart.removeIndicator({ id: baselineIndicatorId });
+        baselineIndicatorId = null;
+      }
+      return;
+    }
+    const extendData = { baseline: baselineValue };
+    if (!baselineIndicatorId) {
+      baselineIndicatorId = chart.createIndicator(
+        {
+          name: "SN_BASELINE",
+          extendData,
+        },
+        true,
+        { id: "candle_pane" },
+      );
+      return;
+    }
+
+    chart.overrideIndicator({
+      id: baselineIndicatorId,
+      extendData,
+    });
   }
 
   const buildRuleList = (): ChartRule[] =>
@@ -872,37 +985,88 @@
     });
   }
 
-  function applyChartType(type: "candles" | "line") {
+  function applyChartType(type: ChartTypeId) {
     if (!chart) return;
-    if (type === "line") {
-      chart.setStyles({
-        candle: {
-          type: "area",
-          area: {
-            lineColor: "#3b82f6",
-            lineSize: 2,
-            smooth: true,
-            value: "close",
-            backgroundColor: [
-              {
-                offset: 0,
-                color: "rgba(59, 130, 246, 0.25)",
-              },
-              {
-                offset: 1,
-                color: "rgba(59, 130, 246, 0)",
-              },
-            ],
-          },
-        },
-      });
-      return;
+    const blueLine = "#3b82f6";
+    const transparentArea = [
+      { offset: 0, color: "rgba(59, 130, 246, 0)" },
+      { offset: 1, color: "rgba(59, 130, 246, 0)" },
+    ];
+    const softArea = [
+      { offset: 0, color: "rgba(59, 130, 246, 0.25)" },
+      { offset: 1, color: "rgba(59, 130, 246, 0)" },
+    ];
+
+    let candleType: string = "candle_solid";
+    let areaStyle = undefined;
+
+    switch (type) {
+      case "bars":
+        candleType = "ohlc";
+        break;
+      case "hollow_candles":
+        candleType = "candle_up_stroke";
+        break;
+      case "volume_candles":
+        candleType = "candle_solid";
+        break;
+      case "high_low":
+        candleType = "ohlc";
+        break;
+      case "heikin_ashi":
+        candleType = "candle_solid";
+        break;
+      case "line_step":
+        candleType = "area";
+        areaStyle = {
+          lineColor: blueLine,
+          lineSize: 2,
+          smooth: false,
+          value: "close",
+          backgroundColor: transparentArea,
+        };
+        break;
+      case "area":
+        candleType = "area";
+        areaStyle = {
+          lineColor: blueLine,
+          lineSize: 2,
+          smooth: true,
+          value: "close",
+          backgroundColor: softArea,
+        };
+        break;
+      case "hlc_area":
+        candleType = "area";
+        areaStyle = {
+          lineColor: blueLine,
+          lineSize: 2,
+          smooth: true,
+          value: "hlc3",
+          backgroundColor: softArea,
+        };
+        break;
+      case "baseline":
+        candleType = "area";
+        areaStyle = {
+          lineColor: blueLine,
+          lineSize: 2,
+          smooth: false,
+          value: "close",
+          backgroundColor: transparentArea,
+        };
+        break;
+      default:
+        candleType = "candle_solid";
     }
+
     chart.setStyles({
       candle: {
-        type: "candle_solid",
+        type: candleType,
+        ...(areaStyle ? { area: areaStyle } : {}),
       },
     });
+    syncBaselineIndicator();
   }
 
   function setRange(range: string) {
@@ -912,10 +1076,14 @@
     }
   }
 
-  function setChartType(type: "candles" | "line") {
+  function setChartType(type: ChartTypeId) {
     chartType = type;
+    if (type === "volume_candles") {
+      indicatorState = { ...indicatorState, volume: true };
+    }
     if (chart) {
       applyChartType(type);
+      applyRange(activeRange);
     }
   }
 
@@ -1361,6 +1529,10 @@
       item.id.toLowerCase().includes(term)
     );
   });
+
+  $: currentChartType =
+    chartTypeOptions.find((item) => item.id === chartType) ??
+    chartTypeOptions[0];
 </script>
 
 <svelte:head>
@@ -1436,13 +1608,11 @@
               class="min-w-[90px] h-7 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 bg-transparent flex items-center truncate"
             >
               <span class="inline-flex items-center gap-1 truncate">
-                {#if chartType === "candles"}
-                  <ChartCandlestick class="size-4" />
-                  Candles
-                {:else}
-                  <ChartLine class="size-4" />
-                  Line
-                {/if}
+                <svelte:component
+                  this={currentChartType?.icon}
+                  class="size-4"
+                />
+                {currentChartType?.label}
               </span>
             </Button>
           </DropdownMenu.Trigger>
@@ -1450,35 +1620,24 @@
             side="bottom"
             align="start"
             sideOffset={10}
-            class="w-36 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+            class="w-52 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
           >
             <DropdownMenu.Group>
-              <DropdownMenu.Item
-                class={`text-sm cursor-pointer ${
-                  chartType === "candles"
-                    ? "text-gray-900 dark:text-white font-semibold"
-                    : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                }`}
-                on:click={() => setChartType("candles")}
-              >
-                <span class="inline-flex items-center gap-2">
-                  <ChartCandlestick class="h-4 w-4" />
-                  Candles
-                </span>
-              </DropdownMenu.Item>
-              <DropdownMenu.Item
-                class={`text-sm cursor-pointer ${
-                  chartType === "line"
-                    ? "text-gray-900 dark:text-white font-semibold"
-                    : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                }`}
-                on:click={() => setChartType("line")}
-              >
-                <span class="inline-flex items-center gap-2">
-                  <ChartLine class="h-4 w-4" />
-                  Line
-                </span>
-              </DropdownMenu.Item>
+              {#each chartTypeOptions as option}
+                <DropdownMenu.Item
+                  class={`text-sm cursor-pointer ${
+                    chartType === option.id
+                      ? "text-gray-900 dark:text-white font-semibold"
+                      : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                  }`}
+                  on:click={() => setChartType(option.id)}
+                >
+                  <span class="inline-flex items-center gap-2">
+                    <svelte:component this={option.icon} class="h-4 w-4" />
+                    {option.label}
+                  </span>
+                </DropdownMenu.Item>
+              {/each}
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
