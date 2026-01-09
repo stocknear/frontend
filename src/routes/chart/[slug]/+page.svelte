@@ -597,8 +597,7 @@
     if (!chart) return;
 
     if (chartMain) {
-      chartMain.style.cursor =
-        toolId === "crosshair" ? "crosshair" : "default";
+      chartMain.style.cursor = toolId === "crosshair" ? "crosshair" : "default";
     }
 
     if (toolId === "cursor") {
@@ -740,9 +739,7 @@
     change !== null && previousClose ? (change / previousClose) * 100 : null;
 
   $: changeClass =
-    change !== null && change < 0
-      ? "text-[#f23645]"
-      : "text-[#22ab94]";
+    change !== null && change < 0 ? "text-[#f23645]" : "text-[#22ab94]";
 
   $: filteredIndicators = indicatorItems.filter((item) => {
     if (!indicatorSearchTerm.trim()) return true;
@@ -809,7 +806,9 @@
             </div>
           {/if}
         </div>
-        <div class="inline-flex items-center overflow-hidden rounded-md border border-neutral-800">
+        <div
+          class="inline-flex items-center overflow-hidden rounded-md border border-neutral-800"
+        >
           <button
             class={`flex h-7 w-8 items-center justify-center transition ${
               chartType === "candles"
@@ -833,14 +832,29 @@
             <ChartLine class="h-4 w-4" />
           </button>
         </div>
+
         <label
-          class="flex items-center gap-1 rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
           for="indicatorModal"
           on:click={openIndicatorModal}
+          class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+          ><span role="img" class="icon-GwQQdU8S" aria-hidden="true"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 28 28"
+              class="size-5 inline-block"
+              fill="none"
+              ><path
+                stroke="currentColor"
+                d="M6 12l4.8-4.8a1 1 0 0 1 1.4 0l2.7 2.7a1 1 0 0 0 1.3.1L23 5"
+              ></path><path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"
+              ></path></svg
+            ></span
+          >
+          Indicators</label
         >
-          Indicators
-          <ChevronDown class="h-3 w-3" />
-        </label>
       </div>
 
       <div class="flex items-center gap-2">
@@ -911,18 +925,7 @@
 
       <div class="relative flex-1 bg-[#0b0b0b]">
         <div class="absolute inset-0" bind:this={chartContainer}></div>
-        <div class="pointer-events-none absolute left-4 top-3 z-20 flex items-center gap-2 text-[11px]">
-          <div class="rounded-md border border-neutral-800 bg-neutral-900/80 px-2 py-1">
-            <div class="text-neutral-200">{ticker}</div>
-            <div class="text-[10px] text-neutral-500">Stocknear</div>
-          </div>
-          <div class="rounded-md border border-neutral-800 bg-neutral-900/80 px-2 py-1">
-            <div class="text-neutral-100">{formatPrice(lastClose)}</div>
-            <div class={`text-[10px] ${changeClass}`}>
-              {formatPercent(changePercent)}
-            </div>
-          </div>
-        </div>
+
         {#if !currentBars.length}
           <div
             class="absolute inset-0 flex items-center justify-center text-sm text-neutral-500"
@@ -955,11 +958,7 @@
   </div>
 </main>
 
-<input
-  type="checkbox"
-  id="indicatorModal"
-  class="modal-toggle"
-/>
+<input type="checkbox" id="indicatorModal" class="modal-toggle" />
 
 <dialog id="indicatorModal" class="modal p-2 sm:p-0 text-neutral-200">
   <label
@@ -970,7 +969,9 @@
   <div
     class="modal-box relative w-full max-w-5xl overflow-hidden rounded-2xl border border-neutral-800 bg-[#1b1b1b] p-0 shadow-none"
   >
-    <div class="flex items-center justify-between border-b border-neutral-800 px-6 py-4">
+    <div
+      class="flex items-center justify-between border-b border-neutral-800 px-6 py-4"
+    >
       <div class="text-base font-semibold text-neutral-100">
         Indicators, metrics, and strategies
       </div>
@@ -1026,7 +1027,9 @@
           Technical indicators
         </div>
         {#if indicatorTab !== "indicators"}
-          <div class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500">
+          <div
+            class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500"
+          >
             This section is coming soon.
           </div>
         {:else}
@@ -1059,7 +1062,9 @@
               </div>
             {/each}
             {#if filteredIndicators.length === 0}
-              <div class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500">
+              <div
+                class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500"
+              >
                 No indicators match your search.
               </div>
             {/if}
