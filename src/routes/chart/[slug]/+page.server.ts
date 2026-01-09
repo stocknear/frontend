@@ -2,7 +2,7 @@ import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-  const { apiKey, apiURL, wsURL } = locals;
+  const { apiKey, apiURL, wsURL, user, pb } = locals;
   const ticker = params.slug?.toUpperCase();
 
   if (!ticker) {
@@ -46,10 +46,24 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }
   }
 
+  const getAllStrategies = async () => {
+    if (!user) return [];
+    try {
+      const output = await pb.collection("chart").getFullList({
+        filter: `user="${user?.id}"`,
+      });
+      output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
+      return output;
+    } catch {
+      return [];
+    }
+  };
+
   return {
     ticker,
     historical,
     intraday,
     wsURL,
+    getAllStrategies: await getAllStrategies(),
   };
 };

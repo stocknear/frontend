@@ -4,9 +4,11 @@
   import type { KLineData } from "klinecharts";
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
+  import { toast } from "svelte-sonner";
   import { registerCustomIndicators } from "$lib/klinecharts/customIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import Input from "$lib/components/Input.svelte";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import CrosshairIcon from "lucide-svelte/icons/crosshair";
@@ -21,7 +23,6 @@
   import Trash2 from "lucide-svelte/icons/trash-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
-  import Settings from "lucide-svelte/icons/settings";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
@@ -37,7 +38,7 @@
   let currentBars: KLineData[] = [];
   let activeRange = "1D";
   let chartType: "candles" | "line" = "candles";
-  let showMA = false;
+  let showMA = true;
   let showVolume = true;
   let showRSI = false;
   let showMACD = false;
@@ -48,6 +49,37 @@
   let showSTOCH = false;
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
+
+  type ChartRule = { name: string; params?: number[] };
+
+  const indicatorParamDefaults: Record<string, number[]> = {
+    ma: [20, 50, 200],
+    ema: [9, 21, 50],
+    boll: [20, 2],
+    vwap: [],
+    volume: [5, 10, 20],
+    rsi: [14],
+    macd: [12, 26, 9],
+    atr: [14],
+    stoch: [14, 3],
+  };
+
+  const cloneIndicatorParams = () =>
+    Object.fromEntries(
+      Object.entries(indicatorParamDefaults).map(([key, value]) => [
+        key,
+        [...value],
+      ]),
+    );
+
+  let indicatorParams = cloneIndicatorParams();
+  const strategyType = "chart";
+  const getStrategyRules = (strategy): ChartRule[] =>
+    Array.isArray(strategy?.rules) ? strategy.rules : [];
+  let strategyList = data?.getAllStrategies ?? [];
+  let selectedStrategy = strategyList?.at(0)?.id ?? "";
+  let ruleOfList: ChartRule[] = getStrategyRules(strategyList?.at(0));
+  let selectedStrategyTitle = "";
 
   let maId: string | null = null;
   let volumeId: string | null = null;
@@ -398,12 +430,17 @@
     chart.scrollToRealTime();
   }
 
+  const getIndicatorParams = (key: string) =>
+    indicatorParams[key]?.length
+      ? indicatorParams[key]
+      : (indicatorParamDefaults[key] ?? []);
+
   function syncIndicators() {
     if (!chart) return;
 
     if (showMA && !maId) {
       maId = chart.createIndicator(
-        { name: "SN_MA", calcParams: [20, 50, 200] },
+        { name: "SN_MA", calcParams: getIndicatorParams("ma") },
         true,
         { id: "candle_pane" },
       );
@@ -415,7 +452,7 @@
 
     if (showEMA && !emaId) {
       emaId = chart.createIndicator(
-        { name: "SN_EMA", calcParams: [9, 21, 50] },
+        { name: "SN_EMA", calcParams: getIndicatorParams("ema") },
         true,
         { id: "candle_pane" },
       );
@@ -427,7 +464,7 @@
 
     if (showBOLL && !bollId) {
       bollId = chart.createIndicator(
-        { name: "SN_BOLL", calcParams: [20, 2] },
+        { name: "SN_BOLL", calcParams: getIndicatorParams("boll") },
         true,
         { id: "candle_pane" },
       );
@@ -438,7 +475,11 @@
     }
 
     if (showVWAP && !vwapId) {
-      vwapId = chart.createIndicator("SN_VWAP", true, { id: "candle_pane" });
+      vwapId = chart.createIndicator(
+        { name: "SN_VWAP", calcParams: getIndicatorParams("vwap") },
+        true,
+        { id: "candle_pane" },
+      );
     }
     if (!showVWAP && vwapId) {
       chart.removeIndicator({ id: vwapId });
@@ -446,10 +487,14 @@
     }
 
     if (showVolume && !volumeId) {
-      volumeId = chart.createIndicator("SN_VOL", false, {
-        id: "sn_vol_pane",
-        height: 120,
-      });
+      volumeId = chart.createIndicator(
+        { name: "SN_VOL", calcParams: getIndicatorParams("volume") },
+        false,
+        {
+          id: "sn_vol_pane",
+          height: 120,
+        },
+      );
     }
     if (!showVolume && volumeId) {
       chart.removeIndicator({ id: volumeId });
@@ -457,10 +502,14 @@
     }
 
     if (showRSI && !rsiId) {
-      rsiId = chart.createIndicator("SN_RSI", false, {
-        id: "sn_rsi_pane",
-        height: 120,
-      });
+      rsiId = chart.createIndicator(
+        { name: "SN_RSI", calcParams: getIndicatorParams("rsi") },
+        false,
+        {
+          id: "sn_rsi_pane",
+          height: 120,
+        },
+      );
     }
     if (!showRSI && rsiId) {
       chart.removeIndicator({ id: rsiId });
@@ -468,10 +517,14 @@
     }
 
     if (showMACD && !macdId) {
-      macdId = chart.createIndicator("SN_MACD", false, {
-        id: "sn_macd_pane",
-        height: 140,
-      });
+      macdId = chart.createIndicator(
+        { name: "SN_MACD", calcParams: getIndicatorParams("macd") },
+        false,
+        {
+          id: "sn_macd_pane",
+          height: 140,
+        },
+      );
     }
     if (!showMACD && macdId) {
       chart.removeIndicator({ id: macdId });
@@ -480,7 +533,7 @@
 
     if (showATR && !atrId) {
       atrId = chart.createIndicator(
-        { name: "SN_ATR", calcParams: [14] },
+        { name: "SN_ATR", calcParams: getIndicatorParams("atr") },
         false,
         { id: "sn_atr_pane", height: 120 },
       );
@@ -492,7 +545,7 @@
 
     if (showSTOCH && !stochId) {
       stochId = chart.createIndicator(
-        { name: "SN_STOCH", calcParams: [14, 3] },
+        { name: "SN_STOCH", calcParams: getIndicatorParams("stoch") },
         false,
         { id: "sn_stoch_pane", height: 120 },
       );
@@ -502,6 +555,40 @@
       stochId = null;
     }
   }
+
+  const buildRuleList = (): ChartRule[] =>
+    indicatorItems
+      .filter((item) => isIndicatorEnabled(item.id))
+      .map((item) => ({
+        name: item.id,
+        params:
+          indicatorParams[item.id] ?? indicatorParamDefaults[item.id] ?? [],
+      }));
+
+  const applyStrategyRules = (rules: ChartRule[]) => {
+    const active = new Set(rules.map((rule) => rule.name));
+    showMA = active.has("ma");
+    showEMA = active.has("ema");
+    showBOLL = active.has("boll");
+    showVWAP = active.has("vwap");
+    showVolume = active.has("volume");
+    showRSI = active.has("rsi");
+    showMACD = active.has("macd");
+    showATR = active.has("atr");
+    showSTOCH = active.has("stoch");
+
+    indicatorParams = cloneIndicatorParams();
+    rules.forEach((rule) => {
+      if (Array.isArray(rule.params) && rule.params.length > 0) {
+        indicatorParams[rule.name] = [...rule.params];
+      }
+    });
+
+    if (chart) {
+      syncIndicators();
+    }
+    ruleOfList = buildRuleList();
+  };
 
   function applyTheme(_theme: string) {
     if (!chart) return;
@@ -738,6 +825,7 @@
     if (chart) {
       syncIndicators();
     }
+    ruleOfList = buildRuleList();
   }
 
   function toggleIndicatorById(id: string) {
@@ -767,6 +855,178 @@
     if (id === "atr") return showATR;
     if (id === "stoch") return showSTOCH;
     return false;
+  }
+
+  const toastStyle = () =>
+    `border-radius: 5px; background: #fff; color: #000; border-color: ${
+      $mode === "light" ? "#F9FAFB" : "#4B5563"
+    }; font-size: 15px;`;
+
+  const ensureAuth = () => {
+    if (data?.user) return true;
+    toast.info("Sign in to save chart strategies.", {
+      style: toastStyle(),
+    });
+    return false;
+  };
+
+  $: selectedStrategyTitle =
+    strategyList?.find((item) => item.id === selectedStrategy)?.title ?? "";
+
+  async function handleSave(showMessage = true) {
+    if (!ensureAuth()) return;
+    if (!selectedStrategy) {
+      toast.info("Create a strategy first.", {
+        style: toastStyle(),
+      });
+      return;
+    }
+
+    ruleOfList = buildRuleList();
+
+    const target = strategyList?.find((item) => item.id === selectedStrategy);
+    if (target) {
+      target.rules = ruleOfList;
+    }
+
+    const postData = {
+      strategyId: selectedStrategy,
+      rules: ruleOfList,
+      type: strategyType,
+    };
+
+    const savePromise = (async () => {
+      const response = await fetch("/api/save-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+      return response;
+    })();
+
+    if (showMessage) {
+      return toast.promise(savePromise, {
+        loading: "Saving strategy...",
+        success: "Strategy saved!",
+        error: "Save failed. Please try again.",
+        style: toastStyle(),
+      });
+    }
+
+    await savePromise;
+  }
+
+  async function createStrategy(event) {
+    event.preventDefault();
+    if (!ensureAuth()) return;
+
+    const formData = new FormData(event.target);
+    const titleValue = formData.get("title");
+    const title =
+      typeof titleValue === "string" && titleValue.trim().length > 0
+        ? titleValue.trim()
+        : "My Chart Strategy";
+
+    if (title.length > 100) {
+      toast.error("Title is too long. Please keep it under 100 characters.", {
+        style: toastStyle(),
+      });
+      return;
+    }
+
+    const postData = {
+      type: strategyType,
+      user: data?.user?.id,
+      title,
+      rules: buildRuleList(),
+    };
+
+    const createPromise = (async () => {
+      const response = await fetch("/api/create-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network error: ${response.status}`);
+      }
+
+      const output = await response.json();
+      if (!output?.id) {
+        throw new Error("Server did not return a new strategy ID");
+      }
+
+      const closePopup = document.getElementById("addChartStrategy");
+      closePopup?.dispatchEvent(new MouseEvent("click"));
+
+      strategyList = [output, ...(strategyList ?? [])];
+      selectedStrategy = output.id;
+      ruleOfList = getStrategyRules(output);
+
+      return output;
+    })();
+
+    return toast.promise(createPromise, {
+      loading: "Creating strategy...",
+      success: "Strategy created!",
+      error: "Something went wrong. Please try again later!",
+      style: toastStyle(),
+    });
+  }
+
+  async function handleDeleteStrategy() {
+    if (!ensureAuth()) return;
+    if (!selectedStrategy) return;
+
+    const deletePromise = (async () => {
+      const postData = { strategyId: selectedStrategy, type: strategyType };
+      const response = await fetch("/api/delete-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network error: ${response.status}`);
+      }
+
+      const output = await response.json();
+      if (output !== "success") {
+        throw new Error("Server returned failure");
+      }
+
+      strategyList =
+        strategyList?.filter((item) => item.id !== selectedStrategy) ?? [];
+      selectedStrategy = strategyList?.at(0)?.id ?? "";
+
+      if (selectedStrategy) {
+        ruleOfList =
+          strategyList?.find((item) => item.id === selectedStrategy)?.rules ??
+          [];
+        applyStrategyRules(ruleOfList);
+      } else {
+        ruleOfList = buildRuleList();
+      }
+
+      return true;
+    })();
+
+    return toast.promise(deletePromise, {
+      loading: "Deleting strategy...",
+      success: "Strategy deleted successfully!",
+      error: "Delete failed. Please try again.",
+      style: toastStyle(),
+    });
+  }
+
+  function switchStrategy(item) {
+    selectedStrategy = item?.id ?? "";
+    ruleOfList = getStrategyRules(item);
+    applyStrategyRules(ruleOfList);
   }
 
   function closeIndicatorModal() {
@@ -857,6 +1117,12 @@
   }
 
   onMount(() => {
+    if (selectedStrategy) {
+      applyStrategyRules(ruleOfList);
+    } else {
+      ruleOfList = buildRuleList();
+    }
+
     if (!chartContainer) return;
     registerCustomOverlays();
     registerIndicatorEngine();
@@ -1086,6 +1352,97 @@
           >
           Indicators</label
         >
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="min-w-[130px] h-7 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1 rounded-full truncate text-[11px] font-semibold"
+            >
+              <span class="truncate">
+                {selectedStrategyTitle?.length > 0
+                  ? selectedStrategyTitle
+                  : "TA Strategies"}
+              </span>
+              <ChevronDown class="h-3 w-3" />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="start"
+            sideOffset={10}
+            class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+          >
+            <DropdownMenu.Label>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  <label
+                    for="addChartStrategy"
+                    class="flex flex-row items-center cursor-pointer"
+                  >
+                    <svg
+                      class="h-4 w-4 mr-1"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <div class="text-sm text-start">New Strategy</div>
+                  </label>
+                </Button>
+              </DropdownMenu.Trigger>
+            </DropdownMenu.Label>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              {#if strategyList?.length > 0}
+                {#each strategyList as item}
+                  <DropdownMenu.Item
+                    on:click={() => {
+                      switchStrategy(item);
+                    }}
+                    class="cursor-pointer {item?.id === selectedStrategy
+                      ? 'text-violet-600 dark:text-violet-400'
+                      : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
+                  >
+                    {item?.title?.length > 20
+                      ? item?.title?.slice(0, 20) + "..."
+                      : item?.title} ({item?.rules?.length ?? 0})
+                    <label
+                      for="deleteChartStrategy"
+                      class="ml-auto inline-flex items-center justify-center cursor-pointer hover:text-rose-600 dark:hover:text-rose-400 transition"
+                    >
+                      <Trash2 class="h-4 w-4" />
+                    </label>
+                  </DropdownMenu.Item>
+                {/each}
+              {:else}
+                <DropdownMenu.Item
+                  class="text-sm text-gray-500 dark:text-zinc-400"
+                >
+                  No saved strategies
+                </DropdownMenu.Item>
+              {/if}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
+        <button
+          class={`flex items-center gap-1 rounded-full border border-gray-300 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700 ${
+            data?.user ? "" : "opacity-60"
+          }`}
+          on:click={() => handleSave(true)}
+        >
+          Save
+        </button>
       </div>
     </div>
 
@@ -1276,6 +1633,94 @@
           </div>
         {/if}
       </div>
+    </div>
+  </div>
+</dialog>
+
+<input type="checkbox" id="addChartStrategy" class="modal-toggle" />
+
+<dialog id="addChartStrategy" class="modal modal-bottom sm:modal-middle">
+  <label for="addChartStrategy" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
+  >
+    <h1
+      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
+      New Chart Strategy
+    </h1>
+
+    <form
+      on:submit={createStrategy}
+      method="POST"
+      class="space-y-2 pt-5 pb-10 sm:pb-5"
+    >
+      <Input
+        id="title"
+        type="text"
+        errors=""
+        label="Strategy Name"
+        required={true}
+      />
+
+      <button
+        type="submit"
+        class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
+      >
+        Create Strategy
+      </button>
+    </form>
+  </div>
+</dialog>
+
+<input type="checkbox" id="deleteChartStrategy" class="modal-toggle" />
+
+<dialog id="deleteChartStrategy" class="modal modal-bottom sm:modal-middle">
+  <label for="deleteChartStrategy" class="cursor-pointer modal-backdrop"
+  ></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
+  >
+    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+      Delete Strategy
+    </h3>
+    <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
+      Are you sure you want to delete this strategy? This action cannot be
+      undone.
+    </p>
+    <div class="flex justify-end space-x-3">
+      <label
+        for="deleteChartStrategy"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        tabindex="0">Cancel</label
+      ><label
+        for="deleteChartStrategy"
+        on:click={handleDeleteStrategy}
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
+        tabindex="0"
+        ><svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4 mr-2"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          ><polyline points="3 6 5 6 21 6"></polyline><path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          ></path><line x1="10" y1="11" x2="10" y2="17"></line><line
+            x1="14"
+            y1="11"
+            x2="14"
+            y2="17"
+          ></line></svg
+        >Delete Strategy</label
+      >
     </div>
   </div>
 </dialog>
