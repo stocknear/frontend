@@ -119,8 +119,10 @@ function createMacdIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         },
       },
     ],
-    calc: (dataList) => {
-      const [shortPeriod, longPeriod, signalPeriod] = [12, 26, 9];
+    calc: (dataList, indicator) => {
+      const shortPeriod = indicator.calcParams[0] ?? 12;
+      const longPeriod = indicator.calcParams[1] ?? 26;
+      const signalPeriod = indicator.calcParams[2] ?? 9;
       const shortWeight = 2 / (shortPeriod + 1);
       const longWeight = 2 / (longPeriod + 1);
       const signalWeight = 2 / (signalPeriod + 1);

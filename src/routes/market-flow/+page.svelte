@@ -8,6 +8,8 @@
   import FearAndGreedChart from "$lib/components/MarketFlow/FearAndGreedChart.svelte";
   import OpenInterestChart from "$lib/components/MarketFlow/OpenInterestChart.svelte";
   import VolumeChart from "$lib/components/MarketFlow/VolumeChart.svelte";
+  import IntradayBarsChart from "$lib/components/MarketFlow/IntradayBarsChart.svelte";
+  import LineChart from "lucide-svelte/icons/chart-no-axes-gantt";
 
   export let data;
 
@@ -18,6 +20,11 @@
     ? (data?.getData?.sectorFlow ?? [])
     : [];
   let overview = data?.getData?.overview ?? {};
+  let intradayBars =
+    data?.getData?.intradayBars &&
+    typeof data?.getData?.intradayBars === "object"
+      ? data.getData.intradayBars
+      : {};
   let marketFlowDate =
     typeof data?.getData?.date === "string" ? data.getData.date : "";
 
@@ -101,6 +108,9 @@
       overview = payload?.overview ?? overview;
       if (typeof payload?.date === "string") {
         marketFlowDate = payload.date;
+      }
+      if (payload?.intradayBars && typeof payload?.intradayBars === "object") {
+        intradayBars = payload.intradayBars;
       }
     }
   }
@@ -471,7 +481,7 @@
                 class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Net Volume</span>
                 </div>
@@ -511,7 +521,7 @@
                 class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Net Call Prem</span>
                 </div>
@@ -551,7 +561,7 @@
                 class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Net Put Prem</span>
                 </div>
@@ -591,7 +601,7 @@
                 class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Most Active Sector</span>
                 </div>
@@ -736,13 +746,22 @@
             {#if Object?.keys(overview)?.length > 0}
               <div class="w-full m-auto mt-10">
                 <div
-                  class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
+                  class="flex flex-col flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                    class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
                   >
                     Open Interest (OI)
                   </h2>
+                  <div class="flex items-center gap-2 mb-6">
+                    <label
+                      for="marketFlowBarsModal"
+                      class="order-0 sm:order-1 cursor-pointer text-md font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    >
+                      <LineChart class="size-6 inline-block " />
+                      View Intraday Bars
+                    </label>
+                  </div>
                   <div
                     class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full m-auto"
                   >
@@ -755,7 +774,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Today's Open Interest</span>
                           <InfoModal
@@ -794,7 +813,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put-Call Ratio</span>
                           <InfoModal
@@ -832,7 +851,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put Open Interest</span>
                           <InfoModal
@@ -870,7 +889,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Call Open Interest</span>
                           <InfoModal
@@ -929,7 +948,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Today's Volume</span>
                           <InfoModal
@@ -968,7 +987,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put-Call Ratio</span>
                           <InfoModal
@@ -1006,7 +1025,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put Volume</span>
                           <InfoModal
@@ -1044,7 +1063,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Call Volume</span>
                           <InfoModal
@@ -1090,3 +1109,42 @@
     </div>
   </div>
 </section>
+
+<input type="checkbox" id="marketFlowBarsModal" class="modal-toggle" />
+<dialog id="marketFlowBarsModal" class="modal p-3 sm:p-0">
+  <label for="marketFlowBarsModal" class="cursor-pointer modal-backdrop"
+  ></label>
+  <div
+    class="modal-box w-full max-w-5xl rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 shadow-none"
+  >
+    <div class="flex items-start justify-between gap-4 mb-4">
+      <div>
+        <h3
+          class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+        >
+          Intraday Open Interest & Volume
+        </h3>
+        <p class="text-xs sm:text-sm text-gray-600 dark:text-zinc-300">
+          Interval totals with cumulative change since market open.
+        </p>
+      </div>
+      <label
+        for="marketFlowBarsModal"
+        class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        aria-label="Close intraday bars modal"
+      >
+        ✕
+      </label>
+    </div>
+
+    {#if isPro}
+      <IntradayBarsChart {intradayBars} />
+    {:else}
+      <div
+        class="border border-dashed border-gray-300 dark:border-zinc-700 rounded-2xl py-10 text-center text-sm text-gray-600 dark:text-zinc-300"
+      >
+        Upgrade to view intraday bars.
+      </div>
+    {/if}
+  </div>
+</dialog>

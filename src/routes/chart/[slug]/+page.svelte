@@ -4,6 +4,7 @@
   import type { KLineData } from "klinecharts";
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
+  import { registerCustomIndicators } from "$lib/klinecharts/customIndicators";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import CrosshairIcon from "lucide-svelte/icons/crosshair";
@@ -80,6 +81,7 @@
   };
 
   let customOverlaysRegistered = false;
+  let customIndicatorsRegistered = false;
 
   const registerCustomOverlays = () => {
     if (customOverlaysRegistered) return;
@@ -157,6 +159,12 @@
     });
 
     customOverlaysRegistered = true;
+  };
+
+  const registerIndicatorEngine = () => {
+    if (customIndicatorsRegistered) return;
+    registerCustomIndicators();
+    customIndicatorsRegistered = true;
   };
 
   const updateChartDomRefs = () => {
@@ -333,9 +341,9 @@
 
     if (showMA && !maId) {
       maId = chart.createIndicator(
-        { name: "MA", calcParams: [20, 50, 200] },
-        true,
-        { id: "candle_pane" },
+        { name: "SN_MA", calcParams: [20, 50, 200] },
+        false,
+        { id: "sn_ma_pane", height: 120 },
       );
     }
     if (!showMA && maId) {
@@ -344,7 +352,10 @@
     }
 
     if (showVolume && !volumeId) {
-      volumeId = chart.createIndicator("VOL", false, { height: 120 });
+      volumeId = chart.createIndicator("SN_VOL", false, {
+        id: "sn_vol_pane",
+        height: 120,
+      });
     }
     if (!showVolume && volumeId) {
       chart.removeIndicator({ id: volumeId });
@@ -352,7 +363,10 @@
     }
 
     if (showRSI && !rsiId) {
-      rsiId = chart.createIndicator("RSI", false, { height: 120 });
+      rsiId = chart.createIndicator("SN_RSI", false, {
+        id: "sn_rsi_pane",
+        height: 120,
+      });
     }
     if (!showRSI && rsiId) {
       chart.removeIndicator({ id: rsiId });
@@ -360,7 +374,10 @@
     }
 
     if (showMACD && !macdId) {
-      macdId = chart.createIndicator("MACD", false, { height: 140 });
+      macdId = chart.createIndicator("SN_MACD", false, {
+        id: "sn_macd_pane",
+        height: 140,
+      });
     }
     if (!showMACD && macdId) {
       chart.removeIndicator({ id: macdId });
@@ -594,6 +611,7 @@
   onMount(() => {
     if (!chartContainer) return;
     registerCustomOverlays();
+    registerIndicatorEngine();
     chart = init(chartContainer, {
       timezone: zone,
     });
