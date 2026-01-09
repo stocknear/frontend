@@ -24,9 +24,7 @@
   import Settings from "lucide-svelte/icons/settings";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
-  import Search from "lucide-svelte/icons/search";
   import Timer from "lucide-svelte/icons/timer";
-  import X from "lucide-svelte/icons/x";
 
   export let data;
 
@@ -45,8 +43,6 @@
   let showMACD = false;
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
-  let indicatorTab: "indicators" | "strategies" | "profiles" | "patterns" =
-    "indicators";
 
   let maId: string | null = null;
   let volumeId: string | null = null;
@@ -77,13 +73,6 @@
     { id: "brush", label: "Brush", icon: PencilLine },
     { id: "erase", label: "Eraser", icon: EraserIcon },
   ];
-
-  const indicatorTabs = [
-    { id: "indicators", label: "Indicators" },
-    { id: "strategies", label: "Strategies" },
-    { id: "profiles", label: "Profiles" },
-    { id: "patterns", label: "Patterns" },
-  ] as const;
 
   const indicatorItems = [
     {
@@ -580,7 +569,6 @@
   }
 
   function openIndicatorModal() {
-    indicatorTab = "indicators";
     indicatorSearchTerm = "";
   }
 
@@ -998,114 +986,136 @@
 
 <input type="checkbox" id="indicatorModal" class="modal-toggle" />
 
-<dialog id="indicatorModal" class="modal p-2 sm:p-0 text-neutral-200">
+<dialog id="indicatorModal" class="modal p-2 lg:p-0">
   <label
+    id="indicatorModal"
     for="indicatorModal"
-    class="cursor-pointer modal-backdrop bg-black/60"
     on:click={closeIndicatorModal}
+    class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box relative w-full max-w-5xl overflow-hidden rounded-2xl border border-neutral-800 bg-[#1b1b1b] p-0 shadow-none"
+    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-300 dark:border-zinc-700 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
-    <div
-      class="flex items-center justify-between border-b border-neutral-800 px-6 py-4"
-    >
-      <div class="text-base font-semibold text-neutral-100">
-        Indicators, metrics, and strategies
-      </div>
-      <label
-        for="indicatorModal"
-        class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-800 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800"
-        on:click={closeIndicatorModal}
-        aria-label="Close indicators modal"
+    <div class="relative flex flex-col w-full">
+      <div
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-300 dark:border-zinc-700 border-b"
       >
-        <X class="h-4 w-4" />
-      </label>
-    </div>
-
-    <div class="px-6 pb-6 pt-4">
-      <div class="relative">
-        <Search
-          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500"
-        />
-        <input
-          type="text"
-          placeholder="Search"
-          class="w-full rounded-xl border border-neutral-800 bg-[#151515] py-2.5 pl-9 pr-9 text-sm text-neutral-200 placeholder:text-neutral-500 focus:outline-none focus:ring-0"
-          bind:value={indicatorSearchTerm}
-        />
-        {#if indicatorSearchTerm.length > 0}
-          <button
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 transition hover:text-neutral-200"
-            on:click={() => (indicatorSearchTerm = "")}
-            aria-label="Clear search"
+        <div class="flex flex-row items-center justify-between mb-2">
+          <h2
+            class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            <X class="size-4" />
-          </button>
-        {/if}
-      </div>
-
-      <div class="mt-4 flex flex-wrap items-center gap-2">
-        {#each indicatorTabs as tab}
-          <button
-            class={`rounded-full border px-3 py-1 text-sm font-semibold transition ${
-              indicatorTab === tab.id
-                ? "border-neutral-200 bg-neutral-200 text-neutral-900"
-                : "border-gray-300 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700"
-            }`}
-            on:click={() => (indicatorTab = tab.id)}
+            Select technical indicators ({indicatorItems.length} total)
+          </h2>
+          <label
+            for="indicatorModal"
+            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem]"
+            on:click={closeIndicatorModal}
+            aria-label="Close indicators modal"
           >
-            {tab.label}
-          </button>
-        {/each}
-      </div>
-
-      <div class="mt-5">
-        <div class="mb-3 text-sm uppercase tracking-wide text-neutral-500">
-          Technical indicators
+            <svg
+              class="w-6 h-6 sm:w-8 sm:h-8"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              ><path
+                fill="currentColor"
+                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+              /></svg
+            >
+          </label>
         </div>
-        {#if indicatorTab !== "indicators"}
-          <div
-            class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500"
-          >
-            This section is coming soon.
-          </div>
-        {:else}
-          <div class="max-h-[420px] space-y-2 overflow-y-auto pr-2">
-            {#each filteredIndicators as indicator}
-              <div
-                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-neutral-200 transition hover:bg-neutral-800/70"
+
+        <form
+          class="w-full h-8"
+          on:keydown={(e) => (e?.key === "Enter" ? e.preventDefault() : "")}
+        >
+          <label for="indicator-search" class="sr-only">Search</label>
+          <div class="relative w-full max-w-sm">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
               >
-                <div>
-                  <div class="font-medium">{indicator.label}</div>
-                  <div class="text-sm text-neutral-500">
-                    {indicator.sublabel}
-                  </div>
-                </div>
-                <label class="inline-flex cursor-pointer items-center">
-                  <input
-                    type="checkbox"
-                    class="sr-only peer"
-                    checked={isIndicatorEnabled(indicator.id)}
-                    on:change={() => toggleIndicatorById(indicator.id)}
-                  />
-                  <div
-                    class={`relative h-6 w-11 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-neutral-700 after:bg-white after:transition-all ${
-                      isIndicatorEnabled(indicator.id)
-                        ? "bg-emerald-500"
-                        : "bg-neutral-800"
-                    }`}
-                  ></div>
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+
+            <div
+              class="absolute inset-y-0 right-0 flex items-center pr-2 {indicatorSearchTerm?.length >
+              0
+                ? ''
+                : 'hidden'}"
+            >
+              <button
+                on:click={() => (indicatorSearchTerm = "")}
+                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                tabindex="0"
+                aria-label="Clear search"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  style="max-width:40px"
+                  ><path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path></svg
+                >
+              </button>
+            </div>
+
+            <input
+              autocomplete="off"
+              id="indicator-search"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
+              placeholder="Search..."
+              bind:value={indicatorSearchTerm}
+            />
+          </div>
+        </form>
+      </div>
+
+      <div class="">
+        <h4 class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white">
+          Technical indicators
+        </h4>
+        <div class="flex flex-wrap">
+          {#each filteredIndicators as indicator}
+            <div
+              class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
+            >
+              <input
+                on:click={() => toggleIndicatorById(indicator.id)}
+                id={indicator.id}
+                type="checkbox"
+                checked={isIndicatorEnabled(indicator.id)}
+                class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+              />
+              <div class="-mt-0.5">
+                <label for={indicator.id} class="cursor-pointer text-[1rem]">
+                  {indicator.label}
                 </label>
               </div>
-            {/each}
-            {#if filteredIndicators.length === 0}
-              <div
-                class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500"
-              >
-                No indicators match your search.
-              </div>
-            {/if}
+            </div>
+          {/each}
+        </div>
+        {#if filteredIndicators.length === 0}
+          <div class="mt-5 font-semibold text-[1rem] sm:text-lg">
+            Nothing found
           </div>
         {/if}
       </div>
