@@ -414,12 +414,23 @@
 
   function applyTheme(_theme: string) {
     if (!chart) return;
-    const isDark = true;
-    const gridColor = "#1f2128";
-    const axisText = "#9aa0a6";
+    const isDark = _theme === "dark";
+    const gridColor = isDark ? "#1d2230" : "#e6e9ef";
+    const axisLineColor = isDark ? "#252a38" : "#e1e5ec";
+    const axisText = isDark ? "#9aa3b2" : "#6b7280";
+    const priceText = isDark ? "#a1a9b8" : "#64748b";
     const upColor = "#22ab94";
     const downColor = "#f23645";
-    const crosshairColor = "#3a3f4b";
+    const crosshairLine = isDark ? "#3a4252" : "#cbd5e1";
+    const crosshairText = isDark ? "#e2e8f0" : "#111827";
+    const crosshairBg = isDark ? "#0f141d" : "#f8fafc";
+    const crosshairBorder = isDark ? "#283042" : "#e2e8f0";
+    const tooltipText = isDark ? "#e2e8f0" : "#1f2937";
+    const tooltipBg = isDark
+      ? "rgba(15, 19, 27, 0.8)"
+      : "rgba(248, 250, 252, 0.96)";
+    const tooltipBorder = isDark ? "rgba(32, 41, 56, 0.9)" : "#e2e8f0";
+    const activePaneBg = isDark ? "#0f1117" : "#f8fafc";
 
     chart.setStyles({
       grid: {
@@ -452,16 +463,64 @@
           downWickColor: downColor,
           noChangeWickColor: axisText,
         },
+        priceMark: {
+          high: { color: priceText },
+          low: { color: priceText },
+        },
+        tooltip: {
+          rect: {
+            color: tooltipBg,
+            borderColor: tooltipBorder,
+          },
+          title: {
+            color: tooltipText,
+            size: 11,
+            weight: 500,
+          },
+          legend: {
+            color: tooltipText,
+            size: 11,
+            weight: 500,
+          },
+        },
+      },
+      indicator: {
+        tooltip: {
+          title: {
+            color: tooltipText,
+            size: 11,
+            weight: 500,
+          },
+          legend: {
+            color: tooltipText,
+            size: 11,
+            weight: 500,
+          },
+        },
       },
       xAxis: {
-        axisLine: { show: true, color: gridColor, size: 1 },
-        tickLine: { show: true, color: gridColor, size: 1, length: 3 },
-        tickText: { show: true, color: axisText },
+        axisLine: { show: true, color: axisLineColor, size: 1 },
+        tickLine: { show: true, color: axisLineColor, size: 1, length: 3 },
+        tickText: {
+          show: true,
+          color: axisText,
+          size: 11,
+          weight: 500,
+          marginStart: 4,
+          marginEnd: 6,
+        },
       },
       yAxis: {
-        axisLine: { show: true, color: gridColor, size: 1 },
-        tickLine: { show: true, color: gridColor, size: 1, length: 3 },
-        tickText: { show: true, color: axisText },
+        axisLine: { show: true, color: axisLineColor, size: 1 },
+        tickLine: { show: true, color: axisLineColor, size: 1, length: 3 },
+        tickText: {
+          show: true,
+          color: axisText,
+          size: 11,
+          weight: 500,
+          marginStart: 4,
+          marginEnd: 6,
+        },
       },
       crosshair: {
         show: true,
@@ -470,8 +529,20 @@
             show: true,
             style: "dashed",
             size: 1,
-            color: crosshairColor,
+            color: crosshairLine,
             dashedValue: [4, 4],
+          },
+          text: {
+            color: crosshairText,
+            size: 11,
+            weight: 500,
+            borderColor: crosshairBorder,
+            backgroundColor: crosshairBg,
+            borderRadius: 6,
+            paddingLeft: 6,
+            paddingRight: 6,
+            paddingTop: 4,
+            paddingBottom: 4,
           },
         },
         vertical: {
@@ -479,16 +550,28 @@
             show: true,
             style: "dashed",
             size: 1,
-            color: crosshairColor,
+            color: crosshairLine,
             dashedValue: [4, 4],
+          },
+          text: {
+            color: crosshairText,
+            size: 11,
+            weight: 500,
+            borderColor: crosshairBorder,
+            backgroundColor: crosshairBg,
+            borderRadius: 6,
+            paddingLeft: 6,
+            paddingRight: 6,
+            paddingTop: 4,
+            paddingBottom: 4,
           },
         },
       },
       separator: {
         size: 1,
-        color: gridColor,
+        color: axisLineColor,
         fill: true,
-        activeBackgroundColor: "#0f1117",
+        activeBackgroundColor: activePaneBg,
       },
     });
   }
@@ -772,7 +855,7 @@
         </div>
       </div>
 
-      <div class="flex flex-1 items-center justify-center gap-2">
+      <div class="flex flex-1 items-center gap-2">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
             <Button
@@ -881,36 +964,6 @@
           >
           Indicators</label
         >
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button
-          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
-          on:click={() => zoomChart(1.2)}
-          aria-label="Zoom in"
-        >
-          <ZoomIn class="h-4 w-4" />
-        </button>
-        <button
-          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
-          on:click={() => zoomChart(0.9)}
-          aria-label="Zoom out"
-        >
-          <ZoomOut class="h-4 w-4" />
-        </button>
-        <button
-          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
-          on:click={resetView}
-          aria-label="Reset view"
-        >
-          <Trash2 class="h-4 w-4" />
-        </button>
-        <button
-          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
-          aria-label="Settings"
-        >
-          <Settings class="h-4 w-4" />
-        </button>
       </div>
     </div>
 
@@ -1090,7 +1143,9 @@
       </div>
 
       <div class="">
-        <h4 class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white">
+        <h4
+          class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
+        >
           Technical indicators
         </h4>
         <div class="flex flex-wrap">
