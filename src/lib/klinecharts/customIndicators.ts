@@ -494,41 +494,6 @@ function createAroonIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   });
 }
 
-function createBaselineIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  return {
-    name: "SN_BASELINE",
-    shortName: "BASE",
-    series: "price",
-    precision: 2,
-    figures: [{ key: "baseline", title: "Baseline: ", type: "line" }],
-    styles: {
-      lines: [
-        {
-          style: "dashed",
-          size: 1,
-          color: "#94a3b8",
-          dashedValue: [4, 4],
-        },
-      ],
-    },
-    createTooltipDataSource: () => ({
-      name: "",
-      calcParamsText: "",
-      legends: [],
-      features: [],
-    }),
-    calc: (dataList, indicator) => {
-      const baseline =
-        typeof indicator.extendData?.baseline === "number"
-          ? indicator.extendData.baseline
-          : null;
-      if (baseline === null) {
-        return dataList.map(() => ({}));
-      }
-      return dataList.map(() => ({ baseline }));
-    },
-  };
-}
 
 export function registerCustomIndicators() {
   if (registered) return;
@@ -557,6 +522,5 @@ export function registerCustomIndicators() {
   registerIndicator(createRocIndicator());
   registerIndicator(createTsiIndicator());
   registerIndicator(createAroonIndicator());
-  registerIndicator(createBaselineIndicator());
   registered = true;
 }

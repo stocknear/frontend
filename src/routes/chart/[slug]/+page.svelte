@@ -40,11 +40,9 @@
     | "bars"
     | "candles"
     | "hollow_candles"
-    | "volume_candles"
     | "line_step"
     | "area"
     | "hlc_area"
-    | "baseline"
     | "high_low"
     | "heikin_ashi";
   type ChartTypeOption = {
@@ -56,13 +54,11 @@
     { id: "candles", label: "Candles", icon: ChartCandlestick },
     { id: "bars", label: "Bars", icon: ChartCandlestick },
     { id: "hollow_candles", label: "Hollow Candles", icon: ChartCandlestick },
-    { id: "volume_candles", label: "Volume Candles", icon: ChartCandlestick },
     { id: "high_low", label: "High-Low", icon: ChartCandlestick },
     { id: "heikin_ashi", label: "Heikin Ashi", icon: ChartCandlestick },
     { id: "line_step", label: "Line Step", icon: ChartLine },
     { id: "area", label: "Area", icon: ChartLine },
     { id: "hlc_area", label: "HLC Area", icon: ChartLine },
-    { id: "baseline", label: "Baseline", icon: ChartLine },
   ];
   let chartType: ChartTypeId = "candles";
   let currentChartType: ChartTypeOption | undefined = chartTypeOptions[0];
@@ -346,11 +342,11 @@
   let indicatorState: Record<string, boolean> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, Boolean(item.defaultEnabled)]),
   );
-  let baselineIndicatorId: string | null = null;
-  let baselineValue: number | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let chartRoot: HTMLElement | null = null;
   let chartMain: HTMLElement | null = null;
+  let previousBodyOverflow = "";
+  let previousHtmlOverflow = "";
 
   let ticker = "";
   let dailyBars: KLineData[] = [];
@@ -665,7 +661,6 @@
   function applyRange(range: string) {
     if (!chart) return;
     const { bars, period } = getRangeBars(range);
-    baselineValue = bars.length ? bars[0].close : null;
     const displayBars = transformBarsForType(bars, chartType);
     currentBars = displayBars;
     hoverBar = null;
@@ -685,7 +680,6 @@
       },
     });
     chart.scrollToRealTime();
-    syncBaselineIndicator();
   }
 
   const getIndicatorParams = (key: string) =>
@@ -729,42 +723,6 @@
     });
 
     indicatorInstanceIds = nextInstanceIds;
-  }
-
-  function syncBaselineIndicator() {
-    if (!chart) return;
-    if (chartType !== "baseline") {
-      if (baselineIndicatorId) {
-        chart.removeIndicator({ id: baselineIndicatorId });
-        baselineIndicatorId = null;
-      }
-      return;
-    }
-
-    if (baselineValue === null || !Number.isFinite(baselineValue)) {
-      if (baselineIndicatorId) {
-        chart.removeIndicator({ id: baselineIndicatorId });
-        baselineIndicatorId = null;
-      }
-      return;
-    }
-    const extendData = { baseline: baselineValue };
-    if (!baselineIndicatorId) {
-      baselineIndicatorId = chart.createIndicator(
-        {
-          name: "SN_BASELINE",
-          extendData,
-        },
-        true,
-        { id: "candle_pane" },
-      );
-      return;
-    }
-
-    chart.overrideIndicator({
-      id: baselineIndicatorId,
-      extendData,
-    });
   }
 
   const buildRuleList = (): ChartRule[] =>
@@ -1007,9 +965,6 @@
       case "hollow_candles":
         candleType = "candle_up_stroke";
         break;
-      case "volume_candles":
-        candleType = "candle_solid";
-        break;
       case "high_low":
         candleType = "ohlc";
         break;
@@ -1046,16 +1001,6 @@
           backgroundColor: softArea,
         };
         break;
-      case "baseline":
-        candleType = "area";
-        areaStyle = {
-          lineColor: blueLine,
-          lineSize: 2,
-          smooth: false,
-          value: "close",
-          backgroundColor: transparentArea,
-        };
-        break;
       default:
         candleType = "candle_solid";
     }
@@ -1066,7 +1011,6 @@
         ...(areaStyle ? { area: areaStyle } : {}),
       },
     });
-    syncBaselineIndicator();
   }
 
   function setRange(range: string) {
@@ -1078,9 +1022,6 @@
 
   function setChartType(type: ChartTypeId) {
     chartType = type;
-    if (type === "volume_candles") {
-      indicatorState = { ...indicatorState, volume: true };
-    }
     if (chart) {
       applyChartType(type);
       applyRange(activeRange);
@@ -1427,6 +1368,11 @@
   }
 
   onMount(async () => {
+    previousBodyOverflow = document.body.style.overflow;
+    previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
@@ -1460,6 +1406,9 @@
   });
 
   onDestroy(() => {
+    document.body.style.overflow = previousBodyOverflow;
+    document.documentElement.style.overflow = previousHtmlOverflow;
+
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
       dispose(chart);
@@ -1539,8 +1488,10 @@
   <title>{ticker} Chart | Stocknear</title>
 </svelte:head>
 
-<main class="h-[calc(100vh-56px)] w-full bg-[#09090b] text-neutral-200">
-  <div class="flex h-full w-full flex-col">
+<main
+  class="h-[calc(100vh-56px)] w-full bg-[#09090b] text-neutral-200 overflow-hidden"
+>
+  <div class="flex h-full w-full flex-col overflow-hidden">
     <div
       class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-[#09090b] px-3 py-1.5 text-xs"
     >
@@ -1769,7 +1720,7 @@
 
     <div class="flex flex-1 overflow-hidden">
       <div
-        class="flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#09090b] py-3"
+        class="flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#09090b] py-3 overflow-hidden"
       >
         {#each tools as tool}
           <button
@@ -1784,7 +1735,9 @@
             <svelte:component this={tool.icon} class="h-4 w-4" />
           </button>
         {/each}
-        <div class="mt-auto flex flex-col items-center gap-2 pb-3">
+        <div
+          class="mt-auto flex flex-col items-center gap-2 pb-3 overflow-hidden"
+        >
           <button
             class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
             on:click={() => zoomChart(1.2)}
@@ -1806,10 +1759,16 @@
         <div class="absolute inset-0" bind:this={chartContainer}></div>
 
         {#if !currentBars.length}
-          <div
-            class="absolute inset-0 flex items-center justify-center text-sm text-neutral-500"
-          >
-            No chart data available.
+          <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
+            <div class="relative">
+              <label
+                class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                <span
+                  class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                ></span>
+              </label>
+            </div>
           </div>
         {/if}
       </div>
