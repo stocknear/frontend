@@ -21,6 +21,7 @@
   import Trash2 from "lucide-svelte/icons/trash-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
+  import ArrowRight from "lucide-svelte/icons/arrow-right";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
@@ -89,6 +90,13 @@
   const resolveTickPrice = (tick): number | null =>
     toNumber(tick?.lp) ?? toNumber(tick?.ap) ?? toNumber(tick?.bp);
   const resolveTickVolume = (tick): number => toNumber(tick?.ls) ?? 0;
+  const normalizeAssetType = (value: unknown): string => {
+    if (typeof value !== "string") return "";
+    let type = value.toLowerCase().trim();
+    if (type.endsWith("s")) type = type.slice(0, -1);
+    if (["stock", "etf", "index"].includes(type)) return type;
+    return "";
+  };
 
   type ChartRule = { name: string; params?: number[] };
 
@@ -1780,6 +1788,17 @@
   $: seoMarketCapText = seoMarketCap
     ? `$${(seoMarketCap / 1e9).toFixed(1)}B`
     : "N/A";
+  $: resolvedAssetType = normalizeAssetType(data?.assetType);
+  $: showDetailedAnalysis = Boolean(resolvedAssetType);
+  $: detailRoot =
+    resolvedAssetType === "etf"
+      ? "etf"
+      : resolvedAssetType === "index"
+        ? "index"
+        : "stocks";
+  $: detailedAnalysisHref = showDetailedAnalysis
+    ? `/${detailRoot}/${ticker}`
+    : "";
 
   $: filteredIndicators = indicatorItems.filter((item) => {
     if (!indicatorSearchTerm.trim()) return true;
@@ -2101,6 +2120,16 @@
               Save as New
             </label>
           {/if}
+        {/if}
+        {#if showDetailedAnalysis}
+          <a
+            href={detailedAnalysisHref}
+            class="ml-auto flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            aria-label="Detailed Analysis"
+          >
+            Detailed Analysis
+            <ArrowRight class="h-4 w-4" />
+          </a>
         {/if}
       </div>
     </div>

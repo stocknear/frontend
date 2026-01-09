@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     "X-API-KEY": apiKey,
   };
 
-  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes] =
+  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes] =
     await Promise.all([
     fetch(apiURL + "/historical-adj-price", {
       method: "POST",
@@ -33,6 +33,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
       body: payload,
     }),
     fetch(apiURL + "/stockdeck", {
+      method: "POST",
+      headers,
+      body: payload,
+    }),
+    fetch(apiURL + "/get-asset-type", {
       method: "POST",
       headers,
       body: payload,
@@ -75,6 +80,19 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }
   }
 
+  let assetType = "";
+  if (assetTypeRes.ok) {
+    try {
+      const typePayload = await assetTypeRes.json();
+      assetType =
+        typeof typePayload?.assetType === "string"
+          ? typePayload.assetType
+          : "";
+    } catch {
+      assetType = "";
+    }
+  }
+
   const getAllStrategies = async () => {
     if (!user) return [];
     try {
@@ -94,6 +112,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     intraday,
     getStockQuote,
     companyName: getStockDeck?.companyName ?? "",
+    assetType,
     wsURL,
     getAllStrategies: await getAllStrategies(),
   };
