@@ -618,6 +618,41 @@ export const groupScreenerRules = (allRows) => {
   return orderedGroupedRules;
 }
 
+export const groupChartIndicators = (items) => {
+  const categoryOrder = [
+    "Trend",
+    "Momentum",
+    "Volatility",
+    "Volume",
+    "Price Levels",
+    "Other",
+  ];
+
+  const grouped = items.reduce((acc, item) => {
+    const category = item?.category || "Other";
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(item);
+    return acc;
+  }, {});
+
+  const orderedGroupedIndicators = Object.fromEntries(
+    Object.entries(grouped).sort(([keyA], [keyB]) => {
+      const indexA = categoryOrder.indexOf(keyA);
+      const indexB = categoryOrder.indexOf(keyB);
+      const safeIndexA = indexA === -1 ? categoryOrder.length : indexA;
+      const safeIndexB = indexB === -1 ? categoryOrder.length : indexB;
+      if (safeIndexA !== safeIndexB) {
+        return safeIndexA - safeIndexB;
+      }
+      return keyA.localeCompare(keyB);
+    }),
+  );
+
+  return orderedGroupedIndicators;
+};
+
 
 
 

@@ -23,6 +23,8 @@
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
+  import { groupChartIndicators } from "$lib/utils";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
   export let data;
   export let form;
@@ -72,6 +74,8 @@
     label: string;
     sublabel: string;
     indicatorName: string;
+    category: string;
+    infoKey?: string;
     defaultParams: number[];
     pane: "candle" | "panel";
     height?: number;
@@ -84,6 +88,8 @@
       label: "Moving Average",
       sublabel: "SMA 20/50/100/200",
       indicatorName: "SN_MA",
+      category: "Trend",
+      infoKey: "sma20",
       defaultParams: [20, 50, 100, 200],
       pane: "candle",
       defaultEnabled: true,
@@ -93,6 +99,8 @@
       label: "Exponential Moving Average",
       sublabel: "EMA 9/21/50",
       indicatorName: "SN_EMA",
+      category: "Trend",
+      infoKey: "ema20",
       defaultParams: [9, 21, 50],
       pane: "candle",
     },
@@ -101,6 +109,7 @@
       label: "Bollinger Bands",
       sublabel: "BOLL 20 / 2 SD",
       indicatorName: "SN_BOLL",
+      category: "Volatility",
       defaultParams: [20, 2],
       pane: "candle",
     },
@@ -109,6 +118,8 @@
       label: "VWAP",
       sublabel: "Volume-weighted average price",
       indicatorName: "SN_VWAP",
+      category: "Volume",
+      infoKey: "volume",
       defaultParams: [],
       pane: "candle",
     },
@@ -117,6 +128,7 @@
       label: "Parabolic SAR",
       sublabel: "Step 0.02 / Max 0.2",
       indicatorName: "SN_SAR",
+      category: "Trend",
       defaultParams: [0.02, 0.2],
       pane: "candle",
     },
@@ -125,6 +137,7 @@
       label: "Donchian Channels",
       sublabel: "20",
       indicatorName: "SN_DONCHIAN",
+      category: "Trend",
       defaultParams: [20],
       pane: "candle",
     },
@@ -133,6 +146,7 @@
       label: "Pivot Points",
       sublabel: "Classic",
       indicatorName: "SN_PIVOT",
+      category: "Price Levels",
       defaultParams: [],
       pane: "candle",
     },
@@ -141,6 +155,7 @@
       label: "Fibonacci Retracements",
       sublabel: "23.6 / 38.2 / 50 / 61.8 / 78.6",
       indicatorName: "SN_FIB",
+      category: "Price Levels",
       defaultParams: [],
       pane: "candle",
     },
@@ -149,6 +164,7 @@
       label: "Psychological Levels ($10)",
       sublabel: "Nearest $10",
       indicatorName: "SN_PSYCH",
+      category: "Price Levels",
       defaultParams: [10],
       pane: "candle",
     },
@@ -157,6 +173,7 @@
       label: "Psychological Levels ($25)",
       sublabel: "Nearest $25",
       indicatorName: "SN_PSYCH",
+      category: "Price Levels",
       defaultParams: [25],
       pane: "candle",
     },
@@ -165,6 +182,7 @@
       label: "Psychological Levels ($50)",
       sublabel: "Nearest $50",
       indicatorName: "SN_PSYCH",
+      category: "Price Levels",
       defaultParams: [50],
       pane: "candle",
     },
@@ -173,6 +191,8 @@
       label: "Volume",
       sublabel: "Volume + MA 5/10/20",
       indicatorName: "SN_VOL",
+      category: "Volume",
+      infoKey: "volume",
       defaultParams: [5, 10, 20],
       pane: "panel",
       height: 120,
@@ -183,6 +203,7 @@
       label: "On-Balance Volume",
       sublabel: "OBV + MA 5/10/20/50",
       indicatorName: "SN_OBV",
+      category: "Volume",
       defaultParams: [5, 10, 20, 50],
       pane: "panel",
       height: 120,
@@ -192,6 +213,8 @@
       label: "Relative Strength Index",
       sublabel: "RSI 14",
       indicatorName: "SN_RSI",
+      category: "Momentum",
+      infoKey: "rsi",
       defaultParams: [14],
       pane: "panel",
       height: 120,
@@ -201,6 +224,7 @@
       label: "MACD",
       sublabel: "12/26/9",
       indicatorName: "SN_MACD",
+      category: "Momentum",
       defaultParams: [12, 26, 9],
       pane: "panel",
       height: 140,
@@ -210,6 +234,8 @@
       label: "Average True Range",
       sublabel: "ATR 14",
       indicatorName: "SN_ATR",
+      category: "Volatility",
+      infoKey: "atr",
       defaultParams: [14],
       pane: "panel",
       height: 120,
@@ -219,6 +245,7 @@
       label: "Stochastic Oscillator",
       sublabel: "%K 14 / %D 3",
       indicatorName: "SN_STOCH",
+      category: "Momentum",
       defaultParams: [14, 3],
       pane: "panel",
       height: 120,
@@ -228,6 +255,7 @@
       label: "Stochastic Crossover",
       sublabel: "%K - %D",
       indicatorName: "SN_STOCH_X",
+      category: "Momentum",
       defaultParams: [14, 3],
       pane: "panel",
       height: 120,
@@ -237,6 +265,8 @@
       label: "Commodity Channel Index",
       sublabel: "CCI 20",
       indicatorName: "SN_CCI",
+      category: "Momentum",
+      infoKey: "cci",
       defaultParams: [20],
       pane: "panel",
       height: 120,
@@ -246,6 +276,7 @@
       label: "Williams %R",
       sublabel: "%R 14",
       indicatorName: "SN_WILLIAMS",
+      category: "Momentum",
       defaultParams: [14],
       pane: "panel",
       height: 120,
@@ -255,6 +286,8 @@
       label: "Money Flow Index",
       sublabel: "MFI 14",
       indicatorName: "SN_MFI",
+      category: "Volume",
+      infoKey: "mfi",
       defaultParams: [14],
       pane: "panel",
       height: 120,
@@ -264,6 +297,7 @@
       label: "Rate of Change",
       sublabel: "ROC 12",
       indicatorName: "SN_ROC",
+      category: "Momentum",
       defaultParams: [12],
       pane: "panel",
       height: 120,
@@ -273,6 +307,7 @@
       label: "True Strength Index",
       sublabel: "TSI 25/13/7",
       indicatorName: "SN_TSI",
+      category: "Momentum",
       defaultParams: [25, 13, 7],
       pane: "panel",
       height: 120,
@@ -282,6 +317,7 @@
       label: "Aroon",
       sublabel: "Aroon 25",
       indicatorName: "SN_AROON",
+      category: "Trend",
       defaultParams: [25],
       pane: "panel",
       height: 120,
@@ -291,6 +327,7 @@
       label: "Standard Deviation",
       sublabel: "20",
       indicatorName: "SN_STD",
+      category: "Volatility",
       defaultParams: [20],
       pane: "panel",
       height: 120,
@@ -300,6 +337,7 @@
       label: "Historical Volatility",
       sublabel: "HV 20",
       indicatorName: "SN_HVOL",
+      category: "Volatility",
       defaultParams: [20],
       pane: "panel",
       height: 120,
@@ -309,6 +347,7 @@
       label: "Chaikin Volatility",
       sublabel: "10 / 10",
       indicatorName: "SN_CHAIKIN",
+      category: "Volatility",
       defaultParams: [10, 10],
       pane: "panel",
       height: 120,
@@ -370,8 +409,11 @@
     id: item.id,
     label: item.label,
     sublabel: item.sublabel,
+    category: item.category,
+    infoKey: item.infoKey,
   }));
   let filteredIndicators = indicatorItems;
+  let groupedIndicators = groupChartIndicators(indicatorItems);
 
   const toolOverlays: Record<string, string> = {
     trend: "segment",
@@ -1479,9 +1521,11 @@
     return (
       item.label.toLowerCase().includes(term) ||
       item.sublabel.toLowerCase().includes(term) ||
-      item.id.toLowerCase().includes(term)
+      item.id.toLowerCase().includes(term) ||
+      item.category.toLowerCase().includes(term)
     );
   });
+  $: groupedIndicators = groupChartIndicators(filteredIndicators);
 
   $: currentChartType =
     chartTypeOptions.find((item) => item.id === chartType) ??
@@ -1891,29 +1935,44 @@
         >
           Technical indicators
         </h4>
-        <div class="flex flex-wrap">
-          {#each filteredIndicators as indicator}
-            <div
-              class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
-            >
-              <input
-                on:click={() => toggleIndicatorById(indicator.id)}
-                id={indicator.id}
-                type="checkbox"
-                checked={isIndicatorEnabled(indicator.id)}
-                class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
-              />
-              <div class="-mt-0.5">
-                <label for={indicator.id} class="cursor-pointer text-[1rem]">
-                  {indicator.label}
-                </label>
-                <div class="text-xs text-gray-500 dark:text-zinc-400">
-                  {indicator.sublabel}
-                </div>
-              </div>
+        {#each Object.entries(groupedIndicators) as [category, indicators]}
+          <div class="mt-4">
+            <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              {category}
             </div>
-          {/each}
-        </div>
+            <div class="flex flex-wrap">
+              {#each indicators as indicator}
+                <div
+                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
+                >
+                  <input
+                    on:click={() => toggleIndicatorById(indicator.id)}
+                    id={indicator.id}
+                    type="checkbox"
+                    checked={isIndicatorEnabled(indicator.id)}
+                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+                  />
+                  <div class="-mt-0.5">
+                    <div class="flex items-center gap-1">
+                      <label
+                        for={indicator.id}
+                        class="cursor-pointer text-[1rem]"
+                      >
+                        {indicator.label}
+                      </label>
+                      <InfoModal
+                        id={`indicator-${indicator.id}`}
+                        title={indicator.label}
+                        callAPI={true}
+                        parameter={indicator.infoKey || indicator.id}
+                      />
+                    </div>
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/each}
         {#if filteredIndicators.length === 0}
           <div class="mt-5 font-semibold text-[1rem] sm:text-lg">
             Nothing found
