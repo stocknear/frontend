@@ -42,6 +42,117 @@ function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   };
 }
 
+function createEmaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_EMA",
+    shortName: "EMA",
+    series: "price",
+    precision: 2,
+    calcParams: [9, 21, 50],
+    figures: [
+      { key: "ema1", title: "EMA9: ", type: "line" },
+      { key: "ema2", title: "EMA21: ", type: "line" },
+      { key: "ema3", title: "EMA50: ", type: "line" },
+    ],
+    regenerateFigures: (params) =>
+      params.map((period, index) => ({
+        key: `ema${index + 1}`,
+        title: `EMA${period}: `,
+        type: "line",
+      })),
+    calc: (dataList, indicator) => {
+      const { calcParams, figures } = indicator;
+      const emaValues = Array(calcParams.length).fill(0);
+      return dataList.map((data, index) => {
+        const result: IndicatorRecord = {};
+        const close = data.close;
+        calcParams.forEach((period, paramIndex) => {
+          const periodValue = period ?? 1;
+          const weight = 2 / (periodValue + 1);
+          if (index === 0) {
+            emaValues[paramIndex] = close;
+          } else {
+            emaValues[paramIndex] =
+              close * weight + emaValues[paramIndex] * (1 - weight);
+          }
+          if (index >= periodValue - 1) {
+            result[figures[paramIndex].key] = emaValues[paramIndex];
+          }
+        });
+        return result;
+      });
+    },
+  };
+}
+
+function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_BOLL",
+    shortName: "BOLL",
+    series: "price",
+    precision: 2,
+    calcParams: [20, 2],
+    figures: [
+      { key: "upper", title: "Upper: ", type: "line" },
+      { key: "mid", title: "Mid: ", type: "line" },
+      { key: "lower", title: "Lower: ", type: "line" },
+    ],
+    calc: (dataList, indicator) => {
+      const period = indicator.calcParams[0] ?? 20;
+      const multiplier = indicator.calcParams[1] ?? 2;
+      let sum = 0;
+      let sumSquares = 0;
+      return dataList.map((data, index) => {
+        const close = data.close;
+        sum += close;
+        sumSquares += close * close;
+        if (index >= period) {
+          const removed = dataList[index - period].close;
+          sum -= removed;
+          sumSquares -= removed * removed;
+        }
+        if (index >= period - 1) {
+          const mean = sum / period;
+          const variance = Math.max(sumSquares / period - mean * mean, 0);
+          const stdDev = Math.sqrt(variance);
+          return {
+            upper: mean + multiplier * stdDev,
+            mid: mean,
+            lower: mean - multiplier * stdDev,
+          };
+        }
+        return {};
+      });
+    },
+  };
+}
+
+function createVwapIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_VWAP",
+    shortName: "VWAP",
+    series: "price",
+    precision: 2,
+    figures: [{ key: "vwap", title: "VWAP: ", type: "line" }],
+    calc: (dataList) => {
+      let cumulativePV = 0;
+      let cumulativeVolume = 0;
+      return dataList.map((data) => {
+        const volume = data.volume ?? 0;
+        const high = data.high ?? data.close;
+        const low = data.low ?? data.close;
+        const typicalPrice = (high + low + data.close) / 3;
+        cumulativePV += typicalPrice * volume;
+        cumulativeVolume += volume;
+        if (cumulativeVolume === 0) {
+          return {};
+        }
+        return { vwap: cumulativePV / cumulativeVolume };
+      });
+    },
+  };
+}
+
 function createRsiIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   return {
     name: "SN_RSI",
@@ -88,6 +199,46 @@ function createRsiIndicator(): IndicatorTemplate<IndicatorRecord, number> {
               : Number.POSITIVE_INFINITY
             : avgGain / avgLoss;
         return { rsi: 100 - 100 / (1 + rs) };
+      });
+    },
+  };
+}
+
+function createAtrIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_ATR",
+    shortName: "ATR",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    calcParams: [14],
+    figures: [{ key: "atr", title: "ATR: ", type: "line" }],
+    calc: (dataList, indicator) => {
+      const period = indicator.calcParams[0] ?? 14;
+      let atr = 0;
+      let trSum = 0;
+      return dataList.map((data, index) => {
+        if (index === 0) {
+          return {};
+        }
+        const prevClose = dataList[index - 1].close;
+        const high = data.high ?? data.close;
+        const low = data.low ?? data.close;
+        const tr = Math.max(
+          high - low,
+          Math.abs(high - prevClose),
+          Math.abs(low - prevClose),
+        );
+        if (index <= period) {
+          trSum += tr;
+          if (index === period) {
+            atr = trSum / period;
+            return { atr };
+          }
+          return {};
+        }
+        atr = (atr * (period - 1) + tr) / period;
+        return { atr };
       });
     },
   };
@@ -146,6 +297,50 @@ function createMacdIndicator(): IndicatorTemplate<IndicatorRecord, number> {
           return {};
         }
         return { dif, dea, macd };
+      });
+    },
+  };
+}
+
+function createStochIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_STOCH",
+    shortName: "STOCH",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    maxValue: 100,
+    calcParams: [14, 3],
+    figures: [
+      { key: "k", title: "%K: ", type: "line" },
+      { key: "d", title: "%D: ", type: "line" },
+    ],
+    calc: (dataList, indicator) => {
+      const period = indicator.calcParams[0] ?? 14;
+      const smooth = indicator.calcParams[1] ?? 3;
+      const kValues: number[] = [];
+      return dataList.map((data, index) => {
+        if (index < period - 1) {
+          return {};
+        }
+        let highestHigh = Number.NEGATIVE_INFINITY;
+        let lowestLow = Number.POSITIVE_INFINITY;
+        for (let i = index - period + 1; i <= index; i += 1) {
+          const high = dataList[i].high ?? dataList[i].close;
+          const low = dataList[i].low ?? dataList[i].close;
+          if (high > highestHigh) highestHigh = high;
+          if (low < lowestLow) lowestLow = low;
+        }
+        const range = highestHigh - lowestLow;
+        const k = range === 0 ? 0 : ((data.close - lowestLow) / range) * 100;
+        kValues.push(k);
+        if (kValues.length >= smooth) {
+          const recent = kValues.slice(-smooth);
+          const d =
+            recent.reduce((sum, value) => sum + value, 0) / smooth;
+          return { k, d };
+        }
+        return { k };
       });
     },
   };
@@ -234,8 +429,13 @@ function createVolumeIndicator(): IndicatorTemplate<
 export function registerCustomIndicators() {
   if (registered) return;
   registerIndicator(createMaIndicator());
+  registerIndicator(createEmaIndicator());
+  registerIndicator(createBollIndicator());
+  registerIndicator(createVwapIndicator());
   registerIndicator(createRsiIndicator());
+  registerIndicator(createAtrIndicator());
   registerIndicator(createMacdIndicator());
+  registerIndicator(createStochIndicator());
   registerIndicator(createVolumeIndicator());
   registered = true;
 }

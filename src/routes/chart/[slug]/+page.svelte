@@ -37,10 +37,15 @@
   let currentBars: KLineData[] = [];
   let activeRange = "1D";
   let chartType: "candles" | "line" = "candles";
-  let showMA = true;
+  let showMA = false;
   let showVolume = true;
   let showRSI = false;
   let showMACD = false;
+  let showEMA = false;
+  let showBOLL = false;
+  let showVWAP = false;
+  let showATR = false;
+  let showSTOCH = false;
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
 
@@ -48,6 +53,11 @@
   let volumeId: string | null = null;
   let rsiId: string | null = null;
   let macdId: string | null = null;
+  let emaId: string | null = null;
+  let bollId: string | null = null;
+  let vwapId: string | null = null;
+  let atrId: string | null = null;
+  let stochId: string | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let chartRoot: HTMLElement | null = null;
   let chartMain: HTMLElement | null = null;
@@ -81,6 +91,21 @@
       sublabel: "MA 20/50/200",
     },
     {
+      id: "ema",
+      label: "Exponential Moving Average",
+      sublabel: "EMA 9/21/50",
+    },
+    {
+      id: "boll",
+      label: "Bollinger Bands",
+      sublabel: "BOLL 20 / 2 SD",
+    },
+    {
+      id: "vwap",
+      label: "VWAP",
+      sublabel: "Volume-weighted average price",
+    },
+    {
       id: "volume",
       label: "Volume",
       sublabel: "Volume + MA 5/10/20",
@@ -94,6 +119,16 @@
       id: "macd",
       label: "MACD",
       sublabel: "12/26/9",
+    },
+    {
+      id: "atr",
+      label: "Average True Range",
+      sublabel: "ATR 14",
+    },
+    {
+      id: "stoch",
+      label: "Stochastic Oscillator",
+      sublabel: "%K 14 / %D 3",
     },
   ];
   let filteredIndicators = indicatorItems;
@@ -378,6 +413,38 @@
       maId = null;
     }
 
+    if (showEMA && !emaId) {
+      emaId = chart.createIndicator(
+        { name: "SN_EMA", calcParams: [9, 21, 50] },
+        true,
+        { id: "candle_pane" },
+      );
+    }
+    if (!showEMA && emaId) {
+      chart.removeIndicator({ id: emaId });
+      emaId = null;
+    }
+
+    if (showBOLL && !bollId) {
+      bollId = chart.createIndicator(
+        { name: "SN_BOLL", calcParams: [20, 2] },
+        true,
+        { id: "candle_pane" },
+      );
+    }
+    if (!showBOLL && bollId) {
+      chart.removeIndicator({ id: bollId });
+      bollId = null;
+    }
+
+    if (showVWAP && !vwapId) {
+      vwapId = chart.createIndicator("SN_VWAP", true, { id: "candle_pane" });
+    }
+    if (!showVWAP && vwapId) {
+      chart.removeIndicator({ id: vwapId });
+      vwapId = null;
+    }
+
     if (showVolume && !volumeId) {
       volumeId = chart.createIndicator("SN_VOL", false, {
         id: "sn_vol_pane",
@@ -409,6 +476,30 @@
     if (!showMACD && macdId) {
       chart.removeIndicator({ id: macdId });
       macdId = null;
+    }
+
+    if (showATR && !atrId) {
+      atrId = chart.createIndicator(
+        { name: "SN_ATR", calcParams: [14] },
+        false,
+        { id: "sn_atr_pane", height: 120 },
+      );
+    }
+    if (!showATR && atrId) {
+      chart.removeIndicator({ id: atrId });
+      atrId = null;
+    }
+
+    if (showSTOCH && !stochId) {
+      stochId = chart.createIndicator(
+        { name: "SN_STOCH", calcParams: [14, 3] },
+        false,
+        { id: "sn_stoch_pane", height: 120 },
+      );
+    }
+    if (!showSTOCH && stochId) {
+      chart.removeIndicator({ id: stochId });
+      stochId = null;
     }
   }
 
@@ -623,27 +714,58 @@
     }
   }
 
-  function toggleIndicator(name: "ma" | "volume" | "rsi" | "macd") {
+  function toggleIndicator(
+    name:
+      | "ma"
+      | "ema"
+      | "boll"
+      | "vwap"
+      | "volume"
+      | "rsi"
+      | "macd"
+      | "atr"
+      | "stoch",
+  ) {
     if (name === "ma") showMA = !showMA;
     if (name === "volume") showVolume = !showVolume;
     if (name === "rsi") showRSI = !showRSI;
     if (name === "macd") showMACD = !showMACD;
+    if (name === "ema") showEMA = !showEMA;
+    if (name === "boll") showBOLL = !showBOLL;
+    if (name === "vwap") showVWAP = !showVWAP;
+    if (name === "atr") showATR = !showATR;
+    if (name === "stoch") showSTOCH = !showSTOCH;
     if (chart) {
       syncIndicators();
     }
   }
 
   function toggleIndicatorById(id: string) {
-    if (id === "ma" || id === "volume" || id === "rsi" || id === "macd") {
+    if (
+      id === "ma" ||
+      id === "ema" ||
+      id === "boll" ||
+      id === "vwap" ||
+      id === "volume" ||
+      id === "rsi" ||
+      id === "macd" ||
+      id === "atr" ||
+      id === "stoch"
+    ) {
       toggleIndicator(id);
     }
   }
 
   function isIndicatorEnabled(id: string) {
     if (id === "ma") return showMA;
+    if (id === "ema") return showEMA;
+    if (id === "boll") return showBOLL;
+    if (id === "vwap") return showVWAP;
     if (id === "volume") return showVolume;
     if (id === "rsi") return showRSI;
     if (id === "macd") return showMACD;
+    if (id === "atr") return showATR;
+    if (id === "stoch") return showSTOCH;
     return false;
   }
 
@@ -1013,26 +1135,6 @@
           </div>
         {/if}
       </div>
-    </div>
-
-    <div
-      class="flex items-center justify-between border-t border-neutral-800 bg-[#0f0f0f] px-3 py-1 text-sm text-neutral-500"
-    >
-      <div class="flex flex-wrap items-center gap-1">
-        {#each timeframes as frame}
-          <button
-            class={`rounded-full border px-2 py-1 text-sm font-semibold transition ${
-              activeRange === frame
-                ? "border-neutral-200 bg-neutral-200 text-neutral-900"
-                : "border-gray-300 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800 hover:text-neutral-100 dark:border-zinc-700"
-            }`}
-            on:click={() => setRange(frame)}
-          >
-            {frame}
-          </button>
-        {/each}
-      </div>
-      <span>{currentBars.length} bars | {zone}</span>
     </div>
   </div>
 </main>
