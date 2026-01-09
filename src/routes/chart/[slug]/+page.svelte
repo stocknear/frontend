@@ -1033,10 +1033,6 @@
     indicatorSearchTerm = "";
   }
 
-  function openIndicatorModal() {
-    indicatorSearchTerm = "";
-  }
-
   function zoomChart(scale: number) {
     if (!chart) return;
     chart.zoomAtCoordinate(scale);
@@ -1248,7 +1244,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-[64px] h-7  transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row  items-center px-2 py-1 rounded-full truncate text-sm font-semibold"
+              class="min-w-[64px] h-7 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 bg-transparent flex items-center gap-1 truncate"
             >
               <Timer class="size-4 inline-block mr-0.5" />
               <span class="truncate">{activeRange}</span>
@@ -1280,7 +1276,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-[90px] h-7 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1 rounded-full truncate text-sm font-semibold"
+              class="min-w-[90px] h-7 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 bg-transparent flex items-center truncate"
             >
               <span class="inline-flex items-center gap-1 truncate">
                 {#if chartType === "candles"}
@@ -1332,7 +1328,7 @@
 
         <label
           for="indicatorModal"
-          on:click={openIndicatorModal}
+          on:click={() => (indicatorSearchTerm = "")}
           class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
           ><span role="img" class="icon-GwQQdU8S" aria-hidden="true"
             ><svg
@@ -1357,14 +1353,14 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-[130px] h-7 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1 rounded-full truncate text-[11px] font-semibold"
+              class="min-w-[130px] h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             >
               <span class="truncate">
                 {selectedStrategyTitle?.length > 0
                   ? selectedStrategyTitle
-                  : "TA Strategies"}
+                  : "Select Strategy"}
               </span>
-              <ChevronDown class="h-3 w-3" />
+              <ChevronDown class="size-4 ml-1 mr-1" />
             </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
@@ -1436,9 +1432,7 @@
         </DropdownMenu.Root>
 
         <button
-          class={`flex items-center gap-1 rounded-full border border-gray-300 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700 ${
-            data?.user ? "" : "opacity-60"
-          }`}
+          class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
           on:click={() => handleSave(true)}
         >
           Save
