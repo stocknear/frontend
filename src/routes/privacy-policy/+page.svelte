@@ -63,7 +63,7 @@
                 policy in its entirety along with our
                 <a
                   href="/terms-of-use"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >Terms of use</a
                 >. Generally, you may use our website without providing personal
                 data. When personal data (such as your name, address, or email
@@ -164,7 +164,7 @@
                 wish to have it removed from our systems, please contact us at
                 <a
                   href={`mailto:${emailAddress}`}
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
                 >.<br /><br />
                 In addition, you have the following rights:
@@ -233,7 +233,7 @@
                     at
                     <a
                       href={`mailto:${emailAddress}`}
-                      class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                       >{emailAddress}</a
                     >.
                   </li>

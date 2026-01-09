@@ -105,7 +105,7 @@
                 possible. You can also send an email directly to
                 <a
                   href={`mailto:${emailAddress}`}
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
                 >.
               </p>

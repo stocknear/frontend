@@ -104,7 +104,7 @@
                 will get back to you as soon as possible. You can also send an
                 email directly to <a
                   href={`mailto:${emailAddress}`}
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
                 >.
               </p>
@@ -112,7 +112,7 @@
               <p class="text-sm sm:text-base">
                 You can find answers to some common questions here: <a
                   href="/faq"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >Frequently Asked Questions</a
                 >.
               </p>

@@ -56,7 +56,7 @@
                 Email:
                 <a
                   href={`mailto:${emailAddress}`}
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
                 >.
                 <br class="mb-3" />
@@ -87,7 +87,7 @@
                 <a
                   target="_blank"
                   href="http://ec.europa.eu/odr"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >http://ec.europa.eu/odr.</a
                 >
                 <br />

@@ -252,7 +252,7 @@
                     {#each tabs as item}
                       <li>
                         <a
-                          class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           href={item?.link}
                           title={`Visit ${item?.title} page`}>{item?.title}</a
                         >
@@ -275,7 +275,7 @@
                         <li>
                           <a
                             href={"/blog/article/" + convertToSlug(item?.title)}
-                            class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                             title={`Visit ${item?.title} page`}>{item?.title}</a
                           >
                         </li>
@@ -298,7 +298,7 @@
                         <a
                           href={"/learning-center/article/" +
                             convertToSlug(item?.title)}
-                          class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           title={`Visit ${item?.title} page`}>{item?.title}</a
                         >
                       </li>
@@ -321,7 +321,7 @@
                       <li>
                         <a
                           href={"/blog/article/" + convertToSlug(item?.title)}
-                          class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           title={`Visit ${item?.title} page`}
                         >
                           {item?.title}

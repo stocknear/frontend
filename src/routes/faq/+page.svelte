@@ -69,7 +69,7 @@
                 Yes! We've created the
                 <a
                   href="/learning-center"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >Learning Center</a
                 > to explain each feature in detail—what it does, how to integrate
                 it into your strategies, and its market impact. We update it regularly,
@@ -112,7 +112,7 @@
               >
                 If you notice an inaccuracy, please contact us at <a
                   href={`mailto:${emailAddress}`}
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
                 >.
               </p>
@@ -127,7 +127,7 @@
               >
                 Our <a
                   href="/options-flow"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >options flow</a
                 > feature provides real-time options data from Benzinga without delays.
               </p>
@@ -169,7 +169,7 @@
               >
                 Please email <a
                   href={`mailto:${emailAddress}`}
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
                 >, and we’ll investigate immediately.
               </p>
@@ -192,7 +192,7 @@
                   href={discordURL}
                   rel="noopener noreferrer"
                   target="_blank"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >official Discord</a
                 > for quicker responses from our dev team. We’re always open to new
                 ideas to improve the platform.

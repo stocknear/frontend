@@ -50,7 +50,7 @@
                 bound by these Terms as well as our
                 <a
                   href="/privacy-policy"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >Privacy Policy</a
                 >. Stocknear reserves the right to modify these Terms at any
                 time.
@@ -179,7 +179,7 @@
                 us at
                 <a
                   href="mailto:contact@stocknear.com"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >contact@stocknear.com</a
                 >
                 using the subject line "Copyright Infringement" and provide a detailed
@@ -206,7 +206,7 @@
                 Settings or by contacting us at
                 <a
                   href="mailto:support@stocknear.com"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >support@stocknear.com</a
                 >.<br /><br />
                 If you are not completely satisfied with your subscription, you may
@@ -308,7 +308,7 @@
                 our contact form or email us directly at
                 <a
                   href="mailto:support@stocknear.com"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >support@stocknear.com</a
                 >.
               </div>
@@ -323,13 +323,13 @@
                 These Terms and Conditions, together with our
                 <a
                   href="/privacy-policy"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >Privacy Policy</a
                 >
                 and
                 <a
                   href="/imprint"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >Imprint</a
                 >, constitute the entire agreement between you and Stocknear.
                 <br /><br />

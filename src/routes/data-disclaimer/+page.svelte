@@ -59,14 +59,14 @@
                   href={discordURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   Discord
                 </a>
                 or contact our support team at
                 <a
                   href="mailto:{emailAddress}"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   {emailAddress}
                 </a>.
@@ -86,7 +86,7 @@
                   href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   Financial Modeling Prep (FMP)
                 </a>, a leading provider of financial data services. This
@@ -122,7 +122,7 @@
                   href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   Financial Modeling Prep
                 </a>
@@ -147,7 +147,7 @@
                   href="https://mainstreetdata.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   Main Street Data
                 </a>. Their research team aggregates, normalizes, and
@@ -174,7 +174,7 @@
                   href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   Financial Modeling Prep
                 </a>. While we strive to present the most accurate forecasts,
@@ -197,7 +197,7 @@
                   href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                 >
                   Financial Modeling Prep
                 </a>, ensuring accurate and timely information on fund
