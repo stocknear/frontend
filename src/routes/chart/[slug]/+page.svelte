@@ -89,10 +89,9 @@
       sublabel: "SMA 20/50/100/200",
       indicatorName: "SN_MA",
       category: "Trend",
-      infoKey: "sma20",
+      infoKey: "ma",
       defaultParams: [20, 50, 100, 200],
       pane: "candle",
-      defaultEnabled: true,
     },
     {
       id: "ema",
@@ -100,7 +99,7 @@
       sublabel: "EMA 9/21/50",
       indicatorName: "SN_EMA",
       category: "Trend",
-      infoKey: "ema20",
+      infoKey: "ema",
       defaultParams: [9, 21, 50],
       pane: "candle",
     },
@@ -119,7 +118,7 @@
       sublabel: "Volume-weighted average price",
       indicatorName: "SN_VWAP",
       category: "Volume",
-      infoKey: "volume",
+      infoKey: "vwap",
       defaultParams: [],
       pane: "candle",
     },
@@ -796,6 +795,17 @@
     ruleOfList = buildRuleList();
   };
 
+  const applyDefaultIndicators = () => {
+    indicatorParams = cloneIndicatorParams();
+    indicatorState = Object.fromEntries(
+      indicatorDefinitions.map((item) => [item.id, Boolean(item.defaultEnabled)]),
+    );
+    if (chart) {
+      syncIndicators();
+    }
+    ruleOfList = buildRuleList();
+  };
+
   function applyTheme(_theme: string) {
     if (!chart) return;
     const isDark = _theme === "dark";
@@ -1256,7 +1266,7 @@
           [];
         applyStrategyRules(ruleOfList);
       } else {
-        ruleOfList = buildRuleList();
+        applyDefaultIndicators();
       }
 
       return true;
@@ -1290,6 +1300,17 @@
     applyRange(activeRange);
   }
 
+  function clearIndicators() {
+    const nextState: Record<string, boolean> = Object.fromEntries(
+      indicatorDefinitions.map((item) => [item.id, false]),
+    );
+    indicatorState = nextState;
+    if (chart) {
+      syncIndicators();
+    }
+    ruleOfList = buildRuleList();
+  }
+
   function activateTool(toolId: string) {
     activeTool = toolId;
     if (!chart) return;
@@ -1310,6 +1331,7 @@
 
     if (toolId === "erase") {
       chart.removeOverlay();
+      clearIndicators();
       activeTool = "cursor";
       if (chartMain) {
         chartMain.style.cursor = "default";
@@ -1421,10 +1443,14 @@
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
 
-    if (selectedStrategy) {
+    if (strategyList?.length) {
+      ruleOfList = getStrategyRules(
+        strategyList?.find((item) => item.id === selectedStrategy) ??
+          strategyList?.at(0),
+      );
       applyStrategyRules(ruleOfList);
     } else {
-      ruleOfList = buildRuleList();
+      applyDefaultIndicators();
     }
 
     if (!chartContainer) return;
@@ -1949,7 +1975,7 @@
                     on:click={() => toggleIndicatorById(indicator.id)}
                     id={indicator.id}
                     type="checkbox"
-                    checked={isIndicatorEnabled(indicator.id)}
+                    checked={Boolean(indicatorState[indicator.id])}
                     class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
                   />
                   <div class="-mt-0.5">
