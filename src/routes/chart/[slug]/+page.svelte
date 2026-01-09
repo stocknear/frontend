@@ -25,6 +25,7 @@
   import Timer from "lucide-svelte/icons/timer";
 
   export let data;
+  export let form;
 
   const zone = "America/New_York";
   const timeframes = ["1D", "5D", "1M", "6M", "YTD", "1Y", "5Y", "MAX"];
@@ -943,23 +944,37 @@
       $mode === "light" ? "#F9FAFB" : "#4B5563"
     }; font-size: 15px;`;
 
+  let LoginPopup;
+
+  const openLoginModal = () => {
+    const loginTrigger = document.getElementById("userLogin");
+    if (!loginTrigger) return false;
+    loginTrigger.dispatchEvent(new MouseEvent("click"));
+    return true;
+  };
+
   const ensureAuth = () => {
     if (data?.user) return true;
-    toast.info("Sign in to save chart strategies.", {
-      style: toastStyle(),
-    });
+    if (!openLoginModal()) {
+      toast.info("Sign in to save chart strategies.", {
+        style: toastStyle(),
+      });
+    }
     return false;
   };
 
   $: selectedStrategyTitle =
     strategyList?.find((item) => item.id === selectedStrategy)?.title ?? "";
 
+  function handleCreateStrategy() {
+    const modal = document.getElementById("addChartStrategy");
+    modal?.dispatchEvent(new MouseEvent("click"));
+  }
+
   async function handleSave(showMessage = true) {
-    if (!ensureAuth()) return;
+    if (!data?.user) return;
     if (!selectedStrategy) {
-      toast.info("Create a strategy first.", {
-        style: toastStyle(),
-      });
+      handleCreateStrategy();
       return;
     }
 
@@ -1243,7 +1258,11 @@
     return dt.toFormat("MMM dd, yyyy");
   }
 
-  onMount(() => {
+  onMount(async () => {
+    if (!data?.user) {
+      LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
+    }
+
     if (selectedStrategy) {
       applyStrategyRules(ruleOfList);
     } else {
@@ -1514,7 +1533,7 @@
                   class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
                   <label
-                    for="addChartStrategy"
+                    for={!data?.user ? "userLogin" : "addChartStrategy"}
                     class="flex flex-row items-center cursor-pointer"
                   >
                     <svg
@@ -1569,12 +1588,22 @@
           </DropdownMenu.Content>
         </DropdownMenu.Root>
         {#if data?.user}
-          <button
-            class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+          <label
+            for={!data?.user ? "userLogin" : ""}
             on:click={() => handleSave(true)}
+            class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
           >
             Save
-          </button>
+          </label>
+
+          {#if strategyList?.length > 0}
+            <label
+              for={!data?.user ? "userLogin" : "addChartStrategy"}
+              class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            >
+              Save as New
+            </label>
+          {/if}
         {/if}
       </div>
     </div>
@@ -1860,3 +1889,7 @@
     </div>
   </div>
 </dialog>
+
+{#if LoginPopup}
+  <LoginPopup {form} />
+{/if}
