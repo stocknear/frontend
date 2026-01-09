@@ -25,6 +25,7 @@
   import Timer from "lucide-svelte/icons/timer";
   import { groupChartIndicators } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import SEO from "$lib/components/SEO.svelte";
 
   export let data;
   export let form;
@@ -66,6 +67,13 @@
   let currentChartType: ChartTypeOption | undefined = chartTypeOptions[0];
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
+  const toNumber = (value: unknown): number | null => {
+    const n =
+      typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+    return Number.isFinite(n) ? n : null;
+  };
+  const formatSeoPrice = (value: number | null | undefined) =>
+    typeof value === "number" && Number.isFinite(value) ? value.toFixed(2) : "N/A";
 
   type ChartRule = { name: string; params?: number[] };
 
@@ -516,11 +524,6 @@
     if (!chart) return;
     chartRoot = chart.getDom() as HTMLElement | null;
     chartMain = chart.getDom("candle_pane", "main") as HTMLElement | null;
-  };
-
-  const toNumber = (value: unknown): number | null => {
-    const num = typeof value === "number" ? value : Number(value);
-    return Number.isFinite(num) ? num : null;
   };
 
   const handleCrosshairChange = (payload) => {
@@ -1573,6 +1576,25 @@
   $: changeClass =
     change !== null && change < 0 ? "text-[#f23645]" : "text-[#22ab94]";
 
+  $: seoCompanyName = data?.companyName || ticker;
+  $: seoPrice =
+    toNumber(data?.getStockQuote?.price) ??
+    toNumber(lastClose) ??
+    toNumber(dailyBars?.at(-1)?.close);
+  $: seoChangePercent =
+    toNumber(data?.getStockQuote?.changesPercentage) ?? changePercent;
+  $: seoChangeSymbol =
+    seoChangePercent !== null && seoChangePercent < 0 ? "▼" : "▲";
+  $: seoChangeText =
+    seoChangePercent !== null
+      ? `${seoChangeSymbol} ${Math.abs(seoChangePercent).toFixed(2)}%`
+      : "";
+  $: seoPriceText = seoPrice !== null ? formatSeoPrice(seoPrice) : "N/A";
+  $: seoMarketCap = toNumber(data?.getStockQuote?.marketCap);
+  $: seoMarketCapText = seoMarketCap
+    ? `$${(seoMarketCap / 1e9).toFixed(1)}B`
+    : "N/A";
+
   $: filteredIndicators = indicatorItems.filter((item) => {
     if (!indicatorSearchTerm.trim()) return true;
     const term = indicatorSearchTerm.trim().toLowerCase();
@@ -1590,9 +1612,82 @@
     chartTypeOptions[0];
 </script>
 
-<svelte:head>
-  <title>{ticker} Chart | Stocknear</title>
-</svelte:head>
+<SEO
+  title={`${ticker}${seoPriceText !== "N/A" ? ` ${seoPriceText}` : ""}${seoChangeText ? ` ${seoChangeText}` : ""} Live Chart`}
+  description={`Interactive ${seoCompanyName} (${ticker}) stock chart with real-time and historical prices, volume, and technical indicators. Latest price ${seoPriceText}, market cap ${seoMarketCapText}.`}
+  keywords={`${ticker} stock chart, ${seoCompanyName} chart, ${ticker} technical analysis, ${ticker} live price, ${ticker} candlestick chart, stock charting, trading indicators, price action`}
+  type="article"
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": ["WebPage", "FinancialProduct"],
+    name: `${seoCompanyName} (${ticker}) Stock Chart`,
+    headline: `${seoCompanyName} (${ticker}) Live Stock Chart`,
+    description: `Real-time ${seoCompanyName} (${ticker}) chart with price, volume, and technical indicators`,
+    url: `https://stocknear.com/chart/${ticker}`,
+    author: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://stocknear.com/favicon.png",
+      },
+    },
+    dateModified: new Date().toISOString(),
+    datePublished: new Date().toISOString(),
+    about: {
+      "@type": "FinancialProduct",
+      name: `${seoCompanyName} Common Stock`,
+      identifier: ticker,
+      offers: {
+        "@type": "Offer",
+        price: seoPrice ?? undefined,
+        priceCurrency: "USD",
+        priceValidUntil: new Date(
+          Date.now() + 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        availability: "https://schema.org/InStock",
+      },
+    },
+    financialData: {
+      "@type": "MonetaryAmount",
+      currency: "USD",
+      value: {
+        marketCap: seoMarketCap,
+        price: seoPrice ?? undefined,
+        volume: data?.getStockQuote?.volume,
+      },
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://stocknear.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Chart",
+          item: "https://stocknear.com/chart",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: `${seoCompanyName} (${ticker})`,
+          item: `https://stocknear.com/chart/${ticker}`,
+        },
+      ],
+    },
+  }}
+/>
 
 <main
   class="h-[calc(100vh-56px)] w-full bg-[#09090b] text-neutral-200 overflow-hidden"

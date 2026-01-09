@@ -15,13 +15,24 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     "X-API-KEY": apiKey,
   };
 
-  const [historicalRes, intradayRes] = await Promise.all([
+  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes] =
+    await Promise.all([
     fetch(apiURL + "/historical-adj-price", {
       method: "POST",
       headers,
       body: payload,
     }),
     fetch(apiURL + "/one-day-price", {
+      method: "POST",
+      headers,
+      body: payload,
+    }),
+    fetch(apiURL + "/stock-quote", {
+      method: "POST",
+      headers,
+      body: payload,
+    }),
+    fetch(apiURL + "/stockdeck", {
       method: "POST",
       headers,
       body: payload,
@@ -46,6 +57,24 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }
   }
 
+  let getStockQuote = {};
+  if (stockQuoteRes.ok) {
+    try {
+      getStockQuote = await stockQuoteRes.json();
+    } catch {
+      getStockQuote = {};
+    }
+  }
+
+  let getStockDeck = {};
+  if (stockDeckRes.ok) {
+    try {
+      getStockDeck = await stockDeckRes.json();
+    } catch {
+      getStockDeck = {};
+    }
+  }
+
   const getAllStrategies = async () => {
     if (!user) return [];
     try {
@@ -63,6 +92,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     ticker,
     historical,
     intraday,
+    getStockQuote,
+    companyName: getStockDeck?.companyName ?? "",
     wsURL,
     getAllStrategies: await getAllStrategies(),
   };
