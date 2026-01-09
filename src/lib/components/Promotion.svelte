@@ -35,7 +35,7 @@
       class="cursor-pointer absolute right-3 top-3 text-lg text-muted dark:text-white dark:hover:text-white transition"
     >
       <svg
-        class="h-8 w-8"
+        class="h-8 w-8 cursor-pointer"
         viewBox="0 -0.5 25 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
