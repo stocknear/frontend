@@ -2,9 +2,11 @@
   import { abbreviateNumber } from "$lib/utils";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import { goto } from "$app/navigation";
 
   export let intradayBars: Record<string, any[]> = {};
   export let defaultInterval = 15;
+  export let isPro = false;
 
   const intervalOptions = [5, 15, 30];
   let selectedInterval = intervalOptions.includes(defaultInterval)
@@ -203,6 +205,10 @@
 
   let config: any = null;
 
+  $: if (!isPro && selectedInterval !== 30) {
+    selectedInterval = 30;
+  }
+
   $: if ($mode && intradayBars && selectedInterval) {
     config = buildConfig();
   }
@@ -212,19 +218,39 @@
   <div class="text-sm font-semibold text-gray-800 dark:text-zinc-200">
     Interval Bars
   </div>
-  <div class="flex items-center gap-2">
-    {#each intervalOptions as interval}
-      <button
-        type="button"
-        class={`cursor-pointer text-xs sm:text-sm px-3 py-1 rounded-full border transition ${
-          selectedInterval === interval
-            ? "bg-gray-900 text-white border-gray-900 dark:bg-white dark:text-zinc-900 dark:border-white"
-            : "bg-white text-gray-700 border-gray-300 dark:bg-zinc-950 dark:text-zinc-200 dark:border-zinc-700"
-        }`}
-        on:click={() => (selectedInterval = interval)}
-      >
-        {interval}m
-      </button>
+  <div
+    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
+  >
+    {#each intervalOptions as item, i}
+      {#if !isPro && item !== 30}
+        <button
+          on:click={() => goto("/pricing")}
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all bg-white/80 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60"
+        >
+          <span class="relative text-sm block font-semibold">
+            {item}m
+            <svg
+              class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              ><path
+                fill="currentColor"
+                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+              /></svg
+            >
+          </span>
+        </button>
+      {:else}
+        <button
+          on:click={() => (selectedInterval = item)}
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+                            {selectedInterval === item
+            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+        >
+          {item}m
+        </button>
+      {/if}
     {/each}
   </div>
 </div>
