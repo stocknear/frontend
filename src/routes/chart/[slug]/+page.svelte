@@ -36,31 +36,262 @@
   let barIndexByTimestamp = new Map<number, number>();
   let activeRange = "1D";
   let chartType: "candles" | "line" = "candles";
-  let showMA = true;
-  let showVolume = true;
-  let showRSI = false;
-  let showMACD = false;
-  let showEMA = false;
-  let showBOLL = false;
-  let showVWAP = false;
-  let showATR = false;
-  let showSTOCH = false;
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
 
   type ChartRule = { name: string; params?: number[] };
 
-  const indicatorParamDefaults: Record<string, number[]> = {
-    ma: [20, 50, 200],
-    ema: [9, 21, 50],
-    boll: [20, 2],
-    vwap: [],
-    volume: [5, 10, 20],
-    rsi: [14],
-    macd: [12, 26, 9],
-    atr: [14],
-    stoch: [14, 3],
+  type IndicatorDefinition = {
+    id: string;
+    label: string;
+    sublabel: string;
+    indicatorName: string;
+    defaultParams: number[];
+    pane: "candle" | "panel";
+    height?: number;
+    defaultEnabled?: boolean;
   };
+
+  const indicatorDefinitions: IndicatorDefinition[] = [
+    {
+      id: "ma",
+      label: "Moving Average",
+      sublabel: "SMA 20/50/100/200",
+      indicatorName: "SN_MA",
+      defaultParams: [20, 50, 100, 200],
+      pane: "candle",
+      defaultEnabled: true,
+    },
+    {
+      id: "ema",
+      label: "Exponential Moving Average",
+      sublabel: "EMA 9/21/50",
+      indicatorName: "SN_EMA",
+      defaultParams: [9, 21, 50],
+      pane: "candle",
+    },
+    {
+      id: "boll",
+      label: "Bollinger Bands",
+      sublabel: "BOLL 20 / 2 SD",
+      indicatorName: "SN_BOLL",
+      defaultParams: [20, 2],
+      pane: "candle",
+    },
+    {
+      id: "vwap",
+      label: "VWAP",
+      sublabel: "Volume-weighted average price",
+      indicatorName: "SN_VWAP",
+      defaultParams: [],
+      pane: "candle",
+    },
+    {
+      id: "parabolic_sar",
+      label: "Parabolic SAR",
+      sublabel: "Step 0.02 / Max 0.2",
+      indicatorName: "SN_SAR",
+      defaultParams: [0.02, 0.2],
+      pane: "candle",
+    },
+    {
+      id: "donchian",
+      label: "Donchian Channels",
+      sublabel: "20",
+      indicatorName: "SN_DONCHIAN",
+      defaultParams: [20],
+      pane: "candle",
+    },
+    {
+      id: "pivot",
+      label: "Pivot Points",
+      sublabel: "Classic",
+      indicatorName: "SN_PIVOT",
+      defaultParams: [],
+      pane: "candle",
+    },
+    {
+      id: "fibonacci",
+      label: "Fibonacci Retracements",
+      sublabel: "23.6 / 38.2 / 50 / 61.8 / 78.6",
+      indicatorName: "SN_FIB",
+      defaultParams: [],
+      pane: "candle",
+    },
+    {
+      id: "psych_round_10",
+      label: "Psychological Levels ($10)",
+      sublabel: "Nearest $10",
+      indicatorName: "SN_PSYCH",
+      defaultParams: [10],
+      pane: "candle",
+    },
+    {
+      id: "psych_round_25",
+      label: "Psychological Levels ($25)",
+      sublabel: "Nearest $25",
+      indicatorName: "SN_PSYCH",
+      defaultParams: [25],
+      pane: "candle",
+    },
+    {
+      id: "psych_round_50",
+      label: "Psychological Levels ($50)",
+      sublabel: "Nearest $50",
+      indicatorName: "SN_PSYCH",
+      defaultParams: [50],
+      pane: "candle",
+    },
+    {
+      id: "volume",
+      label: "Volume",
+      sublabel: "Volume + MA 5/10/20",
+      indicatorName: "SN_VOL",
+      defaultParams: [5, 10, 20],
+      pane: "panel",
+      height: 120,
+      defaultEnabled: true,
+    },
+    {
+      id: "obv",
+      label: "On-Balance Volume",
+      sublabel: "OBV + MA 5/10/20/50",
+      indicatorName: "SN_OBV",
+      defaultParams: [5, 10, 20, 50],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "rsi",
+      label: "Relative Strength Index",
+      sublabel: "RSI 14",
+      indicatorName: "SN_RSI",
+      defaultParams: [14],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "macd",
+      label: "MACD",
+      sublabel: "12/26/9",
+      indicatorName: "SN_MACD",
+      defaultParams: [12, 26, 9],
+      pane: "panel",
+      height: 140,
+    },
+    {
+      id: "atr",
+      label: "Average True Range",
+      sublabel: "ATR 14",
+      indicatorName: "SN_ATR",
+      defaultParams: [14],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "stoch",
+      label: "Stochastic Oscillator",
+      sublabel: "%K 14 / %D 3",
+      indicatorName: "SN_STOCH",
+      defaultParams: [14, 3],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "stoch_crossover",
+      label: "Stochastic Crossover",
+      sublabel: "%K - %D",
+      indicatorName: "SN_STOCH_X",
+      defaultParams: [14, 3],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "cci",
+      label: "Commodity Channel Index",
+      sublabel: "CCI 20",
+      indicatorName: "SN_CCI",
+      defaultParams: [20],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "williams_r",
+      label: "Williams %R",
+      sublabel: "%R 14",
+      indicatorName: "SN_WILLIAMS",
+      defaultParams: [14],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "mfi",
+      label: "Money Flow Index",
+      sublabel: "MFI 14",
+      indicatorName: "SN_MFI",
+      defaultParams: [14],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "roc",
+      label: "Rate of Change",
+      sublabel: "ROC 12",
+      indicatorName: "SN_ROC",
+      defaultParams: [12],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "tsi",
+      label: "True Strength Index",
+      sublabel: "TSI 25/13/7",
+      indicatorName: "SN_TSI",
+      defaultParams: [25, 13, 7],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "aroon",
+      label: "Aroon",
+      sublabel: "Aroon 25",
+      indicatorName: "SN_AROON",
+      defaultParams: [25],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "std",
+      label: "Standard Deviation",
+      sublabel: "20",
+      indicatorName: "SN_STD",
+      defaultParams: [20],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "hist_vol",
+      label: "Historical Volatility",
+      sublabel: "HV 20",
+      indicatorName: "SN_HVOL",
+      defaultParams: [20],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "chaikin_vol",
+      label: "Chaikin Volatility",
+      sublabel: "10 / 10",
+      indicatorName: "SN_CHAIKIN",
+      defaultParams: [10, 10],
+      pane: "panel",
+      height: 120,
+    },
+  ];
+
+  const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
+    indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
+  );
 
   const cloneIndicatorParams = () =>
     Object.fromEntries(
@@ -79,15 +310,12 @@
   let ruleOfList: ChartRule[] = getStrategyRules(strategyList?.at(0));
   let selectedStrategyTitle = "";
 
-  let maId: string | null = null;
-  let volumeId: string | null = null;
-  let rsiId: string | null = null;
-  let macdId: string | null = null;
-  let emaId: string | null = null;
-  let bollId: string | null = null;
-  let vwapId: string | null = null;
-  let atrId: string | null = null;
-  let stochId: string | null = null;
+  let indicatorInstanceIds: Record<string, string | null> = Object.fromEntries(
+    indicatorDefinitions.map((item) => [item.id, null]),
+  );
+  let indicatorState: Record<string, boolean> = Object.fromEntries(
+    indicatorDefinitions.map((item) => [item.id, Boolean(item.defaultEnabled)]),
+  );
   let resizeObserver: ResizeObserver | null = null;
   let chartRoot: HTMLElement | null = null;
   let chartMain: HTMLElement | null = null;
@@ -110,53 +338,11 @@
     { id: "erase", label: "Eraser", icon: EraserIcon },
   ];
 
-  const indicatorItems = [
-    {
-      id: "ma",
-      label: "Moving Average",
-      sublabel: "MA 20/50/200",
-    },
-    {
-      id: "ema",
-      label: "Exponential Moving Average",
-      sublabel: "EMA 9/21/50",
-    },
-    {
-      id: "boll",
-      label: "Bollinger Bands",
-      sublabel: "BOLL 20 / 2 SD",
-    },
-    {
-      id: "vwap",
-      label: "VWAP",
-      sublabel: "Volume-weighted average price",
-    },
-    {
-      id: "volume",
-      label: "Volume",
-      sublabel: "Volume + MA 5/10/20",
-    },
-    {
-      id: "rsi",
-      label: "Relative Strength Index",
-      sublabel: "RSI 14",
-    },
-    {
-      id: "macd",
-      label: "MACD",
-      sublabel: "12/26/9",
-    },
-    {
-      id: "atr",
-      label: "Average True Range",
-      sublabel: "ATR 14",
-    },
-    {
-      id: "stoch",
-      label: "Stochastic Oscillator",
-      sublabel: "%K 14 / %D 3",
-    },
-  ];
+  const indicatorItems = indicatorDefinitions.map((item) => ({
+    id: item.id,
+    label: item.label,
+    sublabel: item.sublabel,
+  }));
   let filteredIndicators = indicatorItems;
 
   const toolOverlays: Record<string, string> = {
@@ -431,123 +617,40 @@
 
   function syncIndicators() {
     if (!chart) return;
+    const nextInstanceIds = { ...indicatorInstanceIds };
 
-    if (showMA && !maId) {
-      maId = chart.createIndicator(
-        { name: "SN_MA", calcParams: getIndicatorParams("ma") },
-        true,
-        { id: "candle_pane" },
-      );
-    }
-    if (!showMA && maId) {
-      chart.removeIndicator({ id: maId });
-      maId = null;
-    }
+    indicatorDefinitions.forEach((item) => {
+      const enabled = Boolean(indicatorState[item.id]);
+      const existingId = nextInstanceIds[item.id];
+      const paneOptions =
+        item.pane === "candle"
+          ? { id: "candle_pane" }
+          : { id: `sn_${item.id}_pane`, height: item.height ?? 120 };
 
-    if (showEMA && !emaId) {
-      emaId = chart.createIndicator(
-        { name: "SN_EMA", calcParams: getIndicatorParams("ema") },
-        true,
-        { id: "candle_pane" },
-      );
-    }
-    if (!showEMA && emaId) {
-      chart.removeIndicator({ id: emaId });
-      emaId = null;
-    }
+      if (enabled && !existingId) {
+        nextInstanceIds[item.id] = chart.createIndicator(
+          { name: item.indicatorName, calcParams: getIndicatorParams(item.id) },
+          item.pane === "candle",
+          paneOptions,
+        );
+        return;
+      }
 
-    if (showBOLL && !bollId) {
-      bollId = chart.createIndicator(
-        { name: "SN_BOLL", calcParams: getIndicatorParams("boll") },
-        true,
-        { id: "candle_pane" },
-      );
-    }
-    if (!showBOLL && bollId) {
-      chart.removeIndicator({ id: bollId });
-      bollId = null;
-    }
+      if (!enabled && existingId) {
+        chart.removeIndicator({ id: existingId });
+        nextInstanceIds[item.id] = null;
+        return;
+      }
 
-    if (showVWAP && !vwapId) {
-      vwapId = chart.createIndicator(
-        { name: "SN_VWAP", calcParams: getIndicatorParams("vwap") },
-        true,
-        { id: "candle_pane" },
-      );
-    }
-    if (!showVWAP && vwapId) {
-      chart.removeIndicator({ id: vwapId });
-      vwapId = null;
-    }
+      if (enabled && existingId) {
+        chart.overrideIndicator({
+          id: existingId,
+          calcParams: getIndicatorParams(item.id),
+        });
+      }
+    });
 
-    if (showVolume && !volumeId) {
-      volumeId = chart.createIndicator(
-        { name: "SN_VOL", calcParams: getIndicatorParams("volume") },
-        false,
-        {
-          id: "sn_vol_pane",
-          height: 120,
-        },
-      );
-    }
-    if (!showVolume && volumeId) {
-      chart.removeIndicator({ id: volumeId });
-      volumeId = null;
-    }
-
-    if (showRSI && !rsiId) {
-      rsiId = chart.createIndicator(
-        { name: "SN_RSI", calcParams: getIndicatorParams("rsi") },
-        false,
-        {
-          id: "sn_rsi_pane",
-          height: 120,
-        },
-      );
-    }
-    if (!showRSI && rsiId) {
-      chart.removeIndicator({ id: rsiId });
-      rsiId = null;
-    }
-
-    if (showMACD && !macdId) {
-      macdId = chart.createIndicator(
-        { name: "SN_MACD", calcParams: getIndicatorParams("macd") },
-        false,
-        {
-          id: "sn_macd_pane",
-          height: 140,
-        },
-      );
-    }
-    if (!showMACD && macdId) {
-      chart.removeIndicator({ id: macdId });
-      macdId = null;
-    }
-
-    if (showATR && !atrId) {
-      atrId = chart.createIndicator(
-        { name: "SN_ATR", calcParams: getIndicatorParams("atr") },
-        false,
-        { id: "sn_atr_pane", height: 120 },
-      );
-    }
-    if (!showATR && atrId) {
-      chart.removeIndicator({ id: atrId });
-      atrId = null;
-    }
-
-    if (showSTOCH && !stochId) {
-      stochId = chart.createIndicator(
-        { name: "SN_STOCH", calcParams: getIndicatorParams("stoch") },
-        false,
-        { id: "sn_stoch_pane", height: 120 },
-      );
-    }
-    if (!showSTOCH && stochId) {
-      chart.removeIndicator({ id: stochId });
-      stochId = null;
-    }
+    indicatorInstanceIds = nextInstanceIds;
   }
 
   const buildRuleList = (): ChartRule[] =>
@@ -560,24 +663,19 @@
       }));
 
   const applyStrategyRules = (rules: ChartRule[]) => {
-    const active = new Set(rules.map((rule) => rule.name));
-    showMA = active.has("ma");
-    showEMA = active.has("ema");
-    showBOLL = active.has("boll");
-    showVWAP = active.has("vwap");
-    showVolume = active.has("volume");
-    showRSI = active.has("rsi");
-    showMACD = active.has("macd");
-    showATR = active.has("atr");
-    showSTOCH = active.has("stoch");
-
+    const nextState: Record<string, boolean> = Object.fromEntries(
+      indicatorDefinitions.map((item) => [item.id, false]),
+    );
     indicatorParams = cloneIndicatorParams();
     rules.forEach((rule) => {
+      if (!rule?.name || !(rule.name in nextState)) return;
+      nextState[rule.name] = true;
       if (Array.isArray(rule.params) && rule.params.length > 0) {
         indicatorParams[rule.name] = [...rule.params];
       }
     });
 
+    indicatorState = nextState;
     if (chart) {
       syncIndicators();
     }
@@ -820,27 +918,12 @@
     }
   }
 
-  function toggleIndicator(
-    name:
-      | "ma"
-      | "ema"
-      | "boll"
-      | "vwap"
-      | "volume"
-      | "rsi"
-      | "macd"
-      | "atr"
-      | "stoch",
-  ) {
-    if (name === "ma") showMA = !showMA;
-    if (name === "volume") showVolume = !showVolume;
-    if (name === "rsi") showRSI = !showRSI;
-    if (name === "macd") showMACD = !showMACD;
-    if (name === "ema") showEMA = !showEMA;
-    if (name === "boll") showBOLL = !showBOLL;
-    if (name === "vwap") showVWAP = !showVWAP;
-    if (name === "atr") showATR = !showATR;
-    if (name === "stoch") showSTOCH = !showSTOCH;
+  function toggleIndicator(name: string) {
+    if (!(name in indicatorState)) return;
+    indicatorState = {
+      ...indicatorState,
+      [name]: !indicatorState[name],
+    };
     if (chart) {
       syncIndicators();
     }
@@ -848,32 +931,11 @@
   }
 
   function toggleIndicatorById(id: string) {
-    if (
-      id === "ma" ||
-      id === "ema" ||
-      id === "boll" ||
-      id === "vwap" ||
-      id === "volume" ||
-      id === "rsi" ||
-      id === "macd" ||
-      id === "atr" ||
-      id === "stoch"
-    ) {
-      toggleIndicator(id);
-    }
+    toggleIndicator(id);
   }
 
   function isIndicatorEnabled(id: string) {
-    if (id === "ma") return showMA;
-    if (id === "ema") return showEMA;
-    if (id === "boll") return showBOLL;
-    if (id === "vwap") return showVWAP;
-    if (id === "volume") return showVolume;
-    if (id === "rsi") return showRSI;
-    if (id === "macd") return showMACD;
-    if (id === "atr") return showATR;
-    if (id === "stoch") return showSTOCH;
-    return false;
+    return Boolean(indicatorState[id]);
   }
 
   const toastStyle = () =>
@@ -1126,7 +1188,7 @@
   };
 
   const buildMaTooltipLegends = (data?: CandleTooltipData) => {
-    if (!chart || !showMA) return [];
+    if (!chart || !isIndicatorEnabled("ma")) return [];
     const indicator =
       chart.getIndicators({ name: "SN_MA", paneId: "candle_pane" })?.[0] ??
       null;
@@ -1273,9 +1335,12 @@
 
   $: filteredIndicators = indicatorItems.filter((item) => {
     if (!indicatorSearchTerm.trim()) return true;
-    return item.label
-      .toLowerCase()
-      .includes(indicatorSearchTerm.trim().toLowerCase());
+    const term = indicatorSearchTerm.trim().toLowerCase();
+    return (
+      item.label.toLowerCase().includes(term) ||
+      item.sublabel.toLowerCase().includes(term) ||
+      item.id.toLowerCase().includes(term)
+    );
   });
 </script>
 
@@ -1503,7 +1568,7 @@
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
-        {#if strategyList?.length > 0 && selectedStrategy}
+        {#if data?.user}
           <button
             class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             on:click={() => handleSave(true)}
@@ -1691,6 +1756,9 @@
                 <label for={indicator.id} class="cursor-pointer text-[1rem]">
                   {indicator.label}
                 </label>
+                <div class="text-xs text-gray-500 dark:text-zinc-400">
+                  {indicator.sublabel}
+                </div>
               </div>
             </div>
           {/each}
