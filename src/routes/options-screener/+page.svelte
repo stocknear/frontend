@@ -2429,7 +2429,7 @@
                 >
                   <td class=" whitespace-nowrap">
                     <a
-                      href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
+                      href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
                         item?.symbol +
                         `/options/contract-lookup?contract=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
@@ -2543,7 +2543,7 @@
                 >
                   <td class=" whitespace-nowrap">
                     <a
-                      href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
+                      href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
                         item?.symbol +
                         `/options/contract-lookup?contract=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
@@ -2633,7 +2633,7 @@
                 >
                   <td class=" whitespace-nowrap">
                     <a
-                      href={`/${item?.assetType}/` +
+                      href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
                         item?.symbol +
                         `/options/contract-lookup?contract=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
