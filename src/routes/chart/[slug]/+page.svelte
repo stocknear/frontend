@@ -1317,9 +1317,9 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="cursor-pointer min-w-[64px] h-7 flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+              class="cursor-pointer h-7 flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition"
             >
-              <Timer class="size-4 inline-block mr-0.5" />
+              <Timer class="size-4 inline-block mr-0.5 " />
               <span class="truncate">{activeRange}</span>
             </Button>
           </DropdownMenu.Trigger>

@@ -106,12 +106,12 @@
                           <div class="text-sm ml-auto">
                             {#if item?.changesPercentage >= 0}
                               <span
-                                class="text-emerald-600 dark:text-emerald-400 inline-block"
+                                class="text-emerald-800 dark:text-emerald-400 inline-block"
                                 >+{item?.changesPercentage}%</span
                               >
                             {:else if item?.changesPercentage < 0}
                               <span
-                                class="text-rose-600 dark:text-rose-400 inline-block"
+                                class="text-rose-800 dark:text-rose-400 inline-block"
                                 >{item?.changesPercentage}%
                               </span>
                             {/if}
