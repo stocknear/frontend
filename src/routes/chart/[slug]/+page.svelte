@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
+  import { afterUpdate, onDestroy, onMount } from "svelte";
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData } from "klinecharts";
   import { DateTime } from "luxon";
@@ -9,6 +9,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
+  import { isOpen } from "$lib/store";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import TrendingUp from "lucide-svelte/icons/trending-up";
@@ -74,6 +75,20 @@
   };
   const formatSeoPrice = (value: number | null | undefined) =>
     typeof value === "number" && Number.isFinite(value) ? value.toFixed(2) : "N/A";
+  const toRealtimeTimestampMs = (value: unknown): number | null => {
+    const raw = toNumber(value);
+    if (raw === null) return null;
+    if (raw > 1e17) return Math.floor(raw / 1e6);
+    if (raw > 1e14) return Math.floor(raw / 1e3);
+    if (raw > 1e11) return Math.floor(raw);
+    if (raw > 1e9) return Math.floor(raw * 1000);
+    return null;
+  };
+  const getMinuteTimestamp = (timestampMs: number) =>
+    Math.floor(timestampMs / 60000) * 60000;
+  const resolveTickPrice = (tick): number | null =>
+    toNumber(tick?.lp) ?? toNumber(tick?.ap) ?? toNumber(tick?.bp);
+  const resolveTickVolume = (tick): number => toNumber(tick?.ls) ?? 0;
 
   type ChartRule = { name: string; params?: number[] };
 
@@ -395,6 +410,10 @@
   let chartMain: HTMLElement | null = null;
   let previousBodyOverflow = "";
   let previousHtmlOverflow = "";
+  let socket: WebSocket | null = null;
+  let realtimeBarCallback: ((bar: KLineData) => void) | null = null;
+  let previousTicker = "";
+  let isComponentDestroyed = false;
 
   let ticker = "";
   let dailyBars: KLineData[] = [];
@@ -710,6 +729,7 @@
     const displayBars = transformBarsForType(bars, chartType);
     currentBars = displayBars;
     hoverBar = null;
+    realtimeBarCallback = null;
     chart.setSymbol({
       ticker,
       pricePrecision,
@@ -724,8 +744,147 @@
         }
         callback(displayBars, { backward: false, forward: false });
       },
+      subscribeBar: ({ callback }) => {
+        realtimeBarCallback = callback;
+      },
+      unsubscribeBar: () => {
+        realtimeBarCallback = null;
+      },
     });
     chart.scrollToRealTime();
+  }
+
+  const updateRealtimeBars = (tick) => {
+    if (!tick) return;
+    const symbol = typeof tick?.s === "string" ? tick.s.toUpperCase() : "";
+    if (symbol && ticker && symbol !== ticker.toUpperCase()) return;
+    const timestampMs = toRealtimeTimestampMs(tick?.t ?? tick?.time);
+    if (timestampMs === null) return;
+    const price = resolveTickPrice(tick);
+    if (price === null) return;
+    const volume = resolveTickVolume(tick);
+    const minuteTimestamp = getMinuteTimestamp(timestampMs);
+    const lastIndex = intradayBars.length - 1;
+    let updatedIndex = -1;
+
+    if (lastIndex >= 0) {
+      const lastBar = intradayBars[lastIndex];
+      if (lastBar.timestamp === minuteTimestamp) {
+        intradayBars[lastIndex] = {
+          ...lastBar,
+          high: Math.max(lastBar.high, price),
+          low: Math.min(lastBar.low, price),
+          close: price,
+          volume: (lastBar.volume ?? 0) + volume,
+        };
+        updatedIndex = lastIndex;
+      } else if (lastBar.timestamp < minuteTimestamp) {
+        intradayBars.push({
+          timestamp: minuteTimestamp,
+          open: price,
+          high: price,
+          low: price,
+          close: price,
+          volume,
+        });
+        updatedIndex = intradayBars.length - 1;
+      } else {
+        const matchIndex = intradayBars.findIndex(
+          (bar) => bar.timestamp === minuteTimestamp,
+        );
+        if (matchIndex === -1) return;
+        const target = intradayBars[matchIndex];
+        intradayBars[matchIndex] = {
+          ...target,
+          high: Math.max(target.high, price),
+          low: Math.min(target.low, price),
+          close: price,
+          volume: (target.volume ?? 0) + volume,
+        };
+        updatedIndex = matchIndex;
+      }
+    } else {
+      intradayBars.push({
+        timestamp: minuteTimestamp,
+        open: price,
+        high: price,
+        low: price,
+        close: price,
+        volume,
+      });
+      updatedIndex = intradayBars.length - 1;
+    }
+
+    if (activeRange === "1D") {
+      const displayBars = transformBarsForType(intradayBars, chartType);
+      currentBars = displayBars;
+      if (updatedIndex === displayBars.length - 1) {
+        const latestBar = displayBars[updatedIndex];
+        if (latestBar && realtimeBarCallback) {
+          realtimeBarCallback(latestBar);
+        }
+      }
+    }
+
+    pricePrecision = computePricePrecision([...dailyBars, ...intradayBars]);
+    priceFormatter = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: pricePrecision,
+      maximumFractionDigits: pricePrecision,
+    });
+  };
+
+  function sendMessage(message) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON?.stringify(message));
+    } else {
+      console.error("WebSocket is not open. Unable to send message.");
+    }
+  }
+
+  async function websocketRealtimeData() {
+    if (!data?.wsURL || !ticker || typeof window === "undefined") return;
+    if (
+      socket &&
+      (socket.readyState === WebSocket.CONNECTING ||
+        socket.readyState === WebSocket.OPEN)
+    ) {
+      return;
+    }
+
+    try {
+      socket = new WebSocket(data?.wsURL + "/price-data");
+
+      socket.addEventListener("open", () => {
+        const tickerList = [ticker?.toUpperCase()] || [];
+        sendMessage(tickerList);
+      });
+
+      socket.addEventListener("message", (event) => {
+        try {
+          const parsed = JSON.parse(event.data);
+          const items = Array.isArray(parsed) ? parsed : [parsed];
+          items.forEach((item) => {
+            if (!item || (item.type !== "Q" && item.type !== "T")) return;
+            updateRealtimeBars(item);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      socket.addEventListener("close", () => {
+        socket = null;
+      });
+    } catch (error) {
+      console.error("WebSocket connection error:", error);
+    }
+  }
+
+  function disconnectWebSocket() {
+    if (socket) {
+      socket.close();
+      socket = null;
+    }
   }
 
   const getIndicatorParams = (key: string) =>
@@ -1486,6 +1645,8 @@
   });
 
   onDestroy(() => {
+    isComponentDestroyed = true;
+    disconnectWebSocket();
     if (typeof document !== "undefined") {
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
@@ -1500,6 +1661,31 @@
     chartMain = null;
     resizeObserver?.disconnect();
     resizeObserver = null;
+  });
+
+  $: {
+    if ($isOpen && typeof window !== "undefined") {
+      websocketRealtimeData();
+    } else {
+      disconnectWebSocket();
+    }
+  }
+
+  afterUpdate(async () => {
+    if (previousTicker !== ticker) {
+      previousTicker = ticker;
+
+      if (socket) {
+        socket.close();
+        await new Promise((resolve) => {
+          socket?.addEventListener("close", resolve);
+        });
+
+        if (socket?.readyState === WebSocket?.CLOSED && !isComponentDestroyed) {
+          await websocketRealtimeData();
+        }
+      }
+    }
   });
 
   $: {
