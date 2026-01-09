@@ -11,14 +11,11 @@
   import Input from "$lib/components/Input.svelte";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
-  import CrosshairIcon from "lucide-svelte/icons/crosshair";
   import TrendingUp from "lucide-svelte/icons/trending-up";
-  import ArrowUpRight from "lucide-svelte/icons/arrow-up-right";
   import SlashIcon from "lucide-svelte/icons/slash";
   import SquareIcon from "lucide-svelte/icons/square";
   import CircleIcon from "lucide-svelte/icons/circle";
-  import TypeIcon from "lucide-svelte/icons/type";
-  import PencilLine from "lucide-svelte/icons/pencil-line";
+
   import EraserIcon from "lucide-svelte/icons/eraser";
   import Trash2 from "lucide-svelte/icons/trash-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
@@ -600,6 +597,7 @@
     const crosshairBg = isDark ? "#0f141d" : "#f8fafc";
     const crosshairBorder = isDark ? "#283042" : "#e2e8f0";
     const tooltipText = isDark ? "#e2e8f0" : "#1f2937";
+    const tooltipFont = "Space Grotesk";
     const tooltipBg = isDark
       ? "rgba(15, 19, 27, 0.8)"
       : "rgba(248, 250, 252, 0.96)";
@@ -647,18 +645,37 @@
             borderColor: tooltipBorder,
           },
           title: {
+            show: false,
             color: tooltipText,
             size: 11,
+            family: tooltipFont,
             weight: 500,
           },
           legend: {
             color: tooltipText,
-            size: 11,
+            size: 13,
+            family: tooltipFont,
             weight: 500,
+            template: [
+              { title: "open", value: "{open}" },
+              { title: "high", value: "{high}" },
+              { title: "low", value: "{low}" },
+              { title: "close", value: "{close}" },
+              { title: "volume", value: "{volume}" },
+            ],
           },
         },
       },
       indicator: {
+        lastValueMark: {
+          show: true,
+          text: {
+            show: true,
+            size: 13,
+            family: tooltipFont,
+            weight: 500,
+          },
+        },
         tooltip: {
           title: {
             color: tooltipText,
@@ -1240,7 +1257,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-[64px] h-7 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 bg-transparent flex items-center gap-1 truncate"
+              class="cursor-pointer min-w-[64px] h-7 flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             >
               <Timer class="size-4 inline-block mr-0.5" />
               <span class="truncate">{activeRange}</span>

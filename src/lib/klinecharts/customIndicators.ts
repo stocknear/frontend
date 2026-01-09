@@ -23,6 +23,11 @@ function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         title: `MA${period}: `,
         type: "line",
       })),
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+    }),
     calc: (dataList, indicator) => {
       const { calcParams, figures } = indicator;
       const sums = Array(calcParams.length).fill(0);
