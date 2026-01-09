@@ -32,6 +32,7 @@
   let isLoaded = false;
   let syncWorker: Worker | undefined;
   let downloadWorker: Worker | undefined;
+  let searchWorker: Worker | undefined;
   let expirationList = data?.getScreenerData?.expirationList;
   let selectedDate = expirationList?.at(0)?.date;
 
@@ -43,6 +44,7 @@
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let groupedRules = {};
   let displayRules = [];
+  let inputValue = "";
 
   const checkedRules = ["optionType", "assetType", "indexMembership"];
 
@@ -171,11 +173,13 @@
   };
 
   let filteredData = [];
+  let originalFilteredData = [];
   let currentUnsortedData = [];
   let displayResults = [];
+  let isSearchPending = false;
 
   // Update pagination when filteredData changes
-  $: if (filteredData && filteredData.length >= 0) {
+  $: if (filteredData && filteredData.length >= 0 && !isSearchPending) {
     updatePaginatedData();
   }
 
@@ -472,9 +476,16 @@
     );
 
     filteredData = event.data?.filteredData ?? [];
+    originalFilteredData = [...filteredData];
     currentUnsortedData = [...filteredData];
     currentPage = 1;
-    updatePaginatedData();
+    if (inputValue?.length > 0) {
+      isSearchPending = true;
+      search();
+    } else {
+      isSearchPending = false;
+      updatePaginatedData();
+    }
   };
 
   const handleScreenerMessage = (event) => {
@@ -494,6 +505,59 @@
     isLoaded = false;
 
     downloadWorker.postMessage({ selectedDate: selectedDate });
+  };
+
+  async function resetTableSearch() {
+    inputValue = "";
+    filteredData = [...originalFilteredData];
+    currentUnsortedData = [...originalFilteredData];
+    currentPage = 1; // Reset to first page
+    isSearchPending = false;
+    updatePaginatedData();
+  }
+
+  async function search() {
+    inputValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (inputValue?.length > 0) {
+        isSearchPending = true;
+        await loadSearchWorker();
+      } else {
+        filteredData = [...originalFilteredData];
+        currentUnsortedData = [...originalFilteredData];
+        currentPage = 1;
+        isSearchPending = false;
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker && originalFilteredData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: originalFilteredData,
+        inputValue: inputValue,
+      });
+      return;
+    }
+    if (inputValue?.length > 0) {
+      filteredData = [];
+      currentUnsortedData = [];
+      currentPage = 1;
+      isSearchPending = false;
+      updatePaginatedData();
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      isSearchPending = false;
+      filteredData = event.data?.output ?? [];
+      currentUnsortedData = [...filteredData];
+      currentPage = 1;
+      updatePaginatedData();
+    }
   };
 
   function handleAddRule() {
@@ -553,6 +617,7 @@
   async function handleResetAll() {
     selectedPopularStrategy = "";
     displayTableTab = "general";
+    inputValue = "";
     ruleOfList = [];
     Object?.keys(allRules)?.forEach((ruleName) => {
       ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
@@ -560,10 +625,12 @@
     });
     ruleName = "";
     filteredData = [];
+    originalFilteredData = [];
     currentUnsortedData = [];
     displayResults = [];
     currentPage = 1;
     totalPages = 1;
+    isSearchPending = false;
     checkedItems = new Map();
     ruleOfList = [...ruleOfList];
     //await updateStockScreenerData();
@@ -801,6 +868,14 @@
       downloadWorker.onmessage = handleScreenerMessage;
     }
 
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
+
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
@@ -819,6 +894,8 @@
   onDestroy(() => {
     syncWorker?.terminate();
     syncWorker = undefined;
+    searchWorker?.terminate();
+    searchWorker = undefined;
     clearCache();
   });
 
@@ -2240,9 +2317,9 @@
       {filteredData?.length?.toLocaleString("en-US")} Contracts
     </h2>
     <div
-      class="col-span-2 flex flex-row items-center lg:order-2 lg:grow lg:border-0 lg:pl-1 xl:pl-3"
+      class="col-span-2 flex flex-col sm:flex-row items-center lg:order-2 lg:grow lg:border-0 lg:pl-1 xl:pl-3"
     >
-      <nav class="w-full flex flex-row items-center">
+      <nav class="w-full flex flex-row items-center sm:flex-1">
         <ul
           class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
         >
@@ -2298,6 +2375,31 @@
         </div>
         -->
       </nav>
+      <div class="relative w-full sm:w-fit sm:ml-auto mt-2 sm:mt-0">
+        <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
+          {#if inputValue?.length > 0}
+            <label class="cursor-pointer" on:click={resetTableSearch}>
+              <svg
+                class="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                ><path
+                  fill="currentColor"
+                  d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                /></svg
+              >
+            </label>
+          {/if}
+        </div>
+
+        <input
+          bind:value={inputValue}
+          on:input={search}
+          type="text"
+          placeholder="Find..."
+          class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+        />
+      </div>
     </div>
   </div>
 
@@ -2714,7 +2816,9 @@
       {/if}
     {:else}
       <Infobox
-        text="Looks like your taste is one-of-a-kind! No matches found... yet!"
+        text={inputValue?.length > 0
+          ? `No Contracts found for "${inputValue}"`
+          : "No Contracts found."}
       />
     {/if}
   {:else}

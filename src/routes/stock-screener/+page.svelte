@@ -4668,7 +4668,11 @@ const handleKeyDown = (event) => {
         </div>
       {/if}
     {:else}
-      <Infobox text="No Stocks found." />
+      <Infobox
+        text={inputValue?.length > 0
+          ? `No Stocks found for "${inputValue}"`
+          : "No Stocks found."}
+      />
     {/if}
   {:else}
     <div class="flex justify-center items-center h-80">
