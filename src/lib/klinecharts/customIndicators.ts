@@ -409,6 +409,51 @@ function createVolumeIndicator(): IndicatorTemplate<
       figures.push(getVolumeFigure());
       return figures;
     },
+    createTooltipDataSource: ({ chart, indicator, crosshair }) => {
+      const dataIndex =
+        typeof crosshair.dataIndex === "number" ? crosshair.dataIndex : null;
+      const result = indicator.result ?? [];
+      const data =
+        dataIndex !== null && result[dataIndex] ? result[dataIndex] : null;
+      const volume = data?.volume;
+      const decimalFold = chart.getDecimalFold();
+      const thousandsSeparator = chart.getThousandsSeparator();
+      const formatter = chart.getFormatter();
+      const tooltipLegendColor =
+        chart.getStyles()?.indicator?.tooltip?.legend?.color ?? "#e2e8f0";
+      const barStyles = chart.getStyles()?.indicator?.bars?.[0];
+      let valueColor = tooltipLegendColor;
+      if (data?.open !== undefined && data?.close !== undefined) {
+        if (data.close > data.open) {
+          valueColor = barStyles?.upColor ?? tooltipLegendColor;
+        } else if (data.close < data.open) {
+          valueColor = barStyles?.downColor ?? tooltipLegendColor;
+        } else {
+          valueColor = barStyles?.noChangeColor ?? tooltipLegendColor;
+        }
+      }
+
+      let valueText = "n/a";
+      if (typeof volume === "number" && Number.isFinite(volume)) {
+        let formatted = utils.formatPrecision(volume, indicator.precision);
+        if (indicator.shouldFormatBigNumber) {
+          formatted = formatter.formatBigNumber(formatted);
+        }
+        valueText = decimalFold.format(thousandsSeparator.format(formatted));
+      }
+
+      return {
+        name: "",
+        calcParamsText: "",
+        features: [],
+        legends: [
+          {
+            title: { text: "VOL: ", color: tooltipLegendColor },
+            value: { text: valueText, color: valueColor },
+          },
+        ],
+      };
+    },
     calc: (dataList, indicator) => {
       const { calcParams, figures } = indicator;
       const sums = Array(calcParams.length).fill(0);

@@ -675,11 +675,13 @@
           title: {
             color: tooltipText,
             size: 11,
+            family: tooltipFont,
             weight: 500,
           },
           legend: {
             color: tooltipText,
-            size: 11,
+            size: 13,
+            family: tooltipFont,
             weight: 500,
           },
         },
