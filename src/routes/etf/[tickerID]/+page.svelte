@@ -211,14 +211,10 @@
 
     const fillColorEnd = "rgba(0, 0, 0, 0)";
 
-    const tooltipTextColor = $mode === "light" ? "#0f172a" : "#e5e7eb";
-    const tooltipMutedTextColor = $mode === "light" ? "#6b7280" : "#9ca3af";
-    const tooltipBackground =
-      $mode === "light" ? "rgba(255, 255, 255, 0.92)" : "rgba(9, 9, 11, 0.92)";
-    const tooltipBorder =
-      $mode === "light"
-        ? "rgba(15, 23, 42, 0.08)"
-        : "rgba(255, 255, 255, 0.08)";
+    const tooltipTextColor = "#e5e7eb";
+    const tooltipMutedTextColor = "#9ca3af";
+    const tooltipBackground = "rgba(9, 9, 11, 0.92)";
+    const tooltipBorder = "rgba(255, 255, 255, 0.08)";
 
     const baseDate =
       rawData && rawData?.length ? new Date(rawData?.at(0)?.time) : new Date();
@@ -403,7 +399,7 @@
         startOnTick: false,
         endOnTick: false,
         gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
+        gridLineColor: $mode === "light" ? "#e5e7eb" : "#0f172a",
         title: { text: null },
         labels: {
           style: { color: $mode === "light" ? "#6b7280" : "#9ca3af" },
@@ -432,7 +428,7 @@
                 ? data?.getStockQuote?.previousClose
                 : priceData?.at(0)?.close,
             dashStyle: "Dash",
-            color: $mode === "light" ? "#cbd5e1" : "#334155",
+            color: $mode === "light" ? "#64748b" : "#e2e8f0",
             width: 0.8,
           },
         ],
