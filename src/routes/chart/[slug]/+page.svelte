@@ -5,6 +5,8 @@
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
   import { registerCustomIndicators } from "$lib/klinecharts/customIndicators";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import CrosshairIcon from "lucide-svelte/icons/crosshair";
@@ -40,7 +42,6 @@
   let showVolume = true;
   let showRSI = false;
   let showMACD = false;
-  let showRangeMenu = false;
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
   let indicatorTab: "indicators" | "strategies" | "profiles" | "patterns" =
@@ -760,52 +761,61 @@
     >
       <div class="flex items-center gap-3">
         <button
-          class="flex items-center gap-2 rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 text-xs font-semibold text-neutral-100 transition hover:border-neutral-700 hover:bg-neutral-800"
+          class="flex items-center gap-2 rounded-full border border-gray-300 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700"
         >
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+          <img
+            src={ticker?.length > 0
+              ? `https://financialmodelingprep.com/image-stock/${ticker}.png`
+              : "/pwa-192x192.png"}
+            alt={`${ticker || "Stocknear"} logo`}
+            class="shrink-0 w-4 h-4 rounded-full"
+          />
+
           {ticker}
         </button>
         <div class="flex items-baseline gap-2">
           <div class="text-sm font-semibold text-neutral-100">
             {formatPrice(lastClose)}
           </div>
-          <div class={`text-[11px] font-medium ${changeClass}`}>
+          <div class={`text-sm font-medium ${changeClass}`}>
             {formatPrice(change)} ({formatPercent(changePercent)})
           </div>
         </div>
       </div>
 
       <div class="flex flex-1 items-center justify-center gap-2">
-        <div class="relative">
-          <button
-            class="flex items-center gap-1 rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
-            on:click={() => (showRangeMenu = !showRangeMenu)}
-          >
-            {activeRange}
-            <ChevronDown class="h-3 w-3" />
-          </button>
-          {#if showRangeMenu}
-            <div
-              class="absolute left-0 top-full z-30 mt-2 w-28 rounded-lg border border-neutral-800 bg-[#121212] p-1 text-[11px] text-neutral-200 shadow-xl"
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="min-w-[64px] h-7 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1 rounded-full truncate text-sm font-semibold"
             >
+              <span class="truncate">{activeRange}</span>
+              <ChevronDown class="h-3 w-3" />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="start"
+            sideOffset={10}
+            class="w-28 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+          >
+            <DropdownMenu.Group>
               {#each timeframes as frame}
-                <button
-                  class={`flex w-full items-center justify-between rounded px-2 py-1 transition ${
+                <DropdownMenu.Item
+                  class={`text-sm cursor-pointer ${
                     activeRange === frame
-                      ? "bg-neutral-200 text-neutral-900"
-                      : "hover:bg-neutral-800"
+                      ? "text-gray-900 dark:text-white font-semibold"
+                      : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                   }`}
-                  on:click={() => {
-                    setRange(frame);
-                    showRangeMenu = false;
-                  }}
+                  on:click={() => setRange(frame)}
                 >
                   {frame}
-                </button>
+                </DropdownMenu.Item>
               {/each}
-            </div>
-          {/if}
-        </div>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
         <div
           class="inline-flex items-center overflow-hidden rounded-md border border-neutral-800"
         >
@@ -836,7 +846,7 @@
         <label
           for="indicatorModal"
           on:click={openIndicatorModal}
-          class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+          class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
           ><span role="img" class="icon-GwQQdU8S" aria-hidden="true"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -937,15 +947,15 @@
     </div>
 
     <div
-      class="flex items-center justify-between border-t border-neutral-800 bg-[#0f0f0f] px-3 py-1 text-[11px] text-neutral-500"
+      class="flex items-center justify-between border-t border-neutral-800 bg-[#0f0f0f] px-3 py-1 text-sm text-neutral-500"
     >
       <div class="flex flex-wrap items-center gap-1">
         {#each timeframes as frame}
           <button
-            class={`rounded px-2 py-1 text-[11px] font-semibold transition ${
+            class={`rounded-full border px-2 py-1 text-sm font-semibold transition ${
               activeRange === frame
-                ? "bg-neutral-200 text-neutral-900"
-                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+                ? "border-neutral-200 bg-neutral-200 text-neutral-900"
+                : "border-gray-300 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800 hover:text-neutral-100 dark:border-zinc-700"
             }`}
             on:click={() => setRange(frame)}
           >
@@ -1010,10 +1020,10 @@
       <div class="mt-4 flex flex-wrap items-center gap-2">
         {#each indicatorTabs as tab}
           <button
-            class={`rounded-full px-3 py-1 text-[11px] font-semibold transition ${
+            class={`rounded-full border px-3 py-1 text-sm font-semibold transition ${
               indicatorTab === tab.id
-                ? "bg-neutral-200 text-neutral-900"
-                : "border border-neutral-800 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800"
+                ? "border-neutral-200 bg-neutral-200 text-neutral-900"
+                : "border-gray-300 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700"
             }`}
             on:click={() => (indicatorTab = tab.id)}
           >
@@ -1023,7 +1033,7 @@
       </div>
 
       <div class="mt-5">
-        <div class="mb-3 text-[11px] uppercase tracking-wide text-neutral-500">
+        <div class="mb-3 text-sm uppercase tracking-wide text-neutral-500">
           Technical indicators
         </div>
         {#if indicatorTab !== "indicators"}
@@ -1040,7 +1050,7 @@
               >
                 <div>
                   <div class="font-medium">{indicator.label}</div>
-                  <div class="text-[11px] text-neutral-500">
+                  <div class="text-sm text-neutral-500">
                     {indicator.sublabel}
                   </div>
                 </div>
