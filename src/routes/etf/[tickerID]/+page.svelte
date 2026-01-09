@@ -47,6 +47,10 @@
     const n = toNum(value);
     return n !== null ? n.toFixed(2) : "n/a";
   };
+  const formatVolumeValue = (value: unknown) => {
+    const n = toNum(value);
+    return n !== null ? abbreviateNumber(n) : "n/a";
+  };
   //============================================//
   const intervals = ["1D", "1W", "1M", "6M", "YTD", "1Y", "MAX"];
 
@@ -174,6 +178,31 @@
       ),
       item?.close,
     ]);
+    const volumeUpColor =
+      $mode === "light" ? "rgba(22, 163, 74, 0.35)" : "rgba(34, 197, 94, 0.35)";
+    const volumeDownColor =
+      $mode === "light" ? "rgba(239, 68, 68, 0.35)" : "rgba(248, 113, 113, 0.35)";
+    const volumeSeriesData = rawData?.map((item) => {
+      const volume = toNum(item?.volume) ?? 0;
+      const closeValue = toNum(item?.close) ?? 0;
+      const openValue = toNum(item?.open) ?? closeValue;
+      const color = closeValue >= openValue ? volumeUpColor : volumeDownColor;
+      if (displayData === "1D") {
+        return {
+          x: Date.UTC(
+            new Date(item?.time).getUTCFullYear(),
+            new Date(item?.time).getUTCMonth(),
+            new Date(item?.time).getUTCDate(),
+            new Date(item?.time).getUTCHours(),
+            new Date(item?.time).getUTCMinutes(),
+            new Date(item?.time).getUTCSeconds(),
+          ),
+          y: volume,
+          color,
+        };
+      }
+      return { y: volume, color };
+    });
 
     // Find the lowest & highest close values
     let minValue = Math?.min(...rawData?.map((item) => item?.close));
@@ -327,9 +356,11 @@
 
           // Loop through each point in the shared tooltip
           this.points?.forEach((point) => {
-            tooltipContent += `<div style="font-weight:600; margin-bottom:2px;">${point.series.name}: ${formatPriceValue(
-              point.y,
-            )}</div>`;
+            const value =
+              point.series.name === "Volume"
+                ? formatVolumeValue(point.y)
+                : formatPriceValue(point.y);
+            tooltipContent += `<div style="font-weight:600; margin-bottom:2px;">${point.series.name}: ${value}</div>`;
           });
 
           // Append the formatted date at the end
@@ -392,52 +423,75 @@
         },
       },
 
-      yAxis: {
-        // Force y‑axis to stay near the actual data range
-        min: yMin ?? null,
-        max: yMax ?? null,
-        startOnTick: false,
-        endOnTick: false,
-        gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#0f172a",
-        title: { text: null },
-        labels: {
-          style: { color: $mode === "light" ? "#6b7280" : "#9ca3af" },
-          formatter: function () {
-            const plotLineValue =
-              displayData === "1D"
-                ? data?.getStockQuote?.previousClose
-                : priceData?.at(0)?.close;
-            const plotLineNumber = toNum(plotLineValue);
-            if (
-              plotLineNumber !== null &&
-              Math.abs(this.value - plotLineNumber) <
-                Math.max(0.000001, Math.abs(plotLineNumber) * 0.000001)
-            ) {
-              return "";
-            }
-            return this.axis.defaultLabelFormatter.call(this);
+      yAxis: [
+        {
+          // Force y‑axis to stay near the actual data range
+          min: yMin ?? null,
+          max: yMax ?? null,
+          startOnTick: false,
+          endOnTick: false,
+          gridLineWidth: 1,
+          gridLineColor: $mode === "light" ? "#e5e7eb" : "#0f172a",
+          title: { text: null },
+          labels: {
+            style: { color: $mode === "light" ? "#6b7280" : "#9ca3af" },
+            formatter: function () {
+              const plotLineValue =
+                displayData === "1D"
+                  ? data?.getStockQuote?.previousClose
+                  : priceData?.at(0)?.close;
+              const plotLineNumber = toNum(plotLineValue);
+              if (
+                plotLineNumber !== null &&
+                Math.abs(this.value - plotLineNumber) <
+                  Math.max(0.000001, Math.abs(plotLineNumber) * 0.000001)
+              ) {
+                return "";
+              }
+              return this.axis.defaultLabelFormatter.call(this);
+            },
           },
+          opposite: true,
+          height: "78%",
+          // Add a dashed plot line at the previous close value
+          plotLines: [
+            {
+              value:
+                displayData === "1D"
+                  ? data?.getStockQuote?.previousClose
+                  : priceData?.at(0)?.close,
+              dashStyle: "Dash",
+              color: $mode === "light" ? "#64748b" : "#e2e8f0",
+              width: 0.8,
+            },
+          ],
         },
-        opposite: true,
-        // Add a dashed plot line at the previous close value
-        plotLines: [
-          {
-            value:
-              displayData === "1D"
-                ? data?.getStockQuote?.previousClose
-                : priceData?.at(0)?.close,
-            dashStyle: "Dash",
-            color: $mode === "light" ? "#64748b" : "#e2e8f0",
-            width: 0.8,
+        {
+          title: { text: null },
+          top: "78%",
+          height: "22%",
+          offset: 0,
+          gridLineWidth: 0,
+          visible: false,
+          labels: {
+            style: { color: $mode === "light" ? "#9ca3af" : "#94a3b8" },
+            formatter: function () {
+              return formatVolumeValue(this.value);
+            },
           },
-        ],
-      },
+          opposite: true,
+        },
+      ],
       plotOptions: {
         series: {
           animation: false,
           marker: { enabled: false },
           states: { hover: { enabled: false } },
+        },
+        column: {
+          borderWidth: 0,
+          pointPadding: 0.15,
+          groupPadding: 0.08,
         },
       },
       legend: { enabled: false },
@@ -459,6 +513,13 @@
               [1, fillColorEnd],
             ],
           },
+        },
+        {
+          name: "Volume",
+          type: "column",
+          yAxis: 1,
+          data: displayData === "1D" ? volumeSeriesData : volumeSeriesData,
+          animation: false,
         },
       ],
     };
