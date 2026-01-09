@@ -1034,10 +1034,7 @@
         >
       </div>
 
-      <div
-        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-700 p-2"
-        use:highcharts={config}
-      ></div>
+      <div class="" use:highcharts={config}></div>
     {/if}
     <p class="text-sm mb-6 mt-3">
       {modalLabel} peaked at

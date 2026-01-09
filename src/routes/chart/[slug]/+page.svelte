@@ -373,6 +373,8 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
   let ruleOfList: ChartRule[] = getStrategyRules(strategyList?.at(0));
   let selectedStrategyTitle = "";
+  let lastAppliedStrategyId = "";
+  let lastAppliedStrategySignature = "";
 
   let indicatorInstanceIds: Record<string, string | null> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, null]),
@@ -798,13 +800,18 @@
   const applyDefaultIndicators = () => {
     indicatorParams = cloneIndicatorParams();
     indicatorState = Object.fromEntries(
-      indicatorDefinitions.map((item) => [item.id, Boolean(item.defaultEnabled)]),
+      indicatorDefinitions.map((item) => [
+        item.id,
+        Boolean(item.defaultEnabled),
+      ]),
     );
     if (chart) {
       syncIndicators();
     }
     ruleOfList = buildRuleList();
   };
+
+  const getRulesSignature = (rules: ChartRule[]) => JSON.stringify(rules ?? []);
 
   function applyTheme(_theme: string) {
     if (!chart) return;
@@ -1526,6 +1533,31 @@
     currentBars.map((bar, index) => [bar.timestamp, index]),
   );
 
+  $: if (strategyList?.length) {
+    const activeStrategy =
+      strategyList?.find((item) => item.id === selectedStrategy) ??
+      strategyList?.at(0);
+    const activeId = activeStrategy?.id ?? "";
+    const signature = getRulesSignature(activeStrategy?.rules ?? []);
+    if (
+      activeId &&
+      (activeId !== lastAppliedStrategyId ||
+        signature !== lastAppliedStrategySignature)
+    ) {
+      lastAppliedStrategyId = activeId;
+      lastAppliedStrategySignature = signature;
+      if (selectedStrategy !== activeId) {
+        selectedStrategy = activeId;
+      }
+      ruleOfList = getStrategyRules(activeStrategy);
+      applyStrategyRules(ruleOfList);
+    }
+  } else if (lastAppliedStrategyId || lastAppliedStrategySignature) {
+    lastAppliedStrategyId = "";
+    lastAppliedStrategySignature = "";
+    applyDefaultIndicators();
+  }
+
   $: lastBar = currentBars[currentBars.length - 1] ?? null;
   $: displayBar = hoverBar ?? lastBar;
   $: previousClose =
@@ -1963,7 +1995,9 @@
         </h4>
         {#each Object.entries(groupedIndicators) as [category, indicators]}
           <div class="mt-4">
-            <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+            <div
+              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+            >
               {category}
             </div>
             <div class="flex flex-wrap">
