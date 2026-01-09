@@ -45,6 +45,8 @@
   let rsiId: string | null = null;
   let macdId: string | null = null;
   let resizeObserver: ResizeObserver | null = null;
+  let chartRoot: HTMLElement | null = null;
+  let chartMain: HTMLElement | null = null;
 
   let ticker = "";
   let dailyBars: KLineData[] = [];
@@ -155,6 +157,12 @@
     });
 
     customOverlaysRegistered = true;
+  };
+
+  const updateChartDomRefs = () => {
+    if (!chart) return;
+    chartRoot = chart.getDom() as HTMLElement | null;
+    chartMain = chart.getDom("candle_pane", "main") as HTMLElement | null;
   };
 
   const toNumber = (value: unknown): number | null => {
@@ -517,6 +525,11 @@
     activeTool = toolId;
     if (!chart) return;
 
+    if (chartMain) {
+      chartMain.style.cursor =
+        toolId === "crosshair" ? "crosshair" : "default";
+    }
+
     if (toolId === "cursor") {
       chart.setStyles({ crosshair: { show: false } });
       return;
@@ -530,6 +543,9 @@
     if (toolId === "erase") {
       chart.removeOverlay();
       activeTool = "cursor";
+      if (chartMain) {
+        chartMain.style.cursor = "default";
+      }
       return;
     }
 
@@ -583,13 +599,18 @@
     });
     if (!chart) return;
 
+    updateChartDomRefs();
+    if (!chartRoot) {
+      chartRoot = chartContainer;
+    }
+
     chart.setOffsetRightDistance(12);
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
 
     resizeObserver = new ResizeObserver(() => {
       chart?.resize();
     });
-    resizeObserver.observe(chartContainer);
+    resizeObserver.observe(chartRoot);
   });
 
   onDestroy(() => {
@@ -598,6 +619,8 @@
       dispose(chart);
     }
     chart = null;
+    chartRoot = null;
+    chartMain = null;
     resizeObserver?.disconnect();
     resizeObserver = null;
   });
