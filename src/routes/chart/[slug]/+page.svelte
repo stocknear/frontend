@@ -22,6 +22,8 @@
   import Settings from "lucide-svelte/icons/settings";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
+  import Search from "lucide-svelte/icons/search";
+  import X from "lucide-svelte/icons/x";
 
   export let data;
 
@@ -38,8 +40,11 @@
   let showVolume = true;
   let showRSI = false;
   let showMACD = false;
-  let showIndicatorMenu = false;
+  let showRangeMenu = false;
   let activeTool = "cursor";
+  let indicatorSearchTerm = "";
+  let indicatorTab: "indicators" | "strategies" | "profiles" | "patterns" =
+    "indicators";
 
   let maId: string | null = null;
   let volumeId: string | null = null;
@@ -70,6 +75,37 @@
     { id: "brush", label: "Brush", icon: PencilLine },
     { id: "erase", label: "Eraser", icon: EraserIcon },
   ];
+
+  const indicatorTabs = [
+    { id: "indicators", label: "Indicators" },
+    { id: "strategies", label: "Strategies" },
+    { id: "profiles", label: "Profiles" },
+    { id: "patterns", label: "Patterns" },
+  ] as const;
+
+  const indicatorItems = [
+    {
+      id: "ma",
+      label: "Moving Average",
+      sublabel: "MA 20/50/200",
+    },
+    {
+      id: "volume",
+      label: "Volume",
+      sublabel: "Volume + MA 5/10/20",
+    },
+    {
+      id: "rsi",
+      label: "Relative Strength Index",
+      sublabel: "RSI 14",
+    },
+    {
+      id: "macd",
+      label: "MACD",
+      sublabel: "12/26/9",
+    },
+  ];
+  let filteredIndicators = indicatorItems;
 
   const toolOverlays: Record<string, string> = {
     trend: "segment",
@@ -342,8 +378,8 @@
     if (showMA && !maId) {
       maId = chart.createIndicator(
         { name: "SN_MA", calcParams: [20, 50, 200] },
-        false,
-        { id: "sn_ma_pane", height: 120 },
+        true,
+        { id: "candle_pane" },
       );
     }
     if (!showMA && maId) {
@@ -385,14 +421,14 @@
     }
   }
 
-  function applyTheme(theme: string) {
+  function applyTheme(_theme: string) {
     if (!chart) return;
-    const isDark = theme === "dark";
-    const gridColor = isDark ? "#1f2937" : "#e2e8f0";
-    const axisText = isDark ? "#9ca3af" : "#64748b";
-    const upColor = isDark ? "#22c55e" : "#16a34a";
-    const downColor = isDark ? "#ef4444" : "#dc2626";
-    const crosshairColor = isDark ? "#475569" : "#94a3b8";
+    const isDark = true;
+    const gridColor = "#1f2128";
+    const axisText = "#9aa0a6";
+    const upColor = "#22ab94";
+    const downColor = "#f23645";
+    const crosshairColor = "#3a3f4b";
 
     chart.setStyles({
       grid: {
@@ -461,35 +497,30 @@
         size: 1,
         color: gridColor,
         fill: true,
-        activeBackgroundColor: isDark ? "#0f172a" : "#f8fafc",
+        activeBackgroundColor: "#0f1117",
       },
     });
   }
 
   function applyChartType(type: "candles" | "line") {
     if (!chart) return;
-    const isDark = $mode === "dark";
     if (type === "line") {
       chart.setStyles({
         candle: {
           type: "area",
           area: {
-            lineColor: isDark ? "#60a5fa" : "#2563eb",
+            lineColor: "#3b82f6",
             lineSize: 2,
             smooth: true,
             value: "close",
             backgroundColor: [
               {
                 offset: 0,
-                color: isDark
-                  ? "rgba(96, 165, 250, 0.25)"
-                  : "rgba(37, 99, 235, 0.2)",
+                color: "rgba(59, 130, 246, 0.25)",
               },
               {
                 offset: 1,
-                color: isDark
-                  ? "rgba(96, 165, 250, 0)"
-                  : "rgba(37, 99, 235, 0)",
+                color: "rgba(59, 130, 246, 0)",
               },
             ],
           },
@@ -526,6 +557,29 @@
     if (chart) {
       syncIndicators();
     }
+  }
+
+  function toggleIndicatorById(id: string) {
+    if (id === "ma" || id === "volume" || id === "rsi" || id === "macd") {
+      toggleIndicator(id);
+    }
+  }
+
+  function isIndicatorEnabled(id: string) {
+    if (id === "ma") return showMA;
+    if (id === "volume") return showVolume;
+    if (id === "rsi") return showRSI;
+    if (id === "macd") return showMACD;
+    return false;
+  }
+
+  function closeIndicatorModal() {
+    indicatorSearchTerm = "";
+  }
+
+  function openIndicatorModal() {
+    indicatorTab = "indicators";
+    indicatorSearchTerm = "";
   }
 
   function zoomChart(scale: number) {
@@ -687,136 +741,80 @@
 
   $: changeClass =
     change !== null && change < 0
-      ? "text-red-600 dark:text-red-400"
-      : "text-emerald-600 dark:text-emerald-400";
+      ? "text-[#f23645]"
+      : "text-[#22ab94]";
+
+  $: filteredIndicators = indicatorItems.filter((item) => {
+    if (!indicatorSearchTerm.trim()) return true;
+    return item.label
+      .toLowerCase()
+      .includes(indicatorSearchTerm.trim().toLowerCase());
+  });
 </script>
 
 <svelte:head>
   <title>{ticker} Chart | Stocknear</title>
 </svelte:head>
 
-<main
-  class="h-[calc(100vh-56px)] w-full bg-slate-50 dark:bg-zinc-950"
->
+<main class="h-[calc(100vh-56px)] w-full bg-[#0b0b0b] text-neutral-200">
   <div class="flex h-full w-full flex-col">
     <div
-      class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 py-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
+      class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-[#0f0f0f] px-3 py-1.5 text-xs"
     >
       <div class="flex items-center gap-3">
-        <div
-          class="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-slate-300"
+        <button
+          class="flex items-center gap-2 rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 text-xs font-semibold text-neutral-100 transition hover:border-neutral-700 hover:bg-neutral-800"
         >
+          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
           {ticker}
-        </div>
+        </button>
         <div class="flex items-baseline gap-2">
-          <div class="text-lg font-semibold text-slate-900 dark:text-slate-100">
+          <div class="text-sm font-semibold text-neutral-100">
             {formatPrice(lastClose)}
           </div>
-          <div class={`text-xs font-medium ${changeClass}`}>
+          <div class={`text-[11px] font-medium ${changeClass}`}>
             {formatPrice(change)} ({formatPercent(changePercent)})
           </div>
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <button
-          class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
-          on:click={() => zoomChart(1.2)}
-          aria-label="Zoom in"
-        >
-          <ZoomIn class="h-4 w-4" />
-        </button>
-        <button
-          class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
-          on:click={() => zoomChart(0.9)}
-          aria-label="Zoom out"
-        >
-          <ZoomOut class="h-4 w-4" />
-        </button>
-        <button
-          class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
-          on:click={resetView}
-          aria-label="Reset view"
-        >
-          <Trash2 class="h-4 w-4" />
-        </button>
-        <button
-          class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
-          aria-label="Settings"
-        >
-          <Settings class="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-2 text-xs text-slate-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-slate-300"
-    >
-      <div class="flex flex-wrap items-center gap-1">
-        {#each timeframes as frame}
+      <div class="flex flex-1 items-center justify-center gap-2">
+        <div class="relative">
           <button
-            class={`rounded-md px-2 py-1 text-xs font-semibold transition ${
-              activeRange === frame
-                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-                : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-zinc-900"
-            }`}
-            on:click={() => setRange(frame)}
+            class="flex items-center gap-1 rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            on:click={() => (showRangeMenu = !showRangeMenu)}
           >
-            {frame}
+            {activeRange}
+            <ChevronDown class="h-3 w-3" />
           </button>
-        {/each}
-      </div>
-
-      <div class="relative flex items-center gap-2">
-        <button
-          class="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
-          on:click={() => (showIndicatorMenu = !showIndicatorMenu)}
-        >
-          Indicators
-          <ChevronDown class="h-3.5 w-3.5" />
-        </button>
-        {#if showIndicatorMenu}
-          <div
-            class="absolute right-0 top-full z-30 mt-2 w-48 rounded-lg border border-slate-200 bg-white p-2 text-xs text-slate-700 shadow-lg dark:border-zinc-800 dark:bg-zinc-950 dark:text-slate-200"
-          >
-            <button
-              class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => toggleIndicator("ma")}
+          {#if showRangeMenu}
+            <div
+              class="absolute left-0 top-full z-30 mt-2 w-28 rounded-lg border border-neutral-800 bg-[#121212] p-1 text-[11px] text-neutral-200 shadow-xl"
             >
-              <span>MA 20/50/200</span>
-              {#if showMA}<span>On</span>{:else}<span>Off</span>{/if}
-            </button>
-            <button
-              class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => toggleIndicator("volume")}
-            >
-              <span>Volume</span>
-              {#if showVolume}<span>On</span>{:else}<span>Off</span>{/if}
-            </button>
-            <button
-              class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => toggleIndicator("rsi")}
-            >
-              <span>RSI</span>
-              {#if showRSI}<span>On</span>{:else}<span>Off</span>{/if}
-            </button>
-            <button
-              class="flex w-full items-center justify-between rounded-md px-2 py-1 transition hover:bg-slate-100 dark:hover:bg-zinc-900"
-              on:click={() => toggleIndicator("macd")}
-            >
-              <span>MACD</span>
-              {#if showMACD}<span>On</span>{:else}<span>Off</span>{/if}
-            </button>
-          </div>
-        {/if}
-        <div
-          class="inline-flex items-center overflow-hidden rounded-md border border-slate-200 dark:border-zinc-800"
-        >
+              {#each timeframes as frame}
+                <button
+                  class={`flex w-full items-center justify-between rounded px-2 py-1 transition ${
+                    activeRange === frame
+                      ? "bg-neutral-200 text-neutral-900"
+                      : "hover:bg-neutral-800"
+                  }`}
+                  on:click={() => {
+                    setRange(frame);
+                    showRangeMenu = false;
+                  }}
+                >
+                  {frame}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+        <div class="inline-flex items-center overflow-hidden rounded-md border border-neutral-800">
           <button
             class={`flex h-7 w-8 items-center justify-center transition ${
               chartType === "candles"
-                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-                : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-zinc-900"
+                ? "bg-neutral-200 text-neutral-900"
+                : "text-neutral-300 hover:bg-neutral-800"
             }`}
             on:click={() => setChartType("candles")}
             aria-label="Candles"
@@ -826,8 +824,8 @@
           <button
             class={`flex h-7 w-8 items-center justify-center transition ${
               chartType === "line"
-                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-                : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-zinc-900"
+                ? "bg-neutral-200 text-neutral-900"
+                : "text-neutral-300 hover:bg-neutral-800"
             }`}
             on:click={() => setChartType("line")}
             aria-label="Line"
@@ -835,19 +833,57 @@
             <ChartLine class="h-4 w-4" />
           </button>
         </div>
+        <label
+          class="flex items-center gap-1 rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 text-[11px] font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+          for="indicatorModal"
+          on:click={openIndicatorModal}
+        >
+          Indicators
+          <ChevronDown class="h-3 w-3" />
+        </label>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
+          on:click={() => zoomChart(1.2)}
+          aria-label="Zoom in"
+        >
+          <ZoomIn class="h-4 w-4" />
+        </button>
+        <button
+          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
+          on:click={() => zoomChart(0.9)}
+          aria-label="Zoom out"
+        >
+          <ZoomOut class="h-4 w-4" />
+        </button>
+        <button
+          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
+          on:click={resetView}
+          aria-label="Reset view"
+        >
+          <Trash2 class="h-4 w-4" />
+        </button>
+        <button
+          class="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
+          aria-label="Settings"
+        >
+          <Settings class="h-4 w-4" />
+        </button>
       </div>
     </div>
 
     <div class="flex flex-1 overflow-hidden">
       <div
-        class="flex h-full w-12 flex-col items-center gap-2 border-r border-slate-200 bg-white/95 py-3 dark:border-zinc-800 dark:bg-zinc-950"
+        class="flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#0f0f0f] py-3"
       >
         {#each tools as tool}
           <button
-            class={`flex h-8 w-8 items-center justify-center rounded-md border text-slate-600 transition dark:text-slate-300 ${
+            class={`flex h-8 w-8 items-center justify-center rounded-md border text-neutral-300 transition ${
               activeTool === tool.id
-                ? "border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900"
-                : "border-transparent hover:border-slate-200 hover:bg-slate-100 dark:hover:border-zinc-800 dark:hover:bg-zinc-900"
+                ? "border-neutral-200 bg-neutral-200 text-neutral-900"
+                : "border-transparent hover:border-neutral-700 hover:bg-neutral-800"
             }`}
             on:click={() => activateTool(tool.id)}
             aria-label={tool.label}
@@ -857,14 +893,14 @@
         {/each}
         <div class="mt-auto flex flex-col items-center gap-2 pb-3">
           <button
-            class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
+            class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
             on:click={() => zoomChart(1.2)}
             aria-label="Zoom in"
           >
             <ZoomIn class="h-4 w-4" />
           </button>
           <button
-            class="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-zinc-800 dark:text-slate-300 dark:hover:bg-zinc-900"
+            class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
             on:click={() => zoomChart(0.9)}
             aria-label="Zoom out"
           >
@@ -873,11 +909,23 @@
         </div>
       </div>
 
-      <div class="relative flex-1 bg-white dark:bg-zinc-950">
+      <div class="relative flex-1 bg-[#0b0b0b]">
         <div class="absolute inset-0" bind:this={chartContainer}></div>
+        <div class="pointer-events-none absolute left-4 top-3 z-20 flex items-center gap-2 text-[11px]">
+          <div class="rounded-md border border-neutral-800 bg-neutral-900/80 px-2 py-1">
+            <div class="text-neutral-200">{ticker}</div>
+            <div class="text-[10px] text-neutral-500">Stocknear</div>
+          </div>
+          <div class="rounded-md border border-neutral-800 bg-neutral-900/80 px-2 py-1">
+            <div class="text-neutral-100">{formatPrice(lastClose)}</div>
+            <div class={`text-[10px] ${changeClass}`}>
+              {formatPercent(changePercent)}
+            </div>
+          </div>
+        </div>
         {#if !currentBars.length}
           <div
-            class="absolute inset-0 flex items-center justify-center text-sm text-slate-500"
+            class="absolute inset-0 flex items-center justify-center text-sm text-neutral-500"
           >
             No chart data available.
           </div>
@@ -886,10 +934,138 @@
     </div>
 
     <div
-      class="flex items-center justify-between border-t border-slate-200 bg-white px-4 py-1 text-xs text-slate-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-slate-400"
+      class="flex items-center justify-between border-t border-neutral-800 bg-[#0f0f0f] px-3 py-1 text-[11px] text-neutral-500"
     >
-      <span>{activeRange} | {currentBars.length} bars</span>
-      <span>Timezone: {zone}</span>
+      <div class="flex flex-wrap items-center gap-1">
+        {#each timeframes as frame}
+          <button
+            class={`rounded px-2 py-1 text-[11px] font-semibold transition ${
+              activeRange === frame
+                ? "bg-neutral-200 text-neutral-900"
+                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+            }`}
+            on:click={() => setRange(frame)}
+          >
+            {frame}
+          </button>
+        {/each}
+      </div>
+      <span>{currentBars.length} bars | {zone}</span>
     </div>
   </div>
 </main>
+
+<input
+  type="checkbox"
+  id="indicatorModal"
+  class="modal-toggle"
+/>
+
+<dialog id="indicatorModal" class="modal p-2 sm:p-0 text-neutral-200">
+  <label
+    for="indicatorModal"
+    class="cursor-pointer modal-backdrop bg-black/60"
+    on:click={closeIndicatorModal}
+  ></label>
+  <div
+    class="modal-box relative w-full max-w-5xl overflow-hidden rounded-2xl border border-neutral-800 bg-[#1b1b1b] p-0 shadow-none"
+  >
+    <div class="flex items-center justify-between border-b border-neutral-800 px-6 py-4">
+      <div class="text-base font-semibold text-neutral-100">
+        Indicators, metrics, and strategies
+      </div>
+      <label
+        for="indicatorModal"
+        class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-800 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800"
+        on:click={closeIndicatorModal}
+        aria-label="Close indicators modal"
+      >
+        <X class="h-4 w-4" />
+      </label>
+    </div>
+
+    <div class="px-6 pb-6 pt-4">
+      <div class="relative">
+        <Search
+          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500"
+        />
+        <input
+          type="text"
+          placeholder="Search"
+          class="w-full rounded-xl border border-neutral-800 bg-[#151515] py-2.5 pl-9 pr-9 text-sm text-neutral-200 placeholder:text-neutral-500 focus:outline-none focus:ring-0"
+          bind:value={indicatorSearchTerm}
+        />
+        {#if indicatorSearchTerm.length > 0}
+          <button
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 transition hover:text-neutral-200"
+            on:click={() => (indicatorSearchTerm = "")}
+            aria-label="Clear search"
+          >
+            <X class="h-3.5 w-3.5" />
+          </button>
+        {/if}
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        {#each indicatorTabs as tab}
+          <button
+            class={`rounded-full px-3 py-1 text-[11px] font-semibold transition ${
+              indicatorTab === tab.id
+                ? "bg-neutral-200 text-neutral-900"
+                : "border border-neutral-800 text-neutral-400 hover:border-neutral-700 hover:bg-neutral-800"
+            }`}
+            on:click={() => (indicatorTab = tab.id)}
+          >
+            {tab.label}
+          </button>
+        {/each}
+      </div>
+
+      <div class="mt-5">
+        <div class="mb-3 text-[11px] uppercase tracking-wide text-neutral-500">
+          Technical indicators
+        </div>
+        {#if indicatorTab !== "indicators"}
+          <div class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500">
+            This section is coming soon.
+          </div>
+        {:else}
+          <div class="max-h-[420px] space-y-2 overflow-y-auto pr-2">
+            {#each filteredIndicators as indicator}
+              <div
+                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-neutral-200 transition hover:bg-neutral-800/70"
+              >
+                <div>
+                  <div class="font-medium">{indicator.label}</div>
+                  <div class="text-[11px] text-neutral-500">
+                    {indicator.sublabel}
+                  </div>
+                </div>
+                <label class="inline-flex cursor-pointer items-center">
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    checked={isIndicatorEnabled(indicator.id)}
+                    on:change={() => toggleIndicatorById(indicator.id)}
+                  />
+                  <div
+                    class={`relative h-6 w-11 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-neutral-700 after:bg-white after:transition-all ${
+                      isIndicatorEnabled(indicator.id)
+                        ? "bg-emerald-500"
+                        : "bg-neutral-800"
+                    }`}
+                  ></div>
+                </label>
+              </div>
+            {/each}
+            {#if filteredIndicators.length === 0}
+              <div class="rounded-lg border border-neutral-800 p-4 text-sm text-neutral-500">
+                No indicators match your search.
+              </div>
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </div>
+  </div>
+</dialog>
