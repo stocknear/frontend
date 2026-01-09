@@ -8,6 +8,16 @@
 
   let wiim = [];
   let showFullHistory = false;
+  const getDirectionClass = (text) => {
+    const normalized = text?.toLowerCase?.() ?? "";
+    if (normalized.includes("higher")) {
+      return "text-emerald-800 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/40";
+    }
+    if (normalized.includes("lower")) {
+      return "text-rose-800 dark:text-rose-400 border-rose-200 dark:border-rose-500/40";
+    }
+    return "text-gray-700 dark:text-zinc-200 border-gray-300 dark:border-zinc-700";
+  };
 
   function latestInfoDate(inputDate) {
     // Create a Date object for the input date and convert it to New York time zone
@@ -99,7 +109,9 @@
                           </span>
                           {#if latestInfoDate(item?.date)}
                             <label
-                              class="bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3"
+                              class={`bg-white/80 dark:bg-zinc-900/50 border shadow rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3 ${getDirectionClass(
+                                item?.text,
+                              )}`}
                               >New</label
                             >
                           {/if}
