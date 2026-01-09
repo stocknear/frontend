@@ -25,6 +25,7 @@
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Search from "lucide-svelte/icons/search";
+  import Timer from "lucide-svelte/icons/timer";
   import X from "lucide-svelte/icons/x";
 
   export let data;
@@ -788,10 +789,10 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-[64px] h-7 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1 rounded-full truncate text-sm font-semibold"
+              class="min-w-[64px] h-7  transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row  items-center px-2 py-1 rounded-full truncate text-sm font-semibold"
             >
+              <Timer class="size-4 inline-block mr-0.5" />
               <span class="truncate">{activeRange}</span>
-              <ChevronDown class="h-3 w-3" />
             </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
@@ -816,32 +817,59 @@
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
-        <div
-          class="inline-flex items-center overflow-hidden rounded-md border border-neutral-800"
-        >
-          <button
-            class={`flex h-7 w-8 items-center justify-center transition ${
-              chartType === "candles"
-                ? "bg-neutral-200 text-neutral-900"
-                : "text-neutral-300 hover:bg-neutral-800"
-            }`}
-            on:click={() => setChartType("candles")}
-            aria-label="Candles"
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="min-w-[90px] h-7 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1 rounded-full truncate text-sm font-semibold"
+            >
+              <span class="inline-flex items-center gap-1 truncate">
+                {#if chartType === "candles"}
+                  <ChartCandlestick class="size-4" />
+                  Candles
+                {:else}
+                  <ChartLine class="size-4" />
+                  Line
+                {/if}
+              </span>
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="start"
+            sideOffset={10}
+            class="w-36 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
           >
-            <ChartCandlestick class="h-4 w-4" />
-          </button>
-          <button
-            class={`flex h-7 w-8 items-center justify-center transition ${
-              chartType === "line"
-                ? "bg-neutral-200 text-neutral-900"
-                : "text-neutral-300 hover:bg-neutral-800"
-            }`}
-            on:click={() => setChartType("line")}
-            aria-label="Line"
-          >
-            <ChartLine class="h-4 w-4" />
-          </button>
-        </div>
+            <DropdownMenu.Group>
+              <DropdownMenu.Item
+                class={`text-sm cursor-pointer ${
+                  chartType === "candles"
+                    ? "text-gray-900 dark:text-white font-semibold"
+                    : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                }`}
+                on:click={() => setChartType("candles")}
+              >
+                <span class="inline-flex items-center gap-2">
+                  <ChartCandlestick class="h-4 w-4" />
+                  Candles
+                </span>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                class={`text-sm cursor-pointer ${
+                  chartType === "line"
+                    ? "text-gray-900 dark:text-white font-semibold"
+                    : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                }`}
+                on:click={() => setChartType("line")}
+              >
+                <span class="inline-flex items-center gap-2">
+                  <ChartLine class="h-4 w-4" />
+                  Line
+                </span>
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
 
         <label
           for="indicatorModal"
@@ -1012,7 +1040,7 @@
             on:click={() => (indicatorSearchTerm = "")}
             aria-label="Clear search"
           >
-            <X class="h-3.5 w-3.5" />
+            <X class="size-4" />
           </button>
         {/if}
       </div>
