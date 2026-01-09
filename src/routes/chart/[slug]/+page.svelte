@@ -598,7 +598,7 @@
     const crosshairBg = isDark ? "#0f141d" : "#f8fafc";
     const crosshairBorder = isDark ? "#283042" : "#e2e8f0";
     const tooltipText = isDark ? "#e2e8f0" : "#1f2937";
-    const tooltipFont = "Space Grotesk";
+    const chartFont = "Space Grotesk";
     const tooltipBg = isDark
       ? "rgba(15, 19, 27, 0.8)"
       : "rgba(248, 250, 252, 0.96)";
@@ -637,8 +637,13 @@
           noChangeWickColor: axisText,
         },
         priceMark: {
-          high: { color: priceText },
-          low: { color: priceText },
+          high: { color: priceText, textFamily: chartFont },
+          low: { color: priceText, textFamily: chartFont },
+          last: {
+            text: {
+              family: chartFont,
+            },
+          },
         },
         tooltip: {
           rect: {
@@ -649,13 +654,13 @@
             show: false,
             color: tooltipText,
             size: 11,
-            family: tooltipFont,
+            family: chartFont,
             weight: 500,
           },
           legend: {
             color: tooltipText,
             size: 13,
-            family: tooltipFont,
+            family: chartFont,
             weight: 500,
             template: buildCandleTooltipLegends,
           },
@@ -667,7 +672,7 @@
           text: {
             show: true,
             size: 13,
-            family: tooltipFont,
+            family: chartFont,
             weight: 500,
           },
         },
@@ -675,13 +680,13 @@
           title: {
             color: tooltipText,
             size: 11,
-            family: tooltipFont,
+            family: chartFont,
             weight: 500,
           },
           legend: {
             color: tooltipText,
             size: 13,
-            family: tooltipFont,
+            family: chartFont,
             weight: 500,
           },
         },
@@ -693,6 +698,7 @@
           show: true,
           color: axisText,
           size: 11,
+          family: chartFont,
           weight: 500,
           marginStart: 4,
           marginEnd: 6,
@@ -705,6 +711,7 @@
           show: true,
           color: axisText,
           size: 11,
+          family: chartFont,
           weight: 500,
           marginStart: 4,
           marginEnd: 6,
@@ -723,6 +730,7 @@
           text: {
             color: crosshairText,
             size: 11,
+            family: chartFont,
             weight: 500,
             borderColor: crosshairBorder,
             backgroundColor: crosshairBg,
@@ -744,6 +752,7 @@
           text: {
             color: crosshairText,
             size: 11,
+            family: chartFont,
             weight: 500,
             borderColor: crosshairBorder,
             backgroundColor: crosshairBg,
