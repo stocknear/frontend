@@ -2984,7 +2984,7 @@
     >
       <div class="flex items-center justify-start w-full gap-3">
         <button
-          class="flex items-center gap-2 rounded-full border border-gray-300 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700"
+          class="flex items-center gap-2 text-sm font-semibold text-neutral-200 py-1"
         >
           <img
             src={ticker?.length > 0
@@ -3007,7 +3007,7 @@
       </div>
 
       <div
-        class="flex flex-1 items-center gap-2 overflow-x-auto w-full mt-2 mb-2 sm:mb-0 sm:mt-0"
+        class="flex flex-1 items-center gap-2 overflow-x-auto w-full mt-2 mb-2 sm:mb-0 sm:-mt-2"
       >
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
@@ -3247,7 +3247,7 @@
           {#if strategyList?.length > 0}
             <label
               for={!data?.user ? "userLogin" : "addChartStrategy"}
-              class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+              class="cursor-pointer whitespace-nowrap flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             >
               Save as New
             </label>
@@ -3418,46 +3418,6 @@
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
-                <svg
-                  width="24"
-                  height="30"
-                  viewBox="0 0 18 22"
-                  class="shrink-0"
-                >
-                  {#if selectedEarningsIsFuture}
-                    <path
-                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                      fill="#1a1a1a"
-                      stroke="#B91C1C"
-                      stroke-width="1.5"
-                    />
-                    <text
-                      x="9"
-                      y="11"
-                      text-anchor="middle"
-                      dominant-baseline="middle"
-                      fill="#B91C1C"
-                      font-size="10"
-                      font-weight="bold"
-                      font-family="system-ui, sans-serif">E</text
-                    >
-                  {:else}
-                    <path
-                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                      fill="#B91C1C"
-                    />
-                    <text
-                      x="9"
-                      y="11"
-                      text-anchor="middle"
-                      dominant-baseline="middle"
-                      fill="white"
-                      font-size="10"
-                      font-weight="bold"
-                      font-family="system-ui, sans-serif">E</text
-                    >
-                  {/if}
-                </svg>
                 <h3 class="text-white font-semibold">
                   {selectedEarningsIsFuture
                     ? "Upcoming Earnings"
