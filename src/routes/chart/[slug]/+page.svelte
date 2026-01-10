@@ -1023,8 +1023,7 @@
     actual: string | number | null,
     estimate: string | number | null,
   ): { value: number; percent: number; positive: boolean } | null => {
-    const actualNum =
-      typeof actual === "string" ? parseFloat(actual) : actual;
+    const actualNum = typeof actual === "string" ? parseFloat(actual) : actual;
     const estimateNum =
       typeof estimate === "string" ? parseFloat(estimate) : estimate;
 
@@ -3164,9 +3163,9 @@
         {#if isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-20">
             {#each earningsMarkers as marker (marker.timestamp)}
-              {#if marker.visible}
+              {#if marker?.visible}
                 <button
-                  class="absolute bottom-[85px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  class="absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
                   style="left: {marker.x}px"
                   on:click={(e) => handleEarningsClick(marker, e)}
                   aria-label="View earnings details"
@@ -3294,9 +3293,9 @@
                       >
                         {surprise?.positive ? "+" : ""}{surprise?.value.toFixed(
                           2,
-                        )} ({surprise?.positive ? "+" : ""}{surprise?.percent.toFixed(
-                          2,
-                        )}%)
+                        )} ({surprise?.positive
+                          ? "+"
+                          : ""}{surprise?.percent.toFixed(2)}%)
                       </span>
                     </div>
                   {/if}
@@ -3337,9 +3336,9 @@
                       >
                         {surprise?.positive ? "+" : ""}{abbreviateNumber(
                           surprise?.value ?? 0,
-                        )} ({surprise?.positive ? "+" : ""}{surprise?.percent.toFixed(
-                          2,
-                        )}%)
+                        )} ({surprise?.positive
+                          ? "+"
+                          : ""}{surprise?.percent.toFixed(2)}%)
                       </span>
                     </div>
                   {/if}
