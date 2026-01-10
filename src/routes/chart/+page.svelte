@@ -274,7 +274,7 @@
           class="relative w-full"
         >
           <div
-            class="absolute inset-y-0 left-0 flex items-center pl-4 text-zinc-400"
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-800 dark:text-zinc-300"
           >
             <svg
               class="h-5 w-5"
@@ -292,18 +292,16 @@
           </div>
           <Combobox.Input
             on:click={() => (inputValue = "")}
-            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-white bg-zinc-900/80 border border-zinc-700 rounded-xl focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 placeholder-zinc-500 transition"
+            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 rounded-xl shadow focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-zinc-500 transition"
             placeholder="Company or stock symbol..."
           />
-          <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+          <div
+            class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-800 dark:text-zinc-300"
+          >
             {#if isLoading}
-              <span class="loading loading-spinner loading-sm text-zinc-400"
-              ></span>
+              <span class="loading loading-spinner loading-sm"></span>
             {:else if inputValue?.length > 0}
-              <button
-                class="text-zinc-400 hover:text-white transition"
-                on:click={() => (inputValue = "")}
-              >
+              <button class="cursor-pointer" on:click={() => (inputValue = "")}>
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
@@ -314,61 +312,69 @@
           </div>
         </div>
         <Combobox.Content
-          class="w-full z-40 mt-2 rounded-xl border border-zinc-700 bg-zinc-900 px-1.5 py-2 shadow-xl outline-hidden"
+          class="w-full z-40 mt-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-1.5 py-2 shadow-xl outline-hidden"
           sideOffset={8}
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
               Suggestions
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-zinc-800"
+                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
-                  <span class="text-sm font-semibold text-white"
+                  <span
+                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 text-sm text-zinc-400 truncate"
+                  <span
+                    class="ml-3 text-sm text-gray-600 dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                    >{item?.type}</span
                   >
                 </div>
               </Combobox.Item>
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
               Popular
             </div>
             {#each popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-zinc-800"
+                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
-                  <span class="text-sm font-semibold text-white"
+                  <span
+                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 text-sm text-zinc-400 truncate"
+                  <span
+                    class="ml-3 text-sm text-gray-600 dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                    >{item?.type}</span
                   >
                 </div>
               </Combobox.Item>
             {/each}
           {:else}
-            <span class="block px-5 py-2 text-sm text-zinc-400">
+            <span
+              class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300"
+            >
               No results found
             </span>
           {/if}
@@ -377,11 +383,23 @@
     </div>
 
     <!-- Mobile Search Button -->
-    <div class="sm:hidden flex justify-center">
+    <div class="sm:hidden flex justify-center px-3">
       <label
         for="chartSearchModal"
-        class="flex items-center gap-3 px-3 py-2 w-full rounded-xl border border-zinc-700 bg-zinc-900/80 text-zinc-400 cursor-pointer hover:border-zinc-500 transition"
+        class="flex items-center gap-3 px-3 py-2 w-full rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-500 cursor-pointer shadow transition"
       >
+        <svg
+          class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"
+          />
+          <path
+            d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z"
+          />
+        </svg>
         <span>Company or stock symbol...</span>
       </label>
     </div>
@@ -400,13 +418,17 @@
       <label for="chartSearchModal" class="cursor-pointer modal-backdrop"
       ></label>
       <div
-        class="modal-box min-h-96 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950/95 shadow-xl m-auto w-full"
+        class="modal-box min-h-96 overflow-hidden rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/90 shadow-xl m-auto w-full"
       >
         <label
           for="chartSearchModal"
-          class="inline-block cursor-pointer absolute right-3 top-3 text-zinc-400 hover:text-white"
+          class="inline-block cursor-pointer absolute right-3 top-3"
         >
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+          <svg
+            class="w-6 h-6 sm:w-8 sm:h-8"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
             <path
               d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
             />
@@ -417,23 +439,28 @@
           <div class="relative">
             <div class="absolute inset-y-0 right-4 flex items-center">
               {#if isLoading}
-                <span class="loading loading-spinner loading-sm text-zinc-400"
-                ></span>
+                <span class="loading loading-spinner loading-sm"></span>
               {:else if inputValue?.length > 0}
                 <button
-                  class="text-zinc-400"
+                  class="cursor-pointer"
                   on:click={() => (inputValue = "")}
                 >
-                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    class="w-6 h-6 mt-2 ml-1"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path
                       d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
                     />
                   </svg>
                 </button>
+              {:else}
+                /
               {/if}
             </div>
             <input
-              class="w-full py-3 pl-10 pr-12 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
+              class="w-full py-3 pl-10 pr-12 rounded-xl bg-white/80 dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 shadow text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700"
               placeholder="Company or stock symbol..."
               bind:value={inputValue}
               bind:this={inputElement}
@@ -444,7 +471,7 @@
             />
             <button class="absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
-                class="w-4 h-4 text-zinc-400"
+                class="w-4 h-4 text-gray-800 dark:text-zinc-300"
                 fill="currentColor"
                 viewBox="0 0 16 16"
               >
@@ -460,56 +487,64 @@
         </div>
 
         <div
-          class="mt-3 rounded-xl border border-zinc-700 bg-zinc-900 px-1.5 py-2"
+          class="mt-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-1.5 py-2"
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
               Suggestions
             </div>
             {#each searchBarData as item}
               <li
-                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm hover:bg-zinc-800 transition"
+                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
-                  <span class="text-sm font-semibold text-white"
+                  <span
+                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 mr-6 text-sm text-zinc-400 truncate"
+                  <span
+                    class="whitespace-nowrap ml-3 mr-6 text-sm text-gray-600 dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                    >{item?.type}</span
                   >
                 </div>
               </li>
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
               Popular
             </div>
             {#each popularList as item}
               <li
-                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm hover:bg-zinc-800 transition"
+                class="gap-y-1.5 cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
-                  <span class="text-sm font-semibold text-white"
+                  <span
+                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 mr-6 text-sm text-zinc-400 truncate"
+                  <span
+                    class="whitespace-nowrap ml-3 mr-6 text-sm text-gray-600 dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                    >{item?.type}</span
                   >
                 </div>
               </li>
             {/each}
           {:else}
-            <span class="block px-5 py-2 text-sm text-zinc-400">
+            <span
+              class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300"
+            >
               No results found
             </span>
           {/if}

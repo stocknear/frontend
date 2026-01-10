@@ -23,7 +23,6 @@
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
   import Camera from "lucide-svelte/icons/camera";
-  import SettingsIcon from "lucide-svelte/icons/settings";
   import ArrowRight from "lucide-svelte/icons/arrow-right";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
@@ -48,7 +47,7 @@
   ];
 
   // localStorage keys for chart settings (not saved to pocketbase)
-  const CHART_SETTINGS_KEY = "chart-settings";
+  const CHART_EVENTS_KEY = "chart-events";
   const CHART_OVERLAYS_KEY = "chart-overlays";
 
   interface ChartSettings {
@@ -58,7 +57,7 @@
 
   const loadChartSettings = (): ChartSettings | null => {
     try {
-      const saved = localStorage?.getItem(CHART_SETTINGS_KEY);
+      const saved = localStorage?.getItem(CHART_EVENTS_KEY);
       if (saved) {
         return JSON.parse(saved);
       }
@@ -70,7 +69,7 @@
 
   const saveChartSettings = (settings: ChartSettings) => {
     try {
-      localStorage?.setItem(CHART_SETTINGS_KEY, JSON.stringify(settings));
+      localStorage?.setItem(CHART_EVENTS_KEY, JSON.stringify(settings));
     } catch (e) {
       console.log("Failed saving chart settings:", e);
     }
@@ -3111,8 +3110,7 @@
               builders={[builder]}
               class="h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             >
-              <SettingsIcon class="size-4 mr-1" />
-              <span class="truncate">Settings</span>
+              <span class="truncate">Events</span>
               <ChevronDown class="size-4 ml-1" />
             </Button>
           </DropdownMenu.Trigger>
@@ -3125,7 +3123,7 @@
             <DropdownMenu.Label
               class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >
-              Chart Settings
+              Chart Events
             </DropdownMenu.Label>
             <DropdownMenu.Group class="pb-1">
               <DropdownMenu.Item
@@ -3136,7 +3134,29 @@
                   on:click|stopPropagation
                   on:pointerdown|stopPropagation
                 >
-                  <span class="mr-3 text-sm">Show Earnings</span>
+                  <span class="mr-3 text-sm">Earnings</span>
+                  <div class="relative ml-auto">
+                    <input
+                      type="checkbox"
+                      class="sr-only peer"
+                      checked={showEarnings}
+                      on:change={() => (showEarnings = !showEarnings)}
+                    />
+                    <div
+                      class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    ></div>
+                  </div>
+                </label>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+              >
+                <label
+                  class="inline-flex justify-between w-full items-center cursor-pointer"
+                  on:click|stopPropagation
+                  on:pointerdown|stopPropagation
+                >
+                  <span class="mr-3 text-sm">Dividends</span>
                   <div class="relative ml-auto">
                     <input
                       type="checkbox"
