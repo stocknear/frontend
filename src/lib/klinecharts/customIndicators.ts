@@ -91,7 +91,7 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     styles: {
       lines: [
         { color: "rgba(255, 255, 255, 0.6)" },
-        { color: "rgba(255, 255, 255, 0.6)" },
+        { color: "#FFFFFF" },
         { color: "rgba(255, 255, 255, 0.6)" },
       ],
     },
@@ -101,8 +101,9 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
 
       if (!result || result.length === 0) return true;
 
-      // Collect points for upper and lower bands
+      // Collect points for upper, middle, and lower bands
       const upperPoints: { x: number; y: number }[] = [];
+      const midPoints: { x: number; y: number }[] = [];
       const lowerPoints: { x: number; y: number }[] = [];
 
       for (let i = from; i < to; i++) {
@@ -113,6 +114,11 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
           const lowerY = yAxis.convertToPixel(data.lower);
           upperPoints.push({ x, y: upperY });
           lowerPoints.push({ x, y: lowerY });
+        }
+        if (data?.mid !== undefined) {
+          const x = xAxis.convertToPixel(i);
+          const midY = yAxis.convertToPixel(data.mid);
+          midPoints.push({ x, y: midY });
         }
       }
 
@@ -134,6 +140,19 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         ctx.closePath();
         ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
         ctx.fill();
+      }
+
+      // Draw the middle line (SMA) as a solid white line
+      if (midPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(midPoints[0].x, midPoints[0].y);
+        for (let i = 1; i < midPoints.length; i++) {
+          ctx.lineTo(midPoints[i].x, midPoints[i].y);
+        }
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.lineWidth = 1;
+        ctx.stroke();
       }
 
       // Return true to continue with default figure (line) drawing
