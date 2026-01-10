@@ -23,6 +23,7 @@
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
   import Camera from "lucide-svelte/icons/camera";
+  import SettingsIcon from "lucide-svelte/icons/settings";
   import ArrowRight from "lucide-svelte/icons/arrow-right";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
@@ -128,6 +129,7 @@
   let historicalEarnings: EarningsData[] = [];
   let nextEarnings: EarningsData | null = null;
   let earningsMarkers: EarningsMarker[] = [];
+  let showEarnings = true;
   let selectedEarnings: EarningsData | null = null;
   let selectedEarningsIsFuture = false;
   let earningsPopupPosition = { x: 0, y: 0 };
@@ -3093,6 +3095,55 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
+              class="h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            >
+              <SettingsIcon class="size-4 mr-1" />
+              <span class="truncate">Settings</span>
+              <ChevronDown class="size-4 ml-1" />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="start"
+            sideOffset={10}
+            class="w-auto min-w-48 relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200"
+          >
+            <DropdownMenu.Label
+              class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+            >
+              Chart Settings
+            </DropdownMenu.Label>
+            <DropdownMenu.Group class="pb-1">
+              <DropdownMenu.Item
+                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+              >
+                <label
+                  class="inline-flex justify-between w-full items-center cursor-pointer"
+                  on:click|stopPropagation
+                  on:pointerdown|stopPropagation
+                >
+                  <span class="mr-3 text-sm">Show Earnings</span>
+                  <div class="relative ml-auto">
+                    <input
+                      type="checkbox"
+                      class="sr-only peer"
+                      checked={showEarnings}
+                      on:change={() => (showEarnings = !showEarnings)}
+                    />
+                    <div
+                      class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    ></div>
+                  </div>
+                </label>
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
               class=" h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             >
               <span class="truncate">
@@ -3262,8 +3313,8 @@
           >
         </div>
 
-        <!-- Earnings markers overlay (only for non-intraday ranges) -->
-        {#if isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
+        <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
+        {#if showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
