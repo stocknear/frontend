@@ -1069,6 +1069,20 @@
     return false;
   };
 
+  // Helper to check if both revenue and earnings surprises are positive (beat expectations)
+  const hasBeatExpectations = (earnings: EarningsData | null): boolean => {
+    if (!earnings) return false;
+    const epsSurprise = toNumber(earnings.eps_surprise);
+    const revenueSurprise = toNumber(earnings.revenue_surprise);
+    // Both must be positive numbers (beat expectations)
+    return (
+      epsSurprise !== null &&
+      epsSurprise > 0 &&
+      revenueSurprise !== null &&
+      revenueSurprise > 0
+    );
+  };
+
   // Calculate YoY change for future earnings (estimate vs prior)
   const calculateYoYChange = (
     estimate: string | number | null,
@@ -3329,8 +3343,12 @@
                     height="30"
                     viewBox="0 0 18 22"
                     class="drop-shadow-md"
+                    style={!marker.isFuture &&
+                    hasBeatExpectations(marker.earnings)
+                      ? "transform: rotate(180deg)"
+                      : ""}
                   >
-                    {#if marker.isFuture}
+                    {#if marker?.isFuture}
                       <!-- Future earnings: outline style -->
                       <path
                         d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
@@ -3348,8 +3366,25 @@
                         font-weight="bold"
                         font-family="system-ui, sans-serif">E</text
                       >
+                    {:else if hasBeatExpectations(marker?.earnings)}
+                      <!-- Past earnings with positive surprise: green, upside down -->
+                      <path
+                        d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                        fill="#10B981"
+                      />
+                      <text
+                        x="9"
+                        y="14"
+                        text-anchor="middle"
+                        dominant-baseline="middle"
+                        fill="white"
+                        font-size="10"
+                        font-weight="bold"
+                        font-family="system-ui, sans-serif"
+                        transform="rotate(180 9 11)">E</text
+                      >
                     {:else}
-                      <!-- Past earnings: solid fill -->
+                      <!-- Past earnings: solid red fill -->
                       <path
                         d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
                         fill="#B91C1C"
