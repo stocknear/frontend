@@ -1949,7 +1949,7 @@
   {/await}
 {/if}
 
-{#if data?.user?.id}
+{#if data?.user?.id && !isChartRoute}
   {#await import("$lib/components/Feedback.svelte") then { default: Comp }}
     <svelte:component this={Comp} {data} />
   {/await}

@@ -227,17 +227,6 @@
       pane: "candle",
     },
     {
-      id: "volume",
-      label: "Volume",
-      indicatorName: "SN_VOL",
-      category: "Volume",
-      infoKey: "volume",
-      defaultParams: [],
-      pane: "panel",
-      height: 80,
-      defaultEnabled: true,
-    },
-    {
       id: "obv",
       label: "On-Balance Volume",
       indicatorName: "SN_OBV",
@@ -873,7 +862,10 @@
     }
 
     // Handle other intraday intervals (5min, 15min, 30min, 1hour)
-    if (intradayIntervals.includes(range as IntradayInterval) && range !== "1min") {
+    if (
+      intradayIntervals.includes(range as IntradayInterval) &&
+      range !== "1min"
+    ) {
       const interval = range as IntradayInterval;
       const span = intradaySpanMap[interval];
       const bars = intradayHistory[interval].bars;
@@ -938,7 +930,9 @@
       }
     }
 
-    return Array.from(weeklyMap.values()).sort((a, b) => a.timestamp - b.timestamp);
+    return Array.from(weeklyMap.values()).sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
   }
 
   // Aggregate daily bars into monthly bars
@@ -971,13 +965,17 @@
       }
     }
 
-    return Array.from(monthlyMap.values()).sort((a, b) => a.timestamp - b.timestamp);
+    return Array.from(monthlyMap.values()).sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
   }
 
   async function applyRange(range: string) {
     if (!chart) return;
 
-    const isIntradayInterval = intradayIntervals.includes(range as IntradayInterval);
+    const isIntradayInterval = intradayIntervals.includes(
+      range as IntradayInterval,
+    );
     const interval = range as IntradayInterval;
     const isMinuteRange = range === "1min";
     const isOtherIntradayRange = isIntradayInterval && range !== "1min";
@@ -2002,6 +2000,25 @@
 
     chart.setOffsetRightDistance(12);
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
+
+    // Always create volume indicator by default
+    chart.createIndicator(
+      { name: "SN_VOL", calcParams: [] },
+      false,
+      {
+        id: "sn_volume_pane",
+        height: 80,
+        minHeight: 60,
+        dragEnabled: false,
+        gap: { top: 0, bottom: 0 },
+        axis: {
+          show: true,
+          axisLine: { show: false },
+          tickLine: { show: false },
+          tickText: { show: true },
+        },
+      },
+    );
 
     resizeObserver = new ResizeObserver(() => {
       chart?.resize();

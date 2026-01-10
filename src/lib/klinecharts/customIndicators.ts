@@ -273,6 +273,11 @@ function createVolumeIndicator(): IndicatorTemplate<
       legends: [],
       features: [],
     }),
+    styles: {
+      lastValueMark: {
+        show: false,
+      },
+    },
   });
 }
 
