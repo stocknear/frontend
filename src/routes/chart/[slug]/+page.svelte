@@ -2128,6 +2128,16 @@
     const titleColor = "#9ca3af";
     const volumeColor = "#9ca3af";
 
+    // Calculate change and percentage
+    let changeText = "";
+    if (current && current.open && current.close) {
+      const change = current.close - current.open;
+      const changePercent = (change / current.open) * 100;
+      const sign = change >= 0 ? "+" : "";
+      changeText = `${sign}${change.toFixed(2)} (${sign}${changePercent.toFixed(2)}%)`;
+    }
+    const changeColor = isUp ? "#22ab94" : "#f23645";
+
     // For line chart types, show value and volume
     const isLineChart = ["line_step", "area", "hlc_area"].includes(chartType);
     if (isLineChart) {
@@ -2140,10 +2150,14 @@
           title: { text: "V: ", color: titleColor },
           value: { text: "{volume}", color: volumeColor },
         },
+        {
+          title: { text: "", color: titleColor },
+          value: { text: changeText, color: changeColor },
+        },
       ];
     }
 
-    // For candlestick/bar charts, show O H L C V
+    // For candlestick/bar charts, show O H L C V + change
     return [
       {
         title: { text: "O: ", color: titleColor },
@@ -2164,6 +2178,10 @@
       {
         title: { text: "V: ", color: titleColor },
         value: { text: "{volume}", color: volumeColor },
+      },
+      {
+        title: { text: "", color: titleColor },
+        value: { text: changeText, color: changeColor },
       },
     ];
   };
