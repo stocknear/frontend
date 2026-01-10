@@ -22,6 +22,7 @@
   import Trash2 from "lucide-svelte/icons/trash-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
+  import Camera from "lucide-svelte/icons/camera";
   import ArrowRight from "lucide-svelte/icons/arrow-right";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
@@ -1880,6 +1881,61 @@
     chart.zoomAtCoordinate(scale);
   }
 
+  async function downloadChart() {
+    if (!chart || !chartContainer) return;
+    try {
+      // Get all canvas elements from the chart container
+      const canvases = chartContainer.querySelectorAll("canvas");
+      if (!canvases.length) {
+        toast.error("Chart not ready for download");
+        return;
+      }
+
+      // Get the container dimensions
+      const rect = chartContainer.getBoundingClientRect();
+      const width = Math.round(rect.width);
+      const height = Math.round(rect.height);
+
+      // Create a new canvas to composite all layers
+      const compositeCanvas = document.createElement("canvas");
+      compositeCanvas.width = width * 2; // 2x for higher resolution
+      compositeCanvas.height = height * 2;
+      const ctx = compositeCanvas.getContext("2d");
+      if (!ctx) {
+        toast.error("Failed to create canvas context");
+        return;
+      }
+
+      // Scale for higher resolution
+      ctx.scale(2, 2);
+
+      // Fill background
+      ctx.fillStyle = "#0b0b0b";
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw each canvas layer onto the composite canvas
+      canvases.forEach((canvas) => {
+        if (canvas.width > 0 && canvas.height > 0) {
+          const canvasRect = canvas.getBoundingClientRect();
+          const x = canvasRect.left - rect.left;
+          const y = canvasRect.top - rect.top;
+          ctx.drawImage(canvas, x, y, canvasRect.width, canvasRect.height);
+        }
+      });
+
+      const url = compositeCanvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${ticker}-chart-${DateTime.now().toFormat("yyyy-MM-dd-HHmmss")}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.error("Failed to download chart:", e);
+      toast.error("Failed to download chart");
+    }
+  }
+
   function resetView() {
     if (!chart) return;
     applyRange(activeRange);
@@ -2780,6 +2836,13 @@
             aria-label="Zoom out"
           >
             <ZoomOut class="h-4 w-4" />
+          </button>
+          <button
+            class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
+            on:click={downloadChart}
+            aria-label="Download chart"
+          >
+            <Camera class="h-4 w-4" />
           </button>
         </div>
       </div>
