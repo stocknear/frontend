@@ -33,12 +33,32 @@
   export let form;
 
   const zone = "America/New_York";
-  const timeframes = ["1D", "5D", "1M", "6M", "YTD", "1Y", "5Y", "MAX"];
+  const timeframes = [
+    "1min",
+    "5min",
+    "15min",
+    "30min",
+    "1hour",
+    "1D",
+    "5D",
+    "1M",
+    "6M",
+    "YTD",
+    "1Y",
+    "5Y",
+    "MAX",
+  ];
+
+  let minuteBars = [];
+  let minuteBarsTicker = "";
+  let hasMoreMinuteHistory = false;
+  let minuteBarsLoading = false;
+  let minuteBarsLastEndDate = "";
 
   let chartContainer: HTMLDivElement | null = null;
   let chart: any = null;
   let hoverBar: KLineData | null = null;
-  let currentBars: KLineData[] = [];
+  let currentBars = [];
   let barIndexByTimestamp = new Map<number, number>();
   let activeRange = "1D";
   type ChartTypeId =
@@ -71,11 +91,17 @@
   let indicatorSearchTerm = "";
   const toNumber = (value: unknown): number | null => {
     const n =
-      typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+      typeof value === "number"
+        ? value
+        : typeof value === "string"
+          ? Number(value)
+          : NaN;
     return Number.isFinite(n) ? n : null;
   };
   const formatSeoPrice = (value: number | null | undefined) =>
-    typeof value === "number" && Number.isFinite(value) ? value.toFixed(2) : "N/A";
+    typeof value === "number" && Number.isFinite(value)
+      ? value.toFixed(2)
+      : "N/A";
   const toRealtimeTimestampMs = (value: unknown): number | null => {
     const raw = toNumber(value);
     if (raw === null) return null;
@@ -103,7 +129,6 @@
   type IndicatorDefinition = {
     id: string;
     label: string;
-    sublabel: string;
     indicatorName: string;
     category: string;
     infoKey?: string;
@@ -117,7 +142,6 @@
     {
       id: "ma",
       label: "Moving Average",
-      sublabel: "SMA 20/50/100/200",
       indicatorName: "SN_MA",
       category: "Trend",
       infoKey: "ma",
@@ -127,7 +151,6 @@
     {
       id: "ema",
       label: "Exponential Moving Average",
-      sublabel: "EMA 9/21/50",
       indicatorName: "SN_EMA",
       category: "Trend",
       infoKey: "ema",
@@ -137,7 +160,6 @@
     {
       id: "boll",
       label: "Bollinger Bands",
-      sublabel: "BOLL 20 / 2 SD",
       indicatorName: "SN_BOLL",
       category: "Volatility",
       defaultParams: [20, 2],
@@ -146,7 +168,6 @@
     {
       id: "vwap",
       label: "VWAP",
-      sublabel: "Volume-weighted average price",
       indicatorName: "SN_VWAP",
       category: "Volume",
       infoKey: "vwap",
@@ -156,7 +177,6 @@
     {
       id: "parabolic_sar",
       label: "Parabolic SAR",
-      sublabel: "Step 0.02 / Max 0.2",
       indicatorName: "SN_SAR",
       category: "Trend",
       defaultParams: [0.02, 0.2],
@@ -165,7 +185,6 @@
     {
       id: "donchian",
       label: "Donchian Channels",
-      sublabel: "20",
       indicatorName: "SN_DONCHIAN",
       category: "Trend",
       defaultParams: [20],
@@ -174,7 +193,6 @@
     {
       id: "pivot",
       label: "Pivot Points",
-      sublabel: "Classic",
       indicatorName: "SN_PIVOT",
       category: "Price Levels",
       defaultParams: [],
@@ -183,7 +201,6 @@
     {
       id: "fibonacci",
       label: "Fibonacci Retracements",
-      sublabel: "23.6 / 38.2 / 50 / 61.8 / 78.6",
       indicatorName: "SN_FIB",
       category: "Price Levels",
       defaultParams: [],
@@ -192,7 +209,6 @@
     {
       id: "psych_round_10",
       label: "Psychological Levels ($10)",
-      sublabel: "Nearest $10",
       indicatorName: "SN_PSYCH",
       category: "Price Levels",
       defaultParams: [10],
@@ -201,7 +217,6 @@
     {
       id: "psych_round_25",
       label: "Psychological Levels ($25)",
-      sublabel: "Nearest $25",
       indicatorName: "SN_PSYCH",
       category: "Price Levels",
       defaultParams: [25],
@@ -210,7 +225,6 @@
     {
       id: "psych_round_50",
       label: "Psychological Levels ($50)",
-      sublabel: "Nearest $50",
       indicatorName: "SN_PSYCH",
       category: "Price Levels",
       defaultParams: [50],
@@ -219,7 +233,6 @@
     {
       id: "volume",
       label: "Volume",
-      sublabel: "Volume + MA 5/10/20",
       indicatorName: "SN_VOL",
       category: "Volume",
       infoKey: "volume",
@@ -231,7 +244,6 @@
     {
       id: "obv",
       label: "On-Balance Volume",
-      sublabel: "OBV + MA 5/10/20/50",
       indicatorName: "SN_OBV",
       category: "Volume",
       defaultParams: [5, 10, 20, 50],
@@ -241,7 +253,6 @@
     {
       id: "rsi",
       label: "Relative Strength Index",
-      sublabel: "RSI 14",
       indicatorName: "SN_RSI",
       category: "Momentum",
       infoKey: "rsi",
@@ -252,7 +263,6 @@
     {
       id: "macd",
       label: "MACD",
-      sublabel: "12/26/9",
       indicatorName: "SN_MACD",
       category: "Momentum",
       defaultParams: [12, 26, 9],
@@ -273,7 +283,6 @@
     {
       id: "stoch",
       label: "Stochastic Oscillator",
-      sublabel: "%K 14 / %D 3",
       indicatorName: "SN_STOCH",
       category: "Momentum",
       defaultParams: [14, 3],
@@ -283,7 +292,6 @@
     {
       id: "stoch_crossover",
       label: "Stochastic Crossover",
-      sublabel: "%K - %D",
       indicatorName: "SN_STOCH_X",
       category: "Momentum",
       defaultParams: [14, 3],
@@ -293,7 +301,6 @@
     {
       id: "cci",
       label: "Commodity Channel Index",
-      sublabel: "CCI 20",
       indicatorName: "SN_CCI",
       category: "Momentum",
       infoKey: "cci",
@@ -304,7 +311,6 @@
     {
       id: "williams_r",
       label: "Williams %R",
-      sublabel: "%R 14",
       indicatorName: "SN_WILLIAMS",
       category: "Momentum",
       defaultParams: [14],
@@ -314,7 +320,6 @@
     {
       id: "mfi",
       label: "Money Flow Index",
-      sublabel: "MFI 14",
       indicatorName: "SN_MFI",
       category: "Volume",
       infoKey: "mfi",
@@ -322,10 +327,10 @@
       pane: "panel",
       height: 120,
     },
+
     {
       id: "roc",
       label: "Rate of Change",
-      sublabel: "ROC 12",
       indicatorName: "SN_ROC",
       category: "Momentum",
       defaultParams: [12],
@@ -335,7 +340,6 @@
     {
       id: "tsi",
       label: "True Strength Index",
-      sublabel: "TSI 25/13/7",
       indicatorName: "SN_TSI",
       category: "Momentum",
       defaultParams: [25, 13, 7],
@@ -345,7 +349,6 @@
     {
       id: "aroon",
       label: "Aroon",
-      sublabel: "Aroon 25",
       indicatorName: "SN_AROON",
       category: "Trend",
       defaultParams: [25],
@@ -355,7 +358,6 @@
     {
       id: "std",
       label: "Standard Deviation",
-      sublabel: "20",
       indicatorName: "SN_STD",
       category: "Volatility",
       defaultParams: [20],
@@ -365,7 +367,6 @@
     {
       id: "hist_vol",
       label: "Historical Volatility",
-      sublabel: "HV 20",
       indicatorName: "SN_HVOL",
       category: "Volatility",
       defaultParams: [20],
@@ -375,7 +376,6 @@
     {
       id: "chaikin_vol",
       label: "Chaikin Volatility",
-      sublabel: "10 / 10",
       indicatorName: "SN_CHAIKIN",
       category: "Volatility",
       defaultParams: [10, 10],
@@ -426,6 +426,42 @@
   let ticker = "";
   let dailyBars: KLineData[] = [];
   let intradayBars: KLineData[] = [];
+  type IntradayInterval = "1min" | "5min" | "15min" | "30min" | "1hour";
+  const intradayIntervals: IntradayInterval[] = [
+    "1min",
+    "5min",
+    "15min",
+    "30min",
+    "1hour",
+  ];
+  const intradaySpanMap: Record<IntradayInterval, number> = {
+    "1min": 1,
+    "5min": 5,
+    "15min": 15,
+    "30min": 30,
+    "1hour": 60,
+  };
+  type IntradayHistoryState = {
+    bars: KLineData[];
+    startTimestamp: number | null;
+    hasMore: boolean;
+    isLoading: boolean;
+    lastEndDate: string;
+  };
+  const createIntradayState = (): IntradayHistoryState => ({
+    bars: [],
+    startTimestamp: null,
+    hasMore: true,
+    isLoading: false,
+    lastEndDate: "",
+  });
+  let intradayHistory: Record<IntradayInterval, IntradayHistoryState> =
+    Object.fromEntries(
+      intradayIntervals.map((interval) => [interval, createIntradayState()]),
+    ) as Record<IntradayInterval, IntradayHistoryState>;
+  let intradayHistoryTicker = "";
+  const intradayHistoryChunkDays = 5;
+  const intradayHistoryLimitDays = 30;
   let pricePrecision = 2;
   let priceFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: pricePrecision,
@@ -444,7 +480,6 @@
   const indicatorItems = indicatorDefinitions.map((item) => ({
     id: item.id,
     label: item.label,
-    sublabel: item.sublabel,
     category: item.category,
     infoKey: item.infoKey,
   }));
@@ -598,7 +633,12 @@
   function normalizeIntraday(list): KLineData[] {
     return (Array.isArray(list) ? list : [])
       .map((entry) => {
-        const time = typeof entry?.time === "string" ? entry.time : null;
+        const time =
+          typeof entry?.time === "string"
+            ? entry.time
+            : typeof entry?.date === "string"
+              ? entry.date
+              : null;
         if (!time) return null;
         const timestamp = parseIntradayTimestamp(time);
         if (!timestamp) return null;
@@ -621,6 +661,137 @@
       .filter((bar): bar is KLineData => Boolean(bar))
       .sort((a, b) => a.timestamp - b.timestamp);
   }
+
+  const cloneBars = (bars: KLineData[]) => bars.map((bar) => ({ ...bar }));
+
+  const updateIntradayState = (
+    interval: IntradayInterval,
+    updates: Partial<IntradayHistoryState>,
+  ) => {
+    intradayHistory = {
+      ...intradayHistory,
+      [interval]: { ...intradayHistory[interval], ...updates },
+    };
+  };
+
+  const getIntradayHistoryLimitMs = () =>
+    DateTime.now()
+      .setZone(zone)
+      .minus({ days: intradayHistoryLimitDays })
+      .startOf("day")
+      .toMillis();
+
+  const getIntradayHistoryEndDate = (interval: IntradayInterval) => {
+    const state = intradayHistory[interval];
+    if (!state.bars.length) {
+      return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
+    }
+    return DateTime.fromMillis(state.bars[0].timestamp, { zone })
+      .minus({ days: 1 })
+      .toFormat("yyyy-MM-dd");
+  };
+
+  const mergeIntradayBars = (current: KLineData[], incoming: KLineData[]) => {
+    const map = new Map(current.map((bar) => [bar.timestamp, bar]));
+    incoming.forEach((bar) => {
+      map.set(bar.timestamp, bar);
+    });
+    return Array.from(map.values()).sort((a, b) => a.timestamp - b.timestamp);
+  };
+
+  const requestIntradayHistory = async (
+    interval: IntradayInterval,
+    endDate: string,
+  ) => {
+    const response = await fetch("/api/chart-intraday-price", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ticker,
+        endDate,
+        interval,
+        days: intradayHistoryChunkDays,
+      }),
+    });
+
+    if (!response.ok) {
+      return { bars: [], hasMore: false };
+    }
+
+    const payload = await response.json();
+    return {
+      bars: normalizeIntraday(payload?.data ?? []),
+      hasMore: Boolean(payload?.hasMore),
+    };
+  };
+
+  const loadMoreIntradayBars = async (interval: IntradayInterval) => {
+    const state = intradayHistory[interval];
+    if (!ticker || state.isLoading || !state.hasMore) {
+      return { bars: [], hasMore: state.hasMore };
+    }
+
+    const endDate = getIntradayHistoryEndDate(interval);
+    if (!endDate || endDate === state.lastEndDate) {
+      return { bars: [], hasMore: state.hasMore };
+    }
+
+    updateIntradayState(interval, {
+      isLoading: true,
+      lastEndDate: endDate,
+    });
+    const result = await requestIntradayHistory(interval, endDate);
+    if (result.bars.length) {
+      const merged = mergeIntradayBars(
+        intradayHistory[interval].bars,
+        result.bars,
+      );
+      updateIntradayState(interval, {
+        bars: merged,
+        startTimestamp: merged[0]?.timestamp ?? null,
+      });
+      if (activeRange === interval) {
+        currentBars = transformBarsForType(merged, chartType);
+      }
+    }
+    updateIntradayState(interval, {
+      hasMore: result.hasMore,
+      isLoading: false,
+    });
+    return result;
+  };
+
+  const resetIntradayHistory = () => {
+    const limitMs = getIntradayHistoryLimitMs();
+    const nextHistory = Object.fromEntries(
+      intradayIntervals.map((interval) => {
+        if (interval === "1min") {
+          const bars = cloneBars(intradayBars);
+          const startTimestamp = bars[0]?.timestamp ?? null;
+          return [
+            interval,
+            {
+              bars,
+              startTimestamp,
+              hasMore:
+                startTimestamp !== null ? startTimestamp > limitMs : false,
+              isLoading: false,
+              lastEndDate: "",
+            },
+          ];
+        }
+        return [
+          interval,
+          {
+            ...createIntradayState(),
+            hasMore: true,
+          },
+        ];
+      }),
+    ) as Record<IntradayInterval, IntradayHistoryState>;
+
+    intradayHistory = nextHistory;
+  };
 
   const buildHeikinAshi = (bars: KLineData[]) => {
     const output: KLineData[] = [];
@@ -681,6 +852,11 @@
   }
 
   function getRangeBars(range: string) {
+    if (range === "1min") {
+      const bars = minuteBars.length ? minuteBars : intradayBars;
+      return { bars, period: { type: "minute", span: 1 } };
+    }
+
     if (range === "1D") {
       if (intradayBars.length) {
         return { bars: intradayBars, period: { type: "minute", span: 1 } };
@@ -738,6 +914,7 @@
     currentBars = displayBars;
     hoverBar = null;
     realtimeBarCallback = null;
+    const isMinuteRange = range === "1min";
     chart.setSymbol({
       ticker,
       pricePrecision,
@@ -745,12 +922,23 @@
     });
     chart.setPeriod(period);
     chart.setDataLoader({
-      getBars: ({ type, callback }) => {
-        if (type !== "init") {
-          callback([], { backward: false, forward: false });
+      getBars: async ({ type, callback }) => {
+        if (type === "init") {
+          callback(displayBars, {
+            backward: false,
+            forward: isMinuteRange && hasMoreMinuteHistory,
+          });
           return;
         }
-        callback(displayBars, { backward: false, forward: false });
+
+        if (isMinuteRange && type === "forward") {
+          const result = await loadMoreMinuteBars();
+          const nextBars = transformBarsForType(result.bars, chartType);
+          callback(nextBars, { backward: false, forward: result.hasMore });
+          return;
+        }
+
+        callback([], { backward: false, forward: false });
       },
       subscribeBar: ({ callback }) => {
         realtimeBarCallback = callback;
@@ -762,6 +950,66 @@
     chart.scrollToRealTime();
   }
 
+  const upsertMinuteBar = (
+    bars: KLineData[],
+    minuteTimestamp: number,
+    price: number,
+    volume: number,
+  ) => {
+    const lastIndex = bars.length - 1;
+    let updatedIndex = -1;
+
+    if (lastIndex >= 0) {
+      const lastBar = bars[lastIndex];
+      if (lastBar.timestamp === minuteTimestamp) {
+        bars[lastIndex] = {
+          ...lastBar,
+          high: Math.max(lastBar.high, price),
+          low: Math.min(lastBar.low, price),
+          close: price,
+          volume: (lastBar.volume ?? 0) + volume,
+        };
+        updatedIndex = lastIndex;
+      } else if (lastBar.timestamp < minuteTimestamp) {
+        bars.push({
+          timestamp: minuteTimestamp,
+          open: price,
+          high: price,
+          low: price,
+          close: price,
+          volume,
+        });
+        updatedIndex = bars.length - 1;
+      } else {
+        const matchIndex = bars.findIndex(
+          (bar) => bar.timestamp === minuteTimestamp,
+        );
+        if (matchIndex === -1) return -1;
+        const target = bars[matchIndex];
+        bars[matchIndex] = {
+          ...target,
+          high: Math.max(target.high, price),
+          low: Math.min(target.low, price),
+          close: price,
+          volume: (target.volume ?? 0) + volume,
+        };
+        updatedIndex = matchIndex;
+      }
+    } else {
+      bars.push({
+        timestamp: minuteTimestamp,
+        open: price,
+        high: price,
+        low: price,
+        close: price,
+        volume,
+      });
+      updatedIndex = bars.length - 1;
+    }
+
+    return updatedIndex;
+  };
+
   const updateRealtimeBars = (tick) => {
     if (!tick) return;
     const symbol = typeof tick?.s === "string" ? tick.s.toUpperCase() : "";
@@ -772,69 +1020,58 @@
     if (price === null) return;
     const volume = resolveTickVolume(tick);
     const minuteTimestamp = getMinuteTimestamp(timestampMs);
-    const lastIndex = intradayBars.length - 1;
-    let updatedIndex = -1;
 
-    if (lastIndex >= 0) {
-      const lastBar = intradayBars[lastIndex];
-      if (lastBar.timestamp === minuteTimestamp) {
-        intradayBars[lastIndex] = {
-          ...lastBar,
-          high: Math.max(lastBar.high, price),
-          low: Math.min(lastBar.low, price),
-          close: price,
-          volume: (lastBar.volume ?? 0) + volume,
-        };
-        updatedIndex = lastIndex;
-      } else if (lastBar.timestamp < minuteTimestamp) {
-        intradayBars.push({
-          timestamp: minuteTimestamp,
-          open: price,
-          high: price,
-          low: price,
-          close: price,
+    const intradayIndex = upsertMinuteBar(
+      intradayBars,
+      minuteTimestamp,
+      price,
+      volume,
+    );
+    let minuteIndex = -1;
+    if (minuteBarsTicker === ticker) {
+      if (!minuteBars.length && intradayBars.length) {
+        minuteBars = cloneBars(intradayBars);
+        minuteIndex = minuteBars.length - 1;
+      } else if (minuteBars.length) {
+        minuteIndex = upsertMinuteBar(
+          minuteBars,
+          minuteTimestamp,
+          price,
           volume,
-        });
-        updatedIndex = intradayBars.length - 1;
-      } else {
-        const matchIndex = intradayBars.findIndex(
-          (bar) => bar.timestamp === minuteTimestamp,
         );
-        if (matchIndex === -1) return;
-        const target = intradayBars[matchIndex];
-        intradayBars[matchIndex] = {
-          ...target,
-          high: Math.max(target.high, price),
-          low: Math.min(target.low, price),
-          close: price,
-          volume: (target.volume ?? 0) + volume,
-        };
-        updatedIndex = matchIndex;
       }
-    } else {
-      intradayBars.push({
-        timestamp: minuteTimestamp,
-        open: price,
-        high: price,
-        low: price,
-        close: price,
-        volume,
-      });
-      updatedIndex = intradayBars.length - 1;
     }
 
     if (activeRange === "1D") {
       const displayBars = transformBarsForType(intradayBars, chartType);
       currentBars = displayBars;
-      if (updatedIndex === displayBars.length - 1) {
-        const latestBar = displayBars[updatedIndex];
+      if (intradayIndex === displayBars.length - 1) {
+        const latestBar = displayBars[intradayIndex];
         if (latestBar && realtimeBarCallback) {
           realtimeBarCallback(latestBar);
         }
       }
     }
 
-    pricePrecision = computePricePrecision([...dailyBars, ...intradayBars]);
+    if (activeRange === "1min") {
+      const sourceBars = minuteBars.length ? minuteBars : intradayBars;
+      const sourceIndex =
+        minuteBars.length && minuteIndex !== -1 ? minuteIndex : intradayIndex;
+      const displayBars = transformBarsForType(sourceBars, chartType);
+      currentBars = displayBars;
+      if (sourceIndex === displayBars.length - 1) {
+        const latestBar = displayBars[sourceIndex];
+        if (latestBar && realtimeBarCallback) {
+          realtimeBarCallback(latestBar);
+        }
+      }
+    }
+
+    pricePrecision = computePricePrecision([
+      ...dailyBars,
+      ...intradayBars,
+      ...minuteBars,
+    ]);
     priceFormatter = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: pricePrecision,
       maximumFractionDigits: pricePrecision,
@@ -1599,7 +1836,7 @@
   function formatTimestamp(bar: KLineData | null) {
     if (!bar) return "--";
     const dt = DateTime.fromMillis(bar.timestamp, { zone });
-    if (activeRange === "1D") {
+    if (activeRange === "1D" || activeRange === "1min") {
       return dt.toFormat("MMM dd, HH:mm");
     }
     if (activeRange === "5D" || activeRange === "1M") {
@@ -1696,14 +1933,92 @@
     }
   });
 
+  const resetMinuteBars = () => {
+    // Seed minuteBars with the current intraday bars (typically 1-min for today)
+    minuteBars = cloneBars(intradayBars);
+    minuteBarsLastEndDate = "";
+    minuteBarsLoading = false;
+
+    const limitMs = getIntradayHistoryLimitMs(); // uses intradayHistoryLimitDays (30)
+    const startTimestamp = minuteBars[0]?.timestamp ?? null;
+    hasMoreMinuteHistory =
+      startTimestamp !== null ? startTimestamp > limitMs : false;
+  };
+
+  // Called by the chart data loader when "1min" range wants more history
+  const loadMoreMinuteBars = async (): Promise<{
+    bars: KLineData[];
+    hasMore: boolean;
+  }> => {
+    if (!ticker || minuteBarsLoading || !hasMoreMinuteHistory) {
+      return { bars: [], hasMore: hasMoreMinuteHistory };
+    }
+
+    const endDate = getMinuteHistoryEndDate();
+    if (!endDate || endDate === minuteBarsLastEndDate) {
+      return { bars: [], hasMore: hasMoreMinuteHistory };
+    }
+
+    minuteBarsLoading = true;
+    minuteBarsLastEndDate = endDate;
+
+    // Reuse your existing endpoint helper (interval "1min")
+    const result = await requestIntradayHistory("1min", endDate);
+
+    if (result.bars.length) {
+      const merged = mergeIntradayBars(minuteBars, result.bars);
+      minuteBars = merged;
+
+      const limitMs = getIntradayHistoryLimitMs();
+      const startTimestamp = minuteBars[0]?.timestamp ?? null;
+      // respect both API hasMore + local retention limit
+      hasMoreMinuteHistory =
+        Boolean(result.hasMore) &&
+        (startTimestamp !== null ? startTimestamp > limitMs : false);
+
+      if (activeRange === "1min") {
+        currentBars = transformBarsForType(minuteBars, chartType);
+      }
+    } else {
+      // If API says no more, stop.
+      hasMoreMinuteHistory = Boolean(result.hasMore) && hasMoreMinuteHistory;
+    }
+
+    minuteBarsLoading = false;
+    return { bars: result.bars, hasMore: hasMoreMinuteHistory };
+  };
+
   $: {
     ticker = data?.ticker ?? "";
     dailyBars = normalizeDaily(data?.historical ?? []);
     intradayBars = normalizeIntraday(data?.intraday ?? []);
   }
 
+  $: if (
+    typeof window !== "undefined" &&
+    ticker &&
+    ticker !== minuteBarsTicker
+  ) {
+    minuteBarsTicker = ticker;
+    resetMinuteBars();
+  }
+
+  $: if (
+    typeof window !== "undefined" &&
+    ticker &&
+    ticker === minuteBarsTicker &&
+    minuteBars.length === 0 &&
+    intradayBars.length
+  ) {
+    resetMinuteBars();
+  }
+
   $: {
-    pricePrecision = computePricePrecision([...dailyBars, ...intradayBars]);
+    pricePrecision = computePricePrecision([
+      ...dailyBars,
+      ...intradayBars,
+      ...minuteBars,
+    ]);
     priceFormatter = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: pricePrecision,
       maximumFractionDigits: pricePrecision,
@@ -1805,7 +2120,6 @@
     const term = indicatorSearchTerm.trim().toLowerCase();
     return (
       item.label.toLowerCase().includes(term) ||
-      item.sublabel.toLowerCase().includes(term) ||
       item.id.toLowerCase().includes(term) ||
       item.category.toLowerCase().includes(term)
     );
