@@ -10,7 +10,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
-  import { isOpen } from "$lib/store";
+  import { isOpen, screenWidth } from "$lib/store";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import TrendingUp from "lucide-svelte/icons/trending-up";
@@ -2138,12 +2138,33 @@
     }
     const changeColor = isUp ? "#22ab94" : "#f23645";
 
+    // Check if small screen (below sm breakpoint = 640px)
+    const isSmallScreen = $screenWidth < 640;
+
     // For line chart types, show value and volume
     const isLineChart = ["line_step", "area", "hlc_area"].includes(chartType);
     if (isLineChart) {
       return [
         {
           title: { text: "Value: ", color: titleColor },
+          value: { text: "{close}", color: valueColor },
+        },
+        {
+          title: { text: "V: ", color: titleColor },
+          value: { text: "{volume}", color: volumeColor },
+        },
+        {
+          title: { text: "", color: titleColor },
+          value: { text: changeText, color: changeColor },
+        },
+      ];
+    }
+
+    // For small screens with candle charts, show only C V + change
+    if (isSmallScreen) {
+      return [
+        {
+          title: { text: "C: ", color: titleColor },
           value: { text: "{close}", color: valueColor },
         },
         {
