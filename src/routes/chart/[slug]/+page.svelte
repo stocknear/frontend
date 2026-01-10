@@ -725,23 +725,43 @@
       .startOf("day")
       .toMillis();
 
+  // US market holidays for 2025-2026
+  const marketHolidays = new Set([
+    "2025-01-01", "2025-01-20", "2025-02-17", "2025-04-18", "2025-05-26",
+    "2025-06-19", "2025-07-04", "2025-09-01", "2025-11-27", "2025-12-25",
+    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25",
+    "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",
+  ]);
+
+  const isMarketDay = (dt: DateTime): boolean => {
+    const dayOfWeek = dt.weekday; // 1=Monday, 7=Sunday
+    if (dayOfWeek >= 6) return false; // Saturday or Sunday
+    return !marketHolidays.has(dt.toFormat("yyyy-MM-dd"));
+  };
+
+  const getPreviousMarketDay = (dt: DateTime): DateTime => {
+    let current = dt.minus({ days: 1 });
+    while (!isMarketDay(current)) {
+      current = current.minus({ days: 1 });
+    }
+    return current;
+  };
+
   const getIntradayHistoryEndDate = (interval: IntradayInterval) => {
     const state = intradayHistory[interval];
     if (!state.bars.length) {
       return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
     }
-    return DateTime.fromMillis(state.bars[0].timestamp, { zone })
-      .minus({ days: 1 })
-      .toFormat("yyyy-MM-dd");
+    const earliestBarDate = DateTime.fromMillis(state.bars[0].timestamp, { zone });
+    return getPreviousMarketDay(earliestBarDate).toFormat("yyyy-MM-dd");
   };
 
   const getMinuteHistoryEndDate = () => {
     if (!minuteBars.length) {
       return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
     }
-    return DateTime.fromMillis(minuteBars[0].timestamp, { zone })
-      .minus({ days: 1 })
-      .toFormat("yyyy-MM-dd");
+    const earliestBarDate = DateTime.fromMillis(minuteBars[0].timestamp, { zone });
+    return getPreviousMarketDay(earliestBarDate).toFormat("yyyy-MM-dd");
   };
 
   const mergeIntradayBars = (current: KLineData[], incoming: KLineData[]) => {
