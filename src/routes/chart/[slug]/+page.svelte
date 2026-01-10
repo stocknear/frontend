@@ -1924,8 +1924,8 @@
       });
 
       // Add watermark at bottom left
-      const logoSize = 20;
-      const padding = 10;
+      const logoSize = 28;
+      const padding = 12;
       const watermarkY = height - padding - logoSize;
 
       // Load and draw logo
@@ -1939,17 +1939,21 @@
           ctx.drawImage(logo, padding, watermarkY, logoSize, logoSize);
 
           // Draw text next to logo
-          ctx.font = "600 14px 'Space Grotesk', sans-serif";
-          ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+          ctx.font = "600 16px 'Space Grotesk', sans-serif";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
           ctx.textBaseline = "middle";
-          ctx.fillText("Stocknear", padding + logoSize + 6, watermarkY + logoSize / 2);
+          ctx.fillText(
+            "Stocknear",
+            padding + logoSize + 8,
+            watermarkY + logoSize / 2,
+          );
 
           resolve();
         };
         logo.onerror = () => {
           // If logo fails to load, just draw text
-          ctx.font = "600 14px 'Space Grotesk', sans-serif";
-          ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+          ctx.font = "600 16px 'Space Grotesk', sans-serif";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
           ctx.textBaseline = "bottom";
           ctx.fillText("Stocknear", padding, height - padding);
           resolve();
@@ -2189,11 +2193,12 @@
         chartTypeOptions.some((opt) => opt.id === savedSettings.chartType)
       ) {
         chartType = savedSettings.chartType as ChartTypeId;
-        currentChartType = chartTypeOptions.find(
-          (opt) => opt.id === chartType,
-        );
+        currentChartType = chartTypeOptions.find((opt) => opt.id === chartType);
       }
-      if (savedSettings.activeRange && timeframes.includes(savedSettings.activeRange)) {
+      if (
+        savedSettings.activeRange &&
+        timeframes.includes(savedSettings.activeRange)
+      ) {
         activeRange = savedSettings.activeRange;
       }
     }
@@ -2229,23 +2234,19 @@
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
 
     // Always create volume indicator by default
-    chart.createIndicator(
-      { name: "SN_VOL", calcParams: [] },
-      false,
-      {
-        id: "sn_volume_pane",
-        height: 80,
-        minHeight: 60,
-        dragEnabled: false,
-        gap: { top: 0, bottom: 0 },
-        axis: {
-          show: true,
-          axisLine: { show: false },
-          tickLine: { show: false },
-          tickText: { show: true },
-        },
+    chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
+      id: "sn_volume_pane",
+      height: 80,
+      minHeight: 60,
+      dragEnabled: false,
+      gap: { top: 0, bottom: 0 },
+      axis: {
+        show: true,
+        axisLine: { show: false },
+        tickLine: { show: false },
+        tickText: { show: true },
       },
-    );
+    });
 
     // Load saved overlays from localStorage
     const savedOverlays = loadChartOverlays();
@@ -2882,6 +2883,20 @@
 
       <div class="relative flex-1 bg-[#0b0b0b]">
         <div class="absolute inset-0" bind:this={chartContainer}></div>
+
+        <!-- Watermark -->
+        <div
+          class="absolute bottom-[200px] left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
+        >
+          <img
+            src="/pwa-192x192.png"
+            alt="Stocknear"
+            class="size-9 rounded-full opacity-60"
+          />
+          <span class="text-white/60 text-base font-semibold text-md"
+            >Stocknear</span
+          >
+        </div>
 
         {#if !currentBars.length}
           <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
