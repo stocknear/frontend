@@ -75,7 +75,18 @@
     return dt.isValid ? dt.toMillis() : null;
   };
 
-  // Transform intraday data to klinecharts format
+  // Check if timestamp is within market hours (9:30 AM - 4:00 PM ET)
+  const isMarketHours = (timestamp: number): boolean => {
+    const dt = DateTime.fromMillis(timestamp, { zone });
+    const hour = dt.hour;
+    const minute = dt.minute;
+    const timeInMinutes = hour * 60 + minute;
+    const marketOpen = 9 * 60 + 30; // 9:30 AM = 570 minutes
+    const marketClose = 16 * 60; // 4:00 PM = 960 minutes
+    return timeInMinutes >= marketOpen && timeInMinutes <= marketClose;
+  };
+
+  // Transform intraday data to klinecharts format (market hours only)
   const transformIntradayData = (rawData: any[]) => {
     if (!Array.isArray(rawData) || rawData.length === 0) return [];
     return rawData
@@ -84,6 +95,8 @@
         if (!time) return null;
         const timestamp = parseIntradayTimestamp(time);
         if (!timestamp) return null;
+        // Filter to market hours only
+        if (!isMarketHours(timestamp)) return null;
         return {
           timestamp,
           open: bar.open,
@@ -178,6 +191,13 @@
         // Transform the SPY data
         const chartData = transformIntradayData(data?.spyIntraday);
 
+        // Calculate bar space to fit all data (390 minutes in market hours)
+        // Container is ~800px wide on desktop, so use small bar space
+        const containerWidth = chartContainer.clientWidth || 800;
+        const totalBars = 390; // 9:30 to 16:00 = 390 minutes
+        const calculatedBarSpace = Math.max(1, Math.floor(containerWidth / totalBars));
+        chart.setBarSpace(calculatedBarSpace);
+
         // Use v10 API: setSymbol, setPeriod, setDataLoader
         chart.setSymbol({ ticker: "SPY" });
         chart.setPeriod({ span: 1, type: "minute" });
@@ -187,8 +207,8 @@
           },
         });
 
-        // Fit all data in view
-        chart.setOffsetRightDistance(0);
+        // Scroll to show from beginning (9:30 AM)
+        chart.scrollToDataIndex(0);
       }
     }
 
