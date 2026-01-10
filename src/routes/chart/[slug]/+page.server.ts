@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     "X-API-KEY": apiKey,
   };
 
-  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, earningsRes] =
+  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, earningsRes, nextEarningsRes] =
     await Promise.all([
     fetch(apiURL + "/historical-adj-price", {
       method: "POST",
@@ -43,6 +43,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
       body: payload,
     }),
     fetch(apiURL + "/earnings-statistics", {
+      method: "POST",
+      headers,
+      body: payload,
+    }),
+    fetch(apiURL + "/next-earnings", {
       method: "POST",
       headers,
       body: payload,
@@ -99,14 +104,20 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
 
   let historicalEarnings: any[] = [];
-  let nextEarnings: any = null;
   if (earningsRes.ok) {
     try {
       const earningsPayload = await earningsRes.json();
       historicalEarnings = earningsPayload?.historicalEarnings ?? [];
-      nextEarnings = earningsPayload?.nextEarnings ?? null;
     } catch {
       historicalEarnings = [];
+    }
+  }
+
+  let nextEarnings: any = null;
+  if (nextEarningsRes.ok) {
+    try {
+      nextEarnings = await nextEarningsRes.json();
+    } catch {
       nextEarnings = null;
     }
   }
