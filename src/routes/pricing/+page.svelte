@@ -1011,10 +1011,15 @@
             ? 'hidden'
             : ''}"
         >
+          <!--
           <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
             Billed annually ($120)
           </span>
-          <span class="text-gray-700 dark:text-zinc-200">Now $60</span>
+      -->
+          <span
+            class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+            >Billed annually $120</span
+          >
         </p>
         <!--
         <div class="mt-4 flex justify-center">
@@ -1532,10 +1537,16 @@
             ? 'hidden'
             : ''}"
         >
+          <!--
           <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
             Billed annually ($360)
           </span>
-          <span class="text-gray-700 dark:text-zinc-200">Now $180</span>
+          -->
+          <span
+            class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+          >
+            Billed annually $360</span
+          >
         </p>
         <!--
         <div class="mt-4 flex justify-center">
