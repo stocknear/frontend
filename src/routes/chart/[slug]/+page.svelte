@@ -1659,8 +1659,16 @@
   function setChartType(type: ChartTypeId) {
     chartType = type;
     if (chart) {
+      // Apply chart type styling
       applyChartType(type);
-      applyRange(activeRange);
+
+      // Transform current bars to new type without resetting position
+      const { bars } = getRangeBars(activeRange);
+      const displayBars = transformBarsForType(bars, type);
+      currentBars = displayBars;
+
+      // Update chart data in place without resetting scroll position
+      chart.applyNewData(displayBars);
     }
     // Save to localStorage
     saveChartSettings({ chartType, activeRange });
