@@ -1,6 +1,5 @@
 <script lang="ts">
   import { afterUpdate, onDestroy, onMount } from "svelte";
-  import { beforeNavigate } from "$app/navigation";
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData } from "klinecharts";
   import { DateTime } from "luxon";
@@ -2623,13 +2622,6 @@
   }
 
   onMount(async () => {
-    if (typeof document !== "undefined") {
-      previousBodyOverflow = document.body.style.overflow;
-      previousHtmlOverflow = document.documentElement.style.overflow;
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    }
-
     // Load chart settings from localStorage
     const savedSettings = loadChartSettings();
     if (savedSettings) {
@@ -2724,20 +2716,9 @@
     resizeObserver.observe(chartRoot);
   });
 
-  beforeNavigate(() => {
-    if (typeof document !== "undefined") {
-      document.body.style.overflow = previousBodyOverflow || "";
-      document.documentElement.style.overflow = previousHtmlOverflow || "";
-    }
-  });
-
   onDestroy(() => {
     isComponentDestroyed = true;
     disconnectWebSocket();
-    if (typeof document !== "undefined") {
-      document.body.style.overflow = previousBodyOverflow || "";
-      document.documentElement.style.overflow = previousHtmlOverflow || "";
-    }
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
