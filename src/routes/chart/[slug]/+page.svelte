@@ -462,7 +462,16 @@
     ) as Record<IntradayInterval, IntradayHistoryState>;
   let intradayHistoryTicker = "";
   const intradayHistoryChunkDays = 5;
-  const intradayHistoryLimitDays = 30;
+  // 1min and 5min: max 30 days, others (15min, 30min, 1hour): max 90 days
+  const intradayHistoryLimitDaysMap: Record<IntradayInterval, number> = {
+    "1min": 30,
+    "5min": 30,
+    "15min": 90,
+    "30min": 90,
+    "1hour": 90,
+  };
+  const getIntradayLimitDays = (interval: IntradayInterval) =>
+    intradayHistoryLimitDaysMap[interval] ?? 30;
   let pricePrecision = 2;
   let priceFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: pricePrecision,
@@ -675,10 +684,10 @@
     };
   };
 
-  const getIntradayHistoryLimitMs = () =>
+  const getIntradayHistoryLimitMs = (interval: IntradayInterval) =>
     DateTime.now()
       .setZone(zone)
-      .minus({ days: intradayHistoryLimitDays })
+      .minus({ days: getIntradayLimitDays(interval) })
       .startOf("day")
       .toMillis();
 
@@ -772,9 +781,9 @@
   };
 
   const resetIntradayHistory = () => {
-    const limitMs = getIntradayHistoryLimitMs();
     const nextHistory = Object.fromEntries(
       intradayIntervals.map((interval) => {
+        const limitMs = getIntradayHistoryLimitMs(interval);
         if (interval === "1min") {
           const bars = cloneBars(intradayBars);
           const startTimestamp = bars[0]?.timestamp ?? null;
@@ -1992,7 +2001,7 @@
     minuteBarsLastEndDate = "";
     minuteBarsLoading = false;
 
-    const limitMs = getIntradayHistoryLimitMs(); // uses intradayHistoryLimitDays (30)
+    const limitMs = getIntradayHistoryLimitMs("1min");
     const startTimestamp = minuteBars[0]?.timestamp ?? null;
     hasMoreMinuteHistory =
       startTimestamp !== null ? startTimestamp > limitMs : false;
@@ -2022,7 +2031,7 @@
       const merged = mergeIntradayBars(minuteBars, result.bars);
       minuteBars = merged;
 
-      const limitMs = getIntradayHistoryLimitMs();
+      const limitMs = getIntradayHistoryLimitMs("1min");
       const startTimestamp = minuteBars[0]?.timestamp ?? null;
       // respect both API hasMore + local retention limit
       hasMoreMinuteHistory =
