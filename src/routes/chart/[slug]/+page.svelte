@@ -1923,6 +1923,39 @@
         }
       });
 
+      // Add watermark at bottom left
+      const logoSize = 20;
+      const padding = 10;
+      const watermarkY = height - padding - logoSize;
+
+      // Load and draw logo
+      const logo = new Image();
+      logo.crossOrigin = "anonymous";
+      logo.src = "/pwa-192x192.png";
+
+      await new Promise<void>((resolve, reject) => {
+        logo.onload = () => {
+          // Draw logo
+          ctx.drawImage(logo, padding, watermarkY, logoSize, logoSize);
+
+          // Draw text next to logo
+          ctx.font = "600 14px 'Space Grotesk', sans-serif";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+          ctx.textBaseline = "middle";
+          ctx.fillText("Stocknear", padding + logoSize + 6, watermarkY + logoSize / 2);
+
+          resolve();
+        };
+        logo.onerror = () => {
+          // If logo fails to load, just draw text
+          ctx.font = "600 14px 'Space Grotesk', sans-serif";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+          ctx.textBaseline = "bottom";
+          ctx.fillText("Stocknear", padding, height - padding);
+          resolve();
+        };
+      });
+
       const url = compositeCanvas.toDataURL("image/png");
       const link = document.createElement("a");
       link.href = url;
