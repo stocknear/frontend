@@ -41,13 +41,8 @@
     "30min",
     "1hour",
     "1D",
-    "5D",
+    "1W",
     "1M",
-    "6M",
-    "YTD",
-    "1Y",
-    "5Y",
-    "MAX",
   ];
 
   let minuteBars = [];
@@ -871,6 +866,7 @@
   }
 
   function getRangeBars(range: string) {
+    // Intraday intervals - use intraday data from API
     if (range === "1min") {
       const bars = minuteBars.length ? minuteBars : intradayBars;
       return { bars, period: { type: "minute", span: 1 } };
@@ -884,54 +880,98 @@
       return { bars, period: { type: "minute", span } };
     }
 
-    if (range === "1D") {
-      if (intradayBars.length) {
-        return { bars: intradayBars, period: { type: "minute", span: 1 } };
-      }
-      return { bars: dailyBars.slice(-1), period: { type: "day", span: 1 } };
-    }
-
+    // Daily/Weekly/Monthly ranges - use historical adjusted price data
     if (!dailyBars.length) {
       return { bars: [], period: { type: "day", span: 1 } };
     }
 
-    if (range === "5D") {
-      return { bars: dailyBars.slice(-5), period: { type: "day", span: 1 } };
+    if (range === "1D") {
+      // Daily interval - show all historical data
+      return { bars: dailyBars, period: { type: "day", span: 1 } };
     }
 
-    const end = DateTime.fromMillis(dailyBars[dailyBars.length - 1].timestamp, {
-      zone,
-    });
-
-    let threshold = end;
-    switch (range) {
-      case "1M":
-        threshold = end.minus({ months: 1 });
-        break;
-      case "6M":
-        threshold = end.minus({ months: 6 });
-        break;
-      case "YTD":
-        threshold = end.startOf("year");
-        break;
-      case "1Y":
-        threshold = end.minus({ years: 1 });
-        break;
-      case "5Y":
-        threshold = end.minus({ years: 5 });
-        break;
-      case "MAX":
-        threshold = DateTime.fromMillis(dailyBars[0].timestamp, { zone });
-        break;
-      default:
-        threshold = DateTime.fromMillis(dailyBars[0].timestamp, { zone });
+    if (range === "1W") {
+      // Weekly interval - aggregate daily bars to weekly
+      const weeklyBars = aggregateToWeekly(dailyBars);
+      return { bars: weeklyBars, period: { type: "week", span: 1 } };
     }
 
-    const thresholdMs = threshold.toMillis();
-    return {
-      bars: dailyBars.filter((bar) => bar.timestamp >= thresholdMs),
-      period: { type: "day", span: 1 },
-    };
+    if (range === "1M") {
+      // Monthly interval - aggregate daily bars to monthly
+      const monthlyBars = aggregateToMonthly(dailyBars);
+      return { bars: monthlyBars, period: { type: "month", span: 1 } };
+    }
+
+    // Default fallback
+    return { bars: dailyBars, period: { type: "day", span: 1 } };
+  }
+
+  // Aggregate daily bars into weekly bars
+  function aggregateToWeekly(bars: KLineData[]): KLineData[] {
+    if (!bars.length) return [];
+
+    const weeklyMap = new Map<string, KLineData>();
+
+    for (const bar of bars) {
+      const dt = DateTime.fromMillis(bar.timestamp, { zone });
+      // Get the start of the week (Monday)
+      const weekStart = dt.startOf("week");
+      const weekKey = weekStart.toISODate();
+
+      if (!weekKey) continue;
+
+      const existing = weeklyMap.get(weekKey);
+      if (existing) {
+        existing.high = Math.max(existing.high, bar.high);
+        existing.low = Math.min(existing.low, bar.low);
+        existing.close = bar.close; // Last close of the week
+        existing.volume = (existing.volume ?? 0) + (bar.volume ?? 0);
+      } else {
+        weeklyMap.set(weekKey, {
+          timestamp: weekStart.toMillis(),
+          open: bar.open,
+          high: bar.high,
+          low: bar.low,
+          close: bar.close,
+          volume: bar.volume ?? 0,
+        });
+      }
+    }
+
+    return Array.from(weeklyMap.values()).sort((a, b) => a.timestamp - b.timestamp);
+  }
+
+  // Aggregate daily bars into monthly bars
+  function aggregateToMonthly(bars: KLineData[]): KLineData[] {
+    if (!bars.length) return [];
+
+    const monthlyMap = new Map<string, KLineData>();
+
+    for (const bar of bars) {
+      const dt = DateTime.fromMillis(bar.timestamp, { zone });
+      // Get the start of the month
+      const monthStart = dt.startOf("month");
+      const monthKey = monthStart.toFormat("yyyy-MM");
+
+      const existing = monthlyMap.get(monthKey);
+      if (existing) {
+        existing.high = Math.max(existing.high, bar.high);
+        existing.low = Math.min(existing.low, bar.low);
+        existing.close = bar.close; // Last close of the month
+        existing.volume = (existing.volume ?? 0) + (bar.volume ?? 0);
+      } else {
+        monthlyMap.set(monthKey, {
+          timestamp: monthStart.toMillis(),
+          open: bar.open,
+          high: bar.high,
+          low: bar.low,
+          close: bar.close,
+          volume: bar.volume ?? 0,
+        });
+      }
+    }
+
+    return Array.from(monthlyMap.values()).sort((a, b) => a.timestamp - b.timestamp);
   }
 
   async function applyRange(range: string) {
