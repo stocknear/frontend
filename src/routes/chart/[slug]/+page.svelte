@@ -2054,6 +2054,17 @@
     event.preventDefault();
     if (!ensureAuth()) return;
 
+    // Clear all chart tools and indicators (like clicking eraser)
+    if (chart) {
+      chart.removeOverlay();
+      clearIndicators();
+      saveChartOverlays([]);
+      activeTool = "cursor";
+      if (chartMain) {
+        chartMain.style.cursor = "default";
+      }
+    }
+
     const formData = new FormData(event.target);
     const titleValue = formData.get("title");
     const title =
