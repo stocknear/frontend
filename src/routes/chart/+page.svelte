@@ -1,7 +1,10 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
+  import { init, dispose } from "klinecharts";
   import SEO from "$lib/components/SEO.svelte";
+
+  export let data;
 
   let inputValue = "";
   let searchResults: any[] = [];
@@ -9,6 +12,8 @@
   let showDropdown = false;
   let timeoutId: ReturnType<typeof setTimeout>;
   let inputElement: HTMLInputElement;
+  let chartContainer: HTMLDivElement;
+  let chart: ReturnType<typeof init> | null = null;
 
   const goToChart = (symbol: string) => {
     if (!symbol) return;
@@ -30,7 +35,7 @@
     timeoutId = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=6`
+          `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=6`,
         );
         searchResults = await response.json();
       } catch {
@@ -61,9 +66,131 @@
     }
   };
 
+  // Transform intraday data to klinecharts format
+  const transformIntradayData = (rawData: any[]) => {
+    if (!Array.isArray(rawData) || rawData.length === 0) return [];
+    return rawData.map((bar) => ({
+      timestamp: new Date(bar.date).getTime(),
+      open: bar.open,
+      high: bar.high,
+      low: bar.low,
+      close: bar.close,
+      volume: bar.volume,
+    }));
+  };
+
   onMount(() => {
     document.addEventListener("click", handleClickOutside);
+
+    // Initialize the preview chart
+    if (chartContainer && data?.spyIntraday?.length > 0) {
+      chart = init(chartContainer, {
+        layout: [
+          {
+            type: "candle",
+            options: {
+              id: "preview_candle_pane",
+              axis: {
+                scrollZoomEnabled: false,
+              },
+            },
+          },
+          {
+            type: "xAxis",
+            options: {
+              axis: {
+                scrollZoomEnabled: false,
+              },
+            },
+          },
+        ],
+      });
+
+      if (chart) {
+        // Apply dark theme styles
+        chart.setStyles({
+          grid: {
+            show: true,
+            horizontal: {
+              show: true,
+              size: 1,
+              color: "rgba(255, 255, 255, 0.05)",
+              style: "solid",
+            },
+            vertical: {
+              show: false,
+            },
+          },
+          candle: {
+            type: "candle_solid",
+            bar: {
+              upColor: "#10B981",
+              downColor: "#EF4444",
+              noChangeColor: "#6B7280",
+              upBorderColor: "#10B981",
+              downBorderColor: "#EF4444",
+              noChangeBorderColor: "#6B7280",
+              upWickColor: "#10B981",
+              downWickColor: "#EF4444",
+              noChangeWickColor: "#6B7280",
+            },
+            priceMark: {
+              show: false,
+            },
+            tooltip: {
+              showRule: "none",
+            },
+          },
+          xAxis: {
+            show: true,
+            axisLine: {
+              show: false,
+            },
+            tickLine: {
+              show: false,
+            },
+            tickText: {
+              show: true,
+              color: "rgba(255, 255, 255, 0.4)",
+              size: 10,
+            },
+          },
+          yAxis: {
+            show: true,
+            axisLine: {
+              show: false,
+            },
+            tickLine: {
+              show: false,
+            },
+            tickText: {
+              show: true,
+              color: "rgba(255, 255, 255, 0.4)",
+              size: 10,
+            },
+          },
+          crosshair: {
+            show: false,
+          },
+        });
+
+        // Load the SPY data
+        const chartData = transformIntradayData(data.spyIntraday);
+        chart.applyNewData(chartData);
+
+        // Fit all data in view
+        chart.setOffsetRightDistance(0);
+      }
+    }
+
     return () => document.removeEventListener("click", handleClickOutside);
+  });
+
+  onDestroy(() => {
+    if (chart) {
+      dispose(chartContainer);
+      chart = null;
+    }
   });
 
   $: if (inputValue) {
@@ -91,7 +218,8 @@
         Pro Chart
       </h1>
       <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto">
-        Professional charts with 50+ indicators, drawing tools, and earnings markers
+        Professional charts with 50+ indicators, drawing tools, and earnings
+        markers
       </p>
     </div>
 
@@ -121,7 +249,7 @@
           on:keydown={handleKeyDown}
           on:focus={() => inputValue && (showDropdown = true)}
           type="text"
-          placeholder="Search for any stock, ETF, or index..."
+          placeholder="Analyze the chart of ..."
           class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-white bg-zinc-900/80 border border-zinc-700 rounded-xl focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 placeholder-zinc-500 transition"
         />
         {#if isLoading}
@@ -158,7 +286,8 @@
             >
               <div class="flex items-center gap-3">
                 <span class="font-semibold text-white">{item.symbol}</span>
-                <span class="text-zinc-400 text-sm truncate max-w-[200px] sm:max-w-[300px]"
+                <span
+                  class="text-zinc-400 text-sm truncate max-w-[200px] sm:max-w-[300px]"
                   >{item.name}</span
                 >
               </div>
@@ -169,30 +298,84 @@
       {/if}
     </div>
 
+    <!-- SPY Preview Chart -->
+    <div class="mt-10 sm:mt-12 max-w-4xl mx-auto">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-medium text-zinc-400">SPY</span>
+          <span class="text-xs text-zinc-500">S&P 500 ETF - Today</span>
+        </div>
+        <button
+          on:click={() => goToChart("SPY")}
+          class="text-xs text-violet-400 hover:text-violet-300 transition"
+        >
+          Open full chart →
+        </button>
+      </div>
+      <div
+        bind:this={chartContainer}
+        class="w-full h-[280px] sm:h-[320px] bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden"
+      ></div>
+    </div>
+
     <!-- Features hint -->
     <div class="mt-8 sm:mt-10 text-center">
-      <div class="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm text-zinc-500">
+      <div
+        class="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm text-zinc-500"
+      >
         <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          <svg
+            class="w-4 h-4 text-violet-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           <span>50+ Technical Indicators</span>
         </div>
         <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          <svg
+            class="w-4 h-4 text-violet-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           <span>Drawing Tools</span>
         </div>
         <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          <svg
+            class="w-4 h-4 text-violet-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           <span>Earnings Markers</span>
         </div>
         <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          <svg
+            class="w-4 h-4 text-violet-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           <span>Real-time Data</span>
         </div>
