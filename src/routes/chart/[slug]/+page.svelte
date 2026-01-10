@@ -1,5 +1,6 @@
 <script lang="ts">
   import { afterUpdate, onDestroy, onMount } from "svelte";
+  import { beforeNavigate } from "$app/navigation";
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData } from "klinecharts";
   import { DateTime } from "luxon";
@@ -687,6 +688,15 @@
       return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
     }
     return DateTime.fromMillis(state.bars[0].timestamp, { zone })
+      .minus({ days: 1 })
+      .toFormat("yyyy-MM-dd");
+  };
+
+  const getMinuteHistoryEndDate = () => {
+    if (!minuteBars.length) {
+      return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
+    }
+    return DateTime.fromMillis(minuteBars[0].timestamp, { zone })
       .minus({ days: 1 })
       .toFormat("yyyy-MM-dd");
   };
@@ -1889,12 +1899,19 @@
     resizeObserver.observe(chartRoot);
   });
 
+  beforeNavigate(() => {
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = previousBodyOverflow || "";
+      document.documentElement.style.overflow = previousHtmlOverflow || "";
+    }
+  });
+
   onDestroy(() => {
     isComponentDestroyed = true;
     disconnectWebSocket();
     if (typeof document !== "undefined") {
-      document.body.style.overflow = previousBodyOverflow;
-      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow || "";
+      document.documentElement.style.overflow = previousHtmlOverflow || "";
     }
 
     if (chart) {
