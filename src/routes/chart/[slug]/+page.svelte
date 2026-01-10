@@ -2213,9 +2213,9 @@
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <div
-      class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-[#09090b] px-3 py-1.5 text-xs"
+      class="flex flex-col sm:flex-wrap items-start sm:items-center sm:justify-between sm:gap-3 border-b border-neutral-800 bg-[#09090b] px-3 py-1.5 text-xs"
     >
-      <div class="flex items-center gap-3">
+      <div class="flex items-center justify-start w-full gap-3">
         <button
           class="flex items-center gap-2 rounded-full border border-gray-300 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 dark:border-zinc-700"
         >
@@ -2239,7 +2239,9 @@
         </div>
       </div>
 
-      <div class="flex flex-1 items-center gap-2">
+      <div
+        class="flex flex-1 items-center gap-2 overflow-x-auto w-full mt-2 mb-2 sm:mb-0 sm:mt-0"
+      >
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
             <Button
@@ -2438,7 +2440,7 @@
         {#if showDetailedAnalysis}
           <a
             href={detailedAnalysisHref}
-            class="ml-auto flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            class="ml-auto whitespace-nowrap flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
             aria-label="Detailed Analysis"
           >
             Detailed Analysis
@@ -2450,7 +2452,7 @@
 
     <div class="flex flex-1 overflow-hidden">
       <div
-        class="flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#09090b] py-3 overflow-hidden"
+        class="hidden sm:flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#09090b] py-3 overflow-hidden"
       >
         {#each tools as tool}
           <button
