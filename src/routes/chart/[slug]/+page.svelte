@@ -1923,10 +1923,13 @@
         }
       });
 
-      // Add watermark at bottom left
-      const logoSize = 28;
-      const padding = 12;
-      const watermarkY = height - padding - logoSize;
+      // Add watermark - matches on-screen watermark
+      // bottom-[200px], left-3 = 12px, size-9 = 36px, gap-2 = 8px
+      const logoSize = 36;
+      const paddingLeft = 12;
+      const paddingBottom = 200;
+      const gap = 8;
+      const watermarkY = height - paddingBottom;
 
       // Load and draw logo
       const logo = new Image();
@@ -1936,15 +1939,15 @@
       await new Promise<void>((resolve, reject) => {
         logo.onload = () => {
           // Draw logo
-          ctx.drawImage(logo, padding, watermarkY, logoSize, logoSize);
+          ctx.drawImage(logo, paddingLeft, watermarkY, logoSize, logoSize);
 
-          // Draw text next to logo
+          // Draw text next to logo (text-base = 16px, font-semibold = 600)
           ctx.font = "600 16px 'Space Grotesk', sans-serif";
           ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
           ctx.textBaseline = "middle";
           ctx.fillText(
             "Stocknear",
-            padding + logoSize + 8,
+            paddingLeft + logoSize + gap,
             watermarkY + logoSize / 2,
           );
 
@@ -1954,8 +1957,8 @@
           // If logo fails to load, just draw text
           ctx.font = "600 16px 'Space Grotesk', sans-serif";
           ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-          ctx.textBaseline = "bottom";
-          ctx.fillText("Stocknear", padding, height - padding);
+          ctx.textBaseline = "middle";
+          ctx.fillText("Stocknear", paddingLeft, watermarkY + logoSize / 2);
           resolve();
         };
       });
