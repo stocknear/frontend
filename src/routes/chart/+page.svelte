@@ -189,13 +189,6 @@
         });
 
         const chartData = transformIntradayData(data?.spyIntraday);
-        const containerWidth = chartContainer.clientWidth || 800;
-        const totalBars = 390;
-        const calculatedBarSpace = Math.max(
-          1,
-          Math.floor(containerWidth / totalBars),
-        );
-        chart.setBarSpace(calculatedBarSpace);
 
         chart.setSymbol({ ticker: "SPY" });
         chart.setPeriod({ span: 1, type: "minute" });
@@ -205,7 +198,8 @@
           },
         });
 
-        chart.scrollToDataIndex(0);
+        // Show the latest candlestick
+        chart.scrollToRealTime();
       }
     }
   });

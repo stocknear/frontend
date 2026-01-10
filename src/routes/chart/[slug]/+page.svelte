@@ -125,6 +125,22 @@
     isFuture: boolean;
   }
 
+  // Dividend marker types and state
+  interface DividendData {
+    date: string; // ex-dividend date
+    adjDividend: number;
+    declarationDate?: string;
+    recordDate?: string;
+    paymentDate?: string;
+  }
+
+  interface DividendMarker {
+    dividend: DividendData;
+    timestamp: number;
+    x: number;
+    visible: boolean;
+  }
+
   let historicalEarnings: EarningsData[] = [];
   let nextEarnings: EarningsData | null = null;
   let earningsMarkers: EarningsMarker[] = [];
@@ -132,6 +148,12 @@
   let selectedEarnings: EarningsData | null = null;
   let selectedEarningsIsFuture = false;
   let earningsPopupPosition = { x: 0, y: 0 };
+
+  let historicalDividends: DividendData[] = [];
+  let dividendMarkers: DividendMarker[] = [];
+  let showDividends = true;
+  let selectedDividend: DividendData | null = null;
+  let dividendPopupPosition = { x: 0, y: 0 };
 
   let chartContainer: HTMLDivElement | null = null;
   let chart: any = null;
@@ -483,8 +505,6 @@
   let resizeObserver: ResizeObserver | null = null;
   let chartRoot: HTMLElement | null = null;
   let chartMain: HTMLElement | null = null;
-  let previousBodyOverflow = "";
-  let previousHtmlOverflow = "";
   let socket: WebSocket | null = null;
   let realtimeBarCallback: ((bar: KLineData) => void) | null = null;
   let previousTicker = "";
@@ -1006,6 +1026,69 @@
   // Close earnings popup
   const closeEarningsPopup = () => {
     selectedEarnings = null;
+  };
+
+  // Update dividend marker positions based on visible chart range
+  const updateDividendMarkers = () => {
+    if (!chart || !chartContainer || !isNonIntradayRange(activeRange)) {
+      dividendMarkers = [];
+      return;
+    }
+
+    const chartRect = chartContainer.getBoundingClientRect();
+    const chartWidth = chartRect.width;
+
+    // Create markers for each dividend date
+    const markers: DividendMarker[] = [];
+
+    for (const dividend of historicalDividends) {
+      if (!dividend.date) continue;
+
+      // Convert dividend date to timestamp (start of day in NY timezone)
+      const dividendDate = DateTime.fromISO(dividend.date, { zone });
+      const timestamp = dividendDate.startOf("day").toMillis();
+
+      // Convert timestamp to pixel position
+      const pixel = chart.convertToPixel({ timestamp });
+
+      if (pixel && typeof pixel.x === "number") {
+        // Check if marker is within visible chart area (with some padding)
+        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+
+        markers.push({
+          dividend,
+          timestamp,
+          x: pixel.x,
+          visible,
+        });
+      }
+    }
+
+    dividendMarkers = markers;
+  };
+
+  // Handle dividend marker click
+  const handleDividendClick = (marker: DividendMarker, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedDividend = marker.dividend;
+
+    // Position popup near the click but ensure it stays on screen
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      let x = marker.x;
+      let y = rect.height - 100; // Position above the volume area
+
+      // Ensure popup doesn't go off screen
+      if (x < 150) x = 150;
+      if (x > rect.width - 150) x = rect.width - 150;
+
+      dividendPopupPosition = { x, y };
+    }
+  };
+
+  // Close dividend popup
+  const closeDividendPopup = () => {
+    selectedDividend = null;
   };
 
   // Helper to get EPS value (handles both field naming conventions)
@@ -2600,6 +2683,11 @@
     chart.subscribeAction("onZoom", updateEarningsMarkers);
     chart.subscribeAction("onVisibleRangeChange", updateEarningsMarkers);
 
+    // Subscribe to chart events for dividend marker position updates
+    chart.subscribeAction("onScroll", updateDividendMarkers);
+    chart.subscribeAction("onZoom", updateDividendMarkers);
+    chart.subscribeAction("onVisibleRangeChange", updateDividendMarkers);
+
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
       id: "sn_volume_pane",
@@ -2656,6 +2744,9 @@
       chart.unsubscribeAction("onScroll", updateEarningsMarkers);
       chart.unsubscribeAction("onZoom", updateEarningsMarkers);
       chart.unsubscribeAction("onVisibleRangeChange", updateEarningsMarkers);
+      chart.unsubscribeAction("onScroll", updateDividendMarkers);
+      chart.unsubscribeAction("onZoom", updateDividendMarkers);
+      chart.unsubscribeAction("onVisibleRangeChange", updateDividendMarkers);
       dispose(chart);
     }
     chart = null;
@@ -2751,6 +2842,7 @@
     intradayBars = normalizeIntraday(data?.intraday ?? []);
     historicalEarnings = data?.historicalEarnings ?? [];
     nextEarnings = data?.nextEarnings ?? null;
+    historicalDividends = data?.historicalDividends ?? [];
   }
 
   $: if (
@@ -2796,6 +2888,13 @@
     activeRange;
     // Small delay to ensure chart has rendered
     setTimeout(updateEarningsMarkers, 100);
+  }
+
+  // Update dividend markers when range or data changes
+  $: if (chart && historicalDividends) {
+    activeRange;
+    // Small delay to ensure chart has rendered
+    setTimeout(updateDividendMarkers, 100);
   }
 
   $: if (chart) {
@@ -3161,8 +3260,8 @@
                     <input
                       type="checkbox"
                       class="sr-only peer"
-                      checked={showEarnings}
-                      on:change={() => (showEarnings = !showEarnings)}
+                      checked={showDividends}
+                      on:change={() => (showDividends = !showDividends)}
                     />
                     <div
                       class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
@@ -3661,6 +3760,154 @@
             class="fixed inset-0 z-[6] cursor-default"
             on:click={closeEarningsPopup}
             aria-label="Close earnings popup"
+          ></button>
+        {/if}
+
+        <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
+        {#if showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[5]">
+            {#each dividendMarkers as marker (marker.timestamp)}
+              {#if marker?.visible}
+                <button
+                  class="absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px"
+                  on:click={(e) => handleDividendClick(marker, e)}
+                  aria-label="View dividend details"
+                >
+                  <svg
+                    width="24"
+                    height="30"
+                    viewBox="0 0 18 22"
+                    class="drop-shadow-md"
+                  >
+                    <!-- Dividend marker: solid blue fill -->
+                    <path
+                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                      fill="#3B82F6"
+                    />
+                    <text
+                      x="9"
+                      y="11"
+                      text-anchor="middle"
+                      dominant-baseline="middle"
+                      fill="white"
+                      font-size="10"
+                      font-weight="bold"
+                      font-family="system-ui, sans-serif">D</text
+                    >
+                  </svg>
+                </button>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Dividend popup -->
+        {#if selectedDividend}
+          <div
+            class="absolute z-[7] pointer-events-auto"
+            style="left: {dividendPopupPosition.x}px; top: {dividendPopupPosition.y}px; transform: translate(-50%, -100%)"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px]"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-3">
+                <h3 class="text-white font-semibold">Dividend</h3>
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  on:click={closeDividendPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Dividend info -->
+              <div class="text-sm text-neutral-300 mb-3 space-y-1">
+                <div class="flex justify-between">
+                  <span class="text-neutral-500">Ex-Dividend Date</span>
+                  <span class="text-white">
+                    {new Date(selectedDividend.date).toLocaleDateString(
+                      "en-US",
+                      { month: "short", day: "numeric", year: "numeric" },
+                    )}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-neutral-500">Amount</span>
+                  <span class="text-blue-400 font-semibold">
+                    ${selectedDividend.adjDividend?.toFixed(4)}
+                  </span>
+                </div>
+                {#if selectedDividend.declarationDate}
+                  <div class="flex justify-between">
+                    <span class="text-neutral-500">Declaration Date</span>
+                    <span>
+                      {new Date(
+                        selectedDividend.declarationDate,
+                      ).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                {/if}
+                {#if selectedDividend.recordDate}
+                  <div class="flex justify-between">
+                    <span class="text-neutral-500">Record Date</span>
+                    <span>
+                      {new Date(selectedDividend.recordDate).toLocaleDateString(
+                        "en-US",
+                        { month: "short", day: "numeric", year: "numeric" },
+                      )}
+                    </span>
+                  </div>
+                {/if}
+                {#if selectedDividend.paymentDate}
+                  <div class="flex justify-between">
+                    <span class="text-neutral-500">Payment Date</span>
+                    <span>
+                      {new Date(
+                        selectedDividend.paymentDate,
+                      ).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                {/if}
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/stocks/{ticker}/dividends"
+                class="block w-full text-center py-2 px-4 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+              >
+                More {ticker} dividends
+              </a>
+            </div>
+          </div>
+
+          <!-- Click outside to close -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default"
+            on:click={closeDividendPopup}
+            aria-label="Close dividend popup"
           ></button>
         {/if}
 
