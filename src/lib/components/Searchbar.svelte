@@ -64,13 +64,53 @@
 
     const upperSymbol = symbol?.toUpperCase();
 
-    // normalize type to 'etf' | 'index' | 'stock'
-    let type = (assetType || "stocks")?.toLowerCase();
-    if (type.endsWith("s")) type = type.slice(0, -1);
-
     // Pull current path's segments
     const segments = $page.url.pathname.split("/").filter(Boolean);
     const prevRoot = segments[0]?.toLowerCase() || "";
+
+    // If we're on /chart/[slug], navigate to /chart/[newSymbol]
+    if (prevRoot === "chart") {
+      const newPath = `/chart/${upperSymbol}`;
+      await goto(newPath, { replaceState: true });
+      inputValue = "";
+      isNavigatingWithSpinner = false;
+
+      // Update search history for chart navigation
+      let newSearchItem = searchBarData?.find(
+        ({ symbol }) => symbol?.toUpperCase() === upperSymbol,
+      );
+      if (!newSearchItem) {
+        newSearchItem = searchHistory?.find(
+          ({ symbol }) => symbol?.toUpperCase() === upperSymbol,
+        );
+      }
+      if (!newSearchItem) {
+        newSearchItem = popularList?.find(
+          ({ symbol }) => symbol?.toUpperCase() === upperSymbol,
+        );
+      }
+      if (newSearchItem) {
+        const itemToAdd = {
+          symbol: newSearchItem.symbol,
+          name: newSearchItem.name,
+          type: newSearchItem.type,
+        };
+        updatedSearchHistory = [
+          itemToAdd,
+          ...(searchHistory?.filter(
+            (item) => item?.symbol?.toUpperCase() !== upperSymbol,
+          ) || []),
+        ]?.slice(0, 5);
+      }
+
+      setTimeout(() => (isNavigating = false), 100);
+      searchOpen = false;
+      return;
+    }
+
+    // normalize type to 'etf' | 'index' | 'stock'
+    let type = (assetType || "stocks")?.toLowerCase();
+    if (type.endsWith("s")) type = type.slice(0, -1);
 
     // Only keep suffix if we began on a finance page
     const suffix = ["stocks", "etfs", "etf", "indexes", "index"].includes(
