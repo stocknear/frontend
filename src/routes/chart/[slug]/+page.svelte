@@ -3170,11 +3170,22 @@
                   on:click={(e) => handleEarningsClick(marker, e)}
                   aria-label="View earnings details"
                 >
-                  <div
-                    class="w-5 h-5 rounded flex items-center justify-center text-xs font-bold text-white bg-red-600 shadow-md"
-                  >
-                    E
-                  </div>
+                  <svg width="24" height="30" viewBox="0 0 18 22" class="drop-shadow-md">
+                    <path
+                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                      fill="#B91C1C"
+                    />
+                    <text
+                      x="9"
+                      y="11"
+                      text-anchor="middle"
+                      dominant-baseline="middle"
+                      fill="white"
+                      font-size="10"
+                      font-weight="bold"
+                      font-family="system-ui, sans-serif"
+                    >E</text>
+                  </svg>
                 </button>
               {/if}
             {/each}
@@ -3192,11 +3203,22 @@
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
-                <div
-                  class="w-6 h-6 rounded flex items-center justify-center text-xs font-bold text-white bg-red-600"
-                >
-                  E
-                </div>
+                <svg width="24" height="30" viewBox="0 0 18 22" class="shrink-0">
+                  <path
+                    d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                    fill="#B91C1C"
+                  />
+                  <text
+                    x="9"
+                    y="11"
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    fill="white"
+                    font-size="10"
+                    font-weight="bold"
+                    font-family="system-ui, sans-serif"
+                  >E</text>
+                </svg>
                 <h3 class="text-white font-semibold">Earnings & Revenue</h3>
                 <button
                   class="ml-auto text-neutral-400 hover:text-white transition"
