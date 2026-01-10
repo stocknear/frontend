@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import { afterUpdate, onDestroy, onMount } from "svelte";
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData } from "klinecharts";
@@ -153,6 +154,8 @@
   let showDividends = true;
   let selectedDividend: DividendData | null = null;
   let dividendPopupPosition = { x: 0, y: 0 };
+
+  $: isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
 
   let chartContainer: HTMLDivElement | null = null;
   let chart: any = null;
@@ -3215,16 +3218,35 @@
                   on:pointerdown|stopPropagation
                 >
                   <span class="mr-3 text-sm">Earnings</span>
-                  <div class="relative ml-auto">
-                    <input
-                      type="checkbox"
-                      class="sr-only peer"
-                      checked={showEarnings}
-                      on:change={() => (showEarnings = !showEarnings)}
-                    />
-                    <div
-                      class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                    ></div>
+                  <div class="relative ml-auto flex items-center gap-2">
+                    {#if isSubscribed}
+                      <input
+                        type="checkbox"
+                        class="sr-only peer"
+                        checked={showEarnings}
+                        on:change={() => (showEarnings = !showEarnings)}
+                      />
+                      <div
+                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                      ></div>
+                    {:else}
+                      <button
+                        type="button"
+                        on:click|stopPropagation={() => goto("/pricing")}
+                        class="inline-flex items-center gap-1 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                      </button>
+                    {/if}
                   </div>
                 </label>
               </DropdownMenu.Item>
@@ -3237,16 +3259,35 @@
                   on:pointerdown|stopPropagation
                 >
                   <span class="mr-3 text-sm">Dividends</span>
-                  <div class="relative ml-auto">
-                    <input
-                      type="checkbox"
-                      class="sr-only peer"
-                      checked={showDividends}
-                      on:change={() => (showDividends = !showDividends)}
-                    />
-                    <div
-                      class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                    ></div>
+                  <div class="relative ml-auto flex items-center gap-2">
+                    {#if isSubscribed}
+                      <input
+                        type="checkbox"
+                        class="sr-only peer"
+                        checked={showDividends}
+                        on:change={() => (showDividends = !showDividends)}
+                      />
+                      <div
+                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                      ></div>
+                    {:else}
+                      <button
+                        type="button"
+                        on:click|stopPropagation={() => goto("/pricing")}
+                        class="inline-flex items-center gap-1 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                      </button>
+                    {/if}
                   </div>
                 </label>
               </DropdownMenu.Item>
@@ -3428,7 +3469,7 @@
         </div>
 
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
-        {#if showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
+        {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
@@ -3745,7 +3786,7 @@
         {/if}
 
         <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
-        {#if showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
+        {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each dividendMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
