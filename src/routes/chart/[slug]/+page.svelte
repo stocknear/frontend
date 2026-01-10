@@ -53,6 +53,8 @@
   interface ChartSettings {
     chartType: string;
     activeRange: string;
+    showEarnings?: boolean;
+    showDividends?: boolean;
   }
 
   const loadChartSettings = (): ChartSettings | null => {
@@ -144,18 +146,28 @@
   let historicalEarnings: EarningsData[] = [];
   let nextEarnings: EarningsData | null = null;
   let earningsMarkers: EarningsMarker[] = [];
-  let showEarnings = true;
+  let showEarnings = false;
   let selectedEarnings: EarningsData | null = null;
   let selectedEarningsIsFuture = false;
   let earningsPopupPosition = { x: 0, y: 0 };
 
   let historicalDividends: DividendData[] = [];
   let dividendMarkers: DividendMarker[] = [];
-  let showDividends = true;
+  let showDividends = false;
   let selectedDividend: DividendData | null = null;
   let dividendPopupPosition = { x: 0, y: 0 };
 
   $: isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
+
+  // Save event toggle states to localStorage
+  const saveEventSettings = () => {
+    const currentSettings = loadChartSettings() || { chartType: "candle_solid", activeRange: "1D" };
+    saveChartSettings({
+      ...currentSettings,
+      showEarnings,
+      showDividends,
+    });
+  };
 
   let chartContainer: HTMLDivElement | null = null;
   let chart: any = null;
@@ -2641,6 +2653,15 @@
       ) {
         activeRange = savedSettings.activeRange;
       }
+      // Load event toggle states for subscribed users
+      if (["Plus", "Pro"].includes(data?.user?.tier)) {
+        showEarnings = savedSettings.showEarnings ?? true;
+        showDividends = savedSettings.showDividends ?? true;
+      }
+    } else if (["Plus", "Pro"].includes(data?.user?.tier)) {
+      // Default to true for subscribed users if no settings saved
+      showEarnings = true;
+      showDividends = true;
     }
 
     if (!data?.user) {
@@ -3224,7 +3245,10 @@
                         type="checkbox"
                         class="sr-only peer"
                         checked={showEarnings}
-                        on:change={() => (showEarnings = !showEarnings)}
+                        on:change={() => {
+                          showEarnings = !showEarnings;
+                          saveEventSettings();
+                        }}
                       />
                       <div
                         class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
@@ -3265,7 +3289,10 @@
                         type="checkbox"
                         class="sr-only peer"
                         checked={showDividends}
-                        on:change={() => (showDividends = !showDividends)}
+                        on:change={() => {
+                          showDividends = !showDividends;
+                          saveEventSettings();
+                        }}
                       />
                       <div
                         class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"

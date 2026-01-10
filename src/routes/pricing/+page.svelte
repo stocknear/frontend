@@ -225,7 +225,7 @@
       </div>
     </div>
 
-    <Discount />
+    <!--<Discount />-->
 
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
@@ -996,11 +996,13 @@
         </div>
         <p class="mt-2 text-sm">Essential tools for individual investors.</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
+          <!--
           <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
             {mode ? "$10" : "$15"}
           </span>
+          -->
           <span class="text-4xl font-semibold">
-            {mode ? "$5" : "$7.50"}
+            {mode ? "$10" : "$15"}
           </span>
           <span class="text-sm">/month</span>
         </div>
@@ -1014,13 +1016,15 @@
           </span>
           <span class="text-gray-700 dark:text-zinc-200">Now $60</span>
         </p>
+        <!--
         <div class="mt-4 flex justify-center">
           <span
             class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-zinc-300"
           >
-            Promo code NEWYEAR26
+            Promo code XXX
           </span>
         </div>
+        -->
 
         <ul class="mt-6 mb-6 space-y-2 text-sm">
           <li class="flex flex-row items-center whitespace-nowrap">
@@ -1513,11 +1517,13 @@
           Professional tools at retail pricing.
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
+          <!--
           <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
             {mode ? "$30" : "$45"}
           </span>
+          -->
           <span class="text-4xl font-semibold">
-            {mode ? "$15" : "$22.50"}
+            {mode ? "$30" : "$45"}
           </span>
           <span class="text-sm text-gray-500 dark:text-zinc-400">/month</span>
         </div>
@@ -1531,13 +1537,15 @@
           </span>
           <span class="text-gray-700 dark:text-zinc-200">Now $180</span>
         </p>
+        <!--
         <div class="mt-4 flex justify-center">
           <span
             class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-zinc-300"
           >
-            Promo code NEWYEAR26
+            Promo code XXXX
           </span>
         </div>
+        -->
 
         <ul class="mt-6 mb-6 space-y-2">
           <li class="flex flex-row items-center">
