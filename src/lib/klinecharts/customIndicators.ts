@@ -95,11 +95,11 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         { color: "rgba(255, 255, 255, 0.6)" },
       ],
     },
-    render: ({ ctx, visibleRange, indicator, xAxis, yAxis }) => {
-      const { from, to } = visibleRange;
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
       const result = indicator.result as IndicatorRecord[];
 
-      if (!result || result.length === 0) return;
+      if (!result || result.length === 0) return true;
 
       // Collect points for upper and lower bands
       const upperPoints: { x: number; y: number }[] = [];
@@ -116,25 +116,28 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         }
       }
 
-      if (upperPoints.length < 2) return;
+      if (upperPoints.length >= 2) {
+        // Draw filled area between bands
+        ctx.beginPath();
+        ctx.moveTo(upperPoints[0].x, upperPoints[0].y);
 
-      // Draw filled area between bands
-      ctx.beginPath();
-      ctx.moveTo(upperPoints[0].x, upperPoints[0].y);
+        // Draw upper band line
+        for (let i = 1; i < upperPoints.length; i++) {
+          ctx.lineTo(upperPoints[i].x, upperPoints[i].y);
+        }
 
-      // Draw upper band line
-      for (let i = 1; i < upperPoints.length; i++) {
-        ctx.lineTo(upperPoints[i].x, upperPoints[i].y);
+        // Draw lower band line in reverse to close the polygon
+        for (let i = lowerPoints.length - 1; i >= 0; i--) {
+          ctx.lineTo(lowerPoints[i].x, lowerPoints[i].y);
+        }
+
+        ctx.closePath();
+        ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+        ctx.fill();
       }
 
-      // Draw lower band line in reverse to close the polygon
-      for (let i = lowerPoints.length - 1; i >= 0; i--) {
-        ctx.lineTo(lowerPoints[i].x, lowerPoints[i].y);
-      }
-
-      ctx.closePath();
-      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-      ctx.fill();
+      // Return true to continue with default figure (line) drawing
+      return true;
     },
   });
 }

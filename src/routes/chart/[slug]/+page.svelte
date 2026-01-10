@@ -2695,6 +2695,56 @@
     }
 
     chart.setOffsetRightDistance(12);
+
+    // Configure candle pane y-axis to only show price range (exclude indicators)
+    chart.setPaneOptions({
+      id: "candle_pane",
+      axis: {
+        createRange: ({ chart: c, defaultRange }) => {
+          const visibleRange = c.getVisibleRange();
+          const dataList = c.getDataList();
+
+          if (!dataList || dataList.length === 0) {
+            return defaultRange;
+          }
+
+          let min = Infinity;
+          let max = -Infinity;
+
+          // Only consider candle high/low values for the range
+          for (let i = visibleRange.from; i < visibleRange.to; i++) {
+            const data = dataList[i];
+            if (data) {
+              if (data.high > max) max = data.high;
+              if (data.low < min) min = data.low;
+            }
+          }
+
+          if (min === Infinity || max === -Infinity) {
+            return defaultRange;
+          }
+
+          // Add some padding (2%)
+          const padding = (max - min) * 0.02;
+          min -= padding;
+          max += padding;
+          const range = max - min;
+
+          return {
+            from: min,
+            to: max,
+            range,
+            realFrom: min,
+            realTo: max,
+            realRange: range,
+            displayFrom: min,
+            displayTo: max,
+            displayRange: range,
+          };
+        },
+      },
+    });
+
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
 
     // Subscribe to chart events for earnings marker position updates
