@@ -1384,8 +1384,8 @@
           noChangeWickColor: axisText,
         },
         priceMark: {
-          high: { color: priceText, textFamily: chartFont },
-          low: { color: priceText, textFamily: chartFont },
+          high: { show: false },
+          low: { show: false },
           last: {
             text: {
               family: chartFont,
