@@ -867,6 +867,14 @@
       return { bars, period: { type: "minute", span: 1 } };
     }
 
+    // Handle other intraday intervals (5min, 15min, 30min, 1hour)
+    if (intradayIntervals.includes(range as IntradayInterval) && range !== "1min") {
+      const interval = range as IntradayInterval;
+      const span = intradaySpanMap[interval];
+      const bars = intradayHistory[interval].bars;
+      return { bars, period: { type: "minute", span } };
+    }
+
     if (range === "1D") {
       if (intradayBars.length) {
         return { bars: intradayBars, period: { type: "minute", span: 1 } };
@@ -917,14 +925,30 @@
     };
   }
 
-  function applyRange(range: string) {
+  async function applyRange(range: string) {
     if (!chart) return;
+
+    const isIntradayInterval = intradayIntervals.includes(range as IntradayInterval);
+    const interval = range as IntradayInterval;
+    const isMinuteRange = range === "1min";
+    const isOtherIntradayRange = isIntradayInterval && range !== "1min";
+
+    // For intraday intervals (except 1min which uses minuteBars),
+    // load initial data if bars are empty
+    if (isOtherIntradayRange) {
+      const state = intradayHistory[interval];
+      if (state.bars.length === 0 && state.hasMore && !state.isLoading) {
+        await loadMoreIntradayBars(interval);
+      }
+    }
+
+    // Get bars after potential initial load
     const { bars, period } = getRangeBars(range);
     const displayBars = transformBarsForType(bars, chartType);
     currentBars = displayBars;
     hoverBar = null;
     realtimeBarCallback = null;
-    const isMinuteRange = range === "1min";
+
     chart.setSymbol({
       ticker,
       pricePrecision,
@@ -934,15 +958,27 @@
     chart.setDataLoader({
       getBars: async ({ type, callback }) => {
         if (type === "init") {
+          const hasMore = isMinuteRange
+            ? hasMoreMinuteHistory
+            : isOtherIntradayRange
+              ? intradayHistory[interval].hasMore
+              : false;
           callback(displayBars, {
             backward: false,
-            forward: isMinuteRange && hasMoreMinuteHistory,
+            forward: hasMore,
           });
           return;
         }
 
         if (isMinuteRange && type === "forward") {
           const result = await loadMoreMinuteBars();
+          const nextBars = transformBarsForType(result.bars, chartType);
+          callback(nextBars, { backward: false, forward: result.hasMore });
+          return;
+        }
+
+        if (isOtherIntradayRange && type === "forward") {
+          const result = await loadMoreIntradayBars(interval);
           const nextBars = transformBarsForType(result.bars, chartType);
           callback(nextBars, { backward: false, forward: result.hasMore });
           return;
