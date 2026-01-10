@@ -2,9 +2,12 @@
   import { goto } from "$app/navigation";
   import { onMount, onDestroy } from "svelte";
   import { init, dispose } from "klinecharts";
+  import { DateTime } from "luxon";
   import SEO from "$lib/components/SEO.svelte";
 
   export let data;
+
+  const zone = "America/New_York";
 
   let inputValue = "";
   let searchResults: any[] = [];
@@ -13,7 +16,7 @@
   let timeoutId: ReturnType<typeof setTimeout>;
   let inputElement: HTMLInputElement;
   let chartContainer: HTMLDivElement;
-  let chart: ReturnType<typeof init> | null = null;
+  let chart: any = null;
 
   const goToChart = (symbol: string) => {
     if (!symbol) return;
@@ -66,17 +69,31 @@
     }
   };
 
+  // Parse intraday timestamp using luxon (same as [slug] page)
+  const parseIntradayTimestamp = (value: string): number | null => {
+    const dt = DateTime.fromFormat(value, "yyyy-MM-dd HH:mm:ss", { zone });
+    return dt.isValid ? dt.toMillis() : null;
+  };
+
   // Transform intraday data to klinecharts format
   const transformIntradayData = (rawData: any[]) => {
     if (!Array.isArray(rawData) || rawData.length === 0) return [];
-    return rawData.map((bar) => ({
-      timestamp: new Date(bar.date).getTime(),
-      open: bar.open,
-      high: bar.high,
-      low: bar.low,
-      close: bar.close,
-      volume: bar.volume,
-    }));
+    return rawData
+      .map((bar) => {
+        const time = typeof bar?.time === "string" ? bar.time : null;
+        if (!time) return null;
+        const timestamp = parseIntradayTimestamp(time);
+        if (!timestamp) return null;
+        return {
+          timestamp,
+          open: bar.open,
+          high: bar.high,
+          low: bar.low,
+          close: bar.close,
+          volume: bar.volume ?? 0,
+        };
+      })
+      .filter(Boolean);
   };
 
   onMount(() => {
@@ -84,29 +101,13 @@
 
     // Initialize the preview chart
     if (chartContainer && data?.spyIntraday?.length > 0) {
-      chart = init(chartContainer, {
-        layout: [
-          {
-            type: "candle",
-            options: {
-              id: "preview_candle_pane",
-              axis: {
-                scrollZoomEnabled: false,
-              },
-            },
-          },
-          {
-            type: "xAxis",
-            options: {
-              axis: {
-                scrollZoomEnabled: false,
-              },
-            },
-          },
-        ],
-      });
+      chart = init(chartContainer, { timezone: zone });
 
       if (chart) {
+        // Disable scrolling and zooming
+        chart.setScrollEnabled(false);
+        chart.setZoomEnabled(false);
+
         // Apply dark theme styles
         chart.setStyles({
           grid: {
@@ -174,9 +175,17 @@
           },
         });
 
-        // Load the SPY data
-        const chartData = transformIntradayData(data.spyIntraday);
-        chart.applyNewData(chartData);
+        // Transform the SPY data
+        const chartData = transformIntradayData(data?.spyIntraday);
+
+        // Use v10 API: setSymbol, setPeriod, setDataLoader
+        chart.setSymbol({ ticker: "SPY" });
+        chart.setPeriod({ span: 1, type: "minute" });
+        chart.setDataLoader({
+          getBars: ({ callback }) => {
+            callback(chartData, { backward: false, forward: false });
+          },
+        });
 
         // Fit all data in view
         chart.setOffsetRightDistance(0);
