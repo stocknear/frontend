@@ -3,6 +3,9 @@
   import { onMount, onDestroy } from "svelte";
   import { init, dispose } from "klinecharts";
   import { DateTime } from "luxon";
+  import { Combobox } from "bits-ui";
+  import { screenWidth } from "$lib/store";
+  import Search from "lucide-svelte/icons/search";
   import SEO from "$lib/components/SEO.svelte";
 
   export let data;
@@ -10,64 +13,82 @@
   const zone = "America/New_York";
 
   let inputValue = "";
-  let searchResults: any[] = [];
+  let searchBarData: any[] = [];
   let isLoading = false;
-  let showDropdown = false;
+  let touchedInput = false;
+  let showSuggestions = false;
   let timeoutId: ReturnType<typeof setTimeout>;
   let inputElement: HTMLInputElement;
   let chartContainer: HTMLDivElement;
   let chart: any = null;
+  let searchBarModalChecked = false;
+  let isNavigating = false;
+
+  const popularList = [
+    { symbol: "AAPL", name: "Apple Inc", type: "Stock" },
+    { symbol: "TSLA", name: "Tesla Inc", type: "Stock" },
+    { symbol: "NVDA", name: "Nvidia", type: "Stock" },
+    { symbol: "SPY", name: "SPDR S&P 500 ETF Trust", type: "ETF" },
+    { symbol: "AMD", name: "Advanced Micro Devices", type: "Stock" },
+  ];
 
   const goToChart = (symbol: string) => {
-    if (!symbol) return;
+    if (!symbol || isNavigating) return;
+    isNavigating = true;
+
+    // Close modal on mobile
+    if ($screenWidth < 640) {
+      searchBarModalChecked = false;
+    }
+
     goto(`/chart/${symbol.toUpperCase()}`);
+    inputValue = "";
+    setTimeout(() => (isNavigating = false), 100);
   };
 
-  const handleSearch = async () => {
+  async function search() {
+    isLoading = true;
     clearTimeout(timeoutId);
 
     if (!inputValue?.trim()) {
-      searchResults = [];
-      showDropdown = false;
+      searchBarData = [];
+      isLoading = false;
       return;
     }
-
-    isLoading = true;
-    showDropdown = true;
 
     timeoutId = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=6`,
+          `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=5`,
         );
-        searchResults = await response.json();
+        searchBarData = await response.json();
       } catch {
-        searchResults = [];
+        searchBarData = [];
       }
       isLoading = false;
-    }, 150);
-  };
+    }, 50);
+  }
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && inputValue?.trim()) {
-      if (searchResults.length > 0) {
-        goToChart(searchResults[0].symbol);
-      } else {
-        goToChart(inputValue);
-      }
+  function handleKeyDown(symbol: string) {
+    if (isNavigating) return;
+    const list = [...searchBarData, ...popularList];
+    const item = list.find(
+      (i) => i?.symbol?.toLowerCase() === symbol?.toLowerCase(),
+    );
+    if (item) {
+      goToChart(item.symbol);
+    } else if (symbol) {
+      goToChart(symbol);
     }
-    if (e.key === "Escape") {
-      showDropdown = false;
-      inputElement?.blur();
-    }
-  };
+  }
 
-  const handleClickOutside = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest(".search-container")) {
-      showDropdown = false;
+  function handleEnter() {
+    if (!isLoading && searchBarData?.length > 0) {
+      handleKeyDown(inputValue);
+    } else if (inputValue?.trim()) {
+      goToChart(inputValue);
     }
-  };
+  }
 
   // Parse intraday timestamp using luxon (same as [slug] page)
   const parseIntradayTimestamp = (value: string): number | null => {
@@ -81,8 +102,8 @@
     const hour = dt.hour;
     const minute = dt.minute;
     const timeInMinutes = hour * 60 + minute;
-    const marketOpen = 9 * 60 + 30; // 9:30 AM = 570 minutes
-    const marketClose = 16 * 60; // 4:00 PM = 960 minutes
+    const marketOpen = 9 * 60 + 30;
+    const marketClose = 16 * 60;
     return timeInMinutes >= marketOpen && timeInMinutes <= marketClose;
   };
 
@@ -95,7 +116,6 @@
         if (!time) return null;
         const timestamp = parseIntradayTimestamp(time);
         if (!timestamp) return null;
-        // Filter to market hours only
         if (!isMarketHours(timestamp)) return null;
         return {
           timestamp,
@@ -110,18 +130,14 @@
   };
 
   onMount(() => {
-    document.addEventListener("click", handleClickOutside);
-
     // Initialize the preview chart
     if (chartContainer && data?.spyIntraday?.length > 0) {
       chart = init(chartContainer, { timezone: zone });
 
       if (chart) {
-        // Disable scrolling and zooming
         chart.setScrollEnabled(false);
         chart.setZoomEnabled(false);
 
-        // Apply dark theme styles
         chart.setStyles({
           grid: {
             show: true,
@@ -131,9 +147,7 @@
               color: "rgba(255, 255, 255, 0.05)",
               style: "solid",
             },
-            vertical: {
-              show: false,
-            },
+            vertical: { show: false },
           },
           candle: {
             type: "candle_solid",
@@ -148,21 +162,13 @@
               downWickColor: "#EF4444",
               noChangeWickColor: "#6B7280",
             },
-            priceMark: {
-              show: false,
-            },
-            tooltip: {
-              showRule: "none",
-            },
+            priceMark: { show: false },
+            tooltip: { showRule: "none" },
           },
           xAxis: {
             show: true,
-            axisLine: {
-              show: false,
-            },
-            tickLine: {
-              show: false,
-            },
+            axisLine: { show: false },
+            tickLine: { show: false },
             tickText: {
               show: true,
               color: "rgba(255, 255, 255, 0.4)",
@@ -171,34 +177,26 @@
           },
           yAxis: {
             show: true,
-            axisLine: {
-              show: false,
-            },
-            tickLine: {
-              show: false,
-            },
+            axisLine: { show: false },
+            tickLine: { show: false },
             tickText: {
               show: true,
               color: "rgba(255, 255, 255, 0.4)",
               size: 10,
             },
           },
-          crosshair: {
-            show: false,
-          },
+          crosshair: { show: false },
         });
 
-        // Transform the SPY data
         const chartData = transformIntradayData(data?.spyIntraday);
-
-        // Calculate bar space to fit all data (390 minutes in market hours)
-        // Container is ~800px wide on desktop, so use small bar space
         const containerWidth = chartContainer.clientWidth || 800;
-        const totalBars = 390; // 9:30 to 16:00 = 390 minutes
-        const calculatedBarSpace = Math.max(1, Math.floor(containerWidth / totalBars));
+        const totalBars = 390;
+        const calculatedBarSpace = Math.max(
+          1,
+          Math.floor(containerWidth / totalBars),
+        );
         chart.setBarSpace(calculatedBarSpace);
 
-        // Use v10 API: setSymbol, setPeriod, setDataLoader
         chart.setSymbol({ ticker: "SPY" });
         chart.setPeriod({ span: 1, type: "minute" });
         chart.setDataLoader({
@@ -207,12 +205,9 @@
           },
         });
 
-        // Scroll to show from beginning (9:30 AM)
         chart.scrollToDataIndex(0);
       }
     }
-
-    return () => document.removeEventListener("click", handleClickOutside);
   });
 
   onDestroy(() => {
@@ -222,11 +217,23 @@
     }
   });
 
-  $: if (inputValue) {
-    handleSearch();
+  $: if (searchBarModalChecked && typeof window !== "undefined") {
+    document.body.classList.add("overflow-hidden");
+  }
+
+  $: if (!searchBarModalChecked && typeof window !== "undefined") {
+    inputValue = "";
+    document.body.classList?.remove("overflow-hidden");
+  }
+
+  $: if (searchBarData?.length > 0) {
+    showSuggestions = true;
   } else {
-    searchResults = [];
-    showDropdown = false;
+    showSuggestions = false;
+  }
+
+  $: if (inputValue) {
+    search();
   }
 </script>
 
@@ -252,80 +259,263 @@
       </p>
     </div>
 
-    <!-- Search Bar -->
-    <div class="search-container relative max-w-2xl mx-auto">
-      <div class="relative">
+    <!-- Desktop Search Bar -->
+    <div class="hidden sm:block max-w-2xl mx-auto">
+      <Combobox.Root
+        items={searchBarData}
+        bind:inputValue
+        bind:touchedInput
+        onSelectedChange={(state) => handleKeyDown(state?.value)}
+      >
         <div
-          class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none"
+          on:keydown={(e) => {
+            if (e.key === "Enter") handleEnter();
+          }}
+          class="relative w-full"
         >
-          <svg
-            class="h-5 w-5 text-zinc-400"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-zinc-400"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-        <input
-          bind:this={inputElement}
-          bind:value={inputValue}
-          on:keydown={handleKeyDown}
-          on:focus={() => inputValue && (showDropdown = true)}
-          type="text"
-          placeholder="Analyze the chart of ..."
-          class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-white bg-zinc-900/80 border border-zinc-700 rounded-xl focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 placeholder-zinc-500 transition"
-        />
-        {#if isLoading}
-          <div class="absolute inset-y-0 right-0 flex items-center pr-4">
-            <span class="loading loading-spinner loading-sm text-zinc-400"
-            ></span>
-          </div>
-        {:else if inputValue}
-          <button
-            class="absolute inset-y-0 right-0 flex items-center pr-4 text-zinc-400 hover:text-white transition"
-            on:click={() => {
-              inputValue = "";
-              inputElement?.focus();
-            }}
-          >
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
               <path
-                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-          </button>
-        {/if}
-      </div>
-
-      <!-- Search Dropdown -->
-      {#if showDropdown && searchResults.length > 0}
-        <div
-          class="absolute z-50 w-full mt-2 bg-zinc-900 border border-zinc-700 rounded-xl shadow-xl overflow-hidden"
-        >
-          {#each searchResults as item}
-            <button
-              class="w-full px-4 py-3 flex items-center justify-between hover:bg-zinc-800 transition text-left border-b border-zinc-800 last:border-none"
-              on:click={() => goToChart(item.symbol)}
-            >
-              <div class="flex items-center gap-3">
-                <span class="font-semibold text-white">{item.symbol}</span>
-                <span
-                  class="text-zinc-400 text-sm truncate max-w-[200px] sm:max-w-[300px]"
-                  >{item.name}</span
-                >
-              </div>
-              <span class="text-zinc-500 text-xs">{item.type}</span>
-            </button>
-          {/each}
+          </div>
+          <Combobox.Input
+            on:click={() => (inputValue = "")}
+            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-white bg-zinc-900/80 border border-zinc-700 rounded-xl focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 placeholder-zinc-500 transition"
+            placeholder="Company or stock symbol..."
+          />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+            {#if isLoading}
+              <span class="loading loading-spinner loading-sm text-zinc-400"
+              ></span>
+            {:else if inputValue?.length > 0}
+              <button
+                class="text-zinc-400 hover:text-white transition"
+                on:click={() => (inputValue = "")}
+              >
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                  />
+                </svg>
+              </button>
+            {/if}
+          </div>
         </div>
-      {/if}
+        <Combobox.Content
+          class="w-full z-40 mt-2 rounded-xl border border-zinc-700 bg-zinc-900 px-1.5 py-2 shadow-xl outline-hidden"
+          sideOffset={8}
+        >
+          {#if inputValue?.length > 0 && searchBarData?.length > 0}
+            <div
+              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+            >
+              Suggestions
+            </div>
+            {#each searchBarData as item}
+              <Combobox.Item
+                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-zinc-800"
+                value={item?.symbol}
+                label={item?.name}
+                on:click={() => goToChart(item?.symbol)}
+              >
+                <div class="flex flex-row items-center justify-between w-full">
+                  <span class="text-sm font-semibold text-white"
+                    >{item?.symbol}</span
+                  >
+                  <span class="ml-3 text-sm text-zinc-400 truncate"
+                    >{item?.name}</span
+                  >
+                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  >
+                </div>
+              </Combobox.Item>
+            {/each}
+          {:else if inputValue?.length === 0 || !showSuggestions}
+            <div
+              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+            >
+              Popular
+            </div>
+            {#each popularList as item}
+              <Combobox.Item
+                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-zinc-800"
+                value={item?.symbol}
+                label={item?.name}
+                on:click={() => goToChart(item?.symbol)}
+              >
+                <div class="flex flex-row items-center justify-between w-full">
+                  <span class="text-sm font-semibold text-white"
+                    >{item?.symbol}</span
+                  >
+                  <span class="ml-3 text-sm text-zinc-400 truncate"
+                    >{item?.name}</span
+                  >
+                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  >
+                </div>
+              </Combobox.Item>
+            {/each}
+          {:else}
+            <span class="block px-5 py-2 text-sm text-zinc-400">
+              No results found
+            </span>
+          {/if}
+        </Combobox.Content>
+      </Combobox.Root>
     </div>
+
+    <!-- Mobile Search Button -->
+    <div class="sm:hidden flex justify-center">
+      <label
+        for="chartSearchModal"
+        class="flex items-center gap-3 px-3 py-2 w-full rounded-xl border border-zinc-700 bg-zinc-900/80 text-zinc-400 cursor-pointer hover:border-zinc-500 transition"
+      >
+        <span>Company or stock symbol...</span>
+      </label>
+    </div>
+
+    <!-- Mobile Search Modal -->
+    <input
+      type="checkbox"
+      id="chartSearchModal"
+      class="modal-toggle"
+      bind:checked={searchBarModalChecked}
+    />
+    <dialog
+      id="chartSearchModal"
+      class="modal modal-middle fixed inset-0 z-[9999] p-3"
+    >
+      <label for="chartSearchModal" class="cursor-pointer modal-backdrop"
+      ></label>
+      <div
+        class="modal-box min-h-96 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950/95 shadow-xl m-auto w-full"
+      >
+        <label
+          for="chartSearchModal"
+          class="inline-block cursor-pointer absolute right-3 top-3 text-zinc-400 hover:text-white"
+        >
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+            />
+          </svg>
+        </label>
+
+        <div class="mt-8">
+          <div class="relative">
+            <div class="absolute inset-y-0 right-4 flex items-center">
+              {#if isLoading}
+                <span class="loading loading-spinner loading-sm text-zinc-400"
+                ></span>
+              {:else if inputValue?.length > 0}
+                <button
+                  class="text-zinc-400"
+                  on:click={() => (inputValue = "")}
+                >
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                    />
+                  </svg>
+                </button>
+              {/if}
+            </div>
+            <input
+              class="w-full py-3 pl-10 pr-12 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
+              placeholder="Company or stock symbol..."
+              bind:value={inputValue}
+              bind:this={inputElement}
+              autocomplete="off"
+              on:keydown={(e) => {
+                if (e.key === "Enter" && inputValue) handleKeyDown(inputValue);
+              }}
+            />
+            <button class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg
+                class="w-4 h-4 text-zinc-400"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"
+                />
+                <path
+                  d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="mt-3 rounded-xl border border-zinc-700 bg-zinc-900 px-1.5 py-2"
+        >
+          {#if inputValue?.length > 0 && searchBarData?.length > 0}
+            <div
+              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+            >
+              Suggestions
+            </div>
+            {#each searchBarData as item}
+              <li
+                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm hover:bg-zinc-800 transition"
+                on:click={() => goToChart(item?.symbol)}
+              >
+                <div class="flex flex-row items-center justify-between w-full">
+                  <span class="text-sm font-semibold text-white"
+                    >{item?.symbol}</span
+                  >
+                  <span class="ml-3 mr-6 text-sm text-zinc-400 truncate"
+                    >{item?.name}</span
+                  >
+                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  >
+                </div>
+              </li>
+            {/each}
+          {:else if inputValue?.length === 0 || !showSuggestions}
+            <div
+              class="pl-2 pb-2 border-b border-zinc-700 text-xs font-semibold uppercase tracking-wide text-zinc-400 w-full"
+            >
+              Popular
+            </div>
+            {#each popularList as item}
+              <li
+                class="cursor-pointer text-zinc-200 border-b border-zinc-800 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm hover:bg-zinc-800 transition"
+                on:click={() => goToChart(item?.symbol)}
+              >
+                <div class="flex flex-row items-center justify-between w-full">
+                  <span class="text-sm font-semibold text-white"
+                    >{item?.symbol}</span
+                  >
+                  <span class="ml-3 mr-6 text-sm text-zinc-400 truncate"
+                    >{item?.name}</span
+                  >
+                  <span class="ml-auto text-sm text-zinc-500">{item?.type}</span
+                  >
+                </div>
+              </li>
+            {/each}
+          {:else}
+            <span class="block px-5 py-2 text-sm text-zinc-400">
+              No results found
+            </span>
+          {/if}
+        </div>
+      </div>
+    </dialog>
 
     <!-- SPY Preview Chart -->
     <div class="mt-10 sm:mt-12 max-w-4xl mx-auto">
