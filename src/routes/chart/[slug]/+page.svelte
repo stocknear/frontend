@@ -27,7 +27,7 @@
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
-  import { groupChartIndicators } from "$lib/utils";
+  import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
 
@@ -100,6 +100,35 @@
   let hasMoreMinuteHistory = false;
   let minuteBarsLoading = false;
   let minuteBarsLastEndDate = "";
+
+  // Earnings marker types and state
+  interface EarningsData {
+    date: string;
+    period: string;
+    period_year: number;
+    eps: string | number | null;
+    eps_est: string | number | null;
+    eps_surprise: string | number | null;
+    eps_surprise_percent: string | number | null;
+    revenue: string | number | null;
+    revenue_est: string | number | null;
+    revenue_surprise: string | number | null;
+    revenue_surprise_percent: string | number | null;
+    time?: string; // "bmo" (before market open) or "amc" (after market close)
+  }
+
+  interface EarningsMarker {
+    earnings: EarningsData;
+    timestamp: number;
+    x: number;
+    visible: boolean;
+  }
+
+  let historicalEarnings: EarningsData[] = [];
+  let nextEarnings: EarningsData | null = null;
+  let earningsMarkers: EarningsMarker[] = [];
+  let selectedEarnings: EarningsData | null = null;
+  let earningsPopupPosition = { x: 0, y: 0 };
 
   let chartContainer: HTMLDivElement | null = null;
   let chart: any = null;
@@ -727,10 +756,26 @@
 
   // US market holidays for 2025-2026
   const marketHolidays = new Set([
-    "2025-01-01", "2025-01-20", "2025-02-17", "2025-04-18", "2025-05-26",
-    "2025-06-19", "2025-07-04", "2025-09-01", "2025-11-27", "2025-12-25",
-    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25",
-    "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",
+    "2025-01-01",
+    "2025-01-20",
+    "2025-02-17",
+    "2025-04-18",
+    "2025-05-26",
+    "2025-06-19",
+    "2025-07-04",
+    "2025-09-01",
+    "2025-11-27",
+    "2025-12-25",
+    "2026-01-01",
+    "2026-01-19",
+    "2026-02-16",
+    "2026-04-03",
+    "2026-05-25",
+    "2026-06-19",
+    "2026-07-03",
+    "2026-09-07",
+    "2026-11-26",
+    "2026-12-25",
   ]);
 
   const isMarketDay = (dt: DateTime): boolean => {
@@ -752,7 +797,9 @@
     if (!state.bars.length) {
       return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
     }
-    const earliestBarDate = DateTime.fromMillis(state.bars[0].timestamp, { zone });
+    const earliestBarDate = DateTime.fromMillis(state.bars[0].timestamp, {
+      zone,
+    });
     return getPreviousMarketDay(earliestBarDate).toFormat("yyyy-MM-dd");
   };
 
@@ -760,7 +807,9 @@
     if (!minuteBars.length) {
       return DateTime.now().setZone(zone).toFormat("yyyy-MM-dd");
     }
-    const earliestBarDate = DateTime.fromMillis(minuteBars[0].timestamp, { zone });
+    const earliestBarDate = DateTime.fromMillis(minuteBars[0].timestamp, {
+      zone,
+    });
     return getPreviousMarketDay(earliestBarDate).toFormat("yyyy-MM-dd");
   };
 
@@ -864,6 +913,132 @@
     ) as Record<IntradayInterval, IntradayHistoryState>;
 
     intradayHistory = nextHistory;
+  };
+
+  // Check if current range is non-intraday (should show earnings)
+  const isNonIntradayRange = (range: string) =>
+    ["1D", "1W", "1M"].includes(range);
+
+  // Update earnings marker positions based on visible chart range
+  const updateEarningsMarkers = () => {
+    if (!chart || !chartContainer || !isNonIntradayRange(activeRange)) {
+      earningsMarkers = [];
+      return;
+    }
+
+    const chartRect = chartContainer.getBoundingClientRect();
+    const chartWidth = chartRect.width;
+
+    // Create markers for each earnings date
+    const markers: EarningsMarker[] = [];
+
+    for (const earnings of historicalEarnings) {
+      if (!earnings.date) continue;
+
+      // Convert earnings date to timestamp (start of day in NY timezone)
+      const earningsDate = DateTime.fromISO(earnings.date, { zone });
+      const timestamp = earningsDate.startOf("day").toMillis();
+
+      // Convert timestamp to pixel position
+      const pixel = chart.convertToPixel({ timestamp });
+
+      if (pixel && typeof pixel.x === "number") {
+        // Check if marker is within visible chart area (with some padding)
+        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+
+        markers.push({
+          earnings,
+          timestamp,
+          x: pixel.x,
+          visible,
+        });
+      }
+    }
+
+    // Also add next earnings if available and in the future
+    if (nextEarnings?.date) {
+      const nextDate = DateTime.fromISO(nextEarnings.date, { zone });
+      const now = DateTime.now().setZone(zone);
+      if (nextDate > now) {
+        const timestamp = nextDate.startOf("day").toMillis();
+        const pixel = chart.convertToPixel({ timestamp });
+
+        if (pixel && typeof pixel.x === "number") {
+          const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+          markers.push({
+            earnings: nextEarnings,
+            timestamp,
+            x: pixel.x,
+            visible,
+          });
+        }
+      }
+    }
+
+    earningsMarkers = markers;
+  };
+
+  // Handle earnings marker click
+  const handleEarningsClick = (marker: EarningsMarker, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedEarnings = marker.earnings;
+
+    // Position popup near the click but ensure it stays on screen
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      let x = marker.x;
+      let y = rect.height - 100; // Position above the volume area
+
+      // Ensure popup doesn't go off screen
+      if (x < 150) x = 150;
+      if (x > rect.width - 150) x = rect.width - 150;
+
+      earningsPopupPosition = { x, y };
+    }
+  };
+
+  // Close earnings popup
+  const closeEarningsPopup = () => {
+    selectedEarnings = null;
+  };
+
+  // Format earnings value for display
+  const formatEarningsValue = (value: string | number | null): string => {
+    if (value === null || value === undefined || value === "") return "-";
+    const num = typeof value === "string" ? parseFloat(value) : value;
+    if (!Number.isFinite(num)) return "-";
+    return num.toFixed(2);
+  };
+
+  // Format revenue value with abbreviation
+  const formatRevenueValue = (value: string | number | null): string => {
+    if (value === null || value === undefined || value === "") return "-";
+    const num = typeof value === "string" ? parseFloat(value) : value;
+    if (!Number.isFinite(num)) return "-";
+    return abbreviateNumber(num);
+  };
+
+  // Calculate surprise percentage
+  const calculateSurprise = (
+    actual: string | number | null,
+    estimate: string | number | null,
+  ): { value: number; percent: number; positive: boolean } | null => {
+    const actualNum =
+      typeof actual === "string" ? parseFloat(actual) : actual;
+    const estimateNum =
+      typeof estimate === "string" ? parseFloat(estimate) : estimate;
+
+    if (
+      !Number.isFinite(actualNum) ||
+      !Number.isFinite(estimateNum) ||
+      Math.abs(estimateNum) < 0.0001
+    ) {
+      return null;
+    }
+
+    const value = actualNum - estimateNum;
+    const percent = (value / Math.abs(estimateNum)) * 100;
+    return { value, percent, positive: value >= 0 };
   };
 
   const buildHeikinAshi = (bars: KLineData[]) => {
@@ -2303,6 +2478,11 @@
     chart.setOffsetRightDistance(12);
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
 
+    // Subscribe to chart events for earnings marker position updates
+    chart.subscribeAction("onScroll", updateEarningsMarkers);
+    chart.subscribeAction("onZoom", updateEarningsMarkers);
+    chart.subscribeAction("onVisibleRangeChange", updateEarningsMarkers);
+
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
       id: "sn_volume_pane",
@@ -2356,6 +2536,9 @@
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
+      chart.unsubscribeAction("onScroll", updateEarningsMarkers);
+      chart.unsubscribeAction("onZoom", updateEarningsMarkers);
+      chart.unsubscribeAction("onVisibleRangeChange", updateEarningsMarkers);
       dispose(chart);
     }
     chart = null;
@@ -2449,6 +2632,8 @@
     ticker = data?.ticker ?? "";
     dailyBars = normalizeDaily(data?.historical ?? []);
     intradayBars = normalizeIntraday(data?.intraday ?? []);
+    historicalEarnings = data?.historicalEarnings ?? [];
+    nextEarnings = data?.nextEarnings ?? null;
   }
 
   $: if (
@@ -2487,6 +2672,13 @@
     dailyBars;
     intradayBars;
     applyRange(activeRange);
+  }
+
+  // Update earnings markers when range or data changes
+  $: if (chart && historicalEarnings) {
+    activeRange;
+    // Small delay to ensure chart has rendered
+    setTimeout(updateEarningsMarkers, 100);
   }
 
   $: if (chart) {
@@ -2589,7 +2781,7 @@
 </script>
 
 <SEO
-  title={`${ticker}${seoPriceText !== "N/A" ? ` ${seoPriceText}` : ""}${seoChangeText ? ` ${seoChangeText}` : ""} Live Chart`}
+  title={`${ticker}${seoPriceText !== "N/A" ? ` ${seoPriceText}` : ""}${seoChangeText ? ` ${seoChangeText}` : ""} `}
   description={`Interactive ${seoCompanyName} (${ticker}) stock chart with real-time and historical prices, volume, and technical indicators. Latest price ${seoPriceText}, market cap ${seoMarketCapText}.`}
   keywords={`${ticker} stock chart, ${seoCompanyName} chart, ${ticker} technical analysis, ${ticker} live price, ${ticker} candlestick chart, stock charting, trading indicators, price action`}
   type="article"
@@ -2967,6 +3159,210 @@
             >Stocknear</span
           >
         </div>
+
+        <!-- Earnings markers overlay (only for non-intraday ranges) -->
+        {#if isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-20">
+            {#each earningsMarkers as marker (marker.timestamp)}
+              {#if marker.visible}
+                <button
+                  class="absolute bottom-[85px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px"
+                  on:click={(e) => handleEarningsClick(marker, e)}
+                  aria-label="View earnings details"
+                >
+                  <div
+                    class="w-5 h-5 rounded flex items-center justify-center text-xs font-bold text-white bg-red-600 shadow-md"
+                  >
+                    E
+                  </div>
+                </button>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Earnings popup -->
+        {#if selectedEarnings}
+          <div
+            class="absolute z-30 pointer-events-auto"
+            style="left: {earningsPopupPosition.x}px; top: {earningsPopupPosition.y}px; transform: translate(-50%, -100%)"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px]"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-3">
+                <div
+                  class="w-6 h-6 rounded flex items-center justify-center text-xs font-bold text-white bg-red-600"
+                >
+                  E
+                </div>
+                <h3 class="text-white font-semibold">Earnings & Revenue</h3>
+                <button
+                  class="ml-auto text-neutral-400 hover:text-white transition"
+                  on:click={closeEarningsPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Date info -->
+              <div class="text-sm text-neutral-300 mb-3 space-y-1">
+                <div class="flex justify-between">
+                  <span class="text-neutral-500">Date</span>
+                  <span class="flex items-center gap-1">
+                    {DateTime.fromISO(selectedEarnings.date, { zone }).toFormat(
+                      "EEE d MMM ''yy",
+                    )}
+                    {#if selectedEarnings.time === "bmo"}
+                      <svg
+                        class="w-4 h-4 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    {:else if selectedEarnings.time === "amc"}
+                      <svg
+                        class="w-4 h-4 text-blue-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                        />
+                      </svg>
+                    {/if}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-neutral-500">Period Ending</span>
+                  <span
+                    >{selectedEarnings.period}
+                    '{String(selectedEarnings.period_year).slice(-2)}</span
+                  >
+                </div>
+              </div>
+
+              <!-- Earnings section -->
+              <div class="border-t border-neutral-700 pt-3 mb-3">
+                <div class="text-xs text-neutral-500 uppercase mb-2">
+                  Earnings
+                </div>
+                <div class="text-sm space-y-1">
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Reported</span>
+                    <span>{formatEarningsValue(selectedEarnings.eps)}</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Estimate</span>
+                    <span>{formatEarningsValue(selectedEarnings.eps_est)}</span>
+                  </div>
+                  {#if calculateSurprise(selectedEarnings.eps, selectedEarnings.eps_est)}
+                    {@const surprise = calculateSurprise(
+                      selectedEarnings.eps,
+                      selectedEarnings.eps_est,
+                    )}
+                    <div class="flex justify-between">
+                      <span
+                        class={surprise?.positive
+                          ? "text-green-400"
+                          : "text-red-400"}>Surprise</span
+                      >
+                      <span
+                        class={surprise?.positive
+                          ? "text-green-400"
+                          : "text-red-400"}
+                      >
+                        {surprise?.positive ? "+" : ""}{surprise?.value.toFixed(
+                          2,
+                        )} ({surprise?.positive ? "+" : ""}{surprise?.percent.toFixed(
+                          2,
+                        )}%)
+                      </span>
+                    </div>
+                  {/if}
+                </div>
+              </div>
+
+              <!-- Revenue section -->
+              <div class="border-t border-neutral-700 pt-3 mb-3">
+                <div class="text-xs text-neutral-500 uppercase mb-2">
+                  Revenue
+                </div>
+                <div class="text-sm space-y-1">
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Reported</span>
+                    <span>{formatRevenueValue(selectedEarnings.revenue)}</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Estimate</span>
+                    <span
+                      >{formatRevenueValue(selectedEarnings.revenue_est)}</span
+                    >
+                  </div>
+                  {#if calculateSurprise(selectedEarnings.revenue, selectedEarnings.revenue_est)}
+                    {@const surprise = calculateSurprise(
+                      selectedEarnings.revenue,
+                      selectedEarnings.revenue_est,
+                    )}
+                    <div class="flex justify-between">
+                      <span
+                        class={surprise?.positive
+                          ? "text-green-400"
+                          : "text-red-400"}>Surprise</span
+                      >
+                      <span
+                        class={surprise?.positive
+                          ? "text-green-400"
+                          : "text-red-400"}
+                      >
+                        {surprise?.positive ? "+" : ""}{abbreviateNumber(
+                          surprise?.value ?? 0,
+                        )} ({surprise?.positive ? "+" : ""}{surprise?.percent.toFixed(
+                          2,
+                        )}%)
+                      </span>
+                    </div>
+                  {/if}
+                </div>
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/stocks/{ticker}/statistics/earnings"
+                class="block w-full text-center py-2 px-4 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+              >
+                More {ticker} financials
+              </a>
+            </div>
+          </div>
+
+          <!-- Click outside to close -->
+          <button
+            class="fixed inset-0 z-20 cursor-default"
+            on:click={closeEarningsPopup}
+            aria-label="Close earnings popup"
+          ></button>
+        {/if}
 
         {#if !currentBars.length}
           <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
