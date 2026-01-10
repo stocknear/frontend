@@ -227,7 +227,7 @@
             {#if news?.length !== 0}
               {#each news as item, index}
                 <div
-                  class="w-full flex flex-col rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5"
+                  class="w-full flex flex-col border-b border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-5 pt-2"
                 >
                   {#if checkIfYoutubeVideo(item.url)}
                     {#if showVideo[getVideoKey(item, index)]}

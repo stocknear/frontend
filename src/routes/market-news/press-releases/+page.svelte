@@ -169,7 +169,7 @@
             {#if news.length !== 0}
               {#each news as item}
                 <div
-                  class="w-full flex flex-col rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5"
+                  class="w-full flex flex-col border-b border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-5 pt-2"
                 >
                   <div class="w-full flex flex-col sm:flex-row">
                     <a
@@ -222,7 +222,7 @@
 
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 ml-2"
+                          class="inline-flex items-center ml-1 mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                         >
                           {item?.symbol}
                         </a>
