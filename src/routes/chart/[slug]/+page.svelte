@@ -161,7 +161,10 @@
 
   // Save event toggle states to localStorage
   const saveEventSettings = () => {
-    const currentSettings = loadChartSettings() || { chartType: "candle_solid", activeRange: "1D" };
+    const currentSettings = loadChartSettings() || {
+      chartType: "candle_solid",
+      activeRange: "1D",
+    };
     saveChartSettings({
       ...currentSettings,
       showEarnings,
@@ -2955,7 +2958,7 @@
   $: changeClass =
     change !== null && change < 0 ? "text-[#f23645]" : "text-[#22ab94]";
 
-  $: seoCompanyName = data?.companyName || ticker;
+  $: companyName = data?.companyName || ticker;
   $: seoPrice =
     toNumber(data?.getStockQuote?.price) ??
     toNumber(lastClose) ??
@@ -3003,15 +3006,15 @@
 
 <SEO
   title={`${ticker}${seoPriceText !== "N/A" ? ` ${seoPriceText}` : ""}${seoChangeText ? ` ${seoChangeText}` : ""} `}
-  description={`Interactive ${seoCompanyName} (${ticker}) stock chart with real-time and historical prices, volume, and technical indicators. Latest price ${seoPriceText}, market cap ${seoMarketCapText}.`}
-  keywords={`${ticker} stock chart, ${seoCompanyName} chart, ${ticker} technical analysis, ${ticker} live price, ${ticker} candlestick chart, stock charting, trading indicators, price action`}
+  description={`Interactive ${companyName} (${ticker}) stock chart with real-time and historical prices, volume, and technical indicators. Latest price ${seoPriceText}, market cap ${seoMarketCapText}.`}
+  keywords={`${ticker} stock chart, ${companyName} chart, ${ticker} technical analysis, ${ticker} live price, ${ticker} candlestick chart, stock charting, trading indicators, price action`}
   type="article"
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["WebPage", "FinancialProduct"],
-    name: `${seoCompanyName} (${ticker}) Stock Chart`,
-    headline: `${seoCompanyName} (${ticker}) Live Stock Chart`,
-    description: `Real-time ${seoCompanyName} (${ticker}) chart with price, volume, and technical indicators`,
+    name: `${companyName} (${ticker}) Stock Chart`,
+    headline: `${companyName} (${ticker}) Live Stock Chart`,
+    description: `Real-time ${companyName} (${ticker}) chart with price, volume, and technical indicators`,
     url: `https://stocknear.com/chart/${ticker}`,
     author: {
       "@type": "Organization",
@@ -3031,7 +3034,7 @@
     datePublished: new Date().toISOString(),
     about: {
       "@type": "FinancialProduct",
-      name: `${seoCompanyName} Common Stock`,
+      name: `${companyName} Common Stock`,
       identifier: ticker,
       offers: {
         "@type": "Offer",
@@ -3070,7 +3073,7 @@
         {
           "@type": "ListItem",
           position: 3,
-          name: `${seoCompanyName} (${ticker})`,
+          name: `${companyName} (${ticker})`,
           item: `https://stocknear.com/chart/${ticker}`,
         },
       ],
@@ -3096,8 +3099,11 @@
             alt={`${ticker || "Stocknear"} logo`}
             class="shrink-0 w-4 h-4 rounded-full"
           />
-
-          {ticker}
+          {#if $screenWidth < 640}
+            {ticker} · {data?.getStockQuote?.exchange?.toUpperCase() || ""}
+          {:else}
+            {companyName} · {data?.getStockQuote?.exchange?.toUpperCase() || ""}
+          {/if}
         </button>
         <div class="flex items-baseline gap-2">
           <div class="text-sm font-semibold text-neutral-100">
