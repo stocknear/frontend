@@ -1942,14 +1942,52 @@
     return legends;
   };
 
-  const buildCandleTooltipLegends = (data: CandleTooltipData) => [
-    { title: "open", value: "{open}" },
-    { title: "high", value: "{high}" },
-    { title: "low", value: "{low}" },
-    { title: "close", value: "{close}" },
-    { title: "volume", value: "{volume}" },
-    ...buildMaTooltipLegends(data),
-  ];
+  const buildCandleTooltipLegends = (data: CandleTooltipData) => {
+    const current = data?.current;
+    const isUp = current && current.close >= current.open;
+    const valueColor = isUp ? "#22ab94" : "#f23645";
+    const titleColor = "#9ca3af";
+    const volumeColor = "#9ca3af";
+
+    // For line chart types, show value and volume
+    const isLineChart = ["line_step", "area", "hlc_area"].includes(chartType);
+    if (isLineChart) {
+      return [
+        {
+          title: { text: "Value: ", color: titleColor },
+          value: { text: "{close}", color: valueColor },
+        },
+        {
+          title: { text: "V: ", color: titleColor },
+          value: { text: "{volume}", color: volumeColor },
+        },
+      ];
+    }
+
+    // For candlestick/bar charts, show O H L C V
+    return [
+      {
+        title: { text: "O: ", color: titleColor },
+        value: { text: "{open}", color: valueColor },
+      },
+      {
+        title: { text: "H: ", color: titleColor },
+        value: { text: "{high}", color: valueColor },
+      },
+      {
+        title: { text: "L: ", color: titleColor },
+        value: { text: "{low}", color: valueColor },
+      },
+      {
+        title: { text: "C: ", color: titleColor },
+        value: { text: "{close}", color: valueColor },
+      },
+      {
+        title: { text: "V: ", color: titleColor },
+        value: { text: "{volume}", color: volumeColor },
+      },
+    ];
+  };
 
   function formatTimestamp(bar: KLineData | null) {
     if (!bar) return "--";
