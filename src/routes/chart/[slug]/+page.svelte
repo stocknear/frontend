@@ -1568,8 +1568,13 @@
       const enabled = Boolean(indicatorState[item.id]);
       const existingId = nextInstanceIds[item.id];
 
-      let paneOptions: Record<string, unknown>;
-      if (item.pane === "candle") {
+      // For candle pane indicators, explicitly specify the candle pane ID
+      const isOnCandlePane = item.pane === "candle";
+
+      let paneOptions: Record<string, unknown> | undefined;
+      if (isOnCandlePane) {
+        // Explicitly specify candle_pane to overlay indicator on main chart
+        // Using 'id' property to target existing candle pane (per klinecharts API)
         paneOptions = { id: "candle_pane" };
       } else if (item.id === "volume") {
         // Volume pane: minimal y-axis, no gap from candle pane
@@ -1591,9 +1596,10 @@
       }
 
       if (enabled && !existingId) {
+        // isStack=false when targeting pane by ID (per klinecharts API)
         nextInstanceIds[item.id] = chart.createIndicator(
           { name: item.indicatorName, calcParams: getIndicatorParams(item.id) },
-          item.pane === "candle",
+          false,
           paneOptions,
         );
         return;
@@ -3258,7 +3264,7 @@
 
         <!-- Earnings markers overlay (only for non-intraday ranges) -->
         {#if isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-20">
+          <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
@@ -3318,7 +3324,7 @@
         <!-- Earnings popup -->
         {#if selectedEarnings}
           <div
-            class="absolute z-30 pointer-events-auto"
+            class="absolute z-[7] pointer-events-auto"
             style="left: {earningsPopupPosition.x}px; top: {earningsPopupPosition.y}px; transform: translate(-50%, -100%)"
           >
             <div
@@ -3586,7 +3592,7 @@
 
           <!-- Click outside to close -->
           <button
-            class="fixed inset-0 z-20 cursor-default"
+            class="fixed inset-0 z-[6] cursor-default"
             on:click={closeEarningsPopup}
             aria-label="Close earnings popup"
           ></button>
