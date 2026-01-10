@@ -4,6 +4,8 @@
 
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import SEO from "$lib/components/SEO.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
+  import { Button } from "$lib/components/shadcn/button/index.js";
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
@@ -270,7 +272,7 @@
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-5">
+        <main class="w-full">
           <div class="mb-3">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -282,42 +284,20 @@
             </p>
           </div>
 
-          <!-- Subreddit Selector -->
-          {#if availableSubreddits.length > 0}
-            <div class="mb-4">
-              <label
-                class="block text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-3"
-              >
-                Select Subreddit
-              </label>
-              <div class="flex flex-wrap gap-2">
-                {#each availableSubreddits as subreddit}
-                  <button
-                    on:click={() => changeSubreddit(subreddit.name)}
-                    class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 px-3 py-1 text-xs font-semibold transition {currentSubreddit ===
-                    subreddit.name
-                      ? 'bg-gray-900/90 text-white dark:bg-zinc-100/90 dark:text-zinc-900'
-                      : 'bg-white/80 dark:bg-zinc-950/40 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
-                  >
-                    r/{subreddit.name}
-                  </button>
-                {/each}
-              </div>
-            </div>
-          {/if}
-
           <!-- Time Period Tabs -->
           <nav
             class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
           >
-            <ul class="flex flex-row items-center w-full text-sm">
+            <ul
+              class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
+            >
               {#each tabs as item, i}
                 <button
                   on:click={() => changeTimePeriod(i)}
-                  class="px-4 py-2 cursor-pointer rounded-full transition {activeIdx ===
+                  class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   i
-                    ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                    : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item?.title}
                 </button>
@@ -325,41 +305,58 @@
             </ul>
           </nav>
 
-          <p class="mt-4 text-sm text-gray-800 dark:text-zinc-300">
-            Overview of r/{currentSubreddit} discussion trends for the selected
-            <strong
-              >{timePeriod === "oneWeek"
-                ? "week"
-                : timePeriod === "oneMonth"
-                  ? "month"
-                  : "3-month"}</strong
-            >
-            period. As of today, the most discussed stock is
-            <strong>{rawData?.[0]?.symbol || "n/a"}</strong>, representing
-            <strong
-              >{rawData?.[0]?.weightPercentage
-                ? rawData[0].weightPercentage.toFixed(1) + "%"
-                : "n/a"}</strong
-            >
-            of total discussion volume.
-          </p>
-
           {#if data?.getRedditTracker[timePeriod]?.length > 0}
-            <div class="">
-              <div class="grow mt-5">
-                <div class="relative">
-                  <h2
-                    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            <div
+              class="-mb-2 pt-3 overflow-x-auto whitespace-nowrap flex flex-row items-center justify-between sm:justify-start w-full"
+            >
+              <h2
+                class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
+                Subreddit
+              </h2>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full "
                   >
-                    Mentions Allocation
-                  </h2>
+                    <span class="truncate text-[0.85rem] sm:text-sm">
+                      r/{currentSubreddit}
+                    </span>
+                    <svg
+                      class="-mr-1 ml-1 h-5 w-5 inline-block"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
 
-                  <div
-                    class="sm:p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
-                    use:highcharts={configPieChart}
-                  ></div>
-                </div>
-              </div>
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                >
+                  <DropdownMenu.Group>
+                    {#each availableSubreddits as subreddit}
+                      <DropdownMenu.Item
+                        on:click={() => changeSubreddit(subreddit.name)}
+                        class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                      >
+                        <span>{subreddit.name}</span>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             </div>
           {/if}
 
@@ -378,56 +375,6 @@
             {/key}
           {/if}
         </main>
-
-        <aside
-          class="hidden lg:block relative fixed w-1/4 ml-4 text-gray-700 dark:text-zinc-200"
-        >
-          <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
-          >
-            <a
-              href="/potus-tracker"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-base font-semibold ml-3">
-                  POTUS Tracker
-                </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-400"
-                />
-              </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
-                Follow the latest executive orders of the US President
-              </span>
-            </a>
-          </div>
-
-          <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
-          >
-            <a
-              href="/insider-tracker"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-base font-semibold ml-3">
-                  Insider Tracker
-                </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-400"
-                />
-              </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
-                Get the latest unusual insider trading in realtime
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>

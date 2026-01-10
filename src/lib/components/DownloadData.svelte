@@ -4,7 +4,6 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import { tick } from "svelte";
 
   export let data;
   export let rawData;
