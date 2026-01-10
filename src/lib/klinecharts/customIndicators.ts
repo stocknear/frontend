@@ -88,6 +88,54 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       { key: "mid", title: "Mid: ", type: "line" },
       { key: "lower", title: "Lower: ", type: "line" },
     ],
+    styles: {
+      lines: [
+        { color: "rgba(255, 255, 255, 0.6)" },
+        { color: "rgba(255, 255, 255, 0.6)" },
+        { color: "rgba(255, 255, 255, 0.6)" },
+      ],
+    },
+    render: ({ ctx, visibleRange, indicator, xAxis, yAxis }) => {
+      const { from, to } = visibleRange;
+      const result = indicator.result as IndicatorRecord[];
+
+      if (!result || result.length === 0) return;
+
+      // Collect points for upper and lower bands
+      const upperPoints: { x: number; y: number }[] = [];
+      const lowerPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (data?.upper !== undefined && data?.lower !== undefined) {
+          const x = xAxis.convertToPixel(i);
+          const upperY = yAxis.convertToPixel(data.upper);
+          const lowerY = yAxis.convertToPixel(data.lower);
+          upperPoints.push({ x, y: upperY });
+          lowerPoints.push({ x, y: lowerY });
+        }
+      }
+
+      if (upperPoints.length < 2) return;
+
+      // Draw filled area between bands
+      ctx.beginPath();
+      ctx.moveTo(upperPoints[0].x, upperPoints[0].y);
+
+      // Draw upper band line
+      for (let i = 1; i < upperPoints.length; i++) {
+        ctx.lineTo(upperPoints[i].x, upperPoints[i].y);
+      }
+
+      // Draw lower band line in reverse to close the polygon
+      for (let i = lowerPoints.length - 1; i >= 0; i--) {
+        ctx.lineTo(lowerPoints[i].x, lowerPoints[i].y);
+      }
+
+      ctx.closePath();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.fill();
+    },
   });
 }
 
