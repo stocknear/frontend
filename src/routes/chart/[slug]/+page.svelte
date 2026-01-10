@@ -1007,6 +1007,87 @@
     selectedEarnings = null;
   };
 
+  // Helper to get EPS value (handles both field naming conventions)
+  const getEpsValue = (
+    earnings: EarningsData | null,
+  ): string | number | null => {
+    if (!earnings) return null;
+    // Historical uses: eps, Next earnings uses: epsPrior
+    return earnings.eps ?? (earnings as any).epsPrior ?? null;
+  };
+
+  // Helper to get EPS estimate (handles both field naming conventions)
+  const getEpsEstimate = (
+    earnings: EarningsData | null,
+  ): string | number | null => {
+    if (!earnings) return null;
+    // Historical uses: eps_est, Next earnings uses: epsEst
+    return earnings.eps_est ?? (earnings as any).epsEst ?? null;
+  };
+
+  // Helper to get revenue value (handles both field naming conventions)
+  const getRevenueValue = (
+    earnings: EarningsData | null,
+  ): string | number | null => {
+    if (!earnings) return null;
+    // Historical uses: revenue, Next earnings uses: revenuePrior
+    return earnings.revenue ?? (earnings as any).revenuePrior ?? null;
+  };
+
+  // Helper to get revenue estimate (handles both field naming conventions)
+  const getRevenueEstimate = (
+    earnings: EarningsData | null,
+  ): string | number | null => {
+    if (!earnings) return null;
+    // Historical uses: revenue_est, Next earnings uses: revenueEst
+    return earnings.revenue_est ?? (earnings as any).revenueEst ?? null;
+  };
+
+  // Helper to check if earnings is before market open
+  const isBeforeMarketOpen = (earnings: EarningsData | null): boolean => {
+    if (!earnings) return false;
+    // Historical uses: time = "bmo", Next earnings uses: time = "09:30" or earlier
+    if (earnings.time === "bmo") return true;
+    if (earnings.time && earnings.time.includes(":")) {
+      const [hours] = earnings.time.split(":").map(Number);
+      return hours < 10; // Before 10:00 AM
+    }
+    return false;
+  };
+
+  // Helper to check if earnings is after market close
+  const isAfterMarketClose = (earnings: EarningsData | null): boolean => {
+    if (!earnings) return false;
+    // Historical uses: time = "amc", Next earnings uses: time = "16:00" or later
+    if (earnings.time === "amc") return true;
+    if (earnings.time && earnings.time.includes(":")) {
+      const [hours] = earnings.time.split(":").map(Number);
+      return hours >= 16; // 4:00 PM or later
+    }
+    return false;
+  };
+
+  // Calculate YoY change for future earnings (estimate vs prior)
+  const calculateYoYChange = (
+    estimate: string | number | null,
+    prior: string | number | null,
+  ): { percent: number; positive: boolean } | null => {
+    const estNum =
+      typeof estimate === "string" ? parseFloat(estimate) : estimate;
+    const priorNum = typeof prior === "string" ? parseFloat(prior) : prior;
+
+    if (
+      !Number.isFinite(estNum) ||
+      !Number.isFinite(priorNum) ||
+      priorNum === 0
+    ) {
+      return null;
+    }
+
+    const percent = (estNum / priorNum - 1) * 100;
+    return { percent, positive: percent >= 0 };
+  };
+
   // Format earnings value for display
   const formatEarningsValue = (value: string | number | null): string => {
     if (value === null || value === undefined || value === "") return "-";
@@ -3197,7 +3278,8 @@
                         fill="#B91C1C"
                         font-size="10"
                         font-weight="bold"
-                        font-family="system-ui, sans-serif">E</text>
+                        font-family="system-ui, sans-serif">E</text
+                      >
                     {:else}
                       <!-- Past earnings: solid fill -->
                       <path
@@ -3212,7 +3294,8 @@
                         fill="white"
                         font-size="10"
                         font-weight="bold"
-                        font-family="system-ui, sans-serif">E</text>
+                        font-family="system-ui, sans-serif">E</text
+                      >
                     {/if}
                   </svg>
                 </button>
@@ -3253,7 +3336,8 @@
                       fill="#B91C1C"
                       font-size="10"
                       font-weight="bold"
-                      font-family="system-ui, sans-serif">E</text>
+                      font-family="system-ui, sans-serif">E</text
+                    >
                   {:else}
                     <path
                       d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
@@ -3267,11 +3351,14 @@
                       fill="white"
                       font-size="10"
                       font-weight="bold"
-                      font-family="system-ui, sans-serif">E</text>
+                      font-family="system-ui, sans-serif">E</text
+                    >
                   {/if}
                 </svg>
                 <h3 class="text-white font-semibold">
-                  {selectedEarningsIsFuture ? "Upcoming Earnings" : "Earnings & Revenue"}
+                  {selectedEarningsIsFuture
+                    ? "Upcoming Earnings"
+                    : "Earnings & Revenue"}
                 </h3>
                 <button
                   class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
@@ -3302,7 +3389,7 @@
                     {DateTime.fromISO(selectedEarnings.date, { zone }).toFormat(
                       "EEE d MMM ''yy",
                     )}
-                    {#if selectedEarnings.time === "bmo"}
+                    {#if isBeforeMarketOpen(selectedEarnings)}
                       <svg
                         class="w-4 h-4 text-yellow-400"
                         fill="currentColor"
@@ -3314,7 +3401,7 @@
                           clip-rule="evenodd"
                         />
                       </svg>
-                    {:else if selectedEarnings.time === "amc"}
+                    {:else if isAfterMarketClose(selectedEarnings)}
                       <svg
                         class="w-4 h-4 text-blue-400"
                         fill="currentColor"
@@ -3327,33 +3414,45 @@
                     {/if}
                   </span>
                 </div>
-                <div class="flex justify-between">
-                  <span class="text-neutral-500">Period Ending</span>
-                  <span
-                    >{selectedEarnings.period}
-                    '{String(selectedEarnings.period_year).slice(-2)}</span
-                  >
-                </div>
+                {#if selectedEarnings.period && selectedEarnings.period_year}
+                  <div class="flex justify-between">
+                    <span class="text-neutral-500">Period Ending</span>
+                    <span
+                      >{selectedEarnings.period}
+                      '{String(selectedEarnings.period_year).slice(-2)}</span
+                    >
+                  </div>
+                {/if}
               </div>
 
               <!-- Earnings section -->
               <div class="border-t border-neutral-700 pt-3 mb-3">
                 <div class="text-xs text-neutral-500 uppercase mb-2">
-                  Earnings
+                  {selectedEarningsIsFuture ? "EPS Estimate" : "Earnings"}
                 </div>
                 <div class="text-sm space-y-1">
-                  <div class="flex justify-between text-neutral-300">
-                    <span>Reported</span>
-                    <span>{formatEarningsValue(selectedEarnings.eps)}</span>
-                  </div>
+                  {#if !selectedEarningsIsFuture}
+                    <div class="flex justify-between text-neutral-300">
+                      <span>Reported</span>
+                      <span
+                        >{formatEarningsValue(
+                          getEpsValue(selectedEarnings),
+                        )}</span
+                      >
+                    </div>
+                  {/if}
                   <div class="flex justify-between text-neutral-300">
                     <span>Estimate</span>
-                    <span>{formatEarningsValue(selectedEarnings.eps_est)}</span>
+                    <span
+                      >{formatEarningsValue(
+                        getEpsEstimate(selectedEarnings),
+                      )}</span
+                    >
                   </div>
-                  {#if calculateSurprise(selectedEarnings.eps, selectedEarnings.eps_est)}
+                  {#if !selectedEarningsIsFuture && calculateSurprise(getEpsValue(selectedEarnings), getEpsEstimate(selectedEarnings))}
                     {@const surprise = calculateSurprise(
-                      selectedEarnings.eps,
-                      selectedEarnings.eps_est,
+                      getEpsValue(selectedEarnings),
+                      getEpsEstimate(selectedEarnings),
                     )}
                     <div class="flex justify-between">
                       <span
@@ -3374,29 +3473,55 @@
                       </span>
                     </div>
                   {/if}
+                  {#if selectedEarningsIsFuture}
+                    {@const yoy = calculateYoYChange(
+                      selectedEarnings?.["epsEst"],
+                      selectedEarnings?.["epsPrior"],
+                    )}
+                    {#if yoy}
+                      <div class="flex justify-between">
+                        <span class="text-neutral-400">YoY Change</span>
+                        <span
+                          class={yoy.positive
+                            ? "text-green-400"
+                            : "text-red-400"}
+                        >
+                          {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
+                        </span>
+                      </div>
+                    {/if}
+                  {/if}
                 </div>
               </div>
 
               <!-- Revenue section -->
               <div class="border-t border-neutral-700 pt-3 mb-3">
                 <div class="text-xs text-neutral-500 uppercase mb-2">
-                  Revenue
+                  {selectedEarningsIsFuture ? "Revenue Estimate" : "Revenue"}
                 </div>
                 <div class="text-sm space-y-1">
-                  <div class="flex justify-between text-neutral-300">
-                    <span>Reported</span>
-                    <span>{formatRevenueValue(selectedEarnings.revenue)}</span>
-                  </div>
+                  {#if !selectedEarningsIsFuture}
+                    <div class="flex justify-between text-neutral-300">
+                      <span>Reported</span>
+                      <span
+                        >{formatRevenueValue(
+                          getRevenueValue(selectedEarnings),
+                        )}</span
+                      >
+                    </div>
+                  {/if}
                   <div class="flex justify-between text-neutral-300">
                     <span>Estimate</span>
                     <span
-                      >{formatRevenueValue(selectedEarnings.revenue_est)}</span
+                      >{formatRevenueValue(
+                        getRevenueEstimate(selectedEarnings),
+                      )}</span
                     >
                   </div>
-                  {#if calculateSurprise(selectedEarnings.revenue, selectedEarnings.revenue_est)}
+                  {#if !selectedEarningsIsFuture && calculateSurprise(getRevenueValue(selectedEarnings), getRevenueEstimate(selectedEarnings))}
                     {@const surprise = calculateSurprise(
-                      selectedEarnings.revenue,
-                      selectedEarnings.revenue_est,
+                      getRevenueValue(selectedEarnings),
+                      getRevenueEstimate(selectedEarnings),
                     )}
                     <div class="flex justify-between">
                       <span
@@ -3416,6 +3541,24 @@
                           : ""}{surprise?.percent.toFixed(2)}%)
                       </span>
                     </div>
+                  {/if}
+                  {#if selectedEarningsIsFuture}
+                    {@const yoy = calculateYoYChange(
+                      selectedEarnings?.["revenueEst"],
+                      selectedEarnings?.["revenuePrior"],
+                    )}
+                    {#if yoy}
+                      <div class="flex justify-between">
+                        <span class="text-neutral-400">YoY Change</span>
+                        <span
+                          class={yoy.positive
+                            ? "text-green-400"
+                            : "text-red-400"}
+                        >
+                          {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
+                        </span>
+                      </div>
+                    {/if}
                   {/if}
                 </div>
               </div>
