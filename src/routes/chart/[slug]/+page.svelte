@@ -45,6 +45,55 @@
     "1M",
   ];
 
+  // localStorage keys for chart settings (not saved to pocketbase)
+  const CHART_SETTINGS_KEY = "chart-settings";
+  const CHART_OVERLAYS_KEY = "chart-overlays";
+
+  interface ChartSettings {
+    chartType: string;
+    activeRange: string;
+  }
+
+  const loadChartSettings = (): ChartSettings | null => {
+    try {
+      const saved = localStorage?.getItem(CHART_SETTINGS_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch (e) {
+      console.log("Failed loading chart settings:", e);
+    }
+    return null;
+  };
+
+  const saveChartSettings = (settings: ChartSettings) => {
+    try {
+      localStorage?.setItem(CHART_SETTINGS_KEY, JSON.stringify(settings));
+    } catch (e) {
+      console.log("Failed saving chart settings:", e);
+    }
+  };
+
+  const loadChartOverlays = (): any[] => {
+    try {
+      const saved = localStorage?.getItem(CHART_OVERLAYS_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch (e) {
+      console.log("Failed loading chart overlays:", e);
+    }
+    return [];
+  };
+
+  const saveChartOverlays = (overlays: any[]) => {
+    try {
+      localStorage?.setItem(CHART_OVERLAYS_KEY, JSON.stringify(overlays));
+    } catch (e) {
+      console.log("Failed saving chart overlays:", e);
+    }
+  };
+
   let minuteBars = [];
   let minuteBarsTicker = "";
   let hasMoreMinuteHistory = false;
@@ -1602,6 +1651,8 @@
     if (chart) {
       applyRange(range);
     }
+    // Save to localStorage
+    saveChartSettings({ chartType, activeRange });
   }
 
   function setChartType(type: ChartTypeId) {
@@ -1610,6 +1661,8 @@
       applyChartType(type);
       applyRange(activeRange);
     }
+    // Save to localStorage
+    saveChartSettings({ chartType, activeRange });
   }
 
   function toggleIndicator(name: string) {
@@ -1843,6 +1896,27 @@
     ruleOfList = buildRuleList();
   }
 
+  // Handler for overlay draw end - saves overlays to localStorage
+  const handleOverlayDrawEnd = () => {
+    if (!chart) return;
+    try {
+      const overlays = chart.getOverlays();
+      if (overlays && Array.isArray(overlays)) {
+        // Extract serializable overlay data
+        const serializableOverlays = overlays.map((overlay: any) => ({
+          name: overlay.name,
+          points: overlay.points,
+          extendData: overlay.extendData,
+          styles: overlay.styles,
+        }));
+        saveChartOverlays(serializableOverlays);
+      }
+    } catch (e) {
+      console.log("Failed to save overlays:", e);
+    }
+    return true;
+  };
+
   function activateTool(toolId: string) {
     activeTool = toolId;
     if (!chart) return;
@@ -1864,6 +1938,8 @@
     if (toolId === "erase") {
       chart.removeOverlay();
       clearIndicators();
+      // Clear saved overlays from localStorage
+      saveChartOverlays([]);
       activeTool = "cursor";
       if (chartMain) {
         chartMain.style.cursor = "default";
@@ -1873,13 +1949,20 @@
 
     if (toolId === "text") {
       const text = window.prompt("Annotation text") ?? "";
-      chart.createOverlay({ name: "simpleAnnotation", extendData: text });
+      chart.createOverlay({
+        name: "simpleAnnotation",
+        extendData: text,
+        onDrawEnd: handleOverlayDrawEnd,
+      });
       return;
     }
 
     const overlayName = toolOverlays[toolId];
     if (overlayName) {
-      chart.createOverlay({ name: overlayName });
+      chart.createOverlay({
+        name: overlayName,
+        onDrawEnd: handleOverlayDrawEnd,
+      });
     }
   }
 
@@ -2009,6 +2092,23 @@
       document.documentElement.style.overflow = "hidden";
     }
 
+    // Load chart settings from localStorage
+    const savedSettings = loadChartSettings();
+    if (savedSettings) {
+      if (
+        savedSettings.chartType &&
+        chartTypeOptions.some((opt) => opt.id === savedSettings.chartType)
+      ) {
+        chartType = savedSettings.chartType as ChartTypeId;
+        currentChartType = chartTypeOptions.find(
+          (opt) => opt.id === chartType,
+        );
+      }
+      if (savedSettings.activeRange && timeframes.includes(savedSettings.activeRange)) {
+        activeRange = savedSettings.activeRange;
+      }
+    }
+
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
@@ -2057,6 +2157,21 @@
         },
       },
     );
+
+    // Load saved overlays from localStorage
+    const savedOverlays = loadChartOverlays();
+    if (savedOverlays?.length > 0) {
+      savedOverlays.forEach((overlay) => {
+        try {
+          chart.createOverlay({
+            ...overlay,
+            onDrawEnd: handleOverlayDrawEnd,
+          });
+        } catch (e) {
+          console.log("Failed to restore overlay:", e);
+        }
+      });
+    }
 
     resizeObserver = new ResizeObserver(() => {
       chart?.resize();
