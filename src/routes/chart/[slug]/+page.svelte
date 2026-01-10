@@ -232,9 +232,9 @@
       indicatorName: "SN_VOL",
       category: "Volume",
       infoKey: "volume",
-      defaultParams: [5, 10, 20],
+      defaultParams: [],
       pane: "panel",
-      height: 120,
+      height: 80,
       defaultEnabled: true,
     },
     {
@@ -1239,10 +1239,28 @@
     indicatorDefinitions.forEach((item) => {
       const enabled = Boolean(indicatorState[item.id]);
       const existingId = nextInstanceIds[item.id];
-      const paneOptions =
-        item.pane === "candle"
-          ? { id: "candle_pane" }
-          : { id: `sn_${item.id}_pane`, height: item.height ?? 120 };
+
+      let paneOptions: Record<string, unknown>;
+      if (item.pane === "candle") {
+        paneOptions = { id: "candle_pane" };
+      } else if (item.id === "volume") {
+        // Volume pane: minimal y-axis, no gap from candle pane
+        paneOptions = {
+          id: `sn_${item.id}_pane`,
+          height: item.height ?? 80,
+          minHeight: 60,
+          dragEnabled: false,
+          gap: { top: 0, bottom: 0 },
+          axis: {
+            show: true,
+            axisLine: { show: false },
+            tickLine: { show: false },
+            tickText: { show: true },
+          },
+        };
+      } else {
+        paneOptions = { id: `sn_${item.id}_pane`, height: item.height ?? 120 };
+      }
 
       if (enabled && !existingId) {
         nextInstanceIds[item.id] = chart.createIndicator(
@@ -1421,6 +1439,13 @@
             weight: 500,
           },
         },
+        bars: [
+          {
+            upColor: "rgba(34, 171, 148, 0.5)",
+            downColor: "rgba(242, 54, 69, 0.5)",
+            noChangeColor: "rgba(136, 136, 136, 0.5)",
+          },
+        ],
       },
       xAxis: {
         axisLine: { show: true, color: axisLineColor, size: 1 },
@@ -1496,10 +1521,10 @@
         },
       },
       separator: {
-        size: 1,
-        color: axisLineColor,
-        fill: true,
-        activeBackgroundColor: activePaneBg,
+        size: 0,
+        color: "transparent",
+        fill: false,
+        activeBackgroundColor: "transparent",
       },
     });
   }
