@@ -19,6 +19,7 @@
   import CircleIcon from "lucide-svelte/icons/circle";
 
   import EraserIcon from "lucide-svelte/icons/eraser";
+  import GitFork from "lucide-svelte/icons/git-fork";
   import Trash2 from "lucide-svelte/icons/trash-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
@@ -712,6 +713,7 @@
   const tools = [
     { id: "cursor", label: "Cursor", icon: MousePointer2 },
     { id: "trend", label: "Trend Line", icon: TrendingUp },
+    { id: "fib", label: "Fib Retracement", icon: GitFork },
     { id: "line", label: "Line", icon: SlashIcon },
     { id: "rect", label: "Rectangle", icon: SquareIcon },
     { id: "circle", label: "Circle", icon: CircleIcon },
@@ -731,6 +733,7 @@
     trend: "segment",
     ray: "rayLine",
     line: "straightLine",
+    fib: "fibonacciLine",
     rect: "rect",
     circle: "circle",
     brush: "brush",
