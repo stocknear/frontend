@@ -969,6 +969,11 @@
     const chartRect = chartContainer.getBoundingClientRect();
     const chartWidth = chartRect.width;
 
+    // Get the date range from historical price data
+    const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
+    const maxTimestamp =
+      dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
+
     // Create markers for each earnings date
     const markers: EarningsMarker[] = [];
 
@@ -978,6 +983,15 @@
       // Convert earnings date to timestamp (start of day in NY timezone)
       const earningsDate = DateTime.fromISO(earnings.date, { zone });
       const timestamp = earningsDate.startOf("day").toMillis();
+
+      // Skip earnings outside the historical price date range
+      if (
+        minTimestamp !== null &&
+        maxTimestamp !== null &&
+        (timestamp < minTimestamp || timestamp > maxTimestamp)
+      ) {
+        continue;
+      }
 
       // Convert timestamp to pixel position
       const pixel = chart.convertToPixel({ timestamp });
@@ -1055,6 +1069,11 @@
     const chartRect = chartContainer.getBoundingClientRect();
     const chartWidth = chartRect.width;
 
+    // Get the date range from historical price data
+    const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
+    const maxTimestamp =
+      dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
+
     // Create markers for each dividend date
     const markers: DividendMarker[] = [];
 
@@ -1064,6 +1083,15 @@
       // Convert dividend date to timestamp (start of day in NY timezone)
       const dividendDate = DateTime.fromISO(dividend.date, { zone });
       const timestamp = dividendDate.startOf("day").toMillis();
+
+      // Skip dividends outside the historical price date range
+      if (
+        minTimestamp !== null &&
+        maxTimestamp !== null &&
+        (timestamp < minTimestamp || timestamp > maxTimestamp)
+      ) {
+        continue;
+      }
 
       // Convert timestamp to pixel position
       const pixel = chart.convertToPixel({ timestamp });
