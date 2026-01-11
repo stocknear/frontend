@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     "X-API-KEY": apiKey,
   };
 
-  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, earningsRes, nextEarningsRes, dividendRes] =
+  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, earningsRes, nextEarningsRes, dividendRes, wiimRes] =
     await Promise.all([
     fetch(apiURL + "/historical-adj-price", {
       method: "POST",
@@ -53,6 +53,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
       body: payload,
     }),
     fetch(apiURL + "/stock-dividend", {
+      method: "POST",
+      headers,
+      body: payload,
+    }),
+    fetch(apiURL + "/wiim", {
       method: "POST",
       headers,
       body: payload,
@@ -137,6 +142,15 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }
   }
 
+  let getWhyPriceMoved: any[] = [];
+  if (wiimRes.ok) {
+    try {
+      getWhyPriceMoved = await wiimRes.json();
+    } catch {
+      getWhyPriceMoved = [];
+    }
+  }
+
   const getAllStrategies = async () => {
     if (!user) return [];
     try {
@@ -162,5 +176,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     historicalEarnings,
     nextEarnings,
     historicalDividends,
+    getWhyPriceMoved,
   };
 };

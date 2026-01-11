@@ -49,6 +49,7 @@
     activeRange: string;
     showEarnings?: boolean;
     showDividends?: boolean;
+    showNewsFlow?: boolean;
   }
 
   const loadChartSettings = (): ChartSettings | null => {
@@ -150,6 +151,26 @@
   let showDividends = false;
   let selectedDividend: DividendData | null = null;
   let dividendPopupPosition = { x: 0, y: 0 };
+
+  // News Flow (WIIM) marker types and state
+  interface NewsData {
+    date: string;
+    text: string;
+    changesPercentage: number | string;
+  }
+
+  interface NewsMarker {
+    news: NewsData;
+    timestamp: number;
+    x: number;
+    visible: boolean;
+  }
+
+  let newsFlowData: NewsData[] = [];
+  let newsMarkers: NewsMarker[] = [];
+  let showNewsFlow = false;
+  let selectedNews: NewsData | null = null;
+  let newsPopupPosition = { x: 0, y: 0 };
 
   // GEX/DEX (Gamma/Delta Exposure) types and state
   interface GexDexStrikeData {
@@ -254,6 +275,7 @@
       ...currentSettings,
       showEarnings,
       showDividends,
+      showNewsFlow,
     });
   };
 
@@ -1661,6 +1683,95 @@
   // Close dividend popup
   const closeDividendPopup = () => {
     selectedDividend = null;
+  };
+
+  // Update news flow marker positions based on visible chart range
+  const updateNewsMarkers = () => {
+    if (!chart || !chartContainer || !isNonIntradayRange(activeRange)) {
+      newsMarkers = [];
+      return;
+    }
+
+    const chartRect = chartContainer.getBoundingClientRect();
+    const chartWidth = chartRect.width;
+
+    // Get the date range from historical price data
+    const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
+    const maxTimestamp =
+      dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
+
+    // Create markers for each news date
+    const markers: NewsMarker[] = [];
+
+    for (const news of newsFlowData) {
+      if (!news.date) continue;
+
+      // Convert news date to timestamp (start of day in NY timezone)
+      const newsDate = DateTime.fromSQL(news.date, { zone });
+      const timestamp = newsDate.startOf("day").toMillis();
+
+      // Skip news outside the historical price date range
+      if (
+        minTimestamp !== null &&
+        maxTimestamp !== null &&
+        (timestamp < minTimestamp || timestamp > maxTimestamp)
+      ) {
+        continue;
+      }
+
+      // Convert timestamp to pixel position
+      const pixel = chart.convertToPixel({ timestamp });
+
+      if (pixel && typeof pixel.x === "number") {
+        // Check if marker is within visible chart area (with some padding)
+        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+
+        markers.push({
+          news,
+          timestamp,
+          x: pixel.x,
+          visible,
+        });
+      }
+    }
+
+    newsMarkers = markers;
+  };
+
+  // Handle news marker click
+  const handleNewsClick = (marker: NewsMarker, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedNews = marker.news;
+
+    // Position popup near the click but ensure it stays on screen
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      let x = marker.x;
+      let y = rect.height - 100; // Position above the volume area
+
+      // Ensure popup doesn't go off screen
+      if (x < 150) x = 150;
+      if (x > rect.width - 150) x = rect.width - 150;
+
+      newsPopupPosition = { x, y };
+    }
+  };
+
+  // Close news popup
+  const closeNewsPopup = () => {
+    selectedNews = null;
+  };
+
+  // Get news marker color based on changesPercentage
+  const getNewsMarkerColor = (changesPercentage: number | string): string => {
+    if (changesPercentage === '-' || changesPercentage === null || changesPercentage === undefined) {
+      return '#9ca3af'; // gray/white
+    }
+    const numValue = typeof changesPercentage === 'string' ? parseFloat(changesPercentage) : changesPercentage;
+    if (isNaN(numValue)) return '#9ca3af';
+    if (numValue > 0) return '#10B981'; // green
+    if (numValue < 0) return '#EF4444'; // red
+    return '#9ca3af'; // neutral/white
   };
 
   // Fetch GEX/DEX strike data from API
@@ -3820,11 +3931,13 @@
       if (["Plus", "Pro"].includes(data?.user?.tier)) {
         showEarnings = savedSettings.showEarnings ?? true;
         showDividends = savedSettings.showDividends ?? true;
+        showNewsFlow = savedSettings.showNewsFlow ?? true;
       }
     } else if (["Plus", "Pro"].includes(data?.user?.tier)) {
       // Default to true for subscribed users if no settings saved
       showEarnings = true;
       showDividends = true;
+      showNewsFlow = true;
     }
 
     if (!data?.user) {
@@ -3917,6 +4030,11 @@
     chart.subscribeAction("onZoom", updateDividendMarkers);
     chart.subscribeAction("onVisibleRangeChange", updateDividendMarkers);
 
+    // Subscribe to chart events for news flow marker position updates
+    chart.subscribeAction("onScroll", updateNewsMarkers);
+    chart.subscribeAction("onZoom", updateNewsMarkers);
+    chart.subscribeAction("onVisibleRangeChange", updateNewsMarkers);
+
     // Subscribe to chart events for GEX/DEX/OI level position updates
     chart.subscribeAction("onScroll", updateGexLevels);
     chart.subscribeAction("onZoom", updateGexLevels);
@@ -3982,6 +4100,9 @@
       chart.unsubscribeAction("onScroll", updateDividendMarkers);
       chart.unsubscribeAction("onZoom", updateDividendMarkers);
       chart.unsubscribeAction("onVisibleRangeChange", updateDividendMarkers);
+      chart.unsubscribeAction("onScroll", updateNewsMarkers);
+      chart.unsubscribeAction("onZoom", updateNewsMarkers);
+      chart.unsubscribeAction("onVisibleRangeChange", updateNewsMarkers);
       chart.unsubscribeAction("onScroll", updateGexLevels);
       chart.unsubscribeAction("onZoom", updateGexLevels);
       chart.unsubscribeAction("onVisibleRangeChange", updateGexLevels);
@@ -4090,6 +4211,7 @@
     historicalEarnings = data?.historicalEarnings ?? [];
     nextEarnings = data?.nextEarnings ?? null;
     historicalDividends = data?.historicalDividends ?? [];
+    newsFlowData = data?.getWhyPriceMoved ?? [];
   }
 
   $: if (
@@ -4142,6 +4264,13 @@
     activeRange;
     // Small delay to ensure chart has rendered
     setTimeout(updateDividendMarkers, 100);
+  }
+
+  // Update news flow markers when range or data changes
+  $: if (chart && newsFlowData) {
+    activeRange;
+    // Small delay to ensure chart has rendered
+    setTimeout(updateNewsMarkers, 100);
   }
 
   // Track ticker for GEX/DEX/OI refetch
@@ -4651,6 +4780,51 @@
                         checked={showDividends}
                         on:change={() => {
                           showDividends = !showDividends;
+                          saveEventSettings();
+                        }}
+                      />
+                      <div
+                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                      ></div>
+                    {:else}
+                      <button
+                        type="button"
+                        on:click|stopPropagation={() => goto("/pricing")}
+                        class="text-neutral-500 hover:text-neutral-300 transition"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                      </button>
+                    {/if}
+                  </div>
+                </label>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer"
+                on:click={(e) => e.preventDefault()}
+              >
+                <label
+                  class="inline-flex justify-between w-full items-center cursor-pointer"
+                  on:click|stopPropagation
+                  on:pointerdown|stopPropagation
+                >
+                  <span>News Flow</span>
+                  <div class="relative ml-4 flex items-center">
+                    {#if isSubscribed}
+                      <input
+                        type="checkbox"
+                        class="sr-only peer"
+                        checked={showNewsFlow}
+                        on:change={() => {
+                          showNewsFlow = !showNewsFlow;
                           saveEventSettings();
                         }}
                       />
@@ -5586,6 +5760,102 @@
             class="fixed inset-0 z-[6] cursor-default"
             on:click={closeDividendPopup}
             aria-label="Close dividend popup"
+          ></button>
+        {/if}
+
+        <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
+        {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[5]">
+            {#each newsMarkers as marker (marker.timestamp)}
+              {#if marker?.visible}
+                <button
+                  class="absolute bottom-[115px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px"
+                  on:click={(e) => handleNewsClick(marker, e)}
+                  aria-label="View news details"
+                >
+                  <svg
+                    width="24"
+                    height="30"
+                    viewBox="0 0 18 22"
+                    class="drop-shadow-md"
+                  >
+                    <path
+                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                      fill={getNewsMarkerColor(marker.news.changesPercentage)}
+                    />
+                    <text
+                      x="9"
+                      y="11"
+                      text-anchor="middle"
+                      dominant-baseline="middle"
+                      fill="white"
+                      font-size="10"
+                      font-weight="bold"
+                      font-family="system-ui, sans-serif">N</text
+                    >
+                  </svg>
+                </button>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- News popup -->
+        {#if selectedNews}
+          <div
+            class="absolute z-[7] pointer-events-auto"
+            style="left: {newsPopupPosition.x}px; top: {newsPopupPosition.y}px; transform: translate(-50%, -100%)"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[300px] max-w-[380px]"
+            >
+              <!-- Header -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <h3 class="text-white font-semibold">Why Price Moved</h3>
+                {#if selectedNews.changesPercentage !== '-' && selectedNews.changesPercentage !== null}
+                  <span class={`text-sm font-semibold ${
+                    typeof selectedNews.changesPercentage === 'number'
+                      ? selectedNews.changesPercentage > 0
+                        ? 'text-emerald-400'
+                        : selectedNews.changesPercentage < 0
+                          ? 'text-red-400'
+                          : 'text-neutral-400'
+                      : parseFloat(String(selectedNews.changesPercentage)) > 0
+                        ? 'text-emerald-400'
+                        : parseFloat(String(selectedNews.changesPercentage)) < 0
+                          ? 'text-red-400'
+                          : 'text-neutral-400'
+                  }`}>
+                    {typeof selectedNews.changesPercentage === 'number'
+                      ? (selectedNews.changesPercentage > 0 ? '+' : '') + selectedNews.changesPercentage.toFixed(2) + '%'
+                      : (parseFloat(String(selectedNews.changesPercentage)) > 0 ? '+' : '') + selectedNews.changesPercentage + '%'}
+                  </span>
+                {/if}
+              </div>
+
+              <!-- Date -->
+              <div class="text-xs text-neutral-500 mb-2">
+                {new Date(selectedNews.date).toLocaleDateString("en-US", {
+                  weekday: 'short',
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </div>
+
+              <!-- News Text -->
+              <p class="text-neutral-200 text-sm leading-relaxed">
+                {selectedNews.text}
+              </p>
+            </div>
+          </div>
+
+          <!-- Click outside to close -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default"
+            on:click={closeNewsPopup}
+            aria-label="Close news popup"
           ></button>
         {/if}
 
