@@ -636,8 +636,8 @@
               </div>
             </div>
             {#if stockList?.length > 0}
-              <!-- Mobile Card View -->
-              {#if $screenWidth < 640}
+              <!-- Mobile Card View (only show when screenWidth is set and < 640) -->
+              {#if $screenWidth > 0 && $screenWidth < 640}
                 <div class="mt-4 mb-4 space-y-3">
                   {#each stockList as item, index}
                     <div

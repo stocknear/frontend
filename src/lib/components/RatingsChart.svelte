@@ -16,8 +16,8 @@
   let historicalData = [];
   let timePeriod = "1Y";
 
-  // Mobile-responsive values
-  $: isMobile = $screenWidth < 640;
+  // Mobile-responsive values (only true when screenWidth is set and < 640)
+  $: isMobile = $screenWidth > 0 && $screenWidth < 640;
   $: chartHeight = 360;
   $: markerRadius = isMobile ? 4 : 6;
   $: labelFontSize = isMobile ? "11px" : "14px";
