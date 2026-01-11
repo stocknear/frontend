@@ -4418,11 +4418,11 @@
       <div class="flex items-center px-1 py-0.5 gap-0.5 overflow-x-auto">
         <!-- Toolbar Toggle -->
         <button
-          class="hidden sm:flex h-7 w-7 items-center justify-center text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+          class="cursor-pointer hidden sm:flex h-7 w-7 items-center justify-center text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
-          <svg viewBox="0 0 28 28" class="h-[18px] w-[18px] fill-current">
+          <svg viewBox="0 0 28 28" class="size-5 fill-current flex-shrink-0">
             <path
               d="M4 13h5v1H4v-1zM4 9h9v1H4V9zM4 17h9v1H4v-1zM24 9H14v1h9.02l-.01.01L18 15.02V17l5.5-5.5h.01l.49-.5V9z"
             />
@@ -4432,8 +4432,47 @@
         <!-- Separator -->
         <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
 
-        <!-- Time Intervals - Inline Buttons -->
-        <div class="flex items-center">
+        <!-- Time Intervals - Dropdown for mobile, inline buttons for sm+ -->
+        <!-- Mobile Dropdown -->
+        <div class="sm:hidden">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <button
+                use:builder.action
+                {...builder}
+                class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+              >
+                <Timer class="h-4 w-4" />
+                <span>{activeRange}</span>
+                <ChevronDown class="h-3 w-3" />
+              </button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content
+              side="bottom"
+              align="start"
+              sideOffset={4}
+              class="w-24 rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
+            >
+              <DropdownMenu.Group>
+                {#each timeframes as frame}
+                  <DropdownMenu.Item
+                    class={`px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                      activeRange === frame
+                        ? "text-white bg-violet-600"
+                        : "text-neutral-300 hover:bg-neutral-800"
+                    }`}
+                    on:click={() => setRange(frame)}
+                  >
+                    {frame}
+                  </DropdownMenu.Item>
+                {/each}
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
+
+        <!-- Desktop Inline Buttons -->
+        <div class="hidden sm:flex items-center">
           {#each timeframes as frame}
             <button
               class={`cursor-pointer px-2 py-1 text-xs font-medium rounded transition ${
@@ -4457,9 +4496,12 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+              class="cursor-pointer flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
             >
-              <svelte:component this={currentChartType?.icon} class="h-4 w-4" />
+              <svelte:component
+                this={currentChartType?.icon}
+                class="h-4 w-4 flex-shrink-0"
+              />
               <ChevronDown class="h-3 w-3" />
             </button>
           </DropdownMenu.Trigger>
@@ -4472,14 +4514,13 @@
             <DropdownMenu.Group>
               {#each chartTypeOptions as option}
                 <DropdownMenu.Item
-                  class={`flex items-center gap-2 px-2 py-1.5 text-xs rounded cursor-pointer transition ${
+                  class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer transition ${
                     chartType === option.id
                       ? "text-white bg-violet-600"
                       : "text-neutral-300 hover:bg-neutral-800"
                   }`}
                   on:click={() => setChartType(option.id)}
                 >
-                  <svelte:component this={option.icon} class="h-4 w-4" />
                   {option.label}
                 </DropdownMenu.Item>
               {/each}
@@ -4494,7 +4535,7 @@
         <label
           for="indicatorModal"
           on:click={() => (indicatorSearchTerm = "")}
-          class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -4524,7 +4565,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -4548,7 +4589,7 @@
           >
             <DropdownMenu.Group>
               <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer"
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer"
                 on:click={(e) => e.preventDefault()}
               >
                 <label
@@ -4593,7 +4634,7 @@
                 </label>
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer"
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer"
                 on:click={(e) => e.preventDefault()}
               >
                 <label
@@ -4650,7 +4691,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -4678,7 +4719,7 @@
           >
             <label
               for={!data?.user ? "userLogin" : "addChartStrategy"}
-              class="flex items-center gap-2 px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+              class="flex items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
             >
               <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                 <path
@@ -4697,7 +4738,7 @@
                     on:click={() => {
                       switchStrategy(item);
                     }}
-                    class="flex items-center justify-between px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer {item?.id ===
+                    class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer {item?.id ===
                     selectedStrategy
                       ? 'text-violet-400'
                       : 'text-neutral-200'}"
@@ -4720,7 +4761,7 @@
                   </DropdownMenu.Item>
                 {/each}
               {:else}
-                <div class="px-2 py-1.5 text-xs text-neutral-500">
+                <div class="px-2 py-1.5 text-sm text-neutral-500">
                   No saved strategies
                 </div>
               {/if}
@@ -4733,7 +4774,7 @@
 
           <button
             on:click={() => handleSave(true)}
-            class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -4751,7 +4792,7 @@
           {#if strategyList?.length > 0}
             <label
               for={!data?.user ? "userLogin" : "addChartStrategy"}
-              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -4774,7 +4815,7 @@
 
           <a
             href={detailedAnalysisHref}
-            class="whitespace-nowrap flex items-center gap-1 px-2 py-1 text-xs font-medium text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+            class="whitespace-nowrap flex items-center gap-1 px-2 py-1 text-sm font-medium text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
             aria-label="Detailed Analysis"
           >
             <span>Detailed Analysis</span>
