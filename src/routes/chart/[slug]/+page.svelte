@@ -29,6 +29,31 @@
   export let form;
 
   const zone = "America/New_York";
+
+  // Throttle utility for performance optimization
+  function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): T {
+    let lastCall = 0;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    return ((...args: Parameters<T>) => {
+      const now = Date.now();
+      const remaining = delay - (now - lastCall);
+      if (remaining <= 0) {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+        lastCall = now;
+        fn(...args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(() => {
+          lastCall = Date.now();
+          timeoutId = null;
+          fn(...args);
+        }, remaining);
+      }
+    }) as T;
+  }
+
   const timeframes = [
     "1min",
     "5min",
@@ -171,6 +196,11 @@
   let showNewsFlow = false;
   let selectedNews: NewsData | null = null;
   let newsPopupPosition = { x: 0, y: 0 };
+
+  // Cached timestamp maps for performance (avoid re-computing on every scroll/zoom)
+  let earningsTimestampCache = new Map<EarningsData, number>();
+  let dividendTimestampCache = new Map<DividendData, number>();
+  let newsTimestampCache = new Map<NewsData, number>();
 
   // GEX/DEX (Gamma/Delta Exposure) types and state
   interface GexDexStrikeData {
@@ -1523,15 +1553,12 @@
     const maxTimestamp =
       dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
 
-    // Create markers for each earnings date
+    // Create markers for each earnings date (using cached timestamps)
     const markers: EarningsMarker[] = [];
 
     for (const earnings of historicalEarnings) {
-      if (!earnings.date) continue;
-
-      // Convert earnings date to timestamp (start of day in NY timezone)
-      const earningsDate = DateTime.fromISO(earnings.date, { zone });
-      const timestamp = earningsDate.startOf("day").toMillis();
+      const timestamp = earningsTimestampCache.get(earnings);
+      if (timestamp === undefined) continue;
 
       // Skip earnings outside the historical price date range
       if (
@@ -1623,15 +1650,12 @@
     const maxTimestamp =
       dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
 
-    // Create markers for each dividend date
+    // Create markers for each dividend date (using cached timestamps)
     const markers: DividendMarker[] = [];
 
     for (const dividend of historicalDividends) {
-      if (!dividend.date) continue;
-
-      // Convert dividend date to timestamp (start of day in NY timezone)
-      const dividendDate = DateTime.fromISO(dividend.date, { zone });
-      const timestamp = dividendDate.startOf("day").toMillis();
+      const timestamp = dividendTimestampCache.get(dividend);
+      if (timestamp === undefined) continue;
 
       // Skip dividends outside the historical price date range
       if (
@@ -1700,15 +1724,12 @@
     const maxTimestamp =
       dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
 
-    // Create markers for each news date
+    // Create markers for each news date (using cached timestamps)
     const markers: NewsMarker[] = [];
 
     for (const news of newsFlowData) {
-      if (!news.date) continue;
-
-      // Convert news date to timestamp (start of day in NY timezone)
-      const newsDate = DateTime.fromSQL(news.date, { zone });
-      const timestamp = newsDate.startOf("day").toMillis();
+      const timestamp = newsTimestampCache.get(news);
+      if (timestamp === undefined) continue;
 
       // Skip news outside the historical price date range
       if (
@@ -2343,6 +2364,20 @@
   const closeHottestPopup = () => {
     selectedHottestLevel = null;
   };
+
+  // Unified function to update all chart overlays (markers and levels)
+  const updateAllOverlays = () => {
+    updateEarningsMarkers();
+    updateDividendMarkers();
+    updateNewsMarkers();
+    updateGexLevels();
+    updateDexLevels();
+    updateOiLevels();
+    updateHottestLevels();
+  };
+
+  // Throttled version for scroll/zoom events (16ms = ~60fps)
+  const throttledUpdateOverlays = throttle(updateAllOverlays, 16);
 
   // Format expiration date for display
   const formatExpiration = (dateStr: string): string => {
@@ -4034,34 +4069,10 @@
 
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
 
-    // Subscribe to chart events for earnings marker position updates
-    chart.subscribeAction("onScroll", updateEarningsMarkers);
-    chart.subscribeAction("onZoom", updateEarningsMarkers);
-    chart.subscribeAction("onVisibleRangeChange", updateEarningsMarkers);
-
-    // Subscribe to chart events for dividend marker position updates
-    chart.subscribeAction("onScroll", updateDividendMarkers);
-    chart.subscribeAction("onZoom", updateDividendMarkers);
-    chart.subscribeAction("onVisibleRangeChange", updateDividendMarkers);
-
-    // Subscribe to chart events for news flow marker position updates
-    chart.subscribeAction("onScroll", updateNewsMarkers);
-    chart.subscribeAction("onZoom", updateNewsMarkers);
-    chart.subscribeAction("onVisibleRangeChange", updateNewsMarkers);
-
-    // Subscribe to chart events for GEX/DEX/OI level position updates
-    chart.subscribeAction("onScroll", updateGexLevels);
-    chart.subscribeAction("onZoom", updateGexLevels);
-    chart.subscribeAction("onVisibleRangeChange", updateGexLevels);
-    chart.subscribeAction("onScroll", updateDexLevels);
-    chart.subscribeAction("onZoom", updateDexLevels);
-    chart.subscribeAction("onVisibleRangeChange", updateDexLevels);
-    chart.subscribeAction("onScroll", updateOiLevels);
-    chart.subscribeAction("onZoom", updateOiLevels);
-    chart.subscribeAction("onVisibleRangeChange", updateOiLevels);
-    chart.subscribeAction("onScroll", updateHottestLevels);
-    chart.subscribeAction("onZoom", updateHottestLevels);
-    chart.subscribeAction("onVisibleRangeChange", updateHottestLevels);
+    // Subscribe to chart events for overlay updates (throttled for performance)
+    chart.subscribeAction("onScroll", throttledUpdateOverlays);
+    chart.subscribeAction("onZoom", throttledUpdateOverlays);
+    chart.subscribeAction("onVisibleRangeChange", throttledUpdateOverlays);
 
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
@@ -4108,27 +4119,9 @@
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
-      chart.unsubscribeAction("onScroll", updateEarningsMarkers);
-      chart.unsubscribeAction("onZoom", updateEarningsMarkers);
-      chart.unsubscribeAction("onVisibleRangeChange", updateEarningsMarkers);
-      chart.unsubscribeAction("onScroll", updateDividendMarkers);
-      chart.unsubscribeAction("onZoom", updateDividendMarkers);
-      chart.unsubscribeAction("onVisibleRangeChange", updateDividendMarkers);
-      chart.unsubscribeAction("onScroll", updateNewsMarkers);
-      chart.unsubscribeAction("onZoom", updateNewsMarkers);
-      chart.unsubscribeAction("onVisibleRangeChange", updateNewsMarkers);
-      chart.unsubscribeAction("onScroll", updateGexLevels);
-      chart.unsubscribeAction("onZoom", updateGexLevels);
-      chart.unsubscribeAction("onVisibleRangeChange", updateGexLevels);
-      chart.unsubscribeAction("onScroll", updateDexLevels);
-      chart.unsubscribeAction("onZoom", updateDexLevels);
-      chart.unsubscribeAction("onVisibleRangeChange", updateDexLevels);
-      chart.unsubscribeAction("onScroll", updateOiLevels);
-      chart.unsubscribeAction("onZoom", updateOiLevels);
-      chart.unsubscribeAction("onVisibleRangeChange", updateOiLevels);
-      chart.unsubscribeAction("onScroll", updateHottestLevels);
-      chart.unsubscribeAction("onZoom", updateHottestLevels);
-      chart.unsubscribeAction("onVisibleRangeChange", updateHottestLevels);
+      chart.unsubscribeAction("onScroll", throttledUpdateOverlays);
+      chart.unsubscribeAction("onZoom", throttledUpdateOverlays);
+      chart.unsubscribeAction("onVisibleRangeChange", throttledUpdateOverlays);
       dispose(chart);
     }
     chart = null;
@@ -4226,6 +4219,31 @@
     nextEarnings = data?.nextEarnings ?? null;
     historicalDividends = data?.historicalDividends ?? [];
     newsFlowData = data?.getWhyPriceMoved ?? [];
+
+    // Pre-compute and cache timestamps for markers (avoids recalculation on scroll/zoom)
+    earningsTimestampCache = new Map();
+    for (const earnings of historicalEarnings) {
+      if (earnings.date) {
+        const dt = DateTime.fromISO(earnings.date, { zone });
+        if (dt.isValid) earningsTimestampCache.set(earnings, dt.startOf("day").toMillis());
+      }
+    }
+
+    dividendTimestampCache = new Map();
+    for (const dividend of historicalDividends) {
+      if (dividend.date) {
+        const dt = DateTime.fromISO(dividend.date, { zone });
+        if (dt.isValid) dividendTimestampCache.set(dividend, dt.startOf("day").toMillis());
+      }
+    }
+
+    newsTimestampCache = new Map();
+    for (const news of newsFlowData) {
+      if (news.date) {
+        const dt = DateTime.fromSQL(news.date, { zone });
+        if (dt.isValid) newsTimestampCache.set(news, dt.startOf("day").toMillis());
+      }
+    }
   }
 
   $: if (
@@ -4266,25 +4284,28 @@
     applyRange(activeRange);
   }
 
-  // Update earnings markers when range or data changes
-  $: if (chart && historicalEarnings) {
+  // Batched update for all overlays when chart, range, or data changes
+  let overlayUpdateScheduled = false;
+  $: if (chart) {
+    // Track dependencies that should trigger overlay update
     activeRange;
-    // Small delay to ensure chart has rendered
-    setTimeout(updateEarningsMarkers, 100);
-  }
+    historicalEarnings;
+    historicalDividends;
+    newsFlowData;
+    gexStrikeData;
+    dexStrikeData;
+    oiStrikeData;
+    hottestContractsData;
+    indicatorState;
 
-  // Update dividend markers when range or data changes
-  $: if (chart && historicalDividends) {
-    activeRange;
-    // Small delay to ensure chart has rendered
-    setTimeout(updateDividendMarkers, 100);
-  }
-
-  // Update news flow markers when range or data changes
-  $: if (chart && newsFlowData) {
-    activeRange;
-    // Small delay to ensure chart has rendered
-    setTimeout(updateNewsMarkers, 100);
+    // Schedule single batched update using requestAnimationFrame
+    if (!overlayUpdateScheduled) {
+      overlayUpdateScheduled = true;
+      requestAnimationFrame(() => {
+        overlayUpdateScheduled = false;
+        updateAllOverlays();
+      });
+    }
   }
 
   // Track ticker for GEX/DEX/OI refetch
@@ -4315,26 +4336,6 @@
     if (indicatorState.hottest) {
       fetchHottestContractsData();
     }
-  }
-
-  // Update GEX levels when data changes or chart is ready
-  $: if (chart && indicatorState.gex && gexStrikeData.length > 0) {
-    setTimeout(updateGexLevels, 100);
-  }
-
-  // Update DEX levels when data changes or chart is ready
-  $: if (chart && indicatorState.dex && dexStrikeData.length > 0) {
-    setTimeout(updateDexLevels, 100);
-  }
-
-  // Update OI levels when data changes or chart is ready
-  $: if (chart && indicatorState.oi && oiStrikeData.length > 0) {
-    setTimeout(updateOiLevels, 100);
-  }
-
-  // Update Hottest Contracts levels when data changes or chart is ready
-  $: if (chart && indicatorState.hottest && hottestContractsData.length > 0) {
-    setTimeout(updateHottestLevels, 100);
   }
 
   $: if (chart) {
