@@ -3123,8 +3123,8 @@
         // Volume pane: minimal y-axis, no gap from candle pane
         paneOptions = {
           id: `sn_${item.id}_pane`,
-          height: item.height ?? 80,
-          minHeight: 60,
+          height: item.height ?? 120,
+          minHeight: 80,
           dragEnabled: false,
           gap: { top: 0, bottom: 0 },
           axis: {
@@ -4222,8 +4222,8 @@
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
       id: "sn_volume_pane",
-      height: 80,
-      minHeight: 60,
+      height: 120,
+      minHeight: 80,
       dragEnabled: false,
       gap: { top: 0, bottom: 0 },
       axis: {
