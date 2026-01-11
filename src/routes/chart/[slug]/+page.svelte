@@ -202,6 +202,9 @@
   let dividendTimestampCache = new Map<DividendData, number>();
   let newsTimestampCache = new Map<NewsData, number>();
 
+  // Cached chart rect for performance (avoid multiple getBoundingClientRect calls)
+  let cachedChartRect: DOMRect | null = null;
+
   // GEX/DEX (Gamma/Delta Exposure) types and state
   interface GexDexStrikeData {
     strike: number;
@@ -1540,13 +1543,12 @@
 
   // Update earnings marker positions based on visible chart range
   const updateEarningsMarkers = () => {
-    if (!chart || !chartContainer || !isNonIntradayRange(activeRange)) {
+    if (!chart || !chartContainer || !isNonIntradayRange(activeRange) || !cachedChartRect) {
       earningsMarkers = [];
       return;
     }
 
-    const chartRect = chartContainer.getBoundingClientRect();
-    const chartWidth = chartRect.width;
+    const chartWidth = cachedChartRect.width;
 
     // Get the date range from historical price data
     const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
@@ -1637,13 +1639,12 @@
 
   // Update dividend marker positions based on visible chart range
   const updateDividendMarkers = () => {
-    if (!chart || !chartContainer || !isNonIntradayRange(activeRange)) {
+    if (!chart || !chartContainer || !isNonIntradayRange(activeRange) || !cachedChartRect) {
       dividendMarkers = [];
       return;
     }
 
-    const chartRect = chartContainer.getBoundingClientRect();
-    const chartWidth = chartRect.width;
+    const chartWidth = cachedChartRect.width;
 
     // Get the date range from historical price data
     const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
@@ -1711,13 +1712,12 @@
 
   // Update news flow marker positions based on visible chart range
   const updateNewsMarkers = () => {
-    if (!chart || !chartContainer || !isNonIntradayRange(activeRange)) {
+    if (!chart || !chartContainer || !isNonIntradayRange(activeRange) || !cachedChartRect) {
       newsMarkers = [];
       return;
     }
 
-    const chartRect = chartContainer.getBoundingClientRect();
-    const chartWidth = chartRect.width;
+    const chartWidth = cachedChartRect.width;
 
     // Get the date range from historical price data
     const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
@@ -2367,6 +2367,9 @@
 
   // Unified function to update all chart overlays (markers and levels)
   const updateAllOverlays = () => {
+    // Cache chart rect once for all update functions (avoids layout thrashing)
+    cachedChartRect = chartContainer?.getBoundingClientRect() ?? null;
+
     updateEarningsMarkers();
     updateDividendMarkers();
     updateNewsMarkers();
@@ -2904,6 +2907,10 @@
     }
   }
 
+  // WebSocket batching state for performance
+  let pendingWsUpdate: any = null;
+  let wsUpdateScheduled = false;
+
   async function websocketRealtimeData() {
     if (!data?.wsURL || !ticker || typeof window === "undefined") return;
     if (
@@ -2926,10 +2933,25 @@
         try {
           const parsed = JSON.parse(event.data);
           const items = Array.isArray(parsed) ? parsed : [parsed];
-          items.forEach((item) => {
-            if (!item || (item.type !== "Q" && item.type !== "T")) return;
-            updateRealtimeBars(item);
-          });
+
+          // Queue only the latest valid update (skip stale intermediate data)
+          for (const item of items) {
+            if (item && (item.type === "Q" || item.type === "T")) {
+              pendingWsUpdate = item;
+            }
+          }
+
+          // Batch process on next animation frame
+          if (pendingWsUpdate && !wsUpdateScheduled) {
+            wsUpdateScheduled = true;
+            requestAnimationFrame(() => {
+              if (pendingWsUpdate) {
+                updateRealtimeBars(pendingWsUpdate);
+                pendingWsUpdate = null;
+              }
+              wsUpdateScheduled = false;
+            });
+          }
         } catch (error) {
           console.log(error);
         }
@@ -4104,9 +4126,9 @@
       });
     }
 
-    resizeObserver = new ResizeObserver(() => {
-      chart?.resize();
-    });
+    // Throttled resize handler to prevent lag during window resize
+    const throttledChartResize = throttle(() => chart?.resize(), 100);
+    resizeObserver = new ResizeObserver(throttledChartResize);
     resizeObserver.observe(chartRoot);
   });
 
