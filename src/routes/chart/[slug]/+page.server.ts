@@ -15,8 +15,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     "X-API-KEY": apiKey,
   };
 
-  // Check if user has Plus or Pro tier for events endpoints
-  const isSubscribed = ["Plus", "Pro"].includes(user?.tier);
+  // Check if user has Pro tier for events endpoints
+  const isSubscribed = user?.tier === "Pro";
 
   // Base API calls (always needed)
   const baseFetches = [
@@ -47,7 +47,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }),
   ];
 
-  // Events API calls (only for Plus/Pro subscribers)
+  // Events API calls (only for Pro subscribers)
   const eventsFetches = isSubscribed
     ? [
         fetch(apiURL + "/earnings-statistics", {

@@ -296,7 +296,7 @@
   let selectedHottestLevel: HottestLevel | null = null;
   let hottestPopupPosition = { x: 0, y: 0 };
 
-  $: isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
+  $: isSubscribed = data?.user?.tier === "Pro";
 
   // Save event toggle states to localStorage
   const saveEventSettings = () => {
@@ -3998,14 +3998,14 @@
       ) {
         activeRange = savedSettings.activeRange;
       }
-      // Load event toggle states for subscribed users
-      if (["Plus", "Pro"].includes(data?.user?.tier)) {
+      // Load event toggle states for Pro users
+      if (data?.user?.tier === "Pro") {
         showEarnings = savedSettings.showEarnings ?? true;
         showDividends = savedSettings.showDividends ?? true;
         showNewsFlow = savedSettings.showNewsFlow ?? true;
       }
-    } else if (["Plus", "Pro"].includes(data?.user?.tier)) {
-      // Default to true for subscribed users if no settings saved
+    } else if (data?.user?.tier === "Pro") {
+      // Default to true for Pro users if no settings saved
       showEarnings = true;
       showDividends = true;
       showNewsFlow = true;
