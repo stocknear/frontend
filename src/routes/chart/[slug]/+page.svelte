@@ -1442,19 +1442,58 @@
     dexLevels = levels;
   };
 
+  // Calculate popup position ensuring it stays within bounds
+  const calculatePopupPosition = (
+    event: MouseEvent,
+    popupWidth: number = 260,
+    popupHeight: number = 280,
+  ) => {
+    const rect = chartContainer?.getBoundingClientRect();
+    if (!rect) return { x: 0, y: 0 };
+
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+
+    // Calculate x position - try to center on click, but keep within bounds
+    let x = clickX - popupWidth / 2;
+    const padding = 10;
+
+    // Keep popup within chart bounds horizontally
+    if (x < padding) {
+      x = padding;
+    } else if (x + popupWidth > rect.width - padding) {
+      x = rect.width - popupWidth - padding;
+    }
+
+    // Calculate y position - show above click if near bottom, below if near top
+    let y: number;
+    const spaceBelow = rect.height - clickY;
+    const spaceAbove = clickY;
+
+    if (spaceBelow >= popupHeight + padding) {
+      // Show below click point
+      y = clickY + 15;
+    } else if (spaceAbove >= popupHeight + padding) {
+      // Show above click point
+      y = clickY - popupHeight - 15;
+    } else {
+      // Not enough space, center vertically
+      y = Math.max(padding, (rect.height - popupHeight) / 2);
+    }
+
+    // Ensure y stays within bounds
+    y = Math.max(padding, Math.min(y, rect.height - popupHeight - padding));
+
+    return { x, y };
+  };
+
   // Handle GEX level click
   const handleGexLevelClick = (level: GexDexLevel, event: MouseEvent) => {
     event.stopPropagation();
     selectedGexLevel = level;
     selectedDexLevel = null;
-
-    const rect = chartContainer?.getBoundingClientRect();
-    if (rect) {
-      gexDexPopupPosition = {
-        x: Math.min(event.clientX - rect.left, rect.width - 200),
-        y: Math.max(level.y - 80, 10),
-      };
-    }
+    selectedOiLevel = null;
+    gexDexPopupPosition = calculatePopupPosition(event);
   };
 
   // Handle DEX level click
@@ -1462,14 +1501,8 @@
     event.stopPropagation();
     selectedDexLevel = level;
     selectedGexLevel = null;
-
-    const rect = chartContainer?.getBoundingClientRect();
-    if (rect) {
-      gexDexPopupPosition = {
-        x: Math.min(event.clientX - rect.left, rect.width - 200),
-        y: Math.max(level.y - 80, 10),
-      };
-    }
+    selectedOiLevel = null;
+    gexDexPopupPosition = calculatePopupPosition(event);
   };
 
   // Close GEX/DEX popup
@@ -1611,14 +1644,7 @@
     selectedOiLevel = level;
     selectedGexLevel = null;
     selectedDexLevel = null;
-
-    const rect = chartContainer?.getBoundingClientRect();
-    if (rect) {
-      oiPopupPosition = {
-        x: Math.min(event.clientX - rect.left, rect.width - 200),
-        y: Math.max(level.y - 80, 10),
-      };
-    }
+    oiPopupPosition = calculatePopupPosition(event);
   };
 
   // Close OI popup
@@ -4347,12 +4373,12 @@
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-red-400"}>Surprise</span
+                          : "text-rose-600 dark:text-rose-400"}>Surprise</span
                       >
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-red-400"}
+                          : "text-rose-600 dark:text-rose-400"}
                       >
                         {surprise?.positive ? "+" : ""}{surprise?.value.toFixed(
                           2,
@@ -4373,7 +4399,7 @@
                         <span
                           class={yoy.positive
                             ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-red-400"}
+                            : "text-rose-600 dark:text-rose-400"}
                         >
                           {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
                         </span>
@@ -4416,12 +4442,12 @@
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-red-400"}>Surprise</span
+                          : "text-rose-600 dark:text-rose-400"}>Surprise</span
                       >
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-red-400"}
+                          : "text-rose-600 dark:text-rose-400"}
                       >
                         {surprise?.positive ? "+" : ""}{abbreviateNumber(
                           surprise?.value ?? 0,
@@ -4442,7 +4468,7 @@
                         <span
                           class={yoy.positive
                             ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-red-400"}
+                            : "text-rose-600 dark:text-rose-400"}
                         >
                           {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
                         </span>
@@ -4676,17 +4702,23 @@
         {#if selectedGexLevel || selectedDexLevel}
           {@const level = selectedGexLevel || selectedDexLevel}
           {@const isGex = selectedGexLevel !== null}
+          <!-- Click outside to close (behind popup) -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default bg-transparent"
+            on:click={closeGexDexPopup}
+            aria-label="Close GEX/DEX popup"
+          ></button>
           <div
-            class="absolute z-[7] pointer-events-auto"
+            class="absolute z-[7] pointer-events-auto w-[260px]"
             style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[240px]"
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
-              <div class="flex items-center gap-2 mb-3">
+              <div class="flex items-center gap-2 mb-2 sm:mb-3">
                 <div
-                  class="w-3 h-3 rounded-full"
+                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
                   style="background: {isGex
                     ? level?.isPositive
                       ? '#22c55e'
@@ -4695,11 +4727,11 @@
                       ? '#3b82f6'
                       : '#f97316'}"
                 ></div>
-                <h3 class="text-white font-semibold">
-                  {isGex ? "Gamma Exposure (GEX)" : "Delta Exposure (DEX)"}
+                <h3 class="text-white font-semibold text-sm sm:text-base truncate">
+                  {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
                   on:click={closeGexDexPopup}
                   aria-label="Close"
                 >
@@ -4720,9 +4752,9 @@
               </div>
 
               <!-- Strike info -->
-              <div class="text-sm space-y-2">
+              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                 <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Strike Price</span>
+                  <span class="text-neutral-500">Strike</span>
                   <span class="font-medium">${level?.strike.toFixed(2)}</span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
@@ -4732,22 +4764,20 @@
                   <span
                     class="font-medium {level?.isPositive
                       ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-red-400'}"
+                      : 'text-rose-600 dark:text-rose-400'}"
                   >
-                    {level?.isPositive ? "+" : ""}{level?.value?.toLocaleString(
-                      "en-US",
-                    ) || 0}
+                    {level?.isPositive ? "+" : ""}{level?.value?.toLocaleString("en-US") || 0}
                   </span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Call Exposure</span>
+                  <span class="text-neutral-500">Call</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
                     >+{level?.callValue?.toLocaleString("en-US") || 0}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Put Exposure</span>
-                  <span class="text-red-400"
+                  <span class="text-neutral-500">Put</span>
+                  <span class="text-rose-600 dark:text-rose-400"
                     >{level?.putValue?.toLocaleString("en-US") || 0}</span
                   >
                 </div>
@@ -4755,49 +4785,30 @@
 
               <!-- Explanation -->
               <div
-                class="mt-3 pt-3 border-t border-neutral-700 text-xs text-neutral-400"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
               >
                 {#if isGex}
                   {#if level?.isPositive}
-                    <p>
-                      Positive GEX: Price tends to be "pinned" near this level.
-                      Market makers sell into rallies, buy dips.
-                    </p>
+                    <p>Positive GEX: Price pinned here. MMs sell rallies, buy dips.</p>
                   {:else}
-                    <p>
-                      Negative GEX: Price can accelerate through this level.
-                      Increased volatility expected.
-                    </p>
+                    <p>Negative GEX: Price accelerates. Higher volatility expected.</p>
                   {/if}
                 {:else if level?.isPositive}
-                  <p>
-                    Positive DEX: Dealers are net long delta. They will sell
-                    into rallies and buy dips (mean-reverting).
-                  </p>
+                  <p>Positive DEX: Dealers long delta. Mean-reverting behavior.</p>
                 {:else}
-                  <p>
-                    Negative DEX: Dealers are net short delta. They will buy
-                    rallies and sell dips (trend-following).
-                  </p>
+                  <p>Negative DEX: Dealers short delta. Trend-following behavior.</p>
                 {/if}
               </div>
 
               <!-- Link to more details -->
               <a
                 href="/stocks/{ticker}/options/{isGex ? 'gex' : 'dex'}/strike"
-                class="block w-full text-center py-2 px-4 mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
-                View all {isGex ? "GEX" : "DEX"} levels
+                View all levels
               </a>
             </div>
           </div>
-
-          <!-- Click outside to close -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default"
-            on:click={closeGexDexPopup}
-            aria-label="Close GEX/DEX popup"
-          ></button>
         {/if}
 
         <!-- Open Interest (OI) horizontal levels overlay -->
@@ -4826,22 +4837,30 @@
 
         <!-- OI popup -->
         {#if selectedOiLevel}
+          <!-- Click outside to close (behind popup) -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default bg-transparent"
+            on:click={closeOiPopup}
+            aria-label="Close OI popup"
+          ></button>
           <div
-            class="absolute z-[7] pointer-events-auto"
+            class="absolute z-[7] pointer-events-auto w-[260px]"
             style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[240px]"
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
-              <div class="flex items-center gap-2 mb-3">
+              <div class="flex items-center gap-2 mb-2 sm:mb-3">
                 <div
-                  class="w-3 h-3 rounded-full"
+                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
                   style="background: #a855f7"
                 ></div>
-                <h3 class="text-white font-semibold">Open Interest (OI)</h3>
+                <h3 class="text-white font-semibold text-sm sm:text-base truncate">
+                  Open Interest (OI)
+                </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
                   on:click={closeOiPopup}
                   aria-label="Close"
                 >
@@ -4862,9 +4881,9 @@
               </div>
 
               <!-- Strike info -->
-              <div class="text-sm space-y-2">
+              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                 <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Strike Price</span>
+                  <span class="text-neutral-500">Strike</span>
                   <span class="font-medium"
                     >${selectedOiLevel.strike.toFixed(2)}</span
                   >
@@ -4878,21 +4897,21 @@
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Call OI</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
-                    >{selectedOiLevel?.callOi?.toLocaleString("en-US")}</span
+                    >{selectedOiLevel.callOi?.toLocaleString("en-US")}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Put OI</span>
-                  <span class="text-red-400"
-                    >{selectedOiLevel?.putOi?.toLocaleString("en-US")}</span
+                  <span class="text-rose-600 dark:text-rose-400"
+                    >{selectedOiLevel.putOi?.toLocaleString("en-US")}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Put/Call Ratio</span>
+                  <span class="text-neutral-500">P/C Ratio</span>
                   <span
                     class="font-medium {selectedOiLevel.callOi > 0 &&
                     selectedOiLevel.putOi / selectedOiLevel.callOi > 1
-                      ? 'text-red-400'
+                      ? 'text-rose-600 dark:text-rose-400'
                       : 'text-emerald-800 dark:text-emerald-400'}"
                   >
                     {selectedOiLevel.callOi > 0
@@ -4906,11 +4925,10 @@
 
               <!-- Explanation -->
               <div
-                class="mt-3 pt-3 border-t border-neutral-700 text-xs text-neutral-400"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
               >
                 <p>
-                  High open interest at this strike indicates significant
-                  positioning. This level may act as a magnet or
+                  High OI here indicates significant positioning. May act as
                   support/resistance.
                 </p>
               </div>
@@ -4918,19 +4936,12 @@
               <!-- Link to more details -->
               <a
                 href="/stocks/{ticker}/options/oi"
-                class="block w-full text-center py-2 px-4 mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
-                View all OI levels
+                View all levels
               </a>
             </div>
           </div>
-
-          <!-- Click outside to close -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default"
-            on:click={closeOiPopup}
-            aria-label="Close OI popup"
-          ></button>
         {/if}
 
         {#if !currentBars.length}

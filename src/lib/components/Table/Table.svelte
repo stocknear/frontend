@@ -2659,7 +2659,7 @@
                     : "-"}
                 {:else if column?.type === "decimalSign"}
                   {#if item[column.key] >= 0}
-                    <span class="text-emerald-600 dark:text-emerald-400"
+                    <span class="text-emerald-800 dark:text-emerald-400"
                       >+{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {:else if item[column.key] < 0}
@@ -2697,7 +2697,7 @@
                   {#if item[column.key] === null || item[column.key] === undefined}
                     <span>-</span>
                   {:else if item[column.key] > 0}
-                    <span class="text-emerald-600 dark:text-emerald-400"
+                    <span class="text-emerald-800 dark:text-emerald-400"
                       >+{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
@@ -2712,7 +2712,7 @@
                     class={["Bullish", "Buy", "Strong Buy"]?.includes(
                       item[column.key],
                     )
-                      ? "text-emerald-600 dark:text-emerald-400"
+                      ? "text-emerald-800 dark:text-emerald-400"
                       : ["Neutral", "Hold"]?.includes(item[column.key])
                         ? "text-[#E57C34] dark:text-yellow-500"
                         : ["Bearish", "Sell", "Strong Sell"]?.includes(
