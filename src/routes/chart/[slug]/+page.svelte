@@ -21,6 +21,8 @@
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
   import Trash2 from "lucide-svelte/icons/trash-2";
+  import IndentDecrease from "lucide-svelte/icons/indent-decrease";
+  import IndentIncrease from "lucide-svelte/icons/indent-increase";
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -4609,11 +4611,11 @@
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
-          <svg viewBox="0 0 28 28" class="size-5 fill-current flex-shrink-0">
-            <path
-              d="M4 13h5v1H4v-1zM4 9h9v1H4V9zM4 17h9v1H4v-1zM24 9H14v1h9.02l-.01.01L18 15.02V17l5.5-5.5h.01l.49-.5V9z"
-            />
-          </svg>
+          {#if toolbarExpanded}
+            <IndentDecrease class="size-5 flex-shrink-0" />
+          {:else}
+            <IndentIncrease class="size-5 flex-shrink-0" />
+          {/if}
         </button>
 
         <!-- Separator -->
