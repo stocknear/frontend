@@ -5,6 +5,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "options-gex": "/options-gex-dex",
   "options-dex": "/options-gex-dex",
   "options-oi": "/options-oi",
+  "hottest-contracts": "/hottest-contracts",
   // Add more indicator categories here as needed:
   // "dark-pool": "/dark-pool-data",
   // "institutional": "/institutional-flow",
@@ -37,6 +38,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     postData = {
       params: data?.ticker,
       category: "strike",
+    };
+  } else if (category === "hottest-contracts") {
+    postData = {
+      ticker: data?.ticker,
     };
   }
   // Add more category-specific payload builders here as needed

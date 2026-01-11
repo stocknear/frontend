@@ -213,6 +213,41 @@
   let selectedOiLevel: OiLevel | null = null;
   let oiPopupPosition = { x: 0, y: 0 };
 
+  // Hottest Contracts types and state
+  interface HottestContract {
+    strike_price: number;
+    option_type: "C" | "P";
+    date_expiration: string;
+    volume: number;
+    open_interest: number;
+    last: number;
+    high: number;
+    low: number;
+    iv: number;
+    total_premium: number;
+    option_symbol: string;
+  }
+
+  interface HottestLevel {
+    strike: number;
+    optionType: "C" | "P";
+    expiration: string;
+    volume: number;
+    openInterest: number;
+    iv: number;
+    premium: number;
+    last: number;
+    y: number;
+    visible: boolean;
+    intensity: number;
+  }
+
+  let hottestContractsData: HottestContract[] = [];
+  let hottestLevels: HottestLevel[] = [];
+  let hottestLoading = false;
+  let selectedHottestLevel: HottestLevel | null = null;
+  let hottestPopupPosition = { x: 0, y: 0 };
+
   $: isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
 
   // Save event toggle states to localStorage
@@ -567,6 +602,15 @@
       id: "oi",
       label: "Open Interest (OI)",
       indicatorName: "SN_OI",
+      category: "Options",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
+    },
+    {
+      id: "hottest",
+      label: "Hottest Contracts",
+      indicatorName: "SN_HOTTEST",
       category: "Options",
       defaultParams: [],
       pane: "candle",
@@ -1652,6 +1696,139 @@
     selectedOiLevel = null;
   };
 
+  // Fetch Hottest Contracts data from API
+  const fetchHottestContractsData = async () => {
+    if (!ticker || hottestLoading) return;
+
+    hottestLoading = true;
+
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ticker,
+          category: "hottest-contracts",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // The API returns { volume: [...], openInterest: [...] }
+      // We use the volume data for hottest contracts
+      const volumeData = result?.volume || [];
+
+      hottestContractsData = volumeData;
+      updateHottestLevels();
+    } catch (error) {
+      console.error("Failed to fetch Hottest Contracts data:", error);
+      hottestContractsData = [];
+      hottestLevels = [];
+    } finally {
+      hottestLoading = false;
+    }
+  };
+
+  // Update Hottest Contracts levels for rendering on chart
+  const updateHottestLevels = () => {
+    if (!chart || !chartContainer || hottestContractsData.length === 0) {
+      hottestLevels = [];
+      return;
+    }
+
+    // Get visible price range from chart
+    const visibleRange = chart.getVisibleRange();
+    if (!visibleRange) {
+      hottestLevels = [];
+      return;
+    }
+
+    // Get price range from visible bars
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    for (let i = visibleRange.from; i < visibleRange.to; i++) {
+      const bar = currentBars[i];
+      if (bar) {
+        minPrice = Math.min(minPrice, bar.low);
+        maxPrice = Math.max(maxPrice, bar.high);
+      }
+    }
+
+    // Add padding to price range
+    const padding = (maxPrice - minPrice) * 0.1;
+    minPrice -= padding;
+    maxPrice += padding;
+
+    // Filter contracts within visible price range
+    const visibleContracts = hottestContractsData.filter(
+      (item) => item.strike_price >= minPrice && item.strike_price <= maxPrice,
+    );
+
+    // Find max volume for intensity calculation
+    const maxVolume = Math.max(
+      ...visibleContracts.map((item) => item.volume || 0),
+      1,
+    );
+
+    // Sort by volume and take top 10 most significant levels
+    const sortedContracts = [...visibleContracts]
+      .sort((a, b) => (b.volume || 0) - (a.volume || 0))
+      .slice(0, 10);
+
+    // Convert to pixel positions
+    const levels: HottestLevel[] = [];
+    for (const item of sortedContracts) {
+      const pixel = chart.convertToPixel({ value: item.strike_price });
+      if (pixel && typeof pixel.y === "number") {
+        levels.push({
+          strike: item.strike_price,
+          optionType: item.option_type,
+          expiration: item.date_expiration,
+          volume: item.volume,
+          openInterest: item.open_interest,
+          iv: item.iv,
+          premium: item.total_premium,
+          last: item.last,
+          y: pixel.y,
+          visible: true,
+          intensity: (item.volume || 0) / maxVolume,
+        });
+      }
+    }
+
+    hottestLevels = levels;
+  };
+
+  // Handle Hottest Contracts level click
+  const handleHottestLevelClick = (level: HottestLevel, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedHottestLevel = level;
+    selectedGexLevel = null;
+    selectedDexLevel = null;
+    selectedOiLevel = null;
+    hottestPopupPosition = calculatePopupPosition(event);
+  };
+
+  // Close Hottest Contracts popup
+  const closeHottestPopup = () => {
+    selectedHottestLevel = null;
+  };
+
+  // Format expiration date for display
+  const formatExpiration = (dateStr: string): string => {
+    if (!dateStr) return "";
+    const parts = dateStr.split("-");
+    if (parts.length !== 3) return dateStr;
+    const [year, month, day] = parts;
+    return `${month}/${day}/${year?.slice(-2)}`;
+  };
+
   // Helper to get EPS value (handles both field naming conventions)
   const getEpsValue = (
     earnings: EarningsData | null,
@@ -2643,6 +2820,8 @@
         fetchGexDexData("dex");
       } else if (name === "oi" && oiStrikeData.length === 0) {
         fetchOiData();
+      } else if (name === "hottest" && hottestContractsData.length === 0) {
+        fetchHottestContractsData();
       }
     } else {
       // Clear data when disabled
@@ -2658,6 +2837,10 @@
         oiStrikeData = [];
         oiLevels = [];
         selectedOiLevel = null;
+      } else if (name === "hottest") {
+        hottestContractsData = [];
+        hottestLevels = [];
+        selectedHottestLevel = null;
       }
     }
   }
@@ -3335,6 +3518,9 @@
     chart.subscribeAction("onScroll", updateOiLevels);
     chart.subscribeAction("onZoom", updateOiLevels);
     chart.subscribeAction("onVisibleRangeChange", updateOiLevels);
+    chart.subscribeAction("onScroll", updateHottestLevels);
+    chart.subscribeAction("onZoom", updateHottestLevels);
+    chart.subscribeAction("onVisibleRangeChange", updateHottestLevels);
 
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
@@ -3393,6 +3579,9 @@
       chart.unsubscribeAction("onScroll", updateOiLevels);
       chart.unsubscribeAction("onZoom", updateOiLevels);
       chart.unsubscribeAction("onVisibleRangeChange", updateOiLevels);
+      chart.unsubscribeAction("onScroll", updateHottestLevels);
+      chart.unsubscribeAction("onZoom", updateHottestLevels);
+      chart.unsubscribeAction("onVisibleRangeChange", updateHottestLevels);
       dispose(chart);
     }
     chart = null;
@@ -3546,16 +3735,18 @@
   // Track ticker for GEX/DEX/OI refetch
   let gexDexOiTicker = "";
 
-  // Clear GEX/DEX/OI data and refetch when ticker changes
+  // Clear GEX/DEX/OI/Hottest data and refetch when ticker changes
   $: if (ticker && ticker !== gexDexOiTicker) {
     gexDexOiTicker = ticker;
     // Clear existing data
     gexStrikeData = [];
     dexStrikeData = [];
     oiStrikeData = [];
+    hottestContractsData = [];
     gexLevels = [];
     dexLevels = [];
     oiLevels = [];
+    hottestLevels = [];
     // Refetch if indicators are enabled
     if (indicatorState.gex) {
       fetchGexDexData("gex");
@@ -3565,6 +3756,9 @@
     }
     if (indicatorState.oi) {
       fetchOiData();
+    }
+    if (indicatorState.hottest) {
+      fetchHottestContractsData();
     }
   }
 
@@ -3581,6 +3775,11 @@
   // Update OI levels when data changes or chart is ready
   $: if (chart && indicatorState.oi && oiStrikeData.length > 0) {
     setTimeout(updateOiLevels, 100);
+  }
+
+  // Update Hottest Contracts levels when data changes or chart is ready
+  $: if (chart && indicatorState.hottest && hottestContractsData.length > 0) {
+    setTimeout(updateHottestLevels, 100);
   }
 
   $: if (chart) {
@@ -4939,6 +5138,146 @@
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
+              </a>
+            </div>
+          </div>
+        {/if}
+
+        <!-- Hottest Contracts horizontal levels overlay -->
+        {#if indicatorState.hottest && hottestLevels.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[4]">
+            {#each hottestLevels as level (level.strike + level.optionType + level.expiration)}
+              {#if level.visible}
+                <!-- Horizontal line - solid green for calls, solid red for puts -->
+                <div
+                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  style="top: {level.y}px; height: {1.5 +
+                    level.intensity * 2}px; background: {level.optionType ===
+                  'C'
+                    ? 'rgba(16, 185, 129, ' + (0.5 + level.intensity * 0.5) + ')'
+                    : 'rgba(244, 63, 94, ' +
+                      (0.5 + level.intensity * 0.5) +
+                      ')'}; opacity: {0.6 + level.intensity * 0.4}"
+                  on:click={(e) => handleHottestLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleHottestLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Hottest contract at ${level.strike}"
+                >
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Hottest Contracts popup -->
+        {#if selectedHottestLevel}
+          <!-- Click outside to close (behind popup) -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default bg-transparent"
+            on:click={closeHottestPopup}
+            aria-label="Close Hottest Contracts popup"
+          ></button>
+          <div
+            class="absolute z-[7] pointer-events-auto w-[260px]"
+            style="left: {hottestPopupPosition.x}px; top: {hottestPopupPosition.y}px;"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                <div
+                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                  style="background: {selectedHottestLevel.optionType === 'C'
+                    ? '#10b981'
+                    : '#f43f5e'}"
+                ></div>
+                <h3 class="text-white font-semibold text-sm sm:text-base truncate">
+                  {selectedHottestLevel.optionType === "C" ? "Call" : "Put"} ${selectedHottestLevel.strike}
+                </h3>
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  on:click={closeHottestPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Contract info -->
+              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Expiration</span>
+                  <span class="font-medium"
+                    >{formatExpiration(selectedHottestLevel.expiration)}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Volume</span>
+                  <span class="font-medium text-amber-400">
+                    {selectedHottestLevel.volume?.toLocaleString("en-US")}
+                  </span>
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Open Interest</span>
+                  <span class="text-purple-400"
+                    >{selectedHottestLevel.openInterest?.toLocaleString("en-US")}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Last Price</span>
+                  <span class="{selectedHottestLevel.optionType === 'C'
+                      ? 'text-emerald-800 dark:text-emerald-400'
+                      : 'text-rose-600 dark:text-rose-400'}"
+                    >${selectedHottestLevel.last?.toFixed(2)}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">IV</span>
+                  <span class="font-medium"
+                    >{(selectedHottestLevel.iv * 100)?.toFixed(1)}%</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Premium</span>
+                  <span class="font-medium"
+                    >${selectedHottestLevel.premium?.toLocaleString("en-US", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })}</span
+                  >
+                </div>
+              </div>
+
+              <!-- Explanation -->
+              <div
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+              >
+                <p>
+                  High volume contract. Large trades here may signal institutional activity or hedging.
+                </p>
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/stocks/{ticker}/options/hottest-contracts/volume"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+              >
+                View all contracts
               </a>
             </div>
           </div>
