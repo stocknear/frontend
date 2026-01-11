@@ -3,14 +3,12 @@ import { calculateIntradayExportCredits } from "$lib/utils";
 
 const ALLOWED_TIERS = new Set(["Plus", "Pro"]);
 const ALLOWED_INTERVALS = new Set(["1hour", "30min", "15min", "5min"]);
-const RECENT_EXPORT_TTL_MS = 5 * 60 * 1000;
 const RANGE_LIMITS: Record<string, Record<string, number>> = {
   Plus: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 30 },
   Pro: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 60 },
 };
 
 const activeExports = new Map<string, number>();
-const recentExports = new Map<string, number>();
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
@@ -119,19 +117,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  const exportKey = `${userId}:${ticker}:${interval}:${startDate}:${endDate}`;
-  const lastExport = recentExports.get(exportKey);
-  if (lastExport && now - lastExport < RECENT_EXPORT_TTL_MS) {
-    return new Response(
-      JSON.stringify({
-        error: "Duplicate export request detected. Please wait a moment.",
-      }),
-      { status: 409, headers: { "Content-Type": "application/json" } },
-    );
-  }
-  if (lastExport && now - lastExport >= RECENT_EXPORT_TTL_MS) {
-    recentExports.delete(exportKey);
-  }
+  
 
   const creditCost = calculateIntradayExportCredits(
     startDate,
@@ -214,7 +200,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       });
     }
 
-    recentExports.set(exportKey, now);
 
     return new Response(payload, {
       headers: {
