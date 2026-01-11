@@ -31,7 +31,10 @@
   const zone = "America/New_York";
 
   // Throttle utility for performance optimization
-  function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): T {
+  function throttle<T extends (...args: any[]) => void>(
+    fn: T,
+    delay: number,
+  ): T {
     let lastCall = 0;
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
     return ((...args: Parameters<T>) => {
@@ -1543,7 +1546,12 @@
 
   // Update earnings marker positions based on visible chart range
   const updateEarningsMarkers = () => {
-    if (!chart || !chartContainer || !isNonIntradayRange(activeRange) || !cachedChartRect) {
+    if (
+      !chart ||
+      !chartContainer ||
+      !isNonIntradayRange(activeRange) ||
+      !cachedChartRect
+    ) {
       earningsMarkers = [];
       return;
     }
@@ -1639,7 +1647,12 @@
 
   // Update dividend marker positions based on visible chart range
   const updateDividendMarkers = () => {
-    if (!chart || !chartContainer || !isNonIntradayRange(activeRange) || !cachedChartRect) {
+    if (
+      !chart ||
+      !chartContainer ||
+      !isNonIntradayRange(activeRange) ||
+      !cachedChartRect
+    ) {
       dividendMarkers = [];
       return;
     }
@@ -1712,7 +1725,12 @@
 
   // Update news flow marker positions based on visible chart range
   const updateNewsMarkers = () => {
-    if (!chart || !chartContainer || !isNonIntradayRange(activeRange) || !cachedChartRect) {
+    if (
+      !chart ||
+      !chartContainer ||
+      !isNonIntradayRange(activeRange) ||
+      !cachedChartRect
+    ) {
       newsMarkers = [];
       return;
     }
@@ -4247,7 +4265,8 @@
     for (const earnings of historicalEarnings) {
       if (earnings.date) {
         const dt = DateTime.fromISO(earnings.date, { zone });
-        if (dt.isValid) earningsTimestampCache.set(earnings, dt.startOf("day").toMillis());
+        if (dt.isValid)
+          earningsTimestampCache.set(earnings, dt.startOf("day").toMillis());
       }
     }
 
@@ -4255,7 +4274,8 @@
     for (const dividend of historicalDividends) {
       if (dividend.date) {
         const dt = DateTime.fromISO(dividend.date, { zone });
-        if (dt.isValid) dividendTimestampCache.set(dividend, dt.startOf("day").toMillis());
+        if (dt.isValid)
+          dividendTimestampCache.set(dividend, dt.startOf("day").toMillis());
       }
     }
 
@@ -4263,7 +4283,8 @@
     for (const news of newsFlowData) {
       if (news.date) {
         const dt = DateTime.fromSQL(news.date, { zone });
-        if (dt.isValid) newsTimestampCache.set(news, dt.startOf("day").toMillis());
+        if (dt.isValid)
+          newsTimestampCache.set(news, dt.startOf("day").toMillis());
       }
     }
   }
@@ -6411,7 +6432,7 @@
           <h2
             class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            Select technical indicators ({indicatorItems.length} total)
+            Select Indicators ({indicatorItems.length} total)
           </h2>
           <label
             for="indicatorModal"
@@ -6500,9 +6521,9 @@
         <h4
           class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
         >
-          Technical indicators
+          Technical Indicators
         </h4>
-        {#each Object.entries(groupedIndicators) as [category, indicators]}
+        {#each Object.entries(groupedIndicators).filter(([cat]) => cat !== "Options") as [category, indicators]}
           <div class="mt-4">
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -6542,6 +6563,67 @@
             </div>
           </div>
         {/each}
+
+        {#if groupedIndicators["Options"]}
+          <h4
+            class="mb-1 font-semibold text-lg mt-8 text-gray-900 dark:text-white"
+          >
+            Options
+          </h4>
+          <div class="mt-4">
+            <div class="flex flex-wrap">
+              {#each groupedIndicators["Options"] as indicator}
+                <div
+                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
+                >
+                  {#if isSubscribed}
+                    <input
+                      on:click={() => toggleIndicatorById(indicator.id)}
+                      id={indicator.id}
+                      type="checkbox"
+                      checked={Boolean(indicatorState[indicator.id])}
+                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+                    />
+                    <div class="-mt-0.5">
+                      <div class="flex items-center gap-1">
+                        <label
+                          for={indicator.id}
+                          class="cursor-pointer text-[1rem]"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
+                      </div>
+                    </div>
+                  {:else}
+                    <button
+                      on:click={() => goto("/pricing")}
+                      class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4 mr-1.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        />
+                      </svg>
+                      <span class="text-[1rem]">{indicator.label}</span>
+                    </button>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
         {#if filteredIndicators.length === 0}
           <div class="mt-5 font-semibold text-[1rem] sm:text-lg">
             Nothing found

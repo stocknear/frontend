@@ -13,7 +13,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey } = locals;
+  const { apiURL, apiKey, user } = locals;
 
   const category = data?.category;
   const endpoint = INDICATOR_ENDPOINTS[category];
@@ -22,6 +22,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return new Response(
       JSON.stringify({ error: `Unknown indicator category: ${category}` }),
       { status: 400 }
+    );
+  }
+
+  // Options indicators require Pro tier
+  if (user?.tier !== "Pro") {
+    return new Response(
+      JSON.stringify({ error: "Pro subscription required for Options indicators" }),
+      { status: 403 }
     );
   }
 
