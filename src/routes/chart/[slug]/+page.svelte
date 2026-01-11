@@ -13,14 +13,6 @@
   import { isOpen, screenWidth } from "$lib/store";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
-  import TrendingUp from "lucide-svelte/icons/trending-up";
-  import SlashIcon from "lucide-svelte/icons/slash";
-  import SquareIcon from "lucide-svelte/icons/square";
-  import CircleIcon from "lucide-svelte/icons/circle";
-
-  import EraserIcon from "lucide-svelte/icons/eraser";
-  import GitFork from "lucide-svelte/icons/git-fork";
-  import Trash2 from "lucide-svelte/icons/trash-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
   import Camera from "lucide-svelte/icons/camera";
@@ -28,6 +20,7 @@
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
+  import Trash2 from "lucide-svelte/icons/trash-2";
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -710,15 +703,95 @@
     maximumFractionDigits: pricePrecision,
   });
   const volumeFormatter = new Intl.NumberFormat("en-US");
-  const tools = [
-    { id: "cursor", label: "Cursor", icon: MousePointer2 },
-    { id: "trend", label: "Trend Line", icon: TrendingUp },
-    { id: "fib", label: "Fib Retracement", icon: GitFork },
-    { id: "line", label: "Line", icon: SlashIcon },
-    { id: "rect", label: "Rectangle", icon: SquareIcon },
-    { id: "circle", label: "Circle", icon: CircleIcon },
-    { id: "erase", label: "Eraser", icon: EraserIcon },
+
+  // Drawing tool groups matching KlineCharts Pro
+  interface ToolOption {
+    id: string;
+    label: string;
+    overlay: string;
+  }
+
+  interface ToolGroup {
+    id: string;
+    label: string;
+    options: ToolOption[];
+  }
+
+  const toolGroups: ToolGroup[] = [
+    {
+      id: "lines",
+      label: "Lines",
+      options: [
+        { id: "horizontalStraightLine", label: "Horizontal Line", overlay: "horizontalStraightLine" },
+        { id: "horizontalRayLine", label: "Horizontal Ray", overlay: "horizontalRayLine" },
+        { id: "horizontalSegment", label: "Horizontal Segment", overlay: "horizontalSegment" },
+        { id: "verticalStraightLine", label: "Vertical Line", overlay: "verticalStraightLine" },
+        { id: "verticalRayLine", label: "Vertical Ray", overlay: "verticalRayLine" },
+        { id: "verticalSegment", label: "Vertical Segment", overlay: "verticalSegment" },
+        { id: "straightLine", label: "Straight Line", overlay: "straightLine" },
+        { id: "rayLine", label: "Ray Line", overlay: "rayLine" },
+        { id: "segment", label: "Segment", overlay: "segment" },
+        { id: "priceLine", label: "Price Line", overlay: "priceLine" },
+      ],
+    },
+    {
+      id: "channels",
+      label: "Channels",
+      options: [
+        { id: "priceChannelLine", label: "Price Channel", overlay: "priceChannelLine" },
+        { id: "parallelStraightLine", label: "Parallel Channel", overlay: "parallelStraightLine" },
+      ],
+    },
+    {
+      id: "shapes",
+      label: "Shapes",
+      options: [
+        { id: "circle", label: "Circle", overlay: "circle" },
+        { id: "rect", label: "Rectangle", overlay: "rect" },
+        { id: "triangle", label: "Triangle", overlay: "triangle" },
+        { id: "parallelogram", label: "Parallelogram", overlay: "parallelogram" },
+      ],
+    },
+    {
+      id: "fibonacci",
+      label: "Fibonacci",
+      options: [
+        { id: "fibonacciLine", label: "Fib Retracement", overlay: "fibonacciLine" },
+        { id: "fibonacciSegment", label: "Fib Segment", overlay: "fibonacciSegment" },
+        { id: "fibonacciCircle", label: "Fib Circle", overlay: "fibonacciCircle" },
+        { id: "fibonacciSpiral", label: "Fib Spiral", overlay: "fibonacciSpiral" },
+        { id: "fibonacciSpeedResistanceFan", label: "Fib Speed Fan", overlay: "fibonacciSpeedResistanceFan" },
+        { id: "fibonacciExtension", label: "Fib Extension", overlay: "fibonacciExtension" },
+        { id: "gannBox", label: "Gann Box", overlay: "gannBox" },
+      ],
+    },
+    {
+      id: "waves",
+      label: "Patterns",
+      options: [
+        { id: "xabcd", label: "XABCD Pattern", overlay: "xabcd" },
+        { id: "abcd", label: "ABCD Pattern", overlay: "abcd" },
+        { id: "threeWaves", label: "Three Waves", overlay: "threeWaves" },
+        { id: "fiveWaves", label: "Five Waves", overlay: "fiveWaves" },
+        { id: "eightWaves", label: "Eight Waves", overlay: "eightWaves" },
+        { id: "anyWaves", label: "Any Waves", overlay: "anyWaves" },
+      ],
+    },
   ];
+
+  // Track selected tool for each group
+  let selectedToolByGroup: Record<string, string> = {
+    lines: "horizontalStraightLine",
+    channels: "priceChannelLine",
+    shapes: "circle",
+    fibonacci: "fibonacciLine",
+    waves: "xabcd",
+  };
+
+  // Toolbar state
+  let drawingsLocked = false;
+  let drawingsVisible = true;
+  let openDropdownId: string | null = null;
 
   const indicatorItems = indicatorDefinitions.map((item) => ({
     id: item.id,
@@ -729,15 +802,65 @@
   let filteredIndicators = indicatorItems;
   let groupedIndicators = groupChartIndicators(indicatorItems);
 
+  // Legacy toolOverlays kept for backwards compatibility
   const toolOverlays: Record<string, string> = {
     trend: "segment",
     ray: "rayLine",
     line: "straightLine",
     fib: "fibonacciLine",
+    channel: "priceChannelLine",
+    xabcd: "xabcd",
     rect: "rect",
     circle: "circle",
     brush: "brush",
   };
+
+  // Functions for new toolbar
+  function activateDrawingTool(groupId: string, toolId: string, overlay: string) {
+    selectedToolByGroup[groupId] = toolId;
+    activeTool = toolId;
+    openDropdownId = null;
+    if (!chart) return;
+    chart.createOverlay({
+      name: overlay,
+      lock: drawingsLocked,
+      visible: drawingsVisible,
+      onDrawEnd: handleOverlayDrawEnd,
+    });
+  }
+
+  function toggleDrawingsLock() {
+    drawingsLocked = !drawingsLocked;
+    // Update all existing overlays
+    if (chart) {
+      const overlays = chart.getOverlayById();
+      if (Array.isArray(overlays)) {
+        overlays.forEach((o: any) => {
+          chart.overrideOverlay({ id: o.id, lock: drawingsLocked });
+        });
+      }
+    }
+  }
+
+  function toggleDrawingsVisibility() {
+    drawingsVisible = !drawingsVisible;
+    if (chart) {
+      const overlays = chart.getOverlayById();
+      if (Array.isArray(overlays)) {
+        overlays.forEach((o: any) => {
+          chart.overrideOverlay({ id: o.id, visible: drawingsVisible });
+        });
+      }
+    }
+  }
+
+  function removeAllDrawings() {
+    if (chart) {
+      chart.removeOverlay();
+      saveChartOverlays([]);
+    }
+    activeTool = "cursor";
+  }
 
   let customOverlaysRegistered = false;
   let customIndicatorsRegistered = false;
@@ -3393,7 +3516,17 @@
     return dt.toFormat("MMM dd, yyyy");
   }
 
+  // Click outside handler for toolbar dropdowns
+  const handleToolbarClickOutside = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.relative') && openDropdownId) {
+      openDropdownId = null;
+    }
+  };
+
   onMount(async () => {
+    document.addEventListener('click', handleToolbarClickOutside);
+
     // Load chart settings from localStorage
     const savedSettings = loadChartSettings();
     if (savedSettings) {
@@ -3564,6 +3697,7 @@
   onDestroy(() => {
     isComponentDestroyed = true;
     disconnectWebSocket();
+    document.removeEventListener('click', handleToolbarClickOutside);
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
@@ -4321,45 +4455,235 @@
     </div>
 
     <div class="flex flex-1 overflow-hidden">
+      <!-- KlineCharts Pro Style Drawing Toolbar -->
       <div
-        class="hidden sm:flex h-full w-12 flex-col items-center gap-2 border-r border-neutral-800 bg-[#09090b] py-3 overflow-hidden"
+        class="hidden sm:flex h-full w-[38px] flex-col items-center border-r border-neutral-800 bg-[#131722] py-2 overflow-visible"
       >
-        {#each tools as tool}
-          <button
-            class={`flex h-8 w-8 items-center justify-center rounded-md border text-neutral-300 transition ${
-              activeTool === tool.id
-                ? "border-neutral-200 bg-neutral-200 text-neutral-900"
-                : "border-transparent hover:border-neutral-700 hover:bg-neutral-800"
-            }`}
-            on:click={() => activateTool(tool.id)}
-            aria-label={tool.label}
-          >
-            <svelte:component this={tool.icon} class="h-4 w-4" />
-          </button>
-        {/each}
-        <div
-          class="mt-auto flex flex-col items-center gap-2 pb-3 overflow-hidden"
+        <!-- Cursor Tool -->
+        <button
+          class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+            activeTool === "cursor"
+              ? "text-[#2962ff]"
+              : "text-neutral-400 hover:text-neutral-200"
+          }`}
+          on:click={() => { activeTool = "cursor"; if (chartMain) chartMain.style.cursor = "default"; }}
+          title="Cursor"
         >
+          <MousePointer2 class="h-[18px] w-[18px]" />
+        </button>
+
+        <!-- Lines Tool Group -->
+        <div class="relative">
           <button
-            class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
-            on:click={() => zoomChart(1.2)}
-            aria-label="Zoom in"
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              toolGroups[0].options.some(o => o.id === activeTool)
+                ? "text-[#2962ff]"
+                : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={() => openDropdownId = openDropdownId === "lines" ? null : "lines"}
+            title="Lines"
           >
-            <ZoomIn class="h-4 w-4" />
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M12.41465,11L18.5,11C18.7761,11,19,11.22386,19,11.5C19,11.77614,18.7761,12,18.5,12L12.41465,12C12.20873,12.5826,11.65311,13,11,13C10.34689,13,9.79127,12.5826,9.58535,12L3.5,12C3.223857,12,3,11.77614,3,11.5C3,11.22386,3.223857,11,3.5,11L9.58535,11C9.79127,10.417404,10.34689,10,11,10C11.65311,10,12.20873,10.417404,12.41465,11Z"/>
+            </svg>
           </button>
+          {#if openDropdownId === "lines"}
+            <div class="absolute left-full top-0 ml-1 bg-[#1e222d] border border-neutral-700 rounded-md shadow-lg py-1 z-50 min-w-[160px]">
+              {#each toolGroups[0].options as option}
+                <button
+                  class="w-full px-3 py-1.5 text-left text-sm text-neutral-300 hover:bg-[#2a2e39] hover:text-white transition-colors"
+                  on:click={() => activateDrawingTool("lines", option.id, option.overlay)}
+                >
+                  {option.label}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        <!-- Channels Tool Group -->
+        <div class="relative">
           <button
-            class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
-            on:click={() => zoomChart(0.9)}
-            aria-label="Zoom out"
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              toolGroups[1].options.some(o => o.id === activeTool)
+                ? "text-[#2962ff]"
+                : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={() => openDropdownId = openDropdownId === "channels" ? null : "channels"}
+            title="Channels"
           >
-            <ZoomOut class="h-4 w-4" />
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M3.146447,14.178C2.951185,13.9828,2.951185,13.6662,3.146447,13.4709L7.39146,9.2259C7.35417,9.0951,7.33421,8.9569,7.33421,8.8141C7.33421,7.9857,8.00578,7.3141,8.83421,7.3141C8.97703,7.3141,9.11519,7.3341,9.24605,7.3714L13.753,2.8644C13.9483,2.6691,14.2649,2.6691,14.4602,2.8644C14.6554,3.0596,14.6554,3.3762,14.4602,3.5715L10.06916,7.9625C10.23631,8.2044,10.33421,8.4978,10.33421,8.8141C10.33421,9.6425,9.66264,10.3141,8.83421,10.3141C8.51791,10.3141,8.22448,10.2162,7.98256,10.0491L3.853554,14.178C3.658291,14.3733,3.341709,14.3733,3.146447,14.178ZM7.67736,19.1885C7.4821,18.9932,7.4821,18.6766,7.67736,18.4814L9.9804,16.1783C9.88669,15.9825,9.83421,15.7632,9.83421,15.5316C9.83421,14.7032,10.50578,14.0316,11.33421,14.0316C11.56579,14.0316,11.78511,14.0841,11.98093,14.1778L13.9804,12.1784C13.8867,11.9825,13.8342,11.7632,13.8342,11.5316C13.8342,10.7032,14.5058,10.0316,15.3342,10.0316C15.5658,10.0316,15.7851,10.0841,15.9809,10.1778L18.284,7.8748C18.4792,7.6795,18.7958,7.6795,18.9911,7.8748C19.1863,8.0701,19.1863,8.3866,18.9911,8.5819L16.688,10.8849C16.7817,11.0808,16.8342,11.3001,16.8342,11.5316C16.8342,12.3601,16.1626,13.0316,15.3342,13.0316C15.1026,13.0316,14.8833,12.9791,14.6875,12.8854L12.688,14.8849C12.7817,15.0807,12.8342,15.3,12.8342,15.5316C12.8342,16.36,12.1626,17.0316,11.3342,17.0316C11.1026,17.0316,10.8833,16.9791,10.6875,16.8854L8.38446,19.1885C8.1892,19.3837,7.87262,19.3837,7.67736,19.1885Z"/>
+            </svg>
           </button>
+          {#if openDropdownId === "channels"}
+            <div class="absolute left-full top-0 ml-1 bg-[#1e222d] border border-neutral-700 rounded-md shadow-lg py-1 z-50 min-w-[160px]">
+              {#each toolGroups[1].options as option}
+                <button
+                  class="w-full px-3 py-1.5 text-left text-sm text-neutral-300 hover:bg-[#2a2e39] hover:text-white transition-colors"
+                  on:click={() => activateDrawingTool("channels", option.id, option.overlay)}
+                >
+                  {option.label}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        <!-- Shapes Tool Group -->
+        <div class="relative">
           <button
-            class="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-800 text-neutral-300 transition hover:border-neutral-700 hover:bg-neutral-800"
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              toolGroups[2].options.some(o => o.id === activeTool)
+                ? "text-[#2962ff]"
+                : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={() => openDropdownId = openDropdownId === "shapes" ? null : "shapes"}
+            title="Shapes"
+          >
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <ellipse cx="10.5" cy="11.5" rx="1.5" ry="1.5"/>
+              <ellipse cx="17.5" cy="11.5" rx="1.5" ry="1.5"/>
+              <ellipse cx="10.5" cy="11.5" rx="7" ry="7" fill="none" stroke="currentColor" stroke-width="1"/>
+            </svg>
+          </button>
+          {#if openDropdownId === "shapes"}
+            <div class="absolute left-full top-0 ml-1 bg-[#1e222d] border border-neutral-700 rounded-md shadow-lg py-1 z-50 min-w-[140px]">
+              {#each toolGroups[2].options as option}
+                <button
+                  class="w-full px-3 py-1.5 text-left text-sm text-neutral-300 hover:bg-[#2a2e39] hover:text-white transition-colors"
+                  on:click={() => activateDrawingTool("shapes", option.id, option.overlay)}
+                >
+                  {option.label}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        <!-- Fibonacci Tool Group -->
+        <div class="relative">
+          <button
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              toolGroups[3].options.some(o => o.id === activeTool)
+                ? "text-[#2962ff]"
+                : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={() => openDropdownId = openDropdownId === "fibonacci" ? null : "fibonacci"}
+            title="Fibonacci"
+          >
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M13.1889,6C12.98303,6.5826,12.42741,7,11.7743,7C11.12119,7,10.56557,6.5826,10.35965,6L3.5,6C3.223857,6,3,5.77614,3,5.5C3,5.22386,3.223857,5,3.5,5L10.35965,5C10.56557,4.4174,11.12119,4,11.7743,4C12.42741,4,12.98303,4.4174,13.1889,5L18.5,5C18.7761,5,19,5.22386,19,5.5C19,5.77614,18.7761,6,18.5,6L13.1889,6ZM3,8.5C3,8.22386,3.223857,8,3.5,8L18.5,8C18.7761,8,19,8.22386,19,8.5C19,8.77614,18.7761,9,18.5,9L3.5,9C3.223857,9,3,8.77614,3,8.5ZM3.27855,11.5C3.27855,11.22386,3.50241,11,3.77855,11L18.7785,11C19.0547,11,19.2785,11.22386,19.2785,11.5C19.2785,11.77614,19.0547,12,18.7785,12L3.77855,12C3.50241,12,3.27855,11.77614,3.27855,11.5ZM3.13927,14.5C3.13927,14.2239,3.36312,14,3.63927,14L18.6393,14C18.9154,14,19.1393,14.2239,19.1393,14.5C19.1393,14.7761,18.9154,15,18.6393,15L3.63927,15C3.36312,15,3.13927,14.7761,3.13927,14.5ZM13.1889,18C12.98303,18.5826,12.42741,19,11.7743,19C11.12119,19,10.56557,18.5826,10.35965,18L3.77855,18C3.50241,18,3.27855,17.7761,3.27855,17.5C3.27855,17.2239,3.50241,17,3.77855,17L10.35965,17C10.56557,16.4174,11.12119,16,11.7743,16C12.42741,16,12.98303,16.4174,13.1889,17L18.7785,17C19.0547,17,19.2785,17.2239,19.2785,17.5C19.2785,17.7761,19.0547,18,18.7785,18L13.1889,18Z"/>
+            </svg>
+          </button>
+          {#if openDropdownId === "fibonacci"}
+            <div class="absolute left-full top-0 ml-1 bg-[#1e222d] border border-neutral-700 rounded-md shadow-lg py-1 z-50 min-w-[160px]">
+              {#each toolGroups[3].options as option}
+                <button
+                  class="w-full px-3 py-1.5 text-left text-sm text-neutral-300 hover:bg-[#2a2e39] hover:text-white transition-colors"
+                  on:click={() => activateDrawingTool("fibonacci", option.id, option.overlay)}
+                >
+                  {option.label}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        <!-- Patterns/Waves Tool Group -->
+        <div class="relative">
+          <button
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              toolGroups[4].options.some(o => o.id === activeTool)
+                ? "text-[#2962ff]"
+                : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={() => openDropdownId = openDropdownId === "waves" ? null : "waves"}
+            title="Patterns"
+          >
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M5.92159,5.93994C6.04014,5.90529,6.15262,5.85639,6.25704,5.79523L9.12729,9.89437C9.04545,10.07959,9,10.28449,9,10.5C9,10.79522,9.08529,11.07053,9.23257,11.30262L4.97573,16.7511L5.92159,5.93994ZM4.92259,5.88484C4.38078,5.65866,4,5.1238,4,4.5C4,3.671573,4.67157,3,5.5,3C6.2157,3,6.81433,3.50124,6.96399,4.17183L15.1309,4.88634C15.3654,4.36387,15.8902,4,16.5,4C17.3284,4,18,4.67157,18,5.5C18,6.08983,17.6596,6.60015,17.1645,6.84518L18.4264,14.0018C18.4508,14.0006,18.4753,14,18.5,14C19.3284,14,20,14.6716,20,15.5C20,16.3284,19.3284,17,18.5,17C17.9325,17,17.4386,16.6849,17.1838,16.22L5.99686,18.5979C5.94643,19.3807,5.29554,20,4.5,20C3.671573,20,3,19.3284,3,18.5C3,17.8693,3.38929,17.3295,3.94071,17.1077L4.92259,5.88484ZM5.72452,17.6334C5.69799,17.596,5.6698,17.5599,5.64004,17.5251L10.01843,11.921C10.16958,11.9722,10.33155,12,10.5,12C10.80059,12,11.08052,11.9116,11.31522,11.7593L17.0606,15.0765C17.0457,15.1271,17.0335,15.1789,17.0239,15.2317L5.72452,17.6334ZM11.92855,10.9587L17.4349,14.1379L16.1699,6.96356C15.9874,6.92257,15.8174,6.8483,15.6667,6.74746L11.99771,10.4165C11.99923,10.4441,12,10.472,12,10.5C12,10.66,11.97495,10.8142,11.92855,10.9587ZM10.5,9C10.25983,9,10.03285,9.05644,9.83159,9.15679L7.04919,5.1831L15.0493,5.88302C15.054,5.90072,15.059,5.91829,15.0643,5.93573L11.56066,9.43934C11.28921,9.16789,10.91421,9,10.5,9Z" fill-rule="evenodd"/>
+            </svg>
+          </button>
+          {#if openDropdownId === "waves"}
+            <div class="absolute left-full top-0 ml-1 bg-[#1e222d] border border-neutral-700 rounded-md shadow-lg py-1 z-50 min-w-[150px]">
+              {#each toolGroups[4].options as option}
+                <button
+                  class="w-full px-3 py-1.5 text-left text-sm text-neutral-300 hover:bg-[#2a2e39] hover:text-white transition-colors"
+                  on:click={() => activateDrawingTool("waves", option.id, option.overlay)}
+                >
+                  {option.label}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        <!-- Separator -->
+        <div class="w-5 h-px bg-neutral-700 my-2"></div>
+
+        <!-- Zoom Tools -->
+        <button
+          class="flex h-[34px] w-[34px] items-center justify-center text-neutral-400 transition-colors hover:text-neutral-200"
+          on:click={() => zoomChart(1.2)}
+          title="Zoom in"
+        >
+          <ZoomIn class="h-[18px] w-[18px]" />
+        </button>
+        <button
+          class="flex h-[34px] w-[34px] items-center justify-center text-neutral-400 transition-colors hover:text-neutral-200"
+          on:click={() => zoomChart(0.9)}
+          title="Zoom out"
+        >
+          <ZoomOut class="h-[18px] w-[18px]" />
+        </button>
+
+        <!-- Bottom Controls -->
+        <div class="mt-auto flex flex-col items-center pb-2">
+          <!-- Screenshot -->
+          <button
+            class="flex h-[34px] w-[34px] items-center justify-center text-neutral-400 transition-colors hover:text-neutral-200"
             on:click={downloadChart}
-            aria-label="Download chart"
+            title="Screenshot"
           >
-            <Camera class="h-4 w-4" />
+            <Camera class="h-[18px] w-[18px]" />
+          </button>
+
+          <!-- Lock -->
+          <button
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              drawingsLocked ? "text-[#2962ff]" : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={toggleDrawingsLock}
+            title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
+          >
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M14.5385,9.76923L15.6538,9.76923C16.6538,9.76923,17.4615,10.57692,17.4615,11.57692L17.4615,17.1923C17.4615,18.1923,16.6538,19,15.6538,19L5.80769,19C4.80769,19,4,18.1923,4,17.1923L4,11.57692C4,10.57692,4.80769,9.76923,5.80769,9.76923L7.23077,9.76923L7.23077,7.57692C7.23077,5.61538,8.88462,4,10.88462,4C12.88462,4,14.5385,5.61538,14.5385,7.57692L14.5385,9.76923ZM10.88461,5.15385C9.5,5.15385,8.38461,6.23077,8.38461,7.57692L8.38461,9.76923L13.38462,9.76923L13.38462,7.57692C13.38462,6.23077,12.26923,5.15385,10.88461,5.15385ZM15.6538,17.8462C16,17.8462,16.3077,17.5385,16.3077,17.1923L16.3077,11.57692C16.3077,11.23077,16,10.92308,15.6538,10.92308L5.80769,10.92308C5.46154,10.92308,5.15385,11.23077,5.15385,11.57692L5.15385,17.1923C5.15385,17.5385,5.46154,17.8462,5.80769,17.8462L15.6538,17.8462ZM10.15384,12.65385C10.15384,12.34615,10.42307,12.07692,10.73076,12.07692C11.03845,12.07692,11.30768,12.34615,11.30768,12.65385L11.30768,14.5769C11.30768,14.8846,11.03845,15.1538,10.73076,15.1538C10.42307,15.1538,10.15384,14.8846,10.15384,14.5769L10.15384,12.65385Z" fill-rule="evenodd"/>
+            </svg>
+          </button>
+
+          <!-- Visibility -->
+          <button
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              !drawingsVisible ? "text-[#2962ff]" : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={toggleDrawingsVisibility}
+            title={drawingsVisible ? "Hide drawings" : "Show drawings"}
+          >
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M11,17C5.80945,17,3.66772,12.85,3.11339,11.575C2.9622,11.2,2.9622,10.8,3.11339,10.425C3.66772,9.15,5.80945,5,11,5C16.1654,5,18.3323,9.15,18.8866,10.425C19.0378,10.8,19.0378,11.2,18.8866,11.575C18.3323,12.85,16.1654,17,11,17ZM4.04567,10.8C3.99528,10.925,3.99528,11.05,4.04567,11.175C4.52441,12.325,6.43937,16,11,16C15.5606,16,17.4756,12.325,17.9543,11.2C18.0047,11.075,18.0047,10.95,17.9543,10.825C17.4756,9.675,15.5606,6,11,6C6.43937,6,4.52441,9.675,4.04567,10.8ZM11,13.5C9.61417,13.5,8.48032,12.375,8.48032,11C8.48032,9.625,9.61417,8.5,11,8.5C12.38583,8.5,13.5197,9.625,13.5197,11C13.5197,12.375,12.38583,13.5,11,13.5ZM11,9.5C10.1685,9.5,9.48819,10.175,9.48819,11C9.48819,11.825,10.1685,12.5,11,12.5C11.8315,12.5,12.51181,11.825,12.51181,11C12.51181,10.175,11.8315,9.5,11,9.5Z"/>
+            </svg>
+          </button>
+
+          <!-- Remove All -->
+          <button
+            class="flex h-[34px] w-[34px] items-center justify-center text-neutral-400 transition-colors hover:text-rose-500"
+            on:click={removeAllDrawings}
+            title="Remove all drawings"
+          >
+            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <path d="M16.9669,8.67144C16.6669,8.67144,16.4247,8.91558,16.4247,9.21802L16.4247,16.6315C16.4247,17.322,16.0072,17.9068,15.5139,17.9068L13.9307,17.9068L13.9307,9.2162C13.9307,8.91741,13.6868,8.67144,13.3886,8.67144C13.0904,8.67144,12.8464,8.91741,12.8464,9.21802L12.8464,17.9068L10.1518,17.9068L10.1518,9.21802C10.1518,8.91741,9.90783,8.67144,9.60964,8.67144C9.31145,8.67144,9.06747,8.91741,9.06747,9.21985L9.06747,17.9068L7.48614,17.9068C6.99277,17.9068,6.5753,17.322,6.5753,16.6315L6.5753,9.21802C6.5753,8.91558,6.33313,8.67144,6.03313,8.67144C5.73313,8.67144,5.49096,8.91558,5.49096,9.21802L5.49096,16.6315C5.49096,17.9378,6.38554,19,7.48614,19L15.512,19C16.6127,19,17.509,17.9378,17.509,16.6315L17.509,9.21802C17.509,8.91558,17.2669,8.67144,16.9669,8.67144ZM18.4578,6.21183L4.54217,6.21183C4.24398,6.21183,4,6.45779,4,6.75841C4,7.05903,4.24398,7.30499,4.54217,7.30499L18.4578,7.30499C18.756,7.30499,19,7.05903,19,6.75841C19,6.45779,18.756,6.21183,18.4578,6.21183ZM8.68072,5.10045L14.3193,5.10045C14.6175,5.10045,14.8614,4.85267,14.8614,4.55022C14.8614,4.24778,14.6175,4,14.3193,4L8.68072,4C8.38253,4,8.13855,4.24778,8.13855,4.55022C8.13855,4.85267,8.38253,5.10045,8.68072,5.10045Z"/>
+            </svg>
           </button>
         </div>
       </div>
