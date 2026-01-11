@@ -28,51 +28,108 @@ const createWorkerIndicator = <D extends IndicatorRecord, C = number>(
 });
 
 function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  const maColors = ["#2962FF", "#FF6D00", "#2E7D32", "#AB47BC"];
   return createWorkerIndicator("ma", {
     name: "SN_MA",
     shortName: "MA",
     series: "price",
     precision: 2,
     calcParams: [20, 50, 100, 200],
-    figures: [
-      { key: "ma1", title: "MA20: ", type: "line" },
-      { key: "ma2", title: "MA50: ", type: "line" },
-      { key: "ma3", title: "MA100: ", type: "line" },
-      { key: "ma4", title: "MA200: ", type: "line" },
-    ],
-    regenerateFigures: (params) =>
-      params.map((period, index) => ({
-        key: `ma${index + 1}`,
-        title: `MA${period}: `,
-        type: "line",
-      })),
+    figures: [],
     createTooltipDataSource: () => ({
       name: "",
       calcParamsText: "",
       legends: [],
       features: [],
     }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const params = indicator.calcParams as number[];
+      params.forEach((_, index) => {
+        const key = `ma${index + 1}`;
+        const points: { x: number; y: number }[] = [];
+
+        for (let i = from; i < to; i++) {
+          const data = result[i];
+          if (data?.[key] !== undefined) {
+            points.push({
+              x: xAxis.convertToPixel(i),
+              y: yAxis.convertToPixel(data[key] as number),
+            });
+          }
+        }
+
+        if (points.length >= 2) {
+          ctx.beginPath();
+          ctx.setLineDash([]);
+          ctx.moveTo(points[0].x, points[0].y);
+          for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+          }
+          ctx.strokeStyle = maColors[index % maColors.length];
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+
+      return false;
+    },
   });
 }
 
 function createEmaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  const emaColors = ["#E91E63", "#00BCD4", "#FFC107"];
   return createWorkerIndicator("ema", {
     name: "SN_EMA",
     shortName: "EMA",
     series: "price",
     precision: 2,
     calcParams: [9, 21, 50],
-    figures: [
-      { key: "ema1", title: "EMA9: ", type: "line" },
-      { key: "ema2", title: "EMA21: ", type: "line" },
-      { key: "ema3", title: "EMA50: ", type: "line" },
-    ],
-    regenerateFigures: (params) =>
-      params.map((period, index) => ({
-        key: `ema${index + 1}`,
-        title: `EMA${period}: `,
-        type: "line",
-      })),
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const params = indicator.calcParams as number[];
+      params.forEach((_, index) => {
+        const key = `ema${index + 1}`;
+        const points: { x: number; y: number }[] = [];
+
+        for (let i = from; i < to; i++) {
+          const data = result[i];
+          if (data?.[key] !== undefined) {
+            points.push({
+              x: xAxis.convertToPixel(i),
+              y: yAxis.convertToPixel(data[key] as number),
+            });
+          }
+        }
+
+        if (points.length >= 2) {
+          ctx.beginPath();
+          ctx.setLineDash([]);
+          ctx.moveTo(points[0].x, points[0].y);
+          for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+          }
+          ctx.strokeStyle = emaColors[index % emaColors.length];
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+
+      return false;
+    },
   });
 }
 
@@ -183,7 +240,43 @@ function createVwapIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     shortName: "VWAP",
     series: "price",
     precision: 2,
-    figures: [{ key: "vwap", title: "VWAP: ", type: "line" }],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const points: { x: number; y: number }[] = [];
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (data?.vwap !== undefined) {
+          points.push({
+            x: xAxis.convertToPixel(i),
+            y: yAxis.convertToPixel(data.vwap as number),
+          });
+        }
+      }
+
+      if (points.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = "#9C27B0";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      return false;
+    },
   });
 }
 
@@ -411,7 +504,33 @@ function createSarIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     series: "price",
     precision: 2,
     calcParams: [0.02, 0.2],
-    figures: [{ key: "sar", title: "SAR: ", type: "circle" }],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (data?.sar !== undefined) {
+          const x = xAxis.convertToPixel(i);
+          const y = yAxis.convertToPixel(data.sar as number);
+
+          ctx.beginPath();
+          ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = "#FF9800";
+          ctx.fill();
+        }
+      }
+
+      return false;
+    },
   });
 }
 
@@ -422,11 +541,77 @@ function createDonchianIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     series: "price",
     precision: 2,
     calcParams: [20],
-    figures: [
-      { key: "upper", title: "Upper: ", type: "line" },
-      { key: "middle", title: "Middle: ", type: "line" },
-      { key: "lower", title: "Lower: ", type: "line" },
-    ],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const upperPoints: { x: number; y: number }[] = [];
+      const middlePoints: { x: number; y: number }[] = [];
+      const lowerPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        const x = xAxis.convertToPixel(i);
+        if (data?.upper !== undefined) {
+          upperPoints.push({ x, y: yAxis.convertToPixel(data.upper as number) });
+        }
+        if (data?.middle !== undefined) {
+          middlePoints.push({ x, y: yAxis.convertToPixel(data.middle as number) });
+        }
+        if (data?.lower !== undefined) {
+          lowerPoints.push({ x, y: yAxis.convertToPixel(data.lower as number) });
+        }
+      }
+
+      // Draw upper line
+      if (upperPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(upperPoints[0].x, upperPoints[0].y);
+        for (let i = 1; i < upperPoints.length; i++) {
+          ctx.lineTo(upperPoints[i].x, upperPoints[i].y);
+        }
+        ctx.strokeStyle = "#4CAF50";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Draw middle line
+      if (middlePoints.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]);
+        ctx.moveTo(middlePoints[0].x, middlePoints[0].y);
+        for (let i = 1; i < middlePoints.length; i++) {
+          ctx.lineTo(middlePoints[i].x, middlePoints[i].y);
+        }
+        ctx.strokeStyle = "#FFC107";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Draw lower line
+      if (lowerPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(lowerPoints[0].x, lowerPoints[0].y);
+        for (let i = 1; i < lowerPoints.length; i++) {
+          ctx.lineTo(lowerPoints[i].x, lowerPoints[i].y);
+        }
+        ctx.strokeStyle = "#F44336";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      return false;
+    },
   });
 }
 
@@ -469,13 +654,53 @@ function createPivotIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     shortName: "PIVOT",
     series: "price",
     precision: 2,
-    figures: [
-      { key: "pivot", title: "P: ", type: "line" },
-      { key: "s1", title: "S1: ", type: "line" },
-      { key: "s2", title: "S2: ", type: "line" },
-      { key: "r1", title: "R1: ", type: "line" },
-      { key: "r2", title: "R2: ", type: "line" },
-    ],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const lines = [
+        { key: "r2", color: "#F44336" },
+        { key: "r1", color: "#FF7043" },
+        { key: "pivot", color: "#FFFFFF" },
+        { key: "s1", color: "#66BB6A" },
+        { key: "s2", color: "#4CAF50" },
+      ];
+
+      lines.forEach(({ key, color }) => {
+        const points: { x: number; y: number }[] = [];
+        for (let i = from; i < to; i++) {
+          const data = result[i];
+          if (data?.[key] !== undefined) {
+            points.push({
+              x: xAxis.convertToPixel(i),
+              y: yAxis.convertToPixel(data[key] as number),
+            });
+          }
+        }
+
+        if (points.length >= 2) {
+          ctx.beginPath();
+          ctx.setLineDash([]);
+          ctx.moveTo(points[0].x, points[0].y);
+          for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+          }
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+
+      return false;
+    },
   });
 }
 
@@ -485,13 +710,53 @@ function createFibIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     shortName: "FIB",
     series: "price",
     precision: 2,
-    figures: [
-      { key: "fib236", title: "23.6%: ", type: "line" },
-      { key: "fib382", title: "38.2%: ", type: "line" },
-      { key: "fib500", title: "50.0%: ", type: "line" },
-      { key: "fib618", title: "61.8%: ", type: "line" },
-      { key: "fib786", title: "78.6%: ", type: "line" },
-    ],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const fibLines = [
+        { key: "fib236", color: "#B39DDB" },
+        { key: "fib382", color: "#90CAF9" },
+        { key: "fib500", color: "#FFFFFF" },
+        { key: "fib618", color: "#A5D6A7" },
+        { key: "fib786", color: "#FFCC80" },
+      ];
+
+      fibLines.forEach(({ key, color }) => {
+        const points: { x: number; y: number }[] = [];
+        for (let i = from; i < to; i++) {
+          const data = result[i];
+          if (data?.[key] !== undefined) {
+            points.push({
+              x: xAxis.convertToPixel(i),
+              y: yAxis.convertToPixel(data[key] as number),
+            });
+          }
+        }
+
+        if (points.length >= 2) {
+          ctx.beginPath();
+          ctx.setLineDash([3, 3]);
+          ctx.moveTo(points[0].x, points[0].y);
+          for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+          }
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+
+      return false;
+    },
   });
 }
 
@@ -502,7 +767,43 @@ function createPsychIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     series: "price",
     precision: 2,
     calcParams: [10],
-    figures: [{ key: "psych", title: "Psych: ", type: "line" }],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const points: { x: number; y: number }[] = [];
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (data?.psych !== undefined) {
+          points.push({
+            x: xAxis.convertToPixel(i),
+            y: yAxis.convertToPixel(data.psych as number),
+          });
+        }
+      }
+
+      if (points.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = "#26A69A";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      return false;
+    },
   });
 }
 
