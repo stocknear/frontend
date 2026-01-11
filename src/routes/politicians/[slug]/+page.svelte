@@ -764,11 +764,11 @@
                       <!-- Chart -->
                       {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
                         <div
-                          class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-900/50 px-3 pb-4"
+                          class="border-t border-gray-300 dark:border-zinc-700 pb-3"
                         >
-                          <div class="relative h-[280px]">
+                          <div class="relative h-[300px]">
                             <div class="absolute inset-x-0 top-0">
-                              <div class="h-[280px] w-full overflow-hidden">
+                              <div class="h-[300px] w-full overflow-hidden">
                                 <div
                                   class="relative"
                                   style="height: 0; z-index: 1;"

@@ -18,7 +18,7 @@
 
   // Mobile-responsive values
   $: isMobile = $screenWidth < 640;
-  $: chartHeight = isMobile ? 260 : 360;
+  $: chartHeight = 360;
   $: markerRadius = isMobile ? 4 : 6;
   $: labelFontSize = isMobile ? "11px" : "14px";
   $: tickCount = isMobile ? 3 : 5;
@@ -184,9 +184,9 @@
       credits: { enabled: false },
       legend: { enabled: false },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${symbol} - ${numOfRatings} Transaction</h3>`,
+        text: `<h3 class="mt-3 mb-2 "></h3>`,
         useHTML: true,
-        style: { color: $mode === "light" ? "black" : "white" },
+        style: { color: $mode === "light" ? "#374151" : "#d4d4d8" },
       },
       xAxis: {
         type: "datetime",
@@ -333,28 +333,29 @@
     {#if historicalData?.length > 0}
       <div class="relative">
         <div
-          class="flex justify-start space-x-2 w-full ml-2 absolute top-3.5 z-10"
+          class="flex justify-start gap-1.5 sm:gap-2 w-full ml-1.5 sm:ml-2 absolute top-3 sm:top-3.5 z-10"
         >
           {#each ["1Y", "3Y", "5Y", "Max"] as item, index}
             {#if ["Pro", "Plus"]?.includes(data?.user?.tier) || index === 0}
               <label
                 on:click={() => (timePeriod = item)}
-                class="px-3 py-1 {timePeriod === item
-                  ? 'bg-black dark:bg-white text-white dark:text-black'
-                  : 'text-muted dark:text-white bg-white border border-gray-300 dark:border-zinc-700 shadow dark:bg-table '} transition ease-out duration-100 rounded cursor-pointer"
+                class="px-2 py-0.5 sm:py-1 text-xs {timePeriod === item
+                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                  : 'text-gray-600 dark:text-zinc-400 bg-white/90 dark:bg-zinc-900/90 border border-gray-200/70 dark:border-zinc-700/70'} transition-colors rounded-full cursor-pointer"
               >
                 {item}
               </label>
             {:else if !["Pro", "Plus"]?.includes(data?.user?.tier)}
               <a
                 href="/pricing"
-                class="px-3 py-1 flex flex-row items-center {timePeriod === item
-                  ? 'bg-white text-muted'
-                  : 'text-muted dark:text-white bg-gray-100 dark:bg-table text-opacity-[0.6]'} border border-gray-300 shadow dark:border-gray-700 transition ease-out duration-100 sm:hover:bg-white sm:hover:text-black rounded cursor-pointer"
+                class="px-2 py-0.5 sm:py-1 text-xs flex items-center {timePeriod ===
+                item
+                  ? 'bg-white text-gray-500'
+                  : 'text-gray-400 dark:text-zinc-500 bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-200/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {item}
                 <svg
-                  class="ml-1 mt-0.5 w-3.5 h-3.5 inline-block"
+                  class="ml-0.5 sm:ml-1 w-3 h-3 sm:w-3.5 sm:h-3.5"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   ><path
@@ -368,28 +369,28 @@
         </div>
       </div>
       <div
-        class="border border-gray-300 dark:border-zinc-700 rounded w-full"
+        class="border border-gray-200/70 dark:border-zinc-800/80 rounded-lg w-full"
         use:highcharts={config}
       ></div>
     {:else}
-      <div class="h-[250px] sm:h-[350px]">
+      <div class="h-[220px] sm:h-[350px]">
         <div
-          class="flex h-full w-full flex-col items-center justify-center rounded-sm border border-gray-300 dark:border-zinc-700 p-6 text-center md:p-12"
+          class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-200/70 dark:border-zinc-800/80 p-4 sm:p-6 text-center"
         >
-          <div class="mb-4 text-white text-[1rem] sm:text-xl font-semibold">
+          <div class="text-gray-500 dark:text-zinc-500 text-sm sm:text-base">
             No chart data available for {symbol}
           </div>
         </div>
       </div>
     {/if}
   {:else}
-    <div class="flex justify-center items-center h-80">
+    <div class="flex justify-center items-center h-64 sm:h-80">
       <div class="relative">
         <label
-          class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class="bg-gray-100 dark:bg-zinc-800 rounded-lg h-12 w-12 sm:h-14 sm:w-14 flex justify-center items-center"
         >
           <span
-            class="loading loading-spinner loading-md text-white dark:text-white"
+            class="loading loading-spinner loading-sm sm:loading-md text-gray-500 dark:text-zinc-400"
           ></span>
         </label>
       </div>
