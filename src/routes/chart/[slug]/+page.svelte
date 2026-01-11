@@ -4676,7 +4676,7 @@
         >
           <!-- Cursor Tool -->
           <button
-            class={`group relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
+            class={`group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
               activeTool === "cursor"
                 ? "bg-neutral-800 text-white"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4684,7 +4684,7 @@
             on:click={() => { activeTool = "cursor"; if (chartMain) chartMain.style.cursor = "default"; }}
             title="Cursor"
           >
-            <MousePointer2 class="h-5 w-5" />
+            <MousePointer2 class="h-6 w-6" />
           </button>
 
           <!-- Drawing Tool Groups -->
@@ -4693,7 +4693,7 @@
               <div class="relative mt-1 group/item">
                 <!-- Main Button with selected tool icon -->
                 <button
-                  class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
+                  class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                     group.options.some(o => o.id === activeTool)
                       ? "bg-neutral-800 text-white"
                       : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4706,7 +4706,7 @@
                   }}
                   title={group.label}
                 >
-                  <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
+                  <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
                     <path d={getGroupIcon(group.id)}/>
                   </svg>
                   <!-- Dropdown Arrow -->
@@ -4760,7 +4760,7 @@
           <DropdownMenu.Root bind:open={dropdownStates.magnet}>
             <div class="relative mt-1 group/magnet">
               <button
-                class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
+                class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                   drawingMode !== "normal"
                     ? "bg-neutral-800 text-white"
                     : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4774,7 +4774,7 @@
                 }}
                 title={drawingMode === "normal" ? "Enable magnet mode" : "Disable magnet mode"}
               >
-                <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current">
+                <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
                   {#if drawingMode === "strong_magnet"}
                     <path d={toolIcons.strongMagnet}/>
                   {:else}
@@ -4837,7 +4837,7 @@
 
           <!-- Visibility -->
           <button
-            class={`flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+            class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               !drawingsVisible
                 ? "bg-neutral-800 text-white"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4845,7 +4845,7 @@
             on:click={toggleDrawingsVisibility}
             title={drawingsVisible ? "Hide drawings" : "Show drawings"}
           >
-            <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
+            <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
               <path d={drawingsVisible ? toolIcons.visible : toolIcons.invisible}/>
             </svg>
           </button>
@@ -4855,38 +4855,38 @@
 
           <!-- Zoom Tools -->
           <button
-            class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+            class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
             on:click={() => zoomChart(1.2)}
             title="Zoom in"
           >
-            <ZoomIn class="h-5 w-5" />
+            <ZoomIn class="h-6 w-6" />
           </button>
           <button
-            class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
+            class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
             on:click={() => zoomChart(0.9)}
             title="Zoom out"
           >
-            <ZoomOut class="h-5 w-5" />
+            <ZoomOut class="h-6 w-6" />
           </button>
 
           <!-- Bottom Controls -->
           <div class="mt-auto flex flex-col items-center pb-2">
             <!-- Screenshot -->
             <button
-              class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+              class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
               on:click={downloadChart}
               title="Screenshot"
             >
-              <Camera class="h-5 w-5" />
+              <Camera class="h-6 w-6" />
             </button>
 
             <!-- Remove All -->
             <button
-              class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
+              class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
               on:click={removeAllDrawings}
               title="Remove all drawings"
             >
-              <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
+              <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
                 <path d={toolIcons.remove}/>
               </svg>
             </button>
