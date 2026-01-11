@@ -4438,7 +4438,7 @@
               {#if level.visible}
                 <!-- Horizontal line -->
                 <div
-                  class="absolute left-0 right-[60px] h-[2px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  class="absolute left-0 right-0 h-[2px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
                   style="top: {level.y}px; background: {level.isPositive
                     ? 'rgba(34, 197, 94, ' + (0.4 + level.intensity * 0.5) + ')'
                     : 'rgba(239, 68, 68, ' +
@@ -4453,20 +4453,6 @@
                   aria-label="GEX level at ${level.strike}"
                 >
                 </div>
-                <!-- Price label on right side -->
-                <div
-                  class="absolute right-0 px-1.5 py-0.5 text-[10px] font-medium rounded-l pointer-events-auto cursor-pointer"
-                  style="top: {level.y}px; transform: translateY(-50%); background: {level.isPositive
-                    ? 'rgba(34, 197, 94, 0.9)'
-                    : 'rgba(239, 68, 68, 0.9)'}; color: white;"
-                  on:click={(e) => handleGexLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === 'Enter' && handleGexLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                >
-                  ${level.strike.toFixed(0)}
-                </div>
               {/if}
             {/each}
           </div>
@@ -4479,7 +4465,7 @@
               {#if level.visible}
                 <!-- Horizontal line with dashed style for DEX -->
                 <div
-                  class="absolute left-0 right-[60px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
                   style="top: {level.y}px; border-top: {1 +
                     level.intensity * 2}px dashed {level.isPositive
                     ? 'rgba(59, 130, 246, ' + (0.5 + level.intensity * 0.5) + ')'
@@ -4493,20 +4479,6 @@
                   tabindex="0"
                   aria-label="DEX level at ${level.strike}"
                 >
-                </div>
-                <!-- Price label on right side -->
-                <div
-                  class="absolute right-0 px-1.5 py-0.5 text-[10px] font-medium rounded-l pointer-events-auto cursor-pointer"
-                  style="top: {level.y}px; transform: translateY(-50%); background: {level.isPositive
-                    ? 'rgba(59, 130, 246, 0.9)'
-                    : 'rgba(249, 115, 22, 0.9)'}; color: white;"
-                  on:click={(e) => handleDexLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === 'Enter' && handleDexLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                >
-                  ${level.strike.toFixed(0)}
                 </div>
               {/if}
             {/each}
