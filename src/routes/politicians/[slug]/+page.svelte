@@ -638,28 +638,30 @@
             {#if stockList?.length > 0}
               <!-- Mobile Card View -->
               {#if $screenWidth < 640}
-                <div
-                  class="divide-y divide-gray-200 dark:divide-zinc-700 overflow-hidden rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 shadow mt-4 mb-4"
-                >
+                <div class="mt-4 mb-4 space-y-3">
                   {#each stockList as item, index}
-                    <div class="">
-                      <!-- Card Header: Symbol + Date -->
-                      <div class="flex justify-between p-4">
-                        <div>
-                          <div>
-                            <HoverStockChart
-                              symbol={item?.symbol ?? item?.ticker}
-                              assetType={item?.assetType}
-                            />
-                          </div>
-                          <div class="text-sm text-gray-500 dark:text-zinc-400">
-                            {item?.name?.length > 25
-                              ? item?.name?.slice(0, 25) + "..."
+                    <div
+                      class="rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-hidden"
+                    >
+                      <!-- Header -->
+                      <div
+                        class="flex items-start justify-between px-4 pt-4 pb-3"
+                      >
+                        <div class="min-w-0 flex-1">
+                          <HoverStockChart
+                            symbol={item?.symbol ?? item?.ticker}
+                            assetType={item?.assetType}
+                          />
+                          <p
+                            class="mt-0.5 text-[13px] text-gray-800 dark:text-zinc-300 truncate"
+                          >
+                            {item?.name?.length > 28
+                              ? item?.name?.slice(0, 28) + "..."
                               : item?.name}
-                          </div>
+                          </p>
                         </div>
-                        <div
-                          class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                        <span
+                          class="ml-3 text-[13px] tabular-nums text-gray-800 dark:text-zinc-300 whitespace-nowrap"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -669,49 +671,62 @@
                               year: "numeric",
                             },
                           )}
-                        </div>
+                        </span>
                       </div>
 
-                      <!-- Card Body: Type + Amount -->
-                      <div class="flex gap-x-5 px-4 py-3">
-                        <div>
-                          <div class="mb-0.5 text-sm">
+                      <!-- Details -->
+                      <div class="flex items-end justify-between px-4 pb-4">
+                        <div class="space-y-1">
+                          <div class="flex items-center gap-1.5 text-[13px]">
                             {#if item?.type === "Bought"}
                               <span
-                                class="font-semibold text-emerald-600 dark:text-emerald-400"
+                                class="font-medium text-emerald-600 dark:text-emerald-500"
                                 >Bought</span
                               >
                             {:else if item?.type === "Sold"}
                               <span
-                                class="font-semibold text-rose-600 dark:text-rose-400"
+                                class="font-medium text-rose-600 dark:text-rose-500"
                                 >Sold</span
                               >
                             {:else if item?.type === "Exchange"}
                               <span
-                                class="font-semibold text-amber-600 dark:text-amber-400"
+                                class="font-medium text-amber-600 dark:text-amber-500"
                                 >Exchange</span
                               >
                             {/if}
-                            <span class="text-gray-500 dark:text-zinc-400">
-                              · {item?.transaction?.toLocaleString("en-US")} trade{item?.transaction >
+                            <span class="text-gray-600 dark:text-zinc-400"
+                              >·</span
+                            >
+                            <span
+                              class="tabular-nums text-gray-800 dark:text-zinc-300"
+                            >
+                              {item?.transaction?.toLocaleString("en-US")} trade{item?.transaction >
                               1
                                 ? "s"
                                 : ""}
                             </span>
                           </div>
-                          <div class="text-sm text-gray-600 dark:text-zinc-300">
-                            Amount: <span class="font-semibold"
+                          <p
+                            class="text-[13px] text-gray-600 dark:text-zinc-400"
+                          >
+                            <span
+                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1"
+                              >Amt</span
+                            >
+                            <span class="font-medium tabular-nums"
                               >{item?.amount}</span
                             >
-                          </div>
+                          </p>
                         </div>
-                        <div class="ml-auto text-right">
-                          <div
-                            class="mb-0.5 text-sm text-gray-500 dark:text-zinc-400"
+                        <div class="text-right">
+                          <p
+                            class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mb-0.5"
                           >
                             Filed
-                          </div>
-                          <div class="text-sm text-gray-600 dark:text-zinc-300">
+                          </p>
+                          <p
+                            class="text-[13px] tabular-nums text-gray-800 dark:text-zinc-300"
+                          >
                             {new Date(item?.disclosureDate)?.toLocaleString(
                               "en-US",
                               {
@@ -720,48 +735,43 @@
                                 year: "numeric",
                               },
                             )}
-                          </div>
+                          </p>
                         </div>
                       </div>
 
-                      <!-- Card Footer: View Chart Button -->
+                      <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.ticker)}
-                        class="flex w-full cursor-pointer justify-between border-t border-gray-200 dark:border-zinc-700 p-4 text-sm text-gray-600 dark:text-zinc-300 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
-                        <div>View Chart</div>
-                        <div class="flex items-center gap-x-0.5">
-                          <svg
-                            class="w-5 h-5 text-gray-500 dark:text-zinc-400 mt-px transition {checkedSymbol ===
-                            (item?.ticker ?? item?.symbol)
-                              ? 'rotate-180'
-                              : ''}"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width:40px"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                              clip-rule="evenodd"
-                            ></path>
-                          </svg>
-                        </div>
+                        <span>View Chart</span>
+                        <svg
+                          class="h-4 w-4 transition-transform {checkedSymbol ===
+                          (item?.ticker ?? item?.symbol)
+                            ? 'rotate-180'
+                            : ''}"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
                       </button>
 
-                      <!-- Expanded Chart -->
+                      <!-- Chart -->
                       {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
                         <div
-                          class="border-t border-gray-200 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/50 px-2 pb-4"
+                          class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-900/50 px-3 pb-4"
                         >
                           <div class="relative h-[280px]">
-                            <div class="absolute top-0 w-full">
-                              <div
-                                class="h-[280px] w-full"
-                                style="overflow: hidden;"
-                              >
+                            <div class="absolute inset-x-0 top-0">
+                              <div class="h-[280px] w-full overflow-hidden">
                                 <div
-                                  style="position: relative; height: 0px; z-index: 1;"
+                                  class="relative"
+                                  style="height: 0; z-index: 1;"
                                 >
                                   <RatingsChart
                                     {data}

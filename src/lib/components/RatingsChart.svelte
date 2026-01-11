@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setCache, getCache } from "$lib/store";
+  import { setCache, getCache, screenWidth } from "$lib/store";
   import highcharts from "$lib/highcharts.ts";
   import { abbreviateNumber } from "$lib/utils";
   import { mode } from "mode-watcher";
@@ -15,6 +15,14 @@
   let config = null;
   let historicalData = [];
   let timePeriod = "1Y";
+
+  // Mobile-responsive values
+  $: isMobile = $screenWidth < 640;
+  $: chartHeight = isMobile ? 260 : 360;
+  $: markerRadius = isMobile ? 4 : 6;
+  $: labelFontSize = isMobile ? "11px" : "14px";
+  $: tickCount = isMobile ? 3 : 5;
+  $: tooltipFontSize = isMobile ? "14px" : "16px";
 
   function filterDataByPeriod(historicalData, period = "1Y") {
     const currentDate = new Date();
@@ -138,9 +146,9 @@
             y: closeValues[dateIndex],
             marker: {
               symbol: "triangle-down",
-              radius: 6,
+              radius: markerRadius,
               fillColor: markerColor,
-              lineWidth: 2,
+              lineWidth: isMobile ? 1.5 : 2,
               lineColor: $mode === "light" ? "black" : "white",
             },
             dataLabels: {
@@ -149,9 +157,9 @@
               style: {
                 color: $mode === "light" ? "black" : "white",
                 fontWeight: "bold",
-                fontSize: "14px",
+                fontSize: labelFontSize,
               },
-              y: -10,
+              y: isMobile ? -8 : -10,
             },
           });
         });
@@ -171,7 +179,7 @@
     const options = {
       chart: {
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        height: 360,
+        height: chartHeight,
       },
       credits: { enabled: false },
       legend: { enabled: false },
@@ -206,10 +214,10 @@
           // Create custom tick positions with wider spacing
           const positions = [];
           const info = this.getExtremes();
-          const tickCount = 5; // Reduce number of ticks displayed
-          const interval = Math.floor((info.max - info.min) / tickCount);
+          const numTicks = tickCount; // Responsive tick count
+          const interval = Math.floor((info.max - info.min) / numTicks);
 
-          for (let i = 0; i <= tickCount; i++) {
+          for (let i = 0; i <= numTicks; i++) {
             positions.push(info.min + i * interval);
           }
           return positions;
@@ -229,15 +237,15 @@
       tooltip: {
         shared: true,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)", // Semi-transparent black
-        borderColor: "rgba(255, 255, 255, 0.2)", // Slightly visible white border
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        borderColor: "rgba(255, 255, 255, 0.15)",
         borderWidth: 1,
         style: {
           color: "white",
-          fontSize: "16px",
-          padding: "10px",
+          fontSize: tooltipFontSize,
+          padding: isMobile ? "8px" : "10px",
         },
-        borderRadius: 4,
+        borderRadius: 6,
         formatter: function () {
           // Format the x value to display time in hh:mm format
           let tooltipContent = `<span class=" m-auto text-[1rem] font-[501]">${new Date(
@@ -309,7 +317,7 @@
   }
 
   $: {
-    if ((symbol && timePeriod) || $mode) {
+    if ((symbol && timePeriod) || $mode || $screenWidth) {
       isLoaded = false;
       config = null;
       historicalData = [];
