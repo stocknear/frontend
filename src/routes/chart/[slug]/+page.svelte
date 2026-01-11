@@ -1763,27 +1763,29 @@
   };
 
   // Get news marker color based on changesPercentage (matches earnings colors)
-  const getNewsMarkerColor = (changesPercentage: number | string | null | undefined): string => {
+  const getNewsMarkerColor = (
+    changesPercentage: number | string | null | undefined,
+  ): string => {
     // Handle null, undefined, or string "-"
     if (changesPercentage === null || changesPercentage === undefined) {
-      return '#9ca3af'; // gray
+      return "#9ca3af"; // gray
     }
     // Handle numeric values
-    if (typeof changesPercentage === 'number') {
-      if (changesPercentage > 0) return '#10B981'; // green
-      if (changesPercentage < 0) return '#B91C1C'; // red
-      return '#9ca3af'; // zero
+    if (typeof changesPercentage === "number") {
+      if (changesPercentage > 0) return "#10B981"; // green
+      if (changesPercentage < 0) return "#B91C1C"; // red
+      return "#9ca3af"; // zero
     }
     // Handle string values
     const strValue = String(changesPercentage).trim();
-    if (strValue === '-' || strValue === '') {
-      return '#9ca3af'; // gray
+    if (strValue === "-" || strValue === "") {
+      return "#9ca3af"; // gray
     }
     const numValue = parseFloat(strValue);
-    if (isNaN(numValue)) return '#9ca3af';
-    if (numValue > 0) return '#10B981'; // green (same as earnings beat)
-    if (numValue < 0) return '#B91C1C'; // red (same as earnings miss)
-    return '#9ca3af'; // neutral
+    if (isNaN(numValue)) return "#9ca3af";
+    if (numValue > 0) return "#10B981"; // green (same as earnings beat)
+    if (numValue < 0) return "#B91C1C"; // red (same as earnings miss)
+    return "#9ca3af"; // neutral
   };
 
   // Fetch GEX/DEX strike data from API
@@ -5825,27 +5827,35 @@
               <!-- Header -->
               <div class="flex items-center justify-between gap-2 mb-3">
                 <h3 class="text-white font-semibold">Why Price Moved</h3>
-                <span class={`text-sm font-semibold ${
-                  typeof selectedNews.changesPercentage === 'number'
-                    ? selectedNews.changesPercentage > 0
-                      ? 'text-emerald-400'
-                      : selectedNews.changesPercentage < 0
-                        ? 'text-red-400'
-                        : 'text-neutral-400'
-                    : selectedNews.changesPercentage === '-' || selectedNews.changesPercentage === null
-                      ? 'text-neutral-400'
-                      : parseFloat(String(selectedNews.changesPercentage)) > 0
-                        ? 'text-emerald-400'
-                        : parseFloat(String(selectedNews.changesPercentage)) < 0
-                          ? 'text-red-400'
-                          : 'text-neutral-400'
-                }`}>
-                  {#if typeof selectedNews.changesPercentage === 'number'}
-                    {selectedNews.changesPercentage > 0 ? '+' : ''}{selectedNews.changesPercentage.toFixed(2)}%
-                  {:else if selectedNews.changesPercentage === '-' || selectedNews.changesPercentage === null}
+                <span
+                  class={`text-sm font-semibold ${
+                    typeof selectedNews.changesPercentage === "number"
+                      ? selectedNews.changesPercentage > 0
+                        ? "text-emerald-400"
+                        : selectedNews.changesPercentage < 0
+                          ? "text-red-400"
+                          : "text-neutral-400"
+                      : selectedNews.changesPercentage === "-" ||
+                          selectedNews.changesPercentage === null
+                        ? "text-neutral-400"
+                        : parseFloat(String(selectedNews.changesPercentage)) > 0
+                          ? "text-emerald-400"
+                          : parseFloat(String(selectedNews.changesPercentage)) <
+                              0
+                            ? "text-red-400"
+                            : "text-neutral-400"
+                  }`}
+                >
+                  {#if typeof selectedNews.changesPercentage === "number"}
+                    {selectedNews.changesPercentage > 0
+                      ? "+"
+                      : ""}{selectedNews.changesPercentage.toFixed(2)}%
+                  {:else if selectedNews.changesPercentage === "-" || selectedNews.changesPercentage === null}
                     -
                   {:else}
-                    {parseFloat(String(selectedNews.changesPercentage)) > 0 ? '+' : ''}{selectedNews.changesPercentage}%
+                    {parseFloat(String(selectedNews.changesPercentage)) > 0
+                      ? "+"
+                      : ""}{selectedNews.changesPercentage}%
                   {/if}
                 </span>
               </div>
@@ -5853,7 +5863,7 @@
               <!-- Date -->
               <div class="text-xs text-neutral-500 mb-2">
                 {new Date(selectedNews.date).toLocaleDateString("en-US", {
-                  weekday: 'short',
+                  weekday: "short",
                   month: "short",
                   day: "numeric",
                   year: "numeric",

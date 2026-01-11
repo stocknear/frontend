@@ -15,8 +15,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     "X-API-KEY": apiKey,
   };
 
-  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, earningsRes, nextEarningsRes, dividendRes, wiimRes] =
-    await Promise.all([
+  // Check if user has Plus or Pro tier for events endpoints
+  const isSubscribed = ["Plus", "Pro"].includes(user?.tier);
+
+  // Base API calls (always needed)
+  const baseFetches = [
     fetch(apiURL + "/historical-adj-price", {
       method: "POST",
       headers,
@@ -42,27 +45,40 @@ export const load: PageServerLoad = async ({ locals, params }) => {
       headers,
       body: payload,
     }),
-    fetch(apiURL + "/earnings-statistics", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/next-earnings", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/stock-dividend", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/wiim-full-history", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-  ]);
+  ];
+
+  // Events API calls (only for Plus/Pro subscribers)
+  const eventsFetches = isSubscribed
+    ? [
+        fetch(apiURL + "/earnings-statistics", {
+          method: "POST",
+          headers,
+          body: payload,
+        }),
+        fetch(apiURL + "/next-earnings", {
+          method: "POST",
+          headers,
+          body: payload,
+        }),
+        fetch(apiURL + "/stock-dividend", {
+          method: "POST",
+          headers,
+          body: payload,
+        }),
+        fetch(apiURL + "/wiim-full-history", {
+          method: "POST",
+          headers,
+          body: payload,
+        }),
+      ]
+    : [];
+
+  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, ...eventsRes] =
+    await Promise.all([...baseFetches, ...eventsFetches]);
+
+  const [earningsRes, nextEarningsRes, dividendRes, wiimRes] = isSubscribed
+    ? eventsRes
+    : [null, null, null, null];
 
   let historical = [];
   if (historicalRes.ok) {
@@ -114,7 +130,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
 
   let historicalEarnings: any[] = [];
-  if (earningsRes.ok) {
+  if (earningsRes?.ok) {
     try {
       const earningsPayload = await earningsRes.json();
       historicalEarnings = earningsPayload?.historicalEarnings ?? [];
@@ -124,7 +140,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
 
   let nextEarnings: any = null;
-  if (nextEarningsRes.ok) {
+  if (nextEarningsRes?.ok) {
     try {
       nextEarnings = await nextEarningsRes.json();
     } catch {
@@ -133,7 +149,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
 
   let historicalDividends: any[] = [];
-  if (dividendRes.ok) {
+  if (dividendRes?.ok) {
     try {
       const dividendPayload = await dividendRes.json();
       historicalDividends = dividendPayload?.history ?? [];
@@ -143,9 +159,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
 
   let getWhyPriceMoved: any[] = [];
-  if (wiimRes.ok) {
+  if (wiimRes?.ok) {
     try {
-      getWhyPriceMoved = await wiimRes?.json();
+      getWhyPriceMoved = await wiimRes.json();
     } catch {
       getWhyPriceMoved = [];
     }
