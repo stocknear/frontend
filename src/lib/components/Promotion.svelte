@@ -29,11 +29,7 @@
   id={modalId}
   class="modal modal-bottom sm:modal-middle rounded-none sm:rounded"
 >
-  <button
-    type="button"
-    on:click={closeModal}
-    class="cursor-pointer modal-backdrop"
-  ></button>
+  <label for={modalId} class="cursor-pointer modal-backdrop"></label>
 
   <div
     class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-200 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
@@ -41,6 +37,21 @@
       ? 'min-h-screen'
       : ''}"
   >
+    <label
+      for={modalId}
+      class="cursor-pointer absolute right-3 top-3 text-lg text-muted hover:text-gray-900 dark:text-white dark:hover:text-white transition"
+    >
+      <svg
+        class="h-8 w-8"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg
+      >
+    </label>
+
     <div class="grid grid-cols-1 animate-fade-in-once">
       <div class="flex justify-center pt-6 sm:pt-3">
         <div
