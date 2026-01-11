@@ -542,7 +542,7 @@
                       Main Sectors:
                     </div>
                     <div
-                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start"
+                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
                     >
                       {#each mainSectors as item}
                         <a
