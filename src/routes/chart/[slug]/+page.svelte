@@ -189,6 +189,30 @@
   let selectedDexLevel: GexDexLevel | null = null;
   let gexDexPopupPosition = { x: 0, y: 0 };
 
+  // Open Interest (OI) types and state
+  interface OiStrikeData {
+    strike: number;
+    call_oi: number;
+    put_oi: number;
+    total_oi?: number;
+  }
+
+  interface OiLevel {
+    strike: number;
+    callOi: number;
+    putOi: number;
+    totalOi: number;
+    y: number;
+    visible: boolean;
+    intensity: number; // 0-1 for line thickness based on OI magnitude
+  }
+
+  let oiStrikeData: OiStrikeData[] = [];
+  let oiLevels: OiLevel[] = [];
+  let oiLoading = false;
+  let selectedOiLevel: OiLevel | null = null;
+  let oiPopupPosition = { x: 0, y: 0 };
+
   $: isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
 
   // Save event toggle states to localStorage
@@ -534,6 +558,15 @@
       id: "dex",
       label: "Delta Exposure (DEX)",
       indicatorName: "SN_DEX",
+      category: "Options",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
+    },
+    {
+      id: "oi",
+      label: "Open Interest (OI)",
+      indicatorName: "SN_OI",
       category: "Options",
       defaultParams: [],
       pane: "candle",
@@ -1445,13 +1478,152 @@
     selectedDexLevel = null;
   };
 
-  // Format large numbers for display
-  const formatGexDexValue = (value: number): string => {
-    const absValue = Math.abs(value);
-    if (absValue >= 1e9) return (value / 1e9).toFixed(2) + "B";
-    if (absValue >= 1e6) return (value / 1e6).toFixed(2) + "M";
-    if (absValue >= 1e3) return (value / 1e3).toFixed(2) + "K";
-    return value.toFixed(2);
+  // Fetch Open Interest strike data from API
+  const fetchOiData = async () => {
+    if (!ticker || oiLoading) return;
+
+    oiLoading = true;
+
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ticker,
+          category: "options-oi",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // The API returns data keyed by date - aggregate across all expiration dates
+      const aggregatedData = new Map<number, OiStrikeData>();
+
+      for (const dateData of Object.values(result) as OiStrikeData[][]) {
+        if (!Array.isArray(dateData)) continue;
+        for (const item of dateData) {
+          const strike = item.strike;
+          if (!aggregatedData.has(strike)) {
+            aggregatedData.set(strike, {
+              strike,
+              call_oi: 0,
+              put_oi: 0,
+            });
+          }
+          const existing = aggregatedData.get(strike)!;
+          existing.call_oi += item.call_oi || 0;
+          existing.put_oi += item.put_oi || 0;
+        }
+      }
+
+      // Calculate total OI and convert to array
+      const strikeData = Array.from(aggregatedData.values()).map((item) => ({
+        ...item,
+        total_oi: item.call_oi + item.put_oi,
+      }));
+
+      oiStrikeData = strikeData;
+      updateOiLevels();
+    } catch (error) {
+      console.error("Failed to fetch OI data:", error);
+      oiStrikeData = [];
+      oiLevels = [];
+    } finally {
+      oiLoading = false;
+    }
+  };
+
+  // Update OI levels for rendering on chart
+  const updateOiLevels = () => {
+    if (!chart || !chartContainer || oiStrikeData.length === 0) {
+      oiLevels = [];
+      return;
+    }
+
+    // Get visible price range from chart
+    const visibleRange = chart.getVisibleRange();
+    if (!visibleRange) {
+      oiLevels = [];
+      return;
+    }
+
+    // Get price range from visible bars
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    for (let i = visibleRange.from; i < visibleRange.to; i++) {
+      const bar = currentBars[i];
+      if (bar) {
+        minPrice = Math.min(minPrice, bar.low);
+        maxPrice = Math.max(maxPrice, bar.high);
+      }
+    }
+
+    // Add padding to price range
+    const padding = (maxPrice - minPrice) * 0.1;
+    minPrice -= padding;
+    maxPrice += padding;
+
+    // Filter strikes within visible price range
+    const visibleStrikes = oiStrikeData.filter(
+      (item) => item.strike >= minPrice && item.strike <= maxPrice,
+    );
+
+    // Find max total OI for intensity calculation
+    const maxTotalOi = Math.max(
+      ...visibleStrikes.map((item) => item.total_oi || 0),
+      1,
+    );
+
+    // Sort by total OI and take top 10 most significant levels
+    const sortedStrikes = [...visibleStrikes]
+      .sort((a, b) => (b.total_oi || 0) - (a.total_oi || 0))
+      .slice(0, 10);
+
+    // Convert to pixel positions
+    const levels: OiLevel[] = [];
+    for (const item of sortedStrikes) {
+      const pixel = chart.convertToPixel({ value: item.strike });
+      if (pixel && typeof pixel.y === "number") {
+        levels.push({
+          strike: item.strike,
+          callOi: item.call_oi,
+          putOi: item.put_oi,
+          totalOi: item.total_oi || 0,
+          y: pixel.y,
+          visible: true,
+          intensity: (item.total_oi || 0) / maxTotalOi,
+        });
+      }
+    }
+
+    oiLevels = levels;
+  };
+
+  // Handle OI level click
+  const handleOiLevelClick = (level: OiLevel, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedOiLevel = level;
+    selectedGexLevel = null;
+    selectedDexLevel = null;
+
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      oiPopupPosition = {
+        x: Math.min(event.clientX - rect.left, rect.width - 200),
+        y: Math.max(level.y - 80, 10),
+      };
+    }
+  };
+
+  // Close OI popup
+  const closeOiPopup = () => {
+    selectedOiLevel = null;
   };
 
   // Helper to get EPS value (handles both field naming conventions)
@@ -2437,12 +2609,14 @@
     }
     ruleOfList = buildRuleList();
 
-    // Handle overlay indicators (GEX/DEX) - fetch data when enabled
+    // Handle overlay indicators (GEX/DEX/OI) - fetch data when enabled
     if (newState) {
       if (name === "gex" && gexStrikeData.length === 0) {
         fetchGexDexData("gex");
       } else if (name === "dex" && dexStrikeData.length === 0) {
         fetchGexDexData("dex");
+      } else if (name === "oi" && oiStrikeData.length === 0) {
+        fetchOiData();
       }
     } else {
       // Clear data when disabled
@@ -2454,6 +2628,10 @@
         dexStrikeData = [];
         dexLevels = [];
         selectedDexLevel = null;
+      } else if (name === "oi") {
+        oiStrikeData = [];
+        oiLevels = [];
+        selectedOiLevel = null;
       }
     }
   }
@@ -2854,21 +3032,14 @@
   }
 
   function formatPrice(value: number | null) {
-    if (value === null || !Number.isFinite(value)) return "--";
-    return priceFormatter.format(value);
-  }
-
-  function formatVolume(value: number | null | undefined) {
-    if (value === null || value === undefined || !Number.isFinite(value)) {
-      return "--";
-    }
-    return volumeFormatter.format(value);
+    if (value === null || !Number.isFinite(value)) return "-";
+    return priceFormatter?.format(value);
   }
 
   function formatPercent(value: number | null) {
-    if (value === null || !Number.isFinite(value)) return "--";
+    if (value === null || !Number?.isFinite(value)) return "-";
     const sign = value >= 0 ? "+" : "";
-    return `${sign}${value.toFixed(2)}%`;
+    return `${sign}${value?.toFixed(2)}%`;
   }
 
   type CandleTooltipData = {
@@ -2999,7 +3170,7 @@
   };
 
   function formatTimestamp(bar: KLineData | null) {
-    if (!bar) return "--";
+    if (!bar) return "-";
     const dt = DateTime.fromMillis(bar.timestamp, { zone });
     if (activeRange === "1D" || activeRange === "1min") {
       return dt.toFormat("MMM dd, HH:mm");
@@ -3128,13 +3299,16 @@
     chart.subscribeAction("onZoom", updateDividendMarkers);
     chart.subscribeAction("onVisibleRangeChange", updateDividendMarkers);
 
-    // Subscribe to chart events for GEX/DEX level position updates
+    // Subscribe to chart events for GEX/DEX/OI level position updates
     chart.subscribeAction("onScroll", updateGexLevels);
     chart.subscribeAction("onZoom", updateGexLevels);
     chart.subscribeAction("onVisibleRangeChange", updateGexLevels);
     chart.subscribeAction("onScroll", updateDexLevels);
     chart.subscribeAction("onZoom", updateDexLevels);
     chart.subscribeAction("onVisibleRangeChange", updateDexLevels);
+    chart.subscribeAction("onScroll", updateOiLevels);
+    chart.subscribeAction("onZoom", updateOiLevels);
+    chart.subscribeAction("onVisibleRangeChange", updateOiLevels);
 
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
@@ -3190,6 +3364,9 @@
       chart.unsubscribeAction("onScroll", updateDexLevels);
       chart.unsubscribeAction("onZoom", updateDexLevels);
       chart.unsubscribeAction("onVisibleRangeChange", updateDexLevels);
+      chart.unsubscribeAction("onScroll", updateOiLevels);
+      chart.unsubscribeAction("onZoom", updateOiLevels);
+      chart.unsubscribeAction("onVisibleRangeChange", updateOiLevels);
       dispose(chart);
     }
     chart = null;
@@ -3340,23 +3517,28 @@
     setTimeout(updateDividendMarkers, 100);
   }
 
-  // Track ticker for GEX/DEX refetch
-  let gexDexTicker = "";
+  // Track ticker for GEX/DEX/OI refetch
+  let gexDexOiTicker = "";
 
-  // Clear GEX/DEX data and refetch when ticker changes
-  $: if (ticker && ticker !== gexDexTicker) {
-    gexDexTicker = ticker;
+  // Clear GEX/DEX/OI data and refetch when ticker changes
+  $: if (ticker && ticker !== gexDexOiTicker) {
+    gexDexOiTicker = ticker;
     // Clear existing data
     gexStrikeData = [];
     dexStrikeData = [];
+    oiStrikeData = [];
     gexLevels = [];
     dexLevels = [];
+    oiLevels = [];
     // Refetch if indicators are enabled
     if (indicatorState.gex) {
       fetchGexDexData("gex");
     }
     if (indicatorState.dex) {
       fetchGexDexData("dex");
+    }
+    if (indicatorState.oi) {
+      fetchOiData();
     }
   }
 
@@ -3368,6 +3550,11 @@
   // Update DEX levels when data changes or chart is ready
   $: if (chart && indicatorState.dex && dexStrikeData.length > 0) {
     setTimeout(updateDexLevels, 100);
+  }
+
+  // Update OI levels when data changes or chart is ready
+  $: if (chart && indicatorState.oi && oiStrikeData.length > 0) {
+    setTimeout(updateOiLevels, 100);
   }
 
   $: if (chart) {
@@ -4159,12 +4346,12 @@
                     <div class="flex justify-between">
                       <span
                         class={surprise?.positive
-                          ? "text-green-400"
+                          ? "text-emerald-800 dark:text-emerald-400"
                           : "text-red-400"}>Surprise</span
                       >
                       <span
                         class={surprise?.positive
-                          ? "text-green-400"
+                          ? "text-emerald-800 dark:text-emerald-400"
                           : "text-red-400"}
                       >
                         {surprise?.positive ? "+" : ""}{surprise?.value.toFixed(
@@ -4185,7 +4372,7 @@
                         <span class="text-neutral-400">YoY Change</span>
                         <span
                           class={yoy.positive
-                            ? "text-green-400"
+                            ? "text-emerald-800 dark:text-emerald-400"
                             : "text-red-400"}
                         >
                           {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
@@ -4228,12 +4415,12 @@
                     <div class="flex justify-between">
                       <span
                         class={surprise?.positive
-                          ? "text-green-400"
+                          ? "text-emerald-800 dark:text-emerald-400"
                           : "text-red-400"}>Surprise</span
                       >
                       <span
                         class={surprise?.positive
-                          ? "text-green-400"
+                          ? "text-emerald-800 dark:text-emerald-400"
                           : "text-red-400"}
                       >
                         {surprise?.positive ? "+" : ""}{abbreviateNumber(
@@ -4254,7 +4441,7 @@
                         <span class="text-neutral-400">YoY Change</span>
                         <span
                           class={yoy.positive
-                            ? "text-green-400"
+                            ? "text-emerald-800 dark:text-emerald-400"
                             : "text-red-400"}
                         >
                           {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
@@ -4447,12 +4634,11 @@
                     level.intensity * 0.4}"
                   on:click={(e) => handleGexLevelClick(level, e)}
                   on:keypress={(e) =>
-                    e.key === 'Enter' && handleGexLevelClick(level, e)}
+                    e.key === "Enter" && handleGexLevelClick(level, e)}
                   role="button"
                   tabindex="0"
                   aria-label="GEX level at ${level.strike}"
-                >
-                </div>
+                ></div>
               {/if}
             {/each}
           </div>
@@ -4468,18 +4654,19 @@
                   class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
                   style="top: {level.y}px; border-top: {1 +
                     level.intensity * 2}px dashed {level.isPositive
-                    ? 'rgba(59, 130, 246, ' + (0.5 + level.intensity * 0.5) + ')'
+                    ? 'rgba(59, 130, 246, ' +
+                      (0.5 + level.intensity * 0.5) +
+                      ')'
                     : 'rgba(249, 115, 22, ' +
                       (0.5 + level.intensity * 0.5) +
                       ')'}; opacity: {0.6 + level.intensity * 0.4}"
                   on:click={(e) => handleDexLevelClick(level, e)}
                   on:keypress={(e) =>
-                    e.key === 'Enter' && handleDexLevelClick(level, e)}
+                    e.key === "Enter" && handleDexLevelClick(level, e)}
                   role="button"
                   tabindex="0"
                   aria-label="DEX level at ${level.strike}"
-                >
-                </div>
+                ></div>
               {/if}
             {/each}
           </div>
@@ -4544,24 +4731,24 @@
                   >
                   <span
                     class="font-medium {level?.isPositive
-                      ? 'text-green-400'
+                      ? 'text-emerald-800 dark:text-emerald-400'
                       : 'text-red-400'}"
                   >
-                    {level?.isPositive ? "+" : ""}{formatGexDexValue(
-                      level?.value || 0,
-                    )}
+                    {level?.isPositive ? "+" : ""}{level?.value?.toLocaleString(
+                      "en-US",
+                    ) || 0}
                   </span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Call Exposure</span>
-                  <span class="text-green-400"
-                    >+{formatGexDexValue(level?.callValue || 0)}</span
+                  <span class="text-emerald-800 dark:text-emerald-400"
+                    >+{level?.callValue?.toLocaleString("en-US") || 0}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Put Exposure</span>
                   <span class="text-red-400"
-                    >{formatGexDexValue(level?.putValue || 0)}</span
+                    >{level?.putValue?.toLocaleString("en-US") || 0}</span
                   >
                 </div>
               </div>
@@ -4610,6 +4797,139 @@
             class="fixed inset-0 z-[6] cursor-default"
             on:click={closeGexDexPopup}
             aria-label="Close GEX/DEX popup"
+          ></button>
+        {/if}
+
+        <!-- Open Interest (OI) horizontal levels overlay -->
+        {#if indicatorState.oi && oiLevels.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[4]">
+            {#each oiLevels as level (level.strike)}
+              {#if level.visible}
+                <!-- Horizontal line with dotted style for OI -->
+                <div
+                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  style="top: {level.y}px; border-top: {1 +
+                    level.intensity * 2}px dotted rgba(168, 85, 247, {0.5 +
+                    level.intensity * 0.5}); opacity: {0.6 +
+                    level.intensity * 0.4}"
+                  on:click={(e) => handleOiLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === "Enter" && handleOiLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="OI level at ${level.strike}"
+                ></div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- OI popup -->
+        {#if selectedOiLevel}
+          <div
+            class="absolute z-[7] pointer-events-auto"
+            style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[240px]"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-3">
+                <div
+                  class="w-3 h-3 rounded-full"
+                  style="background: #a855f7"
+                ></div>
+                <h3 class="text-white font-semibold">Open Interest (OI)</h3>
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  on:click={closeOiPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Strike info -->
+              <div class="text-sm space-y-2">
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Strike Price</span>
+                  <span class="font-medium"
+                    >${selectedOiLevel.strike.toFixed(2)}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Total OI</span>
+                  <span class="font-medium text-purple-400">
+                    {selectedOiLevel.totalOi?.toLocaleString("en-US")}
+                  </span>
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Call OI</span>
+                  <span class="text-emerald-800 dark:text-emerald-400"
+                    >{selectedOiLevel?.callOi?.toLocaleString("en-US")}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Put OI</span>
+                  <span class="text-red-400"
+                    >{selectedOiLevel?.putOi?.toLocaleString("en-US")}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Put/Call Ratio</span>
+                  <span
+                    class="font-medium {selectedOiLevel.callOi > 0 &&
+                    selectedOiLevel.putOi / selectedOiLevel.callOi > 1
+                      ? 'text-red-400'
+                      : 'text-emerald-800 dark:text-emerald-400'}"
+                  >
+                    {selectedOiLevel.callOi > 0
+                      ? (
+                          selectedOiLevel.putOi / selectedOiLevel.callOi
+                        ).toFixed(2)
+                      : "N/A"}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Explanation -->
+              <div
+                class="mt-3 pt-3 border-t border-neutral-700 text-xs text-neutral-400"
+              >
+                <p>
+                  High open interest at this strike indicates significant
+                  positioning. This level may act as a magnet or
+                  support/resistance.
+                </p>
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/stocks/{ticker}/options/oi"
+                class="block w-full text-center py-2 px-4 mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+              >
+                View all OI levels
+              </a>
+            </div>
+          </div>
+
+          <!-- Click outside to close -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default"
+            on:click={closeOiPopup}
+            aria-label="Close OI popup"
           ></button>
         {/if}
 

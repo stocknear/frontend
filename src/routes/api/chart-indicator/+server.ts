@@ -4,6 +4,7 @@ import type { RequestHandler } from "./$types";
 const INDICATOR_ENDPOINTS: Record<string, string> = {
   "options-gex": "/options-gex-dex",
   "options-dex": "/options-gex-dex",
+  "options-oi": "/options-oi",
   // Add more indicator categories here as needed:
   // "dark-pool": "/dark-pool-data",
   // "institutional": "/institutional-flow",
@@ -31,6 +32,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       params: data?.ticker,
       category: "strike",
       type: category === "options-gex" ? "gex" : "dex",
+    };
+  } else if (category === "options-oi") {
+    postData = {
+      params: data?.ticker,
+      category: "strike",
     };
   }
   // Add more category-specific payload builders here as needed
