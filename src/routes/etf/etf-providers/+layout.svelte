@@ -51,7 +51,7 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class=" border-b border-gray-300 dark:border-zinc-700">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -59,7 +59,7 @@
             </h1>
           </div>
 
-          <div class="w-full m-auto mb-10 overflow-hidden">
+          <div class="w-full m-auto overflow-hidden">
             <div class="w-full flex flex-col justify-center items-center">
               <slot />
             </div>
