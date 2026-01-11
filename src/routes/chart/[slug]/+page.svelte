@@ -792,6 +792,7 @@
   let drawingsLocked = false;
   let drawingsVisible = true;
   let openDropdownId: string | null = null;
+  let toolbarExpanded = true;
 
   const indicatorItems = indicatorDefinitions.map((item) => ({
     id: item.id,
@@ -4457,20 +4458,36 @@
     <div class="flex flex-1 overflow-hidden">
       <!-- KlineCharts Pro Style Drawing Toolbar -->
       <div
-        class="hidden sm:flex h-full w-[38px] flex-col items-center border-r border-neutral-800 bg-[#131722] py-2 overflow-visible"
+        class="hidden sm:flex h-full flex-col items-center border-r border-neutral-800 bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
+        style="width: {toolbarExpanded ? '38px' : '38px'}"
       >
-        <!-- Cursor Tool -->
+        <!-- Menu Toggle Button (KlineCharts Pro style) -->
         <button
-          class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
-            activeTool === "cursor"
-              ? "text-[#2962ff]"
-              : "text-neutral-400 hover:text-neutral-200"
-          }`}
-          on:click={() => { activeTool = "cursor"; if (chartMain) chartMain.style.cursor = "default"; }}
-          title="Cursor"
+          class="flex h-[34px] w-[34px] items-center justify-center text-neutral-400 hover:text-neutral-200 transition-all mb-1"
+          on:click={() => toolbarExpanded = !toolbarExpanded}
+          title={toolbarExpanded ? "Collapse toolbar" : "Expand toolbar"}
         >
-          <MousePointer2 class="h-[18px] w-[18px]" />
+          <svg
+            viewBox="0 0 1024 1024"
+            class="h-[18px] w-[18px] fill-current transition-transform duration-200 {toolbarExpanded ? '' : 'rotate-180'}"
+          >
+            <path d="M192.037 287.953h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32zM832.161 479.169H438.553c-17.673 0-32 14.327-32 32s14.327 32 32 32h393.608c17.673 0 32-14.327 32-32s-14.327-32-32-32zM832.161 735.802H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32zM319.028 351.594l-160 160 160 160z"/>
+          </svg>
         </button>
+
+        {#if toolbarExpanded}
+          <!-- Cursor Tool -->
+          <button
+            class={`flex h-[34px] w-[34px] items-center justify-center transition-colors ${
+              activeTool === "cursor"
+                ? "text-[#2962ff]"
+                : "text-neutral-400 hover:text-neutral-200"
+            }`}
+            on:click={() => { activeTool = "cursor"; if (chartMain) chartMain.style.cursor = "default"; }}
+            title="Cursor"
+          >
+            <MousePointer2 class="h-[18px] w-[18px]" />
+          </button>
 
         <!-- Lines Tool Group -->
         <div class="relative">
@@ -4686,6 +4703,7 @@
             </svg>
           </button>
         </div>
+        {/if}
       </div>
 
       <div class="relative flex-1 bg-[#0b0b0b]">
