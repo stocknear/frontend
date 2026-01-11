@@ -5778,7 +5778,7 @@
         <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[5]">
-            {#each newsMarkers as marker (marker.timestamp)}
+            {#each newsMarkers as marker (marker.news.date)}
               {#if marker?.visible}
                 <button
                   class="absolute bottom-[115px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"

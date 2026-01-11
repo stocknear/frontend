@@ -57,7 +57,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
       headers,
       body: payload,
     }),
-    fetch(apiURL + "/wiim", {
+    fetch(apiURL + "/wiim-full-history", {
       method: "POST",
       headers,
       body: payload,
@@ -145,7 +145,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   let getWhyPriceMoved: any[] = [];
   if (wiimRes.ok) {
     try {
-      getWhyPriceMoved = await wiimRes.json();
+      getWhyPriceMoved = await wiimRes?.json();
     } catch {
       getWhyPriceMoved = [];
     }
