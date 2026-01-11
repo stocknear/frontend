@@ -4569,7 +4569,7 @@
                         }}
                       />
                       <div
-                        class="w-8 h-4 bg-neutral-600 rounded-full peer peer-checked:bg-violet-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-full"
+                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                       ></div>
                     {:else}
                       <button
@@ -4614,7 +4614,7 @@
                         }}
                       />
                       <div
-                        class="w-8 h-4 bg-neutral-600 rounded-full peer peer-checked:bg-violet-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-full"
+                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                       ></div>
                     {:else}
                       <button
@@ -4774,7 +4774,7 @@
 
           <a
             href={detailedAnalysisHref}
-            class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+            class="whitespace-nowrap flex items-center gap-1 px-2 py-1 text-xs font-medium text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
             aria-label="Detailed Analysis"
           >
             <span>Detailed Analysis</span>
