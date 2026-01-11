@@ -2,10 +2,10 @@ import type { RequestHandler } from "./$types";
 import { calculateIntradayExportCredits } from "$lib/utils";
 
 const ALLOWED_TIERS = new Set(["Plus", "Pro"]);
-const ALLOWED_INTERVALS = new Set(["1hour", "30min", "15min", "5min"]);
+const ALLOWED_INTERVALS = new Set(["1min", "5min", "15min", "30min", "1hour"]);
 const RANGE_LIMITS: Record<string, Record<string, number>> = {
-  Plus: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 30 },
-  Pro: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 60 },
+  Plus: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 30, "1min": 30 },
+  Pro: { "1hour": 1460, "30min": 1460, "15min": 1460, "5min": 60, "1min": 60 },
 };
 
 const activeExports = new Map<string, number>();

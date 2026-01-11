@@ -219,6 +219,7 @@
           <option value="30min">30 Min</option>
           <option value="15min">15 Min</option>
           <option value="5min">5 Min</option>
+          <option value="1min">1 Min</option>
         </select>
       </label>
     </div>

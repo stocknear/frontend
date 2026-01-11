@@ -2442,6 +2442,7 @@ export function getIntradayExportBounds(interval = "15min") {
     "30min": { min: 6, max: 40 },
     "15min": { min: 8, max: 50 },
     "5min": { min: 12, max: 70 },
+    "1min": { min: 18, max: 100 },
   };
 
   return bounds[interval] ?? bounds["15min"];
@@ -2471,6 +2472,7 @@ export function calculateIntradayExportCredits(
     "30min": 0.3,
     "15min": 0.55,
     "5min": 0.95,
+    "1min": 1.5,
   };
   const rate = perDayRates[interval] ?? perDayRates["15min"];
   const cost = Math.ceil(diffDays * rate);
