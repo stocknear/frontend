@@ -83,23 +83,18 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     series: "price",
     precision: 2,
     calcParams: [20, 2],
-    figures: [
-      { key: "upper", title: "Upper: ", type: "line" },
-      { key: "mid", title: "Mid: ", type: "line" },
-      { key: "lower", title: "Lower: ", type: "line" },
-    ],
-    styles: {
-      lines: [
-        { color: "rgba(255, 255, 255, 0.6)" },
-        { color: "#FFFFFF" },
-        { color: "rgba(255, 255, 255, 0.6)" },
-      ],
-    },
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
     draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
       const { from, to } = chart.getVisibleRange();
       const result = indicator.result as IndicatorRecord[];
 
-      if (!result || result.length === 0) return true;
+      if (!result || result.length === 0) return false;
 
       // Collect points for upper, middle, and lower bands
       const upperPoints: { x: number; y: number }[] = [];
@@ -140,6 +135,27 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         ctx.closePath();
         ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
         ctx.fill();
+
+        // Draw upper band line
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(upperPoints[0].x, upperPoints[0].y);
+        for (let i = 1; i < upperPoints.length; i++) {
+          ctx.lineTo(upperPoints[i].x, upperPoints[i].y);
+        }
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Draw lower band line
+        ctx.beginPath();
+        ctx.moveTo(lowerPoints[0].x, lowerPoints[0].y);
+        for (let i = 1; i < lowerPoints.length; i++) {
+          ctx.lineTo(lowerPoints[i].x, lowerPoints[i].y);
+        }
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
       }
 
       // Draw the middle line (SMA) as a solid white line
@@ -155,8 +171,8 @@ function createBollIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         ctx.stroke();
       }
 
-      // Return true to continue with default figure (line) drawing
-      return true;
+      // Return false to skip default figure drawing (which includes lastValueMark)
+      return false;
     },
   });
 }
