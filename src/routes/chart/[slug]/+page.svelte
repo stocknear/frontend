@@ -1318,7 +1318,13 @@
       needDefaultPointFigure: true,
       needDefaultXAxisFigure: true,
       needDefaultYAxisFigure: true,
-      createPointFigures: ({ chart, coordinates, bounding, overlay, yAxis }) => {
+      createPointFigures: ({
+        chart,
+        coordinates,
+        bounding,
+        overlay,
+        yAxis,
+      }) => {
         const points = overlay.points;
         if (coordinates.length < 2) return [];
 
@@ -1356,7 +1362,9 @@
           const isUptrend = trendPriceDiff > 0;
 
           // Extension levels (projected from point 3)
-          const extensionLevels = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1, 1.272, 1.618, 2, 2.618];
+          const extensionLevels = [
+            0, 0.236, 0.382, 0.5, 0.618, 0.786, 1, 1.272, 1.618, 2, 2.618,
+          ];
 
           const startX = 0;
           const endX = bounding.width;
@@ -1368,7 +1376,8 @@
           // Calculate Y per price unit using points 0 and 1
           const yPerPrice =
             points[1].value !== points[0].value
-              ? (coordinates[1].y - coordinates[0].y) / (points[1].value - points[0].value)
+              ? (coordinates[1].y - coordinates[0].y) /
+                (points[1].value - points[0].value)
               : 0;
 
           extensionLevels.forEach((level) => {
@@ -1376,17 +1385,25 @@
             // For uptrend: extensions go up from point 3
             // For downtrend: extensions go down from point 3
             const extensionPrice = baseValue + trendPriceDiff * level;
-            const extensionY = baseY - (extensionPrice - baseValue) * Math.abs(yPerPrice);
+            const extensionY =
+              baseY - (extensionPrice - baseValue) * Math.abs(yPerPrice);
 
             const formattedPrice = chart
               .getDecimalFold()
               .format(
-                chart.getThousandsSeparator().format(extensionPrice.toFixed(precision)),
+                chart
+                  .getThousandsSeparator()
+                  .format(extensionPrice.toFixed(precision)),
               );
 
             figures.push({
               type: "line",
-              attrs: { coordinates: [{ x: startX, y: extensionY }, { x: endX, y: extensionY }] },
+              attrs: {
+                coordinates: [
+                  { x: startX, y: extensionY },
+                  { x: endX, y: extensionY },
+                ],
+              },
               styles: level === 1 ? {} : { style: "dashed" },
               ignoreEvent: true,
             });
@@ -3593,7 +3610,7 @@
   }
 
   async function handleSave(showMessage = true) {
-    if (!data?.user) return;
+    if (!data?.user || data?.user?.tier !== "Pro") return;
     if (!selectedStrategy) {
       handleCreateStrategy();
       return;
@@ -3639,6 +3656,7 @@
   async function createStrategy(event) {
     event.preventDefault();
     if (!ensureAuth()) return;
+    if (data?.user?.tier !== "Pro") return;
 
     // Clear all chart tools and indicators (like clicking eraser)
     if (chart) {
@@ -4772,7 +4790,7 @@
         <div class="hidden sm:flex items-center">
           {#each timeframes as frame}
             <button
-              class={`cursor-pointer px-2 py-1 text-xs font-medium rounded transition ${
+              class={`cursor-pointer px-2 py-1 text-sm font-medium rounded transition ${
                 activeRange === frame
                   ? "text-white bg-violet-600"
                   : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"
@@ -5059,19 +5077,42 @@
             sideOffset={4}
             class="w-auto min-w-48 max-h-64 overflow-y-auto rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
           >
-            <label
-              for={!data?.user ? "userLogin" : "addChartStrategy"}
-              class="flex items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
-            >
-              <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  fill-rule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span>New Strategy</span>
-            </label>
+            {#if isSubscribed}
+              <label
+                for={!data?.user ? "userLogin" : "addChartStrategy"}
+                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+              >
+                <svg
+                  class="h-3.5 w-3.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span>New Strategy</span>
+              </label>
+            {:else}
+              <button
+                on:click={() => goto("/pricing")}
+                class="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+              >
+                <svg
+                  class="w-4 h-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+                <span>New Strategy</span>
+              </button>
+            {/if}
             <div class="h-px bg-neutral-700 my-1"></div>
             <DropdownMenu.Group>
               {#if strategyList?.length > 0}
@@ -5110,7 +5151,7 @@
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
-        {#if data?.user}
+        {#if isSubscribed}
           <!-- Separator -->
           <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
 
@@ -5133,7 +5174,7 @@
 
           {#if strategyList?.length > 0}
             <label
-              for={!data?.user ? "userLogin" : "addChartStrategy"}
+              for="addChartStrategy"
               class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               <svg
