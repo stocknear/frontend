@@ -980,6 +980,158 @@
       },
     });
 
+    // XABCD Harmonic Pattern (5 points: X, A, B, C, D)
+    registerOverlay({
+      name: "xabcd",
+      totalStep: 6,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates }) => {
+        if (coordinates.length === 0) return [];
+
+        const figures: any[] = [];
+        const tags = ["X", "A", "B", "C", "D"];
+
+        // Text labels at each point
+        coordinates.forEach((coordinate, i) => {
+          if (i < tags.length) {
+            figures.push({
+              type: "text",
+              attrs: {
+                x: coordinate.x,
+                y: coordinate.y,
+                text: `(${tags[i]})`,
+                baseline: "bottom",
+              },
+              ignoreEvent: true,
+            });
+          }
+        });
+
+        // Main line connecting all points sequentially
+        if (coordinates.length >= 2) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [...coordinates] },
+          });
+        }
+
+        // Dashed line: X-B
+        if (coordinates.length > 2) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[0], coordinates[2]] },
+            styles: { style: "dashed" },
+            ignoreEvent: true,
+          });
+        }
+
+        // Dashed line: A-C
+        if (coordinates.length > 3) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[1], coordinates[3]] },
+            styles: { style: "dashed" },
+            ignoreEvent: true,
+          });
+        }
+
+        // Dashed line: B-D
+        if (coordinates.length > 4) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[2], coordinates[4]] },
+            styles: { style: "dashed" },
+            ignoreEvent: true,
+          });
+        }
+
+        // Polygon X-A-B
+        if (coordinates.length >= 3) {
+          figures.push({
+            type: "polygon",
+            attrs: { coordinates: [coordinates[0], coordinates[1], coordinates[2]] },
+            styles: { color: "rgba(22, 119, 255, 0.15)" },
+            ignoreEvent: true,
+          });
+        }
+
+        // Polygon B-C-D
+        if (coordinates.length >= 5) {
+          figures.push({
+            type: "polygon",
+            attrs: { coordinates: [coordinates[2], coordinates[3], coordinates[4]] },
+            styles: { color: "rgba(22, 119, 255, 0.15)" },
+            ignoreEvent: true,
+          });
+        }
+
+        return figures;
+      },
+    });
+
+    // ABCD Pattern (4 points: A, B, C, D)
+    registerOverlay({
+      name: "abcd",
+      totalStep: 5,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates }) => {
+        if (coordinates.length === 0) return [];
+
+        const figures: any[] = [];
+        const tags = ["A", "B", "C", "D"];
+
+        // Text labels at each point
+        coordinates.forEach((coordinate, i) => {
+          if (i < tags.length) {
+            figures.push({
+              type: "text",
+              attrs: {
+                x: coordinate.x,
+                y: coordinate.y,
+                text: `(${tags[i]})`,
+                baseline: "bottom",
+              },
+              ignoreEvent: true,
+            });
+          }
+        });
+
+        // Main line connecting all points sequentially
+        if (coordinates.length >= 2) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [...coordinates] },
+          });
+        }
+
+        // Dashed line: A-C
+        if (coordinates.length > 2) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[0], coordinates[2]] },
+            styles: { style: "dashed" },
+            ignoreEvent: true,
+          });
+        }
+
+        // Dashed line: B-D
+        if (coordinates.length > 3) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[1], coordinates[3]] },
+            styles: { style: "dashed" },
+            ignoreEvent: true,
+          });
+        }
+
+        return figures;
+      },
+    });
+
     customOverlaysRegistered = true;
   };
 
@@ -4516,7 +4668,7 @@
         >
           <!-- Cursor Tool -->
           <button
-            class={`group relative flex h-[32px] w-[32px] items-center justify-center rounded transition-all duration-200 ${
+            class={`group relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
               activeTool === "cursor"
                 ? "bg-[#2962ff]/10 text-[#2962ff]"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4524,7 +4676,7 @@
             on:click={() => { activeTool = "cursor"; if (chartMain) chartMain.style.cursor = "default"; }}
             title="Cursor"
           >
-            <MousePointer2 class="h-[18px] w-[18px]" />
+            <MousePointer2 class="h-5 w-5" />
           </button>
 
           <!-- Drawing Tool Groups -->
@@ -4532,7 +4684,7 @@
             <div class="relative mt-1 group/item">
               <!-- Main Button with selected tool icon -->
               <button
-                class={`relative flex h-[32px] w-[32px] items-center justify-center rounded transition-all duration-200 ${
+                class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
                   group.options.some(o => o.id === activeTool)
                     ? "bg-[#2962ff]/10 text-[#2962ff]"
                     : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4545,7 +4697,7 @@
                 }}
                 title={group.label}
               >
-                <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+                <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
                   <path d={getGroupIcon(group.id)}/>
                 </svg>
                 <!-- Dropdown Arrow -->
@@ -4567,14 +4719,14 @@
                 <div class="absolute left-[calc(100%+4px)] top-0 bg-[#1e222d] border border-neutral-700 rounded-md shadow-xl py-1 z-50 min-w-[180px] max-h-[320px] overflow-y-auto">
                   {#each group.options as option}
                     <button
-                      class={`w-full flex items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
+                      class={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${
                         selectedToolByGroup[group.id] === option.id
                           ? "bg-[#2962ff]/10 text-[#2962ff]"
                           : "text-neutral-300 hover:bg-[#2a2e39] hover:text-white"
                       }`}
                       on:click={() => activateDrawingTool(group.id, option.id, option.overlay)}
                     >
-                      <svg viewBox="0 0 22 22" class="h-[16px] w-[16px] flex-shrink-0 fill-current">
+                      <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
                         <path d={toolIcons[option.icon]}/>
                       </svg>
                       <span>{option.label}</span>
@@ -4591,7 +4743,7 @@
           <!-- Magnet Mode -->
           <div class="relative mt-1 group/magnet">
             <button
-              class={`relative flex h-[32px] w-[32px] items-center justify-center rounded transition-all duration-200 ${
+              class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
                 drawingMode !== "normal"
                   ? "bg-[#2962ff]/10 text-[#2962ff]"
                   : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4605,7 +4757,7 @@
               }}
               title={drawingMode === "normal" ? "Enable magnet mode" : "Disable magnet mode"}
             >
-              <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] fill-current">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current">
                 {#if drawingMode === "strong_magnet"}
                   <path d={toolIcons.strongMagnet}/>
                 {:else}
@@ -4630,27 +4782,27 @@
             {#if openDropdownId === "magnet"}
               <div class="absolute left-[calc(100%+4px)] top-0 bg-[#1e222d] border border-neutral-700 rounded-md shadow-xl py-1 z-50 min-w-[150px]">
                 <button
-                  class={`w-full flex items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
+                  class={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${
                     drawingMode === "weak_magnet"
                       ? "bg-[#2962ff]/10 text-[#2962ff]"
                       : "text-neutral-300 hover:bg-[#2a2e39] hover:text-white"
                   }`}
                   on:click={() => { drawingMode = "weak_magnet"; openDropdownId = null; }}
                 >
-                  <svg viewBox="0 0 24 24" class="h-[16px] w-[16px] flex-shrink-0 fill-current">
+                  <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
                     <path d={toolIcons.weakMagnet}/>
                   </svg>
                   <span>Weak Magnet</span>
                 </button>
                 <button
-                  class={`w-full flex items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
+                  class={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${
                     drawingMode === "strong_magnet"
                       ? "bg-[#2962ff]/10 text-[#2962ff]"
                       : "text-neutral-300 hover:bg-[#2a2e39] hover:text-white"
                   }`}
                   on:click={() => { drawingMode = "strong_magnet"; openDropdownId = null; }}
                 >
-                  <svg viewBox="0 0 24 24" class="h-[16px] w-[16px] flex-shrink-0 fill-current">
+                  <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
                     <path d={toolIcons.strongMagnet}/>
                   </svg>
                   <span>Strong Magnet</span>
@@ -4659,24 +4811,9 @@
             {/if}
           </div>
 
-          <!-- Lock -->
-          <button
-            class={`flex h-[32px] w-[32px] items-center justify-center rounded transition-all duration-200 mt-1 ${
-              drawingsLocked
-                ? "bg-[#2962ff]/10 text-[#2962ff]"
-                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
-            }`}
-            on:click={toggleDrawingsLock}
-            title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
-          >
-            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
-              <path d={drawingsLocked ? toolIcons.lock : toolIcons.unlock}/>
-            </svg>
-          </button>
-
           <!-- Visibility -->
           <button
-            class={`flex h-[32px] w-[32px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+            class={`flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               !drawingsVisible
                 ? "bg-[#2962ff]/10 text-[#2962ff]"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -4684,7 +4821,7 @@
             on:click={toggleDrawingsVisibility}
             title={drawingsVisible ? "Hide drawings" : "Show drawings"}
           >
-            <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+            <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
               <path d={drawingsVisible ? toolIcons.visible : toolIcons.invisible}/>
             </svg>
           </button>
@@ -4694,38 +4831,38 @@
 
           <!-- Zoom Tools -->
           <button
-            class="flex h-[32px] w-[32px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+            class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
             on:click={() => zoomChart(1.2)}
             title="Zoom in"
           >
-            <ZoomIn class="h-[18px] w-[18px]" />
+            <ZoomIn class="h-5 w-5" />
           </button>
           <button
-            class="flex h-[32px] w-[32px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
+            class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
             on:click={() => zoomChart(0.9)}
             title="Zoom out"
           >
-            <ZoomOut class="h-[18px] w-[18px]" />
+            <ZoomOut class="h-5 w-5" />
           </button>
 
           <!-- Bottom Controls -->
           <div class="mt-auto flex flex-col items-center pb-2">
             <!-- Screenshot -->
             <button
-              class="flex h-[32px] w-[32px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+              class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
               on:click={downloadChart}
               title="Screenshot"
             >
-              <Camera class="h-[18px] w-[18px]" />
+              <Camera class="h-5 w-5" />
             </button>
 
             <!-- Remove All -->
             <button
-              class="flex h-[32px] w-[32px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
+              class="flex h-[34px] w-[34px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
               on:click={removeAllDrawings}
               title="Remove all drawings"
             >
-              <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] fill-current">
+              <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
                 <path d={toolIcons.remove}/>
               </svg>
             </button>
