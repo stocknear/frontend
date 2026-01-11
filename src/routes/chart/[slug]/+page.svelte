@@ -157,6 +157,38 @@
   let selectedDividend: DividendData | null = null;
   let dividendPopupPosition = { x: 0, y: 0 };
 
+  // GEX/DEX (Gamma/Delta Exposure) types and state
+  interface GexDexStrikeData {
+    strike: number;
+    call_gex: number;
+    put_gex: number;
+    call_dex: number;
+    put_dex: number;
+    net_gex?: number;
+    net_dex?: number;
+  }
+
+  interface GexDexLevel {
+    strike: number;
+    value: number; // net exposure value
+    callValue: number;
+    putValue: number;
+    y: number; // pixel position
+    visible: boolean;
+    isPositive: boolean;
+    intensity: number; // 0-1 for line thickness/opacity
+  }
+
+  let gexStrikeData: GexDexStrikeData[] = [];
+  let dexStrikeData: GexDexStrikeData[] = [];
+  let gexLevels: GexDexLevel[] = [];
+  let dexLevels: GexDexLevel[] = [];
+  let gexLoading = false;
+  let dexLoading = false;
+  let selectedGexLevel: GexDexLevel | null = null;
+  let selectedDexLevel: GexDexLevel | null = null;
+  let gexDexPopupPosition = { x: 0, y: 0 };
+
   $: isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
 
   // Save event toggle states to localStorage
@@ -253,6 +285,7 @@
     pane: "candle" | "panel";
     height?: number;
     defaultEnabled?: boolean;
+    isOverlay?: boolean; // For GEX/DEX that render as overlays, not klinechart indicators
   };
 
   const indicatorDefinitions: IndicatorDefinition[] = [
@@ -487,6 +520,24 @@
       defaultParams: [10, 10],
       pane: "panel",
       height: 120,
+    },
+    {
+      id: "gex",
+      label: "Gamma Exposure (GEX)",
+      indicatorName: "SN_GEX",
+      category: "Options",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
+    },
+    {
+      id: "dex",
+      label: "Delta Exposure (DEX)",
+      indicatorName: "SN_DEX",
+      category: "Options",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
     },
   ];
 
@@ -1136,6 +1187,273 @@
     selectedDividend = null;
   };
 
+  // Fetch GEX/DEX strike data from API
+  const fetchGexDexData = async (type: "gex" | "dex") => {
+    const isLoading = type === "gex" ? gexLoading : dexLoading;
+    if (!ticker || isLoading) return;
+
+    if (type === "gex") {
+      gexLoading = true;
+    } else {
+      dexLoading = true;
+    }
+
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ticker,
+          category: type === "gex" ? "options-gex" : "options-dex",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // The API returns data keyed by date - we want the latest date's data
+      // and aggregate across all available data
+      const aggregatedData = new Map<number, GexDexStrikeData>();
+
+      for (const dateData of Object.values(result) as GexDexStrikeData[][]) {
+        if (!Array.isArray(dateData)) continue;
+        for (const item of dateData) {
+          const strike = item.strike;
+          if (!aggregatedData.has(strike)) {
+            aggregatedData.set(strike, {
+              strike,
+              call_gex: 0,
+              put_gex: 0,
+              call_dex: 0,
+              put_dex: 0,
+            });
+          }
+          const existing = aggregatedData.get(strike)!;
+          existing.call_gex += item.call_gex || 0;
+          existing.put_gex += item.put_gex || 0;
+          existing.call_dex += item.call_dex || 0;
+          existing.put_dex += item.put_dex || 0;
+        }
+      }
+
+      // Calculate net values and convert to array
+      const strikeData = Array.from(aggregatedData.values()).map((item) => ({
+        ...item,
+        net_gex: item.call_gex + item.put_gex,
+        net_dex: item.call_dex + item.put_dex,
+      }));
+
+      if (type === "gex") {
+        gexStrikeData = strikeData;
+        updateGexLevels();
+      } else {
+        dexStrikeData = strikeData;
+        updateDexLevels();
+      }
+    } catch (error) {
+      console.error(`Failed to fetch ${type.toUpperCase()} data:`, error);
+      if (type === "gex") {
+        gexStrikeData = [];
+        gexLevels = [];
+      } else {
+        dexStrikeData = [];
+        dexLevels = [];
+      }
+    } finally {
+      if (type === "gex") {
+        gexLoading = false;
+      } else {
+        dexLoading = false;
+      }
+    }
+  };
+
+  // Update GEX levels for rendering on chart
+  const updateGexLevels = () => {
+    if (!chart || !chartContainer || gexStrikeData.length === 0) {
+      gexLevels = [];
+      return;
+    }
+
+    // Get visible price range from chart
+    const visibleRange = chart.getVisibleRange();
+    if (!visibleRange) {
+      gexLevels = [];
+      return;
+    }
+
+    // Get price range from visible bars
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    for (let i = visibleRange.from; i < visibleRange.to; i++) {
+      const bar = currentBars[i];
+      if (bar) {
+        minPrice = Math.min(minPrice, bar.low);
+        maxPrice = Math.max(maxPrice, bar.high);
+      }
+    }
+
+    // Add padding to price range
+    const padding = (maxPrice - minPrice) * 0.1;
+    minPrice -= padding;
+    maxPrice += padding;
+
+    // Filter strikes within visible price range
+    const visibleStrikes = gexStrikeData.filter(
+      (item) => item.strike >= minPrice && item.strike <= maxPrice,
+    );
+
+    // Find max absolute value for intensity calculation
+    const maxAbsValue = Math.max(
+      ...visibleStrikes.map((item) => Math.abs(item.net_gex || 0)),
+      1,
+    );
+
+    // Sort by absolute value and take top 10 most significant levels
+    const sortedStrikes = [...visibleStrikes]
+      .sort((a, b) => Math.abs(b.net_gex || 0) - Math.abs(a.net_gex || 0))
+      .slice(0, 10);
+
+    // Convert to pixel positions
+    const levels: GexDexLevel[] = [];
+    for (const item of sortedStrikes) {
+      const pixel = chart.convertToPixel({ value: item.strike });
+      if (pixel && typeof pixel.y === "number") {
+        const netValue = item.net_gex || 0;
+        levels.push({
+          strike: item.strike,
+          value: netValue,
+          callValue: item.call_gex,
+          putValue: item.put_gex,
+          y: pixel.y,
+          visible: true,
+          isPositive: netValue >= 0,
+          intensity: Math.abs(netValue) / maxAbsValue,
+        });
+      }
+    }
+
+    gexLevels = levels;
+  };
+
+  // Update DEX levels for rendering on chart
+  const updateDexLevels = () => {
+    if (!chart || !chartContainer || dexStrikeData.length === 0) {
+      dexLevels = [];
+      return;
+    }
+
+    // Get visible price range from chart
+    const visibleRange = chart.getVisibleRange();
+    if (!visibleRange) {
+      dexLevels = [];
+      return;
+    }
+
+    // Get price range from visible bars
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    for (let i = visibleRange.from; i < visibleRange.to; i++) {
+      const bar = currentBars[i];
+      if (bar) {
+        minPrice = Math.min(minPrice, bar.low);
+        maxPrice = Math.max(maxPrice, bar.high);
+      }
+    }
+
+    // Add padding to price range
+    const padding = (maxPrice - minPrice) * 0.1;
+    minPrice -= padding;
+    maxPrice += padding;
+
+    // Filter strikes within visible price range
+    const visibleStrikes = dexStrikeData.filter(
+      (item) => item.strike >= minPrice && item.strike <= maxPrice,
+    );
+
+    // Find max absolute value for intensity calculation
+    const maxAbsValue = Math.max(
+      ...visibleStrikes.map((item) => Math.abs(item.net_dex || 0)),
+      1,
+    );
+
+    // Sort by absolute value and take top 10 most significant levels
+    const sortedStrikes = [...visibleStrikes]
+      .sort((a, b) => Math.abs(b.net_dex || 0) - Math.abs(a.net_dex || 0))
+      .slice(0, 10);
+
+    // Convert to pixel positions
+    const levels: GexDexLevel[] = [];
+    for (const item of sortedStrikes) {
+      const pixel = chart.convertToPixel({ value: item.strike });
+      if (pixel && typeof pixel.y === "number") {
+        const netValue = item.net_dex || 0;
+        levels.push({
+          strike: item.strike,
+          value: netValue,
+          callValue: item.call_dex,
+          putValue: item.put_dex,
+          y: pixel.y,
+          visible: true,
+          isPositive: netValue >= 0,
+          intensity: Math.abs(netValue) / maxAbsValue,
+        });
+      }
+    }
+
+    dexLevels = levels;
+  };
+
+  // Handle GEX level click
+  const handleGexLevelClick = (level: GexDexLevel, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedGexLevel = level;
+    selectedDexLevel = null;
+
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      gexDexPopupPosition = {
+        x: Math.min(event.clientX - rect.left, rect.width - 200),
+        y: Math.max(level.y - 80, 10),
+      };
+    }
+  };
+
+  // Handle DEX level click
+  const handleDexLevelClick = (level: GexDexLevel, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedDexLevel = level;
+    selectedGexLevel = null;
+
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      gexDexPopupPosition = {
+        x: Math.min(event.clientX - rect.left, rect.width - 200),
+        y: Math.max(level.y - 80, 10),
+      };
+    }
+  };
+
+  // Close GEX/DEX popup
+  const closeGexDexPopup = () => {
+    selectedGexLevel = null;
+    selectedDexLevel = null;
+  };
+
+  // Format large numbers for display
+  const formatGexDexValue = (value: number): string => {
+    const absValue = Math.abs(value);
+    if (absValue >= 1e9) return (value / 1e9).toFixed(2) + "B";
+    if (absValue >= 1e6) return (value / 1e6).toFixed(2) + "M";
+    if (absValue >= 1e3) return (value / 1e3).toFixed(2) + "K";
+    return value.toFixed(2);
+  };
+
   // Helper to get EPS value (handles both field naming conventions)
   const getEpsValue = (
     earnings: EarningsData | null,
@@ -1708,6 +2026,9 @@
     const nextInstanceIds = { ...indicatorInstanceIds };
 
     indicatorDefinitions.forEach((item) => {
+      // Skip overlay indicators (GEX/DEX) - they are rendered separately
+      if (item.isOverlay) return;
+
       const enabled = Boolean(indicatorState[item.id]);
       const existingId = nextInstanceIds[item.id];
 
@@ -2106,14 +2427,35 @@
 
   function toggleIndicator(name: string) {
     if (!(name in indicatorState)) return;
+    const newState = !indicatorState[name];
     indicatorState = {
       ...indicatorState,
-      [name]: !indicatorState[name],
+      [name]: newState,
     };
     if (chart) {
       syncIndicators();
     }
     ruleOfList = buildRuleList();
+
+    // Handle overlay indicators (GEX/DEX) - fetch data when enabled
+    if (newState) {
+      if (name === "gex" && gexStrikeData.length === 0) {
+        fetchGexDexData("gex");
+      } else if (name === "dex" && dexStrikeData.length === 0) {
+        fetchGexDexData("dex");
+      }
+    } else {
+      // Clear data when disabled
+      if (name === "gex") {
+        gexStrikeData = [];
+        gexLevels = [];
+        selectedGexLevel = null;
+      } else if (name === "dex") {
+        dexStrikeData = [];
+        dexLevels = [];
+        selectedDexLevel = null;
+      }
+    }
   }
 
   function toggleIndicatorById(id: string) {
@@ -2786,6 +3128,14 @@
     chart.subscribeAction("onZoom", updateDividendMarkers);
     chart.subscribeAction("onVisibleRangeChange", updateDividendMarkers);
 
+    // Subscribe to chart events for GEX/DEX level position updates
+    chart.subscribeAction("onScroll", updateGexLevels);
+    chart.subscribeAction("onZoom", updateGexLevels);
+    chart.subscribeAction("onVisibleRangeChange", updateGexLevels);
+    chart.subscribeAction("onScroll", updateDexLevels);
+    chart.subscribeAction("onZoom", updateDexLevels);
+    chart.subscribeAction("onVisibleRangeChange", updateDexLevels);
+
     // Always create volume indicator by default
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
       id: "sn_volume_pane",
@@ -2834,6 +3184,12 @@
       chart.unsubscribeAction("onScroll", updateDividendMarkers);
       chart.unsubscribeAction("onZoom", updateDividendMarkers);
       chart.unsubscribeAction("onVisibleRangeChange", updateDividendMarkers);
+      chart.unsubscribeAction("onScroll", updateGexLevels);
+      chart.unsubscribeAction("onZoom", updateGexLevels);
+      chart.unsubscribeAction("onVisibleRangeChange", updateGexLevels);
+      chart.unsubscribeAction("onScroll", updateDexLevels);
+      chart.unsubscribeAction("onZoom", updateDexLevels);
+      chart.unsubscribeAction("onVisibleRangeChange", updateDexLevels);
       dispose(chart);
     }
     chart = null;
@@ -2982,6 +3338,36 @@
     activeRange;
     // Small delay to ensure chart has rendered
     setTimeout(updateDividendMarkers, 100);
+  }
+
+  // Track ticker for GEX/DEX refetch
+  let gexDexTicker = "";
+
+  // Clear GEX/DEX data and refetch when ticker changes
+  $: if (ticker && ticker !== gexDexTicker) {
+    gexDexTicker = ticker;
+    // Clear existing data
+    gexStrikeData = [];
+    dexStrikeData = [];
+    gexLevels = [];
+    dexLevels = [];
+    // Refetch if indicators are enabled
+    if (indicatorState.gex) {
+      fetchGexDexData("gex");
+    }
+    if (indicatorState.dex) {
+      fetchGexDexData("dex");
+    }
+  }
+
+  // Update GEX levels when data changes or chart is ready
+  $: if (chart && indicatorState.gex && gexStrikeData.length > 0) {
+    setTimeout(updateGexLevels, 100);
+  }
+
+  // Update DEX levels when data changes or chart is ready
+  $: if (chart && indicatorState.dex && dexStrikeData.length > 0) {
+    setTimeout(updateDexLevels, 100);
   }
 
   $: if (chart) {
@@ -4042,6 +4428,216 @@
             class="fixed inset-0 z-[6] cursor-default"
             on:click={closeDividendPopup}
             aria-label="Close dividend popup"
+          ></button>
+        {/if}
+
+        <!-- GEX (Gamma Exposure) horizontal levels overlay -->
+        {#if indicatorState.gex && gexLevels.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[4]">
+            {#each gexLevels as level (level.strike)}
+              {#if level.visible}
+                <!-- Horizontal line -->
+                <div
+                  class="absolute left-0 right-[60px] h-[2px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  style="top: {level.y}px; background: {level.isPositive
+                    ? 'rgba(34, 197, 94, ' + (0.4 + level.intensity * 0.5) + ')'
+                    : 'rgba(239, 68, 68, ' +
+                      (0.4 + level.intensity * 0.5) +
+                      ')'}; height: {1 + level.intensity * 2}px; opacity: {0.6 +
+                    level.intensity * 0.4}"
+                  on:click={(e) => handleGexLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleGexLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="GEX level at ${level.strike}"
+                >
+                </div>
+                <!-- Price label on right side -->
+                <div
+                  class="absolute right-0 px-1.5 py-0.5 text-[10px] font-medium rounded-l pointer-events-auto cursor-pointer"
+                  style="top: {level.y}px; transform: translateY(-50%); background: {level.isPositive
+                    ? 'rgba(34, 197, 94, 0.9)'
+                    : 'rgba(239, 68, 68, 0.9)'}; color: white;"
+                  on:click={(e) => handleGexLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleGexLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                >
+                  ${level.strike.toFixed(0)}
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- DEX (Delta Exposure) horizontal levels overlay -->
+        {#if indicatorState.dex && dexLevels.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[4]">
+            {#each dexLevels as level (level.strike)}
+              {#if level.visible}
+                <!-- Horizontal line with dashed style for DEX -->
+                <div
+                  class="absolute left-0 right-[60px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  style="top: {level.y}px; border-top: {1 +
+                    level.intensity * 2}px dashed {level.isPositive
+                    ? 'rgba(59, 130, 246, ' + (0.5 + level.intensity * 0.5) + ')'
+                    : 'rgba(249, 115, 22, ' +
+                      (0.5 + level.intensity * 0.5) +
+                      ')'}; opacity: {0.6 + level.intensity * 0.4}"
+                  on:click={(e) => handleDexLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleDexLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="DEX level at ${level.strike}"
+                >
+                </div>
+                <!-- Price label on right side -->
+                <div
+                  class="absolute right-0 px-1.5 py-0.5 text-[10px] font-medium rounded-l pointer-events-auto cursor-pointer"
+                  style="top: {level.y}px; transform: translateY(-50%); background: {level.isPositive
+                    ? 'rgba(59, 130, 246, 0.9)'
+                    : 'rgba(249, 115, 22, 0.9)'}; color: white;"
+                  on:click={(e) => handleDexLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleDexLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                >
+                  ${level.strike.toFixed(0)}
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- GEX/DEX popup -->
+        {#if selectedGexLevel || selectedDexLevel}
+          {@const level = selectedGexLevel || selectedDexLevel}
+          {@const isGex = selectedGexLevel !== null}
+          <div
+            class="absolute z-[7] pointer-events-auto"
+            style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[240px]"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-3">
+                <div
+                  class="w-3 h-3 rounded-full"
+                  style="background: {isGex
+                    ? level?.isPositive
+                      ? '#22c55e'
+                      : '#ef4444'
+                    : level?.isPositive
+                      ? '#3b82f6'
+                      : '#f97316'}"
+                ></div>
+                <h3 class="text-white font-semibold">
+                  {isGex ? "Gamma Exposure (GEX)" : "Delta Exposure (DEX)"}
+                </h3>
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  on:click={closeGexDexPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Strike info -->
+              <div class="text-sm space-y-2">
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Strike Price</span>
+                  <span class="font-medium">${level?.strike.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500"
+                    >Net {isGex ? "Gamma" : "Delta"}</span
+                  >
+                  <span
+                    class="font-medium {level?.isPositive
+                      ? 'text-green-400'
+                      : 'text-red-400'}"
+                  >
+                    {level?.isPositive ? "+" : ""}{formatGexDexValue(
+                      level?.value || 0,
+                    )}
+                  </span>
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Call Exposure</span>
+                  <span class="text-green-400"
+                    >+{formatGexDexValue(level?.callValue || 0)}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Put Exposure</span>
+                  <span class="text-red-400"
+                    >{formatGexDexValue(level?.putValue || 0)}</span
+                  >
+                </div>
+              </div>
+
+              <!-- Explanation -->
+              <div
+                class="mt-3 pt-3 border-t border-neutral-700 text-xs text-neutral-400"
+              >
+                {#if isGex}
+                  {#if level?.isPositive}
+                    <p>
+                      Positive GEX: Price tends to be "pinned" near this level.
+                      Market makers sell into rallies, buy dips.
+                    </p>
+                  {:else}
+                    <p>
+                      Negative GEX: Price can accelerate through this level.
+                      Increased volatility expected.
+                    </p>
+                  {/if}
+                {:else if level?.isPositive}
+                  <p>
+                    Positive DEX: Dealers are net long delta. They will sell
+                    into rallies and buy dips (mean-reverting).
+                  </p>
+                {:else}
+                  <p>
+                    Negative DEX: Dealers are net short delta. They will buy
+                    rallies and sell dips (trend-following).
+                  </p>
+                {/if}
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/stocks/{ticker}/options/{isGex ? 'gex' : 'dex'}/strike"
+                class="block w-full text-center py-2 px-4 mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+              >
+                View all {isGex ? "GEX" : "DEX"} levels
+              </a>
+            </div>
+          </div>
+
+          <!-- Click outside to close -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default"
+            on:click={closeGexDexPopup}
+            aria-label="Close GEX/DEX popup"
           ></button>
         {/if}
 
