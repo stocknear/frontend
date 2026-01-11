@@ -287,7 +287,7 @@
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
       >
-        <div class="relative lg:ml-auto w-full lg:w-fit">
+        <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14">
           <div
             class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
           >
@@ -306,17 +306,13 @@
             {/if}
           </div>
 
-          <div
-            class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 px-3 flex items-center"
-          >
-            <input
-              bind:value={inputValue}
-              on:input={search}
-              type="text"
-              placeholder="Find..."
-              class="w-full bg-transparent text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
-            />
-          </div>
+          <input
+            type="text"
+            bind:value={inputValue}
+            on:input={search}
+            placeholder="Find..."
+            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+          />
         </div>
 
         <div class="ml-2">
@@ -349,7 +345,7 @@
                   >
                     <a
                       href={"/etf/etf-providers/" + item?.name}
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >
                       {formatETFName(item?.name)}
                     </a>
