@@ -937,6 +937,12 @@
           overlay: "fibonacciLine",
           icon: "fibonacciLine",
         },
+        {
+          id: "fibonacciExtension",
+          label: "Fib Extension",
+          overlay: "fibonacciExtension",
+          icon: "fibonacciExtension",
+        },
       ],
     },
     {
@@ -1298,6 +1304,103 @@
             attrs: { coordinates: [coordinates[1], coordinates[3]] },
             styles: { style: "dashed" },
             ignoreEvent: true,
+          });
+        }
+
+        return figures;
+      },
+    });
+
+    // Trend-Based Fibonacci Extension (3 points like TradingView)
+    registerOverlay({
+      name: "fibonacciExtension",
+      totalStep: 4,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ chart, coordinates, bounding, overlay, yAxis }) => {
+        const points = overlay.points;
+        if (coordinates.length < 2) return [];
+
+        let precision = 2;
+        if (yAxis?.isInCandle() ?? true) {
+          precision = chart.getSymbol()?.pricePrecision ?? 2;
+        }
+
+        const figures: any[] = [];
+
+        // Draw trend line (point 1 to point 2)
+        if (coordinates.length >= 2) {
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[0], coordinates[1]] },
+          });
+        }
+
+        // Draw retracement line (point 2 to point 3) and extension levels
+        if (
+          coordinates.length >= 3 &&
+          points[0]?.value != null &&
+          points[1]?.value != null &&
+          points[2]?.value != null
+        ) {
+          // Retracement line
+          figures.push({
+            type: "line",
+            attrs: { coordinates: [coordinates[1], coordinates[2]] },
+            styles: { style: "dashed" },
+          });
+
+          // Calculate trend distance (price and coordinate)
+          const trendPriceDiff = points[1].value - points[0].value;
+          const isUptrend = trendPriceDiff > 0;
+
+          // Extension levels (projected from point 3)
+          const extensionLevels = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1, 1.272, 1.618, 2, 2.618];
+
+          const startX = 0;
+          const endX = bounding.width;
+
+          // Base point for extensions is point 3
+          const baseValue = points[2].value;
+          const baseY = coordinates[2].y;
+
+          // Calculate Y per price unit using points 0 and 1
+          const yPerPrice =
+            points[1].value !== points[0].value
+              ? (coordinates[1].y - coordinates[0].y) / (points[1].value - points[0].value)
+              : 0;
+
+          extensionLevels.forEach((level) => {
+            // Extension value: base + (trend * level)
+            // For uptrend: extensions go up from point 3
+            // For downtrend: extensions go down from point 3
+            const extensionPrice = baseValue + trendPriceDiff * level;
+            const extensionY = baseY - (extensionPrice - baseValue) * Math.abs(yPerPrice);
+
+            const formattedPrice = chart
+              .getDecimalFold()
+              .format(
+                chart.getThousandsSeparator().format(extensionPrice.toFixed(precision)),
+              );
+
+            figures.push({
+              type: "line",
+              attrs: { coordinates: [{ x: startX, y: extensionY }, { x: endX, y: extensionY }] },
+              styles: level === 1 ? {} : { style: "dashed" },
+              ignoreEvent: true,
+            });
+
+            figures.push({
+              type: "text",
+              attrs: {
+                x: startX + 5,
+                y: extensionY,
+                text: `${formattedPrice} (${(level * 100).toFixed(1)}%)`,
+                baseline: "bottom",
+              },
+              ignoreEvent: true,
+            });
           });
         }
 
@@ -5063,7 +5166,7 @@
       <!-- KlineCharts Pro Style Drawing Toolbar -->
       {#if toolbarExpanded}
         <div
-          class="hidden sm:flex h-full w-[40px] flex-col items-center border-r border-gray-200 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
+          class="hidden sm:flex h-full w-[48px] flex-col items-center border-r border-gray-200 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
         >
           <!-- Cursor Tool -->
           <button
