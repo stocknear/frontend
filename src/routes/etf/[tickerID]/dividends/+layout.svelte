@@ -20,18 +20,20 @@
         <aside class="hidden lg:block relative fixed w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
                 </div>
-                <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
+                <span
+                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                >
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>

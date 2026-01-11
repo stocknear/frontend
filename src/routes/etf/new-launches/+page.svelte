@@ -1,7 +1,5 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
-  import { abbreviateNumber } from "$lib/utils";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import Pagination from "$lib/components/Table/Pagination.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -491,9 +489,6 @@
                   <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
-                  <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                  />
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -516,9 +511,6 @@
                 <h2 class="text-start text-lg font-semibold ml-3">
                   Top Analyst
                 </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -539,9 +531,6 @@
                 <h2 class="text-start text-lg font-semibold ml-3">
                   Congress Trading
                 </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"

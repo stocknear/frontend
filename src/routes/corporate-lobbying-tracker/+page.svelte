@@ -2,7 +2,7 @@
   import { numberOfUnreadNotification, screenWidth } from "$lib/store";
   import InfiniteLoading from "$lib/components/InfiniteLoading.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";

@@ -2,7 +2,6 @@
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import { industryList } from "$lib/utils";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
 
   export let data;
 
@@ -372,9 +371,8 @@
     {#if $page.url.pathname.startsWith("/list/")}
       <li>
         <span class="text-gray-800 dark:text-zinc-300">
-          {combinedNavigation?.find(
-            (item) => item?.link === $page.url.pathname,
-          )?.title}
+          {combinedNavigation?.find((item) => item?.link === $page.url.pathname)
+            ?.title}
         </span>
       </li>
     {/if}
@@ -416,9 +414,6 @@
                   <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
-                  <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                  />
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -439,9 +434,6 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">Watchlist</h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -462,9 +454,6 @@
                 <h2 class="text-start text-lg font-semibold ml-3">
                   Stock Screener
                 </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"

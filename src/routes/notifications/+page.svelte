@@ -9,7 +9,6 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
 
   export let data;
   export let form;
@@ -1171,9 +1170,6 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">Watchlist</h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -1194,9 +1190,6 @@
                 <h2 class="text-start text-lg font-semibold ml-3">
                   Portfolio Tracker
                 </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"

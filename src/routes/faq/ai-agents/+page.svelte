@@ -1,5 +1,4 @@
 <script>
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import SEO from "$lib/components/SEO.svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";

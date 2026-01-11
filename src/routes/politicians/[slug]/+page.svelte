@@ -2,6 +2,7 @@
   import { formatString, sectorNavigation } from "$lib/utils";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import RatingsChart from "$lib/components/RatingsChart.svelte";
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import { onMount } from "svelte";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -25,7 +26,9 @@
   let performanceTrades = performance?.totalTrades;
 
   let rawDataTable = processTickerData(rawData?.history) || [];
-  let originalData = rawDataTable;
+  let originalData = [...rawDataTable];
+  let unsortedData = [...rawDataTable]; // Preserve truly original unsorted order
+  let unsortedSearchData = []; // Preserve unsorted search results
   let stockList = [];
   let inputValue = "";
   let searchWorker: Worker | undefined;
@@ -183,6 +186,7 @@
   async function resetTableSearch() {
     inputValue = "";
     rawDataTable = originalData;
+    unsortedSearchData = []; // Clear search results
     currentPage = 1; // Reset to first page
     updatePaginatedData();
   }
@@ -196,6 +200,7 @@
       } else {
         // Reset to original data if filter is empty
         rawDataTable = originalData || [];
+        unsortedSearchData = []; // Clear search results
         currentPage = 1; // Reset to first page
         updatePaginatedData();
       }
@@ -214,6 +219,7 @@
   const handleSearchMessage = (event) => {
     if (event.data?.message === "success") {
       rawDataTable = event.data?.output ?? [];
+      unsortedSearchData = [...rawDataTable]; // Preserve unsorted search results
       currentPage = 1; // Reset to first page after search
       updatePaginatedData();
     }
@@ -256,6 +262,102 @@
       checkedSymbol = symbol;
     }
   }
+
+  // Table columns and sorting (for TableHeader consistency)
+  $: columns = [
+    ...($screenWidth > 1024
+      ? [{ key: "chart", label: "", align: "left" }]
+      : []),
+    { key: "ticker", label: "Symbol", align: "left" },
+    { key: "name", label: "Name", align: "left" },
+    { key: "type", label: "Type", align: "right" },
+    { key: "amount", label: "Amount", align: "right" },
+    { key: "transaction", label: "Trades", align: "right" },
+    { key: "transactionDate", label: "Last Trade", align: "right" },
+    { key: "disclosureDate", label: "Filed", align: "right" },
+  ];
+
+  $: sortOrders = {
+    chart: { order: "none", type: "string" },
+    ticker: { order: "none", type: "string" },
+    name: { order: "none", type: "string" },
+    type: { order: "none", type: "string" },
+    amount: { order: "none", type: "string" },
+    transaction: { order: "none", type: "number" },
+    transactionDate: { order: "none", type: "date" },
+    disclosureDate: { order: "none", type: "date" },
+  };
+
+  const sortData = (key) => {
+    // Reset all other keys to 'none' except the current key
+    for (const k in sortOrders) {
+      if (k !== key) {
+        sortOrders[k].order = "none";
+      }
+    }
+
+    // Cycle through 'none', 'asc', 'desc' for the clicked key
+    const orderCycle = ["none", "asc", "desc"];
+
+    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
+    sortOrders[key].order =
+      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
+    const sortOrder = sortOrders[key].order;
+
+    const dataSource = inputValue?.length > 0 ? rawDataTable : originalData;
+
+    // Reset to original data when 'none' and stop further sorting
+    if (sortOrder === "none") {
+      if (inputValue?.length > 0) {
+        rawDataTable = [...unsortedSearchData]; // Restore from unsorted search results
+      } else {
+        originalData = [...unsortedData]; // Restore from truly original unsorted data
+      }
+      currentPage = 1;
+      updatePaginatedData();
+      return;
+    }
+
+    // Define a generic comparison function
+    const compareValues = (a, b) => {
+      const { type } = sortOrders[key];
+      let valueA, valueB;
+
+      switch (type) {
+        case "date":
+          valueA = new Date(a[key]);
+          valueB = new Date(b[key]);
+          break;
+        case "string":
+          valueA = (a[key] ?? "").toString().toUpperCase();
+          valueB = (b[key] ?? "").toString().toUpperCase();
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        case "number":
+        default:
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
+          break;
+      }
+
+      if (sortOrder === "asc") {
+        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+      } else {
+        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+      }
+    };
+
+    // Sort using the generic comparison function
+    const sortedData = [...dataSource].sort(compareValues);
+    if (inputValue?.length > 0) {
+      rawDataTable = sortedData;
+    } else {
+      originalData = sortedData;
+    }
+    currentPage = 1;
+    updatePaginatedData();
+  };
 </script>
 
 <SEO
@@ -800,52 +902,10 @@
                   class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                    class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
                   >
-                    <!-- head -->
-                    <thead
-                      class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
-                    >
-                      <tr>
-                        <th
-                          class="hidden lg:table-cell text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        ></th>
-                        <th
-                          class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Symbol
-                        </th>
-                        <th
-                          class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Name
-                        </th>
-                        <th
-                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Transaction Type
-                        </th>
-                        <th
-                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Amount
-                        </th>
-                        <th
-                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Transaction
-                        </th>
-                        <th
-                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Last Trade
-                        </th>
-                        <th
-                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                        >
-                          Filed
-                        </th>
-                      </tr>
+                    <thead>
+                      <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
                     <tbody
                       class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"

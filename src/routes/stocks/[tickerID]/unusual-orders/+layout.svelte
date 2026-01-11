@@ -1,6 +1,4 @@
 <script lang="ts">
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
-
   import { stockTicker } from "$lib/store";
   export let data;
 </script>

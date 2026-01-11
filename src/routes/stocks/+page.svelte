@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import Table from "$lib/components/Table/Table.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";

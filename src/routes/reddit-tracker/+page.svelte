@@ -2,7 +2,6 @@
   import { screenWidth } from "$lib/store";
   import Table from "$lib/components/Table/Table.svelte";
 
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import SEO from "$lib/components/SEO.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
   import { Button } from "$lib/components/shadcn/button/index.js";

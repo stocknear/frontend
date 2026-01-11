@@ -2,7 +2,7 @@
   import { numberOfUnreadNotification } from "$lib/store";
 
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   import Table from "$lib/components/Table/Table.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 

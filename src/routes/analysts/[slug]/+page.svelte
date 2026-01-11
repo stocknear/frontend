@@ -667,173 +667,323 @@
             </div>
 
             {#if stockList?.length > 0}
-              <div class="w-full m-auto mt-4">
-                <div
-                  class="w-full m-auto rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
-                >
-                  <table
-                    class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
-                  >
-                    <thead>
-                      <TableHeader {columns} {sortOrders} {sortData} />
-                    </thead>
-                    <tbody
-                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+              <!-- Mobile Card View (only show when screenWidth is set and < 640) -->
+              {#if $screenWidth > 0 && $screenWidth < 640}
+                <div class="mt-4 mb-4 space-y-3">
+                  {#each stockList as item, index}
+                    <div
+                      class="rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-hidden"
                     >
-                      {#each stockList as item, index}
-                        <tr
-                          class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
-                        >
-                          <td class="hidden lg:table-cell"
-                            ><button
-                              on:click={() => openGraph(item?.ticker)}
-                              class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
-                              ><svg
-                                class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
-                                item?.ticker
-                                  ? 'rotate-180'
-                                  : ''}"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                style="max-width:40px"
-                                ><path
-                                  fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"
-                                ></path></svg
-                              ></button
-                            ></td
+                      <!-- Header -->
+                      <div
+                        class="flex items-start justify-between px-4 pt-4 pb-3"
+                      >
+                        <div class="min-w-0 flex-1">
+                          <HoverStockChart symbol={item?.ticker} />
+                          <p
+                            class="mt-0.5 text-[13px] text-gray-800 dark:text-zinc-300 truncate"
                           >
-
-                          <td
-                            class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                          >
-                            <HoverStockChart symbol={item?.ticker} />
-                          </td>
-
-                          <td
-                            class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                          >
-                            {item?.name?.length > charNumber
-                              ? item?.name?.slice(0, charNumber) + "..."
+                            {item?.name?.length > 28
+                              ? item?.name?.slice(0, 28) + "..."
                               : item?.name}
-                          </td>
-                          <td
-                            class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                          >
-                            <div class="flex flex-col sm:flex-row items-start">
-                              <span class="mr-1">{item?.action_company}:</span>
-                              <span>
-                                {item?.rating_current}
-                              </span>
-                            </div>
-                          </td>
+                          </p>
+                        </div>
+                        <span
+                          class="ml-3 text-[13px] tabular-nums text-gray-800 dark:text-zinc-300 whitespace-nowrap"
+                        >
+                          {new Date(item?.date)?.toLocaleString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
 
-                          <td
-                            class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                      <!-- Details -->
+                      <div class="flex items-end justify-between px-4 pb-4">
+                        <div class="space-y-1">
+                          <div class="flex items-center gap-1.5 text-[13px]">
+                            <span class="text-gray-600 dark:text-zinc-400"
+                              >{item?.action_company}:</span
+                            >
+                            <span class="font-medium text-gray-800 dark:text-zinc-200"
+                              >{item?.rating_current}</span
+                            >
+                          </div>
+                          <p
+                            class="text-[13px] text-gray-600 dark:text-zinc-400"
                           >
-                            <div class="flex flex-row items-center justify-end">
-                              {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
-                                <span
-                                  class="text-gray-500 dark:text-zinc-400 font-normal"
-                                  >{Math?.ceil(item?.adjusted_pt_prior)}</span
+                            <span
+                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1"
+                              >PT</span
+                            >
+                            {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
+                              <span class="text-gray-500 dark:text-zinc-400"
+                                >{Math?.ceil(item?.adjusted_pt_prior)}</span
+                              >
+                              <span class="mx-1">→</span>
+                              <span class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
+                                >${Math?.ceil(item?.adjusted_pt_current)}</span
+                              >
+                            {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
+                              <span class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
+                                >${Math?.ceil(item?.adjusted_pt_current)}</span
+                              >
+                            {:else}
+                              <span class="text-gray-500 dark:text-zinc-400">n/a</span>
+                            {/if}
+                          </p>
+                        </div>
+                        <div class="text-right">
+                          <p class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5">
+                            <span class="uppercase text-[10px] tracking-wide mr-1">Current</span>
+                            <span class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              >{item?.price !== null ? "$" + item?.price : "n/a"}</span
+                            >
+                          </p>
+                          <p class="text-[13px]">
+                            <span class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1">Upside</span>
+                            <span
+                              class="font-medium tabular-nums {item?.upside >= 0 && item?.upside !== null
+                                ? 'text-emerald-600 dark:text-emerald-500'
+                                : item?.upside < 0 && item?.upside !== null
+                                  ? 'text-rose-600 dark:text-rose-500'
+                                  : 'text-gray-500 dark:text-zinc-400'}"
+                            >
+                              {item?.upside !== null
+                                ? (item?.upside >= 0 ? "+" : "") + item?.upside + "%"
+                                : "n/a"}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Expand Button -->
+                      <button
+                        on:click={() => openGraph(item?.ticker)}
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                      >
+                        <span>{item?.ratings} Rating{item?.ratings > 1 ? "s" : ""}</span>
+                        <div class="flex items-center gap-1">
+                          <span>View Chart</span>
+                          <svg
+                            class="h-4 w-4 transition-transform {checkedSymbol === item?.ticker
+                              ? 'rotate-180'
+                              : ''}"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+
+                      <!-- Chart -->
+                      {#if checkedSymbol === item?.ticker}
+                        <div
+                          class="border-t border-gray-300 dark:border-zinc-700 pb-3"
+                        >
+                          <div class="relative h-[300px]">
+                            <div class="absolute inset-x-0 top-0">
+                              <div class="h-[300px] w-full overflow-hidden">
+                                <div
+                                  class="relative"
+                                  style="height: 0; z-index: 1;"
                                 >
-                                <svg
-                                  class="w-3 h-3 ml-1 mr-1 inline-block"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
+                                  <RatingsChart
+                                    ratingsList={data?.getData?.ratingsList?.map(
+                                      (ratingItem) => ({
+                                        ...ratingItem,
+                                        type: ratingItem?.rating_current,
+                                      }),
+                                    )}
+                                    symbol={item?.ticker}
+                                    numOfRatings={item?.ratings}
+                                    {data}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              {:else}
+                <!-- Desktop Table View -->
+                <div class="w-full m-auto mt-4">
+                  <div
+                    class="w-full m-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
+                  >
+                    <table
+                      class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
+                    >
+                      <thead>
+                        <TableHeader {columns} {sortOrders} {sortData} />
+                      </thead>
+                      <tbody
+                        class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                      >
+                        {#each stockList as item, index}
+                          <tr
+                            class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                          >
+                            <td class="hidden lg:table-cell"
+                              ><button
+                                on:click={() => openGraph(item?.ticker)}
+                                class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
+                                ><svg
+                                  class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                  item?.ticker
+                                    ? 'rotate-180'
+                                    : ''}"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  style="max-width:40px"
                                   ><path
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    d="M4 12h16m0 0l-6-6m6 6l-6 6"
-                                  /></svg
-                                >
-                                <span class="font-semibold"
-                                  >{Math?.ceil(item?.adjusted_pt_current)}</span
-                                >
-                              {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                                <span class="font-semibold"
-                                  >{Math?.ceil(item?.adjusted_pt_current)}</span
-                                >
-                              {:else}
-                                n/a
-                              {/if}
-                            </div>
-                          </td>
+                                    fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                  ></path></svg
+                                ></button
+                              ></td
+                            >
 
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                          >
-                            {item?.price !== null ? item?.price : "n/a"}
-                          </td>
+                            <td
+                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              <HoverStockChart symbol={item?.ticker} />
+                            </td>
 
-                          <td
-                            class="{item?.upside >= 0 && item?.upside !== null
-                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                              : item?.upside < 0 && item?.upside !== null
-                                ? 'text-rose-600 dark:text-rose-400'
-                                : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
-                          >
-                            {item?.upside !== null ? item?.upside + "%" : "n/a"}
-                          </td>
+                            <td
+                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              {item?.name?.length > charNumber
+                                ? item?.name?.slice(0, charNumber) + "..."
+                                : item?.name}
+                            </td>
+                            <td
+                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              <div class="flex flex-col sm:flex-row items-start">
+                                <span class="mr-1">{item?.action_company}:</span>
+                                <span>
+                                  {item?.rating_current}
+                                </span>
+                              </div>
+                            </td>
 
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                          >
-                            {item?.ratings !== null ? item?.ratings : "n/a"}
-                          </td>
+                            <td
+                              class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              <div class="flex flex-row items-center justify-end">
+                                {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
+                                  <span
+                                    class="text-gray-500 dark:text-zinc-400 font-normal"
+                                    >{Math?.ceil(item?.adjusted_pt_prior)}</span
+                                  >
+                                  <svg
+                                    class="w-3 h-3 ml-1 mr-1 inline-block"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    ><path
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="1.5"
+                                      d="M4 12h16m0 0l-6-6m6 6l-6 6"
+                                    /></svg
+                                  >
+                                  <span class="font-semibold"
+                                    >{Math?.ceil(item?.adjusted_pt_current)}</span
+                                  >
+                                {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
+                                  <span class="font-semibold"
+                                    >{Math?.ceil(item?.adjusted_pt_current)}</span
+                                  >
+                                {:else}
+                                  n/a
+                                {/if}
+                              </div>
+                            </td>
 
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                          >
-                            {new Date(item?.date).toLocaleString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                              daySuffix: "2-digit",
-                            })}
-                          </td>
-                        </tr>
-                        {#if checkedSymbol === item?.ticker}
-                          <tr class="bg-white/80 dark:bg-zinc-950/60"
-                            ><td colspan="9" class="px-0"
-                              ><div class="-mt-0.5 px-0 pb-2">
-                                <div class="relative h-[350px]">
-                                  <div class="absolute top-0 w-full">
-                                    <div
-                                      class="h-[250px] w-full xs:h-[300px] sm:h-[350px]"
-                                      style="overflow: hidden;"
-                                    >
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              {item?.price !== null ? item?.price : "n/a"}
+                            </td>
+
+                            <td
+                              class="{item?.upside >= 0 && item?.upside !== null
+                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                                : item?.upside < 0 && item?.upside !== null
+                                  ? 'text-rose-600 dark:text-rose-400'
+                                  : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              {item?.upside !== null ? item?.upside + "%" : "n/a"}
+                            </td>
+
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              {item?.ratings !== null ? item?.ratings : "n/a"}
+                            </td>
+
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                            >
+                              {new Date(item?.date).toLocaleString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                                daySuffix: "2-digit",
+                              })}
+                            </td>
+                          </tr>
+                          {#if checkedSymbol === item?.ticker}
+                            <tr class="bg-white/80 dark:bg-zinc-950/60"
+                              ><td colspan="9" class="px-0"
+                                ><div class="-mt-0.5 px-0 pb-2">
+                                  <div class="relative h-[350px]">
+                                    <div class="absolute top-0 w-full">
                                       <div
-                                        style="position: relative; height: 0px; z-index: 1;"
+                                        class="h-[250px] w-full xs:h-[300px] sm:h-[350px]"
+                                        style="overflow: hidden;"
                                       >
-                                        <RatingsChart
-                                          ratingsList={data?.getData?.ratingsList?.map(
-                                            (item) => ({
-                                              ...item,
-                                              type: item?.rating_current,
-                                            }),
-                                          )}
-                                          symbol={item?.ticker}
-                                          numOfRatings={item?.ratings}
-                                          {data}
-                                        />
+                                        <div
+                                          style="position: relative; height: 0px; z-index: 1;"
+                                        >
+                                          <RatingsChart
+                                            ratingsList={data?.getData?.ratingsList?.map(
+                                              (ratingItem) => ({
+                                                ...ratingItem,
+                                                type: ratingItem?.rating_current,
+                                              }),
+                                            )}
+                                            symbol={item?.ticker}
+                                            numOfRatings={item?.ratings}
+                                            {data}
+                                          />
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div></td
-                            >
-                          </tr>
-                        {/if}
-                      {/each}
-                    </tbody>
-                  </table>
+                                </div></td
+                              >
+                            </tr>
+                          {/if}
+                        {/each}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
+              {/if}
 
               <!-- Pagination controls -->
               <div

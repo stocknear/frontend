@@ -1,6 +1,5 @@
 <script>
   import SEO from "$lib/components/SEO.svelte";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import Input from "$lib/components/Input.svelte";
   import TextArea from "$lib/components/TextArea.svelte";
   import { enhance } from "$app/forms";
@@ -211,9 +210,6 @@
                   <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
-                  <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                  />
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -235,9 +231,6 @@
                   <h2 class="text-start text-lg font-semibold ml-3">
                     Stock Screener
                   </h2>
-                  <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                  />
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -259,9 +252,6 @@
                   <h2 class="text-start text-lg font-semibold ml-3">
                     Watchlists
                   </h2>
-                  <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                  />
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"

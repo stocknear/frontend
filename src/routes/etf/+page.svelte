@@ -2,7 +2,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import { screenWidth } from "$lib/store";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   import { abbreviateNumber } from "$lib/utils";
   import { onMount } from "svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";

@@ -2,7 +2,7 @@
   import { format, startOfWeek, addDays, addWeeks, subWeeks } from "date-fns";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber, listOfRelevantCountries } from "$lib/utils";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";

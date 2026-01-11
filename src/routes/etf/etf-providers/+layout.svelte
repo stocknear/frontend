@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { formatETFName } from "$lib/utils";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
@@ -79,9 +79,6 @@
                   <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
-                  <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                  />
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -104,9 +101,6 @@
                 <h2 class="text-start text-lg font-semibold ml-3">
                   Top Analyst
                 </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -127,9 +121,6 @@
                 <h2 class="text-start text-lg font-semibold ml-3">
                   Congress Trading
                 </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
-                />
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
