@@ -4766,15 +4766,15 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-24 rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
+              class="w-24 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
             >
               <DropdownMenu.Group>
                 {#each timeframes as frame}
                   <DropdownMenu.Item
                     class={`px-2 py-1.5 text-sm rounded cursor-pointer transition ${
                       activeRange === frame
-                        ? "text-white bg-violet-600"
-                        : "text-neutral-300 hover:bg-neutral-800"
+                        ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                     }`}
                     on:click={() => setRange(frame)}
                   >
@@ -4824,15 +4824,15 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-44 rounded-lg border border-neutral-700 bg-neutral-900 p-1 shadow-xl"
+            class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
           >
             <DropdownMenu.Group>
               {#each chartTypeOptions as option}
                 <DropdownMenu.Item
                   class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer transition ${
                     chartType === option.id
-                      ? "text-white bg-violet-600"
-                      : "text-neutral-300 hover:bg-neutral-800"
+                      ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                      : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                   }`}
                   on:click={() => setChartType(option.id)}
                 >
@@ -4900,11 +4900,11 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-auto min-w-40 rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
+            class="w-auto min-w-40 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
           >
             <DropdownMenu.Group>
               <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer"
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
                 on:click={(e) => e.preventDefault()}
               >
                 <label
@@ -4949,7 +4949,7 @@
                 </label>
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer"
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
                 on:click={(e) => e.preventDefault()}
               >
                 <label
@@ -4994,7 +4994,7 @@
                 </label>
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer"
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
                 on:click={(e) => e.preventDefault()}
               >
                 <label
@@ -5075,12 +5075,12 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
+            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
           >
             {#if isSubscribed}
               <label
                 for={!data?.user ? "userLogin" : "addChartStrategy"}
-                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-violet-600 dark:text-violet-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
               >
                 <svg
                   class="h-3.5 w-3.5"
@@ -5098,7 +5098,7 @@
             {:else}
               <button
                 on:click={() => goto("/pricing")}
-                class="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+                class="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer text-gray-500 dark:text-zinc-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
               >
                 <svg
                   class="w-4 h-4"
@@ -5113,7 +5113,9 @@
                 <span>New Strategy</span>
               </button>
             {/if}
-            <div class="h-px bg-neutral-700 my-1"></div>
+            <DropdownMenu.Separator
+              class="my-1 h-px bg-gray-200/70 dark:bg-zinc-800/80"
+            />
             <DropdownMenu.Group>
               {#if strategyList?.length > 0}
                 {#each strategyList as item}
@@ -5121,22 +5123,22 @@
                     on:click={() => {
                       switchStrategy(item);
                     }}
-                    class="flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-neutral-700 cursor-pointer {item?.id ===
+                    class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer {item?.id ===
                     selectedStrategy
-                      ? 'text-violet-400'
-                      : 'text-neutral-200'}"
+                      ? 'text-violet-600 dark:text-violet-400'
+                      : ''}"
                   >
                     <span class="truncate">
                       {item?.title?.length > 18
                         ? item?.title?.slice(0, 18) + "..."
                         : item?.title}
-                      <span class="text-neutral-500 ml-1"
+                      <span class="text-gray-400 dark:text-zinc-500 ml-1"
                         >({item?.rules?.length ?? 0})</span
                       >
                     </span>
                     <label
                       for="deleteChartStrategy"
-                      class="ml-2 flex items-center justify-center cursor-pointer text-neutral-500 hover:text-red-500 transition"
+                      class="ml-2 flex items-center justify-center cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-red-500 transition"
                       on:click|stopPropagation
                     >
                       <Trash2 class="h-3.5 w-3.5" />
@@ -5144,7 +5146,9 @@
                   </DropdownMenu.Item>
                 {/each}
               {:else}
-                <div class="px-2 py-1.5 text-sm text-neutral-500">
+                <div
+                  class="px-2 py-1.5 text-sm text-gray-400 dark:text-zinc-500"
+                >
                   No saved strategies
                 </div>
               {/if}

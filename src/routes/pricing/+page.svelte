@@ -1725,10 +1725,10 @@
               Current Plan
             </div>
           {:else if data?.user?.tier === "Plus"}
-            <a
-              href="/profile"
+            <label
+              for="upgradeProModal"
               class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center"
-              >Upgrade in Account<svg
+              >Upgrade to Pro<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -1740,15 +1740,15 @@
                   stroke-width="2"
                   d="M9 5l7 7-7 7"
                 ></path></svg
-              ></a
+              ></label
             >
           {:else}
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("pro")}
-              class="cursor-pointer w-full py-3 px-4 bg-white rounded-full font-semibold sm:hover:bg-slate-100 text-slate-900 transition duration-150 flex items-center justify-center"
+              class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
               >{data?.user?.freeTrial
-                ? "Upgrade Access"
+                ? "Unlock Pro Access"
                 : "Start Free 7 Day Trial"}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -2053,6 +2053,70 @@
     <!--End FAQ-->
   </div>
 </section>
+
+<!--Start Upgrade Pro Modal-->
+<input type="checkbox" id="upgradeProModal" class="modal-toggle" />
+
+<dialog id="upgradeProModal" class="modal overflow-hidden p-3 sm:p-0">
+  <label for="upgradeProModal" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box rounded-2xl w-full border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200"
+  >
+    <div class="flex flex-row items-center pt-5">
+      <h4
+        class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
+      >
+        Upgrade to Pro
+      </h4>
+      <label
+        for="upgradeProModal"
+        class="inline-block cursor-pointer absolute right-3 top-3 text-[1.3rem] sm:text-[1.8rem]"
+      >
+        <svg
+          class="w-6 h-6 sm:w-8 sm:h-8"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          ><path
+            fill="currentColor"
+            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+          /></svg
+        >
+      </label>
+    </div>
+
+    <div
+      class="flex flex-col justify-center items-center text-center px-4 pb-6"
+    >
+      <p class="text-sm text-gray-800 dark:text-zinc-300 mt-4">
+        To upgrade your account from Plus to Pro, please contact us via email
+        and we will handle the upgrade for you.
+      </p>
+
+      <a
+        href="mailto:support@stocknear.com?subject=Upgrade to Pro Request"
+        class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-full transition"
+      >
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4l-8 5l-8-5V6l8 5l8-5z"
+          />
+        </svg>
+        support@stocknear.com
+      </a>
+
+      <p class="text-xs text-gray-500 dark:text-zinc-500 mt-4">
+        We typically respond within 24 hours.
+      </p>
+    </div>
+  </div>
+</dialog>
+<!--End Upgrade Pro Modal-->
 
 <!--Start Login Modal-->
 {#if LoginPopup}
