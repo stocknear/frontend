@@ -1739,10 +1739,11 @@
       }
 
       if (enabled && !existingId) {
-        // isStack=false when targeting pane by ID (per klinecharts API)
+        // isStack=true for candle pane to allow multiple overlaid indicators (MA, BOLL, etc.)
+        // isStack=false for separate panes to avoid stacking
         nextInstanceIds[item.id] = chart.createIndicator(
           { name: item.indicatorName, calcParams: getIndicatorParams(item.id) },
-          false,
+          isOnCandlePane,
           paneOptions,
         );
         return;
