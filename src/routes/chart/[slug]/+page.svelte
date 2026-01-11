@@ -500,7 +500,7 @@
       category: "Volume",
       defaultParams: [5, 10, 20, 50],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "rsi",
@@ -510,7 +510,7 @@
       infoKey: "rsi",
       defaultParams: [14],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "macd",
@@ -530,7 +530,7 @@
       infoKey: "atr",
       defaultParams: [14],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "stoch",
@@ -539,7 +539,7 @@
       category: "Momentum",
       defaultParams: [14, 3],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "stoch_crossover",
@@ -548,7 +548,7 @@
       category: "Momentum",
       defaultParams: [14, 3],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "cci",
@@ -558,7 +558,7 @@
       infoKey: "cci",
       defaultParams: [20],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "williams_r",
@@ -567,7 +567,7 @@
       category: "Momentum",
       defaultParams: [14],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "mfi",
@@ -577,7 +577,7 @@
       infoKey: "mfi",
       defaultParams: [14],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
 
     {
@@ -587,7 +587,7 @@
       category: "Momentum",
       defaultParams: [12],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "tsi",
@@ -596,7 +596,7 @@
       category: "Momentum",
       defaultParams: [25, 13, 7],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "aroon",
@@ -605,7 +605,7 @@
       category: "Trend",
       defaultParams: [25],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "std",
@@ -614,7 +614,7 @@
       category: "Volatility",
       defaultParams: [20],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "hist_vol",
@@ -623,7 +623,7 @@
       category: "Volatility",
       defaultParams: [20],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "chaikin_vol",
@@ -632,7 +632,7 @@
       category: "Volatility",
       defaultParams: [10, 10],
       pane: "panel",
-      height: 120,
+      height: 150,
     },
     {
       id: "gex",
@@ -3124,8 +3124,7 @@
         paneOptions = {
           id: `sn_${item.id}_pane`,
           height: item.height ?? 120,
-          minHeight: 80,
-          dragEnabled: false,
+          dragEnabled: true,
           gap: { top: 0, bottom: 0 },
           axis: {
             show: true,
@@ -3135,7 +3134,11 @@
           },
         };
       } else {
-        paneOptions = { id: `sn_${item.id}_pane`, height: item.height ?? 120 };
+        paneOptions = {
+          id: `sn_${item.id}_pane`,
+          height: item.height ?? 150,
+          dragEnabled: true,
+        };
       }
 
       if (enabled && !existingId) {
@@ -4164,8 +4167,11 @@
     chart.setOffsetRightDistance(12);
 
     // Configure candle pane y-axis to only show price range (exclude indicators)
+    // Set small minHeight to allow indicator panes to expand freely
     chart.setPaneOptions({
       id: "candle_pane",
+      minHeight: 100,
+      dragEnabled: true,
       axis: {
         createRange: ({ chart: c, defaultRange }) => {
           const visibleRange = c.getVisibleRange();
@@ -4223,8 +4229,7 @@
     chart.createIndicator({ name: "SN_VOL", calcParams: [] }, false, {
       id: "sn_volume_pane",
       height: 120,
-      minHeight: 80,
-      dragEnabled: false,
+      dragEnabled: true,
       gap: { top: 0, bottom: 0 },
       axis: {
         show: true,
