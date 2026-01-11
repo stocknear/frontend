@@ -817,6 +817,14 @@
   let openDropdownId: string | null = null;
   let toolbarExpanded = true;
   let drawingMode: "normal" | "weak_magnet" | "strong_magnet" = "normal";
+  let dropdownStates: Record<string, boolean> = {
+    lines: false,
+    channels: false,
+    shapes: false,
+    fibonacci: false,
+    waves: false,
+    magnet: false,
+  };
 
   // Helper function to get current icon for a group
   function getGroupIcon(groupId: string): string {
@@ -4670,7 +4678,7 @@
           <button
             class={`group relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
               activeTool === "cursor"
-                ? "bg-[#2962ff]/10 text-[#2962ff]"
+                ? "bg-neutral-800 text-white"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
             }`}
             on:click={() => { activeTool = "cursor"; if (chartMain) chartMain.style.cursor = "default"; }}
@@ -4681,141 +4689,157 @@
 
           <!-- Drawing Tool Groups -->
           {#each toolGroups as group, groupIndex}
-            <div class="relative mt-1 group/item">
-              <!-- Main Button with selected tool icon -->
-              <button
-                class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
-                  group.options.some(o => o.id === activeTool)
-                    ? "bg-[#2962ff]/10 text-[#2962ff]"
-                    : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
-                }`}
-                on:click={() => {
-                  const selectedTool = group.options.find(o => o.id === selectedToolByGroup[group.id]);
-                  if (selectedTool) {
-                    activateDrawingTool(group.id, selectedTool.id, selectedTool.overlay);
-                  }
-                }}
-                title={group.label}
-              >
-                <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
-                  <path d={getGroupIcon(group.id)}/>
-                </svg>
-                <!-- Dropdown Arrow -->
-                <div
-                  class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
-                  on:click|stopPropagation={() => openDropdownId = openDropdownId === group.id ? null : group.id}
-                  role="button"
-                  tabindex="0"
-                  on:keydown={(e) => e.key === 'Enter' && (openDropdownId = openDropdownId === group.id ? null : group.id)}
+            <DropdownMenu.Root bind:open={dropdownStates[group.id]}>
+              <div class="relative mt-1 group/item">
+                <!-- Main Button with selected tool icon -->
+                <button
+                  class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
+                    group.options.some(o => o.id === activeTool)
+                      ? "bg-neutral-800 text-white"
+                      : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                  }`}
+                  on:click={() => {
+                    const selectedTool = group.options.find(o => o.id === selectedToolByGroup[group.id]);
+                    if (selectedTool) {
+                      activateDrawingTool(group.id, selectedTool.id, selectedTool.overlay);
+                    }
+                  }}
+                  title={group.label}
                 >
-                  <svg viewBox="0 0 4 6" class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${openDropdownId === group.id ? 'rotate-90' : ''}`}>
-                    <path d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"/>
+                  <svg viewBox="0 0 22 22" class="h-5 w-5 fill-current">
+                    <path d={getGroupIcon(group.id)}/>
                   </svg>
-                </div>
-              </button>
-
-              <!-- Dropdown Menu -->
-              {#if openDropdownId === group.id}
-                <div class="absolute left-[calc(100%+4px)] top-0 bg-[#1e222d] border border-neutral-700 rounded-md shadow-xl py-1 z-50 min-w-[180px] max-h-[320px] overflow-y-auto">
-                  {#each group.options as option}
-                    <button
-                      class={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${
-                        selectedToolByGroup[group.id] === option.id
-                          ? "bg-[#2962ff]/10 text-[#2962ff]"
-                          : "text-neutral-300 hover:bg-[#2a2e39] hover:text-white"
-                      }`}
-                      on:click={() => activateDrawingTool(group.id, option.id, option.overlay)}
+                  <!-- Dropdown Arrow -->
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <div
+                      use:builder.action
+                      {...builder}
+                      class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
+                      on:click|stopPropagation
                     >
-                      <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
-                        <path d={toolIcons[option.icon]}/>
+                      <svg viewBox="0 0 4 6" class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${dropdownStates[group.id] ? 'rotate-90' : ''}`}>
+                        <path d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"/>
                       </svg>
-                      <span>{option.label}</span>
-                    </button>
-                  {/each}
-                </div>
-              {/if}
-            </div>
+                    </div>
+                  </DropdownMenu.Trigger>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <DropdownMenu.Content
+                  side="right"
+                  align="start"
+                  sideOffset={4}
+                  class="w-52 max-h-80 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
+                >
+                  <DropdownMenu.Group>
+                    {#each group.options as option}
+                      <DropdownMenu.Item
+                        class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
+                          selectedToolByGroup[group.id] === option.id
+                            ? "bg-neutral-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-medium"
+                            : "text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+                        }`}
+                        on:click={() => { activateDrawingTool(group.id, option.id, option.overlay); dropdownStates[group.id] = false; }}
+                      >
+                        <svg viewBox="0 0 22 22" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
+                          <path d={toolIcons[option.icon]}/>
+                        </svg>
+                        <span>{option.label}</span>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </div>
+            </DropdownMenu.Root>
           {/each}
 
           <!-- Separator -->
           <div class="w-5 h-px bg-neutral-700 my-2"></div>
 
           <!-- Magnet Mode -->
-          <div class="relative mt-1 group/magnet">
-            <button
-              class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
-                drawingMode !== "normal"
-                  ? "bg-[#2962ff]/10 text-[#2962ff]"
-                  : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
-              }`}
-              on:click={() => {
-                if (drawingMode === "normal") {
-                  drawingMode = "weak_magnet";
-                } else {
-                  drawingMode = "normal";
-                }
-              }}
-              title={drawingMode === "normal" ? "Enable magnet mode" : "Disable magnet mode"}
-            >
-              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current">
-                {#if drawingMode === "strong_magnet"}
-                  <path d={toolIcons.strongMagnet}/>
-                {:else}
-                  <path d={toolIcons.weakMagnet}/>
-                {/if}
-              </svg>
-              <!-- Dropdown Arrow -->
-              <div
-                class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-0 group-hover/magnet:opacity-100 transition-opacity duration-150 cursor-pointer"
-                on:click|stopPropagation={() => openDropdownId = openDropdownId === "magnet" ? null : "magnet"}
-                role="button"
-                tabindex="0"
-                on:keydown={(e) => e.key === 'Enter' && (openDropdownId = openDropdownId === "magnet" ? null : "magnet")}
+          <DropdownMenu.Root bind:open={dropdownStates.magnet}>
+            <div class="relative mt-1 group/magnet">
+              <button
+                class={`relative flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 ${
+                  drawingMode !== "normal"
+                    ? "bg-neutral-800 text-white"
+                    : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                }`}
+                on:click={() => {
+                  if (drawingMode === "normal") {
+                    drawingMode = "weak_magnet";
+                  } else {
+                    drawingMode = "normal";
+                  }
+                }}
+                title={drawingMode === "normal" ? "Enable magnet mode" : "Disable magnet mode"}
               >
-                <svg viewBox="0 0 4 6" class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${openDropdownId === "magnet" ? 'rotate-90' : ''}`}>
-                  <path d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"/>
-                </svg>
-              </div>
-            </button>
-
-            <!-- Magnet Mode Dropdown -->
-            {#if openDropdownId === "magnet"}
-              <div class="absolute left-[calc(100%+4px)] top-0 bg-[#1e222d] border border-neutral-700 rounded-md shadow-xl py-1 z-50 min-w-[150px]">
-                <button
-                  class={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${
-                    drawingMode === "weak_magnet"
-                      ? "bg-[#2962ff]/10 text-[#2962ff]"
-                      : "text-neutral-300 hover:bg-[#2a2e39] hover:text-white"
-                  }`}
-                  on:click={() => { drawingMode = "weak_magnet"; openDropdownId = null; }}
-                >
-                  <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
-                    <path d={toolIcons.weakMagnet}/>
-                  </svg>
-                  <span>Weak Magnet</span>
-                </button>
-                <button
-                  class={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${
-                    drawingMode === "strong_magnet"
-                      ? "bg-[#2962ff]/10 text-[#2962ff]"
-                      : "text-neutral-300 hover:bg-[#2a2e39] hover:text-white"
-                  }`}
-                  on:click={() => { drawingMode = "strong_magnet"; openDropdownId = null; }}
-                >
-                  <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
+                <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current">
+                  {#if drawingMode === "strong_magnet"}
                     <path d={toolIcons.strongMagnet}/>
-                  </svg>
-                  <span>Strong Magnet</span>
-                </button>
-              </div>
-            {/if}
-          </div>
+                  {:else}
+                    <path d={toolIcons.weakMagnet}/>
+                  {/if}
+                </svg>
+                <!-- Dropdown Arrow -->
+                <DropdownMenu.Trigger asChild let:builder>
+                  <div
+                    use:builder.action
+                    {...builder}
+                    class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-0 group-hover/magnet:opacity-100 transition-opacity duration-150 cursor-pointer"
+                    on:click|stopPropagation
+                  >
+                    <svg viewBox="0 0 4 6" class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${dropdownStates.magnet ? 'rotate-90' : ''}`}>
+                      <path d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"/>
+                    </svg>
+                  </div>
+                </DropdownMenu.Trigger>
+              </button>
+
+              <!-- Magnet Mode Dropdown -->
+              <DropdownMenu.Content
+                side="right"
+                align="start"
+                sideOffset={4}
+                class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
+              >
+                <DropdownMenu.Group>
+                  <DropdownMenu.Item
+                    class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
+                      drawingMode === "weak_magnet"
+                        ? "bg-neutral-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-medium"
+                        : "text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+                    }`}
+                    on:click={() => { drawingMode = "weak_magnet"; dropdownStates.magnet = false; }}
+                  >
+                    <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
+                      <path d={toolIcons.weakMagnet}/>
+                    </svg>
+                    <span>Weak Magnet</span>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item
+                    class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
+                      drawingMode === "strong_magnet"
+                        ? "bg-neutral-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-medium"
+                        : "text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+                    }`}
+                    on:click={() => { drawingMode = "strong_magnet"; dropdownStates.magnet = false; }}
+                  >
+                    <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] flex-shrink-0 fill-current">
+                      <path d={toolIcons.strongMagnet}/>
+                    </svg>
+                    <span>Strong Magnet</span>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </div>
+          </DropdownMenu.Root>
 
           <!-- Visibility -->
           <button
             class={`flex h-[34px] w-[34px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               !drawingsVisible
-                ? "bg-[#2962ff]/10 text-[#2962ff]"
+                ? "bg-neutral-800 text-white"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
             }`}
             on:click={toggleDrawingsVisibility}
