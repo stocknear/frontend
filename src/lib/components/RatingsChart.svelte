@@ -387,10 +387,10 @@
     <div class="flex justify-center items-center h-64 sm:h-80">
       <div class="relative">
         <label
-          class="bg-gray-100 dark:bg-zinc-800 rounded-lg h-12 w-12 sm:h-14 sm:w-14 flex justify-center items-center"
+          class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
-            class="loading loading-spinner loading-sm sm:loading-md text-gray-500 dark:text-zinc-400"
+            class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
           ></span>
         </label>
       </div>
