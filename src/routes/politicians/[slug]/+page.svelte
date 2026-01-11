@@ -8,6 +8,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
+  import { screenWidth } from "$lib/store";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import DownloadData from "$lib/components/DownloadData.svelte";
@@ -635,137 +636,30 @@
               </div>
             </div>
             {#if stockList?.length > 0}
-              <div
-                class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
-              >
-                <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+              <!-- Mobile Card View -->
+              {#if $screenWidth < 640}
+                <div
+                  class="divide-y divide-gray-200 dark:divide-zinc-700 overflow-hidden rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 shadow mt-4 mb-4"
                 >
-                  <!-- head -->
-                  <thead
-                    class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
-                  >
-                    <tr>
-                      <th
-                        class="hidden lg:table-cell text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      ></th>
-                      <th
-                        class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Symbol
-                      </th>
-                      <th
-                        class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Name
-                      </th>
-                      <th
-                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Transaction Type
-                      </th>
-                      <th
-                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Amount
-                      </th>
-                      <th
-                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Transaction
-                      </th>
-                      <th
-                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Last Trade
-                      </th>
-                      <th
-                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
-                      >
-                        Filed
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-                  >
-                    {#each stockList as item, index}
-                      <tr
-                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
-                      >
-                        <td class="hidden lg:table-cell"
-                          ><button
-                            on:click={() => openGraph(item?.ticker)}
-                            class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
-                            ><svg
-                              class="w-5 h-5 text-gray-800 dark:text-zinc-300 transition {(checkedSymbol ===
-                                item?.ticker ?? item?.symbol)
-                                ? 'rotate-180'
-                                : ''}"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              style="max-width:40px"
-                              ><path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                              ></path></svg
-                            ></button
-                          ></td
-                        >
-
-                        <td
-                          class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                        >
-                          <HoverStockChart
-                            symbol={item?.symbol ?? item?.ticker}
-                            assetType={item?.assetType}
-                          />
-                        </td>
-
-                        <td
-                          class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                        >
-                          {item?.name?.length > 20
-                            ? item?.name?.slice(0, 20) + "..."
-                            : item?.name}
-                        </td>
-
-                        <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          <span class="">
-                            {#if item?.type === "Bought"}
-                              <span
-                                class="text-emerald-600 dark:text-emerald-400"
-                                >Buy</span
-                              >
-                            {:else if item?.type === "Sold"}
-                              <span class="text-rose-600 dark:text-rose-400"
-                                >Sell</span
-                              >
-                            {:else if item?.type === "Exchange"}
-                              <span class="text-amber-600 dark:text-amber-400"
-                                >Exchange</span
-                              >
-                            {/if}
-                          </span></td
-                        >
-
-                        <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {item?.amount}</td
-                        >
-
-                        <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {item?.transaction?.toLocaleString("en-US")}</td
-                        >
-
-                        <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                  {#each stockList as item, index}
+                    <div class="">
+                      <!-- Card Header: Symbol + Date -->
+                      <div class="flex justify-between p-4">
+                        <div>
+                          <div>
+                            <HoverStockChart
+                              symbol={item?.symbol ?? item?.ticker}
+                              assetType={item?.assetType}
+                            />
+                          </div>
+                          <div class="text-sm text-gray-500 dark:text-zinc-400">
+                            {item?.name?.length > 25
+                              ? item?.name?.slice(0, 25) + "..."
+                              : item?.name}
+                          </div>
+                        </div>
+                        <div
+                          class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -773,62 +667,320 @@
                               month: "short",
                               day: "numeric",
                               year: "numeric",
-                              daySuffix: "2-digit",
                             },
                           )}
-                        </td>
+                        </div>
+                      </div>
 
-                        <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {new Date(item?.disclosureDate)?.toLocaleString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                              daySuffix: "2-digit",
-                            },
-                          )}
-                        </td>
-                      </tr>
+                      <!-- Card Body: Type + Amount -->
+                      <div class="flex gap-x-5 px-4 py-3">
+                        <div>
+                          <div class="mb-0.5 text-sm">
+                            {#if item?.type === "Bought"}
+                              <span
+                                class="font-semibold text-emerald-600 dark:text-emerald-400"
+                                >Bought</span
+                              >
+                            {:else if item?.type === "Sold"}
+                              <span
+                                class="font-semibold text-rose-600 dark:text-rose-400"
+                                >Sold</span
+                              >
+                            {:else if item?.type === "Exchange"}
+                              <span
+                                class="font-semibold text-amber-600 dark:text-amber-400"
+                                >Exchange</span
+                              >
+                            {/if}
+                            <span class="text-gray-500 dark:text-zinc-400">
+                              · {item?.transaction?.toLocaleString("en-US")} trade{item?.transaction >
+                              1
+                                ? "s"
+                                : ""}
+                            </span>
+                          </div>
+                          <div class="text-sm text-gray-600 dark:text-zinc-300">
+                            Amount: <span class="font-semibold"
+                              >{item?.amount}</span
+                            >
+                          </div>
+                        </div>
+                        <div class="ml-auto text-right">
+                          <div
+                            class="mb-0.5 text-sm text-gray-500 dark:text-zinc-400"
+                          >
+                            Filed
+                          </div>
+                          <div class="text-sm text-gray-600 dark:text-zinc-300">
+                            {new Date(item?.disclosureDate)?.toLocaleString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              },
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Card Footer: View Chart Button -->
+                      <button
+                        on:click={() => openGraph(item?.ticker)}
+                        class="flex w-full cursor-pointer justify-between border-t border-gray-200 dark:border-zinc-700 p-4 text-sm text-gray-600 dark:text-zinc-300 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 transition-colors"
+                      >
+                        <div>View Chart</div>
+                        <div class="flex items-center gap-x-0.5">
+                          <svg
+                            class="w-5 h-5 text-gray-500 dark:text-zinc-400 mt-px transition {checkedSymbol ===
+                            (item?.ticker ?? item?.symbol)
+                              ? 'rotate-180'
+                              : ''}"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </div>
+                      </button>
+
+                      <!-- Expanded Chart -->
                       {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
-                        <tr class="bg-white/70 dark:bg-zinc-950/50">
-                          <td colspan="8" class="px-0">
-                            <div class="-mt-0.5 px-0 pb-2">
-                              <div class="relative h-[350px]">
-                                <div class="absolute top-0 w-full">
-                                  <div
-                                    class="h-[250px] w-full xs:h-[300px] sm:h-[350px]"
-                                    style="overflow: hidden;"
-                                  >
+                        <div
+                          class="border-t border-gray-200 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/50 px-2 pb-4"
+                        >
+                          <div class="relative h-[280px]">
+                            <div class="absolute top-0 w-full">
+                              <div
+                                class="h-[280px] w-full"
+                                style="overflow: hidden;"
+                              >
+                                <div
+                                  style="position: relative; height: 0px; z-index: 1;"
+                                >
+                                  <RatingsChart
+                                    {data}
+                                    title="Transactions"
+                                    ratingsList={rawData?.history?.map(
+                                      (historyItem) => ({
+                                        ...historyItem,
+                                        date: historyItem.transactionDate,
+                                      }),
+                                    )}
+                                    symbol={item?.ticker ?? item?.symbol}
+                                    numOfRatings={item?.transaction}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              {:else}
+                <!-- Desktop Table View -->
+                <div
+                  class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+                >
+                  <table
+                    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                  >
+                    <!-- head -->
+                    <thead
+                      class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                    >
+                      <tr>
+                        <th
+                          class="hidden lg:table-cell text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        ></th>
+                        <th
+                          class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Symbol
+                        </th>
+                        <th
+                          class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Name
+                        </th>
+                        <th
+                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Transaction Type
+                        </th>
+                        <th
+                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Amount
+                        </th>
+                        <th
+                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Transaction
+                        </th>
+                        <th
+                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Last Trade
+                        </th>
+                        <th
+                          class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                        >
+                          Filed
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                    >
+                      {#each stockList as item, index}
+                        <tr
+                          class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                        >
+                          <td class="hidden lg:table-cell"
+                            ><button
+                              on:click={() => openGraph(item?.ticker)}
+                              class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
+                              ><svg
+                                class="w-5 h-5 text-gray-800 dark:text-zinc-300 transition {(checkedSymbol ===
+                                  item?.ticker ?? item?.symbol)
+                                  ? 'rotate-180'
+                                  : ''}"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                style="max-width:40px"
+                                ><path
+                                  fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"
+                                ></path></svg
+                              ></button
+                            ></td
+                          >
+
+                          <td
+                            class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                          >
+                            <HoverStockChart
+                              symbol={item?.symbol ?? item?.ticker}
+                              assetType={item?.assetType}
+                            />
+                          </td>
+
+                          <td
+                            class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                          >
+                            {item?.name?.length > 20
+                              ? item?.name?.slice(0, 20) + "..."
+                              : item?.name}
+                          </td>
+
+                          <td
+                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          >
+                            <span class="">
+                              {#if item?.type === "Bought"}
+                                <span
+                                  class="text-emerald-600 dark:text-emerald-400"
+                                  >Buy</span
+                                >
+                              {:else if item?.type === "Sold"}
+                                <span class="text-rose-600 dark:text-rose-400"
+                                  >Sell</span
+                                >
+                              {:else if item?.type === "Exchange"}
+                                <span class="text-amber-600 dark:text-amber-400"
+                                  >Exchange</span
+                                >
+                              {/if}
+                            </span></td
+                          >
+
+                          <td
+                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          >
+                            {item?.amount}</td
+                          >
+
+                          <td
+                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          >
+                            {item?.transaction?.toLocaleString("en-US")}</td
+                          >
+
+                          <td
+                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          >
+                            {new Date(item?.transactionDate)?.toLocaleString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                                daySuffix: "2-digit",
+                              },
+                            )}
+                          </td>
+
+                          <td
+                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          >
+                            {new Date(item?.disclosureDate)?.toLocaleString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                                daySuffix: "2-digit",
+                              },
+                            )}
+                          </td>
+                        </tr>
+                        {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
+                          <tr class="bg-white/70 dark:bg-zinc-950/50">
+                            <td colspan="8" class="px-0">
+                              <div class="-mt-0.5 px-0 pb-2">
+                                <div class="relative h-[350px]">
+                                  <div class="absolute top-0 w-full">
                                     <div
-                                      style="position: relative; height: 0px; z-index: 1;"
+                                      class="h-[250px] w-full xs:h-[300px] sm:h-[350px]"
+                                      style="overflow: hidden;"
                                     >
-                                      <RatingsChart
-                                        {data}
-                                        title="Transactions"
-                                        ratingsList={rawData?.history?.map(
-                                          (item) => ({
-                                            ...item,
-                                            date: item.transactionDate,
-                                          }),
-                                        )}
-                                        symbol={item?.ticker ?? item?.symbol}
-                                        numOfRatings={item?.transaction}
-                                      />
+                                      <div
+                                        style="position: relative; height: 0px; z-index: 1;"
+                                      >
+                                        <RatingsChart
+                                          {data}
+                                          title="Transactions"
+                                          ratingsList={rawData?.history?.map(
+                                            (item) => ({
+                                              ...item,
+                                              date: item.transactionDate,
+                                            }),
+                                          )}
+                                          symbol={item?.ticker ?? item?.symbol}
+                                          numOfRatings={item?.transaction}
+                                        />
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div></td
-                          >
-                        </tr>
-                      {/if}
-                    {/each}
-                  </tbody>
-                </table>
-              </div>
+                              </div></td
+                            >
+                          </tr>
+                        {/if}
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {/if}
             {:else if stockList?.length === 0 && inputValue?.length > 0}
               <div class="pt-5">
                 <Infobox text={`No data is available for "${inputValue}"`} />

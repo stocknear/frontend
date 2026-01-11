@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { browser } from "$app/environment";
   import { afterUpdate, onDestroy, onMount } from "svelte";
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData } from "klinecharts";
@@ -3896,7 +3897,9 @@
   onDestroy(() => {
     isComponentDestroyed = true;
     disconnectWebSocket();
-    document.removeEventListener('click', handleToolbarClickOutside);
+    if (browser) {
+      document.removeEventListener('click', handleToolbarClickOutside);
+    }
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
@@ -4298,181 +4301,162 @@
   class="h-[calc(100vh-56px)] w-full bg-[#09090b] text-neutral-200 overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
-    <div
-      class="flex flex-col sm:flex-wrap items-start sm:items-center sm:justify-between sm:gap-3 border-b border-gray-200 dark:border-[#262626] bg-[#09090b] px-3 py-1.5 text-xs"
-    >
-      <div class="flex items-center justify-start w-full gap-3">
-        <button
-          class="flex items-center gap-2 text-sm font-semibold text-neutral-200 py-1"
-        >
+    <!-- TradingView Style Navbar -->
+    <div class="flex flex-col border-b border-gray-200 dark:border-[#262626] bg-[#09090b]">
+      <!-- First Row: Ticker Info + OHLC -->
+      <div class="flex items-center px-2 py-1 gap-1 text-sm border-b border-gray-200 dark:border-[#262626]">
+        <!-- Ticker Symbol -->
+        <button class="flex items-center gap-1.5 px-2 py-1 hover:bg-neutral-800 rounded transition">
           <img
             src={ticker?.length > 0
               ? `https://financialmodelingprep.com/image-stock/${ticker}.png`
               : "/pwa-192x192.png"}
             alt={`${ticker || "Stocknear"} logo`}
-            class="shrink-0 w-4 h-4 rounded-full"
+            class="shrink-0 w-5 h-5 rounded-full"
           />
-          {#if $screenWidth < 640}
-            {ticker} · {data?.getStockQuote?.exchange?.toUpperCase() || ""}
-          {:else}
-            {companyName} · {data?.getStockQuote?.exchange?.toUpperCase() || ""}
-          {/if}
+          <span class="font-semibold text-neutral-100">{ticker}</span>
+          <span class="text-neutral-500">·</span>
+          <span class="text-neutral-400">{activeRange}</span>
+          <span class="text-neutral-500">·</span>
+          <span class="text-neutral-400">{data?.getStockQuote?.exchange?.toUpperCase() || ""}</span>
         </button>
-        <div class="flex items-baseline gap-2">
-          <div class="text-sm font-semibold text-neutral-100">
-            {formatPrice(lastClose)}
-          </div>
-          <div class={`text-sm font-medium ${changeClass}`}>
-            {formatPrice(change)} ({formatPercent(changePercent)})
-          </div>
+
+        <!-- Separator -->
+        <div class="w-px h-5 bg-neutral-700 mx-1"></div>
+
+        <!-- OHLC Values -->
+        <div class="flex items-center gap-3 text-xs">
+          <span class="text-neutral-500">O<span class="text-neutral-300 ml-0.5">{formatPrice(lastClose)}</span></span>
+          <span class="text-neutral-500">H<span class="text-neutral-300 ml-0.5">{formatPrice(lastClose)}</span></span>
+          <span class="text-neutral-500">L<span class="text-neutral-300 ml-0.5">{formatPrice(lastClose)}</span></span>
+          <span class="text-neutral-500">C<span class={`ml-0.5 ${changeClass}`}>{formatPrice(lastClose)}</span></span>
+          <span class={`${changeClass}`}>{formatPrice(change)} ({formatPercent(changePercent)})</span>
         </div>
       </div>
 
-      <div
-        class="flex flex-1 items-center gap-2 overflow-x-auto w-full mt-2 mb-2 sm:mb-0 sm:-mt-2"
-      >
-        <!-- Toolbar Toggle Button (KlineCharts Pro style) -->
+      <!-- Second Row: Tools -->
+      <div class="flex items-center px-1 py-0.5 gap-0.5 overflow-x-auto">
+        <!-- Toolbar Toggle -->
         <button
-          class="hidden sm:flex h-7 w-7 items-center justify-center text-neutral-400 hover:text-neutral-200 transition-all rounded-md hover:bg-neutral-800"
+          class="hidden sm:flex h-7 w-7 items-center justify-center text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
           on:click={() => toolbarExpanded = !toolbarExpanded}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
-          <svg
-            viewBox="0 0 1024 1024"
-            class="h-4 w-4 fill-current transition-transform duration-200 {toolbarExpanded ? '' : 'rotate-180'}"
-          >
-            <path d="M192.037 287.953h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32zM832.161 479.169H438.553c-17.673 0-32 14.327-32 32s14.327 32 32 32h393.608c17.673 0 32-14.327 32-32s-14.327-32-32-32zM832.161 735.802H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32zM319.028 351.594l-160 160 160 160z"/>
+          <svg viewBox="0 0 28 28" class="h-[18px] w-[18px] fill-current">
+            <path d="M4 13h5v1H4v-1zM4 9h9v1H4V9zM4 17h9v1H4v-1zM24 9H14v1h9.02l-.01.01L18 15.02V17l5.5-5.5h.01l.49-.5V9z"/>
           </svg>
         </button>
 
+        <!-- Separator -->
+        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+
+        <!-- Time Intervals - Inline Buttons -->
+        <div class="flex items-center">
+          {#each timeframes as frame}
+            <button
+              class={`px-2 py-1 text-xs font-medium rounded transition ${
+                activeRange === frame
+                  ? "text-white bg-[#2962ff]"
+                  : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"
+              }`}
+              on:click={() => setRange(frame)}
+            >
+              {frame}
+            </button>
+          {/each}
+        </div>
+
+        <!-- Separator -->
+        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+
+        <!-- Chart Type Dropdown -->
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
-            <Button
-              builders={[builder]}
-              class="cursor-pointer h-7 flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition"
+            <button
+              use:builder.action
+              {...builder}
+              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
             >
-              <Timer class="size-4 inline-block mr-0.5 " />
-              <span class="truncate">{activeRange}</span>
-            </Button>
+              <svelte:component this={currentChartType?.icon} class="h-4 w-4" />
+              <ChevronDown class="h-3 w-3" />
+            </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
             side="bottom"
             align="start"
-            sideOffset={10}
-            class="w-28 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
-          >
-            <DropdownMenu.Group>
-              {#each timeframes as frame}
-                <DropdownMenu.Item
-                  class={`text-sm cursor-pointer ${
-                    activeRange === frame
-                      ? "text-gray-900 dark:text-white font-semibold"
-                      : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                  }`}
-                  on:click={() => setRange(frame)}
-                >
-                  {frame}
-                </DropdownMenu.Item>
-              {/each}
-            </DropdownMenu.Group>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild let:builder>
-            <Button
-              builders={[builder]}
-              class="min-w-[90px] h-7 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 bg-transparent flex items-center truncate"
-            >
-              <span class="inline-flex items-center gap-1 truncate">
-                <svelte:component
-                  this={currentChartType?.icon}
-                  class="size-4"
-                />
-                {currentChartType?.label}
-              </span>
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content
-            side="bottom"
-            align="start"
-            sideOffset={10}
-            class="w-52 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+            sideOffset={4}
+            class="w-44 rounded-lg border border-neutral-700 bg-neutral-900 p-1 shadow-xl"
           >
             <DropdownMenu.Group>
               {#each chartTypeOptions as option}
                 <DropdownMenu.Item
-                  class={`text-sm cursor-pointer ${
+                  class={`flex items-center gap-2 px-2 py-1.5 text-xs rounded cursor-pointer transition ${
                     chartType === option.id
-                      ? "text-gray-900 dark:text-white font-semibold"
-                      : "text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                      ? "text-white bg-[#2962ff]"
+                      : "text-neutral-300 hover:bg-neutral-800"
                   }`}
                   on:click={() => setChartType(option.id)}
                 >
-                  <span class="inline-flex items-center gap-2">
-                    <svelte:component this={option.icon} class="h-4 w-4" />
-                    {option.label}
-                  </span>
+                  <svelte:component this={option.icon} class="h-4 w-4" />
+                  {option.label}
                 </DropdownMenu.Item>
               {/each}
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
+        <!-- Separator -->
+        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+
+        <!-- Indicators Button -->
         <label
           for="indicatorModal"
           on:click={() => (indicatorSearchTerm = "")}
-          class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
-          ><span role="img" class="icon-GwQQdU8S" aria-hidden="true"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 28 28"
-              class="size-5 inline-block"
-              fill="none"
-              ><path
-                stroke="currentColor"
-                d="M6 12l4.8-4.8a1 1 0 0 1 1.4 0l2.7 2.7a1 1 0 0 0 1.3.1L23 5"
-              ></path><path
-                fill="currentColor"
-                fill-rule="evenodd"
-                d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"
-              ></path></svg
-            ></span
-          >
-          Indicators</label
+          class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
         >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-4 w-4" fill="none">
+            <path stroke="currentColor" d="M6 12l4.8-4.8a1 1 0 0 1 1.4 0l2.7 2.7a1 1 0 0 0 1.3.1L23 5"/>
+            <path fill="currentColor" fill-rule="evenodd" d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"/>
+          </svg>
+          <span>Indicators</span>
+        </label>
 
+        <!-- Separator -->
+        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+
+        <!-- Events Dropdown -->
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
-            <Button
-              builders={[builder]}
-              class="h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            <button
+              use:builder.action
+              {...builder}
+              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
             >
-              <span class="truncate">Events</span>
-              <ChevronDown class="size-4 ml-1" />
-            </Button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-4 w-4" fill="currentColor">
+                <path d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z"/>
+              </svg>
+              <span>Events</span>
+              <ChevronDown class="size-3" />
+            </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
             side="bottom"
             align="start"
-            sideOffset={10}
-            class="w-auto min-w-48 relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200"
+            sideOffset={4}
+            class="w-auto min-w-40 rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
           >
-            <DropdownMenu.Label
-              class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >
-              Chart Events
-            </DropdownMenu.Label>
-            <DropdownMenu.Group class="pb-1">
+            <DropdownMenu.Group>
               <DropdownMenu.Item
-                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                class="flex items-center justify-between px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer"
+                on:click={(e) => e.preventDefault()}
               >
                 <label
                   class="inline-flex justify-between w-full items-center cursor-pointer"
                   on:click|stopPropagation
                   on:pointerdown|stopPropagation
                 >
-                  <span class="mr-3 text-sm">Earnings</span>
-                  <div class="relative ml-auto flex items-center gap-2">
+                  <span>Earnings</span>
+                  <div class="relative ml-4 flex items-center">
                     {#if isSubscribed}
                       <input
                         type="checkbox"
@@ -4484,23 +4468,16 @@
                         }}
                       />
                       <div
-                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                        class="w-8 h-4 bg-neutral-600 rounded-full peer peer-checked:bg-[#2962ff] after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-full"
                       ></div>
                     {:else}
                       <button
                         type="button"
                         on:click|stopPropagation={() => goto("/pricing")}
-                        class="inline-flex items-center gap-1 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="text-neutral-500 hover:text-neutral-300 transition"
                       >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
                         </svg>
                       </button>
                     {/if}
@@ -4508,15 +4485,16 @@
                 </label>
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                class="flex items-center justify-between px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer"
+                on:click={(e) => e.preventDefault()}
               >
                 <label
                   class="inline-flex justify-between w-full items-center cursor-pointer"
                   on:click|stopPropagation
                   on:pointerdown|stopPropagation
                 >
-                  <span class="mr-3 text-sm">Dividends</span>
-                  <div class="relative ml-auto flex items-center gap-2">
+                  <span>Dividends</span>
+                  <div class="relative ml-4 flex items-center">
                     {#if isSubscribed}
                       <input
                         type="checkbox"
@@ -4528,23 +4506,16 @@
                         }}
                       />
                       <div
-                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                        class="w-8 h-4 bg-neutral-600 rounded-full peer peer-checked:bg-[#2962ff] after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-full"
                       ></div>
                     {:else}
                       <button
                         type="button"
                         on:click|stopPropagation={() => goto("/pricing")}
-                        class="inline-flex items-center gap-1 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="text-neutral-500 hover:text-neutral-300 transition"
                       >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
                         </svg>
                       </button>
                     {/if}
@@ -4555,55 +4526,44 @@
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
+        <!-- Separator -->
+        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+
+        <!-- Strategy Dropdown -->
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
-            <Button
-              builders={[builder]}
-              class=" h-7 cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            <button
+              use:builder.action
+              {...builder}
+              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
             >
-              <span class="truncate">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-4 w-4" fill="currentColor">
+                <path d="M14 4l8 4v8c0 4.4-3.4 8.5-8 10-4.6-1.5-8-5.6-8-10V8l8-4zm0 2.2L8 9.3v6.7c0 3.3 2.5 6.5 6 7.8 3.5-1.3 6-4.5 6-7.8V9.3l-6-3.1z"/>
+              </svg>
+              <span class="truncate max-w-24">
                 {selectedStrategyTitle?.length > 0
                   ? selectedStrategyTitle
-                  : "Select Strategy"}
+                  : "Strategy"}
               </span>
-              <ChevronDown class="size-4 ml-1 mr-1" />
-            </Button>
+              <ChevronDown class="size-3" />
+            </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
             side="bottom"
             align="start"
-            sideOffset={10}
-            class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+            sideOffset={4}
+            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded border border-neutral-700 bg-[#1e222d] p-1 text-neutral-200 shadow-lg"
           >
-            <DropdownMenu.Label>
-              <DropdownMenu.Trigger asChild let:builder>
-                <Button
-                  builders={[builder]}
-                  class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                >
-                  <label
-                    for={!data?.user ? "userLogin" : "addChartStrategy"}
-                    class="flex flex-row items-center cursor-pointer"
-                  >
-                    <svg
-                      class="h-4 w-4 mr-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      style="max-width:40px"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                    <div class="text-sm text-start">New Strategy</div>
-                  </label>
-                </Button>
-              </DropdownMenu.Trigger>
-            </DropdownMenu.Label>
-            <DropdownMenu.Separator />
+            <label
+              for={!data?.user ? "userLogin" : "addChartStrategy"}
+              class="flex items-center gap-2 px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer text-[#2962ff] hover:text-[#4a7dff]"
+            >
+              <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+              </svg>
+              <span>New Strategy</span>
+            </label>
+            <div class="h-px bg-neutral-700 my-1"></div>
             <DropdownMenu.Group>
               {#if strategyList?.length > 0}
                 {#each strategyList as item}
@@ -4611,57 +4571,67 @@
                     on:click={() => {
                       switchStrategy(item);
                     }}
-                    class="cursor-pointer {item?.id === selectedStrategy
-                      ? 'text-violet-600 dark:text-violet-400'
-                      : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
+                    class="flex items-center justify-between px-2 py-1.5 text-xs rounded hover:bg-neutral-700 cursor-pointer {item?.id === selectedStrategy ? 'text-[#2962ff]' : 'text-neutral-200'}"
                   >
-                    {item?.title?.length > 20
-                      ? item?.title?.slice(0, 20) + "..."
-                      : item?.title} ({item?.rules?.length ?? 0})
+                    <span class="truncate">
+                      {item?.title?.length > 18 ? item?.title?.slice(0, 18) + "..." : item?.title}
+                      <span class="text-neutral-500 ml-1">({item?.rules?.length ?? 0})</span>
+                    </span>
                     <label
                       for="deleteChartStrategy"
-                      class="ml-auto inline-flex items-center justify-center cursor-pointer hover:text-rose-600 dark:hover:text-rose-400 transition"
+                      class="ml-2 flex items-center justify-center cursor-pointer text-neutral-500 hover:text-red-500 transition"
+                      on:click|stopPropagation
                     >
-                      <Trash2 class="h-4 w-4" />
+                      <Trash2 class="h-3.5 w-3.5" />
                     </label>
                   </DropdownMenu.Item>
                 {/each}
               {:else}
-                <DropdownMenu.Item
-                  class="text-sm text-gray-500 dark:text-zinc-400"
-                >
+                <div class="px-2 py-1.5 text-xs text-neutral-500">
                   No saved strategies
-                </DropdownMenu.Item>
+                </div>
               {/if}
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
         {#if data?.user}
-          <label
-            for={!data?.user ? "userLogin" : ""}
+          <!-- Separator -->
+          <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+
+          <button
             on:click={() => handleSave(true)}
-            class="cursor-pointer flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
           >
-            Save
-          </label>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-4 w-4" fill="currentColor">
+              <path d="M6 4h12l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm11 2H7v4h10V6zm-4 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            <span>Save</span>
+          </button>
 
           {#if strategyList?.length > 0}
             <label
               for={!data?.user ? "userLogin" : "addChartStrategy"}
-              class="cursor-pointer whitespace-nowrap flex flex-row items-center rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+              class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition whitespace-nowrap"
             >
-              Save as New
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-4 w-4" fill="currentColor">
+                <path d="M14 4a1 1 0 0 1 1 1v8h8a1 1 0 1 1 0 2h-8v8a1 1 0 1 1-2 0v-8H5a1 1 0 1 1 0-2h8V5a1 1 0 0 1 1-1z"/>
+              </svg>
+              <span>Save as New</span>
             </label>
           {/if}
         {/if}
+
         {#if showDetailedAnalysis}
+          <!-- Spacer to push to right -->
+          <div class="flex-1"></div>
+
           <a
             href={detailedAnalysisHref}
-            class="ml-auto whitespace-nowrap flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 px-2 py-1 text-sm font-semibold text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800"
+            class="flex items-center gap-1 px-2 py-1 text-xs font-medium text-[#2962ff] hover:text-[#4a7dff] hover:bg-neutral-800 rounded transition"
             aria-label="Detailed Analysis"
           >
-            Detailed Analysis
-            <ArrowRight class="h-4 w-4" />
+            <span>Detailed Analysis</span>
+            <ArrowRight class="h-3.5 w-3.5" />
           </a>
         {/if}
       </div>
