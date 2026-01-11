@@ -3855,14 +3855,14 @@
     : "N/A";
   $: resolvedAssetType = normalizeAssetType(data?.assetType);
   $: showDetailedAnalysis = Boolean(resolvedAssetType);
-  $: detailRoot =
+  $: assetType =
     resolvedAssetType === "etf"
       ? "etf"
       : resolvedAssetType === "index"
         ? "index"
         : "stocks";
   $: detailedAnalysisHref = showDetailedAnalysis
-    ? `/${detailRoot}/${ticker}`
+    ? `/${assetType}/${ticker}`
     : "";
 
   $: filteredIndicators = indicatorItems.filter((item) => {
@@ -4926,7 +4926,9 @@
                       ? '#3b82f6'
                       : '#f97316'}"
                 ></div>
-                <h3 class="text-white font-semibold text-sm sm:text-base truncate">
+                <h3
+                  class="text-white font-semibold text-sm sm:text-base truncate"
+                >
                   {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
                 </h3>
                 <button
@@ -4965,7 +4967,9 @@
                       ? 'text-emerald-800 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'}"
                   >
-                    {level?.isPositive ? "+" : ""}{level?.value?.toLocaleString("en-US") || 0}
+                    {level?.isPositive ? "+" : ""}{level?.value?.toLocaleString(
+                      "en-US",
+                    ) || 0}
                   </span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
@@ -4988,20 +4992,32 @@
               >
                 {#if isGex}
                   {#if level?.isPositive}
-                    <p>Positive GEX: Price pinned here. MMs sell rallies, buy dips.</p>
+                    <p>
+                      Positive GEX: Price pinned here. MMs sell rallies, buy
+                      dips.
+                    </p>
                   {:else}
-                    <p>Negative GEX: Price accelerates. Higher volatility expected.</p>
+                    <p>
+                      Negative GEX: Price accelerates. Higher volatility
+                      expected.
+                    </p>
                   {/if}
                 {:else if level?.isPositive}
-                  <p>Positive DEX: Dealers long delta. Mean-reverting behavior.</p>
+                  <p>
+                    Positive DEX: Dealers long delta. Mean-reverting behavior.
+                  </p>
                 {:else}
-                  <p>Negative DEX: Dealers short delta. Trend-following behavior.</p>
+                  <p>
+                    Negative DEX: Dealers short delta. Trend-following behavior.
+                  </p>
                 {/if}
               </div>
 
               <!-- Link to more details -->
               <a
-                href="/stocks/{ticker}/options/{isGex ? 'gex' : 'dex'}/strike"
+                href="/{resolvedAssetType}/{ticker}/options/{isGex
+                  ? 'gex'
+                  : 'dex'}/strike"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
@@ -5055,7 +5071,9 @@
                   class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
                   style="background: #a855f7"
                 ></div>
-                <h3 class="text-white font-semibold text-sm sm:text-base truncate">
+                <h3
+                  class="text-white font-semibold text-sm sm:text-base truncate"
+                >
                   Open Interest (OI)
                 </h3>
                 <button
@@ -5134,7 +5152,7 @@
 
               <!-- Link to more details -->
               <a
-                href="/stocks/{ticker}/options/oi"
+                href="/{resolvedAssetType}/{ticker}/options/oi"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
@@ -5154,18 +5172,19 @@
                   style="top: {level.y}px; height: {1.5 +
                     level.intensity * 2}px; background: {level.optionType ===
                   'C'
-                    ? 'rgba(16, 185, 129, ' + (0.5 + level.intensity * 0.5) + ')'
+                    ? 'rgba(16, 185, 129, ' +
+                      (0.5 + level.intensity * 0.5) +
+                      ')'
                     : 'rgba(244, 63, 94, ' +
                       (0.5 + level.intensity * 0.5) +
                       ')'}; opacity: {0.6 + level.intensity * 0.4}"
                   on:click={(e) => handleHottestLevelClick(level, e)}
                   on:keypress={(e) =>
-                    e.key === 'Enter' && handleHottestLevelClick(level, e)}
+                    e.key === "Enter" && handleHottestLevelClick(level, e)}
                   role="button"
                   tabindex="0"
                   aria-label="Hottest contract at ${level.strike}"
-                >
-                </div>
+                ></div>
               {/if}
             {/each}
           </div>
@@ -5194,7 +5213,9 @@
                     ? '#10b981'
                     : '#f43f5e'}"
                 ></div>
-                <h3 class="text-white font-semibold text-sm sm:text-base truncate">
+                <h3
+                  class="text-white font-semibold text-sm sm:text-base truncate"
+                >
                   {selectedHottestLevel.optionType === "C" ? "Call" : "Put"} ${selectedHottestLevel.strike}
                 </h3>
                 <button
@@ -5235,14 +5256,17 @@
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Open Interest</span>
                   <span class="text-purple-400"
-                    >{selectedHottestLevel.openInterest?.toLocaleString("en-US")}</span
+                    >{selectedHottestLevel.openInterest?.toLocaleString(
+                      "en-US",
+                    )}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Last Price</span>
-                  <span class="{selectedHottestLevel.optionType === 'C'
-                      ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-600 dark:text-rose-400'}"
+                  <span
+                    class={selectedHottestLevel.optionType === "C"
+                      ? "text-emerald-800 dark:text-emerald-400"
+                      : "text-rose-600 dark:text-rose-400"}
                     >${selectedHottestLevel.last?.toFixed(2)}</span
                   >
                 </div>
@@ -5268,13 +5292,14 @@
                 class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
               >
                 <p>
-                  High volume contract. Large trades here may signal institutional activity or hedging.
+                  High volume contract. Large trades here may signal
+                  institutional activity or hedging.
                 </p>
               </div>
 
               <!-- Link to more details -->
               <a
-                href="/stocks/{ticker}/options/hottest-contracts/volume"
+                href="/{resolvedAssetType}/{ticker}/options/hottest-contracts/volume"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all contracts
