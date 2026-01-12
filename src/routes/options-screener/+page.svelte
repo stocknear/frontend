@@ -1354,7 +1354,9 @@
     }
   }
 
-  function applyColumnOrder(currentColumns: { key: string; label: string; align: string }[]): { key: string; label: string; align: string }[] {
+  function applyColumnOrder(
+    currentColumns: { key: string; label: string; align: string }[],
+  ): { key: string; label: string; align: string }[] {
     if (customColumnOrder.length === 0) return currentColumns;
     const columnMap = new Map(currentColumns.map((col) => [col.key, col]));
     const orderedColumns: { key: string; label: string; align: string }[] = [];
@@ -2389,17 +2391,78 @@
   <!--End Build Strategy-->
 
   <div
-    class="mt-6 grid-cols-2 items-center sm:grid lg:flex lg:space-x-1 lg:overflow-visible lg:px-1 py-1.5 border-t border-b border-gray-300 dark:border-zinc-700 mb-2"
+    class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold bp:text-[1.3rem] text-gray-900 dark:text-white"
+      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
       {filteredData?.length?.toLocaleString("en-US")} Contracts
     </h2>
     <div
-      class="col-span-2 flex flex-col sm:flex-row items-center lg:order-2 lg:grow lg:border-0 lg:pl-1 xl:pl-3"
+      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
     >
-      <nav class="w-full flex flex-row items-center sm:flex-1">
+      <div
+        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-gray-300 dark:border-zinc-700 lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
+      >
+        <div class="relative lg:ml-auto w-full lg:w-fit">
+          <div
+            class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+          >
+            {#if inputValue?.length > 0}
+              <label class="cursor-pointer" on:click={resetTableSearch}>
+                <svg
+                  class="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  ><path
+                    fill="currentColor"
+                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                  /></svg
+                >
+              </label>
+            {/if}
+          </div>
+
+          <input
+            bind:value={inputValue}
+            on:input={search}
+            type="text"
+            placeholder="Find..."
+            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+          />
+        </div>
+
+        <div class=" ml-2">
+          <DownloadData
+            {data}
+            rawData={filteredData}
+            title={"options_screener_data"}
+          />
+        </div>
+
+        {#if customColumnOrder?.length > 0}
+          <button
+            on:click={resetColumnOrder}
+            title="Reset column order"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        {/if}
+      </div>
+      <nav class="w-full flex flex-row items-center order-2 lg:order-0">
         <ul
           class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
         >
@@ -2446,65 +2509,6 @@
           </li>
         </ul>
       </nav>
-      <div
-        class="w-full flex flex-row sm:flex order-1 items-center ml-auto border-b border-gray-300 dark:border-zinc-700 sm:border-none pb-2 sm:pt-0 sm:pb-0 w-full order-0 sm:order-1"
-      >
-        <div class="relative sm:ml-auto w-full sm:w-fit">
-          <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
-            {#if inputValue?.length > 0}
-              <label class="cursor-pointer" on:click={resetTableSearch}>
-                <svg
-                  class="w-5 h-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  ><path
-                    fill="currentColor"
-                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg
-                >
-              </label>
-            {/if}
-          </div>
-
-          <input
-            bind:value={inputValue}
-            on:input={search}
-            type="text"
-            placeholder="Find..."
-            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-          />
-        </div>
-
-        <div class="ml-2">
-          <DownloadData
-            {data}
-            rawData={filteredData}
-            title={"options_screener_data"}
-          />
-        </div>
-
-        {#if customColumnOrder?.length > 0}
-          <button
-            on:click={resetColumnOrder}
-            title="Reset column order"
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-          >
-            <svg
-              class="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        {/if}
-      </div>
     </div>
   </div>
 
@@ -2525,7 +2529,12 @@
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item}
@@ -2534,7 +2543,7 @@
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
-                      <td class=" whitespace-nowrap">
+                      <td class=" whitespace-nowrap text-start">
                         <a
                           href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
                             item?.symbol +
@@ -2574,7 +2583,9 @@
                       </td>
                     {:else if column.key === "close"}
                       <td class=" text-sm sm:text-[0.95rem] text-end">
-                        {item?.close < 0.01 ? "< 0.01" : item?.close?.toFixed(2)}
+                        {item?.close < 0.01
+                          ? "< 0.01"
+                          : item?.close?.toFixed(2)}
                       </td>
                     {:else if column.key === "moneynessPercentage"}
                       <td class=" text-end text-sm sm:text-[0.95rem]">
@@ -2643,7 +2654,12 @@
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item}
@@ -2685,7 +2701,9 @@
                         {item?.optionType}
                       </td>
                     {:else}
-                      {@const rule = displayRules?.find(r => r.rule === column.key)}
+                      {@const rule = displayRules?.find(
+                        (r) => r.rule === column.key,
+                      )}
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
@@ -2726,7 +2744,12 @@
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item}
