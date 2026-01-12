@@ -383,48 +383,49 @@
         <main class="w-full">
           <div class="border-b border-gray-300 dark:border-zinc-700">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-3 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               Top Wall Street Analysts
             </h1>
-            <p
-              class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
-            >
-              A list of Wall Street Analysts, ranked by their performance
-            </p>
           </div>
 
-          <div
-            class="w-full flex flex-row items-center justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
-          >
-            <h2
-              class="text-start text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {originalData?.length?.toLocaleString("en-US")} Analysts
-            </h2>
+          <Infobox
+            text=" A list of Wall Street Analysts, ranked by their performance"
+          />
 
-            <div class="flex flex-row items-center">
-              {#if customColumnOrder?.length > 0}
-                <button
-                  on:click={resetColumnOrder}
-                  title="Reset column order"
-                  class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
+          <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
+            <div
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+            >
+              <h2
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+              >
+                {originalData?.length?.toLocaleString("en-US")} Analysts
+              </h2>
+
+              <div class="flex flex-row items-center">
+                {#if customColumnOrder?.length > 0}
+                  <button
+                    on:click={resetColumnOrder}
+                    title="Reset column order"
+                    class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                   >
-                    <path
-                      d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
-              {/if}
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                {/if}
+              </div>
             </div>
           </div>
 
@@ -520,7 +521,9 @@
                               {#if Number(item?.successRate) >= 0}
                                 <span
                                   class="font-medium text-emerald-600 dark:text-emerald-400"
-                                  >+{Number(item?.successRate)?.toFixed(2)}%</span
+                                  >+{Number(item?.successRate)?.toFixed(
+                                    2,
+                                  )}%</span
                                 >
                               {/if}
                             </td>
