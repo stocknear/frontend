@@ -5575,7 +5575,7 @@
 
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
+          <div class="absolute inset-0 pointer-events-none">
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
@@ -5892,7 +5892,7 @@
 
         <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
+          <div class="absolute inset-0 pointer-events-none">
             {#each dividendMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
@@ -6040,7 +6040,7 @@
 
         <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
+          <div class="absolute inset-0 pointer-events-none">
             {#each newsMarkers as marker (marker.news.date)}
               {#if marker?.visible}
                 <button
