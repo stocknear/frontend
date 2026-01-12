@@ -605,25 +605,17 @@
               <div class="inline-flex sm:ml-auto">
                 <!-- Tab Selection -->
                 <div
-                  class="inline-flex rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60"
+                  class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
                   role="group"
                   aria-label="View Options"
                 >
                   {#each $screenWidth >= 640 ? tabs : mobileTabs as item, i}
                     <button
                       on:click={() => (timeframe = item)}
-                      class="cursor-pointer px-4 py-2 text-sm font-medium {i ===
-                      0
-                        ? 'rounded-l-full'
-                        : ''}
-                        {i ===
-                      ($screenWidth >= 640 ? tabs.length : mobileTabs.length) -
-                        1
-                        ? 'rounded-r-full'
-                        : ''}
+                      class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                         {timeframe === item
-                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                        : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                        ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                        : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                     >
                       {item}
                     </button>
