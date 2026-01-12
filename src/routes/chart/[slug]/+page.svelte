@@ -365,6 +365,16 @@
       ? value.toFixed(2)
       : "N/A";
   const toRealtimeTimestampMs = (value: unknown): number | null => {
+    // Handle string timestamps like "2026-01-12 14:09" (New York timezone)
+    if (typeof value === "string" && value.includes("-")) {
+      const parsed = DateTime.fromFormat(value, "yyyy-MM-dd HH:mm", {
+        zone,
+      });
+      if (parsed.isValid) {
+        return parsed.toMillis();
+      }
+    }
+    // Handle numeric timestamps (nanoseconds, microseconds, milliseconds, seconds)
     const raw = toNumber(value);
     if (raw === null) return null;
     if (raw > 1e17) return Math.floor(raw / 1e6);
@@ -2972,13 +2982,21 @@
   };
 
   const updateRealtimeBars = (tick) => {
-    if (!tick) return;
+    if (!tick) {
+      return;
+    }
     const symbol = typeof tick?.s === "string" ? tick.s.toUpperCase() : "";
-    if (symbol && ticker && symbol !== ticker.toUpperCase()) return;
+    if (symbol && ticker && symbol !== ticker.toUpperCase()) {
+      return;
+    }
     const timestampMs = toRealtimeTimestampMs(tick?.t ?? tick?.time);
-    if (timestampMs === null) return;
+    if (timestampMs === null) {
+      return;
+    }
     const price = resolveTickPrice(tick);
-    if (price === null) return;
+    if (price === null) {
+      return;
+    }
     const volume = resolveTickVolume(tick);
     const minuteTimestamp = getMinuteTimestamp(timestampMs);
 
@@ -3098,7 +3116,9 @@
       });
 
       socket.addEventListener("close", () => {
-        socket = null;
+        // Don't set socket = null here - let disconnectWebSocket() handle that
+        // This allows afterUpdate to properly detect closed state for reconnection
+        console.log("Chart WebSocket connection closed");
       });
     } catch (error) {
       console.error("WebSocket connection error:", error);
@@ -4311,14 +4331,21 @@
     if (previousTicker !== ticker) {
       previousTicker = ticker;
 
+      // Handle WebSocket reconnection on ticker change
       if (socket) {
         socket.close();
         await new Promise((resolve) => {
           socket?.addEventListener("close", resolve);
         });
 
-        if (socket?.readyState === WebSocket?.CLOSED && !isComponentDestroyed) {
+        // Only reconnect if market is open and component not destroyed
+        if (
+          socket?.readyState === WebSocket?.CLOSED &&
+          !isComponentDestroyed &&
+          $isOpen
+        ) {
           await websocketRealtimeData();
+          console.log("Chart WebSocket reconnecting for new ticker");
         }
       }
     }
