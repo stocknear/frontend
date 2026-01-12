@@ -31,7 +31,7 @@
   import { page } from "$app/stores";
 
   import OptionsFlowTable from "$lib/components/Table/OptionsFlowTable.svelte";
-  import DownloadData from "$lib/components/DownloadData.svelte";
+  import OptionsFlowExport from "$lib/components/OptionsFlowExport.svelte";
   import { writable } from "svelte/store";
 
   // Column reordering bindings
@@ -3267,10 +3267,9 @@
                     ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
                     : 'ml-2 w-fit'} flex items-center justify-end gap-2"
                 >
-                  <DownloadData
+                  <OptionsFlowExport
                     {data}
                     rawData={tableSearchDisplayedData}
-                    title="options-flow"
                   />
 
                   {#if customColumnOrder?.length > 0}
