@@ -31,7 +31,47 @@
   import { page } from "$app/stores";
 
   import OptionsFlowTable from "$lib/components/Table/OptionsFlowTable.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import { writable } from "svelte/store";
+
+  // Column reordering bindings
+  let optionsFlowResetColumnOrder: () => void;
+  let optionsFlowCustomColumnOrder: string[] = [];
+
+  // Table search functionality
+  let tableSearchValue = "";
+  let tableSearchDisplayedData = [];
+
+  function tableSearch() {
+    if (tableSearchValue?.length > 0) {
+      const searchLower = tableSearchValue?.toLowerCase();
+      tableSearchDisplayedData = displayedData?.filter((item) => {
+        return (
+          item?.ticker?.toLowerCase()?.includes(searchLower) ||
+          item?.option_symbol?.toLowerCase()?.includes(searchLower) ||
+          item?.put_call?.toLowerCase()?.includes(searchLower) ||
+          item?.sentiment?.toLowerCase()?.includes(searchLower) ||
+          item?.option_activity_type?.toLowerCase()?.includes(searchLower)
+        );
+      });
+    } else {
+      tableSearchDisplayedData = displayedData;
+    }
+  }
+
+  function resetTableSearch() {
+    tableSearchValue = "";
+    tableSearchDisplayedData = displayedData;
+  }
+
+  // Keep tableSearchDisplayedData in sync with displayedData
+  $: if (displayedData) {
+    if (tableSearchValue?.length > 0) {
+      tableSearch();
+    } else {
+      tableSearchDisplayedData = displayedData;
+    }
+  }
 
   export let data;
   let shouldLoadWorker = writable(false);
@@ -2146,61 +2186,10 @@
 
             <div class="sm:ml-auto w-full sm:w-fit pt-5">
               <div class="relative flex flex-col sm:flex-row items-center">
-                <div
-                  class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-white/80 dark:bg-zinc-950/60 rounded-full border border-gray-300 dark:border-zinc-700"
-                >
-                  <label class=" flex flex-row items-center">
-                    <input
-                      id="modal-search"
-                      class="focus:outline-none sm:ml-2 text-sm placeholder-gray-500 dark:placeholder:text-zinc-400 border-transparent bg-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-2"
-                      placeholder="Find..."
-                      bind:value={filterQuery}
-                      on:input={debouncedHandleInput}
-                      autocomplete="off"
-                    />
-                    {#if filterQuery?.length > 0}
-                      <label
-                        class="cursor-pointer"
-                        on:click={() => {
-                          filterQuery = "";
-                          shouldLoadWorker.set(true);
-                        }}
-                      >
-                        <svg
-                          class="ml-auto h-6 w-6 inline-block mr-3"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          ><path
-                            fill="currentColor"
-                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          /></svg
-                        >
-                      </label>
-                    {:else}
-                      <svg
-                        class="ml-auto h-6 w-6 sm:h-7 sm:w-7 inline-block mr-4 text-gray-400 dark:text-zinc-400"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        ><path
-                          fill="currentColor"
-                          d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
-                        /></svg
-                      >
-                    {/if}
-                  </label>
-                  {#if notFound === true}
-                    <span
-                      class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2"
-                    >
-                      No Results Found
-                    </span>
-                  {/if}
-                </div>
-
                 <Popover.Root>
                   <Popover.Trigger asChild let:builder>
                     <Button
-                      class="shadow w-full sm:w-[160px] truncate sm:mr-3 py-2.5 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left rounded-full font-medium hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="shadow w-full sm:w-[160px] truncate py-2.5 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left rounded-full font-medium hover:text-violet-600 dark:hover:text-violet-400 transition"
                       builders={[builder]}
                     >
                       <CalendarIcon
@@ -3222,15 +3211,96 @@
               </div>
             </div>
 
+            <!-- Table toolbar: Find, Download, Reset Column Order -->
+            <div
+              class="flex {optionsFlowCustomColumnOrder?.length > 0
+                ? 'flex-col sm:flex-row sm:items-center'
+                : 'flex-row items-center'} w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 mt-3"
+            >
+              <!-- Find input -->
+              <div
+                class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+              >
+                <div
+                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                >
+                  {#if tableSearchValue?.length > 0}
+                    <label
+                      class="cursor-pointer"
+                      on:click={() => resetTableSearch()}
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                        />
+                      </svg>
+                    </label>
+                  {/if}
+                </div>
+
+                <input
+                  bind:value={tableSearchValue}
+                  on:input={tableSearch}
+                  type="text"
+                  placeholder="Find..."
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                />
+              </div>
+
+              <!-- Download + Reset Column Order -->
+              <!--
+              <div
+                class="{optionsFlowCustomColumnOrder?.length > 0
+                  ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
+                  : 'ml-2 w-fit'} flex items-center justify-end gap-2"
+              >
+                <DownloadData
+                  {data}
+                  rawData={tableSearchDisplayedData}
+                  title="options-flow"
+                />
+
+                {#if optionsFlowCustomColumnOrder?.length > 0}
+                  <button
+                    on:click={() => optionsFlowResetColumnOrder?.()}
+                    title="Reset column order"
+                    class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                {/if}
+              </div>
+              -->
+            </div>
+
             <!-- Page wrapper -->
             <div class="flex w-full m-auto h-full overflow-hidden">
               <div class="mt-3 w-full overflow-x-auto overflow-hidden">
                 <OptionsFlowTable
                   {data}
                   {optionsWatchlist}
-                  {displayedData}
+                  displayedData={tableSearchDisplayedData}
                   {filteredData}
                   {rawData}
+                  bind:resetColumnOrder={optionsFlowResetColumnOrder}
+                  bind:customColumnOrder={optionsFlowCustomColumnOrder}
                 />
                 <div class="-mt-3">
                   <UpgradeToPro {data} display={true} />

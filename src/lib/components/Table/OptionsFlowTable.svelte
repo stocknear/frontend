@@ -1,7 +1,7 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
 
   import VirtualList from "svelte-tiny-virtual-list";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
@@ -15,6 +15,193 @@
   export let filteredData = [];
   export let rawData = [];
 
+  // Default columns definition
+  const defaultColumns = [
+    { key: "time", label: "Time", align: "center" },
+    { key: "ticker", label: "Symbol", align: "center" },
+    { key: "insight", label: "", align: "center" },
+    { key: "expiry", label: "Expiry", align: "center" },
+    { key: "dte", label: "DTE", align: "center" },
+    { key: "strike", label: "Strike", align: "center" },
+    { key: "callPut", label: "C/P", align: "center" },
+    { key: "sentiment", label: "Sent.", align: "center" },
+    { key: "spot", label: "Spot", align: "center" },
+    { key: "price", label: "Price", align: "center" },
+    { key: "premium", label: "Prem", align: "center" },
+    { key: "type", label: "Type", align: "center" },
+    { key: "leg", label: "Leg", align: "center" },
+    { key: "exec", label: "Exec", align: "center" },
+    { key: "size", label: "Size", align: "center" },
+    { key: "vol", label: "Vol", align: "center" },
+    { key: "oi", label: "OI", align: "center" },
+  ];
+
+  let columns = [...defaultColumns];
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+  const COLUMN_ORDER_KEY = "/options-flow_columnOrder";
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    if (typeof localStorage === "undefined") return;
+
+    try {
+      const savedOrder = localStorage.getItem(COLUMN_ORDER_KEY);
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
+          customColumnOrder = parsedOrder;
+          if (forceReapply) {
+            columns = applyColumnOrder(defaultColumns);
+            lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    if (typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(COLUMN_ORDER_KEY, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+  ): typeof defaultColumns {
+    if (customColumnOrder.length === 0) return cols;
+
+    const columnMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedColumns: typeof defaultColumns = [];
+
+    for (const key of customColumnOrder) {
+      const col = columnMap.get(key);
+      if (col) {
+        orderedColumns.push(col);
+        columnMap.delete(key);
+      }
+    }
+
+    for (const col of columnMap.values()) {
+      orderedColumns.push(col);
+    }
+
+    return orderedColumns;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    columns = newColumns;
+    customColumnOrder = newColumns.map((col) => col.key);
+    lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder(): void {
+    customColumnOrder = [];
+    columns = [...defaultColumns];
+    lastAppliedColumnKeys = "";
+
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(COLUMN_ORDER_KEY);
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  // Drag and drop state for column reordering
+  let draggedColumnIndex: number | null = null;
+  let dragOverColumnIndex: number | null = null;
+
+  function handleDragStart(event: DragEvent, index: number) {
+    draggedColumnIndex = index;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", index.toString());
+    }
+    // Add a slight delay to allow the drag image to be captured
+    const target = event.target as HTMLElement;
+    setTimeout(() => {
+      target.style.opacity = "0.5";
+    }, 0);
+  }
+
+  function handleDragEnd(event: DragEvent) {
+    const target = event.target as HTMLElement;
+    target.style.opacity = "1";
+    draggedColumnIndex = null;
+    dragOverColumnIndex = null;
+  }
+
+  function handleDragOver(event: DragEvent, index: number) {
+    if (draggedColumnIndex === null) return;
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = "move";
+    }
+    if (index !== draggedColumnIndex) {
+      dragOverColumnIndex = index;
+    }
+  }
+
+  function handleDragLeave(event: DragEvent) {
+    // Only reset if we're leaving the element completely
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    if (!currentTarget.contains(relatedTarget)) {
+      dragOverColumnIndex = null;
+    }
+  }
+
+  function handleDrop(event: DragEvent, toIndex: number) {
+    if (draggedColumnIndex === null) return;
+    event.preventDefault();
+    if (draggedColumnIndex !== toIndex) {
+      handleColumnReorder(draggedColumnIndex, toIndex);
+    }
+    draggedColumnIndex = null;
+    dragOverColumnIndex = null;
+  }
+
+  // Reactive: Apply column order when customColumnOrder changes
+  $: if (
+    defaultColumns &&
+    defaultColumns.length > 0 &&
+    customColumnOrder.length > 0
+  ) {
+    const currentColumnKeys = columns.map((c) => c.key).join(",");
+    const defaultKeys = defaultColumns.map((c) => c.key);
+    const matchingKeys = customColumnOrder.filter((key) =>
+      defaultKeys.includes(key),
+    );
+    const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+    if (
+      compatibilityRatio >= 0.5 &&
+      currentColumnKeys !== lastAppliedColumnKeys
+    ) {
+      columns = applyColumnOrder(defaultColumns);
+      lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    }
+  }
+
+  // Export reset function for parent component
+  export { resetColumnOrder, customColumnOrder };
+
   let selectedOptionData: any = null;
   let insightData: any = null;
   let isLoadingInsight = false;
@@ -25,6 +212,11 @@
   let sortedDisplayData = [];
   //  let animationClass = "";
   //  let animationId = "";
+
+  // Load column order on mount
+  onMount(() => {
+    loadColumnOrder(true);
+  });
 
   // Clear all options insight cache when component is destroyed (leaving the page)
   onDestroy(() => {
@@ -460,6 +652,7 @@ ${insightData.traderTakeaway}
     type: "none",
     leg: "none",
     exec: "none",
+    size: "none",
     vol: "none",
     oi: "none",
   };
@@ -751,358 +944,45 @@ ${insightData.traderTakeaway}
     <div
       class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-17 sticky top-0 z-10 border-b border-gray-300 dark:border-zinc-700 font-semibold text-[11px] uppercase tracking-wide"
     >
-      <div
-        on:click={() => sortData("time")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Time
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['time'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['time'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
+      {#each columns as column, i}
+        <div
+          draggable="true"
+          on:dragstart={(e) => handleDragStart(e, i)}
+          on:dragover={(e) => handleDragOver(e, i)}
+          on:dragleave={handleDragLeave}
+          on:drop={(e) => handleDrop(e, i)}
+          on:dragend={handleDragEnd}
+          on:click={() => column.key !== "insight" && sortData(column.key)}
+          class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
+            {dragOverColumnIndex === i && draggedColumnIndex !== i ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500' : ''}"
         >
-      </div>
-      <div
-        on:click={() => sortData("ticker")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Symbol
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['ticker'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['ticker'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div class="cursor-pointer p-2 text-center whitespace-nowrap">
-        Insight
-      </div>
-
-      <div
-        on:click={() => sortData("expiry")}
-        class="cursor-pointer p-2 text-center whitespace-nowrap"
-      >
-        Expiry
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['expiry'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['expiry'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("dte")}
-        class="cursor-pointer p-2 text-center whitespace-nowrap"
-      >
-        dte
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['dte'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['dte'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("strike")}
-        class="cursor-pointer p-2 text-center whitespace-nowrap"
-      >
-        strike
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['strike'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['strike'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("callPut")}
-        class="cursor-pointer p-2 text-center whitespace-nowrap"
-      >
-        C/P
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['callPut'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['callPut'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("sentiment")}
-        class="cursor-pointer p-2 text-center whitespace-nowrap"
-      >
-        Sent.
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['sentiment'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['sentiment'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("spot")}
-        class="cursor-pointer p-2 text-center whitespace-nowrap"
-      >
-        Spot
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['spot'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['spot'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("price")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Price
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['price'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['price'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("premium")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Prem
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['premium'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['premium'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("type")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Type
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['type'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['type'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("leg")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Leg
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['leg'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['leg'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("exec")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Exec
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['exec'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['exec'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("size")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Size
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['size'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['size'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("vol")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        Vol
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['vol'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['vol'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("oi")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
-      >
-        OI
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['oi'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['oi'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
+          <span class="inline-flex items-center gap-1 justify-center">
+            {#if column?.label}
+              <svg class="w-3 h-3 opacity-40 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            {/if}
+            {column.label}
+            {#if column.key !== "insight"}
+              <svg
+                class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
+                  ? 'rotate-180 inline-block'
+                  : sortOrders[column.key] === 'desc'
+                    ? 'inline-block'
+                    : 'hidden'}"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:50px"
+                ><path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path></svg
+              >
+            {/if}
+          </span>
+        </div>
+      {/each}
     </div>
 
     <VirtualList
@@ -1126,191 +1006,171 @@ ${insightData.traderTakeaway}
         class:opacity-30={index + 1 === rawData?.length &&
           data?.user?.tier !== "Pro"}
       >
-        <div
-          class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
-        >
-          {formatTime(sortedDisplayData[index]?.time)}
-        </div>
-        <div
-          on:click|stopPropagation
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          <HoverStockChart
-            symbol={sortedDisplayData[index]?.ticker}
-            assetType={sortedDisplayData[index]?.underlying_type}
-            optionSymbol={sortedDisplayData[index]?.option_symbol}
-          />
-        </div>
-
-        <div
-          on:click|stopPropagation={() =>
-            optionsInsight(sortedDisplayData[index])}
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          <Spark
-            class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          />
-        </div>
-        <!--
-        <div
-          id={sortedDisplayData[index]?.id}
-          on:click|stopPropagation={() =>
-            addToWatchlist(sortedDisplayData[index]?.id)}
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap {optionsWatchlist.optionsId?.includes(
-            sortedDisplayData[index]?.id,
-          )
-            ? 'text-[#FFA500]'
-            : $mode === 'light'
-              ? 'text-gray-400'
-              : 'text-[#fff]'}"
-        >
-          <svg
-            class="{sortedDisplayData[index]?.id === animationId
-              ? animationClass
-              : ''} w-4 sm:w-5 sm:h-5 inline-block cursor-pointer shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            ><path
-              fill="currentColor"
-              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-            /></svg
-          >
-        </div>
--->
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {reformatDate(sortedDisplayData[index]?.date_expiration)}
-        </div>
-
-        <div
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {sortedDisplayData[index]?.dte < 0
-            ? "expired"
-            : sortedDisplayData[index]?.dte + "d"}
-        </div>
-
-        <div
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {sortedDisplayData[index]?.strike_price}
-        </div>
-
-        <div
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-            index
-          ]?.put_call === 'Calls'
-            ? 'text-emerald-600 dark:text-emerald-400'
-            : 'text-rose-600 dark:text-rose-400'} "
-        >
-          {sortedDisplayData[index]?.put_call}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-            index
-          ]?.sentiment === 'Bullish'
-            ? 'text-emerald-600 dark:text-emerald-400'
-            : sortedDisplayData[index]?.sentiment === 'Bearish'
-              ? 'text-rose-600 dark:text-rose-400'
-              : 'text-orange-800 dark:text-[#C6A755]'} "
-        >
-          {sortedDisplayData[index]?.sentiment}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {sortedDisplayData[index]?.underlying_price}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {sortedDisplayData[index]?.price}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {@html abbreviateNumber(
-            sortedDisplayData[index]?.cost_basis,
-            false,
-            true,
-          )}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-            index
-          ]?.option_activity_type === 'Sweep'
-            ? 'text-gray-600 dark:text-[#C6A755]'
-            : sortedDisplayData[index]?.option_activity_type === 'Block'
-              ? 'text-gray-600 dark:text-[#FF6B6B]'
-              : sortedDisplayData[index]?.option_activity_type === 'Large'
-                ? 'text-gray-600 dark:text-[#4ECDC4]'
-                : 'text-gray-600 dark:text-[#976DB7]'}"
-        >
-          {sortedDisplayData[index]?.option_activity_type}
-        </div>
-
-        <div
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-            index
-          ]?.trade_leg_type === 'multi-leg'
-            ? 'text-gray-600 dark:text-[#FF9500]'
-            : 'text-gray-600 dark:text-[#7B8794]'}"
-        >
-          {sortedDisplayData[index]?.trade_leg_type === "multi-leg"
-            ? "Multi"
-            : "Single"}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {[
-            'At Ask',
-            'Above Ask',
-          ]?.includes(sortedDisplayData[index]?.execution_estimate)
-            ? 'text-gray-600 dark:text-[#C8A32D]'
-            : ['At Bid', 'Below Bid']?.includes(
-                  sortedDisplayData[index]?.execution_estimate,
-                )
-              ? 'text-gray-600 dark:text-[#8F82FE]'
-              : 'text-gray-600 dark:text-[#A98184]'}"
-        >
-          {sortedDisplayData[index]?.execution_estimate?.replace(
-            "Midpoint",
-            "Mid",
-          )}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {new Intl.NumberFormat("en", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          }).format(sortedDisplayData[index]?.size)}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {new Intl.NumberFormat("en", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          }).format(sortedDisplayData[index]?.volume)}
-        </div>
-
-        <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          {new Intl.NumberFormat("en", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          }).format(sortedDisplayData[index]?.open_interest)}
-        </div>
+        {#each columns as column}
+          {#if column.key === "time"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
+            >
+              {formatTime(sortedDisplayData[index]?.time)}
+            </div>
+          {:else if column.key === "ticker"}
+            <div
+              on:click|stopPropagation
+              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              <HoverStockChart
+                symbol={sortedDisplayData[index]?.ticker}
+                assetType={sortedDisplayData[index]?.underlying_type}
+                optionSymbol={sortedDisplayData[index]?.option_symbol}
+              />
+            </div>
+          {:else if column.key === "insight"}
+            <div
+              on:click|stopPropagation={() =>
+                optionsInsight(sortedDisplayData[index])}
+              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              <Spark
+                class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              />
+            </div>
+          {:else if column.key === "expiry"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {reformatDate(sortedDisplayData[index]?.date_expiration)}
+            </div>
+          {:else if column.key === "dte"}
+            <div
+              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {sortedDisplayData[index]?.dte < 0
+                ? "expired"
+                : sortedDisplayData[index]?.dte + "d"}
+            </div>
+          {:else if column.key === "strike"}
+            <div
+              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {sortedDisplayData[index]?.strike_price}
+            </div>
+          {:else if column.key === "callPut"}
+            <div
+              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                index
+              ]?.put_call === 'Calls'
+                ? 'text-emerald-600 dark:text-emerald-400'
+                : 'text-rose-600 dark:text-rose-400'}"
+            >
+              {sortedDisplayData[index]?.put_call}
+            </div>
+          {:else if column.key === "sentiment"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                index
+              ]?.sentiment === 'Bullish'
+                ? 'text-emerald-600 dark:text-emerald-400'
+                : sortedDisplayData[index]?.sentiment === 'Bearish'
+                  ? 'text-rose-600 dark:text-rose-400'
+                  : 'text-orange-800 dark:text-[#C6A755]'}"
+            >
+              {sortedDisplayData[index]?.sentiment}
+            </div>
+          {:else if column.key === "spot"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {sortedDisplayData[index]?.underlying_price}
+            </div>
+          {:else if column.key === "price"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {sortedDisplayData[index]?.price}
+            </div>
+          {:else if column.key === "premium"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {@html abbreviateNumber(
+                sortedDisplayData[index]?.cost_basis,
+                false,
+                true,
+              )}
+            </div>
+          {:else if column.key === "type"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                index
+              ]?.option_activity_type === 'Sweep'
+                ? 'text-gray-600 dark:text-[#C6A755]'
+                : sortedDisplayData[index]?.option_activity_type === 'Block'
+                  ? 'text-gray-600 dark:text-[#FF6B6B]'
+                  : sortedDisplayData[index]?.option_activity_type === 'Large'
+                    ? 'text-gray-600 dark:text-[#4ECDC4]'
+                    : 'text-gray-600 dark:text-[#976DB7]'}"
+            >
+              {sortedDisplayData[index]?.option_activity_type}
+            </div>
+          {:else if column.key === "leg"}
+            <div
+              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                index
+              ]?.trade_leg_type === 'multi-leg'
+                ? 'text-gray-600 dark:text-[#FF9500]'
+                : 'text-gray-600 dark:text-[#7B8794]'}"
+            >
+              {sortedDisplayData[index]?.trade_leg_type === "multi-leg"
+                ? "Multi"
+                : "Single"}
+            </div>
+          {:else if column.key === "exec"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {[
+                'At Ask',
+                'Above Ask',
+              ]?.includes(sortedDisplayData[index]?.execution_estimate)
+                ? 'text-gray-600 dark:text-[#C8A32D]'
+                : ['At Bid', 'Below Bid']?.includes(
+                      sortedDisplayData[index]?.execution_estimate,
+                    )
+                  ? 'text-gray-600 dark:text-[#8F82FE]'
+                  : 'text-gray-600 dark:text-[#A98184]'}"
+            >
+              {sortedDisplayData[index]?.execution_estimate?.replace(
+                "Midpoint",
+                "Mid",
+              )}
+            </div>
+          {:else if column.key === "size"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {new Intl.NumberFormat("en", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(sortedDisplayData[index]?.size)}
+            </div>
+          {:else if column.key === "vol"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {new Intl.NumberFormat("en", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(sortedDisplayData[index]?.volume)}
+            </div>
+          {:else if column.key === "oi"}
+            <div
+              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+            >
+              {new Intl.NumberFormat("en", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(sortedDisplayData[index]?.open_interest)}
+            </div>
+          {/if}
+        {/each}
       </div>
     </VirtualList>
   </div>
