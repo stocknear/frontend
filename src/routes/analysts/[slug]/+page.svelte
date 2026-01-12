@@ -651,7 +651,7 @@
                       on:input={search}
                       type="text"
                       placeholder="Find..."
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -706,7 +706,8 @@
                             <span class="text-gray-600 dark:text-zinc-400"
                               >{item?.action_company}:</span
                             >
-                            <span class="font-medium text-gray-800 dark:text-zinc-200"
+                            <span
+                              class="font-medium text-gray-800 dark:text-zinc-200"
                               >{item?.rating_current}</span
                             >
                           </div>
@@ -722,36 +723,54 @@
                                 >{Math?.ceil(item?.adjusted_pt_prior)}</span
                               >
                               <span class="mx-1">→</span>
-                              <span class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
+                              <span
+                                class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
                                 >${Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                              <span class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
+                              <span
+                                class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
                                 >${Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else}
-                              <span class="text-gray-500 dark:text-zinc-400">n/a</span>
+                              <span class="text-gray-500 dark:text-zinc-400"
+                                >n/a</span
+                              >
                             {/if}
                           </p>
                         </div>
                         <div class="text-right">
-                          <p class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5">
-                            <span class="uppercase text-[10px] tracking-wide mr-1">Current</span>
-                            <span class="tabular-nums text-gray-800 dark:text-zinc-200"
-                              >{item?.price !== null ? "$" + item?.price : "n/a"}</span
+                          <p
+                            class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5"
+                          >
+                            <span
+                              class="uppercase text-[10px] tracking-wide mr-1"
+                              >Current</span
+                            >
+                            <span
+                              class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              >{item?.price !== null
+                                ? "$" + item?.price
+                                : "n/a"}</span
                             >
                           </p>
                           <p class="text-[13px]">
-                            <span class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1">Upside</span>
                             <span
-                              class="font-medium tabular-nums {item?.upside >= 0 && item?.upside !== null
+                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1"
+                              >Upside</span
+                            >
+                            <span
+                              class="font-medium tabular-nums {item?.upside >=
+                                0 && item?.upside !== null
                                 ? 'text-emerald-600 dark:text-emerald-500'
                                 : item?.upside < 0 && item?.upside !== null
                                   ? 'text-rose-600 dark:text-rose-500'
                                   : 'text-gray-500 dark:text-zinc-400'}"
                             >
                               {item?.upside !== null
-                                ? (item?.upside >= 0 ? "+" : "") + item?.upside + "%"
+                                ? (item?.upside >= 0 ? "+" : "") +
+                                  item?.upside +
+                                  "%"
                                 : "n/a"}
                             </span>
                           </p>
@@ -763,11 +782,16 @@
                         on:click={() => openGraph(item?.ticker)}
                         class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
-                        <span>{item?.ratings} Rating{item?.ratings > 1 ? "s" : ""}</span>
+                        <span
+                          >{item?.ratings} Rating{item?.ratings > 1
+                            ? "s"
+                            : ""}</span
+                        >
                         <div class="flex items-center gap-1">
                           <span>View Chart</span>
                           <svg
-                            class="h-4 w-4 transition-transform {checkedSymbol === item?.ticker
+                            class="h-4 w-4 transition-transform {checkedSymbol ===
+                            item?.ticker
                               ? 'rotate-180'
                               : ''}"
                             viewBox="0 0 20 20"
@@ -870,8 +894,11 @@
                             <td
                               class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
                             >
-                              <div class="flex flex-col sm:flex-row items-start">
-                                <span class="mr-1">{item?.action_company}:</span>
+                              <div
+                                class="flex flex-col sm:flex-row items-start"
+                              >
+                                <span class="mr-1">{item?.action_company}:</span
+                                >
                                 <span>
                                   {item?.rating_current}
                                 </span>
@@ -881,7 +908,9 @@
                             <td
                               class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                             >
-                              <div class="flex flex-row items-center justify-end">
+                              <div
+                                class="flex flex-row items-center justify-end"
+                              >
                                 {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                   <span
                                     class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -901,11 +930,15 @@
                                     /></svg
                                   >
                                   <span class="font-semibold"
-                                    >{Math?.ceil(item?.adjusted_pt_current)}</span
+                                    >{Math?.ceil(
+                                      item?.adjusted_pt_current,
+                                    )}</span
                                   >
                                 {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
                                   <span class="font-semibold"
-                                    >{Math?.ceil(item?.adjusted_pt_current)}</span
+                                    >{Math?.ceil(
+                                      item?.adjusted_pt_current,
+                                    )}</span
                                   >
                                 {:else}
                                   n/a
@@ -926,7 +959,9 @@
                                   ? 'text-rose-600 dark:text-rose-400'
                                   : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
-                              {item?.upside !== null ? item?.upside + "%" : "n/a"}
+                              {item?.upside !== null
+                                ? item?.upside + "%"
+                                : "n/a"}
                             </td>
 
                             <td

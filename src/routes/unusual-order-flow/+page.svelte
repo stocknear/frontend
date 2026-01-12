@@ -317,8 +317,7 @@
     ruleOfList.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition ?? allRules[rule.name].defaultCondition;
-      valueMappings[rule.name] =
-        rule.value ?? allRules[rule.name].defaultValue;
+      valueMappings[rule.name] = rule.value ?? allRules[rule.name].defaultValue;
     });
 
     displayRules = allRows?.filter((row) =>
@@ -1779,7 +1778,8 @@
               />
 
               <div
-                class="relative w-11 h-6 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all {$isOpen && modeStatus
+                class="relative w-11 h-6 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all {$isOpen &&
+                modeStatus
                   ? 'bg-emerald-500'
                   : 'bg-gray-200/80 dark:bg-zinc-800'}"
               ></div>
@@ -1804,7 +1804,7 @@
                 <label class=" flex flex-row items-center">
                   <input
                     id="modal-search"
-                    class="focus:outline-none sm:ml-2 text-sm placeholder:text-gray-500 dark:placeholder:text-zinc-400 border-transparent bg-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5 text-gray-700 dark:text-zinc-200"
+                    class="focus:outline-none sm:ml-2 text-sm placeholder:text-gray-800 dark:placeholder:text-zinc-300 border-transparent bg-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5 text-gray-700 dark:text-zinc-200"
                     placeholder="Find..."
                     bind:value={filterQuery}
                     on:input={debouncedHandleInput}
@@ -1966,7 +1966,7 @@
                     on:keydown={handleQuickSearchKeydown}
                     on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                     on:blur={closeQuickSearchDropdown}
-                    class="block w-full lg:w-64 py-2 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 text-gray-700 dark:text-zinc-200"
+                    class="block w-full lg:w-64 py-2 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-800 dark:placeholder:text-zinc-300 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 text-gray-700 dark:text-zinc-200"
                   />
 
                   <!-- Clear button -->
@@ -2283,7 +2283,7 @@
                                         : ""}
                                       on:input={(e) =>
                                         handleValueInput(e, row?.rule, 0)}
-                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
+                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
                                     />
                                     <span class=" text-[1rem] font-normal mt-1">
                                       &
@@ -2298,7 +2298,7 @@
                                         : ""}
                                       on:input={(e) =>
                                         handleValueInput(e, row?.rule, 1)}
-                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
+                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
                                     />
                                   </div>
                                 {:else}
@@ -2310,7 +2310,7 @@
                                       : valueMappings[row?.rule]}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule)}
-                                    class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
+                                    class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
                                   />
                                 {/if}
 
@@ -2827,7 +2827,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder:text-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
+              class="focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search"
               bind:value={searchTerm}
             />
