@@ -50,13 +50,11 @@
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
-    { key: "dividendGrowth", label: "Dividend Growth" },
-    { key: "monthlyDividends", label: "Monthly Dividends" },
-    { key: "topGainers1Y", label: "Top Gainers 1Y" },
-    { key: "topShortedStocks", label: "Top Shorted Stocks" },
-    { key: "momentumTAStocks", label: "Momentum TA Stocks" },
-    { key: "underValuedStocks", label: "Undervalued Stocks" },
-    { key: "strongCashFlow", label: "Strong Cash Flow" },
+    { key: "highIVRank", label: "High IV Rank" },
+    { key: "volumeSurge", label: "Volume Surge" },
+    { key: "itmCalls", label: "ITM Calls" },
+    { key: "otmPuts", label: "OTM Puts" },
+    { key: "highPremiumFlow", label: "High Premium Flow" },
   ];
 
   let displayTableTab = "general";
@@ -462,6 +460,91 @@
         ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
         ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
     );
+  }
+
+  async function popularStrategy(state: string) {
+    resetTableSearch();
+    const strategies = {
+      highIVRank: {
+        name: "High IV Rank",
+        rules: [
+          { condition: "over", name: "ivRank", value: "50%" },
+          { condition: "over", name: "volume", value: "1K" },
+          { condition: "over", name: "oi", value: "5K" },
+        ],
+      },
+      volumeSurge: {
+        name: "Volume Surge",
+        rules: [
+          { condition: "over", name: "volume", value: "10K" },
+          { condition: "over", name: "oi", value: "10K" },
+          { condition: "over", name: "changesPercentageOI", value: "30%" },
+        ],
+      },
+      itmCalls: {
+        name: "ITM Calls",
+        rules: [
+          { condition: "", name: "optionType", value: ["Call"] },
+          { condition: "over", name: "moneynessPercentage", value: "0%" },
+          { condition: "over", name: "volume", value: "1K" },
+        ],
+      },
+      otmPuts: {
+        name: "OTM Puts",
+        rules: [
+          { condition: "", name: "optionType", value: ["Put"] },
+          { condition: "under", name: "moneynessPercentage", value: "-5%" },
+          { condition: "over", name: "volume", value: "1K" },
+        ],
+      },
+      highPremiumFlow: {
+        name: "High Premium Flow",
+        rules: [
+          { condition: "over", name: "totalPrem", value: "1M" },
+          { condition: "over", name: "volume", value: "5K" },
+          { condition: "over", name: "oi", value: "10K" },
+        ],
+      },
+    };
+
+    const strategy = strategies[state];
+    if (strategy) {
+      // If clicking the same strategy again, don't clear the rules
+      if (selectedPopularStrategy === strategy.name) {
+        return;
+      }
+
+      selectedPopularStrategy = strategy.name;
+      ruleOfList = [];
+
+      // Clear all previous checked items and value mappings
+      checkedItems.clear();
+      Object.keys(valueMappings).forEach((key) => {
+        valueMappings[key] = "any";
+      });
+
+      ruleOfList = strategy?.rules;
+      ruleOfList?.forEach((row) => {
+        ruleCondition[row.name] =
+          row.condition || allRules[row.name]?.defaultCondition || "";
+        valueMappings[row.name] =
+          row.value || allRules[row.name]?.defaultValue || "any";
+
+        // Handle checked rules (like optionType)
+        if (checkedRules.includes(row.name) && Array.isArray(row.value)) {
+          checkedItems.set(row.name, new Set(row.value));
+        }
+      });
+
+      displayRules = ruleOfList?.map((row) => ({
+        rule: row.name,
+        label: allRules[row.name]?.label,
+        varType: allRules[row.name]?.varType,
+      }));
+
+      // Trigger data filtering with the new rules
+      await updateStockScreenerData();
+    }
   }
 
   function changeRule(state: string) {
@@ -1179,91 +1262,6 @@
     }
   }
 
-  async function popularStrategy(state: string) {
-    ruleOfList = [];
-    const strategies = {
-      dividendGrowth: {
-        name: "Dividend Growth",
-        rules: [
-          { condition: "over", name: "dividendGrowth", value: "5%" },
-          { condition: "over", name: "dividendYield", value: "1%" },
-          { condition: "under", name: "payoutRatio", value: "60%" },
-          { condition: "over", name: "growthRevenue", value: "5%" },
-        ],
-      },
-      monthlyDividends: {
-        name: "Monthly Dividends",
-        rules: [
-          { name: "payoutFrequency", value: "Monthly" },
-          { condition: "over", name: "dividendYield", value: "0%" },
-        ],
-      },
-      topGainers1Y: {
-        name: "Top Gainers 1Y",
-        rules: [
-          { condition: "over", name: "change1Y", value: "50%" },
-          { condition: "over", name: "marketCap", value: "10B" },
-          { condition: "over", name: "eps", value: 5 },
-        ],
-      },
-      topShortedStocks: {
-        name: "Top Shorted Stocks",
-        rules: [
-          { condition: "over", name: "shortFloatPercent", value: "20%" },
-          { condition: "over", name: "shortRatio", value: 1 },
-          { condition: "over", name: "shortOutstandingPercent", value: "10%" },
-          { condition: "over", name: "sharesShort", value: "20M" },
-          { condition: "over", name: "marketCap", value: "100M" },
-        ],
-      },
-
-      momentumTAStocks: {
-        name: "Momentum TA Stocks",
-        rules: [
-          { condition: "under", name: "rsi", value: 40 },
-          { condition: "under", name: "stochRSI", value: 40 },
-          { condition: "over", name: "marketCap", value: "1B" },
-          { condition: "under", name: "mfi", value: 40 },
-        ],
-      },
-      underValuedStocks: {
-        name: "Undervalued Stocks",
-        rules: [
-          { condition: "between", name: "marketCap", value: ["100M", "500M"] },
-          { condition: "over", name: "debtToEquityRatio", value: 1 },
-          { condition: "under", name: "priceToEarningsRatio", value: 15 },
-          { condition: "under", name: "priceToSalesRatio", value: 1.5 },
-          { condition: "under", name: "priceToBookRatio", value: 1 },
-          { condition: "over", name: "eps", value: 0 },
-        ],
-      },
-      strongCashFlow: {
-        // New Strategy Added
-        name: "Strong Cash Flow",
-        rules: [
-          { condition: "over", name: "marketCap", value: "300M" },
-          { condition: "over", name: "freeCashFlow", value: "100M" },
-          { condition: "over", name: "growthFreeCashFlow", value: "10%" },
-          { condition: "over", name: "operatingCashFlow", value: "100M" },
-          { condition: "over", name: "freeCashFlowMargin", value: "10%" },
-        ],
-      },
-    };
-
-    const strategy = strategies[state];
-    if (strategy) {
-      selectedPopularStrategy = strategy.name;
-      ruleOfList = strategy?.rules;
-      ruleOfList?.forEach((row) => {
-        ruleName = row?.name;
-        ruleCondition[ruleName] = row?.condition;
-        handleChangeValue(row?.value);
-      });
-
-      //await updateStockScreenerData();
-    }
-  }
-
   const sortData = (key) => {
     // Reset all other keys to 'none' except the current key
     for (const k in sortOrders) {
@@ -1577,15 +1575,71 @@
         >
           Options Screener
         </h1>
-        <span
-          class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
-        >
-          {filteredData?.length?.toLocaleString("en-US")} Contracts Found
-        </span>
       </div>
 
       <div class="flex flex-row items-center w-full mt-5 justify-end">
-        <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
+        <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
+          <div
+            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
+          >
+            Popular Screens
+          </div>
+          <div class="relative inline-block text-left grow">
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span class="truncate"
+                    >{selectedPopularStrategy?.length !== 0
+                      ? selectedPopularStrategy
+                      : "Select popular"}</span
+                  >
+                  <svg
+                    class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+              >
+                <DropdownMenu.Label
+                  class="text-gray-500 dark:text-zinc-400 font-normal"
+                >
+                  Popular Strategies
+                </DropdownMenu.Label>
+                <DropdownMenu.Separator />
+                <DropdownMenu.Group>
+                  {#each popularStrategyList as item}
+                    <DropdownMenu.Item
+                      on:click={() => popularStrategy(item?.key)}
+                      class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                    >
+                      {item?.label}
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </div>
+        </div>
+
+        <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
@@ -2394,7 +2448,7 @@
     class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
+      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
       {filteredData?.length?.toLocaleString("en-US")} Contracts
     </h2>
