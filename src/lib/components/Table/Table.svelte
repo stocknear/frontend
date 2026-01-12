@@ -1736,6 +1736,7 @@
     pagePathName = $page?.url?.pathname;
     loadIndicatorsTabRules();
     loadRowsPerPage(); // Load pagination preference for new page
+    loadColumnOrder(undefined, true); // Load column order preference for new page
     updatePaginatedData(); // Update display with loaded preference
   }
 
@@ -1834,6 +1835,9 @@
 
       // Load pagination preference
       loadRowsPerPage();
+
+      // Load column order preference (forceReapply to ensure order is applied after mount)
+      loadColumnOrder(undefined, true);
 
       // Set current tab rules based on the active tab
       if (displayTableTab === "general") {
@@ -2097,6 +2101,149 @@
   let columns = generateColumns(rawData);
   let sortOrders = generateSortOrders(rawData);
 
+  // Column reordering state and functions
+  let customColumnOrder: string[] = [];
+  let lastColumnOrderTab: string = displayTableTab;
+
+  function getColumnOrderStorageKey(tab?: string): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    const currentTab = tab || displayTableTab;
+    return currentPath ? `${currentPath}_${currentTab}_columnOrder` : "";
+  }
+
+  function loadColumnOrder(tab?: string, forceReapply: boolean = false): void {
+    const storageKey = getColumnOrderStorageKey(tab);
+    if (!storageKey || typeof localStorage === "undefined") {
+      customColumnOrder = [];
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          customColumnOrder = parsed;
+          lastColumnOrderTab = tab || displayTableTab;
+          // Reset tracking to force reapplication of order
+          if (forceReapply) {
+            lastAppliedColumnKeys = "";
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+    customColumnOrder = [];
+    lastColumnOrderTab = tab || displayTableTab;
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(cols: typeof columns): typeof columns {
+    if (!customColumnOrder || customColumnOrder.length === 0) {
+      return cols;
+    }
+
+    // Create a map for quick lookup
+    const colMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedCols: typeof columns = [];
+    const usedKeys = new Set<string>();
+
+    // First, add columns in the saved order
+    for (const key of customColumnOrder) {
+      const col = colMap.get(key);
+      if (col) {
+        orderedCols.push(col);
+        usedKeys.add(key);
+      }
+    }
+
+    // Then, add any remaining columns that weren't in the saved order
+    for (const col of cols) {
+      if (!usedKeys.has(col.key)) {
+        orderedCols.push(col);
+      }
+    }
+
+    return orderedCols;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    // Create a new order from current columns
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    // Update the custom order (only save keys that currently exist)
+    customColumnOrder = newColumns.map((col) => col.key);
+    saveColumnOrder(customColumnOrder);
+
+    // Update tracking to prevent reactive from re-applying
+    lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
+
+    // Apply the new order
+    columns = newColumns;
+  }
+
+  function resetColumnOrder(): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      localStorage.removeItem(storageKey);
+    }
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+    columns = generateColumns(rawData);
+  }
+
+  // Track if column order has been applied to prevent infinite loops
+  let lastAppliedColumnKeys: string = "";
+
+  // Load column order on initialization (with forceReapply for page refresh)
+  loadColumnOrder(undefined, true);
+
+  // Load column order when tab changes
+  $: if (displayTableTab !== lastColumnOrderTab) {
+    loadColumnOrder(displayTableTab, true);
+  }
+
+  // Apply custom column order when columns are regenerated
+  $: if (columns && columns.length > 0 && customColumnOrder.length > 0) {
+    const currentKeys = columns.map((c) => c.key).join("|");
+    const orderedKeys = customColumnOrder.join("|");
+    // Only reorder if the current order doesn't match custom order
+    if (currentKeys !== orderedKeys && lastAppliedColumnKeys !== currentKeys) {
+      // Check compatibility: at least 50% of saved order keys must exist in current columns
+      // This prevents applying wrong tab's order during tab transitions
+      const currentKeySet = new Set(columns.map((c) => c.key));
+      const matchingKeys = customColumnOrder.filter((key) =>
+        currentKeySet.has(key),
+      );
+      const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+      if (compatibilityRatio >= 0.5) {
+        lastAppliedColumnKeys = currentKeys;
+        const reordered = applyColumnOrder(columns);
+        const reorderedKeys = reordered.map((c) => c.key).join("|");
+        if (reorderedKeys !== currentKeys) {
+          columns = reordered;
+        }
+      }
+    }
+  }
+
   const sortData = (key, input = false) => {
     isSorting = true; // Prevent reactive statement from interfering
 
@@ -2275,6 +2422,19 @@
         {bulkDownload}
       />
     </div>
+    {#if customColumnOrder.length > 0}
+      <div class="ml-2">
+        <button
+          on:click={resetColumnOrder}
+          title="Reset column order"
+          class="p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    {/if}
     <div class="ml-3">
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild let:builder>
@@ -2535,7 +2695,7 @@
       class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
     >
       <thead>
-        <TableHeader {columns} {sortOrders} {sortData} />
+        <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
       </thead>
       <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
         {#each stockList as item, index}

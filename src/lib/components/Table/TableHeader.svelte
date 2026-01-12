@@ -2,6 +2,64 @@
   export let columns = [];
   export let sortOrders = {};
   export let sortData;
+  export let onColumnReorder: ((fromIndex: number, toIndex: number) => void) | null = null;
+
+  // Drag and drop state
+  let draggedIndex: number | null = null;
+  let dragOverIndex: number | null = null;
+
+  function handleDragStart(event: DragEvent, index: number): void {
+    if (!onColumnReorder) return;
+    draggedIndex = index;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", String(index));
+    }
+    // Add a slight delay to allow the drag image to be captured
+    const target = event.target as HTMLElement;
+    setTimeout(() => {
+      target.style.opacity = "0.5";
+    }, 0);
+  }
+
+  function handleDragEnd(event: DragEvent): void {
+    const target = event.target as HTMLElement;
+    target.style.opacity = "1";
+    draggedIndex = null;
+    dragOverIndex = null;
+  }
+
+  function handleDragOver(event: DragEvent, index: number): void {
+    if (!onColumnReorder || draggedIndex === null) return;
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = "move";
+    }
+    if (index !== draggedIndex) {
+      dragOverIndex = index;
+    }
+  }
+
+  function handleDragLeave(event: DragEvent): void {
+    // Only reset if we're leaving the element completely
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    if (!currentTarget.contains(relatedTarget)) {
+      dragOverIndex = null;
+    }
+  }
+
+  function handleDrop(event: DragEvent, toIndex: number): void {
+    if (!onColumnReorder || draggedIndex === null) return;
+    event.preventDefault();
+
+    if (draggedIndex !== toIndex) {
+      onColumnReorder(draggedIndex, toIndex);
+    }
+
+    draggedIndex = null;
+    dragOverIndex = null;
+  }
 
   const SortIcon = ({ sortOrder }) => `
     <svg class="shrink-0 w-4 h-4 ${
@@ -105,18 +163,31 @@
 <tr
   class="relative bg-white/60 dark:bg-zinc-950/40 border-b border-gray-300 dark:border-zinc-700 text-gray-500 dark:text-zinc-400 z-20"
 >
-  {#each columns as column}
+  {#each columns as column, index}
     <th
+      draggable={onColumnReorder ? "true" : "false"}
       on:click={() => sortData(column.key)}
-      class="cursor-pointer select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap {column.align ===
+      on:dragstart={(e) => handleDragStart(e, index)}
+      on:dragend={handleDragEnd}
+      on:dragover={(e) => handleDragOver(e, index)}
+      on:dragleave={handleDragLeave}
+      on:drop={(e) => handleDrop(e, index)}
+      class="cursor-pointer select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap transition-all duration-150 {column.align ===
       'right'
         ? 'text-end'
         : column.align === 'left'
           ? 'text-start'
-          : 'text-center'}"
+          : 'text-center'} {onColumnReorder ? 'cursor-grab active:cursor-grabbing' : ''} {dragOverIndex === index && draggedIndex !== index ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500' : ''}"
     >
-      {formatLabel(column?.label)}
-      {@html SortIcon({ sortOrder: sortOrders[column.key]?.order })}
+      <span class="inline-flex items-center gap-1">
+        {#if onColumnReorder}
+          <svg class="w-3 h-3 opacity-40 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        {/if}
+        {formatLabel(column?.label)}
+        {@html SortIcon({ sortOrder: sortOrders[column.key]?.order })}
+      </span>
     </th>
   {/each}
 </tr>

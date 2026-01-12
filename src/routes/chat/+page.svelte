@@ -513,9 +513,7 @@
   <div class="flex flex-col m-auto justify-center items-center">
     <div class="text-center mb-10 w-full sm:px-3">
       <main class="flex flex-1 flex-col gap-4 sm:p-4 md:gap-8 text-start">
-        <div
-          class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-4 bg-white/70 dark:bg-zinc-950/60 shadow-sm shadow-black/5 landscape:border-t-2 landscape:md:border-t-0"
-        >
+        <div class="px-4 bg-white/70 dark:bg-zinc-950/60">
           <div
             class="mx-auto w-full max-w-[850px] flex flex-col justify-center items-center gap-6 pb-8"
           >
@@ -1056,24 +1054,21 @@
   <label for="deleteThread" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5"
+    class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
   >
-    <h3 class="text-lg font-bold mb-2">Delete Thread</h3>
+    <h3 class="text-lg font-medium mb-2">Delete Thread</h3>
     <p class="text-sm mb-6">
       Are you sure you want to delete this thread? This action cannot be undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThread"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-            transition-colors bg-gray-900 hover:bg-gray-800 text-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteThread"
         on:click={handleDeleteThread}
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-            transition-colors duration-100 flex items-center
-            bg-red-600 hover:bg-red-500 text-white"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
         tabindex="0"
         ><svg
           stroke="currentColor"
