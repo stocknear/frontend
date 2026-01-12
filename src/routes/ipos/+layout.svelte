@@ -74,18 +74,18 @@
           </h1>
 
           <nav
-            class="pb-2 border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
+            class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
           >
             <ul
-              class="flex flex-row items-center w-full text-sm sm:text-base gap-2"
+              class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
             >
               {#each tabs as item, i}
                 <a
                   href={item?.path}
-                  class="px-4 py-2 rounded-full cursor-pointer transition {activeIdx ===
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   i
-                    ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                    : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item.title}
                 </a>
@@ -94,17 +94,17 @@
           </nav>
 
           {#if activeIdx === 0}
-            <nav class="overflow-x-auto whitespace-nowrap mt-2 -mb-3">
-              <ul class="flex flex-row items-center w-full gap-2">
+            <nav class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mt-2">
+              <ul class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base">
                 {#each ["Latest", "2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019"] as item}
                   {#if item !== "Latest"}
                     <a
                       href={`/ipos/${item}`}
                       on:click={() => (displaySection = item)}
-                      class="px-3 py-1.5 rounded-full cursor-pointer transition text-sm sm:text-base {displaySection ===
+                      class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                       item
-                        ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                        : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                        ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                        : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                     >
                       {item}
                     </a>
@@ -112,10 +112,10 @@
                     <a
                       href={`/ipos`}
                       on:click={() => (displaySection = item)}
-                      class="px-3 py-1.5 rounded-full cursor-pointer transition text-sm sm:text-base {displaySection ===
+                      class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                       item
-                        ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                        : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                        ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                        : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                     >
                       {item}
                     </a>
