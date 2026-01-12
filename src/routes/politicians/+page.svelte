@@ -167,6 +167,9 @@
       console.log(e);
     }
 
+    // Load column order preference
+    loadColumnOrder(true);
+
     // Load pagination preference
     loadRowsPerPage();
 
@@ -294,7 +297,7 @@
     saveList();
   }
 
-  let columns = [
+  const defaultColumns = [
     { key: "performanceScore", label: "Rank", align: "left" },
     { key: "representative", label: "Person", align: "left" },
     { key: "favorite", label: "Favorite", align: "center" },
@@ -304,6 +307,135 @@
     { key: "totalTrades", label: "Total Trades", align: "right" },
     { key: "lastTrade", label: "Last Trade", align: "right" },
   ];
+
+  let columns = [...defaultColumns];
+
+  // Column order state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  // Get storage key for column order
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  // Load column order from localStorage
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    if (!currentPath || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      const savedOrder = localStorage.getItem(storageKey);
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
+          customColumnOrder = parsedOrder;
+          if (forceReapply) {
+            columns = applyColumnOrder(defaultColumns);
+            lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+  }
+
+  // Save column order to localStorage
+  function saveColumnOrder(order: string[]): void {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  // Apply saved column order to columns array
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+  ): typeof defaultColumns {
+    if (customColumnOrder.length === 0) return cols;
+
+    const columnMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedColumns: typeof defaultColumns = [];
+
+    // Add columns in saved order (if they exist)
+    for (const key of customColumnOrder) {
+      const col = columnMap.get(key);
+      if (col) {
+        orderedColumns.push(col);
+        columnMap.delete(key);
+      }
+    }
+
+    // Add any remaining columns not in saved order
+    for (const col of columnMap.values()) {
+      orderedColumns.push(col);
+    }
+
+    return orderedColumns;
+  }
+
+  // Handle column reorder from TableHeader
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    columns = newColumns;
+    customColumnOrder = newColumns.map((col) => col.key);
+    lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    saveColumnOrder(customColumnOrder);
+  }
+
+  // Reset column order to default
+  function resetColumnOrder(): void {
+    customColumnOrder = [];
+    columns = [...defaultColumns];
+    lastAppliedColumnKeys = "";
+
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  // Reactive: Apply column order when customColumnOrder changes
+  $: if (
+    defaultColumns &&
+    defaultColumns.length > 0 &&
+    customColumnOrder.length > 0
+  ) {
+    const currentColumnKeys = columns.map((c) => c.key).join(",");
+    const defaultKeys = defaultColumns.map((c) => c.key);
+    const matchingKeys = customColumnOrder.filter((key) =>
+      defaultKeys.includes(key),
+    );
+    const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+    if (
+      compatibilityRatio >= 0.5 &&
+      currentColumnKeys !== lastAppliedColumnKeys
+    ) {
+      columns = applyColumnOrder(defaultColumns);
+      lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    }
+  }
 
   let sortOrders = {
     performanceScore: { order: "none", type: "number" },
@@ -489,9 +621,11 @@
             </div>
 
             <div
-              class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
+              class="flex flex-row items-center ml-auto border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
             >
-              <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14 mr-2">
+              <div
+                class="relative ml-auto flex-1 min-w-0 sm:flex-none sm:min-w-56 sm:max-w-14 mr-2"
+              >
                 <div
                   class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                 >
@@ -522,58 +656,82 @@
                 />
               </div>
 
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild let:builder>
-                  <Button
-                    builders={[builder]}
-                    class="min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    <span class="truncate">Filter by Party</span>
-                    <svg
-                      class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      style="max-width:40px"
-                      aria-hidden="true"
+              <div class="shrink-0">
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <Button
+                      builders={[builder]}
+                      class="min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </Button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content
-                  side="bottom"
-                  align="end"
-                  sideOffset={10}
-                  alignOffset={0}
-                  class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-                >
-                  <DropdownMenu.Group>
-                    {#each ["Democratic", "Republican", "Other"] as item}
-                      <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                      <span class="truncate">Party</span>
+                      <svg
+                        class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
                       >
-                        <div class="flex items-center">
-                          <label
-                            class="cursor-pointer"
-                            on:click={() => handleChangeValue(item)}
-                            for={item}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={checkedItems.has(item)}
-                            />
-                            <span class="ml-2">{item}</span>
-                          </label>
-                        </div>
-                      </DropdownMenu.Item>
-                    {/each}
-                  </DropdownMenu.Group>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Content
+                    side="bottom"
+                    align="end"
+                    sideOffset={10}
+                    alignOffset={0}
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                  >
+                    <DropdownMenu.Group>
+                      {#each ["Democratic", "Republican", "Other"] as item}
+                        <DropdownMenu.Item
+                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                        >
+                          <div class="flex items-center">
+                            <label
+                              class="cursor-pointer"
+                              on:click={() => handleChangeValue(item)}
+                              for={item}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={checkedItems.has(item)}
+                              />
+                              <span class="ml-2">{item}</span>
+                            </label>
+                          </div>
+                        </DropdownMenu.Item>
+                      {/each}
+                    </DropdownMenu.Group>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </div>
+
+              {#if customColumnOrder?.length > 0}
+                <button
+                  on:click={resetColumnOrder}
+                  title="Reset column order"
+                  class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              {/if}
             </div>
           </div>
 
@@ -586,7 +744,12 @@
                   class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
-                    <TableHeader {columns} {sortOrders} {sortData} />
+                    <TableHeader
+                      {columns}
+                      {sortOrders}
+                      {sortData}
+                      onColumnReorder={handleColumnReorder}
+                    />
                   </thead>
                   <tbody
                     class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -595,118 +758,128 @@
                       <tr
                         class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
-                        <td
-                          class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row items-center text-gray-700 dark:text-zinc-200 tabular-nums"
-                        >
-                          {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
-                            <div>
-                              {Number(item?.performanceScore).toFixed(1)}
-                            </div>
-                          {:else}
-                            <div>n/a</div>
+                        {#each columns as column}
+                          {#if column.key === "performanceScore"}
+                            <td
+                              class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row items-center text-gray-700 dark:text-zinc-200 tabular-nums"
+                            >
+                              {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
+                                <div>
+                                  {Number(item?.performanceScore).toFixed(1)}
+                                </div>
+                              {:else}
+                                <div>n/a</div>
+                              {/if}
+                              <svg
+                                class="ml-1 w-4 h-4"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="#FFA500"
+                                viewBox="0 0 22 20"
+                              >
+                                <path
+                                  d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                />
+                              </svg>
+                            </td>
+                          {:else if column.key === "representative"}
+                            <td
+                              class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              <a
+                                href={`/politicians/${item?.id}`}
+                                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                >{item?.representative?.replace("_", " ")}</a
+                              >
+                            </td>
+                          {:else if column.key === "favorite"}
+                            <td
+                              class="text-center text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              <div
+                                id={item?.id}
+                                on:click|stopPropagation={(event) =>
+                                  addToFavorite(event, item?.id)}
+                                class="text-center transition hover:text-amber-500 dark:hover:text-amber-400 {favoriteList?.includes(
+                                  item?.id,
+                                )
+                                  ? 'text-amber-500 dark:text-amber-400'
+                                  : 'text-gray-400 dark:text-zinc-300'}"
+                              >
+                                <svg
+                                  class="{item?.id === animationId
+                                    ? animationClass
+                                    : ''} w-5 h-5 inline-block cursor-pointer shrink-0"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 16 16"
+                                  ><path
+                                    fill="currentColor"
+                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                                  /></svg
+                                >
+                              </div>
+                            </td>
+                          {:else if column.key === "party"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                            >
+                              {item?.party}
+                            </td>
+                          {:else if column.key === "successRate"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                            >
+                              {#if item?.successRate === null || item?.successRate === undefined}
+                                <span class="">n/a</span>
+                              {:else}
+                                <span
+                                  class="font-medium text-emerald-600 dark:text-emerald-400"
+                                  >+{Number(item?.successRate)?.toFixed(
+                                    2,
+                                  )}%</span
+                                >
+                              {/if}
+                            </td>
+                          {:else if column.key === "avgReturn"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                            >
+                              {#if item?.avgReturn === null || item?.avgReturn === undefined}
+                                <span class="">n/a</span>
+                              {:else if Number(item?.avgReturn) >= 0}
+                                <span
+                                  class="font-medium text-emerald-600 dark:text-emerald-400"
+                                  >+{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                >
+                              {:else}
+                                <span
+                                  class="font-medium text-rose-600 dark:text-rose-400"
+                                  >{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                >
+                              {/if}
+                            </td>
+                          {:else if column.key === "totalTrades"}
+                            <td
+                              class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                            >
+                              {item?.totalTrades?.toLocaleString("en-US")}
+                            </td>
+                          {:else if column.key === "lastTrade"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                            >
+                              {new Date(item?.lastTrade)?.toLocaleString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                  daySuffix: "2-digit",
+                                },
+                              )}
+                            </td>
                           {/if}
-                          <svg
-                            class="ml-1 w-4 h-4"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="#FFA500"
-                            viewBox="0 0 22 20"
-                          >
-                            <path
-                              d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                            />
-                          </svg>
-                        </td>
-
-                        <td
-                          class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                        >
-                          <a
-                            href={`/politicians/${item?.id}`}
-                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                            >{item?.representative?.replace("_", " ")}</a
-                          >
-                        </td>
-
-                        <td
-                          class="text-center text-[0.85rem] sm:text-sm whitespace-nowrap"
-                        >
-                          <div
-                            id={item?.id}
-                            on:click|stopPropagation={(event) =>
-                              addToFavorite(event, item?.id)}
-                            class="text-center transition hover:text-amber-500 dark:hover:text-amber-400 {favoriteList?.includes(
-                              item?.id,
-                            )
-                              ? 'text-amber-500 dark:text-amber-400'
-                              : 'text-gray-400 dark:text-zinc-300'}"
-                          >
-                            <svg
-                              class="{item?.id === animationId
-                                ? animationClass
-                                : ''} w-5 h-5 inline-block cursor-pointer shrink-0"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 16 16"
-                              ><path
-                                fill="currentColor"
-                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                              /></svg
-                            >
-                          </div>
-                        </td>
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                        >
-                          {item?.party}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {#if item?.successRate === null || item?.successRate === undefined}
-                            <span class="">n/a</span>
-                          {:else}
-                            <span
-                              class="font-medium text-emerald-600 dark:text-emerald-400"
-                              >+{Number(item?.successRate)?.toFixed(2)}%</span
-                            >
-                          {/if}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {#if item?.avgReturn === null || item?.avgReturn === undefined}
-                            <span class="">n/a</span>
-                          {:else if Number(item?.avgReturn) >= 0}
-                            <span
-                              class="font-medium text-emerald-600 dark:text-emerald-400"
-                              >+{Number(item?.avgReturn)?.toFixed(2)}%</span
-                            >
-                          {:else}
-                            <span
-                              class="font-medium text-rose-600 dark:text-rose-400"
-                              >{Number(item?.avgReturn)?.toFixed(2)}%</span
-                            >
-                          {/if}
-                        </td>
-
-                        <td
-                          class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {item?.totalTrades?.toLocaleString("en-US")}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {new Date(item?.lastTrade)?.toLocaleString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                            daySuffix: "2-digit",
-                          })}
-                        </td>
+                        {/each}
                       </tr>
                     {/each}
                   </tbody>

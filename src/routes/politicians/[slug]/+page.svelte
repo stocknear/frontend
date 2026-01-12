@@ -226,6 +226,9 @@
   };
 
   onMount(async () => {
+    // Load column order preference
+    loadColumnOrder(true);
+
     // Load pagination preference
     loadRowsPerPage();
 
@@ -264,10 +267,7 @@
   }
 
   // Table columns and sorting (for TableHeader consistency)
-  $: columns = [
-    ...($screenWidth > 1024
-      ? [{ key: "chart", label: "", align: "left" }]
-      : []),
+  const defaultColumnsWithoutChart = [
     { key: "ticker", label: "Symbol", align: "left" },
     { key: "name", label: "Name", align: "left" },
     { key: "type", label: "Type", align: "right" },
@@ -276,6 +276,127 @@
     { key: "transactionDate", label: "Last Trade", align: "right" },
     { key: "disclosureDate", label: "Filed", align: "right" },
   ];
+
+  // Column order state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  // Get storage key for column order
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  // Load column order from localStorage
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    if (!currentPath || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      const savedOrder = localStorage.getItem(storageKey);
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
+          customColumnOrder = parsedOrder;
+          if (forceReapply) {
+            lastAppliedColumnKeys = "";
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+  }
+
+  // Save column order to localStorage
+  function saveColumnOrder(order: string[]): void {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  // Apply saved column order to columns array (excluding chart column which is always first)
+  function applyColumnOrder(
+    cols: typeof defaultColumnsWithoutChart,
+  ): typeof defaultColumnsWithoutChart {
+    if (customColumnOrder.length === 0) return cols;
+
+    const columnMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedColumns: typeof defaultColumnsWithoutChart = [];
+
+    // Add columns in saved order (if they exist, but not chart - that's handled separately)
+    for (const key of customColumnOrder) {
+      if (key === "chart") continue; // Skip chart, it's handled separately
+      const col = columnMap.get(key);
+      if (col) {
+        orderedColumns.push(col);
+        columnMap.delete(key);
+      }
+    }
+
+    // Add any remaining columns not in saved order
+    for (const col of columnMap.values()) {
+      orderedColumns.push(col);
+    }
+
+    return orderedColumns;
+  }
+
+  // Handle column reorder from TableHeader
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    // Save order without chart column (it's always first on desktop)
+    const newOrder = newColumns
+      .filter((col) => col.key !== "chart")
+      .map((col) => col.key);
+
+    customColumnOrder = newOrder;
+    lastAppliedColumnKeys = newOrder.join(",");
+    saveColumnOrder(customColumnOrder);
+  }
+
+  // Reset column order to default
+  function resetColumnOrder(): void {
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  // Reactive columns with chart handling - explicitly track customColumnOrder for reactivity
+  $: columns = (() => {
+    // Explicitly reference customColumnOrder to trigger reactivity
+    const _orderLength = customColumnOrder.length;
+    const orderedCols = applyColumnOrder(defaultColumnsWithoutChart);
+
+    // Add chart column at the beginning for large screens
+    if ($screenWidth > 1024) {
+      return [{ key: "chart", label: "", align: "left" }, ...orderedCols];
+    }
+    return orderedCols;
+  })();
 
   $: sortOrders = {
     chart: { order: "none", type: "string" },
@@ -694,9 +815,9 @@
                   {originalData?.length?.toLocaleString("en-US")} Stocks
                 </h2>
                 <div
-                  class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                  class="mt-1 w-full flex flex-row items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
                 >
-                  <div class="relative lg:ml-auto w-full lg:w-fit">
+                  <div class="relative lg:ml-auto flex-1 min-w-0 sm:flex-none sm:w-fit">
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                     >
@@ -727,13 +848,35 @@
                     />
                   </div>
 
-                  <div class="ml-2">
+                  <div class="ml-2 shrink-0">
                     <DownloadData
                       {data}
                       rawData={originalData}
                       title={`${name}`}
                     />
                   </div>
+
+                  {#if customColumnOrder?.length > 0}
+                    <button
+                      on:click={resetColumnOrder}
+                      title="Reset column order"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  {/if}
                 </div>
               </div>
             </div>
@@ -905,7 +1048,7 @@
                     class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
                   >
                     <thead>
-                      <TableHeader {columns} {sortOrders} {sortData} />
+                      <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
                     </thead>
                     <tbody
                       class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -914,104 +1057,108 @@
                         <tr
                           class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
-                          <td class="hidden lg:table-cell"
-                            ><button
-                              on:click={() => openGraph(item?.ticker)}
-                              class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
-                              ><svg
-                                class="w-5 h-5 text-gray-800 dark:text-zinc-300 transition {(checkedSymbol ===
-                                  item?.ticker ?? item?.symbol)
-                                  ? 'rotate-180'
-                                  : ''}"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                style="max-width:40px"
-                                ><path
-                                  fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"
-                                ></path></svg
-                              ></button
-                            ></td
-                          >
-
-                          <td
-                            class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                          >
-                            <HoverStockChart
-                              symbol={item?.symbol ?? item?.ticker}
-                              assetType={item?.assetType}
-                            />
-                          </td>
-
-                          <td
-                            class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                          >
-                            {item?.name?.length > 20
-                              ? item?.name?.slice(0, 20) + "..."
-                              : item?.name}
-                          </td>
-
-                          <td
-                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            <span class="">
-                              {#if item?.type === "Bought"}
-                                <span
-                                  class="text-emerald-600 dark:text-emerald-400"
-                                  >Buy</span
-                                >
-                              {:else if item?.type === "Sold"}
-                                <span class="text-rose-600 dark:text-rose-400"
-                                  >Sell</span
-                                >
-                              {:else if item?.type === "Exchange"}
-                                <span class="text-amber-600 dark:text-amber-400"
-                                  >Exchange</span
-                                >
-                              {/if}
-                            </span></td
-                          >
-
-                          <td
-                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {item?.amount}</td
-                          >
-
-                          <td
-                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {item?.transaction?.toLocaleString("en-US")}</td
-                          >
-
-                          <td
-                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {new Date(item?.transactionDate)?.toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              },
-                            )}
-                          </td>
-
-                          <td
-                            class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {new Date(item?.disclosureDate)?.toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              },
-                            )}
-                          </td>
+                          {#each columns as column}
+                            {#if column.key === "chart"}
+                              <td class="hidden lg:table-cell"
+                                ><button
+                                  on:click={() => openGraph(item?.ticker)}
+                                  class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
+                                  ><svg
+                                    class="w-5 h-5 text-gray-800 dark:text-zinc-300 transition {(checkedSymbol ===
+                                      item?.ticker ?? item?.symbol)
+                                      ? 'rotate-180'
+                                      : ''}"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    style="max-width:40px"
+                                    ><path
+                                      fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"
+                                    ></path></svg
+                                  ></button
+                                ></td
+                              >
+                            {:else if column.key === "ticker"}
+                              <td
+                                class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                              >
+                                <HoverStockChart
+                                  symbol={item?.symbol ?? item?.ticker}
+                                  assetType={item?.assetType}
+                                />
+                              </td>
+                            {:else if column.key === "name"}
+                              <td
+                                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                              >
+                                {item?.name?.length > 20
+                                  ? item?.name?.slice(0, 20) + "..."
+                                  : item?.name}
+                              </td>
+                            {:else if column.key === "type"}
+                              <td
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                <span class="">
+                                  {#if item?.type === "Bought"}
+                                    <span
+                                      class="text-emerald-600 dark:text-emerald-400"
+                                      >Buy</span
+                                    >
+                                  {:else if item?.type === "Sold"}
+                                    <span class="text-rose-600 dark:text-rose-400"
+                                      >Sell</span
+                                    >
+                                  {:else if item?.type === "Exchange"}
+                                    <span class="text-amber-600 dark:text-amber-400"
+                                      >Exchange</span
+                                    >
+                                  {/if}
+                                </span></td
+                              >
+                            {:else if column.key === "amount"}
+                              <td
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {item?.amount}</td
+                              >
+                            {:else if column.key === "transaction"}
+                              <td
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {item?.transaction?.toLocaleString("en-US")}</td
+                              >
+                            {:else if column.key === "transactionDate"}
+                              <td
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {new Date(item?.transactionDate)?.toLocaleString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    daySuffix: "2-digit",
+                                  },
+                                )}
+                              </td>
+                            {:else if column.key === "disclosureDate"}
+                              <td
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {new Date(item?.disclosureDate)?.toLocaleString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    daySuffix: "2-digit",
+                                  },
+                                )}
+                              </td>
+                            {/if}
+                          {/each}
                         </tr>
                         {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
                           <tr class="bg-white/70 dark:bg-zinc-950/50">
