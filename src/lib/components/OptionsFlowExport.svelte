@@ -19,7 +19,7 @@
 
   const openModal = () => {
     if (!data?.user) {
-      goto("/login");
+      goto("/pricing");
       return;
     }
     exportModalOpen = true;
@@ -200,8 +200,7 @@
       Export options flow data
     </h3>
     <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
-      Download the current options flow table as a CSV file. This includes all
-      {rawData?.length ?? 0} records currently displayed.
+      Download the current options flow table as a CSV file.
     </p>
 
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
