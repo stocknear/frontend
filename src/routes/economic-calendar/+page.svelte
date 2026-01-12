@@ -9,11 +9,20 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
   import { onMount } from "svelte";
   import { page } from "$app/stores";
 
   export let data;
+
+  // Search state for table search
+  let tableSearchValue = "";
+  let tableSearchWorker: Worker | undefined;
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys = "";
 
   // Daily pagination state for per-day results
   let dailyCurrentPage = 1;
@@ -145,25 +154,25 @@
   function toggleDate(index) {
     if ($screenWidth > 640) {
       selectedWeekday = index;
-      resetDailyPagination();
+      resetDailyPaginationWithSearch();
     }
   }
 
   function clickWeekday(state, index) {
     if (state === "next" && selectedWeekday < 4) {
       selectedWeekday++;
-      resetDailyPagination();
+      resetDailyPaginationWithSearch();
     } else if (state === "previous" && selectedWeekday > 0) {
       selectedWeekday--;
-      resetDailyPagination();
+      resetDailyPaginationWithSearch();
     } else if (state === "previous" && index === 0 && !previousMax) {
       changeWeek("previous");
       selectedWeekday = 4;
-      resetDailyPagination();
+      resetDailyPaginationWithSearch();
     } else if (state === "next" && index === 4 && !nextMax) {
       changeWeek("next");
       selectedWeekday = 0;
-      resetDailyPagination();
+      resetDailyPaginationWithSearch();
     }
   }
 
@@ -174,13 +183,18 @@
         : addWeeks(currentWeek, 1);
     if (newWeek >= startBoundary && newWeek <= endBoundary) {
       currentWeek = newWeek;
-      resetDailyPagination();
+      resetDailyPaginationWithSearch();
     }
   }
 
+  // Filtered data for table search
+  let tableFilteredData: any[] = [];
+
   function updateDailyPagination() {
     const selectedDayData = displayWeekData?.[selectedWeekday] ?? [];
-    const totalItems = selectedDayData?.length || 0;
+    // Use table search filtered data if searching, otherwise use original data
+    const dataSource = tableSearchValue?.length > 0 ? tableFilteredData : selectedDayData;
+    const totalItems = dataSource?.length || 0;
     dailyTotalPages =
       totalItems === 0 ? 1 : Math.ceil(totalItems / dailyRowsPerPage);
 
@@ -194,11 +208,18 @@
 
     const startIndex = (dailyCurrentPage - 1) * dailyRowsPerPage;
     const endIndex = startIndex + dailyRowsPerPage;
-    dailyDisplayList = selectedDayData?.slice(startIndex, endIndex) ?? [];
+    dailyDisplayList = dataSource?.slice(startIndex, endIndex) ?? [];
   }
 
   function resetDailyPagination() {
     dailyCurrentPage = 1;
+    updateDailyPagination();
+  }
+
+  function resetDailyPaginationWithSearch() {
+    dailyCurrentPage = 1;
+    tableSearchValue = "";
+    tableFilteredData = [];
     updateDailyPagination();
   }
 
@@ -276,7 +297,17 @@
         syncWorker.onmessage = handleMessage;
       }
 
+      // Initialize table search worker
+      if (!tableSearchWorker) {
+        const SearchWorker = await import(
+          "$lib/workers/tableSearchWorker?worker"
+        );
+        tableSearchWorker = new SearchWorker.default();
+        tableSearchWorker.onmessage = handleTableSearchMessage;
+      }
+
       await loadWorker();
+      initColumnOrder();
       loadDailyRowsPerPage(pagePathName);
       updateDailyPagination();
     } catch (e) {
@@ -313,7 +344,7 @@
       weekday = rawData;
     }
     saveRules();
-    resetDailyPagination();
+    resetDailyPaginationWithSearch();
   }
 
   function handleReset() {
@@ -329,7 +360,7 @@
     previousMax = currentWeek <= startBoundary;
     nextMax = currentWeek >= endBoundary;
     saveRules();
-    resetDailyPagination();
+    resetDailyPaginationWithSearch();
   }
 
   $: {
@@ -347,8 +378,8 @@
     updateDailyPagination();
   }
 
-  // Static columns (do not change across renders)
-  const columns = [
+  // Default columns
+  const defaultColumns = [
     { key: "time", label: "Time", align: "left" },
     { key: "country", label: "Country", align: "left" },
     { key: "event", label: "Event", align: "left" },
@@ -357,6 +388,17 @@
     { key: "prior", label: "Previous", align: "right" },
     { key: "importance", label: "Importance", align: "right" },
   ];
+
+  // Apply custom column order
+  $: {
+    const currentColumnKeys = defaultColumns.map((c) => c.key).join(",");
+    if (currentColumnKeys !== lastAppliedColumnKeys) {
+      lastAppliedColumnKeys = currentColumnKeys;
+      customColumnOrder = loadColumnOrder();
+    }
+  }
+
+  $: columns = applyColumnOrder([...defaultColumns], customColumnOrder);
 
   let sortOrders = {
     time: { order: "none", type: "string" },
@@ -430,12 +472,137 @@
       [...rawData[selectedWeekday]].sort(compareValues),
       ...weekday.slice(selectedWeekday + 1),
     ];
+
+    // Also sort weekdayFiltered if country/importance filters are applied
+    if (filterList.length > 0 && weekdayFiltered?.[selectedWeekday]?.length > 0) {
+      weekdayFiltered = [
+        ...weekdayFiltered.slice(0, selectedWeekday),
+        [...weekdayFiltered[selectedWeekday]].sort(compareValues),
+        ...weekdayFiltered.slice(selectedWeekday + 1),
+      ];
+    }
+
+    // Also sort the table search filtered data if table search is active
+    if (tableSearchValue?.length > 0 && tableFilteredData?.length > 0) {
+      tableFilteredData = [...tableFilteredData].sort(compareValues);
+    }
+
     resetDailyPagination();
   };
 
   function scrollToTop() {
     if (typeof window === "undefined") return;
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Table search functions
+  async function resetTableSearch() {
+    tableSearchValue = "";
+    tableFilteredData = [];
+    dailyCurrentPage = 1;
+    updateDailyPagination();
+  }
+
+  async function tableSearch() {
+    const searchValue = tableSearchValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (searchValue?.length > 0) {
+        await loadTableSearchWorker();
+      } else {
+        tableFilteredData = [];
+        dailyCurrentPage = 1;
+        updateDailyPagination();
+      }
+    }, 100);
+  }
+
+  const loadTableSearchWorker = async () => {
+    const selectedDayData = displayWeekData?.[selectedWeekday] ?? [];
+    if (tableSearchWorker && selectedDayData?.length > 0) {
+      tableSearchWorker.postMessage({
+        rawData: selectedDayData,
+        inputValue: tableSearchValue,
+      });
+    }
+  };
+
+  const handleTableSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      tableFilteredData = event.data?.output ?? [];
+      dailyCurrentPage = 1;
+      updateDailyPagination();
+    }
+  };
+
+  // Column reordering functions
+  function getColumnOrderStorageKey() {
+    return `${pagePathName}_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+    order: string[],
+  ): typeof defaultColumns {
+    if (!order.length) return cols;
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof defaultColumns = [];
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+    // Add any remaining columns not in the saved order
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+    return ordered;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number) {
+    // Create a copy of current columns and reorder
+    const reordered = [...columns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+
+    customColumnOrder = reordered.map((c) => c.key);
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  function initColumnOrder() {
+    customColumnOrder = loadColumnOrder();
   }
 </script>
 
@@ -813,23 +980,89 @@
                 {#each displayWeekData as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <div class="flex flex-row items-center mt-5">
-                        <h2 class="font-semibold text-xl">
-                          {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
-                          Events
-                        </h2>
-                        {#if filterList.length !== 0}
-                          <div
-                            class="ml-auto text-[1rem] sm:text-lg flex flex-row items-center relative block rounded px-2 py-1 text-gray-600 dark:text-zinc-300"
-                          >
-                            <span>Filters</span>
-                            <span
-                              class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-white/80 dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
+                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5">
+                        <div class="flex flex-row items-center gap-3">
+                          <h2 class="font-semibold text-xl text-gray-900 dark:text-white">
+                            {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
+                            Events
+                          </h2>
+                          {#if filterList.length !== 0}
+                            <div
+                              class="text-sm flex flex-row items-center text-gray-600 dark:text-zinc-300"
                             >
-                              {filterList.length}
-                            </span>
+                              <span>Filters</span>
+                              <span
+                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-white/80 dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
+                              >
+                                {filterList.length}
+                              </span>
+                            </div>
+                          {/if}
+                        </div>
+
+                        <div class="flex flex-row items-center w-full sm:w-auto">
+                          <div class="relative w-full sm:w-auto">
+                            <div
+                              class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                            >
+                              {#if tableSearchValue?.length > 0}
+                                <label
+                                  class="cursor-pointer"
+                                  on:click={() => resetTableSearch()}
+                                >
+                                  <svg
+                                    class="w-5 h-5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                                    />
+                                  </svg>
+                                </label>
+                              {/if}
+                            </div>
+
+                            <input
+                              bind:value={tableSearchValue}
+                              on:input={tableSearch}
+                              type="text"
+                              placeholder="Find..."
+                              class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                            />
                           </div>
-                        {/if}
+
+                          <div class="ml-2">
+                            <DownloadData
+                              {data}
+                              rawData={tableSearchValue?.length > 0 ? tableFilteredData : day}
+                              title={"economic_calendar"}
+                            />
+                          </div>
+
+                          {#if customColumnOrder?.length > 0}
+                            <button
+                              on:click={resetColumnOrder}
+                              title="Reset column order"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </button>
+                          {/if}
+                        </div>
                       </div>
 
                       <div class="w-full overflow-x-auto mt-4">
@@ -837,7 +1070,12 @@
                           class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
-                            <TableHeader {columns} {sortOrders} {sortData} />
+                            <TableHeader
+                              {columns}
+                              {sortOrders}
+                              {sortData}
+                              onColumnReorder={handleColumnReorder}
+                            />
                           </thead>
                           <tbody
                             class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -846,145 +1084,155 @@
                               <tr
                                 class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                               >
-                                <td
-                                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.time}
-                                </td>
-                                <td
-                                  class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                                >
-                                  {#if item?.country === "EU"}
-                                    <svg
-                                      style="clip-path: circle(50%);"
-                                      class="w-4 h-4 sm:w-6 sm:h-6"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 512 512"
+                                {#each columns as column}
+                                  {#if column.key === "time"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                                     >
-                                      <mask id="circleFlagsEu0">
-                                        <circle
-                                          cx="256"
-                                          cy="256"
-                                          r="256"
-                                          fill="#fff"
-                                        />
-                                      </mask>
-                                      <g mask="url(#circleFlagsEu0)">
-                                        <path
-                                          fill="#0052b4"
-                                          d="M0 0h512v512H0z"
-                                        />
-                                        <path
-                                          fill="#ffda44"
-                                          d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"
-                                        />
-                                      </g>
-                                    </svg>
-                                  {:else if item?.country === "UK"}
-                                    <svg
-                                      style="clip-path: circle(50%);"
-                                      class="w-4 h-4 sm:w-6 sm:h-6"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 512 512"
+                                      {item?.time}
+                                    </td>
+                                  {:else if column.key === "country"}
+                                    <td
+                                      class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                                     >
-                                      <mask id="circleFlagsUk0">
-                                        <circle
-                                          cx="256"
-                                          cy="256"
-                                          r="256"
-                                          fill="#fff"
-                                        />
-                                      </mask>
-                                      <g mask="url(#circleFlagsUk0)">
-                                        <path
-                                          fill="#eee"
-                                          d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z"
-                                        />
-                                        <path
-                                          fill="#0052b4"
-                                          d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"
-                                        />
-                                        <path
-                                          fill="#d80027"
-                                          d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z"
-                                        />
-                                      </g>
-                                    </svg>
-                                  {:else}
-                                    <img
-                                      style="clip-path: circle(50%);"
-                                      class="w-4 h-4 sm:w-6 sm:h-6"
-                                      src={`https://hatscripts.github.io/circle-flags/flags/${item?.countryCode}.svg`}
-                                      loading="lazy"
-                                      alt="{item?.country} flag"
-                                    />
-                                  {/if}
-                                  <span class="ml-2">{item?.country}</span>
-                                </td>
-                                <td
-                                  class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                                >
-                                  {item?.event?.length > 60
-                                    ? item?.event.slice(0, 60) + "..."
-                                    : item?.event}
-                                </td>
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.actual !== null && item?.actual !== ""
-                                    ? abbreviateNumber(item?.actual)
-                                    : "-"}
-                                </td>
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.consensus !== null &&
-                                  item?.consensus !== ""
-                                    ? abbreviateNumber(item?.consensus)
-                                    : "-"}
-                                </td>
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.prior !== null && item?.prior !== ""
-                                    ? abbreviateNumber(item?.prior)
-                                    : "-"}
-                                </td>
-                                <td
-                                  class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                                >
-                                  <div
-                                    class="flex flex-row items-center justify-end"
-                                  >
-                                    {#each Array.from({ length: 3 }) as _, i}
-                                      {#if i < Math.floor(item?.importance)}
+                                      {#if item?.country === "EU"}
                                         <svg
-                                          class="w-4 h-4 text-[#FFA500]"
-                                          aria-hidden="true"
+                                          style="clip-path: circle(50%);"
+                                          class="w-4 h-4 sm:w-6 sm:h-6"
                                           xmlns="http://www.w3.org/2000/svg"
-                                          fill="currentColor"
-                                          viewBox="0 0 22 20"
+                                          viewBox="0 0 512 512"
                                         >
-                                          <path
-                                            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                          />
+                                          <mask id="circleFlagsEu0">
+                                            <circle
+                                              cx="256"
+                                              cy="256"
+                                              r="256"
+                                              fill="#fff"
+                                            />
+                                          </mask>
+                                          <g mask="url(#circleFlagsEu0)">
+                                            <path
+                                              fill="#0052b4"
+                                              d="M0 0h512v512H0z"
+                                            />
+                                            <path
+                                              fill="#ffda44"
+                                              d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"
+                                            />
+                                          </g>
+                                        </svg>
+                                      {:else if item?.country === "UK"}
+                                        <svg
+                                          style="clip-path: circle(50%);"
+                                          class="w-4 h-4 sm:w-6 sm:h-6"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 512 512"
+                                        >
+                                          <mask id="circleFlagsUk0">
+                                            <circle
+                                              cx="256"
+                                              cy="256"
+                                              r="256"
+                                              fill="#fff"
+                                            />
+                                          </mask>
+                                          <g mask="url(#circleFlagsUk0)">
+                                            <path
+                                              fill="#eee"
+                                              d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z"
+                                            />
+                                            <path
+                                              fill="#0052b4"
+                                              d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"
+                                            />
+                                            <path
+                                              fill="#d80027"
+                                              d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z"
+                                            />
+                                          </g>
                                         </svg>
                                       {:else}
-                                        <svg
-                                          class="w-4 h-4 text-gray-300 dark:text-zinc-600"
-                                          aria-hidden="true"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="currentColor"
-                                          viewBox="0 0 22 20"
-                                        >
-                                          <path
-                                            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                          />
-                                        </svg>
+                                        <img
+                                          style="clip-path: circle(50%);"
+                                          class="w-4 h-4 sm:w-6 sm:h-6"
+                                          src={`https://hatscripts.github.io/circle-flags/flags/${item?.countryCode}.svg`}
+                                          loading="lazy"
+                                          alt="{item?.country} flag"
+                                        />
                                       {/if}
-                                    {/each}
-                                  </div>
-                                </td>
+                                      <span class="ml-2">{item?.country}</span>
+                                    </td>
+                                  {:else if column.key === "event"}
+                                    <td
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                    >
+                                      {item?.event?.length > 60
+                                        ? item?.event.slice(0, 60) + "..."
+                                        : item?.event}
+                                    </td>
+                                  {:else if column.key === "actual"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.actual !== null && item?.actual !== ""
+                                        ? abbreviateNumber(item?.actual)
+                                        : "-"}
+                                    </td>
+                                  {:else if column.key === "consensus"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.consensus !== null &&
+                                      item?.consensus !== ""
+                                        ? abbreviateNumber(item?.consensus)
+                                        : "-"}
+                                    </td>
+                                  {:else if column.key === "prior"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.prior !== null && item?.prior !== ""
+                                        ? abbreviateNumber(item?.prior)
+                                        : "-"}
+                                    </td>
+                                  {:else if column.key === "importance"}
+                                    <td
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                    >
+                                      <div
+                                        class="flex flex-row items-center justify-end"
+                                      >
+                                        {#each Array.from({ length: 3 }) as _, i}
+                                          {#if i < Math.floor(item?.importance)}
+                                            <svg
+                                              class="w-4 h-4 text-[#FFA500]"
+                                              aria-hidden="true"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill="currentColor"
+                                              viewBox="0 0 22 20"
+                                            >
+                                              <path
+                                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                              />
+                                            </svg>
+                                          {:else}
+                                            <svg
+                                              class="w-4 h-4 text-gray-300 dark:text-zinc-600"
+                                              aria-hidden="true"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill="currentColor"
+                                              viewBox="0 0 22 20"
+                                            >
+                                              <path
+                                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                              />
+                                            </svg>
+                                          {/if}
+                                        {/each}
+                                      </div>
+                                    </td>
+                                  {/if}
+                                {/each}
                               </tr>
                             {/each}
                           </tbody>
