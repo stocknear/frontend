@@ -26,6 +26,137 @@
   let rowsPerPageOptions = [20, 50, 100];
   let totalPages = 1;
 
+  // Default columns definition
+  const defaultColumns = [
+    { key: "rank", label: "Rank", align: "center" },
+    { key: "symbol", label: "Symbol", align: "left" },
+    { key: "name", label: "Name", align: "left" },
+    { key: "price", label: "Price", align: "right" },
+    { key: "changesPercentage", label: "% Change", align: "right" },
+    { key: "dividendYield", label: "Div. Yield", align: "right" },
+    { key: "marketCap", label: "Market Cap", align: "right" },
+  ];
+
+  let columns = [...defaultColumns];
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    if (!currentPath || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      const savedOrder = localStorage.getItem(storageKey);
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
+          customColumnOrder = parsedOrder;
+          if (forceReapply) {
+            columns = applyColumnOrder(defaultColumns);
+            lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+  ): typeof defaultColumns {
+    if (customColumnOrder.length === 0) return cols;
+
+    const columnMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedColumns: typeof defaultColumns = [];
+
+    for (const key of customColumnOrder) {
+      const col = columnMap.get(key);
+      if (col) {
+        orderedColumns.push(col);
+        columnMap.delete(key);
+      }
+    }
+
+    for (const col of columnMap.values()) {
+      orderedColumns.push(col);
+    }
+
+    return orderedColumns;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    columns = newColumns;
+    customColumnOrder = newColumns.map((col) => col.key);
+    lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder(): void {
+    customColumnOrder = [];
+    columns = [...defaultColumns];
+    lastAppliedColumnKeys = "";
+
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  $: if (
+    defaultColumns &&
+    defaultColumns.length > 0 &&
+    customColumnOrder.length > 0
+  ) {
+    const currentColumnKeys = columns.map((c) => c.key).join(",");
+    const defaultKeys = defaultColumns.map((c) => c.key);
+    const matchingKeys = customColumnOrder.filter((key) =>
+      defaultKeys.includes(key),
+    );
+    const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+    if (
+      compatibilityRatio >= 0.5 &&
+      currentColumnKeys !== lastAppliedColumnKeys
+    ) {
+      columns = applyColumnOrder(defaultColumns);
+      lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    }
+  }
+
   // Pagination functions
   function updatePaginatedData() {
     const startIndex = (currentPage - 1) * rowsPerPage;
@@ -123,6 +254,9 @@
   };
 
   onMount(async () => {
+    // Load column order preference
+    loadColumnOrder(true);
+
     // Load pagination preference
     loadRowsPerPage();
 
@@ -138,22 +272,13 @@
     updatePaginatedData();
   });
 
-  // Reactive statement to load pagination settings when page changes
+  // Reactive statement to load pagination and column settings when page changes
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
     loadRowsPerPage(); // Load pagination preference for new page
+    loadColumnOrder(true); // Load column order preference for new page
     updatePaginatedData(); // Update display with loaded preference
   }
-
-  let columns = [
-    { key: "rank", label: "Rank", align: "center" },
-    { key: "symbol", label: "Symbol", align: "left" },
-    { key: "name", label: "Name", align: "left" },
-    { key: "price", label: "Price", align: "right" },
-    { key: "changesPercentage", label: "% Change", align: "right" },
-    { key: "dividendYield", label: "Div. Yield", align: "right" },
-    { key: "marketCap", label: "Market Cap", align: "right" },
-  ];
 
   let sortOrders = {
     rank: { order: "none", type: "number" },
@@ -309,7 +434,7 @@
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
       >
-        <div class="relative lg:ml-auto w-full lg:w-fit">
+        <div class="relative ml-auto flex-1 min-w-0 sm:flex-none sm:w-fit">
           <div
             class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
           >
@@ -333,13 +458,35 @@
             on:input={search}
             type="text"
             placeholder="Find..."
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
 
         <div class="ml-2">
           <DownloadData {data} {rawData} title="covered_call_etfs_data" />
         </div>
+
+        {#if customColumnOrder?.length > 0}
+          <button
+            on:click={resetColumnOrder}
+            title="Reset column order"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        {/if}
       </div>
     </div>
   </div>
@@ -354,63 +501,76 @@
             class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
               {#each displayList as item}
-                <!-- row -->
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                  class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                 >
-                  <td
-                    class="text-center text-sm font-semibold text-gray-700 dark:text-zinc-200 tabular-nums"
-                  >
-                    {item?.rank}
-                  </td>
-
-                  <td class="text-sm text-gray-700 dark:text-zinc-200">
-                    <HoverStockChart symbol={item?.symbol} assetType="etf" />
-                  </td>
-
-                  <td
-                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
-                  >
-                    {item?.name?.length > charNumber
-                      ? item?.name?.slice(0, charNumber) + "..."
-                      : item?.name}
-                  </td>
-
-                  <td
-                    class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                  >
-                    {item?.price}
-                  </td>
-
-                  <td
-                    class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                  >
-                    {#if item?.changesPercentage >= 0}
-                      <span class="text-emerald-600 dark:text-emerald-400"
-                        >+{item.changesPercentage?.toFixed(2)}%</span
+                  {#each columns as column}
+                    {#if column.key === "rank"}
+                      <td
+                        class="text-center text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
                       >
-                    {:else}
-                      <span class="text-rose-600 dark:text-rose-400"
-                        >{item.changesPercentage?.toFixed(2)}%
-                      </span>
+                        {item?.rank}
+                      </td>
+                    {:else if column.key === "symbol"}
+                      <td
+                        class="text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200"
+                      >
+                        <HoverStockChart
+                          symbol={item?.symbol}
+                          assetType="etf"
+                        />
+                      </td>
+                    {:else if column.key === "name"}
+                      <td
+                        class="text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                      >
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </td>
+                    {:else if column.key === "price"}
+                      <td
+                        class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                      >
+                        {item?.price}
+                      </td>
+                    {:else if column.key === "changesPercentage"}
+                      <td
+                        class="text-end text-[0.85rem] sm:text-sm tabular-nums"
+                      >
+                        {#if item?.changesPercentage >= 0}
+                          <span class="text-emerald-600 dark:text-emerald-400"
+                            >+{item.changesPercentage?.toFixed(2)}%</span
+                          >
+                        {:else}
+                          <span class="text-rose-600 dark:text-rose-400"
+                            >{item.changesPercentage?.toFixed(2)}%</span
+                          >
+                        {/if}
+                      </td>
+                    {:else if column.key === "dividendYield"}
+                      <td
+                        class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                      >
+                        {item?.dividendYield}%
+                      </td>
+                    {:else if column.key === "marketCap"}
+                      <td
+                        class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                      >
+                        {abbreviateNumber(item?.marketCap)}
+                      </td>
                     {/if}
-                  </td>
-
-                  <td
-                    class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                  >
-                    {item?.dividendYield}%
-                  </td>
-
-                  <td
-                    class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
-                  >
-                    {abbreviateNumber(item?.marketCap)}
-                  </td>
+                  {/each}
                 </tr>
               {/each}
             </tbody>

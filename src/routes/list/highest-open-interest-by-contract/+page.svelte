@@ -33,6 +33,136 @@
   let rowsPerPageOptions = [20, 50, 100];
   let totalPages = 1;
 
+  // Default columns definition
+  const defaultColumns = [
+    { key: "rank", label: "Rank", align: "left" },
+    { key: "symbol", label: "Symbol", align: "left" },
+    { key: "optionSymbol", label: "Contract", align: "left" },
+    { key: "totalOI", label: "Open Interest", align: "right" },
+    { key: "optionVolume", label: "Option Volume", align: "right" },
+    { key: "volumeOIRatio", label: "Volume / Open Interest", align: "right" },
+  ];
+
+  let columns = [...defaultColumns];
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    if (!currentPath || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      const savedOrder = localStorage.getItem(storageKey);
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
+          customColumnOrder = parsedOrder;
+          if (forceReapply) {
+            columns = applyColumnOrder(defaultColumns);
+            lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const storageKey = getColumnOrderStorageKey();
+      if (!storageKey) return;
+
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+  ): typeof defaultColumns {
+    if (customColumnOrder.length === 0) return cols;
+
+    const columnMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedColumns: typeof defaultColumns = [];
+
+    for (const key of customColumnOrder) {
+      const col = columnMap.get(key);
+      if (col) {
+        orderedColumns.push(col);
+        columnMap.delete(key);
+      }
+    }
+
+    for (const col of columnMap.values()) {
+      orderedColumns.push(col);
+    }
+
+    return orderedColumns;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    columns = newColumns;
+    customColumnOrder = newColumns.map((col) => col.key);
+    lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder(): void {
+    customColumnOrder = [];
+    columns = [...defaultColumns];
+    lastAppliedColumnKeys = "";
+
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  $: if (
+    defaultColumns &&
+    defaultColumns.length > 0 &&
+    customColumnOrder.length > 0
+  ) {
+    const currentColumnKeys = columns.map((c) => c.key).join(",");
+    const defaultKeys = defaultColumns.map((c) => c.key);
+    const matchingKeys = customColumnOrder.filter((key) =>
+      defaultKeys.includes(key),
+    );
+    const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+    if (
+      compatibilityRatio >= 0.5 &&
+      currentColumnKeys !== lastAppliedColumnKeys
+    ) {
+      columns = applyColumnOrder(defaultColumns);
+      lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+    }
+  }
+
   // Pagination functions
   function updatePaginatedData() {
     const startIndex = (currentPage - 1) * rowsPerPage;
@@ -108,6 +238,9 @@
       console.log(e);
     }
 
+    // Load column order preference
+    loadColumnOrder(true);
+
     // Load pagination preference
     loadRowsPerPage();
 
@@ -124,10 +257,11 @@
     isLoaded = true;
   });
 
-  // Reactive statement to load pagination settings when page changes
+  // Reactive statement to load pagination and column settings when page changes
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
     loadRowsPerPage(); // Load pagination preference for new page
+    loadColumnOrder(true); // Load column order preference for new page
     updatePaginatedData(); // Update display with loaded preference
   }
 
@@ -213,15 +347,6 @@
 
     saveList();
   }
-
-  let columns = [
-    { key: "rank", label: "Rank", align: "left" },
-    { key: "symbol", label: "Symbol", align: "left" },
-    { key: "optionSymbol", label: "Contract", align: "left" },
-    { key: "totalOI", label: "Open Interest", align: "right" },
-    { key: "optionVolume", label: "Option Volume", align: "right" },
-    { key: "volumeOIRatio", label: "Volume / Open Interest", align: "right" },
-  ];
 
   let sortOrders = {
     rank: { order: "none", type: "number" },
@@ -430,6 +555,28 @@
                 title={"highest-open-interest-change"}
               />
             </div>
+
+            {#if customColumnOrder?.length > 0}
+              <button
+                on:click={resetColumnOrder}
+                title="Reset column order"
+                class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+              >
+                <svg
+                  class="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            {/if}
           </div>
         </div>
 
@@ -440,65 +587,76 @@
                 class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
               >
                 <thead>
-                  <TableHeader {columns} {sortOrders} {sortData} />
+                  <TableHeader
+                    {columns}
+                    {sortOrders}
+                    {sortData}
+                    onColumnReorder={handleColumnReorder}
+                  />
                 </thead>
-                <tbody>
+                <tbody
+                  class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                >
                   {#each displayList as item}
                     <tr
-                      class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                      class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                     >
-                      <td
-                        class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
-                      >
-                        {item?.rank}
-                      </td>
-
-                      <td
-                        class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap flex flex-row items-center justify-between w-full"
-                      >
-                        <a
-                          href={`/stocks/${item?.symbol}/options`}
-                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                          >{item?.symbol}</a
-                        >
-                      </td>
-                      <td
-                        class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
-                      >
-                        <a
-                          href={`/stocks/${item?.symbol}/options/contract-lookup?contract=${item?.optionSymbol}`}
-                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                          >{item?.symbol}
-                          {new Date(item?.expirationDate)?.toLocaleDateString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            },
-                          )}
-                          {item?.strike}
-                          {item?.optionType}</a
-                        >
-                      </td>
-
-                      <td
-                        class="text-end whitespace-nowrap text-sm text-gray-600 dark:text-zinc-300"
-                      >
-                        {item?.totalOI?.toLocaleString("en-US")}
-                      </td>
-
-                      <td
-                        class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
-                      >
-                        {item?.optionVolume?.toLocaleString("en-US")}
-                      </td>
-
-                      <td
-                        class="text-end whitespace-nowrap text-sm text-gray-600 dark:text-zinc-300"
-                      >
-                        {item?.volumeOIRatio}
-                      </td>
+                      {#each columns as column}
+                        {#if column.key === "rank"}
+                          <td
+                            class="text-start text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                          >
+                            {item?.rank}
+                          </td>
+                        {:else if column.key === "symbol"}
+                          <td
+                            class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
+                          >
+                            <a
+                              href={`/stocks/${item?.symbol}/options`}
+                              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                              >{item?.symbol}</a
+                            >
+                          </td>
+                        {:else if column.key === "optionSymbol"}
+                          <td
+                            class="text-start text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                          >
+                            <a
+                              href={`/stocks/${item?.symbol}/options/contract-lookup?contract=${item?.optionSymbol}`}
+                              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                              >{item?.symbol}
+                              {new Date(
+                                item?.expirationDate,
+                              )?.toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                              {item?.strike}
+                              {item?.optionType}</a
+                            >
+                          </td>
+                        {:else if column.key === "totalOI"}
+                          <td
+                            class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          >
+                            {item?.totalOI?.toLocaleString("en-US")}
+                          </td>
+                        {:else if column.key === "optionVolume"}
+                          <td
+                            class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          >
+                            {item?.optionVolume?.toLocaleString("en-US")}
+                          </td>
+                        {:else if column.key === "volumeOIRatio"}
+                          <td
+                            class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          >
+                            {item?.volumeOIRatio}
+                          </td>
+                        {/if}
+                      {/each}
                     </tr>
                   {/each}
                 </tbody>
