@@ -35,7 +35,7 @@
   let downloadCache: { signature: string; data: any[] } | null = null;
   let downloadPromise: Promise<any[]> | null = null;
 
-  const columns = [
+  const defaultColumns = [
     { key: "rank", label: "Rank", align: "left" },
     { key: "name", label: "Name", align: "left" },
     { key: "marketValue", label: "AUM", align: "right" },
@@ -44,6 +44,86 @@
     { key: "performancePercentage3Year", label: "3-Year Perf", align: "right" },
     { key: "winRate", label: "Win Rate", align: "right" },
   ];
+
+  let columns = [...defaultColumns];
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    return `/hedge-funds_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  function applyColumnOrder(currentColumns: { key: string; label: string; align: string }[]): { key: string; label: string; align: string }[] {
+    if (customColumnOrder.length === 0) return currentColumns;
+    const columnMap = new Map(currentColumns.map((col) => [col.key, col]));
+    const orderedColumns: { key: string; label: string; align: string }[] = [];
+    for (const key of customColumnOrder) {
+      const col = columnMap.get(key);
+      if (col) {
+        orderedColumns.push(col);
+        columnMap.delete(key);
+      }
+    }
+    // Add any remaining columns that weren't in the saved order
+    for (const col of columnMap.values()) {
+      orderedColumns.push(col);
+    }
+    return orderedColumns;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+    customColumnOrder = newColumns.map((col) => col.key);
+    saveColumnOrder(customColumnOrder);
+    lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
+    columns = newColumns;
+  }
+
+  function resetColumnOrder(): void {
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch {
+        // Ignore storage errors
+      }
+    }
+    columns = [...defaultColumns];
+  }
+
+  // Load saved column order on initialization
+  function initColumnOrder(): void {
+    customColumnOrder = loadColumnOrder();
+    if (customColumnOrder.length > 0) {
+      columns = applyColumnOrder([...defaultColumns]);
+      lastAppliedColumnKeys = columns.map((col) => col.key).join("|");
+    }
+  }
 
   let sortOrders = {
     rank: { order: "none", type: "number" },
@@ -376,6 +456,7 @@
   }
 
   onMount(() => {
+    initColumnOrder();
     const storedRows = loadRowsPerPage();
     if (storedRows !== rowsPerPage) {
       changeRowsPerPage(storedRows);
@@ -514,9 +595,31 @@
                       {data}
                       rawData={tableData}
                       fetchRawData={fetchAllDataForDownload}
-                      title={"latest_analyst_ratings_data"}
+                      title={"hedge_funds_data"}
                     />
                   </div>
+
+                  {#if customColumnOrder?.length > 0}
+                    <button
+                      on:click={resetColumnOrder}
+                      title="Reset column order"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  {/if}
                 </div>
               </div>
             </div>
@@ -537,7 +640,7 @@
                   aria-busy={isLoading}
                 >
                   <thead>
-                    <TableHeader {columns} {sortOrders} {sortData} />
+                    <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
                   </thead>
                   <tbody
                     class="transition-opacity duration-100 divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -557,84 +660,82 @@
                         <tr
                           class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
-                          <td
-                            class="text-[0.85rem] sm:text-sm text-center text-gray-700 dark:text-zinc-200 tabular-nums"
-                          >
-                            {item?.rank}
-                          </td>
-
-                          <td
-                            class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
-                          >
-                            <a
-                              href={"/hedge-funds/" + item?.cik}
-                              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                              >{formatString(item?.name)}
-                            </a>
-                          </td>
-
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {abbreviateNumber(item?.marketValue)}
-                          </td>
-
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {new Intl.NumberFormat("en", {
-                              minimumFractionDigits: 0,
-                              maximumFractionDigits: 0,
-                            }).format(item?.numberOfStocks)}
-                          </td>
-
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                          >
-                            {item?.turnover?.toFixed(2)}
-                          </td>
-
-                          <!--
-                            <td class=" text-sm sm:text-[1rem] whitespace-nowrap  text-end">
-                              {item?.mainSectors?.at(0)}
-                            </td>
-                            -->
-
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-                          >
-                            {#if item?.performancePercentage3Year >= 0}
-                              <span
-                                class="text-emerald-600 dark:text-emerald-400"
-                                >+{abbreviateNumber(
-                                  item?.performancePercentage3Year?.toFixed(2),
-                                )}%</span
+                          {#each columns as column}
+                            {#if column.key === "rank"}
+                              <td
+                                class="text-[0.85rem] sm:text-sm text-center text-gray-700 dark:text-zinc-200 tabular-nums"
                               >
-                            {:else}
-                              <span class="text-rose-600 dark:text-rose-400"
-                                >{abbreviateNumber(
-                                  item?.performancePercentage3Year?.toFixed(2),
-                                )}%
-                              </span>
-                            {/if}
-                          </td>
-
-                          <td
-                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-                          >
-                            {#if item?.winRate >= 0}
-                              <span
-                                class="text-emerald-600 dark:text-emerald-400"
-                                >+{abbreviateNumber(
-                                  item?.winRate?.toFixed(2),
-                                )}%</span
+                                {item?.rank}
+                              </td>
+                            {:else if column.key === "name"}
+                              <td
+                                class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                               >
-                            {:else}
-                              <span class="text-rose-600 dark:text-rose-400"
-                                >{abbreviateNumber(item?.winRate?.toFixed(2))}%
-                              </span>
+                                <a
+                                  href={"/hedge-funds/" + item?.cik}
+                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                  >{formatString(item?.name)}
+                                </a>
+                              </td>
+                            {:else if column.key === "marketValue"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {abbreviateNumber(item?.marketValue)}
+                              </td>
+                            {:else if column.key === "numberOfStocks"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {new Intl.NumberFormat("en", {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                                }).format(item?.numberOfStocks)}
+                              </td>
+                            {:else if column.key === "turnover"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              >
+                                {item?.turnover?.toFixed(2)}
+                              </td>
+                            {:else if column.key === "performancePercentage3Year"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                              >
+                                {#if item?.performancePercentage3Year >= 0}
+                                  <span
+                                    class="text-emerald-600 dark:text-emerald-400"
+                                    >+{abbreviateNumber(
+                                      item?.performancePercentage3Year?.toFixed(2),
+                                    )}%</span
+                                  >
+                                {:else}
+                                  <span class="text-rose-600 dark:text-rose-400"
+                                    >{abbreviateNumber(
+                                      item?.performancePercentage3Year?.toFixed(2),
+                                    )}%
+                                  </span>
+                                {/if}
+                              </td>
+                            {:else if column.key === "winRate"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                              >
+                                {#if item?.winRate >= 0}
+                                  <span
+                                    class="text-emerald-600 dark:text-emerald-400"
+                                    >+{abbreviateNumber(
+                                      item?.winRate?.toFixed(2),
+                                    )}%</span
+                                  >
+                                {:else}
+                                  <span class="text-rose-600 dark:text-rose-400"
+                                    >{abbreviateNumber(item?.winRate?.toFixed(2))}%
+                                  </span>
+                                {/if}
+                              </td>
                             {/if}
-                          </td>
+                          {/each}
                         </tr>
                       {/each}
                     {/if}
