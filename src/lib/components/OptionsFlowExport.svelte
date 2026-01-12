@@ -197,78 +197,44 @@
     <h3
       class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-zinc-100"
     >
-      Export Options Flow Data
+      Export options flow data
     </h3>
     <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
-      Download the current options flow table data as a CSV file. This export
-      includes all {rawData?.length ?? 0} records currently displayed.
+      Download the current options flow table as a CSV file. This includes all
+      {rawData?.length ?? 0} records currently displayed.
     </p>
 
-    <div
-      class="mt-4 p-4 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-900/50"
-    >
-      <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700 dark:text-zinc-200">Export cost</span
-        >
-        <span class="text-sm font-semibold text-gray-900 dark:text-zinc-100"
-          >{CREDIT_COST} credits</span
-        >
-      </div>
-      <div class="flex items-center justify-between mt-2">
-        <span class="text-sm text-gray-700 dark:text-zinc-200"
-          >Your balance</span
-        >
-        <span
-          class="text-sm font-semibold {hasEnoughCredits
-            ? 'text-emerald-600 dark:text-emerald-400'
-            : 'text-rose-600 dark:text-rose-400'}"
-        >
-          {availableCredits} credits
-        </span>
-      </div>
-      <div class="flex items-center justify-between mt-2">
-        <span class="text-sm text-gray-700 dark:text-zinc-200">Records</span>
-        <span class="text-sm font-semibold text-gray-900 dark:text-zinc-100"
-          >{rawData?.length ?? 0}</span
-        >
-      </div>
-    </div>
-
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
+      <div>
+        Export cost: {CREDIT_COST} credits.
+      </div>
       {#if data?.user}
+        <div>
+          Balance: {availableCredits}
+          {data?.user?.tier ? `(${data?.user?.tier})` : ""}
+        </div>
         {#if !isEligible}
-          <div class="text-rose-600 dark:text-rose-400 font-medium">
-            This feature is available for Pro members only.
-            <a
-              href="/pricing"
-              class="underline hover:text-rose-700 dark:hover:text-rose-300"
-              >Upgrade now</a
-            >
-          </div>
-        {:else if !hasEnoughCredits}
-          <div class="text-rose-600 dark:text-rose-400 font-medium">
-            Insufficient credits. You need {CREDIT_COST - availableCredits} more
-            credits.
+          <div class="text-rose-800 dark:text-rose-400">
+            Available for Pro only.
           </div>
         {/if}
       {:else}
-        <div class="text-rose-600 dark:text-rose-400 font-medium">
+        <div class="text-rose-800 dark:text-rose-400">
+          Available for Pro only.
+        </div>
+        <div>
           <a
             href="/login"
-            class="underline hover:text-rose-700 dark:hover:text-rose-300"
+            class="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
             >Sign in</a
           >
-          to export data. This feature is available for Pro members only.
+          to use credits.
         </div>
       {/if}
     </div>
 
     {#if statusMessage}
-      <div
-        class="mt-3 text-sm {statusMessage.includes('success')
-          ? 'text-emerald-600 dark:text-emerald-400'
-          : 'text-gray-600 dark:text-zinc-300'}"
-      >
+      <div class="mt-3 text-sm text-gray-600 dark:text-zinc-300">
         {statusMessage}
       </div>
     {/if}
@@ -281,17 +247,17 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class="border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
+        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
         disabled={isExporting}
       >
-        Cancel
+        Close
       </Button>
       <Button
         on:click={startExport}
         class="border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 px-4 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
         disabled={isExporting || !isEligible || !hasEnoughCredits}
       >
-        {isExporting ? "Exporting..." : "Export CSV"}
+        {isExporting ? "Preparing..." : "Start export"}
       </Button>
     </div>
   </div>
