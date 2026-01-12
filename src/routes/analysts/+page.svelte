@@ -6,6 +6,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
   import SEO from "$lib/components/SEO.svelte";
 
@@ -16,7 +17,12 @@
 
   let rawData = data?.getTopAnalyst ?? [];
   let originalData = [...rawData]; // Unaltered copy of raw data
+  let unsortedData = [...rawData]; // Preserve truly original unsorted order
+  let unsortedSearchData = []; // Preserve unsorted search results
   let analystList = [];
+
+  let inputValue = "";
+  let searchWorker: Worker | undefined;
 
   // Pagination state
   let currentPage = 1;
@@ -27,7 +33,8 @@
   let pagePathName = $page?.url?.pathname;
 
   function updatePaginatedData() {
-    const totalItems = originalData?.length || 0;
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    const totalItems = dataSource?.length || 0;
     totalPages = totalItems === 0 ? 1 : Math.ceil(totalItems / rowsPerPage);
     const normalizedPage = Math.min(Math.max(currentPage, 1), totalPages || 1);
     if (normalizedPage !== currentPage) {
@@ -35,7 +42,7 @@
     }
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    analystList = originalData?.slice(startIndex, endIndex) ?? [];
+    analystList = dataSource?.slice(startIndex, endIndex) ?? [];
   }
 
   function goToPage(page) {
@@ -91,9 +98,59 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  onMount(() => {
+  async function resetTableSearch() {
+    inputValue = "";
+    rawData = originalData;
+    unsortedSearchData = [];
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
+  async function search() {
+    inputValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (inputValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        rawData = originalData || [];
+        unsortedSearchData = [];
+        currentPage = 1;
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker && rawData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: originalData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      rawData = event.data?.output ?? [];
+      unsortedSearchData = [...rawData];
+      currentPage = 1;
+      updatePaginatedData();
+    }
+  };
+
+  onMount(async () => {
     loadRowsPerPage();
     loadColumnOrder(true);
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
+
     updatePaginatedData();
   });
 
@@ -107,7 +164,7 @@
 
   const defaultColumns = [
     { key: "rank", label: "Rank", align: "left" },
-    { key: "analystName", label: "Analyst", align: "left" },
+    { key: "name", label: "Analyst", align: "left" },
     { key: "successRate", label: "Success Rate", align: "right" },
     { key: "avgReturn", label: "Avg. Return", align: "right" },
     { key: "totalRatings", label: "Total Ratings", align: "right" },
@@ -234,7 +291,7 @@
 
   let sortOrders = {
     rank: { order: "none", type: "number" },
-    analystName: { order: "none", type: "string" },
+    name: { order: "none", type: "string" },
     successRate: { order: "none", type: "number" },
     avgReturn: { order: "none", type: "number" },
     totalRatings: { order: "none", type: "number" },
@@ -402,13 +459,55 @@
               >
                 {originalData?.length?.toLocaleString("en-US")} Analysts
               </h2>
+              <div
+                class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+              >
+                <div
+                  class="relative ml-auto flex-1 min-w-0 sm:flex-none sm:w-fit"
+                >
+                  <div
+                    class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                  >
+                    {#if inputValue?.length > 0}
+                      <label
+                        class="cursor-pointer"
+                        on:click={() => resetTableSearch()}
+                      >
+                        <svg
+                          class="w-5 h-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          ><path
+                            fill="currentColor"
+                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                          /></svg
+                        >
+                      </label>
+                    {/if}
+                  </div>
 
-              <div class="flex flex-row items-center">
+                  <input
+                    bind:value={inputValue}
+                    on:input={search}
+                    type="text"
+                    placeholder="Find..."
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
+                  />
+                </div>
+
+                <div class="ml-2">
+                  <DownloadData
+                    {data}
+                    rawData={originalData}
+                    title={"top_wall_street_analysts"}
+                  />
+                </div>
+
                 {#if customColumnOrder?.length > 0}
                   <button
                     on:click={resetColumnOrder}
                     title="Reset column order"
-                    class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                   >
                     <svg
                       class="w-4 h-4"
@@ -465,7 +564,7 @@
                             <td class="text-[0.85rem] sm:text-sm text-center">
                               {item?.rank}
                             </td>
-                          {:else if column.key === "analystName"}
+                          {:else if column.key === "name"}
                             <td
                               class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
@@ -473,7 +572,7 @@
                                 <a
                                   href={"/analysts/" + item?.analystId}
                                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                  >{item?.analystName}
+                                  >{item?.name}
                                 </a>
                                 <div class="flex flex-row items-center mt-1">
                                   {#each Array.from({ length: 5 }) as _, i}

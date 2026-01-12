@@ -14,6 +14,12 @@ export const load = async ({ locals }) => {
 
     output = !["Pro", "Plus"]?.includes(user?.tier) ? output?.reverse()?.slice(0, 6) : output;
 
+    // Rename analystName to name for search worker compatibility
+    output = output?.map(({ analystName, ...rest }) => ({
+      ...rest,
+      name: analystName,
+    }));
+
     return output;
   };
 
