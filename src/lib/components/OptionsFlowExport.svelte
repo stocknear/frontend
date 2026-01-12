@@ -5,8 +5,25 @@
 
   export let data: any;
   export let rawData: any[] = [];
+  export let selectedDate: any = undefined; // For historical flow date
 
   const CREDIT_COST = 100;
+
+  // Generate filename based on whether it's live or historical data
+  const getExportFilename = (): string => {
+    if (selectedDate) {
+      // Historical data - use the selected date
+      const date = selectedDate.toDate ? selectedDate.toDate() : new Date(selectedDate);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `options-flow-historical_${year}-${month}-${day}.csv`;
+    } else {
+      // Live data - use today's date
+      const today = new Date().toISOString().split("T")[0];
+      return `options-flow-live_${today}.csv`;
+    }
+  };
 
   let exportModalOpen = false;
   let isExporting = false;
@@ -134,9 +151,8 @@
       const csvContent = convertToCSV(rawData);
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
 
-      // Generate filename with current date
-      const today = new Date().toISOString().split("T")[0];
-      const filename = `options-flow_${today}.csv`;
+      // Generate filename based on live or historical data
+      const filename = getExportFilename();
 
       // Trigger download
       const url = window.URL.createObjectURL(blob);

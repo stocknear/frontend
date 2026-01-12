@@ -3270,6 +3270,7 @@
                   <OptionsFlowExport
                     {data}
                     rawData={tableSearchDisplayedData}
+                    {selectedDate}
                   />
 
                   {#if customColumnOrder?.length > 0}
