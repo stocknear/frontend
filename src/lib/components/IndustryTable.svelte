@@ -7,6 +7,7 @@
   export let charNumber;
   export let industryList;
   export let sectorName = "default";
+  export let sectorLink = "";
 
   let originalData = industryList;
   let rawData = originalData;
@@ -232,64 +233,92 @@
   };
 </script>
 
-<div class="flex flex-row items-center justify-end mt-4 mb-2 gap-2">
-  <div class="relative w-full sm:w-auto">
-    <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
-      {#if inputValue?.length > 0}
-        <label class="cursor-pointer" on:click={() => resetTableSearch()}>
-          <svg
-            class="w-5 h-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            ><path
-              fill="currentColor"
-              d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-            /></svg
-          >
-        </label>
-      {/if}
+<div
+  class="flex flex-col sm:flex-row sm:items-center w-full mt-2 mb-4 pb-2 border-b border-gray-300 dark:border-zinc-700"
+>
+  <a
+    href={sectorLink}
+    class="cursor-pointer font-semibold tracking-tight text-base sm:text-lg text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition whitespace-nowrap"
+  >
+    Sector: {sectorName}
+    <svg
+      class="inline-block h-6 w-6 -mt-1"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      style="max-width:40px"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </a>
+
+  <div
+    class="mt-2 sm:mt-0 w-full flex flex-row items-center sm:ml-auto sm:w-fit"
+  >
+    <div class="relative w-full sm:w-fit sm:ml-auto">
+      <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
+        {#if inputValue?.length > 0}
+          <label class="cursor-pointer" on:click={() => resetTableSearch()}>
+            <svg
+              class="w-5 h-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+              />
+            </svg>
+          </label>
+        {/if}
+      </div>
+
+      <input
+        bind:value={inputValue}
+        on:input={search}
+        type="text"
+        placeholder="Find..."
+        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
+      />
     </div>
 
-    <input
-      bind:value={inputValue}
-      on:input={search}
-      type="text"
-      placeholder="Find..."
-      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
-    />
-  </div>
+    <div class="ml-2">
+      <DownloadData
+        data={{}}
+        rawData={displayList}
+        title={`${sectorName?.replace(/\s+/g, "_")}_industries`}
+      />
+    </div>
 
-  <DownloadData
-    data={{}}
-    rawData={displayList}
-    title={`${sectorName?.replace(/\s+/g, "_")}_industries`}
-  />
-
-  {#if customColumnOrder?.length > 0}
-    <button
-      on:click={resetColumnOrder}
-      title="Reset column order"
-      class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-    >
-      <svg
-        class="w-4 h-4"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
+    {#if customColumnOrder?.length > 0}
+      <button
+        on:click={resetColumnOrder}
+        title="Reset column order"
+        class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
       >
-        <path
-          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </button>
-  {/if}
+        <svg
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    {/if}
+  </div>
 </div>
 
 <div
-  class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+  class=" w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
 >
   <table
     class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -409,3 +438,5 @@
     </tbody>
   </table>
 </div>
+
+<div class="border-t border-gray-300 dark:border-zinc-700 mt-3" />
