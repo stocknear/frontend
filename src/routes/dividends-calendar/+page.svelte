@@ -17,10 +17,14 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
 
   export let data;
+
+  // Search state
+  let inputValue = "";
+  let searchWorker: Worker | undefined;
 
   // Column reordering state
   let customColumnOrder: string[] = [];
@@ -85,9 +89,14 @@
     resetDailyPagination();
   }
 
+  // Filtered data for the selected day (used when searching)
+  let filteredDayData: any[] = [];
+
   function updateDailyPagination() {
     const selectedDayData = weekday?.[selectedWeekday] ?? [];
-    const totalItems = selectedDayData?.length || 0;
+    // Use filtered data if searching, otherwise use original data
+    const dataSource = inputValue?.length > 0 ? filteredDayData : selectedDayData;
+    const totalItems = dataSource?.length || 0;
     dailyTotalPages =
       totalItems === 0 ? 1 : Math.ceil(totalItems / dailyRowsPerPage);
 
@@ -101,11 +110,13 @@
 
     const startIndex = (dailyCurrentPage - 1) * dailyRowsPerPage;
     const endIndex = startIndex + dailyRowsPerPage;
-    dailyDisplayList = selectedDayData?.slice(startIndex, endIndex) ?? [];
+    dailyDisplayList = dataSource?.slice(startIndex, endIndex) ?? [];
   }
 
   function resetDailyPagination() {
     dailyCurrentPage = 1;
+    inputValue = "";
+    filteredDayData = [];
     updateDailyPagination();
   }
 
@@ -278,10 +289,58 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  onMount(() => {
+  // Search functions
+  async function resetTableSearch() {
+    inputValue = "";
+    filteredDayData = [];
+    dailyCurrentPage = 1;
+    updateDailyPagination();
+  }
+
+  async function search() {
+    const searchValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (searchValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        filteredDayData = [];
+        dailyCurrentPage = 1;
+        updateDailyPagination();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    const selectedDayData = weekday?.[selectedWeekday] ?? [];
+    if (searchWorker && selectedDayData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: selectedDayData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      filteredDayData = event.data?.output ?? [];
+      dailyCurrentPage = 1;
+      updateDailyPagination();
+    }
+  };
+
+  onMount(async () => {
     loadDailyRowsPerPage();
     initColumnOrder();
     updateDailyPagination();
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
   });
 
   $: if ($page?.url?.pathname && $page?.url?.pathname !== dailyPagePathName) {
@@ -678,7 +737,7 @@
                 {#each weekday as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <div class="flex flex-row items-center justify-between mt-5">
+                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5">
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
@@ -686,27 +745,69 @@
                           Dividends
                         </h2>
 
-                        {#if customColumnOrder?.length > 0}
-                          <button
-                            on:click={resetColumnOrder}
-                            title="Reset column order"
-                            class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                          >
-                            <svg
-                              class="w-4 h-4"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
+                        <div class="flex flex-row items-center w-full sm:w-auto">
+                          <div class="relative w-full sm:w-auto">
+                            <div
+                              class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                             >
-                              <path
-                                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </svg>
-                          </button>
-                        {/if}
+                              {#if inputValue?.length > 0}
+                                <label
+                                  class="cursor-pointer"
+                                  on:click={() => resetTableSearch()}
+                                >
+                                  <svg
+                                    class="w-5 h-5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                                    />
+                                  </svg>
+                                </label>
+                              {/if}
+                            </div>
+
+                            <input
+                              bind:value={inputValue}
+                              on:input={search}
+                              type="text"
+                              placeholder="Find..."
+                              class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                            />
+                          </div>
+
+                          <div class="ml-2">
+                            <DownloadData
+                              {data}
+                              rawData={inputValue?.length > 0 ? filteredDayData : day}
+                              title={"dividends_calendar"}
+                            />
+                          </div>
+
+                          {#if customColumnOrder?.length > 0}
+                            <button
+                              on:click={resetColumnOrder}
+                              title="Reset column order"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </button>
+                          {/if}
+                        </div>
                       </div>
 
                       <div class="w-full overflow-x-auto mt-4">
