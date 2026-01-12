@@ -81,7 +81,7 @@
 
         <div class="border-t border-gray-300 dark:border-zinc-700 mt-5" />
 
-        <IndustryTable {charNumber} industryList={rawData[sector]} />
+        <IndustryTable {charNumber} industryList={rawData[sector]} sectorName={sector} />
         <div class="border-t border-gray-300 dark:border-zinc-700 mt-5" />
       {/each}
     </div>

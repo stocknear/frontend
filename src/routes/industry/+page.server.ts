@@ -1,3 +1,6 @@
+  import { sectorList } from "$lib/utils";
+
+
 export const load = async ({ locals }) => {
   const getSectorIndustryOverview = async () => {
     const { apiKey, apiURL } = locals;
@@ -10,7 +13,15 @@ export const load = async ({ locals }) => {
       },
     });
 
-    const output = await response?.json();
+    let output = await response?.json();
+
+    // Transform each sector's industries to rename 'industry' to 'name'
+    for (const sector of Object.keys(output)) {
+      output[sector] = output[sector]?.map(({ industry, ...rest }) => ({
+        ...rest,
+        name: industry,
+      }));
+    }
 
     return output;
   };
