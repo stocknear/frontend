@@ -80,13 +80,27 @@
     showEarnings?: boolean;
     showDividends?: boolean;
     showNewsFlow?: boolean;
+    savedAt?: number; // Timestamp for 1Y cache expiration
   }
+
+  // 1 Year in milliseconds for localStorage cache duration
+  const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
   const loadChartSettings = (): ChartSettings | null => {
     try {
       const saved = localStorage?.getItem(CHART_EVENTS_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        const settings = JSON.parse(saved) as ChartSettings;
+        // Check if data is older than 1 year
+        if (settings.savedAt) {
+          const now = Date.now();
+          if (now - settings.savedAt > ONE_YEAR_MS) {
+            // Data expired, clear it
+            localStorage?.removeItem(CHART_EVENTS_KEY);
+            return null;
+          }
+        }
+        return settings;
       }
     } catch (e) {
       console.log("Failed loading chart settings:", e);
@@ -96,7 +110,12 @@
 
   const saveChartSettings = (settings: ChartSettings) => {
     try {
-      localStorage?.setItem(CHART_EVENTS_KEY, JSON.stringify(settings));
+      // Add timestamp for 1Y cache expiration
+      const settingsWithTimestamp = {
+        ...settings,
+        savedAt: Date.now(),
+      };
+      localStorage?.setItem(CHART_EVENTS_KEY, JSON.stringify(settingsWithTimestamp));
     } catch (e) {
       console.log("Failed saving chart settings:", e);
     }
@@ -3526,8 +3545,9 @@
     if (chart) {
       applyRange(range);
     }
-    // Save to localStorage
-    saveChartSettings({ chartType, activeRange });
+    // Save to localStorage (preserve existing event settings)
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({ ...currentSettings, chartType, activeRange });
   }
 
   function setChartType(type: ChartTypeId) {
@@ -3544,8 +3564,9 @@
       // Update chart data in place without resetting scroll position
       chart.applyNewData(displayBars);
     }
-    // Save to localStorage
-    saveChartSettings({ chartType, activeRange });
+    // Save to localStorage (preserve existing event settings)
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({ ...currentSettings, chartType, activeRange });
   }
 
   function toggleIndicator(name: string) {
