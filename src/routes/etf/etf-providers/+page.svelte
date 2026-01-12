@@ -128,6 +128,9 @@
     // Load pagination preference
     loadRowsPerPage();
 
+    // Load column order preference
+    initColumnOrder();
+
     if (!searchWorker) {
       const SearchWorker = await import(
         "$lib/workers/tableSearchWorker?worker"
@@ -147,13 +150,90 @@
     updatePaginatedData(); // Update display with loaded preference
   }
 
-  let columns = [
+  let defaultColumns = [
     { key: "name", label: "Name", align: "left" },
     { key: "totalAssets", label: "Total Assets", align: "right" },
     { key: "funds", label: "Funds", align: "right" },
     { key: "avgExpenseRatio", label: "Avg. Cost", align: "right" },
     { key: "avgHoldings", label: "Avg. Holdings", align: "right" },
   ];
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+
+  // Column reordering functions
+  function getColumnOrderStorageKey() {
+    return `${pagePathName}_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+    order: string[],
+  ): typeof defaultColumns {
+    if (!order.length) return cols;
+
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof defaultColumns = [];
+
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+
+    // Add any remaining columns not in the saved order
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+
+    return ordered;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number) {
+    const reordered = [...columns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+    customColumnOrder = reordered.map((c) => c.key);
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  function initColumnOrder() {
+    customColumnOrder = loadColumnOrder();
+  }
+
+  $: columns = applyColumnOrder([...defaultColumns], customColumnOrder);
 
   let sortOrders = {
     name: { order: "none", type: "string" },
@@ -205,15 +285,15 @@
           valueB = new Date(b[key]);
           break;
         case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
+          valueA = (a[key] ?? "").toUpperCase();
+          valueB = (b[key] ?? "").toUpperCase();
           return sortOrder === "asc"
             ? valueA.localeCompare(valueB)
             : valueB.localeCompare(valueA);
         case "number":
         default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
           break;
       }
 
@@ -318,6 +398,26 @@
         <div class="ml-2">
           <DownloadData {data} {rawData} title={"etf_providers_data"} />
         </div>
+
+        <button
+          on:click={resetColumnOrder}
+          title="Reset column order"
+          class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+        >
+          <svg
+            class="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -332,7 +432,12 @@
             class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto mt-4"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each etfProviderList as item}
@@ -340,40 +445,44 @@
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                 >
-                  <td
-                    class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
-                  >
-                    <a
-                      href={"/etf/etf-providers/" + item?.name}
-                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                    >
-                      {formatETFName(item?.name)}
-                    </a>
-                  </td>
-
-                  <td
-                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                  >
-                    {abbreviateNumber(item?.totalAssets)}
-                  </td>
-
-                  <td
-                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                  >
-                    {item?.funds}
-                  </td>
-
-                  <td
-                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                  >
-                    {item?.avgExpenseRatio}%
-                  </td>
-
-                  <td
-                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                  >
-                    {item?.avgHoldings}
-                  </td>
+                  {#each columns as column}
+                    {#if column.key === "name"}
+                      <td
+                        class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
+                      >
+                        <a
+                          href={"/etf/etf-providers/" + item?.name}
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                        >
+                          {formatETFName(item?.name)}
+                        </a>
+                      </td>
+                    {:else if column.key === "totalAssets"}
+                      <td
+                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                      >
+                        {abbreviateNumber(item?.totalAssets)}
+                      </td>
+                    {:else if column.key === "funds"}
+                      <td
+                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                      >
+                        {item?.funds}
+                      </td>
+                    {:else if column.key === "avgExpenseRatio"}
+                      <td
+                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                      >
+                        {item?.avgExpenseRatio}%
+                      </td>
+                    {:else if column.key === "avgHoldings"}
+                      <td
+                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                      >
+                        {item?.avgHoldings}
+                      </td>
+                    {/if}
+                  {/each}
                 </tr>
               {/each}
             </tbody>

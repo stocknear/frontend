@@ -125,6 +125,9 @@
     // Load pagination preference
     loadRowsPerPage();
 
+    // Load column order preference
+    initColumnOrder();
+
     if (!searchWorker) {
       const SearchWorker = await import(
         "$lib/workers/tableSearchWorker?worker"
@@ -144,7 +147,7 @@
     updatePaginatedData(); // Update display with loaded preference
   }
 
-  let columns = [
+  let defaultColumns = [
     { key: "inceptionDate", label: "Inception", align: "left" },
     { key: "symbol", label: "Symbol", align: "left" },
     { key: "name", label: "Fund Name", align: "left" },
@@ -153,6 +156,83 @@
     { key: "numberOfHoldings", label: "Holdings", align: "right" },
     { key: "totalAssets", label: "Total Assets", align: "right" },
   ];
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+
+  // Column reordering functions
+  function getColumnOrderStorageKey() {
+    return `${pagePathName}_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+    order: string[],
+  ): typeof defaultColumns {
+    if (!order.length) return cols;
+
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof defaultColumns = [];
+
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+
+    // Add any remaining columns not in the saved order
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+
+    return ordered;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number) {
+    const reordered = [...columns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+    customColumnOrder = reordered.map((c) => c.key);
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  function initColumnOrder() {
+    customColumnOrder = loadColumnOrder();
+  }
+
+  $: columns = applyColumnOrder([...defaultColumns], customColumnOrder);
 
   let sortOrders = {
     inceptionDate: { order: "none", type: "date" },
@@ -206,15 +286,15 @@
           valueB = new Date(b[key]);
           break;
         case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
+          valueA = (a[key] ?? "").toUpperCase();
+          valueB = (b[key] ?? "").toUpperCase();
           return sortOrder === "asc"
             ? valueA.localeCompare(valueB)
             : valueB.localeCompare(valueA);
         case "number":
         default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
           break;
       }
 
@@ -297,7 +377,7 @@
       <div
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-10">
+        <main class="w-full">
           <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -362,6 +442,26 @@
                     title={"etf_new_launches_data"}
                   />
                 </div>
+
+                <button
+                  on:click={resetColumnOrder}
+                  title="Reset column order"
+                  class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -375,86 +475,101 @@
                     class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
                   >
                     <thead>
-                      <TableHeader {columns} {sortOrders} {sortData} />
+                      <TableHeader
+                        {columns}
+                        {sortOrders}
+                        {sortData}
+                        onColumnReorder={handleColumnReorder}
+                      />
                     </thead>
                     <tbody>
                       {#each stockList as item}
                         <tr
                           class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
-                          <td
-                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
-                          >
-                            {new Date(item?.inceptionDate)?.toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              },
-                            )}
-                          </td>
-
-                          <td
-                            class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
-                          >
-                            <a
-                              href={"/etf/" + item?.symbol}
-                              class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                            >
-                              {item?.symbol}
-                            </a>
-                          </td>
-
-                          <td
-                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
-                          >
-                            {item?.name?.length > charNumber
-                              ? item?.name?.slice(0, charNumber) + "..."
-                              : item?.name}
-                          </td>
-
-                          <td
-                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                          >
-                            {item?.price !== null && item?.price !== 0
-                              ? item?.price
-                              : "n/a"}
-                          </td>
-
-                          <td
-                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                          >
-                            {#if item?.changesPercentage >= 0}
-                              <span
-                                class="text-emerald-600 dark:text-emerald-400"
-                                >+{item?.changesPercentage?.toFixed(2)}%</span
+                          {#each columns as column}
+                            {#if column.key === "inceptionDate"}
+                              <td
+                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
                               >
-                            {:else}
-                              <span class="text-rose-600 dark:text-rose-400"
-                                >{item?.changesPercentage?.toFixed(2)}%</span
+                                {new Date(item?.inceptionDate)?.toLocaleString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    daySuffix: "2-digit",
+                                  },
+                                )}
+                              </td>
+                            {:else if column.key === "symbol"}
+                              <td
+                                class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
                               >
+                                <a
+                                  href={"/etf/" + item?.symbol}
+                                  class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                                >
+                                  {item?.symbol}
+                                </a>
+                              </td>
+                            {:else if column.key === "name"}
+                              <td
+                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                              >
+                                {item?.name?.length > charNumber
+                                  ? item?.name?.slice(0, charNumber) + "..."
+                                  : item?.name}
+                              </td>
+                            {:else if column.key === "price"}
+                              <td
+                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                              >
+                                {item?.price !== null && item?.price !== 0
+                                  ? item?.price
+                                  : "n/a"}
+                              </td>
+                            {:else if column.key === "changesPercentage"}
+                              <td
+                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                              >
+                                {#if item?.changesPercentage >= 0}
+                                  <span
+                                    class="text-emerald-600 dark:text-emerald-400"
+                                    >+{item?.changesPercentage?.toFixed(
+                                      2,
+                                    )}%</span
+                                  >
+                                {:else}
+                                  <span class="text-rose-600 dark:text-rose-400"
+                                    >{item?.changesPercentage?.toFixed(
+                                      2,
+                                    )}%</span
+                                  >
+                                {/if}
+                              </td>
+                            {:else if column.key === "numberOfHoldings"}
+                              <td
+                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                              >
+                                {item?.numberOfHoldings !== null &&
+                                item?.numberOfHoldings !== 0
+                                  ? item?.numberOfHoldings?.toLocaleString(
+                                      "en-US",
+                                    )
+                                  : "n/a"}
+                              </td>
+                            {:else if column.key === "totalAssets"}
+                              <td
+                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                              >
+                                {item?.totalAssets !== 0 &&
+                                item?.totalAssets !== null
+                                  ? item?.totalAssets?.toLocaleString("en-US")
+                                  : "n/a"}
+                              </td>
                             {/if}
-                          </td>
-
-                          <td
-                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                          >
-                            {item?.numberOfHoldings !== null &&
-                            item?.numberOfHoldings !== 0
-                              ? item?.numberOfHoldings?.toLocaleString("en-US")
-                              : "n/a"}
-                          </td>
-
-                          <td
-                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
-                          >
-                            {item?.totalAssets !== 0 &&
-                            item?.totalAssets !== null
-                              ? item?.totalAssets?.toLocaleString("en-US")
-                              : "n/a"}
-                          </td>
+                          {/each}
                         </tr>
                       {/each}
                     </tbody>
@@ -475,71 +590,6 @@
             {/if}
           </div>
         </main>
-
-        <aside class="inline-block relative w-full lg:w-1/4 mt-3">
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-            >
-              <a
-                href="/pricing"
-                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-              >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-lg font-semibold ml-3">
-                    Pro Subscription
-                  </h2>
-                </div>
-                <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-                >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
-                </span>
-              </a>
-            </div>
-          {/if}
-
-          <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-          >
-            <a
-              href={"/analysts"}
-              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">
-                  Top Analyst
-                </h2>
-              </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
-                Get the latest top Wall Street analyst ratings
-              </span>
-            </a>
-          </div>
-
-          <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-          >
-            <a
-              href={"/politicians"}
-              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">
-                  Congress Trading
-                </h2>
-              </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
-                Get the latest top Congress trading insights.
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
