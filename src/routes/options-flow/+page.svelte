@@ -36,7 +36,7 @@
 
   // Column reordering bindings
   let optionsFlowResetColumnOrder: () => void;
-  let optionsFlowCustomColumnOrder: string[] = [];
+  let customColumnOrder: string[] = [];
 
   // Table search functionality
   let tableSearchValue = "";
@@ -1907,14 +1907,6 @@
             >
               Options Flow
             </h1>
-            <span
-              class="inline-block text-xs sm:text-sm font-medium sm:ml-2 mt-3 text-gray-500 dark:text-zinc-400"
-            >
-              {(data?.user?.tier === "Pro"
-                ? displayedData?.length
-                : totalOrders
-              )?.toLocaleString("en-US")} Contracts Found
-            </span>
           </div>
 
           <div class="flex flex-row items-center w-full mt-5">
@@ -3212,50 +3204,66 @@
             </div>
 
             <!-- Table toolbar: Find, Download, Reset Column Order -->
+
             <div
-              class="flex {optionsFlowCustomColumnOrder?.length > 0
-                ? 'flex-col sm:flex-row sm:items-center'
-                : 'flex-row items-center'} w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 mt-3"
+              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
             >
-              <!-- Find input -->
               <div
-                class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+                class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
               >
-                <div
-                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                <h2
+                  class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {#if tableSearchValue?.length > 0}
-                    <label
-                      class="cursor-pointer"
-                      on:click={() => resetTableSearch()}
-                    >
-                      <svg
-                        class="w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
+                  {(data?.user?.tier === "Pro"
+                    ? displayedData?.length
+                    : totalOrders
+                  )?.toLocaleString("en-US")} Trades
+                </h2>
+              </div>
+              <div
+                class="flex {customColumnOrder?.length > 0
+                  ? 'flex-col sm:flex-row sm:items-center'
+                  : 'flex-row items-center'}  w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+              >
+                <!-- Find input -->
+                <div
+                  class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+                >
+                  <div
+                    class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                  >
+                    {#if tableSearchValue?.length > 0}
+                      <label
+                        class="cursor-pointer"
+                        on:click={() => resetTableSearch()}
                       >
-                        <path
-                          fill="currentColor"
-                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                        />
-                      </svg>
-                    </label>
-                  {/if}
+                        <svg
+                          class="w-5 h-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                          />
+                        </svg>
+                      </label>
+                    {/if}
+                  </div>
+
+                  <input
+                    bind:value={tableSearchValue}
+                    on:input={tableSearch}
+                    type="text"
+                    placeholder="Find..."
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  />
                 </div>
 
-                <input
-                  bind:value={tableSearchValue}
-                  on:input={tableSearch}
-                  type="text"
-                  placeholder="Find..."
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-                />
-              </div>
-
-              <!-- Download + Reset Column Order -->
-              <!--
+                <!-- Download + Reset Column Order -->
+                <!--
               <div
-                class="{optionsFlowCustomColumnOrder?.length > 0
+                class="{customColumnOrder?.length > 0
                   ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
                   : 'ml-2 w-fit'} flex items-center justify-end gap-2"
               >
@@ -3265,7 +3273,7 @@
                   title="options-flow"
                 />
 
-                {#if optionsFlowCustomColumnOrder?.length > 0}
+                {#if customColumnOrder?.length > 0}
                   <button
                     on:click={() => optionsFlowResetColumnOrder?.()}
                     title="Reset column order"
@@ -3288,25 +3296,32 @@
                 {/if}
               </div>
               -->
+              </div>
             </div>
 
             <!-- Page wrapper -->
-            <div class="flex w-full m-auto h-full overflow-hidden">
-              <div class="mt-3 w-full overflow-x-auto overflow-hidden">
-                <OptionsFlowTable
-                  {data}
-                  {optionsWatchlist}
-                  displayedData={tableSearchDisplayedData}
-                  {filteredData}
-                  {rawData}
-                  bind:resetColumnOrder={optionsFlowResetColumnOrder}
-                  bind:customColumnOrder={optionsFlowCustomColumnOrder}
-                />
-                <div class="-mt-3">
-                  <UpgradeToPro {data} display={true} />
+            {#if tableSearchDisplayedData?.length > 0}
+              <div class="flex w-full m-auto h-full overflow-hidden">
+                <div class="mt-3 w-full overflow-x-auto overflow-hidden">
+                  <OptionsFlowTable
+                    {data}
+                    {optionsWatchlist}
+                    displayedData={tableSearchDisplayedData}
+                    {filteredData}
+                    {rawData}
+                    bind:resetColumnOrder={optionsFlowResetColumnOrder}
+                    bind:customColumnOrder
+                  />
+                  <div class="-mt-3">
+                    <UpgradeToPro {data} display={true} />
+                  </div>
                 </div>
               </div>
-            </div>
+            {:else}
+              <Infobox
+                text={`No Option Trades found for "${tableSearchValue}"`}
+              />
+            {/if}
           {:else}
             <Infobox
               text={`No data found based on filter(s) selected. Please adjust your filters and try again.`}
