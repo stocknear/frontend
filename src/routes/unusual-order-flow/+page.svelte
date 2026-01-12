@@ -1548,14 +1548,6 @@
           >
             Unusual Order Flow
           </h1>
-          <span
-            class="inline-block text-xs sm:text-sm font-medium sm:ml-2 mt-3 text-gray-500 dark:text-zinc-400"
-          >
-            {(data?.user?.tier === "Pro"
-              ? displayedData?.length
-              : totalOrders
-            )?.toLocaleString("en-US")}
-          </span>
         </div>
 
         <div class="flex flex-row items-center w-full mt-3">
@@ -1826,7 +1818,7 @@
             </div>
           </div>
 
-          <div class="sm:ml-auto w-full sm:w-fit">
+          <div class="sm:ml-auto w-full sm:w-fit mt-3 sm:mt-0">
             <div class="relative flex flex-col sm:flex-row items-center">
               <Popover.Root>
                 <Popover.Trigger asChild let:builder>
@@ -2105,7 +2097,7 @@
           </div>
 
           <div
-            class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-zinc-700"
+            class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-gray-300 dark:border-zinc-700"
           >
             {#each displayRules as row (row?.rule)}
               <!--Start Added Rules-->
@@ -2446,25 +2438,144 @@
 
       {#if isLoaded}
         <!-- Stats Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3 mb-3">
-          <!--Start Total Volume-->
-          <div
-            class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
-          >
-            <div class="flex flex-col items-start">
-              <span
-                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                >Total Volume</span
+        <div class="w-full mt-3 m-auto flex justify-center items-center">
+          <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3">
+            <!--Start Total Volume-->
+            <div
+              class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
+            >
+              <div class="flex flex-col items-start">
+                <span
+                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  >Total Volume</span
+                >
+                {#if data?.user?.tier === "Pro"}
+                  <span class="text-start text-[1rem] font-semibold">
+                    {new Intl.NumberFormat("en", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    }).format(totalVolume)}
+                  </span>
+                {:else}
+                  <a href="/pricing" class="flex mt-2">
+                    <svg
+                      class="size-5 text-gray-500 dark:text-white"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width: 40px;"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd"
+                      >
+                      </path>
+                    </svg>
+                  </a>
+                {/if}
+              </div>
+            </div>
+            <!--End Total Volume-->
+            <!--Start Total Value-->
+            <div
+              class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
+            >
+              <div class="flex flex-col items-start">
+                <span
+                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  >Total Value</span
+                >
+                {#if data?.user?.tier === "Pro"}
+                  <span class="text-start text-[1rem] font-semibold">
+                    ${new Intl.NumberFormat("en", {
+                      notation: "compact",
+                      compactDisplay: "short",
+                      minimumFractionDigits: 1,
+                      maximumFractionDigits: 1,
+                    }).format(totalValue)}
+                  </span>
+                {:else}
+                  <a href="/pricing" class="flex mt-2">
+                    <svg
+                      class="size-5 text-gray-500 dark:text-white"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width: 40px;"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd"
+                      >
+                      </path>
+                    </svg>
+                  </a>
+                {/if}
+              </div>
+            </div>
+            <!--End Total Value-->
+            <!--Start Transaction Type (Dark Pool vs Block Order)-->
+            <div
+              class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl"
+            >
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
               >
+                <span
+                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  >Transaction Type</span
+                >
+                {#if data?.user?.tier === "Pro"}
+                  <div class="flex items-center gap-3 text-[11px] sm:text-xs">
+                    <div class="flex items-center gap-1">
+                      <span
+                        class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
+                      ></span>
+                      <span class="text-gray-500 dark:text-zinc-400"
+                        >Dark Pool</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <span
+                        class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
+                      ></span>
+                      <span class="text-gray-500 dark:text-zinc-400">Block</span
+                      >
+                    </div>
+                  </div>
+                {/if}
+              </div>
               {#if data?.user?.tier === "Pro"}
-                <span class="text-start text-[1rem] font-semibold">
-                  {new Intl.NumberFormat("en", {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0,
-                  }).format(totalVolume)}
-                </span>
+                <div class="flex flex-col w-full">
+                  <div
+                    class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700"
+                  >
+                    <div
+                      class="bg-violet-500/70 dark:bg-violet-400/70 h-full transition-all duration-300 flex items-center justify-center"
+                      style="width: {darkPoolPercentage}%"
+                    >
+                      {#if darkPoolPercentage >= 15}
+                        <span
+                          class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
+                          >{darkPoolPercentage}%</span
+                        >
+                      {/if}
+                    </div>
+                    <div
+                      class="bg-amber-500/70 dark:bg-amber-400/70 h-full transition-all duration-300 flex items-center justify-center"
+                      style="width: {blockOrderPercentage}%"
+                    >
+                      {#if blockOrderPercentage >= 15}
+                        <span
+                          class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
+                          >{blockOrderPercentage}%</span
+                        >
+                      {/if}
+                    </div>
+                  </div>
+                </div>
               {:else}
-                <a href="/pricing" class="flex mt-2">
+                <a href="/pricing" class="flex">
                   <svg
                     class="size-5 text-gray-500 dark:text-white"
                     viewBox="0 0 20 20"
@@ -2475,34 +2586,72 @@
                       fill-rule="evenodd"
                       d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                       clip-rule="evenodd"
-                    >
-                    </path>
+                    ></path>
                   </svg>
                 </a>
               {/if}
             </div>
-          </div>
-          <!--End Total Volume-->
-          <!--Start Total Value-->
-          <div
-            class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
-          >
-            <div class="flex flex-col items-start">
-              <span
-                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                >Total Value</span
+            <!--End Transaction Type-->
+            <!--Start Asset Type (Stocks vs ETFs)-->
+            <div
+              class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl"
+            >
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
               >
+                <span
+                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  >Asset Type</span
+                >
+                {#if data?.user?.tier === "Pro"}
+                  <div class="flex items-center gap-3 text-[11px] sm:text-xs">
+                    <div class="flex items-center gap-1">
+                      <span
+                        class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
+                      ></span>
+                      <span class="text-gray-500 dark:text-zinc-400">Stock</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <span
+                        class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
+                      ></span>
+                      <span class="text-gray-500 dark:text-zinc-400">ETF</span>
+                    </div>
+                  </div>
+                {/if}
+              </div>
               {#if data?.user?.tier === "Pro"}
-                <span class="text-start text-[1rem] font-semibold">
-                  ${new Intl.NumberFormat("en", {
-                    notation: "compact",
-                    compactDisplay: "short",
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }).format(totalValue)}
-                </span>
+                <div class="flex flex-col w-full">
+                  <div
+                    class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700"
+                  >
+                    <div
+                      class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
+                      style="width: {stockPercentage}%"
+                    >
+                      {#if stockPercentage >= 15}
+                        <span
+                          class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
+                          >{stockPercentage}%</span
+                        >
+                      {/if}
+                    </div>
+                    <div
+                      class="bg-amber-500/70 dark:bg-amber-400/70 h-full transition-all duration-300 flex items-center justify-center"
+                      style="width: {etfPercentage}%"
+                    >
+                      {#if etfPercentage >= 15}
+                        <span
+                          class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
+                          >{etfPercentage}%</span
+                        >
+                      {/if}
+                    </div>
+                  </div>
+                </div>
               {:else}
-                <a href="/pricing" class="flex mt-2">
+                <a href="/pricing" class="flex">
                   <svg
                     class="size-5 text-gray-500 dark:text-white"
                     viewBox="0 0 20 20"
@@ -2513,166 +2662,13 @@
                       fill-rule="evenodd"
                       d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                       clip-rule="evenodd"
-                    >
-                    </path>
+                    ></path>
                   </svg>
                 </a>
               {/if}
             </div>
+            <!--End Asset Type-->
           </div>
-          <!--End Total Value-->
-          <!--Start Transaction Type (Dark Pool vs Block Order)-->
-          <div
-            class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl"
-          >
-            <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
-            >
-              <span
-                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                >Transaction Type</span
-              >
-              {#if data?.user?.tier === "Pro"}
-                <div class="flex items-center gap-3 text-[11px] sm:text-xs">
-                  <div class="flex items-center gap-1">
-                    <span
-                      class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
-                    ></span>
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Dark Pool</span
-                    >
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <span
-                      class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
-                    ></span>
-                    <span class="text-gray-500 dark:text-zinc-400">Block</span>
-                  </div>
-                </div>
-              {/if}
-            </div>
-            {#if data?.user?.tier === "Pro"}
-              <div class="flex flex-col w-full">
-                <div
-                  class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700"
-                >
-                  <div
-                    class="bg-violet-500/70 dark:bg-violet-400/70 h-full transition-all duration-300 flex items-center justify-center"
-                    style="width: {darkPoolPercentage}%"
-                  >
-                    {#if darkPoolPercentage >= 15}
-                      <span
-                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
-                        >{darkPoolPercentage}%</span
-                      >
-                    {/if}
-                  </div>
-                  <div
-                    class="bg-amber-500/70 dark:bg-amber-400/70 h-full transition-all duration-300 flex items-center justify-center"
-                    style="width: {blockOrderPercentage}%"
-                  >
-                    {#if blockOrderPercentage >= 15}
-                      <span
-                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
-                        >{blockOrderPercentage}%</span
-                      >
-                    {/if}
-                  </div>
-                </div>
-              </div>
-            {:else}
-              <a href="/pricing" class="flex">
-                <svg
-                  class="size-5 text-gray-500 dark:text-white"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  style="max-width: 40px;"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </a>
-            {/if}
-          </div>
-          <!--End Transaction Type-->
-          <!--Start Asset Type (Stocks vs ETFs)-->
-          <div
-            class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl"
-          >
-            <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
-            >
-              <span
-                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                >Asset Type</span
-              >
-              {#if data?.user?.tier === "Pro"}
-                <div class="flex items-center gap-3 text-[11px] sm:text-xs">
-                  <div class="flex items-center gap-1">
-                    <span
-                      class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
-                    ></span>
-                    <span class="text-gray-500 dark:text-zinc-400">Stock</span>
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <span
-                      class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
-                    ></span>
-                    <span class="text-gray-500 dark:text-zinc-400">ETF</span>
-                  </div>
-                </div>
-              {/if}
-            </div>
-            {#if data?.user?.tier === "Pro"}
-              <div class="flex flex-col w-full">
-                <div
-                  class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700"
-                >
-                  <div
-                    class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
-                    style="width: {stockPercentage}%"
-                  >
-                    {#if stockPercentage >= 15}
-                      <span
-                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
-                        >{stockPercentage}%</span
-                      >
-                    {/if}
-                  </div>
-                  <div
-                    class="bg-amber-500/70 dark:bg-amber-400/70 h-full transition-all duration-300 flex items-center justify-center"
-                    style="width: {etfPercentage}%"
-                  >
-                    {#if etfPercentage >= 15}
-                      <span
-                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
-                        >{etfPercentage}%</span
-                      >
-                    {/if}
-                  </div>
-                </div>
-              </div>
-            {:else}
-              <a href="/pricing" class="flex">
-                <svg
-                  class="size-5 text-gray-500 dark:text-white"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  style="max-width: 40px;"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </a>
-            {/if}
-          </div>
-          <!--End Asset Type-->
         </div>
         <!-- End Stats Grid -->
 
@@ -2681,7 +2677,7 @@
           {#if displayedData?.length !== 0}
             <!-- Table toolbar: Find, Download, Reset Column Order -->
             <div
-              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-3 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
             >
               <div
                 class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -2696,9 +2692,7 @@
                 </h2>
               </div>
               <div
-                class="flex {customColumnOrder
-                  ? 'flex-col sm:flex-row sm:items-center'
-                  : 'flex-row items-center'} w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+                class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
               >
                 <!-- Find input -->
                 <div
@@ -2736,11 +2730,7 @@
                 </div>
 
                 <!-- Download + Reset Column Order -->
-                <div
-                  class="{customColumnOrder
-                    ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
-                    : 'ml-2 w-fit'} flex items-center justify-end gap-2"
-                >
+                <div class="ml-2 w-fit flex items-center justify-end gap-2">
                   <UnusualOrderFlowExport
                     {data}
                     rawData={tableSearchDisplayedData?.length > 0

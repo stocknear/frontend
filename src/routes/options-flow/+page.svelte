@@ -2176,7 +2176,7 @@
               </div>
             </div>
 
-            <div class="sm:ml-auto w-full sm:w-fit pt-5">
+            <div class="sm:ml-auto w-full sm:w-fit mt-3 sm:mt-0">
               <div class="relative flex flex-col sm:flex-row items-center">
                 <Popover.Root>
                   <Popover.Trigger asChild let:builder>
@@ -2459,7 +2459,7 @@
             </div>
 
             <div
-              class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-zinc-700"
+              class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-gray-300 dark:border-zinc-700"
             >
               {#each displayRules as row (row?.rule)}
                 <!--Start Added Rules-->
@@ -3221,9 +3221,7 @@
                 </h2>
               </div>
               <div
-                class="flex {customColumnOrder?.length > 0
-                  ? 'flex-col sm:flex-row sm:items-center'
-                  : 'flex-row items-center'}  w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+                class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
               >
                 <!-- Find input -->
                 <div
@@ -3262,11 +3260,7 @@
 
                 <!-- Download + Reset Column Order -->
 
-                <div
-                  class="{customColumnOrder?.length > 0
-                    ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
-                    : 'ml-2 w-fit'} flex items-center justify-end gap-2"
-                >
+                <div class="ml-2 w-fit flex items-center justify-end gap-2">
                   <OptionsFlowExport
                     {data}
                     rawData={tableSearchDisplayedData}
