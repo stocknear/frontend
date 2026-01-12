@@ -115,7 +115,10 @@
         ...settings,
         savedAt: Date.now(),
       };
-      localStorage?.setItem(CHART_EVENTS_KEY, JSON.stringify(settingsWithTimestamp));
+      localStorage?.setItem(
+        CHART_EVENTS_KEY,
+        JSON.stringify(settingsWithTimestamp),
+      );
     } catch (e) {
       console.log("Failed saving chart settings:", e);
     }
@@ -4626,7 +4629,7 @@
     toNumber(intradayBars?.at(0)?.open);
   $: seoChangePercent =
     seoPrice !== null && seoPreviousClose
-      ? ((seoPrice / seoPreviousClose - 1) * 100)
+      ? (seoPrice / seoPreviousClose - 1) * 100
       : (toNumber(data?.getStockQuote?.changesPercentage) ?? changePercent);
   $: seoChangeSymbol =
     seoChangePercent !== null && seoChangePercent < 0 ? "▼" : "▲";
@@ -5275,11 +5278,11 @@
       <!-- KlineCharts Pro Style Drawing Toolbar -->
       {#if toolbarExpanded}
         <div
-          class="hidden sm:flex h-full w-[48px] flex-col items-center border-r border-gray-200 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
+          class="hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-200 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
         >
           <!-- Cursor Tool -->
           <button
-            class={`group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+            class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
               activeTool === "cursor"
                 ? "bg-neutral-800 text-white"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -5290,7 +5293,7 @@
             }}
             title="Cursor"
           >
-            <MousePointer2 class="h-6 w-6" />
+            <MousePointer2 class="size-5" />
           </button>
 
           <!-- Drawing Tool Groups -->
@@ -5299,7 +5302,7 @@
               <div class="relative mt-1 group/item">
                 <!-- Main Button with selected tool icon -->
                 <button
-                  class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                  class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                     group.options.some((o) => o.id === activeTool)
                       ? "bg-neutral-800 text-white"
                       : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -5387,7 +5390,7 @@
           <DropdownMenu.Root bind:open={dropdownStates.magnet}>
             <div class="relative mt-1 group/magnet">
               <button
-                class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                   drawingMode !== "normal"
                     ? "bg-neutral-800 text-white"
                     : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -5479,7 +5482,7 @@
 
           <!-- Visibility -->
           <button
-            class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+            class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               !drawingsVisible
                 ? "bg-neutral-800 text-white"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
@@ -5499,25 +5502,25 @@
 
           <!-- Zoom Tools -->
           <button
-            class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+            class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
             on:click={() => zoomChart(1.2)}
             title="Zoom in"
           >
-            <ZoomIn class="h-6 w-6" />
+            <ZoomIn class="size-5" />
           </button>
           <button
-            class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
+            class=" cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
             on:click={() => zoomChart(0.9)}
             title="Zoom out"
           >
-            <ZoomOut class="h-6 w-6" />
+            <ZoomOut class="size-5" />
           </button>
 
           <!-- Bottom Controls -->
           <div class="mt-auto flex flex-col items-center pb-2">
             <!-- Screenshot -->
             <button
-              class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+              class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
               on:click={downloadChart}
               title="Screenshot"
             >
@@ -5541,7 +5544,7 @@
 
             <!-- Remove All -->
             <button
-              class="flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
+              class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
               on:click={removeAllDrawings}
               title="Remove all drawings"
             >
@@ -5576,7 +5579,7 @@
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
-                  class="absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  class="cursor-pointer absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
                   style="left: {marker.x}px"
                   on:click={(e) => handleEarningsClick(marker, e)}
                   aria-label="View earnings details"
