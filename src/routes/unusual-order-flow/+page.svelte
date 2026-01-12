@@ -23,6 +23,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
 
   import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
+  import UnusualOrderFlowExport from "$lib/components/UnusualOrderFlowExport.svelte";
   import { writable } from "svelte/store";
 
   export let data;
@@ -991,6 +992,35 @@
 
   let displayedData = [];
 
+  // Column reordering
+  let unusualOrderFlowResetColumnOrder: () => void;
+  let customColumnOrder = false;
+
+  // Table search
+  let tableSearchValue = "";
+  let tableSearchDisplayedData: any[] = [];
+
+  function tableSearch() {
+    if (!tableSearchValue?.trim()) {
+      tableSearchDisplayedData = [];
+      return;
+    }
+    const searchLower = tableSearchValue.toLowerCase().trim();
+    tableSearchDisplayedData = displayedData.filter((item: any) => {
+      return (
+        item?.ticker?.toLowerCase()?.includes(searchLower) ||
+        item?.exchange?.toLowerCase()?.includes(searchLower) ||
+        item?.assetType?.toLowerCase()?.includes(searchLower) ||
+        item?.transactionType?.toLowerCase()?.includes(searchLower)
+      );
+    });
+  }
+
+  function resetTableSearch() {
+    tableSearchValue = "";
+    tableSearchDisplayedData = [];
+  }
+
   // Stats variables
   let totalVolume = 0;
   let totalValue = 0;
@@ -1524,11 +1554,11 @@
             {(data?.user?.tier === "Pro"
               ? displayedData?.length
               : totalOrders
-            )?.toLocaleString("en-US")} Orders Found
+            )?.toLocaleString("en-US")}
           </span>
         </div>
 
-        <div class="flex flex-row items-center w-full mt-5">
+        <div class="flex flex-row items-center w-full mt-3">
           <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
             <div
               class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
@@ -2691,14 +2721,113 @@
         <!-- End Stats Grid -->
 
         <!-- Page wrapper -->
-        <div class="flex w-full m-auto h-full overflow-hidden">
+        <div class="flex flex-col w-full m-auto h-full overflow-hidden">
           {#if displayedData?.length !== 0}
+            <!-- Table toolbar: Find, Download, Reset Column Order -->
+            <div
+              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+            >
+              <div
+                class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+              >
+                <h2
+                  class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                >
+                  {(data?.user?.tier === "Pro"
+                    ? displayedData?.length
+                    : totalOrders
+                  )?.toLocaleString("en-US")} Orders
+                </h2>
+              </div>
+              <div
+                class="flex {customColumnOrder
+                  ? 'flex-col sm:flex-row sm:items-center'
+                  : 'flex-row items-center'} w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+              >
+                <!-- Find input -->
+                <div
+                  class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+                >
+                  <div
+                    class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                  >
+                    {#if tableSearchValue?.length > 0}
+                      <label
+                        class="cursor-pointer"
+                        on:click={() => resetTableSearch()}
+                      >
+                        <svg
+                          class="w-5 h-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                          />
+                        </svg>
+                      </label>
+                    {/if}
+                  </div>
+
+                  <input
+                    bind:value={tableSearchValue}
+                    on:input={tableSearch}
+                    type="text"
+                    placeholder="Find..."
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  />
+                </div>
+
+                <!-- Download + Reset Column Order -->
+                <div
+                  class="{customColumnOrder
+                    ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
+                    : 'ml-2 w-fit'} flex items-center justify-end gap-2"
+                >
+                  <UnusualOrderFlowExport
+                    {data}
+                    rawData={tableSearchDisplayedData?.length > 0
+                      ? tableSearchDisplayedData
+                      : rawData}
+                    {selectedDate}
+                  />
+
+                  {#if customColumnOrder}
+                    <button
+                      on:click={() => unusualOrderFlowResetColumnOrder?.()}
+                      title="Reset column order"
+                      class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  {/if}
+                </div>
+              </div>
+            </div>
+
             <div class="mt-3 w-full overflow-x-auto overflow-hidden">
               <UnusualOrderFlowTable
                 {data}
-                {displayedData}
+                displayedData={tableSearchDisplayedData?.length > 0
+                  ? tableSearchDisplayedData
+                  : displayedData}
                 {filteredData}
                 {rawData}
+                bind:resetColumnOrder={unusualOrderFlowResetColumnOrder}
+                bind:customColumnOrder
               />
               <div class="-mt-3">
                 <UpgradeToPro {data} display={true} />

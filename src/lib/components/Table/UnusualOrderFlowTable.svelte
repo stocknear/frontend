@@ -4,11 +4,109 @@
   import VirtualList from "svelte-tiny-virtual-list";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import { mode } from "mode-watcher";
+  import { browser } from "$app/environment";
 
   export let data;
   export let displayedData = [];
   export let filteredData = [];
   export let rawData = [];
+
+  // Column reordering
+  const defaultColumns = [
+    { key: "date", label: "Date", align: "start" },
+    { key: "ticker", label: "Symbol", align: "end" },
+    { key: "price", label: "Price", align: "end" },
+    { key: "premium", label: "Avg. Paid", align: "end" },
+    { key: "size", label: "Size", align: "end" },
+    { key: "volume", label: "Volume", align: "end" },
+    { key: "sizeVolRatio", label: "% Size / Vol", align: "end" },
+    { key: "sizeAvgVolRatio", label: "% Size / Avg Vol", align: "end" },
+    { key: "transactionType", label: "Type", align: "end" },
+    { key: "exchange", label: "Exchange", align: "end" },
+    { key: "assetType", label: "Asset type", align: "end" },
+  ];
+
+  const COLUMN_ORDER_KEY = "unusualOrderFlowColumnOrder";
+
+  let columns = [...defaultColumns];
+  let customColumnOrder = false;
+
+  // Load saved column order from localStorage
+  if (browser) {
+    const saved = localStorage.getItem(COLUMN_ORDER_KEY);
+    if (saved) {
+      try {
+        const savedOrder = JSON.parse(saved);
+        const reordered = savedOrder
+          .map((key: string) => defaultColumns.find((col) => col.key === key))
+          .filter(Boolean);
+        if (reordered.length === defaultColumns.length) {
+          columns = reordered;
+          // Check if order differs from default
+          customColumnOrder = savedOrder.some(
+            (key: string, i: number) => key !== defaultColumns[i].key,
+          );
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  // Drag-and-drop state
+  let draggedColumnIndex: number | null = null;
+
+  function handleDragStart(event: DragEvent, index: number) {
+    draggedColumnIndex = index;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = "move";
+    }
+    const target = event.target as HTMLElement;
+    target.style.opacity = "0.5";
+  }
+
+  function handleDragEnd(event: DragEvent) {
+    draggedColumnIndex = null;
+    const target = event.target as HTMLElement;
+    target.style.opacity = "1";
+  }
+
+  function handleDragOver(event: DragEvent) {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = "move";
+    }
+  }
+
+  function handleDrop(event: DragEvent, targetIndex: number) {
+    event.preventDefault();
+    if (draggedColumnIndex === null || draggedColumnIndex === targetIndex)
+      return;
+
+    const newColumns = [...columns];
+    const [removed] = newColumns.splice(draggedColumnIndex, 1);
+    newColumns.splice(targetIndex, 0, removed);
+    columns = newColumns;
+
+    // Save to localStorage
+    if (browser) {
+      const order = columns.map((col) => col.key);
+      localStorage.setItem(COLUMN_ORDER_KEY, JSON.stringify(order));
+      customColumnOrder = order.some(
+        (key, i) => key !== defaultColumns[i].key,
+      );
+    }
+  }
+
+  function resetColumnOrder() {
+    columns = [...defaultColumns];
+    customColumnOrder = false;
+    if (browser) {
+      localStorage.removeItem(COLUMN_ORDER_KEY);
+    }
+  }
+
+  export { resetColumnOrder, customColumnOrder };
 
   function formatToNewYorkTime(isoString) {
     const date = new Date(isoString);
@@ -139,232 +237,53 @@
 <div class="w-full overflow-x-auto">
   <!-- Set a min-width on smaller screens so the grid can show all columns -->
   <div
-    class="min-w-[1000px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+    class="min-w-[1200px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
   >
     <!-- Header row using grid -->
     <div
       class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-11 sticky top-0 z-10 border-b border-gray-300 dark:border-zinc-700 font-semibold text-[11px] uppercase tracking-wide"
     >
-      <div
-        on:click={() => sortData("date")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
-      >
-        Date
-      </div>
-      <div
-        on:click={() => sortData("ticker")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Symbol
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['ticker'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['ticker'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
+      {#each columns as column, colIndex (column.key)}
+        {@const sortKey = column.key === "ticker" ? "ticker" : column.key}
+        <div
+          draggable="true"
+          on:dragstart={(e) => handleDragStart(e, colIndex)}
+          on:dragend={handleDragEnd}
+          on:dragover={handleDragOver}
+          on:drop={(e) => handleDrop(e, colIndex)}
+          on:click={() => sortData(sortKey)}
+          class="cursor-pointer p-2 text-{column.align} select-none whitespace-nowrap"
         >
-      </div>
-
-      <div
-        on:click={() => sortData("price")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Price
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['price'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['price'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("premium")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Avg. Paid
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['premium'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['premium'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("size")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Size
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['size'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['size'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("volume")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Volume
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['volume'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['volume'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("sizeVolRatio")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        % Size / Vol
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['sizeVolRatio'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['sizeVolRatio'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("sizeAvgVolRatio")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        % Size / Avg Vol
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['sizeAvgVolRatio'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['sizeAvgVolRatio'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-
-      <div
-        on:click={() => sortData("transactionType")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Type
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['transactionType'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['transactionType'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("exchange")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Exchange
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['exchange'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['exchange'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
-      <div
-        on:click={() => sortData("assetType")}
-        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
-      >
-        Asset type
-        <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['assetType'] === 'asc'
-            ? 'rotate-180 inline-block'
-            : sortOrders['assetType'] === 'desc'
-              ? 'inline-block'
-              : 'hidden'} "
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:50px"
-          ><path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path></svg
-        >
-      </div>
+          <svg
+            class="inline-block w-3 h-3 mr-1 opacity-40 cursor-grab"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <circle cx="9" cy="6" r="1.5" />
+            <circle cx="15" cy="6" r="1.5" />
+            <circle cx="9" cy="12" r="1.5" />
+            <circle cx="15" cy="12" r="1.5" />
+            <circle cx="9" cy="18" r="1.5" />
+            <circle cx="15" cy="18" r="1.5" />
+          </svg>
+          {column.label}
+          <svg
+            class="shrink-0 w-4 h-4 -mt-1 {sortOrders[sortKey] === 'asc'
+              ? 'rotate-180 inline-block'
+              : sortOrders[sortKey] === 'desc'
+                ? 'inline-block'
+                : 'hidden'} "
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:50px"
+            ><path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path></svg
+          >
+        </div>
+      {/each}
     </div>
 
     <!-- VirtualList renders rows in a grid -->
@@ -389,66 +308,6 @@
         class:opacity-30={index + 1 === rawData?.length &&
           data?.user?.tier !== "Pro"}
       >
-        <!-- Date Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
-        >
-          {$screenWidth < 640
-            ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
-            : formatToNewYorkTime(displayedData[index]?.date)}
-        </div>
-        <!-- Symbol Column -->
-        <div
-          class="p-2 text-end text-sm sm:text-[0.95rem] relative z-10 text-gray-700 dark:text-zinc-200"
-        >
-          <HoverStockChart
-            symbol={displayedData[index]?.ticker}
-            assetType={displayedData[index]?.assetType}
-          />
-        </div>
-        <!-- Price Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-        >
-          {displayedData[index]?.price}
-        </div>
-        <!-- Premium Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-        >
-          {abbreviateNumber(displayedData[index]?.premium, true, true)}
-        </div>
-        <!-- Size Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-        >
-          {new Intl.NumberFormat("en", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          }).format(displayedData[index]?.size)}
-        </div>
-        <!-- Volume Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-        >
-          {displayedData[index]?.volume?.toLocaleString("en-US")}
-        </div>
-        <!-- % Size / Vol Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-        >
-          {displayedData[index]?.sizeVolRatio > 0.01
-            ? displayedData[index]?.sizeVolRatio?.toFixed(2) + "%"
-            : "< 0.01%"}
-        </div>
-        <!-- % Size / Avg Vol Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-        >
-          {displayedData[index]?.sizeAvgVolRatio > 0.01
-            ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
-            : "< 0.01%"}
-        </div>
         {@const transactionType = displayedData[index]?.transactionType || ""}
         {@const transactionLabel = transactionType
           ?.replace("DP", "Dark Pool")
@@ -456,33 +315,96 @@
         {@const isDarkPool =
           transactionType === "DP" ||
           transactionType?.toLowerCase().includes("dark")}
-        <!-- Transaction Type Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
-        >
-          <span class="inline-flex items-center justify-end gap-2 w-full">
-            <span
-              class={`h-1.5 w-1.5 rounded-full ${
-                isDarkPool
-                  ? "bg-violet-500/70 dark:bg-violet-400/70"
-                  : "bg-amber-500/70 dark:bg-amber-400/70"
-              }`}
-            ></span>
-            <span class="whitespace-nowrap">{transactionLabel}</span>
-          </span>
-        </div>
-        <!-- Exchange Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
-        >
-          {displayedData[index]?.exchange}
-        </div>
-        <!-- Asset Type Column -->
-        <div
-          class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300"
-        >
-          {displayedData[index]?.assetType}
-        </div>
+        {#each columns as column (column.key)}
+          {#if column.key === "date"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
+            >
+              {$screenWidth < 640
+                ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
+                : formatToNewYorkTime(displayedData[index]?.date)}
+            </div>
+          {:else if column.key === "ticker"}
+            <div
+              class="p-2 text-end text-sm sm:text-[0.95rem] relative z-10 text-gray-700 dark:text-zinc-200"
+            >
+              <HoverStockChart
+                symbol={displayedData[index]?.ticker}
+                assetType={displayedData[index]?.assetType}
+              />
+            </div>
+          {:else if column.key === "price"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+            >
+              {displayedData[index]?.price}
+            </div>
+          {:else if column.key === "premium"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+            >
+              {abbreviateNumber(displayedData[index]?.premium, true, true)}
+            </div>
+          {:else if column.key === "size"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+            >
+              {new Intl.NumberFormat("en", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(displayedData[index]?.size)}
+            </div>
+          {:else if column.key === "volume"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+            >
+              {displayedData[index]?.volume?.toLocaleString("en-US")}
+            </div>
+          {:else if column.key === "sizeVolRatio"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+            >
+              {displayedData[index]?.sizeVolRatio > 0.01
+                ? displayedData[index]?.sizeVolRatio?.toFixed(2) + "%"
+                : "< 0.01%"}
+            </div>
+          {:else if column.key === "sizeAvgVolRatio"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+            >
+              {displayedData[index]?.sizeAvgVolRatio > 0.01
+                ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
+                : "< 0.01%"}
+            </div>
+          {:else if column.key === "transactionType"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
+            >
+              <span class="inline-flex items-center justify-end gap-2 w-full">
+                <span
+                  class={`h-1.5 w-1.5 rounded-full ${
+                    isDarkPool
+                      ? "bg-violet-500/70 dark:bg-violet-400/70"
+                      : "bg-amber-500/70 dark:bg-amber-400/70"
+                  }`}
+                ></span>
+                <span class="whitespace-nowrap">{transactionLabel}</span>
+              </span>
+            </div>
+          {:else if column.key === "exchange"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
+            >
+              {displayedData[index]?.exchange}
+            </div>
+          {:else if column.key === "assetType"}
+            <div
+              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300"
+            >
+              {displayedData[index]?.assetType}
+            </div>
+          {/if}
+        {/each}
       </div>
     </VirtualList>
   </div>
