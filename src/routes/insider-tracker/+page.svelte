@@ -23,6 +23,21 @@
   let inputValue = "";
   let searchWorker: Worker | undefined;
 
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys = "";
+
+  // Default columns (without chart - chart is conditionally added)
+  const defaultColumns = [
+    { key: "symbol", label: "Symbol", align: "left" },
+    { key: "name", label: "Name", align: "left" },
+    { key: "reportingName", label: "Member", align: "left" },
+    { key: "marketCap", label: "Market Cap", align: "right" },
+    { key: "shares", label: "Shares", align: "right" },
+    { key: "value", label: "Market Value", align: "right" },
+    { key: "transactionType", label: "Type", align: "right" },
+  ];
+
   function processTickerData(data) {
     const symbolMap = new Map();
 
@@ -165,6 +180,9 @@
     // Load pagination preference
     loadRowsPerPage();
 
+    // Initialize column order
+    initColumnOrder();
+
     // Initialize pagination
     updatePaginatedData();
 
@@ -192,20 +210,22 @@
     updatePaginatedData(); // Update display with loaded preference
   }
 
+  // Apply custom column order and prepend chart column on desktop
+  $: {
+    const currentColumnKeys = defaultColumns.map((c) => c.key).join(",");
+    if (currentColumnKeys !== lastAppliedColumnKeys) {
+      lastAppliedColumnKeys = currentColumnKeys;
+      customColumnOrder = loadColumnOrder();
+    }
+  }
+
+  $: orderedColumns = applyColumnOrder([...defaultColumns], customColumnOrder);
+
   $: columns = [
     ...($screenWidth > 1024
       ? [{ key: "chart", label: "", align: "right" }]
       : []),
-    { key: "symbol", label: "Symbol", align: "left" },
-    { key: "name", label: "Name", align: "left" },
-
-    { key: "reportingName", label: "Member", align: "left" },
-    { key: "marketCap", label: "Market Cap", align: "right" },
-    { key: "shares", label: "Shares", align: "right" },
-    { key: "value", label: "Market Value", align: "right" },
-    { key: "transactionType", label: "Type", align: "right" },
-    //{ key: "transactionDate", label: "Transaction", align: "right" },
-    //{ key: "filingDate", label: "Filed", align: "right" },
+    ...orderedColumns,
   ];
 
   let sortOrders = {
@@ -264,15 +284,15 @@
           valueB = new Date(b[key]);
           break;
         case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
+          valueA = (a[key] ?? "").toUpperCase();
+          valueB = (b[key] ?? "").toUpperCase();
           return sortOrder === "asc"
             ? valueA.localeCompare(valueB)
             : valueB.localeCompare(valueA);
         case "number":
         default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
           break;
       }
 
@@ -305,6 +325,84 @@
     } else {
       checkedSymbol = symbol;
     }
+  }
+
+  // Column reordering functions
+  function getColumnOrderStorageKey() {
+    return `${pagePathName}_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+    order: string[],
+  ): typeof defaultColumns {
+    if (!order.length) return cols;
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof defaultColumns = [];
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+    // Add any remaining columns not in the saved order
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+    return ordered;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number) {
+    // Don't allow reordering of the chart column (index 0 on desktop)
+    const hasChartColumn = columns[0]?.key === "chart";
+    if (hasChartColumn && (fromIndex === 0 || toIndex === 0)) {
+      return; // Chart column must stay in place
+    }
+
+    // Create a copy of current columns and reorder
+    const reordered = [...columns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+
+    // Filter out chart column from the order (it's always first when shown)
+    const reorderableColumns = reordered.filter((c) => c.key !== "chart");
+    customColumnOrder = reorderableColumns.map((c) => c.key);
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  function initColumnOrder() {
+    customColumnOrder = loadColumnOrder();
   }
 </script>
 
@@ -437,6 +535,28 @@
                     title={"insider_tracker"}
                   />
                 </div>
+
+                {#if customColumnOrder?.length > 0}
+                  <button
+                    on:click={resetColumnOrder}
+                    title="Reset column order"
+                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                {/if}
               </div>
             </div>
           </div>
@@ -450,7 +570,12 @@
                   class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
-                    <TableHeader {columns} {sortOrders} {sortData} />
+                    <TableHeader
+                      {columns}
+                      {sortOrders}
+                      {sortData}
+                      onColumnReorder={handleColumnReorder}
+                    />
                   </thead>
                   <tbody
                     class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -459,71 +584,78 @@
                       <tr
                         class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                       >
-                        <td class="hidden lg:table-cell"
-                          ><button
-                            on:click={() => openGraph(item?.symbol)}
-                            class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
-                            ><svg
-                              class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
-                              item?.symbol
-                                ? 'rotate-180'
-                                : ''}"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              style="max-width:40px"
-                              ><path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                              ></path></svg
-                            ></button
-                          ></td
-                        >
-
-                        <td
-                          class="text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
-                        >
-                          <HoverStockChart symbol={item?.symbol} />
-                        </td>
-                        <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
-                        >
-                          {item?.name?.length > charNumber
-                            ? item?.name?.slice(0, charNumber) + "..."
-                            : item?.name}
-                        </td>
-
-                        <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
-                        >
-                          {item?.reportingName?.length > charNumber
-                            ? item?.reportingName?.slice(0, charNumber) + "..."
-                            : item?.reportingName}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
-                        >
-                          {abbreviateNumber(item?.marketCap)}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
-                        >
-                          {item?.shares?.toLocaleString("en-US")}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
-                        >
-                          {abbreviateNumber(item?.value)}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                        >
-                          {item?.transactionType}
-                        </td>
+                        {#each columns as column}
+                          {#if column.key === "chart"}
+                            <td class="hidden lg:table-cell">
+                              <button
+                                on:click={() => openGraph(item?.symbol)}
+                                class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
+                              >
+                                <svg
+                                  class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                  item?.symbol
+                                    ? 'rotate-180'
+                                    : ''}"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  style="max-width:40px"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </td>
+                          {:else if column.key === "symbol"}
+                            <td
+                              class="text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
+                            >
+                              <HoverStockChart symbol={item?.symbol} />
+                            </td>
+                          {:else if column.key === "name"}
+                            <td
+                              class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
+                            >
+                              {item?.name?.length > charNumber
+                                ? item?.name?.slice(0, charNumber) + "..."
+                                : item?.name}
+                            </td>
+                          {:else if column.key === "reportingName"}
+                            <td
+                              class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
+                            >
+                              {item?.reportingName?.length > charNumber
+                                ? item?.reportingName?.slice(0, charNumber) + "..."
+                                : item?.reportingName}
+                            </td>
+                          {:else if column.key === "marketCap"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                            >
+                              {abbreviateNumber(item?.marketCap)}
+                            </td>
+                          {:else if column.key === "shares"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                            >
+                              {item?.shares?.toLocaleString("en-US")}
+                            </td>
+                          {:else if column.key === "value"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                            >
+                              {abbreviateNumber(item?.value)}
+                            </td>
+                          {:else if column.key === "transactionType"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                            >
+                              {item?.transactionType}
+                            </td>
+                          {/if}
+                        {/each}
                         <!--
                       <td
                         class="text-end text-sm sm:text-[1rem] whitespace-nowrap"

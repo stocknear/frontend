@@ -22,6 +22,10 @@
 
   export let data;
 
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys = "";
+
   // Daily pagination state (used in Daily/Details view)
   let dailyCurrentPage = 1;
   let dailyRowsPerPage = 20;
@@ -276,6 +280,7 @@
 
   onMount(() => {
     loadDailyRowsPerPage();
+    initColumnOrder();
     updateDailyPagination();
   });
 
@@ -289,7 +294,7 @@
     updateDailyPagination();
   }
 
-  let columns = [
+  const defaultColumns = [
     { key: "symbol", label: "Symbol", align: "left" },
     { key: "name", label: "Name", align: "left" },
     { key: "marketCap", label: "Market Cap", align: "right" },
@@ -298,6 +303,17 @@
     { key: "date", label: "Ex-Dividend Date", align: "right" },
     { key: "paymentDate", label: "Payment Date", align: "right" },
   ];
+
+  // Apply custom column order
+  $: {
+    const currentColumnKeys = defaultColumns.map((c) => c.key).join(",");
+    if (currentColumnKeys !== lastAppliedColumnKeys) {
+      lastAppliedColumnKeys = currentColumnKeys;
+      customColumnOrder = loadColumnOrder();
+    }
+  }
+
+  $: columns = applyColumnOrder([...defaultColumns], customColumnOrder);
 
   let sortOrders = {
     symbol: { order: "none", type: "string" },
@@ -368,6 +384,76 @@
     weekday[selectedWeekday] = [...originalData]?.sort(compareValues);
     resetDailyPagination();
   };
+
+  // Column reordering functions
+  function getColumnOrderStorageKey() {
+    return `${dailyPagePathName}_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+    order: string[],
+  ): typeof defaultColumns {
+    if (!order.length) return cols;
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof defaultColumns = [];
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+    // Add any remaining columns not in the saved order
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+    return ordered;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number) {
+    // Create a copy of current columns and reorder
+    const reordered = [...columns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+
+    customColumnOrder = reordered.map((c) => c.key);
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  function initColumnOrder() {
+    customColumnOrder = loadColumnOrder();
+  }
 </script>
 
 <SEO
@@ -592,19 +678,48 @@
                 {#each weekday as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <h2
-                        class="font-semibold text-xl mt-5 text-gray-900 dark:text-white"
-                      >
-                        {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
-                        Dividends
-                      </h2>
+                      <div class="flex flex-row items-center justify-between mt-5">
+                        <h2
+                          class="font-semibold text-xl text-gray-900 dark:text-white"
+                        >
+                          {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
+                          Dividends
+                        </h2>
+
+                        {#if customColumnOrder?.length > 0}
+                          <button
+                            on:click={resetColumnOrder}
+                            title="Reset column order"
+                            class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                          >
+                            <svg
+                              class="w-4 h-4"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        {/if}
+                      </div>
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
                           class="table table-sm table-compact rounded-none sm:rounded w-full {tableBorderClasses} m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
-                            <TableHeader {columns} {sortOrders} {sortData} />
+                            <TableHeader
+                              {columns}
+                              {sortOrders}
+                              {sortData}
+                              onColumnReorder={handleColumnReorder}
+                            />
                           </thead>
                           <tbody
                             class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -614,80 +729,84 @@
                               <tr
                                 class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                               >
-                                <td
-                                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                                >
-                                  <HoverStockChart symbol={item?.symbol} />
-                                </td>
-
-                                <td
-                                  class="whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
-                                >
-                                  {item?.name.length > 20
-                                    ? item?.name.slice(0, 20) + "..."
-                                    : item?.name}
-                                </td>
-
-                                <td
-                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {@html item?.marketCap !== null
-                                    ? abbreviateNumber(
-                                        item?.marketCap,
-                                        false,
-                                        true,
-                                      )
-                                    : "n/a"}
-                                </td>
-
-                                <td
-                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.revenue !== null
-                                    ? abbreviateNumber(item?.revenue)
-                                    : "n/a"}
-                                </td>
-
-                                <td
-                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.adjDividend !== null
-                                    ? item?.adjDividend?.toFixed(3)
-                                    : "n/a"}
-                                </td>
-
-                                <td
-                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.date !== null
-                                    ? new Date(item?.date)?.toLocaleString(
-                                        "en-US",
-                                        {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                          daySuffix: "2-digit",
-                                          timeZone: "UTC",
-                                        },
-                                      )
-                                    : "n/a"}
-                                </td>
-
-                                <td
-                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {item?.paymentDate !== null
-                                    ? new Date(
-                                        item?.paymentDate,
-                                      )?.toLocaleString("en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                        daySuffix: "2-digit",
-                                        timeZone: "UTC",
-                                      })
-                                    : "n/a"}
-                                </td>
+                                {#each columns as column}
+                                  {#if column.key === "symbol"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                    >
+                                      <HoverStockChart symbol={item?.symbol} />
+                                    </td>
+                                  {:else if column.key === "name"}
+                                    <td
+                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
+                                    >
+                                      {item?.name.length > 20
+                                        ? item?.name.slice(0, 20) + "..."
+                                        : item?.name}
+                                    </td>
+                                  {:else if column.key === "marketCap"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {@html item?.marketCap !== null
+                                        ? abbreviateNumber(
+                                            item?.marketCap,
+                                            false,
+                                            true,
+                                          )
+                                        : "n/a"}
+                                    </td>
+                                  {:else if column.key === "revenue"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.revenue !== null
+                                        ? abbreviateNumber(item?.revenue)
+                                        : "n/a"}
+                                    </td>
+                                  {:else if column.key === "adjDividend"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.adjDividend !== null
+                                        ? item?.adjDividend?.toFixed(3)
+                                        : "n/a"}
+                                    </td>
+                                  {:else if column.key === "date"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.date !== null
+                                        ? new Date(item?.date)?.toLocaleString(
+                                            "en-US",
+                                            {
+                                              month: "short",
+                                              day: "numeric",
+                                              year: "numeric",
+                                              daySuffix: "2-digit",
+                                              timeZone: "UTC",
+                                            },
+                                          )
+                                        : "n/a"}
+                                    </td>
+                                  {:else if column.key === "paymentDate"}
+                                    <td
+                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {item?.paymentDate !== null
+                                        ? new Date(
+                                            item?.paymentDate,
+                                          )?.toLocaleString("en-US", {
+                                            month: "short",
+                                            day: "numeric",
+                                            year: "numeric",
+                                            daySuffix: "2-digit",
+                                            timeZone: "UTC",
+                                          })
+                                        : "n/a"}
+                                    </td>
+                                  {/if}
+                                {/each}
                               </tr>
                             {/each}
                           </tbody>
