@@ -136,6 +136,9 @@
     // Load pagination preference
     loadRowsPerPage();
 
+    // Load column order preference
+    loadColumnOrder(true);
+
     // Initialize pagination
     updatePaginatedData();
 
@@ -155,6 +158,7 @@
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
     loadRowsPerPage(); // Load pagination preference for new page
+    loadColumnOrder(true); // Load column order preference for new page
     updatePaginatedData(); // Update display with loaded preference
   }
 
@@ -178,7 +182,7 @@
     return `${firstName?.charAt(0)}. ${lastName}`;
   }
 
-  let columns = [
+  const defaultColumns = [
     { key: "performanceScore", label: "Rank", align: "left" },
     { key: "representative", label: "Person", align: "left" },
     { key: "party", label: "Party", align: "right" },
@@ -188,6 +192,124 @@
     { key: "amount", label: "Amount", align: "right" },
     { key: "type", label: "Type", align: "right" },
   ];
+
+  let columns = [...defaultColumns];
+
+  // Column reordering state and functions
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") {
+      customColumnOrder = [];
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          customColumnOrder = parsed;
+          if (forceReapply) {
+            lastAppliedColumnKeys = "";
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+    customColumnOrder = [];
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(cols: typeof columns): typeof columns {
+    if (!customColumnOrder || customColumnOrder.length === 0) {
+      return cols;
+    }
+
+    const colMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedCols: typeof columns = [];
+    const usedKeys = new Set<string>();
+
+    for (const key of customColumnOrder) {
+      const col = colMap.get(key);
+      if (col) {
+        orderedCols.push(col);
+        usedKeys.add(key);
+      }
+    }
+
+    for (const col of cols) {
+      if (!usedKeys.has(col.key)) {
+        orderedCols.push(col);
+      }
+    }
+
+    return orderedCols;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    customColumnOrder = newColumns.map((col) => col.key);
+    saveColumnOrder(customColumnOrder);
+    lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
+    columns = newColumns;
+  }
+
+  function resetColumnOrder(): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      localStorage.removeItem(storageKey);
+    }
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+    columns = [...defaultColumns];
+  }
+
+  // Apply custom column order when needed
+  $: if (columns && columns.length > 0 && customColumnOrder.length > 0) {
+    const currentKeys = columns.map((c) => c.key).join("|");
+    const orderedKeys = customColumnOrder.join("|");
+    if (currentKeys !== orderedKeys && lastAppliedColumnKeys !== currentKeys) {
+      const currentKeySet = new Set(columns.map((c) => c.key));
+      const matchingKeys = customColumnOrder.filter((key) =>
+        currentKeySet.has(key),
+      );
+      const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+      if (compatibilityRatio >= 0.5) {
+        lastAppliedColumnKeys = currentKeys;
+        const reordered = applyColumnOrder(columns);
+        const reorderedKeys = reordered.map((c) => c.key).join("|");
+        if (reorderedKeys !== currentKeys) {
+          columns = reordered;
+        }
+      }
+    }
+  }
 
   let sortOrders = {
     performanceScore: { order: "none", type: "number" },
@@ -422,9 +544,12 @@
                           Trades
                         </h2>
                         <div
-                          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                          class="mt-1 w-full flex flex-row items-center pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
                         >
-                          <div class="relative lg:ml-auto w-full lg:w-fit">
+                          <!-- Find input - grows to fill space but shrinks when needed -->
+                          <div
+                            class="relative ml-auto flex-1 min-w-0 sm:flex-none sm:w-fit"
+                          >
                             <div
                               class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                             >
@@ -451,17 +576,41 @@
                               on:input={search}
                               type="text"
                               placeholder="Find..."
-                              class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
                             />
                           </div>
 
-                          <div class="ml-2">
+                          <!-- Download button -->
+                          <div class="ml-2 shrink-0">
                             <DownloadData
                               {data}
                               rawData={originalData}
                               title={"congress_flow_data"}
                             />
                           </div>
+
+                          <!-- Reset column order button -->
+                          {#if customColumnOrder?.length > 0}
+                            <button
+                              on:click={resetColumnOrder}
+                              title="Reset column order"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </button>
+                          {/if}
                         </div>
                       </div>
                     </div>
@@ -475,7 +624,12 @@
                             class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                           >
                             <thead>
-                              <TableHeader {columns} {sortOrders} {sortData} />
+                              <TableHeader
+                                {columns}
+                                {sortOrders}
+                                {sortData}
+                                onColumnReorder={handleColumnReorder}
+                              />
                             </thead>
                             <tbody
                               class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -484,109 +638,125 @@
                                 <tr
                                   class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                                 >
-                                  <td
-                                    class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row mt-2.5 sm:mt-0 items-center text-gray-700 dark:text-zinc-200 tabular-nums"
-                                  >
-                                    {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
-                                      <div>
-                                        {Number(item?.performanceScore).toFixed(
-                                          1,
-                                        )}
-                                      </div>
-                                    {:else}
-                                      <div>n/a</div>
-                                    {/if}
-                                    <svg
-                                      class="ml-1 w-4 h-4"
-                                      aria-hidden="true"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="#FFA500"
-                                      viewBox="0 0 22 20"
-                                    >
-                                      <path
-                                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                      />
-                                    </svg>
-                                  </td>
-                                  <td
-                                    class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                                  >
-                                    <a
-                                      href={`/politicians/${item?.id}`}
-                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                      >{getAbbreviatedName(
-                                        item?.representative?.replace("_", " "),
-                                      )}</a
-                                    >
-                                  </td>
-                                  <td
-                                    class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                                  >
-                                    {item?.party}
-                                  </td>
-
-                                  <td
-                                    class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
-                                  >
-                                    <HoverStockChart
-                                      symbol={item?.ticker}
-                                      assetType={item?.assetType}
-                                    />
-                                  </td>
-                                  <td
-                                    class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
-                                  >
-                                    <span class=""
-                                      >{item?.assetDescription.length >
-                                      charNumber
-                                        ? formatString(
-                                            item?.assetDescription.slice(
-                                              0,
-                                              charNumber,
+                                  {#each columns as column}
+                                    {#if column.key === "performanceScore"}
+                                      <td
+                                        class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row mt-2.5 sm:mt-0 items-center text-gray-700 dark:text-zinc-200 tabular-nums"
+                                      >
+                                        {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
+                                          <div>
+                                            {Number(
+                                              item?.performanceScore,
+                                            ).toFixed(1)}
+                                          </div>
+                                        {:else}
+                                          <div>n/a</div>
+                                        {/if}
+                                        <svg
+                                          class="ml-1 w-4 h-4"
+                                          aria-hidden="true"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          fill="#FFA500"
+                                          viewBox="0 0 22 20"
+                                        >
+                                          <path
+                                            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                          />
+                                        </svg>
+                                      </td>
+                                    {:else if column.key === "representative"}
+                                      <td
+                                        class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                      >
+                                        <a
+                                          href={`/politicians/${item?.id}`}
+                                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                          >{getAbbreviatedName(
+                                            item?.representative?.replace(
+                                              "_",
+                                              " ",
                                             ),
-                                          ) + "..."
-                                        : formatString(item?.assetDescription)
-                                            ?.replace("- Common Stock", "")
-                                            ?.replace("Common Stock", "")}</span
-                                    >
-                                  </td>
-
-                                  <td
-                                    class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                                  >
-                                    {new Date(
-                                      item?.disclosureDate,
-                                    )?.toLocaleString("en-US", {
-                                      month: "short",
-                                      day: "numeric",
-                                      year: "numeric",
-                                      daySuffix: "2-digit",
-                                    })}
-                                  </td>
-
-                                  <td
-                                    class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
-                                  >
-                                    {item?.amount?.replace(
-                                      "$1,000,001 - $5,000,000",
-                                      "$1Mio - $5Mio",
-                                    )}
-                                  </td>
-                                  <td
-                                    class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300"
-                                  >
-                                    {#if item?.type === "Bought"}
-                                      <span
-                                        class="text-emerald-600 dark:text-emerald-400"
-                                        >Bought</span
+                                          )}</a
+                                        >
+                                      </td>
+                                    {:else if column.key === "party"}
+                                      <td
+                                        class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                                       >
-                                    {:else if item?.type === "Sold"}
-                                      <span
-                                        class="text-rose-600 dark:text-rose-400"
-                                        >Sold</span
+                                        {item?.party}
+                                      </td>
+                                    {:else if column.key === "ticker"}
+                                      <td
+                                        class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
                                       >
+                                        <HoverStockChart
+                                          symbol={item?.ticker}
+                                          assetType={item?.assetType}
+                                        />
+                                      </td>
+                                    {:else if column.key === "assetDescription"}
+                                      <td
+                                        class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
+                                      >
+                                        <span
+                                          >{item?.assetDescription.length >
+                                          charNumber
+                                            ? formatString(
+                                                item?.assetDescription.slice(
+                                                  0,
+                                                  charNumber,
+                                                ),
+                                              ) + "..."
+                                            : formatString(
+                                                item?.assetDescription,
+                                              )
+                                                ?.replace("- Common Stock", "")
+                                                ?.replace(
+                                                  "Common Stock",
+                                                  "",
+                                                )}</span
+                                        >
+                                      </td>
+                                    {:else if column.key === "disclosureDate"}
+                                      <td
+                                        class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      >
+                                        {new Date(
+                                          item?.disclosureDate,
+                                        )?.toLocaleString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                          daySuffix: "2-digit",
+                                        })}
+                                      </td>
+                                    {:else if column.key === "amount"}
+                                      <td
+                                        class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      >
+                                        {item?.amount?.replace(
+                                          "$1,000,001 - $5,000,000",
+                                          "$1Mio - $5Mio",
+                                        )}
+                                      </td>
+                                    {:else if column.key === "type"}
+                                      <td
+                                        class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300"
+                                      >
+                                        {#if item?.type === "Bought"}
+                                          <span
+                                            class="text-emerald-600 dark:text-emerald-400"
+                                            >Bought</span
+                                          >
+                                        {:else if item?.type === "Sold"}
+                                          <span
+                                            class="text-rose-600 dark:text-rose-400"
+                                            >Sold</span
+                                          >
+                                        {/if}
+                                      </td>
                                     {/if}
-                                  </td>
+                                  {/each}
                                 </tr>
                               {/each}
                             </tbody>
