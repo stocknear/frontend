@@ -10,7 +10,10 @@ export const handle = sequence(async ({ event, resolve }) => {
   const fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
   const wsURL = import.meta.env.VITE_USEAST_WS_URL;
   
-  const themeMode = event?.cookies?.get("theme-mode") || "dark";
+  // Sanitize theme-mode to prevent XSS injection - only allow valid theme values
+  const rawThemeMode = event?.cookies?.get("theme-mode") || "dark";
+  const VALID_THEMES = ["dark", "light"];
+  const themeMode = VALID_THEMES?.includes(rawThemeMode) ? rawThemeMode : "dark";
 
   // Parse cookie consent
   let cookieConsent: { necessary: boolean; analytics: boolean; marketing: boolean } | null = null;
