@@ -1826,52 +1826,8 @@
             </div>
           </div>
 
-          <div class="sm:ml-auto w-full sm:w-fit pt-5">
+          <div class="sm:ml-auto w-full sm:w-fit">
             <div class="relative flex flex-col sm:flex-row items-center">
-              <div
-                class="search-driver relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-white/80 dark:bg-zinc-950/60 rounded-full border border-gray-300 dark:border-zinc-700"
-              >
-                <label class=" flex flex-row items-center">
-                  <input
-                    id="modal-search"
-                    class="focus:outline-none sm:ml-2 text-sm placeholder:text-gray-800 dark:placeholder:text-zinc-300 border-transparent bg-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5 text-gray-700 dark:text-zinc-200"
-                    placeholder="Find..."
-                    bind:value={filterQuery}
-                    on:input={debouncedHandleInput}
-                    autocomplete="off"
-                  />
-                  {#if filterQuery?.length > 0}
-                    <label
-                      class="cursor-pointer"
-                      on:click={() => {
-                        filterQuery = "";
-                        shouldLoadWorker.set(true);
-                      }}
-                    >
-                      <svg
-                        class="ml-auto h-6 w-6 inline-block mr-3 text-gray-500 dark:text-zinc-400"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        ><path
-                          fill="currentColor"
-                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                        /></svg
-                      >
-                    </label>
-                  {:else}
-                    <svg
-                      class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5 text-gray-500 dark:text-zinc-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
-                      /></svg
-                    >
-                  {/if}
-                </label>
-              </div>
-
               <Popover.Root>
                 <Popover.Trigger asChild let:builder>
                   <Button
@@ -1879,7 +1835,7 @@
                       toast?.info("Feature is coming soon 🔥", {
                         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
                       })}
-                    class="date-picker-driver font-semibold w-full sm:w-[160px] truncate sm:mr-3 py-2.5 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-300 dark:border-zinc-700 rounded-full hover:text-violet-600 dark:hover:text-violet-300"
+                    class="date-picker-driver font-semibold w-full sm:w-[160px] truncate  py-2.5 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-300 dark:border-zinc-700 rounded-full hover:text-violet-600 dark:hover:text-violet-300"
                     builders={[builder]}
                   >
                     <CalendarIcon

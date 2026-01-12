@@ -55,6 +55,7 @@
 
   // Drag-and-drop state
   let draggedColumnIndex: number | null = null;
+  let dragOverColumnIndex: number | null = null;
 
   function handleDragStart(event: DragEvent, index: number) {
     draggedColumnIndex = index;
@@ -66,15 +67,29 @@
   }
 
   function handleDragEnd(event: DragEvent) {
-    draggedColumnIndex = null;
     const target = event.target as HTMLElement;
     target.style.opacity = "1";
+    draggedColumnIndex = null;
+    dragOverColumnIndex = null;
   }
 
-  function handleDragOver(event: DragEvent) {
+  function handleDragOver(event: DragEvent, index: number) {
+    if (draggedColumnIndex === null) return;
     event.preventDefault();
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "move";
+    }
+    if (index !== draggedColumnIndex) {
+      dragOverColumnIndex = index;
+    }
+  }
+
+  function handleDragLeave(event: DragEvent) {
+    // Only reset if we're leaving the element completely
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    if (!currentTarget.contains(relatedTarget)) {
+      dragOverColumnIndex = null;
     }
   }
 
@@ -96,6 +111,8 @@
         (key, i) => key !== defaultColumns[i].key,
       );
     }
+    draggedColumnIndex = null;
+    dragOverColumnIndex = null;
   }
 
   function resetColumnOrder() {
@@ -248,40 +265,46 @@
         <div
           draggable="true"
           on:dragstart={(e) => handleDragStart(e, colIndex)}
-          on:dragend={handleDragEnd}
-          on:dragover={handleDragOver}
+          on:dragover={(e) => handleDragOver(e, colIndex)}
+          on:dragleave={handleDragLeave}
           on:drop={(e) => handleDrop(e, colIndex)}
+          on:dragend={handleDragEnd}
           on:click={() => sortData(sortKey)}
-          class="cursor-pointer p-2 text-{column.align} select-none whitespace-nowrap"
+          class="p-2 text-{column.align} select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
+            {dragOverColumnIndex === colIndex && draggedColumnIndex !== colIndex
+            ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
+            : ''}"
         >
-          <svg
-            class="inline-block w-3 h-3 mr-1 opacity-40 cursor-grab"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <circle cx="9" cy="6" r="1.5" />
-            <circle cx="15" cy="6" r="1.5" />
-            <circle cx="9" cy="12" r="1.5" />
-            <circle cx="15" cy="12" r="1.5" />
-            <circle cx="9" cy="18" r="1.5" />
-            <circle cx="15" cy="18" r="1.5" />
-          </svg>
-          {column.label}
-          <svg
-            class="shrink-0 w-4 h-4 -mt-1 {sortOrders[sortKey] === 'asc'
-              ? 'rotate-180 inline-block'
-              : sortOrders[sortKey] === 'desc'
-                ? 'inline-block'
-                : 'hidden'} "
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            style="max-width:50px"
-            ><path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path></svg
-          >
+          <span class="inline-flex items-center gap-1">
+            <svg
+              class="inline-block w-3 h-3 opacity-40"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <circle cx="9" cy="6" r="1.5" />
+              <circle cx="15" cy="6" r="1.5" />
+              <circle cx="9" cy="12" r="1.5" />
+              <circle cx="15" cy="12" r="1.5" />
+              <circle cx="9" cy="18" r="1.5" />
+              <circle cx="15" cy="18" r="1.5" />
+            </svg>
+            {column.label}
+            <svg
+              class="shrink-0 w-4 h-4 -mt-1 {sortOrders[sortKey] === 'asc'
+                ? 'rotate-180 inline-block'
+                : sortOrders[sortKey] === 'desc'
+                  ? 'inline-block'
+                  : 'hidden'} "
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:50px"
+              ><path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path></svg
+            >
+          </span>
         </div>
       {/each}
     </div>
