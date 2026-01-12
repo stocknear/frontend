@@ -2688,7 +2688,7 @@
                   {(data?.user?.tier === "Pro"
                     ? displayedData?.length
                     : totalOrders
-                  )?.toLocaleString("en-US")} Orders
+                  )?.toLocaleString("en-US")} Trades
                 </h2>
               </div>
               <div
@@ -2764,21 +2764,29 @@
               </div>
             </div>
 
-            <div class="mt-3 w-full overflow-x-auto overflow-hidden">
-              <UnusualOrderFlowTable
-                {data}
-                displayedData={tableSearchDisplayedData?.length > 0
-                  ? tableSearchDisplayedData
-                  : displayedData}
-                {filteredData}
-                {rawData}
-                bind:resetColumnOrder={unusualOrderFlowResetColumnOrder}
-                bind:customColumnOrder
+            {#if tableSearchValue?.length > 0 && tableSearchDisplayedData?.length === 0}
+              <Infobox
+                text={`No Unusual Trades found for "${tableSearchValue}"`}
               />
-              <div class="-mt-3">
-                <UpgradeToPro {data} display={true} />
+            {:else}
+              <div class="flex w-full m-auto h-full overflow-hidden">
+                <div class="mt-3 w-full overflow-x-auto overflow-hidden">
+                  <UnusualOrderFlowTable
+                    {data}
+                    displayedData={tableSearchDisplayedData?.length > 0
+                      ? tableSearchDisplayedData
+                      : displayedData}
+                    {filteredData}
+                    {rawData}
+                    bind:resetColumnOrder={unusualOrderFlowResetColumnOrder}
+                    bind:customColumnOrder
+                  />
+                  <div class="-mt-3">
+                    <UpgradeToPro {data} display={true} />
+                  </div>
+                </div>
               </div>
-            </div>
+            {/if}
           {:else}
             <Infobox
               text="Looks like your taste is one-of-a-kind! No matches found... yet!"
