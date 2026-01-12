@@ -1898,7 +1898,7 @@
         </div>
         -->
       <div class="sm:rounded">
-        <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
+        <div class="flex flex-col md:flex-row items-start md:items-center mb-3">
           <div
             class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
           >

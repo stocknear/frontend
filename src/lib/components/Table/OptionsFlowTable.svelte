@@ -939,7 +939,7 @@ ${insightData.traderTakeaway}
   class="w-full overflow-x-auto rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
 >
   <!-- Set a min-width on smaller screens so the grid can show all columns -->
-  <div class="min-w-fit">
+  <div class="min-w-[1200px]">
     <!-- Header row using grid -->
     <div
       class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-17 sticky top-0 z-10 border-b border-gray-300 dark:border-zinc-700 font-semibold text-[11px] uppercase tracking-wide"
