@@ -2923,6 +2923,104 @@ const handleKeyDown = (event) => {
   let columns;
   let sortOrders;
 
+  // Column reordering state and functions
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    // Include the current tab in the storage key for tab-specific column orders
+    const basePath = "/stock-screener";
+    return `${basePath}_${displayTableTab}_columnOrder`;
+  }
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") {
+      customColumnOrder = [];
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          customColumnOrder = parsed;
+          if (forceReapply) {
+            lastAppliedColumnKeys = "";
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+    customColumnOrder = [];
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(cols: typeof columns): typeof columns {
+    if (!customColumnOrder || customColumnOrder.length === 0) {
+      return cols;
+    }
+
+    const colMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedCols: typeof columns = [];
+    const usedKeys = new Set<string>();
+
+    for (const key of customColumnOrder) {
+      const col = colMap.get(key);
+      if (col) {
+        orderedCols.push(col);
+        usedKeys.add(key);
+      }
+    }
+
+    for (const col of cols) {
+      if (!usedKeys.has(col.key)) {
+        orderedCols.push(col);
+      }
+    }
+
+    return orderedCols;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    customColumnOrder = newColumns.map((col) => col.key);
+    saveColumnOrder(customColumnOrder);
+    lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
+    columns = newColumns;
+  }
+
+  function resetColumnOrder(): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      localStorage.removeItem(storageKey);
+    }
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+    // Trigger column regeneration by re-setting displayTableTab
+    const currentTab = displayTableTab;
+    displayTableTab = "";
+    displayTableTab = currentTab;
+  }
+
   // Initial columns and sort orders for the "general" tab
   const generalColumns = [
     { key: "symbol", label: "Symbol", align: "left" },
@@ -3044,6 +3142,12 @@ const handleKeyDown = (event) => {
             sortOrders[rule.rule] = { order: "none", type: getType(rule.rule) };
           }
         });
+      }
+
+      // Load and apply custom column order for the current tab
+      loadColumnOrder(true);
+      if (customColumnOrder && customColumnOrder.length > 0) {
+        columns = applyColumnOrder(columns);
       }
     }
   }
@@ -3659,7 +3763,7 @@ const handleKeyDown = (event) => {
           {#each displayRules as row (row?.rule)}
             <!--Start Added Rules-->
             <div
-              class="flex items-center justify-between space-x-2 px-1 py-1.5 text-sm sm:text-[0.95rem] leading-tight"
+              class="flex items-center justify-between space-x-2 px-1 py-1.5 text-xs sm:text-[0.95rem] leading-tight"
               in:scale={{
                 start: 0.98,
                 duration: 160,
@@ -4102,6 +4206,28 @@ const handleKeyDown = (event) => {
             title={"stock_screener_data"}
           />
         </div>
+
+        {#if customColumnOrder?.length > 0}
+          <button
+            on:click={resetColumnOrder}
+            title="Reset column order"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        {/if}
       </div>
       <nav class="w-full flex flex-row items-center order-2 lg:order-0">
         <ul
@@ -4205,60 +4331,71 @@ const handleKeyDown = (event) => {
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
-                  <td class=" whitespace-nowrap">
-                    <a
-                      href={"/stocks/" + item?.symbol}
-                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
-                      >{item?.symbol}</a
-                    >
-                  </td>
-
-                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
-                    {item?.name?.length > charNumber
-                      ? item?.name?.slice(0, charNumber) + "..."
-                      : item?.name}
-                  </td>
-
-                  <td class=" text-sm sm:text-[0.95rem] text-end">
-                    {item?.marketCap < 100
-                      ? "< 100"
-                      : abbreviateNumber(item?.marketCap)}
-                  </td>
-
-                  <td class=" text-sm sm:text-[0.95rem] text-end">
-                    {item?.price < 0.01 ? "< 0.01" : item?.price?.toFixed(2)}
-                  </td>
-
-                  <td class=" text-end text-sm sm:text-[0.95rem]">
-                    {#if item?.changesPercentage >= 0}
-                      <span class="text-emerald-600 dark:text-emerald-400"
-                        >+{item?.changesPercentage >= 1000
-                          ? abbreviateNumber(item?.changesPercentage)
-                          : item?.changesPercentage?.toFixed(2)}%</span
-                      >
-                    {:else}
-                      <span class="text-rose-600 dark:text-rose-400"
-                        >{item?.changesPercentage <= -1000
-                          ? abbreviateNumber(item?.changesPercentage)
-                          : item?.changesPercentage?.toFixed(2)}%
-                      </span>
+                  {#each columns as column}
+                    {#if column.key === "symbol"}
+                      <td class=" whitespace-nowrap">
+                        <a
+                          href={"/stocks/" + item?.symbol}
+                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          >{item?.symbol}</a
+                        >
+                      </td>
+                    {:else if column.key === "name"}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </td>
+                    {:else if column.key === "marketCap"}
+                      <td class=" text-sm sm:text-[0.95rem] text-end">
+                        {item?.marketCap < 100
+                          ? "< 100"
+                          : abbreviateNumber(item?.marketCap)}
+                      </td>
+                    {:else if column.key === "price"}
+                      <td class=" text-sm sm:text-[0.95rem] text-end">
+                        {item?.price < 0.01
+                          ? "< 0.01"
+                          : item?.price?.toFixed(2)}
+                      </td>
+                    {:else if column.key === "changesPercentage"}
+                      <td class=" text-end text-sm sm:text-[0.95rem]">
+                        {#if item?.changesPercentage >= 0}
+                          <span class="text-emerald-600 dark:text-emerald-400"
+                            >+{item?.changesPercentage >= 1000
+                              ? abbreviateNumber(item?.changesPercentage)
+                              : item?.changesPercentage?.toFixed(2)}%</span
+                          >
+                        {:else}
+                          <span class="text-rose-600 dark:text-rose-400"
+                            >{item?.changesPercentage <= -1000
+                              ? abbreviateNumber(item?.changesPercentage)
+                              : item?.changesPercentage?.toFixed(2)}%
+                          </span>
+                        {/if}
+                      </td>
+                    {:else if column.key === "volume"}
+                      <td class=" text-sm sm:text-[0.95rem] text-end">
+                        {item?.volume ? abbreviateNumber(item?.volume) : "n/a"}
+                      </td>
+                    {:else if column.key === "priceToEarningsRatio"}
+                      <td class=" text-sm sm:text-[0.95rem] text-end">
+                        {item?.priceToEarningsRatio ?? "n/a"}
+                      </td>
                     {/if}
-                  </td>
-
-                  <td class=" text-sm sm:text-[0.95rem] text-end">
-                    {item?.volume ? abbreviateNumber(item?.volume) : "n/a"}
-                  </td>
-
-                  <td class=" text-sm sm:text-[0.95rem] text-end">
-                    {item?.priceToEarningsRatio ?? "n/a"}
-                  </td>
+                  {/each}
                 </tr>
               {/each}
             </tbody>
@@ -4272,7 +4409,12 @@ const handleKeyDown = (event) => {
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
@@ -4361,48 +4503,60 @@ const handleKeyDown = (event) => {
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
-                  <td class=" whitespace-nowrap">
-                    <a
-                      href={"/stocks/" + item?.symbol}
-                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
-                      >{item?.symbol}</a
-                    >
-                  </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
-                    {item?.name?.length > charNumber
-                      ? item?.name?.slice(0, charNumber) + "..."
-                      : item?.name}
-                  </td>
-
-                  {#each tabRuleList as row (row?.rule)}
-                    <td
-                      class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                    >
-                      {#if row?.rule === "marketCap"}
-                        {abbreviateNumber(item[row?.rule])}
-                      {:else if item[row?.rule] > 0}
-                        <span class="text-emerald-600 dark:text-emerald-400"
-                          >+{abbreviateNumber(
-                            item[row?.rule]?.toFixed(2),
-                          )}%</span
+                  {#each columns as column}
+                    {#if column.key === "symbol"}
+                      <td class=" whitespace-nowrap">
+                        <a
+                          href={"/stocks/" + item?.symbol}
+                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          >{item?.symbol}</a
                         >
-                      {:else if item[row?.rule] < 0}
-                        <span class="text-rose-600 dark:text-rose-400"
-                          >{abbreviateNumber(
-                            item[row?.rule]?.toFixed(2),
-                          )}%</span
-                        >
-                      {:else}
-                        <span class="">n/a</span>
-                      {/if}
-                    </td>
+                      </td>
+                    {:else if column.key === "name"}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </td>
+                    {:else if column.key === "marketCap"}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {abbreviateNumber(item?.marketCap)}
+                      </td>
+                    {:else}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {#if item[column.key] > 0}
+                          <span class="text-emerald-600 dark:text-emerald-400"
+                            >+{abbreviateNumber(
+                              item[column.key]?.toFixed(2),
+                            )}%</span
+                          >
+                        {:else if item[column.key] < 0}
+                          <span class="text-rose-600 dark:text-rose-400"
+                            >{abbreviateNumber(
+                              item[column.key]?.toFixed(2),
+                            )}%</span
+                          >
+                        {:else}
+                          <span class="">n/a</span>
+                        {/if}
+                      </td>
+                    {/if}
                   {/each}
                 </tr>
               {/each}
@@ -4417,68 +4571,92 @@ const handleKeyDown = (event) => {
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
-                  <td class=" whitespace-nowrap">
-                    <a
-                      href={"/stocks/" + item?.symbol}
-                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
-                      >{item?.symbol}</a
-                    >
-                  </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
-                    {item?.name?.length > charNumber
-                      ? item?.name?.slice(0, charNumber) + "..."
-                      : item?.name}
-                  </td>
-
-                  {#each tabRuleList as row (row?.rule)}
-                    <td
-                      class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                    >
-                      {#if row?.rule === "marketCap"}
-                        {abbreviateNumber(item[row?.rule])}
-                      {:else if ["analystCounter", "priceTarget"]?.includes(row?.rule)}
+                  {#each columns as column}
+                    {#if column.key === "symbol"}
+                      <td class=" whitespace-nowrap">
+                        <a
+                          href={"/stocks/" + item?.symbol}
+                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          >{item?.symbol}</a
+                        >
+                      </td>
+                    {:else if column.key === "name"}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </td>
+                    {:else if column.key === "marketCap"}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {abbreviateNumber(item?.marketCap)}
+                      </td>
+                    {:else if ["analystCounter", "priceTarget", "topAnalystCounter", "topAnalystPriceTarget"]?.includes(column.key)}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
                         <span class=""
-                          >{item[row?.rule]
-                            ? abbreviateNumber(item[row?.rule])
+                          >{item[column.key]
+                            ? abbreviateNumber(item[column.key])
                             : "n/a"}</span
                         >
-                      {:else if row?.rule === "upside"}
-                        {#if item[row?.rule] > 0}
+                      </td>
+                    {:else if ["upside", "topAnalystUpside"]?.includes(column.key)}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {#if item[column.key] > 0}
                           <span class="text-emerald-600 dark:text-emerald-400"
-                            >+{item[row?.rule]?.toFixed(2)}%</span
+                            >+{item[column.key]?.toFixed(2)}%</span
                           >
-                        {:else if item[row?.rule] < 0}
+                        {:else if item[column.key] < 0}
                           <span class="text-rose-600 dark:text-rose-400"
-                            >{item[row?.rule]?.toFixed(2)}%</span
+                            >{item[column.key]?.toFixed(2)}%</span
                           >
                         {:else}
                           <span class="">n/a</span>
                         {/if}
-                      {:else if ["analystRating", "topAnalystRating"]?.includes(row?.rule)}
-                        {#if ["Strong Buy", "Buy"].includes(item[row?.rule])}
+                      </td>
+                    {:else if ["analystRating", "topAnalystRating"]?.includes(column.key)}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {#if ["Strong Buy", "Buy"].includes(item[column.key])}
                           <span class=" text-emerald-600 dark:text-emerald-400"
-                            >{item[row?.rule]}</span
+                            >{item[column.key]}</span
                           >
-                        {:else if ["Strong Sell", "Sell"].includes(item[row?.rule])}
+                        {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
                           <span class=" text-rose-600 dark:text-rose-400"
-                            >{item[row?.rule]}</span
+                            >{item[column.key]}</span
                           >
-                        {:else if item[row?.rule] === "Hold"}
+                        {:else if item[column.key] === "Hold"}
                           <span class=" text-orange-800 dark:text-[#FFA838]"
-                            >{item[row?.rule]}</span
+                            >{item[column.key]}</span
                           >
                         {:else}
                           n/a
                         {/if}
-                      {/if}
-                    </td>
+                      </td>
+                    {:else}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {item[column.key] ?? "n/a"}
+                      </td>
+                    {/if}
                   {/each}
                 </tr>
               {/each}
@@ -4493,42 +4671,57 @@ const handleKeyDown = (event) => {
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
+              <TableHeader
+                {columns}
+                {sortOrders}
+                {sortData}
+                onColumnReorder={handleColumnReorder}
+              />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
-                  <td class=" whitespace-nowrap">
-                    <a
-                      href={"/stocks/" + item?.symbol}
-                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
-                      >{item?.symbol}</a
-                    >
-                  </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
-                    {item?.name?.length > charNumber
-                      ? item?.name?.slice(0, charNumber) + "..."
-                      : item?.name}
-                  </td>
-
-                  {#each tabRuleList as row (row?.rule)}
-                    <td
-                      class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                    >
-                      {#if row?.rule === "marketCap"}
-                        {abbreviateNumber(item[row?.rule])}
-                      {:else if row?.varType && row?.varType === "percent"}
-                        {item[row?.rule]
-                          ? abbreviateNumber(item[row?.rule]) + "%"
-                          : "n/a"}
-                      {:else}
-                        {item[row?.rule]
-                          ? abbreviateNumber(item[row?.rule])
-                          : "n/a"}
-                      {/if}
-                    </td>
+                  {#each columns as column}
+                    {#if column.key === "symbol"}
+                      <td class=" whitespace-nowrap">
+                        <a
+                          href={"/stocks/" + item?.symbol}
+                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          >{item?.symbol}</a
+                        >
+                      </td>
+                    {:else if column.key === "name"}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </td>
+                    {:else if column.key === "marketCap"}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {abbreviateNumber(item?.marketCap)}
+                      </td>
+                    {:else}
+                      {@const row = tabRuleList?.find(
+                        (r) => r.rule === column.key,
+                      )}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {#if row?.varType && row?.varType === "percent"}
+                          {item[column.key]
+                            ? abbreviateNumber(item[column.key]) + "%"
+                            : "n/a"}
+                        {:else}
+                          {item[column.key]
+                            ? abbreviateNumber(item[column.key])
+                            : "n/a"}
+                        {/if}
+                      </td>
+                    {/if}
                   {/each}
                 </tr>
               {/each}
