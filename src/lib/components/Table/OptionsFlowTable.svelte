@@ -939,7 +939,7 @@ ${insightData.traderTakeaway}
   class="w-full overflow-x-auto rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
 >
   <!-- Set a min-width on smaller screens so the grid can show all columns -->
-  <div class="min-w-[1000px]">
+  <div class="min-w-fit">
     <!-- Header row using grid -->
     <div
       class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-17 sticky top-0 z-10 border-b border-gray-300 dark:border-zinc-700 font-semibold text-[11px] uppercase tracking-wide"
@@ -954,12 +954,24 @@ ${insightData.traderTakeaway}
           on:dragend={handleDragEnd}
           on:click={() => column.key !== "insight" && sortData(column.key)}
           class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
-            {dragOverColumnIndex === i && draggedColumnIndex !== i ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500' : ''}"
+            {dragOverColumnIndex === i && draggedColumnIndex !== i
+            ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
+            : ''}"
         >
           <span class="inline-flex items-center gap-1 justify-center">
             {#if column?.label}
-              <svg class="w-3 h-3 opacity-40 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg
+                class="w-3 h-3 opacity-40 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             {/if}
             {column.label}
