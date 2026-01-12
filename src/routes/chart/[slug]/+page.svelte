@@ -718,6 +718,7 @@
   let realtimeBarCallback: ((bar: KLineData) => void) | null = null;
   let previousTicker = "";
   let isComponentDestroyed = false;
+  let latestRealtimePrice: number | null = null;
 
   let ticker = "";
   let dailyBars: KLineData[] = [];
@@ -3000,6 +3001,9 @@
     const volume = resolveTickVolume(tick);
     const minuteTimestamp = getMinuteTimestamp(timestampMs);
 
+    // Update latest realtime price for SEO title
+    latestRealtimePrice = price;
+
     const intradayIndex = upsertMinuteBar(
       intradayBars,
       minuteTimestamp,
@@ -4410,6 +4414,7 @@
     ticker = data?.ticker ?? "";
     dailyBars = normalizeDaily(data?.historical ?? []);
     intradayBars = normalizeIntraday(data?.intraday ?? []);
+    latestRealtimePrice = null; // Reset on ticker change
     historicalEarnings = data?.historicalEarnings ?? [];
     nextEarnings = data?.nextEarnings ?? null;
     historicalDividends = data?.historicalDividends ?? [];
@@ -4591,11 +4596,17 @@
 
   $: companyName = data?.companyName || ticker;
   $: seoPrice =
+    latestRealtimePrice ??
     toNumber(data?.getStockQuote?.price) ??
     toNumber(lastClose) ??
     toNumber(dailyBars?.at(-1)?.close);
+  $: seoPreviousClose =
+    toNumber(data?.getStockQuote?.previousClose) ??
+    toNumber(intradayBars?.at(0)?.open);
   $: seoChangePercent =
-    toNumber(data?.getStockQuote?.changesPercentage) ?? changePercent;
+    seoPrice !== null && seoPreviousClose
+      ? ((seoPrice / seoPreviousClose - 1) * 100)
+      : (toNumber(data?.getStockQuote?.changesPercentage) ?? changePercent);
   $: seoChangeSymbol =
     seoChangePercent !== null && seoChangePercent < 0 ? "▼" : "▲";
   $: seoChangeText =
