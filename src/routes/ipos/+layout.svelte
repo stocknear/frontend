@@ -94,7 +94,7 @@
           </nav>
 
           {#if activeIdx === 0}
-            <nav class="overflow-x-auto whitespace-nowrap mt-2">
+            <nav class="overflow-x-auto whitespace-nowrap mt-2 -mb-3">
               <ul class="flex flex-row items-center w-full gap-2">
                 {#each ["Latest", "2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019"] as item}
                   {#if item !== "Latest"}

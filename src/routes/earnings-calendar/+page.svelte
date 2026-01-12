@@ -19,10 +19,19 @@
   import CheckMark from "lucide-svelte/icons/check";
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
 
   export let data;
+
+  // Search state
+  let inputValue = "";
+  let searchWorker: Worker | undefined;
+
+  // Column reordering state
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys = "";
 
   let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
   let earningsCalendar = data?.getEarningsCalendar;
@@ -55,9 +64,14 @@
     }
   }
 
+  // Filtered data for the selected day (used when searching)
+  let filteredDayData: any[] = [];
+
   function updateDailyPagination() {
     const selectedDayData = weekday?.[selectedWeekday] ?? [];
-    const totalItems = selectedDayData?.length || 0;
+    // Use filtered data if searching, otherwise use original data
+    const dataSource = inputValue?.length > 0 ? filteredDayData : selectedDayData;
+    const totalItems = dataSource?.length || 0;
     dailyTotalPages =
       totalItems === 0 ? 1 : Math.ceil(totalItems / dailyRowsPerPage);
 
@@ -71,11 +85,13 @@
 
     const startIndex = (dailyCurrentPage - 1) * dailyRowsPerPage;
     const endIndex = startIndex + dailyRowsPerPage;
-    dailyDisplayList = selectedDayData?.slice(startIndex, endIndex) ?? [];
+    dailyDisplayList = dataSource?.slice(startIndex, endIndex) ?? [];
   }
 
   function resetDailyPagination() {
     dailyCurrentPage = 1;
+    inputValue = "";
+    filteredDayData = [];
     updateDailyPagination();
   }
 
@@ -272,9 +288,128 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  onMount(() => {
-    loadDailyRowsPerPage();
+  // Search functions
+  async function resetTableSearch() {
+    inputValue = "";
+    filteredDayData = [];
+    dailyCurrentPage = 1;
     updateDailyPagination();
+  }
+
+  async function search() {
+    const searchValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (searchValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        filteredDayData = [];
+        dailyCurrentPage = 1;
+        updateDailyPagination();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    const selectedDayData = weekday?.[selectedWeekday] ?? [];
+    if (searchWorker && selectedDayData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: selectedDayData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      filteredDayData = event.data?.output ?? [];
+      dailyCurrentPage = 1;
+      updateDailyPagination();
+    }
+  };
+
+  // Column reordering functions
+  function getColumnOrderStorageKey() {
+    return `${dailyPagePathName}_columnOrder`;
+  }
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(getColumnOrderStorageKey());
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(getColumnOrderStorageKey(), JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(
+    cols: typeof defaultColumns,
+    order: string[],
+  ): typeof defaultColumns {
+    if (!order.length) return cols;
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof defaultColumns = [];
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+    // Add any remaining columns not in the saved order
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+    return ordered;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number) {
+    // Create a copy of current columns and reorder
+    const reordered = [...columns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+
+    customColumnOrder = reordered.map((c) => c.key);
+    saveColumnOrder(customColumnOrder);
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(getColumnOrderStorageKey());
+      } catch (e) {
+        console.warn("Failed to remove column order:", e);
+      }
+    }
+  }
+
+  function initColumnOrder() {
+    customColumnOrder = loadColumnOrder();
+  }
+
+  onMount(async () => {
+    loadDailyRowsPerPage();
+    initColumnOrder();
+    updateDailyPagination();
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
   });
 
   async function changeWeek(state) {
@@ -371,7 +506,7 @@
     }
   }
 
-  let columns = [
+  const defaultColumns = [
     { key: "symbol", label: "Symbol", align: "left" },
     { key: "name", label: "Name", align: "left" },
     { key: "marketCap", label: "Market Cap", align: "right" },
@@ -379,6 +514,17 @@
     { key: "epsEst", label: "EPS Estimate", align: "right" },
     { key: "release", label: "Earnings Time", align: "right" },
   ];
+
+  // Apply custom column order
+  $: {
+    const currentColumnKeys = defaultColumns.map((c) => c.key).join(",");
+    if (currentColumnKeys !== lastAppliedColumnKeys) {
+      lastAppliedColumnKeys = currentColumnKeys;
+      customColumnOrder = loadColumnOrder();
+    }
+  }
+
+  $: columns = applyColumnOrder([...defaultColumns], customColumnOrder);
 
   let sortOrders = {
     symbol: { order: "none", type: "string" },
@@ -425,15 +571,15 @@
           valueB = new Date(b[key]);
           break;
         case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
+          valueA = (a[key] ?? "").toUpperCase();
+          valueB = (b[key] ?? "").toUpperCase();
           return sortOrder === "asc"
             ? valueA.localeCompare(valueB)
             : valueB.localeCompare(valueA);
         case "number":
         default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
           break;
       }
 
@@ -615,17 +761,15 @@
                 </DropdownMenu.Root>
 
                 <div
-                  class="inline-flex rounded-full ml-1.5 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60"
+                  class="w-fit text-sm flex items-center gap-1 rounded-full ml-1.5 border border-gray-300 shadow dark:border-zinc-700"
                 >
                   {#each tabs as item, i}
                     <button
                       on:click={() => (timeframe = item)}
-                      class="cursor-pointer px-4 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l-full' : ''}
-                          {i === tabs.length - 1 ? 'rounded-r-full' : ''}
-                          {timeframe === item
-                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                        : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                      class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+                        {timeframe === item
+                        ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                        : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                     >
                       {item}
                     </button>
@@ -734,19 +878,90 @@
                 {#each weekday as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <h2
-                        class="font-semibold text-xl mt-5 text-gray-900 dark:text-white"
-                      >
-                        {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
-                        Earnings
-                      </h2>
+                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5">
+                        <h2
+                          class="font-semibold text-xl text-gray-900 dark:text-white"
+                        >
+                          {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
+                          Earnings
+                        </h2>
+
+                        <div class="flex flex-row items-center w-full sm:w-auto">
+                          <div class="relative w-full sm:w-auto">
+                            <div
+                              class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                            >
+                              {#if inputValue?.length > 0}
+                                <label
+                                  class="cursor-pointer"
+                                  on:click={() => resetTableSearch()}
+                                >
+                                  <svg
+                                    class="w-5 h-5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                                    />
+                                  </svg>
+                                </label>
+                              {/if}
+                            </div>
+
+                            <input
+                              bind:value={inputValue}
+                              on:input={search}
+                              type="text"
+                              placeholder="Find..."
+                              class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                            />
+                          </div>
+
+                          <div class="ml-2">
+                            <DownloadData
+                              {data}
+                              rawData={inputValue?.length > 0 ? filteredDayData : day}
+                              title={"earnings_calendar"}
+                            />
+                          </div>
+
+                          {#if customColumnOrder?.length > 0}
+                            <button
+                              on:click={resetColumnOrder}
+                              title="Reset column order"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </button>
+                          {/if}
+                        </div>
+                      </div>
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
                           class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
-                            <TableHeader {columns} {sortOrders} {sortData} />
+                            <TableHeader
+                              {columns}
+                              {sortOrders}
+                              {sortData}
+                              onColumnReorder={handleColumnReorder}
+                            />
                           </thead>
                           <tbody
                             class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -756,124 +971,128 @@
                               <tr
                                 class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                               >
-                                <td
-                                  class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                                >
-                                  <HoverStockChart symbol={item?.symbol} />
-                                </td>
-
-                                <td
-                                  class="whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
-                                >
-                                  {item?.name.length > 20
-                                    ? item?.name?.slice(0, 20) + "..."
-                                    : item?.name}
-                                </td>
-
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  {@html item?.marketCap !== null
-                                    ? abbreviateNumber(
-                                        item?.marketCap,
-                                        false,
-                                        true,
-                                      )
-                                    : "n/a"}
-                                </td>
-
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  <div
-                                    class="flex flex-row items-center justify-end"
-                                  >
-                                    <span>
-                                      {@html item?.revenueEst !== null
+                                {#each columns as column}
+                                  {#if column.key === "symbol"}
+                                    <td
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                    >
+                                      <HoverStockChart symbol={item?.symbol} />
+                                    </td>
+                                  {:else if column.key === "name"}
+                                    <td
+                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
+                                    >
+                                      {item?.name?.length > 20
+                                        ? item?.name?.slice(0, 20) + "..."
+                                        : item?.name}
+                                    </td>
+                                  {:else if column.key === "marketCap"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                                    >
+                                      {@html item?.marketCap !== null
                                         ? abbreviateNumber(
-                                            item?.revenueEst,
+                                            item?.marketCap,
                                             false,
                                             true,
                                           )
                                         : "n/a"}
-                                    </span>
-                                    {#if getPercentageChange(item?.revenueEst, item?.revenuePrior) !== null}
-                                      {@const revenueChange =
-                                        getPercentageChange(
-                                          item?.revenueEst,
-                                          item?.revenuePrior,
-                                        )}
-                                      <span
-                                        class="ml-1 {revenueChange >= 0
-                                          ? 'text-emerald-600 dark:text-emerald-400'
-                                          : 'text-rose-600 dark:text-rose-400'}"
-                                      >
-                                        {revenueChange >= 0
-                                          ? "+"
-                                          : ""}{revenueChange}%
-                                      </span>
-                                    {/if}
-                                  </div>
-                                </td>
-
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
-                                >
-                                  <div
-                                    class="flex flex-row items-center justify-end"
-                                  >
-                                    <span>
-                                      {item?.epsEst !== null
-                                        ? item?.epsEst?.toFixed(2)
-                                        : "n/a"}
-                                    </span>
-                                    {#if getPercentageChange(item?.epsEst, item?.epsPrior) !== null}
-                                      {@const epsChange = getPercentageChange(
-                                        item?.epsEst,
-                                        item?.epsPrior,
-                                      )}
-                                      <span
-                                        class="ml-1 {epsChange >= 0
-                                          ? 'text-emerald-600 dark:text-emerald-400'
-                                          : 'text-rose-600 dark:text-rose-400'}"
-                                      >
-                                        {epsChange >= 0 ? "+" : ""}{epsChange}%
-                                      </span>
-                                    {/if}
-                                  </div>
-                                </td>
-
-                                <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                                >
-                                  {#if item?.release === "amc"}
-                                    <svg
-                                      class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 256 256"
-                                      ><path
-                                        fill="currentColor"
-                                        d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
-                                      /></svg
+                                    </td>
+                                  {:else if column.key === "revenueEst"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
                                     >
-                                    After Close
-                                  {:else}
-                                    <svg
-                                      class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 256 256"
-                                      ><g fill="currentColor"
-                                        ><path
-                                          d="M184 128a56 56 0 1 1-56-56a56 56 0 0 1 56 56Z"
-                                          opacity=".2"
-                                        /><path
-                                          d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"
-                                        /></g
-                                      ></svg
+                                      <div
+                                        class="flex flex-row items-center justify-end"
+                                      >
+                                        <span>
+                                          {@html item?.revenueEst !== null
+                                            ? abbreviateNumber(
+                                                item?.revenueEst,
+                                                false,
+                                                true,
+                                              )
+                                            : "n/a"}
+                                        </span>
+                                        {#if getPercentageChange(item?.revenueEst, item?.revenuePrior) !== null}
+                                          {@const revenueChange =
+                                            getPercentageChange(
+                                              item?.revenueEst,
+                                              item?.revenuePrior,
+                                            )}
+                                          <span
+                                            class="ml-1 {revenueChange >= 0
+                                              ? 'text-emerald-600 dark:text-emerald-400'
+                                              : 'text-rose-600 dark:text-rose-400'}"
+                                          >
+                                            {revenueChange >= 0
+                                              ? "+"
+                                              : ""}{revenueChange}%
+                                          </span>
+                                        {/if}
+                                      </div>
+                                    </td>
+                                  {:else if column.key === "epsEst"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
                                     >
-                                    Before Open
+                                      <div
+                                        class="flex flex-row items-center justify-end"
+                                      >
+                                        <span>
+                                          {item?.epsEst !== null
+                                            ? item?.epsEst?.toFixed(2)
+                                            : "n/a"}
+                                        </span>
+                                        {#if getPercentageChange(item?.epsEst, item?.epsPrior) !== null}
+                                          {@const epsChange = getPercentageChange(
+                                            item?.epsEst,
+                                            item?.epsPrior,
+                                          )}
+                                          <span
+                                            class="ml-1 {epsChange >= 0
+                                              ? 'text-emerald-600 dark:text-emerald-400'
+                                              : 'text-rose-600 dark:text-rose-400'}"
+                                          >
+                                            {epsChange >= 0 ? "+" : ""}{epsChange}%
+                                          </span>
+                                        {/if}
+                                      </div>
+                                    </td>
+                                  {:else if column.key === "release"}
+                                    <td
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                    >
+                                      {#if item?.release === "amc"}
+                                        <svg
+                                          class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 256 256"
+                                          ><path
+                                            fill="currentColor"
+                                            d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
+                                          /></svg
+                                        >
+                                        After Close
+                                      {:else}
+                                        <svg
+                                          class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 256 256"
+                                          ><g fill="currentColor"
+                                            ><path
+                                              d="M184 128a56 56 0 1 1-56-56a56 56 0 0 1 56 56Z"
+                                              opacity=".2"
+                                            /><path
+                                              d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"
+                                            /></g
+                                          ></svg
+                                        >
+                                        Before Open
+                                      {/if}
+                                    </td>
                                   {/if}
-                                </td>
+                                {/each}
                               </tr>
                             {/each}
                           </tbody>

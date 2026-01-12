@@ -4,6 +4,7 @@
   import { mode } from "mode-watcher";
   import IPOChart from "$lib/components/IPOChart.svelte";
   import { formatDate } from "$lib/utils";
+  import Infobox from "$lib/components/Infobox.svelte";
 
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
@@ -224,13 +225,11 @@
       <main class="w-full lg:w-3/4 lg:pr-10">
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
-            <div
-              class="mt-5 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
-            >
-              This page provides statistics and charts on initial public
+            <Infobox
+              text="  This page provides statistics and charts on initial public
               offerings (IPOs) in the U.S. stock market. Annual data is
-              available from 2015 to 2025, with monthly data starting from 2019.
-            </div>
+              available from 2015 to 2025, with monthly data starting from 2019."
+            />
 
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 sm:mb-0 mt-2"
