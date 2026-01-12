@@ -183,6 +183,7 @@
   onMount(async () => {
     // Load pagination preference
     loadRowsPerPage();
+    loadColumnOrder(true);
 
     // Initialize pagination
     updatePaginatedData();
@@ -207,10 +208,7 @@
   }
   $: charNumber = $screenWidth < 640 ? 20 : 40;
 
-  $: columns = [
-    ...($screenWidth > 1024
-      ? [{ key: "chart", label: "", align: "right" }]
-      : []),
+  const defaultColumnsBase = [
     { key: "ticker", label: "Symbol", align: "left" },
     { key: "name", label: "Name", align: "left" },
     { key: "rating_current", label: "Action", align: "left" },
@@ -220,6 +218,141 @@
     { key: "ratings", label: "Ratings", align: "right" },
     { key: "date", label: "Updated", align: "right" },
   ];
+
+  let columns = [...defaultColumnsBase];
+
+  // Column reordering state and functions
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") {
+      customColumnOrder = [];
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          customColumnOrder = parsed;
+          if (forceReapply) {
+            lastAppliedColumnKeys = "";
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+    customColumnOrder = [];
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(cols: typeof columns): typeof columns {
+    if (!customColumnOrder || customColumnOrder.length === 0) {
+      return cols;
+    }
+
+    const colMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedCols: typeof columns = [];
+    const usedKeys = new Set<string>();
+
+    for (const key of customColumnOrder) {
+      const col = colMap.get(key);
+      if (col) {
+        orderedCols.push(col);
+        usedKeys.add(key);
+      }
+    }
+
+    for (const col of cols) {
+      if (!usedKeys.has(col.key)) {
+        orderedCols.push(col);
+      }
+    }
+
+    return orderedCols;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    // Don't include chart column in saved order
+    customColumnOrder = newColumns.filter(col => col.key !== "chart").map((col) => col.key);
+    saveColumnOrder(customColumnOrder);
+    lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
+    columns = newColumns;
+  }
+
+  function resetColumnOrder(): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      localStorage.removeItem(storageKey);
+    }
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+    // Reset with chart column if on desktop
+    columns = $screenWidth > 1024
+      ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
+      : [...defaultColumnsBase];
+  }
+
+  // Update columns when screen width changes
+  $: {
+    const baseColumns = $screenWidth > 1024
+      ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
+      : [...defaultColumnsBase];
+
+    if (customColumnOrder.length > 0) {
+      columns = applyColumnOrder(baseColumns);
+    } else {
+      columns = baseColumns;
+    }
+  }
+
+  // Apply custom column order when needed
+  $: if (columns && columns.length > 0 && customColumnOrder.length > 0) {
+    const currentKeys = columns.map((c) => c.key).join("|");
+    const orderedKeys = customColumnOrder.join("|");
+    if (currentKeys !== orderedKeys && lastAppliedColumnKeys !== currentKeys) {
+      const currentKeySet = new Set(columns.map((c) => c.key));
+      const matchingKeys = customColumnOrder.filter((key) =>
+        currentKeySet.has(key),
+      );
+      const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+      if (compatibilityRatio >= 0.5) {
+        lastAppliedColumnKeys = currentKeys;
+        const reordered = applyColumnOrder(columns);
+        const reorderedKeys = reordered.map((c) => c.key).join("|");
+        if (reorderedKeys !== currentKeys) {
+          columns = reordered;
+        }
+      }
+    }
+  }
 
   $: sortOrders = {
     chart: { order: "none", type: "string" },
@@ -314,6 +447,7 @@
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
     loadRowsPerPage(); // Load pagination preference for new page
+    loadColumnOrder(true); // Load column order preference for new page
     updatePaginatedData(); // Update display with loaded preference
   }
 </script>
@@ -662,6 +796,28 @@
                       title={`${analystName}_ratings`}
                     />
                   </div>
+
+                  {#if customColumnOrder?.length > 0}
+                    <button
+                      on:click={resetColumnOrder}
+                      title="Reset column order"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  {/if}
                 </div>
               </div>
             </div>
@@ -848,7 +1004,12 @@
                       class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
                     >
                       <thead>
-                        <TableHeader {columns} {sortOrders} {sortData} />
+                        <TableHeader
+                          {columns}
+                          {sortOrders}
+                          {sortData}
+                          onColumnReorder={handleColumnReorder}
+                        />
                       </thead>
                       <tbody
                         class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -857,129 +1018,140 @@
                           <tr
                             class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                           >
-                            <td class="hidden lg:table-cell"
-                              ><button
-                                on:click={() => openGraph(item?.ticker)}
-                                class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
-                                ><svg
-                                  class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
-                                  item?.ticker
-                                    ? 'rotate-180'
-                                    : ''}"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                  style="max-width:40px"
-                                  ><path
-                                    fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"
-                                  ></path></svg
-                                ></button
-                              ></td
-                            >
-
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                            >
-                              <HoverStockChart symbol={item?.ticker} />
-                            </td>
-
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                            >
-                              {item?.name?.length > charNumber
-                                ? item?.name?.slice(0, charNumber) + "..."
-                                : item?.name}
-                            </td>
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                            >
-                              <div
-                                class="flex flex-col sm:flex-row items-start"
-                              >
-                                <span class="mr-1">{item?.action_company}:</span
+                            {#each columns as column}
+                              {#if column.key === "chart"}
+                                <td class="hidden lg:table-cell"
+                                  ><button
+                                    on:click={() => openGraph(item?.ticker)}
+                                    class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
+                                    ><svg
+                                      class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                      item?.ticker
+                                        ? 'rotate-180'
+                                        : ''}"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      style="max-width:40px"
+                                      ><path
+                                        fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"
+                                      ></path></svg
+                                    ></button
+                                  ></td
                                 >
-                                <span>
-                                  {item?.rating_current}
-                                </span>
-                              </div>
-                            </td>
-
-                            <td
-                              class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                            >
-                              <div
-                                class="flex flex-row items-center justify-end"
-                              >
-                                {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
-                                  <span
-                                    class="text-gray-500 dark:text-zinc-400 font-normal"
-                                    >{Math?.ceil(item?.adjusted_pt_prior)}</span
+                              {:else if column.key === "ticker"}
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
+                                  <HoverStockChart symbol={item?.ticker} />
+                                </td>
+                              {:else if column.key === "name"}
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
+                                  {item?.name?.length > charNumber
+                                    ? item?.name?.slice(0, charNumber) + "..."
+                                    : item?.name}
+                                </td>
+                              {:else if column.key === "rating_current"}
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
+                                  <div
+                                    class="flex flex-col sm:flex-row items-start"
                                   >
-                                  <svg
-                                    class="w-3 h-3 ml-1 mr-1 inline-block"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    ><path
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.5"
-                                      d="M4 12h16m0 0l-6-6m6 6l-6 6"
-                                    /></svg
+                                    <span class="mr-1"
+                                      >{item?.action_company}:</span
+                                    >
+                                    <span>
+                                      {item?.rating_current}
+                                    </span>
+                                  </div>
+                                </td>
+                              {:else if column.key === "adjusted_pt_current"}
+                                <td
+                                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
+                                  <div
+                                    class="flex flex-row items-center justify-end"
                                   >
-                                  <span class="font-semibold"
-                                    >{Math?.ceil(
-                                      item?.adjusted_pt_current,
-                                    )}</span
-                                  >
-                                {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                                  <span class="font-semibold"
-                                    >{Math?.ceil(
-                                      item?.adjusted_pt_current,
-                                    )}</span
-                                  >
-                                {:else}
-                                  n/a
-                                {/if}
-                              </div>
-                            </td>
-
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                            >
-                              {item?.price !== null ? item?.price : "n/a"}
-                            </td>
-
-                            <td
-                              class="{item?.upside >= 0 && item?.upside !== null
-                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                                : item?.upside < 0 && item?.upside !== null
-                                  ? 'text-rose-600 dark:text-rose-400'
-                                  : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
-                            >
-                              {item?.upside !== null
-                                ? item?.upside + "%"
-                                : "n/a"}
-                            </td>
-
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
-                            >
-                              {item?.ratings !== null ? item?.ratings : "n/a"}
-                            </td>
-
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                            >
-                              {new Date(item?.date).toLocaleString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              })}
-                            </td>
+                                    {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
+                                      <span
+                                        class="text-gray-500 dark:text-zinc-400 font-normal"
+                                        >{Math?.ceil(
+                                          item?.adjusted_pt_prior,
+                                        )}</span
+                                      >
+                                      <svg
+                                        class="w-3 h-3 ml-1 mr-1 inline-block"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        ><path
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.5"
+                                          d="M4 12h16m0 0l-6-6m6 6l-6 6"
+                                        /></svg
+                                      >
+                                      <span class="font-semibold"
+                                        >{Math?.ceil(
+                                          item?.adjusted_pt_current,
+                                        )}</span
+                                      >
+                                    {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
+                                      <span class="font-semibold"
+                                        >{Math?.ceil(
+                                          item?.adjusted_pt_current,
+                                        )}</span
+                                      >
+                                    {:else}
+                                      n/a
+                                    {/if}
+                                  </div>
+                                </td>
+                              {:else if column.key === "price"}
+                                <td
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
+                                  {item?.price !== null ? item?.price : "n/a"}
+                                </td>
+                              {:else if column.key === "upside"}
+                                <td
+                                  class="{item?.upside >= 0 &&
+                                  item?.upside !== null
+                                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                                    : item?.upside < 0 && item?.upside !== null
+                                      ? 'text-rose-600 dark:text-rose-400'
+                                      : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                                >
+                                  {item?.upside !== null
+                                    ? item?.upside + "%"
+                                    : "n/a"}
+                                </td>
+                              {:else if column.key === "ratings"}
+                                <td
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
+                                  {item?.ratings !== null
+                                    ? item?.ratings
+                                    : "n/a"}
+                                </td>
+                              {:else if column.key === "date"}
+                                <td
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                >
+                                  {new Date(item?.date).toLocaleString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    daySuffix: "2-digit",
+                                  })}
+                                </td>
+                              {/if}
+                            {/each}
                           </tr>
                           {#if checkedSymbol === item?.ticker}
                             <tr class="bg-white/80 dark:bg-zinc-950/60"

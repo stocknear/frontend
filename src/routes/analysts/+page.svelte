@@ -93,6 +93,7 @@
 
   onMount(() => {
     loadRowsPerPage();
+    loadColumnOrder(true);
     updatePaginatedData();
   });
 
@@ -100,10 +101,11 @@
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
     loadRowsPerPage();
+    loadColumnOrder(true);
     updatePaginatedData();
   }
 
-  let columns = [
+  const defaultColumns = [
     { key: "rank", label: "Rank", align: "left" },
     { key: "analystName", label: "Analyst", align: "left" },
     { key: "successRate", label: "Success Rate", align: "right" },
@@ -111,6 +113,124 @@
     { key: "totalRatings", label: "Total Ratings", align: "right" },
     { key: "lastRating", label: "Last Rating", align: "right" },
   ];
+
+  let columns = [...defaultColumns];
+
+  // Column reordering state and functions
+  let customColumnOrder: string[] = [];
+  let lastAppliedColumnKeys: string = "";
+
+  function getColumnOrderStorageKey(): string {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    return currentPath ? `${currentPath}_columnOrder` : "";
+  }
+
+  function loadColumnOrder(forceReapply: boolean = false): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") {
+      customColumnOrder = [];
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          customColumnOrder = parsed;
+          if (forceReapply) {
+            lastAppliedColumnKeys = "";
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load column order:", e);
+    }
+    customColumnOrder = [];
+  }
+
+  function saveColumnOrder(order: string[]): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (!storageKey || typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(order));
+    } catch (e) {
+      console.warn("Failed to save column order:", e);
+    }
+  }
+
+  function applyColumnOrder(cols: typeof columns): typeof columns {
+    if (!customColumnOrder || customColumnOrder.length === 0) {
+      return cols;
+    }
+
+    const colMap = new Map(cols.map((col) => [col.key, col]));
+    const orderedCols: typeof columns = [];
+    const usedKeys = new Set<string>();
+
+    for (const key of customColumnOrder) {
+      const col = colMap.get(key);
+      if (col) {
+        orderedCols.push(col);
+        usedKeys.add(key);
+      }
+    }
+
+    for (const col of cols) {
+      if (!usedKeys.has(col.key)) {
+        orderedCols.push(col);
+      }
+    }
+
+    return orderedCols;
+  }
+
+  function handleColumnReorder(fromIndex: number, toIndex: number): void {
+    if (fromIndex === toIndex) return;
+
+    const newColumns = [...columns];
+    const [movedColumn] = newColumns.splice(fromIndex, 1);
+    newColumns.splice(toIndex, 0, movedColumn);
+
+    customColumnOrder = newColumns.map((col) => col.key);
+    saveColumnOrder(customColumnOrder);
+    lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
+    columns = newColumns;
+  }
+
+  function resetColumnOrder(): void {
+    const storageKey = getColumnOrderStorageKey();
+    if (storageKey && typeof localStorage !== "undefined") {
+      localStorage.removeItem(storageKey);
+    }
+    customColumnOrder = [];
+    lastAppliedColumnKeys = "";
+    columns = [...defaultColumns];
+  }
+
+  // Apply custom column order when needed
+  $: if (columns && columns.length > 0 && customColumnOrder.length > 0) {
+    const currentKeys = columns.map((c) => c.key).join("|");
+    const orderedKeys = customColumnOrder.join("|");
+    if (currentKeys !== orderedKeys && lastAppliedColumnKeys !== currentKeys) {
+      const currentKeySet = new Set(columns.map((c) => c.key));
+      const matchingKeys = customColumnOrder.filter((key) =>
+        currentKeySet.has(key),
+      );
+      const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
+
+      if (compatibilityRatio >= 0.5) {
+        lastAppliedColumnKeys = currentKeys;
+        const reordered = applyColumnOrder(columns);
+        const reorderedKeys = reordered.map((c) => c.key).join("|");
+        if (reorderedKeys !== currentKeys) {
+          columns = reordered;
+        }
+      }
+    }
+  }
 
   let sortOrders = {
     rank: { order: "none", type: "number" },
@@ -261,7 +381,7 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="border-b border-gray-300 dark:border-zinc-700">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -274,7 +394,41 @@
             </p>
           </div>
 
-          <div class="w-full m-auto mt-10">
+          <div
+            class="w-full flex flex-row items-center justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+          >
+            <h2
+              class="text-start text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {originalData?.length?.toLocaleString("en-US")} Analysts
+            </h2>
+
+            <div class="flex flex-row items-center">
+              {#if customColumnOrder?.length > 0}
+                <button
+                  on:click={resetColumnOrder}
+                  title="Reset column order"
+                  class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              {/if}
+            </div>
+          </div>
+
+          <div class="w-full m-auto mt-4">
             {#if analystList?.length > 0}
               <div
                 class="w-full m-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
@@ -283,7 +437,12 @@
                   class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
-                    <TableHeader {columns} {sortOrders} {sortData} />
+                    <TableHeader
+                      {columns}
+                      {sortOrders}
+                      {sortData}
+                      onColumnReorder={handleColumnReorder}
+                    />
                   </thead>
                   <tbody
                     class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -300,108 +459,111 @@
                           ? 'opacity-[0.1]'
                           : ''}"
                       >
-                        <td class="text-[0.85rem] sm:text-sm text-center">
-                          {item?.rank}
-                        </td>
+                        {#each columns as column}
+                          {#if column.key === "rank"}
+                            <td class="text-[0.85rem] sm:text-sm text-center">
+                              {item?.rank}
+                            </td>
+                          {:else if column.key === "analystName"}
+                            <td
+                              class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              <div class="flex flex-col items-start">
+                                <a
+                                  href={"/analysts/" + item?.analystId}
+                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                  >{item?.analystName}
+                                </a>
+                                <div class="flex flex-row items-center mt-1">
+                                  {#each Array.from({ length: 5 }) as _, i}
+                                    {#if i < Math.floor(item?.analystScore)}
+                                      <svg
+                                        class="w-3.5 h-3.5 text-amber-400"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 22 20"
+                                      >
+                                        <path
+                                          d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                        />
+                                      </svg>
+                                    {:else}
+                                      <svg
+                                        class="w-3.5 h-3.5 text-gray-300 dark:text-zinc-600"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 22 20"
+                                      >
+                                        <path
+                                          d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                        />
+                                      </svg>
+                                    {/if}
+                                  {/each}
 
-                        <td
-                          class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
-                        >
-                          <div class="flex flex-col items-start">
-                            <a
-                              href={"/analysts/" + item?.analystId}
-                              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                              >{item?.analystName}
-                            </a>
-                            <!--<span class="">{item?.companyName} </span>-->
-                            <div class="flex flex-row items-center mt-1">
-                              {#each Array.from({ length: 5 }) as _, i}
-                                {#if i < Math.floor(item?.analystScore)}
-                                  <svg
-                                    class="w-3.5 h-3.5 text-amber-400"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
+                                  <span
+                                    class="ml-1 text-gray-500 dark:text-zinc-400"
                                   >
-                                    <path
-                                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                    />
-                                  </svg>
-                                {:else}
-                                  <svg
-                                    class="w-3.5 h-3.5 text-gray-300 dark:text-zinc-600"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
-                                  >
-                                    <path
-                                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                    />
-                                  </svg>
-                                {/if}
-                              {/each}
-
-                              <span
-                                class="ml-1 text-gray-500 dark:text-zinc-400"
-                              >
-                                ({item?.analystScore !== null
-                                  ? item?.analystScore
-                                  : 0})
-                              </span>
-                            </div>
-                          </div>
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
-                        >
-                          {#if Number(item?.successRate) >= 0}
-                            <span
-                              class="font-medium text-emerald-600 dark:text-emerald-400"
-                              >+{Number(item?.successRate)?.toFixed(2)}%</span
+                                    ({item?.analystScore !== null
+                                      ? item?.analystScore
+                                      : 0})
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                          {:else if column.key === "successRate"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
+                              {#if Number(item?.successRate) >= 0}
+                                <span
+                                  class="font-medium text-emerald-600 dark:text-emerald-400"
+                                  >+{Number(item?.successRate)?.toFixed(2)}%</span
+                                >
+                              {/if}
+                            </td>
+                          {:else if column.key === "avgReturn"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              {#if Number(item?.avgReturn) >= 0}
+                                <span
+                                  class="font-medium text-emerald-600 dark:text-emerald-400"
+                                  >+{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                >
+                              {:else}
+                                <span
+                                  class="font-medium text-rose-600 dark:text-rose-400"
+                                  >{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                >
+                              {/if}
+                            </td>
+                          {:else if column.key === "totalRatings"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              {item?.totalRatings}
+                            </td>
+                          {:else if column.key === "lastRating"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                            >
+                              {item?.lastRating !== null
+                                ? new Date(item?.lastRating)?.toLocaleString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                      daySuffix: "2-digit",
+                                    },
+                                  )
+                                : "n/a"}
+                            </td>
                           {/if}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
-                        >
-                          {#if Number(item?.avgReturn) >= 0}
-                            <span
-                              class="font-medium text-emerald-600 dark:text-emerald-400"
-                              >+{Number(item?.avgReturn)?.toFixed(2)}%</span
-                            >
-                          {:else}
-                            <span
-                              class="font-medium text-rose-600 dark:text-rose-400"
-                              >{Number(item?.avgReturn)?.toFixed(2)}%</span
-                            >
-                          {/if}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
-                        >
-                          {item?.totalRatings}
-                        </td>
-
-                        <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
-                        >
-                          {item?.lastRating !== null
-                            ? new Date(item?.lastRating)?.toLocaleString(
-                                "en-US",
-                                {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                  daySuffix: "2-digit",
-                                },
-                              )
-                            : "n/a"}
-                        </td>
+                        {/each}
                       </tr>
                     {/each}
                   </tbody>
