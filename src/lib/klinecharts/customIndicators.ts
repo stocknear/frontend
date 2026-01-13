@@ -2833,16 +2833,28 @@ function createMarketCapIndicator(): IndicatorTemplate<IndicatorRecord, number> 
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
 
+      console.log("[SN_MARKET_CAP] calc called, marketCapData.length:", marketCapData.length, "dataList.length:", dataList.length);
+
+      if (marketCapData.length === 0) {
+        console.warn("[SN_MARKET_CAP] No market cap data available for calculation");
+        return result;
+      }
+
       // Map each market cap data point to the closest bar
+      let mappedCount = 0;
       for (const m of marketCapData) {
+        if (!m || !m.timestamp) continue;
         const idx = findClosestBarIndex(dataList, m.timestamp);
         if (idx >= 0) {
           result[idx] = {
             marketCap: m.marketCap,
             isDataPoint: 1,
           };
+          mappedCount++;
         }
       }
+
+      console.log("[SN_MARKET_CAP] Mapped", mappedCount, "of", marketCapData.length, "data points to bars");
 
       // Carry forward values for step display
       let lastMCap: number | undefined;
@@ -2874,12 +2886,11 @@ function createMarketCapIndicator(): IndicatorTemplate<IndicatorRecord, number> 
       }
 
       if (points.length >= 2) {
-        // Draw area fill
+        // Draw area fill under the line
         const chartHeight = chart.getSize()?.height || 0;
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
         for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i - 1].y);
           ctx.lineTo(points[i].x, points[i].y);
         }
         ctx.lineTo(points[points.length - 1].x, chartHeight);
@@ -2888,11 +2899,10 @@ function createMarketCapIndicator(): IndicatorTemplate<IndicatorRecord, number> 
         ctx.fillStyle = "rgba(168, 85, 247, 0.15)";
         ctx.fill();
 
-        // Draw step line
+        // Draw smooth line
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
         for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i - 1].y);
           ctx.lineTo(points[i].x, points[i].y);
         }
         ctx.strokeStyle = "#A855F7";

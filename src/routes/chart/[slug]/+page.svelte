@@ -8,40 +8,40 @@
   import { mode } from "mode-watcher";
   import { toast } from "svelte-sonner";
   import {
-  registerCustomIndicators,
-  setShortInterestData,
-  clearShortInterestData,
-  setIVData,
-  clearIVData,
-  setPutCallData,
-  clearPutCallData,
-  setDarkPoolData,
-  clearDarkPoolData,
-  setFTDData,
-  clearFTDData,
-  setMaxPainData,
-  clearMaxPainData,
-  setAnalystTargetData,
-  clearAnalystTargetData,
-  setInsiderActivityData,
-  clearInsiderActivityData,
-  setRevenueData,
-  clearRevenueData,
-  setEPSData,
-  clearEPSData,
-  setFCFData,
-  clearFCFData,
-  setMarginData,
-  clearMarginData,
-  setPERatioData,
-  clearPERatioData,
-  setEVEBITDAData,
-  clearEVEBITDAData,
-  setMarketCapData,
-  clearMarketCapData,
-  setInstitutionalData,
-  clearInstitutionalData,
-} from "$lib/klinecharts/customIndicators";
+    registerCustomIndicators,
+    setShortInterestData,
+    clearShortInterestData,
+    setIVData,
+    clearIVData,
+    setPutCallData,
+    clearPutCallData,
+    setDarkPoolData,
+    clearDarkPoolData,
+    setFTDData,
+    clearFTDData,
+    setMaxPainData,
+    clearMaxPainData,
+    setAnalystTargetData,
+    clearAnalystTargetData,
+    setInsiderActivityData,
+    clearInsiderActivityData,
+    setRevenueData,
+    clearRevenueData,
+    setEPSData,
+    clearEPSData,
+    setFCFData,
+    clearFCFData,
+    setMarginData,
+    clearMarginData,
+    setPERatioData,
+    clearPERatioData,
+    setEVEBITDAData,
+    clearEVEBITDAData,
+    setMarketCapData,
+    clearMarketCapData,
+    setInstitutionalData,
+    clearInstitutionalData,
+  } from "$lib/klinecharts/customIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
@@ -1118,7 +1118,8 @@
     remove:
       "M18 7h5v1h-2.01l-1.33 14.64a1.5 1.5 0 0 1-1.5 1.36H9.84a1.5 1.5 0 0 1-1.49-1.36L7.01 8H5V7h5V6c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v1Zm-6-2a1 1 0 0 0-1 1v1h6V6a1 1 0 0 0-1-1h-4ZM8.02 8l1.32 14.54a.5.5 0 0 0 .5.46h8.33a.5.5 0 0 0 .5-.46L19.99 8H8.02Z",
     lock: "M14.5 11V8.5C14.5 6.567 12.933 5 11 5C9.067 5 7.5 6.567 7.5 8.5V11H7C5.895 11 5 11.895 5 13V18C5 19.105 5.895 20 7 20H15C16.105 20 17 19.105 17 18V13C17 11.895 16.105 11 15 11H14.5ZM8.5 8.5C8.5 7.119 9.619 6 11 6C12.381 6 13.5 7.119 13.5 8.5V11H8.5V8.5ZM16 13V18C16 18.552 15.552 19 15 19H7C6.448 19 6 18.552 6 18V13C6 12.448 6.448 12 7 12H15C15.552 12 16 12.448 16 13Z",
-    unlock: "M14.5 11H15C16.105 11 17 11.895 17 13V18C17 19.105 16.105 20 15 20H7C5.895 20 5 19.105 5 18V13C5 11.895 5.895 11 7 11H13.5V8.5C13.5 7.119 12.381 6 11 6C9.887 6 8.948 6.74 8.621 7.75L7.672 7.434C8.112 6.114 9.44 5 11 5C12.933 5 14.5 6.567 14.5 8.5V11ZM16 13C16 12.448 15.552 12 15 12H7C6.448 12 6 12.448 6 13V18C6 18.552 6.448 19 7 19H15C15.552 19 16 18.552 16 18V13Z",
+    unlock:
+      "M14.5 11H15C16.105 11 17 11.895 17 13V18C17 19.105 16.105 20 15 20H7C5.895 20 5 19.105 5 18V13C5 11.895 5.895 11 7 11H13.5V8.5C13.5 7.119 12.381 6 11 6C9.887 6 8.948 6.74 8.621 7.75L7.672 7.434C8.112 6.114 9.44 5 11 5C12.933 5 14.5 6.567 14.5 8.5V11ZM16 13C16 12.448 15.552 12 15 12H7C6.448 12 6 12.448 6 13V18C6 18.552 6.448 19 7 19H15C15.552 19 16 18.552 16 18V13Z",
   };
 
   const toolGroups: ToolGroup[] = [
@@ -2284,7 +2285,9 @@
             }
           }
           if (closestBar) {
-            const pricePixel = chart.convertToPixel({ value: closestBar.close });
+            const pricePixel = chart.convertToPixel({
+              value: closestBar.close,
+            });
             if (pricePixel && typeof pricePixel.y === "number") {
               priceY = pricePixel.y;
             }
@@ -2305,7 +2308,10 @@
   };
 
   // Handle short interest marker click
-  const handleShortInterestClick = (marker: ShortInterestMarker, event: MouseEvent) => {
+  const handleShortInterestClick = (
+    marker: ShortInterestMarker,
+    event: MouseEvent,
+  ) => {
     event.stopPropagation();
     selectedShortInterest = marker.shortInterest;
 
@@ -2856,7 +2862,13 @@
 
       // Build timestamp cache for short interest data
       shortInterestTimestampCache = new Map();
-      const indicatorData: { timestamp: number; shortPercentOfFloat: number; shortPercentOfOut: number; daysToCover: number; totalShortInterest: number }[] = [];
+      const indicatorData: {
+        timestamp: number;
+        shortPercentOfFloat: number;
+        shortPercentOfOut: number;
+        daysToCover: number;
+        totalShortInterest: number;
+      }[] = [];
       for (const si of historicalShortInterest) {
         if (si.recordDate) {
           const dt = DateTime.fromISO(si.recordDate, { zone });
@@ -2898,7 +2910,7 @@
     category: string,
     loadingFlag: string,
     setDataFn: (data: any[]) => void,
-    transformFn: (item: any) => any
+    transformFn: (item: any) => any,
   ) => {
     if (!ticker) return;
 
@@ -2909,12 +2921,15 @@
         body: JSON.stringify({ ticker, category }),
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
       const result = await response.json();
       const historyData = result?.history || result?.data || [];
 
-      const indicatorData = historyData.map(transformFn).filter((d: any) => d.timestamp > 0);
+      const indicatorData = historyData
+        .map(transformFn)
+        .filter((d: any) => d.timestamp > 0);
       setDataFn(indicatorData);
 
       if (chart) syncIndicators();
@@ -2931,13 +2946,18 @@
     await fetchIndicatorData(
       "iv-rank",
       "ivRankLoading",
-      (data) => { ivRankData = data; setIVData(data); },
+      (data) => {
+        ivRankData = data;
+        setIVData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
         ivRank: item.ivRank ?? item.iv_rank ?? 0,
         ivPercentile: item.ivPercentile ?? item.iv_percentile ?? 0,
         currentIV: item.currentIV ?? item.current_iv ?? item.iv ?? 0,
-      })
+      }),
     );
     ivRankLoading = false;
   };
@@ -2949,13 +2969,19 @@
     await fetchIndicatorData(
       "put-call-ratio",
       "putCallLoading",
-      (data) => { putCallData = data; setPutCallData(data); },
+      (data) => {
+        putCallData = data;
+        setPutCallData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
-        putCallRatio: item.putCallRatio ?? item.put_call_ratio ?? item.ratio ?? 0,
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
+        putCallRatio:
+          item.putCallRatio ?? item.put_call_ratio ?? item.ratio ?? 0,
         putVolume: item.putVolume ?? item.put_volume ?? 0,
         callVolume: item.callVolume ?? item.call_volume ?? 0,
-      })
+      }),
     );
     putCallLoading = false;
   };
@@ -2967,13 +2993,20 @@
     await fetchIndicatorData(
       "dark-pool",
       "darkPoolLoading",
-      (data) => { darkPoolData = data; setDarkPoolData(data); },
+      (data) => {
+        darkPoolData = data;
+        setDarkPoolData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
-        darkPoolVolume: item.darkPoolVolume ?? item.dark_pool_volume ?? item.volume ?? 0,
-        darkPoolPercent: item.darkPoolPercent ?? item.dark_pool_percent ?? item.percent ?? 0,
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
+        darkPoolVolume:
+          item.darkPoolVolume ?? item.dark_pool_volume ?? item.volume ?? 0,
+        darkPoolPercent:
+          item.darkPoolPercent ?? item.dark_pool_percent ?? item.percent ?? 0,
         blockTradeVolume: item.blockTradeVolume ?? item.block_trade_volume ?? 0,
-      })
+      }),
     );
     darkPoolLoading = false;
   };
@@ -2985,12 +3018,20 @@
     await fetchIndicatorData(
       "ftd",
       "ftdLoading",
-      (data) => { ftdData = data; setFTDData(data); },
+      (data) => {
+        ftdData = data;
+        setFTDData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.settlement_date || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(
+          item.date || item.settlement_date || item.recordDate,
+          { zone },
+        )
+          .startOf("day")
+          .toMillis(),
         ftdShares: item.ftdShares ?? item.ftd_shares ?? item.quantity ?? 0,
         ftdValue: item.ftdValue ?? item.ftd_value ?? item.value ?? 0,
-      })
+      }),
     );
     ftdLoading = false;
   };
@@ -3002,12 +3043,17 @@
     await fetchIndicatorData(
       "max-pain",
       "maxPainLoading",
-      (data) => { maxPainData = data; setMaxPainData(data); },
+      (data) => {
+        maxPainData = data;
+        setMaxPainData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
         maxPain: item.maxPain ?? item.max_pain ?? item.strike ?? 0,
         expirationDate: item.expirationDate ?? item.expiration_date ?? "",
-      })
+      }),
     );
     maxPainLoading = false;
   };
@@ -3019,13 +3065,24 @@
     await fetchIndicatorData(
       "analyst-target",
       "analystTargetLoading",
-      (data) => { analystTargetData = data; setAnalystTargetData(data); },
+      (data) => {
+        analystTargetData = data;
+        setAnalystTargetData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
-        highTarget: item.highTarget ?? item.high_target ?? item.priceTargetHigh ?? 0,
-        averageTarget: item.averageTarget ?? item.average_target ?? item.priceTargetAverage ?? 0,
-        lowTarget: item.lowTarget ?? item.low_target ?? item.priceTargetLow ?? 0,
-      })
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
+        highTarget:
+          item.highTarget ?? item.high_target ?? item.priceTargetHigh ?? 0,
+        averageTarget:
+          item.averageTarget ??
+          item.average_target ??
+          item.priceTargetAverage ??
+          0,
+        lowTarget:
+          item.lowTarget ?? item.low_target ?? item.priceTargetLow ?? 0,
+      }),
     );
     analystTargetLoading = false;
   };
@@ -3037,14 +3094,22 @@
     await fetchIndicatorData(
       "insider-activity",
       "insiderActivityLoading",
-      (data) => { insiderActivityData = data; setInsiderActivityData(data); },
+      (data) => {
+        insiderActivityData = data;
+        setInsiderActivityData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.transactionDate || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(
+          item.date || item.transactionDate || item.recordDate,
+          { zone },
+        )
+          .startOf("day")
+          .toMillis(),
         netShares: item.netShares ?? item.net_shares ?? 0,
         netValue: item.netValue ?? item.net_value ?? item.transactionValue ?? 0,
         buyCount: item.buyCount ?? item.buy_count ?? 0,
         sellCount: item.sellCount ?? item.sell_count ?? 0,
-      })
+      }),
     );
     insiderActivityLoading = false;
   };
@@ -3054,15 +3119,14 @@
     if (revenueLoading || !ticker) return;
     revenueLoading = true;
     try {
-      console.log("[Revenue] Fetching for ticker:", ticker);
       const response = await fetch("/api/chart-indicator", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ticker, category: "revenue" }),
       });
 
-      console.log("[Revenue] Response status:", response.status);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
       const result = await response.json();
       console.log("[Revenue] API result keys:", Object.keys(result || {}));
@@ -3071,87 +3135,92 @@
       // Use quarterly data for more granular chart display
       const quarterData = result?.quarter || [];
       const annualData = result?.annual || [];
-      const historyData = quarterData.length > 0 ? quarterData : (annualData.length > 0 ? annualData : (result?.history || result?.data || []));
+      const historyData =
+        quarterData.length > 0
+          ? quarterData
+          : annualData.length > 0
+            ? annualData
+            : result?.history || result?.data || [];
       const isQuarterly = quarterData.length > 0;
 
-      console.log("[Revenue] Using quarterly:", isQuarterly, "historyData length:", historyData.length);
-
       if (historyData.length === 0) {
-        console.warn("[Revenue] No revenue data returned from API");
         revenueData = [];
         setRevenueData([]);
         revenueLoading = false;
         return;
       }
 
-      // Log first item to see actual field names
-      console.log("[Revenue] First raw item keys:", Object.keys(historyData[0]));
-      console.log("[Revenue] First raw item:", historyData[0]);
-
       // Sort by date for YoY calculation
       const sortedData = [...historyData].sort((a: any, b: any) => {
-        const dateA = new Date(a.date || a.fiscalDateEnding || a.recordDate || 0).getTime();
-        const dateB = new Date(b.date || b.fiscalDateEnding || b.recordDate || 0).getTime();
+        const dateA = new Date(
+          a.date || a.fiscalDateEnding || a.recordDate || 0,
+        ).getTime();
+        const dateB = new Date(
+          b.date || b.fiscalDateEnding || b.recordDate || 0,
+        ).getTime();
         return dateA - dateB;
       });
 
       // Build lookup for YoY growth calculation
       const lookupMap = new Map<string, any>();
       sortedData.forEach((item: any) => {
-        const key = isQuarterly && item.period
-          ? `${item.period}-${item.fiscalYear}`
-          : `${item.fiscalYear}`;
+        const key =
+          isQuarterly && item.period
+            ? `${item.period}-${item.fiscalYear}`
+            : `${item.fiscalYear}`;
         lookupMap.set(key, item);
       });
 
-      const indicatorData = sortedData.map((item: any) => {
-        // Try multiple date field names
-        const dateStr = item.date || item.fiscalDateEnding || item.recordDate || item.calendarYear;
+      const indicatorData = sortedData
+        .map((item: any) => {
+          // Try multiple date field names
+          const dateStr =
+            item.date ||
+            item.fiscalDateEnding ||
+            item.recordDate ||
+            item.calendarYear;
 
-        let timestamp = 0;
-        if (dateStr) {
-          // Try ISO format first
-          const dt = DateTime.fromISO(dateStr, { zone });
-          if (dt.isValid) {
-            timestamp = dt.startOf("day").toMillis();
-          } else {
-            // Fallback: try parsing as Date object
-            const parsed = new Date(dateStr);
-            if (!isNaN(parsed.getTime())) {
-              timestamp = DateTime.fromJSDate(parsed, { zone }).startOf("day").toMillis();
+          let timestamp = 0;
+          if (dateStr) {
+            // Try ISO format first
+            const dt = DateTime.fromISO(dateStr, { zone });
+            if (dt.isValid) {
+              timestamp = dt.startOf("day").toMillis();
+            } else {
+              // Fallback: try parsing as Date object
+              const parsed = new Date(dateStr);
+              if (!isNaN(parsed.getTime())) {
+                timestamp = DateTime.fromJSDate(parsed, { zone })
+                  .startOf("day")
+                  .toMillis();
+              }
             }
           }
-        }
 
-        if (timestamp <= 0) {
-          console.warn("[Revenue] Invalid timestamp for item:", item);
-        }
+          // Calculate YoY growth
+          const currentRevenue = item.revenue ?? item.totalRevenue ?? 0;
+          let revenueGrowth = 0;
 
-        // Calculate YoY growth
-        const currentRevenue = item.revenue ?? item.totalRevenue ?? 0;
-        let revenueGrowth = 0;
+          const prevKey =
+            isQuarterly && item.period
+              ? `${item.period}-${item.fiscalYear - 1}`
+              : `${item.fiscalYear - 1}`;
+          const prevItem = lookupMap.get(prevKey);
 
-        const prevKey = isQuarterly && item.period
-          ? `${item.period}-${item.fiscalYear - 1}`
-          : `${item.fiscalYear - 1}`;
-        const prevItem = lookupMap.get(prevKey);
+          if (prevItem?.revenue) {
+            revenueGrowth =
+              ((currentRevenue - prevItem.revenue) /
+                Math.abs(prevItem.revenue)) *
+              100;
+          }
 
-        if (prevItem?.revenue) {
-          revenueGrowth = ((currentRevenue - prevItem.revenue) / Math.abs(prevItem.revenue)) * 100;
-        }
-
-        return {
-          timestamp,
-          revenue: currentRevenue,
-          revenueGrowth: Number.isFinite(revenueGrowth) ? revenueGrowth : 0,
-        };
-      }).filter((d: any) => d.timestamp > 0);
-
-      console.log("[Revenue] Valid items after filter:", indicatorData.length);
-      if (indicatorData.length > 0) {
-        console.log("[Revenue] First transformed item:", indicatorData[0]);
-        console.log("[Revenue] Last transformed item:", indicatorData[indicatorData.length - 1]);
-      }
+          return {
+            timestamp,
+            revenue: currentRevenue,
+            revenueGrowth: Number.isFinite(revenueGrowth) ? revenueGrowth : 0,
+          };
+        })
+        ?.filter((d: any) => d.timestamp > 0);
 
       revenueData = indicatorData;
       setRevenueData(indicatorData);
@@ -3180,13 +3249,22 @@
     await fetchIndicatorData(
       "eps",
       "epsLoading",
-      (data) => { epsData = data; setEPSData(data); },
+      (data) => {
+        epsData = data;
+        setEPSData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.fiscalDateEnding || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(
+          item.date || item.fiscalDateEnding || item.recordDate,
+          { zone },
+        )
+          .startOf("day")
+          .toMillis(),
         eps: item.eps ?? item.reportedEPS ?? 0,
         epsEstimate: item.epsEstimate ?? item.estimatedEPS ?? 0,
-        epsSurprise: item.epsSurprise ?? item.surprise ?? item.surprisePercent ?? 0,
-      })
+        epsSurprise:
+          item.epsSurprise ?? item.surprise ?? item.surprisePercent ?? 0,
+      }),
     );
     epsLoading = false;
   };
@@ -3198,13 +3276,22 @@
     await fetchIndicatorData(
       "fcf",
       "fcfLoading",
-      (data) => { fcfData = data; setFCFData(data); },
+      (data) => {
+        fcfData = data;
+        setFCFData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.fiscalDateEnding || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(
+          item.date || item.fiscalDateEnding || item.recordDate,
+          { zone },
+        )
+          .startOf("day")
+          .toMillis(),
         freeCashFlow: item.freeCashFlow ?? item.free_cash_flow ?? 0,
-        operatingCashFlow: item.operatingCashFlow ?? item.operating_cash_flow ?? 0,
+        operatingCashFlow:
+          item.operatingCashFlow ?? item.operating_cash_flow ?? 0,
         capex: item.capex ?? item.capitalExpenditures ?? 0,
-      })
+      }),
     );
     fcfLoading = false;
   };
@@ -3216,13 +3303,31 @@
     await fetchIndicatorData(
       "margin",
       "marginLoading",
-      (data) => { marginData = data; setMarginData(data); },
+      (data) => {
+        marginData = data;
+        setMarginData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.fiscalDateEnding || item.recordDate, { zone }).startOf("day").toMillis(),
-        grossMargin: (item.grossMargin ?? item.gross_margin ?? item.grossProfitMargin ?? 0) * 100,
-        operatingMargin: (item.operatingMargin ?? item.operating_margin ?? item.operatingProfitMargin ?? 0) * 100,
-        netMargin: (item.netMargin ?? item.net_margin ?? item.netProfitMargin ?? 0) * 100,
-      })
+        timestamp: DateTime.fromISO(
+          item.date || item.fiscalDateEnding || item.recordDate,
+          { zone },
+        )
+          .startOf("day")
+          .toMillis(),
+        grossMargin:
+          (item.grossMargin ??
+            item.gross_margin ??
+            item.grossProfitMargin ??
+            0) * 100,
+        operatingMargin:
+          (item.operatingMargin ??
+            item.operating_margin ??
+            item.operatingProfitMargin ??
+            0) * 100,
+        netMargin:
+          (item.netMargin ?? item.net_margin ?? item.netProfitMargin ?? 0) *
+          100,
+      }),
     );
     marginLoading = false;
   };
@@ -3234,12 +3339,17 @@
     await fetchIndicatorData(
       "pe-ratio",
       "peRatioLoading",
-      (data) => { peRatioData = data; setPERatioData(data); },
+      (data) => {
+        peRatioData = data;
+        setPERatioData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
         peRatio: item.peRatio ?? item.pe_ratio ?? item.trailingPE ?? 0,
         forwardPE: item.forwardPE ?? item.forward_pe ?? item.forwardPE ?? 0,
-      })
+      }),
     );
     peRatioLoading = false;
   };
@@ -3251,30 +3361,104 @@
     await fetchIndicatorData(
       "ev-ebitda",
       "evEbitdaLoading",
-      (data) => { evEbitdaData = data; setEVEBITDAData(data); },
+      (data) => {
+        evEbitdaData = data;
+        setEVEBITDAData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
-        evEbitda: item.evEbitda ?? item.ev_ebitda ?? item.enterpriseValueOverEBITDA ?? 0,
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
+        evEbitda:
+          item.evEbitda ??
+          item.ev_ebitda ??
+          item.enterpriseValueOverEBITDA ??
+          0,
         enterpriseValue: item.enterpriseValue ?? item.enterprise_value ?? 0,
         ebitda: item.ebitda ?? item.EBITDA ?? 0,
-      })
+      }),
     );
     evEbitdaLoading = false;
   };
 
   // Fetch Market Cap data
   const fetchMarketCapDataIndicator = async () => {
-    if (marketCapLoading) return;
+    if (marketCapLoading || !ticker) return;
     marketCapLoading = true;
-    await fetchIndicatorData(
-      "market-cap",
-      "marketCapLoading",
-      (data) => { marketCapData = data; setMarketCapData(data); },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
-        marketCap: item.marketCap ?? item.market_cap ?? item.marketCapitalization ?? 0,
-      })
-    );
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category: "market-cap" }),
+      });
+
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+
+      // Market Cap API may return array directly or nested in history/data
+      const historyData = Array.isArray(result)
+        ? result
+        : result?.history || result?.data || [];
+
+      if (historyData?.length === 0) {
+        marketCapData = [];
+        setMarketCapData([]);
+        marketCapLoading = false;
+        return;
+      }
+
+      const indicatorData = historyData
+        .map((item: any) => {
+          // Try multiple date field names
+          const dateStr = item.date || item.recordDate || item.calendarYear;
+
+          let timestamp = 0;
+          if (dateStr) {
+            // Try ISO format first
+            const dt = DateTime.fromISO(dateStr, { zone });
+            if (dt.isValid) {
+              timestamp = dt.startOf("day").toMillis();
+            } else {
+              // Fallback: try parsing as Date object
+              const parsed = new Date(dateStr);
+              if (!isNaN(parsed.getTime())) {
+                timestamp = DateTime.fromJSDate(parsed, { zone })
+                  .startOf("day")
+                  .toMillis();
+              }
+            }
+          }
+
+          return {
+            timestamp,
+            marketCap:
+              item.marketCap ??
+              item.market_cap ??
+              item.marketCapitalization ??
+              0,
+          };
+        })
+        .filter((d: any) => d.timestamp > 0);
+
+      marketCapData = indicatorData;
+      setMarketCapData(indicatorData);
+
+      // Force indicator refresh
+      if (chart && indicatorState.market_cap) {
+        const existingId = indicatorInstanceIds.market_cap;
+        if (existingId) {
+          chart.removeIndicator({ id: existingId });
+          indicatorInstanceIds.market_cap = null;
+        }
+        syncIndicators();
+      }
+    } catch (error) {
+      console.error("[MarketCap] Failed to fetch market cap data:", error);
+      marketCapData = [];
+      setMarketCapData([]);
+    }
     marketCapLoading = false;
   };
 
@@ -3285,13 +3469,30 @@
     await fetchIndicatorData(
       "institutional",
       "institutionalLoading",
-      (data) => { institutionalData = data; setInstitutionalData(data); },
+      (data) => {
+        institutionalData = data;
+        setInstitutionalData(data);
+      },
       (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
-        institutionalOwnership: (item.institutionalOwnership ?? item.institutional_ownership ?? item.percentOwnership ?? 0) * 100,
-        institutionalChange: item.institutionalChange ?? item.institutional_change ?? item.changePercent ?? 0,
-        numInstitutions: item.numInstitutions ?? item.num_institutions ?? item.numberOfInstitutions ?? 0,
-      })
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+          .startOf("day")
+          .toMillis(),
+        institutionalOwnership:
+          (item.institutionalOwnership ??
+            item.institutional_ownership ??
+            item.percentOwnership ??
+            0) * 100,
+        institutionalChange:
+          item.institutionalChange ??
+          item.institutional_change ??
+          item.changePercent ??
+          0,
+        numInstitutions:
+          item.numInstitutions ??
+          item.num_institutions ??
+          item.numberOfInstitutions ??
+          0,
+      }),
     );
     institutionalLoading = false;
   };
@@ -4438,20 +4639,25 @@
         fetchOiData();
       } else if (name === "hottest" && hottestContractsData.length === 0) {
         fetchHottestContractsData();
-      } else if (name === "short_interest" && historicalShortInterest.length === 0) {
+      } else if (
+        name === "short_interest" &&
+        historicalShortInterest.length === 0
+      ) {
         fetchShortInterestData();
       } else if (name === "short_interest") {
         // Data already exists, set it for the indicator and sync
-        const indicatorData = historicalShortInterest.map(si => {
-          const dt = DateTime.fromISO(si.recordDate, { zone });
-          return {
-            timestamp: dt.isValid ? dt.startOf("day").toMillis() : 0,
-            shortPercentOfFloat: si.shortPercentOfFloat ?? 0,
-            shortPercentOfOut: si.shortPercentOfOut ?? 0,
-            daysToCover: si.daysToCover ?? 0,
-            totalShortInterest: Number(si.totalShortInterest) ?? 0,
-          };
-        }).filter(d => d.timestamp > 0);
+        const indicatorData = historicalShortInterest
+          .map((si) => {
+            const dt = DateTime.fromISO(si.recordDate, { zone });
+            return {
+              timestamp: dt.isValid ? dt.startOf("day").toMillis() : 0,
+              shortPercentOfFloat: si.shortPercentOfFloat ?? 0,
+              shortPercentOfOut: si.shortPercentOfOut ?? 0,
+              daysToCover: si.daysToCover ?? 0,
+              totalShortInterest: Number(si.totalShortInterest) ?? 0,
+            };
+          })
+          .filter((d) => d.timestamp > 0);
         setShortInterestData(indicatorData);
         showShortInterest = true;
         syncIndicators();
@@ -4487,7 +4693,10 @@
       } else if (name === "analyst_target") {
         setAnalystTargetData(analystTargetData);
         syncIndicators();
-      } else if (name === "insider_activity" && insiderActivityData.length === 0) {
+      } else if (
+        name === "insider_activity" &&
+        insiderActivityData.length === 0
+      ) {
         fetchInsiderActivityDataIndicator();
       } else if (name === "insider_activity") {
         setInsiderActivityData(insiderActivityData);
@@ -5152,7 +5361,6 @@
   }
 
   onMount(async () => {
-
     // Load chart settings from localStorage
     const savedSettings = loadChartSettings();
     if (savedSettings) {
@@ -5178,7 +5386,10 @@
       }
       // Load toolbar selection state
       if (savedSettings.selectedToolByGroup) {
-        selectedToolByGroup = { ...selectedToolByGroup, ...savedSettings.selectedToolByGroup };
+        selectedToolByGroup = {
+          ...selectedToolByGroup,
+          ...savedSettings.selectedToolByGroup,
+        };
       }
       if (savedSettings.drawingMode) {
         drawingMode = savedSettings.drawingMode;
@@ -6322,30 +6533,35 @@
                       );
                     }
                   }}
-                  title={drawingsLocked ? "Unlock drawings to use this tool" : group.label}
+                  title={drawingsLocked
+                    ? "Unlock drawings to use this tool"
+                    : group.label}
                 >
                   <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
-                    <path d={toolIcons[selectedToolByGroup[group.id]] || toolIcons.horizontalStraightLine} />
+                    <path
+                      d={toolIcons[selectedToolByGroup[group.id]] ||
+                        toolIcons.horizontalStraightLine}
+                    />
                   </svg>
                   <!-- Dropdown Arrow - hidden when drawings are locked -->
                   {#if !drawingsLocked}
-                  <DropdownMenu.Trigger asChild let:builder>
-                    <div
-                      use:builder.action
-                      {...builder}
-                      class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-50 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
-                      on:click|stopPropagation
-                    >
-                      <svg
-                        viewBox="0 0 4 6"
-                        class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${dropdownStates[group.id] ? "rotate-90" : ""}`}
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <div
+                        use:builder.action
+                        {...builder}
+                        class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-50 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
+                        on:click|stopPropagation
                       >
-                        <path
-                          d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"
-                        />
-                      </svg>
-                    </div>
-                  </DropdownMenu.Trigger>
+                        <svg
+                          viewBox="0 0 4 6"
+                          class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${dropdownStates[group.id] ? "rotate-90" : ""}`}
+                        >
+                          <path
+                            d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"
+                          />
+                        </svg>
+                      </div>
+                    </DropdownMenu.Trigger>
                   {/if}
                 </button>
 

@@ -31,10 +31,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const category = data?.category;
   const endpoint = INDICATOR_ENDPOINTS[category];
 
-  console.log("[chart-indicator] Category:", category, "Endpoint:", endpoint, "Ticker:", data?.ticker);
 
   if (!endpoint) {
-    console.log("[chart-indicator] Unknown category:", category);
     return new Response(
       JSON.stringify({ error: `Unknown indicator category: ${category}` }),
       { status: 400 }
@@ -43,7 +41,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   // Chart indicators require Pro tier
   if (user?.tier !== "Pro") {
-    console.log("[chart-indicator] User tier:", user?.tier, "- Pro required");
     return new Response(
       JSON.stringify({ error: "Pro subscription required" }),
       { status: 403 }
@@ -82,7 +79,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     };
   }
 
-  console.log("[chart-indicator] Fetching:", apiURL + endpoint, "with payload:", postData);
 
   const response = await fetch(apiURL + endpoint, {
     method: "POST",
@@ -93,10 +89,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     body: JSON.stringify(postData),
   });
 
-  console.log("[chart-indicator] Backend response status:", response.status);
 
   const output = await response.json();
-  console.log("[chart-indicator] Output keys:", Object.keys(output || {}));
 
   return new Response(JSON.stringify(output));
 };
