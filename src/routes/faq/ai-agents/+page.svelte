@@ -531,9 +531,6 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-xl font-bold ml-3">About Us</h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
-                />
               </div>
               <span class=" p-3 ml-3 mr-3">
                 Learn more about why we're doing this here
@@ -550,9 +547,6 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-xl font-bold ml-3">Contact Us</h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
-                />
               </div>
               <span class=" p-3 ml-3 mr-3">
                 Let me know if you need something
