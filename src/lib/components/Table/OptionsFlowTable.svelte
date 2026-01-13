@@ -1259,15 +1259,14 @@ ${insightData.traderTakeaway}
       >
         {#if isLoadingInsight}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
-            <div class="relative">
-              <div
-                class="w-12 h-12 border-4 border-gray-300 dark:border-zinc-700 rounded-full"
-              ></div>
-              <div
-                class="w-12 h-12 border-4 border-gray-500 dark:border-zinc-400 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
-              ></div>
-            </div>
-            <p class="text-sm text-gray-600 dark:text-zinc-300 font-medium">
+            <label
+              class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
+            >
+              <span
+                class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+              ></span>
+            </label>
+            <p class="text-sm text-gray-700 dark:text-zinc-200 font-medium">
               Analyzing options flow...
             </p>
             <p class="text-xs text-gray-500 dark:text-zinc-400">
