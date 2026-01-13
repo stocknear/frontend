@@ -7,7 +7,41 @@
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
   import { toast } from "svelte-sonner";
-  import { registerCustomIndicators, setShortInterestData, clearShortInterestData } from "$lib/klinecharts/customIndicators";
+  import {
+  registerCustomIndicators,
+  setShortInterestData,
+  clearShortInterestData,
+  setIVData,
+  clearIVData,
+  setPutCallData,
+  clearPutCallData,
+  setDarkPoolData,
+  clearDarkPoolData,
+  setFTDData,
+  clearFTDData,
+  setMaxPainData,
+  clearMaxPainData,
+  setAnalystTargetData,
+  clearAnalystTargetData,
+  setInsiderActivityData,
+  clearInsiderActivityData,
+  setRevenueData,
+  clearRevenueData,
+  setEPSData,
+  clearEPSData,
+  setFCFData,
+  clearFCFData,
+  setMarginData,
+  clearMarginData,
+  setPERatioData,
+  clearPERatioData,
+  setEVEBITDAData,
+  clearEVEBITDAData,
+  setMarketCapData,
+  clearMarketCapData,
+  setInstitutionalData,
+  clearInstitutionalData,
+} from "$lib/klinecharts/customIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
@@ -254,6 +288,38 @@
   let shortInterestLoading = false;
   let selectedShortInterest: ShortInterestData | null = null;
   let shortInterestPopupPosition = { x: 0, y: 0 };
+
+  // New indicator data storage
+  let ivRankData: any[] = [];
+  let ivRankLoading = false;
+  let putCallData: any[] = [];
+  let putCallLoading = false;
+  let darkPoolData: any[] = [];
+  let darkPoolLoading = false;
+  let ftdData: any[] = [];
+  let ftdLoading = false;
+  let maxPainData: any[] = [];
+  let maxPainLoading = false;
+  let analystTargetData: any[] = [];
+  let analystTargetLoading = false;
+  let insiderActivityData: any[] = [];
+  let insiderActivityLoading = false;
+  let revenueData: any[] = [];
+  let revenueLoading = false;
+  let epsData: any[] = [];
+  let epsLoading = false;
+  let fcfData: any[] = [];
+  let fcfLoading = false;
+  let marginData: any[] = [];
+  let marginLoading = false;
+  let peRatioData: any[] = [];
+  let peRatioLoading = false;
+  let evEbitdaData: any[] = [];
+  let evEbitdaLoading = false;
+  let marketCapData: any[] = [];
+  let marketCapLoading = false;
+  let institutionalData: any[] = [];
+  let institutionalLoading = false;
 
   // Cached timestamp maps for performance (avoid re-computing on every scroll/zoom)
   let earningsTimestampCache = new Map<EarningsData, number>();
@@ -741,6 +807,143 @@
       label: "Short Interest",
       indicatorName: "SN_SHORT_INTEREST",
       category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "revenue",
+      label: "Revenue",
+      indicatorName: "SN_REVENUE",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "eps",
+      label: "EPS",
+      indicatorName: "SN_EPS",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "fcf",
+      label: "Free Cash Flow",
+      indicatorName: "SN_FCF",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "margin",
+      label: "Profit Margins",
+      indicatorName: "SN_MARGIN",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "pe_ratio",
+      label: "P/E Ratio",
+      indicatorName: "SN_PE_RATIO",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "ev_ebitda",
+      label: "EV/EBITDA",
+      indicatorName: "SN_EV_EBITDA",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "market_cap",
+      label: "Market Cap",
+      indicatorName: "SN_MARKET_CAP",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "insider_activity",
+      label: "Insider Activity",
+      indicatorName: "SN_INSIDER",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "institutional",
+      label: "Institutional Ownership",
+      indicatorName: "SN_INSTITUTIONAL",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "analyst_target",
+      label: "Analyst Price Target",
+      indicatorName: "SN_ANALYST_TARGET",
+      category: "Fundamentals",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
+    },
+    // Options category
+    {
+      id: "iv_rank",
+      label: "IV Rank/Percentile",
+      indicatorName: "SN_IV_RANK",
+      category: "Options",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "put_call_ratio",
+      label: "Put/Call Ratio",
+      indicatorName: "SN_PUT_CALL",
+      category: "Options",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "max_pain",
+      label: "Max Pain",
+      indicatorName: "SN_MAX_PAIN",
+      category: "Options",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
+    },
+    // Market Structure category
+    {
+      id: "dark_pool",
+      label: "Dark Pool %",
+      indicatorName: "SN_DARK_POOL",
+      category: "Market Structure",
+      defaultParams: [],
+      pane: "panel",
+      height: 120,
+    },
+    {
+      id: "ftd",
+      label: "Fail-to-Deliver",
+      indicatorName: "SN_FTD",
+      category: "Market Structure",
       defaultParams: [],
       pane: "panel",
       height: 120,
@@ -2690,6 +2893,409 @@
     }
   };
 
+  // Generic indicator fetch function
+  const fetchIndicatorData = async (
+    category: string,
+    loadingFlag: string,
+    setDataFn: (data: any[]) => void,
+    transformFn: (item: any) => any
+  ) => {
+    if (!ticker) return;
+
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+      const historyData = result?.history || result?.data || [];
+
+      const indicatorData = historyData.map(transformFn).filter((d: any) => d.timestamp > 0);
+      setDataFn(indicatorData);
+
+      if (chart) syncIndicators();
+    } catch (error) {
+      console.error(`Failed to fetch ${category} data:`, error);
+      setDataFn([]);
+    }
+  };
+
+  // Fetch IV Rank/Percentile data
+  const fetchIVRankData = async () => {
+    if (ivRankLoading) return;
+    ivRankLoading = true;
+    await fetchIndicatorData(
+      "iv-rank",
+      "ivRankLoading",
+      (data) => { ivRankData = data; setIVData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        ivRank: item.ivRank ?? item.iv_rank ?? 0,
+        ivPercentile: item.ivPercentile ?? item.iv_percentile ?? 0,
+        currentIV: item.currentIV ?? item.current_iv ?? item.iv ?? 0,
+      })
+    );
+    ivRankLoading = false;
+  };
+
+  // Fetch Put/Call Ratio data
+  const fetchPutCallData = async () => {
+    if (putCallLoading) return;
+    putCallLoading = true;
+    await fetchIndicatorData(
+      "put-call-ratio",
+      "putCallLoading",
+      (data) => { putCallData = data; setPutCallData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        putCallRatio: item.putCallRatio ?? item.put_call_ratio ?? item.ratio ?? 0,
+        putVolume: item.putVolume ?? item.put_volume ?? 0,
+        callVolume: item.callVolume ?? item.call_volume ?? 0,
+      })
+    );
+    putCallLoading = false;
+  };
+
+  // Fetch Dark Pool data
+  const fetchDarkPoolDataIndicator = async () => {
+    if (darkPoolLoading) return;
+    darkPoolLoading = true;
+    await fetchIndicatorData(
+      "dark-pool",
+      "darkPoolLoading",
+      (data) => { darkPoolData = data; setDarkPoolData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        darkPoolVolume: item.darkPoolVolume ?? item.dark_pool_volume ?? item.volume ?? 0,
+        darkPoolPercent: item.darkPoolPercent ?? item.dark_pool_percent ?? item.percent ?? 0,
+        blockTradeVolume: item.blockTradeVolume ?? item.block_trade_volume ?? 0,
+      })
+    );
+    darkPoolLoading = false;
+  };
+
+  // Fetch FTD data
+  const fetchFTDDataIndicator = async () => {
+    if (ftdLoading) return;
+    ftdLoading = true;
+    await fetchIndicatorData(
+      "ftd",
+      "ftdLoading",
+      (data) => { ftdData = data; setFTDData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.settlement_date || item.recordDate, { zone }).startOf("day").toMillis(),
+        ftdShares: item.ftdShares ?? item.ftd_shares ?? item.quantity ?? 0,
+        ftdValue: item.ftdValue ?? item.ftd_value ?? item.value ?? 0,
+      })
+    );
+    ftdLoading = false;
+  };
+
+  // Fetch Max Pain data
+  const fetchMaxPainData = async () => {
+    if (maxPainLoading) return;
+    maxPainLoading = true;
+    await fetchIndicatorData(
+      "max-pain",
+      "maxPainLoading",
+      (data) => { maxPainData = data; setMaxPainData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        maxPain: item.maxPain ?? item.max_pain ?? item.strike ?? 0,
+        expirationDate: item.expirationDate ?? item.expiration_date ?? "",
+      })
+    );
+    maxPainLoading = false;
+  };
+
+  // Fetch Analyst Target data
+  const fetchAnalystTargetData = async () => {
+    if (analystTargetLoading) return;
+    analystTargetLoading = true;
+    await fetchIndicatorData(
+      "analyst-target",
+      "analystTargetLoading",
+      (data) => { analystTargetData = data; setAnalystTargetData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        highTarget: item.highTarget ?? item.high_target ?? item.priceTargetHigh ?? 0,
+        averageTarget: item.averageTarget ?? item.average_target ?? item.priceTargetAverage ?? 0,
+        lowTarget: item.lowTarget ?? item.low_target ?? item.priceTargetLow ?? 0,
+      })
+    );
+    analystTargetLoading = false;
+  };
+
+  // Fetch Insider Activity data
+  const fetchInsiderActivityDataIndicator = async () => {
+    if (insiderActivityLoading) return;
+    insiderActivityLoading = true;
+    await fetchIndicatorData(
+      "insider-activity",
+      "insiderActivityLoading",
+      (data) => { insiderActivityData = data; setInsiderActivityData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.transactionDate || item.recordDate, { zone }).startOf("day").toMillis(),
+        netShares: item.netShares ?? item.net_shares ?? 0,
+        netValue: item.netValue ?? item.net_value ?? item.transactionValue ?? 0,
+        buyCount: item.buyCount ?? item.buy_count ?? 0,
+        sellCount: item.sellCount ?? item.sell_count ?? 0,
+      })
+    );
+    insiderActivityLoading = false;
+  };
+
+  // Fetch Revenue data
+  const fetchRevenueDataIndicator = async () => {
+    if (revenueLoading || !ticker) return;
+    revenueLoading = true;
+    try {
+      console.log("[Revenue] Fetching for ticker:", ticker);
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category: "revenue" }),
+      });
+
+      console.log("[Revenue] Response status:", response.status);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+      console.log("[Revenue] API result keys:", Object.keys(result || {}));
+
+      // Revenue API returns { annual: [...], quarter: [...] }
+      // Use quarterly data for more granular chart display
+      const quarterData = result?.quarter || [];
+      const annualData = result?.annual || [];
+      const historyData = quarterData.length > 0 ? quarterData : (annualData.length > 0 ? annualData : (result?.history || result?.data || []));
+      const isQuarterly = quarterData.length > 0;
+
+      console.log("[Revenue] Using quarterly:", isQuarterly, "historyData length:", historyData.length);
+
+      if (historyData.length === 0) {
+        console.warn("[Revenue] No revenue data returned from API");
+        revenueData = [];
+        setRevenueData([]);
+        revenueLoading = false;
+        return;
+      }
+
+      // Log first item to see actual field names
+      console.log("[Revenue] First raw item keys:", Object.keys(historyData[0]));
+      console.log("[Revenue] First raw item:", historyData[0]);
+
+      // Sort by date for YoY calculation
+      const sortedData = [...historyData].sort((a: any, b: any) => {
+        const dateA = new Date(a.date || a.fiscalDateEnding || a.recordDate || 0).getTime();
+        const dateB = new Date(b.date || b.fiscalDateEnding || b.recordDate || 0).getTime();
+        return dateA - dateB;
+      });
+
+      // Build lookup for YoY growth calculation
+      const lookupMap = new Map<string, any>();
+      sortedData.forEach((item: any) => {
+        const key = isQuarterly && item.period
+          ? `${item.period}-${item.fiscalYear}`
+          : `${item.fiscalYear}`;
+        lookupMap.set(key, item);
+      });
+
+      const indicatorData = sortedData.map((item: any) => {
+        // Try multiple date field names
+        const dateStr = item.date || item.fiscalDateEnding || item.recordDate || item.calendarYear;
+
+        let timestamp = 0;
+        if (dateStr) {
+          // Try ISO format first
+          const dt = DateTime.fromISO(dateStr, { zone });
+          if (dt.isValid) {
+            timestamp = dt.startOf("day").toMillis();
+          } else {
+            // Fallback: try parsing as Date object
+            const parsed = new Date(dateStr);
+            if (!isNaN(parsed.getTime())) {
+              timestamp = DateTime.fromJSDate(parsed, { zone }).startOf("day").toMillis();
+            }
+          }
+        }
+
+        if (timestamp <= 0) {
+          console.warn("[Revenue] Invalid timestamp for item:", item);
+        }
+
+        // Calculate YoY growth
+        const currentRevenue = item.revenue ?? item.totalRevenue ?? 0;
+        let revenueGrowth = 0;
+
+        const prevKey = isQuarterly && item.period
+          ? `${item.period}-${item.fiscalYear - 1}`
+          : `${item.fiscalYear - 1}`;
+        const prevItem = lookupMap.get(prevKey);
+
+        if (prevItem?.revenue) {
+          revenueGrowth = ((currentRevenue - prevItem.revenue) / Math.abs(prevItem.revenue)) * 100;
+        }
+
+        return {
+          timestamp,
+          revenue: currentRevenue,
+          revenueGrowth: Number.isFinite(revenueGrowth) ? revenueGrowth : 0,
+        };
+      }).filter((d: any) => d.timestamp > 0);
+
+      console.log("[Revenue] Valid items after filter:", indicatorData.length);
+      if (indicatorData.length > 0) {
+        console.log("[Revenue] First transformed item:", indicatorData[0]);
+        console.log("[Revenue] Last transformed item:", indicatorData[indicatorData.length - 1]);
+      }
+
+      revenueData = indicatorData;
+      setRevenueData(indicatorData);
+
+      // Force indicator refresh by removing and recreating
+      if (chart && indicatorState.revenue) {
+        const existingId = indicatorInstanceIds.revenue;
+        if (existingId) {
+          chart.removeIndicator({ id: existingId });
+          indicatorInstanceIds.revenue = null;
+        }
+        syncIndicators();
+      }
+    } catch (error) {
+      console.error("[Revenue] Failed to fetch revenue data:", error);
+      revenueData = [];
+      setRevenueData([]);
+    }
+    revenueLoading = false;
+  };
+
+  // Fetch EPS data
+  const fetchEPSDataIndicator = async () => {
+    if (epsLoading) return;
+    epsLoading = true;
+    await fetchIndicatorData(
+      "eps",
+      "epsLoading",
+      (data) => { epsData = data; setEPSData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.fiscalDateEnding || item.recordDate, { zone }).startOf("day").toMillis(),
+        eps: item.eps ?? item.reportedEPS ?? 0,
+        epsEstimate: item.epsEstimate ?? item.estimatedEPS ?? 0,
+        epsSurprise: item.epsSurprise ?? item.surprise ?? item.surprisePercent ?? 0,
+      })
+    );
+    epsLoading = false;
+  };
+
+  // Fetch FCF data
+  const fetchFCFDataIndicator = async () => {
+    if (fcfLoading) return;
+    fcfLoading = true;
+    await fetchIndicatorData(
+      "fcf",
+      "fcfLoading",
+      (data) => { fcfData = data; setFCFData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.fiscalDateEnding || item.recordDate, { zone }).startOf("day").toMillis(),
+        freeCashFlow: item.freeCashFlow ?? item.free_cash_flow ?? 0,
+        operatingCashFlow: item.operatingCashFlow ?? item.operating_cash_flow ?? 0,
+        capex: item.capex ?? item.capitalExpenditures ?? 0,
+      })
+    );
+    fcfLoading = false;
+  };
+
+  // Fetch Margin data
+  const fetchMarginDataIndicator = async () => {
+    if (marginLoading) return;
+    marginLoading = true;
+    await fetchIndicatorData(
+      "margin",
+      "marginLoading",
+      (data) => { marginData = data; setMarginData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.fiscalDateEnding || item.recordDate, { zone }).startOf("day").toMillis(),
+        grossMargin: (item.grossMargin ?? item.gross_margin ?? item.grossProfitMargin ?? 0) * 100,
+        operatingMargin: (item.operatingMargin ?? item.operating_margin ?? item.operatingProfitMargin ?? 0) * 100,
+        netMargin: (item.netMargin ?? item.net_margin ?? item.netProfitMargin ?? 0) * 100,
+      })
+    );
+    marginLoading = false;
+  };
+
+  // Fetch P/E Ratio data
+  const fetchPERatioDataIndicator = async () => {
+    if (peRatioLoading) return;
+    peRatioLoading = true;
+    await fetchIndicatorData(
+      "pe-ratio",
+      "peRatioLoading",
+      (data) => { peRatioData = data; setPERatioData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        peRatio: item.peRatio ?? item.pe_ratio ?? item.trailingPE ?? 0,
+        forwardPE: item.forwardPE ?? item.forward_pe ?? item.forwardPE ?? 0,
+      })
+    );
+    peRatioLoading = false;
+  };
+
+  // Fetch EV/EBITDA data
+  const fetchEVEBITDADataIndicator = async () => {
+    if (evEbitdaLoading) return;
+    evEbitdaLoading = true;
+    await fetchIndicatorData(
+      "ev-ebitda",
+      "evEbitdaLoading",
+      (data) => { evEbitdaData = data; setEVEBITDAData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        evEbitda: item.evEbitda ?? item.ev_ebitda ?? item.enterpriseValueOverEBITDA ?? 0,
+        enterpriseValue: item.enterpriseValue ?? item.enterprise_value ?? 0,
+        ebitda: item.ebitda ?? item.EBITDA ?? 0,
+      })
+    );
+    evEbitdaLoading = false;
+  };
+
+  // Fetch Market Cap data
+  const fetchMarketCapDataIndicator = async () => {
+    if (marketCapLoading) return;
+    marketCapLoading = true;
+    await fetchIndicatorData(
+      "market-cap",
+      "marketCapLoading",
+      (data) => { marketCapData = data; setMarketCapData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        marketCap: item.marketCap ?? item.market_cap ?? item.marketCapitalization ?? 0,
+      })
+    );
+    marketCapLoading = false;
+  };
+
+  // Fetch Institutional Ownership data
+  const fetchInstitutionalDataIndicator = async () => {
+    if (institutionalLoading) return;
+    institutionalLoading = true;
+    await fetchIndicatorData(
+      "institutional",
+      "institutionalLoading",
+      (data) => { institutionalData = data; setInstitutionalData(data); },
+      (item) => ({
+        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone }).startOf("day").toMillis(),
+        institutionalOwnership: (item.institutionalOwnership ?? item.institutional_ownership ?? item.percentOwnership ?? 0) * 100,
+        institutionalChange: item.institutionalChange ?? item.institutional_change ?? item.changePercent ?? 0,
+        numInstitutions: item.numInstitutions ?? item.num_institutions ?? item.numberOfInstitutions ?? 0,
+      })
+    );
+    institutionalLoading = false;
+  };
+
   // Update Hottest Contracts levels for rendering on chart
   const updateHottestLevels = () => {
     if (!chart || !chartContainer || hottestContractsData.length === 0) {
@@ -3850,6 +4456,83 @@
         showShortInterest = true;
         syncIndicators();
       }
+      // New fundamental & options indicators
+      else if (name === "iv_rank" && ivRankData.length === 0) {
+        fetchIVRankData();
+      } else if (name === "iv_rank") {
+        setIVData(ivRankData);
+        syncIndicators();
+      } else if (name === "put_call_ratio" && putCallData.length === 0) {
+        fetchPutCallData();
+      } else if (name === "put_call_ratio") {
+        setPutCallData(putCallData);
+        syncIndicators();
+      } else if (name === "dark_pool" && darkPoolData.length === 0) {
+        fetchDarkPoolDataIndicator();
+      } else if (name === "dark_pool") {
+        setDarkPoolData(darkPoolData);
+        syncIndicators();
+      } else if (name === "ftd" && ftdData.length === 0) {
+        fetchFTDDataIndicator();
+      } else if (name === "ftd") {
+        setFTDData(ftdData);
+        syncIndicators();
+      } else if (name === "max_pain" && maxPainData.length === 0) {
+        fetchMaxPainData();
+      } else if (name === "max_pain") {
+        setMaxPainData(maxPainData);
+        syncIndicators();
+      } else if (name === "analyst_target" && analystTargetData.length === 0) {
+        fetchAnalystTargetData();
+      } else if (name === "analyst_target") {
+        setAnalystTargetData(analystTargetData);
+        syncIndicators();
+      } else if (name === "insider_activity" && insiderActivityData.length === 0) {
+        fetchInsiderActivityDataIndicator();
+      } else if (name === "insider_activity") {
+        setInsiderActivityData(insiderActivityData);
+        syncIndicators();
+      } else if (name === "revenue" && revenueData.length === 0) {
+        fetchRevenueDataIndicator();
+      } else if (name === "revenue") {
+        setRevenueData(revenueData);
+        syncIndicators();
+      } else if (name === "eps" && epsData.length === 0) {
+        fetchEPSDataIndicator();
+      } else if (name === "eps") {
+        setEPSData(epsData);
+        syncIndicators();
+      } else if (name === "fcf" && fcfData.length === 0) {
+        fetchFCFDataIndicator();
+      } else if (name === "fcf") {
+        setFCFData(fcfData);
+        syncIndicators();
+      } else if (name === "margin" && marginData.length === 0) {
+        fetchMarginDataIndicator();
+      } else if (name === "margin") {
+        setMarginData(marginData);
+        syncIndicators();
+      } else if (name === "pe_ratio" && peRatioData.length === 0) {
+        fetchPERatioDataIndicator();
+      } else if (name === "pe_ratio") {
+        setPERatioData(peRatioData);
+        syncIndicators();
+      } else if (name === "ev_ebitda" && evEbitdaData.length === 0) {
+        fetchEVEBITDADataIndicator();
+      } else if (name === "ev_ebitda") {
+        setEVEBITDAData(evEbitdaData);
+        syncIndicators();
+      } else if (name === "market_cap" && marketCapData.length === 0) {
+        fetchMarketCapDataIndicator();
+      } else if (name === "market_cap") {
+        setMarketCapData(marketCapData);
+        syncIndicators();
+      } else if (name === "institutional" && institutionalData.length === 0) {
+        fetchInstitutionalDataIndicator();
+      } else if (name === "institutional") {
+        setInstitutionalData(institutionalData);
+        syncIndicators();
+      }
     } else {
       // Clear data when disabled
       if (name === "gex") {
@@ -3873,6 +4556,51 @@
         shortInterestMarkers = [];
         selectedShortInterest = null;
         clearShortInterestData();
+      } else if (name === "iv_rank") {
+        ivRankData = [];
+        clearIVData();
+      } else if (name === "put_call_ratio") {
+        putCallData = [];
+        clearPutCallData();
+      } else if (name === "dark_pool") {
+        darkPoolData = [];
+        clearDarkPoolData();
+      } else if (name === "ftd") {
+        ftdData = [];
+        clearFTDData();
+      } else if (name === "max_pain") {
+        maxPainData = [];
+        clearMaxPainData();
+      } else if (name === "analyst_target") {
+        analystTargetData = [];
+        clearAnalystTargetData();
+      } else if (name === "insider_activity") {
+        insiderActivityData = [];
+        clearInsiderActivityData();
+      } else if (name === "revenue") {
+        revenueData = [];
+        clearRevenueData();
+      } else if (name === "eps") {
+        epsData = [];
+        clearEPSData();
+      } else if (name === "fcf") {
+        fcfData = [];
+        clearFCFData();
+      } else if (name === "margin") {
+        marginData = [];
+        clearMarginData();
+      } else if (name === "pe_ratio") {
+        peRatioData = [];
+        clearPERatioData();
+      } else if (name === "ev_ebitda") {
+        evEbitdaData = [];
+        clearEVEBITDAData();
+      } else if (name === "market_cap") {
+        marketCapData = [];
+        clearMarketCapData();
+      } else if (name === "institutional") {
+        institutionalData = [];
+        clearInstitutionalData();
       }
     }
   }
@@ -7151,6 +7879,66 @@
           <div class="mt-4">
             <div class="flex flex-wrap">
               {#each groupedIndicators["Fundamentals"] as indicator}
+                <div
+                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
+                >
+                  {#if isSubscribed}
+                    <input
+                      on:click={() => toggleIndicatorById(indicator.id)}
+                      id={indicator.id}
+                      type="checkbox"
+                      checked={Boolean(indicatorState[indicator.id])}
+                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+                    />
+                    <div class="-mt-0.5">
+                      <div class="flex items-center gap-1">
+                        <label
+                          for={indicator.id}
+                          class="cursor-pointer text-[1rem]"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
+                      </div>
+                    </div>
+                  {:else}
+                    <button
+                      on:click={() => goto("/pricing")}
+                      class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4 mr-1.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        />
+                      </svg>
+                      <span class="text-[1rem]">{indicator.label}</span>
+                    </button>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        {#if groupedIndicators["Market Structure"]}
+          <h4
+            class="mb-1 font-semibold text-lg mt-8 text-gray-900 dark:text-white"
+          >
+            Market Structure
+          </h4>
+          <div class="mt-4">
+            <div class="flex flex-wrap">
+              {#each groupedIndicators["Market Structure"] as indicator}
                 <div
                   class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
                 >

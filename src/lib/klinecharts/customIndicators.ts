@@ -902,33 +902,30 @@ function createShortInterestIndicator(): IndicatorTemplate<IndicatorRecord, numb
       return { legends };
     },
     calc: (dataList) => {
-      // Map short interest data to price bars
-      // Short interest is sparse, so we carry forward the last known values
-      const result: IndicatorRecord[] = [];
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each short interest data point to the closest bar
+      for (const si of shortInterestData) {
+        const idx = findClosestBarIndex(dataList, si.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            siFloat: si.shortPercentOfFloat,
+            siOut: si.shortPercentOfOut,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
       let lastFloat: number | undefined;
       let lastOut: number | undefined;
-
-      for (const bar of dataList) {
-        // Check if there's short interest data for this bar's date
-        const barDate = new Date(bar.timestamp);
-        barDate.setHours(0, 0, 0, 0);
-        const normalizedTimestamp = barDate.getTime();
-
-        // Check for exact match or within same day
-        for (const si of shortInterestData) {
-          const siDate = new Date(si.timestamp);
-          siDate.setHours(0, 0, 0, 0);
-          if (siDate.getTime() === normalizedTimestamp) {
-            lastFloat = si.shortPercentOfFloat;
-            lastOut = si.shortPercentOfOut;
-            break;
-          }
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastFloat = result[i].siFloat as number;
+          lastOut = result[i].siOut as number;
         }
-
-        result.push({
-          siFloat: lastFloat,
-          siOut: lastOut,
-        });
+        result[i].siFloat = lastFloat;
+        result[i].siOut = lastOut;
       }
 
       return result;
@@ -1018,6 +1015,2052 @@ function createShortInterestIndicator(): IndicatorTemplate<IndicatorRecord, numb
   };
 }
 
+// ===== IV Rank/Percentile External Data =====
+interface IVDataPoint {
+  timestamp: number;
+  ivRank: number;
+  ivPercentile: number;
+  currentIV: number;
+}
+
+let ivData: IVDataPoint[] = [];
+
+export function setIVData(data: IVDataPoint[]) {
+  ivData = data;
+}
+
+export function clearIVData() {
+  ivData = [];
+}
+
+function createIVRankIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_IV_RANK",
+    shortName: "IV",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    maxValue: 100,
+    figures: [
+      { key: "ivRank", title: "IV Rank: ", type: "line" },
+      { key: "ivPercentile", title: "IV %ile: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.ivRank === undefined) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "IV Rank: ", value: { text: `${(result.ivRank as number).toFixed(1)}%`, color: "#8B5CF6" } },
+          { title: "IV %ile: ", value: { text: `${(result.ivPercentile as number || 0).toFixed(1)}%`, color: "#EC4899" } },
+          { title: "Current IV: ", value: { text: `${(result.currentIV as number || 0).toFixed(1)}%`, color: "#6B7280" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each IV data point to the closest bar
+      for (const iv of ivData) {
+        const idx = findClosestBarIndex(dataList, iv.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            ivRank: iv.ivRank,
+            ivPercentile: iv.ivPercentile,
+            currentIV: iv.currentIV,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
+      let lastRank: number | undefined;
+      let lastPercentile: number | undefined;
+      let lastIV: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastRank = result[i].ivRank as number;
+          lastPercentile = result[i].ivPercentile as number;
+          lastIV = result[i].currentIV as number;
+        }
+        result[i].ivRank = lastRank;
+        result[i].ivPercentile = lastPercentile;
+        result[i].currentIV = lastIV;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const rankPoints: { x: number; y: number }[] = [];
+      const percentilePoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data) continue;
+
+        const x = xAxis.convertToPixel(i);
+
+        if (data.ivRank !== undefined) {
+          const y = yAxis.convertToPixel(data.ivRank as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            rankPoints.push({ x, y });
+          }
+        }
+
+        if (data.ivPercentile !== undefined) {
+          const y = yAxis.convertToPixel(data.ivPercentile as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            percentilePoints.push({ x, y });
+          }
+        }
+      }
+
+      // Draw horizontal reference lines at 20 and 80
+      const y20 = yAxis.convertToPixel(20);
+      const y80 = yAxis.convertToPixel(80);
+      const chartWidth = chart.getSize()?.width || 0;
+
+      ctx.setLineDash([5, 5]);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.moveTo(0, y20);
+      ctx.lineTo(chartWidth, y20);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(0, y80);
+      ctx.lineTo(chartWidth, y80);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+
+      // Draw IV Percentile line
+      if (percentilePoints.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(percentilePoints[0].x, percentilePoints[0].y);
+        for (let i = 1; i < percentilePoints.length; i++) {
+          ctx.lineTo(percentilePoints[i].x, percentilePoints[i].y);
+        }
+        ctx.strokeStyle = "#EC4899";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // Draw IV Rank line
+      if (rankPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(rankPoints[0].x, rankPoints[0].y);
+        for (let i = 1; i < rankPoints.length; i++) {
+          ctx.lineTo(rankPoints[i].x, rankPoints[i].y);
+        }
+        ctx.strokeStyle = "#8B5CF6";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Put/Call Ratio External Data =====
+interface PutCallDataPoint {
+  timestamp: number;
+  putCallRatio: number;
+  putVolume: number;
+  callVolume: number;
+}
+
+let putCallData: PutCallDataPoint[] = [];
+
+export function setPutCallData(data: PutCallDataPoint[]) {
+  putCallData = data;
+}
+
+export function clearPutCallData() {
+  putCallData = [];
+}
+
+function createPutCallRatioIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_PUT_CALL",
+    shortName: "P/C",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    figures: [
+      { key: "pcRatio", title: "P/C Ratio: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.pcRatio === undefined) return { legends: [] };
+
+      const legends = [
+        { title: "P/C Ratio: ", value: { text: (result.pcRatio as number).toFixed(2), color: result.pcRatio as number > 1 ? "#EF4444" : "#22C55E" } },
+      ];
+
+      if (result.putVol !== undefined) {
+        legends.push({ title: "Put Vol: ", value: { text: formatShortInterest(result.putVol as number), color: "#EF4444" } });
+      }
+      if (result.callVol !== undefined) {
+        legends.push({ title: "Call Vol: ", value: { text: formatShortInterest(result.callVol as number), color: "#22C55E" } });
+      }
+
+      return { legends };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each put/call data point to the closest bar
+      for (const pc of putCallData) {
+        const idx = findClosestBarIndex(dataList, pc.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            pcRatio: pc.putCallRatio,
+            putVol: pc.putVolume,
+            callVol: pc.callVolume,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
+      let lastRatio: number | undefined;
+      let lastPutVol: number | undefined;
+      let lastCallVol: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastRatio = result[i].pcRatio as number;
+          lastPutVol = result[i].putVol as number;
+          lastCallVol = result[i].callVol as number;
+        }
+        result[i].pcRatio = lastRatio;
+        result[i].putVol = lastPutVol;
+        result[i].callVol = lastCallVol;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const ratioPoints: { x: number; y: number; value: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.pcRatio === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.pcRatio as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          ratioPoints.push({ x, y, value: data.pcRatio as number });
+        }
+      }
+
+      // Draw reference line at 1.0 (neutral)
+      const y1 = yAxis.convertToPixel(1);
+      const chartWidth = chart.getSize()?.width || 0;
+
+      ctx.setLineDash([5, 5]);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, y1);
+      ctx.lineTo(chartWidth, y1);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw ratio line with color gradient based on value
+      if (ratioPoints.length >= 2) {
+        for (let i = 1; i < ratioPoints.length; i++) {
+          ctx.beginPath();
+          ctx.moveTo(ratioPoints[i - 1].x, ratioPoints[i - 1].y);
+          ctx.lineTo(ratioPoints[i].x, ratioPoints[i].y);
+          ctx.strokeStyle = ratioPoints[i].value > 1 ? "#EF4444" : "#22C55E";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Dark Pool Volume External Data =====
+interface DarkPoolDataPoint {
+  timestamp: number;
+  darkPoolVolume: number;
+  darkPoolPercent: number;
+  blockTradeVolume: number;
+}
+
+let darkPoolData: DarkPoolDataPoint[] = [];
+
+export function setDarkPoolData(data: DarkPoolDataPoint[]) {
+  darkPoolData = data;
+}
+
+export function clearDarkPoolData() {
+  darkPoolData = [];
+}
+
+function createDarkPoolIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_DARK_POOL",
+    shortName: "DP",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    figures: [
+      { key: "dpPercent", title: "DP %: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.dpPercent === undefined) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "DP %: ", value: { text: `${(result.dpPercent as number).toFixed(1)}%`, color: "#6366F1" } },
+          { title: "DP Vol: ", value: { text: formatShortInterest(result.dpVolume as number || 0), color: "#6366F1" } },
+          { title: "Block Vol: ", value: { text: formatShortInterest(result.blockVol as number || 0), color: "#A855F7" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each dark pool data point to the closest bar
+      for (const dp of darkPoolData) {
+        const idx = findClosestBarIndex(dataList, dp.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            dpPercent: dp.darkPoolPercent,
+            dpVolume: dp.darkPoolVolume,
+            blockVol: dp.blockTradeVolume,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
+      let lastPercent: number | undefined;
+      let lastVolume: number | undefined;
+      let lastBlock: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastPercent = result[i].dpPercent as number;
+          lastVolume = result[i].dpVolume as number;
+          lastBlock = result[i].blockVol as number;
+        }
+        result[i].dpPercent = lastPercent;
+        result[i].dpVolume = lastVolume;
+        result[i].blockVol = lastBlock;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const percentPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.dpPercent === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.dpPercent as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          percentPoints.push({ x, y });
+        }
+      }
+
+      // Draw area fill
+      if (percentPoints.length >= 2) {
+        const chartHeight = chart.getSize()?.height || 0;
+        ctx.beginPath();
+        ctx.moveTo(percentPoints[0].x, percentPoints[0].y);
+        for (let i = 1; i < percentPoints.length; i++) {
+          ctx.lineTo(percentPoints[i].x, percentPoints[i].y);
+        }
+        ctx.lineTo(percentPoints[percentPoints.length - 1].x, chartHeight);
+        ctx.lineTo(percentPoints[0].x, chartHeight);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(99, 102, 241, 0.2)";
+        ctx.fill();
+
+        // Draw line
+        ctx.beginPath();
+        ctx.moveTo(percentPoints[0].x, percentPoints[0].y);
+        for (let i = 1; i < percentPoints.length; i++) {
+          ctx.lineTo(percentPoints[i].x, percentPoints[i].y);
+        }
+        ctx.strokeStyle = "#6366F1";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Fail-to-Deliver External Data =====
+interface FTDDataPoint {
+  timestamp: number;
+  ftdShares: number;
+  ftdValue: number;
+}
+
+let ftdData: FTDDataPoint[] = [];
+
+export function setFTDData(data: FTDDataPoint[]) {
+  ftdData = data;
+}
+
+export function clearFTDData() {
+  ftdData = [];
+}
+
+function createFTDIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_FTD",
+    shortName: "FTD",
+    series: "normal",
+    precision: 0,
+    minValue: 0,
+    figures: [
+      { key: "ftdShares", title: "FTD Shares: ", type: "bar" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.ftdShares === undefined) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "FTD Shares: ", value: { text: formatShortInterest(result.ftdShares as number), color: "#F97316" } },
+          { title: "FTD Value: ", value: { text: `$${formatShortInterest(result.ftdValue as number || 0)}`, color: "#F97316" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each FTD data point to the closest bar
+      for (const ftd of ftdData) {
+        const idx = findClosestBarIndex(dataList, ftd.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            ftdShares: ftd.ftdShares,
+            ftdValue: ftd.ftdValue,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
+      let lastShares: number | undefined;
+      let lastValue: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastShares = result[i].ftdShares as number;
+          lastValue = result[i].ftdValue as number;
+        }
+        result[i].ftdShares = lastShares;
+        result[i].ftdValue = lastValue;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const barWidth = Math.max(2, (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6);
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.ftdShares === undefined || data.ftdShares === 0) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.ftdShares as number);
+        const y0 = yAxis.convertToPixel(0);
+
+        if (typeof y !== "number" || isNaN(y)) continue;
+
+        ctx.fillStyle = "#F97316";
+        ctx.fillRect(x - barWidth / 2, y, barWidth, y0 - y);
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Max Pain External Data =====
+interface MaxPainDataPoint {
+  timestamp: number;
+  maxPain: number;
+  expirationDate: string;
+}
+
+let maxPainData: MaxPainDataPoint[] = [];
+
+export function setMaxPainData(data: MaxPainDataPoint[]) {
+  maxPainData = data;
+}
+
+export function clearMaxPainData() {
+  maxPainData = [];
+}
+
+function createMaxPainIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_MAX_PAIN",
+    shortName: "MP",
+    series: "price",
+    precision: 2,
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each max pain data point to the closest bar
+      for (const mp of maxPainData) {
+        const idx = findClosestBarIndex(dataList, mp.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            maxPain: mp.maxPain,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
+      let lastMaxPain: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastMaxPain = result[i].maxPain as number;
+        }
+        result[i].maxPain = lastMaxPain;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const points: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.maxPain === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.maxPain as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          points.push({ x, y });
+        }
+      }
+
+      // Draw step line for max pain
+      if (points.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([8, 4]);
+        ctx.moveTo(points[0].x, points[0].y);
+
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+
+        ctx.strokeStyle = "#F59E0B";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Analyst Price Target External Data =====
+interface AnalystTargetDataPoint {
+  timestamp: number;
+  highTarget: number;
+  averageTarget: number;
+  lowTarget: number;
+}
+
+let analystTargetData: AnalystTargetDataPoint[] = [];
+
+export function setAnalystTargetData(data: AnalystTargetDataPoint[]) {
+  analystTargetData = data;
+}
+
+export function clearAnalystTargetData() {
+  analystTargetData = [];
+}
+
+function createAnalystTargetIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_ANALYST_TARGET",
+    shortName: "PT",
+    series: "price",
+    precision: 2,
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each analyst target data point to the closest bar
+      for (const at of analystTargetData) {
+        const idx = findClosestBarIndex(dataList, at.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            highTarget: at.highTarget,
+            avgTarget: at.averageTarget,
+            lowTarget: at.lowTarget,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values
+      let lastHigh: number | undefined;
+      let lastAvg: number | undefined;
+      let lastLow: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastHigh = result[i].highTarget as number;
+          lastAvg = result[i].avgTarget as number;
+          lastLow = result[i].lowTarget as number;
+        }
+        result[i].highTarget = lastHigh;
+        result[i].avgTarget = lastAvg;
+        result[i].lowTarget = lastLow;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const highPoints: { x: number; y: number }[] = [];
+      const avgPoints: { x: number; y: number }[] = [];
+      const lowPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data) continue;
+
+        const x = xAxis.convertToPixel(i);
+
+        if (data.highTarget !== undefined) {
+          const y = yAxis.convertToPixel(data.highTarget as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            highPoints.push({ x, y });
+          }
+        }
+        if (data.avgTarget !== undefined) {
+          const y = yAxis.convertToPixel(data.avgTarget as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            avgPoints.push({ x, y });
+          }
+        }
+        if (data.lowTarget !== undefined) {
+          const y = yAxis.convertToPixel(data.lowTarget as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            lowPoints.push({ x, y });
+          }
+        }
+      }
+
+      // Draw band fill between high and low
+      if (highPoints.length >= 2 && lowPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(highPoints[0].x, highPoints[0].y);
+        for (let i = 1; i < highPoints.length; i++) {
+          ctx.lineTo(highPoints[i].x, highPoints[i].y);
+        }
+        for (let i = lowPoints.length - 1; i >= 0; i--) {
+          ctx.lineTo(lowPoints[i].x, lowPoints[i].y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = "rgba(34, 197, 94, 0.1)";
+        ctx.fill();
+      }
+
+      // Draw step lines
+      const drawStepLine = (points: { x: number; y: number }[], color: string, dash: number[] = []) => {
+        if (points.length < 2) return;
+        ctx.beginPath();
+        ctx.setLineDash(dash);
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      };
+
+      drawStepLine(highPoints, "#22C55E", [4, 4]);
+      drawStepLine(avgPoints, "#22C55E");
+      drawStepLine(lowPoints, "#22C55E", [4, 4]);
+
+      return false;
+    },
+  };
+}
+
+// ===== Insider Net Activity External Data =====
+interface InsiderActivityDataPoint {
+  timestamp: number;
+  netShares: number;
+  netValue: number;
+  buyCount: number;
+  sellCount: number;
+}
+
+let insiderActivityData: InsiderActivityDataPoint[] = [];
+
+export function setInsiderActivityData(data: InsiderActivityDataPoint[]) {
+  insiderActivityData = data;
+}
+
+export function clearInsiderActivityData() {
+  insiderActivityData = [];
+}
+
+function createInsiderActivityIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_INSIDER",
+    shortName: "INS",
+    series: "normal",
+    precision: 0,
+    figures: [
+      { key: "netValue", title: "Net Value: ", type: "bar" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result) return { legends: [] };
+
+      const netVal = result.netValue as number || 0;
+      const color = netVal >= 0 ? "#22C55E" : "#EF4444";
+
+      return {
+        legends: [
+          { title: "Net Value: ", value: { text: `$${formatShortInterest(Math.abs(netVal))}`, color } },
+          { title: "Net Shares: ", value: { text: formatShortInterest(result.netShares as number || 0), color } },
+          { title: "Buys: ", value: { text: String(result.buyCount || 0), color: "#22C55E" } },
+          { title: "Sells: ", value: { text: String(result.sellCount || 0), color: "#EF4444" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each insider activity data point to the closest bar
+      for (const ins of insiderActivityData) {
+        const idx = findClosestBarIndex(dataList, ins.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            netValue: ins.netValue,
+            netShares: ins.netShares,
+            buyCount: ins.buyCount,
+            sellCount: ins.sellCount,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastNetValue: number | undefined;
+      let lastNetShares: number | undefined;
+      let lastBuyCount: number | undefined;
+      let lastSellCount: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastNetValue = result[i].netValue as number;
+          lastNetShares = result[i].netShares as number;
+          lastBuyCount = result[i].buyCount as number;
+          lastSellCount = result[i].sellCount as number;
+        }
+        result[i].netValue = lastNetValue;
+        result[i].netShares = lastNetShares;
+        result[i].buyCount = lastBuyCount;
+        result[i].sellCount = lastSellCount;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || insiderActivityData.length === 0) return false;
+
+      const points: { x: number; y: number; value: number; isDataPoint: boolean }[] = [];
+      const y0 = yAxis.convertToPixel(0);
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.netValue === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const value = data.netValue as number;
+        const y = yAxis.convertToPixel(value);
+
+        if (typeof y !== "number" || isNaN(y)) continue;
+
+        points.push({ x, y, value, isDataPoint: Boolean(data.isDataPoint) });
+      }
+
+      if (points.length >= 2) {
+        // Draw step line with color based on value
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        // Use green if latest value is positive, red otherwise
+        const latestValue = points[points.length - 1].value;
+        ctx.strokeStyle = latestValue >= 0 ? "#22C55E" : "#EF4444";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw area fill
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.lineTo(points[points.length - 1].x, y0);
+        ctx.lineTo(points[0].x, y0);
+        ctx.closePath();
+        ctx.fillStyle = latestValue >= 0 ? "rgba(34, 197, 94, 0.15)" : "rgba(239, 68, 68, 0.15)";
+        ctx.fill();
+
+        // Draw dots at actual data points
+        for (const point of points) {
+          if (point.isDataPoint) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = point.value >= 0 ? "#22C55E" : "#EF4444";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Revenue Trend External Data =====
+interface RevenueDataPoint {
+  timestamp: number;
+  revenue: number;
+  revenueGrowth: number;
+}
+
+let revenueData: RevenueDataPoint[] = [];
+
+export function setRevenueData(data: RevenueDataPoint[]) {
+  revenueData = data;
+}
+
+export function clearRevenueData() {
+  revenueData = [];
+}
+
+// Helper to find closest bar index for a timestamp
+function findClosestBarIndex(dataList: KLineData[], targetTimestamp: number): number {
+  let closestIdx = -1;
+  let closestDiff = Infinity;
+  const oneDayMs = 24 * 60 * 60 * 1000;
+
+  for (let i = 0; i < dataList.length; i++) {
+    const diff = Math.abs(dataList[i].timestamp - targetTimestamp);
+    if (diff < closestDiff && diff < oneDayMs * 7) { // Within a week
+      closestDiff = diff;
+      closestIdx = i;
+    }
+  }
+  return closestIdx;
+}
+
+function createRevenueIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_REVENUE",
+    shortName: "REV",
+    series: "normal",
+    precision: 0,
+    minValue: 0,
+    shouldFormatBigNumber: true,
+    figures: [
+      { key: "revenue", title: "Revenue: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.revenue === undefined) return { legends: [] };
+
+      const growth = result.revenueGrowth as number || 0;
+      const growthColor = growth >= 0 ? "#22C55E" : "#EF4444";
+
+      return {
+        legends: [
+          { title: "Revenue: ", value: { text: `$${formatShortInterest(result.revenue as number)}`, color: "#3B82F6" } },
+          { title: "YoY Growth: ", value: { text: `${growth.toFixed(1)}%`, color: growthColor } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      console.log("[SN_REVENUE] calc called, revenueData.length:", revenueData.length, "dataList.length:", dataList.length);
+
+      if (revenueData.length === 0) {
+        console.warn("[SN_REVENUE] No revenue data available for calculation");
+        return result;
+      }
+
+      // Map each revenue data point to the closest bar
+      let mappedCount = 0;
+      for (const rev of revenueData) {
+        if (!rev || !rev.timestamp) continue;
+        const idx = findClosestBarIndex(dataList, rev.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            revenue: rev.revenue,
+            revenueGrowth: rev.revenueGrowth,
+            isDataPoint: 1, // Mark actual data points
+          };
+          mappedCount++;
+        }
+      }
+
+      console.log("[SN_REVENUE] Mapped", mappedCount, "of", revenueData.length, "data points to bars");
+
+      // Carry forward values for step display
+      let lastRevenue: number | undefined;
+      let lastGrowth: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastRevenue = result[i].revenue as number;
+          lastGrowth = result[i].revenueGrowth as number;
+        }
+        result[i].revenue = lastRevenue;
+        result[i].revenueGrowth = lastGrowth;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || revenueData.length === 0) return false;
+
+      // Collect points for step line
+      const points: { x: number; y: number; isDataPoint: boolean }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.revenue === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.revenue as number);
+
+        if (typeof y !== "number" || isNaN(y)) continue;
+
+        points.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+      }
+
+      if (points.length < 1) return false;
+
+      // Draw step line
+      ctx.beginPath();
+      ctx.setLineDash([]);
+      ctx.moveTo(points[0].x, points[0].y);
+
+      for (let i = 1; i < points.length; i++) {
+        // Step: horizontal then vertical
+        ctx.lineTo(points[i].x, points[i - 1].y);
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+
+      ctx.strokeStyle = "#3B82F6";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Draw dots at actual data points
+      for (const point of points) {
+        if (point.isDataPoint) {
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+          ctx.fillStyle = "#3B82F6";
+          ctx.fill();
+          ctx.strokeStyle = "#FFFFFF";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== EPS Trend External Data =====
+interface EPSDataPoint {
+  timestamp: number;
+  eps: number;
+  epsEstimate: number;
+  epsSurprise: number;
+}
+
+let epsData: EPSDataPoint[] = [];
+
+export function setEPSData(data: EPSDataPoint[]) {
+  epsData = data;
+}
+
+export function clearEPSData() {
+  epsData = [];
+}
+
+function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_EPS",
+    shortName: "EPS",
+    series: "normal",
+    precision: 2,
+    figures: [
+      { key: "eps", title: "EPS: ", type: "line" },
+      { key: "epsEstimate", title: "Est: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.eps === undefined) return { legends: [] };
+
+      const surprise = result.epsSurprise as number || 0;
+      const surpriseColor = surprise >= 0 ? "#22C55E" : "#EF4444";
+
+      return {
+        legends: [
+          { title: "EPS: ", value: { text: `$${(result.eps as number).toFixed(2)}`, color: "#22C55E" } },
+          { title: "Estimate: ", value: { text: `$${(result.epsEstimate as number || 0).toFixed(2)}`, color: "#6B7280" } },
+          { title: "Surprise: ", value: { text: `${surprise.toFixed(1)}%`, color: surpriseColor } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each EPS data point to the closest bar
+      for (const e of epsData) {
+        const idx = findClosestBarIndex(dataList, e.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            eps: e.eps,
+            epsEstimate: e.epsEstimate,
+            epsSurprise: e.epsSurprise,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastEPS: number | undefined;
+      let lastEstimate: number | undefined;
+      let lastSurprise: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastEPS = result[i].eps as number;
+          lastEstimate = result[i].epsEstimate as number;
+          lastSurprise = result[i].epsSurprise as number;
+        }
+        result[i].eps = lastEPS;
+        result[i].epsEstimate = lastEstimate;
+        result[i].epsSurprise = lastSurprise;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || epsData.length === 0) return false;
+
+      const epsPoints: { x: number; y: number; isDataPoint: boolean }[] = [];
+      const estPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data) continue;
+
+        const x = xAxis.convertToPixel(i);
+
+        if (data.eps !== undefined) {
+          const y = yAxis.convertToPixel(data.eps as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            epsPoints.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+          }
+        }
+        if (data.epsEstimate !== undefined) {
+          const y = yAxis.convertToPixel(data.epsEstimate as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            estPoints.push({ x, y });
+          }
+        }
+      }
+
+      // Draw estimate line (dashed, gray step line)
+      if (estPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]);
+        ctx.moveTo(estPoints[0].x, estPoints[0].y);
+        for (let i = 1; i < estPoints.length; i++) {
+          ctx.lineTo(estPoints[i].x, estPoints[i - 1].y);
+          ctx.lineTo(estPoints[i].x, estPoints[i].y);
+        }
+        ctx.strokeStyle = "#6B7280";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Draw EPS line (solid, green step line)
+      if (epsPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(epsPoints[0].x, epsPoints[0].y);
+        for (let i = 1; i < epsPoints.length; i++) {
+          ctx.lineTo(epsPoints[i].x, epsPoints[i - 1].y);
+          ctx.lineTo(epsPoints[i].x, epsPoints[i].y);
+        }
+        ctx.strokeStyle = "#22C55E";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw dots only at actual data points
+        for (const point of epsPoints) {
+          if (point.isDataPoint) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = "#22C55E";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Free Cash Flow External Data =====
+interface FCFDataPoint {
+  timestamp: number;
+  freeCashFlow: number;
+  operatingCashFlow: number;
+  capex: number;
+}
+
+let fcfData: FCFDataPoint[] = [];
+
+export function setFCFData(data: FCFDataPoint[]) {
+  fcfData = data;
+}
+
+export function clearFCFData() {
+  fcfData = [];
+}
+
+function createFCFIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_FCF",
+    shortName: "FCF",
+    series: "normal",
+    precision: 0,
+    shouldFormatBigNumber: true,
+    figures: [
+      { key: "fcf", title: "FCF: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.fcf === undefined) return { legends: [] };
+
+      const fcf = result.fcf as number;
+      const color = fcf >= 0 ? "#22C55E" : "#EF4444";
+
+      return {
+        legends: [
+          { title: "FCF: ", value: { text: `$${formatShortInterest(fcf)}`, color } },
+          { title: "Op CF: ", value: { text: `$${formatShortInterest(result.opCF as number || 0)}`, color: "#3B82F6" } },
+          { title: "CapEx: ", value: { text: `$${formatShortInterest(result.capex as number || 0)}`, color: "#F97316" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each FCF data point to the closest bar
+      for (const f of fcfData) {
+        const idx = findClosestBarIndex(dataList, f.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            fcf: f.freeCashFlow,
+            opCF: f.operatingCashFlow,
+            capex: f.capex,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastFCF: number | undefined;
+      let lastOpCF: number | undefined;
+      let lastCapex: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastFCF = result[i].fcf as number;
+          lastOpCF = result[i].opCF as number;
+          lastCapex = result[i].capex as number;
+        }
+        result[i].fcf = lastFCF;
+        result[i].opCF = lastOpCF;
+        result[i].capex = lastCapex;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || fcfData.length === 0) return false;
+
+      // Collect points for step line
+      const points: { x: number; y: number; value: number; isDataPoint: boolean }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.fcf === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.fcf as number);
+
+        if (typeof y !== "number" || isNaN(y)) continue;
+
+        points.push({ x, y, value: data.fcf as number, isDataPoint: Boolean(data.isDataPoint) });
+      }
+
+      if (points.length < 1) return false;
+
+      // Draw zero reference line
+      const y0 = yAxis.convertToPixel(0);
+      const chartWidth = chart.getSize()?.width || 0;
+      ctx.setLineDash([5, 5]);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, y0);
+      ctx.lineTo(chartWidth, y0);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw step line with color based on value
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i - 1].y);
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.strokeStyle = points[points.length - 1].value >= 0 ? "#22C55E" : "#EF4444";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Draw dots at actual data points
+      for (const point of points) {
+        if (point.isDataPoint) {
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+          ctx.fillStyle = point.value >= 0 ? "#22C55E" : "#EF4444";
+          ctx.fill();
+          ctx.strokeStyle = "#FFFFFF";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Profit Margins External Data =====
+interface MarginDataPoint {
+  timestamp: number;
+  grossMargin: number;
+  operatingMargin: number;
+  netMargin: number;
+}
+
+let marginData: MarginDataPoint[] = [];
+
+export function setMarginData(data: MarginDataPoint[]) {
+  marginData = data;
+}
+
+export function clearMarginData() {
+  marginData = [];
+}
+
+function createMarginIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_MARGIN",
+    shortName: "MRGN",
+    series: "normal",
+    precision: 2,
+    figures: [
+      { key: "grossMargin", title: "Gross: ", type: "line" },
+      { key: "opMargin", title: "Op: ", type: "line" },
+      { key: "netMargin", title: "Net: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "Gross: ", value: { text: `${(result.grossMargin as number || 0).toFixed(1)}%`, color: "#22C55E" } },
+          { title: "Operating: ", value: { text: `${(result.opMargin as number || 0).toFixed(1)}%`, color: "#3B82F6" } },
+          { title: "Net: ", value: { text: `${(result.netMargin as number || 0).toFixed(1)}%`, color: "#8B5CF6" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each margin data point to the closest bar
+      for (const m of marginData) {
+        const idx = findClosestBarIndex(dataList, m.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            grossMargin: m.grossMargin,
+            opMargin: m.operatingMargin,
+            netMargin: m.netMargin,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastGross: number | undefined;
+      let lastOp: number | undefined;
+      let lastNet: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastGross = result[i].grossMargin as number;
+          lastOp = result[i].opMargin as number;
+          lastNet = result[i].netMargin as number;
+        }
+        result[i].grossMargin = lastGross;
+        result[i].opMargin = lastOp;
+        result[i].netMargin = lastNet;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || marginData.length === 0) return false;
+
+      const grossPoints: { x: number; y: number; isDataPoint: boolean }[] = [];
+      const opPoints: { x: number; y: number }[] = [];
+      const netPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data) continue;
+
+        const x = xAxis.convertToPixel(i);
+
+        if (data.grossMargin !== undefined) {
+          const y = yAxis.convertToPixel(data.grossMargin as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            grossPoints.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+          }
+        }
+        if (data.opMargin !== undefined) {
+          const y = yAxis.convertToPixel(data.opMargin as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            opPoints.push({ x, y });
+          }
+        }
+        if (data.netMargin !== undefined) {
+          const y = yAxis.convertToPixel(data.netMargin as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            netPoints.push({ x, y });
+          }
+        }
+      }
+
+      const drawStepLine = (points: { x: number; y: number }[], color: string, lineWidth: number) => {
+        if (points.length < 2) return;
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      };
+
+      drawStepLine(grossPoints, "#22C55E", 2);
+      drawStepLine(opPoints, "#3B82F6", 1.5);
+      drawStepLine(netPoints, "#8B5CF6", 1.5);
+
+      // Draw dots at actual data points (on gross margin line only for clarity)
+      for (const point of grossPoints) {
+        if (point.isDataPoint) {
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#22C55E";
+          ctx.fill();
+          ctx.strokeStyle = "#FFFFFF";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== P/E Ratio External Data =====
+interface PERatioDataPoint {
+  timestamp: number;
+  peRatio: number;
+  forwardPE: number;
+}
+
+let peRatioData: PERatioDataPoint[] = [];
+
+export function setPERatioData(data: PERatioDataPoint[]) {
+  peRatioData = data;
+}
+
+export function clearPERatioData() {
+  peRatioData = [];
+}
+
+function createPERatioIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_PE_RATIO",
+    shortName: "P/E",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    figures: [
+      { key: "pe", title: "P/E: ", type: "line" },
+      { key: "fwdPE", title: "Fwd P/E: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.pe === undefined) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "P/E: ", value: { text: (result.pe as number).toFixed(1), color: "#F59E0B" } },
+          { title: "Fwd P/E: ", value: { text: (result.fwdPE as number || 0).toFixed(1), color: "#6B7280" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each PE data point to the closest bar
+      for (const p of peRatioData) {
+        const idx = findClosestBarIndex(dataList, p.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            pe: p.peRatio,
+            fwdPE: p.forwardPE,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastPE: number | undefined;
+      let lastFwdPE: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastPE = result[i].pe as number;
+          lastFwdPE = result[i].fwdPE as number;
+        }
+        result[i].pe = lastPE;
+        result[i].fwdPE = lastFwdPE;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || peRatioData.length === 0) return false;
+
+      const pePoints: { x: number; y: number; isDataPoint: boolean }[] = [];
+      const fwdPoints: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data) continue;
+
+        const x = xAxis.convertToPixel(i);
+
+        if (data.pe !== undefined) {
+          const y = yAxis.convertToPixel(data.pe as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            pePoints.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+          }
+        }
+        if (data.fwdPE !== undefined) {
+          const y = yAxis.convertToPixel(data.fwdPE as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            fwdPoints.push({ x, y });
+          }
+        }
+      }
+
+      // Draw forward P/E (dashed)
+      if (fwdPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]);
+        ctx.moveTo(fwdPoints[0].x, fwdPoints[0].y);
+        for (let i = 1; i < fwdPoints.length; i++) {
+          ctx.lineTo(fwdPoints[i].x, fwdPoints[i - 1].y);
+          ctx.lineTo(fwdPoints[i].x, fwdPoints[i].y);
+        }
+        ctx.strokeStyle = "#6B7280";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Draw trailing P/E (solid)
+      if (pePoints.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(pePoints[0].x, pePoints[0].y);
+        for (let i = 1; i < pePoints.length; i++) {
+          ctx.lineTo(pePoints[i].x, pePoints[i - 1].y);
+          ctx.lineTo(pePoints[i].x, pePoints[i].y);
+        }
+        ctx.strokeStyle = "#F59E0B";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw dots at actual data points
+        for (const point of pePoints) {
+          if (point.isDataPoint) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = "#F59E0B";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== EV/EBITDA External Data =====
+interface EVEBITDADataPoint {
+  timestamp: number;
+  evEbitda: number;
+  enterpriseValue: number;
+  ebitda: number;
+}
+
+let evEbitdaData: EVEBITDADataPoint[] = [];
+
+export function setEVEBITDAData(data: EVEBITDADataPoint[]) {
+  evEbitdaData = data;
+}
+
+export function clearEVEBITDAData() {
+  evEbitdaData = [];
+}
+
+function createEVEBITDAIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_EV_EBITDA",
+    shortName: "EV/EB",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    figures: [
+      { key: "evEbitda", title: "EV/EBITDA: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.evEbitda === undefined) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "EV/EBITDA: ", value: { text: (result.evEbitda as number).toFixed(1), color: "#06B6D4" } },
+          { title: "EV: ", value: { text: `$${formatShortInterest(result.ev as number || 0)}`, color: "#6B7280" } },
+          { title: "EBITDA: ", value: { text: `$${formatShortInterest(result.ebitda as number || 0)}`, color: "#6B7280" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each EV/EBITDA data point to the closest bar
+      for (const e of evEbitdaData) {
+        const idx = findClosestBarIndex(dataList, e.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            evEbitda: e.evEbitda,
+            ev: e.enterpriseValue,
+            ebitda: e.ebitda,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastEVEbitda: number | undefined;
+      let lastEV: number | undefined;
+      let lastEbitda: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastEVEbitda = result[i].evEbitda as number;
+          lastEV = result[i].ev as number;
+          lastEbitda = result[i].ebitda as number;
+        }
+        result[i].evEbitda = lastEVEbitda;
+        result[i].ev = lastEV;
+        result[i].ebitda = lastEbitda;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || evEbitdaData.length === 0) return false;
+
+      const points: { x: number; y: number; isDataPoint: boolean }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.evEbitda === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.evEbitda as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          points.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+        }
+      }
+
+      if (points.length >= 2) {
+        // Draw area fill
+        const chartHeight = chart.getSize()?.height || 0;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.lineTo(points[points.length - 1].x, chartHeight);
+        ctx.lineTo(points[0].x, chartHeight);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(6, 182, 212, 0.15)";
+        ctx.fill();
+
+        // Draw step line
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = "#06B6D4";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw dots at actual data points
+        for (const point of points) {
+          if (point.isDataPoint) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = "#06B6D4";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Market Cap External Data =====
+interface MarketCapDataPoint {
+  timestamp: number;
+  marketCap: number;
+}
+
+let marketCapData: MarketCapDataPoint[] = [];
+
+export function setMarketCapData(data: MarketCapDataPoint[]) {
+  marketCapData = data;
+}
+
+export function clearMarketCapData() {
+  marketCapData = [];
+}
+
+function createMarketCapIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_MARKET_CAP",
+    shortName: "MCAP",
+    series: "normal",
+    precision: 0,
+    minValue: 0,
+    shouldFormatBigNumber: true,
+    figures: [
+      { key: "marketCap", title: "Market Cap: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.marketCap === undefined) return { legends: [] };
+
+      return {
+        legends: [
+          { title: "Market Cap: ", value: { text: `$${formatShortInterest(result.marketCap as number)}`, color: "#A855F7" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each market cap data point to the closest bar
+      for (const m of marketCapData) {
+        const idx = findClosestBarIndex(dataList, m.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            marketCap: m.marketCap,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastMCap: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastMCap = result[i].marketCap as number;
+        }
+        result[i].marketCap = lastMCap;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || marketCapData.length === 0) return false;
+
+      const points: { x: number; y: number; isDataPoint: boolean }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.marketCap === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.marketCap as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          points.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+        }
+      }
+
+      if (points.length >= 2) {
+        // Draw area fill
+        const chartHeight = chart.getSize()?.height || 0;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.lineTo(points[points.length - 1].x, chartHeight);
+        ctx.lineTo(points[0].x, chartHeight);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(168, 85, 247, 0.15)";
+        ctx.fill();
+
+        // Draw step line
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = "#A855F7";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw dots at actual data points
+        for (const point of points) {
+          if (point.isDataPoint) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = "#A855F7";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
+// ===== Institutional Ownership External Data =====
+interface InstitutionalDataPoint {
+  timestamp: number;
+  institutionalOwnership: number;
+  institutionalChange: number;
+  numInstitutions: number;
+}
+
+let institutionalData: InstitutionalDataPoint[] = [];
+
+export function setInstitutionalData(data: InstitutionalDataPoint[]) {
+  institutionalData = data;
+}
+
+export function clearInstitutionalData() {
+  institutionalData = [];
+}
+
+function createInstitutionalIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_INSTITUTIONAL",
+    shortName: "INST",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    maxValue: 100,
+    figures: [
+      { key: "instOwn", title: "Inst %: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.instOwn === undefined) return { legends: [] };
+
+      const change = result.instChange as number || 0;
+      const changeColor = change >= 0 ? "#22C55E" : "#EF4444";
+
+      return {
+        legends: [
+          { title: "Inst %: ", value: { text: `${(result.instOwn as number).toFixed(1)}%`, color: "#10B981" } },
+          { title: "Change: ", value: { text: `${change >= 0 ? "+" : ""}${change.toFixed(1)}%`, color: changeColor } },
+          { title: "# Institutions: ", value: { text: String(result.numInst || 0), color: "#6B7280" } },
+        ],
+      };
+    },
+    calc: (dataList) => {
+      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+
+      // Map each institutional data point to the closest bar
+      for (const inst of institutionalData) {
+        const idx = findClosestBarIndex(dataList, inst.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            instOwn: inst.institutionalOwnership,
+            instChange: inst.institutionalChange,
+            numInst: inst.numInstitutions,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      // Carry forward values for step display
+      let lastOwn: number | undefined;
+      let lastChange: number | undefined;
+      let lastNum: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastOwn = result[i].instOwn as number;
+          lastChange = result[i].instChange as number;
+          lastNum = result[i].numInst as number;
+        }
+        result[i].instOwn = lastOwn;
+        result[i].instChange = lastChange;
+        result[i].numInst = lastNum;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || institutionalData.length === 0) return false;
+
+      const points: { x: number; y: number; isDataPoint: boolean }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.instOwn === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.instOwn as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          points.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+        }
+      }
+
+      if (points.length >= 2) {
+        // Draw area fill
+        const chartHeight = chart.getSize()?.height || 0;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.lineTo(points[points.length - 1].x, chartHeight);
+        ctx.lineTo(points[0].x, chartHeight);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(16, 185, 129, 0.15)";
+        ctx.fill();
+
+        // Draw step line
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = "#10B981";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw dots at actual data points
+        for (const point of points) {
+          if (point.isDataPoint) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = "#10B981";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      return false;
+    },
+  };
+}
+
 export function registerCustomIndicators() {
   if (registered) return;
   registerIndicator(createMaIndicator());
@@ -1046,5 +3089,21 @@ export function registerCustomIndicators() {
   registerIndicator(createTsiIndicator());
   registerIndicator(createAroonIndicator());
   registerIndicator(createShortInterestIndicator());
+  // New fundamental & options indicators
+  registerIndicator(createIVRankIndicator());
+  registerIndicator(createPutCallRatioIndicator());
+  registerIndicator(createDarkPoolIndicator());
+  registerIndicator(createFTDIndicator());
+  registerIndicator(createMaxPainIndicator());
+  registerIndicator(createAnalystTargetIndicator());
+  registerIndicator(createInsiderActivityIndicator());
+  registerIndicator(createRevenueIndicator());
+  registerIndicator(createEPSIndicator());
+  registerIndicator(createFCFIndicator());
+  registerIndicator(createMarginIndicator());
+  registerIndicator(createPERatioIndicator());
+  registerIndicator(createEVEBITDAIndicator());
+  registerIndicator(createMarketCapIndicator());
+  registerIndicator(createInstitutionalIndicator());
   registered = true;
 }
