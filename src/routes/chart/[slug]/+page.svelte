@@ -820,6 +820,12 @@
       "M6.91465,11L11.08535,11C11.29127,10.4174,11.84689,10,12.5,10C13.15311,10,13.70873,10.4174,13.91465,11L18.5,11C18.7761,11,19,11.22386,19,11.5C19,11.77614,18.7761,12,18.5,12L13.91465,12C13.70873,12.5826,13.15311,13,12.5,13C11.84689,13,11.29127,12.5826,11.08535,12L6.91465,12C6.70873,12.5826,6.15311,13,5.5,13C4.671573,13,4,12.32843,4,11.5C4,10.671573,4.671573,10,5.5,10C6.15311,10,6.70873,10.4174,6.91465,11Z",
     verticalStraightLine:
       "M11,12.41465L11,18.5C11,18.7761,11.22386,19,11.5,19C11.77614,19,12,18.7761,12,18.5L12,12.41465C12.5826,12.20873,13,11.65311,13,11C13,10.34689,12.5826,9.79127,12,9.58535L12,3.5C12,3.223857,11.77614,3,11.5,3C11.22386,3,11,3.223857,11,3.5L11,9.58535C10.4174,9.79127,10,10.34689,10,11C10,11.65311,10.4174,12.20873,11,12.41465Z",
+    horizontalSegment:
+      "M6.91465,11L11.08535,11C11.29127,10.4174,11.84689,10,12.5,10C13.15311,10,13.70873,10.4174,13.91465,11L17.08535,11C17.29127,10.4174,17.84689,10,18.5,10C19.32843,10,20,10.67157,20,11.5C20,12.32843,19.32843,13,18.5,13C17.84689,13,17.29127,12.5826,17.08535,12L13.91465,12C13.70873,12.5826,13.15311,13,12.5,13C11.84689,13,11.29127,12.5826,11.08535,12L6.91465,12C6.70873,12.5826,6.15311,13,5.5,13C4.671573,13,4,12.32843,4,11.5C4,10.67157,4.671573,10,5.5,10C6.15311,10,6.70873,10.4174,6.91465,11Z",
+    verticalRayLine:
+      "M11,6.91465L11,11.08535C10.4174,11.29127,10,11.84689,10,12.5C10,13.15311,10.4174,13.70873,11,13.91465L11,18.5C11,18.7761,11.22386,19,11.5,19C11.77614,19,12,18.7761,12,18.5L12,13.91465C12.5826,13.70873,13,13.15311,13,12.5C13,11.84689,12.5826,11.29127,12,11.08535L12,6.91465C12.5826,6.70873,13,6.15311,13,5.5C13,4.671573,12.32843,4,11.5,4C10.67157,4,10,4.671573,10,5.5C10,6.15311,10.4174,6.70873,11,6.91465Z",
+    verticalSegment:
+      "M11,6.91465L11,11.08535C10.4174,11.29127,10,11.84689,10,12.5C10,13.15311,10.4174,13.70873,11,13.91465L11,17.08535C10.4174,17.29127,10,17.84689,10,18.5C10,19.32843,10.67157,20,11.5,20C12.32843,20,13,19.32843,13,18.5C13,17.84689,12.5826,17.29127,12,17.08535L12,13.91465C12.5826,13.70873,13,13.15311,13,12.5C13,11.84689,12.5826,11.29127,12,11.08535L12,6.91465C12.5826,6.70873,13,6.15311,13,5.5C13,4.671573,12.32843,4,11.5,4C10.67157,4,10,4.671573,10,5.5C10,6.15311,10.4174,6.70873,11,6.91465Z",
     straightLine:
       "M5.146447,15.753C4.9511845,15.9483,4.9511845,16.2649,5.146447,16.4602C5.341709,16.6554,5.658291,16.6554,5.853554,16.4602L8.1566,14.15711C8.35241,14.25082,8.57173,14.3033,8.8033,14.3033C9.63173,14.3033,10.3033,13.63172,10.3033,12.80329C10.3033,12.57172,10.25082,12.35241,10.15712,12.15659L12.1566,10.15711C12.35241,10.25082,12.57173,10.30329,12.8033,10.30329C13.63173,10.30329,14.3033,9.63172,14.3033,8.80329C14.3033,8.57172,14.25082,8.35241,14.15712,8.15659L16.4602,5.853553C16.6554,5.658291,16.6554,5.341709,16.4602,5.146447C16.2649,4.9511843,15.9483,4.9511843,15.753,5.146447L13.45001,7.44948C13.25419,7.35577,13.03487,7.30329,12.8033,7.30329C11.97487,7.30329,11.3033,7.97487,11.3033,8.80329C11.3033,9.03487,11.35578,9.25419,11.44949,9.45001L9.45001,11.44948C9.25419,11.35577,9.03487,11.30329,8.8033,11.30329C7.97487,11.30329,7.3033,11.97487,7.3033,12.80329C7.3033,13.03487,7.35578,13.25419,7.44949,13.45001L5.146447,15.753Z",
     rayLine:
@@ -865,6 +871,8 @@
       "M5.80417,14.9887L4.62563,16.1673C4.43037,16.3625,4.43037,16.6791,4.62563,16.8744C4.82089,17.0696,5.13748,17.0696,5.33274,16.8744L6.62638,15.5807C7.75595,16.2901,9.19328,16.7929,11,16.7929C16.1654,16.7929,18.3323,12.64289,18.8866,11.36789C19.0378,10.99289,19.0378,10.59289,18.8866,10.21789C18.5549,9.45486,17.6456,7.66212,15.8617,6.34545L17.3536,4.853553C17.5488,4.658291,17.5488,4.341709,17.3536,4.146447C17.1583,3.9511845,16.8417,3.9511845,16.6464,4.146447L15.0014,5.7915C13.9314,5.1969,12.61166,4.792893,11,4.792893C5.80945,4.792893,3.66772,8.94289,3.11339,10.21789C2.9622,10.59289,2.9622,10.99289,3.11339,11.36789C3.42444,12.08333,4.2353,13.70399,5.80417,14.9887ZM7.36012,14.847C8.32327,15.4074,9.52286,15.7929,11,15.7929C15.5606,15.7929,17.4756,12.11789,17.9543,10.99289C18.0047,10.86789,18.0047,10.74289,17.9543,10.61789C17.659,9.90846,16.8171,8.23812,15.1447,7.06241L12.96929,9.23782C13.3134,9.66543,13.5197,10.20642,13.5197,10.79289C13.5197,12.16789,12.38583,13.29289,11,13.29289C10.41596,13.29289,9.87667,13.09308,9.44815,12.75896L7.36012,14.847ZM8.79461,11.99829L6.5201,14.2728C5.06905,13.12119,4.32057,11.62825,4.04567,10.96789C3.99528,10.84289,3.99528,10.71789,4.04567,10.59289C4.52441,9.46789,6.43937,5.79289,11,5.79289C12.28868,5.79289,13.3661,6.08632,14.2596,6.53329L12.19759,8.5953C11.84086,8.40257,11.43271,8.29289,11,8.29289C9.61417,8.29289,8.48032,9.41789,8.48032,10.79289C8.48032,11.22918,8.59447,11.64029,8.79461,11.99829ZM10.16528,12.04183C10.40487,12.20032,10.69207,12.29289,11,12.29289C11.8315,12.29289,12.51181,11.61789,12.51181,10.79289C12.51181,10.48318,12.41593,10.1946,12.25216,9.95494L10.16528,12.04183ZM11.43602,9.35687L9.55616,11.23674C9.512,11.09633,9.48819,10.94724,9.48819,10.79289C9.48819,9.96789,10.1685,9.29289,11,9.29289C11.15142,9.29289,11.29782,9.31528,11.43602,9.35687Z",
     remove:
       "M18 7h5v1h-2.01l-1.33 14.64a1.5 1.5 0 0 1-1.5 1.36H9.84a1.5 1.5 0 0 1-1.49-1.36L7.01 8H5V7h5V6c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v1Zm-6-2a1 1 0 0 0-1 1v1h6V6a1 1 0 0 0-1-1h-4ZM8.02 8l1.32 14.54a.5.5 0 0 0 .5.46h8.33a.5.5 0 0 0 .5-.46L19.99 8H8.02Z",
+    lock: "M14.5 11V8.5C14.5 6.567 12.933 5 11 5C9.067 5 7.5 6.567 7.5 8.5V11H7C5.895 11 5 11.895 5 13V18C5 19.105 5.895 20 7 20H15C16.105 20 17 19.105 17 18V13C17 11.895 16.105 11 15 11H14.5ZM8.5 8.5C8.5 7.119 9.619 6 11 6C12.381 6 13.5 7.119 13.5 8.5V11H8.5V8.5ZM16 13V18C16 18.552 15.552 19 15 19H7C6.448 19 6 18.552 6 18V13C6 12.448 6.448 12 7 12H15C15.552 12 16 12.448 16 13Z",
+    unlock: "M14.5 11H15C16.105 11 17 11.895 17 13V18C17 19.105 16.105 20 15 20H7C5.895 20 5 19.105 5 18V13C5 11.895 5.895 11 7 11H13.5V8.5C13.5 7.119 12.381 6 11 6C9.887 6 8.948 6.74 8.621 7.75L7.672 7.434C8.112 6.114 9.44 5 11 5C12.933 5 14.5 6.567 14.5 8.5V11ZM16 13C16 12.448 15.552 12 15 12H7C6.448 12 6 12.448 6 13V18C6 18.552 6.448 19 7 19H15C15.552 19 16 18.552 16 18V13Z",
   };
 
   const toolGroups: ToolGroup[] = [
@@ -1005,7 +1013,6 @@
   // Toolbar state
   let drawingsLocked = false;
   let drawingsVisible = true;
-  let openDropdownId: string | null = null;
   let toolbarExpanded = true;
   let drawingMode: "normal" | "weak_magnet" | "strong_magnet" = "normal";
   let dropdownStates: Record<string, boolean> = {
@@ -1016,12 +1023,6 @@
     waves: false,
     magnet: false,
   };
-
-  // Helper function to get current icon for a group
-  function getGroupIcon(groupId: string): string {
-    const selectedTool = selectedToolByGroup[groupId];
-    return toolIcons[selectedTool] || toolIcons.horizontalStraightLine;
-  }
 
   const indicatorItems = indicatorDefinitions.map((item) => ({
     id: item.id,
@@ -1056,7 +1057,6 @@
   ) {
     selectedToolByGroup[groupId] = toolId;
     activeTool = toolId;
-    openDropdownId = null;
     if (!chart) return;
 
     // Map drawing mode to klinecharts overlay mode
@@ -4163,16 +4163,7 @@
     return dt.toFormat("MMM dd, yyyy");
   }
 
-  // Click outside handler for toolbar dropdowns
-  const handleToolbarClickOutside = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest(".relative") && openDropdownId) {
-      openDropdownId = null;
-    }
-  };
-
   onMount(async () => {
-    document.addEventListener("click", handleToolbarClickOutside);
 
     // Load chart settings from localStorage
     const savedSettings = loadChartSettings();
@@ -4329,9 +4320,6 @@
   onDestroy(() => {
     isComponentDestroyed = true;
     disconnectWebSocket();
-    if (browser) {
-      document.removeEventListener("click", handleToolbarClickOutside);
-    }
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
@@ -5320,14 +5308,14 @@
                   title={group.label}
                 >
                   <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
-                    <path d={getGroupIcon(group.id)} />
+                    <path d={toolIcons[selectedToolByGroup[group.id]] || toolIcons.horizontalStraightLine} />
                   </svg>
-                  <!-- Dropdown Arrow -->
+                  <!-- Dropdown Arrow - always visible for better discoverability -->
                   <DropdownMenu.Trigger asChild let:builder>
                     <div
                       use:builder.action
                       {...builder}
-                      class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
+                      class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-50 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
                       on:click|stopPropagation
                     >
                       <svg
@@ -5407,12 +5395,12 @@
                 <svg viewBox="0 0 28 28" class="h-6 w-6 fill-current">
                   <path d={toolIcons.magnet} />
                 </svg>
-                <!-- Dropdown Arrow -->
+                <!-- Dropdown Arrow - always visible for better discoverability -->
                 <DropdownMenu.Trigger asChild let:builder>
                   <div
                     use:builder.action
                     {...builder}
-                    class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-0 group-hover/magnet:opacity-100 transition-opacity duration-150 cursor-pointer"
+                    class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-50 group-hover/magnet:opacity-100 transition-opacity duration-150 cursor-pointer"
                     on:click|stopPropagation
                   >
                     <svg
@@ -5478,11 +5466,11 @@
             </div>
           </DropdownMenu.Root>
 
-          <!-- Visibility -->
+          <!-- Visibility - highlights when drawings are hidden (unusual state) -->
           <button
             class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               !drawingsVisible
-                ? "bg-neutral-800 text-white"
+                ? "bg-neutral-800 text-rose-400"
                 : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
             }`}
             on:click={toggleDrawingsVisibility}
@@ -5492,6 +5480,21 @@
               <path
                 d={drawingsVisible ? toolIcons.visible : toolIcons.invisible}
               />
+            </svg>
+          </button>
+
+          <!-- Lock - prevents accidental modification of drawings -->
+          <button
+            class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+              drawingsLocked
+                ? "bg-neutral-800 text-amber-400"
+                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+            }`}
+            on:click={toggleDrawingsLock}
+            title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
+          >
+            <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
+              <path d={drawingsLocked ? toolIcons.lock : toolIcons.unlock} />
             </svg>
           </button>
 
