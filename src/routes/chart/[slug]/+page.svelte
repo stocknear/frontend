@@ -332,7 +332,7 @@
   // Save event toggle states to localStorage
   const saveEventSettings = () => {
     const currentSettings = loadChartSettings() || {
-      chartType: "candle_solid",
+      chartType: "candles",
       activeRange: "1D",
     };
     saveChartSettings({
@@ -353,11 +353,11 @@
     | "bars"
     | "candles"
     | "hollow_candles"
+    | "heikin_ashi"
     | "line_step"
     | "area"
     | "hlc_area"
-    | "high_low"
-    | "heikin_ashi";
+    | "high_low";
   type ChartTypeOption = {
     id: ChartTypeId;
     label: string;

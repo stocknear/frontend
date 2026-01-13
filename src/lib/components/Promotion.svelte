@@ -2,7 +2,6 @@
   import { screenWidth } from "$lib/store";
   import { goto } from "$app/navigation";
 
-  let modalId = "promotionModal";
   let title = "Upgrade for real-time edge on every trade.";
   let subtitle = "Upgrade to Pro for unlimited access to all features";
   let features = [
@@ -14,44 +13,20 @@
     "Real-time unusual orders",
     "Premium Discord channel access",
   ];
-
-  function closeModal() {
-    const checkbox = document.getElementById(modalId) as HTMLInputElement;
-    if (checkbox) {
-      checkbox.checked = false;
-    }
-  }
 </script>
 
-<input type="checkbox" id={modalId} class="modal-toggle" />
+<input type="checkbox" id="promotionModal" class="modal-toggle" />
 
 <dialog
-  id={modalId}
+  id="promotionModal"
   class="modal modal-bottom sm:modal-middle rounded-none sm:rounded"
 >
-  <label for={modalId} class="cursor-pointer modal-backdrop"></label>
-
   <div
     class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-200 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
     640
       ? 'min-h-screen'
       : ''}"
   >
-    <label
-      for={modalId}
-      class="cursor-pointer absolute right-3 top-3 text-lg text-muted hover:text-gray-900 dark:text-white dark:hover:text-white transition"
-    >
-      <svg
-        class="h-8 w-8"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        ><path
-          fill="currentColor"
-          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg
-      >
-    </label>
-
     <div class="grid grid-cols-1 animate-fade-in-once">
       <div class="flex justify-center pt-6 sm:pt-3">
         <div
@@ -110,16 +85,15 @@
       </ul>
 
       <div class="mt-6 flex flex-col sm:flex-row gap-3">
-        <button
-          type="button"
+        <label
+          for="promotionModal"
           on:click={() => {
-            closeModal();
             goto("/pricing");
           }}
           class="cursor-pointer flex-1 py-2.5 px-4 rounded-full font-semibold transition bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-center"
         >
           Start 7-Day Free Trial
-        </button>
+        </label>
       </div>
 
       <p class="mt-5 text-center text-xs text-gray-800 dark:text-zinc-300">
