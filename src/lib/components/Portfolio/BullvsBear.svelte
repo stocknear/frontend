@@ -325,7 +325,7 @@
       <button
         on:click={generateSummary}
         disabled={isGeneratingSummary || hasNoTickers}
-        class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 disabled:opacity-60"
+        class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border transition ease-out disabled:opacity-60"
       >
         {#if isGeneratingSummary}
           <span class="loading loading-spinner loading-xs"></span>
@@ -369,14 +369,13 @@
       {#if isGeneratingSummary}
         <!-- Loading State -->
         <div class="flex flex-col items-center justify-center py-8">
-          <div class="relative">
-            <div
-              class="w-12 h-12 border-4 border-gray-200/80 dark:border-zinc-700 rounded-full"
-            ></div>
-            <div
-              class="w-12 h-12 border-4 border-gray-900/80 border-t-transparent dark:border-white/80 rounded-full animate-spin absolute top-0 left-0"
-            ></div>
-          </div>
+          <label
+            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
+          >
+            <span
+              class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+            ></span>
+          </label>
           <p class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium">
             Analyzing your portfolio with AI...
           </p>
