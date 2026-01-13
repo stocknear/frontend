@@ -106,6 +106,62 @@
   let customMax: number | null = null;
   let isCustomSelected = false;
 
+  // LocalStorage key based on page type (gex-strike or dex-strike)
+  $: dteStorageKey = title === "Gamma" ? "dte_settings_gex_strike" : "dte_settings_dex_strike";
+
+  // Save DTE settings to localStorage
+  function saveDTESettings() {
+    if (typeof localStorage !== "undefined") {
+      const settings = {
+        selectedDTE: Array.from(selectedDTEs)[0] || "All",
+        selectedDTEsText,
+        isCustomSelected,
+        customMin,
+        customMax,
+      };
+      localStorage.setItem(dteStorageKey, JSON.stringify(settings));
+    }
+  }
+
+  // Load DTE settings from localStorage
+  function loadDTESettings() {
+    if (typeof localStorage !== "undefined") {
+      const saved = localStorage.getItem(dteStorageKey);
+      if (saved) {
+        try {
+          const settings = JSON.parse(saved);
+
+          // Restore state
+          checkedDTEs.clear();
+          selectedDTEs.clear();
+
+          if (settings.isCustomSelected) {
+            isCustomSelected = true;
+            customMin = settings.customMin;
+            customMax = settings.customMax;
+            checkedDTEs.add("Custom");
+            selectedDTEs.add("Custom");
+            selectedDTEsText = settings.selectedDTEsText || "Custom";
+          } else {
+            isCustomSelected = false;
+            const selectedDTE = settings.selectedDTE || "All";
+            checkedDTEs.add(selectedDTE);
+            selectedDTEs.add(selectedDTE);
+            selectedDTEsText = settings.selectedDTEsText || selectedDTE;
+          }
+
+          // Trigger reactive updates
+          selectedDTEs = new Set(selectedDTEs);
+          checkedDTEs = new Set(checkedDTEs);
+          dteOptions = [...dteOptions];
+        } catch (e) {
+          // If parsing fails, use defaults
+          console.error("Failed to load DTE settings:", e);
+        }
+      }
+    }
+  }
+
   let rawData = [];
   let sortedData = [];
   let displayList = [];
@@ -226,6 +282,7 @@
     dteOptions = [...dteOptions];
 
     updateDataForSelectedDTEs();
+    saveDTESettings();
   }
 
   // Handle custom checkbox toggle
@@ -251,6 +308,7 @@
     dteOptions = [...dteOptions];
 
     updateDataForSelectedDTEs();
+    saveDTESettings();
   }
 
   // Select custom without toggling (used when typing in inputs)
@@ -267,6 +325,7 @@
       selectedDTEs = new Set(selectedDTEs);
       checkedDTEs = new Set(checkedDTEs);
       dteOptions = [...dteOptions];
+      saveDTESettings();
     }
   }
 
@@ -277,6 +336,7 @@
       const maxVal = customMax ?? 999;
       selectedDTEsText = `${minVal}-${maxVal} DTE`;
       updateDataForSelectedDTEs();
+      saveDTESettings();
     }
   }
 
@@ -642,6 +702,7 @@
 
   onMount(() => {
     loadRowsPerPage();
+    loadDTESettings();
     updateDataForSelectedDTEs(); // Initialize data
   });
 
