@@ -80,6 +80,10 @@
     showEarnings?: boolean;
     showDividends?: boolean;
     showNewsFlow?: boolean;
+    selectedToolByGroup?: Record<string, string>; // Toolbar selection state
+    drawingMode?: "normal" | "weak_magnet" | "strong_magnet";
+    drawingsLocked?: boolean;
+    drawingsVisible?: boolean;
     savedAt?: number; // Timestamp for 1Y cache expiration
   }
 
@@ -1060,6 +1064,15 @@
 
     selectedToolByGroup[groupId] = toolId;
     activeTool = toolId;
+
+    // Save toolbar selection to localStorage
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({
+      ...currentSettings,
+      selectedToolByGroup: { ...selectedToolByGroup },
+      drawingMode,
+    });
+
     if (!chart) return;
 
     // Map drawing mode to klinecharts overlay mode
@@ -1093,6 +1106,9 @@
         chart.overrideOverlay({ id, lock: drawingsLocked });
       });
     }
+    // Save to localStorage
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({ ...currentSettings, drawingsLocked });
   }
 
   function toggleDrawingsVisibility() {
@@ -1102,6 +1118,9 @@
         chart.overrideOverlay({ id, visible: drawingsVisible });
       });
     }
+    // Save to localStorage
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({ ...currentSettings, drawingsVisible });
   }
 
   function removeAllDrawings() {
@@ -4190,6 +4209,19 @@
         showDividends = savedSettings.showDividends ?? true;
         showNewsFlow = savedSettings.showNewsFlow ?? true;
       }
+      // Load toolbar selection state
+      if (savedSettings.selectedToolByGroup) {
+        selectedToolByGroup = { ...selectedToolByGroup, ...savedSettings.selectedToolByGroup };
+      }
+      if (savedSettings.drawingMode) {
+        drawingMode = savedSettings.drawingMode;
+      }
+      if (typeof savedSettings.drawingsLocked === "boolean") {
+        drawingsLocked = savedSettings.drawingsLocked;
+      }
+      if (typeof savedSettings.drawingsVisible === "boolean") {
+        drawingsVisible = savedSettings.drawingsVisible;
+      }
     } else if (data?.user?.tier === "Pro") {
       // Default to true for Pro users if no settings saved
       showEarnings = true;
@@ -5395,6 +5427,9 @@
                   } else {
                     drawingMode = "normal";
                   }
+                  // Save to localStorage
+                  const currentSettings = loadChartSettings() || {};
+                  saveChartSettings({ ...currentSettings, drawingMode });
                 }}
                 title={drawingMode === "normal"
                   ? "Enable magnet mode"
@@ -5440,6 +5475,9 @@
                     on:click={() => {
                       drawingMode = "weak_magnet";
                       dropdownStates.magnet = false;
+                      // Save to localStorage
+                      const currentSettings = loadChartSettings() || {};
+                      saveChartSettings({ ...currentSettings, drawingMode });
                     }}
                   >
                     <svg
@@ -5459,6 +5497,9 @@
                     on:click={() => {
                       drawingMode = "strong_magnet";
                       dropdownStates.magnet = false;
+                      // Save to localStorage
+                      const currentSettings = loadChartSettings() || {};
+                      saveChartSettings({ ...currentSettings, drawingMode });
                     }}
                   >
                     <svg
