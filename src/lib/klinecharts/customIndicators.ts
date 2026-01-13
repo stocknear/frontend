@@ -2045,19 +2045,6 @@ function createRevenueIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Draw dots at actual data points
-      for (const point of points) {
-        if (point.isDataPoint) {
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-          ctx.fillStyle = "#3B82F6";
-          ctx.fill();
-          ctx.strokeStyle = "#FFFFFF";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-
       return false;
     },
   };
