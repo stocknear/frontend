@@ -6,6 +6,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "options-dex": "/options-gex-dex",
   "options-oi": "/options-oi",
   "hottest-contracts": "/hottest-contracts",
+  "short-interest": "/short-interest",
   // Add more indicator categories here as needed:
   // "dark-pool": "/dark-pool-data",
   // "institutional": "/institutional-flow",
@@ -25,10 +26,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  // Options indicators require Pro tier
+  // Chart indicators require Pro tier
   if (user?.tier !== "Pro") {
     return new Response(
-      JSON.stringify({ error: "Pro subscription required for Options indicators" }),
+      JSON.stringify({ error: "Pro subscription required" }),
       { status: 403 }
     );
   }
@@ -48,6 +49,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       category: "strike",
     };
   } else if (category === "hottest-contracts") {
+    postData = {
+      ticker: data?.ticker,
+    };
+  } else if (category === "short-interest") {
     postData = {
       ticker: data?.ticker,
     };

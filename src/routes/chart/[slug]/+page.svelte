@@ -228,10 +228,36 @@
   let selectedNews: NewsData | null = null;
   let newsPopupPosition = { x: 0, y: 0 };
 
+  // Short Interest marker types and state
+  interface ShortInterestData {
+    recordDate: string;
+    totalShortInterest: number | string;
+    shortPercentOfFloat: number;
+    daysToCover: number;
+    shortPriorMo: number | string;
+    percentChangeMoMo: number;
+    shortPercentOfOut: number;
+  }
+
+  interface ShortInterestMarker {
+    shortInterest: ShortInterestData;
+    timestamp: number;
+    x: number;
+    visible: boolean;
+  }
+
+  let historicalShortInterest: ShortInterestData[] = [];
+  let shortInterestMarkers: ShortInterestMarker[] = [];
+  let showShortInterest = false;
+  let shortInterestLoading = false;
+  let selectedShortInterest: ShortInterestData | null = null;
+  let shortInterestPopupPosition = { x: 0, y: 0 };
+
   // Cached timestamp maps for performance (avoid re-computing on every scroll/zoom)
   let earningsTimestampCache = new Map<EarningsData, number>();
   let dividendTimestampCache = new Map<DividendData, number>();
   let newsTimestampCache = new Map<NewsData, number>();
+  let shortInterestTimestampCache = new Map<ShortInterestData, number>();
 
   // Cached chart rect for performance (avoid multiple getBoundingClientRect calls)
   let cachedChartRect: DOMRect | null = null;
@@ -702,6 +728,16 @@
       label: "Hottest Contracts",
       indicatorName: "SN_HOTTEST",
       category: "Options",
+      defaultParams: [],
+      pane: "candle",
+      isOverlay: true,
+    },
+    // Fundamentals category
+    {
+      id: "short_interest",
+      label: "Short Interest",
+      indicatorName: "SN_SHORT_INTEREST",
+      category: "Fundamentals",
       defaultParams: [],
       pane: "candle",
       isOverlay: true,
@@ -1978,6 +2014,84 @@
     selectedNews = null;
   };
 
+  // Update short interest marker positions based on visible chart range
+  const updateShortInterestMarkers = () => {
+    if (
+      !chart ||
+      !chartContainer ||
+      !isNonIntradayRange(activeRange) ||
+      !cachedChartRect
+    ) {
+      shortInterestMarkers = [];
+      return;
+    }
+
+    const chartWidth = cachedChartRect.width;
+
+    // Get the date range from historical price data
+    const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
+    const maxTimestamp =
+      dailyBars.length > 0 ? dailyBars[dailyBars.length - 1].timestamp : null;
+
+    // Create markers for each short interest date (using cached timestamps)
+    const markers: ShortInterestMarker[] = [];
+
+    for (const si of historicalShortInterest) {
+      const timestamp = shortInterestTimestampCache.get(si);
+      if (timestamp === undefined) continue;
+
+      // Skip short interest outside the historical price date range
+      if (
+        minTimestamp !== null &&
+        maxTimestamp !== null &&
+        (timestamp < minTimestamp || timestamp > maxTimestamp)
+      ) {
+        continue;
+      }
+
+      // Convert timestamp to pixel position
+      const pixel = chart.convertToPixel({ timestamp });
+
+      if (pixel && typeof pixel.x === "number") {
+        // Check if marker is within visible chart area (with some padding)
+        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+
+        markers.push({
+          shortInterest: si,
+          timestamp,
+          x: pixel.x,
+          visible,
+        });
+      }
+    }
+
+    shortInterestMarkers = markers;
+  };
+
+  // Handle short interest marker click
+  const handleShortInterestClick = (marker: ShortInterestMarker, event: MouseEvent) => {
+    event.stopPropagation();
+    selectedShortInterest = marker.shortInterest;
+
+    // Position popup near the click but ensure it stays on screen
+    const rect = chartContainer?.getBoundingClientRect();
+    if (rect) {
+      let x = marker.x;
+      let y = rect.height - 100; // Position above the volume area
+
+      // Ensure popup doesn't go off screen
+      if (x < 150) x = 150;
+      if (x > rect.width - 150) x = rect.width - 150;
+
+      shortInterestPopupPosition = { x, y };
+    }
+  };
+
+  // Close short interest popup
+  const closeShortInterestPopup = () => {
+    selectedShortInterest = null;
+  };
+
   // Get news marker color based on changesPercentage (matches earnings colors)
   const getNewsMarkerColor = (
     changesPercentage: number | string | null | undefined,
@@ -2475,6 +2589,56 @@
     }
   };
 
+  // Fetch Short Interest data from API
+  const fetchShortInterestData = async () => {
+    if (!ticker || shortInterestLoading) return;
+
+    shortInterestLoading = true;
+
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ticker,
+          category: "short-interest",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // The API returns { history: [...], sharesShort, shortRatio, etc. }
+      const historyData = result?.history || [];
+
+      historicalShortInterest = historyData;
+
+      // Build timestamp cache for short interest data
+      shortInterestTimestampCache = new Map();
+      for (const si of historicalShortInterest) {
+        if (si.recordDate) {
+          const dt = DateTime.fromISO(si.recordDate, { zone });
+          if (dt.isValid)
+            shortInterestTimestampCache.set(si, dt.startOf("day").toMillis());
+        }
+      }
+
+      showShortInterest = true;
+      updateShortInterestMarkers();
+    } catch (error) {
+      console.error("Failed to fetch Short Interest data:", error);
+      historicalShortInterest = [];
+      shortInterestMarkers = [];
+    } finally {
+      shortInterestLoading = false;
+    }
+  };
+
   // Update Hottest Contracts levels for rendering on chart
   const updateHottestLevels = () => {
     if (!chart || !chartContainer || hottestContractsData.length === 0) {
@@ -2568,6 +2732,7 @@
     updateEarningsMarkers();
     updateDividendMarkers();
     updateNewsMarkers();
+    updateShortInterestMarkers();
     updateGexLevels();
     updateDexLevels();
     updateOiLevels();
@@ -3616,6 +3781,11 @@
         fetchOiData();
       } else if (name === "hottest" && hottestContractsData.length === 0) {
         fetchHottestContractsData();
+      } else if (name === "short_interest" && historicalShortInterest.length === 0) {
+        fetchShortInterestData();
+      } else if (name === "short_interest") {
+        showShortInterest = true;
+        updateShortInterestMarkers();
       }
     } else {
       // Clear data when disabled
@@ -3635,6 +3805,10 @@
         hottestContractsData = [];
         hottestLevels = [];
         selectedHottestLevel = null;
+      } else if (name === "short_interest") {
+        showShortInterest = false;
+        shortInterestMarkers = [];
+        selectedShortInterest = null;
       }
     }
   }
@@ -4493,6 +4667,16 @@
         if (dt.isValid)
           newsTimestampCache.set(news, dt.startOf("day").toMillis());
       }
+    }
+
+    // Reset short interest state when ticker changes
+    historicalShortInterest = [];
+    shortInterestMarkers = [];
+    shortInterestTimestampCache = new Map();
+    showShortInterest = false;
+    // If indicator was enabled, refetch for new ticker
+    if (indicatorState?.short_interest) {
+      fetchShortInterestData();
     }
   }
 
@@ -6196,6 +6380,117 @@
           ></button>
         {/if}
 
+        <!-- Short Interest markers overlay (only for non-intraday ranges when enabled) -->
+        {#if isSubscribed && showShortInterest && isNonIntradayRange(activeRange) && shortInterestMarkers.length > 0}
+          <div class="absolute inset-0 pointer-events-none">
+            {#each shortInterestMarkers as marker (marker.timestamp)}
+              {#if marker?.visible}
+                <button
+                  class="absolute bottom-[140px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px"
+                  on:click={(e) => handleShortInterestClick(marker, e)}
+                  aria-label="View short interest details"
+                >
+                  <svg
+                    width="24"
+                    height="30"
+                    viewBox="0 0 18 22"
+                    class="drop-shadow-md"
+                  >
+                    <path
+                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                      fill={(marker.shortInterest.percentChangeMoMo ?? 0) > 0 ? "#EF4444" : "#22C55E"}
+                    />
+                    <text
+                      x="9"
+                      y="11"
+                      text-anchor="middle"
+                      dominant-baseline="middle"
+                      fill="white"
+                      font-size="8"
+                      font-weight="bold"
+                      font-family="system-ui, sans-serif">SI</text
+                    >
+                  </svg>
+                </button>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Short Interest popup -->
+        {#if selectedShortInterest}
+          <div
+            class="absolute z-[7] pointer-events-auto"
+            style="left: {shortInterestPopupPosition.x}px; top: {shortInterestPopupPosition.y}px; transform: translate(-50%, -100%)"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[340px]"
+            >
+              <!-- Header -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <h3 class="text-white font-semibold">Short Interest</h3>
+                <span
+                  class={`text-sm font-semibold ${
+                    (selectedShortInterest.percentChangeMoMo ?? 0) > 0
+                      ? "text-red-400"
+                      : (selectedShortInterest.percentChangeMoMo ?? 0) < 0
+                        ? "text-emerald-400"
+                        : "text-neutral-400"
+                  }`}
+                >
+                  {(selectedShortInterest.percentChangeMoMo ?? 0) > 0 ? "+" : ""}{(selectedShortInterest.percentChangeMoMo ?? 0).toFixed(2)}% MoM
+                </span>
+              </div>
+
+              <!-- Date -->
+              <div class="text-xs text-neutral-500 mb-3">
+                {new Date(selectedShortInterest.recordDate).toLocaleDateString("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </div>
+
+              <!-- Metrics Grid -->
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <div class="text-neutral-500 text-xs mb-0.5">Short Interest</div>
+                  <div class="text-white font-medium">
+                    {abbreviateNumber(Number(selectedShortInterest.totalShortInterest))}
+                  </div>
+                </div>
+                <div>
+                  <div class="text-neutral-500 text-xs mb-0.5">Prior Month</div>
+                  <div class="text-white font-medium">
+                    {abbreviateNumber(Number(selectedShortInterest.shortPriorMo))}
+                  </div>
+                </div>
+                <div>
+                  <div class="text-neutral-500 text-xs mb-0.5">% of Float</div>
+                  <div class="text-white font-medium">
+                    {(selectedShortInterest.shortPercentOfFloat ?? 0).toFixed(2)}%
+                  </div>
+                </div>
+                <div>
+                  <div class="text-neutral-500 text-xs mb-0.5">Days to Cover</div>
+                  <div class="text-white font-medium">
+                    {(selectedShortInterest.daysToCover ?? 0).toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Click outside to close -->
+          <button
+            class="fixed inset-0 z-[6] cursor-default"
+            on:click={closeShortInterestPopup}
+            aria-label="Close short interest popup"
+          ></button>
+        {/if}
+
         <!-- GEX (Gamma Exposure) horizontal levels overlay -->
         {#if indicatorState.gex && gexLevels.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[4]">
@@ -6790,7 +7085,7 @@
         >
           Technical Indicators
         </h4>
-        {#each Object.entries(groupedIndicators).filter(([cat]) => cat !== "Options") as [category, indicators]}
+        {#each Object.entries(groupedIndicators).filter(([cat]) => cat !== "Options" && cat !== "Fundamentals") as [category, indicators]}
           <div class="mt-4">
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -6840,6 +7135,66 @@
           <div class="mt-4">
             <div class="flex flex-wrap">
               {#each groupedIndicators["Options"] as indicator}
+                <div
+                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
+                >
+                  {#if isSubscribed}
+                    <input
+                      on:click={() => toggleIndicatorById(indicator.id)}
+                      id={indicator.id}
+                      type="checkbox"
+                      checked={Boolean(indicatorState[indicator.id])}
+                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+                    />
+                    <div class="-mt-0.5">
+                      <div class="flex items-center gap-1">
+                        <label
+                          for={indicator.id}
+                          class="cursor-pointer text-[1rem]"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
+                      </div>
+                    </div>
+                  {:else}
+                    <button
+                      on:click={() => goto("/pricing")}
+                      class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    >
+                      <svg
+                        class="w-4 h-4 mr-1.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        />
+                      </svg>
+                      <span class="text-[1rem]">{indicator.label}</span>
+                    </button>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        {#if groupedIndicators["Fundamentals"]}
+          <h4
+            class="mb-1 font-semibold text-lg mt-8 text-gray-900 dark:text-white"
+          >
+            Fundamentals
+          </h4>
+          <div class="mt-4">
+            <div class="flex flex-wrap">
+              {#each groupedIndicators["Fundamentals"] as indicator}
                 <div
                   class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
                 >
