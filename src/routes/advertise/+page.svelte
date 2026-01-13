@@ -159,9 +159,6 @@
               >
                 Sponsor Us
               </h2>
-              <ArrowLogo
-                class="h-5 w-5 text-gray-400 transition group-hover:text-violet-500 dark:text-zinc-500 dark:group-hover:text-violet-400"
-              />
             </div>
             <p class="text-[0.9rem] text-gray-800 dark:text-zinc-300">
               Support our mission to democratize financial research for retail
@@ -180,9 +177,6 @@
               >
                 Contact Us
               </h2>
-              <ArrowLogo
-                class="h-5 w-5 text-gray-400 transition group-hover:text-violet-500 dark:text-zinc-500 dark:group-hover:text-violet-400"
-              />
             </div>
             <p class="text-[0.9rem] text-gray-800 dark:text-zinc-300">
               Have questions? We're here to help with personalized solutions.

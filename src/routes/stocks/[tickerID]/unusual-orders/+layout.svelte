@@ -89,9 +89,6 @@
                 <h2 class="text-start text-xl font-bold ml-3">
                   Unusual Order Flow
                 </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
-                />
               </div>
               <span class="p-3 ml-3 mr-3">
                 Follow the order feed of big whales in realtime
