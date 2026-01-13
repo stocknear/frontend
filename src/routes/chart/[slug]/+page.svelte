@@ -3497,6 +3497,61 @@
     institutionalLoading = false;
   };
 
+  // Fetch data for indicators that are already enabled on page load
+  const fetchDataForEnabledIndicators = async () => {
+    if (!chart) return;
+
+    // Check each indicator that requires external data and fetch if enabled but no data loaded
+    if (indicatorState.revenue && revenueData.length === 0) {
+      fetchRevenueDataIndicator();
+    }
+    if (indicatorState.market_cap && marketCapData.length === 0) {
+      fetchMarketCapDataIndicator();
+    }
+    if (indicatorState.eps && epsData.length === 0) {
+      fetchEPSDataIndicator();
+    }
+    if (indicatorState.fcf && fcfData.length === 0) {
+      fetchFCFDataIndicator();
+    }
+    if (indicatorState.margin && marginData.length === 0) {
+      fetchMarginDataIndicator();
+    }
+    if (indicatorState.pe_ratio && peRatioData.length === 0) {
+      fetchPERatioDataIndicator();
+    }
+    if (indicatorState.ev_ebitda && evEbitdaData.length === 0) {
+      fetchEVEBITDADataIndicator();
+    }
+    if (indicatorState.institutional && institutionalData.length === 0) {
+      fetchInstitutionalDataIndicator();
+    }
+    if (indicatorState.iv_rank && ivRankData.length === 0) {
+      fetchIVRankData();
+    }
+    if (indicatorState.put_call_ratio && putCallData.length === 0) {
+      fetchPutCallData();
+    }
+    if (indicatorState.dark_pool && darkPoolData.length === 0) {
+      fetchDarkPoolDataIndicator();
+    }
+    if (indicatorState.ftd && ftdData.length === 0) {
+      fetchFTDDataIndicator();
+    }
+    if (indicatorState.max_pain && maxPainData.length === 0) {
+      fetchMaxPainData();
+    }
+    if (indicatorState.analyst_target && analystTargetData.length === 0) {
+      fetchAnalystTargetData();
+    }
+    if (indicatorState.insider_activity && insiderActivityData.length === 0) {
+      fetchInsiderActivityDataIndicator();
+    }
+    if (indicatorState.short_interest && historicalShortInterest.length === 0) {
+      fetchShortInterestDataIndicator();
+    }
+  };
+
   // Update Hottest Contracts levels for rendering on chart
   const updateHottestLevels = () => {
     if (!chart || !chartContainer || hottestContractsData.length === 0) {
@@ -5523,6 +5578,9 @@
         }
       });
     }
+
+    // Fetch data for indicators that are already enabled (e.g., from saved strategy)
+    fetchDataForEnabledIndicators();
 
     // Throttled resize handler to prevent lag during window resize
     const throttledChartResize = throttle(() => chart?.resize(), 100);
