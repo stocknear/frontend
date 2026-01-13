@@ -9,10 +9,28 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
+  import LineChartIcon from "lucide-svelte/icons/chart-spline";
+  import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
 
   export let data;
   export let title = "Gamma";
   export let ticker;
+
+  // Chart type state
+  type ChartType = "column" | "line" | "scatter";
+  let chartType: ChartType = "column";
+
+  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
+    { type: "column", label: "Column", icon: BarChartIcon },
+    { type: "line", label: "Line", icon: LineChartIcon },
+    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  ];
+
+  function changeChartType(type: ChartType) {
+    chartType = type;
+    config = plotData() || null;
+  }
 
   let rawData = data?.getData || [];
   let sortedData = [];
@@ -119,15 +137,15 @@
 
     // Create arrays for categories and series data.
     const expiries = processedData.map((d) => d.expiry);
-    // Convert values to numbers (toFixed returns a string)
+    // Convert values to numbers (toFixed returns a string) - handle undefined values
     const callValues = processedData.map((d) =>
-      parseFloat(d.callValue.toFixed(2)),
+      parseFloat((d.callValue ?? 0).toFixed(2)),
     );
     const putValues = processedData.map((d) =>
-      parseFloat(d.putValue.toFixed(2)),
+      parseFloat((d.putValue ?? 0).toFixed(2)),
     );
     const netValues = processedData.map((d) =>
-      parseFloat(d.netValue.toFixed(2)),
+      parseFloat((d.netValue ?? 0).toFixed(2)),
     );
 
     const options = {
@@ -135,11 +153,32 @@
         enabled: false,
       },
       chart: {
-        type: "column",
+        type: chartType === "scatter" ? "scatter" : chartType,
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
         height: 360,
         animation: false,
+        zoomType: "x",
+        resetZoomButton: {
+          theme: {
+            fill: $mode === "light" ? "#f3f4f6" : "#27272a",
+            stroke: $mode === "light" ? "#d1d5db" : "#3f3f46",
+            style: {
+              color: $mode === "light" ? "#111827" : "#f4f4f5",
+            },
+            r: 8,
+            states: {
+              hover: {
+                fill: $mode === "light" ? "#e5e7eb" : "#3f3f46",
+              },
+            },
+          },
+          position: {
+            align: "right",
+            x: -10,
+            y: 10,
+          },
+        },
       },
       title: {
         text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} ${title === "Gamma" ? "GEX" : "DEX"} Chart</h3>`,
@@ -163,7 +202,19 @@
       plotOptions: {
         series: {
           animation: false,
-          stacking: "normal",
+          ...(chartType === "column" ? { stacking: "normal" } : {}),
+        },
+        line: {
+          marker: {
+            enabled: true,
+            radius: 3,
+          },
+        },
+        scatter: {
+          marker: {
+            radius: 4,
+            symbol: "circle",
+          },
         },
       },
       tooltip: {
@@ -435,7 +486,6 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    {ticker}
     {title} Exposure By Expiry <InfoModal
       content={title === "Gamma"
         ? `Gamma Exposure (GEX) for ${ticker} options representing the estimated dollar value of shares that option sellers must buy or sell to maintain delta neutrality for each 1% move in ${ticker}'s stock price by expiration.`
@@ -480,6 +530,28 @@
             : "suggests neutral market maker positioning"}.
       {/if}
     </p>
+  </div>
+
+  <!-- Chart Type Switcher -->
+  <div class="mt-7 flex flex-wrap items-center justify-end gap-3">
+    <div class="flex items-center">
+      <div
+        class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+      >
+        {#each chartTypes as item}
+          <button
+            on:click={() => changeChartType(item.type)}
+            class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
+              {chartType === item.type
+              ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+              : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+            title={item.label}
+          >
+            <svelte:component this={item.icon} class="w-4 h-4" />
+          </button>
+        {/each}
+      </div>
+    </div>
   </div>
 
   <div class="w-full overflow-hidden m-auto sm:mt-3">

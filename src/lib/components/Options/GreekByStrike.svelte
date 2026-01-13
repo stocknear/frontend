@@ -340,15 +340,15 @@
       new Set([...strikes, ...[currentPrice]]),
     )?.sort((a, b) => a - b);
 
-    // Ensure numerical values instead of strings (toFixed returns a string)
+    // Ensure numerical values instead of strings (toFixed returns a string) - handle undefined values
     const callValues = processedData?.map((d) =>
-      parseFloat(d.callValue.toFixed(2)),
+      parseFloat((d.callValue ?? 0).toFixed(2)),
     );
     const putValues = processedData?.map((d) =>
-      parseFloat(d.putValue.toFixed(2)),
+      parseFloat((d.putValue ?? 0).toFixed(2)),
     );
     const netValues = processedData?.map((d) =>
-      parseFloat(d.netValue.toFixed(2)),
+      parseFloat((d.netValue ?? 0).toFixed(2)),
     );
 
     const options = {
@@ -638,7 +638,6 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    {ticker}
     {title} Exposure By Strike <InfoModal
       content={title === "Gamma"
         ? `Gamma Exposure (GEX) for ${ticker} options, representing the estimated dollar value of shares that option sellers must buy or sell to maintain delta neutrality for each 1% move in ${ticker}'s stock price.`
