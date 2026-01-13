@@ -2629,7 +2629,8 @@
       }
 
       showShortInterest = true;
-      updateShortInterestMarkers();
+      // Use updateAllOverlays to ensure cachedChartRect is set before updating markers
+      updateAllOverlays();
     } catch (error) {
       console.error("Failed to fetch Short Interest data:", error);
       historicalShortInterest = [];
@@ -3785,7 +3786,7 @@
         fetchShortInterestData();
       } else if (name === "short_interest") {
         showShortInterest = true;
-        updateShortInterestMarkers();
+        updateAllOverlays();
       }
     } else {
       // Clear data when disabled
@@ -4730,6 +4731,7 @@
     dexStrikeData;
     oiStrikeData;
     hottestContractsData;
+    historicalShortInterest;
     indicatorState;
 
     // Schedule single batched update using requestAnimationFrame
@@ -6382,11 +6384,11 @@
 
         <!-- Short Interest markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showShortInterest && isNonIntradayRange(activeRange) && shortInterestMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each shortInterestMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
-                  class="absolute bottom-[140px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  class="absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
                   style="left: {marker.x}px"
                   on:click={(e) => handleShortInterestClick(marker, e)}
                   aria-label="View short interest details"
@@ -6425,58 +6427,86 @@
             style="left: {shortInterestPopupPosition.x}px; top: {shortInterestPopupPosition.y}px; transform: translate(-50%, -100%)"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[340px]"
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px]"
             >
               <!-- Header -->
-              <div class="flex items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-2 mb-3">
                 <h3 class="text-white font-semibold">Short Interest</h3>
-                <span
-                  class={`text-sm font-semibold ${
-                    (selectedShortInterest.percentChangeMoMo ?? 0) > 0
-                      ? "text-red-400"
-                      : (selectedShortInterest.percentChangeMoMo ?? 0) < 0
-                        ? "text-emerald-400"
-                        : "text-neutral-400"
-                  }`}
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  on:click={closeShortInterestPopup}
+                  aria-label="Close"
                 >
-                  {(selectedShortInterest.percentChangeMoMo ?? 0) > 0 ? "+" : ""}{(selectedShortInterest.percentChangeMoMo ?? 0).toFixed(2)}% MoM
-                </span>
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
               </div>
 
-              <!-- Date -->
-              <div class="text-xs text-neutral-500 mb-3">
-                {new Date(selectedShortInterest.recordDate).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+              <!-- Date info -->
+              <div class="text-sm text-neutral-300 mb-3 space-y-1">
+                <div class="flex justify-between">
+                  <span class="text-neutral-500">Report Date</span>
+                  <span>
+                    {DateTime.fromISO(selectedShortInterest.recordDate, { zone }).toFormat("EEE d MMM ''yy")}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-neutral-500">MoM Change</span>
+                  <span
+                    class={
+                      (selectedShortInterest.percentChangeMoMo ?? 0) > 0
+                        ? "text-red-400"
+                        : (selectedShortInterest.percentChangeMoMo ?? 0) < 0
+                          ? "text-emerald-400"
+                          : "text-neutral-400"
+                    }
+                  >
+                    {(selectedShortInterest.percentChangeMoMo ?? 0) > 0 ? "+" : ""}{(selectedShortInterest.percentChangeMoMo ?? 0).toFixed(2)}%
+                  </span>
+                </div>
               </div>
 
-              <!-- Metrics Grid -->
-              <div class="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <div class="text-neutral-500 text-xs mb-0.5">Short Interest</div>
-                  <div class="text-white font-medium">
-                    {abbreviateNumber(Number(selectedShortInterest.totalShortInterest))}
+              <!-- Short Interest section -->
+              <div class="border-t border-neutral-700 pt-3 mb-3">
+                <div class="text-xs text-neutral-500 uppercase mb-2">Short Position</div>
+                <div class="text-sm space-y-1">
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Current</span>
+                    <span>{abbreviateNumber(Number(selectedShortInterest.totalShortInterest))}</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Prior Month</span>
+                    <span>{abbreviateNumber(Number(selectedShortInterest.shortPriorMo))}</span>
                   </div>
                 </div>
-                <div>
-                  <div class="text-neutral-500 text-xs mb-0.5">Prior Month</div>
-                  <div class="text-white font-medium">
-                    {abbreviateNumber(Number(selectedShortInterest.shortPriorMo))}
+              </div>
+
+              <!-- Metrics section -->
+              <div class="border-t border-neutral-700 pt-3">
+                <div class="text-xs text-neutral-500 uppercase mb-2">Key Metrics</div>
+                <div class="text-sm space-y-1">
+                  <div class="flex justify-between text-neutral-300">
+                    <span>% of Float</span>
+                    <span>{(selectedShortInterest.shortPercentOfFloat ?? 0).toFixed(2)}%</span>
                   </div>
-                </div>
-                <div>
-                  <div class="text-neutral-500 text-xs mb-0.5">% of Float</div>
-                  <div class="text-white font-medium">
-                    {(selectedShortInterest.shortPercentOfFloat ?? 0).toFixed(2)}%
+                  <div class="flex justify-between text-neutral-300">
+                    <span>% of Outstanding</span>
+                    <span>{(selectedShortInterest.shortPercentOfOut ?? 0).toFixed(2)}%</span>
                   </div>
-                </div>
-                <div>
-                  <div class="text-neutral-500 text-xs mb-0.5">Days to Cover</div>
-                  <div class="text-white font-medium">
-                    {(selectedShortInterest.daysToCover ?? 0).toFixed(2)}
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Days to Cover</span>
+                    <span>{(selectedShortInterest.daysToCover ?? 0).toFixed(2)}</span>
                   </div>
                 </div>
               </div>
