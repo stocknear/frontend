@@ -603,7 +603,7 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+        class="min-w-56 w-auto max-w-64 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
       >
         <DropdownMenu.Group class="pb-2">
           {#each dateList as item, index}

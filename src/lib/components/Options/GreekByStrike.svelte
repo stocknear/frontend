@@ -101,6 +101,11 @@
   let checkedDTEs = new Set(["All"]); // Track which DTEs are checked
   let selectedDTEsText = "All"; // Text to display in the dropdown
 
+  // Custom range state
+  let customMin: number | null = null;
+  let customMax: number | null = null;
+  let isCustomSelected = false;
+
   let rawData = [];
   let sortedData = [];
   let displayList = [];
@@ -186,17 +191,23 @@
 
   // Function to handle DTE selection changes
   async function handleDTEChange(dteValue) {
-    // If clicking on already selected item (not "All"), uncheck it and revert to "All"
-    if (dteValue !== "All" && checkedDTEs.has(dteValue)) {
+    // If clicking on already selected item (not "All" and not "Custom"), uncheck it and revert to "All"
+    if (
+      dteValue !== "All" &&
+      dteValue !== "Custom" &&
+      checkedDTEs.has(dteValue)
+    ) {
       checkedDTEs.clear();
       selectedDTEs.clear();
       checkedDTEs.add("All");
       selectedDTEs.add("All");
       selectedDTEsText = "All";
+      isCustomSelected = false;
     } else {
       // Always allow only one selection at a time
       checkedDTEs.clear();
       selectedDTEs.clear();
+      isCustomSelected = false;
 
       selectedDTEsText = dteValue;
 
@@ -212,18 +223,91 @@
     // Trigger reactive updates
     selectedDTEs = new Set(selectedDTEs);
     checkedDTEs = new Set(checkedDTEs);
+    dteOptions = [...dteOptions];
 
     updateDataForSelectedDTEs();
-    dteOptions = [...dteOptions];
   }
 
+  // Handle custom checkbox toggle
+  function handleCustomToggle() {
+    if (isCustomSelected) {
+      // Uncheck custom and revert to All
+      isCustomSelected = false;
+      checkedDTEs.clear();
+      selectedDTEs.clear();
+      checkedDTEs.add("All");
+      selectedDTEs.add("All");
+      selectedDTEsText = "All";
+      customMin = null;
+      customMax = null;
+    } else {
+      // Select custom
+      selectCustomIfNeeded();
+    }
+
+    // Trigger reactive updates
+    selectedDTEs = new Set(selectedDTEs);
+    checkedDTEs = new Set(checkedDTEs);
+    dteOptions = [...dteOptions];
+
+    updateDataForSelectedDTEs();
+  }
+
+  // Select custom without toggling (used when typing in inputs)
+  function selectCustomIfNeeded() {
+    if (!isCustomSelected) {
+      isCustomSelected = true;
+      checkedDTEs.clear();
+      selectedDTEs.clear();
+      checkedDTEs.add("Custom");
+      selectedDTEs.add("Custom");
+      selectedDTEsText = "Custom";
+
+      // Trigger reactive updates
+      selectedDTEs = new Set(selectedDTEs);
+      checkedDTEs = new Set(checkedDTEs);
+      dteOptions = [...dteOptions];
+    }
+  }
+
+  // Apply custom range filter
+  function applyCustomRange() {
+    if (isCustomSelected) {
+      const minVal = customMin ?? 0;
+      const maxVal = customMax ?? 999;
+      selectedDTEsText = `${minVal}-${maxVal} DTE`;
+      updateDataForSelectedDTEs();
+    }
+  }
+
+  // Reactive array for checked state to ensure proper reactivity
+  $: checkedDTEsArray = Array.from(checkedDTEs);
+
   function isDTEChecked(dteValue) {
-    return checkedDTEs.has(dteValue);
+    return checkedDTEsArray.includes(dteValue);
   }
 
   function updateDataForSelectedDTEs() {
     if (selectedDTEs.has("All")) {
       rawData = aggregateDict(data?.getData) || [];
+    } else if (selectedDTEs.has("Custom")) {
+      // Handle custom range
+      const selectedData = {};
+      const minDTE = customMin ?? 0;
+      const maxDTE = customMax ?? 999;
+
+      const dataKeys = Object.keys(data?.getData ?? {});
+      for (let i = 0; i < dataKeys.length; i++) {
+        const date = dataKeys[i];
+        const dte = calculateDTE(date);
+
+        // Include dates where DTE is within the custom range
+        if (dte >= 0 && dte >= minDTE && dte <= maxDTE) {
+          selectedData[date] = data?.getData[date];
+        }
+      }
+
+      rawData = aggregateDict(selectedData) || [];
     } else {
       const selectedData = {};
       const dteStr = Array.from(selectedDTEs)[0]; // Only one is allowed
@@ -788,7 +872,7 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+        class="min-w-56 w-auto max-w-96 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
       >
         <DropdownMenu.Group class="pb-2">
           {#each dteOptions as item, index}
@@ -797,19 +881,19 @@
                 class="hover:text-violet-600 dark:hover:text-violet-400"
               >
                 <div
-                  on:click|capture={(event) => event.preventDefault()}
-                  class="flex items-center"
+                  on:click|preventDefault|stopPropagation={() =>
+                    handleDTEChange(item)}
+                  class="flex items-center cursor-pointer"
                 >
-                  <label
-                    class="cursor-pointer"
-                    on:click={() => handleDTEChange(item)}
-                    for={item}
-                  >
-                    <input type="checkbox" checked={isDTEChecked(item)} />
-                    <span class="ml-2">
-                      {item === "All" ? "All DTE" : item}
-                    </span>
-                  </label>
+                  <input
+                    type="checkbox"
+                    checked={isDTEChecked(item)}
+                    on:click|preventDefault|stopPropagation={() =>
+                      handleDTEChange(item)}
+                  />
+                  <span class="ml-2">
+                    {item === "All" ? "All DTE" : item}
+                  </span>
                 </div>
               </DropdownMenu.Item>
             {:else}
@@ -834,6 +918,84 @@
               </DropdownMenu.Item>
             {/if}
           {/each}
+
+          <!-- Custom Range Option -->
+          {#if data?.user?.tier === "Pro"}
+            <div
+              class="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+              on:click|stopPropagation
+              on:keydown|stopPropagation
+              on:keyup|stopPropagation
+              on:keypress|stopPropagation
+            >
+              <div class="flex items-center gap-2 w-full">
+                <div
+                  class="cursor-pointer flex items-center"
+                  on:click|preventDefault|stopPropagation={handleCustomToggle}
+                >
+                  <input
+                    type="checkbox"
+                    checked={isCustomSelected}
+                    on:click|preventDefault|stopPropagation={handleCustomToggle}
+                  />
+                  <span class="ml-2">Custom</span>
+                </div>
+                <input
+                  type="number"
+                  bind:value={customMin}
+                  on:input={() => {
+                    selectCustomIfNeeded();
+                    applyCustomRange();
+                  }}
+                  on:click|stopPropagation
+                  on:keydown|stopPropagation
+                  on:keyup|stopPropagation
+                  on:keypress|stopPropagation
+                  on:focus|stopPropagation
+                  placeholder="Min"
+                  min="0"
+                  class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                />
+                <span class="text-gray-500 dark:text-zinc-400">to</span>
+                <input
+                  type="number"
+                  bind:value={customMax}
+                  on:input={() => {
+                    selectCustomIfNeeded();
+                    applyCustomRange();
+                  }}
+                  on:click|stopPropagation
+                  on:keydown|stopPropagation
+                  on:keyup|stopPropagation
+                  on:keypress|stopPropagation
+                  on:focus|stopPropagation
+                  placeholder="Max"
+                  min="0"
+                  class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                />
+              </div>
+            </div>
+          {:else}
+            <DropdownMenu.Item
+              on:click={() => goto("/pricing")}
+              class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+            >
+              Custom
+              <svg
+                class="ml-1 size-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width: 40px;"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clip-rule="evenodd"
+                >
+                </path>
+              </svg>
+            </DropdownMenu.Item>
+          {/if}
         </DropdownMenu.Group>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
@@ -880,192 +1042,215 @@
   </div>
 
   {#if rawData?.length > 0}
-  <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
-    <div
-      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
-    >
-      <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
-      >
-        {title === "Gamma" ? "GEX" : "DEX"} Table
-      </h2>
+    <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
       <div
-        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+        class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
       >
-        <div class="ml-auto">
-          <DownloadData
-            {data}
-            rawData={rawData?.map((item) => {
-              if (title === "Gamma") {
-                return {
-                  strike: item?.strike,
-                  call_gex: item?.call_gex,
-                  put_gex: item?.put_gex,
-                  net_gex: item?.net_gex,
-                  put_call_ratio: item?.put_call_ratio,
-                };
-              } else {
-                return {
-                  strike: item?.strike,
-                  call_dex: item?.call_dex,
-                  put_dex: item?.put_dex,
-                  net_dex: item?.net_dex,
-                  put_call_ratio: item?.put_call_ratio,
-                };
-              }
-            })}
-            title={`${ticker}_${title === "Gamma" ? "gex" : "dex"}_by_strike`}
-          />
+        <h2
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
+        >
+          {title === "Gamma" ? "GEX" : "DEX"} Table
+        </h2>
+        <div
+          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+        >
+          <div class="ml-auto">
+            <DownloadData
+              {data}
+              rawData={rawData?.map((item) => {
+                if (title === "Gamma") {
+                  return {
+                    strike: item?.strike,
+                    call_gex: item?.call_gex,
+                    put_gex: item?.put_gex,
+                    net_gex: item?.net_gex,
+                    put_call_ratio: item?.put_call_ratio,
+                  };
+                } else {
+                  return {
+                    strike: item?.strike,
+                    call_dex: item?.call_dex,
+                    put_dex: item?.put_dex,
+                    net_dex: item?.net_dex,
+                    put_call_ratio: item?.put_call_ratio,
+                  };
+                }
+              })}
+              title={`${ticker}_${title === "Gamma" ? "gex" : "dex"}_by_strike`}
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
-    <div class="w-full overflow-x-auto">
-      <table
-        class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
-      >
-        <thead
-          class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+    <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+      <div class="w-full overflow-x-auto">
+        <table
+          class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
         >
-          <TableHeader {columns} {sortOrders} {sortData} />
-        </thead>
-        <tbody>
-          {#each displayList as item, index}
-            <tr class="transition-colors">
-              <td class="text-sm text-start whitespace-nowrap">
-                {item?.strike?.toFixed(2)}
-              </td>
-              <td class="text-sm text-end whitespace-nowrap">
-                {(isGamma ? item?.call_gex : item?.call_dex)?.toLocaleString(
-                  "en-US",
-                )}
-              </td>
-              <td class="text-sm text-end whitespace-nowrap">
-                {(isGamma ? item?.put_gex : item?.put_dex)?.toLocaleString(
-                  "en-US",
-                )}
-              </td>
-
-              <td class="text-sm text-end whitespace-nowrap">
-                {(isGamma ? item?.net_gex : item?.net_dex)?.toLocaleString(
-                  "en-US",
-                )}
-              </td>
-
-              <td class="text-sm text-end whitespace-nowrap">
-                {#if item?.put_call_ratio <= 1 && item?.put_call_ratio !== null}
-                  <span class="text-emerald-600 dark:text-emerald-400"
-                    >{item?.put_call_ratio?.toFixed(2)}</span
-                  >
-                {:else if item?.put_call_ratio > 1 && item?.put_call_ratio !== null}
-                  <span class="text-rose-600 dark:text-rose-400"
-                    >{item?.put_call_ratio?.toFixed(2)}</span
-                  >
-                {:else}
-                  n/a
-                {/if}
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Pagination controls -->
-  {#if displayList?.length > 0 && totalPages > 0}
-    <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
-      <!-- Previous button -->
-      <div class="flex items-center gap-2">
-        <Button
-          on:click={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          <svg
-            class="h-5 w-5 inline-block shrink-0 rotate-90"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            style="max-width:40px"
-            aria-hidden="true"
+          <thead
+            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
           >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          <span class="hidden sm:inline">Previous</span>
-        </Button>
+            <TableHeader {columns} {sortOrders} {sortData} />
+          </thead>
+          <tbody>
+            {#each displayList as item, index}
+              <tr class="transition-colors">
+                <td class="text-sm text-start whitespace-nowrap">
+                  {item?.strike?.toFixed(2)}
+                </td>
+                <td class="text-sm text-end whitespace-nowrap">
+                  {(isGamma ? item?.call_gex : item?.call_dex)?.toLocaleString(
+                    "en-US",
+                  )}
+                </td>
+                <td class="text-sm text-end whitespace-nowrap">
+                  {(isGamma ? item?.put_gex : item?.put_dex)?.toLocaleString(
+                    "en-US",
+                  )}
+                </td>
+
+                <td class="text-sm text-end whitespace-nowrap">
+                  {(isGamma ? item?.net_gex : item?.net_dex)?.toLocaleString(
+                    "en-US",
+                  )}
+                </td>
+
+                <td class="text-sm text-end whitespace-nowrap">
+                  {#if item?.put_call_ratio <= 1 && item?.put_call_ratio !== null}
+                    <span class="text-emerald-600 dark:text-emerald-400"
+                      >{item?.put_call_ratio?.toFixed(2)}</span
+                    >
+                  {:else if item?.put_call_ratio > 1 && item?.put_call_ratio !== null}
+                    <span class="text-rose-600 dark:text-rose-400"
+                      >{item?.put_call_ratio?.toFixed(2)}</span
+                    >
+                  {:else}
+                    n/a
+                  {/if}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
       </div>
+    </div>
 
-      <!-- Page info and rows selector in center -->
-      <div class="flex flex-row items-center gap-4">
-        <span class="text-sm text-gray-600 dark:text-zinc-300">
-          Page {currentPage} of {totalPages}
-        </span>
-
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild let:builder>
-            <Button
-              builders={[builder]}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+    <!-- Pagination controls -->
+    {#if displayList?.length > 0 && totalPages > 0}
+      <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+        <!-- Previous button -->
+        <div class="flex items-center gap-2">
+          <Button
+            on:click={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <svg
+              class="h-5 w-5 inline-block shrink-0 rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
             >
-              <span class="truncate text-[0.85rem] sm:text-sm"
-                >{rowsPerPage} Rows</span
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="hidden sm:inline">Previous</span>
+          </Button>
+        </div>
+
+        <!-- Page info and rows selector in center -->
+        <div class="flex flex-row items-center gap-4">
+          <span class="text-sm text-gray-600 dark:text-zinc-300">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                builders={[builder]}
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-              <svg
-                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                style="max-width:40px"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content
-            side="bottom"
-            align="end"
-            sideOffset={10}
-            alignOffset={0}
-            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-          >
-            <!-- Dropdown items -->
-            <DropdownMenu.Group class="pb-2">
-              {#each rowsPerPageOptions as item}
-                <DropdownMenu.Item
-                  class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                <span class="truncate text-[0.85rem] sm:text-sm"
+                  >{rowsPerPage} Rows</span
                 >
-                  <label
-                    on:click={() => changeRowsPerPage(item)}
-                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                <svg
+                  class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content
+              side="bottom"
+              align="end"
+              sideOffset={10}
+              alignOffset={0}
+              class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+            >
+              <!-- Dropdown items -->
+              <DropdownMenu.Group class="pb-2">
+                {#each rowsPerPageOptions as item}
+                  <DropdownMenu.Item
+                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    <span class="text-sm">{item} Rows</span>
-                  </label>
-                </DropdownMenu.Item>
-              {/each}
-            </DropdownMenu.Group>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+                    <label
+                      on:click={() => changeRowsPerPage(item)}
+                      class="inline-flex justify-between w-full items-center cursor-pointer"
+                    >
+                      <span class="text-sm">{item} Rows</span>
+                    </label>
+                  </DropdownMenu.Item>
+                {/each}
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
+        <!-- Next button -->
+        <div class="flex items-center gap-2">
+          <Button
+            on:click={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <span class="hidden sm:inline">Next</span>
+            <svg
+              class="h-5 w-5 inline-block shrink-0 -rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </Button>
+        </div>
       </div>
-      <!-- Next button -->
-      <div class="flex items-center gap-2">
-        <Button
-          on:click={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+
+      <!-- Back to Top button -->
+      <div class="flex justify-center mt-4">
+        <button
+          on:click={scrollToTop}
+          class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
         >
-          <span class="hidden sm:inline">Next</span>
-          <svg
-            class="h-5 w-5 inline-block shrink-0 -rotate-90"
+          Back to Top <svg
+            class="h-5 w-5 inline-block shrink-0 rotate-180"
             viewBox="0 0 20 20"
             fill="currentColor"
             style="max-width:40px"
@@ -1077,31 +1262,8 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-        </Button>
+        </button>
       </div>
-    </div>
-
-    <!-- Back to Top button -->
-    <div class="flex justify-center mt-4">
-      <button
-        on:click={scrollToTop}
-        class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
-      >
-        Back to Top <svg
-          class="h-5 w-5 inline-block shrink-0 rotate-180"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          style="max-width:40px"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
-      </button>
-    </div>
-  {/if}
+    {/if}
   {/if}
 </div>
