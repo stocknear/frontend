@@ -1055,6 +1055,9 @@
     toolId: string,
     overlay: string,
   ) {
+    // Prevent adding new drawings when locked
+    if (drawingsLocked) return;
+
     selectedToolByGroup[groupId] = toolId;
     activeTool = toolId;
     if (!chart) return;
@@ -5288,12 +5291,15 @@
               <div class="relative mt-1 group/item">
                 <!-- Main Button with selected tool icon -->
                 <button
-                  class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
-                    group.options.some((o) => o.id === activeTool)
-                      ? "bg-neutral-800 text-white"
-                      : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                  class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                    drawingsLocked
+                      ? "cursor-not-allowed opacity-40 text-neutral-500"
+                      : group.options.some((o) => o.id === activeTool)
+                        ? "cursor-pointer bg-neutral-800 text-white"
+                        : "cursor-pointer text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
                   }`}
                   on:click={() => {
+                    if (drawingsLocked) return;
                     const selectedTool = group.options.find(
                       (o) => o.id === selectedToolByGroup[group.id],
                     );
@@ -5305,12 +5311,13 @@
                       );
                     }
                   }}
-                  title={group.label}
+                  title={drawingsLocked ? "Unlock drawings to use this tool" : group.label}
                 >
                   <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
                     <path d={toolIcons[selectedToolByGroup[group.id]] || toolIcons.horizontalStraightLine} />
                   </svg>
-                  <!-- Dropdown Arrow - always visible for better discoverability -->
+                  <!-- Dropdown Arrow - hidden when drawings are locked -->
+                  {#if !drawingsLocked}
                   <DropdownMenu.Trigger asChild let:builder>
                     <div
                       use:builder.action
@@ -5328,6 +5335,7 @@
                       </svg>
                     </div>
                   </DropdownMenu.Trigger>
+                  {/if}
                 </button>
 
                 <!-- Dropdown Menu -->
