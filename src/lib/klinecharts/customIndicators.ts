@@ -847,6 +847,176 @@ function createAroonIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   });
 }
 
+// Short Interest external data store
+interface ShortInterestDataPoint {
+  timestamp: number;
+  shortPercentOfFloat: number;
+  shortPercentOfOut: number;
+  daysToCover: number;
+  totalShortInterest: number;
+}
+
+let shortInterestData: ShortInterestDataPoint[] = [];
+
+export function setShortInterestData(data: ShortInterestDataPoint[]) {
+  shortInterestData = data;
+}
+
+export function clearShortInterestData() {
+  shortInterestData = [];
+}
+
+// Helper to format large numbers
+function formatShortInterest(value: number): string {
+  if (value >= 1e9) return (value / 1e9).toFixed(2) + "B";
+  if (value >= 1e6) return (value / 1e6).toFixed(2) + "M";
+  if (value >= 1e3) return (value / 1e3).toFixed(2) + "K";
+  return value.toFixed(0);
+}
+
+function createShortInterestIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_SHORT_INTEREST",
+    shortName: "SI",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    // figures are required for KlineCharts to calculate y-axis range
+    // we use custom draw for step lines, returning false prevents default line drawing
+    figures: [
+      { key: "siFloat", title: "% Float: ", type: "line" },
+      { key: "siOut", title: "% Out: ", type: "line" },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.siFloat === undefined) return { legends: [] };
+
+      const legends = [
+        { title: "% Float: ", value: { text: `${(result.siFloat as number).toFixed(2)}%`, color: "#F59E0B" } },
+        { title: "% Out: ", value: { text: `${(result.siOut as number || 0).toFixed(2)}%`, color: "#3B82F6" } },
+      ];
+
+      return { legends };
+    },
+    calc: (dataList) => {
+      // Map short interest data to price bars
+      // Short interest is sparse, so we carry forward the last known values
+      const result: IndicatorRecord[] = [];
+      let lastFloat: number | undefined;
+      let lastOut: number | undefined;
+
+      for (const bar of dataList) {
+        // Check if there's short interest data for this bar's date
+        const barDate = new Date(bar.timestamp);
+        barDate.setHours(0, 0, 0, 0);
+        const normalizedTimestamp = barDate.getTime();
+
+        // Check for exact match or within same day
+        for (const si of shortInterestData) {
+          const siDate = new Date(si.timestamp);
+          siDate.setHours(0, 0, 0, 0);
+          if (siDate.getTime() === normalizedTimestamp) {
+            lastFloat = si.shortPercentOfFloat;
+            lastOut = si.shortPercentOfOut;
+            break;
+          }
+        }
+
+        result.push({
+          siFloat: lastFloat,
+          siOut: lastOut,
+        });
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      // Collect points for each metric
+      const floatPoints: { x: number; y: number; value: number }[] = [];
+      const outPoints: { x: number; y: number; value: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data) continue;
+
+        const x = xAxis.convertToPixel(i);
+
+        if (data.siFloat !== undefined && data.siFloat !== null) {
+          const y = yAxis.convertToPixel(data.siFloat as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            floatPoints.push({
+              x,
+              y,
+              value: data.siFloat as number,
+            });
+          }
+        }
+
+        if (data.siOut !== undefined && data.siOut !== null) {
+          const y = yAxis.convertToPixel(data.siOut as number);
+          if (typeof y === "number" && !isNaN(y)) {
+            outPoints.push({
+              x,
+              y,
+              value: data.siOut as number,
+            });
+          }
+        }
+      }
+
+      // Helper to draw step line
+      const drawStepLine = (points: { x: number; y: number; value: number }[], color: string, lineWidth: number) => {
+        if (points.length < 2) return;
+
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(points[0].x, points[0].y);
+
+        for (let i = 1; i < points.length; i++) {
+          // Step line: horizontal first, then vertical
+          ctx.lineTo(points[i].x, points[i - 1].y);
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      };
+
+      // Helper to draw dots at data change points
+      const drawDots = (points: { x: number; y: number; value: number }[], color: string) => {
+        let prevValue: number | null = null;
+        for (const point of points) {
+          if (prevValue === null || point.value !== prevValue) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            prevValue = point.value;
+          }
+        }
+      };
+
+      // Draw % Outstanding (blue) first so % Float is on top
+      drawStepLine(outPoints, "#3B82F6", 1.5);
+      drawDots(outPoints, "#3B82F6");
+
+      // Draw % Float (orange, primary)
+      drawStepLine(floatPoints, "#F59E0B", 2);
+      drawDots(floatPoints, "#F59E0B");
+
+      // Return false to prevent default figure drawing (we drew custom step lines)
+      return false;
+    },
+  };
+}
 
 export function registerCustomIndicators() {
   if (registered) return;
@@ -875,5 +1045,6 @@ export function registerCustomIndicators() {
   registerIndicator(createRocIndicator());
   registerIndicator(createTsiIndicator());
   registerIndicator(createAroonIndicator());
+  registerIndicator(createShortInterestIndicator());
   registered = true;
 }

@@ -7,7 +7,7 @@
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
   import { toast } from "svelte-sonner";
-  import { registerCustomIndicators } from "$lib/klinecharts/customIndicators";
+  import { registerCustomIndicators, setShortInterestData, clearShortInterestData } from "$lib/klinecharts/customIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
@@ -742,8 +742,8 @@
       indicatorName: "SN_SHORT_INTEREST",
       category: "Fundamentals",
       defaultParams: [],
-      pane: "candle",
-      isOverlay: true,
+      pane: "panel",
+      height: 120,
     },
   ];
 
@@ -2653,16 +2653,33 @@
 
       // Build timestamp cache for short interest data
       shortInterestTimestampCache = new Map();
+      const indicatorData: { timestamp: number; shortPercentOfFloat: number; shortPercentOfOut: number; daysToCover: number; totalShortInterest: number }[] = [];
       for (const si of historicalShortInterest) {
         if (si.recordDate) {
           const dt = DateTime.fromISO(si.recordDate, { zone });
-          if (dt.isValid)
-            shortInterestTimestampCache.set(si, dt.startOf("day").toMillis());
+          if (dt.isValid) {
+            const timestamp = dt.startOf("day").toMillis();
+            shortInterestTimestampCache.set(si, timestamp);
+            indicatorData.push({
+              timestamp,
+              shortPercentOfFloat: si.shortPercentOfFloat ?? 0,
+              shortPercentOfOut: si.shortPercentOfOut ?? 0,
+              daysToCover: si.daysToCover ?? 0,
+              totalShortInterest: Number(si.totalShortInterest) ?? 0,
+            });
+          }
         }
       }
 
+      // Set data for the indicator and sync
+      setShortInterestData(indicatorData);
       showShortInterest = true;
-      // Use updateAllOverlays to ensure cachedChartRect is set before updating markers
+
+      // Sync indicators to create/update the short interest panel
+      if (chart && indicatorState.short_interest) {
+        syncIndicators();
+      }
+
       updateAllOverlays();
     } catch (error) {
       console.error("Failed to fetch Short Interest data:", error);
@@ -3818,8 +3835,20 @@
       } else if (name === "short_interest" && historicalShortInterest.length === 0) {
         fetchShortInterestData();
       } else if (name === "short_interest") {
+        // Data already exists, set it for the indicator and sync
+        const indicatorData = historicalShortInterest.map(si => {
+          const dt = DateTime.fromISO(si.recordDate, { zone });
+          return {
+            timestamp: dt.isValid ? dt.startOf("day").toMillis() : 0,
+            shortPercentOfFloat: si.shortPercentOfFloat ?? 0,
+            shortPercentOfOut: si.shortPercentOfOut ?? 0,
+            daysToCover: si.daysToCover ?? 0,
+            totalShortInterest: Number(si.totalShortInterest) ?? 0,
+          };
+        }).filter(d => d.timestamp > 0);
+        setShortInterestData(indicatorData);
         showShortInterest = true;
-        updateAllOverlays();
+        syncIndicators();
       }
     } else {
       // Clear data when disabled
@@ -3843,6 +3872,7 @@
         showShortInterest = false;
         shortInterestMarkers = [];
         selectedShortInterest = null;
+        clearShortInterestData();
       }
     }
   }
@@ -4709,6 +4739,7 @@
     shortInterestMarkers = [];
     shortInterestTimestampCache = new Map();
     showShortInterest = false;
+    clearShortInterestData();
     // If indicator was enabled, refetch for new ticker
     if (indicatorState?.short_interest) {
       fetchShortInterestData();
@@ -5314,56 +5345,6 @@
                         checked={showNewsFlow}
                         on:change={() => {
                           showNewsFlow = !showNewsFlow;
-                          saveEventSettings();
-                        }}
-                      />
-                      <div
-                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                      ></div>
-                    {:else}
-                      <button
-                        type="button"
-                        on:click|stopPropagation={() => goto("/pricing")}
-                        class="text-neutral-500 hover:text-neutral-300 transition"
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
-                        </svg>
-                      </button>
-                    {/if}
-                  </div>
-                </label>
-              </DropdownMenu.Item>
-              <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
-                on:click={(e) => e.preventDefault()}
-              >
-                <label
-                  class="inline-flex justify-between w-full items-center cursor-pointer"
-                  on:click|stopPropagation
-                  on:pointerdown|stopPropagation
-                >
-                  <span>Short Interest</span>
-                  <div class="relative ml-4 flex items-center">
-                    {#if isSubscribed}
-                      <input
-                        type="checkbox"
-                        class="sr-only peer"
-                        checked={showShortInterest}
-                        on:change={() => {
-                          showShortInterest = !showShortInterest;
-                          if (showShortInterest && historicalShortInterest.length === 0) {
-                            fetchShortInterestData();
-                          } else if (showShortInterest) {
-                            updateAllOverlays();
-                          }
                           saveEventSettings();
                         }}
                       />
@@ -6463,145 +6444,6 @@
             class="fixed inset-0 z-[6] cursor-default"
             on:click={closeNewsPopup}
             aria-label="Close news popup"
-          ></button>
-        {/if}
-
-        <!-- Short Interest markers overlay (only for non-intraday ranges when enabled) -->
-        {#if isSubscribed && showShortInterest && isNonIntradayRange(activeRange) && shortInterestMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
-            {#each shortInterestMarkers as marker (marker.timestamp)}
-              {#if marker?.visible}
-                <button
-                  class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px; top: {marker.y}px"
-                  on:click={(e) => handleShortInterestClick(marker, e)}
-                  aria-label="View short interest details"
-                >
-                  <svg
-                    width="24"
-                    height="30"
-                    viewBox="0 0 18 22"
-                    class="drop-shadow-md"
-                  >
-                    <path
-                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                      fill={(marker.shortInterest.percentChangeMoMo ?? 0) > 0 ? "#EF4444" : "#22C55E"}
-                    />
-                    <text
-                      x="9"
-                      y="11"
-                      text-anchor="middle"
-                      dominant-baseline="middle"
-                      fill="white"
-                      font-size="8"
-                      font-weight="bold"
-                      font-family="system-ui, sans-serif">SI</text
-                    >
-                  </svg>
-                </button>
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- Short Interest popup -->
-        {#if selectedShortInterest}
-          <div
-            class="absolute z-[7] pointer-events-auto"
-            style="left: {shortInterestPopupPosition.x}px; top: {shortInterestPopupPosition.y}px; transform: translate(-50%, -100%)"
-          >
-            <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px]"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-3">
-                <h3 class="text-white font-semibold">Short Interest</h3>
-                <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
-                  on:click={closeShortInterestPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Date info -->
-              <div class="text-sm text-neutral-300 mb-3 space-y-1">
-                <div class="flex justify-between">
-                  <span class="text-neutral-500">Report Date</span>
-                  <span>
-                    {DateTime.fromISO(selectedShortInterest.recordDate, { zone }).toFormat("EEE d MMM ''yy")}
-                  </span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-neutral-500">MoM Change</span>
-                  <span
-                    class={
-                      (selectedShortInterest.percentChangeMoMo ?? 0) > 0
-                        ? "text-red-400"
-                        : (selectedShortInterest.percentChangeMoMo ?? 0) < 0
-                          ? "text-emerald-400"
-                          : "text-neutral-400"
-                    }
-                  >
-                    {(selectedShortInterest.percentChangeMoMo ?? 0) > 0 ? "+" : ""}{(selectedShortInterest.percentChangeMoMo ?? 0).toFixed(2)}%
-                  </span>
-                </div>
-              </div>
-
-              <!-- Short Interest section -->
-              <div class="border-t border-neutral-700 pt-3 mb-3">
-                <div class="text-xs text-neutral-500 uppercase mb-2">Short Position</div>
-                <div class="text-sm space-y-1">
-                  <div class="flex justify-between text-neutral-300">
-                    <span>Current</span>
-                    <span>{abbreviateNumber(Number(selectedShortInterest.totalShortInterest))}</span>
-                  </div>
-                  <div class="flex justify-between text-neutral-300">
-                    <span>Prior Month</span>
-                    <span>{abbreviateNumber(Number(selectedShortInterest.shortPriorMo))}</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Metrics section -->
-              <div class="border-t border-neutral-700 pt-3">
-                <div class="text-xs text-neutral-500 uppercase mb-2">Key Metrics</div>
-                <div class="text-sm space-y-1">
-                  <div class="flex justify-between text-neutral-300">
-                    <span>% of Float</span>
-                    <span>{(selectedShortInterest.shortPercentOfFloat ?? 0).toFixed(2)}%</span>
-                  </div>
-                  <div class="flex justify-between text-neutral-300">
-                    <span>% of Outstanding</span>
-                    <span>{(selectedShortInterest.shortPercentOfOut ?? 0).toFixed(2)}%</span>
-                  </div>
-                  <div class="flex justify-between text-neutral-300">
-                    <span>Days to Cover</span>
-                    <span>{(selectedShortInterest.daysToCover ?? 0).toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Click outside to close -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default"
-            on:click={closeShortInterestPopup}
-            aria-label="Close short interest popup"
           ></button>
         {/if}
 
