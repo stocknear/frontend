@@ -109,8 +109,13 @@
   // LocalStorage key based on page type (gex-strike or dex-strike)
   $: dteStorageKey = title === "Gamma" ? "dte_settings_gex_strike" : "dte_settings_dex_strike";
 
-  // Save DTE settings to localStorage
+  // Save DTE settings to localStorage (only for Pro users)
   function saveDTESettings() {
+    // Only save settings for Pro users
+    if (data?.user?.tier !== "Pro") {
+      return;
+    }
+
     if (typeof localStorage !== "undefined") {
       const settings = {
         selectedDTE: Array.from(selectedDTEs)[0] || "All",
@@ -123,8 +128,14 @@
     }
   }
 
-  // Load DTE settings from localStorage
+  // Load DTE settings from localStorage (only for Pro users)
   function loadDTESettings() {
+    // Only load saved settings for Pro users
+    if (data?.user?.tier !== "Pro") {
+      // Non-Pro users always default to "All DTE"
+      return;
+    }
+
     if (typeof localStorage !== "undefined") {
       const saved = localStorage.getItem(dteStorageKey);
       if (saved) {
