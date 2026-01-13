@@ -4348,9 +4348,10 @@
   });
 
   $: {
-    if ($isOpen && typeof window !== "undefined") {
+    // Include ticker as dependency to re-run when ticker changes
+    if ($isOpen && typeof window !== "undefined" && ticker) {
       websocketRealtimeData();
-    } else {
+    } else if (!$isOpen) {
       disconnectWebSocket();
     }
   }
@@ -4360,21 +4361,20 @@
       previousTicker = ticker;
 
       // Handle WebSocket reconnection on ticker change
-      if (socket) {
+      if (typeof socket !== "undefined" && socket !== null) {
         socket.close();
         await new Promise((resolve) => {
           socket?.addEventListener("close", resolve);
         });
 
-        // Only reconnect if market is open and component not destroyed
-        if (
-          socket?.readyState === WebSocket?.CLOSED &&
-          !isComponentDestroyed &&
-          $isOpen
-        ) {
+        // Reconnect if socket closed and component not destroyed
+        if (socket?.readyState === WebSocket?.CLOSED && !isComponentDestroyed) {
           await websocketRealtimeData();
           console.log("Chart WebSocket reconnecting for new ticker");
         }
+
+        // Reset realtime price for new ticker
+        latestRealtimePrice = null;
       }
     }
   });
