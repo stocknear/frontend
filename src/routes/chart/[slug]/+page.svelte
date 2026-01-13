@@ -244,6 +244,7 @@
     shortInterest: ShortInterestData;
     timestamp: number;
     x: number;
+    y: number;
     visible: boolean;
   }
 
@@ -2029,6 +2030,7 @@
     }
 
     const chartWidth = cachedChartRect.width;
+    const chartHeight = cachedChartRect.height;
 
     // Get the date range from historical price data
     const minTimestamp = dailyBars.length > 0 ? dailyBars[0].timestamp : null;
@@ -2058,10 +2060,39 @@
         // Check if marker is within visible chart area (with some padding)
         const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
 
+        // Find the price bar closest to this timestamp to get the y position
+        let priceY = chartHeight / 2; // Default to middle if no price found
+        const barIndex = barIndexByTimestamp.get(timestamp);
+        if (barIndex !== undefined && currentBars[barIndex]) {
+          const bar = currentBars[barIndex];
+          const pricePixel = chart.convertToPixel({ value: bar.close });
+          if (pricePixel && typeof pricePixel.y === "number") {
+            priceY = pricePixel.y;
+          }
+        } else {
+          // Try to find nearest bar by iterating through bars
+          let closestBar = null;
+          let closestDiff = Infinity;
+          for (const bar of currentBars) {
+            const diff = Math.abs(bar.timestamp - timestamp);
+            if (diff < closestDiff) {
+              closestDiff = diff;
+              closestBar = bar;
+            }
+          }
+          if (closestBar) {
+            const pricePixel = chart.convertToPixel({ value: closestBar.close });
+            if (pricePixel && typeof pricePixel.y === "number") {
+              priceY = pricePixel.y;
+            }
+          }
+        }
+
         markers.push({
           shortInterest: si,
           timestamp,
           x: pixel.x,
+          y: priceY,
           visible,
         });
       }
@@ -6441,8 +6472,8 @@
             {#each shortInterestMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
-                  class="absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px; top: {marker.y}px"
                   on:click={(e) => handleShortInterestClick(marker, e)}
                   aria-label="View short interest details"
                 >
