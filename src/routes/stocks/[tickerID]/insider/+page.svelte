@@ -1094,14 +1094,13 @@ ${summaryData.outlook}
             {#if isGeneratingSummary}
               <!-- Loading State -->
               <div class="flex flex-col items-center justify-center py-8">
-                <div class="relative">
-                  <div
-                    class="w-12 h-12 border-4 border-gray-200/80 dark:border-zinc-700 rounded-full"
-                  ></div>
-                  <div
-                    class="w-12 h-12 border-4 border-gray-900/80 border-t-transparent dark:border-white/80 rounded-full animate-spin absolute top-0 left-0"
-                  ></div>
-                </div>
+                <label
+                  class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
+                >
+                  <span
+                    class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                  ></span>
+                </label>
                 <p
                   class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium"
                 >

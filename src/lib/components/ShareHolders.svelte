@@ -163,7 +163,7 @@
     putCallRatio = 0;
   }
 
-  let charNumber = 30;
+  let charNumber = 25;
 
   function updatePaginatedData() {
     const start = (currentPage - 1) * rowsPerPage;
@@ -288,9 +288,9 @@
       label: "Shares % Change",
       align: "right",
     },
-    { key: "marketValue", label: "Market Value", align: "right" },
+    { key: "marketValue", label: "Value", align: "right" },
     { key: "weight", label: "Portfolio", align: "right" },
-    { key: "filingDate", label: "Filing Date", align: "right" },
+    { key: "filingDate", label: "Filing", align: "right" },
   ];
 
   let sortOrders = {
@@ -690,9 +690,7 @@
       </div>
 
       <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
-        <div
-          class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
-        >
+        <div class="w-full">
           <table
             class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
           >
@@ -708,7 +706,7 @@
                     <td class="text-sm whitespace-nowrap">
                       <a
                         href={"/hedge-funds/" + item?.cik}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                       >
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
