@@ -36,38 +36,57 @@
 
   $: isGamma = title === "Gamma";
 
+  // Cache for DTE calculations to avoid recalculating
+  const dteCache = new Map();
+
   // Calculate DTE (Days to Expiration) for each date, excluding weekends
   function calculateDTE(dateStr) {
+    // Return cached value if available
+    if (dteCache.has(dateStr)) {
+      return dteCache.get(dateStr);
+    }
+
+    // Parse both dates in local time to avoid timezone issues
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const expiryDate = new Date(year, month - 1, day);
+    expiryDate.setHours(0, 0, 0, 0);
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const expiryDate = new Date(dateStr + "T00:00:00Z");
 
-    // If expiry is before today, return negative days (counting business days)
-    if (expiryDate < today) {
-      const diffTime = expiryDate - today;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
-    }
+    let result;
 
-    // Count business days between today and expiry
-    let businessDays = 0;
-    let currentDate = new Date(today);
+    // If expiry is today, return 0 (0 DTE)
+    if (expiryDate.getTime() === today.getTime()) {
+      result = 0;
+    } else if (expiryDate < today) {
+      // If expiry is before today, return -1 (expired)
+      result = -1;
+    } else {
+      // Count business days between today and expiry
+      let businessDays = 0;
+      let currentDate = new Date(today);
 
-    while (currentDate < expiryDate) {
-      currentDate.setDate(currentDate.getDate() + 1);
-      const dayOfWeek = currentDate.getDay();
-      // 0 = Sunday, 6 = Saturday
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        businessDays++;
+      while (currentDate < expiryDate) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        const dayOfWeek = currentDate.getDay();
+        // 0 = Sunday, 6 = Saturday
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+          businessDays++;
+        }
       }
+      result = businessDays;
     }
 
-    return businessDays;
+    // Cache the result
+    dteCache.set(dateStr, result);
+    return result;
   }
 
   // Create DTE-based options
   let dteOptions = [
     "All",
+    "0 DTE",
     "5 DTE",
     "10 DTE",
     "20 DTE",
@@ -166,18 +185,27 @@
 
   // Function to handle DTE selection changes
   async function handleDTEChange(dteValue) {
-    // Always allow only one selection at a time
-    checkedDTEs.clear();
-    selectedDTEs.clear();
-
-    selectedDTEsText = dteValue;
-
-    if (dteValue === "All" || !dteValue) {
+    // If clicking on already selected item (not "All"), uncheck it and revert to "All"
+    if (dteValue !== "All" && checkedDTEs.has(dteValue)) {
+      checkedDTEs.clear();
+      selectedDTEs.clear();
       checkedDTEs.add("All");
       selectedDTEs.add("All");
+      selectedDTEsText = "All";
     } else {
-      checkedDTEs.add(dteValue);
-      selectedDTEs.add(dteValue);
+      // Always allow only one selection at a time
+      checkedDTEs.clear();
+      selectedDTEs.clear();
+
+      selectedDTEsText = dteValue;
+
+      if (dteValue === "All" || !dteValue) {
+        checkedDTEs.add("All");
+        selectedDTEs.add("All");
+      } else {
+        checkedDTEs.add(dteValue);
+        selectedDTEs.add(dteValue);
+      }
     }
 
     // Trigger reactive updates
@@ -200,13 +228,17 @@
       const dteStr = Array.from(selectedDTEs)[0]; // Only one is allowed
       const targetDTE = parseInt(dteStr.split(" ")[0]);
 
-      Object.keys(data?.getData ?? {}).forEach((date) => {
+      const dataKeys = Object.keys(data?.getData ?? {});
+      for (let i = 0; i < dataKeys.length; i++) {
+        const date = dataKeys[i];
         const dte = calculateDTE(date);
 
-        if (dte <= targetDTE) {
+        // Include dates where DTE is >= 0 (not expired) and <= targetDTE
+        // For "0 DTE": dte >= 0 && dte <= 0, so only exactly 0 DTE
+        if (dte >= 0 && dte <= targetDTE) {
           selectedData[date] = data?.getData[date];
         }
-      });
+      }
 
       rawData = aggregateDict(selectedData) || [];
     }
