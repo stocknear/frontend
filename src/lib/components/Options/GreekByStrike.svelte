@@ -10,11 +10,29 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
+  import LineChartIcon from "lucide-svelte/icons/chart-spline";
+  import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
 
   export let data;
   export let title = "Gamma";
   export let ticker;
   let currentPrice = null;
+
+  // Chart type state
+  type ChartType = "column" | "line" | "scatter";
+  let chartType: ChartType = "column";
+
+  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
+    { type: "column", label: "Column", icon: BarChartIcon },
+    { type: "line", label: "Line", icon: LineChartIcon },
+    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  ];
+
+  function changeChartType(type: ChartType) {
+    chartType = type;
+    config = plotData() || null;
+  }
 
   $: isGamma = title === "Gamma";
 
@@ -338,7 +356,7 @@
         enabled: false,
       },
       chart: {
-        type: "column",
+        type: chartType === "scatter" ? "scatter" : chartType,
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
         height: 360,
@@ -387,7 +405,19 @@
       plotOptions: {
         series: {
           animation: false,
-          stacking: "normal",
+          ...(chartType === "column" ? { stacking: "normal" } : {}),
+        },
+        line: {
+          marker: {
+            enabled: true,
+            radius: 3,
+          },
+        },
+        scatter: {
+          marker: {
+            radius: 4,
+            symbol: "circle",
+          },
         },
       },
       tooltip: {
@@ -695,7 +725,7 @@
     {/if}
   </div>
 
-  <div class="mt-7">
+  <div class="mt-7 flex flex-wrap items-center justify-between gap-3">
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button
@@ -775,6 +805,26 @@
         </DropdownMenu.Group>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
+
+    <!-- Chart Type Switcher -->
+    <div class="flex items-center">
+      <div
+        class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+      >
+        {#each chartTypes as item}
+          <button
+            on:click={() => changeChartType(item.type)}
+            class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
+              {chartType === item.type
+              ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+              : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+            title={item.label}
+          >
+            <svelte:component this={item.icon} class="w-4 h-4" />
+          </button>
+        {/each}
+      </div>
+    </div>
   </div>
 
   <div class="w-full overflow-hidden m-auto sm:mt-3">
