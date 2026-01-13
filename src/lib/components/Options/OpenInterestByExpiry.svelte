@@ -7,9 +7,27 @@
   import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
+  import LineChartIcon from "lucide-svelte/icons/chart-spline";
+  import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
 
   export let data;
   export let ticker;
+
+  // Chart type state
+  type ChartType = "column" | "line" | "scatter";
+  let chartType: ChartType = "column";
+
+  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
+    { type: "column", label: "Column", icon: BarChartIcon },
+    { type: "line", label: "Line", icon: LineChartIcon },
+    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  ];
+
+  function changeChartType(type: ChartType) {
+    chartType = type;
+    config = plotData() || null;
+  }
 
   let rawData = data?.getData || [];
 
@@ -111,18 +129,40 @@
     }));
 
     const categories = processedData?.map((d) => d.expiry);
-    const callValues = processedData?.map(
-      (d) => parseFloat(d.callValue?.toFixed(2)) || 0,
+    const callValues = processedData?.map((d) =>
+      parseFloat((d.callValue ?? 0).toFixed(2)),
     );
-    const putValues = processedData?.map(
-      (d) => parseFloat(d.putValue?.toFixed(2)) || 0,
+    const putValues = processedData?.map((d) =>
+      parseFloat((d.putValue ?? 0).toFixed(2)),
     );
 
     const options = {
       chart: {
+        type: chartType === "scatter" ? "scatter" : chartType,
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         animation: false,
         height: 360,
+        zoomType: "x",
+        resetZoomButton: {
+          theme: {
+            fill: $mode === "light" ? "#f3f4f6" : "#27272a",
+            stroke: $mode === "light" ? "#d1d5db" : "#3f3f46",
+            style: {
+              color: $mode === "light" ? "#111827" : "#f4f4f5",
+            },
+            r: 8,
+            states: {
+              hover: {
+                fill: $mode === "light" ? "#e5e7eb" : "#3f3f46",
+              },
+            },
+          },
+          position: {
+            align: "right",
+            x: -10,
+            y: 10,
+          },
+        },
       },
       credits: { enabled: false },
       legend: {
@@ -228,12 +268,24 @@
           shadow: false,
           borderWidth: 0,
         },
+        line: {
+          marker: {
+            enabled: true,
+            radius: 3,
+          },
+        },
+        scatter: {
+          marker: {
+            radius: 4,
+            symbol: "circle",
+          },
+        },
       },
 
       series: [
         {
           name: "Put",
-          type: "column",
+          type: chartType,
           data: putValues,
           color: "#CC2619",
           borderColor: "#CC2619",
@@ -242,7 +294,7 @@
         },
         {
           name: "Call",
-          type: "column",
+          type: chartType,
           data: callValues,
           color: "#00C440",
           borderColor: "#00C440",
@@ -376,7 +428,7 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    {ticker} Open Interest Chart
+    Open Interest Chart
   </h2>
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
@@ -404,6 +456,28 @@
       No active option expiration dates found with future expiry dates.
     {/if}
   </p>
+
+  <!-- Chart Type Switcher -->
+  <div class="mt-7 flex flex-wrap items-center justify-end gap-3">
+    <div class="flex items-center">
+      <div
+        class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+      >
+        {#each chartTypes as item}
+          <button
+            on:click={() => changeChartType(item.type)}
+            class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
+              {chartType === item.type
+              ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+              : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+            title={item.label}
+          >
+            <svelte:component this={item.icon} class="w-4 h-4" />
+          </button>
+        {/each}
+      </div>
+    </div>
+  </div>
 
   <div class="w-full overflow-hidden m-auto mt-3">
     {#if config !== null}
