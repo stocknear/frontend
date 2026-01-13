@@ -80,6 +80,7 @@
     showEarnings?: boolean;
     showDividends?: boolean;
     showNewsFlow?: boolean;
+    showShortInterest?: boolean;
     selectedToolByGroup?: Record<string, string>; // Toolbar selection state
     drawingMode?: "normal" | "weak_magnet" | "strong_magnet";
     drawingsLocked?: boolean;
@@ -366,6 +367,7 @@
       showEarnings,
       showDividends,
       showNewsFlow,
+      showShortInterest,
     });
   };
 
@@ -4383,6 +4385,7 @@
         showEarnings = savedSettings.showEarnings ?? true;
         showDividends = savedSettings.showDividends ?? true;
         showNewsFlow = savedSettings.showNewsFlow ?? true;
+        showShortInterest = savedSettings.showShortInterest ?? false;
       }
       // Load toolbar selection state
       if (savedSettings.selectedToolByGroup) {
@@ -5280,6 +5283,56 @@
                         checked={showNewsFlow}
                         on:change={() => {
                           showNewsFlow = !showNewsFlow;
+                          saveEventSettings();
+                        }}
+                      />
+                      <div
+                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                      ></div>
+                    {:else}
+                      <button
+                        type="button"
+                        on:click|stopPropagation={() => goto("/pricing")}
+                        class="text-neutral-500 hover:text-neutral-300 transition"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                      </button>
+                    {/if}
+                  </div>
+                </label>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                on:click={(e) => e.preventDefault()}
+              >
+                <label
+                  class="inline-flex justify-between w-full items-center cursor-pointer"
+                  on:click|stopPropagation
+                  on:pointerdown|stopPropagation
+                >
+                  <span>Short Interest</span>
+                  <div class="relative ml-4 flex items-center">
+                    {#if isSubscribed}
+                      <input
+                        type="checkbox"
+                        class="sr-only peer"
+                        checked={showShortInterest}
+                        on:change={() => {
+                          showShortInterest = !showShortInterest;
+                          if (showShortInterest && historicalShortInterest.length === 0) {
+                            fetchShortInterestData();
+                          } else if (showShortInterest) {
+                            updateAllOverlays();
+                          }
                           saveEventSettings();
                         }}
                       />
