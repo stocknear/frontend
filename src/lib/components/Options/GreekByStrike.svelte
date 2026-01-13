@@ -266,6 +266,7 @@
       behavior: "smooth",
     });
   }
+
   function aggregateDict(data) {
     const map = new Map();
 
@@ -342,6 +343,27 @@
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
         height: 360,
         animation: false,
+        zoomType: "x",
+        resetZoomButton: {
+          theme: {
+            fill: $mode === "light" ? "#f3f4f6" : "#27272a",
+            stroke: $mode === "light" ? "#d1d5db" : "#3f3f46",
+            style: {
+              color: $mode === "light" ? "#111827" : "#f4f4f5",
+            },
+            r: 8,
+            states: {
+              hover: {
+                fill: $mode === "light" ? "#e5e7eb" : "#3f3f46",
+              },
+            },
+          },
+          position: {
+            align: "right",
+            x: -10,
+            y: 10,
+          },
+        },
       },
       title: {
         text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} ${title === "Gamma" ? "GEX" : "DEX"} Chart</h3>`,
@@ -399,8 +421,8 @@
         categories: allStrikes,
         gridLineWidth: 0,
         crosshair: {
-          color: $mode === "light" ? "black" : "white", // Set the color of the crosshair line
-          width: 1, // Adjust the line width as needed
+          color: $mode === "light" ? "black" : "white",
+          width: 1,
           dashStyle: "Solid",
         },
         plotLines: [
@@ -420,7 +442,6 @@
           style: {
             color: $mode === "light" ? "#545454" : "white",
           },
-          // Only display every 2nd label
           formatter: function () {
             return this.pos % 2 === 0 ? this.value : "";
           },
