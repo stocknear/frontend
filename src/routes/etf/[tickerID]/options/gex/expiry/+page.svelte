@@ -22,7 +22,7 @@
       {#if rawData?.length > 0}
         <GreekByExpiry
           {data}
-          title={`${$displayCompanyName} (${$etfTicker}) GEX by Expiry`}
+          title="Gamma"
           ticker={$etfTicker?.toUpperCase()}
         />
       {:else}

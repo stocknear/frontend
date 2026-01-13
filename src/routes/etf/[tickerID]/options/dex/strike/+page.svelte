@@ -41,7 +41,7 @@
           {data}
           title="Delta"
           ticker={$etfTicker?.toUpperCase()}
-        />/>
+        />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
