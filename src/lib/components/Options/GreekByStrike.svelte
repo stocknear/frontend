@@ -10,6 +10,7 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import Infobox from "$lib/components/Infobox.svelte";
   import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
   import LineChartIcon from "lucide-svelte/icons/chart-spline";
   import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
@@ -859,7 +860,7 @@
   </div>
 
   <div class="w-full overflow-hidden m-auto sm:mt-3">
-    {#if config !== null}
+    {#if config !== null && rawData?.length > 0}
       <div>
         <div class="grow">
           <div class="relative">
@@ -871,9 +872,14 @@
           </div>
         </div>
       </div>
+    {:else if rawData?.length === 0}
+      <Infobox
+        text={`No ${title.toLowerCase()} exposure data available for ${selectedDTEsText === "All" ? "all expirations" : selectedDTEsText}. Try selecting a different expiration range.`}
+      />
     {/if}
   </div>
 
+  {#if rawData?.length > 0}
   <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
     <div
       class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -1096,5 +1102,6 @@
         </svg>
       </button>
     </div>
+  {/if}
   {/if}
 </div>

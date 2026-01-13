@@ -3,11 +3,11 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  import Discount from "$lib/components/Discount.svelte";
+  // import Discount from "$lib/components/Discount.svelte";
   export let data;
   export let form;
 
-  let mode = false;
+  let mode = true;
 
   const emailAddress = "support@stocknear.com";
 
