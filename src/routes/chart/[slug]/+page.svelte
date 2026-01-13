@@ -4605,9 +4605,15 @@
 
   $: lastBar = currentBars[currentBars.length - 1] ?? null;
   $: displayBar = hoverBar ?? lastBar;
+  // Use stock quote previousClose for consistent change calculation (same as SEO)
   $: previousClose =
-    dailyBars.length > 1 ? dailyBars[dailyBars.length - 2]?.close : null;
-  $: lastClose = displayBar?.close ?? null;
+    toNumber(data?.getStockQuote?.previousClose) ??
+    toNumber(intradayBars?.at(0)?.open) ??
+    (dailyBars.length > 1 ? dailyBars[dailyBars.length - 2]?.close : null);
+  // When not hovering, prefer latestRealtimePrice for real-time updates; when hovering show hovered bar
+  $: lastClose = hoverBar
+    ? hoverBar.close
+    : (latestRealtimePrice ?? displayBar?.close ?? null);
   $: change =
     lastClose !== null && previousClose !== null
       ? lastClose - previousClose
@@ -4619,18 +4625,10 @@
     change !== null && change < 0 ? "text-[#f23645]" : "text-[#22ab94]";
 
   $: companyName = data?.companyName || ticker;
-  $: seoPrice =
-    latestRealtimePrice ??
-    toNumber(data?.getStockQuote?.price) ??
-    toNumber(lastClose) ??
-    toNumber(dailyBars?.at(-1)?.close);
-  $: seoPreviousClose =
-    toNumber(data?.getStockQuote?.previousClose) ??
-    toNumber(intradayBars?.at(0)?.open);
-  $: seoChangePercent =
-    seoPrice !== null && seoPreviousClose
-      ? (seoPrice / seoPreviousClose - 1) * 100
-      : (toNumber(data?.getStockQuote?.changesPercentage) ?? changePercent);
+  // SEO uses same values as UI for consistency
+  $: seoPrice = lastClose;
+  $: seoPreviousClose = previousClose;
+  $: seoChangePercent = changePercent;
   $: seoChangeSymbol =
     seoChangePercent !== null && seoChangePercent < 0 ? "▼" : "▲";
   $: seoChangeText =
