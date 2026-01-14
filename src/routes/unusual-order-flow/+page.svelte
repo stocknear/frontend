@@ -999,21 +999,31 @@
   // Table search
   let tableSearchValue = "";
   let tableSearchDisplayedData: any[] = [];
+  let tableSearchTimeout: ReturnType<typeof setTimeout> | null = null;
 
   function tableSearch() {
     if (!tableSearchValue?.trim()) {
       tableSearchDisplayedData = [];
       return;
     }
-    const searchLower = tableSearchValue.toLowerCase().trim();
+    // Support comma-separated tickers (e.g., "BA,TSLA,AAPL")
+    const searchTickers = tableSearchValue
+      ?.split(",")
+      ?.map((t) => t?.trim()?.toUpperCase())
+      ?.filter((t) => t?.length > 0);
+
     tableSearchDisplayedData = displayedData.filter((item: any) => {
-      return (
-        item?.ticker?.toLowerCase()?.includes(searchLower) ||
-        item?.exchange?.toLowerCase()?.includes(searchLower) ||
-        item?.assetType?.toLowerCase()?.includes(searchLower) ||
-        item?.transactionType?.toLowerCase()?.includes(searchLower)
-      );
+      const itemTicker = item?.ticker?.toUpperCase();
+      // Exact ticker matching for each comma-separated value
+      return searchTickers?.some((searchTicker) => itemTicker === searchTicker);
     });
+  }
+
+  function debouncedTableSearch() {
+    if (tableSearchTimeout) {
+      clearTimeout(tableSearchTimeout);
+    }
+    tableSearchTimeout = setTimeout(tableSearch, 100);
   }
 
   function resetTableSearch() {
@@ -2722,7 +2732,7 @@
 
                   <input
                     bind:value={tableSearchValue}
-                    on:input={tableSearch}
+                    on:input={debouncedTableSearch}
                     type="text"
                     placeholder="Find..."
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
