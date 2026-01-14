@@ -1006,16 +1006,31 @@
       tableSearchDisplayedData = [];
       return;
     }
-    // Support comma-separated tickers (e.g., "BA,TSLA,AAPL")
-    const searchTickers = tableSearchValue
+    // Support comma-separated tickers and exclusions (e.g., "AMD,-SPY,TSLA")
+    const searchTokens = tableSearchValue
       ?.split(",")
-      ?.map((t) => t?.trim()?.toUpperCase())
+      ?.map((t) => t?.trim())
       ?.filter((t) => t?.length > 0);
+
+    const includeTickers = [];
+    const excludeTickers = [];
+
+    searchTokens?.forEach((token) => {
+      if (token?.startsWith("-") && token?.length > 1) {
+        excludeTickers.push(token.slice(1).toUpperCase());
+      } else {
+        includeTickers.push(token?.toUpperCase());
+      }
+    });
 
     tableSearchDisplayedData = displayedData.filter((item: any) => {
       const itemTicker = item?.ticker?.toUpperCase();
-      // Exact ticker matching for each comma-separated value
-      return searchTickers?.some((searchTicker) => itemTicker === searchTicker);
+      if (!itemTicker) return false;
+      if (excludeTickers?.includes(itemTicker)) return false;
+      if (includeTickers?.length > 0) {
+        return includeTickers?.includes(itemTicker);
+      }
+      return true;
     });
   }
 
