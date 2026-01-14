@@ -1,9 +1,5 @@
-import { getPartyForPoliticians } from "$lib/utils";
-
 export const load = async ({ locals }) => {
   const getAllPolitician = async () => {
-    let output;
-
     const { apiKey, apiURL } = locals;
 
     const response = await fetch(apiURL + "/all-politicians", {
@@ -14,36 +10,8 @@ export const load = async ({ locals }) => {
       },
     });
 
-    output = await response.json();
-
-    // Cache the data for this specific tickerID with a specific name 'getAllPolitician'
-
-    output?.forEach((item) => {
-      let representative = item?.representative || "";
-
-      representative = representative
-        ?.replace("Jr", "")
-        ?.replace(/Dr./g, "")
-        ?.replace(/Dr_/g, "");
-
-      const fullName = representative
-        ?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, "_")
-        ?.trim();
-      item.representative = fullName?.replace(/_/g, " ");
-    });
-
-    output = output?.map((item) => {
-      const party = getPartyForPoliticians(item?.representative);
-      return {
-        ...item,
-        party: party,
-      };
-    });
-
-  output = output
-    ?.filter(item => Number.isFinite(item?.performanceRank) && item.performanceRank > 0)
-    ?.sort((a, b) => a.performanceRank - b.performanceRank);
-
+    // Data is now pre-processed in the backend with party, filtered by performanceRank > 0, and sorted
+    const output = await response.json();
 
     return output;
   };
