@@ -1,4 +1,3 @@
-import { getPartyForPoliticians } from "$lib/utils";
 
 
 
@@ -30,20 +29,7 @@ export const load = async ({ locals, params }) => {
 
     if (output && history?.length > 0) {
       let firstItem = history?.at(0);
-      let representative = firstItem?.representative || "";
-
-      representative = representative
-        ?.replace("Jr", "")
-        ?.replace(/Dr./g, "")
-        ?.replace(/Dr_/g, "");
-
-      const fullName = representative
-        ?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, "_")
-        ?.trim();
-      firstItem.representative = fullName?.replace(/_/g, " ");
-
-      const party = getPartyForPoliticians(firstItem?.representative);
-      firstItem.party = party;
+      console.log(firstItem);
 
       politicianParty = firstItem?.party;
       politicianDistrict = firstItem?.district;
