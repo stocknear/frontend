@@ -3013,26 +3013,92 @@
 
   // Fetch FTD data
   const fetchFTDDataIndicator = async () => {
-    if (ftdLoading) return;
+    if (ftdLoading || !ticker) return;
     ftdLoading = true;
-    await fetchIndicatorData(
-      "ftd",
-      "ftdLoading",
-      (data) => {
-        ftdData = data;
-        setFTDData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(
-          item.date || item.settlement_date || item.recordDate,
-          { zone },
-        )
-          .startOf("day")
-          .toMillis(),
-        ftdShares: item.ftdShares ?? item.ftd_shares ?? item.quantity ?? 0,
-        ftdValue: item.ftdValue ?? item.ftd_value ?? item.value ?? 0,
-      }),
-    );
+    try {
+      console.log("[FTD] Fetching for ticker:", ticker);
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category: "ftd" }),
+      });
+
+      console.log("[FTD] Response status:", response.status);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+      console.log("[FTD] API result keys:", Object.keys(result || {}));
+
+      // FTD API may return array directly or nested in history/data
+      const historyData = Array.isArray(result) ? result : (result?.history || result?.data || []);
+
+      console.log("[FTD] historyData length:", historyData.length);
+
+      if (historyData.length === 0) {
+        console.warn("[FTD] No FTD data returned from API");
+        ftdData = [];
+        setFTDData([]);
+        ftdLoading = false;
+        return;
+      }
+
+      // Log first item to see actual field names
+      console.log("[FTD] First raw item keys:", Object.keys(historyData[0]));
+      console.log("[FTD] First raw item:", historyData[0]);
+
+      const indicatorData = historyData.map((item: any) => {
+        // Try multiple date field names
+        const dateStr = item.date || item.settlement_date || item.settlementDate || item.recordDate;
+
+        let timestamp = 0;
+        if (dateStr) {
+          // Try ISO format first
+          const dt = DateTime.fromISO(dateStr, { zone });
+          if (dt.isValid) {
+            timestamp = dt.startOf("day").toMillis();
+          } else {
+            // Fallback: try parsing as Date object
+            const parsed = new Date(dateStr);
+            if (!isNaN(parsed.getTime())) {
+              timestamp = DateTime.fromJSDate(parsed, { zone }).startOf("day").toMillis();
+            }
+          }
+        }
+
+        if (timestamp <= 0) {
+          console.warn("[FTD] Invalid timestamp for item:", item);
+        }
+
+        return {
+          timestamp,
+          ftdShares: item.failToDeliver ?? item.ftdShares ?? item.ftd_shares ?? item.quantity ?? 0,
+          ftdValue: item.ftdValue ?? item.ftd_value ?? item.value ?? item.price ?? 0,
+        };
+      }).filter((d: any) => d.timestamp > 0);
+
+      console.log("[FTD] Valid items after filter:", indicatorData.length);
+      if (indicatorData.length > 0) {
+        console.log("[FTD] First transformed item:", indicatorData[0]);
+        console.log("[FTD] Last transformed item:", indicatorData[indicatorData.length - 1]);
+      }
+
+      ftdData = indicatorData;
+      setFTDData(indicatorData);
+
+      // Force indicator refresh
+      if (chart && indicatorState.ftd) {
+        const existingId = indicatorInstanceIds.ftd;
+        if (existingId) {
+          chart.removeIndicator({ id: existingId });
+          indicatorInstanceIds.ftd = null;
+        }
+        syncIndicators();
+      }
+    } catch (error) {
+      console.error("[FTD] Failed to fetch FTD data:", error);
+      ftdData = [];
+      setFTDData([]);
+    }
     ftdLoading = false;
   };
 

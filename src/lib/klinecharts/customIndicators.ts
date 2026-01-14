@@ -1469,8 +1469,17 @@ function createFTDIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
 
+      console.log("[SN_FTD] calc called, ftdData.length:", ftdData.length, "dataList.length:", dataList.length);
+
+      if (ftdData.length === 0) {
+        console.warn("[SN_FTD] No FTD data available for calculation");
+        return result;
+      }
+
       // Map each FTD data point to the closest bar
+      let mappedCount = 0;
       for (const ftd of ftdData) {
+        if (!ftd || !ftd.timestamp) continue;
         const idx = findClosestBarIndex(dataList, ftd.timestamp);
         if (idx >= 0) {
           result[idx] = {
@@ -1478,8 +1487,11 @@ function createFTDIndicator(): IndicatorTemplate<IndicatorRecord, number> {
             ftdValue: ftd.ftdValue,
             isDataPoint: 1,
           };
+          mappedCount++;
         }
       }
+
+      console.log("[SN_FTD] Mapped", mappedCount, "of", ftdData.length, "data points to bars");
 
       // Carry forward values
       let lastShares: number | undefined;
@@ -1498,7 +1510,7 @@ function createFTDIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
       const { from, to } = chart.getVisibleRange();
       const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0) return false;
+      if (!result || result.length === 0 || ftdData.length === 0) return false;
 
       const barWidth = Math.max(2, (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6);
 

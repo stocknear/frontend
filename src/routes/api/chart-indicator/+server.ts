@@ -20,7 +20,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "iv-rank": "/iv-rank-history",
   "put-call-ratio": "/put-call-ratio-history",
   "dark-pool": "/dark-pool-history",
-  "ftd": "/fail-to-deliver-history",
+  "ftd": "/fail-to-deliver",
   "max-pain": "/max-pain-history",
 };
 
