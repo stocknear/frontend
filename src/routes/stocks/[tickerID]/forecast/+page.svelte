@@ -940,7 +940,7 @@
             <div class="grow p-3 md:pt-4 lg:pl-4 lg:pt-0">
               {#if numOfAnalyst > 0}
                 <div
-                  class="sm:shadow-none sm:border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class=" bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={config}
                 ></div>
               {:else}
@@ -1099,12 +1099,12 @@
             <div class="grow pt-2 md:pt-4 lg:pl-4 lg:pt-0">
               {#if optionsBarChart !== null && numOfAnalyst > 0}
                 <div
-                  class="shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class=" bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={optionsBarChart}
                 ></div>
               {:else}
                 <div
-                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
+                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
                   No Chart available
                 </div>
