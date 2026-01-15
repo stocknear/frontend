@@ -31,7 +31,7 @@ export const load = async ({ locals, params }) => {
       let firstItem = history?.at(0);
       console.log(firstItem);
 
-      politicianParty = firstItem?.party;
+      politicianParty = output?.party || "n/a";
       politicianDistrict = firstItem?.district;
       politicianCongress = firstItem?.congress;
     }
