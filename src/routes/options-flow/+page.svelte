@@ -3245,7 +3245,7 @@
                   class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
                   {(data?.user?.tier === "Pro"
-                    ? displayedData?.length
+                    ? (tableSearchValue?.length > 0 ? tableSearchDisplayedData?.length : displayedData?.length)
                     : totalOrders
                   )?.toLocaleString("en-US")} Trades
                 </h2>
