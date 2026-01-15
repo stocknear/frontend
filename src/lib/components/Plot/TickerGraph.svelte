@@ -282,7 +282,7 @@
       chart: {
         backgroundColor: $mode === "light" ? "#ffffff" : "#09090B",
         animation: false,
-        height: 200,
+        height: 300,
       },
       credits: { enabled: false },
       title: { text: null },
@@ -370,7 +370,6 @@
       },
 
       yAxis: {
-        // Force y-axis to stay near the actual data range
         min: yMin ?? null,
         max: yMax ?? null,
         startOnTick: false,
@@ -511,10 +510,7 @@
         </div>
 
         <!-- Chart -->
-        <div
-          class="w-full h-[200px] mb-8 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
-          use:highcharts={config}
-        ></div>
+        <div class="w-full mb-8 overflow-hidden" use:highcharts={config}></div>
 
         <!-- Stock Details - Collapsible section (only shows first 2 tickers initially) -->
         <div class="space-y-4">
@@ -639,7 +635,7 @@
                   <div class="mt-6 font-sans">
                     <a
                       href={tickerUrlMap[ticker]}
-                      class="text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 sm:hover:underline"
+                      class="text-xs sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >
                       More about {ticker?.toUpperCase()}
                     </a>

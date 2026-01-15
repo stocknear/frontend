@@ -981,9 +981,10 @@ ${summaryData.outlook}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
               <label
-                class="bg-gray-900/80 dark:bg-zinc-900/70 rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               >
-                <span class="loading loading-spinner loading-md text-white"
+                <span
+                  class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
                 ></span>
               </label>
             </div>

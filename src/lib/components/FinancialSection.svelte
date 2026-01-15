@@ -500,15 +500,9 @@
               <div
                 class="sm:flex sm:justify-between text-sm text-gray-800 dark:text-zinc-300"
               >
-                <div>
-                  Source: Financial Modeling Prep. <a
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                    href="/data-disclaimer/">Financial Sources.</a
-                  >
-                </div>
-                <div class="mt-2 sm:-mt-2 flex items-center gap-x-2">
+                <div class="mt-2 flex ml-auto items-center gap-x-2">
                   SEC Filings: <a
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition flex items-center"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-K`}
@@ -528,7 +522,7 @@
                   >
                   ·
                   <a
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition flex items-center"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-Q`}
