@@ -74,6 +74,8 @@
     } else {
       tableSearchDisplayedData = displayedData;
     }
+    // Update summary widgets to reflect the filtered table data
+    calculateStats(tableSearchDisplayedData);
   }
 
   function debouncedTableSearch() {
@@ -86,14 +88,18 @@
   function resetTableSearch() {
     tableSearchValue = "";
     tableSearchDisplayedData = displayedData;
+    // Reset stats to show data for all displayed results
+    calculateStats(tableSearchDisplayedData);
   }
 
-  // Keep tableSearchDisplayedData in sync with displayedData
+  // Keep tableSearchDisplayedData in sync with displayedData and recalculate stats
   $: if (displayedData) {
     if (tableSearchValue?.length > 0) {
-      tableSearch();
+      tableSearch(); // tableSearch() calls calculateStats internally
     } else {
       tableSearchDisplayedData = displayedData;
+      // Recalculate stats when no search filter is active
+      calculateStats(tableSearchDisplayedData);
     }
   }
 
