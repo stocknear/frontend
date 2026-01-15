@@ -1058,9 +1058,11 @@
   let stockPercentage = 0;
   let etfPercentage = 0;
 
-  // Reactive stats calculation
+  // Reactive stats calculation - use tableSearchDisplayedData when search is active
   $: {
-    const stats = displayedData?.reduce(
+    const dataForStats =
+      tableSearchValue?.length > 0 ? tableSearchDisplayedData : displayedData;
+    const stats = dataForStats?.reduce(
       (acc, item) => {
         const size = item?.size || 0;
         const premium = item?.premium || 0;
