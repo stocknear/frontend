@@ -116,7 +116,7 @@ export const POST = async ({ request, locals }) => {
       try {
         await locals.pb.collection("users").update(userId, {
           tier: "Free",
-          freeTrial: false,
+          freeTrial: true,
           credits: 10,
         });
 
