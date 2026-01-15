@@ -161,13 +161,7 @@ export const POST = async ({ request, locals }) => {
       if (tier === "Pro") credits = 1000;
 
       try {
-       // Get the current user data first
-        const user = await locals.pb.collection("users").getOne(userId);
-
-        // Decide the new freeTrial value
-        const freeTrial =
-          user.freeTrial === true ? true : status === "on_trial";
-        // Update user
+        const freeTrial = true;
         await locals.pb.collection("users").update(userId, {
           tier,
           freeTrial,
@@ -205,11 +199,7 @@ export const POST = async ({ request, locals }) => {
 
     try {
 
-        const user = await locals.pb.collection("users").getOne(userId);
-
-        // Decide the new freeTrial value
-        const freeTrial =
-          user.freeTrial === true ? true : status === "on_trial";
+        const freeTrial = true;
 
       await locals.pb.collection("users").update(userId, {
         tier,
