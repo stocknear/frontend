@@ -628,21 +628,39 @@
                   <div
                     class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
                   >
-                    <span
-                      class={performanceSuccessRate >= 0 &&
-                      performanceSuccessRate !== undefined &&
-                      performanceSuccessRate !== null
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : performanceSuccessRate < 0 &&
-                            performanceSuccessRate !== undefined &&
-                            performanceSuccessRate !== null
-                          ? "text-rose-600 dark:text-rose-400"
-                          : ""}
-                      >{performanceSuccessRate !== undefined &&
-                      performanceSuccessRate !== null
-                        ? performanceSuccessRate?.toFixed(2) + "%"
-                        : "n/a"}</span
-                    >
+                    {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                      <span
+                        class={performanceSuccessRate >= 0 &&
+                        performanceSuccessRate !== undefined &&
+                        performanceSuccessRate !== null
+                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          : performanceSuccessRate < 0 &&
+                              performanceSuccessRate !== undefined &&
+                              performanceSuccessRate !== null
+                            ? "text-rose-600 dark:text-rose-400"
+                            : ""}
+                        >{performanceSuccessRate !== undefined &&
+                        performanceSuccessRate !== null
+                          ? performanceSuccessRate?.toFixed(2) + "%"
+                          : "n/a"}</span
+                      >
+                    {:else}
+                      <a href="/pricing" class="flex justify-center mb-2">
+                        <svg
+                          class="size-6 text-gray-400 dark:text-zinc-300"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
                   </div>
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
@@ -656,21 +674,39 @@
                   <div
                     class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
                   >
-                    <span
-                      class={performanceAvgReturn >= 0 &&
-                      performanceAvgReturn !== undefined &&
-                      performanceAvgReturn !== null
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : performanceAvgReturn < 0 &&
-                            performanceAvgReturn !== undefined &&
-                            performanceAvgReturn !== null
-                          ? "text-rose-600 dark:text-rose-400"
-                          : ""}
-                      >{performanceAvgReturn !== undefined &&
-                      performanceAvgReturn !== null
-                        ? performanceAvgReturn?.toFixed(2) + "%"
-                        : "n/a"}</span
-                    >
+                    {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                      <span
+                        class={performanceAvgReturn >= 0 &&
+                        performanceAvgReturn !== undefined &&
+                        performanceAvgReturn !== null
+                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          : performanceAvgReturn < 0 &&
+                              performanceAvgReturn !== undefined &&
+                              performanceAvgReturn !== null
+                            ? "text-rose-600 dark:text-rose-400"
+                            : ""}
+                        >{performanceAvgReturn !== undefined &&
+                        performanceAvgReturn !== null
+                          ? performanceAvgReturn?.toFixed(2) + "%"
+                          : "n/a"}</span
+                      >
+                    {:else}
+                      <a href="/pricing" class="flex justify-center mb-2">
+                        <svg
+                          class="size-6 text-gray-400 dark:text-zinc-300"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
                   </div>
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
