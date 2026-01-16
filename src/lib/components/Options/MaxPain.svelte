@@ -33,6 +33,14 @@
     configStrike = plotStrikePrice() || null;
   }
 
+  // Chart type state for Max Pain By Expiry
+  let chartTypeExpiry: ChartType = "column";
+
+  function changeChartTypeExpiry(type: ChartType) {
+    chartTypeExpiry = type;
+    configExpiry = plotExpiry() || null;
+  }
+
   let currentPrice = null;
   let rawData = [];
   // Track the currently sorted data separately
@@ -551,17 +559,29 @@
 
       plotOptions: {
         column: { groupPadding: 0.1, pointPadding: 0.1, borderWidth: 0 },
+        spline: {
+          marker: {
+            enabled: true,
+            radius: 3,
+          },
+        },
+        scatter: {
+          marker: {
+            radius: 4,
+            symbol: "circle",
+          },
+        },
         series: {
-          animation: false, // Disable per-series animation
-          states: { hover: { enabled: false } }, // Disable hover animation
+          animation: false,
+          states: { hover: { enabled: false } },
         },
       },
 
       tooltip: {
         shared: true,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)", // Semi-transparent black
-        borderColor: "rgba(255, 255, 255, 0.2)", // Slightly visible white border
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
         style: {
           color: "#fff",
@@ -570,10 +590,8 @@
         },
         borderRadius: 4,
         formatter: function () {
-          // Format the x value to display time in a custom format
           let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">Max Pain ${this?.y?.toLocaleString("en-US")}</span><br>`;
 
-          // Loop through each point in the shared tooltip
           this.points.forEach((point) => {
             tooltipContent += `
         <span class="font-normal text-sm mt-1">${formatDate(this?.x)}</span><br>`;
@@ -586,13 +604,13 @@
       series: [
         {
           name: "Max Pain",
-          type: "column",
+          type: chartTypeExpiry,
           data: maxPainList,
           color: $mode === "light" ? "#2C6288" : "#fff",
           borderColor: $mode === "light" ? "#2C6288" : "#fff",
           borderRadius: 0,
-          marker: { enabled: false },
-          animation: false, // Extra safeguard
+          marker: { enabled: chartTypeExpiry !== "column", radius: chartTypeExpiry === "scatter" ? 4 : 3 },
+          animation: false,
         },
       ],
 
@@ -688,6 +706,12 @@
   $: {
     if ($mode || selectedDate || chartTypeStrike) {
       configStrike = plotStrikePrice() || null;
+    }
+  }
+
+  $: {
+    if ($mode || chartTypeExpiry) {
+      configExpiry = plotExpiry() || null;
     }
   }
 
@@ -897,6 +921,26 @@
               Weekly expirations influence price 2-3 days before expiry; monthlies
               throughout their final week.
             </p>
+          </div>
+
+          <!-- Chart Type Switcher for Max Pain By Expiry -->
+          <div class="mt-4 flex items-center justify-end">
+            <div
+              class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+            >
+              {#each chartTypes as item}
+                <button
+                  on:click={() => changeChartTypeExpiry(item.type)}
+                  class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
+                    {chartTypeExpiry === item.type
+                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                    : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                  title={item.label}
+                >
+                  <svelte:component this={item.icon} class="w-4 h-4" />
+                </button>
+              {/each}
+            </div>
           </div>
 
           <div>
