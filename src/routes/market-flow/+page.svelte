@@ -649,36 +649,34 @@
                 >
                   S&P 500 Flow
                 </h2>
-                <div class="relative">
-                  <div
-                    class={!["Pro"]?.includes(data?.user?.tier)
-                      ? "blur-[3px]"
-                      : ""}
-                  >
+                {#if data?.user?.tier === "Pro"}
+                  <div class="relative">
                     <MarketTideChart {marketTideData} />
                   </div>
-                  {#if !["Pro"]?.includes(data?.user?.tier)}
-                    <div
-                      class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
+                {:else}
+                  <div
+                    class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-[360px] flex flex-col items-center justify-center"
+                  >
+                    <a
+                      href="/pricing"
+                      class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
-                      <a
-                        href="/pricing"
-                        class="inline-flex items-center gap-1 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      <svg
+                        class="size-10"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
                       >
-                        <span>Upgrade</span>
-                        <svg
-                          class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          ><path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg
-                        >
-                      </a>
-                    </div>
-                  {/if}
-                </div>
+                        <path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        />
+                      </svg>
+                      <span class="text-sm font-medium"
+                        >Upgrade to Pro to unlock</span
+                      >
+                    </a>
+                  </div>
+                {/if}
               </div>
 
               <div class="">
@@ -710,36 +708,34 @@
                 >
                   Sector Flow
                 </h2>
-                <div class="relative">
-                  <div
-                    class={!["Pro"]?.includes(data?.user?.tier)
-                      ? "blur-[3px]"
-                      : ""}
-                  >
+                {#if data?.user?.tier === "Pro"}
+                  <div class="relative">
                     <SectorFlowChart {sectorFlow} />
                   </div>
-                  {#if !["Pro"]?.includes(data?.user?.tier)}
-                    <div
-                      class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
+                {:else}
+                  <div
+                    class="rounded-2xl h-[300px] border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center"
+                  >
+                    <a
+                      href="/pricing"
+                      class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
-                      <a
-                        href="/pricing"
-                        class="inline-flex items-center gap-1 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      <svg
+                        class="size-10"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
                       >
-                        <span>Upgrade</span>
-                        <svg
-                          class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          ><path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg
-                        >
-                      </a>
-                    </div>
-                  {/if}
-                </div>
+                        <path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        />
+                      </svg>
+                      <span class="text-sm font-medium"
+                        >Upgrade to Pro to unlock</span
+                      >
+                    </a>
+                  </div>
+                {/if}
               </div>
             </div>
 
