@@ -11,9 +11,27 @@
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
+  import LineChartIcon from "lucide-svelte/icons/chart-spline";
+  import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
 
   export let data;
   export let ticker = null;
+
+  // Chart type state for Max Pain By Strike
+  type ChartType = "column" | "spline" | "scatter";
+  let chartTypeStrike: ChartType = "column";
+
+  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
+    { type: "column", label: "Column", icon: BarChartIcon },
+    { type: "spline", label: "Line", icon: LineChartIcon },
+    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  ];
+
+  function changeChartTypeStrike(type: ChartType) {
+    chartTypeStrike = type;
+    configStrike = plotStrikePrice() || null;
+  }
 
   let currentPrice = null;
   let rawData = [];
@@ -275,10 +293,32 @@
       credits: { enabled: false },
 
       chart: {
+        type: chartTypeStrike,
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
         height: 360,
-        animation: false, // Disable initial animation
+        animation: false,
+        zoomType: "x",
+        resetZoomButton: {
+          theme: {
+            fill: $mode === "light" ? "#f3f4f6" : "#27272a",
+            stroke: $mode === "light" ? "#d1d5db" : "#3f3f46",
+            style: {
+              color: $mode === "light" ? "#111827" : "#f4f4f5",
+            },
+            r: 8,
+            states: {
+              hover: {
+                fill: $mode === "light" ? "#e5e7eb" : "#3f3f46",
+              },
+            },
+          },
+          position: {
+            align: "right",
+            x: -10,
+            y: 10,
+          },
+        },
       },
 
       title: {
@@ -349,16 +389,28 @@
 
       plotOptions: {
         column: { groupPadding: 0.1, pointPadding: 0.1, borderWidth: 0 },
+        spline: {
+          marker: {
+            enabled: true,
+            radius: 3,
+          },
+        },
+        scatter: {
+          marker: {
+            radius: 4,
+            symbol: "circle",
+          },
+        },
         series: {
-          animation: false, // Disable per-series animation
-          states: { hover: { enabled: false } }, // Disable hover animation
+          animation: false,
+          states: { hover: { enabled: false } },
         },
       },
 
       tooltip: {
         shared: true,
         useHTML: true,
-        animation: false, // Disable tooltip animation
+        animation: false,
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
@@ -379,23 +431,23 @@
       series: [
         {
           name: "Call",
-          type: "column",
+          type: chartTypeStrike,
           data: callSeries,
           color: $mode === "light" ? "#08B108" : "#00FC50",
           borderColor: $mode === "light" ? "#08B108" : "#00FC50",
           borderRadius: 0,
-          marker: { enabled: false },
-          animation: false, // Extra safeguard
+          marker: { enabled: chartTypeStrike !== "column", radius: chartTypeStrike === "scatter" ? 4 : 3 },
+          animation: false,
         },
         {
           name: "Put",
-          type: "column",
+          type: chartTypeStrike,
           data: putSeries,
           color: "#FF0808",
           borderColor: "#FF0808",
           borderRadius: 0,
-          marker: { enabled: false },
-          animation: false, // Extra safeguard
+          marker: { enabled: chartTypeStrike !== "column", radius: chartTypeStrike === "scatter" ? 4 : 3 },
+          animation: false,
         },
       ],
 
@@ -424,8 +476,29 @@
       chart: {
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        animation: false, // Disable initial animation
+        animation: false,
         height: 360,
+        zoomType: "x",
+        resetZoomButton: {
+          theme: {
+            fill: $mode === "light" ? "#f3f4f6" : "#27272a",
+            stroke: $mode === "light" ? "#d1d5db" : "#3f3f46",
+            style: {
+              color: $mode === "light" ? "#111827" : "#f4f4f5",
+            },
+            r: 8,
+            states: {
+              hover: {
+                fill: $mode === "light" ? "#e5e7eb" : "#3f3f46",
+              },
+            },
+          },
+          position: {
+            align: "right",
+            x: -10,
+            y: 10,
+          },
+        },
       },
 
       title: {
@@ -613,7 +686,7 @@
   };
 
   $: {
-    if ($mode || selectedDate) {
+    if ($mode || selectedDate || chartTypeStrike) {
       configStrike = plotStrikePrice() || null;
     }
   }
@@ -681,7 +754,7 @@
           </p>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild let:builder>
               <Button
@@ -753,6 +826,26 @@
               >
             </DropdownMenu.Content>
           </DropdownMenu.Root>
+
+          <!-- Chart Type Switcher -->
+          <div class="flex items-center">
+            <div
+              class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+            >
+              {#each chartTypes as item}
+                <button
+                  on:click={() => changeChartTypeStrike(item.type)}
+                  class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
+                    {chartTypeStrike === item.type
+                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                    : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                  title={item.label}
+                >
+                  <svelte:component this={item.icon} class="w-4 h-4" />
+                </button>
+              {/each}
+            </div>
+          </div>
         </div>
 
         <div>
