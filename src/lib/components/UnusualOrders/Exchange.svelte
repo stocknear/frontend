@@ -210,23 +210,7 @@
         opposite: true,
         title: { text: null },
         gridLineColor: isLightMode ? "#e5e7eb" : "#111827",
-        stackLabels: {
-          enabled: chartType === "column",
-          allowOverlap: false,
-          crop: false,
-          overflow: "allow",
-          style: {
-            color: isLightMode ? "black" : "white",
-            fontSize: "12px",
-            fontWeight: "bold",
-            textOutline: "none",
-          },
-          formatter: function () {
-            return $screenWidth < 640
-              ? null
-              : abbreviateNumber(this.total, true, true);
-          },
-        },
+
         labels: {
           style: { color: isLightMode ? "#545454" : "#fff" },
           formatter: function () {
