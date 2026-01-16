@@ -1,20 +1,20 @@
 <script lang="ts">
-	  import { displayCompanyName, stockTicker } from "$lib/store";
-	  import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
-	  import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
-	  import Exchange from "$lib/components/UnusualOrders/Exchange.svelte";
-	  import InfoModal from "$lib/components/InfoModal.svelte";
-	  import Infobox from "$lib/components/Infobox.svelte";
-	  import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
-	  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
-	  import SEO from "$lib/components/SEO.svelte";
+  import { displayCompanyName, stockTicker } from "$lib/store";
+  import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
+  import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
+  import Exchange from "$lib/components/UnusualOrders/Exchange.svelte";
+  import InfoModal from "$lib/components/InfoModal.svelte";
+  import Infobox from "$lib/components/Infobox.svelte";
+  import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
+  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import SEO from "$lib/components/SEO.svelte";
 
-	  export let data;
-	  let historicalDarkPool = data?.getHistoricalDarkPool || [];
-	  let priceLevel = data?.getPriceLevel?.priceLevel || [];
-	  let exchangeData = data?.getPriceLevel?.exchangeData || [];
+  export let data;
+  let historicalDarkPool = data?.getHistoricalDarkPool || [];
+  let priceLevel = data?.getPriceLevel?.priceLevel || [];
+  let exchangeData = data?.getPriceLevel?.exchangeData || [];
 
-	  let hottestTrades = data?.getPriceLevel?.hottestTrades || [];
+  let hottestTrades = data?.getPriceLevel?.hottestTrades || [];
 </script>
 
 <SEO
@@ -98,37 +98,23 @@
             <Infobox
               text={`No Dark Pool activity are detected for ${$displayCompanyName}`}
             />
-          {:else if priceLevel?.length === 0 && hottestTrades?.length === 0}{:else}
-            <div class="flex flex-row items-center mb-4 sm:mb-0">
-              <label
-                for="unusualOrderInfo"
-                class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
-              >
-                {$stockTicker?.toUpperCase()} Unusual Orders Overview
-              </label>
-              <InfoModal
-                title={"Unusual Orders"}
-                content={"Unusual Orders represent significant institutional trading activity pulled from two sources: on-exchange block trades and off-exchange dark pool executions. Block trades are large exchange-routed orders (typically 10,000+ shares) that signal visible institutional buying or selling. Dark pool trades occur in private, off-exchange venues where institutions execute large orders anonymously to avoid market impact. Together, these flows help reveal where major players are positioning before it becomes obvious in regular volume."}
-                id={"unusualOrderInfo"}
-              />
-            </div>
           {/if}
         </div>
-	        {#if priceLevel?.length > 0}
-	          <PriceLevel
-	            {data}
-	            rawData={priceLevel}
-	            metrics={data?.getPriceLevel?.metrics}
-	          />
-	        {/if}
-	        {#if exchangeData?.length > 0}
-	          <Exchange {data} rawData={exchangeData} />
-	        {/if}
-	        {#if hottestTrades?.length > 0}
-	          <HottestTrades
-	            {data}
-	            rawData={hottestTrades}
-	            ticker={$stockTicker?.toUpperCase()}
+        {#if priceLevel?.length > 0}
+          <PriceLevel
+            {data}
+            rawData={priceLevel}
+            metrics={data?.getPriceLevel?.metrics}
+          />
+        {/if}
+        {#if exchangeData?.length > 0}
+          <Exchange {data} rawData={exchangeData} />
+        {/if}
+        {#if hottestTrades?.length > 0}
+          <HottestTrades
+            {data}
+            rawData={hottestTrades}
+            ticker={$stockTicker?.toUpperCase()}
           />
         {/if}
 

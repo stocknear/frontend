@@ -230,10 +230,12 @@
         formatter: function () {
           const price = this?.x;
           const volume = this?.y || 0;
+          const pctOfTotalRaw =
+            localTotalVolume > 0 ? (volume / localTotalVolume) * 100 : 0;
           const pctOfTotal =
-            localTotalVolume > 0
-              ? ((volume / localTotalVolume) * 100).toFixed(1)
-              : 0;
+            pctOfTotalRaw < 0.01 && pctOfTotalRaw > 0
+              ? "< 0.01"
+              : pctOfTotalRaw.toFixed(1);
           const isSupport = price < currentPrice;
           const isResistance = price > currentPrice;
           const zone = isSupport
@@ -404,7 +406,7 @@
     <!-- Chart Controls -->
     <div class="flex items-center justify-between mb-3">
       <div
-        class="flex items-center gap-3 text-xs text-gray-500 dark:text-zinc-500"
+        class="flex items-center gap-3 text-xs text-gray-800 dark:text-zinc-300"
       >
         <span class="flex items-center gap-1.5">
           <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
