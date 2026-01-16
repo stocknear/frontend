@@ -5,7 +5,8 @@ import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/util
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
 export const load = async ({ locals, params }) => {
-  const { apiKey, apiURL } = locals;
+  const { apiKey, apiURL, user } = locals;
+  const isPro = user?.tier === "Pro";
 
   const getData = async () => {
     const postData = {
@@ -22,14 +23,22 @@ export const load = async ({ locals, params }) => {
     });
 
     let output = await response.json();
-    output.volume = []
-    
+    output.volume = [];
+
+    // For non-Pro users, keep all expiration dates visible but only include data for the first one
+    if (!isPro && Array.isArray(output) && output?.length > 0) {
+      output = output?.map((item, index) => {
+        if (index === 0) {
+          return item; // First expiration keeps all data
+        }
+        // Other expirations only keep the expiration date for the dropdown list
+        return { expiration: item.expiration };
+      });
+    }
 
     return output;
-  }; 
+  };
 
-
- 
   // Make sure to return a promise
   return {
     getData: await getData(),
