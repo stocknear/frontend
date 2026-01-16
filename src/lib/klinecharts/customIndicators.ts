@@ -1935,20 +1935,52 @@ export function clearRevenueData() {
   revenueData = [];
 }
 
-// Helper to find closest bar index for a timestamp
-function findClosestBarIndex(dataList: KLineData[], targetTimestamp: number): number {
-  let closestIdx = -1;
-  let closestDiff = Infinity;
-  const oneDayMs = 24 * 60 * 60 * 1000;
+const timestampCache = new WeakMap<KLineData[], number[]>();
 
-  for (let i = 0; i < dataList.length; i++) {
-    const diff = Math.abs(dataList[i].timestamp - targetTimestamp);
-    if (diff < closestDiff && diff < oneDayMs * 7) { // Within a week
-      closestDiff = diff;
-      closestIdx = i;
+const getTimestampSeries = (dataList: KLineData[]) => {
+  let timestamps = timestampCache.get(dataList);
+  if (!timestamps) {
+    timestamps = dataList.map((bar, index) =>
+      typeof bar?.timestamp === "number" ? bar.timestamp : index,
+    );
+    timestampCache.set(dataList, timestamps);
+  }
+  return timestamps;
+};
+
+// Helper to find closest bar index for a timestamp
+function findClosestBarIndex(
+  dataList: KLineData[],
+  targetTimestamp: number,
+): number {
+  if (!dataList.length || !Number.isFinite(targetTimestamp)) return -1;
+
+  const timestamps = getTimestampSeries(dataList);
+  const maxDiff = 24 * 60 * 60 * 1000 * 7;
+
+  let left = 0;
+  let right = timestamps.length - 1;
+
+  while (left <= right) {
+    const mid = (left + right) >> 1;
+    const value = timestamps[mid];
+    if (value === targetTimestamp) return mid;
+    if (value < targetTimestamp) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
     }
   }
-  return closestIdx;
+
+  const rightIndex = Math.min(left, timestamps.length - 1);
+  const leftIndex = Math.max(rightIndex - 1, 0);
+  const leftDiff = Math.abs(timestamps[leftIndex] - targetTimestamp);
+  const rightDiff = Math.abs(timestamps[rightIndex] - targetTimestamp);
+  const closestIndex = leftDiff <= rightDiff ? leftIndex : rightIndex;
+
+  return Math.abs(timestamps[closestIndex] - targetTimestamp) < maxDiff
+    ? closestIndex
+    : -1;
 }
 
 function createRevenueIndicator(): IndicatorTemplate<IndicatorRecord, number> {
