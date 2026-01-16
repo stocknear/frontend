@@ -3024,13 +3024,16 @@
       });
 
       console.log("[FTD] Response status:", response.status);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
       const result = await response.json();
       console.log("[FTD] API result keys:", Object.keys(result || {}));
 
       // FTD API may return array directly or nested in history/data
-      const historyData = Array.isArray(result) ? result : (result?.history || result?.data || []);
+      const historyData = Array.isArray(result)
+        ? result
+        : result?.history || result?.data || [];
 
       console.log("[FTD] historyData length:", historyData.length);
 
@@ -3046,40 +3049,57 @@
       console.log("[FTD] First raw item keys:", Object.keys(historyData[0]));
       console.log("[FTD] First raw item:", historyData[0]);
 
-      const indicatorData = historyData.map((item: any) => {
-        // Try multiple date field names
-        const dateStr = item.date || item.settlement_date || item.settlementDate || item.recordDate;
+      const indicatorData = historyData
+        .map((item: any) => {
+          // Try multiple date field names
+          const dateStr =
+            item.date ||
+            item.settlement_date ||
+            item.settlementDate ||
+            item.recordDate;
 
-        let timestamp = 0;
-        if (dateStr) {
-          // Try ISO format first
-          const dt = DateTime.fromISO(dateStr, { zone });
-          if (dt.isValid) {
-            timestamp = dt.startOf("day").toMillis();
-          } else {
-            // Fallback: try parsing as Date object
-            const parsed = new Date(dateStr);
-            if (!isNaN(parsed.getTime())) {
-              timestamp = DateTime.fromJSDate(parsed, { zone }).startOf("day").toMillis();
+          let timestamp = 0;
+          if (dateStr) {
+            // Try ISO format first
+            const dt = DateTime.fromISO(dateStr, { zone });
+            if (dt.isValid) {
+              timestamp = dt.startOf("day").toMillis();
+            } else {
+              // Fallback: try parsing as Date object
+              const parsed = new Date(dateStr);
+              if (!isNaN(parsed.getTime())) {
+                timestamp = DateTime.fromJSDate(parsed, { zone })
+                  .startOf("day")
+                  .toMillis();
+              }
             }
           }
-        }
 
-        if (timestamp <= 0) {
-          console.warn("[FTD] Invalid timestamp for item:", item);
-        }
+          if (timestamp <= 0) {
+            console.warn("[FTD] Invalid timestamp for item:", item);
+          }
 
-        return {
-          timestamp,
-          ftdShares: item.failToDeliver ?? item.ftdShares ?? item.ftd_shares ?? item.quantity ?? 0,
-          ftdValue: item.ftdValue ?? item.ftd_value ?? item.value ?? item.price ?? 0,
-        };
-      }).filter((d: any) => d.timestamp > 0);
+          return {
+            timestamp,
+            ftdShares:
+              item.failToDeliver ??
+              item.ftdShares ??
+              item.ftd_shares ??
+              item.quantity ??
+              0,
+            ftdValue:
+              item.ftdValue ?? item.ftd_value ?? item.value ?? item.price ?? 0,
+          };
+        })
+        .filter((d: any) => d.timestamp > 0);
 
       console.log("[FTD] Valid items after filter:", indicatorData.length);
       if (indicatorData.length > 0) {
         console.log("[FTD] First transformed item:", indicatorData[0]);
-        console.log("[FTD] Last transformed item:", indicatorData[indicatorData.length - 1]);
+        console.log(
+          "[FTD] Last transformed item:",
+          indicatorData[indicatorData.length - 1],
+        );
       }
 
       ftdData = indicatorData;
@@ -4338,7 +4358,8 @@
       if (item.isOverlay) return;
 
       const isRestrictedCategory =
-        item.category === "Fundamentals" || item.category === "Market Structure";
+        item.category === "Fundamentals" ||
+        item.category === "Market Structure";
       const isRangeAllowed =
         !isRestrictedCategory || isNonIntradayRange(activeRange);
       const enabled = Boolean(indicatorState[item.id]) && isRangeAllowed;
@@ -5287,55 +5308,6 @@
     return true;
   };
 
-  function activateTool(toolId: string) {
-    activeTool = toolId;
-    if (!chart) return;
-
-    if (chartMain) {
-      chartMain.style.cursor = toolId === "crosshair" ? "crosshair" : "default";
-    }
-
-    if (toolId === "cursor") {
-      chart.setStyles({ crosshair: { show: false } });
-      return;
-    }
-
-    if (toolId === "crosshair") {
-      chart.setStyles({ crosshair: { show: true } });
-      return;
-    }
-
-    if (toolId === "erase") {
-      chart.removeOverlay();
-      clearIndicators();
-      // Clear saved overlays from localStorage
-      saveChartOverlays([]);
-      activeTool = "cursor";
-      if (chartMain) {
-        chartMain.style.cursor = "default";
-      }
-      return;
-    }
-
-    if (toolId === "text") {
-      const text = window.prompt("Annotation text") ?? "";
-      chart.createOverlay({
-        name: "simpleAnnotation",
-        extendData: text,
-        onDrawEnd: handleOverlayDrawEnd,
-      });
-      return;
-    }
-
-    const overlayName = toolOverlays[toolId];
-    if (overlayName) {
-      chart.createOverlay({
-        name: overlayName,
-        onDrawEnd: handleOverlayDrawEnd,
-      });
-    }
-  }
-
   function formatPrice(value: number | null) {
     if (value === null || !Number.isFinite(value)) return "-";
     return priceFormatter?.format(value);
@@ -5351,41 +5323,6 @@
     prev: KLineData | null;
     current: KLineData | null;
     next: KLineData | null;
-  };
-
-  const buildMaTooltipLegends = (data?: CandleTooltipData) => {
-    if (!chart || !isIndicatorEnabled("ma")) return [];
-    const indicator =
-      chart.getIndicators({ name: "SN_MA", paneId: "candle_pane" })?.[0] ??
-      null;
-    if (!indicator) return [];
-    const result = indicator.result ?? [];
-    if (!result.length) return [];
-    const timestamp = data?.current?.timestamp;
-    const index =
-      typeof timestamp === "number"
-        ? barIndexByTimestamp.get(timestamp)
-        : undefined;
-    const safeIndex = typeof index === "number" ? index : result.length - 1;
-    if (safeIndex < 0) return [];
-    const point = result[safeIndex] ?? {};
-    const lineStyles =
-      indicator.styles?.lines ?? chart.getStyles()?.indicator?.lines ?? [];
-    const baseColor =
-      chart.getStyles()?.candle?.tooltip?.legend?.color ?? "#e2e8f0";
-    const legends = [];
-    indicator.figures?.forEach((figure, figureIndex) => {
-      const value = point[figure.key];
-      if (typeof value !== "number" || !Number.isFinite(value)) return;
-      legends.push({
-        title: { text: figure.title ?? "", color: baseColor },
-        value: {
-          text: formatPrice(value),
-          color: lineStyles?.[figureIndex]?.color ?? baseColor,
-        },
-      });
-    });
-    return legends;
   };
 
   const buildCandleTooltipLegends = (data: CandleTooltipData) => {
@@ -6135,7 +6072,7 @@
       <div class="flex items-center px-1 py-0.5 gap-0.5 overflow-x-auto">
         <!-- Toolbar Toggle -->
         <button
-          class="cursor-pointer hidden sm:flex h-7 w-7 items-center justify-center text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+          class="cursor-pointer flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
@@ -6145,9 +6082,6 @@
             <IndentIncrease class="size-5 flex-shrink-0" />
           {/if}
         </button>
-
-        <!-- Separator -->
-        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
 
         <!-- Time Intervals - Dropdown for mobile, inline buttons for sm+ -->
         <!-- Mobile Dropdown -->
