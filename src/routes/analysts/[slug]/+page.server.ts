@@ -1,8 +1,7 @@
-
 export const load = async ({ locals, params }) => {
-  const getData = async () => {
-    const { apiURL, apiKey } = locals;
+  const { apiURL, apiKey, user } = locals;
 
+  const getData = async () => {
     const postData = { analystId: params.slug };
     // make the POST request to the endpoint
     const response = await fetch(apiURL + "/analyst-stats", {
@@ -14,7 +13,19 @@ export const load = async ({ locals, params }) => {
       body: JSON.stringify(postData),
     });
 
-    let output = await response.json() || {};
+    const output = await response.json() || {};
+
+    // Filter premium data for non-Plus/Pro users
+    // The client-side shows lock icons for these values, but we must not leak actual data
+    if (!["Plus", "Pro"].includes(user?.tier)) {
+      return {
+        ...output,
+        // Pro/Plus-only fields - set to null so UI shows lock icons
+        successRate: null,
+        avgReturn: null,
+      };
+    }
+
     return output;
   };
 
