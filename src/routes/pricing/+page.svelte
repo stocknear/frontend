@@ -259,11 +259,6 @@
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Basic</h3>
-          <span
-            class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
-          >
-            Starter
-          </span>
         </div>
         <p class="mt-2 text-sm">Everything you need to explore the platform.</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">

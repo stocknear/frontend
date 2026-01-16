@@ -773,49 +773,75 @@
           {removeCompanyStrings($displayCompanyName)} Max Pain By Expiry
         </h2>
 
-        <!-- Insightful overview paragraph for Max Pain By Expiry section -->
-        <div class="w-full mt-4 mb-2">
-          <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-            Max pain for <strong>{ticker}</strong> shows
-            {maxPainTrend === "rising"
-              ? ` an upward trend from ${maxPainRange.min} to ${maxPainRange.max}, suggesting bullish positioning in longer-dated options`
-              : maxPainTrend === "falling"
-                ? ` a downward trend from ${maxPainRange.max} to ${maxPainRange.min}, indicating bearish sentiment or hedging activity`
-                : ` stable levels around ${averageMaxPain.toFixed(2)}, reflecting balanced market expectations`}.
-            The {(
-              ((maxPainRange.max - maxPainRange.min) / averageMaxPain) *
-              100
-            ).toFixed(0)}% spread
-            {Math.abs(maxPainRange.max - maxPainRange.min) / averageMaxPain >
-            0.1
-              ? " signals divergent expectations across timeframes"
-              : " suggests strong consensus on fair value"}.
-            {rawData?.filter((item) => item.maxPain < currentPrice).length >
-            rawData.length * 0.7
-              ? ` Most levels below ${currentPrice} may cap rallies.`
-              : rawData?.filter((item) => item.maxPain > currentPrice).length >
-                  rawData?.length * 0.7
-                ? ` Most levels above ${currentPrice} could support dips.`
-                : ` Levels distributed around ${currentPrice}.`}
-            {maxPainClusters.length > 0 && maxPainClusters[0].count >= 3
-              ? ` Strong magnetic level at ${maxPainClusters[0].price} (${maxPainClusters[0].count} expirations).`
-              : ""}
-            Weekly expirations influence price 2-3 days before expiry; monthlies
-            throughout their final week.
-          </p>
-        </div>
+        {#if data?.user?.tier === "Pro"}
+          <!-- Insightful overview paragraph for Max Pain By Expiry section -->
+          <div class="w-full mt-4 mb-2">
+            <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
+              Max pain for <strong>{ticker}</strong> shows
+              {maxPainTrend === "rising"
+                ? ` an upward trend from ${maxPainRange.min} to ${maxPainRange.max}, suggesting bullish positioning in longer-dated options`
+                : maxPainTrend === "falling"
+                  ? ` a downward trend from ${maxPainRange.max} to ${maxPainRange.min}, indicating bearish sentiment or hedging activity`
+                  : ` stable levels around ${averageMaxPain.toFixed(2)}, reflecting balanced market expectations`}.
+              The {(
+                ((maxPainRange.max - maxPainRange.min) / averageMaxPain) *
+                100
+              ).toFixed(0)}% spread
+              {Math.abs(maxPainRange.max - maxPainRange.min) / averageMaxPain >
+              0.1
+                ? " signals divergent expectations across timeframes"
+                : " suggests strong consensus on fair value"}.
+              {rawData?.filter((item) => item.maxPain < currentPrice).length >
+              rawData.length * 0.7
+                ? ` Most levels below ${currentPrice} may cap rallies.`
+                : rawData?.filter((item) => item.maxPain > currentPrice).length >
+                    rawData?.length * 0.7
+                  ? ` Most levels above ${currentPrice} could support dips.`
+                  : ` Levels distributed around ${currentPrice}.`}
+              {maxPainClusters.length > 0 && maxPainClusters[0].count >= 3
+                ? ` Strong magnetic level at ${maxPainClusters[0].price} (${maxPainClusters[0].count} expirations).`
+                : ""}
+              Weekly expirations influence price 2-3 days before expiry; monthlies
+              throughout their final week.
+            </p>
+          </div>
 
-        <div>
-          <div class="grow mt-3">
-            <div class="relative">
-              <!-- Apply the blur class to the chart -->
-              <div
-                class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
-                use:highcharts={configExpiry}
-              ></div>
+          <div>
+            <div class="grow mt-3">
+              <div class="relative">
+                <!-- Apply the blur class to the chart -->
+                <div
+                  class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  use:highcharts={configExpiry}
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
+        {:else}
+          <!-- Locked state for non-Pro users -->
+          <div class="w-full mt-4 mb-2">
+            <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
+              Upgrade to Pro to view max pain analysis across all expiration dates with trend insights and magnetic price levels.
+            </p>
+          </div>
+
+          <div>
+            <div class="grow mt-3">
+              <div class="relative">
+                <div
+                  class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 h-[360px] flex flex-col items-center justify-center"
+                >
+                  <a href="/pricing" class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                    <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
+                    </svg>
+                    <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {/if}
 
         {#if rawData?.length > 0}
           <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
@@ -827,67 +853,85 @@
               >
                 Max Pain Table
               </h2>
-              <div
-                class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
-              >
-                <div class="ml-auto">
-                  <DownloadData
-                    {data}
-                    rawData={rawData?.map((item) => ({
-                      expiration: item?.expiration,
-                      maxPain: item?.maxPain,
-                      change: item?.change,
-                      changesPercentage: item?.changesPercentage,
-                    }))}
-                    title={`${ticker}_max_pain`}
-                  />
+              {#if data?.user?.tier === "Pro"}
+                <div
+                  class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                >
+                  <div class="ml-auto">
+                    <DownloadData
+                      {data}
+                      rawData={rawData?.map((item) => ({
+                        expiration: item?.expiration,
+                        maxPain: item?.maxPain,
+                        change: item?.change,
+                        changesPercentage: item?.changesPercentage,
+                      }))}
+                      title={`${ticker}_max_pain`}
+                    />
+                  </div>
                 </div>
+              {/if}
+            </div>
+          </div>
+
+          {#if data?.user?.tier === "Pro"}
+            <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+              <div class="w-full overflow-x-auto">
+                <table
+                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                >
+                  <thead
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >
+                    <TableHeader {columns} {sortOrders} {sortData} />
+                  </thead>
+                  <tbody>
+                    {#each displayList as item, index}
+                      <tr class="transition-colors">
+                        <td class="text-sm text-start whitespace-nowrap">
+                          {formatDate(item?.expiration)}
+                        </td>
+
+                        <td class="text-sm text-end whitespace-nowrap">
+                          {item?.maxPain}
+                        </td>
+
+                        <td class="text-sm text-end whitespace-nowrap">
+                          {item?.change ? item?.change?.toFixed(2) : "n/a"}
+                          <span
+                            class="ml-2 {item?.changesPercentage >= 0
+                              ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
+                              : 'text-rose-600 dark:text-rose-400'}"
+                          >
+                            ({item?.changesPercentage
+                              ? item?.changesPercentage?.toFixed(2) + "%"
+                              : "n/a"})</span
+                          >
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-
-          <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
-            <div class="w-full overflow-x-auto">
-              <table
-                class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+          {:else}
+            <!-- Locked table for non-Pro users -->
+            <div class="mt-3 w-full m-auto mb-4">
+              <div
+                class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-[200px] flex flex-col items-center justify-center"
               >
-                <thead
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                >
-                  <TableHeader {columns} {sortOrders} {sortData} />
-                </thead>
-                <tbody>
-                  {#each displayList as item, index}
-                    <tr class="transition-colors">
-                      <td class="text-sm text-start whitespace-nowrap">
-                        {formatDate(item?.expiration)}
-                      </td>
-
-                      <td class="text-sm text-end whitespace-nowrap">
-                        {item?.maxPain}
-                      </td>
-
-                      <td class="text-sm text-end whitespace-nowrap">
-                        {item?.change ? item?.change?.toFixed(2) : "n/a"}
-                        <span
-                          class="ml-2 {item?.changesPercentage >= 0
-                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
-                            : 'text-rose-600 dark:text-rose-400'}"
-                        >
-                          ({item?.changesPercentage
-                            ? item?.changesPercentage?.toFixed(2) + "%"
-                            : "n/a"})</span
-                        >
-                      </td>
-                    </tr>
-                  {/each}
-                </tbody>
-              </table>
+                <a href="/pricing" class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                  <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
+                  </svg>
+                  <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+                </a>
+              </div>
             </div>
-          </div>
+          {/if}
 
           <!-- Pagination controls -->
-          {#if displayList?.length > 0 && totalPages > 0}
+          {#if data?.user?.tier === "Pro" && displayList?.length > 0 && totalPages > 0}
             <div
               class="flex flex-row items-center justify-between mt-8 sm:mt-5"
             >
