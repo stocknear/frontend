@@ -158,7 +158,10 @@
         animation: false,
         borderRadius: chartType === "column" ? 4 : 0,
         yAxis: 0,
-        marker: { enabled: chartType !== "column", radius: chartType === "scatter" ? 4 : 3 },
+        marker: {
+          enabled: chartType !== "column",
+          radius: chartType === "scatter" ? 4 : 3,
+        },
       };
     });
 
@@ -219,7 +222,9 @@
             textOutline: "none",
           },
           formatter: function () {
-            return $screenWidth < 640 ? null : abbreviateNumber(this.total, true, true);
+            return $screenWidth < 640
+              ? null
+              : abbreviateNumber(this.total, true, true);
           },
         },
         labels: {
@@ -248,7 +253,10 @@
           if (point.plotX > plotWidth / 2) {
             return { x: plotLeft + 10, y: titleHeight };
           } else {
-            return { x: plotLeft + plotWidth - labelWidth - 10, y: titleHeight };
+            return {
+              x: plotLeft + plotWidth - labelWidth - 10,
+              y: titleHeight,
+            };
           }
         },
         formatter: function () {
@@ -258,10 +266,14 @@
 
           let total = 0;
           const points = (this.points || [])
-            .filter((p) => p?.y !== null && p?.y !== undefined && Number(p.y) > 0)
+            .filter(
+              (p) => p?.y !== null && p?.y !== undefined && Number(p.y) > 0,
+            )
             .sort((a, b) => (Number(b.y) || 0) - (Number(a.y) || 0));
 
-          points.forEach((p) => { total += Number(p.y) || 0; });
+          points.forEach((p) => {
+            total += Number(p.y) || 0;
+          });
 
           let content = `<div style="min-width: 240px; max-width: 380px;">`;
           content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formattedDate}</div>`;
@@ -315,27 +327,40 @@
   $: config = buildChart(rawData) || null;
 
   // Reactive computed values (fallback if backend insights not available)
-  $: sortedRows = rawData
-    ?.filter((r) => typeof r?.date === "string" && r.date.length >= 10)
-    ?.sort((a, b) => a.date.localeCompare(b.date)) ?? [];
+  $: sortedRows =
+    rawData
+      ?.filter((r) => typeof r?.date === "string" && r.date.length >= 10)
+      ?.sort((a, b) => a.date.localeCompare(b.date)) ?? [];
 
-  $: latestRow = sortedRows.length > 0 ? sortedRows[sortedRows.length - 1] : null;
-  $: latestDateStr = exchangeInsights?.latestDate || latestRow?.date?.slice(0, 10) || "";
+  $: latestRow =
+    sortedRows.length > 0 ? sortedRows[sortedRows.length - 1] : null;
+  $: latestDateStr =
+    exchangeInsights?.latestDate || latestRow?.date?.slice(0, 10) || "";
 
   // Use backend insights if available, otherwise compute locally
-  $: latestDarkPoolPct = exchangeInsights?.latestDarkPoolPct ?? (latestRow ? parsePct(latestRow["Off-Exchange"]) : 0);
-  $: avgDarkPoolPct = exchangeInsights?.avgDarkPoolPct ?? (() => {
-    if (!sortedRows?.length) return 0;
-    let sum = 0;
-    for (const row of sortedRows) {
-      sum += parsePct(row["Off-Exchange"]);
-    }
-    return sortedRows.length > 0 ? sum / sortedRows.length : 0;
-  })();
+  $: latestDarkPoolPct =
+    exchangeInsights?.latestDarkPoolPct ??
+    (latestRow ? parsePct(latestRow["Off-Exchange"]) : 0);
+  $: avgDarkPoolPct =
+    exchangeInsights?.avgDarkPoolPct ??
+    (() => {
+      if (!sortedRows?.length) return 0;
+      let sum = 0;
+      for (const row of sortedRows) {
+        sum += parsePct(row["Off-Exchange"]);
+      }
+      return sortedRows.length > 0 ? sum / sortedRows.length : 0;
+    })();
   $: darkPoolTrend = exchangeInsights?.darkPoolTrend || "stable";
-  $: deviationFromAvg = exchangeInsights?.deviationFromAvg ?? (latestDarkPoolPct - avgDarkPoolPct);
-  $: topOnExchangeVenue = exchangeInsights?.topOnExchangeVenue || { name: "", pct: 0 };
-  $: latestTotalPremium = exchangeInsights?.latestTotalPremium ?? (latestRow ? Number(latestRow?.totalPremium || 0) : 0);
+  $: deviationFromAvg =
+    exchangeInsights?.deviationFromAvg ?? latestDarkPoolPct - avgDarkPoolPct;
+  $: topOnExchangeVenue = exchangeInsights?.topOnExchangeVenue || {
+    name: "",
+    pct: 0,
+  };
+  $: latestTotalPremium =
+    exchangeInsights?.latestTotalPremium ??
+    (latestRow ? Number(latestRow?.totalPremium || 0) : 0);
   $: activityLevel = exchangeInsights?.activityLevel || "moderate";
   $: activityDescription = exchangeInsights?.activityDescription || "";
 
@@ -348,12 +373,14 @@
   })();
 
   // Trend icon and color
-  $: trendIcon = darkPoolTrend === "rising" ? "↑" : darkPoolTrend === "falling" ? "↓" : "→";
-  $: trendColor = darkPoolTrend === "rising"
-    ? "text-red-500 dark:text-red-400"
-    : darkPoolTrend === "falling"
-    ? "text-emerald-500 dark:text-emerald-400"
-    : "text-gray-400 dark:text-zinc-500";
+  $: trendIcon =
+    darkPoolTrend === "rising" ? "↑" : darkPoolTrend === "falling" ? "↓" : "→";
+  $: trendColor =
+    darkPoolTrend === "rising"
+      ? "text-red-500 dark:text-red-400"
+      : darkPoolTrend === "falling"
+        ? "text-emerald-500 dark:text-emerald-400"
+        : "text-gray-800 dark:text-zinc-300";
 </script>
 
 {#if rawData?.length > 0 && config}
@@ -362,29 +389,30 @@
       <!-- Header -->
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-1.5">
-          <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Exchange Breakdown</h3>
+          <h3
+            class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white"
+          >
+            Exchange Breakdown
+          </h3>
           <InfoModal
             title="Exchange Breakdown"
             content="Shows how unusual order volume is distributed across exchanges over the last 30 days. Off-Exchange (Dark Pool) trades are private institutional transactions hidden from public view until reporting. High dark pool activity may indicate institutional accumulation or distribution, but direction (buy/sell) is unknown."
             id="unusualOrdersExchangeInfo"
           />
         </div>
-        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full border
-          {isToday
-            ? 'bg-emerald-50/60 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-800/40'
-            : 'bg-gray-50/80 dark:bg-zinc-800/40 text-gray-500 dark:text-zinc-500 border-gray-200/60 dark:border-zinc-700/40'}">
-          {isToday ? "Today" : latestDateStr ? formatDateLong(latestDateStr) : ""}
-        </span>
       </div>
 
       <!-- Key Metrics - Market Cap Style Widgets -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
         <!-- Dark Pool % Widget -->
-        <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4">
+        <div
+          class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
+        >
           <div class="text-sm mb-2 flex items-center">
             <span>Dark Pool Activity</span>
             <span class="ml-auto text-xs tabular-nums {trendColor}">
-              {trendIcon} {darkPoolTrend}
+              {trendIcon}
+              {darkPoolTrend}
             </span>
           </div>
           <div class="flex items-baseline">
@@ -392,37 +420,58 @@
               {pctText(latestDarkPoolPct)}
             </span>
           </div>
-          <div class="text-sm text-gray-500 dark:text-zinc-400 mt-1 tabular-nums">
+          <div
+            class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
+          >
             30-day avg: {pctText(avgDarkPoolPct)}
             {#if Math.abs(deviationFromAvg) >= 3}
-              <span class="{deviationFromAvg > 0 ? 'text-red-500' : 'text-emerald-500'}">
-                ({deviationFromAvg > 0 ? "+" : ""}{deviationFromAvg.toFixed(1)}%)
+              <span
+                class={deviationFromAvg > 0
+                  ? "text-red-500"
+                  : "text-emerald-500"}
+              >
+                ({deviationFromAvg > 0 ? "+" : ""}{deviationFromAvg.toFixed(
+                  1,
+                )}%)
               </span>
             {/if}
           </div>
         </div>
 
         <!-- Top Exchange Widget -->
-        <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4">
+        <div
+          class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
+        >
           <div class="text-sm mb-2 flex items-center">
             <span>Top On-Exchange Venue</span>
           </div>
           {#if topOnExchangeVenue?.name}
             <div class="flex items-baseline">
-              <span class="text-xl font-semibold truncate" title={topOnExchangeVenue.name}>
-                {topOnExchangeVenue.name.length > 15 ? topOnExchangeVenue.name.slice(0, 15) + "..." : topOnExchangeVenue.name}
+              <span
+                class="text-xl font-semibold truncate"
+                title={topOnExchangeVenue.name}
+              >
+                {topOnExchangeVenue.name.length > 15
+                  ? topOnExchangeVenue.name.slice(0, 15) + "..."
+                  : topOnExchangeVenue.name}
               </span>
             </div>
-            <div class="text-sm text-gray-500 dark:text-zinc-400 mt-1 tabular-nums">
+            <div
+              class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
+            >
               {pctText(topOnExchangeVenue.pct)} of on-exchange volume
             </div>
           {:else}
-            <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">—</div>
+            <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
+              —
+            </div>
           {/if}
         </div>
 
         <!-- Volume Widget -->
-        <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4">
+        <div
+          class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
+        >
           <div class="text-sm mb-2 flex items-center">
             <span>Latest Transaction Value</span>
           </div>
@@ -431,7 +480,7 @@
               {abbreviateNumber(latestTotalPremium, true, true)}
             </span>
           </div>
-          <div class="text-sm text-gray-500 dark:text-zinc-400 mt-1 capitalize">
+          <div class="text-sm text-gray-800 dark:text-zinc-300 mt-1 capitalize">
             {activityLevel} institutional activity
           </div>
         </div>
@@ -439,27 +488,37 @@
 
       <!-- Chart Controls -->
       <div class="flex items-center justify-between mb-3">
-        <div class="flex items-center gap-3 text-xs text-gray-500 dark:text-zinc-500">
+        <div
+          class="flex items-center gap-3 text-xs text-gray-800 dark:text-zinc-300"
+        >
           <span class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-sm" style="background-color: #E15759;"></span>
+            <span
+              class="w-2.5 h-2.5 rounded-sm"
+              style="background-color: #E15759;"
+            ></span>
             Off-Exchange
           </span>
           <span class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-sm" style="background-color: #4E79A7;"></span>
+            <span
+              class="w-2.5 h-2.5 rounded-sm"
+              style="background-color: #4E79A7;"
+            ></span>
             On-Exchange
           </span>
         </div>
 
         <!-- Chart Type Switcher -->
         <div class="flex items-center">
-          <div class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1">
+          <div
+            class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+          >
             {#each chartTypes as item}
               <button
                 on:click={() => changeChartType(item.type)}
                 class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
                   {chartType === item.type
                   ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                  : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                  : 'text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
                 title={item.label}
               >
                 <svelte:component this={item.icon} class="w-4 h-4" />
@@ -476,13 +535,16 @@
       </style>
 
       <!-- Chart - MaxPain Style -->
-      <div class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden">
+      <div
+        class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+      >
         <div use:highcharts={config}></div>
       </div>
 
       <!-- Interpretation Note -->
-      <p class="text-xs text-gray-400 dark:text-zinc-500 text-center mt-3">
-        Dark pool trades hide large orders from public view. High % may indicate institutional positioning but direction is unknown.
+      <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
+        Dark pool trades hide large orders from public view. High % may indicate
+        institutional positioning but direction is unknown.
       </p>
     </main>
   </section>
