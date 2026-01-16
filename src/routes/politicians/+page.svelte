@@ -829,33 +829,63 @@
                             <td
                               class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                             >
-                              {#if item?.successRate === null || item?.successRate === undefined}
-                                <span class="">n/a</span>
+                              {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                                {#if item?.successRate === null || item?.successRate === undefined}
+                                  <span class="">n/a</span>
+                                {:else}
+                                  <span
+                                    class="font-medium text-emerald-600 dark:text-emerald-400"
+                                    >+{Number(item?.successRate)?.toFixed(
+                                      2,
+                                    )}%</span
+                                  >
+                                {/if}
                               {:else}
-                                <span
-                                  class="font-medium text-emerald-600 dark:text-emerald-400"
-                                  >+{Number(item?.successRate)?.toFixed(
-                                    2,
-                                  )}%</span
-                                >
+                                <a href="/pricing" class="flex justify-end">
+                                  <svg
+                                    class="size-4 mb-1 inline-block"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                    />
+                                  </svg>
+                                </a>
                               {/if}
                             </td>
                           {:else if column.key === "avgReturn"}
                             <td
                               class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                             >
-                              {#if item?.avgReturn === null || item?.avgReturn === undefined}
-                                <span class="">n/a</span>
-                              {:else if Number(item?.avgReturn) >= 0}
-                                <span
-                                  class="font-medium text-emerald-600 dark:text-emerald-400"
-                                  >+{Number(item?.avgReturn)?.toFixed(2)}%</span
-                                >
+                              {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                                {#if item?.avgReturn === null || item?.avgReturn === undefined}
+                                  <span class="">n/a</span>
+                                {:else if Number(item?.avgReturn) >= 0}
+                                  <span
+                                    class="font-medium text-emerald-600 dark:text-emerald-400"
+                                    >+{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                  >
+                                {:else}
+                                  <span
+                                    class="font-medium text-rose-600 dark:text-rose-400"
+                                    >{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                  >
+                                {/if}
                               {:else}
-                                <span
-                                  class="font-medium text-rose-600 dark:text-rose-400"
-                                  >{Number(item?.avgReturn)?.toFixed(2)}%</span
-                                >
+                                <a href="/pricing" class="flex justify-end">
+                                  <svg
+                                    class="size-4 mb-1 inline-block"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                    />
+                                  </svg>
+                                </a>
                               {/if}
                             </td>
                           {:else if column.key === "totalTrades"}
