@@ -1,14 +1,11 @@
-
 export const load = async ({ params, locals }) => {
+  const { apiURL, apiKey, user } = locals;
 
-
-      
   const getCIKNumber = async () => {
     return params.slug;
   };
 
   const getHedgeFundsData = async () => {
-    const { apiURL, apiKey } = locals;
     const response = await fetch(apiURL + "/cik-data", {
       method: "POST",
       headers: {
@@ -19,13 +16,17 @@ export const load = async ({ params, locals }) => {
     });
 
     const output = await response.json();
-    /*
-    if (output?.holdings) {
-      output.holdings = output?.holdings?.filter(
-        (item) =>  item?.symbol
-      );
+
+    // Filter premium data for non-Plus/Pro users
+    // The client-side shows lock icons for these values, but we must not leak actual data
+    if (!["Plus", "Pro"].includes(user?.tier)) {
+      return {
+        ...output,
+        // Pro/Plus-only fields - set to null so UI shows lock icons
+        winRate: null,
+        performancePercentage3Year: null,
+      };
     }
-      */
 
     return output;
   };

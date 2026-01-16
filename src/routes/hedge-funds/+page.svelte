@@ -74,7 +74,9 @@
     }
   }
 
-  function applyColumnOrder(currentColumns: { key: string; label: string; align: string }[]): { key: string; label: string; align: string }[] {
+  function applyColumnOrder(
+    currentColumns: { key: string; label: string; align: string }[],
+  ): { key: string; label: string; align: string }[] {
     if (customColumnOrder.length === 0) return currentColumns;
     const columnMap = new Map(currentColumns.map((col) => [col.key, col]));
     const orderedColumns: { key: string; label: string; align: string }[] = [];
@@ -640,7 +642,12 @@
                   aria-busy={isLoading}
                 >
                   <thead>
-                    <TableHeader {columns} {sortOrders} {sortData} onColumnReorder={handleColumnReorder} />
+                    <TableHeader
+                      {columns}
+                      {sortOrders}
+                      {sortData}
+                      onColumnReorder={handleColumnReorder}
+                    />
                   </thead>
                   <tbody
                     class="transition-opacity duration-100 divide-y divide-gray-200/70 dark:divide-zinc-800/80"
@@ -702,36 +709,74 @@
                               <td
                                 class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                               >
-                                {#if item?.performancePercentage3Year >= 0}
-                                  <span
-                                    class="text-emerald-600 dark:text-emerald-400"
-                                    >+{abbreviateNumber(
-                                      item?.performancePercentage3Year?.toFixed(2),
-                                    )}%</span
-                                  >
+                                {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                                  {#if item?.performancePercentage3Year >= 0}
+                                    <span
+                                      class="text-emerald-600 dark:text-emerald-400"
+                                      >+{abbreviateNumber(
+                                        item?.performancePercentage3Year?.toFixed(
+                                          2,
+                                        ),
+                                      )}%</span
+                                    >
+                                  {:else}
+                                    <span
+                                      class="text-rose-600 dark:text-rose-400"
+                                      >{abbreviateNumber(
+                                        item?.performancePercentage3Year?.toFixed(
+                                          2,
+                                        ),
+                                      )}%
+                                    </span>
+                                  {/if}
                                 {:else}
-                                  <span class="text-rose-600 dark:text-rose-400"
-                                    >{abbreviateNumber(
-                                      item?.performancePercentage3Year?.toFixed(2),
-                                    )}%
-                                  </span>
+                                  <a href="/pricing" class="flex justify-end">
+                                    <svg
+                                      class="size-4 mb-1 inline-block"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                      />
+                                    </svg>
+                                  </a>
                                 {/if}
                               </td>
                             {:else if column.key === "winRate"}
                               <td
                                 class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                               >
-                                {#if item?.winRate >= 0}
-                                  <span
-                                    class="text-emerald-600 dark:text-emerald-400"
-                                    >+{abbreviateNumber(
-                                      item?.winRate?.toFixed(2),
-                                    )}%</span
-                                  >
+                                {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                                  {#if item?.winRate >= 0}
+                                    <span
+                                      class="text-emerald-600 dark:text-emerald-400"
+                                      >+{abbreviateNumber(
+                                        item?.winRate?.toFixed(2),
+                                      )}%</span
+                                    >
+                                  {:else}
+                                    <span
+                                      class="text-rose-600 dark:text-rose-400"
+                                      >{abbreviateNumber(
+                                        item?.winRate?.toFixed(2),
+                                      )}%
+                                    </span>
+                                  {/if}
                                 {:else}
-                                  <span class="text-rose-600 dark:text-rose-400"
-                                    >{abbreviateNumber(item?.winRate?.toFixed(2))}%
-                                  </span>
+                                  <a href="/pricing" class="flex justify-end">
+                                    <svg
+                                      class="size-4 mb-1 inline-block"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                      />
+                                    </svg>
+                                  </a>
                                 {/if}
                               </td>
                             {/if}

@@ -2,8 +2,18 @@ import type { RequestHandler } from "./$types";
 
 const allowedParams = ["page", "pageSize", "search", "sortKey", "sortOrder"] as const;
 
+// Helper function to filter premium fields from hedge fund items
+function filterPremiumFields(items: any[]): any[] {
+  return items?.map((item) => ({
+    ...item,
+    winRate: null,
+    performancePercentage3Year: null,
+  })) ?? [];
+}
+
 export const GET: RequestHandler = async ({ url, locals, fetch }) => {
-  const { apiURL, apiKey } = locals;
+  const { apiURL, apiKey, user } = locals;
+  const isPremium = ["Plus", "Pro"].includes(user?.tier);
 
   const params = new URLSearchParams();
 
@@ -32,6 +42,11 @@ export const GET: RequestHandler = async ({ url, locals, fetch }) => {
   }
 
   const output = await response.json();
+
+  // Filter premium data for non-Plus/Pro users
+  if (!isPremium && output?.items) {
+    output.items = filterPremiumFields(output.items);
+  }
 
   return new Response(JSON.stringify(output));
 };
