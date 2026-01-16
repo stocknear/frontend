@@ -2636,10 +2636,10 @@
     <li>
       <button
         on:click={() => changeTab("general")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'general'
-          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
-          : ''}"
+          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         General
       </button>
@@ -2647,10 +2647,10 @@
     <li>
       <button
         on:click={() => changeTab("performance")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'performance'
-          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
-          : ''}"
+          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         Performance
       </button>
@@ -2658,10 +2658,10 @@
     <li>
       <button
         on:click={() => changeTab("financials")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'financials'
-          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
-          : ''}"
+          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         Financials
       </button>
@@ -2669,10 +2669,10 @@
     <li>
       <button
         on:click={() => changeTab("analysts")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'analysts'
-          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
-          : ''}"
+          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         Analysts
       </button>
@@ -2680,10 +2680,10 @@
     <li>
       <button
         on:click={() => changeTab("dividends")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'dividends'
-          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
-          : ''}"
+          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         Dividends
       </button>
@@ -2691,10 +2691,10 @@
     <li>
       <button
         on:click={() => changeTab("indicators")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'indicators'
-          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
-          : ''} focus:outline-hidden"
+          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         Indicators
         {#if indicatorsTabRules && indicatorsTabRules.length > defaultList.length}
