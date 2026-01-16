@@ -26,30 +26,48 @@ export const load = async ({ locals, params }) => {
   };
 
   try {
-    const response = await fetch(`${apiURL}/bulk-data`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
+    // Fetch bulk data and historical price data in parallel
+    const [bulkResponse, historyResponse] = await Promise.all([
+      fetch(`${apiURL}/bulk-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": apiKey,
+        },
+        body: JSON.stringify(postData),
+      }),
+      fetch(`${apiURL}/historical-adj-price`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": apiKey,
+        },
+        body: JSON.stringify({ ticker }),
+      }),
+    ]);
 
-    if (!response.ok) {
+    if (!bulkResponse.ok) {
       throw new Error("Failed to fetch bulk data");
     }
 
-    const bulkData = await response.json();
+    const bulkData = await bulkResponse.json();
+    const historyData = historyResponse.ok ? await historyResponse.json() : [];
 
     // Process analyst ticker history: if user isn't Pro, limit to 6 items
     let priceLevel = bulkData["/unusual-order-level"];
-   if (user?.tier !== "Pro") {
+    if (user?.tier !== "Pro") {
       priceLevel.hottestTrades = priceLevel?.hottestTrades?.slice(0, 3);
     }
+
+    // Get last 90 days of price history for context
+    const recentHistory = Array.isArray(historyData)
+      ? historyData.slice(-90)
+      : [];
 
     return {
       getPriceLevel: priceLevel,
       getHistoricalDarkPool: bulkData["/historical-dark-pool"],
+      getPriceHistory: recentHistory,
     };
   } catch (error) {
     return { error: "Failed to load data" };
