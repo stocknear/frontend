@@ -4337,7 +4337,11 @@
       // Skip overlay indicators (GEX/DEX) - they are rendered separately
       if (item.isOverlay) return;
 
-      const enabled = Boolean(indicatorState[item.id]);
+      const isRestrictedCategory =
+        item.category === "Fundamentals" || item.category === "Market Structure";
+      const isRangeAllowed =
+        !isRestrictedCategory || isNonIntradayRange(activeRange);
+      const enabled = Boolean(indicatorState[item.id]) && isRangeAllowed;
       const existingId = nextInstanceIds[item.id];
 
       // For candle pane indicators, explicitly specify the candle pane ID
@@ -4713,6 +4717,7 @@
     activeRange = range;
     if (chart) {
       applyRange(range);
+      syncIndicators();
     }
     // Save to localStorage (preserve existing event settings)
     const currentSettings = loadChartSettings() || {};
@@ -8109,7 +8114,7 @@
         >
           Technical Indicators
         </h4>
-        {#each Object.entries(groupedIndicators).filter(([cat]) => cat !== "Options" && cat !== "Fundamentals") as [category, indicators]}
+        {#each Object.entries(groupedIndicators).filter(([cat]) => cat !== "Options" && cat !== "Fundamentals" && cat !== "Market Structure") as [category, indicators]}
           <div class="mt-4">
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
