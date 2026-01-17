@@ -17,7 +17,6 @@
 
   let rawData = data?.getTopAnalyst ?? [];
   let originalData = [...rawData]; // Unaltered copy of raw data
-  let unsortedData = [...rawData]; // Preserve truly original unsorted order
   let unsortedSearchData = []; // Preserve unsorted search results
   let analystList = [];
 
@@ -457,7 +456,9 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {originalData?.length?.toLocaleString("en-US")} Analysts
+                {["Plus", "Pro"].includes(data?.user?.tier)
+                  ? `${originalData?.length ?? 0} Analysts`
+                  : `100 Analysts`}
               </h2>
               <div
                 class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
