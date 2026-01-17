@@ -2691,7 +2691,7 @@
     <li>
       <button
         on:click={() => changeTab("indicators")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
+        class="cursor-pointer flex flex-row items-center text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
         'indicators'
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
@@ -2699,7 +2699,7 @@
         Indicators
         {#if indicatorsTabRules && indicatorsTabRules.length > defaultList.length}
           <div
-            class="ml-1 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
+            class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
           >
             {indicatorsTabRules.length - defaultList.length}
           </div>

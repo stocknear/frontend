@@ -16,6 +16,15 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
+   if (!['Pro', 'Plus'].includes(user?.tier) ) {
+    return new Response(
+      JSON.stringify({
+        error: `This feature is available exclusively for Subscribers. Please upgrade your plan.`
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   try {
     const data = await request.json();
     const { portfolioId, holdings } = data;

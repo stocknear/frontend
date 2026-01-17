@@ -622,7 +622,7 @@
             <div class="w-full">
                 <!-- Header -->
                 <div
-                    class="rounded-lg border border-gray-300 dark:border-zinc-700 p-5"
+                    class="rounded-2xl border border-gray-300 dark:border-zinc-700 p-5"
                 >
                     <div class="w-full overflow-hidden">
                         <header class="relative">
@@ -805,7 +805,7 @@
             <div class="w-full sm:w-[40%]">
                 <!-- Health + Radar -->
                 <div
-                    class="rounded-lg border border-gray-300 dark:border-zinc-700 p-5"
+                    class="rounded-2xl border border-gray-300 dark:border-zinc-700 p-5"
                 >
                     {#if portfolioData.length > 0}
                         <h3 class="text-[1rem] font-semibold">
