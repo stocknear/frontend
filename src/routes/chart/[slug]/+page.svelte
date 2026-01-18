@@ -8113,7 +8113,7 @@
                     class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border"
                     style="color: {level.color}; border-color: {level.color}55;"
                   >
-                    AT {level.label} {formatPrice(level.price)}
+                    PT {level.label} {formatPrice(level.price)}
                   </span>
                 </div>
               {/if}
@@ -8297,11 +8297,6 @@
                 {#each targetRows as row (row.key)}
                   {@const diff =
                     refPrice !== null ? row.value - refPrice : null}
-                  {@const diffAbs = diff !== null ? Math.abs(diff) : null}
-                  {@const diffLabel =
-                    diffAbs !== null
-                      ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
-                      : "-"}
                   {@const diffPct =
                     refPrice !== null && diff !== null
                       ? (diff / refPrice) * 100
@@ -8310,16 +8305,13 @@
                     <span class="text-neutral-500">{row.key}</span>
                     <span class="font-medium" style="color: {row.color}">
                       {formatPrice(row.value)}
-                    </span>
-                  </div>
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">Distance</span>
-                    <span
-                      class="font-medium {diff !== null && diff >= 0
-                        ? 'text-emerald-400'
-                        : 'text-rose-400'}"
-                    >
-                      {diffLabel} ({formatPercent(diffPct)})
+                      <span
+                        class="ml-1 text-[11px] {diff !== null && diff >= 0
+                          ? 'text-emerald-400'
+                          : 'text-rose-400'}"
+                      >
+                        ({formatPercent(diffPct)})
+                      </span>
                     </span>
                   </div>
                 {/each}
