@@ -572,8 +572,11 @@
     | "ratios"
     | "statistics";
   let fundamentalsTab: FundamentalTabId = "income";
-  let indicatorModalSection: "Technicals" | "Fundamentals" | "Options" =
-    "Technicals";
+  let indicatorModalSection:
+    | "Favorites"
+    | "Technicals"
+    | "Fundamentals"
+    | "Options" = "Technicals";
   const INDICATOR_FAVORITES_KEY = "chart-indicator-favorites";
   const indicatorStarPath =
     "M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z";
@@ -1070,8 +1073,8 @@
     indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
   );
   const INDICATOR_MODAL_SECTIONS: Array<
-    "Technicals" | "Fundamentals" | "Options"
-  > = ["Technicals", "Fundamentals", "Options"];
+    "Favorites" | "Technicals" | "Fundamentals" | "Options"
+  > = ["Favorites", "Technicals", "Fundamentals", "Options"];
 
   const cloneIndicatorParams = () =>
     Object.fromEntries(
@@ -1440,8 +1443,7 @@
     indicatorFavorites = sanitizeIndicatorFavorites(indicatorFavorites);
     saveIndicatorFavorites();
   };
-  const isIndicatorFavorite = (id: string) =>
-    indicatorFavorites.includes(id);
+  const isIndicatorFavorite = (id: string) => indicatorFavorites.includes(id);
   const getFavoriteStarClass = (id: string) =>
     `ml-2 shrink-0 transition ${
       isIndicatorFavorite(id)
@@ -5250,7 +5252,8 @@
           calcParams: getIndicatorParams(item.id),
         };
         if (item.id === "revenue") {
-          overrideIndicator.shortName = getFinancialIndicatorShortName("revenue");
+          overrideIndicator.shortName =
+            getFinancialIndicatorShortName("revenue");
           overrideIndicator.extendData = {
             period: getFinancialIndicatorPeriod("revenue"),
           };
@@ -9565,33 +9568,29 @@
         <aside
           class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-neutral-800"
         >
-          {#if favoriteIndicators.length}
-            <div class="text-[11px] uppercase tracking-wide text-neutral-500">
-              Favorite
-            </div>
-            <div class="flex flex-col gap-1">
-              {#each favoriteIndicators as indicator (indicator.id)}
-                <button
-                  type="button"
-                  class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-neutral-300 hover:text-white hover:bg-neutral-800/60 transition"
-                  on:click={() => toggleIndicatorById(indicator.id)}
-                >
-                  <svg
-                    class="w-4 h-4 text-amber-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                  >
-                    <path fill="currentColor" d={indicatorStarPath} />
-                  </svg>
-                  <span class="truncate">{indicator.label}</span>
-                </button>
-              {/each}
-            </div>
-          {/if}
+          <div class="text-[11px] uppercase tracking-wide text-neutral-500">
+            Personal
+          </div>
+          <button
+            type="button"
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            'Favorites'
+              ? 'bg-neutral-800 text-white'
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+            on:click={() => (indicatorModalSection = "Favorites")}
+          >
+            <svg
+              class="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+            >
+              <path fill="currentColor" d={indicatorStarPath} />
+            </svg>
+            Favorites
+          </button>
+
           <div
-            class="text-[11px] uppercase tracking-wide text-neutral-500 {favoriteIndicators.length
-            ? 'mt-4'
-            : ''}"
+            class="mt-3 text-[11px] uppercase tracking-wide text-neutral-500"
           >
             Built-in
           </div>
@@ -9603,6 +9602,21 @@
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
             on:click={() => (indicatorModalSection = "Technicals")}
           >
+            <svg
+              class="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19h16" />
+              <path d="M7 17V10" />
+              <path d="M12 17V7" />
+              <path d="M17 17V13" />
+            </svg>
             Technicals
           </button>
           <button
@@ -9613,6 +9627,21 @@
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
             on:click={() => (indicatorModalSection = "Fundamentals")}
           >
+            <svg
+              class="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 19h14" />
+              <path d="M7 17V9" />
+              <path d="M12 17V5" />
+              <path d="M17 17V12" />
+            </svg>
             Fundamentals
           </button>
           <button
@@ -9623,6 +9652,19 @@
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
             on:click={() => (indicatorModalSection = "Options")}
           >
+            <svg
+              class="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="8" />
+              <path d="M12 8v5l3 2" />
+            </svg>
             Options
           </button>
         </aside>
@@ -9930,6 +9972,59 @@
                         </svg>
                       </button>
                     {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          {:else if indicatorModalSection === "Favorites"}
+            <div class="text-xs uppercase tracking-wide text-neutral-500">
+              My Indicators
+            </div>
+            <div
+              class="mt-3 text-[11px] uppercase tracking-wide text-neutral-500/70"
+            >
+              Name
+            </div>
+            {#if favoriteIndicators.length === 0}
+              <div class="mt-4 text-sm text-neutral-500">No favorites yet.</div>
+            {:else}
+              <div class="mt-2 space-y-1">
+                {#each favoriteIndicators as indicator}
+                  <div
+                    class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    <div class="flex items-center gap-2">
+                      <button
+                        type="button"
+                        class="text-amber-400 hover:text-amber-300 transition"
+                        aria-label="Remove from favorites"
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        class="cursor-pointer text-left text-[1rem] text-neutral-200 hover:text-white transition"
+                        on:click={() => toggleIndicatorById(indicator.id)}
+                      >
+                        {indicator.label}
+                      </button>
+                    </div>
+                    <span class="opacity-0 group-hover:opacity-100 transition">
+                      <InfoModal
+                        id={`indicator-favorite-${indicator.id}`}
+                        title={indicator.label}
+                        callAPI={true}
+                        parameter={indicator.infoKey || indicator.id}
+                      />
+                    </span>
                   </div>
                 {/each}
               </div>
