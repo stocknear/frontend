@@ -540,7 +540,7 @@
                         <h2
                           class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                         >
-                          {originalData?.length?.toLocaleString("en-US")} Congressional
+                          {originalData?.length?.toLocaleString("en-US")}
                           Trades
                         </h2>
                         <div
