@@ -6101,6 +6101,12 @@
     fundamentalsTab = "income";
   }
 
+  function openIndicatorModal() {
+    indicatorSearchTerm = "";
+    // Default to Favorites if user has favorites, otherwise Technicals
+    indicatorModalSection = indicatorFavorites.length > 0 ? "Favorites" : "Technicals";
+  }
+
   function zoomChart(scale: number) {
     if (!chart) return;
     chart.zoomAtCoordinate(scale);
@@ -7296,7 +7302,7 @@
         <!-- Indicators Button -->
         <label
           for="indicatorModal"
-          on:click={() => (indicatorSearchTerm = "")}
+          on:click={openIndicatorModal}
           class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
         >
           <svg
