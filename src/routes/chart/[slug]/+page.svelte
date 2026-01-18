@@ -3088,7 +3088,9 @@
         throw new Error(`HTTP error! status: ${response.status}`);
 
       const result = await response.json();
-      const historyData = result?.history || result?.data || [];
+      const historyData = Array.isArray(result)
+        ? result
+        : result?.history || result?.data || [];
 
       const indicatorData = historyData
         .map(transformFn)
@@ -3136,15 +3138,17 @@
         putCallData = data;
         setPutCallData(data);
       },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        putCallRatio:
-          item.putCallRatio ?? item.put_call_ratio ?? item.ratio ?? 0,
-        putVolume: item.putVolume ?? item.put_volume ?? 0,
-        callVolume: item.callVolume ?? item.call_volume ?? 0,
-      }),
+      (item) => {
+        const rawRatio = item.putCallRatio ?? item.put_call_ratio ?? item.ratio;
+        const ratio = Number.isFinite(Number(rawRatio)) ? Number(rawRatio) : 0;
+
+        return {
+          timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
+            .startOf("day")
+            .toMillis(),
+          putCallRatio: ratio,
+        };
+      },
     );
     putCallLoading = false;
   };

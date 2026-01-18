@@ -1176,8 +1176,6 @@ function createIVRankIndicator(): IndicatorTemplate<IndicatorRecord, number> {
 interface PutCallDataPoint {
   timestamp: number;
   putCallRatio: number;
-  putVolume: number;
-  callVolume: number;
 }
 
 let putCallData: PutCallDataPoint[] = [];
@@ -1207,18 +1205,17 @@ function createPutCallRatioIndicator(): IndicatorTemplate<IndicatorRecord, numbe
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
       if (!result || result.pcRatio === undefined) return { legends: [] };
 
-      const legends = [
-        { title: "P/C Ratio: ", value: { text: (result.pcRatio as number).toFixed(2), color: result.pcRatio as number > 1 ? "#EF4444" : "#22C55E" } },
-      ];
+      const ratioValue = Number.isFinite(result.pcRatio as number)
+        ? (result.pcRatio as number).toFixed(2)
+        : "0.00";
+      const ratioColor =
+        (result.pcRatio as number) > 1 ? "#EF4444" : "#22C55E";
 
-      if (result.putVol !== undefined) {
-        legends.push({ title: "Put Vol: ", value: { text: formatShortInterest(result.putVol as number), color: "#EF4444" } });
-      }
-      if (result.callVol !== undefined) {
-        legends.push({ title: "Call Vol: ", value: { text: formatShortInterest(result.callVol as number), color: "#22C55E" } });
-      }
-
-      return { legends };
+      return {
+        legends: [
+          { title: "P/C Ratio: ", value: { text: ratioValue, color: ratioColor } },
+        ],
+      };
     },
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
@@ -1229,8 +1226,6 @@ function createPutCallRatioIndicator(): IndicatorTemplate<IndicatorRecord, numbe
         if (idx >= 0) {
           result[idx] = {
             pcRatio: pc.putCallRatio,
-            putVol: pc.putVolume,
-            callVol: pc.callVolume,
             isDataPoint: 1,
           };
         }
@@ -1238,17 +1233,11 @@ function createPutCallRatioIndicator(): IndicatorTemplate<IndicatorRecord, numbe
 
       // Carry forward values
       let lastRatio: number | undefined;
-      let lastPutVol: number | undefined;
-      let lastCallVol: number | undefined;
       for (let i = 0; i < result.length; i++) {
         if (result[i].isDataPoint) {
           lastRatio = result[i].pcRatio as number;
-          lastPutVol = result[i].putVol as number;
-          lastCallVol = result[i].callVol as number;
         }
         result[i].pcRatio = lastRatio;
-        result[i].putVol = lastPutVol;
-        result[i].callVol = lastCallVol;
       }
 
       return result;
