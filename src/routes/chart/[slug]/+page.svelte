@@ -7003,6 +7003,8 @@
   $: groupedIndicators = groupChartIndicators(filteredIndicators);
   $: isSearchActive = indicatorSearchTerm.trim().length > 0;
   // Sort indicators: favorites first, then alphabetically
+  // Create a Set for O(1) lookup and to trigger reactivity when indicatorFavorites changes
+  $: favoritesSet = new Set(indicatorFavorites);
   $: technicalGroups = Object.entries(groupedIndicators)
     .filter(([cat]) => cat !== "Options" && cat !== "Fundamentals")
     .map(
@@ -7010,8 +7012,8 @@
         [
           cat,
           [...indicators].sort((a, b) => {
-            const aFav = indicatorFavorites.includes(a.id);
-            const bFav = indicatorFavorites.includes(b.id);
+            const aFav = favoritesSet.has(a.id);
+            const bFav = favoritesSet.has(b.id);
             if (aFav !== bFav) {
               return aFav ? -1 : 1;
             }
@@ -7027,8 +7029,8 @@
     )
     .slice()
     .sort((a, b) => {
-      const aFav = indicatorFavorites.includes(a.id);
-      const bFav = indicatorFavorites.includes(b.id);
+      const aFav = favoritesSet.has(a.id);
+      const bFav = favoritesSet.has(b.id);
       if (aFav !== bFav) {
         return aFav ? -1 : 1;
       }
@@ -7036,8 +7038,8 @@
     });
   $: optionsIndicators = (groupedIndicators["Options"] ?? []).slice().sort(
     (a, b) => {
-      const aFav = indicatorFavorites.includes(a.id);
-      const bFav = indicatorFavorites.includes(b.id);
+      const aFav = favoritesSet.has(a.id);
+      const bFav = favoritesSet.has(b.id);
       if (aFav !== bFav) {
         return aFav ? -1 : 1;
       }
@@ -9964,7 +9966,7 @@
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
                                 type="button"
-                                class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
+                                class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-neutral-500 text-white bg-neutral-800'
@@ -10148,7 +10150,7 @@
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
                                 type="button"
-                                class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
+                                class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-neutral-500 text-white bg-neutral-800'
