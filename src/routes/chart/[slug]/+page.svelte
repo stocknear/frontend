@@ -107,6 +107,8 @@
     showNewsFlow?: boolean;
     showShortInterest?: boolean;
     financialIndicatorPeriod?: FinancialIndicatorPeriod;
+    revenueIndicatorPeriod?: FinancialIndicatorPeriod;
+    epsIndicatorPeriod?: FinancialIndicatorPeriod;
     selectedToolByGroup?: Record<string, string>; // Toolbar selection state
     drawingMode?: "normal" | "weak_magnet" | "strong_magnet";
     drawingsLocked?: boolean;
@@ -289,7 +291,8 @@
   let maxPainData: MaxPainDataPoint[] = [];
   let maxPainLoading = false;
   let analystTargetLoading = false;
-  let financialIndicatorPeriod: FinancialIndicatorPeriod = "annual";
+  let revenueIndicatorPeriod: FinancialIndicatorPeriod = "annual";
+  let epsIndicatorPeriod: FinancialIndicatorPeriod = "annual";
   let incomeStatementData: {
     annual: any[];
     quarter: any[];
@@ -983,6 +986,11 @@
     { id: "quarterly", label: "Quarterly" },
     { id: "ttm", label: "TTM" },
   ];
+  const FINANCIAL_PERIOD_LABELS: Record<FinancialIndicatorPeriod, string> = {
+    annual: "Annual",
+    quarterly: "Quarterly",
+    ttm: "TTM",
+  };
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
@@ -3516,12 +3524,20 @@
 
   const refreshIncomeStatementIndicators = () => {
     if (!incomeStatementData) return;
-    const resolved = resolveIncomeStatementPeriodData(
-      incomeStatementData,
-      financialIndicatorPeriod,
-    );
-
     if (indicatorState.revenue) {
+      const resolved = resolveIncomeStatementPeriodData(
+        incomeStatementData,
+        revenueIndicatorPeriod,
+      );
+      if (resolved.period !== revenueIndicatorPeriod) {
+        revenueIndicatorPeriod = resolved.period;
+        const currentSettings = loadChartSettings() || {};
+        saveChartSettings({
+          ...currentSettings,
+          revenueIndicatorPeriod,
+          epsIndicatorPeriod,
+        });
+      }
       const indicatorData = buildRevenueIndicatorData(
         resolved.rows,
         resolved.period,
@@ -3539,6 +3555,19 @@
     }
 
     if (indicatorState.eps) {
+      const resolved = resolveIncomeStatementPeriodData(
+        incomeStatementData,
+        epsIndicatorPeriod,
+      );
+      if (resolved.period !== epsIndicatorPeriod) {
+        epsIndicatorPeriod = resolved.period;
+        const currentSettings = loadChartSettings() || {};
+        saveChartSettings({
+          ...currentSettings,
+          revenueIndicatorPeriod,
+          epsIndicatorPeriod,
+        });
+      }
       const indicatorData = buildEpsIndicatorData(resolved.rows);
       epsData = indicatorData;
       setEPSData(indicatorData);
@@ -4786,11 +4815,21 @@
         };
       }
 
+      const indicatorCreate: Record<string, unknown> = {
+        name: item.indicatorName,
+        calcParams: getIndicatorParams(item.id),
+      };
+      if (item.id === "revenue" || item.id === "eps") {
+        indicatorCreate.shortName = getFinancialIndicatorShortName(
+          item.id as "revenue" | "eps",
+        );
+      }
+
       if (enabled && !existingId) {
         // isStack=true for candle pane to allow multiple overlaid indicators (MA, BOLL, etc.)
         // isStack=false for separate panes to avoid stacking
         nextInstanceIds[item.id] = chart.createIndicator(
-          { name: item.indicatorName, calcParams: getIndicatorParams(item.id) },
+          indicatorCreate,
           isOnCandlePane,
           paneOptions,
         );
@@ -4807,6 +4846,13 @@
         chart.overrideIndicator({
           id: existingId,
           calcParams: getIndicatorParams(item.id),
+          ...(item.id === "revenue" || item.id === "eps"
+            ? {
+                shortName: getFinancialIndicatorShortName(
+                  item.id as "revenue" | "eps",
+                ),
+              }
+            : {}),
         });
       }
     });
@@ -5172,6 +5218,20 @@
       }
     }
 
+    if (newState && (name === "revenue" || name === "eps")) {
+      if (name === "revenue") {
+        revenueIndicatorPeriod = "annual";
+      } else {
+        epsIndicatorPeriod = "annual";
+      }
+      const currentSettings = loadChartSettings() || {};
+      saveChartSettings({
+        ...currentSettings,
+        revenueIndicatorPeriod,
+        epsIndicatorPeriod,
+      });
+    }
+
     indicatorState = {
       ...indicatorState,
       [name]: newState,
@@ -5345,11 +5405,32 @@
     return Boolean(indicatorState[id]);
   }
 
-  const setFinancialIndicatorPeriod = (period: FinancialIndicatorPeriod) => {
-    if (financialIndicatorPeriod === period) return;
-    financialIndicatorPeriod = period;
+  const getFinancialIndicatorPeriod = (id: string) =>
+    id === "revenue" ? revenueIndicatorPeriod : epsIndicatorPeriod;
+
+  const getFinancialIndicatorShortName = (id: "revenue" | "eps") => {
+    const period = getFinancialIndicatorPeriod(id);
+    const label = FINANCIAL_PERIOD_LABELS[period];
+    return `${id === "revenue" ? "Revenue" : "EPS"} (${label})`;
+  };
+
+  const setFinancialIndicatorPeriod = (
+    id: "revenue" | "eps",
+    period: FinancialIndicatorPeriod,
+  ) => {
+    const current = getFinancialIndicatorPeriod(id);
+    if (current === period) return;
+    if (id === "revenue") {
+      revenueIndicatorPeriod = period;
+    } else {
+      epsIndicatorPeriod = period;
+    }
     const currentSettings = loadChartSettings() || {};
-    saveChartSettings({ ...currentSettings, financialIndicatorPeriod });
+    saveChartSettings({
+      ...currentSettings,
+      revenueIndicatorPeriod,
+      epsIndicatorPeriod,
+    });
     if (incomeStatementData) {
       refreshIncomeStatementIndicators();
     } else if (indicatorState.revenue || indicatorState.eps) {
@@ -5877,13 +5958,25 @@
       if (typeof savedSettings.drawingsVisible === "boolean") {
         drawingsVisible = savedSettings.drawingsVisible;
       }
+      const legacyPeriod = savedSettings.financialIndicatorPeriod;
+      const savedRevenuePeriod =
+        savedSettings.revenueIndicatorPeriod ?? legacyPeriod;
+      const savedEpsPeriod = savedSettings.epsIndicatorPeriod ?? legacyPeriod;
       if (
-        savedSettings.financialIndicatorPeriod &&
+        savedRevenuePeriod &&
         FINANCIAL_PERIOD_OPTIONS.some(
-          (option) => option.id === savedSettings.financialIndicatorPeriod,
+          (option) => option.id === savedRevenuePeriod,
         )
       ) {
-        financialIndicatorPeriod = savedSettings.financialIndicatorPeriod;
+        revenueIndicatorPeriod = savedRevenuePeriod;
+      }
+      if (
+        savedEpsPeriod &&
+        FINANCIAL_PERIOD_OPTIONS.some(
+          (option) => option.id === savedEpsPeriod,
+        )
+      ) {
+        epsIndicatorPeriod = savedEpsPeriod;
       }
     } else if (data?.user?.tier === "Pro") {
       // Default to true for Pro users if no settings saved
@@ -9187,12 +9280,15 @@
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
                             <button
                               type="button"
-                              class="px-2 py-0.5 text-[11px] rounded border transition {financialIndicatorPeriod ===
-                              option.id
+                              class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
+                              indicator.id) === option.id
                                 ? 'border-neutral-500 text-white bg-neutral-800'
                                 : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
                               on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(option.id)}
+                                setFinancialIndicatorPeriod(
+                                  indicator.id,
+                                  option.id,
+                                )}
                             >
                               {option.label}
                             </button>
@@ -9263,12 +9359,15 @@
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
                             <button
                               type="button"
-                              class="px-2 py-0.5 text-[11px] rounded border transition {financialIndicatorPeriod ===
-                              option.id
+                              class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
+                              indicator.id) === option.id
                                 ? 'border-neutral-500 text-white bg-neutral-800'
                                 : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
                               on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(option.id)}
+                                setFinancialIndicatorPeriod(
+                                  indicator.id,
+                                  option.id,
+                                )}
                             >
                               {option.label}
                             </button>
