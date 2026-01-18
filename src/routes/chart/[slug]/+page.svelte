@@ -11,10 +11,6 @@
     registerCustomIndicators,
     setShortInterestData,
     clearShortInterestData,
-    setIVData,
-    clearIVData,
-    setPutCallData,
-    clearPutCallData,
     setDarkPoolData,
     clearDarkPoolData,
     setFTDData,
@@ -290,10 +286,6 @@
   let shortInterestPopupPosition = { x: 0, y: 0 };
 
   // New indicator data storage
-  let ivRankData: any[] = [];
-  let ivRankLoading = false;
-  let putCallData: any[] = [];
-  let putCallLoading = false;
   let darkPoolData: any[] = [];
   let darkPoolLoading = false;
   let ftdData: any[] = [];
@@ -941,24 +933,6 @@
       isOverlay: true,
     },
     // Options category
-    {
-      id: "iv_rank",
-      label: "IV Rank/Percentile",
-      indicatorName: "SN_IV_RANK",
-      category: "Options",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-    {
-      id: "put_call_ratio",
-      label: "Put/Call Ratio",
-      indicatorName: "SN_PUT_CALL",
-      category: "Options",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
     {
       id: "max_pain",
       label: "Max Pain",
@@ -3104,55 +3078,6 @@
     }
   };
 
-  // Fetch IV Rank/Percentile data
-  const fetchIVRankData = async () => {
-    if (ivRankLoading) return;
-    ivRankLoading = true;
-    await fetchIndicatorData(
-      "iv-rank",
-      "ivRankLoading",
-      (data) => {
-        ivRankData = data;
-        setIVData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        ivRank: item.ivRank ?? item.iv_rank ?? 0,
-        ivPercentile: item.ivPercentile ?? item.iv_percentile ?? 0,
-        currentIV: item.currentIV ?? item.current_iv ?? item.iv ?? 0,
-      }),
-    );
-    ivRankLoading = false;
-  };
-
-  // Fetch Put/Call Ratio data
-  const fetchPutCallData = async () => {
-    if (putCallLoading) return;
-    putCallLoading = true;
-    await fetchIndicatorData(
-      "put-call-ratio",
-      "putCallLoading",
-      (data) => {
-        putCallData = data;
-        setPutCallData(data);
-      },
-      (item) => {
-        const rawRatio = item.putCallRatio ?? item.put_call_ratio ?? item.ratio;
-        const ratio = Number.isFinite(Number(rawRatio)) ? Number(rawRatio) : 0;
-
-        return {
-          timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-            .startOf("day")
-            .toMillis(),
-          putCallRatio: ratio,
-        };
-      },
-    );
-    putCallLoading = false;
-  };
-
   // Fetch Dark Pool data
   const fetchDarkPoolDataIndicator = async () => {
     if (darkPoolLoading) return;
@@ -3813,12 +3738,6 @@
     }
     if (indicatorState.institutional && institutionalData.length === 0) {
       fetchInstitutionalDataIndicator();
-    }
-    if (indicatorState.iv_rank && ivRankData.length === 0) {
-      fetchIVRankData();
-    }
-    if (indicatorState.put_call_ratio && putCallData.length === 0) {
-      fetchPutCallData();
     }
     if (indicatorState.dark_pool && darkPoolData.length === 0) {
       fetchDarkPoolDataIndicator();
@@ -5134,17 +5053,7 @@
         syncIndicators();
       }
       // New fundamental & options indicators
-      else if (name === "iv_rank" && ivRankData.length === 0) {
-        fetchIVRankData();
-      } else if (name === "iv_rank") {
-        setIVData(ivRankData);
-        syncIndicators();
-      } else if (name === "put_call_ratio" && putCallData.length === 0) {
-        fetchPutCallData();
-      } else if (name === "put_call_ratio") {
-        setPutCallData(putCallData);
-        syncIndicators();
-      } else if (name === "dark_pool" && darkPoolData.length === 0) {
+      else if (name === "dark_pool" && darkPoolData.length === 0) {
         fetchDarkPoolDataIndicator();
       } else if (name === "dark_pool") {
         setDarkPoolData(darkPoolData);
@@ -5240,12 +5149,6 @@
         shortInterestMarkers = [];
         selectedShortInterest = null;
         clearShortInterestData();
-      } else if (name === "iv_rank") {
-        ivRankData = [];
-        clearIVData();
-      } else if (name === "put_call_ratio") {
-        putCallData = [];
-        clearPutCallData();
       } else if (name === "dark_pool") {
         darkPoolData = [];
         clearDarkPoolData();

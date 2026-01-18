@@ -17,8 +17,6 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "insider-activity": "/insider-trading-history",
   "institutional": "/institutional-ownership-history",
   "analyst-target": "/analyst-price-targets",
-  "iv-rank": "/iv-rank-history",
-  "put-call-ratio": "/options-historical-indicator",
   "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
   "max-pain": "/max-pain",
@@ -69,16 +67,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     postData = {
       ticker: data?.ticker,
     };
-  } else if (category === "put-call-ratio") {
-    postData = {
-      ticker: data?.ticker,
-      indicator: "putCallRatio",
-    };
   } else {
     // Default payload for most fundamental indicators
     // revenue, eps, fcf, margin, pe-ratio, ev-ebitda, market-cap,
-    // insider-activity, institutional, analyst-target, iv-rank,
-    // put-call-ratio, dark-pool, ftd, max-pain
+    // insider-activity, institutional, analyst-target,
+    // dark-pool, ftd, max-pain
     postData = {
       ticker: data?.ticker,
     };
