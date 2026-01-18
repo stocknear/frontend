@@ -896,6 +896,7 @@ interface StatementMetricDataPoint {
 }
 
 let statementMetricData: Record<number, StatementMetricDataPoint[]> = {};
+let statementMetricGrowthSeries: Record<number, Array<number | undefined>> = {};
 
 export function setStatementMetricData(
   metricIndex: number,
@@ -906,6 +907,7 @@ export function setStatementMetricData(
 
 export function clearStatementMetricData(metricIndex: number) {
   delete statementMetricData[metricIndex];
+  delete statementMetricGrowthSeries[metricIndex];
 }
 
 const formatStatementMetricValue = (
@@ -943,7 +945,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
     series: "normal",
     precision: 2,
     shouldFormatBigNumber: true,
-    figures: [{ key: "value", title: "", type: "line" }],
+    figures: [{ key: "value", title: "", type: "bar", baseValue: 0 }],
     createTooltipDataSource: ({ crosshair, indicator }) => {
       const dataIndex = crosshair.dataIndex;
       if (dataIndex === undefined || !indicator.result) return { legends: [] };
@@ -966,9 +968,9 @@ function createStatementMetricIndicator(): IndicatorTemplate<
         format,
       );
       const color = (result.value as number) >= 0 ? "#38BDF8" : "#F97316";
-      const growth = Number.isFinite(result.growth as number)
-        ? (result.growth as number)
-        : null;
+      const growth = Number.isFinite(metricIndex)
+        ? statementMetricGrowthSeries[metricIndex]?.[dataIndex]
+        : undefined;
       const growthLabel = getGrowthLabelForPeriod(indicator.extendData?.period);
 
       return {
@@ -977,13 +979,14 @@ function createStatementMetricIndicator(): IndicatorTemplate<
             title: `${label}: `,
             value: { text: formattedValue, color },
           },
-          ...(growth !== null
+          ...(Number.isFinite(growth as number)
             ? [
                 {
                   title: `${growthLabel}: `,
                   value: {
-                    text: `${growth.toFixed(1)}%`,
-                    color: growth >= 0 ? "#22C55E" : "#EF4444",
+                    text: `${(growth as number).toFixed(1)}%`,
+                    color:
+                      (growth as number) >= 0 ? "#22C55E" : "#EF4444",
                   },
                 },
               ]
@@ -1002,16 +1005,23 @@ function createStatementMetricIndicator(): IndicatorTemplate<
           : NaN;
       if (!Number.isFinite(metricIndex)) return result;
       const metricData = statementMetricData[metricIndex] ?? [];
-      if (!metricData.length) return result;
+      if (!metricData.length) {
+        statementMetricGrowthSeries[metricIndex] = [];
+        return result;
+      }
+
+      const growthSeries: Array<number | undefined> = new Array(dataList.length);
 
       for (const point of metricData) {
         const idx = findClosestBarIndex(dataList, point.timestamp);
         if (idx >= 0) {
           result[idx] = {
             value: point.value,
-            growth: point.growth,
             isDataPoint: 1,
           };
+          if (Number.isFinite(point.growth)) {
+            growthSeries[idx] = point.growth;
+          }
         }
       }
 
@@ -1020,11 +1030,13 @@ function createStatementMetricIndicator(): IndicatorTemplate<
       for (let i = 0; i < result.length; i++) {
         if (result[i].isDataPoint) {
           lastValue = result[i].value as number;
-          lastGrowth = result[i].growth as number;
+          lastGrowth = growthSeries[i];
         }
         result[i].value = lastValue;
-        result[i].growth = lastGrowth;
+        growthSeries[i] = lastGrowth;
       }
+
+      statementMetricGrowthSeries[metricIndex] = growthSeries;
 
       return result;
     },
@@ -1033,33 +1045,30 @@ function createStatementMetricIndicator(): IndicatorTemplate<
       const result = indicator.result as IndicatorRecord[];
       if (!result || result.length === 0) return false;
 
-      const points: { x: number; y: number }[] = [];
+      const barWidth = Math.max(
+        2,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6,
+      );
+      const y0 = yAxis.convertToPixel(0);
+      if (typeof y0 !== "number" || isNaN(y0)) return false;
 
       for (let i = from; i < to; i++) {
         const data = result[i];
-        if (!data || data.value === undefined) continue;
+        if (!data?.isDataPoint || data.value === undefined) continue;
 
         const x = xAxis.convertToPixel(i);
         const y = yAxis.convertToPixel(data.value as number);
-        if (typeof y === "number" && !isNaN(y)) {
-          points.push({ x, y });
-        }
+        if (typeof y !== "number" || isNaN(y)) continue;
+
+        const top = y < y0 ? y : y0;
+        const height = Math.abs(y0 - y);
+        if (height <= 0) continue;
+
+        ctx.fillStyle = (data.value as number) >= 0 ? "#38BDF8" : "#F97316";
+        ctx.fillRect(x - barWidth / 2, top, barWidth, height);
       }
 
-      if (points.length < 2) return false;
-
-      ctx.beginPath();
-      ctx.setLineDash([]);
-      ctx.moveTo(points[0].x, points[0].y);
-      for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i - 1].y);
-        ctx.lineTo(points[i].x, points[i].y);
-      }
-      ctx.strokeStyle = "#38BDF8";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      return false;
+      return true;
     },
   };
 }
@@ -1679,6 +1688,7 @@ interface RevenueDataPoint {
 }
 
 let revenueData: RevenueDataPoint[] = [];
+let revenueGrowthSeries: Array<number | undefined> = [];
 
 export function setRevenueData(data: RevenueDataPoint[]) {
   revenueData = data;
@@ -1686,6 +1696,7 @@ export function setRevenueData(data: RevenueDataPoint[]) {
 
 export function clearRevenueData() {
   revenueData = [];
+  revenueGrowthSeries = [];
 }
 
 const timestampCache = new WeakMap<KLineData[], number[]>();
@@ -1749,7 +1760,7 @@ function createRevenueIndicator(): IndicatorTemplate<
     minValue: 0,
     shouldFormatBigNumber: true,
     figures: [
-      { key: "revenue", title: "Revenue: ", type: "line" },
+      { key: "revenue", title: "Revenue: ", type: "bar", baseValue: 0 },
     ],
     createTooltipDataSource: ({ crosshair, indicator }) => {
       const dataIndex = crosshair.dataIndex;
@@ -1758,24 +1769,41 @@ function createRevenueIndicator(): IndicatorTemplate<
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
       if (!result || result.revenue === undefined) return { legends: [] };
 
-      const growth = (result.revenueGrowth as number) || 0;
-      const growthColor = growth >= 0 ? "#22C55E" : "#EF4444";
+      const growth = revenueGrowthSeries[dataIndex];
+      const growthColor =
+        Number.isFinite(growth as number) && (growth as number) >= 0
+          ? "#22C55E"
+          : "#EF4444";
       const growthLabel = getGrowthLabelForPeriod(indicator.extendData?.period);
 
       return {
         legends: [
           { title: "Revenue: ", value: { text: `$${formatShortInterest(result.revenue as number)}`, color: "#3B82F6" } },
-          { title: `${growthLabel}: `, value: { text: `${growth.toFixed(1)}%`, color: growthColor } },
+          ...(Number.isFinite(growth as number)
+            ? [
+                {
+                  title: `${growthLabel}: `,
+                  value: {
+                    text: `${(growth as number).toFixed(1)}%`,
+                    color: growthColor,
+                  },
+                },
+              ]
+            : []),
         ],
       };
     },
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+      const growthSeries: Array<number | undefined> = new Array(
+        dataList.length,
+      );
 
       console.log("[SN_REVENUE] calc called, revenueData.length:", revenueData.length, "dataList.length:", dataList.length);
 
       if (revenueData.length === 0) {
         console.warn("[SN_REVENUE] No revenue data available for calculation");
+        revenueGrowthSeries = [];
         return result;
       }
 
@@ -1787,9 +1815,9 @@ function createRevenueIndicator(): IndicatorTemplate<
         if (idx >= 0) {
           result[idx] = {
             revenue: rev.revenue,
-            revenueGrowth: rev.revenueGrowth,
             isDataPoint: 1, // Mark actual data points
           };
+          growthSeries[idx] = rev.revenueGrowth;
           mappedCount++;
         }
       }
@@ -1802,11 +1830,13 @@ function createRevenueIndicator(): IndicatorTemplate<
       for (let i = 0; i < result.length; i++) {
         if (result[i].isDataPoint) {
           lastRevenue = result[i].revenue as number;
-          lastGrowth = result[i].revenueGrowth as number;
+          lastGrowth = growthSeries[i];
         }
         result[i].revenue = lastRevenue;
-        result[i].revenueGrowth = lastGrowth;
+        growthSeries[i] = lastGrowth;
       }
+
+      revenueGrowthSeries = growthSeries;
 
       return result;
     },
@@ -1815,39 +1845,30 @@ function createRevenueIndicator(): IndicatorTemplate<
       const result = indicator.result as IndicatorRecord[];
       if (!result || result.length === 0 || revenueData.length === 0) return false;
 
-      // Collect points for step line
-      const points: { x: number; y: number; isDataPoint: boolean }[] = [];
+      const barWidth = Math.max(
+        2,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6,
+      );
+      const y0 = yAxis.convertToPixel(0);
+      if (typeof y0 !== "number" || isNaN(y0)) return false;
 
       for (let i = from; i < to; i++) {
         const data = result[i];
-        if (!data || data.revenue === undefined) continue;
+        if (!data?.isDataPoint || data.revenue === undefined) continue;
 
         const x = xAxis.convertToPixel(i);
         const y = yAxis.convertToPixel(data.revenue as number);
-
         if (typeof y !== "number" || isNaN(y)) continue;
 
-        points.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
+        const top = y < y0 ? y : y0;
+        const height = Math.abs(y0 - y);
+        if (height <= 0) continue;
+
+        ctx.fillStyle = "#3B82F6";
+        ctx.fillRect(x - barWidth / 2, top, barWidth, height);
       }
 
-      if (points.length < 1) return false;
-
-      // Draw step line
-      ctx.beginPath();
-      ctx.setLineDash([]);
-      ctx.moveTo(points[0].x, points[0].y);
-
-      for (let i = 1; i < points.length; i++) {
-        // Step: horizontal then vertical
-        ctx.lineTo(points[i].x, points[i - 1].y);
-        ctx.lineTo(points[i].x, points[i].y);
-      }
-
-      ctx.strokeStyle = "#3B82F6";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      return false;
+      return true;
     },
   };
 }
