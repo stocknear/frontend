@@ -574,6 +574,10 @@
   let fundamentalsTab: FundamentalTabId = "income";
   let indicatorModalSection: "Technicals" | "Fundamentals" | "Options" =
     "Technicals";
+  const INDICATOR_FAVORITES_KEY = "chart-indicator-favorites";
+  const indicatorStarPath =
+    "M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z";
+  let indicatorFavorites: string[] = [];
   const toNumber = (value: unknown): number | null => {
     const n =
       typeof value === "number"
@@ -1392,6 +1396,62 @@
     category: item.category,
     infoKey: item.infoKey,
   }));
+  const sanitizeIndicatorFavorites = (list: unknown) => {
+    if (!Array.isArray(list)) return [];
+    const validIds = new Set(indicatorItems.map((item) => item.id));
+    const seen = new Set<string>();
+    const sanitized: string[] = [];
+    list.forEach((id) => {
+      if (typeof id === "string" && validIds.has(id) && !seen.has(id)) {
+        sanitized.push(id);
+        seen.add(id);
+      }
+    });
+    return sanitized;
+  };
+  const saveIndicatorFavorites = () => {
+    try {
+      localStorage?.setItem(
+        INDICATOR_FAVORITES_KEY,
+        JSON.stringify(indicatorFavorites),
+      );
+    } catch (e) {
+      console.log("Failed saving indicator favorites:", e);
+    }
+  };
+  const loadIndicatorFavorites = () => {
+    try {
+      const saved = localStorage?.getItem(INDICATOR_FAVORITES_KEY);
+      if (saved) {
+        indicatorFavorites = sanitizeIndicatorFavorites(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.log("Failed loading indicator favorites:", e);
+    }
+  };
+  const toggleIndicatorFavorite = (event: Event | null, id: string) => {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+    if (indicatorFavorites.includes(id)) {
+      indicatorFavorites = indicatorFavorites.filter((item) => item !== id);
+    } else {
+      indicatorFavorites = [...indicatorFavorites, id];
+    }
+    indicatorFavorites = sanitizeIndicatorFavorites(indicatorFavorites);
+    saveIndicatorFavorites();
+  };
+  const isIndicatorFavorite = (id: string) =>
+    indicatorFavorites.includes(id);
+  const getFavoriteStarClass = (id: string) =>
+    `ml-2 shrink-0 transition ${
+      isIndicatorFavorite(id)
+        ? "opacity-100 text-amber-400"
+        : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto text-neutral-500 hover:text-amber-400"
+    }`;
+  let favoriteIndicators = [];
+  $: favoriteIndicators = indicatorItems
+    .filter((item) => indicatorFavorites.includes(item.id))
+    .sort((a, b) => a.label.localeCompare(b.label));
   let filteredIndicators = indicatorItems;
   let groupedIndicators = groupChartIndicators(indicatorItems);
 
@@ -6307,6 +6367,7 @@
   }
 
   onMount(async () => {
+    loadIndicatorFavorites();
     // Load chart settings from localStorage
     const savedSettings = loadChartSettings();
     if (savedSettings) {
@@ -9504,7 +9565,34 @@
         <aside
           class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-neutral-800"
         >
-          <div class="text-[11px] uppercase tracking-wide text-neutral-500">
+          {#if favoriteIndicators.length}
+            <div class="text-[11px] uppercase tracking-wide text-neutral-500">
+              Favorite
+            </div>
+            <div class="flex flex-col gap-1">
+              {#each favoriteIndicators as indicator (indicator.id)}
+                <button
+                  type="button"
+                  class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-neutral-300 hover:text-white hover:bg-neutral-800/60 transition"
+                  on:click={() => toggleIndicatorById(indicator.id)}
+                >
+                  <svg
+                    class="w-4 h-4 text-amber-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                  >
+                    <path fill="currentColor" d={indicatorStarPath} />
+                  </svg>
+                  <span class="truncate">{indicator.label}</span>
+                </button>
+              {/each}
+            </div>
+          {/if}
+          <div
+            class="text-[11px] uppercase tracking-wide text-neutral-500 {favoriteIndicators.length
+            ? 'mt-4'
+            : ''}"
+          >
             Built-in
           </div>
           <button
@@ -9599,6 +9687,23 @@
                             parameter={indicator.infoKey || indicator.id}
                           />
                         </div>
+                        <button
+                          type="button"
+                          class={getFavoriteStarClass(indicator.id)}
+                          aria-label={isIndicatorFavorite(indicator.id)
+                            ? "Remove from favorites"
+                            : "Add to favorites"}
+                          on:click|stopPropagation={(event) =>
+                            toggleIndicatorFavorite(event, indicator.id)}
+                        >
+                          <svg
+                            class="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                          >
+                            <path fill="currentColor" d={indicatorStarPath} />
+                          </svg>
+                        </button>
                       </div>
                     {/each}
                   </div>
@@ -9639,6 +9744,23 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
                     {:else}
                       <button
                         on:click={() => goto("/pricing")}
@@ -9655,6 +9777,23 @@
                           />
                         </svg>
                         <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
                       </button>
                     {/if}
                   </div>
@@ -9714,29 +9853,48 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div
-                          class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                      <div class="flex items-center gap-2">
+                        <button
+                          type="button"
+                          class={getFavoriteStarClass(indicator.id)}
+                          aria-label={isIndicatorFavorite(indicator.id)
+                            ? "Remove from favorites"
+                            : "Add to favorites"}
+                          on:click|stopPropagation={(event) =>
+                            toggleIndicatorFavorite(event, indicator.id)}
                         >
-                          {#each FINANCIAL_PERIOD_OPTIONS as option}
-                            <button
-                              type="button"
-                              class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
-                                indicator.id,
-                              ) === option.id
-                                ? 'border-neutral-500 text-white bg-neutral-800'
-                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
-                              on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(
+                          <svg
+                            class="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                          >
+                            <path fill="currentColor" d={indicatorStarPath} />
+                          </svg>
+                        </button>
+                        {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                          <div
+                            class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                          >
+                            {#each FINANCIAL_PERIOD_OPTIONS as option}
+                              <button
+                                type="button"
+                                class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
                                   indicator.id,
-                                  option.id,
-                                )}
-                            >
-                              {option.label}
-                            </button>
-                          {/each}
-                        </div>
-                      {/if}
+                                ) === option.id
+                                  ? 'border-neutral-500 text-white bg-neutral-800'
+                                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                on:click|stopPropagation={() =>
+                                  setFinancialIndicatorPeriod(
+                                    indicator.id,
+                                    option.id,
+                                  )}
+                              >
+                                {option.label}
+                              </button>
+                            {/each}
+                          </div>
+                        {/if}
+                      </div>
                     {:else}
                       <button
                         on:click={() => goto("/pricing")}
@@ -9753,6 +9911,23 @@
                           />
                         </svg>
                         <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
                       </button>
                     {/if}
                   </div>
@@ -9810,29 +9985,48 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div
-                          class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                      <div class="flex items-center gap-2">
+                        <button
+                          type="button"
+                          class={getFavoriteStarClass(indicator.id)}
+                          aria-label={isIndicatorFavorite(indicator.id)
+                            ? "Remove from favorites"
+                            : "Add to favorites"}
+                          on:click|stopPropagation={(event) =>
+                            toggleIndicatorFavorite(event, indicator.id)}
                         >
-                          {#each FINANCIAL_PERIOD_OPTIONS as option}
-                            <button
-                              type="button"
-                              class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
-                                indicator.id,
-                              ) === option.id
-                                ? 'border-neutral-500 text-white bg-neutral-800'
-                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
-                              on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(
+                          <svg
+                            class="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                          >
+                            <path fill="currentColor" d={indicatorStarPath} />
+                          </svg>
+                        </button>
+                        {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                          <div
+                            class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                          >
+                            {#each FINANCIAL_PERIOD_OPTIONS as option}
+                              <button
+                                type="button"
+                                class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
                                   indicator.id,
-                                  option.id,
-                                )}
-                            >
-                              {option.label}
-                            </button>
-                          {/each}
-                        </div>
-                      {/if}
+                                ) === option.id
+                                  ? 'border-neutral-500 text-white bg-neutral-800'
+                                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                on:click|stopPropagation={() =>
+                                  setFinancialIndicatorPeriod(
+                                    indicator.id,
+                                    option.id,
+                                  )}
+                              >
+                                {option.label}
+                              </button>
+                            {/each}
+                          </div>
+                        {/if}
+                      </div>
                     {:else}
                       <button
                         on:click={() => goto("/pricing")}
@@ -9849,6 +10043,23 @@
                           />
                         </svg>
                         <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
                       </button>
                     {/if}
                   </div>
@@ -9887,6 +10098,23 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
                     {:else}
                       <button
                         on:click={() => goto("/pricing")}
@@ -9903,6 +10131,23 @@
                           />
                         </svg>
                         <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
                       </button>
                     {/if}
                   </div>
@@ -9946,6 +10191,23 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(indicator.id)}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
                     </div>
                   {/each}
                 </div>
