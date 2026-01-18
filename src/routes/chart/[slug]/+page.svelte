@@ -301,14 +301,6 @@
   let revenueLoading = false;
   let epsData: any[] = [];
   let epsLoading = false;
-  type FinancialIndicatorId = "revenue" | "eps";
-  interface FinancialSelectorPosition {
-    id: FinancialIndicatorId;
-    x: number;
-    y: number;
-    visible: boolean;
-  }
-  let financialSelectorPositions: FinancialSelectorPosition[] = [];
   let fcfData: any[] = [];
   let fcfLoading = false;
   let marginData: any[] = [];
@@ -537,6 +529,10 @@
   let currentChartType: ChartTypeOption | undefined = chartTypeOptions[0];
   let activeTool = "cursor";
   let indicatorSearchTerm = "";
+  let isSearchActive = false;
+  let technicalGroups: Array<[string, IndicatorDefinition[]]> = [];
+  let indicatorModalSection: "Technicals" | "Fundamentals" | "Options" =
+    "Technicals";
   const toNumber = (value: unknown): number | null => {
     const n =
       typeof value === "number"
@@ -991,6 +987,9 @@
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
   );
+  const INDICATOR_MODAL_SECTIONS: Array<
+    "Technicals" | "Fundamentals" | "Options"
+  > = ["Technicals", "Fundamentals", "Options"];
 
   const cloneIndicatorParams = () =>
     Object.fromEntries(
@@ -4065,44 +4064,6 @@
     analystTargetLevels = levels;
   };
 
-  const updateFinancialSelectorPositions = () => {
-    if (!chart || !chartContainer || !isSubscribed) {
-      financialSelectorPositions = [];
-      return;
-    }
-
-    const activeIds: FinancialIndicatorId[] = [];
-    if (indicatorState.revenue) activeIds.push("revenue");
-    if (indicatorState.eps) activeIds.push("eps");
-
-    if (!activeIds.length) {
-      financialSelectorPositions = [];
-      return;
-    }
-
-    const containerRect =
-      cachedChartRect ?? chartContainer.getBoundingClientRect();
-    if (!containerRect) {
-      financialSelectorPositions = [];
-      return;
-    }
-
-    const positions: FinancialSelectorPosition[] = [];
-    for (const id of activeIds) {
-      const paneRoot = chart.getDom(`sn_${id}_pane`, "root");
-      if (!paneRoot) continue;
-      const paneRect = paneRoot.getBoundingClientRect();
-      positions.push({
-        id,
-        x: paneRect.right - containerRect.left - 6,
-        y: paneRect.bottom - containerRect.top - 6,
-        visible: paneRect.width > 0 && paneRect.height > 0,
-      });
-    }
-
-    financialSelectorPositions = positions;
-  };
-
   // Handle Hottest Contracts level click
   const handleHottestLevelClick = (level: HottestLevel, event: MouseEvent) => {
     event.stopPropagation();
@@ -4170,7 +4131,6 @@
     updateHottestLevels();
     updateMaxPainLevels();
     updateAnalystTargetLevels();
-    updateFinancialSelectorPositions();
   };
 
   // Throttled version for scroll/zoom events (16ms = ~60fps)
@@ -5597,6 +5557,7 @@
 
   function closeIndicatorModal() {
     indicatorSearchTerm = "";
+    indicatorModalSection = "Technicals";
   }
 
   function zoomChart(scale: number) {
@@ -6483,6 +6444,10 @@
     );
   });
   $: groupedIndicators = groupChartIndicators(filteredIndicators);
+  $: isSearchActive = indicatorSearchTerm.trim().length > 0;
+  $: technicalGroups = Object.entries(groupedIndicators).filter(
+    ([cat]) => cat !== "Options" && cat !== "Fundamentals",
+  );
 
   $: currentChartType =
     chartTypeOptions.find((item) => item.id === chartType) ??
@@ -7447,44 +7412,6 @@
             >Stocknear</span
           >
         </div>
-
-        {#if isSubscribed && financialSelectorPositions.length > 0}
-          <div class="absolute inset-0 z-[6] pointer-events-none">
-            {#each financialSelectorPositions as position (position.id)}
-              {#if position.visible}
-                {@const paneLabel =
-                  position.id === "revenue" ? "Revenue" : "EPS"}
-                <div
-                  class="absolute pointer-events-auto"
-                  style="left: {position.x}px; top: {position.y}px; transform: translate(-100%, -100%);"
-                >
-                  <div
-                    class="flex items-center gap-1 rounded-full border border-neutral-700 bg-neutral-900/80 px-2 py-1 shadow-sm"
-                  >
-                    <span
-                      class="text-[10px] uppercase tracking-wide text-neutral-400"
-                    >
-                      {paneLabel}
-                    </span>
-                    {#each FINANCIAL_PERIOD_OPTIONS as option}
-                      <button
-                        type="button"
-                        class="px-2 py-0.5 rounded-full text-[11px] border transition {financialIndicatorPeriod ===
-                        option.id
-                          ? 'border-violet-500 text-violet-200 bg-violet-900/40'
-                          : 'border-neutral-700 text-neutral-400 hover:border-violet-400 hover:text-violet-200'}"
-                        on:click|stopPropagation={() =>
-                          setFinancialIndicatorPeriod(option.id)}
-                      >
-                        {option.label}
-                      </button>
-                    {/each}
-                  </div>
-                </div>
-              {/if}
-            {/each}
-          </div>
-        {/if}
 
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
@@ -8961,21 +8888,21 @@
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-300 dark:border-zinc-700 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
+    class="modal-box relative bg-[#1f1f1f] text-neutral-100 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-neutral-800 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden shadow-2xl"
   >
-    <div class="relative flex flex-col w-full">
+    <div class="relative flex flex-col w-full h-full">
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-300 dark:border-zinc-700 border-b"
+        class="sticky top-0 z-40 bg-[#1f1f1f] pb-6 pt-5 border-b border-neutral-800"
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class="text-[1rem] sm:text-xl font-semibold text-neutral-100"
           >
-            Select Indicators ({indicatorItems.length} total)
+            Indicators, metrics, and strategies
           </h2>
           <label
             for="indicatorModal"
-            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem]"
+            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem] text-neutral-300 hover:text-white transition"
             on:click={closeIndicatorModal}
             aria-label="Close indicators modal"
           >
@@ -8992,16 +8919,16 @@
         </div>
 
         <form
-          class="w-full h-8"
+          class="w-full h-10"
           on:keydown={(e) => (e?.key === "Enter" ? e.preventDefault() : "")}
         >
           <label for="indicator-search" class="sr-only">Search</label>
-          <div class="relative w-full max-w-sm">
+          <div class="relative w-full max-w-md">
             <div
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
+                class="w-4 h-4 text-neutral-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -9025,7 +8952,7 @@
             >
               <button
                 on:click={() => (indicatorSearchTerm = "")}
-                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                class="cursor-pointer text-neutral-500 hover:text-neutral-200 transition"
                 tabindex="0"
                 aria-label="Clear search"
               >
@@ -9048,83 +8975,142 @@
             <input
               autocomplete="off"
               id="indicator-search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder="Search..."
+              class="focus:outline-none placeholder:text-neutral-500 block w-full p-2.5 ps-10 text-sm border border-neutral-700 rounded-lg bg-[#262626]"
+              placeholder="Search"
               bind:value={indicatorSearchTerm}
             />
           </div>
         </form>
       </div>
 
-      <div class="">
-        <h4
-          class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
+      <div class="flex flex-1 gap-6 pt-6 overflow-hidden min-h-0">
+        <aside
+          class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-neutral-800"
         >
-          Technical Indicators
-        </h4>
-        {#each Object.entries(groupedIndicators).filter(([cat]) => cat !== "Options" && cat !== "Fundamentals" && cat !== "Market Structure") as [category, indicators]}
-          <div class="mt-4">
-            <div
-              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-            >
-              {category}
+          <div
+            class="text-[11px] uppercase tracking-wide text-neutral-500"
+          >
+            Built-in
+          </div>
+          <button
+            type="button"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            'Technicals'
+              ? 'bg-neutral-800 text-white'
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+            on:click={() => (indicatorModalSection = "Technicals")}
+          >
+            Technicals
+          </button>
+          <button
+            type="button"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            'Fundamentals'
+              ? 'bg-neutral-800 text-white'
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+            on:click={() => (indicatorModalSection = "Fundamentals")}
+          >
+            Fundamentals
+          </button>
+          <button
+            type="button"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            'Options'
+              ? 'bg-neutral-800 text-white'
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+            on:click={() => (indicatorModalSection = "Options")}
+          >
+            Options
+          </button>
+        </aside>
+
+        <div class="flex-1 min-w-0 overflow-y-auto pr-2">
+          <div class="md:hidden flex flex-wrap gap-2 mb-4">
+            {#each INDICATOR_MODAL_SECTIONS as section}
+              <button
+                type="button"
+                class="px-3 py-1.5 rounded-full text-sm border transition {indicatorModalSection ===
+                section
+                  ? 'border-neutral-500 text-white bg-neutral-800'
+                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-white'}"
+                on:click={() => (indicatorModalSection = section)}
+              >
+                {section}
+              </button>
+            {/each}
+          </div>
+
+          {#if filteredIndicators.length === 0}
+            <div class="mt-5 font-semibold text-[1rem] sm:text-lg text-neutral-200">
+              Nothing found
             </div>
-            <div class="flex flex-wrap">
-              {#each indicators as indicator}
-                <div
-                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
-                >
-                  <input
-                    on:click={() => toggleIndicatorById(indicator.id)}
-                    id={indicator.id}
-                    type="checkbox"
-                    checked={Boolean(indicatorState[indicator.id])}
-                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
-                  />
-                  <div class="-mt-0.5">
-                    <div class="flex items-center gap-1">
-                      <label
-                        for={indicator.id}
-                        class="cursor-pointer text-[1rem]"
+          {:else if isSearchActive}
+            {#if technicalGroups.length}
+              <div
+                class="text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Technicals
+              </div>
+              {#each technicalGroups as [category, indicators]}
+                <div class="mt-4">
+                  <div
+                    class="text-[11px] uppercase tracking-wide text-neutral-500/80"
+                  >
+                    {category}
+                  </div>
+                  <div class="mt-2 space-y-1">
+                    {#each indicators as indicator}
+                      <div
+                        class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
                       >
-                        {indicator.label}
-                      </label>
-                      <InfoModal
-                        id={`indicator-${indicator.id}`}
-                        title={indicator.label}
-                        callAPI={true}
-                        parameter={indicator.infoKey || indicator.id}
-                      />
-                    </div>
+                        <div class="flex items-center gap-2">
+                          <input
+                            on:click={() => toggleIndicatorById(indicator.id)}
+                            id={indicator.id}
+                            type="checkbox"
+                            checked={Boolean(indicatorState[indicator.id])}
+                            class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                          />
+                          <label
+                            for={indicator.id}
+                            class="cursor-pointer text-[1rem]"
+                          >
+                            {indicator.label}
+                          </label>
+                          <InfoModal
+                            id={`indicator-${indicator.id}`}
+                            title={indicator.label}
+                            callAPI={true}
+                            parameter={indicator.infoKey || indicator.id}
+                          />
+                        </div>
+                      </div>
+                    {/each}
                   </div>
                 </div>
               {/each}
-            </div>
-          </div>
-        {/each}
+            {/if}
 
-        {#if groupedIndicators["Options"]}
-          <h4
-            class="mb-1 font-semibold text-lg mt-8 text-gray-900 dark:text-white"
-          >
-            Options
-          </h4>
-          <div class="mt-4">
-            <div class="flex flex-wrap">
-              {#each groupedIndicators["Options"] as indicator}
-                <div
-                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
-                >
-                  {#if isSubscribed}
-                    <input
-                      on:click={() => toggleIndicatorById(indicator.id)}
-                      id={indicator.id}
-                      type="checkbox"
-                      checked={Boolean(indicatorState[indicator.id])}
-                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
-                    />
-                    <div class="-mt-0.5">
-                      <div class="flex items-center gap-1">
+            {#if groupedIndicators["Options"]}
+              <div
+                class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Options
+              </div>
+              <div class="mt-2 space-y-1">
+                {#each groupedIndicators["Options"] as indicator}
+                  <div
+                    class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    {#if isSubscribed}
+                      <div class="flex items-center gap-2">
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={indicator.id}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        />
                         <label
                           for={indicator.id}
                           class="cursor-pointer text-[1rem]"
@@ -9138,76 +9124,49 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                    </div>
-                  {:else}
-                    <button
-                      on:click={() => goto("/pricing")}
-                      class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                    >
-                      <svg
-                        class="w-4 h-4 mr-1.5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
+                    {:else}
+                      <button
+                        on:click={() => goto("/pricing")}
+                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
                       >
-                        <path
-                          fill="currentColor"
-                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        />
-                      </svg>
-                      <span class="text-[1rem]">{indicator.label}</span>
-                    </button>
-                  {/if}
-                </div>
-              {/each}
-            </div>
-          </div>
-        {/if}
-
-        {#if groupedIndicators["Fundamentals"]}
-          <h4
-            class="mb-1 font-semibold text-lg mt-8 text-gray-900 dark:text-white"
-          >
-            Fundamentals
-          </h4>
-          <div class="mt-4">
-            {#if isSubscribed}
-              <div class="flex flex-wrap items-center gap-2 mb-3">
-                <span
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                >
-                  Revenue/EPS Period
-                </span>
-                <div class="flex items-center gap-1">
-                  {#each FINANCIAL_PERIOD_OPTIONS as option}
-                    <button
-                      type="button"
-                      class="px-2 py-1 rounded-full text-[11px] border transition {financialIndicatorPeriod ===
-                      option.id
-                        ? 'border-violet-500 text-violet-700 dark:text-violet-300 bg-violet-100/70 dark:bg-violet-900/30'
-                        : 'border-gray-200 dark:border-zinc-800 text-gray-600 dark:text-zinc-400 hover:border-violet-300 hover:text-violet-600 dark:hover:text-violet-300'}"
-                      on:click={() => setFinancialIndicatorPeriod(option.id)}
-                    >
-                      {option.label}
-                    </button>
-                  {/each}
-                </div>
+                        <svg
+                          class="w-4 h-4 mr-1.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                        <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                    {/if}
+                  </div>
+                {/each}
               </div>
             {/if}
-            <div class="flex flex-wrap">
-              {#each groupedIndicators["Fundamentals"] as indicator}
-                <div
-                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
-                >
-                  {#if isSubscribed}
-                    <input
-                      on:click={() => toggleIndicatorById(indicator.id)}
-                      id={indicator.id}
-                      type="checkbox"
-                      checked={Boolean(indicatorState[indicator.id])}
-                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
-                    />
-                    <div class="-mt-0.5">
-                      <div class="flex items-center gap-1">
+
+            {#if groupedIndicators["Fundamentals"]}
+              <div
+                class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Fundamentals
+              </div>
+              <div class="mt-2 space-y-1">
+                {#each groupedIndicators["Fundamentals"] as indicator}
+                  <div
+                    class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    {#if isSubscribed}
+                      <div class="flex items-center gap-2">
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={indicator.id}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        />
                         <label
                           for={indicator.id}
                           class="cursor-pointer text-[1rem]"
@@ -9221,53 +9180,69 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                    </div>
-                  {:else}
-                    <button
-                      on:click={() => goto("/pricing")}
-                      class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                    >
-                      <svg
-                        class="w-4 h-4 mr-1.5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
+                      {#if indicator.id === "revenue" || indicator.id === "eps"}
+                        <div
+                          class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                        >
+                          {#each FINANCIAL_PERIOD_OPTIONS as option}
+                            <button
+                              type="button"
+                              class="px-2 py-0.5 text-[11px] rounded border transition {financialIndicatorPeriod ===
+                              option.id
+                                ? 'border-neutral-500 text-white bg-neutral-800'
+                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                              on:click|stopPropagation={() =>
+                                setFinancialIndicatorPeriod(option.id)}
+                            >
+                              {option.label}
+                            </button>
+                          {/each}
+                        </div>
+                      {/if}
+                    {:else}
+                      <button
+                        on:click={() => goto("/pricing")}
+                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
                       >
-                        <path
-                          fill="currentColor"
-                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        />
-                      </svg>
-                      <span class="text-[1rem]">{indicator.label}</span>
-                    </button>
-                  {/if}
-                </div>
-              {/each}
-            </div>
-          </div>
-        {/if}
+                        <svg
+                          class="w-4 h-4 mr-1.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                        <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
 
-        {#if groupedIndicators["Market Structure"]}
-          <h4
-            class="mb-1 font-semibold text-lg mt-8 text-gray-900 dark:text-white"
-          >
-            Market Structure
-          </h4>
-          <div class="mt-4">
-            <div class="flex flex-wrap">
-              {#each groupedIndicators["Market Structure"] as indicator}
-                <div
-                  class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
-                >
-                  {#if isSubscribed}
-                    <input
-                      on:click={() => toggleIndicatorById(indicator.id)}
-                      id={indicator.id}
-                      type="checkbox"
-                      checked={Boolean(indicatorState[indicator.id])}
-                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
-                    />
-                    <div class="-mt-0.5">
-                      <div class="flex items-center gap-1">
+          {:else if indicatorModalSection === "Fundamentals"}
+            {#if groupedIndicators["Fundamentals"]}
+              <div
+                class="text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Fundamentals
+              </div>
+              <div class="mt-2 space-y-1">
+                {#each groupedIndicators["Fundamentals"] as indicator}
+                  <div
+                    class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    {#if isSubscribed}
+                      <div class="flex items-center gap-2">
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={indicator.id}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        />
                         <label
                           for={indicator.id}
                           class="cursor-pointer text-[1rem]"
@@ -9281,36 +9256,152 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                    </div>
-                  {:else}
-                    <button
-                      on:click={() => goto("/pricing")}
-                      class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                    >
-                      <svg
-                        class="w-4 h-4 mr-1.5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
+                      {#if indicator.id === "revenue" || indicator.id === "eps"}
+                        <div
+                          class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                        >
+                          {#each FINANCIAL_PERIOD_OPTIONS as option}
+                            <button
+                              type="button"
+                              class="px-2 py-0.5 text-[11px] rounded border transition {financialIndicatorPeriod ===
+                              option.id
+                                ? 'border-neutral-500 text-white bg-neutral-800'
+                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                              on:click|stopPropagation={() =>
+                                setFinancialIndicatorPeriod(option.id)}
+                            >
+                              {option.label}
+                            </button>
+                          {/each}
+                        </div>
+                      {/if}
+                    {:else}
+                      <button
+                        on:click={() => goto("/pricing")}
+                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
                       >
-                        <path
-                          fill="currentColor"
-                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        <svg
+                          class="w-4 h-4 mr-1.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                        <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          {:else if indicatorModalSection === "Options"}
+            {#if groupedIndicators["Options"]}
+              <div
+                class="text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Options
+              </div>
+              <div class="mt-2 space-y-1">
+                {#each groupedIndicators["Options"] as indicator}
+                  <div
+                    class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    {#if isSubscribed}
+                      <div class="flex items-center gap-2">
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={indicator.id}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
                         />
-                      </svg>
-                      <span class="text-[1rem]">{indicator.label}</span>
-                    </button>
-                  {/if}
+                        <label
+                          for={indicator.id}
+                          class="cursor-pointer text-[1rem]"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
+                      </div>
+                    {:else}
+                      <button
+                        on:click={() => goto("/pricing")}
+                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                      >
+                        <svg
+                          class="w-4 h-4 mr-1.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                        <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          {:else}
+            {#if technicalGroups.length}
+              <div
+                class="text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Technicals
+              </div>
+              {#each technicalGroups as [category, indicators]}
+                <div class="mt-4">
+                  <div
+                    class="text-[11px] uppercase tracking-wide text-neutral-500/80"
+                  >
+                    {category}
+                  </div>
+                  <div class="mt-2 space-y-1">
+                    {#each indicators as indicator}
+                      <div
+                        class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                      >
+                        <div class="flex items-center gap-2">
+                          <input
+                            on:click={() => toggleIndicatorById(indicator.id)}
+                            id={indicator.id}
+                            type="checkbox"
+                            checked={Boolean(indicatorState[indicator.id])}
+                            class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                          />
+                          <label
+                            for={indicator.id}
+                            class="cursor-pointer text-[1rem]"
+                          >
+                            {indicator.label}
+                          </label>
+                          <InfoModal
+                            id={`indicator-${indicator.id}`}
+                            title={indicator.label}
+                            callAPI={true}
+                            parameter={indicator.infoKey || indicator.id}
+                          />
+                        </div>
+                      </div>
+                    {/each}
+                  </div>
                 </div>
               {/each}
-            </div>
-          </div>
-        {/if}
+            {/if}
 
-        {#if filteredIndicators.length === 0}
-          <div class="mt-5 font-semibold text-[1rem] sm:text-lg">
-            Nothing found
-          </div>
-        {/if}
+          {/if}
+        </div>
       </div>
     </div>
   </div>
