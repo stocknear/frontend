@@ -1450,10 +1450,25 @@
         ? "opacity-100 text-amber-400"
         : "opacity-0 group-hover:opacity-100 text-neutral-500 hover:text-amber-400"
     }`;
+  // Sort indicators with selected ones at the top, then alphabetically
+  const sortIndicatorsBySelection = <T extends { id: string; label: string }>(
+    indicators: T[],
+    state: typeof indicatorState,
+  ): T[] => {
+    return [...indicators].sort((a, b) => {
+      const aSelected = Boolean(state[a.id]);
+      const bSelected = Boolean(state[b.id]);
+      if (aSelected !== bSelected) {
+        return aSelected ? -1 : 1;
+      }
+      return a.label.localeCompare(b.label);
+    });
+  };
   let favoriteIndicators = [];
-  $: favoriteIndicators = indicatorItems
-    .filter((item) => indicatorFavorites.includes(item.id))
-    .sort((a, b) => a.label.localeCompare(b.label));
+  $: favoriteIndicators = sortIndicatorsBySelection(
+    indicatorItems.filter((item) => indicatorFavorites.includes(item.id)),
+    indicatorState,
+  );
   let filteredIndicators = indicatorItems;
   let groupedIndicators = groupChartIndicators(indicatorItems);
 
@@ -6993,12 +7008,26 @@
   });
   $: groupedIndicators = groupChartIndicators(filteredIndicators);
   $: isSearchActive = indicatorSearchTerm.trim().length > 0;
-  $: technicalGroups = Object.entries(groupedIndicators).filter(
-    ([cat]) => cat !== "Options" && cat !== "Fundamentals",
+  $: technicalGroups = Object.entries(groupedIndicators)
+    .filter(([cat]) => cat !== "Options" && cat !== "Fundamentals")
+    .map(
+      ([cat, indicators]) =>
+        [cat, sortIndicatorsBySelection(indicators, indicatorState)] as [
+          string,
+          typeof indicators,
+        ],
+    );
+  $: fundamentalsIndicators = sortIndicatorsBySelection(
+    (groupedIndicators["Fundamentals"] ?? []).filter(
+      (indicator) =>
+        (FUNDAMENTAL_INDICATOR_MAP[indicator.id] ?? "ratios") ===
+        fundamentalsTab,
+    ),
+    indicatorState,
   );
-  $: fundamentalsIndicators = (groupedIndicators["Fundamentals"] ?? []).filter(
-    (indicator) =>
-      (FUNDAMENTAL_INDICATOR_MAP[indicator.id] ?? "ratios") === fundamentalsTab,
+  $: optionsIndicators = sortIndicatorsBySelection(
+    groupedIndicators["Options"] ?? [],
+    indicatorState,
   );
 
   $: currentChartType =
@@ -9753,14 +9782,14 @@
               {/each}
             {/if}
 
-            {#if groupedIndicators["Options"]}
+            {#if optionsIndicators.length > 0}
               <div
                 class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
               >
                 Options
               </div>
               <div class="mt-2 space-y-1">
-                {#each groupedIndicators["Options"] as indicator}
+                {#each optionsIndicators as indicator}
                   <div
                     class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
                   >
@@ -10161,12 +10190,12 @@
               </div>
             {/if}
           {:else if indicatorModalSection === "Options"}
-            {#if groupedIndicators["Options"]}
+            {#if optionsIndicators.length > 0}
               <div class="text-xs uppercase tracking-wide text-neutral-500">
                 Options
               </div>
               <div class="mt-2 space-y-1">
-                {#each groupedIndicators["Options"] as indicator}
+                {#each optionsIndicators as indicator}
                   <div
                     class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
                   >
