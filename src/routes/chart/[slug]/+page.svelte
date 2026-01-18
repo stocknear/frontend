@@ -55,6 +55,7 @@
 
   const zone = "America/New_York";
   const PRICE_DECIMALS = 2;
+  type FinancialIndicatorPeriod = "annual" | "quarterly" | "ttm";
 
   // Throttle utility for performance optimization
   function throttle<T extends (...args: any[]) => void>(
@@ -105,6 +106,7 @@
     showDividends?: boolean;
     showNewsFlow?: boolean;
     showShortInterest?: boolean;
+    financialIndicatorPeriod?: FinancialIndicatorPeriod;
     selectedToolByGroup?: Record<string, string>; // Toolbar selection state
     drawingMode?: "normal" | "weak_magnet" | "strong_magnet";
     drawingsLocked?: boolean;
@@ -287,6 +289,14 @@
   let maxPainData: MaxPainDataPoint[] = [];
   let maxPainLoading = false;
   let analystTargetLoading = false;
+  let financialIndicatorPeriod: FinancialIndicatorPeriod = "annual";
+  let incomeStatementData: {
+    annual: any[];
+    quarter: any[];
+    ttm: any[];
+  } | null = null;
+  let incomeStatementLoading = false;
+  let incomeStatementTicker = "";
   let revenueData: any[] = [];
   let revenueLoading = false;
   let epsData: any[] = [];
@@ -432,6 +442,7 @@
     expiration: string;
     dte: number | null;
     y: number;
+    labelY: number;
     visible: boolean;
     isPrimary: boolean;
     intensity: number;
@@ -958,6 +969,15 @@
       pane: "panel",
       height: 120,
     },
+  ];
+
+  const FINANCIAL_PERIOD_OPTIONS: {
+    id: FinancialIndicatorPeriod;
+    label: string;
+  }[] = [
+    { id: "annual", label: "Annual" },
+    { id: "quarterly", label: "Quarterly" },
+    { id: "ttm", label: "TTM" },
   ];
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
@@ -3326,118 +3346,181 @@
     analystTargetLoading = false;
   };
 
-  // Fetch Revenue data
-  const fetchRevenueDataIndicator = async () => {
-    if (revenueLoading || !ticker) return;
-    revenueLoading = true;
-    try {
-      const response = await fetch("/api/chart-indicator", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ticker, category: "revenue" }),
-      });
+  const resolveIncomeStatementPeriodData = (
+    data: { annual: any[]; quarter: any[]; ttm: any[] } | null,
+    period: FinancialIndicatorPeriod,
+  ): { period: FinancialIndicatorPeriod; rows: any[] } => {
+    if (!data) return { period, rows: [] };
+    const periodMap: Record<FinancialIndicatorPeriod, any[]> = {
+      annual: Array.isArray(data.annual) ? data.annual : [],
+      quarterly: Array.isArray(data.quarter) ? data.quarter : [],
+      ttm: Array.isArray(data.ttm) ? data.ttm : [],
+    };
 
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+    const preferred = periodMap[period] ?? [];
+    if (preferred.length) {
+      return { period, rows: preferred };
+    }
 
-      const result = await response.json();
-      console.log("[Revenue] API result keys:", Object.keys(result || {}));
-
-      // Revenue API returns { annual: [...], quarter: [...] }
-      // Use quarterly data for more granular chart display
-      const quarterData = result?.quarter || [];
-      const annualData = result?.annual || [];
-      const historyData =
-        quarterData.length > 0
-          ? quarterData
-          : annualData.length > 0
-            ? annualData
-            : result?.history || result?.data || [];
-      const isQuarterly = quarterData.length > 0;
-
-      if (historyData.length === 0) {
-        revenueData = [];
-        setRevenueData([]);
-        revenueLoading = false;
-        return;
+    const fallbackOrder: FinancialIndicatorPeriod[] = [
+      "annual",
+      "quarterly",
+      "ttm",
+    ];
+    for (const fallback of fallbackOrder) {
+      const rows = periodMap[fallback];
+      if (rows?.length) {
+        return { period: fallback, rows };
       }
+    }
 
-      // Sort by date for YoY calculation
-      const sortedData = [...historyData].sort((a: any, b: any) => {
-        const dateA = new Date(
-          a.date || a.fiscalDateEnding || a.recordDate || 0,
-        ).getTime();
-        const dateB = new Date(
-          b.date || b.fiscalDateEnding || b.recordDate || 0,
-        ).getTime();
-        return dateA - dateB;
-      });
+    return { period, rows: [] };
+  };
 
-      // Build lookup for YoY growth calculation
-      const lookupMap = new Map<string, any>();
-      sortedData.forEach((item: any) => {
-        const key =
-          isQuarterly && item.period
-            ? `${item.period}-${item.fiscalYear}`
-            : `${item.fiscalYear}`;
-        lookupMap.set(key, item);
-      });
+  const getStatementYear = (item: any): number | null => {
+    const yearValue = toNumber(item?.fiscalYear ?? item?.calendarYear);
+    if (yearValue !== null) return Math.trunc(yearValue);
+    const dateStr =
+      item?.date || item?.fiscalDateEnding || item?.recordDate || null;
+    if (dateStr) {
+      const dt = DateTime.fromISO(dateStr, { zone });
+      if (dt.isValid) return dt.year;
+      const parsed = new Date(dateStr);
+      if (!isNaN(parsed.getTime())) {
+        return DateTime.fromJSDate(parsed, { zone }).year;
+      }
+    }
+    return null;
+  };
 
-      const indicatorData = sortedData
-        .map((item: any) => {
-          // Try multiple date field names
-          const dateStr =
-            item.date ||
-            item.fiscalDateEnding ||
-            item.recordDate ||
-            item.calendarYear;
+  const getStatementTimestamp = (item: any): number => {
+    const dateStr =
+      item?.date || item?.fiscalDateEnding || item?.recordDate || null;
+    if (dateStr) {
+      const dt = DateTime.fromISO(dateStr, { zone });
+      if (dt.isValid) return dt.startOf("day").toMillis();
+      const parsed = new Date(dateStr);
+      if (!isNaN(parsed.getTime())) {
+        return DateTime.fromJSDate(parsed, { zone })
+          .startOf("day")
+          .toMillis();
+      }
+    }
+    const year = getStatementYear(item);
+    return year !== null
+      ? DateTime.fromObject({ year }, { zone }).startOf("year").toMillis()
+      : 0;
+  };
 
-          let timestamp = 0;
-          if (dateStr) {
-            // Try ISO format first
-            const dt = DateTime.fromISO(dateStr, { zone });
-            if (dt.isValid) {
-              timestamp = dt.startOf("day").toMillis();
-            } else {
-              // Fallback: try parsing as Date object
-              const parsed = new Date(dateStr);
-              if (!isNaN(parsed.getTime())) {
-                timestamp = DateTime.fromJSDate(parsed, { zone })
-                  .startOf("day")
-                  .toMillis();
-              }
-            }
-          }
+  const buildStatementKey = (
+    item: any,
+    period: FinancialIndicatorPeriod,
+  ): string | null => {
+    const year = getStatementYear(item);
+    if (year === null) return null;
+    if (period === "quarterly") {
+      const quarter = item?.period || item?.calendarQuarter;
+      return quarter ? `${quarter}-${year}` : null;
+    }
+    return `${year}`;
+  };
 
-          // Calculate YoY growth
-          const currentRevenue = item.revenue ?? item.totalRevenue ?? 0;
-          let revenueGrowth = 0;
+  const buildStatementPrevKey = (
+    item: any,
+    period: FinancialIndicatorPeriod,
+  ): string | null => {
+    const year = getStatementYear(item);
+    if (year === null) return null;
+    if (period === "quarterly") {
+      const quarter = item?.period || item?.calendarQuarter;
+      return quarter ? `${quarter}-${year - 1}` : null;
+    }
+    return `${year - 1}`;
+  };
 
-          const prevKey =
-            isQuarterly && item.period
-              ? `${item.period}-${item.fiscalYear - 1}`
-              : `${item.fiscalYear - 1}`;
-          const prevItem = lookupMap.get(prevKey);
+  const buildRevenueIndicatorData = (
+    rows: any[],
+    period: FinancialIndicatorPeriod,
+  ) => {
+    const sortedRows = [...rows].sort(
+      (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
+    );
 
-          if (prevItem?.revenue) {
-            revenueGrowth =
-              ((currentRevenue - prevItem.revenue) /
-                Math.abs(prevItem.revenue)) *
-              100;
-          }
+    const lookupMap = new Map<string, any>();
+    for (const item of sortedRows) {
+      const key = buildStatementKey(item, period);
+      if (key) lookupMap.set(key, item);
+    }
 
-          return {
-            timestamp,
-            revenue: currentRevenue,
-            revenueGrowth: Number.isFinite(revenueGrowth) ? revenueGrowth : 0,
-          };
-        })
-        ?.filter((d: any) => d.timestamp > 0);
+    return sortedRows
+      .map((item) => {
+        const timestamp = getStatementTimestamp(item);
+        const currentRevenue = toNumber(
+          item?.revenue ?? item?.totalRevenue ?? item?.total_revenue,
+        );
+        const prevKey = buildStatementPrevKey(item, period);
+        const prevItem = prevKey ? lookupMap.get(prevKey) : null;
+        const prevRevenue = prevItem
+          ? toNumber(
+              prevItem?.revenue ??
+                prevItem?.totalRevenue ??
+                prevItem?.total_revenue,
+            )
+          : null;
 
+        let revenueGrowth = 0;
+        if (
+          currentRevenue !== null &&
+          prevRevenue !== null &&
+          prevRevenue !== 0
+        ) {
+          revenueGrowth =
+            ((currentRevenue - prevRevenue) / Math.abs(prevRevenue)) * 100;
+        }
+
+        return {
+          timestamp,
+          revenue: currentRevenue ?? 0,
+          revenueGrowth: Number.isFinite(revenueGrowth) ? revenueGrowth : 0,
+        };
+      })
+      .filter((d) => d.timestamp > 0);
+  };
+
+  const buildEpsIndicatorData = (rows: any[]) =>
+    rows
+      .map((item) => {
+        const timestamp = getStatementTimestamp(item);
+        const epsValue = toNumber(
+          item?.eps ?? item?.epsBasic ?? item?.eps_basic ?? item?.epsDiluted,
+        );
+        const epsDiluted = toNumber(
+          item?.epsDiluted ?? item?.eps_diluted ?? item?.epsDiluted,
+        );
+
+        return {
+          timestamp,
+          eps: epsValue ?? 0,
+          epsEstimate: epsDiluted ?? undefined,
+          epsSurprise: undefined,
+        };
+      })
+      .filter((d) => d.timestamp > 0);
+
+  const refreshIncomeStatementIndicators = () => {
+    if (!incomeStatementData) return;
+    const resolved = resolveIncomeStatementPeriodData(
+      incomeStatementData,
+      financialIndicatorPeriod,
+    );
+
+    if (indicatorState.revenue) {
+      const indicatorData = buildRevenueIndicatorData(
+        resolved.rows,
+        resolved.period,
+      );
       revenueData = indicatorData;
       setRevenueData(indicatorData);
-
-      // Force indicator refresh by removing and recreating
       if (chart && indicatorState.revenue) {
         const existingId = indicatorInstanceIds.revenue;
         if (existingId) {
@@ -3446,38 +3529,73 @@
         }
         syncIndicators();
       }
-    } catch (error) {
-      console.error("[Revenue] Failed to fetch revenue data:", error);
-      revenueData = [];
-      setRevenueData([]);
     }
+
+    if (indicatorState.eps) {
+      const indicatorData = buildEpsIndicatorData(resolved.rows);
+      epsData = indicatorData;
+      setEPSData(indicatorData);
+      if (chart && indicatorState.eps) {
+        syncIndicators();
+      }
+    }
+  };
+
+  const fetchIncomeStatementData = async () => {
+    if (incomeStatementLoading || !ticker) return;
+    if (incomeStatementData && incomeStatementTicker === ticker) {
+      refreshIncomeStatementIndicators();
+      return;
+    }
+    incomeStatementLoading = true;
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category: "income-statement" }),
+      });
+
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+      incomeStatementData = {
+        annual: Array.isArray(result?.annual) ? result.annual : [],
+        quarter: Array.isArray(result?.quarter)
+          ? result.quarter
+          : Array.isArray(result?.quarterly)
+            ? result.quarterly
+            : [],
+        ttm: Array.isArray(result?.ttm) ? result.ttm : [],
+      };
+      incomeStatementTicker = ticker;
+      refreshIncomeStatementIndicators();
+    } catch (error) {
+      console.error("[IncomeStatement] Failed to fetch data:", error);
+      incomeStatementData = null;
+      incomeStatementTicker = "";
+      revenueData = [];
+      epsData = [];
+      setRevenueData([]);
+      setEPSData([]);
+    } finally {
+      incomeStatementLoading = false;
+    }
+  };
+
+  // Fetch Revenue data
+  const fetchRevenueDataIndicator = async () => {
+    if (revenueLoading || !ticker) return;
+    revenueLoading = true;
+    await fetchIncomeStatementData();
     revenueLoading = false;
   };
 
   // Fetch EPS data
   const fetchEPSDataIndicator = async () => {
-    if (epsLoading) return;
+    if (epsLoading || !ticker) return;
     epsLoading = true;
-    await fetchIndicatorData(
-      "eps",
-      "epsLoading",
-      (data) => {
-        epsData = data;
-        setEPSData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(
-          item.date || item.fiscalDateEnding || item.recordDate,
-          { zone },
-        )
-          .startOf("day")
-          .toMillis(),
-        eps: item.eps ?? item.reportedEPS ?? 0,
-        epsEstimate: item.epsEstimate ?? item.estimatedEPS ?? 0,
-        epsSurprise:
-          item.epsSurprise ?? item.surprise ?? item.surprisePercent ?? 0,
-      }),
-    );
+    await fetchIncomeStatementData();
     epsLoading = false;
   };
 
@@ -3863,11 +3981,16 @@
       if (pixel && typeof pixel.y === "number") {
         const isPrimary = index === 0;
         const intensity = isPrimary ? 1 : 0.7;
+        const labelY =
+          chartHeight > 0
+            ? Math.min(chartHeight - 20, Math.max(2, pixel.y - 10))
+            : pixel.y - 10;
         levels.push({
           price: item.maxPain,
           expiration: item.expiration,
           dte,
           y: pixel.y,
+          labelY,
           visible:
             chartHeight > 0
               ? pixel.y >= -20 && pixel.y <= chartHeight + 20
@@ -5215,6 +5338,18 @@
     return Boolean(indicatorState[id]);
   }
 
+  const setFinancialIndicatorPeriod = (period: FinancialIndicatorPeriod) => {
+    if (financialIndicatorPeriod === period) return;
+    financialIndicatorPeriod = period;
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({ ...currentSettings, financialIndicatorPeriod });
+    if (incomeStatementData) {
+      refreshIncomeStatementIndicators();
+    } else if (indicatorState.revenue || indicatorState.eps) {
+      fetchIncomeStatementData();
+    }
+  };
+
   const toastStyle = () =>
     `border-radius: 5px; background: #fff; color: #000; border-color: ${
       $mode === "light" ? "#F9FAFB" : "#4B5563"
@@ -5734,6 +5869,14 @@
       if (typeof savedSettings.drawingsVisible === "boolean") {
         drawingsVisible = savedSettings.drawingsVisible;
       }
+      if (
+        savedSettings.financialIndicatorPeriod &&
+        FINANCIAL_PERIOD_OPTIONS.some(
+          (option) => option.id === savedSettings.financialIndicatorPeriod,
+        )
+      ) {
+        financialIndicatorPeriod = savedSettings.financialIndicatorPeriod;
+      }
     } else if (data?.user?.tier === "Pro") {
       // Default to true for Pro users if no settings saved
       showEarnings = true;
@@ -6079,12 +6222,21 @@
     analystTargetSummary = null;
     analystTargetLevels = [];
     selectedAnalystTargetLevel = null;
+    incomeStatementData = null;
+    incomeStatementTicker = "";
+    revenueData = [];
+    epsData = [];
+    clearRevenueData();
+    clearEPSData();
     // If indicator was enabled, refetch for new ticker
     if (indicatorState?.short_interest) {
       fetchShortInterestData();
     }
     if (indicatorState?.analyst_target) {
       fetchAnalystTargetData();
+    }
+    if (indicatorState?.revenue || indicatorState?.eps) {
+      fetchIncomeStatementData();
     }
     if (indicatorState?.max_pain) {
       fetchMaxPainData();
@@ -8108,7 +8260,7 @@
                 ></div>
                 <div
                   class="absolute right-2 pointer-events-auto cursor-pointer"
-                  style="top: {level.y - 10}px;"
+                  style="top: {level.labelY}px;"
                   on:click={(e) => handleAnalystTargetLevelClick(level, e)}
                   on:keypress={(e) =>
                     e.key === 'Enter' && handleAnalystTargetLevelClick(level, e)}
@@ -8933,6 +9085,29 @@
             Fundamentals
           </h4>
           <div class="mt-4">
+            {#if isSubscribed}
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  Revenue/EPS Period
+                </span>
+                <div class="flex items-center gap-1">
+                  {#each FINANCIAL_PERIOD_OPTIONS as option}
+                    <button
+                      type="button"
+                      class="px-2 py-1 rounded-full text-[11px] border transition {financialIndicatorPeriod ===
+                      option.id
+                        ? 'border-violet-500 text-violet-700 dark:text-violet-300 bg-violet-100/70 dark:bg-violet-900/30'
+                        : 'border-gray-200 dark:border-zinc-800 text-gray-600 dark:text-zinc-400 hover:border-violet-300 hover:text-violet-600 dark:hover:text-violet-300'}"
+                      on:click={() => setFinancialIndicatorPeriod(option.id)}
+                    >
+                      {option.label}
+                    </button>
+                  {/each}
+                </div>
+              </div>
+            {/if}
             <div class="flex flex-wrap">
               {#each groupedIndicators["Fundamentals"] as indicator}
                 <div

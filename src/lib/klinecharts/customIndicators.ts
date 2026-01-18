@@ -1661,8 +1661,8 @@ function createRevenueIndicator(): IndicatorTemplate<IndicatorRecord, number> {
 interface EPSDataPoint {
   timestamp: number;
   eps: number;
-  epsEstimate: number;
-  epsSurprise: number;
+  epsEstimate?: number;
+  epsSurprise?: number;
 }
 
 let epsData: EPSDataPoint[] = [];
@@ -1683,7 +1683,7 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     precision: 2,
     figures: [
       { key: "eps", title: "EPS: ", type: "line" },
-      { key: "epsEstimate", title: "Est: ", type: "line" },
+      { key: "epsEstimate", title: "Diluted: ", type: "line" },
     ],
     createTooltipDataSource: ({ crosshair, indicator }) => {
       const dataIndex = crosshair.dataIndex;
@@ -1692,16 +1692,33 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
       if (!result || result.eps === undefined) return { legends: [] };
 
-      const surprise = result.epsSurprise as number || 0;
-      const surpriseColor = surprise >= 0 ? "#22C55E" : "#EF4444";
+      const surprise = result.epsSurprise as number | undefined;
+      const surpriseColor =
+        typeof surprise === "number" && surprise >= 0 ? "#22C55E" : "#EF4444";
+      const legends = [
+        {
+          title: "EPS: ",
+          value: { text: `$${(result.eps as number).toFixed(2)}`, color: "#22C55E" },
+        },
+      ];
 
-      return {
-        legends: [
-          { title: "EPS: ", value: { text: `$${(result.eps as number).toFixed(2)}`, color: "#22C55E" } },
-          { title: "Estimate: ", value: { text: `$${(result.epsEstimate as number || 0).toFixed(2)}`, color: "#6B7280" } },
-          { title: "Surprise: ", value: { text: `${surprise.toFixed(1)}%`, color: surpriseColor } },
-        ],
-      };
+      if (Number.isFinite(result.epsEstimate as number)) {
+        legends.push({
+          title: "Diluted: ",
+          value: {
+            text: `$${(result.epsEstimate as number).toFixed(2)}`,
+            color: "#6B7280",
+          },
+        });
+      }
+      if (Number.isFinite(surprise as number)) {
+        legends.push({
+          title: "Surprise: ",
+          value: { text: `${(surprise as number).toFixed(1)}%`, color: surpriseColor },
+        });
+      }
+
+      return { legends };
     },
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
@@ -1726,8 +1743,12 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       for (let i = 0; i < result.length; i++) {
         if (result[i].isDataPoint) {
           lastEPS = result[i].eps as number;
-          lastEstimate = result[i].epsEstimate as number;
-          lastSurprise = result[i].epsSurprise as number;
+          if (Number.isFinite(result[i].epsEstimate as number)) {
+            lastEstimate = result[i].epsEstimate as number;
+          }
+          if (Number.isFinite(result[i].epsSurprise as number)) {
+            lastSurprise = result[i].epsSurprise as number;
+          }
         }
         result[i].eps = lastEPS;
         result[i].epsEstimate = lastEstimate;

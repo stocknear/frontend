@@ -15,6 +15,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "ev-ebitda": "/historical-ev-ebitda",
   "market-cap": "/historical-market-cap",
   "analyst-target": "/analyst-summary-rating",
+  "income-statement": "/financial-statement",
   "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
   "max-pain": "/max-pain",
@@ -64,6 +65,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   } else if (category === "short-interest") {
     postData = {
       ticker: data?.ticker,
+    };
+  } else if (category === "income-statement") {
+    postData = {
+      ticker: data?.ticker,
+      statement: "income-statement",
     };
   } else {
     // Default payload for most fundamental indicators
