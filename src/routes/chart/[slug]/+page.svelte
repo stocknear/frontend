@@ -64,6 +64,7 @@
   export let form;
 
   const zone = "America/New_York";
+  const PRICE_DECIMALS = 2;
 
   // Throttle utility for performance optimization
   function throttle<T extends (...args: any[]) => void>(
@@ -531,8 +532,7 @@
   const normalizeAssetType = (value: unknown): string => {
     if (typeof value !== "string") return "";
     let type = value.toLowerCase().trim();
-    if (type.endsWith("s")) type = type.slice(0, -1);
-    if (["stock", "etf", "index"].includes(type)) return type;
+    if (["stock", "stocks", "etf", "index"].includes(type)) return type;
     return "";
   };
 
@@ -3163,9 +3163,7 @@
         parseMaxPainExpiration(item?.expiration_date) ??
         parseMaxPainExpiration(item?.date) ??
         parseMaxPainExpiration(item?.recordDate);
-      const maxPain = toNumber(
-        item?.maxPain ?? item?.max_pain ?? item?.strike,
-      );
+      const maxPain = toNumber(item?.maxPain ?? item?.max_pain ?? item?.strike);
       if (!expiration || maxPain === null) continue;
       normalized.push({ expiration, maxPain });
     }
@@ -3832,10 +3830,7 @@
   };
 
   // Handle Max Pain level click
-  const handleMaxPainLevelClick = (
-    level: MaxPainLevel,
-    event: MouseEvent,
-  ) => {
+  const handleMaxPainLevelClick = (level: MaxPainLevel, event: MouseEvent) => {
     event.stopPropagation();
     selectedMaxPainLevel = level;
     selectedGexLevel = null;
@@ -4386,11 +4381,7 @@
       }
     }
 
-    pricePrecision = computePricePrecision([
-      ...dailyBars,
-      ...intradayBars,
-      ...minuteBars,
-    ]);
+    pricePrecision = PRICE_DECIMALS;
     priceFormatter = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: pricePrecision,
       maximumFractionDigits: pricePrecision,
@@ -5739,7 +5730,8 @@
 
           // Use 95th percentile as max to handle outliers/spikes gracefully
           const percentileIndex = Math.floor(volumes.length * 0.95);
-          const percentileMax = volumes[Math.min(percentileIndex, volumes.length - 1)];
+          const percentileMax =
+            volumes[Math.min(percentileIndex, volumes.length - 1)];
           const actualMax = volumes[volumes.length - 1];
 
           // If the spike is more than 3x the 95th percentile, cap at 1.5x the 95th percentile
@@ -5975,11 +5967,7 @@
   }
 
   $: {
-    pricePrecision = computePricePrecision([
-      ...dailyBars,
-      ...intradayBars,
-      ...minuteBars,
-    ]);
+    pricePrecision = PRICE_DECIMALS;
     priceFormatter = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: pricePrecision,
       maximumFractionDigits: pricePrecision,
@@ -7875,7 +7863,9 @@
               {#if level.visible}
                 <div
                   class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; border-top: {level.isPrimary ? 2 : 1}px solid rgba(245, 158, 11, {0.5 +
+                  style="top: {level.y}px; border-top: {level.isPrimary
+                    ? 2
+                    : 1}px solid rgba(245, 158, 11, {0.5 +
                     level.intensity * 0.4}); opacity: {0.65 +
                     level.intensity * 0.35}"
                   on:click={(e) => handleMaxPainLevelClick(level, e)}
@@ -7913,11 +7903,13 @@
         <!-- Max Pain popup -->
         {#if selectedMaxPainLevel}
           {@const refPrice = typeof lastClose === "number" ? lastClose : null}
-          {@const diff = refPrice !== null ? selectedMaxPainLevel.price - refPrice : null}
+          {@const diff =
+            refPrice !== null ? selectedMaxPainLevel.price - refPrice : null}
           {@const diffAbs = diff !== null ? Math.abs(diff) : null}
-          {@const diffLabel = diffAbs !== null
-            ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
-            : "-"}
+          {@const diffLabel =
+            diffAbs !== null
+              ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
+              : "-"}
           {@const diffPct = refPrice !== null ? (diff / refPrice) * 100 : null}
           <button
             class="fixed inset-0 z-[6] cursor-default bg-transparent"
@@ -8016,7 +8008,7 @@
                 href="/{resolvedAssetType}/{ticker}/options/max-pain"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
-                View max pain table
+                View All Max Pain
               </a>
             </div>
           </div>
