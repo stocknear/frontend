@@ -9959,24 +9959,26 @@
                         parameter={indicator.infoKey || indicator.id}
                       />
                       {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div class="flex items-center gap-1 ml-auto" data-period-key={periodKey}>
-                          {#each FINANCIAL_PERIOD_OPTIONS as option}
-                            <button
-                              type="button"
-                              class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
-                                indicator.id,
-                              ) === option.id
-                                ? 'border-neutral-500 text-white bg-neutral-800'
-                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
-                              on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(
+                        <div class="flex items-center gap-1 ml-auto">
+                          {#key `${periodKey}-${indicator.id}`}
+                            {#each FINANCIAL_PERIOD_OPTIONS as option}
+                              <button
+                                type="button"
+                                class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
-                                  option.id,
-                                )}
-                            >
-                              {option.label}
-                            </button>
-                          {/each}
+                                ) === option.id
+                                  ? 'border-neutral-500 text-white bg-neutral-800'
+                                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                on:click|stopPropagation={() =>
+                                  setFinancialIndicatorPeriod(
+                                    indicator.id,
+                                    option.id,
+                                  )}
+                              >
+                                {option.label}
+                              </button>
+                            {/each}
+                          {/key}
                         </div>
                       {/if}
                     {:else}
@@ -10065,24 +10067,26 @@
                       parameter={indicator.infoKey || indicator.id}
                     />
                     {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                      <div class="flex items-center gap-1 ml-auto" data-period-key={periodKey}>
-                        {#each FINANCIAL_PERIOD_OPTIONS as option}
-                          <button
-                            type="button"
-                            class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
-                              indicator.id,
-                            ) === option.id
-                              ? 'border-neutral-500 text-white bg-neutral-800'
-                              : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
-                            on:click|stopPropagation={() =>
-                              setFinancialIndicatorPeriod(
+                      <div class="flex items-center gap-1 ml-auto">
+                        {#key `${periodKey}-${indicator.id}`}
+                          {#each FINANCIAL_PERIOD_OPTIONS as option}
+                            <button
+                              type="button"
+                              class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                 indicator.id,
-                                option.id,
-                              )}
-                          >
-                            {option.label}
-                          </button>
-                        {/each}
+                              ) === option.id
+                                ? 'border-neutral-500 text-white bg-neutral-800'
+                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                              on:click|stopPropagation={() =>
+                                setFinancialIndicatorPeriod(
+                                  indicator.id,
+                                  option.id,
+                                )}
+                            >
+                              {option.label}
+                            </button>
+                          {/each}
+                        {/key}
                       </div>
                     {/if}
                   </div>
@@ -10156,24 +10160,26 @@
                         parameter={indicator.infoKey || indicator.id}
                       />
                       {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div class="flex items-center gap-1 ml-auto" data-period-key={periodKey}>
-                          {#each FINANCIAL_PERIOD_OPTIONS as option}
-                            <button
-                              type="button"
-                              class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
-                                indicator.id,
-                              ) === option.id
-                                ? 'border-neutral-500 text-white bg-neutral-800'
-                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
-                              on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(
+                        <div class="flex items-center gap-1 ml-auto">
+                          {#key `${periodKey}-${indicator.id}`}
+                            {#each FINANCIAL_PERIOD_OPTIONS as option}
+                              <button
+                                type="button"
+                                class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
-                                  option.id,
-                                )}
-                            >
-                              {option.label}
-                            </button>
-                          {/each}
+                                ) === option.id
+                                  ? 'border-neutral-500 text-white bg-neutral-800'
+                                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                on:click|stopPropagation={() =>
+                                  setFinancialIndicatorPeriod(
+                                    indicator.id,
+                                    option.id,
+                                  )}
+                              >
+                                {option.label}
+                              </button>
+                            {/each}
+                          {/key}
                         </div>
                       {/if}
                     {:else}
