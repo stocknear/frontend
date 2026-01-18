@@ -534,6 +534,8 @@
   let indicatorSearchTerm = "";
   let isSearchActive = false;
   let technicalGroups: Array<[string, IndicatorDefinition[]]> = [];
+  type FundamentalTabId = "income" | "balance" | "cashflow" | "ratios";
+  let fundamentalsTab: FundamentalTabId = "income";
   let indicatorModalSection: "Technicals" | "Fundamentals" | "Options" =
     "Technicals";
   const toNumber = (value: unknown): number | null => {
@@ -990,6 +992,23 @@
     annual: "Annual",
     quarterly: "Quarterly",
     ttm: "TTM",
+  };
+  const FUNDAMENTAL_TABS: { id: FundamentalTabId; label: string }[] = [
+    { id: "income", label: "Income statement" },
+    { id: "balance", label: "Balance sheet" },
+    { id: "cashflow", label: "Cash flow" },
+    { id: "ratios", label: "Ratios" },
+  ];
+  const FUNDAMENTAL_INDICATOR_MAP: Record<string, FundamentalTabId> = {
+    revenue: "income",
+    eps: "income",
+    margin: "income",
+    market_cap: "balance",
+    fcf: "cashflow",
+    pe_ratio: "ratios",
+    ev_ebitda: "ratios",
+    short_interest: "ratios",
+    analyst_target: "ratios",
   };
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
@@ -5415,9 +5434,10 @@
   };
 
   const setFinancialIndicatorPeriod = (
-    id: "revenue" | "eps",
+    id: string,
     period: FinancialIndicatorPeriod,
   ) => {
+    if (id !== "revenue" && id !== "eps") return;
     const current = getFinancialIndicatorPeriod(id);
     if (current === period) return;
     if (id === "revenue") {
@@ -5639,6 +5659,7 @@
   function closeIndicatorModal() {
     indicatorSearchTerm = "";
     indicatorModalSection = "Technicals";
+    fundamentalsTab = "income";
   }
 
   function zoomChart(scale: number) {
@@ -6540,6 +6561,13 @@
   $: isSearchActive = indicatorSearchTerm.trim().length > 0;
   $: technicalGroups = Object.entries(groupedIndicators).filter(
     ([cat]) => cat !== "Options" && cat !== "Fundamentals",
+  );
+  $: fundamentalsIndicators = (
+    groupedIndicators["Fundamentals"] ?? []
+  ).filter(
+    (indicator) =>
+      (FUNDAMENTAL_INDICATOR_MAP[indicator.id] ?? "ratios") ===
+      fundamentalsTab,
   );
 
   $: currentChartType =
@@ -9246,8 +9274,27 @@
               >
                 Fundamentals
               </div>
-              <div class="mt-2 space-y-1">
-                {#each groupedIndicators["Fundamentals"] as indicator}
+              <div class="mt-2 flex flex-wrap gap-2">
+                {#each FUNDAMENTAL_TABS as tab}
+                  <button
+                    type="button"
+                    class="px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
+                    tab.id
+                      ? 'border-neutral-500 text-white bg-neutral-800'
+                      : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                    on:click={() => (fundamentalsTab = tab.id)}
+                  >
+                    {tab.label}
+                  </button>
+                {/each}
+              </div>
+              {#if fundamentalsIndicators.length === 0}
+                <div class="mt-4 text-sm text-neutral-500">
+                  No indicators available for this section yet.
+                </div>
+              {/if}
+              <div class="mt-4 space-y-1">
+                {#each fundamentalsIndicators as indicator}
                   <div
                     class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
                   >
@@ -9325,8 +9372,27 @@
               >
                 Fundamentals
               </div>
-              <div class="mt-2 space-y-1">
-                {#each groupedIndicators["Fundamentals"] as indicator}
+              <div class="mt-2 flex flex-wrap gap-2">
+                {#each FUNDAMENTAL_TABS as tab}
+                  <button
+                    type="button"
+                    class="px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
+                    tab.id
+                      ? 'border-neutral-500 text-white bg-neutral-800'
+                      : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                    on:click={() => (fundamentalsTab = tab.id)}
+                  >
+                    {tab.label}
+                  </button>
+                {/each}
+              </div>
+              {#if fundamentalsIndicators.length === 0}
+                <div class="mt-4 text-sm text-neutral-500">
+                  No indicators available for this section yet.
+                </div>
+              {/if}
+              <div class="mt-4 space-y-1">
+                {#each fundamentalsIndicators as indicator}
                   <div
                     class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
                   >
