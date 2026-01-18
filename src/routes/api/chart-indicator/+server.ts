@@ -14,7 +14,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "pe-ratio": "/historical-pe",
   "ev-ebitda": "/historical-ev-ebitda",
   "market-cap": "/historical-market-cap",
-  "analyst-target": "/analyst-price-targets",
+  "analyst-target": "/analyst-summary-rating",
   "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
   "max-pain": "/max-pain",

@@ -16,8 +16,6 @@
     setFTDData,
     clearFTDData,
     clearMaxPainData,
-    setAnalystTargetData,
-    clearAnalystTargetData,
     setRevenueData,
     clearRevenueData,
     setEPSData,
@@ -288,7 +286,6 @@
   let ftdLoading = false;
   let maxPainData: MaxPainDataPoint[] = [];
   let maxPainLoading = false;
-  let analystTargetData: any[] = [];
   let analystTargetLoading = false;
   let revenueData: any[] = [];
   let revenueLoading = false;
@@ -443,6 +440,31 @@
   let maxPainLevels: MaxPainLevel[] = [];
   let selectedMaxPainLevel: MaxPainLevel | null = null;
   let maxPainPopupPosition = { x: 0, y: 0 };
+
+  // Analyst Target types and state
+  type AnalystTargetKey = "low" | "average" | "median" | "high";
+  interface AnalystTargetSummary {
+    low: number | null;
+    average: number | null;
+    median: number | null;
+    high: number | null;
+    numAnalysts: number | null;
+    consensus: string | null;
+  }
+
+  interface AnalystTargetLevel {
+    key: AnalystTargetKey;
+    label: string;
+    price: number;
+    y: number;
+    visible: boolean;
+    color: string;
+  }
+
+  let analystTargetSummary: AnalystTargetSummary | null = null;
+  let analystTargetLevels: AnalystTargetLevel[] = [];
+  let selectedAnalystTargetLevel: AnalystTargetLevel | null = null;
+  let analystTargetPopupPosition = { x: 0, y: 0 };
 
   $: isSubscribed = data?.user?.tier === "Pro";
 
@@ -2686,6 +2708,7 @@
     selectedDexLevel = null;
     selectedOiLevel = null;
     selectedMaxPainLevel = null;
+    selectedAnalystTargetLevel = null;
     gexDexPopupPosition = calculatePopupPosition(event);
   };
 
@@ -2696,6 +2719,7 @@
     selectedGexLevel = null;
     selectedOiLevel = null;
     selectedMaxPainLevel = null;
+    selectedAnalystTargetLevel = null;
     gexDexPopupPosition = calculatePopupPosition(event);
   };
 
@@ -2894,6 +2918,7 @@
     selectedGexLevel = null;
     selectedDexLevel = null;
     selectedMaxPainLevel = null;
+    selectedAnalystTargetLevel = null;
     oiPopupPosition = calculatePopupPosition(event);
   };
 
@@ -3247,30 +3272,56 @@
 
   // Fetch Analyst Target data
   const fetchAnalystTargetData = async () => {
-    if (analystTargetLoading) return;
+    if (analystTargetLoading || !ticker) return;
     analystTargetLoading = true;
-    await fetchIndicatorData(
-      "analyst-target",
-      "analystTargetLoading",
-      (data) => {
-        analystTargetData = data;
-        setAnalystTargetData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        highTarget:
-          item.highTarget ?? item.high_target ?? item.priceTargetHigh ?? 0,
-        averageTarget:
-          item.averageTarget ??
-          item.average_target ??
-          item.priceTargetAverage ??
-          0,
-        lowTarget:
-          item.lowTarget ?? item.low_target ?? item.priceTargetLow ?? 0,
-      }),
-    );
+    const normalizeTargetValue = (value: unknown) => {
+      const num = toNumber(value);
+      return num !== null && num > 0 ? num : null;
+    };
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category: "analyst-target" }),
+      });
+
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+
+      const summary: AnalystTargetSummary = {
+        low: normalizeTargetValue(
+          result?.lowPriceTarget ?? result?.low_price_target,
+        ),
+        average: normalizeTargetValue(
+          result?.avgPriceTarget ??
+            result?.averagePriceTarget ??
+            result?.avg_price_target,
+        ),
+        median: normalizeTargetValue(
+          result?.medianPriceTarget ?? result?.median_price_target,
+        ),
+        high: normalizeTargetValue(
+          result?.highPriceTarget ?? result?.high_price_target,
+        ),
+        numAnalysts: toNumber(result?.numOfAnalyst ?? result?.num_of_analyst),
+        consensus: result?.consensusRating ?? result?.consensus_rating ?? null,
+      };
+
+      const hasTargets =
+        summary.low !== null ||
+        summary.average !== null ||
+        summary.median !== null ||
+        summary.high !== null;
+
+      analystTargetSummary = hasTargets ? summary : null;
+      updateAnalystTargetLevels();
+    } catch (error) {
+      console.error("[AnalystTarget] Failed to fetch summary data:", error);
+      analystTargetSummary = null;
+      analystTargetLevels = [];
+    }
     analystTargetLoading = false;
   };
 
@@ -3657,7 +3708,7 @@
     if (indicatorState.max_pain && maxPainData.length === 0) {
       fetchMaxPainData();
     }
-    if (indicatorState.analyst_target && analystTargetData.length === 0) {
+    if (indicatorState.analyst_target && !analystTargetSummary) {
       fetchAnalystTargetData();
     }
     if (indicatorState.short_interest && historicalShortInterest.length === 0) {
@@ -3829,6 +3880,53 @@
     maxPainLevels = levels;
   };
 
+  const ANALYST_TARGET_COLORS: Record<AnalystTargetKey, string> = {
+    high: "#22C55E",
+    average: "#F59E0B",
+    median: "#60A5FA",
+    low: "#EF4444",
+  };
+
+  const updateAnalystTargetLevels = () => {
+    if (!indicatorState.analyst_target) {
+      analystTargetLevels = [];
+      return;
+    }
+    if (!chart || !chartContainer || !analystTargetSummary) {
+      analystTargetLevels = [];
+      return;
+    }
+
+    const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
+    const targets: { key: AnalystTargetKey; label: string; value: number | null }[] = [
+      { key: "high", label: "High", value: analystTargetSummary.high },
+      { key: "average", label: "Avg", value: analystTargetSummary.average },
+      { key: "median", label: "Med", value: analystTargetSummary.median },
+      { key: "low", label: "Low", value: analystTargetSummary.low },
+    ];
+
+    const levels: AnalystTargetLevel[] = [];
+    for (const target of targets) {
+      if (target.value === null) continue;
+      const pixel = chart.convertToPixel({ value: target.value });
+      if (pixel && typeof pixel.y === "number") {
+        levels.push({
+          key: target.key,
+          label: target.label,
+          price: target.value,
+          y: pixel.y,
+          visible:
+            chartHeight > 0
+              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              : true,
+          color: ANALYST_TARGET_COLORS[target.key],
+        });
+      }
+    }
+
+    analystTargetLevels = levels;
+  };
+
   // Handle Hottest Contracts level click
   const handleHottestLevelClick = (level: HottestLevel, event: MouseEvent) => {
     event.stopPropagation();
@@ -3837,6 +3935,7 @@
     selectedDexLevel = null;
     selectedOiLevel = null;
     selectedMaxPainLevel = null;
+    selectedAnalystTargetLevel = null;
     hottestPopupPosition = calculatePopupPosition(event);
   };
 
@@ -3853,12 +3952,31 @@
     selectedDexLevel = null;
     selectedOiLevel = null;
     selectedHottestLevel = null;
+    selectedAnalystTargetLevel = null;
     maxPainPopupPosition = calculatePopupPosition(event, 260, 220);
   };
 
   // Close Max Pain popup
   const closeMaxPainPopup = () => {
     selectedMaxPainLevel = null;
+  };
+
+  const handleAnalystTargetLevelClick = (
+    level: AnalystTargetLevel,
+    event: MouseEvent,
+  ) => {
+    event.stopPropagation();
+    selectedAnalystTargetLevel = level;
+    selectedGexLevel = null;
+    selectedDexLevel = null;
+    selectedOiLevel = null;
+    selectedHottestLevel = null;
+    selectedMaxPainLevel = null;
+    analystTargetPopupPosition = calculatePopupPosition(event, 260, 280);
+  };
+
+  const closeAnalystTargetPopup = () => {
+    selectedAnalystTargetLevel = null;
   };
 
   // Unified function to update all chart overlays (markers and levels)
@@ -3875,6 +3993,7 @@
     updateOiLevels();
     updateHottestLevels();
     updateMaxPainLevels();
+    updateAnalystTargetLevels();
   };
 
   // Throttled version for scroll/zoom events (16ms = ~60fps)
@@ -4973,11 +5092,10 @@
         fetchMaxPainData();
       } else if (name === "max_pain") {
         updateMaxPainLevels();
-      } else if (name === "analyst_target" && analystTargetData.length === 0) {
+      } else if (name === "analyst_target" && !analystTargetSummary) {
         fetchAnalystTargetData();
       } else if (name === "analyst_target") {
-        setAnalystTargetData(analystTargetData);
-        syncIndicators();
+        updateAnalystTargetLevels();
       } else if (name === "revenue" && revenueData.length === 0) {
         fetchRevenueDataIndicator();
       } else if (name === "revenue") {
@@ -5054,8 +5172,9 @@
         selectedMaxPainLevel = null;
         clearMaxPainData();
       } else if (name === "analyst_target") {
-        analystTargetData = [];
-        clearAnalystTargetData();
+        analystTargetSummary = null;
+        analystTargetLevels = [];
+        selectedAnalystTargetLevel = null;
       } else if (name === "revenue") {
         revenueData = [];
         clearRevenueData();
@@ -5949,9 +6068,16 @@
     maxPainData = [];
     maxPainLevels = [];
     selectedMaxPainLevel = null;
+    // Reset analyst target state when ticker changes
+    analystTargetSummary = null;
+    analystTargetLevels = [];
+    selectedAnalystTargetLevel = null;
     // If indicator was enabled, refetch for new ticker
     if (indicatorState?.short_interest) {
       fetchShortInterestData();
+    }
+    if (indicatorState?.analyst_target) {
+      fetchAnalystTargetData();
     }
     if (indicatorState?.max_pain) {
       fetchMaxPainData();
@@ -7958,6 +8084,43 @@
           </div>
         {/if}
 
+        <!-- Analyst Target horizontal levels overlay -->
+        {#if indicatorState.analyst_target && analystTargetLevels.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[4]">
+            {#each analystTargetLevels as level (level.key)}
+              {#if level.visible}
+                <div
+                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  style="top: {level.y}px; border-top: 2px solid {level.color}; opacity: 0.7"
+                  on:click={(e) => handleAnalystTargetLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleAnalystTargetLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Analyst target {level.label} at ${level.price}"
+                ></div>
+                <div
+                  class="absolute right-2 pointer-events-auto cursor-pointer"
+                  style="top: {level.y - 10}px;"
+                  on:click={(e) => handleAnalystTargetLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === 'Enter' && handleAnalystTargetLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Analyst target label {level.label} at ${level.price}"
+                >
+                  <span
+                    class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border"
+                    style="color: {level.color}; border-color: {level.color}55;"
+                  >
+                    AT {level.label} {formatPrice(level.price)}
+                  </span>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
         <!-- Max Pain popup -->
         {#if selectedMaxPainLevel}
           {@const refPrice = typeof lastClose === "number" ? lastClose : null}
@@ -8067,6 +8230,133 @@
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View All Max Pain
+              </a>
+            </div>
+          </div>
+        {/if}
+
+        <!-- Analyst Target popup -->
+        {#if selectedAnalystTargetLevel && analystTargetSummary}
+          {@const refPrice = typeof lastClose === "number" ? lastClose : null}
+          {@const targetRows = [
+            { key: "High", value: analystTargetSummary.high, color: ANALYST_TARGET_COLORS.high },
+            { key: "Average", value: analystTargetSummary.average, color: ANALYST_TARGET_COLORS.average },
+            { key: "Median", value: analystTargetSummary.median, color: ANALYST_TARGET_COLORS.median },
+            { key: "Low", value: analystTargetSummary.low, color: ANALYST_TARGET_COLORS.low },
+          ].filter((row) => row.value !== null)}
+          <button
+            class="fixed inset-0 z-[6] cursor-default bg-transparent"
+            on:click={closeAnalystTargetPopup}
+            aria-label="Close Analyst Target popup"
+          ></button>
+          <div
+            class="absolute z-[7] pointer-events-auto w-[260px]"
+            style="left: {analystTargetPopupPosition.x}px; top: {analystTargetPopupPosition.y}px;"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                <div
+                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                  style="background: #22c55e"
+                ></div>
+                <h3
+                  class="text-white font-semibold text-sm sm:text-base truncate"
+                >
+                  Analyst Targets
+                </h3>
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  on:click={closeAnalystTargetPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Targets info -->
+              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Spot</span>
+                  <span class="font-medium">{formatPrice(refPrice)}</span>
+                </div>
+                {#each targetRows as row (row.key)}
+                  {@const diff =
+                    refPrice !== null ? row.value - refPrice : null}
+                  {@const diffAbs = diff !== null ? Math.abs(diff) : null}
+                  {@const diffLabel =
+                    diffAbs !== null
+                      ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
+                      : "-"}
+                  {@const diffPct =
+                    refPrice !== null && diff !== null
+                      ? (diff / refPrice) * 100
+                      : null}
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">{row.key}</span>
+                    <span class="font-medium" style="color: {row.color}">
+                      {formatPrice(row.value)}
+                    </span>
+                  </div>
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">Distance</span>
+                    <span
+                      class="font-medium {diff !== null && diff >= 0
+                        ? 'text-emerald-400'
+                        : 'text-rose-400'}"
+                    >
+                      {diffLabel} ({formatPercent(diffPct)})
+                    </span>
+                  </div>
+                {/each}
+                {#if analystTargetSummary.numAnalysts !== null}
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">Analysts</span>
+                    <span class="font-medium">
+                      {formatCount(analystTargetSummary.numAnalysts)}
+                    </span>
+                  </div>
+                {/if}
+                {#if analystTargetSummary.consensus}
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">Consensus</span>
+                    <span class="font-medium">
+                      {analystTargetSummary.consensus}
+                    </span>
+                  </div>
+                {/if}
+              </div>
+
+              <!-- Explanation -->
+              <div
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+              >
+                <p>
+                  Targets are 12-month analyst estimates. Use them as reference
+                  levels, not guarantees.
+                </p>
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/stocks/{ticker}/forecast"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+              >
+                View forecast
               </a>
             </div>
           </div>
