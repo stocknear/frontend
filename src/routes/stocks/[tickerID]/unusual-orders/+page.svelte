@@ -5,7 +5,6 @@
   import Exchange from "$lib/components/UnusualOrders/Exchange.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
-  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import SEO from "$lib/components/SEO.svelte";
 
   export let data;
@@ -119,9 +118,6 @@
 
         {#if historicalDarkPool?.length > 10}
           <HistoricalDarkPool {data} rawData={historicalDarkPool} />
-        {/if}
-        {#if data?.user?.tier === "Pro"}
-          <UpgradeToPro {data} />
         {/if}
       </div>
     </div>
