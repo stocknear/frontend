@@ -18,8 +18,6 @@
     clearMaxPainData,
     setAnalystTargetData,
     clearAnalystTargetData,
-    setInsiderActivityData,
-    clearInsiderActivityData,
     setRevenueData,
     clearRevenueData,
     setEPSData,
@@ -34,8 +32,6 @@
     clearEVEBITDAData,
     setMarketCapData,
     clearMarketCapData,
-    setInstitutionalData,
-    clearInstitutionalData,
   } from "$lib/klinecharts/customIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
@@ -294,8 +290,6 @@
   let maxPainLoading = false;
   let analystTargetData: any[] = [];
   let analystTargetLoading = false;
-  let insiderActivityData: any[] = [];
-  let insiderActivityLoading = false;
   let revenueData: any[] = [];
   let revenueLoading = false;
   let epsData: any[] = [];
@@ -310,8 +304,6 @@
   let evEbitdaLoading = false;
   let marketCapData: any[] = [];
   let marketCapLoading = false;
-  let institutionalData: any[] = [];
-  let institutionalLoading = false;
 
   // Cached timestamp maps for performance (avoid re-computing on every scroll/zoom)
   let earningsTimestampCache = new Map<EarningsData, number>();
@@ -900,24 +892,6 @@
       id: "market_cap",
       label: "Market Cap",
       indicatorName: "SN_MARKET_CAP",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-    {
-      id: "insider_activity",
-      label: "Insider Activity",
-      indicatorName: "SN_INSIDER",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-    {
-      id: "institutional",
-      label: "Institutional Ownership",
-      indicatorName: "SN_INSTITUTIONAL",
       category: "Fundamentals",
       defaultParams: [],
       pane: "panel",
@@ -3300,33 +3274,6 @@
     analystTargetLoading = false;
   };
 
-  // Fetch Insider Activity data
-  const fetchInsiderActivityDataIndicator = async () => {
-    if (insiderActivityLoading) return;
-    insiderActivityLoading = true;
-    await fetchIndicatorData(
-      "insider-activity",
-      "insiderActivityLoading",
-      (data) => {
-        insiderActivityData = data;
-        setInsiderActivityData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(
-          item.date || item.transactionDate || item.recordDate,
-          { zone },
-        )
-          .startOf("day")
-          .toMillis(),
-        netShares: item.netShares ?? item.net_shares ?? 0,
-        netValue: item.netValue ?? item.net_value ?? item.transactionValue ?? 0,
-        buyCount: item.buyCount ?? item.buy_count ?? 0,
-        sellCount: item.sellCount ?? item.sell_count ?? 0,
-      }),
-    );
-    insiderActivityLoading = false;
-  };
-
   // Fetch Revenue data
   const fetchRevenueDataIndicator = async () => {
     if (revenueLoading || !ticker) return;
@@ -3675,41 +3622,6 @@
     marketCapLoading = false;
   };
 
-  // Fetch Institutional Ownership data
-  const fetchInstitutionalDataIndicator = async () => {
-    if (institutionalLoading) return;
-    institutionalLoading = true;
-    await fetchIndicatorData(
-      "institutional",
-      "institutionalLoading",
-      (data) => {
-        institutionalData = data;
-        setInstitutionalData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        institutionalOwnership:
-          (item.institutionalOwnership ??
-            item.institutional_ownership ??
-            item.percentOwnership ??
-            0) * 100,
-        institutionalChange:
-          item.institutionalChange ??
-          item.institutional_change ??
-          item.changePercent ??
-          0,
-        numInstitutions:
-          item.numInstitutions ??
-          item.num_institutions ??
-          item.numberOfInstitutions ??
-          0,
-      }),
-    );
-    institutionalLoading = false;
-  };
-
   // Fetch data for indicators that are already enabled on page load
   const fetchDataForEnabledIndicators = async () => {
     if (!chart) return;
@@ -3736,9 +3648,6 @@
     if (indicatorState.ev_ebitda && evEbitdaData.length === 0) {
       fetchEVEBITDADataIndicator();
     }
-    if (indicatorState.institutional && institutionalData.length === 0) {
-      fetchInstitutionalDataIndicator();
-    }
     if (indicatorState.dark_pool && darkPoolData.length === 0) {
       fetchDarkPoolDataIndicator();
     }
@@ -3750,9 +3659,6 @@
     }
     if (indicatorState.analyst_target && analystTargetData.length === 0) {
       fetchAnalystTargetData();
-    }
-    if (indicatorState.insider_activity && insiderActivityData.length === 0) {
-      fetchInsiderActivityDataIndicator();
     }
     if (indicatorState.short_interest && historicalShortInterest.length === 0) {
       fetchShortInterestData();
@@ -5072,14 +4978,6 @@
       } else if (name === "analyst_target") {
         setAnalystTargetData(analystTargetData);
         syncIndicators();
-      } else if (
-        name === "insider_activity" &&
-        insiderActivityData.length === 0
-      ) {
-        fetchInsiderActivityDataIndicator();
-      } else if (name === "insider_activity") {
-        setInsiderActivityData(insiderActivityData);
-        syncIndicators();
       } else if (name === "revenue" && revenueData.length === 0) {
         fetchRevenueDataIndicator();
       } else if (name === "revenue") {
@@ -5114,11 +5012,6 @@
         fetchMarketCapDataIndicator();
       } else if (name === "market_cap") {
         setMarketCapData(marketCapData);
-        syncIndicators();
-      } else if (name === "institutional" && institutionalData.length === 0) {
-        fetchInstitutionalDataIndicator();
-      } else if (name === "institutional") {
-        setInstitutionalData(institutionalData);
         syncIndicators();
       }
     } else {
@@ -5163,9 +5056,6 @@
       } else if (name === "analyst_target") {
         analystTargetData = [];
         clearAnalystTargetData();
-      } else if (name === "insider_activity") {
-        insiderActivityData = [];
-        clearInsiderActivityData();
       } else if (name === "revenue") {
         revenueData = [];
         clearRevenueData();
@@ -5187,9 +5077,6 @@
       } else if (name === "market_cap") {
         marketCapData = [];
         clearMarketCapData();
-      } else if (name === "institutional") {
-        institutionalData = [];
-        clearInstitutionalData();
       }
     }
   }

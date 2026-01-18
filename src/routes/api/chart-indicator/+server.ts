@@ -14,8 +14,6 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "pe-ratio": "/historical-pe",
   "ev-ebitda": "/historical-ev-ebitda",
   "market-cap": "/historical-market-cap",
-  "insider-activity": "/insider-trading-history",
-  "institutional": "/institutional-ownership-history",
   "analyst-target": "/analyst-price-targets",
   "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
@@ -70,7 +68,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   } else {
     // Default payload for most fundamental indicators
     // revenue, eps, fcf, margin, pe-ratio, ev-ebitda, market-cap,
-    // insider-activity, institutional, analyst-target,
+    // analyst-target,
     // dark-pool, ftd, max-pain
     postData = {
       ticker: data?.ticker,
