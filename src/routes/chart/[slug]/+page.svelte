@@ -10055,21 +10055,46 @@
                         parameter={indicator.infoKey || indicator.id}
                       />
                     </div>
-                    <button
-                      type="button"
-                      class="ml-2 shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300"
-                      aria-label="Remove from favorites"
-                      on:click|stopPropagation={(event) =>
-                        toggleIndicatorFavorite(event, indicator.id)}
-                    >
-                      <svg
-                        class="w-4 h-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 16"
+                    <div class="flex items-center gap-2">
+                      <button
+                        type="button"
+                        class="ml-2 shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300"
+                        aria-label="Remove from favorites"
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
                       >
-                        <path fill="currentColor" d={indicatorStarPath} />
-                      </svg>
-                    </button>
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
+                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                        <div
+                          class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition"
+                        >
+                          {#each FINANCIAL_PERIOD_OPTIONS as option}
+                            <button
+                              type="button"
+                              class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                indicator.id,
+                              ) === option.id
+                                ? 'border-neutral-500 text-white bg-neutral-800'
+                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                              on:click|stopPropagation={() =>
+                                setFinancialIndicatorPeriod(
+                                  indicator.id,
+                                  option.id,
+                                )}
+                            >
+                              {option.label}
+                            </button>
+                          {/each}
+                        </div>
+                      {/if}
+                    </div>
                   </div>
                 {/each}
               </div>
