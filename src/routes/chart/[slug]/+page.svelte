@@ -9980,51 +9980,50 @@
             <div class="text-xs uppercase tracking-wide text-neutral-500">
               My Indicators
             </div>
-            <div
-              class="mt-3 text-[11px] uppercase tracking-wide text-neutral-500/70"
-            >
-              Name
-            </div>
             {#if favoriteIndicators.length === 0}
               <div class="mt-4 text-sm text-neutral-500">No favorites yet.</div>
             {:else}
-              <div class="mt-2 space-y-1">
+              <div class="mt-4 space-y-1">
                 {#each favoriteIndicators as indicator}
                   <div
                     class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
                   >
                     <div class="flex items-center gap-2">
-                      <button
-                        type="button"
-                        class="text-amber-400 hover:text-amber-300 transition"
-                        aria-label="Remove from favorites"
-                        on:click|stopPropagation={(event) =>
-                          toggleIndicatorFavorite(event, indicator.id)}
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 16 16"
-                        >
-                          <path fill="currentColor" d={indicatorStarPath} />
-                        </svg>
-                      </button>
-                      <button
-                        type="button"
-                        class="cursor-pointer text-left text-[1rem] text-neutral-200 hover:text-white transition"
+                      <input
                         on:click={() => toggleIndicatorById(indicator.id)}
+                        id={`favorite-${indicator.id}`}
+                        type="checkbox"
+                        checked={Boolean(indicatorState[indicator.id])}
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                      />
+                      <label
+                        for={`favorite-${indicator.id}`}
+                        class="cursor-pointer text-[1rem]"
                       >
                         {indicator.label}
-                      </button>
-                    </div>
-                    <span class="opacity-0 group-hover:opacity-100 transition">
+                      </label>
                       <InfoModal
                         id={`indicator-favorite-${indicator.id}`}
                         title={indicator.label}
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
-                    </span>
+                    </div>
+                    <button
+                      type="button"
+                      class="ml-2 shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300"
+                      aria-label="Remove from favorites"
+                      on:click|stopPropagation={(event) =>
+                        toggleIndicatorFavorite(event, indicator.id)}
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                      >
+                        <path fill="currentColor" d={indicatorStarPath} />
+                      </svg>
+                    </button>
                   </div>
                 {/each}
               </div>
