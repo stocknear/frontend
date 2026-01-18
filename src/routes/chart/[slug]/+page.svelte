@@ -301,6 +301,14 @@
   let revenueLoading = false;
   let epsData: any[] = [];
   let epsLoading = false;
+  type FinancialIndicatorId = "revenue" | "eps";
+  interface FinancialSelectorPosition {
+    id: FinancialIndicatorId;
+    x: number;
+    y: number;
+    visible: boolean;
+  }
+  let financialSelectorPositions: FinancialSelectorPosition[] = [];
   let fcfData: any[] = [];
   let fcfLoading = false;
   let marginData: any[] = [];
@@ -4057,6 +4065,44 @@
     analystTargetLevels = levels;
   };
 
+  const updateFinancialSelectorPositions = () => {
+    if (!chart || !chartContainer || !isSubscribed) {
+      financialSelectorPositions = [];
+      return;
+    }
+
+    const activeIds: FinancialIndicatorId[] = [];
+    if (indicatorState.revenue) activeIds.push("revenue");
+    if (indicatorState.eps) activeIds.push("eps");
+
+    if (!activeIds.length) {
+      financialSelectorPositions = [];
+      return;
+    }
+
+    const containerRect =
+      cachedChartRect ?? chartContainer.getBoundingClientRect();
+    if (!containerRect) {
+      financialSelectorPositions = [];
+      return;
+    }
+
+    const positions: FinancialSelectorPosition[] = [];
+    for (const id of activeIds) {
+      const paneRoot = chart.getDom(`sn_${id}_pane`, "root");
+      if (!paneRoot) continue;
+      const paneRect = paneRoot.getBoundingClientRect();
+      positions.push({
+        id,
+        x: paneRect.right - containerRect.left - 6,
+        y: paneRect.bottom - containerRect.top - 6,
+        visible: paneRect.width > 0 && paneRect.height > 0,
+      });
+    }
+
+    financialSelectorPositions = positions;
+  };
+
   // Handle Hottest Contracts level click
   const handleHottestLevelClick = (level: HottestLevel, event: MouseEvent) => {
     event.stopPropagation();
@@ -4124,6 +4170,7 @@
     updateHottestLevels();
     updateMaxPainLevels();
     updateAnalystTargetLevels();
+    updateFinancialSelectorPositions();
   };
 
   // Throttled version for scroll/zoom events (16ms = ~60fps)
@@ -7400,6 +7447,44 @@
             >Stocknear</span
           >
         </div>
+
+        {#if isSubscribed && financialSelectorPositions.length > 0}
+          <div class="absolute inset-0 z-[6] pointer-events-none">
+            {#each financialSelectorPositions as position (position.id)}
+              {#if position.visible}
+                {@const paneLabel =
+                  position.id === "revenue" ? "Revenue" : "EPS"}
+                <div
+                  class="absolute pointer-events-auto"
+                  style="left: {position.x}px; top: {position.y}px; transform: translate(-100%, -100%);"
+                >
+                  <div
+                    class="flex items-center gap-1 rounded-full border border-neutral-700 bg-neutral-900/80 px-2 py-1 shadow-sm"
+                  >
+                    <span
+                      class="text-[10px] uppercase tracking-wide text-neutral-400"
+                    >
+                      {paneLabel}
+                    </span>
+                    {#each FINANCIAL_PERIOD_OPTIONS as option}
+                      <button
+                        type="button"
+                        class="px-2 py-0.5 rounded-full text-[11px] border transition {financialIndicatorPeriod ===
+                        option.id
+                          ? 'border-violet-500 text-violet-200 bg-violet-900/40'
+                          : 'border-neutral-700 text-neutral-400 hover:border-violet-400 hover:text-violet-200'}"
+                        on:click|stopPropagation={() =>
+                          setFinancialIndicatorPeriod(option.id)}
+                      >
+                        {option.label}
+                      </button>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
 
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
