@@ -5569,6 +5569,60 @@
         axisLine: { show: false },
         tickLine: { show: false },
         tickText: { show: true },
+        // Dynamic scaling based on visible range with outlier handling (like TradingView)
+        createRange: ({ chart: c, defaultRange }) => {
+          const visibleRange = c.getVisibleRange();
+          const dataList = c.getDataList();
+
+          if (!dataList || dataList.length === 0) {
+            return defaultRange;
+          }
+
+          // Collect volumes from visible bars
+          const volumes: number[] = [];
+          for (let i = visibleRange.from; i < visibleRange.to; i++) {
+            const data = dataList[i];
+            if (data && typeof data.volume === "number" && data.volume > 0) {
+              volumes.push(data.volume);
+            }
+          }
+
+          if (volumes.length === 0) {
+            return defaultRange;
+          }
+
+          // Sort volumes to calculate percentile
+          volumes.sort((a, b) => a - b);
+
+          // Use 95th percentile as max to handle outliers/spikes gracefully
+          const percentileIndex = Math.floor(volumes.length * 0.95);
+          const percentileMax = volumes[Math.min(percentileIndex, volumes.length - 1)];
+          const actualMax = volumes[volumes.length - 1];
+
+          // If the spike is more than 3x the 95th percentile, cap at 1.5x the 95th percentile
+          // Otherwise use actual max with small padding
+          let max: number;
+          if (actualMax > percentileMax * 3) {
+            max = percentileMax * 1.5;
+          } else {
+            max = actualMax * 1.05;
+          }
+
+          const min = 0;
+          const range = max - min;
+
+          return {
+            from: min,
+            to: max,
+            range,
+            realFrom: min,
+            realTo: max,
+            realRange: range,
+            displayFrom: min,
+            displayTo: max,
+            displayRange: range,
+          };
+        },
       },
     });
 
