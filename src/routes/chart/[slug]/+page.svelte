@@ -19,7 +19,6 @@
     clearDarkPoolData,
     setFTDData,
     clearFTDData,
-    setMaxPainData,
     clearMaxPainData,
     setAnalystTargetData,
     clearAnalystTargetData,
@@ -298,7 +297,7 @@
   let darkPoolLoading = false;
   let ftdData: any[] = [];
   let ftdLoading = false;
-  let maxPainData: any[] = [];
+  let maxPainData: MaxPainDataPoint[] = [];
   let maxPainLoading = false;
   let analystTargetData: any[] = [];
   let analystTargetLoading = false;
@@ -420,6 +419,26 @@
   let hottestLoading = false;
   let selectedHottestLevel: HottestLevel | null = null;
   let hottestPopupPosition = { x: 0, y: 0 };
+
+  // Max Pain types and state
+  interface MaxPainDataPoint {
+    expiration: string;
+    maxPain: number;
+  }
+
+  interface MaxPainLevel {
+    price: number;
+    expiration: string;
+    dte: number | null;
+    y: number;
+    visible: boolean;
+    isPrimary: boolean;
+    intensity: number;
+  }
+
+  let maxPainLevels: MaxPainLevel[] = [];
+  let selectedMaxPainLevel: MaxPainLevel | null = null;
+  let maxPainPopupPosition = { x: 0, y: 0 };
 
   $: isSubscribed = data?.user?.tier === "Pro";
 
@@ -2633,6 +2652,7 @@
     selectedGexLevel = level;
     selectedDexLevel = null;
     selectedOiLevel = null;
+    selectedMaxPainLevel = null;
     gexDexPopupPosition = calculatePopupPosition(event);
   };
 
@@ -2642,6 +2662,7 @@
     selectedDexLevel = level;
     selectedGexLevel = null;
     selectedOiLevel = null;
+    selectedMaxPainLevel = null;
     gexDexPopupPosition = calculatePopupPosition(event);
   };
 
@@ -2784,6 +2805,7 @@
     selectedOiLevel = level;
     selectedGexLevel = null;
     selectedDexLevel = null;
+    selectedMaxPainLevel = null;
     oiPopupPosition = calculatePopupPosition(event);
   };
 
@@ -3122,26 +3144,63 @@
     ftdLoading = false;
   };
 
+  const parseMaxPainExpiration = (value: unknown): string | null => {
+    if (typeof value !== "string") return null;
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+    const dt = DateTime.fromISO(trimmed, { zone });
+    if (dt.isValid) return dt.toISODate();
+    const alt = DateTime.fromFormat(trimmed, "yyyy-MM-dd", { zone });
+    return alt.isValid ? alt.toISODate() : null;
+  };
+
+  const normalizeMaxPainData = (items: any[]): MaxPainDataPoint[] => {
+    const normalized: MaxPainDataPoint[] = [];
+    for (const item of Array.isArray(items) ? items : []) {
+      const expiration =
+        parseMaxPainExpiration(item?.expiration) ??
+        parseMaxPainExpiration(item?.expirationDate) ??
+        parseMaxPainExpiration(item?.expiration_date) ??
+        parseMaxPainExpiration(item?.date) ??
+        parseMaxPainExpiration(item?.recordDate);
+      const maxPain = toNumber(
+        item?.maxPain ?? item?.max_pain ?? item?.strike,
+      );
+      if (!expiration || maxPain === null) continue;
+      normalized.push({ expiration, maxPain });
+    }
+    normalized.sort((a, b) => a.expiration.localeCompare(b.expiration));
+    return normalized;
+  };
+
   // Fetch Max Pain data
   const fetchMaxPainData = async () => {
-    if (maxPainLoading) return;
+    if (maxPainLoading || !ticker) return;
     maxPainLoading = true;
-    await fetchIndicatorData(
-      "max-pain",
-      "maxPainLoading",
-      (data) => {
-        maxPainData = data;
-        setMaxPainData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        maxPain: item.maxPain ?? item.max_pain ?? item.strike ?? 0,
-        expirationDate: item.expirationDate ?? item.expiration_date ?? "",
-      }),
-    );
-    maxPainLoading = false;
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, category: "max-pain" }),
+      });
+
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+      const historyData = Array.isArray(result)
+        ? result
+        : result?.history || result?.data || [];
+
+      maxPainData = normalizeMaxPainData(historyData);
+      updateMaxPainLevels();
+    } catch (error) {
+      console.error("[MaxPain] Failed to fetch max pain data:", error);
+      maxPainData = [];
+      maxPainLevels = [];
+    } finally {
+      maxPainLoading = false;
+    }
   };
 
   // Fetch Analyst Target data
@@ -3708,6 +3767,75 @@
     hottestLevels = levels;
   };
 
+  // Update Max Pain levels for rendering on chart
+  const updateMaxPainLevels = () => {
+    if (!indicatorState.max_pain) {
+      maxPainLevels = [];
+      return;
+    }
+    if (!chart || !chartContainer || maxPainData.length === 0) {
+      maxPainLevels = [];
+      return;
+    }
+
+    const visibleRange = chart.getVisibleRange();
+    if (!visibleRange) {
+      maxPainLevels = [];
+      return;
+    }
+
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    for (let i = visibleRange.from; i < visibleRange.to; i++) {
+      const bar = currentBars[i];
+      if (bar) {
+        minPrice = Math.min(minPrice, bar.low);
+        maxPrice = Math.max(maxPrice, bar.high);
+      }
+    }
+
+    if (!Number.isFinite(minPrice) || !Number.isFinite(maxPrice)) {
+      maxPainLevels = [];
+      return;
+    }
+
+    const padding = (maxPrice - minPrice) * 0.1;
+    minPrice -= padding;
+    maxPrice += padding;
+
+    const now = DateTime.now().setZone(zone).startOf("day");
+    const upcoming = [...maxPainData]
+      .filter((item) => {
+        const expDate = DateTime.fromISO(item.expiration, { zone });
+        return expDate.isValid ? expDate >= now : true;
+      })
+      .slice(0, 2);
+
+    const levels: MaxPainLevel[] = [];
+    upcoming.forEach((item, index) => {
+      const expDate = DateTime.fromISO(item.expiration, { zone });
+      const dte = expDate.isValid
+        ? Math.max(0, Math.ceil(expDate.diff(now, "days").days))
+        : null;
+      const pixel = chart.convertToPixel({ value: item.maxPain });
+      if (pixel && typeof pixel.y === "number") {
+        const isPrimary = index === 0;
+        const intensity = isPrimary ? 1 : 0.7;
+        levels.push({
+          price: item.maxPain,
+          expiration: item.expiration,
+          dte,
+          y: pixel.y,
+          visible: item.maxPain >= minPrice && item.maxPain <= maxPrice,
+          isPrimary,
+          intensity,
+        });
+      }
+    });
+
+    maxPainLevels = levels;
+  };
+
   // Handle Hottest Contracts level click
   const handleHottestLevelClick = (level: HottestLevel, event: MouseEvent) => {
     event.stopPropagation();
@@ -3715,12 +3843,32 @@
     selectedGexLevel = null;
     selectedDexLevel = null;
     selectedOiLevel = null;
+    selectedMaxPainLevel = null;
     hottestPopupPosition = calculatePopupPosition(event);
   };
 
   // Close Hottest Contracts popup
   const closeHottestPopup = () => {
     selectedHottestLevel = null;
+  };
+
+  // Handle Max Pain level click
+  const handleMaxPainLevelClick = (
+    level: MaxPainLevel,
+    event: MouseEvent,
+  ) => {
+    event.stopPropagation();
+    selectedMaxPainLevel = level;
+    selectedGexLevel = null;
+    selectedDexLevel = null;
+    selectedOiLevel = null;
+    selectedHottestLevel = null;
+    maxPainPopupPosition = calculatePopupPosition(event, 260, 220);
+  };
+
+  // Close Max Pain popup
+  const closeMaxPainPopup = () => {
+    selectedMaxPainLevel = null;
   };
 
   // Unified function to update all chart overlays (markers and levels)
@@ -3736,6 +3884,7 @@
     updateDexLevels();
     updateOiLevels();
     updateHottestLevels();
+    updateMaxPainLevels();
   };
 
   // Throttled version for scroll/zoom events (16ms = ~60fps)
@@ -4847,8 +4996,7 @@
       } else if (name === "max_pain" && maxPainData.length === 0) {
         fetchMaxPainData();
       } else if (name === "max_pain") {
-        setMaxPainData(maxPainData);
-        syncIndicators();
+        updateMaxPainLevels();
       } else if (name === "analyst_target" && analystTargetData.length === 0) {
         fetchAnalystTargetData();
       } else if (name === "analyst_target") {
@@ -4940,6 +5088,8 @@
         clearFTDData();
       } else if (name === "max_pain") {
         maxPainData = [];
+        maxPainLevels = [];
+        selectedMaxPainLevel = null;
         clearMaxPainData();
       } else if (name === "analyst_target") {
         analystTargetData = [];
@@ -5324,7 +5474,7 @@
 
   function formatPrice(value: number | null) {
     if (value === null || !Number.isFinite(value)) return "-";
-    return priceFormatter?.format(value);
+    return priceFormatter?.format(value) ?? value.toFixed(pricePrecision);
   }
 
   function formatPercent(value: number | null) {
@@ -5813,9 +5963,16 @@
     shortInterestTimestampCache = new Map();
     showShortInterest = false;
     clearShortInterestData();
+    // Reset max pain state when ticker changes
+    maxPainData = [];
+    maxPainLevels = [];
+    selectedMaxPainLevel = null;
     // If indicator was enabled, refetch for new ticker
     if (indicatorState?.short_interest) {
       fetchShortInterestData();
+    }
+    if (indicatorState?.max_pain) {
+      fetchMaxPainData();
     }
   }
 
@@ -5869,6 +6026,7 @@
     dexStrikeData;
     oiStrikeData;
     hottestContractsData;
+    maxPainData;
     historicalShortInterest;
     indicatorState;
 
@@ -7725,6 +7883,160 @@
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
+              </a>
+            </div>
+          </div>
+        {/if}
+
+        <!-- Max Pain horizontal levels overlay -->
+        {#if indicatorState.max_pain && maxPainLevels.length > 0}
+          <div class="absolute inset-0 pointer-events-none z-[4]">
+            {#each maxPainLevels as level (level.expiration)}
+              {#if level.visible}
+                <div
+                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                  style="top: {level.y}px; border-top: {level.isPrimary ? 2 : 1}px solid rgba(245, 158, 11, {0.5 +
+                    level.intensity * 0.4}); opacity: {0.65 +
+                    level.intensity * 0.35}"
+                  on:click={(e) => handleMaxPainLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === "Enter" && handleMaxPainLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Max pain level at ${level.price}"
+                ></div>
+                <div
+                  class="absolute right-2 pointer-events-auto cursor-pointer"
+                  style="top: {level.y - 10}px;"
+                  on:click={(e) => handleMaxPainLevelClick(level, e)}
+                  on:keypress={(e) =>
+                    e.key === "Enter" && handleMaxPainLevelClick(level, e)}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Max pain label at ${level.price}"
+                >
+                  <span
+                    class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] text-amber-200 border border-amber-500/30"
+                  >
+                    MP {formatExpiration(level.expiration)}
+                    {#if level.dte !== null}
+                      ({level.dte}d)
+                    {/if}
+                    {formatPrice(level.price)}
+                  </span>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Max Pain popup -->
+        {#if selectedMaxPainLevel}
+          {@const refPrice = typeof lastClose === "number" ? lastClose : null}
+          {@const diff = refPrice !== null ? selectedMaxPainLevel.price - refPrice : null}
+          {@const diffAbs = diff !== null ? Math.abs(diff) : null}
+          {@const diffLabel = diffAbs !== null
+            ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
+            : "-"}
+          {@const diffPct = refPrice !== null ? (diff / refPrice) * 100 : null}
+          <button
+            class="fixed inset-0 z-[6] cursor-default bg-transparent"
+            on:click={closeMaxPainPopup}
+            aria-label="Close Max Pain popup"
+          ></button>
+          <div
+            class="absolute z-[7] pointer-events-auto w-[260px]"
+            style="left: {maxPainPopupPosition.x}px; top: {maxPainPopupPosition.y}px;"
+          >
+            <div
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+            >
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                <div
+                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                  style="background: #f59e0b"
+                ></div>
+                <h3
+                  class="text-white font-semibold text-sm sm:text-base truncate"
+                >
+                  Max Pain
+                </h3>
+                <button
+                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  on:click={closeMaxPainPopup}
+                  aria-label="Close"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Max pain info -->
+              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Expiration</span>
+                  <span class="font-medium"
+                    >{formatExpiration(selectedMaxPainLevel.expiration)}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">DTE</span>
+                  <span class="font-medium"
+                    >{selectedMaxPainLevel.dte !== null
+                      ? `${selectedMaxPainLevel.dte}d`
+                      : "N/A"}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Max Pain</span>
+                  <span class="font-medium text-amber-200"
+                    >{formatPrice(selectedMaxPainLevel.price)}</span
+                  >
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Spot</span>
+                  <span class="font-medium">{formatPrice(refPrice)}</span>
+                </div>
+                <div class="flex justify-between text-neutral-300">
+                  <span class="text-neutral-500">Distance</span>
+                  <span
+                    class="font-medium {diff !== null && diff >= 0
+                      ? 'text-emerald-400'
+                      : 'text-rose-400'}"
+                  >
+                    {diffLabel} ({formatPercent(diffPct)})
+                  </span>
+                </div>
+              </div>
+
+              <!-- Explanation -->
+              <div
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+              >
+                <p>
+                  Max pain is the strike where option buyers lose the most.
+                  Pinning risk increases as DTE shrinks.
+                </p>
+              </div>
+
+              <!-- Link to more details -->
+              <a
+                href="/{resolvedAssetType}/{ticker}/options/max-pain"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+              >
+                View max pain table
               </a>
             </div>
           </div>

@@ -21,7 +21,7 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "put-call-ratio": "/put-call-ratio-history",
   "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
-  "max-pain": "/max-pain-history",
+  "max-pain": "/max-pain",
 };
 
 export const POST: RequestHandler = async ({ request, locals }) => {
