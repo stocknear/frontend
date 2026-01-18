@@ -1450,25 +1450,19 @@
         ? "opacity-100 text-amber-400"
         : "opacity-0 group-hover:opacity-100 text-neutral-500 hover:text-amber-400"
     }`;
-  // Sort indicators with selected ones at the top, then alphabetically
-  const sortIndicatorsBySelection = <T extends { id: string; label: string }>(
-    indicators: T[],
-    state: typeof indicatorState,
-  ): T[] => {
-    return [...indicators].sort((a, b) => {
-      const aSelected = Boolean(state[a.id]);
-      const bSelected = Boolean(state[b.id]);
-      if (aSelected !== bSelected) {
-        return aSelected ? -1 : 1;
+  let favoriteIndicators: typeof indicatorItems = [];
+  // In Favorites tab, sort by enabled state (checkbox) since all are favorites
+  $: favoriteIndicators = indicatorItems
+    .filter((item) => indicatorFavorites.includes(item.id))
+    .slice()
+    .sort((a, b) => {
+      const aEnabled = Boolean(indicatorState[a.id]);
+      const bEnabled = Boolean(indicatorState[b.id]);
+      if (aEnabled !== bEnabled) {
+        return aEnabled ? -1 : 1;
       }
       return a.label.localeCompare(b.label);
     });
-  };
-  let favoriteIndicators = [];
-  $: favoriteIndicators = sortIndicatorsBySelection(
-    indicatorItems.filter((item) => indicatorFavorites.includes(item.id)),
-    indicatorState,
-  );
   let filteredIndicators = indicatorItems;
   let groupedIndicators = groupChartIndicators(indicatorItems);
 
@@ -7008,26 +7002,47 @@
   });
   $: groupedIndicators = groupChartIndicators(filteredIndicators);
   $: isSearchActive = indicatorSearchTerm.trim().length > 0;
+  // Sort indicators: favorites first, then alphabetically
   $: technicalGroups = Object.entries(groupedIndicators)
     .filter(([cat]) => cat !== "Options" && cat !== "Fundamentals")
     .map(
       ([cat, indicators]) =>
-        [cat, sortIndicatorsBySelection(indicators, indicatorState)] as [
-          string,
-          typeof indicators,
-        ],
+        [
+          cat,
+          [...indicators].sort((a, b) => {
+            const aFav = indicatorFavorites.includes(a.id);
+            const bFav = indicatorFavorites.includes(b.id);
+            if (aFav !== bFav) {
+              return aFav ? -1 : 1;
+            }
+            return a.label.localeCompare(b.label);
+          }),
+        ] as [string, typeof indicators],
     );
-  $: fundamentalsIndicators = sortIndicatorsBySelection(
-    (groupedIndicators["Fundamentals"] ?? []).filter(
+  $: fundamentalsIndicators = (groupedIndicators["Fundamentals"] ?? [])
+    .filter(
       (indicator) =>
         (FUNDAMENTAL_INDICATOR_MAP[indicator.id] ?? "ratios") ===
         fundamentalsTab,
-    ),
-    indicatorState,
-  );
-  $: optionsIndicators = sortIndicatorsBySelection(
-    groupedIndicators["Options"] ?? [],
-    indicatorState,
+    )
+    .slice()
+    .sort((a, b) => {
+      const aFav = indicatorFavorites.includes(a.id);
+      const bFav = indicatorFavorites.includes(b.id);
+      if (aFav !== bFav) {
+        return aFav ? -1 : 1;
+      }
+      return a.label.localeCompare(b.label);
+    });
+  $: optionsIndicators = (groupedIndicators["Options"] ?? []).slice().sort(
+    (a, b) => {
+      const aFav = indicatorFavorites.includes(a.id);
+      const bFav = indicatorFavorites.includes(b.id);
+      if (aFav !== bFav) {
+        return aFav ? -1 : 1;
+      }
+      return a.label.localeCompare(b.label);
+    },
   );
 
   $: currentChartType =
@@ -9944,7 +9959,7 @@
                         </button>
                         {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                           <div
-                            class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                            class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition"
                           >
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
@@ -10128,7 +10143,7 @@
                         </button>
                         {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                           <div
-                            class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
+                            class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition"
                           >
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
