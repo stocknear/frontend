@@ -1444,11 +1444,11 @@
     saveIndicatorFavorites();
   };
   const isIndicatorFavorite = (id: string) => indicatorFavorites.includes(id);
-  const getFavoriteStarClass = (id: string) =>
-    `ml-2 shrink-0 transition ${
-      isIndicatorFavorite(id)
+  const getFavoriteStarClass = (isFavorite: boolean) =>
+    `ml-2 shrink-0 transition cursor-pointer ${
+      isFavorite
         ? "opacity-100 text-amber-400"
-        : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto text-neutral-500 hover:text-amber-400"
+        : "opacity-0 group-hover:opacity-100 text-neutral-500 hover:text-amber-400"
     }`;
   let favoriteIndicators = [];
   $: favoriteIndicators = indicatorItems
@@ -9731,7 +9731,7 @@
                         </div>
                         <button
                           type="button"
-                          class={getFavoriteStarClass(indicator.id)}
+                          class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                           aria-label={isIndicatorFavorite(indicator.id)
                             ? "Remove from favorites"
                             : "Add to favorites"}
@@ -9788,7 +9788,7 @@
                       </div>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -9822,7 +9822,7 @@
                       </button>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -9898,7 +9898,7 @@
                       <div class="flex items-center gap-2">
                         <button
                           type="button"
-                          class={getFavoriteStarClass(indicator.id)}
+                          class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                           aria-label={isIndicatorFavorite(indicator.id)
                             ? "Remove from favorites"
                             : "Add to favorites"}
@@ -9956,7 +9956,7 @@
                       </button>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10083,7 +10083,7 @@
                       <div class="flex items-center gap-2">
                         <button
                           type="button"
-                          class={getFavoriteStarClass(indicator.id)}
+                          class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                           aria-label={isIndicatorFavorite(indicator.id)
                             ? "Remove from favorites"
                             : "Add to favorites"}
@@ -10141,7 +10141,7 @@
                       </button>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10195,7 +10195,7 @@
                       </div>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10229,7 +10229,7 @@
                       </button>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10288,7 +10288,7 @@
                       </div>
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicator.id)}
+                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id))}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
