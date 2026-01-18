@@ -532,7 +532,8 @@
   const normalizeAssetType = (value: unknown): string => {
     if (typeof value !== "string") return "";
     let type = value.toLowerCase().trim();
-    if (["stock", "stocks", "etf", "index"].includes(type)) return type;
+    if (type === "stock") return "stocks";
+    if (["stocks", "etf", "index"].includes(type)) return type;
     return "";
   };
 
@@ -7845,7 +7846,7 @@
 
               <!-- Link to more details -->
               <a
-                href="/{resolvedAssetType}/{ticker}/options/{isGex
+                href="/{assetType}/{ticker}/options/{isGex
                   ? 'gex'
                   : 'dex'}/strike"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
@@ -8005,7 +8006,7 @@
 
               <!-- Link to more details -->
               <a
-                href="/{resolvedAssetType}/{ticker}/options/max-pain"
+                href="/{assetType}/{ticker}/options/max-pain"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View All Max Pain
@@ -8140,7 +8141,7 @@
 
               <!-- Link to more details -->
               <a
-                href="/{resolvedAssetType}/{ticker}/options/oi"
+                href="/{assetType}/{ticker}/options/oi"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
@@ -8287,7 +8288,7 @@
 
               <!-- Link to more details -->
               <a
-                href="/{resolvedAssetType}/{ticker}/options/hottest-contracts/volume"
+                href="/{assetType}/{ticker}/options/hottest-contracts/volume"
                 class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all contracts
