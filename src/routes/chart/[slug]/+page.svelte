@@ -3634,7 +3634,7 @@
       fetchInsiderActivityDataIndicator();
     }
     if (indicatorState.short_interest && historicalShortInterest.length === 0) {
-      fetchShortInterestDataIndicator();
+      fetchShortInterestData();
     }
   };
 
@@ -4767,6 +4767,20 @@
   function toggleIndicator(name: string) {
     if (!(name in indicatorState)) return;
     const newState = !indicatorState[name];
+
+    // Auto-switch to 1D for Fundamentals/Market Structure indicators on intraday timeframes
+    if (newState) {
+      const indicatorDef = indicatorDefinitions.find((ind) => ind.id === name);
+      const isRestrictedCategory =
+        indicatorDef?.category === "Fundamentals" ||
+        indicatorDef?.category === "Market Structure";
+      const isIntradayRange = !isNonIntradayRange(activeRange);
+
+      if (isRestrictedCategory && isIntradayRange) {
+        setRange("1D");
+      }
+    }
+
     indicatorState = {
       ...indicatorState,
       [name]: newState,
