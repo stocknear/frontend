@@ -5661,7 +5661,7 @@
 
   function formatIvPercent(value: number | null) {
     if (value === null || !Number.isFinite(value)) return "0.0%";
-    return `${(value * 100).toFixed(1)}%`;
+    return `${value.toFixed(1)}%`;
   }
 
   function formatPercent(value: number | null) {
