@@ -16,6 +16,9 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "market-cap": "/historical-market-cap",
   "analyst-target": "/analyst-summary-rating",
   "income-statement": "/financial-statement",
+  "balance-sheet": "/financial-statement",
+  "cash-flow": "/financial-statement",
+  "ratios": "/financial-statement",
   "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
   "max-pain": "/max-pain",
@@ -70,6 +73,21 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     postData = {
       ticker: data?.ticker,
       statement: "income-statement",
+    };
+  } else if (category === "balance-sheet") {
+    postData = {
+      ticker: data?.ticker,
+      statement: "balance-sheet-statement",
+    };
+  } else if (category === "cash-flow") {
+    postData = {
+      ticker: data?.ticker,
+      statement: "cash-flow-statement",
+    };
+  } else if (category === "ratios") {
+    postData = {
+      ticker: data?.ticker,
+      statement: "ratios",
     };
   } else {
     // Default payload for most fundamental indicators

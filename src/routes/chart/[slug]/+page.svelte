@@ -30,7 +30,15 @@
     clearEVEBITDAData,
     setMarketCapData,
     clearMarketCapData,
+    setStatementMetricData,
+    clearStatementMetricData,
   } from "$lib/klinecharts/customIndicators";
+  import {
+    STATEMENT_INDICATORS,
+    STATEMENT_INDICATOR_BY_ID,
+    STATEMENT_INDICATOR_INDEX,
+    STATEMENT_INDICATOR_TAB_MAP,
+  } from "$lib/financials/statementIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
@@ -109,6 +117,7 @@
     financialIndicatorPeriod?: FinancialIndicatorPeriod;
     revenueIndicatorPeriod?: FinancialIndicatorPeriod;
     epsIndicatorPeriod?: FinancialIndicatorPeriod;
+    statementIndicatorPeriods?: Record<string, FinancialIndicatorPeriod>;
     selectedToolByGroup?: Record<string, string>; // Toolbar selection state
     drawingMode?: "normal" | "weak_magnet" | "strong_magnet";
     drawingsLocked?: boolean;
@@ -293,6 +302,7 @@
   let analystTargetLoading = false;
   let revenueIndicatorPeriod: FinancialIndicatorPeriod = "annual";
   let epsIndicatorPeriod: FinancialIndicatorPeriod = "annual";
+  let statementIndicatorPeriods: Record<string, FinancialIndicatorPeriod> = {};
   let incomeStatementData: {
     annual: any[];
     quarter: any[];
@@ -300,6 +310,27 @@
   } | null = null;
   let incomeStatementLoading = false;
   let incomeStatementTicker = "";
+  let balanceSheetData: {
+    annual: any[];
+    quarter: any[];
+    ttm: any[];
+  } | null = null;
+  let balanceSheetLoading = false;
+  let balanceSheetTicker = "";
+  let cashFlowStatementData: {
+    annual: any[];
+    quarter: any[];
+    ttm: any[];
+  } | null = null;
+  let cashFlowStatementLoading = false;
+  let cashFlowStatementTicker = "";
+  let ratiosStatementData: {
+    annual: any[];
+    quarter: any[];
+    ttm: any[];
+  } | null = null;
+  let ratiosStatementLoading = false;
+  let ratiosStatementTicker = "";
   let revenueData: any[] = [];
   let revenueLoading = false;
   let epsData: any[] = [];
@@ -534,7 +565,12 @@
   let indicatorSearchTerm = "";
   let isSearchActive = false;
   let technicalGroups: Array<[string, IndicatorDefinition[]]> = [];
-  type FundamentalTabId = "income" | "balance" | "cashflow" | "ratios";
+  type FundamentalTabId =
+    | "income"
+    | "balance"
+    | "cashflow"
+    | "ratios"
+    | "statistics";
   let fundamentalsTab: FundamentalTabId = "income";
   let indicatorModalSection: "Technicals" | "Fundamentals" | "Options" =
     "Technicals";
@@ -597,6 +633,18 @@
     defaultEnabled?: boolean;
     isOverlay?: boolean; // For GEX/DEX that render as overlays, not klinechart indicators
   };
+
+  const statementIndicatorDefinitions: IndicatorDefinition[] =
+    STATEMENT_INDICATORS.map((indicator) => ({
+      id: indicator.id,
+      label: indicator.label,
+      indicatorName: "SN_STATEMENT_METRIC",
+      category: "Fundamentals",
+      infoKey: indicator.property,
+      defaultParams: [STATEMENT_INDICATOR_INDEX[indicator.id]],
+      pane: "panel",
+      height: 120,
+    }));
 
   const indicatorDefinitions: IndicatorDefinition[] = [
     {
@@ -949,6 +997,7 @@
       pane: "candle",
       isOverlay: true,
     },
+    ...statementIndicatorDefinitions,
     // Options category
     {
       id: "max_pain",
@@ -998,17 +1047,19 @@
     { id: "balance", label: "Balance sheet" },
     { id: "cashflow", label: "Cash flow" },
     { id: "ratios", label: "Ratios" },
+    { id: "statistics", label: "Statistics" },
   ];
   const FUNDAMENTAL_INDICATOR_MAP: Record<string, FundamentalTabId> = {
+    ...STATEMENT_INDICATOR_TAB_MAP,
     revenue: "income",
     eps: "income",
-    margin: "income",
-    market_cap: "balance",
+    margin: "ratios",
     fcf: "cashflow",
     pe_ratio: "ratios",
     ev_ebitda: "ratios",
-    short_interest: "ratios",
-    analyst_target: "ratios",
+    market_cap: "statistics",
+    short_interest: "statistics",
+    analyst_target: "statistics",
   };
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
@@ -3380,7 +3431,7 @@
     analystTargetLoading = false;
   };
 
-  const resolveIncomeStatementPeriodData = (
+  const resolveStatementPeriodData = (
     data: { annual: any[]; quarter: any[]; ttm: any[] } | null,
     period: FinancialIndicatorPeriod,
   ): { period: FinancialIndicatorPeriod; rows: any[] } => {
@@ -3541,10 +3592,220 @@
       })
       .filter((d) => d.timestamp > 0);
 
+  type StatementCategory = "income" | "balance" | "cashflow" | "ratios";
+
+  const STATEMENT_CATEGORY_ENDPOINT: Record<StatementCategory, string> = {
+    income: "income-statement",
+    balance: "balance-sheet",
+    cashflow: "cash-flow",
+    ratios: "ratios",
+  };
+
+  const getStatementDataBundle = (category: StatementCategory) => {
+    if (category === "income") return incomeStatementData;
+    if (category === "balance") return balanceSheetData;
+    if (category === "cashflow") return cashFlowStatementData;
+    return ratiosStatementData;
+  };
+
+  const setStatementDataBundle = (
+    category: StatementCategory,
+    payload: { annual: any[]; quarter: any[]; ttm: any[] } | null,
+    nextTicker: string,
+  ) => {
+    if (category === "income") {
+      incomeStatementData = payload;
+      incomeStatementTicker = nextTicker;
+      return;
+    }
+    if (category === "balance") {
+      balanceSheetData = payload;
+      balanceSheetTicker = nextTicker;
+      return;
+    }
+    if (category === "cashflow") {
+      cashFlowStatementData = payload;
+      cashFlowStatementTicker = nextTicker;
+      return;
+    }
+    ratiosStatementData = payload;
+    ratiosStatementTicker = nextTicker;
+  };
+
+  const getStatementIndicatorPeriod = (id: string) =>
+    statementIndicatorPeriods[id] ?? "annual";
+
+  const setStatementIndicatorPeriod = (
+    id: string,
+    period: FinancialIndicatorPeriod,
+  ) => {
+    const config = STATEMENT_INDICATOR_BY_ID[id];
+    if (!config) return;
+    const current = getStatementIndicatorPeriod(id);
+    if (current === period) return;
+    statementIndicatorPeriods = {
+      ...statementIndicatorPeriods,
+      [id]: period,
+    };
+    const currentSettings = loadChartSettings() || {};
+    saveChartSettings({
+      ...currentSettings,
+      revenueIndicatorPeriod,
+      epsIndicatorPeriod,
+      statementIndicatorPeriods,
+    });
+    const statementData = getStatementDataBundle(config.statement);
+    if (!statementData && indicatorState[id]) {
+      fetchStatementData(config.statement);
+      return;
+    }
+    refreshStatementMetricIndicator(id);
+  };
+
+  const buildStatementMetricData = (rows: any[], property: string) => {
+    const sortedRows = [...rows].sort(
+      (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
+    );
+    return sortedRows
+      .map((item) => {
+        const timestamp = getStatementTimestamp(item);
+        const value = toNumber(item?.[property]);
+        if (timestamp <= 0 || value === null) return null;
+        return { timestamp, value };
+      })
+      .filter(
+        (item): item is { timestamp: number; value: number } => Boolean(item),
+      );
+  };
+
+  const refreshStatementMetricIndicator = (id: string) => {
+    const config = STATEMENT_INDICATOR_BY_ID[id];
+    if (!config) return;
+    const statementData = getStatementDataBundle(config.statement);
+    if (!statementData) return;
+    const period = getStatementIndicatorPeriod(id);
+    const resolved = resolveStatementPeriodData(statementData, period);
+    if (resolved.period !== period) {
+      statementIndicatorPeriods = {
+        ...statementIndicatorPeriods,
+        [id]: resolved.period,
+      };
+      const currentSettings = loadChartSettings() || {};
+      saveChartSettings({
+        ...currentSettings,
+        revenueIndicatorPeriod,
+        epsIndicatorPeriod,
+        statementIndicatorPeriods,
+      });
+    }
+    const indicatorData = buildStatementMetricData(
+      resolved.rows,
+      config.property,
+    );
+    setStatementMetricData(STATEMENT_INDICATOR_INDEX[id], indicatorData);
+    if (chart && indicatorState[id]) {
+      syncIndicators();
+    }
+  };
+
+  const refreshStatementIndicatorsForCategory = (category: StatementCategory) => {
+    STATEMENT_INDICATORS.filter(
+      (indicator) => indicator.statement === category,
+    ).forEach((indicator) => {
+      if (indicatorState[indicator.id]) {
+        refreshStatementMetricIndicator(indicator.id);
+      }
+    });
+  };
+
+  const fetchStatementData = async (category: StatementCategory) => {
+    if (!ticker) return;
+    if (category === "income") {
+      await fetchIncomeStatementData();
+      return;
+    }
+    const statementLoading =
+      category === "balance"
+        ? balanceSheetLoading
+        : category === "cashflow"
+          ? cashFlowStatementLoading
+          : ratiosStatementLoading;
+    const statementTicker =
+      category === "balance"
+        ? balanceSheetTicker
+        : category === "cashflow"
+          ? cashFlowStatementTicker
+          : ratiosStatementTicker;
+
+    if (statementLoading) return;
+    if (statementTicker === ticker && getStatementDataBundle(category)) {
+      refreshStatementIndicatorsForCategory(category);
+      return;
+    }
+
+    if (category === "balance") {
+      balanceSheetLoading = true;
+    } else if (category === "cashflow") {
+      cashFlowStatementLoading = true;
+    } else {
+      ratiosStatementLoading = true;
+    }
+
+    try {
+      const response = await fetch("/api/chart-indicator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ticker,
+          category: STATEMENT_CATEGORY_ENDPOINT[category],
+        }),
+      });
+
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+      const payload = {
+        annual: Array.isArray(result?.annual) ? result.annual : [],
+        quarter: Array.isArray(result?.quarter)
+          ? result.quarter
+          : Array.isArray(result?.quarterly)
+            ? result.quarterly
+            : [],
+        ttm: Array.isArray(result?.ttm) ? result.ttm : [],
+      };
+
+      setStatementDataBundle(category, payload, ticker);
+      refreshStatementIndicatorsForCategory(category);
+    } catch (error) {
+      console.error("[StatementData] Failed to fetch data:", error);
+      setStatementDataBundle(category, null, "");
+    } finally {
+      if (category === "balance") {
+        balanceSheetLoading = false;
+      } else if (category === "cashflow") {
+        cashFlowStatementLoading = false;
+      } else {
+        ratiosStatementLoading = false;
+      }
+    }
+  };
+
+  const ensureStatementMetricData = async (id: string) => {
+    const config = STATEMENT_INDICATOR_BY_ID[id];
+    if (!config) return;
+    const statementData = getStatementDataBundle(config.statement);
+    if (!statementData) {
+      await fetchStatementData(config.statement);
+      return;
+    }
+    refreshStatementMetricIndicator(id);
+  };
+
   const refreshIncomeStatementIndicators = () => {
     if (!incomeStatementData) return;
     if (indicatorState.revenue) {
-      const resolved = resolveIncomeStatementPeriodData(
+      const resolved = resolveStatementPeriodData(
         incomeStatementData,
         revenueIndicatorPeriod,
       );
@@ -3574,7 +3835,7 @@
     }
 
     if (indicatorState.eps) {
-      const resolved = resolveIncomeStatementPeriodData(
+      const resolved = resolveStatementPeriodData(
         incomeStatementData,
         epsIndicatorPeriod,
       );
@@ -3594,6 +3855,8 @@
         syncIndicators();
       }
     }
+
+    refreshStatementIndicatorsForCategory("income");
   };
 
   const fetchIncomeStatementData = async () => {
@@ -3887,6 +4150,11 @@
     }
     if (indicatorState.short_interest && historicalShortInterest.length === 0) {
       fetchShortInterestData();
+    }
+    for (const indicator of STATEMENT_INDICATORS) {
+      if (indicatorState[indicator.id]) {
+        ensureStatementMetricData(indicator.id);
+      }
     }
   };
 
@@ -4842,6 +5110,8 @@
         indicatorCreate.shortName = getFinancialIndicatorShortName(
           item.id as "revenue" | "eps",
         );
+      } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
+        indicatorCreate.shortName = item.label;
       }
 
       if (enabled && !existingId) {
@@ -4871,7 +5141,9 @@
                   item.id as "revenue" | "eps",
                 ),
               }
-            : {}),
+            : STATEMENT_INDICATOR_BY_ID[item.id]
+              ? { shortName: item.label }
+              : {}),
         });
       }
     });
@@ -5248,7 +5520,23 @@
         ...currentSettings,
         revenueIndicatorPeriod,
         epsIndicatorPeriod,
+        statementIndicatorPeriods,
       });
+    }
+    if (newState && STATEMENT_INDICATOR_BY_ID[name]) {
+      if (!statementIndicatorPeriods[name]) {
+        statementIndicatorPeriods = {
+          ...statementIndicatorPeriods,
+          [name]: "annual",
+        };
+        const currentSettings = loadChartSettings() || {};
+        saveChartSettings({
+          ...currentSettings,
+          revenueIndicatorPeriod,
+          epsIndicatorPeriod,
+          statementIndicatorPeriods,
+        });
+      }
     }
 
     indicatorState = {
@@ -5347,6 +5635,8 @@
       } else if (name === "market_cap") {
         setMarketCapData(marketCapData);
         syncIndicators();
+      } else if (STATEMENT_INDICATOR_BY_ID[name]) {
+        ensureStatementMetricData(name);
       }
     } else {
       // Clear data when disabled
@@ -5412,6 +5702,8 @@
       } else if (name === "market_cap") {
         marketCapData = [];
         clearMarketCapData();
+      } else if (STATEMENT_INDICATOR_BY_ID[name]) {
+        clearStatementMetricData(STATEMENT_INDICATOR_INDEX[name]);
       }
     }
   }
@@ -5424,8 +5716,12 @@
     return Boolean(indicatorState[id]);
   }
 
-  const getFinancialIndicatorPeriod = (id: string) =>
-    id === "revenue" ? revenueIndicatorPeriod : epsIndicatorPeriod;
+  const getFinancialIndicatorPeriod = (id: string) => {
+    if (id === "revenue") return revenueIndicatorPeriod;
+    if (id === "eps") return epsIndicatorPeriod;
+    if (STATEMENT_INDICATOR_BY_ID[id]) return getStatementIndicatorPeriod(id);
+    return "annual";
+  };
 
   const getFinancialIndicatorShortName = (id: "revenue" | "eps") => {
     const period = getFinancialIndicatorPeriod(id);
@@ -5437,7 +5733,10 @@
     id: string,
     period: FinancialIndicatorPeriod,
   ) => {
-    if (id !== "revenue" && id !== "eps") return;
+    if (id !== "revenue" && id !== "eps") {
+      setStatementIndicatorPeriod(id, period);
+      return;
+    }
     const current = getFinancialIndicatorPeriod(id);
     if (current === period) return;
     if (id === "revenue") {
@@ -5450,6 +5749,7 @@
       ...currentSettings,
       revenueIndicatorPeriod,
       epsIndicatorPeriod,
+      statementIndicatorPeriods,
     });
     if (incomeStatementData) {
       refreshIncomeStatementIndicators();
@@ -5998,6 +6298,11 @@
         )
       ) {
         epsIndicatorPeriod = savedEpsPeriod;
+      }
+      if (savedSettings.statementIndicatorPeriods) {
+        statementIndicatorPeriods = {
+          ...savedSettings.statementIndicatorPeriods,
+        };
       }
     } else if (data?.user?.tier === "Pro") {
       // Default to true for Pro users if no settings saved
@@ -9320,7 +9625,7 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                      {#if indicator.id === "revenue" || indicator.id === "eps"}
+                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                         <div
                           class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
                         >
@@ -9418,7 +9723,7 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                      {#if indicator.id === "revenue" || indicator.id === "eps"}
+                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                         <div
                           class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto"
                         >

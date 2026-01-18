@@ -1,5 +1,9 @@
 import { registerIndicator, utils } from "klinecharts";
 import type { IndicatorTemplate, KLineData } from "klinecharts";
+import {
+  STATEMENT_INDICATOR_BY_INDEX,
+  type StatementIndicatorFormat,
+} from "$lib/financials/statementIndicators";
 import { getIndicatorEngine } from "./indicatorEngine";
 
 let registered = false;
@@ -872,6 +876,151 @@ function formatShortInterest(value: number): string {
   if (value >= 1e6) return (value / 1e6).toFixed(2) + "M";
   if (value >= 1e3) return (value / 1e3).toFixed(2) + "K";
   return value.toFixed(0);
+}
+
+// Generic statement metric data store
+interface StatementMetricDataPoint {
+  timestamp: number;
+  value: number;
+}
+
+let statementMetricData: Record<number, StatementMetricDataPoint[]> = {};
+
+export function setStatementMetricData(
+  metricIndex: number,
+  data: StatementMetricDataPoint[],
+) {
+  statementMetricData[metricIndex] = data;
+}
+
+export function clearStatementMetricData(metricIndex: number) {
+  delete statementMetricData[metricIndex];
+}
+
+const formatStatementMetricValue = (
+  value: number,
+  format: StatementIndicatorFormat,
+) => {
+  if (format === "currency") {
+    const abs = Math.abs(value);
+    const prefix = value < 0 ? "-$" : "$";
+    return `${prefix}${formatShortInterest(abs)}`;
+  }
+  if (format === "percent") {
+    const scaled = Math.abs(value) <= 1 ? value * 100 : value;
+    return `${scaled.toFixed(2)}%`;
+  }
+  const abs = Math.abs(value);
+  if (abs >= 1000) {
+    const prefix = value < 0 ? "-" : "";
+    return `${prefix}${formatShortInterest(abs)}`;
+  }
+  return value.toFixed(2);
+};
+
+function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return {
+    name: "SN_STATEMENT_METRIC",
+    shortName: "STAT",
+    series: "normal",
+    precision: 2,
+    shouldFormatBigNumber: true,
+    figures: [{ key: "value", title: "", type: "line" }],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result || result.value === undefined) return { legends: [] };
+
+      const metricIndex = Array.isArray(indicator.calcParams)
+        ? Number(indicator.calcParams[0])
+        : NaN;
+      const metric = Number.isFinite(metricIndex)
+        ? STATEMENT_INDICATOR_BY_INDEX[metricIndex]
+        : undefined;
+      const label = metric?.label ?? indicator.shortName ?? "Value";
+      const format = metric?.format ?? "number";
+      const formattedValue = formatStatementMetricValue(
+        result.value as number,
+        format,
+      );
+      const color = (result.value as number) >= 0 ? "#38BDF8" : "#F97316";
+
+      return {
+        legends: [
+          {
+            title: `${label}: `,
+            value: { text: formattedValue, color },
+          },
+        ],
+      };
+    },
+    calc: (dataList, indicator) => {
+      const result: IndicatorRecord[] = new Array(dataList.length)
+        .fill(null)
+        .map(() => ({}));
+      const metricIndex = Array.isArray(indicator.calcParams)
+        ? Number(indicator.calcParams[0])
+        : NaN;
+      if (!Number.isFinite(metricIndex)) return result;
+      const metricData = statementMetricData[metricIndex] ?? [];
+      if (!metricData.length) return result;
+
+      for (const point of metricData) {
+        const idx = findClosestBarIndex(dataList, point.timestamp);
+        if (idx >= 0) {
+          result[idx] = {
+            value: point.value,
+            isDataPoint: 1,
+          };
+        }
+      }
+
+      let lastValue: number | undefined;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].isDataPoint) {
+          lastValue = result[i].value as number;
+        }
+        result[i].value = lastValue;
+      }
+
+      return result;
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const points: { x: number; y: number }[] = [];
+
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (!data || data.value === undefined) continue;
+
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(data.value as number);
+        if (typeof y === "number" && !isNaN(y)) {
+          points.push({ x, y });
+        }
+      }
+
+      if (points.length < 2) return false;
+
+      ctx.beginPath();
+      ctx.setLineDash([]);
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i - 1].y);
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.strokeStyle = "#38BDF8";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      return false;
+    },
+  };
 }
 
 function createShortInterestIndicator(): IndicatorTemplate<IndicatorRecord, number> {
@@ -2571,5 +2720,6 @@ export function registerCustomIndicators() {
   registerIndicator(createPERatioIndicator());
   registerIndicator(createEVEBITDAIndicator());
   registerIndicator(createMarketCapIndicator());
+  registerIndicator(createStatementMetricIndicator());
   registered = true;
 }
