@@ -641,7 +641,7 @@
       indicatorName: "SN_STATEMENT_METRIC",
       category: "Fundamentals",
       infoKey: indicator.property,
-      defaultParams: [STATEMENT_INDICATOR_INDEX[indicator.id]],
+      defaultParams: [],
       pane: "panel",
       height: 120,
     }));
@@ -3500,9 +3500,9 @@
   ): string | null => {
     const year = getStatementYear(item);
     if (year === null) return null;
-    if (period === "quarterly") {
+    if (period === "quarterly" || period === "ttm") {
       const quarter = item?.period || item?.calendarQuarter;
-      return quarter ? `${quarter}-${year}` : null;
+      if (quarter) return `${quarter}-${year}`;
     }
     return `${year}`;
   };
@@ -3513,9 +3513,9 @@
   ): string | null => {
     const year = getStatementYear(item);
     if (year === null) return null;
-    if (period === "quarterly") {
+    if (period === "quarterly" || period === "ttm") {
       const quarter = item?.period || item?.calendarQuarter;
-      return quarter ? `${quarter}-${year - 1}` : null;
+      if (quarter) return `${quarter}-${year - 1}`;
     }
     return `${year - 1}`;
   };
@@ -3528,27 +3528,31 @@
       (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
     );
 
+    const usePrevRow = period === "quarterly";
     const lookupMap = new Map<string, any>();
-    for (const item of sortedRows) {
-      const key = buildStatementKey(item, period);
-      if (key) lookupMap.set(key, item);
+    if (!usePrevRow) {
+      for (const item of sortedRows) {
+        const key = buildStatementKey(item, period);
+        if (key) lookupMap.set(key, item);
+      }
     }
 
+    const getRevenueValue = (item: any) =>
+      toNumber(item?.revenue ?? item?.totalRevenue ?? item?.total_revenue);
+
     return sortedRows
-      .map((item) => {
+      .map((item, index) => {
         const timestamp = getStatementTimestamp(item);
-        const currentRevenue = toNumber(
-          item?.revenue ?? item?.totalRevenue ?? item?.total_revenue,
-        );
-        const prevKey = buildStatementPrevKey(item, period);
-        const prevItem = prevKey ? lookupMap.get(prevKey) : null;
-        const prevRevenue = prevItem
-          ? toNumber(
-              prevItem?.revenue ??
-                prevItem?.totalRevenue ??
-                prevItem?.total_revenue,
-            )
-          : null;
+        const currentRevenue = getRevenueValue(item);
+        const prevItem = usePrevRow
+          ? index > 0
+            ? sortedRows[index - 1]
+            : null
+          : (() => {
+              const prevKey = buildStatementPrevKey(item, period);
+              return prevKey ? lookupMap.get(prevKey) : null;
+            })();
+        const prevRevenue = prevItem ? getRevenueValue(prevItem) : null;
 
         let revenueGrowth = 0;
         if (
@@ -3659,19 +3663,55 @@
     refreshStatementMetricIndicator(id);
   };
 
-  const buildStatementMetricData = (rows: any[], property: string) => {
+  const buildStatementMetricData = (
+    rows: any[],
+    property: string,
+    period: FinancialIndicatorPeriod,
+  ) => {
     const sortedRows = [...rows].sort(
       (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
     );
+    const usePrevRow = period === "quarterly";
+    const lookupMap = new Map<string, any>();
+    if (!usePrevRow) {
+      for (const item of sortedRows) {
+        const key = buildStatementKey(item, period);
+        if (key) lookupMap.set(key, item);
+      }
+    }
+
+    const getMetricValue = (item: any) => toNumber(item?.[property]);
+
     return sortedRows
-      .map((item) => {
+      .map((item, index) => {
         const timestamp = getStatementTimestamp(item);
-        const value = toNumber(item?.[property]);
+        const value = getMetricValue(item);
         if (timestamp <= 0 || value === null) return null;
-        return { timestamp, value };
+
+        const prevItem = usePrevRow
+          ? index > 0
+            ? sortedRows[index - 1]
+            : null
+          : (() => {
+              const prevKey = buildStatementPrevKey(item, period);
+              return prevKey ? lookupMap.get(prevKey) : null;
+            })();
+        const prevValue = prevItem ? getMetricValue(prevItem) : null;
+
+        let growth = 0;
+        if (prevValue !== null && prevValue !== 0) {
+          growth = ((value - prevValue) / Math.abs(prevValue)) * 100;
+        }
+
+        return {
+          timestamp,
+          value,
+          growth: Number.isFinite(growth) ? growth : 0,
+        };
       })
-      .filter((item): item is { timestamp: number; value: number } =>
-        Boolean(item),
+      .filter(
+        (item): item is { timestamp: number; value: number; growth: number } =>
+          Boolean(item),
       );
   };
 
@@ -3698,6 +3738,7 @@
     const indicatorData = buildStatementMetricData(
       resolved.rows,
       config.property,
+      resolved.period,
     );
     setStatementMetricData(STATEMENT_INDICATOR_INDEX[id], indicatorData);
     if (chart && indicatorState[id]) {
@@ -5110,12 +5151,20 @@
         name: item.indicatorName,
         calcParams: getIndicatorParams(item.id),
       };
-      if (item.id === "revenue" || item.id === "eps") {
-        indicatorCreate.shortName = getFinancialIndicatorShortName(
-          item.id as "revenue" | "eps",
-        );
+      if (item.id === "revenue") {
+        indicatorCreate.shortName = getFinancialIndicatorShortName("revenue");
+        indicatorCreate.extendData = {
+          period: getFinancialIndicatorPeriod("revenue"),
+        };
+      } else if (item.id === "eps") {
+        indicatorCreate.shortName = getFinancialIndicatorShortName("eps");
       } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
-        indicatorCreate.shortName = item.label;
+        indicatorCreate.shortName = getStatementIndicatorShortName(item.id);
+        indicatorCreate.calcParams = [];
+        indicatorCreate.extendData = {
+          metricIndex: STATEMENT_INDICATOR_INDEX[item.id],
+          period: getStatementIndicatorPeriod(item.id),
+        };
       }
 
       if (enabled && !existingId) {
@@ -5136,19 +5185,26 @@
       }
 
       if (enabled && existingId) {
-        chart.overrideIndicator({
+        const overrideIndicator: Record<string, unknown> = {
           id: existingId,
           calcParams: getIndicatorParams(item.id),
-          ...(item.id === "revenue" || item.id === "eps"
-            ? {
-                shortName: getFinancialIndicatorShortName(
-                  item.id as "revenue" | "eps",
-                ),
-              }
-            : STATEMENT_INDICATOR_BY_ID[item.id]
-              ? { shortName: item.label }
-              : {}),
-        });
+        };
+        if (item.id === "revenue") {
+          overrideIndicator.shortName = getFinancialIndicatorShortName("revenue");
+          overrideIndicator.extendData = {
+            period: getFinancialIndicatorPeriod("revenue"),
+          };
+        } else if (item.id === "eps") {
+          overrideIndicator.shortName = getFinancialIndicatorShortName("eps");
+        } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
+          overrideIndicator.shortName = getStatementIndicatorShortName(item.id);
+          overrideIndicator.calcParams = [];
+          overrideIndicator.extendData = {
+            metricIndex: STATEMENT_INDICATOR_INDEX[item.id],
+            period: getStatementIndicatorPeriod(item.id),
+          };
+        }
+        chart.overrideIndicator(overrideIndicator);
       }
     });
 
@@ -5731,6 +5787,13 @@
     const period = getFinancialIndicatorPeriod(id);
     const label = FINANCIAL_PERIOD_LABELS[period];
     return `${id === "revenue" ? "Revenue" : "EPS"} (${label})`;
+  };
+
+  const getStatementIndicatorShortName = (id: string) => {
+    const config = STATEMENT_INDICATOR_BY_ID[id];
+    if (!config) return "";
+    const label = FINANCIAL_PERIOD_LABELS[getStatementIndicatorPeriod(id)];
+    return `${config.label} (${label})`;
   };
 
   const setFinancialIndicatorPeriod = (

@@ -9,6 +9,16 @@ import { getIndicatorEngine } from "./indicatorEngine";
 let registered = false;
 
 type IndicatorRecord = Record<string, number | undefined>;
+type FinancialIndicatorPeriod = "annual" | "quarterly" | "ttm";
+
+type StatementMetricExtendData = {
+  metricIndex?: number;
+  period?: FinancialIndicatorPeriod;
+};
+
+type FinancialIndicatorExtendData = {
+  period?: FinancialIndicatorPeriod;
+};
 
 const createWorkerIndicator = <D extends IndicatorRecord, C = number>(
   workerKey: string,
@@ -882,6 +892,7 @@ function formatShortInterest(value: number): string {
 interface StatementMetricDataPoint {
   timestamp: number;
   value: number;
+  growth?: number;
 }
 
 let statementMetricData: Record<number, StatementMetricDataPoint[]> = {};
@@ -918,7 +929,14 @@ const formatStatementMetricValue = (
   return value.toFixed(2);
 };
 
-function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+const getGrowthLabelForPeriod = (period?: FinancialIndicatorPeriod) =>
+  period === "quarterly" ? "QoQ Growth" : "YoY Growth";
+
+function createStatementMetricIndicator(): IndicatorTemplate<
+  IndicatorRecord,
+  number,
+  StatementMetricExtendData
+> {
   return {
     name: "SN_STATEMENT_METRIC",
     shortName: "STAT",
@@ -933,9 +951,11 @@ function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, nu
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
       if (!result || result.value === undefined) return { legends: [] };
 
-      const metricIndex = Array.isArray(indicator.calcParams)
-        ? Number(indicator.calcParams[0])
-        : NaN;
+      const metricIndex = Number.isFinite(indicator.extendData?.metricIndex)
+        ? Number(indicator.extendData?.metricIndex)
+        : Array.isArray(indicator.calcParams)
+          ? Number(indicator.calcParams[0])
+          : NaN;
       const metric = Number.isFinite(metricIndex)
         ? STATEMENT_INDICATOR_BY_INDEX[metricIndex]
         : undefined;
@@ -946,6 +966,10 @@ function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, nu
         format,
       );
       const color = (result.value as number) >= 0 ? "#38BDF8" : "#F97316";
+      const growth = Number.isFinite(result.growth as number)
+        ? (result.growth as number)
+        : null;
+      const growthLabel = getGrowthLabelForPeriod(indicator.extendData?.period);
 
       return {
         legends: [
@@ -953,6 +977,17 @@ function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, nu
             title: `${label}: `,
             value: { text: formattedValue, color },
           },
+          ...(growth !== null
+            ? [
+                {
+                  title: `${growthLabel}: `,
+                  value: {
+                    text: `${growth.toFixed(1)}%`,
+                    color: growth >= 0 ? "#22C55E" : "#EF4444",
+                  },
+                },
+              ]
+            : []),
         ],
       };
     },
@@ -960,9 +995,11 @@ function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, nu
       const result: IndicatorRecord[] = new Array(dataList.length)
         .fill(null)
         .map(() => ({}));
-      const metricIndex = Array.isArray(indicator.calcParams)
-        ? Number(indicator.calcParams[0])
-        : NaN;
+      const metricIndex = Number.isFinite(indicator.extendData?.metricIndex)
+        ? Number(indicator.extendData?.metricIndex)
+        : Array.isArray(indicator.calcParams)
+          ? Number(indicator.calcParams[0])
+          : NaN;
       if (!Number.isFinite(metricIndex)) return result;
       const metricData = statementMetricData[metricIndex] ?? [];
       if (!metricData.length) return result;
@@ -972,17 +1009,21 @@ function createStatementMetricIndicator(): IndicatorTemplate<IndicatorRecord, nu
         if (idx >= 0) {
           result[idx] = {
             value: point.value,
+            growth: point.growth,
             isDataPoint: 1,
           };
         }
       }
 
       let lastValue: number | undefined;
+      let lastGrowth: number | undefined;
       for (let i = 0; i < result.length; i++) {
         if (result[i].isDataPoint) {
           lastValue = result[i].value as number;
+          lastGrowth = result[i].growth as number;
         }
         result[i].value = lastValue;
+        result[i].growth = lastGrowth;
       }
 
       return result;
@@ -1695,7 +1736,11 @@ function findClosestBarIndex(
     : -1;
 }
 
-function createRevenueIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+function createRevenueIndicator(): IndicatorTemplate<
+  IndicatorRecord,
+  number,
+  FinancialIndicatorExtendData
+> {
   return {
     name: "SN_REVENUE",
     shortName: "REV",
@@ -1713,13 +1758,14 @@ function createRevenueIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
       if (!result || result.revenue === undefined) return { legends: [] };
 
-      const growth = result.revenueGrowth as number || 0;
+      const growth = (result.revenueGrowth as number) || 0;
       const growthColor = growth >= 0 ? "#22C55E" : "#EF4444";
+      const growthLabel = getGrowthLabelForPeriod(indicator.extendData?.period);
 
       return {
         legends: [
           { title: "Revenue: ", value: { text: `$${formatShortInterest(result.revenue as number)}`, color: "#3B82F6" } },
-          { title: "YoY Growth: ", value: { text: `${growth.toFixed(1)}%`, color: growthColor } },
+          { title: `${growthLabel}: `, value: { text: `${growth.toFixed(1)}%`, color: growthColor } },
         ],
       };
     },
