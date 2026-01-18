@@ -2624,8 +2624,7 @@
     );
     if (candidates.length === 0) return [];
 
-    const getNetValue = (item: GexDexStrikeData) =>
-      Number(item?.[netKey] ?? 0);
+    const getNetValue = (item: GexDexStrikeData) => Number(item?.[netKey] ?? 0);
 
     const halfLimit = Math.max(2, Math.ceil(EXPOSURE_LEVEL_LIMIT / 2));
     const positives = candidates
@@ -2640,18 +2639,18 @@
     let selected = [...positives, ...negatives];
 
     if (spotPrice) {
-      const closest = candidates.reduce((best, item) => {
-        if (!best) return item;
-        return Math.abs(item.strike - spotPrice) <
-          Math.abs(best.strike - spotPrice)
-          ? item
-          : best;
-      }, null as GexDexStrikeData | null);
+      const closest = candidates.reduce(
+        (best, item) => {
+          if (!best) return item;
+          return Math.abs(item.strike - spotPrice) <
+            Math.abs(best.strike - spotPrice)
+            ? item
+            : best;
+        },
+        null as GexDexStrikeData | null,
+      );
 
-      if (
-        closest &&
-        !selected.some((item) => item.strike === closest.strike)
-      ) {
+      if (closest && !selected.some((item) => item.strike === closest.strike)) {
         selected = [...selected, closest];
       }
     }
@@ -3486,9 +3485,7 @@
       if (dt.isValid) return dt.startOf("day").toMillis();
       const parsed = new Date(dateStr);
       if (!isNaN(parsed.getTime())) {
-        return DateTime.fromJSDate(parsed, { zone })
-          .startOf("day")
-          .toMillis();
+        return DateTime.fromJSDate(parsed, { zone }).startOf("day").toMillis();
       }
     }
     const year = getStatementYear(item);
@@ -3673,8 +3670,8 @@
         if (timestamp <= 0 || value === null) return null;
         return { timestamp, value };
       })
-      .filter(
-        (item): item is { timestamp: number; value: number } => Boolean(item),
+      .filter((item): item is { timestamp: number; value: number } =>
+        Boolean(item),
       );
   };
 
@@ -3708,7 +3705,9 @@
     }
   };
 
-  const refreshStatementIndicatorsForCategory = (category: StatementCategory) => {
+  const refreshStatementIndicatorsForCategory = (
+    category: StatementCategory,
+  ) => {
     STATEMENT_INDICATORS.filter(
       (indicator) => indicator.statement === category,
     ).forEach((indicator) => {
@@ -4240,7 +4239,8 @@
       sortedContracts
         .slice(0, HOTTEST_LABEL_LIMIT)
         .map(
-          ({ item }) => `${item.strike_price}-${item.option_type}-${item.date_expiration}`,
+          ({ item }) =>
+            `${item.strike_price}-${item.option_type}-${item.date_expiration}`,
         ),
     );
     const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
@@ -4345,7 +4345,11 @@
     }
 
     const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
-    const targets: { key: AnalystTargetKey; label: string; value: number | null }[] = [
+    const targets: {
+      key: AnalystTargetKey;
+      label: string;
+      value: number | null;
+    }[] = [
       { key: "high", label: "High", value: analystTargetSummary.high },
       { key: "average", label: "Avg", value: analystTargetSummary.average },
       { key: "median", label: "Med", value: analystTargetSummary.median },
@@ -5651,11 +5655,11 @@
         selectedDexLevel = null;
         dexLevelCacheKey = "";
       } else if (name === "oi") {
-      oiStrikeData = [];
-      oiLevels = [];
-      selectedOiLevel = null;
-      oiSelectedExpiration = null;
-      oiLevelCacheKey = "";
+        oiStrikeData = [];
+        oiLevels = [];
+        selectedOiLevel = null;
+        oiSelectedExpiration = null;
+        oiLevelCacheKey = "";
       } else if (name === "hottest") {
         hottestContractsData = [];
         hottestLevels = [];
@@ -6293,9 +6297,7 @@
       }
       if (
         savedEpsPeriod &&
-        FINANCIAL_PERIOD_OPTIONS.some(
-          (option) => option.id === savedEpsPeriod,
-        )
+        FINANCIAL_PERIOD_OPTIONS.some((option) => option.id === savedEpsPeriod)
       ) {
         epsIndicatorPeriod = savedEpsPeriod;
       }
@@ -6867,12 +6869,9 @@
   $: technicalGroups = Object.entries(groupedIndicators).filter(
     ([cat]) => cat !== "Options" && cat !== "Fundamentals",
   );
-  $: fundamentalsIndicators = (
-    groupedIndicators["Fundamentals"] ?? []
-  ).filter(
+  $: fundamentalsIndicators = (groupedIndicators["Fundamentals"] ?? []).filter(
     (indicator) =>
-      (FUNDAMENTAL_INDICATOR_MAP[indicator.id] ?? "ratios") ===
-      fundamentalsTab,
+      (FUNDAMENTAL_INDICATOR_MAP[indicator.id] ?? "ratios") === fundamentalsTab,
   );
 
   $: currentChartType =
@@ -8451,7 +8450,10 @@
                           : "text-rose-200 border-rose-500/30"
                       }`}
                     >
-                      GEX {formatPrice(level.strike)} {level.isPositive ? "+" : "-"}{formatExposureValue(level.absValue)}
+                      GEX {formatPrice(level.strike)}
+                      {level.isPositive ? "+" : "-"}{formatExposureValue(
+                        level.absValue,
+                      )}
                     </span>
                   </div>
                 {/if}
@@ -8501,7 +8503,10 @@
                           : "text-orange-200 border-orange-500/30"
                       }`}
                     >
-                      DEX {formatPrice(level.strike)} {level.isPositive ? "+" : "-"}{formatExposureValue(level.absValue)}
+                      DEX {formatPrice(level.strike)}
+                      {level.isPositive ? "+" : "-"}{formatExposureValue(
+                        level.absValue,
+                      )}
                     </span>
                   </div>
                 {/if}
@@ -8691,7 +8696,8 @@
                   style="top: {level.y}px; border-top: 2px solid {level.color}; opacity: 0.7"
                   on:click={(e) => handleAnalystTargetLevelClick(level, e)}
                   on:keypress={(e) =>
-                    e.key === 'Enter' && handleAnalystTargetLevelClick(level, e)}
+                    e.key === "Enter" &&
+                    handleAnalystTargetLevelClick(level, e)}
                   role="button"
                   tabindex="0"
                   aria-label="Analyst target {level.label} at ${level.price}"
@@ -8701,7 +8707,8 @@
                   style="top: {level.labelY}px;"
                   on:click={(e) => handleAnalystTargetLevelClick(level, e)}
                   on:keypress={(e) =>
-                    e.key === 'Enter' && handleAnalystTargetLevelClick(level, e)}
+                    e.key === "Enter" &&
+                    handleAnalystTargetLevelClick(level, e)}
                   role="button"
                   tabindex="0"
                   aria-label="Analyst target label {level.label} at ${level.price}"
@@ -8710,7 +8717,8 @@
                     class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border"
                     style="color: {level.color}; border-color: {level.color}55;"
                   >
-                    PT {level.label} {formatPrice(level.price)}
+                    PT {level.label}
+                    {formatPrice(level.price)}
                   </span>
                 </div>
               {/if}
@@ -8836,10 +8844,26 @@
         {#if selectedAnalystTargetLevel && analystTargetSummary}
           {@const refPrice = typeof lastClose === "number" ? lastClose : null}
           {@const targetRows = [
-            { key: "High", value: analystTargetSummary.high, color: ANALYST_TARGET_COLORS.high },
-            { key: "Average", value: analystTargetSummary.average, color: ANALYST_TARGET_COLORS.average },
-            { key: "Median", value: analystTargetSummary.median, color: ANALYST_TARGET_COLORS.median },
-            { key: "Low", value: analystTargetSummary.low, color: ANALYST_TARGET_COLORS.low },
+            {
+              key: "High",
+              value: analystTargetSummary.high,
+              color: ANALYST_TARGET_COLORS.high,
+            },
+            {
+              key: "Average",
+              value: analystTargetSummary.average,
+              color: ANALYST_TARGET_COLORS.average,
+            },
+            {
+              key: "Median",
+              value: analystTargetSummary.median,
+              color: ANALYST_TARGET_COLORS.median,
+            },
+            {
+              key: "Low",
+              value: analystTargetSummary.low,
+              color: ANALYST_TARGET_COLORS.low,
+            },
           ].filter((row) => row.value !== null)}
           <button
             class="fixed inset-0 z-[6] cursor-default bg-transparent"
@@ -8984,7 +9008,8 @@
                     <span
                       class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] text-purple-200 border border-purple-500/30"
                     >
-                      OI {formatPrice(level.strike)} {formatCount(level.totalOi)}
+                      OI {formatPrice(level.strike)}
+                      {formatCount(level.totalOi)}
                     </span>
                   </div>
                 {/if}
@@ -9160,7 +9185,9 @@
                           : "text-rose-200 border-rose-500/30"
                       }`}
                     >
-                      HOT {level.optionType} {formatExpiration(level.expiration)} {formatCount(level.volume)}
+                      HOT {level.optionType}
+                      {formatExpiration(level.expiration)}
+                      {formatCount(level.volume)}
                     </span>
                   </div>
                 {/if}
@@ -9195,7 +9222,8 @@
                 <h3
                   class="text-white font-semibold text-sm sm:text-base truncate"
                 >
-                  {selectedHottestLevel.optionType === "C" ? "Call" : "Put"} {formatPrice(selectedHottestLevel.strike)}
+                  {selectedHottestLevel.optionType === "C" ? "Call" : "Put"}
+                  {formatPrice(selectedHottestLevel.strike)}
                 </h3>
                 <button
                   class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
@@ -9255,7 +9283,9 @@
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">IV</span>
-                  <span class="font-medium">{formatIvPercent(selectedHottestLevel.iv)}</span>
+                  <span class="font-medium"
+                    >{formatIvPercent(selectedHottestLevel.iv)}</span
+                  >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Premium</span>
@@ -9321,10 +9351,8 @@
         class="sticky top-0 z-40 bg-[#1f1f1f] pb-6 pt-5 border-b border-neutral-800"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2
-            class="text-[1rem] sm:text-xl font-semibold text-neutral-100"
-          >
-            Indicators, metrics, and strategies
+          <h2 class="text-[1rem] sm:text-xl font-semibold text-neutral-100">
+            Indicators
           </h2>
           <label
             for="indicatorModal"
@@ -9413,14 +9441,12 @@
         <aside
           class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-neutral-800"
         >
-          <div
-            class="text-[11px] uppercase tracking-wide text-neutral-500"
-          >
+          <div class="text-[11px] uppercase tracking-wide text-neutral-500">
             Built-in
           </div>
           <button
             type="button"
-            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Technicals'
               ? 'bg-neutral-800 text-white'
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
@@ -9430,7 +9456,7 @@
           </button>
           <button
             type="button"
-            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Fundamentals'
               ? 'bg-neutral-800 text-white'
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
@@ -9440,7 +9466,7 @@
           </button>
           <button
             type="button"
-            class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Options'
               ? 'bg-neutral-800 text-white'
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
@@ -9455,7 +9481,7 @@
             {#each INDICATOR_MODAL_SECTIONS as section}
               <button
                 type="button"
-                class="px-3 py-1.5 rounded-full text-sm border transition {indicatorModalSection ===
+                class="cursor-pointer px-3 py-1.5 rounded-full text-sm border transition {indicatorModalSection ===
                 section
                   ? 'border-neutral-500 text-white bg-neutral-800'
                   : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-white'}"
@@ -9467,14 +9493,14 @@
           </div>
 
           {#if filteredIndicators.length === 0}
-            <div class="mt-5 font-semibold text-[1rem] sm:text-lg text-neutral-200">
+            <div
+              class="mt-5 font-semibold text-[1rem] sm:text-lg text-neutral-200"
+            >
               Nothing found
             </div>
           {:else if isSearchActive}
             {#if technicalGroups.length}
-              <div
-                class="text-xs uppercase tracking-wide text-neutral-500"
-              >
+              <div class="text-xs uppercase tracking-wide text-neutral-500">
                 Technicals
               </div>
               {#each technicalGroups as [category, indicators]}
@@ -9583,7 +9609,7 @@
                 {#each FUNDAMENTAL_TABS as tab}
                   <button
                     type="button"
-                    class="px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
+                    class="cursor-pointer px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
                       ? 'border-neutral-500 text-white bg-neutral-800'
                       : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
@@ -9633,7 +9659,8 @@
                             <button
                               type="button"
                               class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
-                              indicator.id) === option.id
+                                indicator.id,
+                              ) === option.id
                                 ? 'border-neutral-500 text-white bg-neutral-800'
                                 : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
                               on:click|stopPropagation={() =>
@@ -9669,12 +9696,9 @@
                 {/each}
               </div>
             {/if}
-
           {:else if indicatorModalSection === "Fundamentals"}
             {#if groupedIndicators["Fundamentals"]}
-              <div
-                class="text-xs uppercase tracking-wide text-neutral-500"
-              >
+              <div class="text-xs uppercase tracking-wide text-neutral-500">
                 Fundamentals
               </div>
               <div class="mt-2 flex flex-wrap gap-2">
@@ -9731,7 +9755,8 @@
                             <button
                               type="button"
                               class="px-2 py-0.5 text-[11px] rounded border transition {getFinancialIndicatorPeriod(
-                              indicator.id) === option.id
+                                indicator.id,
+                              ) === option.id
                                 ? 'border-neutral-500 text-white bg-neutral-800'
                                 : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
                               on:click|stopPropagation={() =>
@@ -9769,9 +9794,7 @@
             {/if}
           {:else if indicatorModalSection === "Options"}
             {#if groupedIndicators["Options"]}
-              <div
-                class="text-xs uppercase tracking-wide text-neutral-500"
-              >
+              <div class="text-xs uppercase tracking-wide text-neutral-500">
                 Options
               </div>
               <div class="mt-2 space-y-1">
@@ -9823,53 +9846,48 @@
                 {/each}
               </div>
             {/if}
-          {:else}
-            {#if technicalGroups.length}
-              <div
-                class="text-xs uppercase tracking-wide text-neutral-500"
-              >
-                Technicals
-              </div>
-              {#each technicalGroups as [category, indicators]}
-                <div class="mt-4">
-                  <div
-                    class="text-[11px] uppercase tracking-wide text-neutral-500/80"
-                  >
-                    {category}
-                  </div>
-                  <div class="mt-2 space-y-1">
-                    {#each indicators as indicator}
-                      <div
-                        class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
-                      >
-                        <div class="flex items-center gap-2">
-                          <input
-                            on:click={() => toggleIndicatorById(indicator.id)}
-                            id={indicator.id}
-                            type="checkbox"
-                            checked={Boolean(indicatorState[indicator.id])}
-                            class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
-                          />
-                          <label
-                            for={indicator.id}
-                            class="cursor-pointer text-[1rem]"
-                          >
-                            {indicator.label}
-                          </label>
-                          <InfoModal
-                            id={`indicator-${indicator.id}`}
-                            title={indicator.label}
-                            callAPI={true}
-                            parameter={indicator.infoKey || indicator.id}
-                          />
-                        </div>
-                      </div>
-                    {/each}
-                  </div>
+          {:else if technicalGroups.length}
+            <div class="text-xs uppercase tracking-wide text-neutral-500">
+              Technicals
+            </div>
+            {#each technicalGroups as [category, indicators]}
+              <div class="mt-4">
+                <div
+                  class="text-[11px] uppercase tracking-wide text-neutral-500/80"
+                >
+                  {category}
                 </div>
-              {/each}
-            {/if}
-
+                <div class="mt-2 space-y-1">
+                  {#each indicators as indicator}
+                    <div
+                      class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    >
+                      <div class="flex items-center gap-2">
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={indicator.id}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        />
+                        <label
+                          for={indicator.id}
+                          class="cursor-pointer text-[1rem]"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            {/each}
           {/if}
         </div>
       </div>
