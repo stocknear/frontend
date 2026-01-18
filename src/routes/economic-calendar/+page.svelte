@@ -193,7 +193,8 @@
   function updateDailyPagination() {
     const selectedDayData = displayWeekData?.[selectedWeekday] ?? [];
     // Use table search filtered data if searching, otherwise use original data
-    const dataSource = tableSearchValue?.length > 0 ? tableFilteredData : selectedDayData;
+    const dataSource =
+      tableSearchValue?.length > 0 ? tableFilteredData : selectedDayData;
     const totalItems = dataSource?.length || 0;
     dailyTotalPages =
       totalItems === 0 ? 1 : Math.ceil(totalItems / dailyRowsPerPage);
@@ -474,7 +475,10 @@
     ];
 
     // Also sort weekdayFiltered if country/importance filters are applied
-    if (filterList.length > 0 && weekdayFiltered?.[selectedWeekday]?.length > 0) {
+    if (
+      filterList.length > 0 &&
+      weekdayFiltered?.[selectedWeekday]?.length > 0
+    ) {
       weekdayFiltered = [
         ...weekdayFiltered.slice(0, selectedWeekday),
         [...weekdayFiltered[selectedWeekday]].sort(compareValues),
@@ -980,9 +984,13 @@
                 {#each displayWeekData as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5">
+                      <div
+                        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5"
+                      >
                         <div class="flex flex-row items-center gap-3">
-                          <h2 class="font-semibold text-xl text-gray-900 dark:text-white">
+                          <h2
+                            class="font-semibold text-xl text-gray-900 dark:text-white"
+                          >
                             {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
                             Events
                           </h2>
@@ -1000,7 +1008,9 @@
                           {/if}
                         </div>
 
-                        <div class="flex flex-row items-center w-full sm:w-auto">
+                        <div
+                          class="flex flex-row items-center w-full sm:w-auto"
+                        >
                           <div class="relative w-full sm:w-auto">
                             <div
                               class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -1036,7 +1046,9 @@
                           <div class="ml-2">
                             <DownloadData
                               {data}
-                              rawData={tableSearchValue?.length > 0 ? tableFilteredData : day}
+                              rawData={tableSearchValue?.length > 0
+                                ? tableFilteredData
+                                : day}
                               title={"economic_calendar"}
                             />
                           </div>
@@ -1174,7 +1186,8 @@
                                     <td
                                       class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                                     >
-                                      {item?.actual !== null && item?.actual !== ""
+                                      {item?.actual !== null &&
+                                      item?.actual !== ""
                                         ? abbreviateNumber(item?.actual)
                                         : "-"}
                                     </td>
@@ -1191,7 +1204,8 @@
                                     <td
                                       class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                                     >
-                                      {item?.prior !== null && item?.prior !== ""
+                                      {item?.prior !== null &&
+                                      item?.prior !== ""
                                         ? abbreviateNumber(item?.prior)
                                         : "-"}
                                     </td>
@@ -1202,7 +1216,7 @@
                                       <div
                                         class="flex flex-row items-center justify-end"
                                       >
-                                        {#each Array.from({ length: 3 }) as _, i}
+                                        {#each Array.from( { length: 3 }, ) as _, i}
                                           {#if i < Math.floor(item?.importance)}
                                             <svg
                                               class="w-4 h-4 text-[#FFA500]"
@@ -1385,7 +1399,7 @@
                     href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                     target="_blank"
                     rel="noopener"
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >Financial Modeling Prep</a
                   > and times are shown in ET (Eastern Time).
                 </div>

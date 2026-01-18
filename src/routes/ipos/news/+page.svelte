@@ -210,7 +210,7 @@
       <aside class="inline-block relative w-full lg:w-1/4 mt-3">
         {#if marketNews?.length !== 0}
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer bg-inherit"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded-2xl h-fit pb-4 mt-4 cursor-pointer bg-inherit"
           >
             <div class="p-4 text-sm">
               <h3 class="text-xl font-bold mb-3">Stock News</h3>
@@ -219,7 +219,7 @@
                   <li class="mb-3 last:mb-1">
                     {formatDate(item?.publishedDate)} ago -
                     <a
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                       href={item?.url}
                       target="_blank"
                       rel="noopener noreferrer nofollow">{item?.title}</a

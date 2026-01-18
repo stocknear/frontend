@@ -71,7 +71,7 @@
                         ><td class="text-left text-[1rem] px-2"
                           ><a
                             href={`/stocks/${item?.symbol}/dividends`}
-                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                             >{removeCompanyStrings(item?.name)}</a
                           ></td
                         >

@@ -757,7 +757,7 @@
                     <span class="text-xl font-semibold"
                       >{#if capCategory}
                         <a
-                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           href={capCategory.link}
                         >
                           {capCategory.name}

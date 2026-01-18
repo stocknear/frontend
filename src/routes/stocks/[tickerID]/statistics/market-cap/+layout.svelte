@@ -158,7 +158,7 @@
                         ><td class="text-left text-sm px-2"
                           ><a
                             href={`/stocks/${item?.symbol}`}
-                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                             >{removeCompanyStrings(item?.name)}</a
                           ></td
                         >
