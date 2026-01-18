@@ -2,7 +2,7 @@
   import { displayCompanyName, etfTicker } from "$lib/store";
   import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
   import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
-  import InfoModal from "$lib/components/InfoModal.svelte";
+  import Exchange from "$lib/components/UnusualOrders/Exchange.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
@@ -11,6 +11,7 @@
   export let data;
   let historicalDarkPool = data?.getHistoricalDarkPool || [];
   let priceLevel = data?.getPriceLevel?.priceLevel || [];
+  let exchangeData = data?.getPriceLevel?.exchangeData || [];
 
   let hottestTrades = data?.getPriceLevel?.hottestTrades || [];
 </script>
@@ -96,20 +97,6 @@
             <Infobox
               text={`No Dark Pool activity are detected for ${$displayCompanyName}`}
             />
-          {:else if priceLevel?.length === 0 && hottestTrades?.length === 0}{:else}
-            <div class="flex flex-row items-center mb-4 sm:mb-0">
-              <label
-                for="darkPoolInfo"
-                class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
-              >
-                {$etfTicker?.toUpperCase()} Dark Pool Overview
-              </label>
-              <InfoModal
-                title={"Dark Pool Data"}
-                content={"Dark pool data refers to information on trading activities that occur in private, non-public financial exchanges known as dark pools. These venues are used by hedge funds and major institutional traders to buy and sell large blocks of securities without exposing their orders to the public, minimizing market impact and price fluctuations. Currently, nearly 50% of all trades are executed in these dark pools, highlighting their significant role in the trading landscape."}
-                id={"darkPoolInfo"}
-              />
-            </div>
           {/if}
         </div>
         {#if priceLevel?.length > 0}
@@ -118,6 +105,9 @@
             rawData={priceLevel}
             metrics={data?.getPriceLevel?.metrics}
           />
+        {/if}
+        {#if exchangeData?.length > 0}
+          <Exchange {data} rawData={exchangeData} />
         {/if}
         {#if hottestTrades?.length > 0}
           <HottestTrades

@@ -11,6 +11,11 @@
   export let rawData = [];
   export let metrics = {};
 
+  let isPro = false;
+  let showLocked = false;
+  $: isPro = data?.user?.tier === "Pro";
+  $: showLocked = !isPro;
+
   let currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
   let hottestTrades = data?.getPriceLevel?.hottestTrades || [];
   let srZones = data?.getPriceLevel?.srZones || {};
@@ -331,7 +336,7 @@
         >
           <div class="text-sm mb-2 flex items-center">
             <span>Key Support</span>
-            {#if keySupport?.strength}
+            {#if keySupport?.strength && !showLocked}
               <span
                 class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
               >
@@ -341,7 +346,26 @@
               </span>
             {/if}
           </div>
-          {#if keySupport}
+          {#if showLocked}
+            <a
+              href="/pricing"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            >
+              <svg
+                class="size-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width: 40px;"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clip-rule="evenodd"
+                >
+                </path>
+              </svg>
+            </a>
+          {:else if keySupport}
             <div class="flex items-baseline">
               <span
                 class="text-xl font-semibold tabular-nums text-emerald-600 dark:text-emerald-400"
@@ -369,7 +393,7 @@
         >
           <div class="text-sm mb-2 flex items-center">
             <span>Key Resistance</span>
-            {#if keyResistance?.strength}
+            {#if keyResistance?.strength && !showLocked}
               <span
                 class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
               >
@@ -379,7 +403,26 @@
               </span>
             {/if}
           </div>
-          {#if keyResistance}
+          {#if showLocked}
+            <a
+              href="/pricing"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            >
+              <svg
+                class="size-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width: 40px;"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clip-rule="evenodd"
+                >
+                </path>
+              </svg>
+            </a>
+          {:else if keyResistance}
             <div class="flex items-baseline">
               <span
                 class="text-xl font-semibold tabular-nums text-red-500 dark:text-red-400"
@@ -403,53 +446,76 @@
       </div>
     {/if}
 
-    <!-- Chart Controls -->
-    <div class="flex items-center justify-between mb-3">
+    {#if showLocked}
       <div
-        class="flex items-center gap-3 text-xs text-gray-800 dark:text-zinc-300"
+        class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-[300px] flex flex-col items-center justify-center"
       >
-        <span class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
-          Support
-        </span>
-        <span class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-red-500"></span>
-          Resistance
-        </span>
-      </div>
-
-      <!-- Chart Type Switcher -->
-      <div class="flex items-center">
-        <div
-          class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+        <a
+          href="/pricing"
+          class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >
-          {#each chartTypes as item}
-            <button
-              on:click={() => changeChartType(item.type)}
-              class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
-                {chartType === item.type
-                ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                : 'text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
-              title={item.label}
-            >
-              <svelte:component this={item.icon} class="w-4 h-4" />
-            </button>
-          {/each}
+          <svg
+            class="size-10"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+            />
+          </svg>
+          <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+        </a>
+      </div>
+    {:else}
+      <!-- Chart Controls -->
+      <div class="flex items-center justify-between mb-3">
+        <div
+          class="flex items-center gap-3 text-xs text-gray-800 dark:text-zinc-300"
+        >
+          <span class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
+            Support
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-sm bg-red-500"></span>
+            Resistance
+          </span>
+        </div>
+
+        <!-- Chart Type Switcher -->
+        <div class="flex items-center">
+          <div
+            class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+          >
+            {#each chartTypes as item}
+              <button
+                on:click={() => changeChartType(item.type)}
+                class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
+                  {chartType === item.type
+                  ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                  : 'text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
+                title={item.label}
+              >
+                <svelte:component this={item.icon} class="w-4 h-4" />
+              </button>
+            {/each}
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Chart - MaxPain Style -->
-    <div
-      class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
-    >
-      <div use:highcharts={config}></div>
-    </div>
+      <!-- Chart - MaxPain Style -->
+      <div
+        class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+      >
+        <div use:highcharts={config}></div>
+      </div>
 
-    <!-- Note -->
-    <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
-      Based on 30-day institutional order flow. Direction unknown — use with
-      other analysis.
-    </p>
+      <!-- Note -->
+      <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
+        Based on 30-day institutional order flow. Direction unknown — use with
+        other analysis.
+      </p>
+    {/if}
   {/if}
 </section>

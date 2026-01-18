@@ -3,7 +3,6 @@
   import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
   import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
   import Exchange from "$lib/components/UnusualOrders/Exchange.svelte";
-  import InfoModal from "$lib/components/InfoModal.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
