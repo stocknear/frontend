@@ -344,12 +344,14 @@
   interface GexDexLevel {
     strike: number;
     value: number; // net exposure value
+    absValue: number;
     callValue: number;
     putValue: number;
     y: number; // pixel position
     visible: boolean;
     isPositive: boolean;
     intensity: number; // 0-1 for line thickness/opacity
+    showLabel: boolean;
   }
 
   let gexStrikeData: GexDexStrikeData[] = [];
@@ -361,6 +363,11 @@
   let selectedGexLevel: GexDexLevel | null = null;
   let selectedDexLevel: GexDexLevel | null = null;
   let gexDexPopupPosition = { x: 0, y: 0 };
+  let gexLevelCacheKey = "";
+  let dexLevelCacheKey = "";
+  const EXPOSURE_LEVEL_LIMIT = 12;
+  const EXPOSURE_LABEL_LIMIT = 6;
+  const EXPOSURE_SPOT_WINDOW = 0.15;
 
   // Open Interest (OI) types and state
   interface OiStrikeData {
@@ -2409,29 +2416,46 @@
 
       const result = await response.json();
 
-      // The API returns data keyed by date - we want the latest date's data
-      // and aggregate across all available data
+      const resolveLatestSnapshot = (payload: any): GexDexStrikeData[] => {
+        if (Array.isArray(payload)) return payload;
+        if (!payload || typeof payload !== "object") return [];
+
+        const entries = Object.entries(payload).filter(([, value]) =>
+          Array.isArray(value),
+        ) as [string, GexDexStrikeData[]][];
+        if (entries.length === 0) return [];
+
+        let latest = entries[0];
+        let latestDate = DateTime.fromISO(latest[0]);
+        for (const entry of entries) {
+          const dt = DateTime.fromISO(entry[0]);
+          if (dt.isValid && (!latestDate.isValid || dt > latestDate)) {
+            latest = entry;
+            latestDate = dt;
+          }
+        }
+        return Array.isArray(latest[1]) ? latest[1] : [];
+      };
+
+      const latestData = resolveLatestSnapshot(result);
       const aggregatedData = new Map<number, GexDexStrikeData>();
 
-      for (const dateData of Object.values(result) as GexDexStrikeData[][]) {
-        if (!Array.isArray(dateData)) continue;
-        for (const item of dateData) {
-          const strike = item.strike;
-          if (!aggregatedData.has(strike)) {
-            aggregatedData.set(strike, {
-              strike,
-              call_gex: 0,
-              put_gex: 0,
-              call_dex: 0,
-              put_dex: 0,
-            });
-          }
-          const existing = aggregatedData.get(strike)!;
-          existing.call_gex += item.call_gex || 0;
-          existing.put_gex += item.put_gex || 0;
-          existing.call_dex += item.call_dex || 0;
-          existing.put_dex += item.put_dex || 0;
+      for (const item of latestData) {
+        const strike = item.strike;
+        if (!aggregatedData.has(strike)) {
+          aggregatedData.set(strike, {
+            strike,
+            call_gex: 0,
+            put_gex: 0,
+            call_dex: 0,
+            put_dex: 0,
+          });
         }
+        const existing = aggregatedData.get(strike)!;
+        existing.call_gex += item.call_gex || 0;
+        existing.put_gex += item.put_gex || 0;
+        existing.call_dex += item.call_dex || 0;
+        existing.put_dex += item.put_dex || 0;
       }
 
       // Calculate net values and convert to array
@@ -2443,9 +2467,11 @@
 
       if (type === "gex") {
         gexStrikeData = strikeData;
+        gexLevelCacheKey = "";
         updateGexLevels();
       } else {
         dexStrikeData = strikeData;
+        dexLevelCacheKey = "";
         updateDexLevels();
       }
     } catch (error) {
@@ -2466,6 +2492,134 @@
     }
   };
 
+  const getSpotPrice = (): number | null => {
+    if (typeof lastClose === "number") return lastClose;
+    const lastBar = currentBars[currentBars.length - 1];
+    return typeof lastBar?.close === "number" ? lastBar.close : null;
+  };
+
+  const computeExposureLevels = (
+    strikeData: GexDexStrikeData[],
+    netKey: "net_gex" | "net_dex",
+    callKey: "call_gex" | "call_dex",
+    putKey: "put_gex" | "put_dex",
+    visibleRange: { from: number; to: number },
+  ): GexDexLevel[] => {
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    for (let i = visibleRange.from; i < visibleRange.to; i++) {
+      const bar = currentBars[i];
+      if (bar) {
+        minPrice = Math.min(minPrice, bar.low);
+        maxPrice = Math.max(maxPrice, bar.high);
+      }
+    }
+
+    if (!Number.isFinite(minPrice) || !Number.isFinite(maxPrice)) {
+      return [];
+    }
+
+    const padding = (maxPrice - minPrice) * 0.1;
+    minPrice -= padding;
+    maxPrice += padding;
+
+    const spotPrice = getSpotPrice();
+    if (spotPrice) {
+      const spotMin = spotPrice * (1 - EXPOSURE_SPOT_WINDOW);
+      const spotMax = spotPrice * (1 + EXPOSURE_SPOT_WINDOW);
+      minPrice = Math.min(minPrice, spotMin);
+      maxPrice = Math.max(maxPrice, spotMax);
+    }
+
+    const candidates = strikeData.filter(
+      (item) => item.strike >= minPrice && item.strike <= maxPrice,
+    );
+    if (candidates.length === 0) return [];
+
+    const getNetValue = (item: GexDexStrikeData) =>
+      Number(item?.[netKey] ?? 0);
+
+    const halfLimit = Math.max(2, Math.ceil(EXPOSURE_LEVEL_LIMIT / 2));
+    const positives = candidates
+      .filter((item) => getNetValue(item) > 0)
+      .sort((a, b) => getNetValue(b) - getNetValue(a))
+      .slice(0, halfLimit);
+    const negatives = candidates
+      .filter((item) => getNetValue(item) < 0)
+      .sort((a, b) => Math.abs(getNetValue(b)) - Math.abs(getNetValue(a)))
+      .slice(0, halfLimit);
+
+    let selected = [...positives, ...negatives];
+
+    if (spotPrice) {
+      const closest = candidates.reduce((best, item) => {
+        if (!best) return item;
+        return Math.abs(item.strike - spotPrice) <
+          Math.abs(best.strike - spotPrice)
+          ? item
+          : best;
+      }, null as GexDexStrikeData | null);
+
+      if (
+        closest &&
+        !selected.some((item) => item.strike === closest.strike)
+      ) {
+        selected = [...selected, closest];
+      }
+    }
+
+    const uniqueByStrike = new Map<number, GexDexStrikeData>();
+    for (const item of selected) {
+      const existing = uniqueByStrike.get(item.strike);
+      if (!existing) {
+        uniqueByStrike.set(item.strike, item);
+        continue;
+      }
+      if (Math.abs(getNetValue(item)) > Math.abs(getNetValue(existing))) {
+        uniqueByStrike.set(item.strike, item);
+      }
+    }
+
+    const unique = Array.from(uniqueByStrike.values())
+      .sort((a, b) => Math.abs(getNetValue(b)) - Math.abs(getNetValue(a)))
+      .slice(0, EXPOSURE_LEVEL_LIMIT);
+
+    const labelStrikes = new Set(
+      unique.slice(0, EXPOSURE_LABEL_LIMIT).map((item) => item.strike),
+    );
+    const maxAbsValue = Math.max(
+      ...unique.map((item) => Math.abs(getNetValue(item))),
+      1,
+    );
+    const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
+
+    const levels = unique
+      .map((item) => {
+        const netValue = getNetValue(item);
+        const absValue = Math.abs(netValue);
+        const pixel = chart.convertToPixel({ value: item.strike });
+        if (!pixel || typeof pixel.y !== "number") return null;
+        return {
+          strike: item.strike,
+          value: netValue,
+          absValue,
+          callValue: Number(item?.[callKey] ?? 0),
+          putValue: Number(item?.[putKey] ?? 0),
+          y: pixel.y,
+          visible:
+            chartHeight > 0
+              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              : true,
+          isPositive: netValue >= 0,
+          intensity: Math.sqrt(absValue / maxAbsValue),
+          showLabel: labelStrikes.has(item.strike),
+        };
+      })
+      .filter(Boolean) as GexDexLevel[];
+
+    return levels.sort((a, b) => a.strike - b.strike);
+  };
+
   // Update GEX levels for rendering on chart
   const updateGexLevels = () => {
     if (!chart || !chartContainer || gexStrikeData.length === 0) {
@@ -2479,59 +2633,18 @@
       gexLevels = [];
       return;
     }
+    const spotPrice = getSpotPrice();
+    const nextKey = `${visibleRange.from}:${visibleRange.to}:${gexStrikeData.length}:${spotPrice ?? "na"}`;
+    if (nextKey === gexLevelCacheKey) return;
+    gexLevelCacheKey = nextKey;
 
-    // Get price range from visible bars
-    let minPrice = Infinity;
-    let maxPrice = -Infinity;
-    for (let i = visibleRange.from; i < visibleRange.to; i++) {
-      const bar = currentBars[i];
-      if (bar) {
-        minPrice = Math.min(minPrice, bar.low);
-        maxPrice = Math.max(maxPrice, bar.high);
-      }
-    }
-
-    // Add padding to price range
-    const padding = (maxPrice - minPrice) * 0.1;
-    minPrice -= padding;
-    maxPrice += padding;
-
-    // Filter strikes within visible price range
-    const visibleStrikes = gexStrikeData.filter(
-      (item) => item.strike >= minPrice && item.strike <= maxPrice,
+    gexLevels = computeExposureLevels(
+      gexStrikeData,
+      "net_gex",
+      "call_gex",
+      "put_gex",
+      visibleRange,
     );
-
-    // Find max absolute value for intensity calculation
-    const maxAbsValue = Math.max(
-      ...visibleStrikes.map((item) => Math.abs(item.net_gex || 0)),
-      1,
-    );
-
-    // Sort by absolute value and take top 10 most significant levels
-    const sortedStrikes = [...visibleStrikes]
-      .sort((a, b) => Math.abs(b.net_gex || 0) - Math.abs(a.net_gex || 0))
-      .slice(0, 10);
-
-    // Convert to pixel positions
-    const levels: GexDexLevel[] = [];
-    for (const item of sortedStrikes) {
-      const pixel = chart.convertToPixel({ value: item.strike });
-      if (pixel && typeof pixel.y === "number") {
-        const netValue = item.net_gex || 0;
-        levels.push({
-          strike: item.strike,
-          value: netValue,
-          callValue: item.call_gex,
-          putValue: item.put_gex,
-          y: pixel.y,
-          visible: true,
-          isPositive: netValue >= 0,
-          intensity: Math.abs(netValue) / maxAbsValue,
-        });
-      }
-    }
-
-    gexLevels = levels;
   };
 
   // Update DEX levels for rendering on chart
@@ -2547,59 +2660,18 @@
       dexLevels = [];
       return;
     }
+    const spotPrice = getSpotPrice();
+    const nextKey = `${visibleRange.from}:${visibleRange.to}:${dexStrikeData.length}:${spotPrice ?? "na"}`;
+    if (nextKey === dexLevelCacheKey) return;
+    dexLevelCacheKey = nextKey;
 
-    // Get price range from visible bars
-    let minPrice = Infinity;
-    let maxPrice = -Infinity;
-    for (let i = visibleRange.from; i < visibleRange.to; i++) {
-      const bar = currentBars[i];
-      if (bar) {
-        minPrice = Math.min(minPrice, bar.low);
-        maxPrice = Math.max(maxPrice, bar.high);
-      }
-    }
-
-    // Add padding to price range
-    const padding = (maxPrice - minPrice) * 0.1;
-    minPrice -= padding;
-    maxPrice += padding;
-
-    // Filter strikes within visible price range
-    const visibleStrikes = dexStrikeData.filter(
-      (item) => item.strike >= minPrice && item.strike <= maxPrice,
+    dexLevels = computeExposureLevels(
+      dexStrikeData,
+      "net_dex",
+      "call_dex",
+      "put_dex",
+      visibleRange,
     );
-
-    // Find max absolute value for intensity calculation
-    const maxAbsValue = Math.max(
-      ...visibleStrikes.map((item) => Math.abs(item.net_dex || 0)),
-      1,
-    );
-
-    // Sort by absolute value and take top 10 most significant levels
-    const sortedStrikes = [...visibleStrikes]
-      .sort((a, b) => Math.abs(b.net_dex || 0) - Math.abs(a.net_dex || 0))
-      .slice(0, 10);
-
-    // Convert to pixel positions
-    const levels: GexDexLevel[] = [];
-    for (const item of sortedStrikes) {
-      const pixel = chart.convertToPixel({ value: item.strike });
-      if (pixel && typeof pixel.y === "number") {
-        const netValue = item.net_dex || 0;
-        levels.push({
-          strike: item.strike,
-          value: netValue,
-          callValue: item.call_dex,
-          putValue: item.put_dex,
-          y: pixel.y,
-          visible: true,
-          isPositive: netValue >= 0,
-          intensity: Math.abs(netValue) / maxAbsValue,
-        });
-      }
-    }
-
-    dexLevels = levels;
   };
 
   // Calculate popup position ensuring it stays within bounds
@@ -5028,10 +5100,12 @@
         gexStrikeData = [];
         gexLevels = [];
         selectedGexLevel = null;
+        gexLevelCacheKey = "";
       } else if (name === "dex") {
         dexStrikeData = [];
         dexLevels = [];
         selectedDexLevel = null;
+        dexLevelCacheKey = "";
       } else if (name === "oi") {
         oiStrikeData = [];
         oiLevels = [];
@@ -5446,6 +5520,19 @@
   function formatPrice(value: number | null) {
     if (value === null || !Number.isFinite(value)) return "-";
     return priceFormatter?.format(value) ?? value.toFixed(pricePrecision);
+  }
+
+  function formatExposureValue(value: number | null) {
+    if (value === null || !Number.isFinite(value)) return "0";
+    const abs = Math.abs(value);
+    if (abs >= 1000) return abbreviateNumber(abs);
+    return abs.toFixed(2);
+  }
+
+  function formatSignedExposure(value: number | null) {
+    if (value === null || !Number.isFinite(value)) return "0";
+    const sign = value >= 0 ? "+" : "-";
+    return `${sign}${formatExposureValue(value)}`;
   }
 
   function formatPercent(value: number | null) {
@@ -6024,6 +6111,8 @@
     dexLevels = [];
     oiLevels = [];
     hottestLevels = [];
+    gexLevelCacheKey = "";
+    dexLevelCacheKey = "";
     // Refetch if indicators are enabled
     if (indicatorState.gex) {
       fetchGexDexData("gex");
@@ -7103,7 +7192,7 @@
 
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
@@ -7420,7 +7509,7 @@
 
         <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each dividendMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
@@ -7568,7 +7657,7 @@
 
         <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute inset-0 pointer-events-none z-[5]">
             {#each newsMarkers as marker (marker.news.date)}
               {#if marker?.visible}
                 <button
@@ -7695,6 +7784,28 @@
                   tabindex="0"
                   aria-label="GEX level at ${level.strike}"
                 ></div>
+                {#if level.showLabel}
+                  <div
+                    class="absolute right-2 pointer-events-auto cursor-pointer"
+                    style="top: {level.y - 10}px;"
+                    on:click={(e) => handleGexLevelClick(level, e)}
+                    on:keypress={(e) =>
+                      e.key === "Enter" && handleGexLevelClick(level, e)}
+                    role="button"
+                    tabindex="0"
+                    aria-label="GEX label at ${level.strike}"
+                  >
+                    <span
+                      class={`px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border ${
+                        level.isPositive
+                          ? "text-emerald-200 border-emerald-500/30"
+                          : "text-rose-200 border-rose-500/30"
+                      }`}
+                    >
+                      GEX {formatPrice(level.strike)} {level.isPositive ? "+" : "-"}{formatExposureValue(level.absValue)}
+                    </span>
+                  </div>
+                {/if}
               {/if}
             {/each}
           </div>
@@ -7723,6 +7834,28 @@
                   tabindex="0"
                   aria-label="DEX level at ${level.strike}"
                 ></div>
+                {#if level.showLabel}
+                  <div
+                    class="absolute right-2 pointer-events-auto cursor-pointer"
+                    style="top: {level.y - 10}px;"
+                    on:click={(e) => handleDexLevelClick(level, e)}
+                    on:keypress={(e) =>
+                      e.key === "Enter" && handleDexLevelClick(level, e)}
+                    role="button"
+                    tabindex="0"
+                    aria-label="DEX label at ${level.strike}"
+                  >
+                    <span
+                      class={`px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border ${
+                        level.isPositive
+                          ? "text-sky-200 border-sky-500/30"
+                          : "text-orange-200 border-orange-500/30"
+                      }`}
+                    >
+                      DEX {formatPrice(level.strike)} {level.isPositive ? "+" : "-"}{formatExposureValue(level.absValue)}
+                    </span>
+                  </div>
+                {/if}
               {/if}
             {/each}
           </div>
@@ -7798,21 +7931,19 @@
                       ? 'text-emerald-800 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'}"
                   >
-                    {level?.isPositive ? "+" : ""}{level?.value?.toLocaleString(
-                      "en-US",
-                    ) || 0}
+                    {formatSignedExposure(level?.value ?? 0)}
                   </span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Call</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
-                    >+{level?.callValue?.toLocaleString("en-US") || 0}</span
+                    >{formatExposureValue(level?.callValue ?? 0)}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Put</span>
                   <span class="text-rose-600 dark:text-rose-400"
-                    >{level?.putValue?.toLocaleString("en-US") || 0}</span
+                    >{formatExposureValue(level?.putValue ?? 0)}</span
                   >
                 </div>
               </div>
