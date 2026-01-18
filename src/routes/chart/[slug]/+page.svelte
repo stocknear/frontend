@@ -382,9 +382,12 @@
     callOi: number;
     putOi: number;
     totalOi: number;
+    expiration: string | null;
+    dte: number | null;
     y: number;
     visible: boolean;
     intensity: number; // 0-1 for line thickness based on OI magnitude
+    showLabel: boolean;
   }
 
   let oiStrikeData: OiStrikeData[] = [];
@@ -392,6 +395,10 @@
   let oiLoading = false;
   let selectedOiLevel: OiLevel | null = null;
   let oiPopupPosition = { x: 0, y: 0 };
+  let oiSelectedExpiration: string | null = null;
+  let oiLevelCacheKey = "";
+  const OI_LEVEL_LIMIT = 12;
+  const OI_LABEL_LIMIT = 6;
 
   // Hottest Contracts types and state
   interface HottestContract {
@@ -417,9 +424,11 @@
     iv: number;
     premium: number;
     last: number;
+    dte: number | null;
     y: number;
     visible: boolean;
     intensity: number;
+    showLabel: boolean;
   }
 
   let hottestContractsData: HottestContract[] = [];
@@ -427,6 +436,9 @@
   let hottestLoading = false;
   let selectedHottestLevel: HottestLevel | null = null;
   let hottestPopupPosition = { x: 0, y: 0 };
+  let hottestLevelCacheKey = "";
+  const HOTTEST_LEVEL_LIMIT = 12;
+  const HOTTEST_LABEL_LIMIT = 6;
 
   // Max Pain types and state
   interface MaxPainDataPoint {
@@ -2769,38 +2781,59 @@
 
       const result = await response.json();
 
-      // The API returns data keyed by date - aggregate across all expiration dates
-      const aggregatedData = new Map<number, OiStrikeData>();
+      const entries = Object.entries(result ?? {}).filter(([, value]) =>
+        Array.isArray(value),
+      ) as [string, OiStrikeData[]][];
 
-      for (const dateData of Object.values(result) as OiStrikeData[][]) {
-        if (!Array.isArray(dateData)) continue;
-        for (const item of dateData) {
-          const strike = item.strike;
-          if (!aggregatedData.has(strike)) {
-            aggregatedData.set(strike, {
-              strike,
-              call_oi: 0,
-              put_oi: 0,
-            });
+      const now = DateTime.now().setZone(zone).startOf("day");
+      let bestFuture: [string, OiStrikeData[]] | null = null;
+      let bestFutureDate: DateTime | null = null;
+      let bestPast: [string, OiStrikeData[]] | null = null;
+      let bestPastDate: DateTime | null = null;
+
+      for (const entry of entries) {
+        const dt = DateTime.fromISO(entry[0], { zone });
+        if (!dt.isValid) continue;
+        if (dt >= now) {
+          if (!bestFutureDate || dt < bestFutureDate) {
+            bestFutureDate = dt;
+            bestFuture = entry;
           }
-          const existing = aggregatedData.get(strike)!;
-          existing.call_oi += item.call_oi || 0;
-          existing.put_oi += item.put_oi || 0;
+        } else if (!bestPastDate || dt > bestPastDate) {
+          bestPastDate = dt;
+          bestPast = entry;
         }
       }
 
-      // Calculate total OI and convert to array
-      const strikeData = Array.from(aggregatedData.values()).map((item) => ({
-        ...item,
-        total_oi: item.call_oi + item.put_oi,
-      }));
+      const selectedEntry = bestFuture ?? bestPast;
 
+      if (!selectedEntry) {
+        oiStrikeData = [];
+        oiLevels = [];
+        oiSelectedExpiration = null;
+        oiLoading = false;
+        return;
+      }
+
+      const [expiration, dateData] = selectedEntry;
+      const strikeData = (Array.isArray(dateData) ? dateData : []).map(
+        (item) => ({
+          ...item,
+          total_oi: (item.call_oi ?? 0) + (item.put_oi ?? 0),
+        }),
+      );
+
+      oiSelectedExpiration = expiration;
       oiStrikeData = strikeData;
+      oiLevelCacheKey = "";
       updateOiLevels();
     } catch (error) {
       console.error("Failed to fetch OI data:", error);
       oiStrikeData = [];
       oiLevels = [];
+      oiSelectedExpiration = null;
+      oiLevelCacheKey = "";
+      oiSelectedExpiration = null;
     } finally {
       oiLoading = false;
     }
@@ -2820,7 +2853,11 @@
       return;
     }
 
-    // Get price range from visible bars
+    const spotPrice = getSpotPrice();
+    const nextKey = `${visibleRange.from}:${visibleRange.to}:${oiStrikeData.length}:${spotPrice ?? "na"}:${oiSelectedExpiration ?? "na"}`;
+    if (nextKey === oiLevelCacheKey) return;
+    oiLevelCacheKey = nextKey;
+
     let minPrice = Infinity;
     let maxPrice = -Infinity;
     for (let i = visibleRange.from; i < visibleRange.to; i++) {
@@ -2831,28 +2868,52 @@
       }
     }
 
-    // Add padding to price range
+    if (!Number.isFinite(minPrice) || !Number.isFinite(maxPrice)) {
+      oiLevels = [];
+      return;
+    }
+
     const padding = (maxPrice - minPrice) * 0.1;
     minPrice -= padding;
     maxPrice += padding;
 
-    // Filter strikes within visible price range
+    if (spotPrice) {
+      const spotMin = spotPrice * (1 - EXPOSURE_SPOT_WINDOW);
+      const spotMax = spotPrice * (1 + EXPOSURE_SPOT_WINDOW);
+      minPrice = Math.min(minPrice, spotMin);
+      maxPrice = Math.max(maxPrice, spotMax);
+    }
+
     const visibleStrikes = oiStrikeData.filter(
       (item) => item.strike >= minPrice && item.strike <= maxPrice,
     );
 
-    // Find max total OI for intensity calculation
-    const maxTotalOi = Math.max(
-      ...visibleStrikes.map((item) => item.total_oi || 0),
-      1,
-    );
+    if (!visibleStrikes.length) {
+      oiLevels = [];
+      return;
+    }
 
-    // Sort by total OI and take top 10 most significant levels
     const sortedStrikes = [...visibleStrikes]
       .sort((a, b) => (b.total_oi || 0) - (a.total_oi || 0))
-      .slice(0, 10);
+      .slice(0, OI_LEVEL_LIMIT);
 
-    // Convert to pixel positions
+    const maxTotalOi = Math.max(
+      ...sortedStrikes.map((item) => item.total_oi || 0),
+      1,
+    );
+    const labelStrikes = new Set(
+      sortedStrikes.slice(0, OI_LABEL_LIMIT).map((item) => item.strike),
+    );
+    const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
+    const now = DateTime.now().setZone(zone).startOf("day");
+    const expDate = oiSelectedExpiration
+      ? DateTime.fromISO(oiSelectedExpiration, { zone })
+      : null;
+    const dte =
+      expDate && expDate.isValid
+        ? Math.max(0, Math.ceil(expDate.diff(now, "days").days))
+        : null;
+
     const levels: OiLevel[] = [];
     for (const item of sortedStrikes) {
       const pixel = chart.convertToPixel({ value: item.strike });
@@ -2862,9 +2923,15 @@
           callOi: item.call_oi,
           putOi: item.put_oi,
           totalOi: item.total_oi || 0,
+          expiration: oiSelectedExpiration,
+          dte,
           y: pixel.y,
-          visible: true,
-          intensity: (item.total_oi || 0) / maxTotalOi,
+          visible:
+            chartHeight > 0
+              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              : true,
+          intensity: Math.sqrt((item.total_oi || 0) / maxTotalOi),
+          showLabel: labelStrikes.has(item.strike),
         });
       }
     }
@@ -2916,6 +2983,7 @@
       const volumeData = result?.volume || [];
 
       hottestContractsData = volumeData;
+      hottestLevelCacheKey = "";
       updateHottestLevels();
     } catch (error) {
       console.error("Failed to fetch Hottest Contracts data:", error);
@@ -3782,7 +3850,11 @@
       return;
     }
 
-    // Get price range from visible bars
+    const spotPrice = getSpotPrice();
+    const nextKey = `${visibleRange.from}:${visibleRange.to}:${hottestContractsData.length}:${spotPrice ?? "na"}`;
+    if (nextKey === hottestLevelCacheKey) return;
+    hottestLevelCacheKey = nextKey;
+
     let minPrice = Infinity;
     let maxPrice = -Infinity;
     for (let i = visibleRange.from; i < visibleRange.to; i++) {
@@ -3793,32 +3865,69 @@
       }
     }
 
-    // Add padding to price range
+    if (!Number.isFinite(minPrice) || !Number.isFinite(maxPrice)) {
+      hottestLevels = [];
+      return;
+    }
+
     const padding = (maxPrice - minPrice) * 0.1;
     minPrice -= padding;
     maxPrice += padding;
 
-    // Filter contracts within visible price range
-    const visibleContracts = hottestContractsData.filter(
+    if (spotPrice) {
+      const spotMin = spotPrice * (1 - EXPOSURE_SPOT_WINDOW);
+      const spotMax = spotPrice * (1 + EXPOSURE_SPOT_WINDOW);
+      minPrice = Math.min(minPrice, spotMin);
+      maxPrice = Math.max(maxPrice, spotMax);
+    }
+
+    let visibleContracts = hottestContractsData.filter(
       (item) => item.strike_price >= minPrice && item.strike_price <= maxPrice,
     );
+    if (!visibleContracts.length && hottestContractsData.length) {
+      visibleContracts = [...hottestContractsData];
+    }
 
-    // Find max volume for intensity calculation
+    const now = DateTime.now().setZone(zone).startOf("day");
+    const withDte = visibleContracts
+      .map((item) => {
+        const expDate = DateTime.fromISO(item.date_expiration, { zone });
+        const dte = expDate.isValid
+          ? Math.max(0, Math.ceil(expDate.diff(now, "days").days))
+          : null;
+        return { item, dte };
+      })
+      .filter(({ dte }) => dte === null || dte >= 0);
+
+    const sortedContracts = withDte
+      .sort((a, b) => {
+        const volA = a.item.volume || 0;
+        const volB = b.item.volume || 0;
+        if (volA !== volB) return volB - volA;
+        const dteA = a.dte ?? Number.MAX_SAFE_INTEGER;
+        const dteB = b.dte ?? Number.MAX_SAFE_INTEGER;
+        return dteA - dteB;
+      })
+      .slice(0, HOTTEST_LEVEL_LIMIT);
+
     const maxVolume = Math.max(
-      ...visibleContracts.map((item) => item.volume || 0),
+      ...sortedContracts.map(({ item }) => item.volume || 0),
       1,
     );
+    const labelKeys = new Set(
+      sortedContracts
+        .slice(0, HOTTEST_LABEL_LIMIT)
+        .map(
+          ({ item }) => `${item.strike_price}-${item.option_type}-${item.date_expiration}`,
+        ),
+    );
+    const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
 
-    // Sort by volume and take top 10 most significant levels
-    const sortedContracts = [...visibleContracts]
-      .sort((a, b) => (b.volume || 0) - (a.volume || 0))
-      .slice(0, 10);
-
-    // Convert to pixel positions
     const levels: HottestLevel[] = [];
-    for (const item of sortedContracts) {
+    for (const { item, dte } of sortedContracts) {
       const pixel = chart.convertToPixel({ value: item.strike_price });
       if (pixel && typeof pixel.y === "number") {
+        const key = `${item.strike_price}-${item.option_type}-${item.date_expiration}`;
         levels.push({
           strike: item.strike_price,
           optionType: item.option_type,
@@ -3828,9 +3937,14 @@
           iv: item.iv,
           premium: item.total_premium,
           last: item.last,
+          dte,
           y: pixel.y,
-          visible: true,
-          intensity: (item.volume || 0) / maxVolume,
+          visible:
+            chartHeight > 0
+              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              : true,
+          intensity: Math.sqrt((item.volume || 0) / maxVolume),
+          showLabel: labelKeys.has(key),
         });
       }
     }
@@ -5107,13 +5221,16 @@
         selectedDexLevel = null;
         dexLevelCacheKey = "";
       } else if (name === "oi") {
-        oiStrikeData = [];
-        oiLevels = [];
-        selectedOiLevel = null;
+      oiStrikeData = [];
+      oiLevels = [];
+      selectedOiLevel = null;
+      oiSelectedExpiration = null;
+      oiLevelCacheKey = "";
       } else if (name === "hottest") {
         hottestContractsData = [];
         hottestLevels = [];
         selectedHottestLevel = null;
+        hottestLevelCacheKey = "";
       } else if (name === "short_interest") {
         showShortInterest = false;
         shortInterestMarkers = [];
@@ -5533,6 +5650,18 @@
     if (value === null || !Number.isFinite(value)) return "0";
     const sign = value >= 0 ? "+" : "-";
     return `${sign}${formatExposureValue(value)}`;
+  }
+
+  function formatCount(value: number | null) {
+    if (value === null || !Number.isFinite(value)) return "0";
+    return Math.round(value).toLocaleString("en-US", {
+      maximumFractionDigits: 0,
+    });
+  }
+
+  function formatIvPercent(value: number | null) {
+    if (value === null || !Number.isFinite(value)) return "0.0%";
+    return `${(value * 100).toFixed(1)}%`;
   }
 
   function formatPercent(value: number | null) {
@@ -6113,6 +6242,9 @@
     hottestLevels = [];
     gexLevelCacheKey = "";
     dexLevelCacheKey = "";
+    oiSelectedExpiration = null;
+    oiLevelCacheKey = "";
+    hottestLevelCacheKey = "";
     // Refetch if indicators are enabled
     if (indicatorState.gex) {
       fetchGexDexData("gex");
@@ -8165,6 +8297,24 @@
                   tabindex="0"
                   aria-label="OI level at ${level.strike}"
                 ></div>
+                {#if level.showLabel}
+                  <div
+                    class="absolute right-2 pointer-events-auto cursor-pointer"
+                    style="top: {level.y - 10}px;"
+                    on:click={(e) => handleOiLevelClick(level, e)}
+                    on:keypress={(e) =>
+                      e.key === "Enter" && handleOiLevelClick(level, e)}
+                    role="button"
+                    tabindex="0"
+                    aria-label="OI label at ${level.strike}"
+                  >
+                    <span
+                      class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] text-purple-200 border border-purple-500/30"
+                    >
+                      OI {formatPrice(level.strike)} {formatCount(level.totalOi)}
+                    </span>
+                  </div>
+                {/if}
               {/if}
             {/each}
           </div>
@@ -8222,25 +8372,39 @@
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Strike</span>
                   <span class="font-medium"
-                    >${selectedOiLevel.strike.toFixed(2)}</span
+                    >{formatPrice(selectedOiLevel.strike)}</span
                   >
                 </div>
+                {#if selectedOiLevel.expiration}
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">Expiration</span>
+                    <span class="font-medium"
+                      >{formatExpiration(selectedOiLevel.expiration)}</span
+                    >
+                  </div>
+                {/if}
+                {#if selectedOiLevel.dte !== null}
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">DTE</span>
+                    <span class="font-medium">{selectedOiLevel.dte}d</span>
+                  </div>
+                {/if}
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Total OI</span>
                   <span class="font-medium text-purple-400">
-                    {selectedOiLevel.totalOi?.toLocaleString("en-US")}
+                    {formatCount(selectedOiLevel.totalOi)}
                   </span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Call OI</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
-                    >{selectedOiLevel.callOi?.toLocaleString("en-US")}</span
+                    >{formatCount(selectedOiLevel.callOi)}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Put OI</span>
                   <span class="text-rose-600 dark:text-rose-400"
-                    >{selectedOiLevel.putOi?.toLocaleString("en-US")}</span
+                    >{formatCount(selectedOiLevel.putOi)}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
@@ -8305,6 +8469,28 @@
                   tabindex="0"
                   aria-label="Hottest contract at ${level.strike}"
                 ></div>
+                {#if level.showLabel}
+                  <div
+                    class="absolute right-2 pointer-events-auto cursor-pointer"
+                    style="top: {level.y - 10}px;"
+                    on:click={(e) => handleHottestLevelClick(level, e)}
+                    on:keypress={(e) =>
+                      e.key === "Enter" && handleHottestLevelClick(level, e)}
+                    role="button"
+                    tabindex="0"
+                    aria-label="Hottest contract label at ${level.strike}"
+                  >
+                    <span
+                      class={`px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border ${
+                        level.optionType === "C"
+                          ? "text-emerald-200 border-emerald-500/30"
+                          : "text-rose-200 border-rose-500/30"
+                      }`}
+                    >
+                      HOT {level.optionType} {formatExpiration(level.expiration)} {formatCount(level.volume)}
+                    </span>
+                  </div>
+                {/if}
               {/if}
             {/each}
           </div>
@@ -8336,7 +8522,7 @@
                 <h3
                   class="text-white font-semibold text-sm sm:text-base truncate"
                 >
-                  {selectedHottestLevel.optionType === "C" ? "Call" : "Put"} ${selectedHottestLevel.strike}
+                  {selectedHottestLevel.optionType === "C" ? "Call" : "Put"} {formatPrice(selectedHottestLevel.strike)}
                 </h3>
                 <button
                   class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
@@ -8367,18 +8553,22 @@
                     >{formatExpiration(selectedHottestLevel.expiration)}</span
                   >
                 </div>
+                {#if selectedHottestLevel.dte !== null}
+                  <div class="flex justify-between text-neutral-300">
+                    <span class="text-neutral-500">DTE</span>
+                    <span class="font-medium">{selectedHottestLevel.dte}d</span>
+                  </div>
+                {/if}
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Volume</span>
                   <span class="font-medium text-amber-400">
-                    {selectedHottestLevel.volume?.toLocaleString("en-US")}
+                    {formatCount(selectedHottestLevel.volume)}
                   </span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Open Interest</span>
                   <span class="text-purple-400"
-                    >{selectedHottestLevel.openInterest?.toLocaleString(
-                      "en-US",
-                    )}</span
+                    >{formatCount(selectedHottestLevel.openInterest)}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
@@ -8387,22 +8577,17 @@
                     class={selectedHottestLevel.optionType === "C"
                       ? "text-emerald-800 dark:text-emerald-400"
                       : "text-rose-600 dark:text-rose-400"}
-                    >${selectedHottestLevel.last?.toFixed(2)}</span
+                    >{formatPrice(selectedHottestLevel.last)}</span
                   >
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">IV</span>
-                  <span class="font-medium"
-                    >{(selectedHottestLevel.iv * 100)?.toFixed(1)}%</span
-                  >
+                  <span class="font-medium">{formatIvPercent(selectedHottestLevel.iv)}</span>
                 </div>
                 <div class="flex justify-between text-neutral-300">
                   <span class="text-neutral-500">Premium</span>
                   <span class="font-medium"
-                    >${selectedHottestLevel.premium?.toLocaleString("en-US", {
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    })}</span
+                    >${formatCount(selectedHottestLevel.premium)}</span
                   >
                 </div>
               </div>
