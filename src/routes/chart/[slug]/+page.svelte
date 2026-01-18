@@ -457,6 +457,7 @@
     label: string;
     price: number;
     y: number;
+    labelY: number;
     visible: boolean;
     color: string;
   }
@@ -3910,15 +3911,21 @@
       if (target.value === null) continue;
       const pixel = chart.convertToPixel({ value: target.value });
       if (pixel && typeof pixel.y === "number") {
+        const clampedY =
+          chartHeight > 0
+            ? Math.min(chartHeight - 2, Math.max(2, pixel.y))
+            : pixel.y;
+        const labelY =
+          chartHeight > 0
+            ? Math.min(chartHeight - 20, Math.max(2, clampedY - 10))
+            : clampedY - 10;
         levels.push({
           key: target.key,
           label: target.label,
           price: target.value,
-          y: pixel.y,
-          visible:
-            chartHeight > 0
-              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
-              : true,
+          y: clampedY,
+          labelY,
+          visible: true,
           color: ANALYST_TARGET_COLORS[target.key],
         });
       }
@@ -8061,7 +8068,7 @@
                 ></div>
                 <div
                   class="absolute right-2 pointer-events-auto cursor-pointer"
-                  style="top: {level.y - 10}px;"
+                  style="top: {level.labelY}px;"
                   on:click={(e) => handleMaxPainLevelClick(level, e)}
                   on:keypress={(e) =>
                     e.key === "Enter" && handleMaxPainLevelClick(level, e)}
