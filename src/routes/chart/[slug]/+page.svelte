@@ -3778,31 +3778,6 @@
       return;
     }
 
-    const visibleRange = chart.getVisibleRange();
-    if (!visibleRange) {
-      maxPainLevels = [];
-      return;
-    }
-
-    let minPrice = Infinity;
-    let maxPrice = -Infinity;
-    for (let i = visibleRange.from; i < visibleRange.to; i++) {
-      const bar = currentBars[i];
-      if (bar) {
-        minPrice = Math.min(minPrice, bar.low);
-        maxPrice = Math.max(maxPrice, bar.high);
-      }
-    }
-
-    if (!Number.isFinite(minPrice) || !Number.isFinite(maxPrice)) {
-      maxPainLevels = [];
-      return;
-    }
-
-    const padding = (maxPrice - minPrice) * 0.1;
-    minPrice -= padding;
-    maxPrice += padding;
-
     const now = DateTime.now().setZone(zone).startOf("day");
     const upcoming = [...maxPainData]
       .filter((item) => {
@@ -3810,6 +3785,7 @@
         return expDate.isValid ? expDate >= now : true;
       })
       .slice(0, 2);
+    const chartHeight = chart.getSize()?.height ?? cachedChartRect?.height ?? 0;
 
     const levels: MaxPainLevel[] = [];
     upcoming.forEach((item, index) => {
@@ -3826,7 +3802,10 @@
           expiration: item.expiration,
           dte,
           y: pixel.y,
-          visible: item.maxPain >= minPrice && item.maxPain <= maxPrice,
+          visible:
+            chartHeight > 0
+              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              : true,
           isPrimary,
           intensity,
         });
@@ -6027,6 +6006,7 @@
     oiStrikeData;
     hottestContractsData;
     maxPainData;
+    currentBars;
     historicalShortInterest;
     indicatorState;
 
