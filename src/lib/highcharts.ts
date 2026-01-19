@@ -1,59 +1,73 @@
-import Highcharts from 'highcharts';
-import HighchartsMore from 'highcharts/highcharts-more';
-import HighchartsSankey from 'highcharts/modules/sankey';
-import HighchartsHeatmap from 'highcharts/modules/heatmap';
-import HighchartsStock from 'highcharts/modules/stock';
-
-//import Boost from 'highcharts/modules/boost';
- //import HighchartsAnnotations from 'highcharts/modules/annotations';
 import { browser } from '$app/environment';
 
-if (browser) {
-  // Initialize modules
-  HighchartsMore(Highcharts);
-  HighchartsSankey(Highcharts);
-  HighchartsHeatmap(Highcharts);
-  HighchartsStock(Highcharts);
+let Highcharts: any = null;
+let modulesLoaded = false;
 
-   //HighchartsAnnotations(Highcharts);
-  //Boost(Highcharts);
-Highcharts.setOptions({
+// Highcharts v12+: Dynamic imports for SSR compatibility
+async function ensureHighcharts() {
+  if (Highcharts && modulesLoaded) return Highcharts;
+
+  if (!browser) return null;
+
+  // Dynamic import of Highcharts core
+  const HC = await import('highcharts');
+  Highcharts = HC.default;
+
+  // Dynamic import of modules - they auto-register in v12
+  await import('highcharts/highcharts-more');
+  await import('highcharts/modules/sankey');
+  await import('highcharts/modules/heatmap');
+  await import('highcharts/modules/stock');
+
+  // Set global options
+  Highcharts.setOptions({
     lang: {
       numericSymbols: ['K', 'M', 'B', 'T', 'P', 'E']
     },
-   
   });
+
+  modulesLoaded = true;
+  return Highcharts;
 }
 
-export default (node, config) => {
+// Pre-load Highcharts in browser context
+if (browser) {
+  ensureHighcharts();
+}
+
+export default (node: HTMLElement, config: any) => {
   const redraw = true;
   const oneToOne = true;
-  let chart = null;
+  let chart: any = null;
+  let resizeObserver: ResizeObserver | null = null;
 
-  const createChart = () => {
-    chart = Highcharts.chart(node, {
+  const createChart = async () => {
+    const HC = await ensureHighcharts();
+    if (!HC) return;
+
+    chart = HC.chart(node, {
       ...config,
       accessibility: { enabled: false },
       chart: {
         ...(config.chart || {}),
-           style: {
+        style: {
           fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
         },
         events: {
           ...(config.chart?.events || {}),
           load: function () {
-            const chart = this;
+            const chartInstance = this as any;
             const marginX = 10;
             const marginY = 5;
 
-            if (chart.watermark) {
-              chart.watermark.destroy();
+            if (chartInstance.watermark) {
+              chartInstance.watermark.destroy();
             }
 
-            const x = chart.chartWidth - marginX;
-            const y = chart.chartHeight - marginY;
+            const x = chartInstance.chartWidth - marginX;
+            const y = chartInstance.chartHeight - marginY;
 
-            chart.watermark = chart.renderer
+            chartInstance.watermark = chartInstance.renderer
               .text('', x, y)
               .attr({ align: 'right' })
               .css({
@@ -64,34 +78,38 @@ export default (node, config) => {
               })
               .add();
 
-            Highcharts.addEvent(chart, 'redraw', function () {
-              chart.watermark.attr({ x: chart.chartWidth - marginX, y: chart.chartHeight - marginY });
+            HC.addEvent(chartInstance, 'redraw', function () {
+              chartInstance.watermark.attr({
+                x: chartInstance.chartWidth - marginX,
+                y: chartInstance.chartHeight - marginY
+              });
             });
           }
         }
       }
     });
+
+    // Setup resize observer after chart is created
+    resizeObserver = new ResizeObserver(() => {
+      if (chart && browser) {
+        const newWidth = node.clientWidth;
+        const newHeight = config?.chart?.height === null
+          ? node.clientHeight
+          : (node.clientWidth < 600) ? 300 : config?.chart?.height;
+
+        chart?.setSize(newWidth, newHeight, false);
+      }
+    });
+    resizeObserver.observe(node);
   };
 
   createChart();
 
-  // Resize observer remains the same
-  const resizeObserver = new ResizeObserver(() => {
-    if (chart && browser) {
-      const newWidth = node.clientWidth;
-      // Use container height if chart height is null, otherwise use config height or 300 for mobile
-      const newHeight = config?.chart?.height === null
-        ? node.clientHeight
-        : (node.clientWidth < 600) ? 300 : config?.chart?.height;
-
-      chart?.setSize(newWidth, newHeight, false);
-    }
-  });
-  resizeObserver.observe(node);
-
   return {
-    update(newConfig) {
-      chart.update(newConfig, redraw, oneToOne);
+    update(newConfig: any) {
+      if (chart) {
+        chart.update(newConfig, redraw, oneToOne);
+      }
     },
     destroy() {
       resizeObserver?.disconnect();
@@ -99,3 +117,6 @@ export default (node, config) => {
     }
   };
 };
+
+// Export Highcharts instance for components that need direct access
+export { ensureHighcharts };

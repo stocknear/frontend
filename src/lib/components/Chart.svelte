@@ -32,8 +32,10 @@
     tooltip: {
       shared: true,
       formatter: function () {
-        return `<b>${Highcharts.dateFormat("%b %e, %Y", this.x)}</b><br>
-          Price: $${Highcharts.numberFormat(this.points[0].y, 2)}`;
+        const date = new Date(this.x);
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const price = this.points[0].y.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        return `<b>${dateStr}</b><br>Price: $${price}`;
       },
     },
     series: [

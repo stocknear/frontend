@@ -605,18 +605,17 @@
               {/if}
 
               <div
-                class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+                class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
               >
                 <h2
                   class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
                   Earnings Chart
                 </h2>
-                <div class="sm:ml-auto">
-                  <div class="inline-flex mt-2 sm:mt-0">
+                <div class="ml-auto">
+                  <div class="inline-flex mt-3 sm:mt-0">
                     <div
-                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
-           "
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
                     >
                       {#each tabs as item, i (item)}
                         <button
@@ -700,7 +699,7 @@
                 </div>
               </div>
 
-              <div class="chart-driver mb-3">
+              <div class="chart-driver mb-3 -mt-2 sm:mt-0">
                 <div class="grow">
                   <div class="relative">
                     <div
