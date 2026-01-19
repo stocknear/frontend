@@ -1452,18 +1452,11 @@
         : "opacity-0 group-hover:opacity-100 text-neutral-500 hover:text-amber-400"
     }`;
   let favoriteIndicators: typeof indicatorItems = [];
-  // In Favorites tab, sort by enabled state (checkbox) since all are favorites
+  // In Favorites tab, sort alphabetically
   $: favoriteIndicators = indicatorItems
     .filter((item) => indicatorFavorites.includes(item.id))
     .slice()
-    .sort((a, b) => {
-      const aEnabled = Boolean(indicatorState[a.id]);
-      const bEnabled = Boolean(indicatorState[b.id]);
-      if (aEnabled !== bEnabled) {
-        return aEnabled ? -1 : 1;
-      }
-      return a.label.localeCompare(b.label);
-    });
+    .sort((a, b) => a.label.localeCompare(b.label));
   let filteredIndicators = indicatorItems;
   let groupedIndicators = groupChartIndicators(indicatorItems);
 
@@ -7034,12 +7027,7 @@
         [
           cat,
           [...indicators].sort((a, b) => {
-            // Sort by checked first, then favorites, then alphabetically
-            const aChecked = Boolean(indicatorState[a.id]);
-            const bChecked = Boolean(indicatorState[b.id]);
-            if (aChecked !== bChecked) {
-              return aChecked ? -1 : 1;
-            }
+            // Sort by favorites first, then alphabetically
             const aFav = favoritesSet.has(a.id);
             const bFav = favoritesSet.has(b.id);
             if (aFav !== bFav) {
@@ -7057,12 +7045,7 @@
     )
     .slice()
     .sort((a, b) => {
-      // Sort by checked first, then favorites, then alphabetically
-      const aChecked = Boolean(indicatorState[a.id]);
-      const bChecked = Boolean(indicatorState[b.id]);
-      if (aChecked !== bChecked) {
-        return aChecked ? -1 : 1;
-      }
+      // Sort by favorites first, then alphabetically
       const aFav = favoritesSet.has(a.id);
       const bFav = favoritesSet.has(b.id);
       if (aFav !== bFav) {
@@ -7072,12 +7055,7 @@
     });
   $: optionsIndicators = (groupedIndicators["Options"] ?? []).slice().sort(
     (a, b) => {
-      // Sort by checked first, then favorites, then alphabetically
-      const aChecked = Boolean(indicatorState[a.id]);
-      const bChecked = Boolean(indicatorState[b.id]);
-      if (aChecked !== bChecked) {
-        return aChecked ? -1 : 1;
-      }
+      // Sort by favorites first, then alphabetically
       const aFav = favoritesSet.has(a.id);
       const bFav = favoritesSet.has(b.id);
       if (aFav !== bFav) {
