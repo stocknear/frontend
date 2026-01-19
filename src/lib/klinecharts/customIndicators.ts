@@ -1047,7 +1047,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
 
       const barWidth = Math.max(
         2,
-        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.85,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95,
       );
       const y0 = yAxis.convertToPixel(0);
       if (typeof y0 !== "number" || isNaN(y0)) return false;
@@ -1848,7 +1848,7 @@ function createRevenueIndicator(): IndicatorTemplate<
 
       const barWidth = Math.max(
         2,
-        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.85,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95,
       );
       const y0 = yAxis.convertToPixel(0);
       if (typeof y0 !== "number" || isNaN(y0)) return false;
