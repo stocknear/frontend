@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 
 let Highcharts: any = null;
 let modulesLoaded = false;
+let loadingPromise: Promise<any> | null = null;
 
 // Highcharts v12+: Dynamic imports for SSR compatibility
 async function ensureHighcharts() {
@@ -9,25 +10,32 @@ async function ensureHighcharts() {
 
   if (!browser) return null;
 
-  // Dynamic import of Highcharts core
-  const HC = await import('highcharts');
-  Highcharts = HC.default;
+  // Prevent multiple simultaneous loads
+  if (loadingPromise) return loadingPromise;
 
-  // Dynamic import of modules - they auto-register in v12
-  await import('highcharts/highcharts-more');
-  await import('highcharts/modules/sankey');
-  await import('highcharts/modules/heatmap');
-  await import('highcharts/modules/stock');
+  loadingPromise = (async () => {
+    // Dynamic import of Highcharts core
+    const HC = await import('highcharts');
+    Highcharts = HC.default;
 
-  // Set global options
-  Highcharts.setOptions({
-    lang: {
-      numericSymbols: ['K', 'M', 'B', 'T', 'P', 'E']
-    },
-  });
+    // Dynamic import of modules - they auto-register in v12
+    await import('highcharts/highcharts-more');
+    await import('highcharts/modules/sankey');
+    await import('highcharts/modules/heatmap');
+    await import('highcharts/modules/stock');
 
-  modulesLoaded = true;
-  return Highcharts;
+    // Set global options
+    Highcharts.setOptions({
+      lang: {
+        numericSymbols: ['K', 'M', 'B', 'T', 'P', 'E']
+      },
+    });
+
+    modulesLoaded = true;
+    return Highcharts;
+  })();
+
+  return loadingPromise;
 }
 
 // Pre-load Highcharts in browser context
@@ -40,21 +48,35 @@ export default (node: HTMLElement, config: any) => {
   const oneToOne = true;
   let chart: any = null;
   let resizeObserver: ResizeObserver | null = null;
+  let currentConfig = config;
+  let isCreating = false;
 
-  const createChart = async () => {
+  const createChart = async (cfg: any) => {
+    if (!cfg || isCreating) return;
+    isCreating = true;
+
     const HC = await ensureHighcharts();
-    if (!HC) return;
+    if (!HC) {
+      isCreating = false;
+      return;
+    }
+
+    // Destroy existing chart if any
+    if (chart) {
+      chart.destroy();
+      chart = null;
+    }
 
     chart = HC.chart(node, {
-      ...config,
+      ...cfg,
       accessibility: { enabled: false },
       chart: {
-        ...(config.chart || {}),
+        ...(cfg.chart || {}),
         style: {
           fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
         },
         events: {
-          ...(config.chart?.events || {}),
+          ...(cfg.chart?.events || {}),
           load: function () {
             const chartInstance = this as any;
             const marginX = 10;
@@ -90,30 +112,54 @@ export default (node: HTMLElement, config: any) => {
     });
 
     // Setup resize observer after chart is created
-    resizeObserver = new ResizeObserver(() => {
-      if (chart && browser) {
-        const newWidth = node.clientWidth;
-        const newHeight = config?.chart?.height === null
-          ? node.clientHeight
-          : (node.clientWidth < 600) ? 300 : config?.chart?.height;
+    if (!resizeObserver) {
+      resizeObserver = new ResizeObserver(() => {
+        if (chart && browser) {
+          const newWidth = node.clientWidth;
+          const newHeight = currentConfig?.chart?.height === null
+            ? node.clientHeight
+            : (node.clientWidth < 600) ? 300 : currentConfig?.chart?.height;
 
-        chart?.setSize(newWidth, newHeight, false);
-      }
-    });
-    resizeObserver.observe(node);
+          chart?.setSize(newWidth, newHeight, false);
+        }
+      });
+      resizeObserver.observe(node);
+    }
+
+    isCreating = false;
   };
 
-  createChart();
+  // Create chart if config exists
+  if (config) {
+    createChart(config);
+  }
 
   return {
     update(newConfig: any) {
+      currentConfig = newConfig;
+      if (!newConfig) return;
+
       if (chart) {
-        chart.update(newConfig, redraw, oneToOne);
+        // For gauge and other special chart types, recreate the chart
+        // to ensure all plotBands and special features are updated correctly
+        const chartType = newConfig?.chart?.type;
+        if (chartType === 'gauge' || chartType === 'solidgauge') {
+          createChart(newConfig);
+        } else {
+          chart.update(newConfig, redraw, oneToOne);
+        }
+      } else {
+        // Chart doesn't exist yet, create it
+        createChart(newConfig);
       }
     },
     destroy() {
       resizeObserver?.disconnect();
-      if (chart) chart?.destroy();
+      resizeObserver = null;
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
     }
   };
 };

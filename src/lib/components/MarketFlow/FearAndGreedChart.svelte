@@ -89,7 +89,11 @@
                 backgroundColor: $mode === "light" ? "#fff" : "#09090B",
                 plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
                 height: 360,
-                animation: false, // disable chart-level animation
+                animation: false,
+                spacing: [10, 10, 10, 10],
+                style: {
+                    overflow: "visible",
+                },
             },
 
             // Disable animations globally for series/gauge and disable hover states
@@ -365,6 +369,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl"
+    class="border border-gray-300 dark:border-zinc-700 rounded-2xl overflow-visible"
     use:highcharts={config}
 ></div>

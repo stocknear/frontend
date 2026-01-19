@@ -52,7 +52,7 @@
                 min: 0,
                 title: null,
                 labels: {
-                    style: { color: $mode === "light" ? "#545454" : "white" },
+                    enabled: false,
                 },
                 gridLineWidth: 0,
                 lineWidth: 0,
@@ -91,15 +91,16 @@
                 },
             },
             tooltip: {
-                shared: true, // now makes sense for stacked
+                shared: true,
                 useHTML: true,
                 backgroundColor: "rgba(0, 0, 0, 1)",
                 borderColor: "rgba(255, 255, 255, 0.2)",
                 borderWidth: 1,
-                style: { color: "#fff", fontSize: "14px", padding: "8px" },
+                style: { color: "#fff", fontSize: "14px", padding: "8px", zIndex: 9999 },
                 borderRadius: 4,
+                outside: true,
                 formatter: function () {
-                    const sector = this.x;
+                    const sector = categories[this.x] || this.x;
                     const call =
                         this.points.find((p) => p.series.name === "Call Prem")
                             ?.y || 0;
