@@ -37,6 +37,7 @@
   // Column reordering bindings
   let optionsFlowResetColumnOrder: () => void;
   let customColumnOrder: string[] = [];
+  let isFullWidth = false;
 
   // Table search functionality
   let tableSearchValue = "";
@@ -1594,7 +1595,23 @@
     return daysLeft;
   }
 
+  // Toggle full width mode
+  function toggleFullWidth() {
+    isFullWidth = !isFullWidth;
+    try {
+      localStorage.setItem("options-flow-full-width", String(isFullWidth));
+    } catch (e) {
+      console.warn("Failed to save full width preference:", e);
+    }
+  }
+
   onMount(async () => {
+    // Load full width preference
+    const savedFullWidth = localStorage.getItem("options-flow-full-width");
+    if (savedFullWidth !== null) {
+      isFullWidth = savedFullWidth === "true";
+    }
+
     ruleOfList?.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition || allRules[rule.name].defaultCondition;
@@ -1916,7 +1933,7 @@
 
 <section class="overflow-y-auto mb-10 text-gray-700 dark:text-zinc-200">
   <div
-    class="w-full max-w-screen sm:max-w-[1400px] flex justify-center items-center p-3 sm:p-0"
+    class="w-full flex justify-center items-center p-3 sm:p-0 transition-all duration-300 {isFullWidth ? 'max-w-full' : 'max-w-screen sm:max-w-[1400px]'}"
   >
     <div class="w-full m-auto min-h-screen">
       <!--
@@ -3296,6 +3313,45 @@
                     rawData={tableSearchDisplayedData}
                     {selectedDate}
                   />
+
+                  <button
+                    on:click={toggleFullWidth}
+                    title={isFullWidth ? "Exit full width" : "Expand to full width"}
+                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth ? 'border-violet-400 dark:border-violet-500' : ''}"
+                  >
+                    {#if isFullWidth}
+                      <svg
+                        class="w-4 h-4 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="4 14 10 14 10 20" />
+                        <polyline points="20 10 14 10 14 4" />
+                        <line x1="14" y1="10" x2="21" y2="3" />
+                        <line x1="3" y1="21" x2="10" y2="14" />
+                      </svg>
+                    {:else}
+                      <svg
+                        class="w-4 h-4 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="15 3 21 3 21 9" />
+                        <polyline points="9 21 3 21 3 15" />
+                        <line x1="21" y1="3" x2="14" y2="10" />
+                        <line x1="3" y1="21" x2="10" y2="14" />
+                      </svg>
+                    {/if}
+                    <span class="truncate text-[0.85rem] sm:text-sm">{isFullWidth ? "Normal Width" : "Full Width"}</span>
+                  </button>
 
                   {#if customColumnOrder?.length > 0}
                     <button
