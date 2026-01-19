@@ -380,7 +380,10 @@
           if (this.chart?.__rangeSelector?.selecting) {
             return false;
           }
-          const date = new Date(this?.x);
+          // For 1D, this.x is the timestamp. For other periods, get timestamp from category
+          const timestampMs =
+            getPointTimeMs(this.points?.[0]?.point) ?? this.x;
+          const date = new Date(timestampMs);
           let formattedDate;
           if (displayData === "1D") {
             formattedDate = date?.toLocaleTimeString("en-US", {

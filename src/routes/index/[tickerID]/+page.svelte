@@ -45,6 +45,16 @@
     const n = toNum(value);
     return n !== null ? abbreviateNumber(n) : "n/a";
   };
+
+  const isFiniteNumber = (v: unknown): v is number =>
+    typeof v === "number" && Number.isFinite(v);
+
+  const getPointTimeMs = (point: any): number | null => {
+    if (!point) return null;
+    if (isFiniteNumber(point.category)) return point.category;
+    if (isFiniteNumber(point.x)) return point.x;
+    return null;
+  };
   //============================================//
   const intervals = ["1D", "1W", "1M", "6M", "YTD", "1Y", "MAX"];
 
@@ -322,7 +332,10 @@
           if (this.chart?.__rangeSelector?.selecting) {
             return false;
           }
-          const date = new Date(this?.x);
+          // For 1D, this.x is the timestamp. For other periods, get timestamp from category
+          const timestampMs =
+            getPointTimeMs(this.points?.[0]?.point) ?? this.x;
+          const date = new Date(timestampMs);
           let formattedDate;
           if (displayData === "1D") {
             formattedDate = date?.toLocaleTimeString("en-US", {
