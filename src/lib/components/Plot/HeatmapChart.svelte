@@ -4,6 +4,7 @@
     import { mode } from "mode-watcher";
     import { goto } from "$app/navigation";
     import { ensureHighcharts } from "$lib/highcharts";
+    import { abbreviateNumber } from "$lib/utils";
 
     export let data: any = null;
 
@@ -82,133 +83,167 @@
                 animation: false,
                 followPointer: true,
                 outside: true,
-                headerFormat: '<span style="font-size: 0.9em">{point.custom.fullName}</span><br/>',
-                pointFormat: "<b>Market Cap:</b> USD {(divide point.value 1000000000):.1f} bln<br/>" +
-                    "{#if point.custom.performance}<b>Performance:</b> {point.custom.performance}{/if}",
-            },
-            series: [{
-                name: "All",
-                type: "treemap",
-                layoutAlgorithm: "squarified",
-                allowDrillToNode: true,
-                animationLimit: 0,
-                animation: false,
-                borderColor: borderColor,
-                color: borderColor,
-                opacity: 0.01,
-                nodeSizeBy: "leaf",
-                turboThreshold: 0,
-                dataLabels: {
-                    enabled: false,
-                    allowOverlap: true,
-                    style: {
-                        fontSize: "0.9em",
-                        textOutline: "none",
-                    },
+                useHTML: true,
+                shared: true,
+                backgroundColor: "rgba(0, 0, 0, 1)",
+                borderColor: "rgba(255, 255, 255, 0.2)",
+                borderWidth: 1,
+                borderRadius: 4,
+                style: { color: "#fff", fontSize: "16px", padding: "10px" },
+                formatter: function () {
+                    const point = this.point as any;
+                    if (!point.custom) return false;
+
+                    const fullName = point.custom.fullName || point.name;
+                    const perf = point.custom.performance || "";
+                    const value = point.value || 0;
+
+                    let s = `<span class="text-white font-[501]">${point.name}</span><br>`;
+                    s += `<span class="text-white font-semibold text-sm">Market Cap:</span> `;
+                    s += `<span class="text-white font-normal text-sm">${abbreviateNumber(value)}</span><br>`;
+                    if (perf) {
+                        s += `<span class="text-white font-semibold text-sm">Change:</span> `;
+                        s += `<span class="text-white font-normal text-sm">${perf}</span>`;
+                    }
+                    return s;
                 },
-                levels: [
-                    {
-                        level: 1,
-                        dataLabels: {
-                            enabled: true,
-                            headers: true,
-                            align: "left",
-                            style: {
-                                fontWeight: "bold",
-                                fontSize: "0.7em",
-                                lineClamp: 1,
-                                textTransform: "uppercase",
-                                color: textColor,
-                                textOutline: "none",
-                            },
-                            padding: 3,
+            },
+            series: [
+                {
+                    name: "All",
+                    type: "treemap",
+                    layoutAlgorithm: "squarified",
+                    allowDrillToNode: true,
+                    animationLimit: 0,
+                    animation: false,
+                    borderColor: borderColor,
+                    color: borderColor,
+                    opacity: 0.01,
+                    nodeSizeBy: "leaf",
+                    turboThreshold: 0,
+                    dataLabels: {
+                        enabled: false,
+                        allowOverlap: true,
+                        style: {
+                            fontSize: "0.9em",
+                            textOutline: "none",
                         },
-                        borderWidth: 3,
-                        levelIsConstant: false,
                     },
-                    {
-                        level: 2,
-                        dataLabels: {
-                            enabled: true,
-                            headers: true,
-                            align: "center",
-                            shape: "callout",
-                            backgroundColor: "gray",
-                            borderWidth: 1,
-                            borderColor: borderColor,
-                            padding: 0,
-                            style: {
-                                color: "white",
-                                fontWeight: "normal",
-                                fontSize: "0.6em",
-                                lineClamp: 1,
-                                textOutline: "none",
-                                textTransform: "uppercase",
+                    levels: [
+                        {
+                            level: 1,
+                            dataLabels: {
+                                enabled: true,
+                                headers: true,
+                                align: "left",
+                                style: {
+                                    fontWeight: "bold",
+                                    fontSize: "0.7em",
+                                    lineClamp: 1,
+                                    textTransform: "uppercase",
+                                    color: textColor,
+                                    textOutline: "none",
+                                },
+                                padding: 3,
                             },
+                            borderWidth: 3,
+                            levelIsConstant: false,
                         },
-                        groupPadding: 1,
-                    },
-                    {
-                        level: 3,
-                        dataLabels: {
-                            enabled: true,
-                            align: "center",
-                            verticalAlign: "middle",
-                            useHTML: true,
-                            formatter: function() {
-                                const point = this.point as any;
-                                const shapeArgs = point.shapeArgs;
-                                if (!shapeArgs) return "";
+                        {
+                            level: 2,
+                            dataLabels: {
+                                enabled: true,
+                                headers: true,
+                                align: "center",
+                                shape: "callout",
+                                backgroundColor: "gray",
+                                borderWidth: 1,
+                                borderColor: borderColor,
+                                padding: 0,
+                                style: {
+                                    color: "white",
+                                    fontWeight: "normal",
+                                    fontSize: "0.6em",
+                                    lineClamp: 1,
+                                    textOutline: "none",
+                                    textTransform: "uppercase",
+                                },
+                            },
+                            groupPadding: 1,
+                        },
+                        {
+                            level: 3,
+                            dataLabels: {
+                                enabled: true,
+                                align: "center",
+                                verticalAlign: "middle",
+                                useHTML: true,
+                                formatter: function () {
+                                    const point = this.point as any;
+                                    const shapeArgs = point.shapeArgs;
+                                    if (!shapeArgs) return "";
 
-                                const w = shapeArgs.width || 0;
-                                const h = shapeArgs.height || 0;
+                                    const w = shapeArgs.width || 0;
+                                    const h = shapeArgs.height || 0;
 
-                                // Hide label for very small cells
-                                if (w < 40 || h < 30) return "";
+                                    // Hide label for very small cells
+                                    if (w < 40 || h < 30) return "";
 
-                                const area = w * h;
-                                const fontSize = Math.min(24, Math.max(10, 7 + Math.round(area * 0.0006)));
-                                const perf = point.custom?.performance || "";
+                                    const area = w * h;
+                                    const fontSize = Math.min(
+                                        24,
+                                        Math.max(
+                                            10,
+                                            7 + Math.round(area * 0.0006),
+                                        ),
+                                    );
+                                    const perf =
+                                        point.custom?.performance || "";
 
-                                // Only show ticker for medium cells
-                                if (w < 60 || h < 45) {
-                                    return `<span style="font-size:${fontSize}px;font-weight:600;color:white">${point.name}</span>`;
-                                }
+                                    // Only show ticker for medium cells
+                                    if (w < 60 || h < 45) {
+                                        return `<span style="font-size:${fontSize}px;font-weight:600;color:white">${point.name}</span>`;
+                                    }
 
-                                // Show ticker + performance for larger cells
-                                return `<div style="text-align:center;line-height:1.2">
+                                    // Show ticker + performance for larger cells
+                                    return `<div style="text-align:center;line-height:1.2">
                                     <div style="font-size:${fontSize}px;font-weight:600;color:white">${point.name}</div>
                                     <div style="font-size:${Math.max(9, fontSize * 0.65)}px;color:rgba(255,255,255,0.85)">${perf}</div>
                                 </div>`;
+                                },
+                            },
+                        },
+                    ],
+                    breadcrumbs: {
+                        buttonTheme: {
+                            style: { color: subtleTextColor },
+                            states: {
+                                hover: { fill: isDark ? "#333" : "#e5e7eb" },
+                                select: { style: { color: textColor } },
                             },
                         },
                     },
-                ],
-                breadcrumbs: {
-                    buttonTheme: {
-                        style: { color: subtleTextColor },
-                        states: {
-                            hover: { fill: isDark ? "#333" : "#e5e7eb" },
-                            select: { style: { color: textColor } },
+                    states: {
+                        hover: { brightness: 0.05 },
+                        inactive: { enabled: false },
+                    },
+                    point: {
+                        events: {
+                            click: function (e: any) {
+                                const point = this as any;
+                                if (
+                                    point.node?.level === 3 &&
+                                    point.custom &&
+                                    !e.point?.drillId
+                                ) {
+                                    goto(`/stocks/${point.name}`);
+                                }
+                            },
                         },
                     },
+                    data: data.data,
                 },
-                states: {
-                    hover: { brightness: 0.05 },
-                    inactive: { enabled: false },
-                },
-                point: {
-                    events: {
-                        click: function(e: any) {
-                            const point = this as any;
-                            if (point.node?.level === 3 && point.custom && !e.point?.drillId) {
-                                goto(`/stocks/${point.name}`);
-                            }
-                        },
-                    },
-                },
-                data: data.data,
-            }],
+            ],
         });
 
         isInitializing = false;
