@@ -268,16 +268,26 @@
         canViewAllHistory,
       );
 
-      lockedStatements = locked;
-      lockedFiscalYearRange = formatLockedRange(
-        lockedStatements,
-        getFiscalYearValue,
-      );
-      lockedPeriodRange = formatLockedRange(
-        lockedStatements,
-        getPeriodEndingYearValue,
-      );
-      hasLockedData = lockedStatements.length > 0;
+      const lockInfo =
+        data?.financialLockInfo?.[$selectedTimePeriod || "annual"];
+
+      if (lockInfo) {
+        lockedStatements = [];
+        lockedFiscalYearRange = lockInfo.lockedFiscalYearRange || "";
+        lockedPeriodRange = lockInfo.lockedPeriodRange || "";
+        hasLockedData = Boolean(lockInfo.hasLockedData);
+      } else {
+        lockedStatements = locked;
+        lockedFiscalYearRange = formatLockedRange(
+          lockedStatements,
+          getFiscalYearValue,
+        );
+        lockedPeriodRange = formatLockedRange(
+          lockedStatements,
+          getPeriodEndingYearValue,
+        );
+        hasLockedData = lockedStatements.length > 0;
+      }
 
       financialData = applyDisplayOrder(visible, switchDate);
       preprocessFinancialData();
