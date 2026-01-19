@@ -79,7 +79,7 @@
       </label>
       <input
         name="email"
-        class="input input-lg input-bordered border border-gray-300 shadow dark:border-gray-600 focus:outline-none w-full max-w-lg bg-white dark:bg-secondary placeholder-gray-600 dark:placeholder-gray-300 whitespace-normal"
+        class="input input-lg input-bordered rounded-2xl border border-gray-300 shadow dark:border-gray-600 focus:outline-none w-full max-w-lg bg-white dark:bg-secondary placeholder-gray-600 dark:placeholder-gray-300 whitespace-normal"
         type="email"
         required
         bind:value={email}
@@ -91,13 +91,13 @@
         {#if !loading && !isClicked}
           <button
             type="submit"
-            class="cursor-pointer py-2.5 bg-black dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
+            class="cursor-pointer py-2.5 bg-black dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto text-white dark:text-black font-semibold text-[1rem]"
           >
             <span> Request Password Reset</span>
           </button>
         {:else}
           <label
-            class="cursor-not-allowed btn bg-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
+            class="cursor-not-allowed btn bg-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto text-white dark:text-black font-semibold text-[1rem]"
           >
             <div class="flex flex-row m-auto items-center">
               <span class="loading loading-infinity"></span>

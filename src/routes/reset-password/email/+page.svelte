@@ -98,13 +98,13 @@
                             {#if !isUpdating}
                                 <button
                                     type="submit"
-                                    class="cursor-pointer py-2.5 bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                                    class="cursor-pointer py-2.5 bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto font-semibold text-[1rem]"
                                 >
                                     <span>Confirm new Password</span>
                                 </button>
                             {:else}
                                 <label
-                                    class="cursor-not-allowed btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                                    class="cursor-not-allowed btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto font-semibold text-[1rem]"
                                 >
                                     <div
                                         class="flex flex-row m-auto items-center"

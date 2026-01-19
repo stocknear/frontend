@@ -129,7 +129,7 @@
           <div class="w-full max-w-lg">
             <a
               href="/reset-password"
-              class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+              class="text-sm sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
               >Forgot Password?</a
             >
           </div>

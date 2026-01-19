@@ -11,8 +11,6 @@
     registerCustomIndicators,
     setShortInterestData,
     clearShortInterestData,
-    setDarkPoolData,
-    clearDarkPoolData,
     setFTDData,
     clearFTDData,
     clearMaxPainData,
@@ -20,14 +18,6 @@
     clearRevenueData,
     setEPSData,
     clearEPSData,
-    setFCFData,
-    clearFCFData,
-    setMarginData,
-    clearMarginData,
-    setPERatioData,
-    clearPERatioData,
-    setEVEBITDAData,
-    clearEVEBITDAData,
     setMarketCapData,
     clearMarketCapData,
     setStatementMetricData,
@@ -293,15 +283,13 @@
   let shortInterestPopupPosition = { x: 0, y: 0 };
 
   // New indicator data storage
-  let darkPoolData: any[] = [];
-  let darkPoolLoading = false;
   let ftdData: any[] = [];
   let ftdLoading = false;
   let maxPainData: MaxPainDataPoint[] = [];
   let maxPainLoading = false;
   let analystTargetLoading = false;
-  let revenueIndicatorPeriod: FinancialIndicatorPeriod = "annual";
-  let epsIndicatorPeriod: FinancialIndicatorPeriod = "annual";
+  let revenueIndicatorPeriod: FinancialIndicatorPeriod = "ttm";
+  let epsIndicatorPeriod: FinancialIndicatorPeriod = "ttm";
   let statementIndicatorPeriods: Record<string, FinancialIndicatorPeriod> = {};
   let incomeStatementData: {
     annual: any[];
@@ -335,14 +323,6 @@
   let revenueLoading = false;
   let epsData: any[] = [];
   let epsLoading = false;
-  let fcfData: any[] = [];
-  let fcfLoading = false;
-  let marginData: any[] = [];
-  let marginLoading = false;
-  let peRatioData: any[] = [];
-  let peRatioLoading = false;
-  let evEbitdaData: any[] = [];
-  let evEbitdaLoading = false;
   let marketCapData: any[] = [];
   let marketCapLoading = false;
 
@@ -565,19 +545,15 @@
   let indicatorSearchTerm = "";
   let isSearchActive = false;
   let technicalGroups: Array<[string, IndicatorDefinition[]]> = [];
-  type FundamentalTabId =
-    | "income"
-    | "balance"
-    | "cashflow"
-    | "ratios"
-    | "statistics";
+  type FundamentalTabId = "income" | "balance" | "cashflow" | "ratios";
   let fundamentalsTab: FundamentalTabId = "income";
   let indicatorModalSection:
     | "Selected"
     | "Favorites"
     | "Technicals"
     | "Fundamentals"
-    | "Options" = "Technicals";
+    | "Options"
+    | "Statistics" = "Technicals";
   const INDICATOR_FAVORITES_KEY = "chart-indicator-favorites";
   const indicatorStarPath =
     "M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z";
@@ -928,7 +904,7 @@
       id: "short_interest",
       label: "Short Interest",
       indicatorName: "SN_SHORT_INTEREST",
-      category: "Fundamentals",
+      category: "Statistics",
       defaultParams: [],
       pane: "panel",
       height: 120,
@@ -951,47 +927,12 @@
       pane: "panel",
       height: 120,
     },
-    {
-      id: "fcf",
-      label: "Free Cash Flow",
-      indicatorName: "SN_FCF",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-    {
-      id: "margin",
-      label: "Profit Margins",
-      indicatorName: "SN_MARGIN",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-    {
-      id: "pe_ratio",
-      label: "P/E Ratio",
-      indicatorName: "SN_PE_RATIO",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-    {
-      id: "ev_ebitda",
-      label: "EV/EBITDA",
-      indicatorName: "SN_EV_EBITDA",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
+
     {
       id: "market_cap",
       label: "Market Cap",
       indicatorName: "SN_MARKET_CAP",
-      category: "Fundamentals",
+      category: "Statistics",
       defaultParams: [],
       pane: "panel",
       height: 120,
@@ -1000,7 +941,7 @@
       id: "analyst_target",
       label: "Analyst Price Target",
       indicatorName: "SN_ANALYST_TARGET",
-      category: "Fundamentals",
+      category: "Statistics",
       defaultParams: [],
       pane: "candle",
       isOverlay: true,
@@ -1016,21 +957,12 @@
       pane: "candle",
       isOverlay: true,
     },
-    // Market Structure category
-    {
-      id: "dark_pool",
-      label: "Dark Pool %",
-      indicatorName: "SN_DARK_POOL",
-      category: "Market Structure",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
+    // Statistics category
     {
       id: "ftd",
       label: "Fail-to-Deliver",
       indicatorName: "SN_FTD",
-      category: "Market Structure",
+      category: "Statistics",
       defaultParams: [],
       pane: "panel",
       height: 120,
@@ -1055,27 +987,31 @@
     { id: "balance", label: "Balance sheet" },
     { id: "cashflow", label: "Cash flow" },
     { id: "ratios", label: "Ratios" },
-    { id: "statistics", label: "Statistics" },
   ];
   const FUNDAMENTAL_INDICATOR_MAP: Record<string, FundamentalTabId> = {
     ...STATEMENT_INDICATOR_TAB_MAP,
     revenue: "income",
     eps: "income",
-    margin: "ratios",
-    fcf: "cashflow",
-    pe_ratio: "ratios",
-    ev_ebitda: "ratios",
-    market_cap: "statistics",
-    short_interest: "statistics",
-    analyst_target: "statistics",
   };
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
   );
   const INDICATOR_MODAL_SECTIONS: Array<
-    "Selected" | "Favorites" | "Technicals" | "Fundamentals" | "Options"
-  > = ["Selected", "Favorites", "Technicals", "Fundamentals", "Options"];
+    | "Selected"
+    | "Favorites"
+    | "Technicals"
+    | "Fundamentals"
+    | "Options"
+    | "Statistics"
+  > = [
+    "Selected",
+    "Favorites",
+    "Technicals",
+    "Fundamentals",
+    "Options",
+    "Statistics",
+  ];
 
   const cloneIndicatorParams = () =>
     Object.fromEntries(
@@ -3247,31 +3183,6 @@
     }
   };
 
-  // Fetch Dark Pool data
-  const fetchDarkPoolDataIndicator = async () => {
-    if (darkPoolLoading) return;
-    darkPoolLoading = true;
-    await fetchIndicatorData(
-      "dark-pool",
-      "darkPoolLoading",
-      (data) => {
-        darkPoolData = data;
-        setDarkPoolData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        darkPoolVolume:
-          item.darkPoolVolume ?? item.dark_pool_volume ?? item.volume ?? 0,
-        darkPoolPercent:
-          item.darkPoolPercent ?? item.dark_pool_percent ?? item.percent ?? 0,
-        blockTradeVolume: item.blockTradeVolume ?? item.block_trade_volume ?? 0,
-      }),
-    );
-    darkPoolLoading = false;
-  };
-
   // Fetch FTD data
   const fetchFTDDataIndicator = async () => {
     if (ftdLoading || !ticker) return;
@@ -3348,8 +3259,6 @@
               item.ftd_shares ??
               item.quantity ??
               0,
-            ftdValue:
-              item.ftdValue ?? item.ftd_value ?? item.value ?? item.price ?? 0,
           };
         })
         .filter((d: any) => d.timestamp > 0);
@@ -3638,25 +3547,55 @@
       .filter((d) => d.timestamp > 0);
   };
 
-  const buildEpsIndicatorData = (rows: any[]) =>
-    rows
-      .map((item) => {
+  const buildEpsIndicatorData = (
+    rows: any[],
+    period: FinancialIndicatorPeriod,
+  ) => {
+    const sortedRows = [...rows].sort(
+      (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
+    );
+
+    const usePrevRow = period === "quarterly";
+    const lookupMap = new Map<string, any>();
+    if (!usePrevRow) {
+      for (const item of sortedRows) {
+        const key = buildStatementKey(item, period);
+        if (key) lookupMap.set(key, item);
+      }
+    }
+
+    const getEpsValue = (item: any) =>
+      toNumber(
+        item?.eps ?? item?.epsBasic ?? item?.eps_basic ?? item?.epsDiluted,
+      );
+
+    return sortedRows
+      .map((item, index) => {
         const timestamp = getStatementTimestamp(item);
-        const epsValue = toNumber(
-          item?.eps ?? item?.epsBasic ?? item?.eps_basic ?? item?.epsDiluted,
-        );
-        const epsDiluted = toNumber(
-          item?.epsDiluted ?? item?.eps_diluted ?? item?.epsDiluted,
-        );
+        const currentEps = getEpsValue(item);
+        const prevItem = usePrevRow
+          ? index > 0
+            ? sortedRows[index - 1]
+            : null
+          : (() => {
+              const prevKey = buildStatementPrevKey(item, period);
+              return prevKey ? lookupMap.get(prevKey) : null;
+            })();
+        const prevEps = prevItem ? getEpsValue(prevItem) : null;
+
+        let epsGrowth = 0;
+        if (currentEps !== null && prevEps !== null && prevEps !== 0) {
+          epsGrowth = ((currentEps - prevEps) / Math.abs(prevEps)) * 100;
+        }
 
         return {
           timestamp,
-          eps: epsValue ?? 0,
-          epsEstimate: epsDiluted ?? undefined,
-          epsSurprise: undefined,
+          eps: currentEps ?? 0,
+          epsGrowth: Number.isFinite(epsGrowth) ? epsGrowth : 0,
         };
       })
       .filter((d) => d.timestamp > 0);
+  };
 
   type StatementCategory = "income" | "balance" | "cashflow" | "ratios";
 
@@ -3699,7 +3638,7 @@
   };
 
   const getStatementIndicatorPeriod = (id: string) =>
-    statementIndicatorPeriods[id] ?? "annual";
+    statementIndicatorPeriods[id] ?? "ttm";
 
   const setStatementIndicatorPeriod = (
     id: string,
@@ -3953,7 +3892,10 @@
           epsIndicatorPeriod,
         });
       }
-      const indicatorData = buildEpsIndicatorData(resolved.rows);
+      const indicatorData = buildEpsIndicatorData(
+        resolved.rows,
+        epsIndicatorPeriod,
+      );
       epsData = indicatorData;
       setEPSData(indicatorData);
       if (chart && indicatorState.eps) {
@@ -4020,118 +3962,6 @@
     epsLoading = true;
     await fetchIncomeStatementData();
     epsLoading = false;
-  };
-
-  // Fetch FCF data
-  const fetchFCFDataIndicator = async () => {
-    if (fcfLoading) return;
-    fcfLoading = true;
-    await fetchIndicatorData(
-      "fcf",
-      "fcfLoading",
-      (data) => {
-        fcfData = data;
-        setFCFData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(
-          item.date || item.fiscalDateEnding || item.recordDate,
-          { zone },
-        )
-          .startOf("day")
-          .toMillis(),
-        freeCashFlow: item.freeCashFlow ?? item.free_cash_flow ?? 0,
-        operatingCashFlow:
-          item.operatingCashFlow ?? item.operating_cash_flow ?? 0,
-        capex: item.capex ?? item.capitalExpenditures ?? 0,
-      }),
-    );
-    fcfLoading = false;
-  };
-
-  // Fetch Margin data
-  const fetchMarginDataIndicator = async () => {
-    if (marginLoading) return;
-    marginLoading = true;
-    await fetchIndicatorData(
-      "margin",
-      "marginLoading",
-      (data) => {
-        marginData = data;
-        setMarginData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(
-          item.date || item.fiscalDateEnding || item.recordDate,
-          { zone },
-        )
-          .startOf("day")
-          .toMillis(),
-        grossMargin:
-          (item.grossMargin ??
-            item.gross_margin ??
-            item.grossProfitMargin ??
-            0) * 100,
-        operatingMargin:
-          (item.operatingMargin ??
-            item.operating_margin ??
-            item.operatingProfitMargin ??
-            0) * 100,
-        netMargin:
-          (item.netMargin ?? item.net_margin ?? item.netProfitMargin ?? 0) *
-          100,
-      }),
-    );
-    marginLoading = false;
-  };
-
-  // Fetch P/E Ratio data
-  const fetchPERatioDataIndicator = async () => {
-    if (peRatioLoading) return;
-    peRatioLoading = true;
-    await fetchIndicatorData(
-      "pe-ratio",
-      "peRatioLoading",
-      (data) => {
-        peRatioData = data;
-        setPERatioData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        peRatio: item.peRatio ?? item.pe_ratio ?? item.trailingPE ?? 0,
-        forwardPE: item.forwardPE ?? item.forward_pe ?? item.forwardPE ?? 0,
-      }),
-    );
-    peRatioLoading = false;
-  };
-
-  // Fetch EV/EBITDA data
-  const fetchEVEBITDADataIndicator = async () => {
-    if (evEbitdaLoading) return;
-    evEbitdaLoading = true;
-    await fetchIndicatorData(
-      "ev-ebitda",
-      "evEbitdaLoading",
-      (data) => {
-        evEbitdaData = data;
-        setEVEBITDAData(data);
-      },
-      (item) => ({
-        timestamp: DateTime.fromISO(item.date || item.recordDate, { zone })
-          .startOf("day")
-          .toMillis(),
-        evEbitda:
-          item.evEbitda ??
-          item.ev_ebitda ??
-          item.enterpriseValueOverEBITDA ??
-          0,
-        enterpriseValue: item.enterpriseValue ?? item.enterprise_value ?? 0,
-        ebitda: item.ebitda ?? item.EBITDA ?? 0,
-      }),
-    );
-    evEbitdaLoading = false;
   };
 
   // Fetch Market Cap data
@@ -4228,21 +4058,6 @@
     }
     if (indicatorState.eps && epsData.length === 0) {
       fetchEPSDataIndicator();
-    }
-    if (indicatorState.fcf && fcfData.length === 0) {
-      fetchFCFDataIndicator();
-    }
-    if (indicatorState.margin && marginData.length === 0) {
-      fetchMarginDataIndicator();
-    }
-    if (indicatorState.pe_ratio && peRatioData.length === 0) {
-      fetchPERatioDataIndicator();
-    }
-    if (indicatorState.ev_ebitda && evEbitdaData.length === 0) {
-      fetchEVEBITDADataIndicator();
-    }
-    if (indicatorState.dark_pool && darkPoolData.length === 0) {
-      fetchDarkPoolDataIndicator();
     }
     if (indicatorState.ftd && ftdData.length === 0) {
       fetchFTDDataIndicator();
@@ -5175,8 +4990,7 @@
       if (item.isOverlay) return;
 
       const isRestrictedCategory =
-        item.category === "Fundamentals" ||
-        item.category === "Market Structure";
+        item.category === "Fundamentals" || item.category === "Statistics";
       const isRangeAllowed =
         !isRestrictedCategory || isNonIntradayRange(activeRange);
       const enabled = Boolean(indicatorState[item.id]) && isRangeAllowed;
@@ -5223,6 +5037,9 @@
         };
       } else if (item.id === "eps") {
         indicatorCreate.shortName = getFinancialIndicatorShortName("eps");
+        indicatorCreate.extendData = {
+          period: getFinancialIndicatorPeriod("eps"),
+        };
       } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
         indicatorCreate.shortName = getStatementIndicatorShortName(item.id);
         indicatorCreate.calcParams = [];
@@ -5262,6 +5079,9 @@
           };
         } else if (item.id === "eps") {
           overrideIndicator.shortName = getFinancialIndicatorShortName("eps");
+          overrideIndicator.extendData = {
+            period: getFinancialIndicatorPeriod("eps"),
+          };
         } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
           overrideIndicator.shortName = getStatementIndicatorShortName(item.id);
           overrideIndicator.calcParams = [];
@@ -5622,12 +5442,12 @@
     if (!(name in indicatorState)) return;
     const newState = !indicatorState[name];
 
-    // Auto-switch to 1D for Fundamentals/Market Structure indicators on intraday timeframes
+    // Auto-switch to 1D for Fundamentals/Statistics indicators on intraday timeframes
     if (newState) {
       const indicatorDef = indicatorDefinitions.find((ind) => ind.id === name);
       const isRestrictedCategory =
         indicatorDef?.category === "Fundamentals" ||
-        indicatorDef?.category === "Market Structure";
+        indicatorDef?.category === "Statistics";
       const isIntradayRange = !isNonIntradayRange(activeRange);
 
       if (isRestrictedCategory && isIntradayRange) {
@@ -5637,9 +5457,9 @@
 
     if (newState && (name === "revenue" || name === "eps")) {
       if (name === "revenue") {
-        revenueIndicatorPeriod = "annual";
+        revenueIndicatorPeriod = "ttm";
       } else {
-        epsIndicatorPeriod = "annual";
+        epsIndicatorPeriod = "ttm";
       }
       const currentSettings = loadChartSettings() || {};
       saveChartSettings({
@@ -5653,7 +5473,7 @@
       if (!statementIndicatorPeriods[name]) {
         statementIndicatorPeriods = {
           ...statementIndicatorPeriods,
-          [name]: "annual",
+          [name]: "ttm",
         };
         const currentSettings = loadChartSettings() || {};
         saveChartSettings({
@@ -5708,12 +5528,7 @@
         syncIndicators();
       }
       // New fundamental & options indicators
-      else if (name === "dark_pool" && darkPoolData.length === 0) {
-        fetchDarkPoolDataIndicator();
-      } else if (name === "dark_pool") {
-        setDarkPoolData(darkPoolData);
-        syncIndicators();
-      } else if (name === "ftd" && ftdData.length === 0) {
+      else if (name === "ftd" && ftdData.length === 0) {
         fetchFTDDataIndicator();
       } else if (name === "ftd") {
         setFTDData(ftdData);
@@ -5735,26 +5550,6 @@
         fetchEPSDataIndicator();
       } else if (name === "eps") {
         setEPSData(epsData);
-        syncIndicators();
-      } else if (name === "fcf" && fcfData.length === 0) {
-        fetchFCFDataIndicator();
-      } else if (name === "fcf") {
-        setFCFData(fcfData);
-        syncIndicators();
-      } else if (name === "margin" && marginData.length === 0) {
-        fetchMarginDataIndicator();
-      } else if (name === "margin") {
-        setMarginData(marginData);
-        syncIndicators();
-      } else if (name === "pe_ratio" && peRatioData.length === 0) {
-        fetchPERatioDataIndicator();
-      } else if (name === "pe_ratio") {
-        setPERatioData(peRatioData);
-        syncIndicators();
-      } else if (name === "ev_ebitda" && evEbitdaData.length === 0) {
-        fetchEVEBITDADataIndicator();
-      } else if (name === "ev_ebitda") {
-        setEVEBITDAData(evEbitdaData);
         syncIndicators();
       } else if (name === "market_cap" && marketCapData.length === 0) {
         fetchMarketCapDataIndicator();
@@ -5792,9 +5587,6 @@
         shortInterestMarkers = [];
         selectedShortInterest = null;
         clearShortInterestData();
-      } else if (name === "dark_pool") {
-        darkPoolData = [];
-        clearDarkPoolData();
       } else if (name === "ftd") {
         ftdData = [];
         clearFTDData();
@@ -5813,18 +5605,6 @@
       } else if (name === "eps") {
         epsData = [];
         clearEPSData();
-      } else if (name === "fcf") {
-        fcfData = [];
-        clearFCFData();
-      } else if (name === "margin") {
-        marginData = [];
-        clearMarginData();
-      } else if (name === "pe_ratio") {
-        peRatioData = [];
-        clearPERatioData();
-      } else if (name === "ev_ebitda") {
-        evEbitdaData = [];
-        clearEVEBITDAData();
       } else if (name === "market_cap") {
         marketCapData = [];
         clearMarketCapData();
@@ -5846,7 +5626,7 @@
     if (id === "revenue") return revenueIndicatorPeriod;
     if (id === "eps") return epsIndicatorPeriod;
     if (STATEMENT_INDICATOR_BY_ID[id]) return getStatementIndicatorPeriod(id);
-    return "annual";
+    return "ttm";
   };
 
   const getFinancialIndicatorShortName = (id: "revenue" | "eps") => {
@@ -7021,7 +6801,10 @@
     statements: statementIndicatorPeriods,
   });
   $: technicalGroups = Object.entries(groupedIndicators)
-    .filter(([cat]) => cat !== "Options" && cat !== "Fundamentals")
+    .filter(
+      ([cat]) =>
+        cat !== "Options" && cat !== "Fundamentals" && cat !== "Statistics",
+    )
     .map(
       ([cat, indicators]) =>
         [
@@ -7053,8 +6836,9 @@
       }
       return a.label.localeCompare(b.label);
     });
-  $: optionsIndicators = (groupedIndicators["Options"] ?? []).slice().sort(
-    (a, b) => {
+  $: optionsIndicators = (groupedIndicators["Options"] ?? [])
+    .slice()
+    .sort((a, b) => {
       // Sort by favorites first, then alphabetically
       const aFav = favoritesSet.has(a.id);
       const bFav = favoritesSet.has(b.id);
@@ -7062,8 +6846,18 @@
         return aFav ? -1 : 1;
       }
       return a.label.localeCompare(b.label);
-    },
-  );
+    });
+  $: statisticsIndicators = (groupedIndicators["Statistics"] ?? [])
+    .slice()
+    .sort((a, b) => {
+      // Sort by favorites first, then alphabetically
+      const aFav = favoritesSet.has(a.id);
+      const bFav = favoritesSet.has(b.id);
+      if (aFav !== bFav) {
+        return aFav ? -1 : 1;
+      }
+      return a.label.localeCompare(b.label);
+    });
   // Get all selected (checked) indicators for the Selected tab
   $: selectedIndicators = indicatorDefinitions.filter(
     (indicator) => indicatorState[indicator.id],
@@ -9757,6 +9551,31 @@
             </svg>
             Options
           </button>
+          <button
+            type="button"
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            'Statistics'
+              ? 'bg-neutral-800 text-white'
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+            on:click={() => (indicatorModalSection = "Statistics")}
+          >
+            <svg
+              class="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3v18h18" />
+              <path d="M18 17V9" />
+              <path d="M13 17V5" />
+              <path d="M8 17v-3" />
+            </svg>
+            Statistics
+          </button>
         </aside>
 
         <div class="flex-1 min-w-0 overflow-y-auto pr-2">
@@ -9800,7 +9619,9 @@
                       >
                         <button
                           type="button"
-                          class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                          class={getFavoriteStarClass(
+                            indicatorFavorites.includes(indicator.id),
+                          ) + " mr-2"}
                           aria-label={isIndicatorFavorite(indicator.id)
                             ? "Remove from favorites"
                             : "Add to favorites"}
@@ -9855,7 +9676,9 @@
                     {#if isSubscribed}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -9892,7 +9715,101 @@
                     {:else}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
+                      <button
+                        on:click={() => goto("/pricing")}
+                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                      >
+                        <svg
+                          class="w-4 h-4 mr-1.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                        <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
+
+            {#if statisticsIndicators.length > 0}
+              <div
+                class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
+              >
+                Statistics
+              </div>
+              <div class="mt-2 space-y-1">
+                {#each statisticsIndicators as indicator}
+                  <div
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    {#if isSubscribed}
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
+                      <input
+                        on:click={() => toggleIndicatorById(indicator.id)}
+                        id={indicator.id}
+                        type="checkbox"
+                        checked={Boolean(indicatorState[indicator.id])}
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                      />
+                      <label
+                        for={indicator.id}
+                        class="cursor-pointer text-[1rem] ml-2"
+                      >
+                        {indicator.label}
+                      </label>
+                      <InfoModal
+                        id={`indicator-${indicator.id}`}
+                        title={indicator.label}
+                        callAPI={true}
+                        parameter={indicator.infoKey || indicator.id}
+                      />
+                    {:else}
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -9962,7 +9879,9 @@
                     {#if isSubscribed}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10022,7 +9941,9 @@
                     {:else}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10090,7 +10011,9 @@
               {/if}
             </div>
             {#if selectedIndicators.length === 0}
-              <div class="mt-4 text-sm text-neutral-500">No indicators selected.</div>
+              <div class="mt-4 text-sm text-neutral-500">
+                No indicators selected.
+              </div>
             {:else}
               <div class="mt-4 space-y-1">
                 {#each selectedIndicators as indicator}
@@ -10099,7 +10022,9 @@
                   >
                     <button
                       type="button"
-                      class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                      class={getFavoriteStarClass(
+                        indicatorFavorites.includes(indicator.id),
+                      ) + " mr-2"}
                       aria-label={isIndicatorFavorite(indicator.id)
                         ? "Remove from favorites"
                         : "Add to favorites"}
@@ -10265,7 +10190,9 @@
                     {#if isSubscribed}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10325,7 +10252,9 @@
                     {:else}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10374,7 +10303,9 @@
                     {#if isSubscribed}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10411,7 +10342,99 @@
                     {:else}
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
+                      <button
+                        on:click={() => goto("/pricing")}
+                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                      >
+                        <svg
+                          class="w-4 h-4 mr-1.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        </svg>
+                        <span class="text-[1rem]">{indicator.label}</span>
+                      </button>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          {:else if indicatorModalSection === "Statistics"}
+            {#if statisticsIndicators.length > 0}
+              <div class="text-xs uppercase tracking-wide text-neutral-500">
+                Statistics
+              </div>
+              <div class="mt-2 space-y-1">
+                {#each statisticsIndicators as indicator}
+                  <div
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    {#if isSubscribed}
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
+                        aria-label={isIndicatorFavorite(indicator.id)
+                          ? "Remove from favorites"
+                          : "Add to favorites"}
+                        on:click|stopPropagation={(event) =>
+                          toggleIndicatorFavorite(event, indicator.id)}
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                        >
+                          <path fill="currentColor" d={indicatorStarPath} />
+                        </svg>
+                      </button>
+                      <input
+                        on:click={() => toggleIndicatorById(indicator.id)}
+                        id={indicator.id}
+                        type="checkbox"
+                        checked={Boolean(indicatorState[indicator.id])}
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                      />
+                      <label
+                        for={indicator.id}
+                        class="cursor-pointer text-[1rem] ml-2"
+                      >
+                        {indicator.label}
+                      </label>
+                      <InfoModal
+                        id={`indicator-${indicator.id}`}
+                        title={indicator.label}
+                        callAPI={true}
+                        parameter={indicator.infoKey || indicator.id}
+                      />
+                    {:else}
+                      <button
+                        type="button"
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}
@@ -10465,7 +10488,9 @@
                     >
                       <button
                         type="button"
-                        class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                        class={getFavoriteStarClass(
+                          indicatorFavorites.includes(indicator.id),
+                        ) + " mr-2"}
                         aria-label={isIndicatorFavorite(indicator.id)
                           ? "Remove from favorites"
                           : "Add to favorites"}

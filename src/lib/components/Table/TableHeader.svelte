@@ -2,7 +2,9 @@
   export let columns = [];
   export let sortOrders = {};
   export let sortData;
-  export let onColumnReorder: ((fromIndex: number, toIndex: number) => void) | null = null;
+  export let onColumnReorder:
+    | ((fromIndex: number, toIndex: number) => void)
+    | null = null;
 
   // Drag and drop state
   let draggedIndex: number | null = null;
@@ -177,14 +179,13 @@
         ? 'text-end'
         : column.align === 'left'
           ? 'text-start'
-          : 'text-center'} {onColumnReorder ? 'cursor-grab active:cursor-grabbing' : ''} {dragOverIndex === index && draggedIndex !== index ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500' : ''}"
+          : 'text-center'} {onColumnReorder
+        ? 'cursor-grab active:cursor-grabbing'
+        : ''} {dragOverIndex === index && draggedIndex !== index
+        ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
+        : ''}"
     >
       <span class="inline-flex items-center gap-1">
-        {#if onColumnReorder && column?.label}
-          <svg class="w-3 h-3 opacity-40 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        {/if}
         {formatLabel(column?.label)}
         {@html SortIcon({ sortOrder: sortOrders[column.key]?.order })}
       </span>

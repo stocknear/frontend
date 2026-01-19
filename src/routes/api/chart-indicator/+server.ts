@@ -9,17 +9,12 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "short-interest": "/short-interest",
   "revenue": "/historical-revenue",
   "eps": "/historical-eps",
-  "fcf": "/historical-cash-flow",
-  "margin": "/historical-margins",
-  "pe-ratio": "/historical-pe",
-  "ev-ebitda": "/historical-ev-ebitda",
   "market-cap": "/historical-market-cap",
   "analyst-target": "/analyst-summary-rating",
   "income-statement": "/financial-statement",
   "balance-sheet": "/financial-statement",
   "cash-flow": "/financial-statement",
   "ratios": "/financial-statement",
-  "dark-pool": "/dark-pool-history",
   "ftd": "/fail-to-deliver",
   "max-pain": "/max-pain",
 };
@@ -91,9 +86,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     };
   } else {
     // Default payload for most fundamental indicators
-    // revenue, eps, fcf, margin, pe-ratio, ev-ebitda, market-cap,
-    // analyst-target,
-    // dark-pool, ftd, max-pain
+    // revenue, eps, market-cap, analyst-target, ftd, max-pain
     postData = {
       ticker: data?.ticker,
     };

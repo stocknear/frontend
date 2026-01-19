@@ -1598,7 +1598,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Watchlist with up to 300 stocks</span>
+            ><span class="">Watchlist with unlimited stocks</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
@@ -1614,7 +1614,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Portfolio with up to 300 stocks</span>
+            ><span class="">Portfolio with unlimited stocks</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">

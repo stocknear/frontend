@@ -959,21 +959,6 @@ ${insightData.traderTakeaway}
             : ''}"
         >
           <span class="inline-flex items-center gap-1 justify-center">
-            {#if column?.label}
-              <svg
-                class="w-3 h-3 opacity-40 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            {/if}
             {column.label}
             {#if column.key !== "insight"}
               <svg

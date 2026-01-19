@@ -1046,7 +1046,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
       if (!result || result.length === 0) return false;
 
       const barWidth = Math.max(
-        2,
+        6,
         (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95,
       );
       const y0 = yAxis.convertToPixel(0);
@@ -1061,8 +1061,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
         if (typeof y !== "number" || isNaN(y)) continue;
 
         const top = y < y0 ? y : y0;
-        const height = Math.abs(y0 - y);
-        if (height <= 0) continue;
+        const height = Math.max(1, Math.abs(y0 - y));
 
         ctx.fillStyle = (data.value as number) >= 0 ? "#22C55E" : "#EF4444";
         ctx.fillRect(x - barWidth / 2, top, barWidth, height);
@@ -1080,11 +1079,9 @@ function createShortInterestIndicator(): IndicatorTemplate<IndicatorRecord, numb
     series: "normal",
     precision: 2,
     minValue: 0,
-    // figures are required for KlineCharts to calculate y-axis range
-    // we use custom draw for step lines, returning false prevents default line drawing
     figures: [
-      { key: "siFloat", title: "% Float: ", type: "line" },
-      { key: "siOut", title: "% Out: ", type: "line" },
+      { key: "siFloat", title: "% Float: ", type: "bar", baseValue: 0 },
+      { key: "siOut", title: "% Out: ", type: "bar", baseValue: 0 },
     ],
     createTooltipDataSource: ({ crosshair, indicator }) => {
       const dataIndex = crosshair.dataIndex;
@@ -1132,208 +1129,46 @@ function createShortInterestIndicator(): IndicatorTemplate<IndicatorRecord, numb
     draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
       const { from, to } = chart.getVisibleRange();
       const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0) return false;
+      if (!result || result.length === 0 || shortInterestData.length === 0) return false;
 
-      // Collect points for each metric
-      const floatPoints: { x: number; y: number; value: number }[] = [];
-      const outPoints: { x: number; y: number; value: number }[] = [];
-
-      for (let i = from; i < to; i++) {
-        const data = result[i];
-        if (!data) continue;
-
-        const x = xAxis.convertToPixel(i);
-
-        if (data.siFloat !== undefined && data.siFloat !== null) {
-          const y = yAxis.convertToPixel(data.siFloat as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            floatPoints.push({
-              x,
-              y,
-              value: data.siFloat as number,
-            });
-          }
-        }
-
-        if (data.siOut !== undefined && data.siOut !== null) {
-          const y = yAxis.convertToPixel(data.siOut as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            outPoints.push({
-              x,
-              y,
-              value: data.siOut as number,
-            });
-          }
-        }
-      }
-
-      // Helper to draw step line
-      const drawStepLine = (points: { x: number; y: number; value: number }[], color: string, lineWidth: number) => {
-        if (points.length < 2) return;
-
-        ctx.beginPath();
-        ctx.setLineDash([]);
-        ctx.moveTo(points[0].x, points[0].y);
-
-        for (let i = 1; i < points.length; i++) {
-          // Step line: horizontal first, then vertical
-          ctx.lineTo(points[i].x, points[i - 1].y);
-          ctx.lineTo(points[i].x, points[i].y);
-        }
-
-        ctx.strokeStyle = color;
-        ctx.lineWidth = lineWidth;
-        ctx.stroke();
-      };
-
-      // Helper to draw dots at data change points
-      const drawDots = (points: { x: number; y: number; value: number }[], color: string) => {
-        let prevValue: number | null = null;
-        for (const point of points) {
-          if (prevValue === null || point.value !== prevValue) {
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
-            ctx.fillStyle = color;
-            ctx.fill();
-            prevValue = point.value;
-          }
-        }
-      };
-
-      // Draw % Outstanding (blue) first so % Float is on top
-      drawStepLine(outPoints, "#3B82F6", 1.5);
-      drawDots(outPoints, "#3B82F6");
-
-      // Draw % Float (orange, primary)
-      drawStepLine(floatPoints, "#F59E0B", 2);
-      drawDots(floatPoints, "#F59E0B");
-
-      // Return false to prevent default figure drawing (we drew custom step lines)
-      return false;
-    },
-  };
-}
-
-// ===== Dark Pool Volume External Data =====
-interface DarkPoolDataPoint {
-  timestamp: number;
-  darkPoolVolume: number;
-  darkPoolPercent: number;
-  blockTradeVolume: number;
-}
-
-let darkPoolData: DarkPoolDataPoint[] = [];
-
-export function setDarkPoolData(data: DarkPoolDataPoint[]) {
-  darkPoolData = data;
-}
-
-export function clearDarkPoolData() {
-  darkPoolData = [];
-}
-
-function createDarkPoolIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  return {
-    name: "SN_DARK_POOL",
-    shortName: "DP",
-    series: "normal",
-    precision: 2,
-    minValue: 0,
-    figures: [
-      { key: "dpPercent", title: "DP %: ", type: "line" },
-    ],
-    createTooltipDataSource: ({ crosshair, indicator }) => {
-      const dataIndex = crosshair.dataIndex;
-      if (dataIndex === undefined || !indicator.result) return { legends: [] };
-
-      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
-      if (!result || result.dpPercent === undefined) return { legends: [] };
-
-      return {
-        legends: [
-          { title: "DP %: ", value: { text: `${(result.dpPercent as number).toFixed(1)}%`, color: "#6366F1" } },
-          { title: "DP Vol: ", value: { text: formatShortInterest(result.dpVolume as number || 0), color: "#6366F1" } },
-          { title: "Block Vol: ", value: { text: formatShortInterest(result.blockVol as number || 0), color: "#A855F7" } },
-        ],
-      };
-    },
-    calc: (dataList) => {
-      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
-
-      // Map each dark pool data point to the closest bar
-      for (const dp of darkPoolData) {
-        const idx = findClosestBarIndex(dataList, dp.timestamp);
-        if (idx >= 0) {
-          result[idx] = {
-            dpPercent: dp.darkPoolPercent,
-            dpVolume: dp.darkPoolVolume,
-            blockVol: dp.blockTradeVolume,
-            isDataPoint: 1,
-          };
-        }
-      }
-
-      // Carry forward values
-      let lastPercent: number | undefined;
-      let lastVolume: number | undefined;
-      let lastBlock: number | undefined;
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].isDataPoint) {
-          lastPercent = result[i].dpPercent as number;
-          lastVolume = result[i].dpVolume as number;
-          lastBlock = result[i].blockVol as number;
-        }
-        result[i].dpPercent = lastPercent;
-        result[i].dpVolume = lastVolume;
-        result[i].blockVol = lastBlock;
-      }
-
-      return result;
-    },
-    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
-      const { from, to } = chart.getVisibleRange();
-      const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0) return false;
-
-      const percentPoints: { x: number; y: number }[] = [];
+      const fullBarWidth = Math.max(
+        6,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95,
+      );
+      const halfBarWidth = Math.max(3, fullBarWidth / 2);
+      const y0 = yAxis.convertToPixel(0);
+      if (typeof y0 !== "number" || isNaN(y0)) return false;
 
       for (let i = from; i < to; i++) {
         const data = result[i];
-        if (!data || data.dpPercent === undefined) continue;
+        if (!data?.isDataPoint) continue;
 
         const x = xAxis.convertToPixel(i);
-        const y = yAxis.convertToPixel(data.dpPercent as number);
-        if (typeof y === "number" && !isNaN(y)) {
-          percentPoints.push({ x, y });
+
+        // Draw % Outstanding (blue) on left half
+        if (data.siOut !== undefined) {
+          const yOut = yAxis.convertToPixel(data.siOut as number);
+          if (typeof yOut === "number" && !isNaN(yOut)) {
+            const topOut = yOut < y0 ? yOut : y0;
+            const heightOut = Math.max(1, Math.abs(y0 - yOut));
+            ctx.fillStyle = "#3B82F6";
+            ctx.fillRect(x - halfBarWidth, topOut, halfBarWidth - 1, heightOut);
+          }
+        }
+
+        // Draw % Float (orange) on right half
+        if (data.siFloat !== undefined) {
+          const yFloat = yAxis.convertToPixel(data.siFloat as number);
+          if (typeof yFloat === "number" && !isNaN(yFloat)) {
+            const topFloat = yFloat < y0 ? yFloat : y0;
+            const heightFloat = Math.max(1, Math.abs(y0 - yFloat));
+            ctx.fillStyle = "#F59E0B";
+            ctx.fillRect(x + 1, topFloat, halfBarWidth - 1, heightFloat);
+          }
         }
       }
 
-      // Draw area fill
-      if (percentPoints.length >= 2) {
-        const chartHeight = chart.getSize()?.height || 0;
-        ctx.beginPath();
-        ctx.moveTo(percentPoints[0].x, percentPoints[0].y);
-        for (let i = 1; i < percentPoints.length; i++) {
-          ctx.lineTo(percentPoints[i].x, percentPoints[i].y);
-        }
-        ctx.lineTo(percentPoints[percentPoints.length - 1].x, chartHeight);
-        ctx.lineTo(percentPoints[0].x, chartHeight);
-        ctx.closePath();
-        ctx.fillStyle = "rgba(99, 102, 241, 0.2)";
-        ctx.fill();
-
-        // Draw line
-        ctx.beginPath();
-        ctx.moveTo(percentPoints[0].x, percentPoints[0].y);
-        for (let i = 1; i < percentPoints.length; i++) {
-          ctx.lineTo(percentPoints[i].x, percentPoints[i].y);
-        }
-        ctx.strokeStyle = "#6366F1";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-
-      return false;
+      return true;
     },
   };
 }
@@ -1342,7 +1177,6 @@ function createDarkPoolIndicator(): IndicatorTemplate<IndicatorRecord, number> {
 interface FTDDataPoint {
   timestamp: number;
   ftdShares: number;
-  ftdValue: number;
 }
 
 let ftdData: FTDDataPoint[] = [];
@@ -1362,60 +1196,41 @@ function createFTDIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     series: "normal",
     precision: 0,
     minValue: 0,
+    shouldFormatBigNumber: true,
+    // Figure needed for Y-axis scaling calculation
     figures: [
-      { key: "ftdShares", title: "FTD Shares: ", type: "bar" },
+      { key: "ftdShares", title: "FTD Shares: ", type: "bar", baseValue: 0 },
     ],
     createTooltipDataSource: ({ crosshair, indicator }) => {
       const dataIndex = crosshair.dataIndex;
       if (dataIndex === undefined || !indicator.result) return { legends: [] };
 
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
-      if (!result || result.ftdShares === undefined) return { legends: [] };
+      if (!result || !result.isDataPoint || result.ftdShares === undefined) return { legends: [] };
 
       return {
         legends: [
           { title: "FTD Shares: ", value: { text: formatShortInterest(result.ftdShares as number), color: "#F97316" } },
-          { title: "FTD Value: ", value: { text: `$${formatShortInterest(result.ftdValue as number || 0)}`, color: "#F97316" } },
         ],
       };
     },
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
 
-      console.log("[SN_FTD] calc called, ftdData.length:", ftdData.length, "dataList.length:", dataList.length);
-
       if (ftdData.length === 0) {
-        console.warn("[SN_FTD] No FTD data available for calculation");
         return result;
       }
 
-      // Map each FTD data point to the closest bar
-      let mappedCount = 0;
+      // Map each FTD data point to the closest bar - no carry forward
       for (const ftd of ftdData) {
         if (!ftd || !ftd.timestamp) continue;
         const idx = findClosestBarIndex(dataList, ftd.timestamp);
         if (idx >= 0) {
           result[idx] = {
             ftdShares: ftd.ftdShares,
-            ftdValue: ftd.ftdValue,
             isDataPoint: 1,
           };
-          mappedCount++;
         }
-      }
-
-      console.log("[SN_FTD] Mapped", mappedCount, "of", ftdData.length, "data points to bars");
-
-      // Carry forward values
-      let lastShares: number | undefined;
-      let lastValue: number | undefined;
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].isDataPoint) {
-          lastShares = result[i].ftdShares as number;
-          lastValue = result[i].ftdValue as number;
-        }
-        result[i].ftdShares = lastShares;
-        result[i].ftdValue = lastValue;
       }
 
       return result;
@@ -1423,25 +1238,29 @@ function createFTDIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
       const { from, to } = chart.getVisibleRange();
       const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0 || ftdData.length === 0) return false;
+      if (!result || result.length === 0 || ftdData.length === 0) return true;
 
-      const barWidth = Math.max(2, (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6);
+      const barWidth = Math.max(6, (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95);
+      const y0 = yAxis.convertToPixel(0);
+      if (typeof y0 !== "number" || isNaN(y0)) return true;
 
       for (let i = from; i < to; i++) {
         const data = result[i];
-        if (!data || data.ftdShares === undefined || data.ftdShares === 0) continue;
+        // Only draw bars where we have actual data points
+        if (!data || !data.isDataPoint || data.ftdShares === undefined || data.ftdShares === 0) continue;
 
         const x = xAxis.convertToPixel(i);
         const y = yAxis.convertToPixel(data.ftdShares as number);
-        const y0 = yAxis.convertToPixel(0);
 
         if (typeof y !== "number" || isNaN(y)) continue;
 
+        const height = Math.max(1, Math.abs(y0 - y));
         ctx.fillStyle = "#F97316";
-        ctx.fillRect(x - barWidth / 2, y, barWidth, y0 - y);
+        ctx.fillRect(x - barWidth / 2, Math.min(y, y0), barWidth, height);
       }
 
-      return false;
+      // Return true to prevent default figure rendering (avoids duplicate bars)
+      return true;
     },
   };
 }
@@ -1847,7 +1666,7 @@ function createRevenueIndicator(): IndicatorTemplate<
       if (!result || result.length === 0 || revenueData.length === 0) return false;
 
       const barWidth = Math.max(
-        2,
+        6,
         (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95,
       );
       const y0 = yAxis.convertToPixel(0);
@@ -1862,8 +1681,7 @@ function createRevenueIndicator(): IndicatorTemplate<
         if (typeof y !== "number" || isNaN(y)) continue;
 
         const top = y < y0 ? y : y0;
-        const height = Math.abs(y0 - y);
-        if (height <= 0) continue;
+        const height = Math.max(1, Math.abs(y0 - y));
 
         ctx.fillStyle = (data.revenue as number) >= 0 ? "#22C55E" : "#EF4444";
         ctx.fillRect(x - barWidth / 2, top, barWidth, height);
@@ -1878,11 +1696,12 @@ function createRevenueIndicator(): IndicatorTemplate<
 interface EPSDataPoint {
   timestamp: number;
   eps: number;
-  epsEstimate?: number;
+  epsGrowth?: number;
   epsSurprise?: number;
 }
 
 let epsData: EPSDataPoint[] = [];
+let epsGrowthSeries: Array<number | undefined> = [];
 
 export function setEPSData(data: EPSDataPoint[]) {
   epsData = data;
@@ -1890,17 +1709,21 @@ export function setEPSData(data: EPSDataPoint[]) {
 
 export function clearEPSData() {
   epsData = [];
+  epsGrowthSeries = [];
 }
 
-function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+function createEPSIndicator(): IndicatorTemplate<
+  IndicatorRecord,
+  number,
+  FinancialIndicatorExtendData
+> {
   return {
     name: "SN_EPS",
     shortName: "EPS",
     series: "normal",
     precision: 2,
     figures: [
-      { key: "eps", title: "EPS: ", type: "line" },
-      { key: "epsEstimate", title: "Diluted: ", type: "line" },
+      { key: "eps", title: "EPS: ", type: "bar", baseValue: 0 },
     ],
     createTooltipDataSource: ({ crosshair, indicator }) => {
       const dataIndex = crosshair.dataIndex;
@@ -1909,29 +1732,29 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
       if (!result || result.eps === undefined) return { legends: [] };
 
-      const surprise = result.epsSurprise as number | undefined;
-      const surpriseColor =
-        typeof surprise === "number" && surprise >= 0 ? "#22C55E" : "#EF4444";
+      const epsValue = result.eps as number;
+      const epsColor = epsValue >= 0 ? "#22C55E" : "#EF4444";
+      const growth = epsGrowthSeries[dataIndex];
+      const growthColor =
+        Number.isFinite(growth as number) && (growth as number) >= 0
+          ? "#22C55E"
+          : "#EF4444";
+      const growthLabel = getGrowthLabelForPeriod(indicator.extendData?.period);
+
       const legends = [
         {
           title: "EPS: ",
-          value: { text: `$${(result.eps as number).toFixed(2)}`, color: "#22C55E" },
+          value: { text: `$${epsValue.toFixed(2)}`, color: epsColor },
         },
       ];
 
-      if (Number.isFinite(result.epsEstimate as number)) {
+      if (Number.isFinite(growth as number)) {
         legends.push({
-          title: "Diluted: ",
+          title: `${growthLabel}: `,
           value: {
-            text: `$${(result.epsEstimate as number).toFixed(2)}`,
-            color: "#6B7280",
+            text: `${(growth as number).toFixed(1)}%`,
+            color: growthColor,
           },
-        });
-      }
-      if (Number.isFinite(surprise as number)) {
-        legends.push({
-          title: "Surprise: ",
-          value: { text: `${(surprise as number).toFixed(1)}%`, color: surpriseColor },
         });
       }
 
@@ -1939,6 +1762,7 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
     },
     calc: (dataList) => {
       const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
+      const growthSeries: Array<number | undefined> = new Array(dataList.length);
 
       // Map each EPS data point to the closest bar
       for (const e of epsData) {
@@ -1946,31 +1770,25 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
         if (idx >= 0) {
           result[idx] = {
             eps: e.eps,
-            epsEstimate: e.epsEstimate,
-            epsSurprise: e.epsSurprise,
             isDataPoint: 1,
           };
+          growthSeries[idx] = e.epsGrowth;
         }
       }
 
       // Carry forward values for step display
       let lastEPS: number | undefined;
-      let lastEstimate: number | undefined;
-      let lastSurprise: number | undefined;
+      let lastGrowth: number | undefined;
       for (let i = 0; i < result.length; i++) {
         if (result[i].isDataPoint) {
           lastEPS = result[i].eps as number;
-          if (Number.isFinite(result[i].epsEstimate as number)) {
-            lastEstimate = result[i].epsEstimate as number;
-          }
-          if (Number.isFinite(result[i].epsSurprise as number)) {
-            lastSurprise = result[i].epsSurprise as number;
-          }
+          lastGrowth = growthSeries[i];
         }
         result[i].eps = lastEPS;
-        result[i].epsEstimate = lastEstimate;
-        result[i].epsSurprise = lastSurprise;
+        growthSeries[i] = lastGrowth;
       }
+
+      epsGrowthSeries = growthSeries;
 
       return result;
     },
@@ -1979,645 +1797,29 @@ function createEPSIndicator(): IndicatorTemplate<IndicatorRecord, number> {
       const result = indicator.result as IndicatorRecord[];
       if (!result || result.length === 0 || epsData.length === 0) return false;
 
-      const epsPoints: { x: number; y: number; isDataPoint: boolean }[] = [];
-      const estPoints: { x: number; y: number }[] = [];
+      const barWidth = Math.max(
+        6,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.95,
+      );
+      const y0 = yAxis.convertToPixel(0);
+      if (typeof y0 !== "number" || isNaN(y0)) return false;
 
       for (let i = from; i < to; i++) {
         const data = result[i];
-        if (!data) continue;
+        if (!data?.isDataPoint || data.eps === undefined) continue;
 
         const x = xAxis.convertToPixel(i);
-
-        if (data.eps !== undefined) {
-          const y = yAxis.convertToPixel(data.eps as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            epsPoints.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
-          }
-        }
-        if (data.epsEstimate !== undefined) {
-          const y = yAxis.convertToPixel(data.epsEstimate as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            estPoints.push({ x, y });
-          }
-        }
-      }
-
-      // Draw estimate line (dashed, gray step line)
-      if (estPoints.length >= 2) {
-        ctx.beginPath();
-        ctx.setLineDash([5, 5]);
-        ctx.moveTo(estPoints[0].x, estPoints[0].y);
-        for (let i = 1; i < estPoints.length; i++) {
-          ctx.lineTo(estPoints[i].x, estPoints[i - 1].y);
-          ctx.lineTo(estPoints[i].x, estPoints[i].y);
-        }
-        ctx.strokeStyle = "#6B7280";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-
-      // Draw EPS line (solid, green step line)
-      if (epsPoints.length >= 2) {
-        ctx.beginPath();
-        ctx.moveTo(epsPoints[0].x, epsPoints[0].y);
-        for (let i = 1; i < epsPoints.length; i++) {
-          ctx.lineTo(epsPoints[i].x, epsPoints[i - 1].y);
-          ctx.lineTo(epsPoints[i].x, epsPoints[i].y);
-        }
-        ctx.strokeStyle = "#22C55E";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw dots only at actual data points
-        for (const point of epsPoints) {
-          if (point.isDataPoint) {
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-            ctx.fillStyle = "#22C55E";
-            ctx.fill();
-            ctx.strokeStyle = "#FFFFFF";
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-
-      return false;
-    },
-  };
-}
-
-// ===== Free Cash Flow External Data =====
-interface FCFDataPoint {
-  timestamp: number;
-  freeCashFlow: number;
-  operatingCashFlow: number;
-  capex: number;
-}
-
-let fcfData: FCFDataPoint[] = [];
-
-export function setFCFData(data: FCFDataPoint[]) {
-  fcfData = data;
-}
-
-export function clearFCFData() {
-  fcfData = [];
-}
-
-function createFCFIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  return {
-    name: "SN_FCF",
-    shortName: "FCF",
-    series: "normal",
-    precision: 0,
-    shouldFormatBigNumber: true,
-    figures: [
-      { key: "fcf", title: "FCF: ", type: "line" },
-    ],
-    createTooltipDataSource: ({ crosshair, indicator }) => {
-      const dataIndex = crosshair.dataIndex;
-      if (dataIndex === undefined || !indicator.result) return { legends: [] };
-
-      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
-      if (!result || result.fcf === undefined) return { legends: [] };
-
-      const fcf = result.fcf as number;
-      const color = fcf >= 0 ? "#22C55E" : "#EF4444";
-
-      return {
-        legends: [
-          { title: "FCF: ", value: { text: `$${formatShortInterest(fcf)}`, color } },
-          { title: "Op CF: ", value: { text: `$${formatShortInterest(result.opCF as number || 0)}`, color: "#3B82F6" } },
-          { title: "CapEx: ", value: { text: `$${formatShortInterest(result.capex as number || 0)}`, color: "#F97316" } },
-        ],
-      };
-    },
-    calc: (dataList) => {
-      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
-
-      // Map each FCF data point to the closest bar
-      for (const f of fcfData) {
-        const idx = findClosestBarIndex(dataList, f.timestamp);
-        if (idx >= 0) {
-          result[idx] = {
-            fcf: f.freeCashFlow,
-            opCF: f.operatingCashFlow,
-            capex: f.capex,
-            isDataPoint: 1,
-          };
-        }
-      }
-
-      // Carry forward values for step display
-      let lastFCF: number | undefined;
-      let lastOpCF: number | undefined;
-      let lastCapex: number | undefined;
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].isDataPoint) {
-          lastFCF = result[i].fcf as number;
-          lastOpCF = result[i].opCF as number;
-          lastCapex = result[i].capex as number;
-        }
-        result[i].fcf = lastFCF;
-        result[i].opCF = lastOpCF;
-        result[i].capex = lastCapex;
-      }
-
-      return result;
-    },
-    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
-      const { from, to } = chart.getVisibleRange();
-      const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0 || fcfData.length === 0) return false;
-
-      // Collect points for step line
-      const points: { x: number; y: number; value: number; isDataPoint: boolean }[] = [];
-
-      for (let i = from; i < to; i++) {
-        const data = result[i];
-        if (!data || data.fcf === undefined) continue;
-
-        const x = xAxis.convertToPixel(i);
-        const y = yAxis.convertToPixel(data.fcf as number);
-
+        const y = yAxis.convertToPixel(data.eps as number);
         if (typeof y !== "number" || isNaN(y)) continue;
 
-        points.push({ x, y, value: data.fcf as number, isDataPoint: Boolean(data.isDataPoint) });
+        const top = y < y0 ? y : y0;
+        const height = Math.max(1, Math.abs(y0 - y));
+
+        ctx.fillStyle = (data.eps as number) >= 0 ? "#22C55E" : "#EF4444";
+        ctx.fillRect(x - barWidth / 2, top, barWidth, height);
       }
 
-      if (points.length < 1) return false;
-
-      // Draw zero reference line
-      const y0 = yAxis.convertToPixel(0);
-      const chartWidth = chart.getSize()?.width || 0;
-      ctx.setLineDash([5, 5]);
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, y0);
-      ctx.lineTo(chartWidth, y0);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Draw step line with color based on value
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, points[0].y);
-      for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i - 1].y);
-        ctx.lineTo(points[i].x, points[i].y);
-      }
-      ctx.strokeStyle = points[points.length - 1].value >= 0 ? "#22C55E" : "#EF4444";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Draw dots at actual data points
-      for (const point of points) {
-        if (point.isDataPoint) {
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-          ctx.fillStyle = point.value >= 0 ? "#22C55E" : "#EF4444";
-          ctx.fill();
-          ctx.strokeStyle = "#FFFFFF";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-
-      return false;
-    },
-  };
-}
-
-// ===== Profit Margins External Data =====
-interface MarginDataPoint {
-  timestamp: number;
-  grossMargin: number;
-  operatingMargin: number;
-  netMargin: number;
-}
-
-let marginData: MarginDataPoint[] = [];
-
-export function setMarginData(data: MarginDataPoint[]) {
-  marginData = data;
-}
-
-export function clearMarginData() {
-  marginData = [];
-}
-
-function createMarginIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  return {
-    name: "SN_MARGIN",
-    shortName: "MRGN",
-    series: "normal",
-    precision: 2,
-    figures: [
-      { key: "grossMargin", title: "Gross: ", type: "line" },
-      { key: "opMargin", title: "Op: ", type: "line" },
-      { key: "netMargin", title: "Net: ", type: "line" },
-    ],
-    createTooltipDataSource: ({ crosshair, indicator }) => {
-      const dataIndex = crosshair.dataIndex;
-      if (dataIndex === undefined || !indicator.result) return { legends: [] };
-
-      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
-      if (!result) return { legends: [] };
-
-      return {
-        legends: [
-          { title: "Gross: ", value: { text: `${(result.grossMargin as number || 0).toFixed(1)}%`, color: "#22C55E" } },
-          { title: "Operating: ", value: { text: `${(result.opMargin as number || 0).toFixed(1)}%`, color: "#3B82F6" } },
-          { title: "Net: ", value: { text: `${(result.netMargin as number || 0).toFixed(1)}%`, color: "#8B5CF6" } },
-        ],
-      };
-    },
-    calc: (dataList) => {
-      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
-
-      // Map each margin data point to the closest bar
-      for (const m of marginData) {
-        const idx = findClosestBarIndex(dataList, m.timestamp);
-        if (idx >= 0) {
-          result[idx] = {
-            grossMargin: m.grossMargin,
-            opMargin: m.operatingMargin,
-            netMargin: m.netMargin,
-            isDataPoint: 1,
-          };
-        }
-      }
-
-      // Carry forward values for step display
-      let lastGross: number | undefined;
-      let lastOp: number | undefined;
-      let lastNet: number | undefined;
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].isDataPoint) {
-          lastGross = result[i].grossMargin as number;
-          lastOp = result[i].opMargin as number;
-          lastNet = result[i].netMargin as number;
-        }
-        result[i].grossMargin = lastGross;
-        result[i].opMargin = lastOp;
-        result[i].netMargin = lastNet;
-      }
-
-      return result;
-    },
-    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
-      const { from, to } = chart.getVisibleRange();
-      const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0 || marginData.length === 0) return false;
-
-      const grossPoints: { x: number; y: number; isDataPoint: boolean }[] = [];
-      const opPoints: { x: number; y: number }[] = [];
-      const netPoints: { x: number; y: number }[] = [];
-
-      for (let i = from; i < to; i++) {
-        const data = result[i];
-        if (!data) continue;
-
-        const x = xAxis.convertToPixel(i);
-
-        if (data.grossMargin !== undefined) {
-          const y = yAxis.convertToPixel(data.grossMargin as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            grossPoints.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
-          }
-        }
-        if (data.opMargin !== undefined) {
-          const y = yAxis.convertToPixel(data.opMargin as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            opPoints.push({ x, y });
-          }
-        }
-        if (data.netMargin !== undefined) {
-          const y = yAxis.convertToPixel(data.netMargin as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            netPoints.push({ x, y });
-          }
-        }
-      }
-
-      const drawStepLine = (points: { x: number; y: number }[], color: string, lineWidth: number) => {
-        if (points.length < 2) return;
-        ctx.beginPath();
-        ctx.setLineDash([]);
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i - 1].y);
-          ctx.lineTo(points[i].x, points[i].y);
-        }
-        ctx.strokeStyle = color;
-        ctx.lineWidth = lineWidth;
-        ctx.stroke();
-      };
-
-      drawStepLine(grossPoints, "#22C55E", 2);
-      drawStepLine(opPoints, "#3B82F6", 1.5);
-      drawStepLine(netPoints, "#8B5CF6", 1.5);
-
-      // Draw dots at actual data points (on gross margin line only for clarity)
-      for (const point of grossPoints) {
-        if (point.isDataPoint) {
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
-          ctx.fillStyle = "#22C55E";
-          ctx.fill();
-          ctx.strokeStyle = "#FFFFFF";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-
-      return false;
-    },
-  };
-}
-
-// ===== P/E Ratio External Data =====
-interface PERatioDataPoint {
-  timestamp: number;
-  peRatio: number;
-  forwardPE: number;
-}
-
-let peRatioData: PERatioDataPoint[] = [];
-
-export function setPERatioData(data: PERatioDataPoint[]) {
-  peRatioData = data;
-}
-
-export function clearPERatioData() {
-  peRatioData = [];
-}
-
-function createPERatioIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  return {
-    name: "SN_PE_RATIO",
-    shortName: "P/E",
-    series: "normal",
-    precision: 2,
-    minValue: 0,
-    figures: [
-      { key: "pe", title: "P/E: ", type: "line" },
-      { key: "fwdPE", title: "Fwd P/E: ", type: "line" },
-    ],
-    createTooltipDataSource: ({ crosshair, indicator }) => {
-      const dataIndex = crosshair.dataIndex;
-      if (dataIndex === undefined || !indicator.result) return { legends: [] };
-
-      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
-      if (!result || result.pe === undefined) return { legends: [] };
-
-      return {
-        legends: [
-          { title: "P/E: ", value: { text: (result.pe as number).toFixed(1), color: "#F59E0B" } },
-          { title: "Fwd P/E: ", value: { text: (result.fwdPE as number || 0).toFixed(1), color: "#6B7280" } },
-        ],
-      };
-    },
-    calc: (dataList) => {
-      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
-
-      // Map each PE data point to the closest bar
-      for (const p of peRatioData) {
-        const idx = findClosestBarIndex(dataList, p.timestamp);
-        if (idx >= 0) {
-          result[idx] = {
-            pe: p.peRatio,
-            fwdPE: p.forwardPE,
-            isDataPoint: 1,
-          };
-        }
-      }
-
-      // Carry forward values for step display
-      let lastPE: number | undefined;
-      let lastFwdPE: number | undefined;
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].isDataPoint) {
-          lastPE = result[i].pe as number;
-          lastFwdPE = result[i].fwdPE as number;
-        }
-        result[i].pe = lastPE;
-        result[i].fwdPE = lastFwdPE;
-      }
-
-      return result;
-    },
-    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
-      const { from, to } = chart.getVisibleRange();
-      const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0 || peRatioData.length === 0) return false;
-
-      const pePoints: { x: number; y: number; isDataPoint: boolean }[] = [];
-      const fwdPoints: { x: number; y: number }[] = [];
-
-      for (let i = from; i < to; i++) {
-        const data = result[i];
-        if (!data) continue;
-
-        const x = xAxis.convertToPixel(i);
-
-        if (data.pe !== undefined) {
-          const y = yAxis.convertToPixel(data.pe as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            pePoints.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
-          }
-        }
-        if (data.fwdPE !== undefined) {
-          const y = yAxis.convertToPixel(data.fwdPE as number);
-          if (typeof y === "number" && !isNaN(y)) {
-            fwdPoints.push({ x, y });
-          }
-        }
-      }
-
-      // Draw forward P/E (dashed)
-      if (fwdPoints.length >= 2) {
-        ctx.beginPath();
-        ctx.setLineDash([5, 5]);
-        ctx.moveTo(fwdPoints[0].x, fwdPoints[0].y);
-        for (let i = 1; i < fwdPoints.length; i++) {
-          ctx.lineTo(fwdPoints[i].x, fwdPoints[i - 1].y);
-          ctx.lineTo(fwdPoints[i].x, fwdPoints[i].y);
-        }
-        ctx.strokeStyle = "#6B7280";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-
-      // Draw trailing P/E (solid)
-      if (pePoints.length >= 2) {
-        ctx.beginPath();
-        ctx.moveTo(pePoints[0].x, pePoints[0].y);
-        for (let i = 1; i < pePoints.length; i++) {
-          ctx.lineTo(pePoints[i].x, pePoints[i - 1].y);
-          ctx.lineTo(pePoints[i].x, pePoints[i].y);
-        }
-        ctx.strokeStyle = "#F59E0B";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw dots at actual data points
-        for (const point of pePoints) {
-          if (point.isDataPoint) {
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "#F59E0B";
-            ctx.fill();
-            ctx.strokeStyle = "#FFFFFF";
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-
-      return false;
-    },
-  };
-}
-
-// ===== EV/EBITDA External Data =====
-interface EVEBITDADataPoint {
-  timestamp: number;
-  evEbitda: number;
-  enterpriseValue: number;
-  ebitda: number;
-}
-
-let evEbitdaData: EVEBITDADataPoint[] = [];
-
-export function setEVEBITDAData(data: EVEBITDADataPoint[]) {
-  evEbitdaData = data;
-}
-
-export function clearEVEBITDAData() {
-  evEbitdaData = [];
-}
-
-function createEVEBITDAIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  return {
-    name: "SN_EV_EBITDA",
-    shortName: "EV/EB",
-    series: "normal",
-    precision: 2,
-    minValue: 0,
-    figures: [
-      { key: "evEbitda", title: "EV/EBITDA: ", type: "line" },
-    ],
-    createTooltipDataSource: ({ crosshair, indicator }) => {
-      const dataIndex = crosshair.dataIndex;
-      if (dataIndex === undefined || !indicator.result) return { legends: [] };
-
-      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
-      if (!result || result.evEbitda === undefined) return { legends: [] };
-
-      return {
-        legends: [
-          { title: "EV/EBITDA: ", value: { text: (result.evEbitda as number).toFixed(1), color: "#06B6D4" } },
-          { title: "EV: ", value: { text: `$${formatShortInterest(result.ev as number || 0)}`, color: "#6B7280" } },
-          { title: "EBITDA: ", value: { text: `$${formatShortInterest(result.ebitda as number || 0)}`, color: "#6B7280" } },
-        ],
-      };
-    },
-    calc: (dataList) => {
-      const result: IndicatorRecord[] = new Array(dataList.length).fill(null).map(() => ({}));
-
-      // Map each EV/EBITDA data point to the closest bar
-      for (const e of evEbitdaData) {
-        const idx = findClosestBarIndex(dataList, e.timestamp);
-        if (idx >= 0) {
-          result[idx] = {
-            evEbitda: e.evEbitda,
-            ev: e.enterpriseValue,
-            ebitda: e.ebitda,
-            isDataPoint: 1,
-          };
-        }
-      }
-
-      // Carry forward values for step display
-      let lastEVEbitda: number | undefined;
-      let lastEV: number | undefined;
-      let lastEbitda: number | undefined;
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].isDataPoint) {
-          lastEVEbitda = result[i].evEbitda as number;
-          lastEV = result[i].ev as number;
-          lastEbitda = result[i].ebitda as number;
-        }
-        result[i].evEbitda = lastEVEbitda;
-        result[i].ev = lastEV;
-        result[i].ebitda = lastEbitda;
-      }
-
-      return result;
-    },
-    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
-      const { from, to } = chart.getVisibleRange();
-      const result = indicator.result as IndicatorRecord[];
-      if (!result || result.length === 0 || evEbitdaData.length === 0) return false;
-
-      const points: { x: number; y: number; isDataPoint: boolean }[] = [];
-
-      for (let i = from; i < to; i++) {
-        const data = result[i];
-        if (!data || data.evEbitda === undefined) continue;
-
-        const x = xAxis.convertToPixel(i);
-        const y = yAxis.convertToPixel(data.evEbitda as number);
-        if (typeof y === "number" && !isNaN(y)) {
-          points.push({ x, y, isDataPoint: Boolean(data.isDataPoint) });
-        }
-      }
-
-      if (points.length >= 2) {
-        // Draw area fill
-        const chartHeight = chart.getSize()?.height || 0;
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i - 1].y);
-          ctx.lineTo(points[i].x, points[i].y);
-        }
-        ctx.lineTo(points[points.length - 1].x, chartHeight);
-        ctx.lineTo(points[0].x, chartHeight);
-        ctx.closePath();
-        ctx.fillStyle = "rgba(6, 182, 212, 0.15)";
-        ctx.fill();
-
-        // Draw step line
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i - 1].y);
-          ctx.lineTo(points[i].x, points[i].y);
-        }
-        ctx.strokeStyle = "#06B6D4";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw dots at actual data points
-        for (const point of points) {
-          if (point.isDataPoint) {
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "#06B6D4";
-            ctx.fill();
-            ctx.strokeStyle = "#FFFFFF";
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-
-      return false;
+      return true;
     },
   };
 }
@@ -2777,16 +1979,11 @@ export function registerCustomIndicators() {
   registerIndicator(createAroonIndicator());
   registerIndicator(createShortInterestIndicator());
   // New fundamental & options indicators
-  registerIndicator(createDarkPoolIndicator());
   registerIndicator(createFTDIndicator());
   registerIndicator(createMaxPainIndicator());
   registerIndicator(createAnalystTargetIndicator());
   registerIndicator(createRevenueIndicator());
   registerIndicator(createEPSIndicator());
-  registerIndicator(createFCFIndicator());
-  registerIndicator(createMarginIndicator());
-  registerIndicator(createPERatioIndicator());
-  registerIndicator(createEVEBITDAIndicator());
   registerIndicator(createMarketCapIndicator());
   registerIndicator(createStatementMetricIndicator());
   registered = true;

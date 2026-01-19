@@ -30,8 +30,19 @@
 <SEO title="Update Password" description="Update your account password" />
 
 <section
-  class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto px-3 sm:px-0 mt-10"
+  class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto px-3 sm:px-0"
 >
+  <div class="relative">
+    <a href="/">
+      <img
+        class="m-auto w-16 sm:w-20 rounded-full pt-4"
+        src="/pwa-192x192.png"
+        alt="Stocknear Logo"
+        loading="lazy"
+      />
+    </a>
+  </div>
+
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
@@ -77,13 +88,13 @@
               {#if !isUpdating}
                 <button
                   type="submit"
-                  class="cursor-pointer py-2.5 bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                  class="cursor-pointer py-2.5 bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto font-semibold text-[1rem]"
                 >
                   <span>Update Password</span>
                 </button>
               {:else}
                 <label
-                  class="cursor-not-allowed btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                  class="cursor-not-allowed btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto font-semibold text-[1rem]"
                 >
                   <div class="flex flex-row m-auto items-center">
                     <span class="loading loading-infinity"></span>

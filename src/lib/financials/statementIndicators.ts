@@ -922,13 +922,6 @@ export const STATEMENT_INDICATORS: StatementIndicatorConfig[] = [
     format: "percent",
   },
   {
-    id: "ratio_netProfitMargin",
-    label: "Net Profit Margin",
-    statement: "ratios",
-    property: "netProfitMargin",
-    format: "percent",
-  },
-  {
     id: "ratio_bottomLineProfitMargin",
     label: "Bottom Line Profit Margin",
     statement: "ratios",
@@ -1242,6 +1235,34 @@ export const STATEMENT_INDICATORS: StatementIndicatorConfig[] = [
     statement: "ratios",
     property: "effectiveTaxRate",
     format: "percent",
+  },
+  {
+    id: "ev_ebitda",
+    label: "EV/EBITDA",
+    statement: "ratios",
+    property: "enterpriseValueMultiple",
+    format: "number",
+  },
+  {
+    id: "pe_ratio",
+    label: "P/E Ratio",
+    statement: "ratios",
+    property: "priceToEarningsRatio",
+    format: "number",
+  },
+  {
+    id: "margin",
+    label: "Net Profit Margin",
+    statement: "ratios",
+    property: "netProfitMargin",
+    format: "percent",
+  },
+  {
+    id: "fcf",
+    label: "Free Cash Flow",
+    statement: "cashflow",
+    property: "freeCashFlow",
+    format: "currency",
   },
 ];
 

@@ -3,7 +3,6 @@
   import { abbreviateNumber } from "$lib/utils";
   import VirtualList from "svelte-tiny-virtual-list";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
-  import { mode } from "mode-watcher";
   import { browser } from "$app/environment";
 
   export let data;
@@ -107,9 +106,7 @@
     if (browser) {
       const order = columns.map((col) => col.key);
       localStorage.setItem(COLUMN_ORDER_KEY, JSON.stringify(order));
-      customColumnOrder = order.some(
-        (key, i) => key !== defaultColumns[i].key,
-      );
+      customColumnOrder = order.some((key, i) => key !== defaultColumns[i].key);
     }
     draggedColumnIndex = null;
     dragOverColumnIndex = null;
@@ -139,16 +136,19 @@
     const formatter = new Intl.DateTimeFormat("en-US", options);
     const parts = formatter.formatToParts(date);
 
+    /*
     const year = parts.find((p) => p.type === "year").value;
     const month = parts.find((p) => p.type === "month").value;
     const day = parts.find((p) => p.type === "day").value.padStart(2, "0");
+    */
     const hour = parts.find((p) => p.type === "hour").value.padStart(2, "0");
     const minute = parts
       .find((p) => p.type === "minute")
       .value.padStart(2, "0");
     const ampm = parts.find((p) => p.type === "dayPeriod").value;
 
-    return `${month}/${day}/${year} ${hour}:${minute} ${ampm}`;
+    //return `${month}/${day}/${year} ${hour}:${minute} ${ampm}`;
+    return `${hour}:${minute} ${ampm}`;
   }
 
   let sortOrders = {
@@ -276,18 +276,6 @@
             : ''}"
         >
           <span class="inline-flex items-center gap-1">
-            <svg
-              class="inline-block w-3 h-3 opacity-40"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <circle cx="9" cy="6" r="1.5" />
-              <circle cx="15" cy="6" r="1.5" />
-              <circle cx="9" cy="12" r="1.5" />
-              <circle cx="15" cy="12" r="1.5" />
-              <circle cx="9" cy="18" r="1.5" />
-              <circle cx="15" cy="18" r="1.5" />
-            </svg>
             {column.label}
             <svg
               class="shrink-0 w-4 h-4 -mt-1 {sortOrders[sortKey] === 'asc'
@@ -341,7 +329,7 @@
         {#each columns as column (column.key)}
           {#if column.key === "date"}
             <div
-              class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
+              class="p-2 text-start text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
             >
               {$screenWidth < 640
                 ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
