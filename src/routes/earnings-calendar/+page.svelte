@@ -787,94 +787,150 @@
             <div class="w-full overflow-x-auto">
               {#if timeframe === "Daily" || timeframe === "Details"}
                 <!-- Daily View -->
-                <div
-                  class=" w-full flex flex-row justify-center m-auto items-center"
-                >
-                  <!-- Start Columns -->
-                  <label
-                    on:click={() => changeWeek("previous")}
-                    class="{previousMax ? 'opacity-80' : ''} {weekArrowClasses}"
+                {#if timeframe === "Daily"}
+                  <div
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
                   >
-                    <svg
-                      class="w-6 h-6 m-auto rotate-180"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path fill="currentColor" d={arrowIcon} />
-                    </svg>
-                  </label>
-                  {#each weekday as day, index}
-                    <div
-                      class="w-full {index === selectedWeekday
-                        ? ''
-                        : 'hidden sm:block'}"
-                    >
-                      <label
+                    {#each weekday as day, index}
+                      <div
                         on:click={() => toggleDate(index)}
-                        class="{weekdayClasses} {index === selectedWeekday
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
+                        selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                          : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'}"
+                          : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
                       >
-                        <div
-                          class=" flex flex-row justify-center items-center w-full"
+                        <span class="text-[1rem]"
+                          >{formattedWeekday[index]}</span
                         >
-                          <label
-                            on:click={() => clickWeekday("previous", index)}
-                            class="{previousMax === true && index === 0
-                              ? 'opacity-20'
-                              : ''} sm:hidden ml-auto"
+                        <span class="text-sm">{day?.length} Earnings</span>
+                        {#if index === 0}
+                          <button
+                            on:click|stopPropagation={() =>
+                              changeWeek("previous")}
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Previous week"
+                            disabled={previousMax}
                           >
                             <svg
-                              class="{mobileArrowClasses} rotate-180"
+                              class="h-5 w-5 rotate-180"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                             >
                               <path fill="currentColor" d={arrowIcon} />
                             </svg>
-                          </label>
-                          <div
-                            class="flex flex-col items-center truncate m-auto p-1"
-                          >
-                            <span class="text-[1rem]"
-                              >{formattedWeekday[index]}</span
-                            >
-                            <span class="text-sm m-auto pt-1 pb-1">
-                              {day?.length} Earnings</span
-                            >
-                          </div>
-                          <label
-                            on:click={() => clickWeekday("next", index)}
-                            class="{nextMax === true && index === 4
-                              ? 'opacity-20'
-                              : ''} sm:hidden mr-auto"
+                          </button>
+                        {/if}
+                        {#if index === 4}
+                          <button
+                            on:click|stopPropagation={() => changeWeek("next")}
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Next week"
+                            disabled={nextMax}
                           >
                             <svg
-                              class="w-7 h-7 inline-block"
+                              class="h-5 w-5"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
-                              ><path
-                                fill="currentColor"
-                                d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"
-                              /></svg
                             >
-                          </label>
-                        </div>
-                      </label>
-                    </div>
-                  {/each}
-                  <label
-                    on:click={() => changeWeek("next")}
-                    class="{nextMax ? 'opacity-80' : ''} {weekArrowClasses}"
+                              <path fill="currentColor" d={arrowIcon} />
+                            </svg>
+                          </button>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                {:else}
+                  <div
+                    class=" w-full flex flex-row justify-center m-auto items-center"
                   >
-                    <svg
-                      class="w-6 h-6 m-auto"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
+                    <!-- Start Columns -->
+                    <label
+                      on:click={() => changeWeek("previous")}
+                      class="{previousMax
+                        ? 'opacity-80'
+                        : ''} {weekArrowClasses}"
                     >
-                      <path fill="currentColor" d={arrowIcon} />
-                    </svg>
-                  </label>
-                </div>
+                      <svg
+                        class="w-6 h-6 m-auto rotate-180"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path fill="currentColor" d={arrowIcon} />
+                      </svg>
+                    </label>
+                    {#each weekday as day, index}
+                      <div
+                        class="w-full {index === selectedWeekday
+                          ? ''
+                          : 'hidden sm:block'}"
+                      >
+                        <label
+                          on:click={() => toggleDate(index)}
+                          class="{weekdayClasses} {index === selectedWeekday
+                            ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
+                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'}"
+                        >
+                          <div
+                            class=" flex flex-row justify-center items-center w-full"
+                          >
+                            <label
+                              on:click={() => clickWeekday("previous", index)}
+                              class="{previousMax === true && index === 0
+                                ? 'opacity-20'
+                                : ''} sm:hidden ml-auto"
+                            >
+                              <svg
+                                class="{mobileArrowClasses} rotate-180"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                              >
+                                <path fill="currentColor" d={arrowIcon} />
+                              </svg>
+                            </label>
+                            <div
+                              class="flex flex-col items-center truncate m-auto p-1"
+                            >
+                              <span class="text-[1rem]"
+                                >{formattedWeekday[index]}</span
+                              >
+                              <span class="text-sm m-auto pt-1 pb-1">
+                                {day?.length} Earnings</span
+                              >
+                            </div>
+                            <label
+                              on:click={() => clickWeekday("next", index)}
+                              class="{nextMax === true && index === 4
+                                ? 'opacity-20'
+                                : ''} sm:hidden mr-auto"
+                            >
+                              <svg
+                                class="w-7 h-7 inline-block"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                ><path
+                                  fill="currentColor"
+                                  d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"
+                                /></svg
+                              >
+                            </label>
+                          </div>
+                        </label>
+                      </div>
+                    {/each}
+                    <label
+                      on:click={() => changeWeek("next")}
+                      class="{nextMax ? 'opacity-80' : ''} {weekArrowClasses}"
+                    >
+                      <svg
+                        class="w-6 h-6 m-auto"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path fill="currentColor" d={arrowIcon} />
+                      </svg>
+                    </label>
+                  </div>
+                {/if}
               {/if}
 
               {#if timeframe === "Daily" || timeframe === "Details"}
@@ -1355,7 +1411,9 @@
                                           <tr
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
-                                            <td class="py-1.5">Reports</td>
+                                            <td class="py-1.5 text-sm"
+                                              >Reports</td
+                                            >
                                             <td
                                               class="text-right font-semibold"
                                             >
@@ -1400,7 +1458,7 @@
                                             <tr
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
-                                              <td class="py-1.5">
+                                              <td class="py-1.5 text-sm">
                                                 Market Cap
                                               </td>
                                               <td
@@ -1418,7 +1476,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td
-                                              class="py-1.5"
+                                              class="py-1.5 text-sm"
                                               title="Estimated Revenue"
                                             >
                                               Revenue <span
@@ -1463,8 +1521,7 @@
                                               class="pb-0.5 pt-1.5"
                                               title="Estimated EPS"
                                             >
-                                              EPS <span
-                                                class="hidden md:inline"
+                                              EPS <span class="hidden md:inline"
                                                 >Est.</span
                                               ><span class="inline md:hidden"
                                                 >Estimate</span
@@ -1661,9 +1718,9 @@
                                 <table class="w-full text-sm">
                                   <tbody>
                                     <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700"
+                                      class=" border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5">Reports</td>
+                                      <td class="py-1.5 text-sm">Reports</td>
                                       <td class="text-right font-semibold">
                                         <span
                                           class="flex items-center justify-end"
@@ -1706,7 +1763,9 @@
                                       <tr
                                         class="border-b border-gray-300 dark:border-zinc-700"
                                       >
-                                        <td class="py-1.5">Market Cap</td>
+                                        <td class="py-1.5 text-sm"
+                                          >Market Cap</td
+                                        >
                                         <td class="text-right font-semibold">
                                           {@html abbreviateNumber(
                                             item?.marketCap,
@@ -1720,7 +1779,7 @@
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
                                       <td
-                                        class="py-1.5"
+                                        class="py-1.5 text-sm"
                                         title="Estimated Revenue"
                                         >Revenue Est.</td
                                       >
