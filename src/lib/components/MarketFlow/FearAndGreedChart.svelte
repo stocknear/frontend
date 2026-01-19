@@ -60,23 +60,6 @@
             return "transparent";
         };
 
-        const isActive = (segmentName) => {
-            if (segmentName === "extremeFear") return fearAndGreedValue <= 25;
-            if (segmentName === "fear")
-                return fearAndGreedValue > 25 && fearAndGreedValue <= 45;
-            if (segmentName === "neutral")
-                return fearAndGreedValue > 45 && fearAndGreedValue <= 55;
-            if (segmentName === "greed")
-                return fearAndGreedValue > 55 && fearAndGreedValue <= 75;
-            if (segmentName === "extremeGreed") return fearAndGreedValue > 75;
-            return false;
-        };
-
-        const getLabelText = (segmentName, labelHtml) => {
-            if ($screenWidth < 640) return null;
-            return isActive(segmentName) ? labelHtml : null;
-        };
-
         // Responsive settings
         const isMobile = $screenWidth < 640;
         const bgColor = $mode === "light" ? "#000" : "#fff";
@@ -166,27 +149,6 @@
                             getBorderColor("extremeFear") === "transparent"
                                 ? 0
                                 : 3,
-                        label: {
-                            text: getLabelText(
-                                "extremeFear",
-                                "EXTREME<br/>FEAR",
-                            ),
-                            useHTML: true,
-                            align: "center",
-                            verticalAlign: "middle",
-                            x: 30,
-                            y: 70,
-                            style: {
-                                color: isActive("extremeFear")
-                                    ? "#fff"
-                                    : $mode === "light"
-                                      ? "#000"
-                                      : "#9ca3af",
-                                fontSize: "14px",
-                                fontWeight: "600",
-                                textAlign: "center",
-                            },
-                        },
                     },
                     {
                         from: 25,
@@ -196,22 +158,6 @@
                         borderColor: getBorderColor("fear"),
                         borderWidth:
                             getBorderColor("fear") === "transparent" ? 0 : 3,
-                        label: {
-                            text: getLabelText("fear", "FEAR"),
-                            align: "center",
-                            verticalAlign: "middle",
-                            x: 80,
-                            y: 20,
-                            style: {
-                                color: isActive("fear")
-                                    ? "#fff"
-                                    : $mode === "light"
-                                      ? "#000"
-                                      : "#9ca3af",
-                                fontSize: "14px",
-                                fontWeight: "600",
-                            },
-                        },
                     },
                     {
                         from: 45,
@@ -221,24 +167,6 @@
                         borderColor: getBorderColor("neutral"),
                         borderWidth:
                             getBorderColor("neutral") === "transparent" ? 0 : 3,
-                        label: {
-                            text: getLabelText("neutral", "NEUTRAL"),
-                            align: "center",
-                            verticalAlign: "middle",
-                            x: 0,
-                            y: -20,
-                            style: {
-                                color: isActive("neutral")
-                                    ? $mode === "light"
-                                        ? "#333"
-                                        : "#e5e7eb"
-                                    : $mode === "light"
-                                      ? "#000"
-                                      : "#9ca3af",
-                                fontSize: "14px",
-                                fontWeight: "600",
-                            },
-                        },
                     },
                     {
                         from: 55,
@@ -248,24 +176,6 @@
                         borderColor: getBorderColor("greed"),
                         borderWidth:
                             getBorderColor("greed") === "transparent" ? 0 : 3,
-                        label: {
-                            text: getLabelText("greed", "GREED"),
-                            align: "center",
-                            verticalAlign: "middle",
-                            x: -80,
-                            y: 20,
-                            style: {
-                                color: isActive("greed")
-                                    ? $mode === "light"
-                                        ? "#333"
-                                        : "#e5e7eb"
-                                    : $mode === "light"
-                                      ? "#000"
-                                      : "#9ca3af",
-                                fontSize: "14px",
-                                fontWeight: "600",
-                            },
-                        },
                     },
                     {
                         from: 75,
@@ -277,27 +187,6 @@
                             getBorderColor("extremeGreed") === "transparent"
                                 ? 0
                                 : 3,
-                        label: {
-                            text: getLabelText(
-                                "extremeGreed",
-                                "EXTREME<br/>GREED",
-                            ),
-                            useHTML: true,
-                            align: "center",
-                            verticalAlign: "middle",
-                            x: -30,
-                            y: 70,
-                            style: {
-                                color: isActive("extremeGreed")
-                                    ? "#fff"
-                                    : $mode === "light"
-                                      ? "#000"
-                                      : "#9ca3af",
-                                fontSize: "14px",
-                                fontWeight: "600",
-                                textAlign: "center",
-                            },
-                        },
                     },
                 ],
             },
