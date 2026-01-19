@@ -22,6 +22,7 @@ async function ensureHighcharts() {
     await import('highcharts/highcharts-more');
     await import('highcharts/modules/sankey');
     await import('highcharts/modules/heatmap');
+    await import('highcharts/modules/treemap');
     await import('highcharts/modules/stock');
 
     // Set global options

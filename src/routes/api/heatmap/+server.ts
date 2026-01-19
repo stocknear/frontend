@@ -6,8 +6,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   const postData = { params: data?.params, etf: data?.etf || "SPY" };
 
-
-
   const response = await fetch(apiURL + "/heatmap", {
     method: "POST",
     headers: {
@@ -17,8 +15,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     body: JSON.stringify(postData),
   });
 
-  const output = await response.text();
-  return new Response(JSON.stringify(output));
+  const output = await response.json();
+  return new Response(JSON.stringify(output), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
-
-

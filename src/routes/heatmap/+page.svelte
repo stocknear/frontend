@@ -3,74 +3,48 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import SEO from "$lib/components/SEO.svelte";
   import { setCache, getCache } from "$lib/store";
-  import { onDestroy, onMount } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import HeatmapChart from "$lib/components/HeatmapChart.svelte";
 
   export let data;
-  let isLoaded = false;
-  let isLoading = true;
+  let isLoading = false;
 
-  let rawData;
-  let iframe: HTMLIFrameElement;
+  // Use SSR data immediately
+  let heatmapData: any = data?.getHeatMap?.data ? data.getHeatMap : null;
   let selectedTimePeriod = "1D";
   let selectedETF = "SPY";
-  let iframeUrl;
 
-  onMount(async () => {
-    await getHeatMap("1D", "SPY");
-  });
+  async function getHeatMap(timePeriod: string, etf: string = selectedETF) {
+    // Skip if same selection
+    if (timePeriod === selectedTimePeriod && etf === selectedETF && heatmapData?.data) {
+      return;
+    }
 
-  async function getHeatMap(timePeriod, etf = selectedETF) {
     selectedTimePeriod = timePeriod;
     selectedETF = etf;
     isLoading = true;
 
     try {
-      const cacheKey = `${selectedETF}_${selectedTimePeriod}`;
+      const cacheKey = `heatmap_${etf}_${timePeriod}_v2`;
       const cachedData = getCache(cacheKey, "getHeatmap");
-      if (cachedData) {
-        rawData = cachedData;
+
+      if (cachedData?.data) {
+        heatmapData = cachedData;
       } else {
-        if (timePeriod === "1D" && etf === "SPY") {
-          rawData = data?.getHeatMap;
-        } else {
-          const postData = { params: selectedTimePeriod, etf: selectedETF };
-          const response = await fetch("/api/heatmap", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postData),
-          });
+        const postData = { params: timePeriod, etf: etf };
+        const response = await fetch("/api/heatmap", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData),
+        });
 
-          rawData = await response.json();
+        heatmapData = await response.json();
+        if (heatmapData?.data) {
+          setCache(cacheKey, heatmapData, "getHeatmap");
         }
-        setCache(cacheKey, rawData, "getHeatmap");
       }
-
-      const blob = new Blob([rawData], { type: "text/html" });
-      if (iframeUrl) {
-        URL.revokeObjectURL(iframeUrl);
-      }
-      iframeUrl = URL.createObjectURL(blob);
-
-      // Wait for iframe to load before considering it ready
-      if (iframe) {
-        const loadPromise = new Promise<void>((resolve) => {
-          iframe.onload = () => resolve();
-        });
-
-        // Set a timeout to prevent hanging if iframe doesn't load properly
-        const timeoutPromise = new Promise<void>((resolve) => {
-          setTimeout(() => resolve(), 500);
-        });
-
-        await Promise.race([loadPromise, timeoutPromise]);
-      }
-
-      isLoaded = true;
     } catch (error) {
       console.error("Error loading heatmap:", error);
       toast.error("Failed to load heatmap. Please try again.", {
@@ -80,65 +54,6 @@
       isLoading = false;
     }
   }
-
-  async function downloadPlot(item) {
-    return toast.promise(
-      (async () => {
-        let selectedFormat;
-
-        if (item === "PNG") {
-          selectedFormat = "png";
-        } else if (item === "JPG") {
-          selectedFormat = "jpeg";
-        } else {
-          selectedFormat = "svg";
-        }
-
-        if (!iframe || !isLoaded) throw new Error("Iframe not ready");
-
-        const iframeWindow = iframe.contentWindow;
-        if (!iframeWindow) throw new Error("Iframe window not available");
-
-        const Plotly = iframeWindow.Plotly;
-        if (!Plotly) throw new Error("Plotly not found in iframe");
-
-        const plotDiv =
-          iframe.contentDocument?.querySelector(".plotly-graph-div");
-        if (!plotDiv) throw new Error("Plotly div not found");
-
-        const options = {
-          format: selectedFormat,
-          width: 1200,
-          height: 800,
-        };
-
-        const imageData = await Plotly.toImage(plotDiv, options);
-
-        const link = document.createElement("a");
-        link.href = imageData;
-        link.download = `${selectedETF.toLowerCase()}-heatmap-${selectedTimePeriod}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      })(),
-      {
-        loading: "Downloading heatmap...",
-        success: "Heatmap downloaded!",
-        error: "Download failed. Try again.",
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      },
-    );
-  }
-
-  function handleIframeLoad() {
-    // This will be triggered when the iframe has fully loaded
-    isLoaded = true;
-    isLoading = false;
-  }
-
-  onDestroy(() => {
-    if (iframeUrl) URL.revokeObjectURL(iframeUrl);
-  });
 </script>
 
 <SEO
@@ -236,7 +151,7 @@
 
           <div class="flex flex-row items-center w-fit">
             <div
-              class="grid grid-cols-2 sm:grid-cols-4 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-4 w-full mt-5"
+              class="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-2 w-full mt-5"
             >
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
@@ -346,67 +261,12 @@
                   </DropdownMenu.Group>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
-
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild let:builder>
-                  <Button
-                    builders={[builder]}
-                    class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                    disabled={isLoading || !isLoaded}
-                  >
-                    <span class="truncate">Download</span>
-                    <svg
-                      class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      style="max-width:40px"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </Button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content
-                  side="bottom"
-                  align="end"
-                  sideOffset={10}
-                  alignOffset={0}
-                  class="w-auto h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-                >
-                  <div
-                    class="relative sticky z-40 focus:outline-hidden -top-1"
-                    tabindex="0"
-                    role="menu"
-                    style=""
-                  ></div>
-                  <DropdownMenu.Group>
-                    {#each ["PNG", "JPG", "SVG"] as item}
-                      <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
-                      >
-                        <div class="flex items-center">
-                          <button
-                            on:click={() => downloadPlot(item)}
-                            disabled={!isLoaded}
-                            class="cursor-pointer"
-                          >
-                            <span class="mr-8">Download {item}</span>
-                          </button>
-                        </div>
-                      </DropdownMenu.Item>
-                    {/each}
-                  </DropdownMenu.Group>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
             </div>
           </div>
-          <div class="w-full h-full overflow-hidden">
+
+          <div class="w-full mt-6">
             {#if isLoading}
-              <div class="flex justify-center items-center h-80">
+              <div class="flex justify-center items-center h-[500px] sm:h-[600px] lg:h-[750px]">
                 <div class="relative">
                   <label
                     class="border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -417,14 +277,8 @@
                   </label>
                 </div>
               </div>
-            {:else if rawData && iframeUrl && !isLoading}
-              <iframe
-                bind:this={iframe}
-                src={iframeUrl}
-                class="w-full h-screen border-none"
-                on:load={handleIframeLoad}
-                title="S&P 500 Heatmap"
-              />
+            {:else if heatmapData?.data}
+              <HeatmapChart data={heatmapData} />
             {:else}
               <div class="flex justify-center items-center h-80">
                 <p class="">No data available</p>
