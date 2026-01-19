@@ -41,13 +41,13 @@ const partitionStatements = (statements: any[] = [], canViewAll: boolean) => {
 
 const getFiscalYearValue = (statement: any) => {
   const year = Number(statement?.fiscalYear);
-  return Number.isFinite(year) ? year : null;
+  return Number?.isFinite(year) ? year : null;
 };
 
 const getPeriodEndingYearValue = (statement: any) => {
   const rawDate = statement?.date || statement?.fiscalDate;
   const parsed = rawDate ? Date.parse(rawDate) : Number.NaN;
-  if (!Number.isNaN(parsed)) {
+  if (!Number?.isNaN(parsed)) {
     return new Date(parsed).getFullYear();
   }
   return getFiscalYearValue(statement);
@@ -59,7 +59,7 @@ const formatLockedRange = (
 ) => {
   const values = statements
     .map(extractor)
-    .filter((value): value is number => Number.isFinite(value));
+    .filter((value): value is number => Number?.isFinite(value));
   if (!values.length) {
     return "";
   }

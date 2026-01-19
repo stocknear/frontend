@@ -2,13 +2,93 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
+const FREE_COLUMN_LIMIT = 5;
+const PREMIUM_TIERS = new Set(["Plus", "Pro"]);
+
+const getStatementTimestamp = (statement?: Record<string, any>) => {
+  if (!statement) return 0;
+  const dateValue = statement.date || statement.fiscalDate || statement.fiscalYear;
+  const parsed = Date.parse(dateValue);
+  if (!Number?.isNaN(parsed)) {
+    return parsed;
+  }
+  const fiscalYear = Number(statement?.fiscalYear);
+  if (Number?.isFinite(fiscalYear)) {
+    return Date.UTC(fiscalYear, 0, 1);
+  }
+  return 0;
+};
+
+const sortStatementsAscending = (statements: any[] = []) =>
+  [...statements].sort(
+    (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
+  );
+
+const partitionStatements = (statements: any[] = [], canViewAll: boolean) => {
+  if (!Array.isArray(statements)) {
+    return { visible: [], locked: [] };
+  }
+  const chronological = sortStatementsAscending(statements);
+  if (canViewAll) {
+    return { visible: chronological, locked: [] };
+  }
+  const startIndex = Math.max(chronological.length - FREE_COLUMN_LIMIT, 0);
+  return {
+    visible: chronological.slice(startIndex),
+    locked: chronological.slice(0, startIndex),
+  };
+};
+
+const getFiscalYearValue = (statement: any) => {
+  const year = Number(statement?.fiscalYear);
+  return Number?.isFinite(year) ? year : null;
+};
+
+const getPeriodEndingYearValue = (statement: any) => {
+  const rawDate = statement?.date || statement?.fiscalDate;
+  const parsed = rawDate ? Date.parse(rawDate) : Number.NaN;
+  if (!Number?.isNaN(parsed)) {
+    return new Date(parsed).getFullYear();
+  }
+  return getFiscalYearValue(statement);
+};
+
+const formatLockedRange = (
+  statements: any[] = [],
+  extractor: (statement: any) => number | null,
+) => {
+  const values = statements
+    .map(extractor)
+    .filter((value): value is number => Number?.isFinite(value));
+  if (!values.length) {
+    return "";
+  }
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  return min === max ? `${min}` : `${min}-${max}`;
+};
+
+const limitStatements = (statements: any[], canViewAll: boolean) =>
+  partitionStatements(statements, canViewAll).visible;
+
+const buildLockInfo = (statements: any[], canViewAll: boolean) => {
+  const { locked } = partitionStatements(statements, canViewAll);
+  return {
+    hasLockedData: locked.length > 0,
+    lockedFiscalYearRange: formatLockedRange(locked, getFiscalYearValue),
+    lockedPeriodRange: formatLockedRange(locked, getPeriodEndingYearValue),
+  };
+};
+
 export const load = async ({ locals, params }) => {
+  const { apiKey, apiURL, user } = locals;
+  const postData = {
+    ticker: params.tickerID,
+    statement: 'cash-flow-statement',
+  };
+  const canViewAllHistory = PREMIUM_TIERS.has(user?.tier);
+
   const getData = async () => {
-    const { apiKey, apiURL } = locals;
-    const postData = {
-      ticker: params.tickerID,
-      statement: 'cash-flow-statement',
-    };
     // make the POST request to the endpoint
     const response = await fetch(apiURL + "/financial-statement", {
       method: "POST",
@@ -19,16 +99,42 @@ export const load = async ({ locals, params }) => {
       body: JSON.stringify(postData),
     });
 
-    const output = await response.json();
+    let output = await response.json();
 
-    return output;
+    const financialLockInfo = Array.isArray(output)
+      ? {
+          annual: buildLockInfo(output, canViewAllHistory),
+          quarterly: buildLockInfo(output, canViewAllHistory),
+          ttm: buildLockInfo(output, canViewAllHistory),
+        }
+      : {
+          annual: buildLockInfo(output?.annual, canViewAllHistory),
+          quarterly: buildLockInfo(output?.quarter, canViewAllHistory),
+          ttm: buildLockInfo(output?.ttm, canViewAllHistory),
+        };
+
+    if (!canViewAllHistory) {
+      if (Array.isArray(output)) {
+        output = limitStatements(output, false);
+      } else if (output && typeof output === "object") {
+        output = {
+          ...output,
+          annual: limitStatements(output?.annual, false),
+          quarter: limitStatements(output?.quarter, false),
+          ttm: limitStatements(output?.ttm, false),
+        };
+      }
+    }
+
+    return { output, financialLockInfo };
   };
 
-
-
   // Make sure to return a promise
+  const { output, financialLockInfo } = await getData();
+
   return {
-    getData: await getData(),
+    getData: output,
+    financialLockInfo,
   };
 };
 
