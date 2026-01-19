@@ -95,7 +95,8 @@
   function updateDailyPagination() {
     const selectedDayData = weekday?.[selectedWeekday] ?? [];
     // Use filtered data if searching, otherwise use original data
-    const dataSource = inputValue?.length > 0 ? filteredDayData : selectedDayData;
+    const dataSource =
+      inputValue?.length > 0 ? filteredDayData : selectedDayData;
     const totalItems = dataSource?.length || 0;
     dailyTotalPages =
       totalItems === 0 ? 1 : Math.ceil(totalItems / dailyRowsPerPage);
@@ -632,104 +633,159 @@
               {#if timeframe === "Daily" || timeframe === "Details"}
                 <!-- Daily/Details View -->
                 <!-- Cards -->
-                <div
-                  class=" w-full flex flex-row justify-center m-auto items-center"
-                >
-                  <!-- Start Columns -->
-                  <label
-                    on:click={() => changeWeek("previous")}
-                    class="{previousMax
-                      ? 'opacity-80'
-                      : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
+                {#if timeframe === "Daily"}
+                  <div
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
                   >
-                    <svg
-                      class="w-6 h-6 m-auto rotate-180"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path fill="currentColor" d={arrowIcon} />
-                    </svg>
-                  </label>
-                  {#each weekday as day, index}
-                    <div
-                      class="w-full {index === selectedWeekday
-                        ? ''
-                        : 'hidden sm:block'}"
-                    >
-                      <label
+                    {#each weekday as day, index}
+                      <div
                         on:click={() => toggleDate(index)}
-                        class=" m-auto w-full cursor-pointer h-16 {index ===
-                        selectedWeekday
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index === selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                          : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                          : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
                       >
-                        <div
-                          class=" flex flex-row justify-center items-center w-full"
+                        <span class="text-[1rem]"
+                          >{formattedWeekday[index]}</span
                         >
-                          <label
-                            on:click={() => clickWeekday("previous", index)}
-                            class="{previousMax === true && index === 0
-                              ? 'opacity-20'
-                              : ''} sm:hidden ml-auto"
+                        <span class="text-sm">{day?.length} Dividends</span>
+                        {#if index === 0}
+                          <button
+                            on:click|stopPropagation={() =>
+                              changeWeek("previous")}
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Previous week"
+                            disabled={previousMax}
                           >
                             <svg
-                              class="w-8 h-8 inline-block rotate-180"
+                              class="h-5 w-5 rotate-180"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                             >
                               <path fill="currentColor" d={arrowIcon} />
                             </svg>
-                          </label>
-                          <div
-                            class="flex flex-col items-center truncate m-auto p-1"
-                          >
-                            <span class="text-[1rem]"
-                              >{formattedWeekday[index]}</span
-                            >
-                            <span
-                              class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
-                            >
-                              {day?.length} Dividends</span
-                            >
-                          </div>
-                          <label
-                            on:click={() => clickWeekday("next", index)}
-                            class="{nextMax === true && index === 4
-                              ? 'opacity-20'
-                              : ''} sm:hidden mr-auto"
+                          </button>
+                        {/if}
+                        {#if index === 4}
+                          <button
+                            on:click|stopPropagation={() => changeWeek("next")}
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Next week"
+                            disabled={nextMax}
                           >
                             <svg
-                              class="w-8 h-8 inline-block"
+                              class="h-5 w-5"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                             >
                               <path fill="currentColor" d={arrowIcon} />
                             </svg>
-                          </label>
-                        </div>
-                      </label>
-                    </div>
-                  {/each}
-                  <label
-                    on:click={() => changeWeek("next")}
-                    class="{nextMax
-                      ? 'opacity-80'
-                      : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
+                          </button>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                {:else}
+                  <div
+                    class=" w-full flex flex-row justify-center m-auto items-center"
                   >
-                    <svg
-                      class="w-6 h-6 m-auto"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
+                    <!-- Start Columns -->
+                    <label
+                      on:click={() => changeWeek("previous")}
+                      class="{previousMax
+                        ? 'opacity-80'
+                        : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
                     >
-                      <path fill="currentColor" d={arrowIcon} />
-                    </svg>
-                  </label>
-                </div>
+                      <svg
+                        class="w-6 h-6 m-auto rotate-180"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path fill="currentColor" d={arrowIcon} />
+                      </svg>
+                    </label>
+                    {#each weekday as day, index}
+                      <div
+                        class="w-full {index === selectedWeekday
+                          ? ''
+                          : 'hidden sm:block'}"
+                      >
+                        <label
+                          on:click={() => toggleDate(index)}
+                          class=" m-auto w-full cursor-pointer h-16 {index ===
+                          selectedWeekday
+                            ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
+                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                        >
+                          <div
+                            class=" flex flex-row justify-center items-center w-full"
+                          >
+                            <label
+                              on:click={() => clickWeekday("previous", index)}
+                              class="{previousMax === true && index === 0
+                                ? 'opacity-20'
+                                : ''} sm:hidden ml-auto"
+                            >
+                              <svg
+                                class="w-8 h-8 inline-block rotate-180"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                              >
+                                <path fill="currentColor" d={arrowIcon} />
+                              </svg>
+                            </label>
+                            <div
+                              class="flex flex-col items-center truncate m-auto p-1"
+                            >
+                              <span class="text-[1rem]"
+                                >{formattedWeekday[index]}</span
+                              >
+                              <span
+                                class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
+                              >
+                                {day?.length} Dividends</span
+                              >
+                            </div>
+                            <label
+                              on:click={() => clickWeekday("next", index)}
+                              class="{nextMax === true && index === 4
+                                ? 'opacity-20'
+                                : ''} sm:hidden mr-auto"
+                            >
+                              <svg
+                                class="w-8 h-8 inline-block"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                              >
+                                <path fill="currentColor" d={arrowIcon} />
+                              </svg>
+                            </label>
+                          </div>
+                        </label>
+                      </div>
+                    {/each}
+                    <label
+                      on:click={() => changeWeek("next")}
+                      class="{nextMax
+                        ? 'opacity-80'
+                        : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
+                    >
+                      <svg
+                        class="w-6 h-6 m-auto"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path fill="currentColor" d={arrowIcon} />
+                      </svg>
+                    </label>
+                  </div>
+                {/if}
 
                 {#each weekday as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5">
+                      <div
+                        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5"
+                      >
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
@@ -737,7 +793,9 @@
                           Dividends
                         </h2>
 
-                        <div class="flex flex-row items-center w-full sm:w-auto">
+                        <div
+                          class="flex flex-row items-center w-full sm:w-auto"
+                        >
                           <div class="relative w-full sm:w-auto">
                             <div
                               class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -773,7 +831,9 @@
                           <div class="ml-2">
                             <DownloadData
                               {data}
-                              rawData={inputValue?.length > 0 ? filteredDayData : day}
+                              rawData={inputValue?.length > 0
+                                ? filteredDayData
+                                : day}
                               title={"dividends_calendar"}
                             />
                           </div>
@@ -1050,83 +1110,85 @@
                 <!-- Weekly View Container -->
                 <div class="flex flex-col w-full">
                   <div
-                    class="w-full flex flex-row justify-center m-auto items-center"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
                   >
-                    <label
-                      on:click={() => changeWeek("previous")}
-                      class="{previousMax
-                        ? 'opacity-80'
-                        : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
-                    >
-                      <svg
-                        class="w-6 h-6 m-auto rotate-180"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path fill="currentColor" d={arrowIcon} />
-                      </svg>
-                    </label>
                     {#each weekday as day, index}
-                      <div class="w-full">
-                        <label
-                          on:click={() => switchToDailyView(index)}
-                          class="m-auto w-full cursor-pointer h-16 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 rounded-full sm:rounded-none flex {borderClasses} mb-3 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      <div
+                        on:click={() => switchToDailyView(index)}
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                      >
+                        <span class="text-[1rem]"
+                          >{formattedWeekday[index]}</span
                         >
-                          <div
-                            class="flex flex-col items-center truncate m-auto p-1"
+                        <span class="text-sm">{day?.length} Dividends</span>
+                        {#if index === 0}
+                          <button
+                            on:click|stopPropagation={() =>
+                              changeWeek("previous")}
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Previous week"
+                            disabled={previousMax}
                           >
-                            <span class="text-[1rem]"
-                              >{formattedWeekday[index]}</span
+                            <svg
+                              class="h-5 w-5 rotate-180"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
                             >
-                            <span
-                              class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
+                              <path fill="currentColor" d={arrowIcon} />
+                            </svg>
+                          </button>
+                        {/if}
+                        {#if index === 4}
+                          <button
+                            on:click|stopPropagation={() => changeWeek("next")}
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Next week"
+                            disabled={nextMax}
+                          >
+                            <svg
+                              class="h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
                             >
-                              {day?.length} Dividends</span
-                            >
-                          </div>
-                        </label>
+                              <path fill="currentColor" d={arrowIcon} />
+                            </svg>
+                          </button>
+                        {/if}
                       </div>
                     {/each}
-                    <label
-                      on:click={() => changeWeek("next")}
-                      class="{nextMax
-                        ? 'opacity-80'
-                        : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
-                    >
-                      <svg
-                        class="w-6 h-6 m-auto"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path fill="currentColor" d={arrowIcon} />
-                      </svg>
-                    </label>
                   </div>
 
-                  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                  <div
+                    class="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-0 border-l border-r border-gray-200/70 dark:border-zinc-800/80 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each weekday as day, dayIndex}
-                      <div class="flex flex-col">
-                        <div class="space-y-2">
-                          {#if day?.length > 0}
+                      <div class="min-w-0 px-1 py-1">
+                        {#if day?.length > 0}
+                          <div class="space-y-2">
                             {#each day as item, itemIndex}
                               {@const isExpanded =
                                 expandedItems[`${dayIndex}-${itemIndex}`]}
                               <div
-                                class="w-full rounded-2xl {borderClasses} bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                                class="w-full rounded-lg {borderClasses} bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
                               >
                                 <div
                                   on:click={() =>
                                     toggleExpanded(dayIndex, itemIndex)}
-                                  class="flex w-full cursor-pointer items-center justify-between px-3 py-2"
+                                  class="flex w-full cursor-pointer items-center justify-between gap-2 px-3 py-2"
                                 >
-                                  <span class="max-w-[92%] truncate">
-                                    <HoverStockChart symbol={item?.symbol} />
-                                    <span class="truncate">
-                                      · {item?.name}</span
+                                  <span class="flex min-w-0 items-center gap-1">
+                                    <span
+                                      class="shrink-0"
+                                      on:click|stopPropagation
                                     >
+                                      <HoverStockChart symbol={item?.symbol} />
+                                    </span>
+                                    <span class="min-w-0 truncate">
+                                      · {item?.name}
+                                    </span>
                                   </span>
                                   <svg
-                                    class="h-4 w-4"
+                                    class="h-4 w-4 shrink-0"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                   >
@@ -1150,7 +1212,9 @@
                                           <tr
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
-                                            <td class="py-1.5">Ex-Date</td>
+                                            <td class="py-1.5 text-sm"
+                                              >Ex-Date</td
+                                            >
                                             <td
                                               class="text-right font-semibold"
                                             >
@@ -1170,7 +1234,9 @@
                                             <tr
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
-                                              <td class="py-1.5">Market Cap</td>
+                                              <td class="py-1.5 text-sm"
+                                                >Market Cap</td
+                                              >
                                               <td
                                                 class="text-right font-semibold"
                                               >
@@ -1185,7 +1251,9 @@
                                           <tr
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
-                                            <td class="py-1.5">Amount</td>
+                                            <td class="py-1.5 text-sm"
+                                              >Amount</td
+                                            >
                                             <td
                                               class="text-right font-semibold"
                                             >
@@ -1196,7 +1264,9 @@
                                           <tr
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
-                                            <td class="py-1.5">Revenue</td>
+                                            <td class="py-1.5 text-sm"
+                                              >Revenue</td
+                                            >
                                             <td
                                               class="text-right font-semibold"
                                             >
@@ -1231,14 +1301,14 @@
                                 {/if}
                               </div>
                             {/each}
-                          {:else}
-                            <div
-                              class="text-center text-gray-500 dark:text-gray-400 py-4"
-                            >
-                              No dividends
-                            </div>
-                          {/if}
-                        </div>
+                          </div>
+                        {:else}
+                          <div
+                            class="text-center text-gray-500 dark:text-gray-400 py-8"
+                          >
+                            No dividends
+                          </div>
+                        {/if}
                       </div>
                     {/each}
                   </div>
@@ -1382,7 +1452,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5">Date</td>
+                                      <td class="py-1.5 text-sm">Date</td>
                                       <td class="text-right font-semibold">
                                         {new Date(
                                           item?.date,
@@ -1396,7 +1466,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5">Dividend</td>
+                                      <td class="py-1.5 text-sm">Dividend</td>
                                       <td class="text-right font-semibold">
                                         ${item?.adjDividend?.toFixed(4) ||
                                           "n/a"}
@@ -1405,7 +1475,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5">Revenue</td>
+                                      <td class="py-1.5 text-sm">Revenue</td>
                                       <td class="text-right font-semibold">
                                         {item?.revenue
                                           ? `$${abbreviateNumber(item?.revenue, false, true)}`
@@ -1415,7 +1485,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5">Ex-Date</td>
+                                      <td class="py-1.5 text-sm">Ex-Date</td>
                                       <td class="text-right font-semibold">
                                         {item?.exDividendDate
                                           ? new Date(
