@@ -1379,7 +1379,7 @@
                                   class="flex w-full cursor-pointer items-center justify-between gap-2 px-3 py-2"
                                 >
                                   <span class="flex min-w-0 items-center gap-1">
-                                    <span class="shrink-0">
+                                    <span class="shrink-0" on:click|stopPropagation>
                                       <HoverStockChart symbol={item?.symbol} />
                                     </span>
                                     <span class="min-w-0 truncate">
