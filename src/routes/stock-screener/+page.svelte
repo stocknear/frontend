@@ -4421,34 +4421,40 @@ const handleKeyDown = (event) => {
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
-                  <td class=" whitespace-nowrap">
-                    <a
-                      href={"/stocks/" + item?.symbol}
-                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
-                      >{item?.symbol}</a
-                    >
-                  </td>
-                  <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
-                    {item?.name?.length > charNumber
-                      ? item?.name?.slice(0, charNumber) + "..."
-                      : item?.name}
-                  </td>
-                  <td
-                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                  >
-                    {abbreviateNumber(item?.marketCap)}
-                  </td>
-                  {#each displayRules as row (row?.rule)}
-                    {#if row?.rule !== "marketCap"}
+                  {#each columns as column}
+                    {#if column.key === "symbol"}
+                      <td class=" whitespace-nowrap">
+                        <a
+                          href={"/stocks/" + item?.symbol}
+                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          >{item?.symbol}</a
+                        >
+                      </td>
+                    {:else if column.key === "name"}
+                      <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </td>
+                    {:else if column.key === "marketCap"}
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency"]?.includes(row?.rule)}
-                          {item[row?.rule]
+                        {abbreviateNumber(item?.marketCap)}
+                      </td>
+                    {:else}
+                      {@const row = displayRules?.find(
+                        (r) => r.rule === column.key,
+                      )}
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                      >
+                        {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency"]?.includes(column.key)}
+                          {item[column.key]
                             ?.replace("After Market Close", "After Close")
                             ?.replace("Before Market Open", "Before Open")}
                         {:else if row?.varType && row?.varType === "date"}
-                          {new Date(item[row?.rule]).toLocaleDateString(
+                          {new Date(item[column.key]).toLocaleDateString(
                             "en-US",
                             {
                               year: "numeric",
@@ -4459,33 +4465,33 @@ const handleKeyDown = (event) => {
                           )}
                         {:else if row?.varType && row?.varType === "percentSign"}
                           <span
-                            class={item[row?.rule] >= 0
+                            class={item[column.key] >= 0
                               ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                               : "text-rose-600 dark:text-rose-400"}
                           >
-                            {abbreviateNumber(item[row?.rule])}%
+                            {abbreviateNumber(item[column.key])}%
                           </span>
                         {:else if row?.varType && row?.varType === "percent"}
-                          {abbreviateNumber(item[row?.rule])}%
-                        {:else if ["score", "analystRating", "topAnalystRating"]?.includes(row?.rule)}
-                          {#if ["Strong Buy", "Buy"].includes(item[row?.rule])}
+                          {abbreviateNumber(item[column.key])}%
+                        {:else if ["score", "analystRating", "topAnalystRating"]?.includes(column.key)}
+                          {#if ["Strong Buy", "Buy"].includes(item[column.key])}
                             <span
                               class=" text-emerald-600 dark:text-emerald-400"
-                              >{item[row?.rule]}</span
+                              >{item[column.key]}</span
                             >
-                          {:else if ["Strong Sell", "Sell"].includes(item[row?.rule])}
+                          {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
                             <span class=" text-rose-600 dark:text-rose-400"
-                              >{item[row?.rule]}</span
+                              >{item[column.key]}</span
                             >
-                          {:else if item[row?.rule] === "Hold"}
+                          {:else if item[column.key] === "Hold"}
                             <span class=" text-orange-800 dark:text-[#FFA838]"
-                              >{item[row?.rule]}</span
+                              >{item[column.key]}</span
                             >
                           {:else}
                             -
                           {/if}
                         {:else}
-                          {abbreviateNumber(item[row?.rule])}
+                          {abbreviateNumber(item[column.key])}
                         {/if}
                       </td>
                     {/if}
