@@ -16,7 +16,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        "3xl": "1900px",
+        "3xl": '1920px',
       },
       fontFamily: {
         sans: [
