@@ -34,9 +34,7 @@
             return inactiveColor;
         };
 
-        // border color for the active band (mint outline shown on screenshot)
         const getBorderColor = (segmentName) => {
-            // only return visible border for the currently active segment
             if (fearAndGreedValue <= 25 && segmentName === "extremeFear")
                 return "#D94A30";
             if (
@@ -56,13 +54,12 @@
                 fearAndGreedValue <= 75 &&
                 segmentName === "greed"
             )
-                return "#26A892"; // mint/teal border
+                return "#26A892";
             if (fearAndGreedValue > 75 && segmentName === "extremeGreed")
                 return "#47B84A";
             return "transparent";
         };
 
-        // helper to check whether a segment is currently active
         const isActive = (segmentName) => {
             if (segmentName === "extremeFear") return fearAndGreedValue <= 25;
             if (segmentName === "fear")
@@ -75,12 +72,23 @@
             return false;
         };
 
-        // helper to return label text (or null when inactive). Accepts an optional HTML label for multi-line labels.
         const getLabelText = (segmentName, labelHtml) => {
-            // hide label entirely on small screens as before
             if ($screenWidth < 640) return null;
             return isActive(segmentName) ? labelHtml : null;
         };
+
+        // Responsive settings
+        const isMobile = $screenWidth < 640;
+        const bgColor = $mode === "light" ? "#000" : "#fff";
+        const textColor = $mode === "light" ? "#fff" : "#000";
+        const categoryColor = $mode === "light" ? "#374151" : "#e5e7eb";
+        const circleSize = isMobile ? 50 : 70;
+        const fontSize = isMobile ? 16 : 22;
+        const paneSize = isMobile ? "110%" : "140%";
+        const paneCenter = isMobile ? ["50%", "80%"] : ["50%", "85%"];
+        const dataLabelY = isMobile ? 55 : 80;
+        const chartHeight = isMobile ? 280 : 360;
+        const bandThickness = isMobile ? 28 : 36;
 
         const options = {
             credits: { enabled: false },
@@ -88,56 +96,13 @@
                 type: "gauge",
                 backgroundColor: $mode === "light" ? "#fff" : "#09090B",
                 plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                height: 360,
-                animation: false, // disable chart-level animation
+                height: chartHeight,
+                animation: false,
             },
-
-            // Disable animations globally for series/gauge and disable hover states
-            plotOptions: {
-                series: {
-                    animation: false,
-                    states: {
-                        hover: { enabled: false },
-                        inactive: { enabled: false },
-                    },
-                    dataLabels: {
-                        animation: false,
-                    },
-                },
-                gauge: {
-                    animation: false,
-                },
-            },
-
-            title: {
-                text: `
-    <div class="text-center mt-3 -mb-12">
-        <!-- Circle wrapper -->
-        <div
-            class="w-[55px] h-[55px] sm:w-[70px] sm:h-[70px] rounded-full
-                   ${
-                       $mode === "light"
-                           ? "bg-black shadow-[0_12px_20px_rgba(0,0,0,0.12)]"
-                           : "bg-[#fff] shadow-[0_6px_16px_rgba(0,0,0,0.4)]"
-                   }
-                   flex items-center justify-center mx-auto"
-        >
-            <div class="text-xl font-extrabold ${$mode === "light" ? "text-white" : "text-black"}">
-                ${fearAndGreedValue}
-            </div>
-        </div>
-
-        <!-- Subtitle -->
-        <div class="text-sm sm:hidden capitalize ${$mode === "light" ? "text-gray-800" : "text-gray-100"} mt-2">
-            ${currentCategory}
-        </div>
-    </div>
-    `,
-                useHTML: true,
-                verticalAlign: "middle",
-                y: 70,
-            },
+            title: null,
             pane: {
+                center: paneCenter,
+                size: paneSize,
                 startAngle: -90,
                 endAngle: 90,
                 background: [
@@ -145,18 +110,28 @@
                         backgroundColor: "transparent",
                         borderWidth: 0,
                         outerRadius: "100%",
-                    },
-                    {
-                        backgroundColor:
-                            $mode === "light" ? "#ffffff" : "#18181b",
-                        borderWidth: 0,
                         innerRadius: "60%",
-                        outerRadius: "60%",
                         shape: "arc",
                     },
                 ],
-                center: ["50%", "75%"],
-                size: "100%",
+            },
+            plotOptions: {
+                series: {
+                    animation: false,
+                    states: {
+                        hover: { enabled: false },
+                        inactive: { enabled: false },
+                    },
+                },
+                gauge: {
+                    animation: false,
+                    dataLabels: {
+                        enabled: true,
+                        useHTML: true,
+                        borderWidth: 0,
+                        y: dataLabelY,
+                    },
+                },
             },
             yAxis: {
                 min: 0,
@@ -167,6 +142,7 @@
                 tickWidth: 0,
                 labels: {
                     distance: 20,
+                    y: 16,
                     style: {
                         color: $mode === "light" ? "#6b7280" : "#d1d5db",
                         fontSize: "13px",
@@ -184,7 +160,7 @@
                         from: 0,
                         to: 25,
                         color: getSegmentColor("extremeFear"),
-                        thickness: 36,
+                        thickness: bandThickness,
                         borderColor: getBorderColor("extremeFear"),
                         borderWidth:
                             getBorderColor("extremeFear") === "transparent"
@@ -198,8 +174,8 @@
                             useHTML: true,
                             align: "center",
                             verticalAlign: "middle",
-                            x: 40,
-                            y: -22,
+                            x: 30,
+                            y: 70,
                             style: {
                                 color: isActive("extremeFear")
                                     ? "#fff"
@@ -216,7 +192,7 @@
                         from: 25,
                         to: 45,
                         color: getSegmentColor("fear"),
-                        thickness: 36,
+                        thickness: bandThickness,
                         borderColor: getBorderColor("fear"),
                         borderWidth:
                             getBorderColor("fear") === "transparent" ? 0 : 3,
@@ -224,8 +200,8 @@
                             text: getLabelText("fear", "FEAR"),
                             align: "center",
                             verticalAlign: "middle",
-                            x: 55,
-                            y: -44,
+                            x: 80,
+                            y: 20,
                             style: {
                                 color: isActive("fear")
                                     ? "#fff"
@@ -241,7 +217,7 @@
                         from: 45,
                         to: 55,
                         color: getSegmentColor("neutral"),
-                        thickness: 36,
+                        thickness: bandThickness,
                         borderColor: getBorderColor("neutral"),
                         borderWidth:
                             getBorderColor("neutral") === "transparent" ? 0 : 3,
@@ -249,8 +225,8 @@
                             text: getLabelText("neutral", "NEUTRAL"),
                             align: "center",
                             verticalAlign: "middle",
-                            x: -200,
-                            y: -40,
+                            x: 0,
+                            y: -20,
                             style: {
                                 color: isActive("neutral")
                                     ? $mode === "light"
@@ -268,7 +244,7 @@
                         from: 55,
                         to: 75,
                         color: getSegmentColor("greed"),
-                        thickness: 36,
+                        thickness: bandThickness,
                         borderColor: getBorderColor("greed"),
                         borderWidth:
                             getBorderColor("greed") === "transparent" ? 0 : 3,
@@ -276,8 +252,8 @@
                             text: getLabelText("greed", "GREED"),
                             align: "center",
                             verticalAlign: "middle",
-                            x: -30,
-                            y: -44,
+                            x: -80,
+                            y: 20,
                             style: {
                                 color: isActive("greed")
                                     ? $mode === "light"
@@ -295,7 +271,7 @@
                         from: 75,
                         to: 100,
                         color: getSegmentColor("extremeGreed"),
-                        thickness: 36,
+                        thickness: bandThickness,
                         borderColor: getBorderColor("extremeGreed"),
                         borderWidth:
                             getBorderColor("extremeGreed") === "transparent"
@@ -309,8 +285,8 @@
                             useHTML: true,
                             align: "center",
                             verticalAlign: "middle",
-                            x: -50,
-                            y: -22,
+                            x: -30,
+                            y: 70,
                             style: {
                                 color: isActive("extremeGreed")
                                     ? "#fff"
@@ -329,12 +305,20 @@
                 {
                     name: "Fear & Greed",
                     data: [fearAndGreedValue],
-                    animation: false, // disable series-level animation
-                    tooltip: { valueSuffix: "" },
-                    dataLabels: { enabled: false, animation: false },
+                    animation: false,
+                    dataLabels: {
+                        formatter: function () {
+                            return `<div style="text-align:center">
+                                <div style="width:${circleSize}px;height:${circleSize}px;border-radius:50%;background:${bgColor};display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 16px rgba(0,0,0,0.3)">
+                                    <span style="font-size:${fontSize}px;font-weight:800;color:${textColor}">${this.y}</span>
+                                </div>
+                                <div style="font-size:14px;color:${categoryColor};margin-top:8px;text-transform:capitalize;font-weight:500">${currentCategory}</div>
+                            </div>`;
+                        },
+                    },
                     dial: {
                         radius: "80%",
-                        backgroundColor: $mode === "light" ? "#161616" : "#fff", // black vs golden needle
+                        backgroundColor: $mode === "light" ? "#161616" : "#fff",
                         baseWidth: 10,
                         baseLength: "10%",
                         rearLength: "-10%",
@@ -359,12 +343,12 @@
 
     let config: any = null;
 
-    $: if ($mode) {
+    $: if ($mode || $screenWidth) {
         config = plotFearAndGreed();
     }
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl"
+    class="border border-gray-300 dark:border-zinc-700 rounded-2xl h-[280px] sm:h-[360px] overflow-hidden"
     use:highcharts={config}
 ></div>
