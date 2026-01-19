@@ -6688,7 +6688,7 @@
   // Watermark bottom offset: volume pane (120px) + buffer (80px) + panel indicators height
   $: watermarkBottom = 150 + panelIndicatorsHeight;
   // Event marker position slightly above volume y=0 (bottom of volume pane + offset)
-  $: eventMarkerBottom = panelIndicatorsHeight + 20;
+  $: eventMarkerBottom = panelIndicatorsHeight + 28;
   $: technicalGroups = Object.entries(groupedIndicators)
     .filter(
       ([cat]) =>
