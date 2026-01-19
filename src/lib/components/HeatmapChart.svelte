@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
     import { browser } from "$app/environment";
-    import { screenWidth } from "$lib/store";
     import { mode } from "mode-watcher";
     import { goto } from "$app/navigation";
     import { ensureHighcharts } from "$lib/highcharts";
@@ -13,6 +12,7 @@
     let isInitializing = false;
     let pendingInit = false;
     let currentDataId = "";
+    let eventRegistered = false;
 
     function destroyChart() {
         if (chart) {
@@ -45,6 +45,57 @@
             return;
         }
 
+        // Register the drawDataLabels event handler once for dynamic styling
+        if (!eventRegistered) {
+            Highcharts.addEvent(Highcharts.Series, 'drawDataLabels', function () {
+                const series = this as any;
+                if (series.type !== 'treemap') return;
+
+                const points = series.points || [];
+
+                for (const point of points) {
+                    if (!point.dataLabel || !point.node) continue;
+
+                    const level = point.node.level;
+                    const shapeArgs = point.shapeArgs;
+
+                    if (!shapeArgs) continue;
+
+                    const area = shapeArgs.width * shapeArgs.height;
+
+                    // Level 2: Color the header based on children's weighted performance
+                    if (level === 2 && point.dataLabel.element) {
+                        const children = point.node.children || [];
+                        let totalValue = 0;
+                        let totalColorValue = 0;
+
+                        for (const child of children) {
+                            const childPoint = child.point;
+                            if (childPoint && typeof childPoint.value === 'number' && typeof childPoint.colorValue === 'number') {
+                                totalValue += childPoint.value;
+                                totalColorValue += childPoint.colorValue * childPoint.value;
+                            }
+                        }
+
+                        const avgColorValue = totalValue > 0 ? totalColorValue / totalValue : 0;
+                        const colorAxis = series.colorAxis;
+
+                        if (colorAxis) {
+                            const color = colorAxis.toColor(avgColorValue, point);
+                            point.dataLabel.css({ backgroundColor: color });
+                        }
+                    }
+
+                    // Level 3: Dynamic font sizing based on area
+                    if (level === 3 && point.dataLabel.element) {
+                        const fontSize = Math.min(32, 7 + Math.round(area * 0.0008));
+                        point.dataLabel.css({ fontSize: fontSize + 'px' });
+                    }
+                }
+            });
+            eventRegistered = true;
+        }
+
         destroyChart();
 
         const colorRange = data.colorRange || 10;
@@ -55,12 +106,20 @@
         const subtleTextColor = isDark ? "#a1a1aa" : "#6b7280";
 
         chart = Highcharts.chart(container, {
-            accessibility: { enabled: false },
             chart: {
                 backgroundColor: bgColor,
-                animation: false,
+                animation: { duration: 0 },
                 spacing: [0, 0, 0, 0],
             },
+            plotOptions: {
+                series: {
+                    animation: false,
+                },
+                treemap: {
+                    animation: false,
+                },
+            },
+            accessibility: { enabled: false },
             credits: { enabled: false },
             title: { text: null },
             colorAxis: {
@@ -82,26 +141,23 @@
             },
             legend: { enabled: false },
             tooltip: {
-                useHTML: true,
                 followPointer: true,
                 outside: true,
-                backgroundColor: "rgba(0,0,0,0.9)",
-                borderColor: "rgba(255,255,255,0.2)",
-                borderWidth: 1,
-                style: { color: "#fff", fontSize: "13px" },
-                headerFormat: '<span style="font-size:0.9em">{point.custom.fullName}</span><br/>',
+                headerFormat: '<span style="font-size: 0.9em">{point.custom.fullName}</span><br/>',
                 pointFormat: '<b>Market Cap:</b> USD {(divide point.value 1000000000):.1f} bln<br/>' +
                     '{#if point.custom.performance}<b>Performance:</b> {point.custom.performance}{/if}',
             },
             series: [{
+                name: "All",
                 type: "treemap",
                 layoutAlgorithm: "squarified",
                 allowDrillToNode: true,
                 animationLimit: 0,
                 animation: false,
                 borderColor: borderColor,
-                borderWidth: 1,
-                opacity: 1,
+                color: borderColor,
+                opacity: 0.01,
+                nodeSizeBy: "leaf",
                 dataLabels: {
                     enabled: false,
                     allowOverlap: true,
@@ -115,66 +171,52 @@
                         level: 1,
                         dataLabels: {
                             enabled: true,
+                            headers: true,
                             align: "left",
-                            verticalAlign: "top",
                             style: {
                                 fontWeight: "bold",
-                                fontSize: "0.75em",
+                                fontSize: "0.7em",
+                                lineClamp: 1,
+                                textTransform: "uppercase",
                                 color: textColor,
                                 textOutline: "none",
-                                textTransform: "uppercase",
                             },
-                            padding: 5,
+                            padding: 3,
                         },
                         borderWidth: 3,
-                        borderColor: borderColor,
                         levelIsConstant: false,
                     },
                     {
                         level: 2,
                         dataLabels: {
                             enabled: true,
+                            headers: true,
                             align: "center",
-                            verticalAlign: "top",
-                            padding: 2,
+                            shape: "callout",
+                            backgroundColor: "gray",
+                            borderWidth: 1,
+                            borderColor: borderColor,
+                            padding: 0,
                             style: {
                                 color: "white",
                                 fontWeight: "normal",
-                                fontSize: "0.65em",
+                                fontSize: "0.6em",
+                                lineClamp: 1,
                                 textOutline: "none",
                                 textTransform: "uppercase",
                             },
                         },
-                        borderWidth: 1,
-                        borderColor: borderColor,
+                        groupPadding: 1,
                     },
                     {
                         level: 3,
                         dataLabels: {
                             enabled: true,
                             align: "center",
-                            verticalAlign: "middle",
-                            useHTML: true,
-                            formatter: function () {
-                                const point = this.point as any;
-                                if (!point.shapeArgs) return "";
-                                const w = point.shapeArgs.width || 0;
-                                const h = point.shapeArgs.height || 0;
-                                const area = w * h;
-
-                                if (area < 800) return "";
-
-                                const fontSize = Math.min(28, Math.max(8, 7 + Math.round(area * 0.0008)));
-                                const perf = point.custom?.performance || "";
-
-                                if (area < 2000) {
-                                    return `<span style="font-size:${fontSize}px;color:white;font-weight:600">${point.name}</span>`;
-                                }
-
-                                return `<div style="text-align:center;color:white">
-                                    <span style="font-size:${fontSize}px;font-weight:600">${point.name}</span><br>
-                                    <span style="font-size:${Math.max(8, fontSize * 0.7)}px">${perf}</span>
-                                </div>`;
+                            format: '{point.name}<br><span style="font-size: 0.7em">{point.custom.performance}</span>',
+                            style: {
+                                color: "white",
+                                textOutline: "none",
                             },
                         },
                     },
@@ -191,10 +233,6 @@
                             },
                         },
                     },
-                },
-                states: {
-                    hover: { brightness: 0.1 },
-                    inactive: { opacity: 1 },
                 },
                 point: {
                     events: {
