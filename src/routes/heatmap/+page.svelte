@@ -6,7 +6,7 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import HeatmapChart from "$lib/components/HeatmapChart.svelte";
+  import HeatmapChart from "$lib/components/Plot/HeatmapChart.svelte";
 
   export let data;
   let isLoading = false;
@@ -18,7 +18,11 @@
 
   async function getHeatMap(timePeriod: string, etf: string = selectedETF) {
     // Skip if same selection
-    if (timePeriod === selectedTimePeriod && etf === selectedETF && heatmapData?.data) {
+    if (
+      timePeriod === selectedTimePeriod &&
+      etf === selectedETF &&
+      heatmapData?.data
+    ) {
       return;
     }
 
@@ -266,7 +270,9 @@
 
           <div class="w-full mt-6">
             {#if isLoading}
-              <div class="flex justify-center items-center h-[500px] sm:h-[600px] lg:h-[750px]">
+              <div
+                class="flex justify-center items-center h-[500px] sm:h-[600px] lg:h-[750px]"
+              >
                 <div class="relative">
                   <label
                     class="border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
