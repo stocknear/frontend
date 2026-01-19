@@ -20,6 +20,7 @@
   import Table from "$lib/components/Table/Table.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
   let timeoutId;
@@ -97,6 +98,7 @@
   const tabs = ["News", "Earnings Release"];
 
   let isLoaded = false;
+  let isFullWidth = false;
   let displayWatchList;
   let allList = data?.getAllWatchlist;
 
@@ -473,7 +475,23 @@
     }
   }
 
+  // Toggle full width mode
+  function toggleFullWidth() {
+    isFullWidth = !isFullWidth;
+    try {
+      localStorage.setItem("watchlist-stocks-full-width", String(isFullWidth));
+    } catch (e) {
+      console.warn("Failed to save full width preference:", e);
+    }
+  }
+
   onMount(async () => {
+    // Load full width preference
+    const savedFullWidth = localStorage?.getItem("watchlist-stocks-full-width");
+    if (savedFullWidth !== null) {
+      isFullWidth = savedFullWidth === "true";
+    }
+
     try {
       const savedLastWatchlistId = localStorage?.getItem("last-watchlist-id");
 
@@ -588,14 +606,32 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-gray-700 dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+    ? 'max-w-full'
+    : 'max-w-3xl sm:max-w-[1400px]'}"
 >
-  <div class="w-full overflow-hidden m-auto">
+  <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
+    <li>
+      <a
+        href="/"
+        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >Home</a
+      >
+    </li>
+    <li class="text-gray-500 dark:text-zinc-400">Watchlist</li>
+  </BreadCrumb>
+
+  <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
+          <h1
+            class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"
+          >
+            Watchlist
+          </h1>
           {#if isLoaded}
             <div
               class="flex w-full sm:w-[50%] md:w-auto mb-5 {!data?.user
@@ -824,13 +860,60 @@
                         </span>
                       {/if}
                     </label>
+
+                    <button
+                      on:click={toggleFullWidth}
+                      title={isFullWidth
+                        ? "Exit full width"
+                        : "Expand to full width"}
+                      class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                        ? 'border-violet-400 dark:border-violet-500'
+                        : ''}"
+                    >
+                      {#if isFullWidth}
+                        <svg
+                          class="w-4 h-4 shrink-0"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="4 14 10 14 10 20" />
+                          <polyline points="20 10 14 10 14 4" />
+                          <line x1="14" y1="10" x2="21" y2="3" />
+                          <line x1="3" y1="21" x2="10" y2="14" />
+                        </svg>
+                      {:else}
+                        <svg
+                          class="w-4 h-4 shrink-0"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="15 3 21 3 21 9" />
+                          <polyline points="9 21 3 21 3 15" />
+                          <line x1="21" y1="3" x2="14" y2="10" />
+                          <line x1="3" y1="21" x2="10" y2="14" />
+                        </svg>
+                      {/if}
+                      <span class="truncate text-[0.85rem] sm:text-sm"
+                        >{isFullWidth ? "Normal Width" : "Full Width"}</span
+                      >
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
             {#if allList.length === 0}
-              <div class="flex flex-col justify-center items-center m-auto z-0">
+              <div
+                class="flex flex-col justify-center items-center m-auto z-0 pt-16"
+              >
                 <span class=" font-bold text-xl sm:text-3xl">
                   Empty Watchlist
                 </span>
@@ -1071,7 +1154,7 @@
                   </div>
                 {:else}
                   <div
-                    class="flex flex-col justify-center items-center m-auto pt-5 z-0"
+                    class="flex flex-col justify-center items-center m-auto pt-16 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
                       Empty Watchlist
