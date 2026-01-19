@@ -70,7 +70,8 @@
   function updateDailyPagination() {
     const selectedDayData = weekday?.[selectedWeekday] ?? [];
     // Use filtered data if searching, otherwise use original data
-    const dataSource = inputValue?.length > 0 ? filteredDayData : selectedDayData;
+    const dataSource =
+      inputValue?.length > 0 ? filteredDayData : selectedDayData;
     const totalItems = dataSource?.length || 0;
     dailyTotalPages =
       totalItems === 0 ? 1 : Math.ceil(totalItems / dailyRowsPerPage);
@@ -556,6 +557,7 @@
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
       weekday[selectedWeekday] = [...originalData]; // Reset to original data (spread to avoid mutation)
+      weekday = [...weekday];
       resetDailyPagination();
       return;
     }
@@ -592,6 +594,7 @@
 
     // Sort using the generic comparison function
     weekday[selectedWeekday] = [...originalData]?.sort(compareValues);
+    weekday = [...weekday];
     resetDailyPagination();
   };
 
@@ -878,7 +881,9 @@
                 {#each weekday as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5">
+                      <div
+                        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5"
+                      >
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
@@ -886,7 +891,9 @@
                           Earnings
                         </h2>
 
-                        <div class="flex flex-row items-center w-full sm:w-auto">
+                        <div
+                          class="flex flex-row items-center w-full sm:w-auto"
+                        >
                           <div class="relative w-full sm:w-auto">
                             <div
                               class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -922,7 +929,9 @@
                           <div class="ml-2">
                             <DownloadData
                               {data}
-                              rawData={inputValue?.length > 0 ? filteredDayData : day}
+                              rawData={inputValue?.length > 0
+                                ? filteredDayData
+                                : day}
                               title={"earnings_calendar"}
                             />
                           </div>
@@ -1045,16 +1054,19 @@
                                             : "n/a"}
                                         </span>
                                         {#if getPercentageChange(item?.epsEst, item?.epsPrior) !== null}
-                                          {@const epsChange = getPercentageChange(
-                                            item?.epsEst,
-                                            item?.epsPrior,
-                                          )}
+                                          {@const epsChange =
+                                            getPercentageChange(
+                                              item?.epsEst,
+                                              item?.epsPrior,
+                                            )}
                                           <span
                                             class="ml-1 {epsChange >= 0
                                               ? 'text-emerald-600 dark:text-emerald-400'
                                               : 'text-rose-600 dark:text-rose-400'}"
                                           >
-                                            {epsChange >= 0 ? "+" : ""}{epsChange}%
+                                            {epsChange >= 0
+                                              ? "+"
+                                              : ""}{epsChange}%
                                           </span>
                                         {/if}
                                       </div>
@@ -1244,79 +1256,82 @@
               {:else if timeframe === "Weekly"}
                 <div class="flex flex-col w-full">
                   <div
-                    class="w-full flex flex-row justify-center m-auto items-center"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
                   >
-                    <label
-                      on:click={() => changeWeek("previous")}
-                      class="{previousMax
-                        ? 'opacity-80'
-                        : ''} {weekArrowClasses}"
-                    >
-                      <svg
-                        class="w-6 h-6 m-auto rotate-180"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path fill="currentColor" d={arrowIcon} />
-                      </svg>
-                    </label>
                     {#each weekday as day, index}
-                      <div class="w-full">
-                        <label
-                          on:click={() => switchToDailyView(index)}
-                          class="m-auto w-full cursor-pointer h-16 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      <div
+                        on:click={() => switchToDailyView(index)}
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                      >
+                        <span class="text-[1rem]"
+                          >{formattedWeekday[index]}</span
                         >
-                          <div
-                            class="flex flex-col items-center truncate m-auto p-1"
+                        <span class="text-sm">{day?.length} Earnings</span>
+                        {#if index === 0}
+                          <button
+                            on:click|stopPropagation={() =>
+                              changeWeek("previous")}
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Previous week"
+                            disabled={previousMax}
                           >
-                            <span class="text-[1rem]"
-                              >{formattedWeekday[index]}</span
+                            <svg
+                              class="h-5 w-5 rotate-180"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
                             >
-                            <span class="text-sm m-auto pt-1 pb-1">
-                              {day?.length} Earnings</span
+                              <path fill="currentColor" d={arrowIcon} />
+                            </svg>
+                          </button>
+                        {/if}
+                        {#if index === 4}
+                          <button
+                            on:click|stopPropagation={() => changeWeek("next")}
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            aria-label="Next week"
+                            disabled={nextMax}
+                          >
+                            <svg
+                              class="h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
                             >
-                          </div>
-                        </label>
+                              <path fill="currentColor" d={arrowIcon} />
+                            </svg>
+                          </button>
+                        {/if}
                       </div>
                     {/each}
-                    <label
-                      on:click={() => changeWeek("next")}
-                      class="{nextMax ? 'opacity-80' : ''} {weekArrowClasses}"
-                    >
-                      <svg
-                        class="w-6 h-6 m-auto"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path fill="currentColor" d={arrowIcon} />
-                      </svg>
-                    </label>
                   </div>
 
-                  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                  <div
+                    class="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-0 border-l border-r border-gray-200/70 dark:border-zinc-800/80 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each weekday as day, dayIndex}
-                      <div class="flex flex-col">
-                        <div class="space-y-2">
-                          {#if day?.length > 0}
+                      <div class="min-w-0 px-1 py-1">
+                        {#if day?.length > 0}
+                          <div class="space-y-2">
                             {#each day as item, itemIndex}
                               {@const isExpanded =
                                 expandedItems[`${dayIndex}-${itemIndex}`]}
                               <div
-                                class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                                class="w-full rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
                               >
                                 <div
                                   on:click={() =>
                                     toggleExpanded(dayIndex, itemIndex)}
-                                  class="flex w-full cursor-pointer items-center justify-between px-3 py-2"
+                                  class="flex w-full cursor-pointer items-center justify-between gap-2 px-3 py-2"
                                 >
-                                  <span class="max-w-[92%] truncate">
-                                    <HoverStockChart symbol={item?.symbol} />
-                                    <span class="truncate">
-                                      · {item?.name}</span
-                                    >
+                                  <span class="flex min-w-0 items-center gap-1">
+                                    <span class="shrink-0">
+                                      <HoverStockChart symbol={item?.symbol} />
+                                    </span>
+                                    <span class="min-w-0 truncate">
+                                      · {item?.name}
+                                    </span>
                                   </span>
                                   <svg
-                                    class="h-4 w-4"
+                                    class="h-4 w-4 shrink-0"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                   >
@@ -1385,7 +1400,9 @@
                                             <tr
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
-                                              <td class="py-1.5">Market Cap</td>
+                                              <td class="py-1.5">
+                                                Market Cap
+                                              </td>
                                               <td
                                                 class="text-right font-semibold"
                                               >
@@ -1446,7 +1463,8 @@
                                               class="pb-0.5 pt-1.5"
                                               title="Estimated EPS"
                                             >
-                                              EPS <span class="hidden md:inline"
+                                              EPS <span
+                                                class="hidden md:inline"
                                                 >Est.</span
                                               ><span class="inline md:hidden"
                                                 >Estimate</span
@@ -1492,14 +1510,14 @@
                                 {/if}
                               </div>
                             {/each}
-                          {:else}
-                            <div
-                              class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
-                            >
-                              No earnings scheduled
-                            </div>
-                          {/if}
-                        </div>
+                          </div>
+                        {:else}
+                          <div
+                            class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
+                          >
+                            No earnings scheduled
+                          </div>
+                        {/if}
                       </div>
                     {/each}
                   </div>
