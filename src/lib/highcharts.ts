@@ -116,9 +116,9 @@ export default (node: HTMLElement, config: any) => {
       resizeObserver = new ResizeObserver(() => {
         if (chart && browser) {
           const newWidth = node.clientWidth;
-          const newHeight = currentConfig?.chart?.height === null
+          const newHeight = currentConfig?.chart?.height == null
             ? node.clientHeight
-            : (node.clientWidth < 600) ? 300 : currentConfig?.chart?.height;
+            : currentConfig?.chart?.height;
 
           chart?.setSize(newWidth, newHeight, false);
         }
