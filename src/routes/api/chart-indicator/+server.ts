@@ -8,7 +8,6 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "hottest-contracts": "/hottest-contracts",
   "short-interest": "/short-interest",
   "revenue": "/historical-revenue",
-  "eps": "/historical-eps",
   "market-cap": "/historical-market-cap",
   "analyst-target": "/analyst-summary-rating",
   "income-statement": "/financial-statement",
@@ -86,7 +85,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     };
   } else {
     // Default payload for most fundamental indicators
-    // revenue, eps, market-cap, analyst-target, ftd, max-pain
+    // revenue, market-cap, analyst-target, ftd, max-pain
     postData = {
       ticker: data?.ticker,
     };

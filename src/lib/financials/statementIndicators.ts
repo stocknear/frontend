@@ -1264,6 +1264,13 @@ export const STATEMENT_INDICATORS: StatementIndicatorConfig[] = [
     property: "freeCashFlow",
     format: "currency",
   },
+  {
+    id: "eps",
+    label: "EPS",
+    statement: "income",
+    property: "epsDiluted",
+    format: "number",
+  },
 ];
 
 export const STATEMENT_INDICATOR_INDEX: Record<string, number> = Object.fromEntries(

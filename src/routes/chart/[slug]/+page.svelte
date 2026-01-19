@@ -16,8 +16,6 @@
     clearMaxPainData,
     setRevenueData,
     clearRevenueData,
-    setEPSData,
-    clearEPSData,
     setMarketCapData,
     clearMarketCapData,
     setStatementMetricData,
@@ -289,7 +287,6 @@
   let maxPainLoading = false;
   let analystTargetLoading = false;
   let revenueIndicatorPeriod: FinancialIndicatorPeriod = "ttm";
-  let epsIndicatorPeriod: FinancialIndicatorPeriod = "ttm";
   let statementIndicatorPeriods: Record<string, FinancialIndicatorPeriod> = {};
   let incomeStatementData: {
     annual: any[];
@@ -321,8 +318,6 @@
   let ratiosStatementTicker = "";
   let revenueData: any[] = [];
   let revenueLoading = false;
-  let epsData: any[] = [];
-  let epsLoading = false;
   let marketCapData: any[] = [];
   let marketCapLoading = false;
 
@@ -919,16 +914,6 @@
       height: 120,
     },
     {
-      id: "eps",
-      label: "EPS",
-      indicatorName: "SN_EPS",
-      category: "Fundamentals",
-      defaultParams: [],
-      pane: "panel",
-      height: 120,
-    },
-
-    {
       id: "market_cap",
       label: "Market Cap",
       indicatorName: "SN_MARKET_CAP",
@@ -991,7 +976,6 @@
   const FUNDAMENTAL_INDICATOR_MAP: Record<string, FundamentalTabId> = {
     ...STATEMENT_INDICATOR_TAB_MAP,
     revenue: "income",
-    eps: "income",
   };
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
@@ -2166,7 +2150,7 @@
     const rect = chartContainer?.getBoundingClientRect();
     if (rect) {
       let x = marker.x;
-      let y = rect.height - 100; // Position above the volume area
+      let y = rect.height - panelIndicatorsHeight - 40; // Position above the event markers at volume y=0
 
       // Ensure popup doesn't go off screen
       if (x < 150) x = 150;
@@ -2244,7 +2228,7 @@
     const rect = chartContainer?.getBoundingClientRect();
     if (rect) {
       let x = marker.x;
-      let y = rect.height - 100; // Position above the volume area
+      let y = rect.height - panelIndicatorsHeight - 40; // Position above the event markers at volume y=0
 
       // Ensure popup doesn't go off screen
       if (x < 150) x = 150;
@@ -2322,7 +2306,7 @@
     const rect = chartContainer?.getBoundingClientRect();
     if (rect) {
       let x = marker.x;
-      let y = rect.height - 100; // Position above the volume area
+      let y = rect.height - panelIndicatorsHeight - 40; // Position above the event markers at volume y=0
 
       // Ensure popup doesn't go off screen
       if (x < 150) x = 150;
@@ -2435,7 +2419,7 @@
     const rect = chartContainer?.getBoundingClientRect();
     if (rect) {
       let x = marker.x;
-      let y = rect.height - 100; // Position above the volume area
+      let y = rect.height - panelIndicatorsHeight - 40; // Position above the event markers at volume y=0
 
       // Ensure popup doesn't go off screen
       if (x < 150) x = 150;
@@ -3547,56 +3531,6 @@
       .filter((d) => d.timestamp > 0);
   };
 
-  const buildEpsIndicatorData = (
-    rows: any[],
-    period: FinancialIndicatorPeriod,
-  ) => {
-    const sortedRows = [...rows].sort(
-      (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
-    );
-
-    const usePrevRow = period === "quarterly";
-    const lookupMap = new Map<string, any>();
-    if (!usePrevRow) {
-      for (const item of sortedRows) {
-        const key = buildStatementKey(item, period);
-        if (key) lookupMap.set(key, item);
-      }
-    }
-
-    const getEpsValue = (item: any) =>
-      toNumber(
-        item?.eps ?? item?.epsBasic ?? item?.eps_basic ?? item?.epsDiluted,
-      );
-
-    return sortedRows
-      .map((item, index) => {
-        const timestamp = getStatementTimestamp(item);
-        const currentEps = getEpsValue(item);
-        const prevItem = usePrevRow
-          ? index > 0
-            ? sortedRows[index - 1]
-            : null
-          : (() => {
-              const prevKey = buildStatementPrevKey(item, period);
-              return prevKey ? lookupMap.get(prevKey) : null;
-            })();
-        const prevEps = prevItem ? getEpsValue(prevItem) : null;
-
-        let epsGrowth = 0;
-        if (currentEps !== null && prevEps !== null && prevEps !== 0) {
-          epsGrowth = ((currentEps - prevEps) / Math.abs(prevEps)) * 100;
-        }
-
-        return {
-          timestamp,
-          eps: currentEps ?? 0,
-          epsGrowth: Number.isFinite(epsGrowth) ? epsGrowth : 0,
-        };
-      })
-      .filter((d) => d.timestamp > 0);
-  };
-
   type StatementCategory = "income" | "balance" | "cashflow" | "ratios";
 
   const STATEMENT_CATEGORY_ENDPOINT: Record<StatementCategory, string> = {
@@ -3656,7 +3590,6 @@
     saveChartSettings({
       ...currentSettings,
       revenueIndicatorPeriod,
-      epsIndicatorPeriod,
       statementIndicatorPeriods,
     });
     const statementData = getStatementDataBundle(config.statement);
@@ -3735,7 +3668,6 @@
       saveChartSettings({
         ...currentSettings,
         revenueIndicatorPeriod,
-        epsIndicatorPeriod,
         statementIndicatorPeriods,
       });
     }
@@ -3859,7 +3791,6 @@
         saveChartSettings({
           ...currentSettings,
           revenueIndicatorPeriod,
-          epsIndicatorPeriod,
         });
       }
       const indicatorData = buildRevenueIndicatorData(
@@ -3874,31 +3805,6 @@
           chart.removeIndicator({ id: existingId });
           indicatorInstanceIds.revenue = null;
         }
-        syncIndicators();
-      }
-    }
-
-    if (indicatorState.eps) {
-      const resolved = resolveStatementPeriodData(
-        incomeStatementData,
-        epsIndicatorPeriod,
-      );
-      if (resolved.period !== epsIndicatorPeriod) {
-        epsIndicatorPeriod = resolved.period;
-        const currentSettings = loadChartSettings() || {};
-        saveChartSettings({
-          ...currentSettings,
-          revenueIndicatorPeriod,
-          epsIndicatorPeriod,
-        });
-      }
-      const indicatorData = buildEpsIndicatorData(
-        resolved.rows,
-        epsIndicatorPeriod,
-      );
-      epsData = indicatorData;
-      setEPSData(indicatorData);
-      if (chart && indicatorState.eps) {
         syncIndicators();
       }
     }
@@ -3940,9 +3846,8 @@
       incomeStatementData = null;
       incomeStatementTicker = "";
       revenueData = [];
-      epsData = [];
       setRevenueData([]);
-      setEPSData([]);
+      clearStatementMetricData(STATEMENT_INDICATOR_INDEX["eps"]);
     } finally {
       incomeStatementLoading = false;
     }
@@ -3954,14 +3859,6 @@
     revenueLoading = true;
     await fetchIncomeStatementData();
     revenueLoading = false;
-  };
-
-  // Fetch EPS data
-  const fetchEPSDataIndicator = async () => {
-    if (epsLoading || !ticker) return;
-    epsLoading = true;
-    await fetchIncomeStatementData();
-    epsLoading = false;
   };
 
   // Fetch Market Cap data
@@ -4055,9 +3952,6 @@
     }
     if (indicatorState.market_cap && marketCapData.length === 0) {
       fetchMarketCapDataIndicator();
-    }
-    if (indicatorState.eps && epsData.length === 0) {
-      fetchEPSDataIndicator();
     }
     if (indicatorState.ftd && ftdData.length === 0) {
       fetchFTDDataIndicator();
@@ -5035,11 +4929,6 @@
         indicatorCreate.extendData = {
           period: getFinancialIndicatorPeriod("revenue"),
         };
-      } else if (item.id === "eps") {
-        indicatorCreate.shortName = getFinancialIndicatorShortName("eps");
-        indicatorCreate.extendData = {
-          period: getFinancialIndicatorPeriod("eps"),
-        };
       } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
         indicatorCreate.shortName = getStatementIndicatorShortName(item.id);
         indicatorCreate.calcParams = [];
@@ -5076,11 +4965,6 @@
             getFinancialIndicatorShortName("revenue");
           overrideIndicator.extendData = {
             period: getFinancialIndicatorPeriod("revenue"),
-          };
-        } else if (item.id === "eps") {
-          overrideIndicator.shortName = getFinancialIndicatorShortName("eps");
-          overrideIndicator.extendData = {
-            period: getFinancialIndicatorPeriod("eps"),
           };
         } else if (STATEMENT_INDICATOR_BY_ID[item.id]) {
           overrideIndicator.shortName = getStatementIndicatorShortName(item.id);
@@ -5455,17 +5339,12 @@
       }
     }
 
-    if (newState && (name === "revenue" || name === "eps")) {
-      if (name === "revenue") {
-        revenueIndicatorPeriod = "ttm";
-      } else {
-        epsIndicatorPeriod = "ttm";
-      }
+    if (newState && name === "revenue") {
+      revenueIndicatorPeriod = "ttm";
       const currentSettings = loadChartSettings() || {};
       saveChartSettings({
         ...currentSettings,
         revenueIndicatorPeriod,
-        epsIndicatorPeriod,
         statementIndicatorPeriods,
       });
     }
@@ -5479,7 +5358,6 @@
         saveChartSettings({
           ...currentSettings,
           revenueIndicatorPeriod,
-          epsIndicatorPeriod,
           statementIndicatorPeriods,
         });
       }
@@ -5546,11 +5424,6 @@
       } else if (name === "revenue") {
         setRevenueData(revenueData);
         syncIndicators();
-      } else if (name === "eps" && epsData.length === 0) {
-        fetchEPSDataIndicator();
-      } else if (name === "eps") {
-        setEPSData(epsData);
-        syncIndicators();
       } else if (name === "market_cap" && marketCapData.length === 0) {
         fetchMarketCapDataIndicator();
       } else if (name === "market_cap") {
@@ -5602,9 +5475,6 @@
       } else if (name === "revenue") {
         revenueData = [];
         clearRevenueData();
-      } else if (name === "eps") {
-        epsData = [];
-        clearEPSData();
       } else if (name === "market_cap") {
         marketCapData = [];
         clearMarketCapData();
@@ -5624,15 +5494,14 @@
 
   const getFinancialIndicatorPeriod = (id: string) => {
     if (id === "revenue") return revenueIndicatorPeriod;
-    if (id === "eps") return epsIndicatorPeriod;
     if (STATEMENT_INDICATOR_BY_ID[id]) return getStatementIndicatorPeriod(id);
     return "ttm";
   };
 
-  const getFinancialIndicatorShortName = (id: "revenue" | "eps") => {
+  const getFinancialIndicatorShortName = (id: "revenue") => {
     const period = getFinancialIndicatorPeriod(id);
     const label = FINANCIAL_PERIOD_LABELS[period];
-    return `${id === "revenue" ? "Revenue" : "EPS"} (${label})`;
+    return `Revenue (${label})`;
   };
 
   const getStatementIndicatorShortName = (id: string) => {
@@ -5646,27 +5515,22 @@
     id: string,
     period: FinancialIndicatorPeriod,
   ) => {
-    if (id !== "revenue" && id !== "eps") {
+    if (id !== "revenue") {
       setStatementIndicatorPeriod(id, period);
       return;
     }
     const current = getFinancialIndicatorPeriod(id);
     if (current === period) return;
-    if (id === "revenue") {
-      revenueIndicatorPeriod = period;
-    } else {
-      epsIndicatorPeriod = period;
-    }
+    revenueIndicatorPeriod = period;
     const currentSettings = loadChartSettings() || {};
     saveChartSettings({
       ...currentSettings,
       revenueIndicatorPeriod,
-      epsIndicatorPeriod,
       statementIndicatorPeriods,
     });
     if (incomeStatementData) {
       refreshIncomeStatementIndicators();
-    } else if (indicatorState.revenue || indicatorState.eps) {
+    } else if (indicatorState.revenue) {
       fetchIncomeStatementData();
     }
   };
@@ -5937,11 +5801,11 @@
         }
       });
 
-      // Add watermark - matches on-screen watermark
-      // bottom-[200px], left-3 = 12px, size-9 = 36px, gap-2 = 8px
+      // Add watermark - matches on-screen watermark (dynamic position above volume)
+      // left-3 = 12px, size-9 = 36px, gap-2 = 8px
       const logoSize = 36;
       const paddingLeft = 12;
-      const paddingBottom = 200;
+      const paddingBottom = watermarkBottom;
       const gap = 8;
       const watermarkY = height - paddingBottom;
 
@@ -6220,15 +6084,22 @@
       ) {
         revenueIndicatorPeriod = savedRevenuePeriod;
       }
-      if (
-        savedEpsPeriod &&
-        FINANCIAL_PERIOD_OPTIONS.some((option) => option.id === savedEpsPeriod)
-      ) {
-        epsIndicatorPeriod = savedEpsPeriod;
-      }
       if (savedSettings.statementIndicatorPeriods) {
         statementIndicatorPeriods = {
           ...savedSettings.statementIndicatorPeriods,
+        };
+      }
+      // Migrate legacy epsIndicatorPeriod to statementIndicatorPeriods
+      if (
+        savedEpsPeriod &&
+        FINANCIAL_PERIOD_OPTIONS.some(
+          (option) => option.id === savedEpsPeriod,
+        ) &&
+        !statementIndicatorPeriods.eps
+      ) {
+        statementIndicatorPeriods = {
+          ...statementIndicatorPeriods,
+          eps: savedEpsPeriod,
         };
       }
     } else if (data?.user?.tier === "Pro") {
@@ -6579,9 +6450,8 @@
     incomeStatementData = null;
     incomeStatementTicker = "";
     revenueData = [];
-    epsData = [];
     clearRevenueData();
-    clearEPSData();
+    clearStatementMetricData(STATEMENT_INDICATOR_INDEX["eps"]);
     // If indicator was enabled, refetch for new ticker
     if (indicatorState?.short_interest) {
       fetchShortInterestData();
@@ -6589,8 +6459,11 @@
     if (indicatorState?.analyst_target) {
       fetchAnalystTargetData();
     }
-    if (indicatorState?.revenue || indicatorState?.eps) {
+    if (indicatorState?.revenue) {
       fetchIncomeStatementData();
+    }
+    if (indicatorState?.eps) {
+      ensureStatementMetricData("eps");
     }
     if (indicatorState?.max_pain) {
       fetchMaxPainData();
@@ -6797,9 +6670,25 @@
   // Create a reactive key for period changes to ensure template re-renders
   $: periodKey = JSON.stringify({
     revenue: revenueIndicatorPeriod,
-    eps: epsIndicatorPeriod,
     statements: statementIndicatorPeriods,
   });
+  // Calculate total height of panel indicators below volume for watermark positioning
+  $: panelIndicatorsHeight = indicatorDefinitions
+    ?.filter((item) => {
+      if (item.pane !== "panel") return false;
+      if (!indicatorState[item.id]) return false;
+      // Fundamentals/Statistics are hidden on intraday ranges
+      const isRestrictedCategory =
+        item.category === "Fundamentals" || item.category === "Statistics";
+      if (isRestrictedCategory && !isNonIntradayRange(activeRange))
+        return false;
+      return true;
+    })
+    ?.reduce((sum, item) => sum + (item.height ?? 150), 0);
+  // Watermark bottom offset: volume pane (120px) + buffer (80px) + panel indicators height
+  $: watermarkBottom = 150 + panelIndicatorsHeight;
+  // Event marker position slightly above volume y=0 (bottom of volume pane + offset)
+  $: eventMarkerBottom = panelIndicatorsHeight + 20;
   $: technicalGroups = Object.entries(groupedIndicators)
     .filter(
       ([cat]) =>
@@ -7815,7 +7704,8 @@
 
         <!-- Watermark -->
         <div
-          class="absolute bottom-[200px] left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
+          class="absolute left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
+          style="bottom: {watermarkBottom}px"
         >
           <img
             src="/pwa-192x192.png"
@@ -7829,12 +7719,12 @@
 
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
+          <div class="absolute inset-0 pointer-events-none z-[15]">
             {#each earningsMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
-                  class="cursor-pointer absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px"
+                  class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
                   on:click={(e) => handleEarningsClick(marker, e)}
                   aria-label="View earnings details"
                 >
@@ -8146,12 +8036,12 @@
 
         <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
+          <div class="absolute inset-0 pointer-events-none z-[15]">
             {#each dividendMarkers as marker (marker.timestamp)}
               {#if marker?.visible}
                 <button
-                  class="absolute bottom-[145px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px"
+                  class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
                   on:click={(e) => handleDividendClick(marker, e)}
                   aria-label="View dividend details"
                 >
@@ -8294,12 +8184,12 @@
 
         <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[5]">
+          <div class="absolute inset-0 pointer-events-none z-[15]">
             {#each newsMarkers as marker (marker.news.date)}
               {#if marker?.visible}
                 <button
-                  class="absolute bottom-[115px] -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px"
+                  class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                  style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
                   on:click={(e) => handleNewsClick(marker, e)}
                   aria-label="View news details"
                 >
@@ -9915,7 +9805,7 @@
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
-                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                      {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                         <div class="flex items-center gap-1 ml-auto">
                           {#key `${periodKey}-${indicator.id}`}
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
@@ -10058,7 +9948,7 @@
                       callAPI={true}
                       parameter={indicator.infoKey || indicator.id}
                     />
-                    {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                    {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                       <div class="flex items-center gap-1 ml-auto">
                         {#key `${periodKey}-${indicator.id}`}
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
@@ -10131,7 +10021,7 @@
                       callAPI={true}
                       parameter={indicator.infoKey || indicator.id}
                     />
-                    {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                    {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                       <div class="flex items-center gap-1 ml-auto">
                         {#key `${periodKey}-${indicator.id}`}
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
@@ -10226,7 +10116,7 @@
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
-                      {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                      {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                         <div class="flex items-center gap-1 ml-auto">
                           {#key `${periodKey}-${indicator.id}`}
                             {#each FINANCIAL_PERIOD_OPTIONS as option}

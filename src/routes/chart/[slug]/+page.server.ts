@@ -168,9 +168,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
 
   const getAllStrategies = async () => {
-    if (user?.tier !== 'Pro') return [];
+    if (!["Plus","Pro"]?.includes(user?.tier)) return [];
 
-    console.log('yes')
     try {
       const output = await pb.collection("chart").getFullList({
         filter: `user="${user?.id}"`,
