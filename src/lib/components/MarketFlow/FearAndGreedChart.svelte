@@ -57,7 +57,6 @@
                 type: "gauge",
                 backgroundColor: "transparent",
                 plotBackgroundColor: "transparent",
-                height: 200,
                 animation: false,
                 spacing: [0, 0, 0, 0],
                 margin: [0, 0, 0, 0],
@@ -191,6 +190,6 @@
 
     <!-- Highcharts gauge -->
     {#if config}
-        <div use:highcharts={config}></div>
+        <div class="h-[320px]" use:highcharts={config}></div>
     {/if}
 </div>

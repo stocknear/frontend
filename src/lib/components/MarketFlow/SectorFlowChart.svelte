@@ -1,5 +1,6 @@
 <script lang="ts">
     import { screenWidth } from "$lib/store";
+    import { abbreviateNumber } from "$lib/utils";
     import highcharts from "$lib/highcharts.ts";
     import { mode } from "mode-watcher";
 
@@ -96,7 +97,12 @@
                 backgroundColor: "rgba(0, 0, 0, 1)",
                 borderColor: "rgba(255, 255, 255, 0.2)",
                 borderWidth: 1,
-                style: { color: "#fff", fontSize: "14px", padding: "8px", zIndex: 9999 },
+                style: {
+                    color: "#fff",
+                    fontSize: "14px",
+                    padding: "8px",
+                    zIndex: 9999,
+                },
                 borderRadius: 4,
                 outside: true,
                 formatter: function () {
@@ -111,9 +117,9 @@
 
                     return `
           <span class="m-auto text-xs font-semibold">${sector}</span><br>
-          <span class="text-green-400">Call Prem: ${call.toLocaleString("en-US")}</span><br>
-          <span class="text-red-400">Put Prem: ${put.toLocaleString("en-US")}</span><br>
-          <span class="text-white font-bold">Total Prem: ${total.toLocaleString("en-US")}</span>
+          <span class="text-green-400">Call Prem: ${abbreviateNumber(call)}</span><br>
+          <span class="text-red-400">Put Prem: ${abbreviateNumber(put)}</span><br>
+          <span class="text-white font-bold">Total Prem: ${abbreviateNumber(total)}</span>
         `;
                 },
             },
@@ -158,6 +164,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl"
+    class="border border-gray-300 dark:border-zinc-700 rounded-2xl h-[360px]"
     use:highcharts={config}
 ></div>
