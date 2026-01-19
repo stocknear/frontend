@@ -61,15 +61,15 @@
 </script>
 
 <SEO
-  title="S&P 500 Stock Market Heatmap - Interactive Real-Time Performance Visualization"
-  description="Advanced S&P 500 stock market heatmap with real-time performance data, sector analysis, and market trend visualization. Track stock performance, sector rotation, and market momentum with our interactive color-coded heatmap tool. Features multiple timeframes and downloadable charts for professional analysis."
+  title="US Stock Market Heatmap - Real-Time Performance Visualization"
+  description="Advanced stock market heatmap with real-time performance data, sector analysis, and market trend visualization. Track stock performance, sector rotation, and market momentum with our interactive color-coded heatmap tool. Features multiple timeframes and downloadable charts for professional analysis."
   keywords="S&P 500 heatmap, stock market heatmap, real-time market visualization, sector performance heatmap, stock performance tracker, market trends analysis, sector rotation visualization, interactive stock heatmap, market momentum tracker, financial data visualization, trading heatmap, investment analysis tool"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "S&P 500 Stock Market Heatmap",
+    name: "Stock Market Heatmap",
     description:
-      "Interactive S&P 500 market heatmap for real-time visualization of stock and sector performance with advanced filtering and analysis tools",
+      "Interactive US market heatmap for real-time visualization of stock and sector performance with advanced filtering and analysis tools",
     url: "https://stocknear.com/heatmap",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
