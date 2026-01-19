@@ -573,6 +573,7 @@
     | "statistics";
   let fundamentalsTab: FundamentalTabId = "income";
   let indicatorModalSection:
+    | "Selected"
     | "Favorites"
     | "Technicals"
     | "Fundamentals"
@@ -1073,8 +1074,8 @@
     indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
   );
   const INDICATOR_MODAL_SECTIONS: Array<
-    "Favorites" | "Technicals" | "Fundamentals" | "Options"
-  > = ["Favorites", "Technicals", "Fundamentals", "Options"];
+    "Selected" | "Favorites" | "Technicals" | "Fundamentals" | "Options"
+  > = ["Selected", "Favorites", "Technicals", "Fundamentals", "Options"];
 
   const cloneIndicatorParams = () =>
     Object.fromEntries(
@@ -6103,8 +6104,17 @@
 
   function openIndicatorModal() {
     indicatorSearchTerm = "";
-    // Default to Favorites if user has favorites, otherwise Technicals
-    indicatorModalSection = indicatorFavorites.length > 0 ? "Favorites" : "Technicals";
+    // Default to Selected if user has selected indicators, else Favorites if has favorites, otherwise Technicals
+    const hasSelectedIndicators = indicatorDefinitions.some(
+      (indicator) => indicatorState[indicator.id],
+    );
+    if (hasSelectedIndicators) {
+      indicatorModalSection = "Selected";
+    } else if (indicatorFavorites.length > 0) {
+      indicatorModalSection = "Favorites";
+    } else {
+      indicatorModalSection = "Technicals";
+    }
   }
 
   function zoomChart(scale: number) {
@@ -7024,6 +7034,12 @@
         [
           cat,
           [...indicators].sort((a, b) => {
+            // Sort by checked first, then favorites, then alphabetically
+            const aChecked = Boolean(indicatorState[a.id]);
+            const bChecked = Boolean(indicatorState[b.id]);
+            if (aChecked !== bChecked) {
+              return aChecked ? -1 : 1;
+            }
             const aFav = favoritesSet.has(a.id);
             const bFav = favoritesSet.has(b.id);
             if (aFav !== bFav) {
@@ -7041,6 +7057,12 @@
     )
     .slice()
     .sort((a, b) => {
+      // Sort by checked first, then favorites, then alphabetically
+      const aChecked = Boolean(indicatorState[a.id]);
+      const bChecked = Boolean(indicatorState[b.id]);
+      if (aChecked !== bChecked) {
+        return aChecked ? -1 : 1;
+      }
       const aFav = favoritesSet.has(a.id);
       const bFav = favoritesSet.has(b.id);
       if (aFav !== bFav) {
@@ -7050,6 +7072,12 @@
     });
   $: optionsIndicators = (groupedIndicators["Options"] ?? []).slice().sort(
     (a, b) => {
+      // Sort by checked first, then favorites, then alphabetically
+      const aChecked = Boolean(indicatorState[a.id]);
+      const bChecked = Boolean(indicatorState[b.id]);
+      if (aChecked !== bChecked) {
+        return aChecked ? -1 : 1;
+      }
       const aFav = favoritesSet.has(a.id);
       const bFav = favoritesSet.has(b.id);
       if (aFav !== bFav) {
@@ -7057,6 +7085,10 @@
       }
       return a.label.localeCompare(b.label);
     },
+  );
+  // Get all selected (checked) indicators for the Selected tab
+  $: selectedIndicators = indicatorDefinitions.filter(
+    (indicator) => indicatorState[indicator.id],
   );
 
   $: currentChartType =
@@ -9632,6 +9664,28 @@
           <button
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            'Selected'
+              ? 'bg-neutral-800 text-white'
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+            on:click={() => (indicatorModalSection = "Selected")}
+          >
+            <svg
+              class="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Selected
+          </button>
+          <button
+            type="button"
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Favorites'
               ? 'bg-neutral-800 text-white'
               : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
@@ -10021,6 +10075,108 @@
                         </svg>
                         <span class="text-[1rem]">{indicator.label}</span>
                       </button>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          {:else if indicatorModalSection === "Selected"}
+            <div class="flex items-center justify-between">
+              <div class="text-xs uppercase tracking-wide text-neutral-500">
+                Selected Indicators
+              </div>
+              {#if selectedIndicators.length > 0}
+                <button
+                  type="button"
+                  class="flex items-center gap-1 px-2 py-1 text-xs rounded border border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100 transition cursor-pointer"
+                  on:click={clearIndicators}
+                >
+                  <svg
+                    class="h-3 w-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 21 21"
+                  >
+                    <g
+                      fill="none"
+                      fill-rule="evenodd"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" />
+                      <path d="M7.5 6.5h-4v-4" />
+                    </g>
+                  </svg>
+                  Reset All
+                </button>
+              {/if}
+            </div>
+            {#if selectedIndicators.length === 0}
+              <div class="mt-4 text-sm text-neutral-500">No indicators selected.</div>
+            {:else}
+              <div class="mt-4 space-y-1">
+                {#each selectedIndicators as indicator}
+                  <div
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                  >
+                    <button
+                      type="button"
+                      class={getFavoriteStarClass(indicatorFavorites.includes(indicator.id)) + " mr-2"}
+                      aria-label={isIndicatorFavorite(indicator.id)
+                        ? "Remove from favorites"
+                        : "Add to favorites"}
+                      on:click|stopPropagation={(event) =>
+                        toggleIndicatorFavorite(event, indicator.id)}
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                      >
+                        <path fill="currentColor" d={indicatorStarPath} />
+                      </svg>
+                    </button>
+                    <input
+                      on:click={() => toggleIndicatorById(indicator.id)}
+                      id={`selected-${indicator.id}`}
+                      type="checkbox"
+                      checked={Boolean(indicatorState[indicator.id])}
+                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                    />
+                    <label
+                      for={`selected-${indicator.id}`}
+                      class="cursor-pointer text-[1rem] ml-2"
+                    >
+                      {indicator.label}
+                    </label>
+                    <InfoModal
+                      id={`indicator-selected-${indicator.id}`}
+                      title={indicator.label}
+                      callAPI={true}
+                      parameter={indicator.infoKey || indicator.id}
+                    />
+                    {#if indicator.id === "revenue" || indicator.id === "eps" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                      <div class="flex items-center gap-1 ml-auto">
+                        {#key `${periodKey}-${indicator.id}`}
+                          {#each FINANCIAL_PERIOD_OPTIONS as option}
+                            <button
+                              type="button"
+                              class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                indicator.id,
+                              ) === option.id
+                                ? 'border-neutral-500 text-white bg-neutral-800'
+                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                              on:click|stopPropagation={() =>
+                                setFinancialIndicatorPeriod(
+                                  indicator.id,
+                                  option.id,
+                                )}
+                            >
+                              {option.label}
+                            </button>
+                          {/each}
+                        {/key}
+                      </div>
                     {/if}
                   </div>
                 {/each}
