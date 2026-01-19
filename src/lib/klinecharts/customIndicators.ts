@@ -967,7 +967,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
         result.value as number,
         format,
       );
-      const color = (result.value as number) >= 0 ? "#38BDF8" : "#F97316";
+      const color = (result.value as number) >= 0 ? "#22C55E" : "#EF4444";
       const growth = Number.isFinite(metricIndex)
         ? statementMetricGrowthSeries[metricIndex]?.[dataIndex]
         : undefined;
@@ -1047,7 +1047,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
 
       const barWidth = Math.max(
         2,
-        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.85,
       );
       const y0 = yAxis.convertToPixel(0);
       if (typeof y0 !== "number" || isNaN(y0)) return false;
@@ -1064,7 +1064,7 @@ function createStatementMetricIndicator(): IndicatorTemplate<
         const height = Math.abs(y0 - y);
         if (height <= 0) continue;
 
-        ctx.fillStyle = (data.value as number) >= 0 ? "#38BDF8" : "#F97316";
+        ctx.fillStyle = (data.value as number) >= 0 ? "#22C55E" : "#EF4444";
         ctx.fillRect(x - barWidth / 2, top, barWidth, height);
       }
 
@@ -1775,10 +1775,11 @@ function createRevenueIndicator(): IndicatorTemplate<
           ? "#22C55E"
           : "#EF4444";
       const growthLabel = getGrowthLabelForPeriod(indicator.extendData?.period);
+      const revenueColor = (result.revenue as number) >= 0 ? "#22C55E" : "#EF4444";
 
       return {
         legends: [
-          { title: "Revenue: ", value: { text: `$${formatShortInterest(result.revenue as number)}`, color: "#3B82F6" } },
+          { title: "Revenue: ", value: { text: `$${formatShortInterest(result.revenue as number)}`, color: revenueColor } },
           ...(Number.isFinite(growth as number)
             ? [
                 {
@@ -1847,7 +1848,7 @@ function createRevenueIndicator(): IndicatorTemplate<
 
       const barWidth = Math.max(
         2,
-        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.6,
+        (xAxis.convertToPixel(1) - xAxis.convertToPixel(0)) * 0.85,
       );
       const y0 = yAxis.convertToPixel(0);
       if (typeof y0 !== "number" || isNaN(y0)) return false;
@@ -1864,7 +1865,7 @@ function createRevenueIndicator(): IndicatorTemplate<
         const height = Math.abs(y0 - y);
         if (height <= 0) continue;
 
-        ctx.fillStyle = "#3B82F6";
+        ctx.fillStyle = (data.revenue as number) >= 0 ? "#22C55E" : "#EF4444";
         ctx.fillRect(x - barWidth / 2, top, barWidth, height);
       }
 
