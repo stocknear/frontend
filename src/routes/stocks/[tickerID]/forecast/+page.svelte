@@ -485,6 +485,37 @@
       [forecastTimestamp, forecastTargets.low],
     ];
 
+    const isCompact = $screenWidth && $screenWidth < 640;
+    const titleWidthClass = isCompact ? "w-[200px]" : "w-[500px]";
+    const titleTextClass = `${titleWidthClass} grid grid-cols-2 text-xs font-semibold text-gray-600 dark:text-zinc-300`;
+
+    const formatTarget = (value) => {
+      if (value === null || value === undefined || Number.isNaN(value)) {
+        return "n/a";
+      }
+      const hasDecimals = Math.abs(value % 1) > 0;
+      return value.toLocaleString("en-US", {
+        minimumFractionDigits: hasDecimals ? 2 : 0,
+        maximumFractionDigits: hasDecimals ? 2 : 0,
+      });
+    };
+
+    const labelBackground = $mode === "light" ? "#fff" : "#0b0b0f";
+    const labelBorder = $mode === "light" ? "#d1d5db" : "#3f3f46";
+    const labelBaseClass = "text-left text-[13px] font-semibold leading-tight";
+    const makeLabelFormatter = (label, labelClass) =>
+      function () {
+        const points = this.series?.points || [];
+        if (!points.length || this.point !== points[points.length - 1]) {
+          return "";
+        }
+        const value = formatTarget(this.point.y);
+        return `<div class="min-w-12 text-center m-auto flex flex-col justify-center items-center ${labelBaseClass} ${labelClass}">
+          <div>${label}</div>
+          <div>$${value}</div>
+        </div>`;
+      };
+
     const options = {
       tooltip: {
         enabled: false,
@@ -510,18 +541,17 @@
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
         height: 360,
+        spacingTop: 18,
+        spacingRight: 28,
         animation: false,
       },
       title: {
-        text: `<div class="grid grid-cols-2 w-[200px] sm:w-[500px] -mb-3.5 text-xs font-[501] text-gray-600 dark:text-gray-400">
-          <h3 class="text-left">${$screenWidth && $screenWidth < 640 ? "Past Year" : "Past 12 Months"}</h3>
-          <h3 class="text-right">${$screenWidth && $screenWidth < 640 ? "Next Year" : "12 Month Forecast"}</h3>
+        text: `<div class="${titleTextClass}">
+          <span class="text-left">${isCompact ? "Past Year" : "Past 12 Months"}</span>
+          <span class="text-right">${isCompact ? "Next Year" : "12 Month Forecast"}</span>
          </div>`,
-        style: {
-          color: $mode === "light" ? "black" : "white",
-          width: "100%",
-        },
         verticalAlign: "top",
+        y: 8,
         useHTML: true,
       },
       xAxis: {
@@ -529,6 +559,12 @@
         gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
         type: "datetime",
         endOnTick: false,
+        startOnTick: false,
+        maxPadding: 0.08,
+        minPadding: 0.02,
+        tickLength: 0,
+        tickWidth: 0,
+        lineWidth: 0,
         labels: {
           style: {
             color: $mode === "light" ? "#545454" : "white",
@@ -547,6 +583,8 @@
         title: {
           text: "",
         },
+        startOnTick: false,
+        endOnTick: false,
         labels: {
           style: {
             color: $mode === "light" ? "#545454" : "white",
@@ -557,6 +595,9 @@
         },
         gridLineWidth: 1,
         gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
+        tickLength: 0,
+        tickWidth: 0,
+        lineWidth: 0,
       },
 
       series: [
@@ -564,32 +605,75 @@
           animation: false,
           name: "Historical",
           data: processedHistorical,
-          color: $mode === "light" ? "#007050" : "#fff",
+          color: $mode === "light" ? "#0A7F5A" : "#fff",
           marker: {
             enabled: true,
             symbol: "circle",
             radius: 4,
+            lineWidth: 2,
+            lineColor: $mode === "light" ? "#0A7F5A" : "#fff",
+            fillColor: $mode === "light" ? "#0A7F5A" : "#fff",
           },
           lineWidth: 3,
+          zIndex: 3,
         },
         {
           animation: false,
           name: "High",
           data: forecastHigh,
-          color: "#31B800",
-          dashStyle: "Dash",
+          color: "#0B7D59",
+          dashStyle: "ShortDash",
+          lineWidth: 2,
           marker: {
             enabled: false,
+          },
+          dataLabels: {
+            enabled: true,
+            useHTML: true,
+            shape: "callout",
+            backgroundColor: labelBackground,
+            borderColor: labelBorder,
+            borderWidth: 1,
+            padding: 6,
+            shadow: false,
+            align: "left",
+            verticalAlign: "middle",
+            x: 16,
+            y: -12,
+            crop: false,
+            overflow: "allow",
+            formatter: makeLabelFormatter("High", "text-[#0B7D59]"),
           },
         },
         {
           animation: false,
           name: "Average",
           data: forecastAvg,
-          color: $mode === "light" ? "#007050" : "#fff",
-          dashStyle: "Dash",
+          color: $mode === "light" ? "#374151" : "#e5e7eb",
+          dashStyle: "ShortDash",
+          lineWidth: 2,
           marker: {
             enabled: false,
+          },
+          dataLabels: {
+            enabled: true,
+            useHTML: true,
+            shape: "callout",
+            backgroundColor: labelBackground,
+            borderColor: labelBorder,
+            borderWidth: 1,
+            padding: 6,
+            shadow: false,
+            align: "left",
+            verticalAlign: "middle",
+            x: 16,
+            y: 0,
+            crop: false,
+            overflow: "allow",
+            formatter: makeLabelFormatter(
+              "Avg",
+              "text-gray-800 dark:text-zinc-300",
+            ),
           },
         },
         {
@@ -597,99 +681,30 @@
           name: "Low",
           data: forecastLow,
           color: "#D9220E",
-          dashStyle: "Dash",
+          dashStyle: "ShortDash",
+          lineWidth: 2,
           marker: {
             enabled: false,
           },
+          dataLabels: {
+            enabled: true,
+            useHTML: true,
+            shape: "callout",
+            backgroundColor: labelBackground,
+            borderColor: labelBorder,
+            borderWidth: 1,
+            padding: 6,
+            shadow: false,
+            align: "left",
+            verticalAlign: "middle",
+            x: 16,
+            y: 12,
+            crop: false,
+            overflow: "allow",
+            formatter: makeLabelFormatter("Low", "text-[#D9220E]"),
+          },
         },
       ],
-      /*
-      annotations: [
-        {
-          labels: [
-            {
-              point: {
-                x: forecastHigh[forecastHigh.length - 1][0], // Last X (timestamp)
-                y: forecastHigh[forecastHigh.length - 1][1], // Last Y (Average value)
-                xAxis: 0,
-                yAxis: 0,
-              },
-              text: `<b>High</b><br><span class="text-sm">$${forecastHigh[forecastHigh.length - 1][1]}</span>`,
-              useHTML: true,
-              style: {
-                backgroundColor: "rgba(0, 0, 0, 1)",
-                borderColor: "rgba(255, 255, 255, 0.2)",
-                borderWidth: 1,
-                fontSize: "12px",
-                fontWeight: "bold",
-              },
-              align: "left",
-              verticalAlign: "middles",
-              x: -10,
-              y: 0,
-              backgroundColor: "rgba(0, 0, 0, 1)",
-              borderColor: "rgba(255, 255, 255, 0.2)",
-              borderWidth: 1,
-              padding: 8,
-              shape: "",
-            },
-            {
-              point: {
-                x: forecastAvg[forecastAvg.length - 1][0], // Last X (timestamp)
-                y: forecastAvg[forecastAvg.length - 1][1], // Last Y (Average value)
-                xAxis: 0,
-                yAxis: 0,
-              },
-              text: `<b>Average</b><br><span>$${forecastAvg[forecastAvg.length - 1][1]}</span>`,
-              useHTML: true,
-              style: {
-                backgroundColor: "rgba(0, 0, 0, 1)",
-                borderColor: "rgba(255, 255, 255, 0.2)",
-                borderWidth: 1,
-                fontSize: "12px",
-                fontWeight: "bold",
-              },
-              align: "right",
-              verticalAlign: "middle",
-              x: -10,
-              y: 30,
-              backgroundColor: "rgba(0, 0, 0, 1)",
-              borderColor: "rgba(255, 255, 255, 0.2)",
-              borderWidth: 1,
-              padding: 5,
-              shape: "",
-            },
-            {
-              point: {
-                x: forecastLow[forecastLow.length - 1][0], // Last X (timestamp)
-                y: forecastLow[forecastLow.length - 1][1], // Last Y (Average value)
-                xAxis: 0,
-                yAxis: 0,
-              },
-              text: `<b>Low</b><br><span>$${forecastLow[forecastLow.length - 1][1]}</span>`,
-              useHTML: true,
-              style: {
-                backgroundColor: "rgba(0, 0, 0, 1)",
-                borderColor: "rgba(255, 255, 255, 0.2)",
-                borderWidth: 1,
-                fontSize: "12px",
-                fontWeight: "bold",
-              },
-              align: "top",
-              verticalAlign: "middle",
-              x: -10,
-              y: -40,
-              backgroundColor: "rgba(0, 0, 0, 1)",
-              borderColor: "rgba(255, 255, 255, 0.2)",
-              borderWidth: 1,
-              padding: 5,
-              shape: "",
-            },
-          ],
-        },
-      ],
-      */
-
       legend: {
         enabled: false,
       },
@@ -979,7 +994,7 @@
                 <div class="min-w-[500px]"></div>
               {/if}
             </div>
-            <div class="grow p-3 md:pt-4 lg:pl-4 lg:pt-0">
+            <div class="grow md:pt-4 lg:pt-0">
               {#if numOfAnalyst > 0}
                 <div
                   class=" bg-white/70 dark:bg-zinc-950/40"
@@ -999,7 +1014,7 @@
                   class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
-                    class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                    class="w-full text-right text-xs sm:text-sm text-gray-800 dark:text-zinc-300 tabular-nums"
                   >
                     <thead
                       ><tr
@@ -1080,7 +1095,7 @@
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
-                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3"
+                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-300 font-semibold text-xs px-2 py-0.5 ml-3"
                       >New</label
                     >
                   {/if}
@@ -1099,7 +1114,7 @@
                       <span class="mt-3">
                         Unlock content with
                         <a
-                          class="inline-block ml-0.5 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           href="/pricing"
                           >Pro Subscription <svg
                             class="w-4 h-4 mb-1 inline-block text-gray-800 dark:text-zinc-300"
@@ -1158,7 +1173,7 @@
                   class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
-                    class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                    class="w-full text-right text-xs sm:text-sm text-gray-800 dark:text-zinc-300 tabular-nums"
                   >
                     <thead
                       ><tr
