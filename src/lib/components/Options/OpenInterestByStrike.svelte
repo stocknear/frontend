@@ -505,8 +505,8 @@
     updatePaginatedData();
   };
 
-  // Reactive statement to update when mode changes
-  $: if ($mode) {
+  // Reactive statement to update when mode changes (only if we have data)
+  $: if ($mode && rawData?.length > 0) {
     config = plotData() || null;
   }
 
