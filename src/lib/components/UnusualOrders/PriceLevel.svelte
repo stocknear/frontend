@@ -233,8 +233,9 @@
         borderRadius: 4,
         style: { color: "#fff", fontSize: "14px", padding: "10px" },
         formatter: function () {
-          const price = this?.x;
-          const volume = this?.y || 0;
+          // Use category value (actual price), not the index
+          const price = this.points?.[0]?.key ?? priceLevel[this.x];
+          const volume = this.points?.[0]?.y || 0;
           const pctOfTotalRaw =
             localTotalVolume > 0 ? (volume / localTotalVolume) * 100 : 0;
           const pctOfTotal =
