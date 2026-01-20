@@ -612,7 +612,7 @@
                               })}
                             </div>
                             <div class="grow px-3 py-2 lg:py-1">
-                              <h4 class="text-sm font-semibold lg:text-base">
+                              <h4 class="text-sm lg:text-base">
                                 {title}
                               </h4>
                               <div

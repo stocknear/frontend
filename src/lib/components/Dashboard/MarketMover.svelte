@@ -52,7 +52,7 @@
                 Symbol
               </th>
               <th
-                class="py-2.5 px-3 sm:px-4 text-left font-semibold lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
+                class="hidden sm:block py-2.5 px-3 sm:px-4 text-left font-semibold lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
               >
                 Name
               </th>
@@ -75,7 +75,7 @@
                   >
                 </td>
                 <td
-                  class="py-3 px-3 sm:px-4 text-gray-600 dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
+                  class="hidden sm:block py-3 px-3 sm:px-4 text-gray-600 dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
                 >
                   {removeCompanyStrings(item?.name)?.length > charNumber
                     ? removeCompanyStrings(item?.name)?.slice(0, charNumber) +
@@ -152,7 +152,7 @@
                 Symbol
               </th>
               <th
-                class="py-2.5 px-3 sm:px-4 text-left font-semibold lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
+                class="hidden sm:block py-2.5 px-3 sm:px-4 text-left font-semibold lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
               >
                 Name
               </th>
@@ -175,7 +175,7 @@
                   >
                 </td>
                 <td
-                  class="py-3 px-3 sm:px-4 text-gray-600 dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
+                  class="hidden sm:block py-3 px-3 sm:px-4 text-gray-600 dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
                 >
                   {removeCompanyStrings(item?.name)?.length > charNumber
                     ? removeCompanyStrings(item?.name)?.slice(0, charNumber) +

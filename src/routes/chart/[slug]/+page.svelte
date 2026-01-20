@@ -6642,16 +6642,12 @@
     ? `$${(seoMarketCap / 1e9).toFixed(1)}B`
     : "N/A";
   $: resolvedAssetType = normalizeAssetType(data?.assetType);
-  $: showDetailedAnalysis = Boolean(resolvedAssetType);
   $: assetType =
     resolvedAssetType === "etf"
       ? "etf"
       : resolvedAssetType === "index"
         ? "index"
         : "stocks";
-  $: detailedAnalysisHref = showDetailedAnalysis
-    ? `/${assetType}/${ticker}`
-    : "";
 
   $: filteredIndicators = indicatorItems.filter((item) => {
     if (!indicatorSearchTerm.trim()) return true;
@@ -7365,20 +7361,6 @@
               <span>Reset All</span>
             </button>
           {/if}
-        {/if}
-
-        {#if showDetailedAnalysis}
-          <!-- Spacer to push to right -->
-          <div class="flex-1"></div>
-
-          <a
-            href={detailedAnalysisHref}
-            class="whitespace-nowrap flex items-center gap-1 px-2 py-1 text-sm font-medium text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
-            aria-label="Detailed Analysis"
-          >
-            <span>Detailed Analysis</span>
-            <ArrowRight class="h-3.5 w-3.5" />
-          </a>
         {/if}
       </div>
     </div>
