@@ -137,6 +137,8 @@
       return null;
     }
 
+    const screenWidth = $screenWidth || 1024;
+    const axisFontSize = screenWidth < 640 ? "10px" : "12px";
     const categories = ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"];
     const colors = ["#008A00", "#31B800", "#F5B700", "#D9220E", "#9E190A"];
 
@@ -193,6 +195,7 @@
         labels: {
           style: {
             color: $mode === "light" ? "#545454" : "white",
+            fontSize: axisFontSize,
           },
         },
       },
@@ -263,6 +266,19 @@
         break;
     }
 
+    const screenWidth = $screenWidth || 1024;
+    const isCompact = screenWidth < 640;
+    const isTablet = screenWidth >= 640 && screenWidth < 1024;
+    const chartHeight = 360;
+    const bandThickness = isCompact ? 16 : isTablet ? 18 : 20;
+    const dialBaseWidth = isCompact ? 10 : 12;
+    const labelPrefixClass = isCompact
+      ? "text-sm"
+      : isTablet
+        ? "text-base"
+        : "text-lg";
+    const labelValueClass = isCompact ? "text-base" : "text-lg";
+
     const separator = 0.05;
     const band1 = 1 - separator;
     const band2 = 2 - separator;
@@ -283,7 +299,7 @@
         type: "gauge",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        height: 280,
+        height: chartHeight,
         animation: false,
       },
       title: {
@@ -306,63 +322,63 @@
             from: 0,
             to: band1,
             color: "#9E190A",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: band1,
             to: 1,
             color: "#fff",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: 1,
             to: band2,
             color: "#D9220E",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: band2,
             to: 2,
             color: "#fff",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: 2,
             to: band3,
             color: "#f5b700",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: band3,
             to: 3,
             color: "#fff",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: 3,
             to: band4,
             color: "#31B800",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: band4,
             to: 4,
             color: "#fff",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
           {
             from: 4,
             to: 5,
             color: "#008A00",
-            thickness: 20,
+            thickness: bandThickness,
             borderRadius: "0px",
           },
         ],
@@ -394,42 +410,42 @@
             shadow: false,
             style: {
               textOutline: "none",
-              fontSize: "16px",
-              fontWeight: "bold",
             },
             formatter: function () {
               const rating = this.y;
               let ratingText = "";
-              let textColor = "";
+              let ratingClass = "";
 
               if (rating < 1) {
                 ratingText = "Strong Sell";
-                textColor = "#D9220E";
+                ratingClass = "text-[#D9220E]";
               } else if (rating < 2) {
                 ratingText = "Sell";
-                textColor = "#D9220E";
+                ratingClass = "text-[#D9220E]";
               } else if (rating < 3) {
                 ratingText = "Hold";
-                textColor = "#C19000";
+                ratingClass = "text-[#C19000]";
               } else if (rating < 4) {
                 ratingText = "Buy";
-                textColor = "#31B800";
+                ratingClass = "text-[#31B800]";
               } else {
                 ratingText = "Strong Buy";
-                textColor = "#31B800";
+                ratingClass = "text-[#31B800]";
               }
 
-              // "Analyst Consensus:" in white, rating in color
+              const prefixClass = `${labelPrefixClass} font-semibold text-gray-600 dark:text-zinc-300`;
+              const valueClass = `${labelValueClass} font-semibold ${ratingClass}`;
+
               return `
-          <span class="text-lg text-gray-600 dark:text-zinc-300">Analyst Consensus: </span>
-          <span class="text-lg" style="color:${textColor};">${ratingText}</span>
+          <span class="${prefixClass}">Analyst Consensus: </span>
+          <span class="${valueClass}">${ratingText}</span>
         `;
             },
           },
           dial: {
             radius: "80%",
             backgroundColor: $mode === "light" ? "#000" : "#808080",
-            baseWidth: 12,
+            baseWidth: dialBaseWidth,
             baseLength: "0%",
             rearLength: "0%",
           },
@@ -485,7 +501,24 @@
       [forecastTimestamp, forecastTargets.low],
     ];
 
-    const isCompact = $screenWidth && $screenWidth < 640;
+    const screenWidth = $screenWidth || 1024;
+    const isCompact = screenWidth < 640;
+    const isTablet = screenWidth >= 640 && screenWidth < 1024;
+    const chartHeight = isCompact ? 260 : isTablet ? 320 : 360;
+    const spacingRight = isCompact ? 50 : 30;
+    const titleYOffset = isCompact ? 6 : isTablet ? 8 : 10;
+    const labelOffsetX = 10;
+    const labelOffsetHighY = isCompact ? -8 : -12;
+    const labelOffsetLowY = isCompact ? 8 : 12;
+    const labelPadding = 6;
+    const labelFontClass = isCompact
+      ? "text-[11px]"
+      : isTablet
+        ? "text-[12px]"
+        : "text-[13px]";
+    const axisFontSize = isCompact ? "10px" : "12px";
+    const markerRadius = isCompact ? 3 : 4;
+    const historicalLineWidth = isCompact ? 2 : 3;
     const titleWidthClass = isCompact ? "w-[200px]" : "w-[500px]";
     const titleTextClass = `${titleWidthClass} grid grid-cols-2 text-xs font-semibold text-gray-600 dark:text-zinc-300`;
 
@@ -502,7 +535,7 @@
 
     const labelBackground = $mode === "light" ? "#fff" : "#0b0b0f";
     const labelBorder = $mode === "light" ? "#d1d5db" : "#3f3f46";
-    const labelBaseClass = "text-left text-[13px] font-semibold leading-tight";
+    const labelBaseClass = `text-left ${labelFontClass} font-semibold leading-tight`;
     const makeLabelFormatter = (label, labelClass) =>
       function () {
         const points = this.series?.points || [];
@@ -510,7 +543,7 @@
           return "";
         }
         const value = formatTarget(this.point.y);
-        return `<div class="min-w-12 text-center m-auto flex flex-col justify-center items-center ${labelBaseClass} ${labelClass}">
+        return `<div class="min-w-8 sm:min-w-14 z-20 m-auto text-center flex flex-col items-center justify-center ${labelBaseClass} ${labelClass}">
           <div>${label}</div>
           <div>$${value}</div>
         </div>`;
@@ -540,9 +573,8 @@
       chart: {
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        height: 360,
-        spacingTop: 18,
-        spacingRight: 28,
+        height: chartHeight,
+        spacingRight,
         animation: false,
       },
       title: {
@@ -551,7 +583,7 @@
           <span class="text-right">${isCompact ? "Next Year" : "12 Month Forecast"}</span>
          </div>`,
         verticalAlign: "top",
-        y: 8,
+        y: titleYOffset,
         useHTML: true,
       },
       xAxis: {
@@ -568,6 +600,7 @@
         labels: {
           style: {
             color: $mode === "light" ? "#545454" : "white",
+            fontSize: axisFontSize,
           },
           formatter: function () {
             const date = new Date(this.value);
@@ -588,6 +621,7 @@
         labels: {
           style: {
             color: $mode === "light" ? "#545454" : "white",
+            fontSize: axisFontSize,
           },
           formatter: function () {
             return `$${this.value.toFixed(0)}`;
@@ -595,9 +629,6 @@
         },
         gridLineWidth: 1,
         gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
-        tickLength: 0,
-        tickWidth: 0,
-        lineWidth: 0,
       },
 
       series: [
@@ -609,12 +640,12 @@
           marker: {
             enabled: true,
             symbol: "circle",
-            radius: 4,
+            radius: markerRadius,
             lineWidth: 2,
             lineColor: $mode === "light" ? "#0A7F5A" : "#fff",
             fillColor: $mode === "light" ? "#0A7F5A" : "#fff",
           },
-          lineWidth: 3,
+          lineWidth: historicalLineWidth,
           zIndex: 3,
         },
         {
@@ -622,7 +653,7 @@
           name: "High",
           data: forecastHigh,
           color: "#0B7D59",
-          dashStyle: "ShortDash",
+          dashStyle: "dash",
           lineWidth: 2,
           marker: {
             enabled: false,
@@ -634,14 +665,15 @@
             backgroundColor: labelBackground,
             borderColor: labelBorder,
             borderWidth: 1,
-            padding: 6,
+            padding: labelPadding,
             shadow: false,
             align: "left",
             verticalAlign: "middle",
-            x: 16,
-            y: -12,
+            x: labelOffsetX,
+            y: labelOffsetHighY,
             crop: false,
             overflow: "allow",
+            allowOverlap: true,
             formatter: makeLabelFormatter("High", "text-[#0B7D59]"),
           },
         },
@@ -650,7 +682,7 @@
           name: "Average",
           data: forecastAvg,
           color: $mode === "light" ? "#374151" : "#e5e7eb",
-          dashStyle: "ShortDash",
+          dashStyle: "dash",
           lineWidth: 2,
           marker: {
             enabled: false,
@@ -662,14 +694,15 @@
             backgroundColor: labelBackground,
             borderColor: labelBorder,
             borderWidth: 1,
-            padding: 6,
+            padding: labelPadding,
             shadow: false,
             align: "left",
             verticalAlign: "middle",
-            x: 16,
+            x: labelOffsetX,
             y: 0,
             crop: false,
             overflow: "allow",
+            allowOverlap: true,
             formatter: makeLabelFormatter(
               "Avg",
               "text-gray-800 dark:text-zinc-300",
@@ -681,7 +714,7 @@
           name: "Low",
           data: forecastLow,
           color: "#D9220E",
-          dashStyle: "ShortDash",
+          dashStyle: "dash",
           lineWidth: 2,
           marker: {
             enabled: false,
@@ -693,14 +726,15 @@
             backgroundColor: labelBackground,
             borderColor: labelBorder,
             borderWidth: 1,
-            padding: 6,
+            padding: labelPadding,
             shadow: false,
             align: "left",
             verticalAlign: "middle",
-            x: 16,
-            y: 12,
+            x: labelOffsetX,
+            y: labelOffsetLowY,
             crop: false,
             overflow: "allow",
+            allowOverlap: true,
             formatter: makeLabelFormatter("Low", "text-[#D9220E]"),
           },
         },
@@ -738,12 +772,10 @@
     return differenceInDays <= 1;
   }
 
-  $: {
-    if ($mode) {
-      optionsBarChart = getBarChart() || null;
-      optionsPieChart = getPieChart() || null;
-      config = getPriceForecastChart() || null;
-    }
+  $: if ($mode || $screenWidth) {
+    optionsBarChart = getBarChart() || null;
+    optionsPieChart = getPieChart() || null;
+    config = getPriceForecastChart() || null;
   }
 
   index = 0;
@@ -973,7 +1005,8 @@
                 </div>
                 {#if numOfAnalyst > 0}
                   <p>
-                    The {numOfAnalyst} analysts with 12-month price forecasts for
+                    The <strong>{numOfAnalyst}</strong> analysts with 12-month
+                    price forecasts for
                     {$stockTicker}
                     stock have an median target of {medianPriceTarget}, with a
                     low estimate of {lowPriceTarget}
@@ -987,7 +1020,7 @@
               </div>
               {#if numOfAnalyst > 0}
                 <div
-                  class="max-h-[225px]"
+                  class="w-full max-h-[260px]"
                   use:highcharts={optionsPieChart}
                 ></div>
               {:else}
