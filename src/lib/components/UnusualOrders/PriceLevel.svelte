@@ -373,13 +373,6 @@
                 ${keySupport.price?.toFixed(2)}
               </span>
             </div>
-            <div
-              class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
-            >
-              {keySupport.distancePct?.toFixed(1)}% below current · {abbreviateNumber(
-                keySupport.size,
-              )} shares
-            </div>
           {:else}
             <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
               —
@@ -429,13 +422,6 @@
               >
                 ${keyResistance.price?.toFixed(2)}
               </span>
-            </div>
-            <div
-              class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
-            >
-              {keyResistance.distancePct?.toFixed(1)}% above current · {abbreviateNumber(
-                keyResistance.size,
-              )} shares
             </div>
           {:else}
             <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">

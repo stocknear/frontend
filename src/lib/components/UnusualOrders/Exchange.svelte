@@ -351,7 +351,6 @@
     exchangeInsights?.latestTotalPremium ??
     (latestRow ? Number(latestRow?.totalPremium || 0) : 0);
   $: activityLevel = exchangeInsights?.activityLevel || "moderate";
-  $: activityDescription = exchangeInsights?.activityDescription || "";
 
   // Data freshness check
   $: isToday = (() => {
@@ -362,14 +361,6 @@
   })();
 
   // Trend icon and color
-  $: trendIcon =
-    darkPoolTrend === "rising" ? "↑" : darkPoolTrend === "falling" ? "↓" : "→";
-  $: trendColor =
-    darkPoolTrend === "rising"
-      ? "text-red-500 dark:text-red-400"
-      : darkPoolTrend === "falling"
-        ? "text-emerald-500 dark:text-emerald-400"
-        : "text-gray-800 dark:text-zinc-300";
 </script>
 
 {#if rawData?.length > 0 && config}
@@ -400,8 +391,7 @@
           <div class="text-sm mb-2 flex items-center">
             <span>Dark Pool Activity</span>
             {#if !showLocked}
-              <span class="ml-auto text-xs tabular-nums {trendColor}">
-                {trendIcon}
+              <span class="ml-auto text-xs tabular-nums">
                 {darkPoolTrend}
               </span>
             {/if}
@@ -435,17 +425,6 @@
               class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
             >
               30-day avg: {pctText(avgDarkPoolPct)}
-              {#if Math.abs(deviationFromAvg) >= 3}
-                <span
-                  class={deviationFromAvg > 0
-                    ? "text-red-500"
-                    : "text-emerald-500"}
-                >
-                  ({deviationFromAvg > 0 ? "+" : ""}{deviationFromAvg.toFixed(
-                    1,
-                  )}%)
-                </span>
-              {/if}
             </div>
           {/if}
         </div>
@@ -619,8 +598,8 @@
 
         <!-- Interpretation Note -->
         <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
-          Dark pool trades hide large orders from public view. High % may indicate
-          institutional positioning but direction is unknown.
+          Dark pool trades hide large orders from public view. High % may
+          indicate institutional positioning but direction is unknown.
         </p>
       {/if}
     </main>
