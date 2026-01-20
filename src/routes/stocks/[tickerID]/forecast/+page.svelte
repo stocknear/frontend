@@ -263,8 +263,17 @@
         break;
     }
 
+    const separator = 0.05;
+    const band1 = 1 - separator;
+    const band2 = 2 - separator;
+    const band3 = 3 - separator;
+    const band4 = 4 - separator;
+
     const options = {
       legend: {
+        enabled: false,
+      },
+      tooltip: {
         enabled: false,
       },
       credits: {
@@ -274,6 +283,7 @@
         type: "gauge",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        height: 280,
         animation: false,
       },
       title: {
@@ -282,8 +292,8 @@
       yAxis: {
         min: 0,
         max: 5,
-        tickPosition: "inside",
-        tickLength: 20,
+        tickPosition: "outside",
+        tickLength: 0,
         tickWidth: 0,
         minorTickInterval: null,
         lineWidth: 0,
@@ -294,47 +304,82 @@
         plotBands: [
           {
             from: 0,
-            to: 1,
+            to: band1,
             color: "#9E190A",
-            thickness: 40,
+            thickness: 20,
+            borderRadius: "0px",
+          },
+          {
+            from: band1,
+            to: 1,
+            color: "#fff",
+            thickness: 20,
             borderRadius: "0px",
           },
           {
             from: 1,
-            to: 2,
+            to: band2,
             color: "#D9220E",
-            thickness: 40,
+            thickness: 20,
+            borderRadius: "0px",
+          },
+          {
+            from: band2,
+            to: 2,
+            color: "#fff",
+            thickness: 20,
             borderRadius: "0px",
           },
           {
             from: 2,
-            to: 3,
+            to: band3,
             color: "#f5b700",
-            thickness: 40,
+            thickness: 20,
+            borderRadius: "0px",
+          },
+          {
+            from: band3,
+            to: 3,
+            color: "#fff",
+            thickness: 20,
             borderRadius: "0px",
           },
           {
             from: 3,
-            to: 4,
+            to: band4,
             color: "#31B800",
-            thickness: 40,
+            thickness: 20,
+            borderRadius: "0px",
+          },
+          {
+            from: band4,
+            to: 4,
+            color: "#fff",
+            thickness: 20,
             borderRadius: "0px",
           },
           {
             from: 4,
             to: 5,
             color: "#008A00",
-            thickness: 40,
+            thickness: 20,
             borderRadius: "0px",
           },
         ],
       },
       pane: {
         startAngle: -90,
-        endAngle: 89.9,
-        background: null,
-        center: ["50%", "50%"],
-        size: "70%",
+        endAngle: 90,
+        background: [
+          {
+            outerRadius: "101%",
+            innerRadius: "100%",
+            backgroundColor: "#000",
+            borderWidth: 0,
+            shape: "arc",
+          },
+          null,
+        ],
       },
       series: [
         {
@@ -345,7 +390,8 @@
             enabled: true,
             useHTML: true,
             borderWidth: 0,
-            backgroundColor: "transparent",
+            backgroundColor: "none",
+            shadow: false,
             style: {
               textOutline: "none",
               fontSize: "16px",
@@ -382,14 +428,10 @@
           },
           dial: {
             radius: "80%",
-            backgroundColor: "#2A2E39",
+            backgroundColor: $mode === "light" ? "#000" : "#808080",
             baseWidth: 12,
             baseLength: "0%",
             rearLength: "0%",
-          },
-          pivot: {
-            backgroundColor: "#2A2E39",
-            radius: 8,
           },
         },
       ],
