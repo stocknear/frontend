@@ -50,43 +50,6 @@
 
   function changeTab(index) {
     activeIdx = index;
-    if (activeIdx === 0) {
-      numOfAnalyst = data?.getAnalystSummary?.numOfAnalyst || 0;
-      avgPriceTarget = data?.getAnalystSummary?.avgPriceTarget || 0;
-      medianPriceTarget = data?.getAnalystSummary?.medianPriceTarget || 0;
-      lowPriceTarget = data?.getAnalystSummary?.lowPriceTarget || 0;
-      highPriceTarget = data?.getAnalystSummary?.highPriceTarget || 0;
-      consensusRating = data?.getAnalystSummary?.consensusRating;
-
-      lowChange = calculatePriceChange(lowPriceTarget);
-      medianChange = calculatePriceChange(medianPriceTarget);
-      avgChange = calculatePriceChange(avgPriceTarget);
-      highChange = calculatePriceChange(highPriceTarget);
-      rawAnalystList = data?.getAnalystSummary?.recommendationList || [];
-      recommendationList =
-        rawAnalystList?.length > 5 ? rawAnalystList?.slice(-6) : rawAnalystList;
-      categories = ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"];
-    } else {
-      numOfAnalyst = data?.getTopAnalystSummary?.numOfAnalyst || 0;
-      avgPriceTarget = data?.getTopAnalystSummary?.avgPriceTarget || 0;
-      medianPriceTarget = data?.getTopAnalystSummary?.medianPriceTarget || 0;
-      lowPriceTarget = data?.getTopAnalystSummary?.lowPriceTarget || 0;
-      highPriceTarget = data?.getTopAnalystSummary?.highPriceTarget || 0;
-      consensusRating = data?.getTopAnalystSummary?.consensusRating;
-
-      lowChange = calculatePriceChange(lowPriceTarget);
-      medianChange = calculatePriceChange(medianPriceTarget);
-      avgChange = calculatePriceChange(avgPriceTarget);
-      highChange = calculatePriceChange(highPriceTarget);
-      rawAnalystList = data?.getTopAnalystSummary?.recommendationList || [];
-      recommendationList =
-        rawAnalystList?.length > 5 ? rawAnalystList?.slice(-6) : rawAnalystList;
-      categories = ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"];
-    }
-
-    optionsBarChart = getBarChart() || null;
-    optionsPieChart = getPieChart() || null;
-    config = getPriceForecastChart() || null;
   }
 
   function findIndex(data) {
@@ -457,7 +420,10 @@
   }
 
   function getPriceForecastChart() {
-    const historicalData = data?.getAnalystSummary?.pastPriceList || [];
+    const summary =
+      activeIdx === 0 ? data?.getAnalystSummary : data?.getTopAnalystSummary;
+    const historicalData =
+      summary?.pastPriceList || data?.getAnalystSummary?.pastPriceList || [];
     const forecastTargets = {
       low: lowPriceTarget,
       avg: avgPriceTarget,
@@ -772,10 +738,32 @@
     return differenceInDays <= 1;
   }
 
-  $: if ($mode || $screenWidth) {
-    optionsBarChart = getBarChart() || null;
-    optionsPieChart = getPieChart() || null;
-    config = getPriceForecastChart() || null;
+  $: {
+    const summary =
+      activeIdx === 0 ? data?.getAnalystSummary : data?.getTopAnalystSummary;
+
+    numOfAnalyst = summary?.numOfAnalyst || 0;
+    avgPriceTarget = summary?.avgPriceTarget || 0;
+    medianPriceTarget = summary?.medianPriceTarget || 0;
+    lowPriceTarget = summary?.lowPriceTarget || 0;
+    highPriceTarget = summary?.highPriceTarget || 0;
+    consensusRating = summary?.consensusRating;
+
+    lowChange = calculatePriceChange(lowPriceTarget);
+    medianChange = calculatePriceChange(medianPriceTarget);
+    avgChange = calculatePriceChange(avgPriceTarget);
+    highChange = calculatePriceChange(highPriceTarget);
+
+    rawAnalystList = summary?.recommendationList || [];
+    recommendationList =
+      rawAnalystList?.length > 5 ? rawAnalystList?.slice(-6) : rawAnalystList;
+
+    if ($mode) {
+      $screenWidth;
+      optionsBarChart = getBarChart() || null;
+      optionsPieChart = getPieChart() || null;
+      config = getPriceForecastChart() || null;
+    }
   }
 
   index = 0;
@@ -785,21 +773,6 @@
   changeEPS = 0;
   changeEPSNextYear = 0;
   price = data?.getStockQuote?.price?.toFixed(2) || 0;
-
-  numOfAnalyst = data?.getAnalystSummary?.numOfAnalyst || 0;
-  avgPriceTarget = data?.getAnalystSummary?.avgPriceTarget || 0;
-  medianPriceTarget = data?.getAnalystSummary?.medianPriceTarget || 0;
-  lowPriceTarget = data?.getAnalystSummary?.lowPriceTarget || 0;
-  highPriceTarget = data?.getAnalystSummary?.highPriceTarget || 0;
-  consensusRating = data?.getAnalystSummary?.consensusRating;
-
-  lowChange = calculatePriceChange(lowPriceTarget);
-  medianChange = calculatePriceChange(medianPriceTarget);
-  avgChange = calculatePriceChange(avgPriceTarget);
-  highChange = calculatePriceChange(highPriceTarget);
-  rawAnalystList = data?.getAnalystSummary?.recommendationList || [];
-  recommendationList =
-    rawAnalystList?.length > 5 ? rawAnalystList?.slice(-6) : rawAnalystList;
 
   if (data?.getAnalystEstimate?.length !== 0) {
     index = findIndex(data?.getAnalystEstimate);
@@ -828,9 +801,6 @@
     );
   }
 
-  optionsBarChart = getBarChart() || null;
-  optionsPieChart = getPieChart() || null;
-  config = getPriceForecastChart() || null;
 </script>
 
 <SEO

@@ -346,10 +346,10 @@
         },
         borderRadius: 4,
         formatter: function () {
-          // Format the x value to display time in hh:mm format
-          let tooltipContent = `<span class=" m-auto  text-[1rem] font-[501]">${
-            this?.x
-          }</span><br>`;
+          const point = this.points?.[0];
+          const label =
+            point?.key ?? dates?.[point?.point?.index] ?? this?.x ?? "";
+          let tooltipContent = `<span class=" m-auto text-[1rem] font-[501]">${label}</span><br>`;
 
           // Loop through each point in the shared tooltip
           this.points?.forEach((point) => {
@@ -366,7 +366,6 @@
         categories: dates,
         type: "datetime",
         endOnTick: false,
-        categories: dates,
         crosshair: {
           color: $mode === "light" ? "#545454" : "white", // Set the color of the crosshair line
           width: 1, // Adjust the line width as needed
@@ -382,6 +381,8 @@
       },
       yAxis: {
         gridLineWidth: 1,
+        startOnTick: false,
+        endOnTick: false,
         gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
         labels: {
           style: { color: $mode === "light" ? "#545454" : "white" },
