@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { etfTicker, displayCompanyName } from "$lib/store";
+  import { indexTicker, displayCompanyName } from "$lib/store";
 
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -10,17 +10,17 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) Unusual Options Activity`}
-  description={`Spot unusual options activity, sweeps, and blocks in ${$displayCompanyName} (${$etfTicker}) for short-term setups.`}
-  keywords={`${$etfTicker} unusual options activity, sweeps, block trades, options flow`}
+  title={`${$displayCompanyName} (${$indexTicker}) Unusual Options Activity`}
+  description={`Spot unusual options activity, sweeps, and blocks in ${$displayCompanyName} (${$indexTicker}) for short-term setups.`}
+  keywords={`${$indexTicker} unusual options activity, sweeps, block trades, options flow`}
   type="website"
-  url={`https://stocknear.com/etf/${$etfTicker}/options/unusual-activity`}
+  url={`https://stocknear.com/index/${$indexTicker}/options/unusual-activity`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataFeed"],
     name: `${$displayCompanyName} Unusual Options Activity`,
-    description: `Unusual options activity for ${$displayCompanyName} (${$etfTicker})`,
-    url: `https://stocknear.com/etf/${$etfTicker}/options/unusual-activity`,
+    description: `Unusual options activity for ${$displayCompanyName} (${$indexTicker})`,
+    url: `https://stocknear.com/index/${$indexTicker}/options/unusual-activity`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Unusual options activity detection",
@@ -40,7 +40,7 @@
     mainEntity: {
       "@type": "Corporation",
       name: $displayCompanyName,
-      tickerSymbol: $etfTicker,
+      tickerSymbol: $indexTicker,
     },
     about: {
       "@type": "Thing",
@@ -57,7 +57,7 @@
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
       {#if data?.getData?.length > 0}
-        <UnusualActivity {data} ticker={$etfTicker} assetType="etf" />
+        <UnusualActivity {data} ticker={$indexTicker} assetType="index" />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
