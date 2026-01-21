@@ -2391,9 +2391,8 @@ const handleKeyDown = (event) => {
     }
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -3330,7 +3329,9 @@ const handleKeyDown = (event) => {
 <!-- Removed scroll handler, using pagination instead -->
 
 <section
-  class="w-full overflow-hidden min-h-screen pb-40 px-5 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth ? 'max-w-full' : 'max-w-3xl sm:max-w-(--breakpoint-xl)'}"
+  class="w-full overflow-hidden min-h-screen pb-40 px-5 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+    ? 'max-w-full'
+    : 'max-w-3xl sm:max-w-(--breakpoint-xl)'}"
 >
   <BreadCrumb
     containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
@@ -3879,7 +3880,7 @@ const handleKeyDown = (event) => {
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-fit min-h-auto max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         {#if !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
@@ -4227,7 +4228,9 @@ const handleKeyDown = (event) => {
         <button
           on:click={toggleFullWidth}
           title={isFullWidth ? "Exit full width" : "Expand to full width"}
-          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth ? 'border-violet-400 dark:border-violet-500' : ''}"
+          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+            ? 'border-violet-400 dark:border-violet-500'
+            : ''}"
         >
           {#if isFullWidth}
             <svg
@@ -4260,7 +4263,9 @@ const handleKeyDown = (event) => {
               <line x1="3" y1="21" x2="10" y2="14" />
             </svg>
           {/if}
-          <span class="truncate text-[0.85rem] sm:text-sm">{isFullWidth ? "Normal Width" : "Full Width"}</span>
+          <span class="truncate text-[0.85rem] sm:text-sm"
+            >{isFullWidth ? "Normal Width" : "Full Width"}</span
+          >
         </button>
 
         {#if customColumnOrder?.length > 0}

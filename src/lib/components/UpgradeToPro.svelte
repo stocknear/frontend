@@ -163,7 +163,7 @@
             class="ml-2 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
           >
             <svg
-              class="w-4 h-4 mt-1"
+              class="w-4 h-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               ><g transform="rotate(90 12 12)"
