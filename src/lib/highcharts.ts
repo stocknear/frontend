@@ -39,10 +39,8 @@ async function ensureHighcharts() {
   return loadingPromise;
 }
 
-// Pre-load Highcharts in browser context
-if (browser) {
-  ensureHighcharts();
-}
+// Highcharts is now loaded on-demand when charts are actually rendered
+// This saves ~195KB gzipped on pages that don't use charts
 
 export default (node: HTMLElement, config: any) => {
   const redraw = true;

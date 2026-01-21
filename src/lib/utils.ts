@@ -1,6 +1,3 @@
-
-let pbCloudImage = import.meta.env.VITE_IMAGE_POCKETBASE_URL; // Set a default API URL
-
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
@@ -979,6 +976,7 @@ export const generateUsername = (name) => {
 };
 
 export const getImageURL = (collectionId, recordId, fileName, size = "0x0") => {
+  const pbCloudImage = import.meta.env.VITE_IMAGE_POCKETBASE_URL;
   //For development or local storage or S3 bucket without CDN Cloudfront
   if (pbCloudImage === "http://localhost:8090") {
     return `${pbCloudImage}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;

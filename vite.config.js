@@ -6,7 +6,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
-    // visualizer({ open: true }), // Plugin to visualize the bundle
+    // visualizer({ open: false, filename: "stats.html" }), // Plugin to visualize the bundle
     tailwindcss(),
     sveltekit(),
     // partytownVite(),
