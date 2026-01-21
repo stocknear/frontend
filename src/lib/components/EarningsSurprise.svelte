@@ -69,7 +69,7 @@
 
     <div
       class="text-[1rem] {latestInfoDate(rawData?.date)
-        ? 'bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-3 rounded-lg'
+        ? 'bg-white/70 dark:bg-zinc-950/40 '
         : ' pl-1'} "
     >
       <div class="mt-1">
