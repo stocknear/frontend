@@ -524,7 +524,7 @@
             sentiment among congressional members.
           </p>
 
-          <body class="w-full overflow-hidden m-auto">
+          <div class="w-full overflow-hidden m-auto">
             <section class="w-full overflow-hidden m-auto mt-3">
               <div class=" flex justify-center w-full m-auto overflow-hidden">
                 <div
@@ -914,7 +914,7 @@
                 </div>
               </div>
             </section>
-          </body>
+          </div>
         </main>
       </div>
     </div>

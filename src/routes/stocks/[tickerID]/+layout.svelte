@@ -515,7 +515,7 @@
 
 <svelte:window bind:scrollY={y} />
 
-<body
+<div
   class=" w-full max-w-screen sm:max-w-[1250px] min-h-screen overflow-hidden"
 >
   <!-- Page wrapper -->
@@ -757,7 +757,7 @@
       </section>
     </main>
   </div>
-</body>
+</div>
 
 <!--Start Login Modal-->
 {#if !data?.user}

@@ -1570,7 +1570,7 @@
   }}
 />
 
-<body class="overflow-y-auto">
+<div class="overflow-y-auto">
   <section
     class="w-full flex justify-center items-center p-3 sm:p-0 transition-all duration-300 {isFullWidth ? 'max-w-full' : 'max-w-screen sm:max-w-[1400px]'}"
   >
@@ -2891,7 +2891,7 @@
       {/if}
     </div>
   </section>
-</body>
+</div>
 
 <!--Start Choose Rule Modal-->
 <input type="checkbox" id="ruleModal" class="modal-toggle" />

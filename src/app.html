@@ -50,6 +50,7 @@
     <!-- Marketing/Analytics scripts loaded conditionally in +layout.svelte based on cookie consent -->
 
         <!-- Meta Pixel Code -->
+         <!--
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -65,9 +66,11 @@
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1862625670961244&ev=PageView&noscript=1"
     /></noscript>
+    -->
     <!-- End Meta Pixel Code -->
      
        <!-- Google Ads gtag.js -->  
+           <!--
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11328922950"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -76,13 +79,15 @@
     gtag('config', 'AW-11328922950');
     </script>
 
+    -->
+
     %sveltekit.head%
   </head>
 
 
   
   <!-- Global background color -->
-  <body
+  <div
     data-sveltekit-preload-data="hover"
     class="overflow-x-hidden font-sans"
   >
@@ -93,5 +98,5 @@
 
 
     <div>%sveltekit.body%</div>
-  </body>
+  </div>
 </html>
