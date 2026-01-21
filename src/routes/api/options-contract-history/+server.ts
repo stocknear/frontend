@@ -1,8 +1,9 @@
 import type { RequestHandler } from "./$types";
 
 // Parse option symbol to extract components (server-side version)
+// The \^? allows for optional "^" prefix for index tickers like ^SPX
 function parseOptionSymbol(optionSymbol: string) {
-  const match = optionSymbol.match(/^([A-Z]+)(\d{6})([CP])(\d{8})$/);
+  const match = optionSymbol.match(/^(\^?[A-Z]+)(\d{6})([CP])(\d{8})$/);
   if (!match) return null;
 
   const [, ticker, datePart, optionTypeChar, strikeStr] = match;

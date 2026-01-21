@@ -77,7 +77,8 @@ export function buildOptionSymbol(ticker, dateExpiration, optionType, strikePric
 
   export function parseOptionSymbol(optionSymbol) {
   // Extract the ticker (everything before the 6-digit date + 1 character + 8-digit strike)
-  const match = optionSymbol.match(/^([A-Z]+)(\d{6})([CP])(\d{8})$/);
+  // The \^? allows for optional "^" prefix for index tickers like ^SPX
+  const match = optionSymbol.match(/^(\^?[A-Z]+)(\d{6})([CP])(\d{8})$/);
   if (!match) throw new Error("Invalid option symbol format");
 
   const [, ticker, datePart, optionTypeChar, strikeStr] = match;

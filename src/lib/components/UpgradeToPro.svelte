@@ -156,11 +156,11 @@
       <div class="mt-10 text-center">
         <a
           href="/pricing"
-          class="mt-10 inline-flex justify-center text-[1rem] items-center px-6 py-3 w-fit m-auto rounded-full font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-150 ease-in-out group"
+          class="mt-10 flex flex-row items-center justify-center text-[1rem] items-center px-6 py-3 w-fit m-auto rounded-full font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-150 ease-in-out group"
         >
           Upgrade to Pro
           <span
-            class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
+            class="ml-2 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
           >
             <svg
               class="w-4 h-4 mt-1"
