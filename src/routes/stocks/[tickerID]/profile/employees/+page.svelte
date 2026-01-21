@@ -624,35 +624,34 @@
           </div>
         </div>
 
-        <div
-          class="flex flex-col sm:flex-row items-start sm:items-center w-full mt-10 mb-4"
-        >
-          <h1
-            class="text-xl sm:text-2xl font-bold text-start mr-auto mb-4 sm:mb-0"
-          >
-            Employees Chart
-          </h1>
-          {#if tableOriginal?.length > 0}
-            <div class="flex flex-row items-center w-fit sm:ml-auto">
-              <DownloadData
-                {data}
-                rawData={historyList}
-                title={`employee_${$stockTicker}`}
-              />
-            </div>
-          {/if}
-        </div>
-
         {#if tableOriginal?.length !== 0}
           <div
-            class="shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded"
+            class="shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl"
             use:highcharts={config}
           ></div>
 
           <div class="mt-5">
-            <h3 class=" text-xl sm:text-2xl font-bold mb-2 sm:mb-0">
-              Employees History
-            </h3>
+            <div class="items-center lg:overflow-visible px-1 py-1">
+              <div
+                class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+              >
+                <h3
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
+                >
+                  History
+                </h3>
+
+                <div class=" w-full flex order-1 items-center ml-auto">
+                  <div class="ml-auto">
+                    <DownloadData
+                      {data}
+                      rawData={historyList}
+                      title={`employee_${$stockTicker}`}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class=" w-full overflow-x-auto">
               <table
