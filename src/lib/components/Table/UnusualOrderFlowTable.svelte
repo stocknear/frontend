@@ -310,15 +310,9 @@
       itemCount={displayedData.length}
       itemSize={40}
     >
-      <div
-        slot="item"
-        let:index
-        let:style
-        {style}
-        class={`grid grid-cols-11 gap-0 relative overflow-hidden `}
-        class:opacity-30={index + 1 === rawData?.length &&
-          data?.user?.tier !== "Pro"}
-      >
+      <svelte:fragment slot="item" let:index let:style>
+        {@const isLockedRow =
+          index + 1 === rawData?.length && data?.user?.tier !== "Pro"}
         {@const transactionType = displayedData[index]?.transactionType || ""}
         {@const transactionLabel = transactionType
           ?.replace("DP", "Dark Pool")
@@ -326,97 +320,103 @@
         {@const isDarkPool =
           transactionType === "DP" ||
           transactionType?.toLowerCase().includes("dark")}
-        {#each columns as column (column.key)}
-          {#if column.key === "date"}
-            <div
-              class="p-2 text-start text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
-            >
-              {$screenWidth < 640
-                ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
-                : formatToNewYorkTime(displayedData[index]?.date)}
-            </div>
-          {:else if column.key === "ticker"}
-            <div
-              class="p-2 text-end text-sm sm:text-[0.95rem] relative z-10 text-gray-700 dark:text-zinc-200"
-            >
-              <HoverStockChart
-                symbol={displayedData[index]?.ticker}
-                assetType={displayedData[index]?.assetType}
-              />
-            </div>
-          {:else if column.key === "price"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-            >
-              {displayedData[index]?.price}
-            </div>
-          {:else if column.key === "premium"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-            >
-              {abbreviateNumber(displayedData[index]?.premium, true, true)}
-            </div>
-          {:else if column.key === "size"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-            >
-              {new Intl.NumberFormat("en", {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              }).format(displayedData[index]?.size)}
-            </div>
-          {:else if column.key === "volume"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-            >
-              {displayedData[index]?.volume?.toLocaleString("en-US")}
-            </div>
-          {:else if column.key === "sizeVolRatio"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-            >
-              {displayedData[index]?.sizeVolRatio > 0.01
-                ? displayedData[index]?.sizeVolRatio?.toFixed(2) + "%"
-                : "< 0.01%"}
-            </div>
-          {:else if column.key === "sizeAvgVolRatio"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
-            >
-              {displayedData[index]?.sizeAvgVolRatio > 0.01
-                ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
-                : "< 0.01%"}
-            </div>
-          {:else if column.key === "transactionType"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
-            >
-              <span class="inline-flex items-center justify-end gap-2 w-full">
-                <span
-                  class={`h-1.5 w-1.5 rounded-full ${
-                    isDarkPool
-                      ? "bg-violet-500/70 dark:bg-violet-400/70"
-                      : "bg-amber-500/70 dark:bg-amber-400/70"
-                  }`}
-                ></span>
-                <span class="whitespace-nowrap">{transactionLabel}</span>
-              </span>
-            </div>
-          {:else if column.key === "exchange"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
-            >
-              {displayedData[index]?.exchange}
-            </div>
-          {:else if column.key === "assetType"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300"
-            >
-              {displayedData[index]?.assetType}
-            </div>
-          {/if}
-        {/each}
-      </div>
+        <div
+          style={style}
+          class="grid grid-cols-11 gap-0 relative overflow-hidden"
+          class:opacity-30={isLockedRow}
+        >
+          {#each columns as column (column.key)}
+            {#if column.key === "date"}
+              <div
+                class="p-2 text-start text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
+              >
+                {$screenWidth < 640
+                  ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
+                  : formatToNewYorkTime(displayedData[index]?.date)}
+              </div>
+            {:else if column.key === "ticker"}
+              <div
+                class="p-2 text-end text-sm sm:text-[0.95rem] relative z-10 text-gray-700 dark:text-zinc-200"
+              >
+                <HoverStockChart
+                  symbol={displayedData[index]?.ticker}
+                  assetType={displayedData[index]?.assetType}
+                />
+              </div>
+            {:else if column.key === "price"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
+                {displayedData[index]?.price}
+              </div>
+            {:else if column.key === "premium"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
+                {abbreviateNumber(displayedData[index]?.premium, true, true)}
+              </div>
+            {:else if column.key === "size"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
+                {new Intl.NumberFormat("en", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }).format(displayedData[index]?.size)}
+              </div>
+            {:else if column.key === "volume"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
+                {displayedData[index]?.volume?.toLocaleString("en-US")}
+              </div>
+            {:else if column.key === "sizeVolRatio"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
+                {displayedData[index]?.sizeVolRatio > 0.01
+                  ? displayedData[index]?.sizeVolRatio?.toFixed(2) + "%"
+                  : "< 0.01%"}
+              </div>
+            {:else if column.key === "sizeAvgVolRatio"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
+                {displayedData[index]?.sizeAvgVolRatio > 0.01
+                  ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
+                  : "< 0.01%"}
+              </div>
+            {:else if column.key === "transactionType"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
+              >
+                <span class="inline-flex items-center justify-end gap-2 w-full">
+                  <span
+                    class={`h-1.5 w-1.5 rounded-full ${
+                      isDarkPool
+                        ? "bg-violet-500/70 dark:bg-violet-400/70"
+                        : "bg-amber-500/70 dark:bg-amber-400/70"
+                    }`}
+                  ></span>
+                  <span class="whitespace-nowrap">{transactionLabel}</span>
+                </span>
+              </div>
+            {:else if column.key === "exchange"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300"
+              >
+                {displayedData[index]?.exchange}
+              </div>
+            {:else if column.key === "assetType"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300"
+              >
+                {displayedData[index]?.assetType}
+              </div>
+            {/if}
+          {/each}
+        </div>
+      </svelte:fragment>
     </VirtualList>
   </div>
 </div>

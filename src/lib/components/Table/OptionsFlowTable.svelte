@@ -994,181 +994,181 @@ ${insightData.traderTakeaway}
       itemCount={sortedDisplayData.length}
       itemSize={40}
     >
-      <div
-        slot="item"
-        let:index
-        let:style
-        {style}
-        class={`grid grid-cols-17 gap-0 relative overflow-hidden`}
-        class:opacity-30={index + 1 === rawData?.length &&
-          data?.user?.tier !== "Pro"}
-      >
-        {#each columns as column}
-          {#if column.key === "time"}
-            <div
-              class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
-            >
-              {formatTime(sortedDisplayData[index]?.time)}
-            </div>
-          {:else if column.key === "ticker"}
-            <div
-              on:click|stopPropagation
-              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              <HoverStockChart
-                symbol={sortedDisplayData[index]?.ticker}
-                assetType={sortedDisplayData[index]?.underlying_type}
-                optionSymbol={sortedDisplayData[index]?.option_symbol}
-              />
-            </div>
-          {:else if column.key === "insight"}
-            <div
-              on:click|stopPropagation={() =>
-                optionsInsight(sortedDisplayData[index])}
-              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              <Spark
-                class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-              />
-            </div>
-          {:else if column.key === "expiry"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {reformatDate(sortedDisplayData[index]?.date_expiration)}
-            </div>
-          {:else if column.key === "dte"}
-            <div
-              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {sortedDisplayData[index]?.dte < 0
-                ? "expired"
-                : sortedDisplayData[index]?.dte + "d"}
-            </div>
-          {:else if column.key === "strike"}
-            <div
-              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {sortedDisplayData[index]?.strike_price}
-            </div>
-          {:else if column.key === "callPut"}
-            <div
-              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                index
-              ]?.put_call === 'Calls'
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : 'text-rose-600 dark:text-rose-400'}"
-            >
-              {sortedDisplayData[index]?.put_call}
-            </div>
-          {:else if column.key === "sentiment"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                index
-              ]?.sentiment === 'Bullish'
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : sortedDisplayData[index]?.sentiment === 'Bearish'
-                  ? 'text-rose-600 dark:text-rose-400'
-                  : 'text-orange-800 dark:text-[#C6A755]'}"
-            >
-              {sortedDisplayData[index]?.sentiment}
-            </div>
-          {:else if column.key === "spot"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {sortedDisplayData[index]?.underlying_price}
-            </div>
-          {:else if column.key === "price"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {sortedDisplayData[index]?.price}
-            </div>
-          {:else if column.key === "premium"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {@html abbreviateNumber(
-                sortedDisplayData[index]?.cost_basis,
-                false,
-                true,
-              )}
-            </div>
-          {:else if column.key === "type"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                index
-              ]?.option_activity_type === 'Sweep'
-                ? 'text-gray-600 dark:text-[#C6A755]'
-                : sortedDisplayData[index]?.option_activity_type === 'Block'
-                  ? 'text-gray-600 dark:text-[#FF6B6B]'
-                  : sortedDisplayData[index]?.option_activity_type === 'Large'
-                    ? 'text-gray-600 dark:text-[#4ECDC4]'
-                    : 'text-gray-600 dark:text-[#976DB7]'}"
-            >
-              {sortedDisplayData[index]?.option_activity_type}
-            </div>
-          {:else if column.key === "leg"}
-            <div
-              class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                index
-              ]?.trade_leg_type === 'multi-leg'
-                ? 'text-gray-600 dark:text-[#FF9500]'
-                : 'text-gray-600 dark:text-[#7B8794]'}"
-            >
-              {sortedDisplayData[index]?.trade_leg_type === "multi-leg"
-                ? "Multi"
-                : "Single"}
-            </div>
-          {:else if column.key === "exec"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {[
-                'At Ask',
-                'Above Ask',
-              ]?.includes(sortedDisplayData[index]?.execution_estimate)
-                ? 'text-gray-600 dark:text-[#C8A32D]'
-                : ['At Bid', 'Below Bid']?.includes(
-                      sortedDisplayData[index]?.execution_estimate,
-                    )
-                  ? 'text-gray-600 dark:text-[#8F82FE]'
-                  : 'text-gray-600 dark:text-[#A98184]'}"
-            >
-              {sortedDisplayData[index]?.execution_estimate?.replace(
-                "Midpoint",
-                "Mid",
-              )}
-            </div>
-          {:else if column.key === "size"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {new Intl.NumberFormat("en", {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              }).format(sortedDisplayData[index]?.size)}
-            </div>
-          {:else if column.key === "vol"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {new Intl.NumberFormat("en", {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              }).format(sortedDisplayData[index]?.volume)}
-            </div>
-          {:else if column.key === "oi"}
-            <div
-              class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-            >
-              {new Intl.NumberFormat("en", {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              }).format(sortedDisplayData[index]?.open_interest)}
-            </div>
-          {/if}
-        {/each}
-      </div>
+      <svelte:fragment slot="item" let:index let:style>
+        {@const isLockedRow =
+          index + 1 === rawData?.length && data?.user?.tier !== "Pro"}
+        <div
+          style={style}
+          class="grid grid-cols-17 gap-0 relative overflow-hidden"
+          class:opacity-30={isLockedRow}
+        >
+          {#each columns as column}
+            {#if column.key === "time"}
+              <div
+                class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
+              >
+                {formatTime(sortedDisplayData[index]?.time)}
+              </div>
+            {:else if column.key === "ticker"}
+              <div
+                on:click|stopPropagation
+                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                <HoverStockChart
+                  symbol={sortedDisplayData[index]?.ticker}
+                  assetType={sortedDisplayData[index]?.underlying_type}
+                  optionSymbol={sortedDisplayData[index]?.option_symbol}
+                />
+              </div>
+            {:else if column.key === "insight"}
+              <div
+                on:click|stopPropagation={() =>
+                  optionsInsight(sortedDisplayData[index])}
+                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                <Spark
+                  class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                />
+              </div>
+            {:else if column.key === "expiry"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {reformatDate(sortedDisplayData[index]?.date_expiration)}
+              </div>
+            {:else if column.key === "dte"}
+              <div
+                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {sortedDisplayData[index]?.dte < 0
+                  ? "expired"
+                  : sortedDisplayData[index]?.dte + "d"}
+              </div>
+            {:else if column.key === "strike"}
+              <div
+                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {sortedDisplayData[index]?.strike_price}
+              </div>
+            {:else if column.key === "callPut"}
+              <div
+                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                  index
+                ]?.put_call === 'Calls'
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : 'text-rose-600 dark:text-rose-400'}"
+              >
+                {sortedDisplayData[index]?.put_call}
+              </div>
+            {:else if column.key === "sentiment"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                  index
+                ]?.sentiment === 'Bullish'
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : sortedDisplayData[index]?.sentiment === 'Bearish'
+                    ? 'text-rose-600 dark:text-rose-400'
+                    : 'text-orange-800 dark:text-[#C6A755]'}"
+              >
+                {sortedDisplayData[index]?.sentiment}
+              </div>
+            {:else if column.key === "spot"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {sortedDisplayData[index]?.underlying_price}
+              </div>
+            {:else if column.key === "price"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {sortedDisplayData[index]?.price}
+              </div>
+            {:else if column.key === "premium"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {@html abbreviateNumber(
+                  sortedDisplayData[index]?.cost_basis,
+                  false,
+                  true,
+                )}
+              </div>
+            {:else if column.key === "type"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                  index
+                ]?.option_activity_type === 'Sweep'
+                  ? 'text-gray-600 dark:text-[#C6A755]'
+                  : sortedDisplayData[index]?.option_activity_type === 'Block'
+                    ? 'text-gray-600 dark:text-[#FF6B6B]'
+                    : sortedDisplayData[index]?.option_activity_type === 'Large'
+                      ? 'text-gray-600 dark:text-[#4ECDC4]'
+                      : 'text-gray-600 dark:text-[#976DB7]'}"
+              >
+                {sortedDisplayData[index]?.option_activity_type}
+              </div>
+            {:else if column.key === "leg"}
+              <div
+                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+                  index
+                ]?.trade_leg_type === 'multi-leg'
+                  ? 'text-gray-600 dark:text-[#FF9500]'
+                  : 'text-gray-600 dark:text-[#7B8794]'}"
+              >
+                {sortedDisplayData[index]?.trade_leg_type === "multi-leg"
+                  ? "Multi"
+                  : "Single"}
+              </div>
+            {:else if column.key === "exec"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {[
+                  'At Ask',
+                  'Above Ask',
+                ]?.includes(sortedDisplayData[index]?.execution_estimate)
+                  ? 'text-gray-600 dark:text-[#C8A32D]'
+                  : ['At Bid', 'Below Bid']?.includes(
+                        sortedDisplayData[index]?.execution_estimate,
+                      )
+                    ? 'text-gray-600 dark:text-[#8F82FE]'
+                    : 'text-gray-600 dark:text-[#A98184]'}"
+              >
+                {sortedDisplayData[index]?.execution_estimate?.replace(
+                  "Midpoint",
+                  "Mid",
+                )}
+              </div>
+            {:else if column.key === "size"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {new Intl.NumberFormat("en", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }).format(sortedDisplayData[index]?.size)}
+              </div>
+            {:else if column.key === "vol"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {new Intl.NumberFormat("en", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }).format(sortedDisplayData[index]?.volume)}
+              </div>
+            {:else if column.key === "oi"}
+              <div
+                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+              >
+                {new Intl.NumberFormat("en", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }).format(sortedDisplayData[index]?.open_interest)}
+              </div>
+            {/if}
+          {/each}
+        </div>
+      </svelte:fragment>
     </VirtualList>
   </div>
 </div>
