@@ -713,17 +713,17 @@
               use:highcharts={config}
             ></div>
 
-            <nav
-              class="navbar-driver border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mt-4"
-            >
-              <ul class="flex flex-row items-center w-full text-sm">
+            <nav class="overflow-x-auto whitespace-nowrap mt-4">
+              <ul
+                class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
+              >
                 {#each tabs as item, i}
                   <button
                     on:click={() => (activeIdx = i)}
-                    class="px-4 py-2 cursor-pointer rounded-full transition {activeIdx ===
+                    class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                     i
-                      ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
-                      : 'text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                      ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                      : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                   >
                     {item.title}
                   </button>
@@ -733,7 +733,7 @@
 
             {#if activeIdx === 0}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-6 border-y border-gray-300 dark:border-zinc-700 py-2"
+                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 Official Presidential Schedule
               </h3>
@@ -826,7 +826,7 @@
               </div>
             {:else if activeIdx === 1}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-6 border-y border-gray-300 dark:border-zinc-700 py-2"
+                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 Executive Actions
               </h3>
@@ -880,10 +880,10 @@
                                     class={`mt-2 px-3 py-1 rounded-full text-xs sm:text-sm w-fit border
                 ${
                   item?.sentiment === "Bullish"
-                    ? "border-emerald-200/70 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                     : item?.sentiment === "Bearish"
-                      ? "border-rose-200/70 bg-rose-50 text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
-                      : "border-gray-200 bg-gray-50 text-gray-600 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
+                      ? "border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
+                      : "border-gray-200 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
                 }`}
                                   >
                                     {item?.sentiment}
@@ -961,7 +961,7 @@
               </div>
             {:else if activeIdx === 2}
               <div
-                class="flex flex-row items-center mb-2 mt-6 border-y border-gray-300 dark:border-zinc-700 py-2"
+                class="flex flex-row items-center mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 <svg
                   class="w-7 h-7 rounded-full inline-block"
@@ -1155,13 +1155,13 @@
         </h3>
         <h4 class="text-sm text-gray-800 dark:text-zinc-300">{postTitle}</h4>
         <div
-          class={`mt-2 px-3 py-1 rounded  text-xs sm:text-sm w-fit
+          class={`mt-2 px-3 py-1 rounded-full  text-xs sm:text-sm w-fit
                 ${
                   postSentiment === "Bullish"
-                    ? "bg-emerald-500 text-white"
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                     : postSentiment === "Bearish"
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-300 text-black"
+                      ? "border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
+                      : "border-gray-200 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
                 }`}
         >
           {postSentiment}
