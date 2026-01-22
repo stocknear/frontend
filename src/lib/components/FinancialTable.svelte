@@ -641,7 +641,7 @@
         style: { color: "#fff", fontSize: "16px", padding: "10px" },
         borderRadius: 4,
         formatter: function () {
-          let tooltipContent = `<span class="text-white text-[1rem] font-[501]">${this?.x}</span><br>`;
+          let tooltipContent = `<span class="text-white text-[1rem] font-[501]">${this.points[0]?.key}</span><br>`;
           this.points.forEach((point) => {
             const value =
               typeof point.y === "number" ? point.y : Number(point.y ?? NaN);

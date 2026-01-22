@@ -295,7 +295,7 @@
 
       baseConfig.tooltip.formatter = function () {
         let total = 0;
-        const formattedDate = dateMap.get(this.x) || this.x;
+        const formattedDate = dateMap.get(this.points[0]?.key) || this.points[0]?.key;
 
         // Pre-calculate all values
         const points = this.points.filter((p) => p.y !== null);
@@ -336,7 +336,7 @@
       };
 
       baseConfig.tooltip.formatter = function () {
-        const formattedDate = dateMap.get(this.x) || this.x;
+        const formattedDate = dateMap.get(this.points[0]?.key) || this.points[0]?.key;
         const points = this.points.filter((p) => p.y !== null);
 
         let content = `<div style="min-width: 250px; max-width: 400px;">`;

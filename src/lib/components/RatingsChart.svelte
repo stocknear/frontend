@@ -249,7 +249,7 @@
         formatter: function () {
           // Format the x value to display time in hh:mm format
           let tooltipContent = `<span class=" m-auto text-[1rem] font-[501]">${new Date(
-            this?.x,
+            this.points[0]?.key,
           ).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",

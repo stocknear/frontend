@@ -286,7 +286,7 @@
           if (this.chart?.__rangeSelector?.selecting) {
             return false;
           }
-          const date = new Date(this?.x);
+          const date = new Date(this.points[0]?.key);
           let formattedDate = date?.toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",

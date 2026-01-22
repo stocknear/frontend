@@ -221,7 +221,7 @@
         },
         borderRadius: 4,
         formatter: function () {
-          const categoryLabel = this.x;
+          const categoryLabel = this.point.key;
           const pointIndex = this.point.index;
           const earnings = sortedEarnings[pointIndex];
           const valueColor = this.y >= 0 ? "#22c55e" : "#ef4444";

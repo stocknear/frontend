@@ -400,7 +400,7 @@
         formatter: function () {
           // Format the x value to display time in a custom format
           let tooltipContent = `<span class="m-auto text-sm font-[501]">${new Date(
-            this?.x,
+            this.points[0]?.key,
           ).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
