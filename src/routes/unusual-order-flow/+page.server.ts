@@ -35,12 +35,11 @@ export const load = async ({ locals }) => {
       },
     });
     const output = await response.json();
-    const totalOrders =
-      Array.isArray(output) ? output?.length || 0 : output?.totalOrders || 0;
-    const orders = Array.isArray(output) ? output : output?.orders || [];
-    const data = isSubscriber ? orders : orders?.slice(-6);
+    const totalOrders = output?.totalOrders || 0;
+    const data = output?.orders || [];
 
     return { data, totalOrders };
+
   };
 
   // Generate WebSocket token for Pro users

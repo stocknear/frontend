@@ -36,10 +36,10 @@ export const load = async ({ locals }) => {
 
     const totalOrders = output?.totalOrders || 0;
     
-    const orders = output?.orders || [];
-    return { data: orders, totalOrders };
-    
-    
+    const data = output?.orders || [];
+
+    return { data, totalOrders };
+
     };
 
 
