@@ -22,7 +22,10 @@ export const load = async ({ locals }) => {
 
   const getFlowData = async () => {
     // Always use limit for Pro users - WebSocket will send remaining historical data
-    const limitParam = user?.tier === "Pro" ? "?limit=5000" : "?limit=0";
+    const isSubscriber = user?.tier === "Pro";
+    const limitParam = isSubscriber
+      ? "?limit=5000&subscriber=Pro"
+      : "?limit=0&subscriber=Free";
 
     const response = await fetch(apiURL + "/unusual-order-feed" + limitParam, {
       method: "GET",
@@ -31,11 +34,13 @@ export const load = async ({ locals }) => {
         "X-API-KEY": apiKey,
       },
     });
-    let output = await response.json();
-    const totalOrders = output?.length || 0;
-    output = user?.tier !== "Pro" ? output?.slice(-6) : output;
+    const output = await response.json();
+    const totalOrders =
+      Array.isArray(output) ? output?.length || 0 : output?.totalOrders || 0;
+    const orders = Array.isArray(output) ? output : output?.orders || [];
+    const data = isSubscriber ? orders : orders?.slice(-6);
 
-    return { data: output, totalOrders };
+    return { data, totalOrders };
   };
 
   // Generate WebSocket token for Pro users
