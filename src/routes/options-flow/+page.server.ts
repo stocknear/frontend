@@ -21,7 +21,8 @@ export const load = async ({ locals }) => {
 
   const getOptionsFlowFeed = async () => {
     // Always use limit for Pro users - WebSocket will send remaining historical data
-    const limitParam = user?.tier === "Pro" ? "?limit=5000" : "?limit=0";
+    const isSubscriber = user?.tier === "Pro";
+    const limitParam = isSubscriber ? "?limit=5000&subscriber=Pro" : "?limit=0&subscriber=Free";
 
     const response = await fetch(apiURL + "/options-flow-feed" + limitParam, {
       method: "GET",
@@ -30,11 +31,16 @@ export const load = async ({ locals }) => {
         "X-API-KEY": apiKey,
       },
     });
+
     let output = await response.json();
-    const totalOrders = output?.length || 0;
-    output = user?.tier !== "Pro" ? output?.slice(-6) : output;
-    return { data: output, totalOrders };
-  };
+
+    const totalOrders = output?.totalOrders || 0;
+    
+    const orders = output?.orders || [];
+    return { data: orders, totalOrders };
+    
+    
+    };
 
 
   const getOptionsWatchlist = async () => {
