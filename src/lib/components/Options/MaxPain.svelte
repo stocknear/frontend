@@ -594,7 +594,7 @@
 
           this.points.forEach((point) => {
             tooltipContent += `
-        <span class="font-normal text-sm mt-1">${formatDate(this?.x)}</span><br>`;
+        <span class="font-normal text-sm mt-1">${formatDate(this.points[0]?.key)}</span><br>`;
           });
 
           return tooltipContent;

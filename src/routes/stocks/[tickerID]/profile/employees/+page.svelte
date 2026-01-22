@@ -333,12 +333,7 @@
         borderRadius: 4,
         formatter: function () {
           // Format the x value to display time in a custom format
-          const yearValue =
-            typeof this.x === "string"
-              ? this.x
-              : new Date(this.x).toLocaleDateString("en-US", {
-                  year: "numeric",
-                });
+          const yearValue = this.points[0]?.key;
           let tooltipContent = `<span class="m-auto text-sm font-[501]">Year ${yearValue}</span><br>`;
 
           // Loop through each point in the shared tooltip

@@ -226,7 +226,7 @@
         borderRadius: 4,
         formatter: function () {
           // Pre-format date to avoid repeated calculations
-          const formattedDate = new Date(this?.x).toLocaleDateString("en-US", {
+          const formattedDate = new Date(this.points[0]?.key).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
             day: "numeric",
