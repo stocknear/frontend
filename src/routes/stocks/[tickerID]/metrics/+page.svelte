@@ -170,7 +170,7 @@
         style: { color: "#fff", fontSize: "16px", padding: "10px" },
         borderRadius: 4,
         formatter: function () {
-          let tooltipContent = `<span class="text-white text-sm font-[501]">${this?.x}</span><br>`;
+          let tooltipContent = `<span class="text-white text-sm font-[501]">${this.points[0]?.key}</span><br>`;
           this.points.forEach((point) => {
             const formattedValue = isGrowth
               ? point.y?.toFixed(2) + "%"
@@ -802,7 +802,7 @@
       </div>
 
       <div
-        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-700 p-2"
+        class="mt-2 bg-white dark:bg-zinc-950 p-2"
         use:highcharts={config}
       ></div>
     {/if}
