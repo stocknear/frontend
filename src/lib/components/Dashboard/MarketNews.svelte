@@ -1,6 +1,11 @@
 <script lang="ts">
     import Infobox from "$lib/components/Infobox.svelte";
     import { formatDate } from "$lib/utils";
+    import {
+        dashboard_news_flow_empty,
+        dashboard_news_flow_title,
+        dashboard_time_ago,
+    } from "$lib/paraglide/messages.js";
 
     export let wiim = [];
 </script>
@@ -12,7 +17,7 @@
         ><h2
             class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
         >
-            News Flow
+            {dashboard_news_flow_title()}
         </h2>
         <svg
             class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
@@ -43,8 +48,10 @@
                             class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200"
                         >
                             <span
-                                class="sm:hidden text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 font-semibold"
-                                >{formatDate(item?.date, true)} ago -
+                            class="sm:hidden text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 font-semibold"
+                                >{dashboard_time_ago({
+                                    time: formatDate(item?.date, true),
+                                })} -
                             </span>
                             {item?.text}
 
@@ -69,6 +76,6 @@
             </tbody>
         </table>
     {:else}
-        <Infobox text="There are no major stock market news available yet." />
+        <Infobox text={dashboard_news_flow_empty()} />
     {/if}
 </section>

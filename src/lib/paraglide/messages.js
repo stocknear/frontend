@@ -167,6 +167,76 @@ export const about_cta_button_secondary = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).about_cta_button_secondary(inputs);
 };
 
+export const app_installed_banner_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_banner_title(inputs);
+};
+
+export const app_installed_button_install = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_button_install(inputs);
+};
+
+export const app_installed_modal_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_modal_title(inputs);
+};
+
+export const app_installed_platform_ios = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_platform_ios(inputs);
+};
+
+export const app_installed_platform_android = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_platform_android(inputs);
+};
+
+export const app_installed_ios_step_1 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_ios_step_1(inputs);
+};
+
+export const app_installed_ios_step_2 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_ios_step_2(inputs);
+};
+
+export const app_installed_ios_step_3 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_ios_step_3(inputs);
+};
+
+export const app_installed_ios_note = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_ios_note(inputs);
+};
+
+export const app_installed_android_step_1 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_android_step_1(inputs);
+};
+
+export const app_installed_android_step_2 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_android_step_2(inputs);
+};
+
+export const app_installed_android_step_3 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_android_step_3(inputs);
+};
+
+export const app_installed_android_step_4 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_android_step_4(inputs);
+};
+
+export const app_installed_close = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).app_installed_close(inputs);
+};
+
 export const common_home = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).common_home(inputs);
@@ -350,6 +420,366 @@ export const cookies_marketing_description = (inputs = {}, options = {}) => {
 export const cookies_save_preferences = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).cookies_save_preferences(inputs);
+};
+
+export const dashboard_market_mover_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_title(inputs);
+};
+
+export const dashboard_market_mover_session_top = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_session_top(inputs);
+};
+
+export const dashboard_market_mover_session_pre_market = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_session_pre_market(inputs);
+};
+
+export const dashboard_market_mover_session_afterhours = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_session_afterhours(inputs);
+};
+
+export const dashboard_market_mover_direction_gainers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_direction_gainers(inputs);
+};
+
+export const dashboard_market_mover_direction_losers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_direction_losers(inputs);
+};
+
+export const dashboard_table_symbol = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_table_symbol(inputs);
+};
+
+export const dashboard_table_name = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_table_name(inputs);
+};
+
+export const dashboard_table_price = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_table_price(inputs);
+};
+
+export const dashboard_table_change = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_table_change(inputs);
+};
+
+export const dashboard_market_mover_no_gainers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_no_gainers(inputs);
+};
+
+export const dashboard_market_mover_no_losers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_market_mover_no_losers(inputs);
+};
+
+export const dashboard_news_flow_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_news_flow_title(inputs);
+};
+
+export const dashboard_news_flow_empty = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_news_flow_empty(inputs);
+};
+
+export const dashboard_time_ago = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_time_ago(inputs);
+};
+
+export const dashboard_analyst_report_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_title(inputs);
+};
+
+export const dashboard_analyst_report_prefix = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_prefix(inputs);
+};
+
+export const dashboard_analyst_report_rating = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_rating(inputs);
+};
+
+export const dashboard_analyst_report_forecast_prefix = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_forecast_prefix(inputs);
+};
+
+export const dashboard_analyst_report_change_prefix = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_change_prefix(inputs);
+};
+
+export const dashboard_analyst_report_change_suffix = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_change_suffix(inputs);
+};
+
+export const dashboard_direction_increase = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_direction_increase(inputs);
+};
+
+export const dashboard_direction_decrease = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_direction_decrease(inputs);
+};
+
+export const dashboard_analyst_report_table_target = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_table_target(inputs);
+};
+
+export const dashboard_analyst_report_table_low = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_table_low(inputs);
+};
+
+export const dashboard_analyst_report_table_avg = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_table_avg(inputs);
+};
+
+export const dashboard_analyst_report_table_median = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_table_median(inputs);
+};
+
+export const dashboard_analyst_report_table_high = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_table_high(inputs);
+};
+
+export const dashboard_analyst_report_row_price = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_row_price(inputs);
+};
+
+export const dashboard_analyst_report_row_change = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_row_change(inputs);
+};
+
+export const dashboard_analyst_report_empty = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_analyst_report_empty(inputs);
+};
+
+export const dashboard_options_flow_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_title(inputs);
+};
+
+export const dashboard_options_flow_header_prem = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_header_prem(inputs);
+};
+
+export const dashboard_options_flow_header_strike = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_header_strike(inputs);
+};
+
+export const dashboard_options_flow_header_cp = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_header_cp(inputs);
+};
+
+export const dashboard_options_flow_header_type = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_header_type(inputs);
+};
+
+export const dashboard_options_flow_calls = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_calls(inputs);
+};
+
+export const dashboard_options_flow_puts = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_puts(inputs);
+};
+
+export const dashboard_options_flow_empty = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_options_flow_empty(inputs);
+};
+
+export const dashboard_upcoming_earnings_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_title(inputs);
+};
+
+export const dashboard_upcoming_earnings_today = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_today(inputs);
+};
+
+export const dashboard_upcoming_earnings_tomorrow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_tomorrow(inputs);
+};
+
+export const dashboard_upcoming_earnings_monday = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_monday(inputs);
+};
+
+export const dashboard_upcoming_earnings_after_market = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_after_market(inputs);
+};
+
+export const dashboard_upcoming_earnings_before_market = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_before_market(inputs);
+};
+
+export const dashboard_upcoming_earnings_during_market = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_during_market(inputs);
+};
+
+export const dashboard_upcoming_earnings_estimate = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_estimate(inputs);
+};
+
+export const dashboard_upcoming_earnings_eps_yoy = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_eps_yoy(inputs);
+};
+
+export const dashboard_upcoming_earnings_empty = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_upcoming_earnings_empty(inputs);
+};
+
+export const dashboard_dark_pool_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_dark_pool_title(inputs);
+};
+
+export const dashboard_dark_pool_header_prem = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_dark_pool_header_prem(inputs);
+};
+
+export const dashboard_dark_pool_header_size = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_dark_pool_header_size(inputs);
+};
+
+export const dashboard_dark_pool_header_size_avg_vol = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_dark_pool_header_size_avg_vol(inputs);
+};
+
+export const dashboard_dark_pool_na = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_dark_pool_na(inputs);
+};
+
+export const dashboard_dark_pool_empty = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_dark_pool_empty(inputs);
+};
+
+export const dashboard_recent_earnings_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_title(inputs);
+};
+
+export const dashboard_recent_earnings_after_time = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_after_time(inputs);
+};
+
+export const dashboard_recent_earnings_revenue = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_revenue(inputs);
+};
+
+export const dashboard_recent_earnings_eps = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_eps(inputs);
+};
+
+export const dashboard_recent_earnings_eps_yoy = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_eps_yoy(inputs);
+};
+
+export const dashboard_recent_earnings_exceeds = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_exceeds(inputs);
+};
+
+export const dashboard_recent_earnings_misses = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_misses(inputs);
+};
+
+export const dashboard_recent_earnings_growth = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_growth(inputs);
+};
+
+export const dashboard_recent_earnings_decline = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_decline(inputs);
+};
+
+export const dashboard_recent_earnings_empty = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_recent_earnings_empty(inputs);
+};
+
+export const dashboard_ai_placeholder = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_placeholder(inputs);
+};
+
+export const dashboard_ai_credits_left = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_credits_left(inputs);
+};
+
+export const dashboard_ai_stock_agents = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_stock_agents(inputs);
+};
+
+export const dashboard_ai_how_to_use_agents = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_how_to_use_agents(inputs);
+};
+
+export const dashboard_ai_credits_unit = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_credits_unit(inputs);
+};
+
+export const dashboard_ai_upgrade_toast = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_upgrade_toast(inputs);
+};
+
+export const dashboard_ai_insufficient_credits = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).dashboard_ai_insufficient_credits(inputs);
 };
 
 export const data_seo_title = (inputs = {}, options = {}) => {
@@ -712,6 +1142,11 @@ export const feedback_page_label = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).feedback_page_label(inputs);
 };
 
+export const feedback_close_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_close_button(inputs);
+};
+
 export const feedback_cancel_button = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).feedback_cancel_button(inputs);
@@ -842,6 +1277,76 @@ export const footer_open_source = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).footer_open_source(inputs);
 };
 
+export const home_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_seo_title(inputs);
+};
+
+export const home_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_seo_description(inputs);
+};
+
+export const home_seo_keywords = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_seo_keywords(inputs);
+};
+
+export const home_structured_name = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_name(inputs);
+};
+
+export const home_structured_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_description(inputs);
+};
+
+export const home_structured_feature_live_options_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_live_options_flow(inputs);
+};
+
+export const home_structured_feature_unusual_options_activity = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_unusual_options_activity(inputs);
+};
+
+export const home_structured_feature_dark_pool_monitoring = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_dark_pool_monitoring(inputs);
+};
+
+export const home_structured_feature_implied_volatility = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_implied_volatility(inputs);
+};
+
+export const home_structured_feature_options_chain = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_options_chain(inputs);
+};
+
+export const home_structured_feature_earnings_volatility = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_earnings_volatility(inputs);
+};
+
+export const home_structured_feature_market_catalysts = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_structured_feature_market_catalysts(inputs);
+};
+
+export const home_hero_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_hero_title(inputs);
+};
+
+export const home_hero_subtitle = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).home_hero_subtitle(inputs);
+};
+
 export const imprint_seo_title = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).imprint_seo_title(inputs);
@@ -955,6 +1460,251 @@ export const imprint_special_conditions_title = (inputs = {}, options = {}) => {
 export const imprint_special_conditions = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).imprint_special_conditions(inputs);
+};
+
+export const layout_toggle_menu = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_toggle_menu(inputs);
+};
+
+export const layout_start_new_chat = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_start_new_chat(inputs);
+};
+
+export const layout_home = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_home(inputs);
+};
+
+export const layout_stocks = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_stocks(inputs);
+};
+
+export const layout_by_industry = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_by_industry(inputs);
+};
+
+export const layout_market_mover = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_market_mover(inputs);
+};
+
+export const layout_market_heatmap = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_market_heatmap(inputs);
+};
+
+export const layout_stock_lists = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_stock_lists(inputs);
+};
+
+export const layout_etfs = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_etfs(inputs);
+};
+
+export const layout_new_launches = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_new_launches(inputs);
+};
+
+export const layout_etf_providers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_etf_providers(inputs);
+};
+
+export const layout_analyst = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_analyst(inputs);
+};
+
+export const layout_top_analysts = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_top_analysts(inputs);
+};
+
+export const layout_top_analyst_stocks = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_top_analyst_stocks(inputs);
+};
+
+export const layout_analyst_live_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_analyst_live_flow(inputs);
+};
+
+export const layout_calendar = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_calendar(inputs);
+};
+
+export const layout_dividends_calendar = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_dividends_calendar(inputs);
+};
+
+export const layout_earnings_calendar = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_earnings_calendar(inputs);
+};
+
+export const layout_ipo_calendar = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_ipo_calendar(inputs);
+};
+
+export const layout_economic_calendar = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_economic_calendar(inputs);
+};
+
+export const layout_congress = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_congress(inputs);
+};
+
+export const layout_congress_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_congress_flow(inputs);
+};
+
+export const layout_all_politicians = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_all_politicians(inputs);
+};
+
+export const layout_flow_feed = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_flow_feed(inputs);
+};
+
+export const layout_market_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_market_flow(inputs);
+};
+
+export const layout_news_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_news_flow(inputs);
+};
+
+export const layout_options_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_options_flow(inputs);
+};
+
+export const layout_unusual_order_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_unusual_order_flow(inputs);
+};
+
+export const layout_screener = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_screener(inputs);
+};
+
+export const layout_stock_screener = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_stock_screener(inputs);
+};
+
+export const layout_options_screener = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_options_screener(inputs);
+};
+
+export const layout_tools = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_tools(inputs);
+};
+
+export const layout_comparison_tool = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_comparison_tool(inputs);
+};
+
+export const layout_options_calculator = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_options_calculator(inputs);
+};
+
+export const layout_potus_tracker = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_potus_tracker(inputs);
+};
+
+export const layout_insider_tracker = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_insider_tracker(inputs);
+};
+
+export const layout_reddit_tracker = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_reddit_tracker(inputs);
+};
+
+export const layout_hedge_funds = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_hedge_funds(inputs);
+};
+
+export const layout_market_news = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_market_news(inputs);
+};
+
+export const layout_pricing_plan = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_pricing_plan(inputs);
+};
+
+export const layout_start_trial = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_start_trial(inputs);
+};
+
+export const layout_settings_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_settings_label(inputs);
+};
+
+export const layout_my_account = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_my_account(inputs);
+};
+
+export const layout_portfolio = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_portfolio(inputs);
+};
+
+export const layout_watchlist = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_watchlist(inputs);
+};
+
+export const layout_price_alert = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_price_alert(inputs);
+};
+
+export const layout_logout = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_logout(inputs);
+};
+
+export const layout_login = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_login(inputs);
+};
+
+export const layout_logo_alt = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).layout_logo_alt(inputs);
 };
 
 export const login_seo_title = (inputs = {}, options = {}) => {
@@ -1942,6 +2692,41 @@ export const register_toast_invalid = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).register_toast_invalid(inputs);
 };
 
+export const searchbar_placeholder = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_placeholder(inputs);
+};
+
+export const searchbar_aria_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_aria_label(inputs);
+};
+
+export const searchbar_search_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_search_label(inputs);
+};
+
+export const searchbar_suggestions = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_suggestions(inputs);
+};
+
+export const searchbar_recent = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_recent(inputs);
+};
+
+export const searchbar_popular = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_popular(inputs);
+};
+
+export const searchbar_no_results = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).searchbar_no_results(inputs);
+};
+
 export const sitemap_seo_title = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).sitemap_seo_title(inputs);
@@ -2535,6 +3320,20 @@ export const m = {
   about_cta_description,
   about_cta_button_primary,
   about_cta_button_secondary,
+  app_installed_banner_title,
+  app_installed_button_install,
+  app_installed_modal_title,
+  app_installed_platform_ios,
+  app_installed_platform_android,
+  app_installed_ios_step_1,
+  app_installed_ios_step_2,
+  app_installed_ios_step_3,
+  app_installed_ios_note,
+  app_installed_android_step_1,
+  app_installed_android_step_2,
+  app_installed_android_step_3,
+  app_installed_android_step_4,
+  app_installed_close,
   common_home,
   common_privacy_policy,
   common_imprint,
@@ -2572,6 +3371,78 @@ export const m = {
   cookies_marketing_title,
   cookies_marketing_description,
   cookies_save_preferences,
+  dashboard_market_mover_title,
+  dashboard_market_mover_session_top,
+  dashboard_market_mover_session_pre_market,
+  dashboard_market_mover_session_afterhours,
+  dashboard_market_mover_direction_gainers,
+  dashboard_market_mover_direction_losers,
+  dashboard_table_symbol,
+  dashboard_table_name,
+  dashboard_table_price,
+  dashboard_table_change,
+  dashboard_market_mover_no_gainers,
+  dashboard_market_mover_no_losers,
+  dashboard_news_flow_title,
+  dashboard_news_flow_empty,
+  dashboard_time_ago,
+  dashboard_analyst_report_title,
+  dashboard_analyst_report_prefix,
+  dashboard_analyst_report_rating,
+  dashboard_analyst_report_forecast_prefix,
+  dashboard_analyst_report_change_prefix,
+  dashboard_analyst_report_change_suffix,
+  dashboard_direction_increase,
+  dashboard_direction_decrease,
+  dashboard_analyst_report_table_target,
+  dashboard_analyst_report_table_low,
+  dashboard_analyst_report_table_avg,
+  dashboard_analyst_report_table_median,
+  dashboard_analyst_report_table_high,
+  dashboard_analyst_report_row_price,
+  dashboard_analyst_report_row_change,
+  dashboard_analyst_report_empty,
+  dashboard_options_flow_title,
+  dashboard_options_flow_header_prem,
+  dashboard_options_flow_header_strike,
+  dashboard_options_flow_header_cp,
+  dashboard_options_flow_header_type,
+  dashboard_options_flow_calls,
+  dashboard_options_flow_puts,
+  dashboard_options_flow_empty,
+  dashboard_upcoming_earnings_title,
+  dashboard_upcoming_earnings_today,
+  dashboard_upcoming_earnings_tomorrow,
+  dashboard_upcoming_earnings_monday,
+  dashboard_upcoming_earnings_after_market,
+  dashboard_upcoming_earnings_before_market,
+  dashboard_upcoming_earnings_during_market,
+  dashboard_upcoming_earnings_estimate,
+  dashboard_upcoming_earnings_eps_yoy,
+  dashboard_upcoming_earnings_empty,
+  dashboard_dark_pool_title,
+  dashboard_dark_pool_header_prem,
+  dashboard_dark_pool_header_size,
+  dashboard_dark_pool_header_size_avg_vol,
+  dashboard_dark_pool_na,
+  dashboard_dark_pool_empty,
+  dashboard_recent_earnings_title,
+  dashboard_recent_earnings_after_time,
+  dashboard_recent_earnings_revenue,
+  dashboard_recent_earnings_eps,
+  dashboard_recent_earnings_eps_yoy,
+  dashboard_recent_earnings_exceeds,
+  dashboard_recent_earnings_misses,
+  dashboard_recent_earnings_growth,
+  dashboard_recent_earnings_decline,
+  dashboard_recent_earnings_empty,
+  dashboard_ai_placeholder,
+  dashboard_ai_credits_left,
+  dashboard_ai_stock_agents,
+  dashboard_ai_how_to_use_agents,
+  dashboard_ai_credits_unit,
+  dashboard_ai_upgrade_toast,
+  dashboard_ai_insufficient_credits,
   data_seo_title,
   data_seo_description,
   data_breadcrumb,
@@ -2644,6 +3515,7 @@ export const m = {
   feedback_error_send_generic,
   feedback_description_label,
   feedback_page_label,
+  feedback_close_button,
   feedback_cancel_button,
   feedback_send_button,
   footer_language,
@@ -2670,6 +3542,20 @@ export const m = {
   footer_terms_of_use,
   footer_data_disclaimer,
   footer_open_source,
+  home_seo_title,
+  home_seo_description,
+  home_seo_keywords,
+  home_structured_name,
+  home_structured_description,
+  home_structured_feature_live_options_flow,
+  home_structured_feature_unusual_options_activity,
+  home_structured_feature_dark_pool_monitoring,
+  home_structured_feature_implied_volatility,
+  home_structured_feature_options_chain,
+  home_structured_feature_earnings_volatility,
+  home_structured_feature_market_catalysts,
+  home_hero_title,
+  home_hero_subtitle,
   imprint_seo_title,
   imprint_breadcrumb,
   imprint_hero_title,
@@ -2693,6 +3579,55 @@ export const m = {
   imprint_copyright,
   imprint_special_conditions_title,
   imprint_special_conditions,
+  layout_toggle_menu,
+  layout_start_new_chat,
+  layout_home,
+  layout_stocks,
+  layout_by_industry,
+  layout_market_mover,
+  layout_market_heatmap,
+  layout_stock_lists,
+  layout_etfs,
+  layout_new_launches,
+  layout_etf_providers,
+  layout_analyst,
+  layout_top_analysts,
+  layout_top_analyst_stocks,
+  layout_analyst_live_flow,
+  layout_calendar,
+  layout_dividends_calendar,
+  layout_earnings_calendar,
+  layout_ipo_calendar,
+  layout_economic_calendar,
+  layout_congress,
+  layout_congress_flow,
+  layout_all_politicians,
+  layout_flow_feed,
+  layout_market_flow,
+  layout_news_flow,
+  layout_options_flow,
+  layout_unusual_order_flow,
+  layout_screener,
+  layout_stock_screener,
+  layout_options_screener,
+  layout_tools,
+  layout_comparison_tool,
+  layout_options_calculator,
+  layout_potus_tracker,
+  layout_insider_tracker,
+  layout_reddit_tracker,
+  layout_hedge_funds,
+  layout_market_news,
+  layout_pricing_plan,
+  layout_start_trial,
+  layout_settings_label,
+  layout_my_account,
+  layout_portfolio,
+  layout_watchlist,
+  layout_price_alert,
+  layout_logout,
+  layout_login,
+  layout_logo_alt,
   login_seo_title,
   login_seo_description,
   login_title,
@@ -2890,6 +3825,13 @@ export const m = {
   register_logout_button,
   register_toast_success,
   register_toast_invalid,
+  searchbar_placeholder,
+  searchbar_aria_label,
+  searchbar_search_label,
+  searchbar_suggestions,
+  searchbar_recent,
+  searchbar_popular,
+  searchbar_no_results,
   sitemap_seo_title,
   sitemap_seo_description,
   sitemap_section_aria_label,

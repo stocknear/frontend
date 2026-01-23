@@ -37,9 +37,13 @@ export const handle = sequence(async ({ event, resolve }) => {
     if (cfIp && cfIp.trim().length > 0) {
       clientIp = cfIp.trim();
     } else if (typeof event.getClientAddress === "function") {
-      const addr = event.getClientAddress();
-      if (addr && addr.trim().length > 0) {
-        clientIp = addr.trim();
+      try {
+        const addr = event.getClientAddress();
+        if (addr && addr.trim().length > 0) {
+          clientIp = addr.trim();
+        }
+      } catch {
+        // getClientAddress can throw in dev when the address is unavailable
       }
     }
 
@@ -83,8 +87,19 @@ export const handle = sequence(async ({ event, resolve }) => {
     return response;
   }
 
+  const isSafeMethod = event.request.method === "GET" || event.request.method === "HEAD";
+  let middlewareRequest = event.request;
+
+  if (!isSafeMethod) {
+    try {
+      middlewareRequest = event.request.clone();
+    } catch {
+      middlewareRequest = event.request;
+    }
+  }
+
   // Use Paraglide middleware for proper SSR locale handling with AsyncLocalStorage
-  return paraglideMiddleware(event.request, async ({ request, locale }) => {
+  return paraglideMiddleware(middlewareRequest, async ({ request, locale }) => {
     // Use a ternary operator instead of the logical OR for better compatibility
     const pbURL = import.meta.env.VITE_USEAST_POCKETBASE_URL;
     const apiURL = import.meta.env.VITE_USEAST_API_URL;
@@ -112,9 +127,13 @@ export const handle = sequence(async ({ event, resolve }) => {
     if (cfIp && cfIp.trim().length > 0) {
       clientIp = cfIp.trim();
     } else if (typeof event.getClientAddress === "function") {
-      const addr = event.getClientAddress();
-      if (addr && addr.trim().length > 0) {
-        clientIp = addr.trim();
+      try {
+        const addr = event.getClientAddress();
+        if (addr && addr.trim().length > 0) {
+          clientIp = addr.trim();
+        }
+      } catch {
+        // getClientAddress can throw in dev when the address is unavailable
       }
     }
 
@@ -147,12 +166,15 @@ export const handle = sequence(async ({ event, resolve }) => {
 
     await preloadLocaleMessages(locale);
 
-    const response = await resolve({ ...event, request }, {
+    const response = await resolve(
+      { ...event, request: isSafeMethod ? request : event.request },
+      {
       transformPageChunk: ({ html }) =>
         html
           .replace('data-theme=""', `data-theme="${themeMode}"`)
           .replace('lang="en"', `lang="${locale}"`),
-    });
+      },
+    );
 
     // Use a more compatible way to set the cookie
     const cookieString = event?.locals?.pb?.authStore?.exportToCookie({

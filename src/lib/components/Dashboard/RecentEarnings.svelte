@@ -2,6 +2,18 @@
   import * as Card from "$lib/components/shadcn/card/index.ts";
   import Infobox from "$lib/components/Infobox.svelte";
   import { formatTime, abbreviateNumber } from "$lib/utils";
+  import {
+    dashboard_recent_earnings_after_time,
+    dashboard_recent_earnings_decline,
+    dashboard_recent_earnings_empty,
+    dashboard_recent_earnings_eps,
+    dashboard_recent_earnings_eps_yoy,
+    dashboard_recent_earnings_exceeds,
+    dashboard_recent_earnings_growth,
+    dashboard_recent_earnings_misses,
+    dashboard_recent_earnings_revenue,
+    dashboard_recent_earnings_title,
+  } from "$lib/paraglide/messages.js";
 
   export let recentEarnings;
 </script>
@@ -18,7 +30,7 @@
             href="/earnings-calendar"
             class="text-xl sm:text-2xl text-muted dark:text-white font-semibold cursor-pointer sm:hover:underline sm:hover:underline-offset-4"
           >
-            Recent Earnings
+            {dashboard_recent_earnings_title()}
             <svg
               class="h-5 w-5 inline-block"
               viewBox="0 0 20 20"
@@ -44,44 +56,56 @@
             href={`/stocks/${item?.symbol}`}
             class="text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
             >{item?.symbol}</a
-          >) has released its quarterly earnings at {formatTime(item?.time)}:
+          >) {dashboard_recent_earnings_after_time({ time: formatTime(item?.time) })}
 
           <li
             class="text-sm sm:text-[1rem] text-muted dark:text-white"
             style="margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;"
           >
-            Revenue of {abbreviateNumber(item?.revenue)}
-            {item?.revenueSurprise > 0 ? "exceeds" : "misses"} estimates by {abbreviateNumber(
-              Math.abs(item?.revenueSurprise),
-            )}, with {((item?.revenue / item?.revenuePrior - 1) * 100)?.toFixed(
-              2,
-            )}% YoY {item?.revenue / item?.revenuePrior - 1 < 0
-              ? "decline"
-              : "growth"}.
+            {dashboard_recent_earnings_revenue({
+              revenue: abbreviateNumber(item?.revenue),
+              direction:
+                item?.revenueSurprise > 0
+                  ? dashboard_recent_earnings_exceeds()
+                  : dashboard_recent_earnings_misses(),
+              surprise: abbreviateNumber(Math.abs(item?.revenueSurprise)),
+              yoy: ((item?.revenue / item?.revenuePrior - 1) * 100)?.toFixed(2),
+              trend:
+                item?.revenue / item?.revenuePrior - 1 < 0
+                  ? dashboard_recent_earnings_decline()
+                  : dashboard_recent_earnings_growth(),
+            })}
           </li>
           <li
             class="text-muted dark:text-white"
             style="line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;"
           >
-            EPS of {item?.eps}
-            {item?.epsSurprise > 0 ? "exceeds" : "misses"} estimates by
-            {item?.epsSurprise?.toFixed(2)}
+            {dashboard_recent_earnings_eps({
+              eps: item?.eps,
+              direction:
+                item?.epsSurprise > 0
+                  ? dashboard_recent_earnings_exceeds()
+                  : dashboard_recent_earnings_misses(),
+              surprise: item?.epsSurprise?.toFixed(2),
+            })}
             {#if item?.epsPrior}
-              with {(
-                ((item?.eps - item?.epsPrior) / Math.abs(item?.epsPrior)) *
-                100
-              )?.toFixed(2)}% YoY {(item?.eps - item?.epsPrior) /
-                Math.abs(item?.epsPrior) <
-              0
-                ? "decline"
-                : "growth"}.
+              {dashboard_recent_earnings_eps_yoy({
+                yoy: (
+                  ((item?.eps - item?.epsPrior) / Math.abs(item?.epsPrior)) *
+                  100
+                )?.toFixed(2),
+                trend:
+                  (item?.eps - item?.epsPrior) / Math.abs(item?.epsPrior) < 0
+                    ? dashboard_recent_earnings_decline()
+                    : dashboard_recent_earnings_growth(),
+              })}
             {/if}
           </li>
         {/each}
       </ul>
     {:else}
       <Infobox
-        text="There are no major recent earnings to report today but you can check the earnings calendar for a complete list."
+        text={dashboard_recent_earnings_empty()}
       />
     {/if}
   </Card.Content>

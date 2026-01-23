@@ -1,6 +1,17 @@
 <script lang="ts">
   import Infobox from "$lib/components/Infobox.svelte";
   import { abbreviateNumber } from "$lib/utils";
+  import {
+    dashboard_options_flow_calls,
+    dashboard_options_flow_empty,
+    dashboard_options_flow_header_cp,
+    dashboard_options_flow_header_prem,
+    dashboard_options_flow_header_strike,
+    dashboard_options_flow_header_type,
+    dashboard_options_flow_puts,
+    dashboard_options_flow_title,
+    dashboard_table_symbol,
+  } from "$lib/paraglide/messages.js";
 
   export let optionsFlowList;
 </script>
@@ -12,7 +23,7 @@
     ><h2
       class="mb-2 text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
-      Unusual Options Orders
+      {dashboard_options_flow_title()}
     </h2>
     <svg
       class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
@@ -35,11 +46,21 @@
         <tr
           class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
         >
-          <th class="py-2 text-left font-semibold">Symbol</th>
-          <th class="py-2 text-left font-semibold">Prem</th>
-          <th class="py-2 text-left font-semibold">Strike</th>
-          <th class="py-2 text-left font-semibold">C/P</th>
-          <th class="py-2 text-left font-semibold">Type</th>
+          <th class="py-2 text-left font-semibold">
+            {dashboard_table_symbol()}
+          </th>
+          <th class="py-2 text-left font-semibold">
+            {dashboard_options_flow_header_prem()}
+          </th>
+          <th class="py-2 text-left font-semibold">
+            {dashboard_options_flow_header_strike()}
+          </th>
+          <th class="py-2 text-left font-semibold">
+            {dashboard_options_flow_header_cp()}
+          </th>
+          <th class="py-2 text-left font-semibold">
+            {dashboard_options_flow_header_type()}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -62,8 +83,12 @@
               {#if item?.put_call === "Calls"}
                 <span
                   class="text-emerald-600 dark:text-emerald-400 font-semibold"
-                  >{item?.put_call}</span
+                  >{dashboard_options_flow_calls()}</span
                 >
+              {:else if item?.put_call === "Puts"}
+                <span class="text-rose-600 dark:text-rose-400 font-semibold"
+                  >{dashboard_options_flow_puts()}
+                </span>
               {:else}
                 <span class="text-rose-600 dark:text-rose-400 font-semibold"
                   >{item?.put_call}
@@ -78,6 +103,6 @@
       </tbody>
     </table>
   {:else}
-    <Infobox text="Currently, no unusual options flow data available." />
+    <Infobox text={dashboard_options_flow_empty()} />
   {/if}
 </section>

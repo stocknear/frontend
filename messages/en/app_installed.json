@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Get the app for a better experience.",
+  "app_installed_button_install": "Install",
+  "app_installed_modal_title": "Steps to install",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Tap on the Safari share button.",
+  "app_installed_ios_step_2": "Tap on \"Add to Home Screen.\"",
+  "app_installed_ios_step_3": "Tap on \"Add.\"",
+  "app_installed_ios_note": "Note that web apps on iOS can only be installed using Safari.",
+  "app_installed_android_step_1": "Open Stocknear in Chrome.",
+  "app_installed_android_step_2": "Tap the three-dot menu in the top right.",
+  "app_installed_android_step_3": "Tap \"Install app\" or \"Add to Home screen.\"",
+  "app_installed_android_step_4": "Confirm to install.",
+  "app_installed_close": "Close"
+}

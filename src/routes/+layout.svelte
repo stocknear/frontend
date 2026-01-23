@@ -56,6 +56,57 @@
   import Gem from "lucide-svelte/icons/gem";
   import Plus from "lucide-svelte/icons/plus";
   import Screener from "lucide-svelte/icons/microscope";
+  import {
+    layout_all_politicians,
+    layout_analyst,
+    layout_analyst_live_flow,
+    layout_by_industry,
+    layout_calendar,
+    layout_comparison_tool,
+    layout_congress,
+    layout_congress_flow,
+    layout_dividends_calendar,
+    layout_economic_calendar,
+    layout_earnings_calendar,
+    layout_etf_providers,
+    layout_etfs,
+    layout_flow_feed,
+    layout_hedge_funds,
+    layout_home,
+    layout_ipo_calendar,
+    layout_insider_tracker,
+    layout_login,
+    layout_logo_alt,
+    layout_logout,
+    layout_market_flow,
+    layout_market_heatmap,
+    layout_market_mover,
+    layout_market_news,
+    layout_my_account,
+    layout_news_flow,
+    layout_new_launches,
+    layout_options_calculator,
+    layout_options_flow,
+    layout_options_screener,
+    layout_portfolio,
+    layout_price_alert,
+    layout_pricing_plan,
+    layout_potus_tracker,
+    layout_reddit_tracker,
+    layout_screener,
+    layout_settings_label,
+    layout_start_new_chat,
+    layout_start_trial,
+    layout_stock_lists,
+    layout_stock_screener,
+    layout_stocks,
+    layout_toggle_menu,
+    layout_tools,
+    layout_top_analyst_stocks,
+    layout_top_analysts,
+    layout_unusual_order_flow,
+    layout_watchlist,
+  } from "$lib/paraglide/messages.js";
   //import Simulation from "lucide-svelte/icons/radical";
   //import Backtesting from "lucide-svelte/icons/blocks";
 
@@ -411,7 +462,7 @@
               <Menu
                 class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-gray-600 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
               />
-              <span class="sr-only">Toggle Menu</span>
+              <span class="sr-only">{layout_toggle_menu()}</span>
             </Button>
           </Sheet.Trigger>
           <Sheet.Content
@@ -431,7 +482,7 @@
                     <img
                       class="avatar w-9 sm:w-10 rounded-full"
                       src="/pwa-192x192.png"
-                      alt="Stocknear Logo"
+                      alt={layout_logo_alt()}
                     />
                     Stocknear
                   </a>
@@ -451,7 +502,9 @@
                       class="flex flex-row items-center justify-start w-full"
                     >
                       <Plus class="w-4 h-4 inline-block mr-2" />
-                      <span class="text-[1rem]">Start new chat</span>
+                      <span class="text-[1rem]">
+                        {layout_start_new_chat()}
+                      </span>
                     </div>
                   </a>
                 </Button>
@@ -476,7 +529,7 @@
                     </div>
                     <span
                       class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                      >Home</span
+                      >{layout_home()}</span
                     >
                   </a>
                 </Button>
@@ -491,7 +544,7 @@
                       <Stock
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Stocks</span>
+                      <span class="ml-1 mr-auto">{layout_stocks()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -506,7 +559,7 @@
                             <a
                               href="/industry"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >By Industry</a
+                              >{layout_by_industry()}</a
                             >
                           </Button>
 
@@ -518,7 +571,7 @@
                             <a
                               href="/market-mover/gainers"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Market Mover</a
+                              >{layout_market_mover()}</a
                             >
                           </Button>
 
@@ -530,7 +583,7 @@
                             <a
                               href="/heatmap"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Market Heatmap</a
+                              >{layout_market_heatmap()}</a
                             >
                           </Button>
 
@@ -542,7 +595,7 @@
                             <a
                               href="/list"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Stock Lists</a
+                              >{layout_stock_lists()}</a
                             >
                           </Button>
                         </div>
@@ -561,7 +614,7 @@
                       <Layers
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">ETFs</span>
+                      <span class="ml-1 mr-auto">{layout_etfs()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -576,7 +629,7 @@
                             <a
                               href="/etf/new-launches"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >New Launches</a
+                              >{layout_new_launches()}</a
                             >
                           </Button>
                           <Button
@@ -587,7 +640,7 @@
                             <a
                               href="/etf/etf-providers"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >ETF Providers</a
+                              >{layout_etf_providers()}</a
                             >
                           </Button>
                         </div>
@@ -606,7 +659,7 @@
                       <Analyst
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Analyst</span>
+                      <span class="ml-1 mr-auto">{layout_analyst()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -621,7 +674,7 @@
                             <a
                               href="/analysts"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >Top Analysts</a
+                              >{layout_top_analysts()}</a
                             >
                           </Button>
                           <Button
@@ -632,7 +685,7 @@
                             <a
                               href="/analysts/top-stocks"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Top Analyst Stocks</a
+                              >{layout_top_analyst_stocks()}</a
                             >
                           </Button>
 
@@ -644,7 +697,7 @@
                             <a
                               href="/analysts/analyst-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Analyst Live Flow</a
+                              >{layout_analyst_live_flow()}</a
                             >
                           </Button>
                         </div>
@@ -663,7 +716,7 @@
                       <Calendar
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Calendar</span>
+                      <span class="ml-1 mr-auto">{layout_calendar()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -678,7 +731,7 @@
                             <a
                               href="/dividends-calendar"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >Dividends Calendar</a
+                              >{layout_dividends_calendar()}</a
                             >
                           </Button>
                           <Button
@@ -689,7 +742,7 @@
                             <a
                               href="/earnings-calendar"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Earnings Calendar</a
+                              >{layout_earnings_calendar()}</a
                             >
                           </Button>
 
@@ -701,7 +754,7 @@
                             <a
                               href="/ipos"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >IPO Calendar</a
+                              >{layout_ipo_calendar()}</a
                             >
                           </Button>
 
@@ -713,7 +766,7 @@
                             <a
                               href="/economic-calendar"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Economic Calendar</a
+                              >{layout_economic_calendar()}</a
                             >
                           </Button>
                           <!--
@@ -759,7 +812,7 @@
                       <HandShake
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Congress</span>
+                      <span class="ml-1 mr-auto">{layout_congress()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -774,7 +827,7 @@
                             <a
                               href="/politicians/flow-data"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >Congress Flow</a
+                              >{layout_congress_flow()}</a
                             >
                           </Button>
                           <Button
@@ -785,7 +838,7 @@
                             <a
                               href="/politicians"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >All Politicians</a
+                              >{layout_all_politicians()}</a
                             >
                           </Button>
                         </div>
@@ -804,7 +857,7 @@
                       <Flow
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Flow Feed</span>
+                      <span class="ml-1 mr-auto">{layout_flow_feed()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -819,7 +872,7 @@
                             <a
                               href="/market-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >Market Flow</a
+                              >{layout_market_flow()}</a
                             >
                           </Button>
 
@@ -831,7 +884,7 @@
                             <a
                               href="/news-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >News Flow</a
+                              >{layout_news_flow()}</a
                             >
                           </Button>
 
@@ -843,7 +896,7 @@
                             <a
                               href="/options-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Flow</a
+                              >{layout_options_flow()}</a
                             >
                           </Button>
                           <Button
@@ -854,7 +907,7 @@
                             <a
                               href="/unusual-order-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Unusual Order Flow</a
+                              >{layout_unusual_order_flow()}</a
                             >
                           </Button>
                         </div>
@@ -873,7 +926,7 @@
                       <Screener
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Screener</span>
+                      <span class="ml-1 mr-auto">{layout_screener()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -888,7 +941,7 @@
                             <a
                               href="/stock-screener"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Stock Screener</a
+                              >{layout_stock_screener()}</a
                             >
                           </Button>
                         </div>
@@ -903,7 +956,7 @@
                             <a
                               href="/options-screener"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Screener</a
+                              >{layout_options_screener()}</a
                             >
                           </Button>
                         </div>
@@ -953,7 +1006,7 @@
                             <a
                               href="/options-calculator"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Calculator</a
+                              >{layout_options_calculator()}</a
                             >
                           </Button>
                         </div>
@@ -973,7 +1026,7 @@
                       <Tools
                         class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="ml-1 mr-auto">Tools</span>
+                      <span class="ml-1 mr-auto">{layout_tools()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
                       class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
@@ -988,7 +1041,7 @@
                             <a
                               href="/compare"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Comparison Tool</a
+                              >{layout_comparison_tool()}</a
                             >
                           </Button>
                         </div>
@@ -1004,7 +1057,7 @@
                             <a
                               href="/options-calculator"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Calculator</a
+                              >{layout_options_calculator()}</a
                             >
                           </Button>
                         </div>
@@ -1020,7 +1073,7 @@
                             <a
                               href="/potus-tracker"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >POTUS Tracker</a
+                              >{layout_potus_tracker()}</a
                             >
                           </Button>
                         </div>
@@ -1036,7 +1089,7 @@
                             <a
                               href="/insider-tracker"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Insider Tracker</a
+                              >{layout_insider_tracker()}</a
                             >
                           </Button>
                         </div>
@@ -1052,7 +1105,7 @@
                             <a
                               href="/reddit-tracker"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Reddit Tracker</a
+                              >{layout_reddit_tracker()}</a
                             >
                           </Button>
                         </div>
@@ -1082,7 +1135,7 @@
                       </div>
                       <span
                         class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                        >Hedge Funds</span
+                        >{layout_hedge_funds()}</span
                       >
                     </div>
                   </a>
@@ -1136,7 +1189,7 @@
                       </div>
                       <span
                         class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                        >Market News</span
+                        >{layout_market_news()}</span
                       >
                     </div>
                   </a>
@@ -1161,7 +1214,7 @@
                         </div>
                         <span
                           class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                          >Pricing Plan</span
+                          >{layout_pricing_plan()}</span
                         >
                       </div>
                     </a>
@@ -1176,7 +1229,7 @@
           <img
             class="avatar w-9 3xl:w-10 rounded-full"
             src="/pwa-192x192.png"
-            alt="Stocknear Logo"
+            alt={layout_logo_alt()}
           />
           <span
             class="text-gray-900 dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition font-semibold tracking-tight ml-2 text-xl"
@@ -1198,7 +1251,7 @@
                 href="/pricing"
                 class="inline-flex items-center whitespace-nowrap justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Start Trial
+                {layout_start_trial()}
               </a>
             </div>
           {/if}
@@ -1209,7 +1262,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     size="icon"
-                    aria-label="Settings"
+                    aria-label={layout_settings_label()}
                     class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 w-10 h-10 transition"
                     builders={[builder]}
                   >
@@ -1235,7 +1288,7 @@
                     <DropdownMenu.Item
                       class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
-                      My Account
+                      {layout_my_account()}
                     </DropdownMenu.Item>
                   </a>
                   <DropdownMenu.Separator
@@ -1246,7 +1299,7 @@
                     <DropdownMenu.Item
                       class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
-                      Portfolio
+                      {layout_portfolio()}
                     </DropdownMenu.Item>
                   </a>
 
@@ -1254,14 +1307,14 @@
                     <DropdownMenu.Item
                       class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
-                      Watchlist
+                      {layout_watchlist()}
                     </DropdownMenu.Item>
                   </a>
                   <a href="/price-alert" class="cursor-pointer">
                     <DropdownMenu.Item
                       class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
-                      Price Alert
+                      {layout_price_alert()}
                     </DropdownMenu.Item>
                   </a>
 
@@ -1271,7 +1324,7 @@
                   <form class="cursor-pointer" action="/logout" method="POST">
                     <button
                       type="submit"
-                      aria-label="Logout"
+                      aria-label={layout_logout()}
                       class="w-full text-start cursor-pointer"
                     >
                       <DropdownMenu.Item
@@ -1291,7 +1344,7 @@
                           ></polyline><line x1="21" x2="9" y1="12" y2="12"
                           ></line></svg
                         >
-                        <span class="text-start">Logout</span>
+                        <span class="text-start">{layout_logout()}</span>
                       </DropdownMenu.Item>
                     </button>
                   </form>
@@ -1302,7 +1355,7 @@
                 href="/login"
                 class="inline-flex items-center justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Login
+                {layout_login()}
               </a>
             {/if}
           </div>
@@ -1325,7 +1378,7 @@
                     <img
                       class="avatar w-9 3xl:w-12 rounded-full"
                       src="/pwa-192x192.png"
-                      alt="Stocknear Logo"
+                      alt={layout_logo_alt()}
                     />
                     <span
                       class="text-gray-900 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 text-lg font-semibold tracking-tight"
@@ -1341,7 +1394,9 @@
                       class="shadow px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 transition"
                     >
                       <Plus class="w-4 h-4 inline-block mr-2" />
-                      <span class="font-semibold">Start new chat</span>
+                      <span class="font-semibold">
+                        {layout_start_new_chat()}
+                      </span>
                     </div>
                   </a>
                   <a
@@ -1355,7 +1410,7 @@
                     </div>
                     <span
                       class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                      >Home</span
+                      >{layout_home()}</span
                     >
                   </a>
 
@@ -1371,7 +1426,7 @@
                             >
                               <Stock class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Stocks</span>
+                            <span class="ml-3">{layout_stocks()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1381,25 +1436,25 @@
                             <a
                               href="/industry"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >By Industry</a
+                              >{layout_by_industry()}</a
                             >
 
                             <a
                               href="/market-mover/gainers"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Market Mover</a
+                              >{layout_market_mover()}</a
                             >
 
                             <a
                               href="/heatmap"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Market Heatmap</a
+                              >{layout_market_heatmap()}</a
                             >
 
                             <a
                               href="/list"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Stock Lists</a
+                              >{layout_stock_lists()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1419,7 +1474,7 @@
                             >
                               <Layers class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">ETFs</span>
+                            <span class="ml-3">{layout_etfs()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1429,12 +1484,12 @@
                             <a
                               href="/etf/new-launches"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >New Launches</a
+                              >{layout_new_launches()}</a
                             >
                             <a
                               href="/etf/etf-providers"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >ETF Providers</a
+                              >{layout_etf_providers()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1454,7 +1509,7 @@
                             >
                               <Analyst class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Analyst</span>
+                            <span class="ml-3">{layout_analyst()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1464,18 +1519,18 @@
                             <a
                               href="/analysts"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Top Analysts</a
+                              >{layout_top_analysts()}</a
                             >
                             <a
                               href="/analysts/top-stocks"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Top Analyst Stocks</a
+                              >{layout_top_analyst_stocks()}</a
                             >
 
                             <a
                               href="/analysts/analyst-flow"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Analyst Live Flow</a
+                              >{layout_analyst_live_flow()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1495,7 +1550,7 @@
                             >
                               <Calendar class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Calendar</span>
+                            <span class="ml-3">{layout_calendar()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1505,12 +1560,12 @@
                             <a
                               href="/dividends-calendar"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Dividends Calendar</a
+                              >{layout_dividends_calendar()}</a
                             >
                             <a
                               href="/earnings-calendar"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Earnings Calendar</a
+                              >{layout_earnings_calendar()}</a
                             >
                             <!--
                           <a
@@ -1523,12 +1578,12 @@
                             <a
                               href="/ipos"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >IPO Calendar</a
+                              >{layout_ipo_calendar()}</a
                             >
                             <a
                               href="/economic-calendar"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Economic Calendar</a
+                              >{layout_economic_calendar()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1548,7 +1603,7 @@
                             >
                               <HandShake class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Congress</span>
+                            <span class="ml-3">{layout_congress()}</span>
                           </div>
                         </Accordion.Trigger>
 
@@ -1560,12 +1615,12 @@
                               <a
                                 href="/politicians/flow-data"
                                 class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                                >Congress Flow</a
+                                >{layout_congress_flow()}</a
                               >
                               <a
                                 href="/politicians"
                                 class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                                >All Politicians</a
+                                >{layout_all_politicians()}</a
                               >
                             </div>
                           </div>
@@ -1586,7 +1641,7 @@
                             >
                               <Flow class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Flow Feed</span>
+                            <span class="ml-3">{layout_flow_feed()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1596,24 +1651,24 @@
                             <a
                               href="/market-flow"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Market Flow</a
+                              >{layout_market_flow()}</a
                             >
 
                             <a
                               href="/news-flow"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >News Flow</a
+                              >{layout_news_flow()}</a
                             >
 
                             <a
                               href="/options-flow"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Flow</a
+                              >{layout_options_flow()}</a
                             >
                             <a
                               href="/unusual-order-flow"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Unusual Order Flow</a
+                              >{layout_unusual_order_flow()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1633,7 +1688,7 @@
                             >
                               <Screener class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Screener</span>
+                            <span class="ml-3">{layout_screener()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1643,13 +1698,13 @@
                             <a
                               href="/stock-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Stock Screener</a
+                              >{layout_stock_screener()}</a
                             >
 
                             <a
                               href="/options-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Screener</a
+                              >{layout_options_screener()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1682,7 +1737,7 @@
                           <a
                             href="/options-calculator"
                             class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                            >Options Calculator</a
+                            >{layout_options_calculator()}</a
                           >
                         </div>
                       </Accordion.Content>
@@ -1703,7 +1758,7 @@
                             >
                               <Tools class="h-5.5 w-5.5" />
                             </div>
-                            <span class="ml-3">Tools</span>
+                            <span class="ml-3">{layout_tools()}</span>
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
@@ -1713,29 +1768,29 @@
                             <a
                               href="/compare"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Comparison Tool</a
+                              >{layout_comparison_tool()}</a
                             >
 
                             <a
                               href="/options-calculator"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Calculator</a
+                              >{layout_options_calculator()}</a
                             >
 
                             <a
                               href="/potus-tracker"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >POTUS Tracker</a
+                              >{layout_potus_tracker()}</a
                             >
                             <a
                               href="/insider-tracker"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Insider Tracker</a
+                              >{layout_insider_tracker()}</a
                             >
                             <a
                               href="/reddit-tracker"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Reddit Tracker</a
+                              >{layout_reddit_tracker()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1754,7 +1809,7 @@
                     </div>
                     <span
                       class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                      >Hedge Funds</span
+                      >{layout_hedge_funds()}</span
                     >
                   </a>
 
@@ -1769,7 +1824,7 @@
                     </div>
                     <span
                       class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                      >Market News</span
+                      >{layout_market_news()}</span
                     >
                   </a>
                   {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
@@ -1784,7 +1839,7 @@
                       </div>
                       <span
                         class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                        >Pricing Plan</span
+                        >{layout_pricing_plan()}</span
                       >
                     </a>
                   {/if}

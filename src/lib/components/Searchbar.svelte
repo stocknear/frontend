@@ -5,6 +5,15 @@
   import Search from "lucide-svelte/icons/search";
   import { goto } from "$app/navigation";
   import { Combobox } from "bits-ui";
+  import {
+    searchbar_aria_label,
+    searchbar_no_results,
+    searchbar_placeholder,
+    searchbar_popular,
+    searchbar_recent,
+    searchbar_search_label,
+    searchbar_suggestions,
+  } from "$lib/paraglide/messages.js";
 
   let searchHistory = [];
   let updatedSearchHistory = [];
@@ -418,8 +427,8 @@
             id="combobox-input"
             on:click={() => (inputValue = "")}
             class="grow rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/60 py-2.5 pl-9 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
-            placeholder="Company or stock symbol..."
-            aria-label="Company or stock symbol..."
+            placeholder={searchbar_placeholder()}
+            aria-label={searchbar_aria_label()}
           />
           <div
             class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-gray-800 dark:text-zinc-300 font-semibold"
@@ -462,7 +471,7 @@
             <div
               class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
-              Suggestions
+              {searchbar_suggestions()}
             </div>
             {#each searchBarData as item}
               <Combobox.Item
@@ -489,7 +498,9 @@
             <div
               class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
-              {searchHistory?.length > 0 ? "Recent" : "Popular"}
+              {searchHistory?.length > 0
+                ? searchbar_recent()
+                : searchbar_popular()}
             </div>
             {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
               <Combobox.Item
@@ -516,7 +527,7 @@
             <span
               class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300"
             >
-              No results found
+              {searchbar_no_results()}
             </span>
           {/if}
         </Combobox.Content>
@@ -588,12 +599,14 @@
           {/if}
         </div>
 
-        <label for="modal-search" class="sr-only">Search</label>
+        <label for="modal-search" class="sr-only">
+          {searchbar_search_label()}
+        </label>
 
         <input
           id="modal-search"
           class="focus:outline-none rounded-full w-full bg-white/80 dark:bg-zinc-900/60 border border-gray-300 shadow dark:border-zinc-700 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 py-3 pl-10 pr-4"
-          placeholder="Company or stock symbol..."
+          placeholder={searchbar_placeholder()}
           bind:value={inputValue}
           bind:this={inputElement}
           autocomplete="off"
@@ -604,7 +617,10 @@
           }}
         />
 
-        <button class="absolute inset-0 right-auto group" aria-label="Search">
+        <button
+          class="absolute inset-0 right-auto group"
+          aria-label={searchbar_search_label()}
+        >
           <svg
             class="w-4 h-4 shrink-0 fill-current ml-4 mr-2 text-gray-800 dark:text-zinc-300"
             viewBox="0 0 16 16"
@@ -627,7 +643,7 @@
         <div
           class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
         >
-          Suggestions
+          {searchbar_suggestions()}
         </div>
         {#each searchBarData as item}
           <li
@@ -653,7 +669,9 @@
         <div
           class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
         >
-          {searchHistory?.length > 0 ? "Recent" : "Popular"}
+          {searchHistory?.length > 0
+            ? searchbar_recent()
+            : searchbar_popular()}
         </div>
         {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
           <li
@@ -677,7 +695,7 @@
         {/each}
       {:else}
         <span class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300">
-          No results found
+          {searchbar_no_results()}
         </span>
       {/if}
     </div>

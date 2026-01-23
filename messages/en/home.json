@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Real-Time Options Flow, Sweeps & Unusual Activity",
+  "home_seo_description": "Live options flow, sweeps, blocks, and unusual activity across US stocks and ETFs. Find short-term trade setups faster with Stocknear.",
+  "home_seo_keywords": "options flow, unusual options activity, sweep orders, block trades, dark pool, implied volatility, IV skew, open interest, options chain, short-term trade setups, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Real-time options flow and unusual activity for short-term trade setups",
+  "home_structured_feature_live_options_flow": "Live options flow & sweeps",
+  "home_structured_feature_unusual_options_activity": "Unusual options activity",
+  "home_structured_feature_dark_pool_monitoring": "Dark pool monitoring",
+  "home_structured_feature_implied_volatility": "Implied volatility & skew",
+  "home_structured_feature_options_chain": "Options chain & open interest",
+  "home_structured_feature_earnings_volatility": "Earnings volatility setup",
+  "home_structured_feature_market_catalysts": "Market catalysts",
+  "home_hero_title": "See the move before the crowd does",
+  "home_hero_subtitle": "Real-time prices, options flow, dark pool orders, news, financials, forecasts, and charts for every US stock and ETF. Act faster with clean signal."
+}

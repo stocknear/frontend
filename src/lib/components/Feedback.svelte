@@ -11,6 +11,7 @@
     feedback_error_send_generic,
     feedback_description_label,
     feedback_page_label,
+    feedback_close_button,
     feedback_cancel_button,
     feedback_send_button,
   } from "$lib/paraglide/messages.js";
@@ -159,7 +160,7 @@
       <label
         for="feedbackModalToggle"
         class="inline-block cursor-pointer text-[1.6rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        aria-label="Close"
+        aria-label={feedback_close_button()}
       >
         <svg
           class="w-8 h-8"

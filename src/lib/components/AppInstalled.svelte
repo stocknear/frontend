@@ -1,5 +1,21 @@
 <script lang="ts">
   import { closedPWA } from "$lib/store";
+  import {
+    app_installed_android_step_1,
+    app_installed_android_step_2,
+    app_installed_android_step_3,
+    app_installed_android_step_4,
+    app_installed_banner_title,
+    app_installed_button_install,
+    app_installed_close,
+    app_installed_ios_note,
+    app_installed_ios_step_1,
+    app_installed_ios_step_2,
+    app_installed_ios_step_3,
+    app_installed_modal_title,
+    app_installed_platform_android,
+    app_installed_platform_ios,
+  } from "$lib/paraglide/messages.js";
 
   let installPlatform: "ios" | "android" = "ios";
 
@@ -35,7 +51,7 @@
     class="w-full flex flex-row justify-between items-center gap-x-4 gap-y-2"
   >
     <p class="text-lg text-white font-semibold text-start">
-      Get the app for a better experience.
+      {app_installed_banner_title()}
     </p>
 
     <div class="flex flex-row items-center">
@@ -43,7 +59,7 @@
         for="installModal"
         class="flex-none rounded-full px-5 py-1 text-lg font-semibold text-black shadow bg-[#fff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
       >
-        Install
+        {app_installed_button_install()}
       </label>
       <label
         on:click={setClosedPWA}
@@ -76,7 +92,7 @@
       <h4
         class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
       >
-        Steps to install
+        {app_installed_modal_title()}
       </h4>
       <label
         for="installModal"
@@ -106,7 +122,7 @@
             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
         >
-          Apple (iOS)
+          {app_installed_platform_ios()}
         </button>
         <button
           type="button"
@@ -116,7 +132,7 @@
             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
         >
-          Android
+          {app_installed_platform_android()}
         </button>
       </div>
 
@@ -124,21 +140,21 @@
         <ul
           class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
         >
-          <li class="mb-2">Tap on the Safari share button.</li>
-          <li class="mb-2">Tap on "Add to Home Screen."</li>
-          <li class="mb-4">Tap on "Add."</li>
+          <li class="mb-2">{app_installed_ios_step_1()}</li>
+          <li class="mb-2">{app_installed_ios_step_2()}</li>
+          <li class="mb-4">{app_installed_ios_step_3()}</li>
           <p class="text-sm mb-4 text-gray-800 dark:text-zinc-300">
-            Note that web apps on iOS can only be installed using Safari.
+            {app_installed_ios_note()}
           </p>
         </ul>
       {:else}
         <ul
           class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
         >
-          <li class="mb-2">Open Stocknear in Chrome.</li>
-          <li class="mb-2">Tap the three-dot menu in the top right.</li>
-          <li class="mb-2">Tap "Install app" or "Add to Home screen."</li>
-          <li class="mb-4">Confirm to install.</li>
+          <li class="mb-2">{app_installed_android_step_1()}</li>
+          <li class="mb-2">{app_installed_android_step_2()}</li>
+          <li class="mb-2">{app_installed_android_step_3()}</li>
+          <li class="mb-4">{app_installed_android_step_4()}</li>
         </ul>
       {/if}
     </div>
@@ -148,7 +164,7 @@
         for="installModal"
         class="mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center cursor-pointer"
       >
-        Close
+        {app_installed_close()}
       </label>
     </div>
   </div>

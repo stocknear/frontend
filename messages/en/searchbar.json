@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Company or stock symbol...",
+  "searchbar_aria_label": "Company or stock symbol...",
+  "searchbar_search_label": "Search",
+  "searchbar_suggestions": "Suggestions",
+  "searchbar_recent": "Recent",
+  "searchbar_popular": "Popular",
+  "searchbar_no_results": "No results found"
+}

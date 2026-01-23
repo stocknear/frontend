@@ -8,6 +8,7 @@
   "feedback_error_send_generic": "Something went wrong sending feedback.",
   "feedback_description_label": "Describe your issue or suggestion:",
   "feedback_page_label": "Feedback for page:",
+  "feedback_close_button": "Close",
   "feedback_cancel_button": "Cancel",
   "feedback_send_button": "Send feedback"
 }

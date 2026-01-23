@@ -1,6 +1,18 @@
 <script lang="ts">
   import Infobox from "$lib/components/Infobox.svelte";
   import { compareTimes, abbreviateNumber } from "$lib/utils";
+  import {
+    dashboard_upcoming_earnings_after_market,
+    dashboard_upcoming_earnings_before_market,
+    dashboard_upcoming_earnings_during_market,
+    dashboard_upcoming_earnings_empty,
+    dashboard_upcoming_earnings_eps_yoy,
+    dashboard_upcoming_earnings_estimate,
+    dashboard_upcoming_earnings_monday,
+    dashboard_upcoming_earnings_title,
+    dashboard_upcoming_earnings_today,
+    dashboard_upcoming_earnings_tomorrow,
+  } from "$lib/paraglide/messages.js";
 
   export let upcomingEarnings = [];
 </script>
@@ -12,7 +24,7 @@
     ><h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
-      Upcoming Earnings
+      {dashboard_upcoming_earnings_title()}
     </h2>
     <svg
       class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
@@ -39,30 +51,32 @@
                 >{item?.name}</strong
               >
               {item?.isToday === true
-                ? "will report today"
+                ? dashboard_upcoming_earnings_today()
                 : ["Monday", "Tuesday", "Wednesday", "Thursday"].includes(
                       new Date().toLocaleDateString("en-US", {
                         weekday: "long",
                       }),
                     )
-                  ? "will report tomorrow"
-                  : "will report monday"}
+                  ? dashboard_upcoming_earnings_tomorrow()
+                  : dashboard_upcoming_earnings_monday()}
               {#if item?.time}
                 {#if compareTimes(item?.time, "16:00") >= 0}
-                  after market closes.
+                  {dashboard_upcoming_earnings_after_market()}
                 {:else if compareTimes(item?.time, "09:30") <= 0}
-                  before market opens.
+                  {dashboard_upcoming_earnings_before_market()}
                 {:else}
-                  during market.
+                  {dashboard_upcoming_earnings_during_market()}
                 {/if}
               {/if}
-              Analysts estimate {abbreviateNumber(item?.revenueEst)} in revenue ({(
-                (item?.revenueEst / item?.revenuePrior - 1) *
-                100
-              )?.toFixed(2)}% YoY) and {item?.epsEst} in earnings per share
+              {dashboard_upcoming_earnings_estimate({
+                revenue: abbreviateNumber(item?.revenueEst),
+                revenueYoy: ((item?.revenueEst / item?.revenuePrior - 1) * 100)?.toFixed(2),
+                eps: item?.epsEst,
+              })}
               {#if item?.epsPrior !== 0}
-                ({((item?.epsEst / item?.epsPrior - 1) * 100)?.toFixed(2)}%
-                YoY).
+                {dashboard_upcoming_earnings_eps_yoy({
+                  epsYoy: ((item?.epsEst / item?.epsPrior - 1) * 100)?.toFixed(2),
+                })}
               {/if}
 
               <a
@@ -76,6 +90,6 @@
       </tbody>
     </table>
   {:else}
-    <Infobox text="There are no major upcoming earnings to report today." />
+    <Infobox text={dashboard_upcoming_earnings_empty()} />
   {/if}
 </section>

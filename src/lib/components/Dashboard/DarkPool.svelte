@@ -3,6 +3,15 @@
   import * as Table from "$lib/components/shadcn/table/index.ts";
   import Infobox from "$lib/components/Infobox.svelte";
   import { abbreviateNumber } from "$lib/utils";
+  import {
+    dashboard_dark_pool_empty,
+    dashboard_dark_pool_header_prem,
+    dashboard_dark_pool_header_size,
+    dashboard_dark_pool_header_size_avg_vol,
+    dashboard_dark_pool_na,
+    dashboard_dark_pool_title,
+    dashboard_table_symbol,
+  } from "$lib/paraglide/messages.js";
 
   export let darkPoolList;
 </script>
@@ -18,7 +27,7 @@
             href="/unusual-order-flow/"
             class="text-xl sm:text-2xl text-muted dark:text-white font-semibold cursor-pointer sm:hover:underline sm:hover:underline-offset-4"
           >
-            Dark Pool Order
+            {dashboard_dark_pool_title()}
             <svg
               class="h-5 w-5 inline-block"
               viewBox="0 0 20 20"
@@ -42,20 +51,20 @@
         <Table.Header>
           <Table.Row>
             <Table.Head class=" text-left text-sm font-bold dark:font-semibold"
-              >Symbol</Table.Head
+              >{dashboard_table_symbol()}</Table.Head
             >
             <Table.Head
               class="text-right table-cell text-sm font-bold dark:font-semibold"
-              >Prem</Table.Head
+              >{dashboard_dark_pool_header_prem()}</Table.Head
             >
             <Table.Head
               class="text-right table-cell text-sm font-bold dark:font-semibold"
-              >Size</Table.Head
+              >{dashboard_dark_pool_header_size()}</Table.Head
             >
 
             <Table.Head
               class=" text-right text-sm font-bold dark:font-semibold whitespace-nowrap"
-              >Size / Avg Vol</Table.Head
+              >{dashboard_dark_pool_header_size_avg_vol()}</Table.Head
             >
           </Table.Row>
         </Table.Header>
@@ -83,14 +92,16 @@
               <Table.Cell
                 class="text-right md:table.-cell xl:table.-column text-sm sm:text-[1rem]"
               >
-                {item?.sizeAvgVolRatio ? item?.sizeAvgVolRatio + "%" : "n/a"}
+                {item?.sizeAvgVolRatio
+                  ? item?.sizeAvgVolRatio + "%"
+                  : dashboard_dark_pool_na()}
               </Table.Cell>
             </Table.Row>
           {/each}
         </Table.Body>
       </Table.Root>
     {:else}
-      <Infobox text="Currently, no unusual dark pool flow data available." />
+      <Infobox text={dashboard_dark_pool_empty()} />
     {/if}
   </Card.Content>
 </Card.Root>

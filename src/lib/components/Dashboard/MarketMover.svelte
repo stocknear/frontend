@@ -1,11 +1,40 @@
 <script lang="ts">
   import Infobox from "$lib/components/Infobox.svelte";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  import {
+    dashboard_market_mover_direction_gainers,
+    dashboard_market_mover_direction_losers,
+    dashboard_market_mover_no_gainers,
+    dashboard_market_mover_no_losers,
+    dashboard_market_mover_session_afterhours,
+    dashboard_market_mover_session_pre_market,
+    dashboard_market_mover_session_top,
+    dashboard_market_mover_title,
+    dashboard_table_change,
+    dashboard_table_name,
+    dashboard_table_price,
+    dashboard_table_symbol,
+  } from "$lib/paraglide/messages.js";
 
   export let marketStatus = 0;
   export let gainersList = [];
   export let losersList = [];
   export let charNumber = 30;
+
+  $: marketSessionLabel =
+    marketStatus === 0
+      ? dashboard_market_mover_session_top()
+      : marketStatus === 1
+        ? dashboard_market_mover_session_pre_market()
+        : dashboard_market_mover_session_afterhours();
+  $: gainersTitle = dashboard_market_mover_title({
+    session: marketSessionLabel,
+    direction: dashboard_market_mover_direction_gainers(),
+  });
+  $: losersTitle = dashboard_market_mover_title({
+    session: marketSessionLabel,
+    direction: dashboard_market_mover_direction_losers(),
+  });
 </script>
 
 <section
@@ -19,11 +48,7 @@
         ><h2
           class="mb-0.5 text-lg sm:text-xl font-semibold tracking-tight transition sm:group-hover:underline sm:group-hover:underline-offset-4 group-hover:text-violet-600 dark:group-hover:text-violet-400"
         >
-          {marketStatus === 0
-            ? "Top"
-            : marketStatus === 1
-              ? "Pre-Market"
-              : "Afterhours"} Gainers
+          {gainersTitle}
         </h2>
         <svg
           class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
@@ -49,18 +74,18 @@
               class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
             >
               <th class="py-2.5 px-3 sm:px-4 text-left font-semibold">
-                Symbol
+                {dashboard_table_symbol()}
               </th>
               <th
                 class="hidden sm:block py-2.5 px-3 sm:px-4 text-left font-semibold lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
               >
-                Name
+                {dashboard_table_name()}
               </th>
               <th class="py-2.5 px-3 sm:px-4 text-right font-semibold">
-                Price
+                {dashboard_table_price()}
               </th>
               <th class="py-2.5 px-3 sm:px-4 text-right font-semibold">
-                Change
+                {dashboard_table_change()}
               </th>
             </tr>
           </thead>
@@ -108,7 +133,7 @@
         </table>
       </div>
     {:else}
-      <Infobox text="Currently, no market gainers data is available." />
+      <Infobox text={dashboard_market_mover_no_gainers()} />
     {/if}
   </div>
   <div class="grow">
@@ -119,11 +144,7 @@
         ><h2
           class="mb-0.5 text-lg sm:text-xl font-semibold tracking-tight transition sm:group-hover:underline sm:group-hover:underline-offset-4 group-hover:text-violet-600 dark:group-hover:text-violet-400"
         >
-          {marketStatus === 0
-            ? "Top"
-            : marketStatus === 1
-              ? "Pre-Market"
-              : "Afterhours"} Losers
+          {losersTitle}
         </h2>
         <svg
           class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
@@ -149,18 +170,18 @@
               class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
             >
               <th class="py-2.5 px-3 sm:px-4 text-left font-semibold">
-                Symbol
+                {dashboard_table_symbol()}
               </th>
               <th
                 class="hidden sm:block py-2.5 px-3 sm:px-4 text-left font-semibold lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
               >
-                Name
+                {dashboard_table_name()}
               </th>
               <th class="py-2.5 px-3 sm:px-4 text-right font-semibold">
-                Price
+                {dashboard_table_price()}
               </th>
               <th class="py-2.5 px-3 sm:px-4 text-right font-semibold">
-                Change
+                {dashboard_table_change()}
               </th>
             </tr>
           </thead>
@@ -208,7 +229,7 @@
         </table>
       </div>
     {:else}
-      <Infobox text="Currently, no market loser data is available." />
+      <Infobox text={dashboard_market_mover_no_losers()} />
     {/if}
   </div>
 </section>

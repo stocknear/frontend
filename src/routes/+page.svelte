@@ -12,6 +12,22 @@
   import AnalystReport from "$lib/components/Dashboard/AnalystReport.svelte";
   //import AIAgent from "$lib/components/Dashboard/AIAgent.svelte";
   import MiniPlot from "$lib/components/MiniPlot.svelte";
+  import {
+    home_hero_subtitle,
+    home_hero_title,
+    home_seo_description,
+    home_seo_keywords,
+    home_seo_title,
+    home_structured_description,
+    home_structured_feature_dark_pool_monitoring,
+    home_structured_feature_earnings_volatility,
+    home_structured_feature_implied_volatility,
+    home_structured_feature_live_options_flow,
+    home_structured_feature_market_catalysts,
+    home_structured_feature_options_chain,
+    home_structured_feature_unusual_options_activity,
+    home_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   export let form;
@@ -63,15 +79,14 @@
 </script>
 
 <SEO
-  title="Real-Time Options Flow, Sweeps & Unusual Activity"
-  description="Live options flow, sweeps, blocks, and unusual activity across US stocks and ETFs. Find short-term trade setups faster with Stocknear."
-  keywords="options flow, unusual options activity, sweep orders, block trades, dark pool, implied volatility, IV skew, open interest, options chain, short-term trade setups, stocknear"
+  title={home_seo_title()}
+  description={home_seo_description()}
+  keywords={home_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Stocknear",
-    description:
-      "Real-time options flow and unusual activity for short-term trade setups",
+    name: home_structured_name(),
+    description: home_structured_description(),
     url: "https://stocknear.com",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -81,17 +96,17 @@
       priceCurrency: "USD",
     },
     featureList: [
-      "Live options flow & sweeps",
-      "Unusual options activity",
-      "Dark pool monitoring",
-      "Implied volatility & skew",
-      "Options chain & open interest",
-      "Earnings volatility setup",
-      "Market catalysts",
+      home_structured_feature_live_options_flow(),
+      home_structured_feature_unusual_options_activity(),
+      home_structured_feature_dark_pool_monitoring(),
+      home_structured_feature_implied_volatility(),
+      home_structured_feature_options_chain(),
+      home_structured_feature_earnings_volatility(),
+      home_structured_feature_market_catalysts(),
     ],
     provider: {
       "@type": "Organization",
-      name: "Stocknear",
+      name: home_structured_name(),
       url: "https://stocknear.com",
     },
   }}
@@ -189,14 +204,12 @@
         <h1
           class="mb-3 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
         >
-          See the move before the crowd does
+          {home_hero_title()}
         </h1>
         <p
           class="text-sm text-gray-800 dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
         >
-          Real-time prices, options flow, dark pool orders, news, financials,
-          forecasts, and charts for every US stock and ETF. Act faster with
-          clean signal.
+          {home_hero_subtitle()}
         </p>
         <!--
         <div class="mx-auto max-w-[95%] md:max-w-[85%] mt-5">

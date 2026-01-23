@@ -12,6 +12,14 @@
   import { keymap } from "prosemirror-keymap";
   import { agentOptions, agentCategory, getCreditFromQuery } from "$lib/utils";
   import { chatReasoning } from "$lib/store";
+  import {
+    dashboard_ai_credits_left,
+    dashboard_ai_credits_unit,
+    dashboard_ai_how_to_use_agents,
+    dashboard_ai_insufficient_credits,
+    dashboard_ai_placeholder,
+    dashboard_ai_stock_agents,
+  } from "$lib/paraglide/messages.js";
 
   import { schema } from "prosemirror-schema-basic";
 
@@ -106,8 +114,7 @@
           const span = document.createElement("span");
           span.className =
             "text-gray-700 dark:text-gray-300 pointer-events-none text-sm sm:text-[1rem]";
-          span.textContent =
-            "Ask anything about stocks — get real-time updates";
+          span.textContent = dashboard_ai_placeholder();
           return span;
         });
 
@@ -249,7 +256,7 @@
 
     if (data?.user?.credits < costOfCredit) {
       toast.error(
-        `Insufficient credits. Your current balance is ${data?.user?.credits}.`,
+        dashboard_ai_insufficient_credits({ credits: data?.user?.credits }),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -457,7 +464,9 @@
                       <DropdownMenu.Label
                         class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
                       >
-                        {data?.user?.credits} Credits left
+                        {dashboard_ai_credits_left({
+                          credits: data?.user?.credits,
+                        })}
                       </DropdownMenu.Label>
                     {/if}
                     <!--
@@ -503,7 +512,7 @@
                         class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                       >
                         <div class="flex flex-row items-center w-full text-sm">
-                          <span>Stock Agents</span>
+                          <span>{dashboard_ai_stock_agents()}</span>
                         </div>
                         <svg
                           class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -579,7 +588,7 @@
                         class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                       >
                         <div class="flex flex-row items-center w-full text-sm">
-                          <span>How to Use Agents correctly</span>
+                          <span>{dashboard_ai_how_to_use_agents()}</span>
                         </div>
                         <svg
                           class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -629,7 +638,7 @@
                               <span>{option?.name} </span>
 
                               <span class="ml-auto text-xs"
-                                >{option?.credit} Credits</span
+                                >{option?.credit} {dashboard_ai_credits_unit()}</span
                               >
                             </div>
                           </DropdownMenu.Item>

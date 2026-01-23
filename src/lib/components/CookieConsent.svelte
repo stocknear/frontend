@@ -191,16 +191,16 @@
 
 <Dialog.Root bind:open={showCustomize}>
   <Dialog.Content
-    class="max-h-[90vh] w-full max-w-xl  overflow-hidden  rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-y-auto bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 z-[999]"
+    class="max-h-[90vh] w-[95vw] max-w-lg rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-y-auto bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 z-[999]"
   >
-    <Dialog.Header class="w-full">
+    <Dialog.Header>
       <Dialog.Title
-        class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white text-start"
+        class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
         {cookies_preferences_title()}</Dialog.Title
       >
       <Dialog.Description
-        class="text-sm text-gray-800 dark:text-zinc-300 text-start"
+        class="text-sm text-gray-800 dark:text-zinc-300"
       >
         {cookies_preferences_description()}
       </Dialog.Description>

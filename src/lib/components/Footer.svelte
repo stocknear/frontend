@@ -249,7 +249,7 @@
                 </button>
               </div>
             </li>
-            <!--
+
             <li>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
@@ -283,7 +283,6 @@
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             </li>
-            -->
           </ul>
         </nav>
         <nav class="space-y-3">
