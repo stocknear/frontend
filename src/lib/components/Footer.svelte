@@ -8,7 +8,33 @@
     type Locale,
   } from "$lib/i18n.svelte";
   import { getLocale } from "$lib/paraglide/runtime.js";
-  import { footer_language } from "$lib/paraglide/messages.js";
+  import {
+    footer_language,
+    footer_tagline,
+    footer_sections,
+    footer_stocks,
+    footer_ipos,
+    footer_etfs,
+    footer_portfolio,
+    footer_learning_center,
+    footer_services,
+    footer_pricing_plan,
+    footer_get_support,
+    footer_website,
+    footer_login,
+    footer_faq,
+    footer_sitemap,
+    footer_light,
+    footer_dark,
+    footer_company,
+    footer_about,
+    footer_terms_of_use,
+    footer_data_disclaimer,
+    footer_open_source,
+    common_contact_us,
+    common_privacy_policy,
+    common_imprint,
+  } from "$lib/paraglide/messages.js";
   import Globe from "lucide-svelte/icons/globe";
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
@@ -59,7 +85,7 @@
             >Stocknear</span
           >
           <p class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
-            All-in-one Stock Analysis Platform to research your trading ideas.
+            {footer_tagline()}
           </p>
         </div>
       </div>
@@ -71,37 +97,37 @@
           <h6
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
-            Sections
+            {footer_sections()}
           </h6>
           <ul class="space-y-2">
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/stocks/">Stocks</a
+                href="/stocks/">{footer_stocks()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/ipos/">IPOs</a
+                href="/ipos/">{footer_ipos()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/etf/">ETFs</a
+                href="/etf/">{footer_etfs()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/portfolio/">Portfolio</a
+                href="/portfolio/">{footer_portfolio()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/learning-center/">Learning Center</a
+                href="/learning-center/">{footer_learning_center()}</a
               >
             </li>
           </ul>
@@ -110,20 +136,20 @@
           <h6
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
-            Services
+            {footer_services()}
           </h6>
           <ul class="space-y-2">
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/pricing/">Pricing Plan</a
+                href="/pricing/">{footer_pricing_plan()}</a
               >
             </li>
 
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/support/">Get Support</a
+                href="/support/">{footer_get_support()}</a
               >
             </li>
             <!--
@@ -140,26 +166,26 @@
           <h6
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
-            Website
+            {footer_website()}
           </h6>
           <ul class="space-y-2">
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/login/">Login</a
+                href="/login/">{footer_login()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/faq/">FAQ</a
+                href="/faq/">{footer_faq()}</a
               >
             </li>
 
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/sitemap/">Sitemap</a
+                href="/sitemap/">{footer_sitemap()}</a
               >
             </li>
 
@@ -195,7 +221,7 @@
                       d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                     ></path>
                   </svg>
-                  Light
+                  {footer_light()}
                   <span class="sr-only">Toggle theme</span>
                 </button>
                 <button
@@ -218,7 +244,7 @@
                       d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                     ></path>
                   </svg>
-                  Dark
+                  {footer_dark()}
                   <span class="sr-only">Toggle theme</span>
                 </button>
               </div>
@@ -262,43 +288,43 @@
           <h6
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
-            Company
+            {footer_company()}
           </h6>
           <ul class="space-y-2">
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/about/">About</a
+                href="/about/">{footer_about()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/contact/">Contact Us</a
+                href="/contact/">{common_contact_us()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/terms-of-use/">Terms of Use</a
+                href="/terms-of-use/">{footer_terms_of_use()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/privacy-policy/">Privacy Policy</a
+                href="/privacy-policy/">{common_privacy_policy()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/data-disclaimer/">Data Disclaimer</a
+                href="/data-disclaimer/">{footer_data_disclaimer()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
-                href="/imprint/">Imprint</a
+                href="/imprint/">{common_imprint()}</a
               >
             </li>
           </ul>
@@ -413,22 +439,14 @@
       <p
         class="my-3 text-sm text-gray-800 dark:text-zinc-300 md:order-2 md:my-0 flex flex-row items-center"
       >
-        <!--© 2025 Stocknear. All rights reserved.-->
         <a
           class="inline-block text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
           href="https://github.com/stocknear"
           aria-label="Follow on Github"
         >
-          Stocknear is Proudly Open Source ❤️
+          {footer_open_source()}
         </a>
       </p>
     </div>
   </div>
-  <!--
-  <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 lg:pb-8">
-    <p class="text-gray-400 dark:text-dark-400 md:order-2 md:my-0">
-      Stocknear is Proudly Open Source
-    </p>
-  </div>
-  -->
 </footer>
