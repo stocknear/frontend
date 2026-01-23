@@ -1,5 +1,3 @@
-import { CF_TURNSTILE_SITE_KEY, VAPID_PUBLIC_KEY } from "$env/static/private";
-
 export const load = ({ locals }) => {
   const { user, wsURL, themeMode, cookieConsent, locale } = locals;
 
@@ -9,8 +7,5 @@ export const load = ({ locals }) => {
     wsURL,
     themeMode,
     locale,
-    // Public keys passed to client (these are safe to expose)
-    turnstileSiteKey: CF_TURNSTILE_SITE_KEY,
-    vapidPublicKey: VAPID_PUBLIC_KEY,
   };
 };

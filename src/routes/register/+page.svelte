@@ -166,7 +166,7 @@
         </div>
 
         {#if showTurnstile}
-          <Turnstile siteKey={data.turnstileSiteKey} />
+          <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
         {/if}
         {#if form?.errors?.turnstile}
           <p class="text-center text-sm text-error pt-2">

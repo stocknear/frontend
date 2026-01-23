@@ -113,7 +113,7 @@ async function sendSubscriptionToServer(subscription) {
 		}
 	}
 
-	export async function subscribeUser(vapidPublicKey: string) {
+	export async function subscribeUser() {
 		try {
 			// Ensure service worker is registered first
 			if (!('serviceWorker' in navigator)) {
@@ -136,7 +136,7 @@ async function sendSubscriptionToServer(subscription) {
 			console.log('Service worker ready:', registration);
 
 			// Convert the VAPID key string to Uint8Array:
-			const vapidKey = urlBase64ToUint8Array(vapidPublicKey);
+			const vapidKey = urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY);
 
 			// Check if already subscribed
 			let subscription = await registration.pushManager.getSubscription();
