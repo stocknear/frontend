@@ -53,6 +53,7 @@
             {#if displayLegend?.close}
               <NumberFlow
                 value={parseFloat(displayLegend?.close) || 0}
+                locales="en-US"
                 format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
                 {transformTiming}
                 {spinTiming}
@@ -80,6 +81,7 @@
               {#if displayLegend?.change !== undefined && displayLegend?.change !== null}
                 <NumberFlow
                   value={parseFloat(displayLegend?.change) || 0}
+                  locales="en-US"
                   format={{
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
@@ -105,6 +107,7 @@
             >
               ({#if displayLegend?.changesPercentage !== undefined && displayLegend?.changesPercentage !== null}<NumberFlow
                   value={parseFloat(displayLegend?.changesPercentage) || 0}
+                  locales="en-US"
                   format={{
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
@@ -142,6 +145,7 @@
             >
               <NumberFlow
                 value={prePostData?.price || 0}
+                locales="en-US"
                 format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
                 {transformTiming}
                 {spinTiming}
@@ -159,6 +163,7 @@
             >
               <NumberFlow
                 value={prePostData?.changesPercentage || 0}
+                locales="en-US"
                 format={{
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
