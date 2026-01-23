@@ -146,7 +146,7 @@ export const handle = sequence(async ({ event, resolve }) => {
 
     await preloadLocaleMessages(locale);
 
-    const response = await resolve(event, {
+    const response = await resolve({ ...event, request }, {
       transformPageChunk: ({ html }) =>
         html
           .replace('data-theme=""', `data-theme="${themeMode}"`)
