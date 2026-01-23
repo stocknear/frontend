@@ -17,6 +17,7 @@ import {
   cookieName,
   type Locale
 } from '$lib/paraglide/runtime.js';
+import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
 
 // Re-export for convenience
 export { locales, baseLocale, isLocale, type Locale };
@@ -52,6 +53,7 @@ export class ClientLocalization {
     }
 
     this.#locale = value;
+    void preloadLocaleMessages(value);
 
     // Persist to cookie
     document.cookie = `${cookieName}=${value}; Path=/; SameSite=Lax; Max-Age=34560000`;
@@ -113,6 +115,7 @@ export function setLanguage(newLocale: Locale): void {
   } else {
     paraglideSetLocale(newLocale);
   }
+  void preloadLocaleMessages(newLocale);
 }
 
 /**

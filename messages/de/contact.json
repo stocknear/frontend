@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Kontakt",
+  "contact_breadcrumb": "Kontakt",
+  "contact_hero_title": "Kontakt",
+  "contact_intro": "Wir freuen uns von dir zu hören. Bitte sende uns eine Nachricht über das Kontaktformular unten und wir werden uns so schnell wie möglich bei dir melden. Du kannst uns auch direkt per E-Mail unter {email} erreichen.",
+  "contact_email_label": "E-Mail",
+  "contact_subject_label": "Betreff",
+  "contact_message_label": "Nachricht",
+  "contact_send_button": "Nachricht senden",
+  "contact_processing": "Wird verarbeitet...",
+  "contact_success": "Deine Nachricht wurde erfolgreich gesendet. Wir werden uns bald bei dir melden.",
+  "contact_sidebar_pro_title": "Pro Subscription",
+  "contact_sidebar_pro_desc": "Upgrade jetzt für unbegrenzten Zugang zu allen Daten, Tools und ohne Werbung.",
+  "contact_sidebar_screener_title": "Stock Screener",
+  "contact_sidebar_screener_desc": "Filtere, sortiere und analysiere alle Aktien, um dein nächstes Investment zu finden.",
+  "contact_sidebar_watchlist_title": "Watchlists",
+  "contact_sidebar_watchlist_desc": "Behalte deine Lieblingsaktien in Echtzeit im Blick."
+}

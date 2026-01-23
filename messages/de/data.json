@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Daten-Haftungsausschluss | Finanzdatenquellen & Genauigkeit",
+  "data_seo_description": "Umfassende Informationen über unsere Finanzdatenquellen, Genauigkeitsstandards und Nutzungsrichtlinien für Börsendaten, Analystenschätzungen und Finanzkennzahlen.",
+  "data_breadcrumb": "Daten-Haftungsausschluss",
+  "data_hero_title": "Daten-Haftungsausschluss",
+  "data_intro": "Die auf Stocknear präsentierten Finanzdaten werden nur zu Informations- und Bildungszwecken bereitgestellt. Diese Informationen sollten nicht als Finanzberatung verstanden oder als alleinige Grundlage für Trading- oder Anlageentscheidungen verwendet werden.",
+  "data_contact": "Wir halten strenge Standards für Datengenauigkeit und Qualitätssicherung ein. Wenn du Unstimmigkeiten feststellst oder Klärung benötigst, kontaktiere uns bitte über {discordLink} oder unser Support-Team unter {email}.",
+  "data_market_title": "Marktdaten & Aktiencharts",
+  "data_market_content": "Unsere umfassenden Marktdaten und Echtzeit-Aktiencharts werden von {fmpLink} bereitgestellt, einem führenden Anbieter von Finanzdatendiensten. Dies umfasst Intraday-Kurse, historische Daten und technische Indikatoren.",
+  "data_coverage_title": "Marktabdeckung",
+  "data_coverage_content": "Stocknear bietet umfassende Abdeckung von Wertpapieren, die an großen US-Börsen gelistet sind, einschließlich NASDAQ, NYSE, NYSE American und NYSE Arca. Unsere Datenbank umfasst Aktien, ETFs, ADRs und ausgewählte OTC-Wertpapiere. Wir erweitern aktiv unsere Abdeckung um zusätzliche globale Börsen und Finanzinstrumente.",
+  "data_fundamentals_title": "Finanzkennzahlen",
+  "data_fundamentals_content": "Unsere fundamentalen Finanzdaten stammen von {fmpLink} und werden aus offiziellen SEC-Einreichungen (Forms 10-K, 10-Q und 8-K) abgeleitet. Obwohl unsere Systeme diese Informationen täglich aktualisieren, kann es aufgrund der üblichen SEC-Einreichungsfristen und Unternehmensberichtszyklen zu Verzögerungen kommen. Alle präsentierten Finanzdaten basieren auf offiziellen, geprüften Unternehmenseinreichungen bei den Aufsichtsbehörden.",
+  "data_business_title": "Geschäftskennzahlen",
+  "data_business_content": "Geschäftskennzahlen, einschließlich operativer KPIs und Non-GAAP Unit Economics, werden durch unseren Partner {mainStreetLink} bereitgestellt. Deren Research-Team aggregiert, normalisiert und validiert kontinuierlich diese Angaben aus Unternehmenseinreichungen, Investorenpräsentationen und Management-Kommentaren, um hochwertige Geschäfts-Performance-Daten auf unserer Plattform sicherzustellen.",
+  "data_analyst_title": "Analystenabdeckung & Marktprognosen",
+  "data_analyst_content": "Unsere Analystenabdeckung integriert Daten aus mehreren maßgeblichen Quellen. Kursziele und Analystenbewertungen werden von Benzinga bereitgestellt und repräsentieren Konsensmeinungen führender Wall Street-Analysten. Umsatzprognosen und EPS-Forecasts werden sowohl von Benzinga als auch von {fmpLink} aggregiert. Obwohl wir uns bemühen, die genauesten Prognosen zu präsentieren, sollten Nutzer beachten, dass Marktvorhersagen von Natur aus unsicher sind und als Teil eines breiteren Investment-Research-Prozesses betrachtet werden sollten.",
+  "data_etf_title": "ETF Analytics",
+  "data_etf_content": "Unsere ETF-Holdings-Daten und Analytics werden durch unsere Partnerschaft mit {fmpLink} bereitgestellt und gewährleisten genaue und zeitnahe Informationen zu Fondzusammensetzungen, Allokationen und Performance-Kennzahlen.",
+  "data_options_title": "Options-Marktdaten",
+  "data_options_content": "Unsere Options-Marktdaten-Infrastruktur nutzt mehrere Datenanbieter und kombiniert deren Feeds in einer einheitlichen Pipeline, um umfassende OPRA-Daten (Options Price Reporting Authority) zu liefern. Durch die Aggregation von Echtzeit-Options-Flow und individuellen Options-Chain-Daten aus mehreren Quellen stellen wir eine vollständige Abdeckung der Options-Marktaktivität und Preisgestaltung an allen großen US-Optionsbörsen sicher."
+}

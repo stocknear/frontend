@@ -1,0 +1,7 @@
+# Ignore generated artifacts while keeping wrapper modules tracked.
+*
+!.gitignore
+!messages.js
+!runtime.js
+!server.js
+!README.md

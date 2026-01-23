@@ -12,7 +12,8 @@ const config = {
     sveltekit(),
     paraglideVitePlugin({
       project: "./project.inlang",
-      outdir: "./src/lib/paraglide",
+      outdir: "./src/lib/paraglide-generated",
+      outputStructure: "locale-modules",
     }),
     // partytownVite(),
   ],

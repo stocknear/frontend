@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Data Disclaimer | Financial Data Sources & Accuracy",
+  "data_seo_description": "Comprehensive information about our financial data sources, accuracy standards, and usage guidelines for stock market data, analyst estimates, and financial metrics.",
+  "data_breadcrumb": "Data Disclaimer",
+  "data_hero_title": "Data Disclaimer",
+  "data_intro": "The financial data presented on Stocknear is provided for informational and educational purposes only. This information should not be construed as financial advice or used as the sole basis for trading or investment decisions.",
+  "data_contact": "We maintain rigorous standards for data accuracy and quality assurance. If you identify any discrepancies or require clarification, please reach out to us via {discordLink} or contact our support team at {email}.",
+  "data_market_title": "Market Data & Stock Charts",
+  "data_market_content": "Our comprehensive market data and real-time stock charts are powered by {fmpLink}, a leading provider of financial data services. This includes intraday pricing, historical data, and technical indicators.",
+  "data_coverage_title": "Market Coverage",
+  "data_coverage_content": "Stocknear provides comprehensive coverage of securities listed on major U.S. exchanges, including NASDAQ, NYSE, NYSE American, and NYSE Arca. Our database encompasses stocks, ETFs, ADRs, and select OTC securities. We are actively expanding our coverage to include additional global exchanges and financial instruments.",
+  "data_fundamentals_title": "Financial Fundamentals",
+  "data_fundamentals_content": "Our fundamental financial data is sourced from {fmpLink} and is derived from official SEC filings (Forms 10-K, 10-Q, and 8-K). While our systems update this information daily, there may be inherent delays due to standard SEC filing windows and corporate reporting schedules. All financial data presented is based on official, audited company submissions to regulatory authorities.",
+  "data_business_title": "Business Metrics Data",
+  "data_business_content": "Business Metrics Data, including operational KPIs and non-GAAP unit economics, is provided through our partner {mainStreetLink}. Their research team aggregates, normalizes, and continuously validates these disclosures from company filings, investor presentations, and management commentary to ensure high-integrity business performance coverage across our platform.",
+  "data_analyst_title": "Analyst Coverage & Market Projections",
+  "data_analyst_content": "Our analyst coverage integrates data from multiple authoritative sources. Price targets and analyst ratings are provided by Benzinga, representing consensus views from leading Wall Street analysts. Revenue projections and EPS forecasts are aggregated from both Benzinga and {fmpLink}. While we strive to present the most accurate forecasts, users should note that market predictions are inherently uncertain and should be considered as part of a broader investment research process.",
+  "data_etf_title": "ETF Analytics",
+  "data_etf_content": "Our ETF holdings data and analytics are provided through our partnership with {fmpLink}, ensuring accurate and timely information on fund compositions, allocations, and performance metrics.",
+  "data_options_title": "Options Market Data",
+  "data_options_content": "Our options market data infrastructure leverages multiple data vendors, combining their feeds into a unified pipeline to deliver comprehensive full-stream OPRA (Options Price Reporting Authority) data. By aggregating real-time options flow and individual options chain data from several sources, we ensure complete coverage of options market activity and pricing across all major U.S. options exchanges."
+}

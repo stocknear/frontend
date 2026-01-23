@@ -3,6 +3,7 @@ import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import { type Locale } from "$lib/paraglide/runtime.js";
+import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
 
 export const handle = sequence(async ({ event, resolve }) => {
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
@@ -142,6 +143,8 @@ export const handle = sequence(async ({ event, resolve }) => {
         console.log(e);
       }
     }
+
+    await preloadLocaleMessages(locale);
 
     const response = await resolve(event, {
       transformPageChunk: ({ html }) =>

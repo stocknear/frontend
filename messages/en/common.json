@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "common_home": "Home",
+  "common_privacy_policy": "Privacy Policy",
+  "common_imprint": "Imprint",
+  "common_contact_us": "Contact Us",
+  "common_sponsor_us": "Sponsor Us",
+  "common_learn_more_sponsor": "Learn more about why we're doing this here",
+  "common_let_me_know": "Let me know if you need something"
+}
