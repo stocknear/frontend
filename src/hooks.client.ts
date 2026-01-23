@@ -1,5 +1,4 @@
-import { getLanguage, initClientLocalization } from "$lib/i18n.svelte";
-import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
+import { initClientLocalization } from "$lib/i18n.svelte";
 
 /**
  * Client-side init hook.
@@ -7,5 +6,4 @@ import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
  */
 export async function init() {
   initClientLocalization();
-  await preloadLocaleMessages(getLanguage());
 }

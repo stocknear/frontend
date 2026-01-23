@@ -3,7 +3,6 @@ import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import { type Locale } from "$lib/paraglide/runtime.js";
-import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
 import { STOCKNEAR_API_KEY } from "$env/static/private";
 
 const getClientIp = (event) => {
@@ -170,8 +169,6 @@ export const handle = sequence(async ({ event, resolve }) => {
         console.log(e);
       }
     }
-
-    await preloadLocaleMessages(locale);
 
     const response = await resolve(
       { ...event, request: isSafeMethod ? request : event.request },
