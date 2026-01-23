@@ -123,7 +123,7 @@ async function sendSubscriptionToServer(subscription) {
 
 			// Register service worker if not already registered
 			let registration = await navigator.serviceWorker.getRegistration();
-
+			
 			if (!registration) {
 				console.log('Registering service worker for push notifications...');
 				registration = await navigator.serviceWorker.register('/service-worker.js');
@@ -134,13 +134,13 @@ async function sendSubscriptionToServer(subscription) {
 			// Wait for service worker to be ready
 			registration = await navigator.serviceWorker.ready;
 			console.log('Service worker ready:', registration);
-
+			
 			// Convert the VAPID key string to Uint8Array:
 			const vapidKey = urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY);
-
+	  
 			// Check if already subscribed
 			let subscription = await registration.pushManager.getSubscription();
-
+			
 			if (!subscription) {
 				// Create new subscription
 				subscription = await registration.pushManager.subscribe({
@@ -151,7 +151,7 @@ async function sendSubscriptionToServer(subscription) {
 			} else {
 				console.log('Using existing subscription:', subscription);
 			}
-
+			
 			const output = await sendSubscriptionToServer(subscription);
 			return output;
 		} catch (err) {

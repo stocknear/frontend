@@ -1,4 +1,6 @@
 <script lang="ts">
+  import NumberFlow, { continuous } from "@number-flow/svelte";
+
   export let data;
 
   export let displayCompanyName;
@@ -7,6 +9,11 @@
   export let prePostData;
   export let displayLegend;
   export let isOpen;
+
+  // Optimized timing for smooth, snappy animations
+  const transformTiming = { duration: 400, easing: "ease-out" };
+  const spinTiming = { duration: 400, easing: "ease-out" };
+  const opacityTiming = { duration: 250, easing: "ease-out" };
 </script>
 
 <div class="flex items-center w-full mt-5 sm:mt-10">
@@ -43,7 +50,20 @@
               ? 'inline'
               : 'block sm:inline'}"
           >
-            {displayLegend?.close ?? "n/a"}
+            {#if displayLegend?.close}
+              <NumberFlow
+                value={parseFloat(displayLegend?.close) || 0}
+                format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+                {transformTiming}
+                {spinTiming}
+                {opacityTiming}
+                plugins={[continuous]}
+                willChange={true}
+                trend={0}
+              />
+            {:else}
+              n/a
+            {/if}
           </div>
           <div
             class="font-semibold {Object?.keys(prePostData)?.length === 0
@@ -52,12 +72,29 @@
           >
             <span
               class={displayLegend?.change >= 0
-                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                ? "text-emerald-600 dark:text-emerald-400"
                 : displayLegend?.change < 0
                   ? "text-rose-600 dark:text-rose-400"
                   : ""}
             >
-              {displayLegend?.change ?? "n/a"}
+              {#if displayLegend?.change !== undefined && displayLegend?.change !== null}
+                <NumberFlow
+                  value={parseFloat(displayLegend?.change) || 0}
+                  format={{
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    signDisplay: "always",
+                  }}
+                  {transformTiming}
+                  {spinTiming}
+                  {opacityTiming}
+                  plugins={[continuous]}
+                  willChange={true}
+                  trend={0}
+                />
+              {:else}
+                n/a
+              {/if}
             </span>
             <span
               class={displayLegend?.changesPercentage >= 0
@@ -66,9 +103,20 @@
                   ? "text-rose-600 dark:text-rose-400"
                   : ""}
             >
-              ({displayLegend?.changesPercentage
-                ? displayLegend?.changesPercentage + "%"
-                : "n/a"})
+              ({#if displayLegend?.changesPercentage !== undefined && displayLegend?.changesPercentage !== null}<NumberFlow
+                  value={parseFloat(displayLegend?.changesPercentage) || 0}
+                  format={{
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }}
+                  suffix="%"
+                  {transformTiming}
+                  {spinTiming}
+                  {opacityTiming}
+                  plugins={[continuous]}
+                  willChange={true}
+                  trend={0}
+                />{:else}n/a{/if})
             </span>
           </div>
           <div class="mt-0.5 text-[0.85rem] sm:text-sm">
@@ -92,15 +140,38 @@
             <div
               class="block text-2xl sm:text-[1.7rem] font-semibold leading-5 sm:inline"
             >
-              {prePostData?.price?.toFixed(2)}
+              <NumberFlow
+                value={prePostData?.price || 0}
+                format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+                {transformTiming}
+                {spinTiming}
+                {opacityTiming}
+                plugins={[continuous]}
+                willChange={true}
+                trend={0}
+              />
             </div>
             <div
               class="mt-1.5 block sm:mt-0 sm:inline text-lg {prePostData?.changesPercentage >=
               0
-                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                ? 'text-emerald-600 dark:text-emerald-400'
                 : 'text-rose-600 dark:text-rose-400'}"
             >
-              {prePostData?.changesPercentage?.toFixed(2)}%
+              <NumberFlow
+                value={prePostData?.changesPercentage || 0}
+                format={{
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                  signDisplay: "always",
+                }}
+                suffix="%"
+                {transformTiming}
+                {spinTiming}
+                {opacityTiming}
+                plugins={[continuous]}
+                willChange={true}
+                trend={0}
+              />
             </div>
             <div class="mt-1 text-xs sm:text-[0.8rem] sm:flex">
               <span class="flex items-center">
@@ -148,3 +219,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Prevents layout shifts during number transitions */
+  :global(number-flow) {
+    font-variant-numeric: tabular-nums;
+  }
+</style>
