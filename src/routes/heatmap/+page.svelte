@@ -181,7 +181,7 @@
 
           <div class="flex flex-row items-center w-fit">
             <div
-              class="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-2 w-full mt-5"
+              class="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-2 w-full"
             >
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
