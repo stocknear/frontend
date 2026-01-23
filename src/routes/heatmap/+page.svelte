@@ -7,6 +7,28 @@
   import { mode } from "mode-watcher";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import HeatmapChart from "$lib/components/Plot/HeatmapChart.svelte";
+  import {
+    common_home,
+    heatmap_breadcrumb_label,
+    heatmap_error_load,
+    heatmap_feature_color,
+    heatmap_feature_download,
+    heatmap_feature_interactive,
+    heatmap_feature_momentum,
+    heatmap_feature_real_time,
+    heatmap_feature_rotation,
+    heatmap_feature_timeframes,
+    heatmap_feature_trend,
+    heatmap_heading,
+    heatmap_no_data,
+    heatmap_seo_description,
+    heatmap_seo_keywords,
+    heatmap_seo_title,
+    heatmap_structured_breadcrumb_label,
+    heatmap_structured_description,
+    heatmap_structured_name,
+    heatmap_time_period_label,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   let isLoading = false;
@@ -15,6 +37,14 @@
   let heatmapData: any = data?.getHeatMap?.data ? data.getHeatMap : null;
   let selectedTimePeriod = "1D";
   let selectedETF = "SPY";
+  $: selectedIndexLabel =
+    selectedETF === "SPY"
+      ? "S&P 500"
+      : selectedETF === "DIA"
+        ? "Dow Jones"
+        : selectedETF === "QQQ"
+          ? "Nasdaq 100"
+          : selectedETF;
 
   async function getHeatMap(timePeriod: string, etf: string = selectedETF) {
     // Skip if same selection
@@ -51,7 +81,7 @@
       }
     } catch (error) {
       console.error("Error loading heatmap:", error);
-      toast.error("Failed to load heatmap. Please try again.", {
+      toast.error(heatmap_error_load(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } finally {
@@ -61,15 +91,14 @@
 </script>
 
 <SEO
-  title="US Stock Market Heatmap - Real-Time Performance Visualization"
-  description="Advanced stock market heatmap with real-time performance data, sector analysis, and market trend visualization. Track stock performance, sector rotation, and market momentum with our interactive color-coded heatmap tool. Features multiple timeframes and downloadable charts for professional analysis."
-  keywords="S&P 500 heatmap, stock market heatmap, real-time market visualization, sector performance heatmap, stock performance tracker, market trends analysis, sector rotation visualization, interactive stock heatmap, market momentum tracker, financial data visualization, trading heatmap, investment analysis tool"
+  title={heatmap_seo_title()}
+  description={heatmap_seo_description()}
+  keywords={heatmap_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Stock Market Heatmap",
-    description:
-      "Interactive US market heatmap for real-time visualization of stock and sector performance with advanced filtering and analysis tools",
+    name: heatmap_structured_name(),
+    description: heatmap_structured_description(),
     url: "https://stocknear.com/heatmap",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
@@ -80,13 +109,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Market Heatmap",
+          name: heatmap_structured_breadcrumb_label(),
           item: "https://stocknear.com/heatmap",
         },
       ],
@@ -98,14 +127,14 @@
       availability: "https://schema.org/InStock",
     },
     featureList: [
-      "Real-time S&P 500 performance visualization",
-      "Interactive sector and industry heatmap",
-      "Multiple timeframe analysis (1D, 1W, 1M, 3M, 6M, 1Y, 3Y)",
-      "Color-coded performance indicators",
-      "Downloadable charts (PNG, JPG, SVG)",
-      "Professional market trend analysis",
-      "Sector rotation tracking",
-      "Market momentum visualization",
+      heatmap_feature_real_time(),
+      heatmap_feature_interactive(),
+      heatmap_feature_timeframes(),
+      heatmap_feature_color(),
+      heatmap_feature_download(),
+      heatmap_feature_trend(),
+      heatmap_feature_rotation(),
+      heatmap_feature_momentum(),
     ],
     creator: {
       "@type": "Organization",
@@ -125,10 +154,12 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Heatmap</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {heatmap_breadcrumb_label()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -141,15 +172,10 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {#if selectedETF === "SPY"}
-                S&P 500
-              {:else if selectedETF === "DIA"}
-                Dow Jones
-              {:else if selectedETF === "QQQ"}
-                Nasdaq 100
-              {:else}
-                {selectedETF}
-              {/if} - {selectedTimePeriod} Performance
+              {heatmap_heading({
+                index: selectedIndexLabel,
+                period: selectedTimePeriod,
+              })}
             </h1>
           </div>
 
@@ -165,15 +191,7 @@
                     disabled={isLoading}
                   >
                     <span class="truncate">
-                      {#if selectedETF === "SPY"}
-                        S&P 500
-                      {:else if selectedETF === "DIA"}
-                        Dow Jones
-                      {:else if selectedETF === "QQQ"}
-                        Nasdaq 100
-                      {:else}
-                        {selectedETF}
-                      {/if}
+                      {selectedIndexLabel}
                     </span>
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -224,7 +242,7 @@
                     class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isLoading}
                   >
-                    <span class="truncate">Time Period</span>
+                    <span class="truncate">{heatmap_time_period_label()}</span>
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                       viewBox="0 0 20 20"
@@ -287,7 +305,7 @@
               <HeatmapChart data={heatmapData} />
             {:else}
               <div class="flex justify-center items-center h-80">
-                <p class="">No data available</p>
+                <p class="">{heatmap_no_data()}</p>
               </div>
             {/if}
           </div>

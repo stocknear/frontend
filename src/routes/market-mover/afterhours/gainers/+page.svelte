@@ -2,6 +2,17 @@
   import Table from "$lib/components/Table/Table.svelte";
   import { displayTitle, displayDate } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    market_mover_afterhours_gainers_seo_description,
+    market_mover_afterhours_gainers_seo_keywords,
+    market_mover_afterhours_gainers_seo_title,
+    market_mover_afterhours_gainers_structured_about_description,
+    market_mover_afterhours_gainers_structured_about_name,
+    market_mover_afterhours_gainers_structured_description,
+    market_mover_afterhours_gainers_structured_main_description,
+    market_mover_afterhours_gainers_structured_main_name,
+    market_mover_afterhours_gainers_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -25,29 +36,26 @@
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top After-Hours Stock Gainers Today",
-    description:
-      "Real-time list of the best performing stocks in after-hours trading, featuring stocks with highest percentage increases during extended hours.",
+    name: market_mover_afterhours_gainers_structured_name(),
+    description: market_mover_afterhours_gainers_structured_description(),
     url: "https://stocknear.com/market-mover/afterhours/gainers",
     mainEntity: {
       "@type": "ItemList",
-      name: "After-Hours Stock Gainers",
-      description:
-        "Top performing stocks in after-hours trading by percentage increase",
+      name: market_mover_afterhours_gainers_structured_main_name(),
+      description: market_mover_afterhours_gainers_structured_main_description(),
     },
     about: {
       "@type": "Thing",
-      name: "After-Hours Stock Trading Gainers",
-      description:
-        "Stocks with highest percentage price increases during after-hours extended hours trading",
+      name: market_mover_afterhours_gainers_structured_about_name(),
+      description: market_mover_afterhours_gainers_structured_about_description(),
     },
   };
 </script>
 
 <SEO
-  title="Top After-Hours Stock Gainers Today - Extended Hours Winners"
-  description="Discover today's top after-hours stock gainers with highest percentage increases. Track extended hours trading performance, aftermarket winners, evening movers, and post-market stock activity."
-  keywords="afterhours gainers, after-hours stocks, extended hours trading, aftermarket winners, evening trading, post-market movers, extended hours gainers, aftermarket trading, after-hours performance"
+  title={market_mover_afterhours_gainers_seo_title()}
+  description={market_mover_afterhours_gainers_seo_description()}
+  keywords={market_mover_afterhours_gainers_seo_keywords()}
   {structuredData}
 />
 

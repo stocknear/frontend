@@ -3,6 +3,27 @@
     import Table from "$lib/components/Table/Table.svelte";
     import { displayTitle, displayDate } from "$lib/store";
     import SEO from "$lib/components/SEO.svelte";
+    import {
+        market_mover_active_period_seo_description,
+        market_mover_active_period_seo_keywords,
+        market_mover_active_period_seo_title,
+        market_mover_active_period_structured_about_description,
+        market_mover_active_period_structured_about_name,
+        market_mover_active_period_structured_description,
+        market_mover_active_period_structured_main_description,
+        market_mover_active_period_structured_main_name,
+        market_mover_active_period_structured_name,
+        market_mover_period_desc_3y,
+        market_mover_period_desc_5y,
+        market_mover_period_desc_month,
+        market_mover_period_desc_week,
+        market_mover_period_desc_year,
+        market_mover_period_label_3y,
+        market_mover_period_label_5y,
+        market_mover_period_label_month,
+        market_mover_period_label_week,
+        market_mover_period_label_year,
+    } from "$lib/paraglide/messages.js";
 
     export let data;
 
@@ -34,7 +55,24 @@
     let currentSlug = "";
     let seoTitle = "";
     let seoDescription = "";
+    let seoKeywords = "";
     let structuredData = {};
+
+    $: periodLabelMap = {
+        week: market_mover_period_label_week(),
+        month: market_mover_period_label_month(),
+        year: market_mover_period_label_year(),
+        "3Y": market_mover_period_label_3y(),
+        "5Y": market_mover_period_label_5y(),
+    };
+
+    $: periodDescMap = {
+        week: market_mover_period_desc_week(),
+        month: market_mover_period_desc_month(),
+        year: market_mover_period_desc_year(),
+        "3Y": market_mover_period_desc_3y(),
+        "5Y": market_mover_period_desc_5y(),
+    };
 
     $: {
         if ($page?.url?.pathname) {
@@ -47,38 +85,28 @@
             const timeKey = timePeriodMap[lastSegment]; // fallback to "week"
             rawData = data?.getMarketMover[timeKey];
 
-            // Dynamic SEO based on time period
-            const periodMap = {
-                week: { display: "Weekly", desc: "past week" },
-                month: { display: "Monthly", desc: "past month" },
-                year: { display: "Yearly", desc: "past year" },
-                "3Y": { display: "3-Year", desc: "past 3 years" },
-                "5Y": { display: "5-Year", desc: "past 5 years" },
-            };
+            const periodLabel = periodLabelMap[lastSegment] ?? market_mover_period_label_week();
+            const periodDesc = periodDescMap[lastSegment] ?? market_mover_period_desc_week();
 
-            const period = periodMap[lastSegment] || {
-                display: "Weekly",
-                desc: "past week",
-            };
-
-            seoTitle = `Most Active Stocks ${period.display} - High Volume Trading History`;
-            seoDescription = `Discover the most actively traded stocks by volume over the ${period.desc}. Track historical high-volume securities, market activity trends, and trading patterns.`;
+            seoTitle = market_mover_active_period_seo_title({ period: periodLabel });
+            seoDescription = market_mover_active_period_seo_description({ period: periodDesc });
+            seoKeywords = market_mover_active_period_seo_keywords({ period: periodLabel });
 
             structuredData = {
                 "@context": "https://schema.org",
                 "@type": "CollectionPage",
-                name: `Most Active Stocks - ${period.display}`,
-                description: `Historical list of most actively traded stocks by volume over the ${period.desc}`,
+                name: market_mover_active_period_structured_name({ period: periodLabel }),
+                description: market_mover_active_period_structured_description({ period: periodDesc }),
                 url: `https://stocknear.com/market-mover/active/${lastSegment}`,
                 mainEntity: {
                     "@type": "ItemList",
-                    name: `Most Active Stocks ${period.display}`,
-                    description: `${period.display} most actively traded stocks by volume`,
+                    name: market_mover_active_period_structured_main_name({ period: periodLabel }),
+                    description: market_mover_active_period_structured_main_description({ period: periodLabel }),
                 },
                 about: {
                     "@type": "Thing",
-                    name: "Historical Active Stock Trading",
-                    description: `Stock market securities with highest trading volume over ${period.desc}`,
+                    name: market_mover_active_period_structured_about_name(),
+                    description: market_mover_active_period_structured_about_description({ period: periodDesc }),
                 },
             };
         }
@@ -89,7 +117,7 @@
     <SEO
         title={seoTitle}
         description={seoDescription}
-        keywords={`most active stocks ${currentSlug}, high volume stocks ${currentSlug}, active trading history, stock volume ${currentSlug}, historical market activity, most traded stocks ${currentSlug}, volume analysis ${currentSlug}`}
+        keywords={seoKeywords}
         {structuredData}
     />
 

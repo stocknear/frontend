@@ -2,6 +2,17 @@
   import Table from "$lib/components/Table/Table.svelte";
   import { displayTitle, displayDate } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    market_mover_losers_page_seo_description,
+    market_mover_losers_page_seo_keywords,
+    market_mover_losers_page_seo_title,
+    market_mover_losers_page_structured_about_description,
+    market_mover_losers_page_structured_about_name,
+    market_mover_losers_page_structured_description,
+    market_mover_losers_page_structured_main_description,
+    market_mover_losers_page_structured_main_name,
+    market_mover_losers_page_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -25,28 +36,26 @@
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top Stock Losers Today",
-    description:
-      "Real-time list of today's worst performing stocks with the highest percentage losses, featuring declining stocks and market underperformers.",
+    name: market_mover_losers_page_structured_name(),
+    description: market_mover_losers_page_structured_description(),
     url: "https://stocknear.com/market-mover/losers",
     mainEntity: {
       "@type": "ItemList",
-      name: "Top Stock Losers",
-      description: "Today's worst performing stocks by percentage decrease",
+      name: market_mover_losers_page_structured_main_name(),
+      description: market_mover_losers_page_structured_main_description(),
     },
     about: {
       "@type": "Thing",
-      name: "Stock Market Losers",
-      description:
-        "Stocks with highest percentage price decreases and negative market performance",
+      name: market_mover_losers_page_structured_about_name(),
+      description: market_mover_losers_page_structured_about_description(),
     },
   };
 </script>
 
 <SEO
-  title="Top Stock Losers Today - Worst Performing Stocks"
-  description="Track today's top stock losers with the highest percentage declines. Monitor declining stocks, worst performers, market underperformers, and negative stock movements in real-time."
-  keywords="stock losers, top losers, worst performing stocks, declining stocks, stock declines, percentage losses, market losers, negative stock performance, stock decreases"
+  title={market_mover_losers_page_seo_title()}
+  description={market_mover_losers_page_seo_description()}
+  keywords={market_mover_losers_page_seo_keywords()}
   {structuredData}
 />
 <div class="w-full">

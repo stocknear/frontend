@@ -3,6 +3,27 @@
     import Table from "$lib/components/Table/Table.svelte";
     import { displayTitle, displayDate } from "$lib/store";
     import SEO from "$lib/components/SEO.svelte";
+    import {
+        market_mover_gainers_period_seo_description,
+        market_mover_gainers_period_seo_keywords,
+        market_mover_gainers_period_seo_title,
+        market_mover_gainers_period_structured_about_description,
+        market_mover_gainers_period_structured_about_name,
+        market_mover_gainers_period_structured_description,
+        market_mover_gainers_period_structured_main_description,
+        market_mover_gainers_period_structured_main_name,
+        market_mover_gainers_period_structured_name,
+        market_mover_period_desc_3y,
+        market_mover_period_desc_5y,
+        market_mover_period_desc_month,
+        market_mover_period_desc_week,
+        market_mover_period_desc_year,
+        market_mover_period_label_3y,
+        market_mover_period_label_5y,
+        market_mover_period_label_month,
+        market_mover_period_label_week,
+        market_mover_period_label_year,
+    } from "$lib/paraglide/messages.js";
 
     export let data;
 
@@ -34,7 +55,24 @@
     let currentSlug = "";
     let seoTitle = "";
     let seoDescription = "";
+    let seoKeywords = "";
     let structuredData = {};
+
+    $: periodLabelMap = {
+        week: market_mover_period_label_week(),
+        month: market_mover_period_label_month(),
+        year: market_mover_period_label_year(),
+        "3Y": market_mover_period_label_3y(),
+        "5Y": market_mover_period_label_5y(),
+    };
+
+    $: periodDescMap = {
+        week: market_mover_period_desc_week(),
+        month: market_mover_period_desc_month(),
+        year: market_mover_period_desc_year(),
+        "3Y": market_mover_period_desc_3y(),
+        "5Y": market_mover_period_desc_5y(),
+    };
 
     $: {
         if ($page?.url?.pathname) {
@@ -47,38 +85,28 @@
             const timeKey = timePeriodMap[lastSegment]; // fallback to "week"
             rawData = data?.getMarketMover[timeKey];
 
-            // Dynamic SEO based on time period
-            const periodMap = {
-                week: { display: "Weekly", desc: "past week" },
-                month: { display: "Monthly", desc: "past month" },
-                year: { display: "Yearly", desc: "past year" },
-                "3Y": { display: "3-Year", desc: "past 3 years" },
-                "5Y": { display: "5-Year", desc: "past 5 years" },
-            };
+            const periodLabel = periodLabelMap[lastSegment] ?? market_mover_period_label_week();
+            const periodDesc = periodDescMap[lastSegment] ?? market_mover_period_desc_week();
 
-            const period = periodMap[lastSegment] || {
-                display: "Weekly",
-                desc: "past week",
-            };
-
-            seoTitle = `Top Stock Gainers ${period.display} - Best Performing Stocks`;
-            seoDescription = `Discover the top stock gainers with highest percentage increases over the ${period.desc}. Track historical winning stocks, best performers, and positive market trends.`;
+            seoTitle = market_mover_gainers_period_seo_title({ period: periodLabel });
+            seoDescription = market_mover_gainers_period_seo_description({ period: periodDesc });
+            seoKeywords = market_mover_gainers_period_seo_keywords({ period: periodLabel });
 
             structuredData = {
                 "@context": "https://schema.org",
                 "@type": "CollectionPage",
-                name: `Top Stock Gainers - ${period.display}`,
-                description: `Historical list of top performing stocks with highest percentage gains over the ${period.desc}`,
+                name: market_mover_gainers_period_structured_name({ period: periodLabel }),
+                description: market_mover_gainers_period_structured_description({ period: periodDesc }),
                 url: `https://stocknear.com/market-mover/gainers/${lastSegment}`,
                 mainEntity: {
                     "@type": "ItemList",
-                    name: `Top Stock Gainers ${period.display}`,
-                    description: `${period.display} top performing stocks by percentage increase`,
+                    name: market_mover_gainers_period_structured_main_name({ period: periodLabel }),
+                    description: market_mover_gainers_period_structured_main_description({ period: periodLabel }),
                 },
                 about: {
                     "@type": "Thing",
-                    name: "Historical Stock Gainers",
-                    description: `Stocks with highest percentage price increases over ${period.desc}`,
+                    name: market_mover_gainers_period_structured_about_name(),
+                    description: market_mover_gainers_period_structured_about_description({ period: periodDesc }),
                 },
             };
         }
@@ -89,7 +117,7 @@
     <SEO
         title={seoTitle}
         description={seoDescription}
-        keywords={`stock gainers ${currentSlug}, top gainers ${currentSlug}, best performing stocks ${currentSlug}, winning stocks ${currentSlug}, stock winners ${currentSlug}, percentage gains ${currentSlug}, historical stock performance`}
+        keywords={seoKeywords}
         {structuredData}
     />
     <div class="w-full">

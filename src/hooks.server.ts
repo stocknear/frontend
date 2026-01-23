@@ -6,6 +6,36 @@ import { type Locale } from "$lib/paraglide/runtime.js";
 import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
 import { STOCKNEAR_API_KEY } from "$env/static/private";
 
+const getClientIp = (event) => {
+  const cfIp = event.request.headers.get("cf-connecting-ip");
+  if (cfIp && cfIp.trim().length > 0) {
+    return cfIp.trim();
+  }
+
+  const forwardedFor = event.request.headers.get("x-forwarded-for");
+  if (forwardedFor && forwardedFor.trim().length > 0) {
+    return forwardedFor.split(",")[0]?.trim();
+  }
+
+  const realIp = event.request.headers.get("x-real-ip");
+  if (realIp && realIp.trim().length > 0) {
+    return realIp.trim();
+  }
+
+  try {
+    if (typeof event.getClientAddress === "function") {
+      const addr = event.getClientAddress();
+      if (addr && addr.trim().length > 0) {
+        return addr.trim();
+      }
+    }
+  } catch {
+    // getClientAddress can throw in dev when the address is unavailable
+  }
+
+  return undefined;
+};
+
 export const handle = sequence(async ({ event, resolve }) => {
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
   // API routes don't need locale handling and the middleware consumes the request body
@@ -32,20 +62,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       }
     }
 
-    let clientIp: string | undefined;
-    const cfIp = event.request.headers.get("cf-connecting-ip");
-    if (cfIp && cfIp.trim().length > 0) {
-      clientIp = cfIp.trim();
-    } else if (typeof event.getClientAddress === "function") {
-      try {
-        const addr = event.getClientAddress();
-        if (addr && addr.trim().length > 0) {
-          clientIp = addr.trim();
-        }
-      } catch {
-        // getClientAddress can throw in dev when the address is unavailable
-      }
-    }
+    const clientIp = getClientIp(event);
 
     event.locals = {
       pb: new PocketBase(pbURL),
@@ -92,7 +109,10 @@ export const handle = sequence(async ({ event, resolve }) => {
 
   if (!isSafeMethod) {
     try {
-      middlewareRequest = event.request.clone();
+      middlewareRequest = new Request(event.request.url, {
+        method: event.request.method,
+        headers: event.request.headers,
+      });
     } catch {
       middlewareRequest = event.request;
     }
@@ -122,20 +142,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       }
     }
 
-    let clientIp: string | undefined;
-    const cfIp = event.request.headers.get("cf-connecting-ip");
-    if (cfIp && cfIp.trim().length > 0) {
-      clientIp = cfIp.trim();
-    } else if (typeof event.getClientAddress === "function") {
-      try {
-        const addr = event.getClientAddress();
-        if (addr && addr.trim().length > 0) {
-          clientIp = addr.trim();
-        }
-      } catch {
-        // getClientAddress can throw in dev when the address is unavailable
-      }
-    }
+    const clientIp = getClientIp(event);
 
     event.locals = {
       pb: new PocketBase(pbURL),

@@ -2,6 +2,17 @@
   import Table from "$lib/components/Table/Table.svelte";
   import { displayTitle, displayDate } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    market_mover_gainers_page_seo_description,
+    market_mover_gainers_page_seo_keywords,
+    market_mover_gainers_page_seo_title,
+    market_mover_gainers_page_structured_about_description,
+    market_mover_gainers_page_structured_about_name,
+    market_mover_gainers_page_structured_description,
+    market_mover_gainers_page_structured_main_description,
+    market_mover_gainers_page_structured_main_name,
+    market_mover_gainers_page_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -25,28 +36,26 @@
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top Stock Gainers Today",
-    description:
-      "Real-time list of today's top performing stocks with the highest percentage gains, featuring winning stocks and market leaders.",
+    name: market_mover_gainers_page_structured_name(),
+    description: market_mover_gainers_page_structured_description(),
     url: "https://stocknear.com/market-mover/gainers",
     mainEntity: {
       "@type": "ItemList",
-      name: "Top Stock Gainers",
-      description: "Today's best performing stocks by percentage increase",
+      name: market_mover_gainers_page_structured_main_name(),
+      description: market_mover_gainers_page_structured_main_description(),
     },
     about: {
       "@type": "Thing",
-      name: "Stock Market Gainers",
-      description:
-        "Stocks with highest percentage price increases and positive market performance",
+      name: market_mover_gainers_page_structured_about_name(),
+      description: market_mover_gainers_page_structured_about_description(),
     },
   };
 </script>
 
 <SEO
-  title="Top Stock Gainers Today - Best Performing Stocks"
-  description="Discover today's top stock gainers with the highest percentage increases. Track winning stocks, best performers, market leaders, and positive stock movements in real-time."
-  keywords="stock gainers, top gainers, best performing stocks, winning stocks, stock winners, percentage gains, market gainers, positive stock performance, stock increases"
+  title={market_mover_gainers_page_seo_title()}
+  description={market_mover_gainers_page_seo_description()}
+  keywords={market_mover_gainers_page_seo_keywords()}
   {structuredData}
 />
 

@@ -2,6 +2,17 @@
   import Table from "$lib/components/Table/Table.svelte";
   import { displayTitle, displayDate } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    market_mover_active_page_seo_description,
+    market_mover_active_page_seo_keywords,
+    market_mover_active_page_seo_title,
+    market_mover_active_page_structured_about_description,
+    market_mover_active_page_structured_about_name,
+    market_mover_active_page_structured_description,
+    market_mover_active_page_structured_main_description,
+    market_mover_active_page_structured_main_name,
+    market_mover_active_page_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -25,28 +36,26 @@
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Most Active Stocks Today",
-    description:
-      "Real-time list of the most actively traded stocks by volume, featuring high-volume securities with significant market activity and trading interest.",
+    name: market_mover_active_page_structured_name(),
+    description: market_mover_active_page_structured_description(),
     url: "https://stocknear.com/market-mover/active",
     mainEntity: {
       "@type": "ItemList",
-      name: "Most Active Stocks",
-      description: "Today's most actively traded stocks by trading volume",
+      name: market_mover_active_page_structured_main_name(),
+      description: market_mover_active_page_structured_main_description(),
     },
     about: {
       "@type": "Thing",
-      name: "Active Stock Trading",
-      description:
-        "Stock market securities with highest trading volume and market activity",
+      name: market_mover_active_page_structured_about_name(),
+      description: market_mover_active_page_structured_about_description(),
     },
   };
 </script>
 
 <SEO
-  title="Most Active Stocks Today - High Volume Trading Stocks"
-  description="Discover today's most actively traded stocks by volume. Track high-volume securities, market activity, trading volume, and real-time stock performance data."
-  keywords="most active stocks, high volume stocks, active trading, stock volume, market activity, most traded stocks, high volume securities, active stock movers, trading volume analysis"
+  title={market_mover_active_page_seo_title()}
+  description={market_mover_active_page_seo_description()}
+  keywords={market_mover_active_page_seo_keywords()}
   {structuredData}
 />
 

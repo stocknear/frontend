@@ -1,0 +1,22 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "heatmap_seo_title": "US Stock Market Heatmap - Real-Time Performance Visualization",
+  "heatmap_seo_description": "Advanced stock market heatmap with real-time performance data, sector analysis, and market trend visualization. Track stock performance, sector rotation, and market momentum with our interactive color-coded heatmap tool. Features multiple timeframes and downloadable charts for professional analysis.",
+  "heatmap_seo_keywords": "S&P 500 heatmap, stock market heatmap, real-time market visualization, sector performance heatmap, stock performance tracker, market trends analysis, sector rotation visualization, interactive stock heatmap, market momentum tracker, financial data visualization, trading heatmap, investment analysis tool",
+  "heatmap_structured_name": "Stock Market Heatmap",
+  "heatmap_structured_description": "Interactive US market heatmap for real-time visualization of stock and sector performance with advanced filtering and analysis tools",
+  "heatmap_structured_breadcrumb_label": "Market Heatmap",
+  "heatmap_feature_real_time": "Real-time S&P 500 performance visualization",
+  "heatmap_feature_interactive": "Interactive sector and industry heatmap",
+  "heatmap_feature_timeframes": "Multiple timeframe analysis (1D, 1W, 1M, 3M, 6M, 1Y, 3Y)",
+  "heatmap_feature_color": "Color-coded performance indicators",
+  "heatmap_feature_download": "Downloadable charts (PNG, JPG, SVG)",
+  "heatmap_feature_trend": "Professional market trend analysis",
+  "heatmap_feature_rotation": "Sector rotation tracking",
+  "heatmap_feature_momentum": "Market momentum visualization",
+  "heatmap_breadcrumb_label": "Heatmap",
+  "heatmap_heading": "{index} - {period} Performance",
+  "heatmap_time_period_label": "Time Period",
+  "heatmap_error_load": "Failed to load heatmap. Please try again.",
+  "heatmap_no_data": "No data available"
+}

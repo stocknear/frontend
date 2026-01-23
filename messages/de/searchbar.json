@@ -1,7 +1,7 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "searchbar_placeholder": "Unternehmen oder Aktiensymbol...",
-  "searchbar_aria_label": "Unternehmen oder Aktiensymbol...",
+  "searchbar_placeholder": "Suche nach Aktiensymbol...",
+  "searchbar_aria_label": "Suche nach Aktiensymbol...",
   "searchbar_search_label": "Suche",
   "searchbar_suggestions": "Vorschläge",
   "searchbar_recent": "Zuletzt",

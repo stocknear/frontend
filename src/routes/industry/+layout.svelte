@@ -1,6 +1,14 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    industry_breadcrumb_label,
+    industry_page_title,
+    industry_tab_industries,
+    industry_tab_overview,
+    industry_tab_sectors,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -10,13 +18,13 @@
 
   const tabs = [
     {
-      title: "Overview",
+      title: industry_tab_overview,
     },
     {
-      title: "Sectors",
+      title: industry_tab_sectors,
     },
     {
-      title: "Industries",
+      title: industry_tab_industries,
     },
   ];
 
@@ -42,10 +50,14 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li><span class="text-gray-800 dark:text-zinc-300">Industry</span></li>
+    <li>
+      <span class="text-gray-800 dark:text-zinc-300"
+        >{industry_breadcrumb_label()}</span
+      >
+    </li>
   </BreadCrumb>
 
   <div class="mt-10 sm:mt-5 w-full m-auto mb-10 overflow-hidden">
@@ -53,7 +65,7 @@
       <h1
         class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        Stock Sectors & Industries
+        {industry_page_title()}
       </h1>
     </div>
 
@@ -76,7 +88,7 @@
               ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
               : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
           >
-            {item.title}
+            {item.title()}
           </a>
         {/each}
       </ul>

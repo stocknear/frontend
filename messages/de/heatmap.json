@@ -1,0 +1,22 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "heatmap_seo_title": "US-Aktienmarkt-Heatmap – Echtzeit-Performance-Visualisierung",
+  "heatmap_seo_description": "Fortschrittliche Aktienmarkt-Heatmap mit Echtzeit-Performance-Daten, Sektoranalyse und Visualisierung von Markttrends. Verfolge Aktienperformance, Sektorrotation und Marktdynamik mit unserer interaktiven farbcodierten Heatmap. Mehrere Zeitrahmen und herunterladbare Charts für professionelle Analysen.",
+  "heatmap_seo_keywords": "S&P-500-Heatmap, Aktienmarkt-Heatmap, Echtzeit-Marktvisualisierung, Sektor-Performance-Heatmap, Aktienperformance-Tracker, Markttrendanalyse, Sektorrotation-Visualisierung, interaktive Aktien-Heatmap, Marktmomentum-Tracker, Finanzdaten-Visualisierung, Trading-Heatmap, Investment-Analyse-Tool",
+  "heatmap_structured_name": "Aktienmarkt-Heatmap",
+  "heatmap_structured_description": "Interaktive US-Markt-Heatmap für die Echtzeit-Visualisierung von Aktien- und Sektorperformance mit erweiterten Filtern und Analysewerkzeugen",
+  "heatmap_structured_breadcrumb_label": "Markt-Heatmap",
+  "heatmap_feature_real_time": "Echtzeit-Visualisierung der S&P-500-Performance",
+  "heatmap_feature_interactive": "Interaktive Sektor- und Branchen-Heatmap",
+  "heatmap_feature_timeframes": "Mehrere Zeitrahmen (1D, 1W, 1M, 3M, 6M, 1Y, 3Y)",
+  "heatmap_feature_color": "Farbkodierte Performance-Indikatoren",
+  "heatmap_feature_download": "Herunterladbare Charts (PNG, JPG, SVG)",
+  "heatmap_feature_trend": "Professionelle Markttrendanalyse",
+  "heatmap_feature_rotation": "Sektorrotation-Tracking",
+  "heatmap_feature_momentum": "Visualisierung des Marktmomentums",
+  "heatmap_breadcrumb_label": "Heatmap",
+  "heatmap_heading": "{index} - {period}-Performance",
+  "heatmap_time_period_label": "Zeitraum",
+  "heatmap_error_load": "Heatmap konnte nicht geladen werden. Bitte versuche es erneut.",
+  "heatmap_no_data": "Keine Daten verfügbar"
+}

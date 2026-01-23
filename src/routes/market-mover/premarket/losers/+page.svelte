@@ -2,6 +2,17 @@
   import Table from "$lib/components/Table/Table.svelte";
   import { displayTitle, displayDate } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    market_mover_premarket_losers_seo_description,
+    market_mover_premarket_losers_seo_keywords,
+    market_mover_premarket_losers_seo_title,
+    market_mover_premarket_losers_structured_about_description,
+    market_mover_premarket_losers_structured_about_name,
+    market_mover_premarket_losers_structured_description,
+    market_mover_premarket_losers_structured_main_description,
+    market_mover_premarket_losers_structured_main_name,
+    market_mover_premarket_losers_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -25,29 +36,26 @@
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top Premarket Stock Losers Today",
-    description:
-      "Real-time list of the worst performing stocks in premarket trading, featuring stocks with highest percentage losses during extended hours.",
+    name: market_mover_premarket_losers_structured_name(),
+    description: market_mover_premarket_losers_structured_description(),
     url: "https://stocknear.com/market-mover/premarket/losers",
     mainEntity: {
       "@type": "ItemList",
-      name: "Premarket Stock Losers",
-      description:
-        "Worst performing stocks in premarket trading by percentage decrease",
+      name: market_mover_premarket_losers_structured_main_name(),
+      description: market_mover_premarket_losers_structured_main_description(),
     },
     about: {
       "@type": "Thing",
-      name: "Premarket Stock Trading Losers",
-      description:
-        "Stocks with highest percentage price decreases during premarket extended hours trading",
+      name: market_mover_premarket_losers_structured_about_name(),
+      description: market_mover_premarket_losers_structured_about_description(),
     },
   };
 </script>
 
 <SEO
-  title="Top Premarket Stock Losers Today - Extended Hours Decliners"
-  description="Track today's top premarket stock losers with highest percentage declines. Monitor extended hours trading losses, premarket decliners, early morning drops, and pre-market stock declines."
-  keywords="premarket losers, premarket stocks, extended hours trading, premarket decliners, early trading losses, pre-market drops, extended hours losers, morning stock declines, premarket performance"
+  title={market_mover_premarket_losers_seo_title()}
+  description={market_mover_premarket_losers_seo_description()}
+  keywords={market_mover_premarket_losers_seo_keywords()}
   {structuredData}
 />
 

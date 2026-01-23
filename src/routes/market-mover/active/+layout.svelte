@@ -3,6 +3,35 @@
   import { getLastTradingDay } from "$lib/utils";
   import { page } from "$app/stores";
   import { displayTitle, displayDate } from "$lib/store";
+  import {
+    common_home,
+    layout_market_mover,
+    market_mover_category_active,
+    market_mover_display_title_3y,
+    market_mover_display_title_5y,
+    market_mover_display_title_month,
+    market_mover_display_title_today,
+    market_mover_display_title_week,
+    market_mover_display_title_year,
+    market_mover_active_seo_description,
+    market_mover_active_seo_title_period,
+    market_mover_active_seo_title_today,
+    market_mover_active_structured_description,
+    market_mover_active_structured_main_description,
+    market_mover_active_structured_main_name,
+    market_mover_active_structured_name_period,
+    market_mover_active_structured_name_today,
+    market_mover_period_label_3y,
+    market_mover_period_label_5y,
+    market_mover_period_label_month,
+    market_mover_period_label_week,
+    market_mover_period_label_year,
+    market_mover_period_month,
+    market_mover_period_today,
+    market_mover_period_week,
+    market_mover_period_year,
+    market_mover_tab_active,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   const lastTradingDay = new Date(getLastTradingDay() ?? null)?.toLocaleString(
@@ -14,33 +43,89 @@
       timeZone: "UTC",
     },
   );
-  const titles = {
-    active: "title Today",
-    week: "Week title",
-    month: "Month title",
-    year: "1 Year title",
-    "3Y": "3 Year title",
-    "5Y": "5 Year title",
-  };
-
   let timePeriod;
+  let seoTitle = "";
+  let seoDescription = "";
+  let structuredData = {};
 
-  let title = "Active";
+  $: categoryLabel = market_mover_category_active();
+  $: displayTitleMap = {
+    active: market_mover_display_title_today({ category: categoryLabel }),
+    week: market_mover_display_title_week({ category: categoryLabel }),
+    month: market_mover_display_title_month({ category: categoryLabel }),
+    year: market_mover_display_title_year({ category: categoryLabel }),
+    "3Y": market_mover_display_title_3y({ category: categoryLabel }),
+    "5Y": market_mover_display_title_5y({ category: categoryLabel }),
+  };
+  $: periodLabelMap = {
+    week: market_mover_period_label_week(),
+    month: market_mover_period_label_month(),
+    year: market_mover_period_label_year(),
+    "3Y": market_mover_period_label_3y(),
+    "5Y": market_mover_period_label_5y(),
+  };
 
   $: {
     const pathSegments = $page.url.pathname.split("/");
     timePeriod = pathSegments[pathSegments.length - 1];
 
-    $displayTitle = titles[timePeriod]?.replace("title", title);
+    const periodLabel = periodLabelMap[timePeriod];
+
+    $displayTitle = displayTitleMap[timePeriod] ?? categoryLabel;
     $displayDate = lastTradingDay;
+
+    seoTitle =
+      timePeriod === "active"
+        ? market_mover_active_seo_title_today()
+        : market_mover_active_seo_title_period({ period: periodLabel });
+
+    seoDescription = market_mover_active_seo_description();
+
+    structuredData = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name:
+        timePeriod === "active"
+          ? market_mover_active_structured_name_today()
+          : market_mover_active_structured_name_period({ period: periodLabel }),
+      description: market_mover_active_structured_description(),
+      url: `https://stocknear.com/market-mover/active${timePeriod === "active" ? "" : "/" + timePeriod}`,
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: common_home(),
+            item: "https://stocknear.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: layout_market_mover(),
+            item: "https://stocknear.com/market-mover",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: market_mover_tab_active(),
+            item: "https://stocknear.com/market-mover/active",
+          },
+        ],
+      },
+      mainEntity: {
+        "@type": "ItemList",
+        name: market_mover_active_structured_main_name(),
+        description: market_mover_active_structured_main_description(),
+      },
+    };
   }
 </script>
 
 <SEO
-  title={timePeriod === "active"
-    ? `Today's Top Stock ${title}`
-    : `Top Stock ${title} in the past ${timePeriod}`}
-  description="A list of the stocks with the highest percentage gain, highest percentage loss and most active today. See stock price, volume, market cap and more."
+  title={seoTitle}
+  description={seoDescription}
+  {structuredData}
 />
 
 <section
@@ -66,7 +151,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Today
+              {market_mover_period_today()}
             </a>
             <a
               href="/market-mover/active/week"
@@ -75,7 +160,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Week
+              {market_mover_period_week()}
             </a>
             <a
               href="/market-mover/active/month"
@@ -84,7 +169,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Month
+              {market_mover_period_month()}
             </a>
             <a
               href="/market-mover/active/year"
@@ -93,7 +178,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Year
+              {market_mover_period_year()}
             </a>
             <a
               href="/market-mover/active/3Y"
@@ -102,7 +187,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              3 Years
+              {market_mover_period_label_3y()}
             </a>
             <a
               href="/market-mover/active/5Y"
@@ -111,7 +196,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              5 Years
+              {market_mover_period_label_5y()}
             </a>
           </ul>
         </nav>

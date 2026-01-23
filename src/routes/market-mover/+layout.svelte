@@ -1,28 +1,37 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    layout_market_mover,
+    market_mover_tab_active,
+    market_mover_tab_after_hours,
+    market_mover_tab_gainers,
+    market_mover_tab_losers,
+    market_mover_tab_pre_market,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
   const tabs = [
     {
-      title: "Gainers",
+      title: market_mover_tab_gainers,
       path: "/market-mover/gainers",
     },
     {
-      title: "Losers",
+      title: market_mover_tab_losers,
       path: "/market-mover/losers",
     },
     {
-      title: "Active",
+      title: market_mover_tab_active,
       path: "/market-mover/active",
     },
     {
-      title: "Pre-Market",
+      title: market_mover_tab_pre_market,
       path: "/market-mover/premarket/gainers",
     },
     {
-      title: "After-Hours",
+      title: market_mover_tab_after_hours,
       path: "/market-mover/afterhours/gainers",
     },
   ];
@@ -53,10 +62,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Market Mover</li>
+    <li class="text-gray-800 dark:text-zinc-300">{layout_market_mover()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -69,7 +78,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Market Mover
+              {layout_market_mover()}
             </h1>
           </div>
 
@@ -87,7 +96,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  {item.title}
+                  {item.title()}
                 </a>
               {/each}
             </ul>

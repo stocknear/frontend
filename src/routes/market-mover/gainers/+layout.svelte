@@ -3,6 +3,42 @@
   import { getLastTradingDay } from "$lib/utils";
   import { page } from "$app/stores";
   import { displayTitle, displayDate } from "$lib/store";
+  import {
+    common_home,
+    layout_market_mover,
+    market_mover_category_gainers,
+    market_mover_display_title_3y,
+    market_mover_display_title_5y,
+    market_mover_display_title_month,
+    market_mover_display_title_today,
+    market_mover_display_title_week,
+    market_mover_display_title_year,
+    market_mover_gainers_seo_description_period,
+    market_mover_gainers_seo_description_today,
+    market_mover_gainers_seo_keywords,
+    market_mover_gainers_seo_title_period,
+    market_mover_gainers_seo_title_today,
+    market_mover_gainers_structured_description,
+    market_mover_gainers_structured_main_description,
+    market_mover_gainers_structured_main_name,
+    market_mover_gainers_structured_name_period,
+    market_mover_gainers_structured_name_today,
+    market_mover_period_desc_3y,
+    market_mover_period_desc_5y,
+    market_mover_period_desc_month,
+    market_mover_period_desc_week,
+    market_mover_period_desc_year,
+    market_mover_period_label_3y,
+    market_mover_period_label_5y,
+    market_mover_period_label_month,
+    market_mover_period_label_week,
+    market_mover_period_label_year,
+    market_mover_period_month,
+    market_mover_period_today,
+    market_mover_period_week,
+    market_mover_period_year,
+    market_mover_tab_gainers,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   const lastTradingDay = new Date(getLastTradingDay() ?? null)?.toLocaleString(
@@ -14,74 +50,101 @@
       timeZone: "UTC",
     },
   );
-  const titles = {
-    gainers: "title Today",
-    week: "Week title",
-    month: "Month title",
-    year: "1 Year title",
-    "3Y": "3 Year title",
-    "5Y": "5 Year title",
-  };
-
   let timePeriod;
+  let seoTitle = "";
+  let seoDescription = "";
+  let structuredData = {};
 
-  let title = "Gainers";
+  $: categoryLabel = market_mover_category_gainers();
+  $: displayTitleMap = {
+    gainers: market_mover_display_title_today({ category: categoryLabel }),
+    week: market_mover_display_title_week({ category: categoryLabel }),
+    month: market_mover_display_title_month({ category: categoryLabel }),
+    year: market_mover_display_title_year({ category: categoryLabel }),
+    "3Y": market_mover_display_title_3y({ category: categoryLabel }),
+    "5Y": market_mover_display_title_5y({ category: categoryLabel }),
+  };
+  $: periodLabelMap = {
+    week: market_mover_period_label_week(),
+    month: market_mover_period_label_month(),
+    year: market_mover_period_label_year(),
+    "3Y": market_mover_period_label_3y(),
+    "5Y": market_mover_period_label_5y(),
+  };
+  $: periodDescMap = {
+    week: market_mover_period_desc_week(),
+    month: market_mover_period_desc_month(),
+    year: market_mover_period_desc_year(),
+    "3Y": market_mover_period_desc_3y(),
+    "5Y": market_mover_period_desc_5y(),
+  };
 
   $: {
     const pathSegments = $page.url.pathname.split("/");
     timePeriod = pathSegments[pathSegments.length - 1];
 
-    $displayTitle = titles[timePeriod]?.replace("title", title);
+    const periodLabel = periodLabelMap[timePeriod];
+    const periodDesc = periodDescMap[timePeriod];
+
+    $displayTitle = displayTitleMap[timePeriod] ?? categoryLabel;
     $displayDate = lastTradingDay;
+
+    seoTitle =
+      timePeriod === "gainers"
+        ? market_mover_gainers_seo_title_today()
+        : market_mover_gainers_seo_title_period({ period: periodLabel });
+
+    seoDescription =
+      timePeriod === "gainers"
+        ? market_mover_gainers_seo_description_today()
+        : market_mover_gainers_seo_description_period({ period: periodDesc });
+
+    structuredData = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name:
+        timePeriod === "gainers"
+          ? market_mover_gainers_structured_name_today()
+          : market_mover_gainers_structured_name_period({ period: periodLabel }),
+      description: market_mover_gainers_structured_description(),
+      url: `https://stocknear.com/market-mover/gainers${timePeriod === "gainers" ? "" : "/" + timePeriod}`,
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: common_home(),
+            item: "https://stocknear.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: layout_market_mover(),
+            item: "https://stocknear.com/market-mover",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: market_mover_tab_gainers(),
+            item: "https://stocknear.com/market-mover/gainers",
+          },
+        ],
+      },
+      mainEntity: {
+        "@type": "ItemList",
+        name: market_mover_gainers_structured_main_name(),
+        description: market_mover_gainers_structured_main_description(),
+      },
+    };
   }
 </script>
 
 <SEO
-  title={timePeriod === "gainers"
-    ? `Top Stock Gainers Today - Biggest Winners & Best Performing Stocks `
-    : `Top Stock Gainers ${timePeriod} - Best Performing Stocks & Winners `}
-  description={timePeriod === "gainers"
-    ? "Track today's biggest stock market gainers and winners. Monitor stocks with highest percentage gains, top performers by volume, market cap, and price movements. Free real-time stock gainers list."
-    : `Find the best performing stocks and biggest gainers over the past ${timePeriod}. Track winning stocks, percentage gains, and top performers with detailed market data and analysis.`}
-  keywords="stock gainers, biggest stock winners, top performing stocks, best stocks today, stock market winners, stock gainers list, top gainers, winning stocks"
-  structuredData={{
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name:
-      timePeriod === "gainers"
-        ? "Today's Top Stock Gainers"
-        : `Top Stock Gainers - ${timePeriod}`,
-    description: "List of top performing stocks and biggest market gainers",
-    url: `https://stocknear.com/market-mover/gainers${timePeriod === "gainers" ? "" : "/" + timePeriod}`,
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://stocknear.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Market Mover",
-          item: "https://stocknear.com/market-mover",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Gainers",
-          item: "https://stocknear.com/market-mover/gainers",
-        },
-      ],
-    },
-    mainEntity: {
-      "@type": "ItemList",
-      name: "Stock Gainers List",
-      description: "Top performing stocks with highest percentage gains",
-    },
-  }}
+  title={seoTitle}
+  description={seoDescription}
+  keywords={market_mover_gainers_seo_keywords()}
+  {structuredData}
 />
 
 <section
@@ -107,7 +170,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Today
+              {market_mover_period_today()}
             </a>
             <a
               href="/market-mover/gainers/week"
@@ -116,7 +179,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Week
+              {market_mover_period_week()}
             </a>
             <a
               href="/market-mover/gainers/month"
@@ -125,7 +188,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Month
+              {market_mover_period_month()}
             </a>
             <a
               href="/market-mover/gainers/year"
@@ -134,7 +197,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Year
+              {market_mover_period_year()}
             </a>
             <a
               href="/market-mover/gainers/3Y"
@@ -143,7 +206,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              3 Years
+              {market_mover_period_label_3y()}
             </a>
             <a
               href="/market-mover/gainers/5Y"
@@ -152,7 +215,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              5 Years
+              {market_mover_period_label_5y()}
             </a>
           </ul>
         </nav>
