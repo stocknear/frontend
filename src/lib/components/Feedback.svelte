@@ -2,6 +2,18 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
+  import {
+    feedback_title,
+    feedback_error_signin,
+    feedback_error_description,
+    feedback_error_send_try_again,
+    feedback_success,
+    feedback_error_send_generic,
+    feedback_description_label,
+    feedback_page_label,
+    feedback_cancel_button,
+    feedback_send_button,
+  } from "$lib/paraglide/messages.js";
 
   import Question from "lucide-svelte/icons/message-circle-question";
 
@@ -28,7 +40,7 @@
     if (isSubmitting) return;
 
     if (!data?.user?.id) {
-      toast.error("Please sign in before sending feedback.", {
+      toast.error(feedback_error_signin(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
         }; font-size: 15px;`,
@@ -37,7 +49,7 @@
     }
 
     if (!description.trim()) {
-      toast.error("Please describe your issue or suggestion.", {
+      toast.error(feedback_error_description(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
         }; font-size: 15px;`,
@@ -66,13 +78,12 @@
 
       if (!response.ok) {
         const message =
-          result?.error ??
-          "Something went wrong sending feedback. Please try again.";
+          result?.error ?? feedback_error_send_try_again();
         throw new Error(message);
       }
 
       isModalOpen = false;
-      toast.success("Thanks! Your feedback was sent.", {
+      toast.success(feedback_success(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
         }; font-size: 15px;`,
@@ -83,7 +94,7 @@
       const message =
         e instanceof Error
           ? e.message
-          : "Something went wrong sending feedback.";
+          : feedback_error_send_generic();
       toast.error(message, {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
@@ -107,14 +118,14 @@
   <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
     <label
       for="feedbackModalToggle"
-      aria-label="Give Feedback"
+      aria-label={feedback_title()}
       class="group flex fixed bottom-8 right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
       style="position: fixed !important; z-index: 99999 !important;"
     >
       <Question
         class="size-5 text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
       />
-      <span class="hidden sm:inline text-sm font-semibold">Give feedback</span>
+      <span class="hidden sm:inline text-sm font-semibold">{feedback_title()}</span>
     </label>
   </div>
 {/if}
@@ -143,7 +154,7 @@
       <h1
         class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        Give feedback
+        {feedback_title()}
       </h1>
       <label
         for="feedbackModalToggle"
@@ -169,7 +180,7 @@
       <div class="space-y-2">
         <label
           class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-          >Describe your issue or suggestion:</label
+          >{feedback_description_label()}</label
         >
         <textarea
           class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 p-3 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
@@ -182,7 +193,7 @@
       <div class="space-y-2">
         <label
           class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-          >Feedback for page:</label
+          >{feedback_page_label()}</label
         >
         <input
           type="text"
@@ -202,7 +213,7 @@
         on:click={closeModal}
         disabled={isSubmitting}
       >
-        Cancel
+        {feedback_cancel_button()}
       </button>
       <button
         type="button"
@@ -214,7 +225,7 @@
         {#if isSubmitting}
           <span class="loading loading-infinity loading-sm"></span>
         {/if}
-        Send feedback
+        {feedback_send_button()}
       </button>
     </div>
   </div>

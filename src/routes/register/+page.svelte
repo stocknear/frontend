@@ -7,6 +7,30 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
+  import {
+    register_seo_title,
+    register_seo_description,
+    register_title,
+    register_title_logged_in,
+    register_subtitle,
+    register_email_label,
+    register_password_label,
+    register_confirm_password_label,
+    register_button,
+    register_button_loading,
+    register_divider,
+    register_has_account,
+    register_signin_link,
+    register_terms_prefix,
+    register_terms_link,
+    register_terms_middle,
+    register_privacy_link,
+    register_logged_in_as,
+    register_logout_button,
+    register_toast_success,
+    register_toast_invalid,
+  } from "$lib/paraglide/messages.js";
+
   export let form;
   export let data;
 
@@ -28,13 +52,13 @@
         case "success":
         case "redirect":
           isClicked = true;
-          toast.success("Registration successfully!", {
+          toast.success(register_toast_success(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "failure":
-          toast.error("Invalid credentials", {
+          toast.error(register_toast_invalid(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -54,8 +78,8 @@
 </script>
 
 <SEO
-  title="Sign Up"
-  description="Sign Up to Stocknear to become part of the largest trading community in the world."
+  title={register_seo_title()}
+  description={register_seo_description()}
 />
 
 <div
@@ -77,12 +101,12 @@
       <h1
         class="text-center text-2xl sm:text-3xl pt-4 font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        {!data?.user ? "Getting Started" : "You are logged in"}
+        {!data?.user ? register_title() : register_title_logged_in()}
       </h1>
     </div>
     {#if !data?.user}
       <span class="text-sm text-gray-500 dark:text-zinc-400 text-center">
-        Create an account & start your stock analysis
+        {register_subtitle()}
       </span>
 
       <form
@@ -96,7 +120,7 @@
         <Input
           type="email"
           id="email"
-          label="Email"
+          label={register_email_label()}
           value={form?.data?.email}
           errors={form?.errors?.email}
           disabled={loading}
@@ -105,7 +129,7 @@
         <Input
           type="password"
           id="password"
-          label="Password"
+          label={register_password_label()}
           errors={form?.errors?.password}
           disabled={loading}
         />
@@ -113,7 +137,7 @@
         <Input
           type="password"
           id="passwordConfirm"
-          label="Confirm Password"
+          label={register_confirm_password_label()}
           errors={form?.errors?.passwordConfirm}
           disabled={loading}
         />
@@ -124,7 +148,7 @@
               type="submit"
               class="cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
             >
-              <span>Register</span>
+              <span>{register_button()}</span>
             </button>
           {:else}
             <button
@@ -136,7 +160,7 @@
              flex items-center justify-center gap-1.5"
             >
               <span class="loading loading-infinity"></span>
-              <span>Signing Up</span>
+              <span>{register_button_loading()}</span>
             </button>
           {/if}
         </div>
@@ -153,7 +177,7 @@
 
       <div class="divider text-gray-800 dark:text-zinc-300 py-6">
         <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-          >Or register using</span
+          >{register_divider()}</span
         >
       </div>
 
@@ -162,33 +186,33 @@
       <p
         class="pb-1 text-sm w-full max-w-lg flex m-auto justify-center items-center text-gray-500 dark:text-zinc-400"
       >
-        You already have an account?
+        {register_has_account()}
         <a
           href="/login"
           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition ml-1"
-          >Sign in</a
+          >{register_signin_link()}</a
         >
       </p>
 
       <p
         class="pb-1 text-xs text-center pb-20 sm:pb-0 text-gray-800 dark:text-zinc-300"
       >
-        By registering you agree to Stocknear's
+        {register_terms_prefix()}
         <a
           href="/terms-of-use"
           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-          >Terms of Use</a
+          >{register_terms_link()}</a
         >
-        and acknowledge that you've read our
+        {register_terms_middle()}
         <a
           href="/privacy-policy"
           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-          >Privacy Policy</a
+          >{register_privacy_link()}</a
         >.
       </p>
     {:else}
       <p class="mt-2 text-center text-sm text-gray-500 dark:text-zinc-400">
-        Logged in as {data?.user?.email}
+        {register_logged_in_as({ email: data?.user?.email })}
       </p>
       <form class="cursor-pointer" action="/logout" method="POST">
         <button
@@ -198,7 +222,7 @@
         bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2 text-sm font-semibold
         hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none
         focus:ring-offset-0"
-          >Log Out
+          >{register_logout_button()}
         </button>
       </form>
     {/if}

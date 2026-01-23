@@ -1,0 +1,13 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Give feedback",
+  "feedback_error_signin": "Please sign in before sending feedback.",
+  "feedback_error_description": "Please describe your issue or suggestion.",
+  "feedback_error_send_try_again": "Something went wrong sending feedback. Please try again.",
+  "feedback_success": "Thanks! Your feedback was sent.",
+  "feedback_error_send_generic": "Something went wrong sending feedback.",
+  "feedback_description_label": "Describe your issue or suggestion:",
+  "feedback_page_label": "Feedback for page:",
+  "feedback_cancel_button": "Cancel",
+  "feedback_send_button": "Send feedback"
+}

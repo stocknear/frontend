@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "We value your privacy",
+  "cookies_banner_description": "We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.",
+  "cookies_accept_all": "Accept All",
+  "cookies_reject_all": "Reject All",
+  "cookies_customize": "Customize",
+  "cookies_preferences_title": "Cookie Preferences",
+  "cookies_preferences_description": "Manage your cookie preferences. Necessary cookies cannot be disabled as they are required for the website to function.",
+  "cookies_necessary_title": "Necessary Cookies",
+  "cookies_necessary_description": "Essential for authentication, security and basic functionality. These cannot be disabled.",
+  "cookies_analytics_title": "Analytics Cookies",
+  "cookies_analytics_description": "Help us understand how visitors interact with our website to improve user experience.",
+  "cookies_marketing_title": "Marketing Cookies",
+  "cookies_marketing_description": "Used to track visitors across websites for personalized advertising.",
+  "cookies_save_preferences": "Save Preferences"
+}

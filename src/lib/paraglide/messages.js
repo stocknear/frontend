@@ -282,6 +282,76 @@ export const contact_sidebar_watchlist_desc = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).contact_sidebar_watchlist_desc(inputs);
 };
 
+export const cookies_banner_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_banner_title(inputs);
+};
+
+export const cookies_banner_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_banner_description(inputs);
+};
+
+export const cookies_accept_all = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_accept_all(inputs);
+};
+
+export const cookies_reject_all = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_reject_all(inputs);
+};
+
+export const cookies_customize = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_customize(inputs);
+};
+
+export const cookies_preferences_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_preferences_title(inputs);
+};
+
+export const cookies_preferences_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_preferences_description(inputs);
+};
+
+export const cookies_necessary_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_necessary_title(inputs);
+};
+
+export const cookies_necessary_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_necessary_description(inputs);
+};
+
+export const cookies_analytics_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_analytics_title(inputs);
+};
+
+export const cookies_analytics_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_analytics_description(inputs);
+};
+
+export const cookies_marketing_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_marketing_title(inputs);
+};
+
+export const cookies_marketing_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_marketing_description(inputs);
+};
+
+export const cookies_save_preferences = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).cookies_save_preferences(inputs);
+};
+
 export const data_seo_title = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).data_seo_title(inputs);
@@ -522,6 +592,56 @@ export const faq_sidebar_about_title = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).faq_sidebar_about_title(inputs);
 };
 
+export const feedback_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_title(inputs);
+};
+
+export const feedback_error_signin = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_error_signin(inputs);
+};
+
+export const feedback_error_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_error_description(inputs);
+};
+
+export const feedback_error_send_try_again = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_error_send_try_again(inputs);
+};
+
+export const feedback_success = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_success(inputs);
+};
+
+export const feedback_error_send_generic = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_error_send_generic(inputs);
+};
+
+export const feedback_description_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_description_label(inputs);
+};
+
+export const feedback_page_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_page_label(inputs);
+};
+
+export const feedback_cancel_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_cancel_button(inputs);
+};
+
+export const feedback_send_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).feedback_send_button(inputs);
+};
+
 export const footer_language = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).footer_language(inputs);
@@ -755,6 +875,96 @@ export const imprint_special_conditions_title = (inputs = {}, options = {}) => {
 export const imprint_special_conditions = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).imprint_special_conditions(inputs);
+};
+
+export const login_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_seo_title(inputs);
+};
+
+export const login_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_seo_description(inputs);
+};
+
+export const login_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_title(inputs);
+};
+
+export const login_title_logged_in = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_title_logged_in(inputs);
+};
+
+export const login_subtitle = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_subtitle(inputs);
+};
+
+export const login_email_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_email_label(inputs);
+};
+
+export const login_password_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_password_label(inputs);
+};
+
+export const login_forgot_password = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_forgot_password(inputs);
+};
+
+export const login_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_button(inputs);
+};
+
+export const login_button_loading = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_button_loading(inputs);
+};
+
+export const login_divider = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_divider(inputs);
+};
+
+export const login_no_account = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_no_account(inputs);
+};
+
+export const login_signup_link = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_signup_link(inputs);
+};
+
+export const login_logged_in_as = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_logged_in_as(inputs);
+};
+
+export const login_logout_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_logout_button(inputs);
+};
+
+export const login_toast_verify_email = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_toast_verify_email(inputs);
+};
+
+export const login_toast_success = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_toast_success(inputs);
+};
+
+export const login_toast_invalid = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).login_toast_invalid(inputs);
 };
 
 export const pricing_seo_title = (inputs = {}, options = {}) => {
@@ -1387,6 +1597,111 @@ export const privacy_changes_content = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).privacy_changes_content(inputs);
 };
 
+export const register_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_seo_title(inputs);
+};
+
+export const register_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_seo_description(inputs);
+};
+
+export const register_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_title(inputs);
+};
+
+export const register_title_logged_in = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_title_logged_in(inputs);
+};
+
+export const register_subtitle = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_subtitle(inputs);
+};
+
+export const register_email_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_email_label(inputs);
+};
+
+export const register_password_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_password_label(inputs);
+};
+
+export const register_confirm_password_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_confirm_password_label(inputs);
+};
+
+export const register_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_button(inputs);
+};
+
+export const register_button_loading = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_button_loading(inputs);
+};
+
+export const register_divider = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_divider(inputs);
+};
+
+export const register_has_account = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_has_account(inputs);
+};
+
+export const register_signin_link = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_signin_link(inputs);
+};
+
+export const register_terms_prefix = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_terms_prefix(inputs);
+};
+
+export const register_terms_link = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_terms_link(inputs);
+};
+
+export const register_terms_middle = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_terms_middle(inputs);
+};
+
+export const register_privacy_link = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_privacy_link(inputs);
+};
+
+export const register_logged_in_as = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_logged_in_as(inputs);
+};
+
+export const register_logout_button = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_logout_button(inputs);
+};
+
+export const register_toast_success = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_toast_success(inputs);
+};
+
+export const register_toast_invalid = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).register_toast_invalid(inputs);
+};
+
 export const terms_seo_title = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).terms_seo_title(inputs);
@@ -1693,6 +2008,20 @@ export const m = {
   contact_sidebar_screener_desc,
   contact_sidebar_watchlist_title,
   contact_sidebar_watchlist_desc,
+  cookies_banner_title,
+  cookies_banner_description,
+  cookies_accept_all,
+  cookies_reject_all,
+  cookies_customize,
+  cookies_preferences_title,
+  cookies_preferences_description,
+  cookies_necessary_title,
+  cookies_necessary_description,
+  cookies_analytics_title,
+  cookies_analytics_description,
+  cookies_marketing_title,
+  cookies_marketing_description,
+  cookies_save_preferences,
   data_seo_title,
   data_seo_description,
   data_breadcrumb,
@@ -1741,6 +2070,16 @@ export const m = {
   faq_sidebar_pro_title,
   faq_sidebar_pro_desc,
   faq_sidebar_about_title,
+  feedback_title,
+  feedback_error_signin,
+  feedback_error_description,
+  feedback_error_send_try_again,
+  feedback_success,
+  feedback_error_send_generic,
+  feedback_description_label,
+  feedback_page_label,
+  feedback_cancel_button,
+  feedback_send_button,
   footer_language,
   footer_twitter,
   footer_discord,
@@ -1788,6 +2127,24 @@ export const m = {
   imprint_copyright,
   imprint_special_conditions_title,
   imprint_special_conditions,
+  login_seo_title,
+  login_seo_description,
+  login_title,
+  login_title_logged_in,
+  login_subtitle,
+  login_email_label,
+  login_password_label,
+  login_forgot_password,
+  login_button,
+  login_button_loading,
+  login_divider,
+  login_no_account,
+  login_signup_link,
+  login_logged_in_as,
+  login_logout_button,
+  login_toast_verify_email,
+  login_toast_success,
+  login_toast_invalid,
   pricing_seo_title,
   pricing_seo_description,
   pricing_investors,
@@ -1914,6 +2271,27 @@ export const m = {
   privacy_children_content,
   privacy_changes_title,
   privacy_changes_content,
+  register_seo_title,
+  register_seo_description,
+  register_title,
+  register_title_logged_in,
+  register_subtitle,
+  register_email_label,
+  register_password_label,
+  register_confirm_password_label,
+  register_button,
+  register_button_loading,
+  register_divider,
+  register_has_account,
+  register_signin_link,
+  register_terms_prefix,
+  register_terms_link,
+  register_terms_middle,
+  register_privacy_link,
+  register_logged_in_as,
+  register_logout_button,
+  register_toast_success,
+  register_toast_invalid,
   terms_seo_title,
   terms_seo_description,
   terms_breadcrumb,

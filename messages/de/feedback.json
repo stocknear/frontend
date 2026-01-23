@@ -1,0 +1,13 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Feedback geben",
+  "feedback_error_signin": "Bitte melde dich an, bevor du Feedback sendest.",
+  "feedback_error_description": "Bitte beschreibe dein Problem oder deinen Vorschlag.",
+  "feedback_error_send_try_again": "Beim Senden des Feedbacks ist etwas schiefgelaufen. Bitte versuche es erneut.",
+  "feedback_success": "Danke! Dein Feedback wurde gesendet.",
+  "feedback_error_send_generic": "Beim Senden des Feedbacks ist etwas schiefgelaufen.",
+  "feedback_description_label": "Beschreibe dein Problem oder deinen Vorschlag:",
+  "feedback_page_label": "Feedback zur Seite:",
+  "feedback_cancel_button": "Abbrechen",
+  "feedback_send_button": "Feedback senden"
+}

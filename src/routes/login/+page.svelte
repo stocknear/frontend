@@ -5,6 +5,26 @@
   import { mode } from "mode-watcher";
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
+  import {
+    login_seo_title,
+    login_seo_description,
+    login_title,
+    login_title_logged_in,
+    login_subtitle,
+    login_email_label,
+    login_password_label,
+    login_forgot_password,
+    login_button,
+    login_button_loading,
+    login_divider,
+    login_no_account,
+    login_signup_link,
+    login_logged_in_as,
+    login_logout_button,
+    login_toast_verify_email,
+    login_toast_success,
+    login_toast_invalid,
+  } from "$lib/paraglide/messages.js";
 
   export let form;
   export let data;
@@ -19,14 +39,14 @@
       switch (result.type) {
         case "success":
           if (form?.notVerified) {
-            toast.error("Please verify your email first", {
+            toast.error(login_toast_verify_email(), {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             });
             await update();
             break;
           } else form?.notVerified === false;
           {
-            toast.success("Login successfully!", {
+            toast.success(login_toast_success(), {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             });
             await update();
@@ -34,13 +54,13 @@
           }
         case "redirect":
           isClicked = true;
-          toast.success("Login successfully!", {
+          toast.success(login_toast_success(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "failure":
-          toast.error("Invalid credentials", {
+          toast.error(login_toast_invalid(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -59,8 +79,8 @@
 </script>
 
 <SEO
-  title="Log in to Stocknear"
-  description="Log in to your Stocknear account using your email and password."
+  title={login_seo_title()}
+  description={login_seo_description()}
 />
 
 <div
@@ -82,13 +102,13 @@
       <h1
         class="text-center text-2xl sm:text-3xl pt-5 font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        {!data?.user ? "Log in to your account" : "You are logged in"}
+        {!data?.user ? login_title() : login_title_logged_in()}
       </h1>
     </div>
 
     {#if !data?.user}
       <span class="text-sm text-gray-500 dark:text-zinc-400 text-center">
-        Welcome back!
+        {login_subtitle()}
       </span>
 
       <div class="relative w-full max-w-lg m-auto">
@@ -101,21 +121,21 @@
           <Input
             type="email"
             id="email"
-            label="Email"
+            label={login_email_label()}
             value={form?.data?.email ?? ""}
             errors={form?.errors?.email}
           />
           <Input
             type="password"
             id="password"
-            label="Password"
+            label={login_password_label()}
             errors={form?.errors?.password}
           />
           <div class="w-full max-w-lg">
             <a
               href="/reset-password"
               class="text-sm sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-              >Forgot Password?</a
+              >{login_forgot_password()}</a
             >
           </div>
 
@@ -125,7 +145,7 @@
                 type="submit"
                 class="cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
               >
-                <span>Login</span>
+                <span>{login_button()}</span>
               </button>
             {:else}
               <button
@@ -137,7 +157,7 @@
              flex items-center justify-center gap-1.5"
               >
                 <span class="loading loading-infinity"></span>
-                <span>Signing Up</span>
+                <span>{login_button_loading()}</span>
               </button>
             {/if}
           </div>
@@ -145,7 +165,7 @@
 
         <div class="divider text-gray-800 dark:text-zinc-300 py-6">
           <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-            >Or login using</span
+            >{login_divider()}</span
           >
         </div>
 
@@ -154,17 +174,17 @@
         <p
           class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
         >
-          You don't have an account?
+          {login_no_account()}
           <a
             href="/register"
             class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition ml-1"
-            >Sign up</a
+            >{login_signup_link()}</a
           >
         </p>
       </div>
     {:else}
       <p class="mt-2 text-center text-sm text-gray-500 dark:text-zinc-400">
-        Logged in as {data?.user?.email}
+        {login_logged_in_as({ email: data?.user?.email })}
       </p>
       <form class="cursor-pointer" action="/logout" method="POST">
         <button
@@ -174,7 +194,7 @@
           bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2 text-sm font-semibold
           hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none
           focus:ring-offset-0"
-          >Log Out
+          >{login_logout_button()}
         </button>
       </form>
     {/if}

@@ -5,6 +5,22 @@
   import { Button } from "$lib/components/shadcn/button/index.ts";
   import * as Dialog from "$lib/components/shadcn/dialog/index.ts";
   import Cookie from "lucide-svelte/icons/cookie";
+  import {
+    cookies_banner_title,
+    cookies_banner_description,
+    cookies_accept_all,
+    cookies_reject_all,
+    cookies_customize,
+    cookies_preferences_title,
+    cookies_preferences_description,
+    cookies_necessary_title,
+    cookies_necessary_description,
+    cookies_analytics_title,
+    cookies_analytics_description,
+    cookies_marketing_title,
+    cookies_marketing_description,
+    cookies_save_preferences,
+  } from "$lib/paraglide/messages.js";
 
   import { showCookiePreferences } from "$lib/store";
 
@@ -138,13 +154,12 @@
           <h3
             class="text-base font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            We value your privacy
+            {cookies_banner_title()}
           </h3>
         </div>
 
         <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-          We use cookies to enhance your browsing experience, analyze site
-          traffic, and personalize content.
+          {cookies_banner_description()}
         </p>
 
         <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
@@ -152,21 +167,21 @@
             on:click={acceptAll}
             class="w-full rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 sm:w-auto transition"
           >
-            Accept All
+            {cookies_accept_all()}
           </Button>
           <Button
             on:click={rejectAll}
             variant="outline"
             class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
           >
-            Reject All
+            {cookies_reject_all()}
           </Button>
           <Button
             on:click={openCustomize}
             variant="outline"
             class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
           >
-            Customize
+            {cookies_customize()}
           </Button>
         </div>
       </div>
@@ -182,11 +197,10 @@
       <Dialog.Title
         class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        >Cookie Preferences</Dialog.Title
+        >{cookies_preferences_title()}</Dialog.Title
       >
       <Dialog.Description class="text-sm text-gray-800 dark:text-zinc-300">
-        Manage your cookie preferences. Necessary cookies cannot be disabled as
-        they are required for the website to function.
+        {cookies_preferences_description()}
       </Dialog.Description>
     </Dialog.Header>
 
@@ -198,11 +212,10 @@
         <div class="flex items-start gap-3">
           <div>
             <h4 class="font-medium text-gray-900 dark:text-white">
-              Necessary Cookies
+              {cookies_necessary_title()}
             </h4>
             <p class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
-              Essential for authentication, security and basic functionality.
-              These cannot be disabled.
+              {cookies_necessary_description()}
             </p>
           </div>
         </div>
@@ -222,11 +235,10 @@
         <div class="flex items-start gap-3">
           <div>
             <h4 class="font-medium text-gray-900 dark:text-white">
-              Analytics Cookies
+              {cookies_analytics_title()}
             </h4>
             <p class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
-              Help us understand how visitors interact with our website to
-              improve user experience.
+              {cookies_analytics_description()}
             </p>
           </div>
         </div>
@@ -254,11 +266,10 @@
         <div class="flex items-start gap-3">
           <div>
             <h4 class="font-medium text-gray-900 dark:text-white">
-              Marketing Cookies
+              {cookies_marketing_title()}
             </h4>
             <p class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
-              Used to track visitors across websites for personalized
-              advertising.
+              {cookies_marketing_description()}
             </p>
           </div>
         </div>
@@ -286,20 +297,20 @@
         variant="outline"
         class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
       >
-        Reject All
+        {cookies_reject_all()}
       </Button>
       <Button
         on:click={acceptAll}
         variant="outline"
         class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 sm:w-auto transition"
       >
-        Accept All
+        {cookies_accept_all()}
       </Button>
       <Button
         on:click={saveCustom}
         class="w-full rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
       >
-        Save Preferences
+        {cookies_save_preferences()}
       </Button>
     </Dialog.Footer>
   </Dialog.Content>

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Bei Stocknear anmelden",
+  "login_seo_description": "Melde dich mit deiner E-Mail-Adresse und deinem Passwort bei deinem Stocknear-Konto an.",
+  "login_title": "In dein Konto einloggen",
+  "login_title_logged_in": "Du bist eingeloggt",
+  "login_subtitle": "Willkommen zurück!",
+  "login_email_label": "E-Mail",
+  "login_password_label": "Passwort",
+  "login_forgot_password": "Passwort vergessen?",
+  "login_button": "Anmelden",
+  "login_button_loading": "Wird angemeldet",
+  "login_divider": "Oder anmelden mit",
+  "login_no_account": "Du hast noch kein Konto?",
+  "login_signup_link": "Registrieren",
+  "login_logged_in_as": "Eingeloggt als {email}",
+  "login_logout_button": "Abmelden",
+  "login_toast_verify_email": "Bitte bestätige zuerst deine E-Mail-Adresse",
+  "login_toast_success": "Erfolgreich angemeldet!",
+  "login_toast_invalid": "Ungültige Anmeldedaten"
+}
