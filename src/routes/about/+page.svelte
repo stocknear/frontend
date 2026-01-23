@@ -32,7 +32,6 @@
     twitter,
     discord,
   } from "$lib/paraglide/messages.js";
-  import LanguageSwitcher from "$lib/components/LanguageSwitcher.svelte";
 
   export let data;
 
@@ -45,11 +44,6 @@
 />
 
 <div class="text-gray-700 dark:text-zinc-200 w-full">
-  <!-- Language Switcher (positioned top-right) -->
-  <div class="w-full flex justify-end px-4 py-2 bg-gray-50/50 dark:bg-zinc-900/30 border-b border-gray-200 dark:border-zinc-800">
-    <LanguageSwitcher />
-  </div>
-
   <!-- Hero Section -->
   <section
     class="border-b border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950/60"
