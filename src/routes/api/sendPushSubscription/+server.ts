@@ -1,14 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import webPush from 'web-push';
 import https from 'https';
+import { VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } from "$env/static/private";
 
 const agent = new https.Agent({
   family: 4 // Forces IPv4
 });
-
-
-const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
-const VAPID_PRIVATE_KEY = import.meta.env.VITE_VAPID_PRIVATE_KEY;
 
 webPush.setVapidDetails(
   'mailto:contact@stocknear.com',

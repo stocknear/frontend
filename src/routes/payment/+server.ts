@@ -1,7 +1,8 @@
 import crypto from "node:crypto";
+import { LEMON_SQUEEZY_SECRET_KEY } from "$env/static/private";
 
 // Your secret key provided by Lemon Squeezy
-const SECRET_KEY = import.meta.env.VITE_LEMON_SQUEEZY_SECRET_KEY;
+const SECRET_KEY = LEMON_SQUEEZY_SECRET_KEY;
 
 if (!SECRET_KEY) {
   throw new Error("Missing Lemon Squeezy secret key.");

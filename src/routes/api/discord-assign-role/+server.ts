@@ -1,7 +1,6 @@
 import type { RequestHandler } from "./$types";
 import { Client, GatewayIntentBits } from 'discord.js';
-
-const DISCORD_BOT_TOKEN = import.meta.env.VITE_DISCORD_BOT_TOKEN; 
+import { DISCORD_BOT_TOKEN } from "$env/static/private"; 
 
 
 export const GET: RequestHandler = async ({  locals }) => {

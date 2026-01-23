@@ -1,8 +1,9 @@
 import { json } from "@sveltejs/kit";
+import { CF_TURNSTILE_SECRET_KEY } from "$env/static/private";
 
 const TURNSTILE_VERIFY_ENDPOINT =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-const TURNSTILE_SECRET = import.meta.env.VITE_CF_TURNSTILE_SECRET_KEY;
+const TURNSTILE_SECRET = CF_TURNSTILE_SECRET_KEY;
 
 export const POST = async ({ request, locals, fetch }) => {
   if (!TURNSTILE_SECRET) {

@@ -149,7 +149,7 @@
                   {#if showTurnstile}
                     <div class="pt-5">
                       <Turnstile
-                        siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+                        siteKey={data.turnstileSiteKey}
                       />
                     </div>
                   {/if}

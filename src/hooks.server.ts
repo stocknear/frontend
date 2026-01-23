@@ -4,6 +4,7 @@ import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import { type Locale } from "$lib/paraglide/runtime.js";
 import { preloadLocaleMessages } from "$lib/paraglide/messages.js";
+import { STOCKNEAR_API_KEY } from "$env/static/private";
 
 export const handle = sequence(async ({ event, resolve }) => {
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
@@ -47,7 +48,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       apiURL,
       fastifyURL,
       wsURL,
-      apiKey: import.meta.env.VITE_STOCKNEAR_API_KEY,
+      apiKey: STOCKNEAR_API_KEY,
       themeMode,
       clientIp,
       cookieConsent,
@@ -122,7 +123,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       apiURL,
       fastifyURL,
       wsURL,
-      apiKey: import.meta.env.VITE_STOCKNEAR_API_KEY,
+      apiKey: STOCKNEAR_API_KEY,
       themeMode,
       clientIp,
       cookieConsent,

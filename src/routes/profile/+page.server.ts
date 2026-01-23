@@ -1,4 +1,5 @@
 import { redirect, error } from "@sveltejs/kit";
+import { LEMON_SQUEEZY_API_KEY } from "$env/static/private";
 
 export const load = async ({ locals }) => {
   const { pb, user } = locals;
@@ -67,7 +68,7 @@ export const actions = {
   cancelSubscription: async ({ request, locals }) => {
     const formData = await request?.formData();
 
-    const apiKey = import.meta.env.VITE_LEMON_SQUEEZY_API_KEY;
+    const apiKey = LEMON_SQUEEZY_API_KEY;
     const subscriptionId = formData?.get("subscriptionId");
 
     try {
@@ -96,7 +97,7 @@ export const actions = {
   reactivateSubscription: async ({ request }) => {
     const formData = await request?.formData();
 
-    const apiKey = import.meta.env.VITE_LEMON_SQUEEZY_API_KEY;
+    const apiKey = LEMON_SQUEEZY_API_KEY;
     const subscriptionId = formData?.get("subscriptionId");
 
     try {
@@ -136,7 +137,7 @@ export const actions = {
   changeSubscription: async ({ request }) => {
     const formData = await request?.formData();
 
-    const apiKey = import.meta.env.VITE_LEMON_SQUEEZY_API_KEY;
+    const apiKey = LEMON_SQUEEZY_API_KEY;
     const subscriptionId = formData?.get("subscriptionId");
     const newPlan = formData?.get("newPlan")
 

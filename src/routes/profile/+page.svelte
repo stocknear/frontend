@@ -220,13 +220,13 @@
       }
 
       // Try to subscribe with retry logic
-      let output = await subscribeUser();
+      let output = await subscribeUser(data.vapidPublicKey);
 
       // If failed, wait a bit and retry once (service worker might be initializing)
       if (!output?.success) {
         console.log("First attempt failed, retrying in 2 seconds...");
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        output = await subscribeUser();
+        output = await subscribeUser(data.vapidPublicKey);
       }
 
       if (output?.success === true) {
