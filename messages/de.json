@@ -1,6 +1,18 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
+  "common_home": "Startseite",
+  "common_privacy_policy": "Datenschutzerklärung",
+  "common_imprint": "Impressum",
+  "common_contact_us": "Kontakt",
+  "common_sponsor_us": "Unterstütze uns",
+  "common_learn_more_sponsor": "Erfahre mehr darüber, warum wir das tun",
+  "common_let_me_know": "Lass mich wissen, wenn du etwas brauchst",
+
+  "footer_language": "Sprache",
+  "footer_twitter": "Twitter",
+  "footer_discord": "Discord",
+
   "about_seo_title": "Über uns",
   "about_seo_description": "Stocknear wurde entwickelt, um Privatanlegern dieselben Daten zugänglich zu machen, die auch die Wall Street nutzt. Gegründet von Dr. Muslem Rahimi, haben wir uns zum Ziel gesetzt, Aktienanalysen zu demokratisieren.",
 
@@ -12,20 +24,20 @@
   "about_values_description": "Jede unserer Entscheidungen wird von diesen Prinzipien geleitet.",
 
   "about_value_accuracy_title": "Datengenauigkeit zuerst",
-  "about_value_accuracy_description": "Wir arbeiten mit denselben Datenanbietern zusammen, die auch Hedgefonds bedienen. Keine gescrapten Daten. Keine Vermutungen. Nur saubere, verifizierte Informationen, denen Sie vertrauen können.",
+  "about_value_accuracy_description": "Wir arbeiten mit denselben Datenanbietern zusammen, die auch Hedgefonds bedienen. Keine gescrapten Daten. Keine Vermutungen. Nur saubere, verifizierte Informationen, denen du vertrauen kannst.",
 
   "about_value_speed_title": "Geschwindigkeit zählt",
-  "about_value_speed_description": "Märkte bewegen sich schnell. Unsere Plattform lädt sofort. Jeder Bildschirm, jedes Diagramm, jeder Datenpunkt ist optimiert, damit Sie keine Gelegenheit verpassen.",
+  "about_value_speed_description": "Märkte bewegen sich schnell. Unsere Plattform lädt sofort. Jeder Bildschirm, jedes Diagramm, jeder Datenpunkt ist optimiert, damit du keine Gelegenheit verpasst.",
 
   "about_value_objectivity_title": "Vollständige Objektivität",
-  "about_value_objectivity_description": "Wir zeigen die Daten. Sie treffen die Entscheidungen. Keine versteckten Absichten, keine bezahlten Werbeaktionen, keine \"heißen Tipps\". Nur unvoreingenommene Informationen für jede Aktie.",
+  "about_value_objectivity_description": "Wir zeigen die Daten. Du triffst die Entscheidungen. Keine versteckten Absichten, keine bezahlten Werbeaktionen, keine \"heißen Tipps\". Nur unvoreingenommene Informationen für jede Aktie.",
 
-  "about_value_built_title": "Für Sie entwickelt",
-  "about_value_built_description": "Wir sind auch Investoren. Jede Funktion basiert auf dem, was wir selbst sehen möchten. Ihr Feedback bestimmt unsere Roadmap – nicht Risikokapitalgeber.",
+  "about_value_built_title": "Für dich entwickelt",
+  "about_value_built_description": "Wir sind auch Investoren. Jede Funktion basiert auf dem, was wir selbst sehen möchten. Dein Feedback bestimmt unsere Roadmap – nicht Risikokapitalgeber.",
 
   "about_founder_label": "Ich mach das allein",
   "about_founder_title": "Von der Physik zur Finanzwelt",
-  "about_founder_subtitle": "Dieselbe analytische Strenge, die das Universum erforscht, treibt jetzt Ihre Anlageforschung an.",
+  "about_founder_subtitle": "Dieselbe analytische Strenge, die das Universum erforscht, treibt jetzt deine Anlageforschung an.",
   "about_founder_name": "Dr. Muslem Rahimi",
   "about_founder_role": "Chef von Nichts",
   "about_founder_bio_1": "Ehrlich gesagt hatte ich nie geplant, ein Fintech-Unternehmen zu gründen. Als Physiker konzentrierte ich mich auf Forschung und Wissenschaft. Aber als ich anfing, mit Aktien zu handeln, erkannte ich schnell die Lücken in den verfügbaren Tools für Privatanleger.",
@@ -33,11 +45,73 @@
   "about_founder_credentials": "Promotion in Theoretischer Teilchenphysik (Universität Siegen) · MSc in Teilchenphysik (Technische Universität München) · BSc in Physik (Universität Göttingen)",
 
   "about_cta_title": "Bereit für institutionelle Daten?",
-  "about_cta_description": "Schließen Sie sich Tausenden von Investoren an, die jetzt datengesteuert statt emotional handeln. Beginnen Sie mit einem kostenlosen Konto und upgraden Sie, wenn Sie bereit sind.",
+  "about_cta_description": "Schließ dich Tausenden von Investoren an, die jetzt datengesteuert statt emotional handeln. Starte mit einem kostenlosen Konto und upgrade, wenn du bereit bist.",
   "about_cta_button_primary": "Kostenlos starten",
   "about_cta_button_secondary": "Preise ansehen",
 
-  "twitter": "Twitter",
-  "discord": "Discord",
-  "language": "Sprache"
+  "terms_seo_title": "Nutzungsbedingungen",
+  "terms_seo_description": "Lies die Nutzungsbedingungen von Stocknear. Durch die Nutzung unserer Plattform stimmst du diesen Bedingungen zu.",
+
+  "terms_breadcrumb": "Nutzungsbedingungen",
+  "terms_hero_title": "Nutzungsbedingungen",
+  "terms_last_updated": "Zuletzt aktualisiert: 01.11.2025",
+  "terms_intro": "Bitte lies diese Allgemeinen Geschäftsbedingungen sorgfältig durch, bevor du diese Website nutzt. Durch den Zugriff auf oder die Nutzung dieser Website erklärst du dich mit diesen Bedingungen sowie unserer {privacyLink} einverstanden. Stocknear behält sich das Recht vor, diese Bedingungen jederzeit zu ändern.",
+
+  "terms_noadvice_title": "Keine Anlageberatung durch Stocknear",
+  "terms_noadvice_content_1": "Die auf dieser Website präsentierten Informationen dienen ausschließlich Bildungszwecken. Bevor du Anlage- oder Finanzentscheidungen triffst, empfehlen wir dir dringend, einen qualifizierten Finanzberater zu konsultieren.",
+  "terms_noadvice_content_2": "Bitte beachte, dass der Inhalt dieser Website keine persönliche Finanzberatung darstellt. Wir geben keine Anlageempfehlungen. Unsere analytischen Daten stammen von Drittanbietern, und obwohl wir diese Informationen zur Verbesserung deines Verständnisses von Aktien anbieten, kann es riskant sein, Entscheidungen ausschließlich auf Analystenprognosen zu stützen.",
+  "terms_noadvice_content_3": "Da wir keinen Einblick in deine persönlichen finanziellen Verhältnisse oder deine Risikotoleranz haben, ist Stocknear nicht in der Lage, maßgeschneiderte Finanzberatung anzubieten. Wir empfehlen dir, professionelle Beratung für finanzielle, rechtliche oder steuerliche Angelegenheiten einzuholen.",
+  "terms_noadvice_content_4": "Stocknear ist weder ein Broker/Händler noch ein lizenzierter Anlageberater.",
+  "terms_noadvice_disclaimer_1": "UNTER KEINEN UMSTÄNDEN HAFTEN STOCKNEAR ODER SEINE VERBUNDENEN UNTERNEHMEN FÜR ANLAGEGEWINNE ODER -VERLUSTE, DIE AUS MARKTAKTIVITÄTEN RESULTIEREN.",
+  "terms_noadvice_disclaimer_2": "DU ERKENNST AN, DASS DER DIENST KEINE HANDELS-, ANLAGE-, FINANZ-, STEUER-, RECHTS- ODER SONSTIGE PROFESSIONELLE BERATUNG ANBIETET, UND DU ÜBERNIMMST DIE VOLLE VERANTWORTUNG FÜR ALLE ENTSCHEIDUNGEN, DIE AUF DEN BEREITGESTELLTEN INFORMATIONEN BASIEREN.",
+
+  "terms_accuracy_title": "Keine Garantie für Datengenauigkeit",
+  "terms_accuracy_content": "Unsere Aktiendaten werden aus verschiedenen Quellen aggregiert. Obwohl wir uns um Genauigkeit bemühen, können wir nicht garantieren, dass alle Informationen aktuell oder fehlerfrei sind. Wir empfehlen, alle Daten zu überprüfen, z. B. durch Einsicht in die SEC-Einreichungen eines Unternehmens, bevor du Anlageentscheidungen triffst.",
+
+  "terms_content_title": "Nutzung unserer Inhalte",
+  "terms_content_content": "Die vollständige Wiederveröffentlichung unserer Inhalte ohne unsere ausdrückliche Genehmigung ist untersagt. Du darfst jedoch kurze Auszüge verwenden, sofern diese unverändert bleiben und eine ordnungsgemäße Quellenangabe erfolgt.",
+
+  "terms_fairuse_title": "Faire Nutzung & Anti-Missbrauch",
+  "terms_fairuse_content_1": "Jede als \"unbegrenzt\" beworbene Funktion wird nur für normale, menschliche Nutzung bereitgestellt. Wir setzen technische Schutzmaßnahmen ein – wie Ratenbegrenzungen, Sitzungsdrosselung, CAPTCHAs und Download-Kontingente – um automatisiertes Scraping oder missbräuchliches Verhalten zu verhindern. Du erklärst dich damit einverstanden, diese Schutzmaßnahmen nicht zu umgehen oder groß angelegte Datenextraktion zu skripten.",
+  "terms_fairuse_content_2": "Stocknear kann nach eigenem Ermessen den Zugang vorübergehend unterbrechen oder dauerhaft sperren (einschließlich kostenpflichtiger Abonnements), wenn Aktivitäten als missbräuchlich eingestuft werden, die Plattformstabilität gefährden oder gegen diese Bedingungen verstoßen. Wiederholte oder schwerwiegende Verstöße können zur Kontokündigung und zum Verfall der verbleibenden Abonnementzeit ohne Rückerstattung führen.",
+
+  "terms_liability_title": "Haftungsbeschränkungen",
+  "terms_liability_content_1": "Weder Stocknear noch seine Autoren haften für Schäden, die aus der Nutzung der Inhalte dieser Website entstehen. Obwohl wir nach Genauigkeit und Vollständigkeit streben, können wir die Aktualität, Genauigkeit oder Vollständigkeit der bereitgestellten Informationen nicht gewährleisten.",
+  "terms_liability_content_2": "Als Diensteanbieter ist unsere Haftung auf die von uns veröffentlichten Inhalte gemäß § 7 Abs.1 TMG beschränkt. Nach §§ 8 bis 10 TMG sind wir nicht verpflichtet, Inhalte Dritter zu überwachen oder auf Hinweise auf rechtswidrige Aktivitäten zu untersuchen. Verpflichtungen zur Entfernung oder Sperrung von Inhalten werden erst nach Kenntnis einer konkreten Rechtsverletzung ausgelöst, woraufhin wir unverzüglich handeln werden.",
+
+  "terms_copyright_title": "Urheberrecht",
+  "terms_copyright_content_1": "Alle vom Seitenbetreiber erstellten Inhalte und Materialien sind nach deutschem Urheberrecht geschützt. Jede Vervielfältigung, Bearbeitung, Verbreitung oder sonstige Verwertung außerhalb der gesetzlich zulässigen Grenzen bedarf der ausdrücklichen schriftlichen Zustimmung des jeweiligen Rechteinhabers. Downloads und Kopien sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Bei nicht vom Seitenbetreiber erstellten Inhalten werden die Urheberrechte Dritter vollständig beachtet und als solche gekennzeichnet. Solltest du auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um umgehende Benachrichtigung. Bei Bestätigung einer solchen Verletzung werden wir den Inhalt unverzüglich entfernen.",
+  "terms_copyright_content_2": "Wir respektieren die geistigen Eigentumsrechte anderer. Wenn du Urheberrechtsinhaber bist oder im Namen eines Urheberrechtsinhabers handelst und glaubst, dass dein Werk verletzt wurde, kontaktiere uns bitte unter {email} mit dem Betreff \"Urheberrechtsverletzung\" und gib eine detaillierte Beschreibung der mutmaßlichen Verletzung an.",
+  "terms_copyright_content_3": "Bitte beachte, dass falsche Darstellungen oder bösgläubige Ansprüche dich für Schäden haftbar machen können, einschließlich Anwaltskosten.",
+
+  "terms_subscriptions_title": "Abonnements",
+  "terms_subscriptions_content_1": "Wir bieten möglicherweise Abonnementdienste über Lemon Squeezy an. Die spezifischen Bedingungen für Abonnements werden zum Zeitpunkt des Kaufs dargestellt, und mit dem Abonnement erklärst du dich mit diesen Bedingungen einverstanden.",
+  "terms_subscriptions_content_2": "Abonnementgebühren werden im Voraus berechnet und verlängern sich automatisch für den ursprünglich gewählten Zeitraum, es sei denn, du teilst uns deine Kündigungsabsicht mit.",
+  "terms_subscriptions_content_3": "Die Kündigung kann über das Abrechnungsportal in deinen Kontoeinstellungen verwaltet oder durch Kontaktaufnahme unter {email} erfolgen.",
+  "terms_subscriptions_content_4": "Wenn du mit deinem Abonnement nicht vollständig zufrieden bist, kannst du innerhalb von 30 Tagen nach deinem ersten Kauf eine vollständige Rückerstattung beantragen. Bitte beachte jedoch, dass jeder Benutzer nur einmal für eine Rückerstattung berechtigt ist; nachfolgende Käufe sind nicht erstattungsfähig. Diese Richtlinie soll den Missbrauch unseres Rückerstattungsprogramms verhindern und Fairness für alle Kunden gewährleisten. Rückerstattungsanträge nach 30 Tagen werden nicht berücksichtigt.",
+  "terms_subscriptions_content_5": "Wenn du mehrere Abonnements erwirbst, haftest du für alle damit verbundenen Gebühren, einschließlich doppelter Abbuchungen, und Stocknear ist nicht verpflichtet, zusätzliche Rückerstattungen über die oben beschriebene einmalige Rückerstattung hinaus zu leisten.",
+
+  "terms_pricing_title": "Änderungen der Preise und Servicepläne",
+  "terms_pricing_content": "Von Zeit zu Zeit können wir die Preise unserer Abonnementpläne anpassen, um Änderungen der Betriebskosten widerzuspiegeln, einschließlich Produktion, Lizenzierung, Vertrieb, Kundensupport, Verwaltungskosten und anwendbare Steuern oder Gebühren. Aktuelle Abonnenten erhalten den Service weiterhin unter ihrem bestehenden Plan, bis sie sich für eine Kündigung entscheiden. Alle Preisänderungen werden dir mitgeteilt und treten sofort nach Benachrichtigung in Kraft. Du kannst deine Mitgliedschaft während der Kündigungsfrist kündigen, um zukünftige Gebühren zu vermeiden.",
+
+  "terms_lifetime_title": "Lebenslanger Zugang",
+  "terms_lifetime_content_1": "Der lebenslange Zugang gewährt dir das Recht, unsere Dienste zu nutzen, solange sie von Stocknear angeboten werden.",
+  "terms_lifetime_content_2": "Obwohl sich Stocknear verpflichtet, seine Dienste auf absehbare Zeit aufrechtzuerhalten, garantieren wir keine unbefristete oder ununterbrochene Verfügbarkeit. Wenn Stocknear die Dienste einstellt oder den Betrieb aufgibt, endet dein lebenslanger Zugang entsprechend.",
+  "terms_lifetime_content_3": "Bitte beachte, dass bestimmte Funktionen der Dienste, einschließlich, aber nicht beschränkt auf die Zuteilung von KI-Credits, jederzeit und ohne vorherige Ankündigung geändert, eingeschränkt oder angepasst werden können. Diese Anpassungen sind notwendig, um die Nachhaltigkeit und Tragfähigkeit unseres Unternehmens zu gewährleisten.",
+
+  "terms_termination_title": "Kündigung",
+  "terms_termination_content_1": "Wir behalten uns das Recht vor, dein Konto zu sperren oder zu kündigen und den Zugang zum Dienst jederzeit ohne vorherige Ankündigung aus beliebigem Grund zu verweigern, einschließlich, aber nicht beschränkt auf Verstöße gegen diese Bedingungen.",
+  "terms_termination_content_2": "Wenn du dein Konto schließen möchtest, stelle bitte die Nutzung des Dienstes ein oder kontaktiere uns per E-Mail, und wir werden mit der Kontolöschung fortfahren.",
+  "terms_termination_content_3": "Bestimmungen, die die Kündigung überdauern sollen, einschließlich derjenigen bezüglich Eigentum, Gewährleistungsausschlüssen, Entschädigung und Haftungsbeschränkungen, bleiben in Kraft.",
+
+  "terms_amendments_title": "Änderungen der Bedingungen",
+  "terms_amendments_content": "Wir können diese Bedingungen jederzeit durch Veröffentlichung aktualisierter Versionen auf dieser Website ändern. Es liegt in deiner Verantwortung, diese Bedingungen regelmäßig zu überprüfen. Deine fortgesetzte Nutzung der Plattform nach Änderungen gilt als deine Zustimmung zu den aktualisierten Bedingungen. Wenn du mit den neuen Bedingungen nicht einverstanden bist, musst du die Nutzung des Dienstes einstellen.",
+
+  "terms_data_title": "Daten-Haftungsausschluss",
+  "terms_data_content_1": "Alle auf dieser Website bereitgestellten Daten dienen ausschließlich Informationszwecken und sollten nicht die alleinige Grundlage für Handels- oder Anlageentscheidungen sein.",
+  "terms_data_content_2": "Wir sind bestrebt, hochwertige, genaue Statistiken zu liefern. Wenn du Fehler oder Unstimmigkeiten bemerkst, teile uns dies bitte über unser Kontaktformular mit oder schreib uns direkt an {email}.",
+
+  "terms_complete_title": "Vollständige Vereinbarung",
+  "terms_complete_content_1": "Diese Allgemeinen Geschäftsbedingungen bilden zusammen mit unserer {privacyLink} und unserem {imprintLink} die gesamte Vereinbarung zwischen dir und Stocknear.",
+  "terms_complete_content_2": "DURCH DEN ZUGRIFF AUF ODER DIE NUTZUNG UNSERES DIENSTES BESTÄTIGST DU, DASS DU DIESE BEDINGUNGEN GELESEN UND VERSTANDEN HAST UND DICH DAMIT EINVERSTANDEN ERKLÄRST, AN DIESE GEBUNDEN ZU SEIN."
 }

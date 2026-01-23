@@ -8,7 +8,7 @@
     type Locale,
   } from "$lib/i18n.svelte";
   import { getLocale } from "$lib/paraglide/runtime.js";
-  import { language } from "$lib/paraglide/messages.js";
+  import { footer_language } from "$lib/paraglide/messages.js";
   import Globe from "lucide-svelte/icons/globe";
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
@@ -232,7 +232,7 @@
                     class="w-fit flex items-center gap-2 mt-3 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 px-3 py-1.5 text-xs text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer"
                   >
                     <Globe class="h-4 w-4" />
-                    <span>{language()}</span>
+                    <span>{footer_language()}</span>
                   </button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
