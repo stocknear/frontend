@@ -1,17 +1,17 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "app_installed_banner_title": "Hol dir die App fuer ein besseres Erlebnis.",
+  "app_installed_banner_title": "Hol dir die App für ein besseres Erlebnis.",
   "app_installed_button_install": "Installieren",
   "app_installed_modal_title": "Schritte zur Installation",
   "app_installed_platform_ios": "Apple (iOS)",
   "app_installed_platform_android": "Android",
   "app_installed_ios_step_1": "Tippe auf den Safari-Teilen-Button.",
   "app_installed_ios_step_2": "Tippe auf \"Zum Home-Bildschirm\".",
-  "app_installed_ios_step_3": "Tippe auf \"Hinzufuegen\".",
-  "app_installed_ios_note": "Hinweis: Web-Apps auf iOS koennen nur ueber Safari installiert werden.",
-  "app_installed_android_step_1": "Oeffne Stocknear in Chrome.",
-  "app_installed_android_step_2": "Tippe auf das Drei-Punkte-Menue oben rechts.",
+  "app_installed_ios_step_3": "Tippe auf \"Hinzufügen\".",
+  "app_installed_ios_note": "Hinweis: Web-Apps auf iOS können nur über Safari installiert werden.",
+  "app_installed_android_step_1": "Öffne Stocknear in Chrome.",
+  "app_installed_android_step_2": "Tippe auf das Drei-Punkte-Menü oben rechts.",
   "app_installed_android_step_3": "Tippe auf \"App installieren\" oder \"Zum Startbildschirm\".",
-  "app_installed_android_step_4": "Bestaetige die Installation.",
-  "app_installed_close": "Schliessen"
+  "app_installed_android_step_4": "Bestätige die Installation.",
+  "app_installed_close": "Schließen"
 }

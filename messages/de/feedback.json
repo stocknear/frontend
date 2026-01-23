@@ -8,7 +8,7 @@
   "feedback_error_send_generic": "Beim Senden des Feedbacks ist etwas schiefgelaufen.",
   "feedback_description_label": "Beschreibe dein Problem oder deinen Vorschlag:",
   "feedback_page_label": "Feedback zur Seite:",
-  "feedback_close_button": "Schliessen",
+  "feedback_close_button": "Schließen",
   "feedback_cancel_button": "Abbrechen",
   "feedback_send_button": "Feedback senden"
 }

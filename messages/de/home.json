@@ -1,17 +1,17 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "home_seo_title": "Echtzeit-Optionsflow, Sweeps und ungewoehnliche Aktivitaet",
-  "home_seo_description": "Live-Optionsflow, Sweeps, Blocks und ungewoehnliche Aktivitaet bei US-Aktien und ETFs. Finde kurzfristige Trade-Setups schneller mit Stocknear.",
-  "home_seo_keywords": "options flow, ungewoehnliche optionsaktivitaet, sweep orders, block trades, dark pool, implizite volatilitaet, IV skew, open interest, options chain, kurzfristige trade setups, stocknear",
+  "home_seo_title": "Echtzeit-Optionsflow, Sweeps und ungewöhnliche Aktivität",
+  "home_seo_description": "Live-Optionsflow, Sweeps, Blocks und ungewöhnliche Aktivität bei US-Aktien und ETFs. Finde kurzfristige Trade-Setups schneller mit Stocknear.",
+  "home_seo_keywords": "options flow, ungewöhnliche optionsaktivität, sweep orders, block trades, dark pool, implizite volatilität, IV skew, open interest, options chain, kurzfristige trade setups, stocknear",
   "home_structured_name": "Stocknear",
-  "home_structured_description": "Echtzeit-Optionsflow und ungewoehnliche Aktivitaet fuer kurzfristige Trade-Setups",
+  "home_structured_description": "Echtzeit-Optionsflow und ungewöhnliche Aktivität für kurzfristige Trade-Setups",
   "home_structured_feature_live_options_flow": "Live-Optionsflow und Sweeps",
-  "home_structured_feature_unusual_options_activity": "Ungewoehnliche Optionsaktivitaet",
+  "home_structured_feature_unusual_options_activity": "Ungewöhnliche Optionsaktivität",
   "home_structured_feature_dark_pool_monitoring": "Dark-Pool-Monitoring",
-  "home_structured_feature_implied_volatility": "Implizite Volatilitaet und Skew",
+  "home_structured_feature_implied_volatility": "Implizite Volatilität und Skew",
   "home_structured_feature_options_chain": "Optionskette und Open Interest",
-  "home_structured_feature_earnings_volatility": "Earnings-Volatilitaets-Setup",
+  "home_structured_feature_earnings_volatility": "Earnings-Volatilitäts-Setup",
   "home_structured_feature_market_catalysts": "Marktkatalysatoren",
   "home_hero_title": "Erkenne die Bewegung vor der Masse",
-  "home_hero_subtitle": "Echtzeitkurse, Optionsflow, Dark-Pool-Orders, News, Finanzdaten, Prognosen und Charts fuer jede US-Aktie und jeden ETF. Handle schneller mit klarem Signal."
+  "home_hero_subtitle": "Echtzeitkurse, Optionsflow, Dark-Pool-Orders, News, Finanzdaten, Prognosen und Charts für jede US-Aktie und jeden ETF. Handle schneller mit klarem Signal."
 }

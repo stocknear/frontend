@@ -1,6 +1,6 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "layout_toggle_menu": "Menue umschalten",
+  "layout_toggle_menu": "Menü umschalten",
   "layout_start_new_chat": "Neuen Chat starten",
   "layout_home": "Startseite",
   "layout_stocks": "Aktien",
@@ -9,7 +9,7 @@
   "layout_market_heatmap": "Markt-Heatmap",
   "layout_stock_lists": "Aktienlisten",
   "layout_etfs": "ETFs",
-  "layout_new_launches": "Neueinfuehrungen",
+  "layout_new_launches": "Neueinführungen",
   "layout_etf_providers": "ETF-Anbieter",
   "layout_analyst": "Analysten",
   "layout_top_analysts": "Top-Analysten",
