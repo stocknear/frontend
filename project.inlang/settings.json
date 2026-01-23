@@ -20,8 +20,10 @@
       "./messages/{locale}/faq.json",
       "./messages/{locale}/footer.json",
       "./messages/{locale}/imprint.json",
+      "./messages/{locale}/login.json",
       "./messages/{locale}/pricing.json",
       "./messages/{locale}/privacy.json",
+      "./messages/{locale}/register.json",
       "./messages/{locale}/terms.json"
     ]
   }

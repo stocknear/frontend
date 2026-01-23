@@ -189,7 +189,7 @@
       <form class="cursor-pointer" action="/logout" method="POST">
         <button
           type="submit"
-          aria-label="Logout"
+          aria-label={login_logout_button()}
           class="cursor-pointer mx-auto mt-2 flex w-full max-w-xs justify-center rounded-full
           bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2 text-sm font-semibold
           hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none

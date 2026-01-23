@@ -197,7 +197,7 @@
       <Dialog.Title
         class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        >{cookies_preferences_title()}</Dialog.Title
+        {cookies_preferences_title()}</Dialog.Title
       >
       <Dialog.Description class="text-sm text-gray-800 dark:text-zinc-300">
         {cookies_preferences_description()}
