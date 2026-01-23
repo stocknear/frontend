@@ -2,6 +2,93 @@
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import { industryList } from "$lib/utils";
+  import {
+    common_home,
+    list_breadcrumb_industry,
+    list_breadcrumb_lists,
+    list_category_actively_traded_penny_stocks,
+    list_category_all_active_spacs,
+    list_category_all_stocks_amex,
+    list_category_all_stocks_nasdaq,
+    list_category_all_stocks_nyse,
+    list_category_biggest_ai_stocks,
+    list_category_biggest_augmented_reality_stocks,
+    list_category_biggest_car_company_stocks,
+    list_category_biggest_clean_energy_stocks,
+    list_category_biggest_electric_vehicle_stocks,
+    list_category_biggest_esports_stocks,
+    list_category_biggest_failed_to_deliver,
+    list_category_biggest_gaming_stocks_by_market_cap,
+    list_category_biggest_metaverse_stocks,
+    list_category_biggest_mobile_game_stocks,
+    list_category_biggest_online_dating_stocks,
+    list_category_biggest_online_gambling_stocks,
+    list_category_biggest_pharmaceutical_stocks,
+    list_category_biggest_social_media_stocks_by_market_cap,
+    list_category_biggest_sports_betting_stocks,
+    list_category_biggest_us_buybacks,
+    list_category_biggest_us_employers,
+    list_category_biggest_us_income_taxes,
+    list_category_biggest_us_revenue,
+    list_category_biggest_virtual_reality_stocks,
+    list_category_bitcoin_etfs,
+    list_category_canadian_companies_us,
+    list_category_chinese_companies_us,
+    list_category_covered_call_etfs,
+    list_category_crypto_etfs_list,
+    list_category_dividend_aristocrats,
+    list_category_dividend_kings,
+    list_category_dow_jones_list,
+    list_category_faang_companies,
+    list_category_german_companies_us,
+    list_category_highest_call_volume,
+    list_category_highest_iv_rank,
+    list_category_highest_oi,
+    list_category_highest_oi_change,
+    list_category_highest_open_interest_by_contract,
+    list_category_highest_option_premium,
+    list_category_highest_put_volume,
+    list_category_indian_companies_us,
+    list_category_israeli_companies_us,
+    list_category_japanese_companies_us,
+    list_category_large_cap_stocks,
+    list_category_mega_cap_stocks,
+    list_category_micro_cap_stocks,
+    list_category_mid_cap_stocks,
+    list_category_magnificent_seven_stocks,
+    list_category_most_active_option_contracts,
+    list_category_most_shorted_stocks,
+    list_category_nano_cap_stocks,
+    list_category_nasdaq_100_list,
+    list_category_overbought_stocks,
+    list_category_oversold_stocks,
+    list_category_reits_active,
+    list_category_small_cap_stocks,
+    list_category_sp500_list,
+    list_category_stock_lists,
+    list_category_stocks_pay_monthly_dividends,
+    list_category_top_rated_dividend_stocks,
+    list_category_uk_companies_us,
+    list_category_ethereum_etfs_list,
+    list_category_monthly_dividend_etfs_list,
+    list_category_sector_basic_materials,
+    list_category_sector_communication_services,
+    list_category_sector_consumer_cyclical,
+    list_category_sector_consumer_defensive,
+    list_category_sector_energy,
+    list_category_sector_financials,
+    list_category_sector_healthcare,
+    list_category_sector_industrials,
+    list_category_sector_real_estate,
+    list_category_sector_technology,
+    list_category_sector_utilities,
+    list_sidebar_pro_title,
+    list_sidebar_pro_description,
+    list_sidebar_watchlist_title,
+    list_sidebar_watchlist_description,
+    list_sidebar_screener_title,
+    list_sidebar_screener_description,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -21,308 +108,308 @@
 
   let navigation = [
     {
-      title: "Stock Lists",
+      title: list_category_stock_lists(),
       link: "/list",
     },
     {
-      title: "Mega-Cap Stocks",
+      title: list_category_mega_cap_stocks(),
       link: "/list/market-cap/mega-cap-stocks",
     },
     {
-      title: "Large-Cap Stocks",
+      title: list_category_large_cap_stocks(),
       link: "/list/market-cap/large-cap-stocks",
     },
     {
-      title: "Mid-Cap Stocks",
+      title: list_category_mid_cap_stocks(),
       link: "/list/market-cap/mid-cap-stocks",
     },
     {
-      title: "Small-Cap Stocks",
+      title: list_category_small_cap_stocks(),
       link: "/list/market-cap/small-cap-stocks",
     },
     {
-      title: "Micro-Cap Stocks",
+      title: list_category_micro_cap_stocks(),
       link: "/list/market-cap/micro-cap-stocks",
     },
     {
-      title: "Nano-Cap Stocks",
+      title: list_category_nano_cap_stocks(),
       link: "/list/market-cap/nano-cap-stocks",
     },
     {
-      title: "All Stocks Listed on the NASDAQ",
+      title: list_category_all_stocks_nasdaq(),
       link: "/list/exchange/nasdaq",
     },
     {
-      title: "All Stocks Listed on the NYSE",
+      title: list_category_all_stocks_nyse(),
       link: "/list/exchange/nyse",
     },
     {
-      title: "All Stocks Listed on AMEX",
+      title: list_category_all_stocks_amex(),
       link: "/list/exchange/amex",
     },
     {
-      title: "Dow Jones Industrial Average Stocks List",
+      title: list_category_dow_jones_list(),
       link: "/list/index/dowjones",
     },
     {
-      title: "NASDAQ 100 Index Stocks List",
+      title: list_category_nasdaq_100_list(),
       link: "/list/index/nasdaq100",
     },
     {
-      title: "S&P 500 Index Stocks List",
+      title: list_category_sp500_list(),
       link: "/list/index/sp500",
     },
     {
-      title: "German Companies on the US Stock Market",
+      title: list_category_german_companies_us(),
       link: "/list/country/de",
     },
     {
-      title: "Canadian Companies on the US Stock Market",
+      title: list_category_canadian_companies_us(),
       link: "/list/country/ca",
     },
     {
-      title: "Chinese Companies on the US Stock Market",
+      title: list_category_chinese_companies_us(),
       link: "/list/cn",
     },
     {
-      title: "Indian Companies on the US Stock Market",
+      title: list_category_indian_companies_us(),
       link: "/list/country/in",
     },
     {
-      title: "Israeli Companies on the US Stock Market",
+      title: list_category_israeli_companies_us(),
       link: "/list/country/il",
     },
     {
-      title: "UK Companies on the US Stock Market",
+      title: list_category_uk_companies_us(),
       link: "/list/country/gb",
     },
     {
-      title: "Japanese Companies on the US Stock Market",
+      title: list_category_japanese_companies_us(),
       link: "/list/country/jp",
     },
     {
-      title: "Financials Sector Stocks",
+      title: list_category_sector_financials(),
       link: "/list/sector/financial",
     },
     {
-      title: "Healthcare Sector Stocks",
+      title: list_category_sector_healthcare(),
       link: "/list/sector/healthcare",
     },
     {
-      title: "Technology Sector Stocks",
+      title: list_category_sector_technology(),
       link: "/list/sector/technology",
     },
     {
-      title: "Industrials Sector Stocks",
+      title: list_category_sector_industrials(),
       link: "/list/sector/industrials",
     },
     {
-      title: "Energy Sector Stocks",
+      title: list_category_sector_energy(),
       link: "/list/sector/energy",
     },
     {
-      title: "Utilities Sector Stocks",
+      title: list_category_sector_utilities(),
       link: "/list/sector/utilities",
     },
     {
-      title: "Consumer Cyclical Sector Stocks",
+      title: list_category_sector_consumer_cyclical(),
       link: "/list/sector/consumer-cyclical",
     },
     {
-      title: "Real Estate Sector Stocks",
+      title: list_category_sector_real_estate(),
       link: "/list/sector/real-estate",
     },
     {
-      title: "Basic Materials Sector Stocks",
+      title: list_category_sector_basic_materials(),
       link: "/list/sector/basic-materials",
     },
     {
-      title: "Communication Services Sector Stocks",
+      title: list_category_sector_communication_services(),
       link: "/list/sector/communication-services",
     },
     {
-      title: "Consumer Defensive Sector Stocks",
+      title: list_category_sector_consumer_defensive(),
       link: "/list/sector/consumer-defensive",
     },
 
     {
-      title: "Bitcoin ETFs",
+      title: list_category_bitcoin_etfs(),
       link: "/list/bitcoin-etfs",
     },
     {
-      title: "Magnificent Seven Stocks",
+      title: list_category_magnificent_seven_stocks(),
       link: "/list/magnificent-seven",
     },
     {
-      title: "Dividend Kings",
+      title: list_category_dividend_kings(),
       link: "/list/dividend/dividend-kings",
     },
     {
-      title: "Dividend Aristocrats",
+      title: list_category_dividend_aristocrats(),
       link: "/list/dividend/dividend-aristocrats",
     },
     {
-      title: "All Active REITs on the US Stock Market",
+      title: list_category_reits_active(),
       link: "/list/reit-stocks",
     },
     {
-      title: "FAANG Companies",
+      title: list_category_faang_companies(),
       link: "/list/faang",
     },
     {
-      title: "Actively Traded Penny Stocks",
+      title: list_category_actively_traded_penny_stocks(),
       link: "/list/penny-stocks",
     },
     {
-      title: "Oversold Stocks",
+      title: list_category_oversold_stocks(),
       link: "/list/oversold-stocks",
     },
     {
-      title: "Overbought Stocks",
+      title: list_category_overbought_stocks(),
       link: "/list/overbought-stocks",
     },
     {
-      title: "Top-Rated Dividend Stocks",
+      title: list_category_top_rated_dividend_stocks(),
       link: "/list/top-rated-dividend-stocks",
     },
     {
-      title: "Biggest U.S. Companies by Revenue",
+      title: list_category_biggest_us_revenue(),
       link: "/list/highest-revenue",
     },
     {
-      title: "Biggest U.S. Companies by Income Taxes",
+      title: list_category_biggest_us_income_taxes(),
       link: "/list/highest-income-tax",
     },
     {
-      title: "Biggest U.S. Employers",
+      title: list_category_biggest_us_employers(),
       link: "/list/most-employees",
     },
     {
-      title: "Biggest Companies with Failed-to-Deliver Shares",
+      title: list_category_biggest_failed_to_deliver(),
       link: "/list/most-ftd-shares",
     },
     {
-      title: "Most Shorted Stocks",
+      title: list_category_most_shorted_stocks(),
       link: "/list/most-shorted-stocks",
     },
     {
-      title: "Highest OI Change",
+      title: list_category_highest_oi_change(),
       link: "/list/highest-open-interest-change",
     },
     {
-      title: "Highest OI",
+      title: list_category_highest_oi(),
       link: "/list/highest-open-interest",
     },
     {
-      title: "Highest IV Rank",
+      title: list_category_highest_iv_rank(),
       link: "/list/highest-option-iv-rank",
     },
     {
-      title: "Highest Option Premium",
+      title: list_category_highest_option_premium(),
       link: "/list/highest-option-premium",
     },
     {
-      title: "Highest Call Volume",
+      title: list_category_highest_call_volume(),
       link: "/list/highest-call-volume",
     },
     {
-      title: "Highest Put Volume",
+      title: list_category_highest_put_volume(),
       link: "/list/highest-put-volume",
     },
     {
-      title: "Highest Open Interest by Contract",
+      title: list_category_highest_open_interest_by_contract(),
       link: "/list/highest-open-interest-by-contract",
     },
     {
-      title: "Most Active Option Contracts",
+      title: list_category_most_active_option_contracts(),
       link: "/list/highest-volume-by-contract",
     },
     {
-      title: "Biggest Artificial Intelligence Stocks",
+      title: list_category_biggest_ai_stocks(),
       link: "/list/ai-stocks",
     },
     {
-      title: "Biggest Mobile Game Stocks",
+      title: list_category_biggest_mobile_game_stocks(),
       link: "/list/mobile-games",
     },
     {
-      title: "Biggest Social Media Stocks by Market Cap",
+      title: list_category_biggest_social_media_stocks_by_market_cap(),
       link: "/list/social-media-stocks",
     },
     {
-      title: "Biggest Clean Energy Stocks",
+      title: list_category_biggest_clean_energy_stocks(),
       link: "/list/clean-energy",
     },
     {
-      title: "Biggest E-Sports Stocks",
+      title: list_category_biggest_esports_stocks(),
       link: "/list/esports",
     },
     {
-      title: "Biggest Car Company Stocks",
+      title: list_category_biggest_car_company_stocks(),
       link: "/list/car-company-stocks",
     },
     {
-      title: "Biggest Electric Vehicle Stocks",
+      title: list_category_biggest_electric_vehicle_stocks(),
       link: "/list/electric-vehicles",
     },
     {
-      title: "Biggest Augmented Reality Stocks",
+      title: list_category_biggest_augmented_reality_stocks(),
       link: "/list/augmented-reality",
     },
     {
-      title: "Biggest Gaming Stocks by Market Cap",
+      title: list_category_biggest_gaming_stocks_by_market_cap(),
       link: "/list/gaming-stocks",
     },
     {
-      title: "Biggest Pharmaceutical Stocks",
+      title: list_category_biggest_pharmaceutical_stocks(),
       link: "/list/pharmaceutical-stocks",
     },
     {
-      title: "Biggest Online Dating Stocks",
+      title: list_category_biggest_online_dating_stocks(),
       link: "/list/online-dating",
     },
     {
-      title: "Biggest Virtual Reality Stocks",
+      title: list_category_biggest_virtual_reality_stocks(),
       link: "/list/virtual-reality",
     },
     {
-      title: "Biggest Sports Betting Stocks",
+      title: list_category_biggest_sports_betting_stocks(),
       link: "/list/sports-betting",
     },
     {
-      title: "Biggest Metaverse Stocks",
+      title: list_category_biggest_metaverse_stocks(),
       link: "/list/metaverse",
     },
     {
-      title: "Biggest Online Gambling Stocks",
+      title: list_category_biggest_online_gambling_stocks(),
       link: "/list/online-gambling",
     },
     {
-      title: "Biggest U.S. Companies with Highest Buybacks",
+      title: list_category_biggest_us_buybacks(),
       link: "/list/most-buybacks",
     },
     {
-      title: "Stocks That Pay Monthly Dividends",
+      title: list_category_stocks_pay_monthly_dividends(),
       link: "/list/monthly-dividend-stocks",
     },
     {
-      title: "All Active SPACs on the US Stock Market",
+      title: list_category_all_active_spacs(),
       link: "/list/spacs-stocks",
     },
     {
-      title: "Ethereum ETFs List",
+      title: list_category_ethereum_etfs_list(),
       link: "/list/ethereum-etfs",
     },
     {
-      title: "Monthly Dividend ETFs List",
+      title: list_category_monthly_dividend_etfs_list(),
       link: "/list/monthly-dividend-etfs",
     },
     {
-      title: "Crypto ETFs List",
+      title: list_category_crypto_etfs_list(),
       link: "/list/crypto-etfs",
     },
     {
-      title: "Covered Call ETFs",
+      title: list_category_covered_call_etfs(),
       link: "/list/covered-call-etfs",
     },
   ];
@@ -348,7 +435,7 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
     {#if $page.url.pathname.startsWith("/list/industry")}
@@ -356,7 +443,7 @@
         <a
           href="/industry"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Industry</a
+          >{list_breadcrumb_industry()}</a
         >
       </li>
     {:else}
@@ -364,7 +451,7 @@
         <a
           href="/list/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Lists</a
+          >{list_breadcrumb_lists()}</a
         >
       </li>
     {/if}
@@ -412,14 +499,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Pro Subscription
+                    {list_sidebar_pro_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {list_sidebar_pro_description()}
                 </span>
               </a>
             </div>
@@ -433,12 +519,14 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">Watchlist</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  {list_sidebar_watchlist_title()}
+                </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Build your watchlist to keep track of their performance.
+                {list_sidebar_watchlist_description()}
               </span>
             </a>
           </div>
@@ -452,13 +540,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Stock Screener
+                  {list_sidebar_screener_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Build your Stock Screener to find profitable stocks.
+                {list_sidebar_screener_description()}
               </span>
             </a>
           </div>

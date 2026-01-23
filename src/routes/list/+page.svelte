@@ -1,17 +1,106 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_dividend_aristocrats,
+    list_category_dividend_kings,
+    list_category_large_cap_stocks,
+    list_category_mega_cap_stocks,
+    list_category_micro_cap_stocks,
+    list_category_mid_cap_stocks,
+    list_category_nano_cap_stocks,
+    list_category_small_cap_stocks,
+    list_category_stock_lists,
+    list_category_stocks_pay_monthly_dividends,
+    list_category_top_rated_dividend_stocks,
+    list_index_all_reits,
+    list_index_all_spacs,
+    list_index_augmented_reality,
+    list_index_biggest_buybacks,
+    list_index_bitcoin_etfs,
+    list_index_category_ai,
+    list_index_category_augmented_reality,
+    list_index_category_car_companies,
+    list_index_category_clean_energy,
+    list_index_category_electric_vehicles,
+    list_index_category_esports,
+    list_index_category_gaming,
+    list_index_category_metaverse,
+    list_index_category_mobile_games,
+    list_index_category_online_dating,
+    list_index_category_online_gambling,
+    list_index_category_pharmaceuticals,
+    list_index_category_social_media,
+    list_index_category_sports_betting,
+    list_index_category_virtual_reality,
+    list_index_companies_highest_call_volume,
+    list_index_companies_highest_iv_rank,
+    list_index_companies_highest_oi,
+    list_index_companies_highest_oi_change,
+    list_index_companies_highest_premium,
+    list_index_companies_highest_put_volume,
+    list_index_country_canada,
+    list_index_country_china,
+    list_index_country_germany,
+    list_index_country_india,
+    list_index_country_israel,
+    list_index_country_japan,
+    list_index_country_uk,
+    list_index_crypto_etfs,
+    list_index_etf_providers,
+    list_index_faang,
+    list_index_listed_on_amex,
+    list_index_listed_on_dow_jones,
+    list_index_listed_on_nasdaq,
+    list_index_listed_on_nasdaq_100,
+    list_index_listed_on_nyse,
+    list_index_listed_on_sp500,
+    list_index_magnificent_seven,
+    list_index_most_active_options_by_contract,
+    list_index_most_shorted_stocks,
+    list_index_new_launches,
+    list_index_option_contracts_highest_oi,
+    list_index_overbought_stocks,
+    list_index_oversold_stocks,
+    list_index_penny_stocks,
+    list_index_us_companies_highest_taxes,
+    list_index_us_companies_most_employees,
+    list_index_us_companies_most_ftd,
+    list_index_us_companies_most_revenue,
+    list_index_ethereum_etfs,
+    list_index_covered_call_etfs,
+    list_index_monthly_dividend_etfs,
+    list_section_category_ranked_by_market_cap,
+    list_section_dividend_lists,
+    list_section_etf_lists,
+    list_section_exchange_groups,
+    list_section_index_groups,
+    list_section_non_us_listed,
+    list_section_options_lists,
+    list_section_other_lists,
+    list_section_market_cap_groups,
+    list_section_popular_lists,
+    list_section_sector_groups,
+    list_seo_description,
+    list_seo_keywords,
+    list_seo_title,
+    list_structured_description,
+    list_structured_main_description,
+    list_structured_main_name,
+    list_structured_name,
+  } from "$lib/paraglide/messages.js";
 </script>
 
 <SEO
-  title="Stock Lists & Screeners - Stock Rankings by Market Cap, Dividend & More "
-  description="Comprehensive stock lists and screeners organized by market cap, dividends, sectors, exchanges, and special categories. Find FAANG, Magnificent Seven, dividend aristocrats, penny stocks and more. Free stock screening and filtering tool."
-  keywords="stock lists, stock screener, stock rankings, market cap stocks, dividend stocks, FAANG stocks, magnificent seven, penny stocks, dividend aristocrats, sector stocks, S&P 500 list, NASDAQ 100"
+  title={list_seo_title()}
+  description={list_seo_description()}
+  keywords={list_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Stock Lists and Screeners",
+    name: list_structured_name(),
     description:
-      "Comprehensive collection of stock lists organized by various criteria",
+      list_structured_description(),
     url: "https://stocknear.com/list",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -19,20 +108,20 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Stock List Categories",
+      name: list_structured_main_name(),
       description:
         "Various stock list categories including market cap, dividends, sectors, and special lists",
       numberOfItems: 50,
@@ -55,27 +144,27 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/highest-revenue">U.S. Companies With The Most Revenue</a
+          href="/list/highest-revenue">{list_index_us_companies_most_revenue()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-income-tax"
-          >U.S. Companies That Pay The Highest Taxes</a
+          >{list_index_us_companies_highest_taxes()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/most-employees">U.S. Companies With The Most Employees</a
+          href="/list/most-employees">{list_index_us_companies_most_employees()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/most-ftd-shares"
-          >U.S. Companies With The Most Fail-to-Deliver Shares</a
+          >{list_index_us_companies_most_ftd()}</a
         >
       </li>
     </ul>
@@ -93,37 +182,37 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/market-cap/mega-cap-stocks">Mega-Cap Stocks</a
+          href="/list/market-cap/mega-cap-stocks">{list_category_mega_cap_stocks()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/market-cap/large-cap-stocks">Large-Cap Stocks</a
+          href="/list/market-cap/large-cap-stocks">{list_category_large_cap_stocks()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/market-cap/mid-cap-stocks">Mid-Cap Stocks</a
+          href="/list/market-cap/mid-cap-stocks">{list_category_mid_cap_stocks()}</a
         >
       </li>
       <li class="">
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/market-cap/small-cap-stocks">Small-Cap Stocks</a
+          href="/list/market-cap/small-cap-stocks">{list_category_small_cap_stocks()}</a
         >
       </li>
       <li class="">
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/market-cap/micro-cap-stocks">Micro-Cap Stocks</a
+          href="/list/market-cap/micro-cap-stocks">{list_category_micro_cap_stocks()}</a
         >
       </li>
       <li class="">
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/market-cap/nano-cap-stocks">Nano-Cap Stocks</a
+          href="/list/market-cap/nano-cap-stocks">{list_category_nano_cap_stocks()}</a
         >
       </li>
     </ul>
@@ -141,27 +230,27 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/top-rated-dividend-stocks">Top-Rated Dividend Stocks</a
+          href="/list/top-rated-dividend-stocks">{list_category_top_rated_dividend_stocks()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/monthly-dividend-stocks"
-          >Stocks That Pay Monthly Dividends</a
+          >{list_category_stocks_pay_monthly_dividends()}</a
         >
       </li>
 
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/dividend/dividend-kings">Dividend Kings</a
+          href="/list/dividend/dividend-kings">{list_category_dividend_kings()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/dividend/dividend-aristocrats">Dividend Aristocrats</a
+          href="/list/dividend/dividend-aristocrats">{list_category_dividend_aristocrats()}</a
         >
       </li>
     </ul>
@@ -180,19 +269,19 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/exchange/nasdaq">Listed on NASDAQ</a
+          href="/list/exchange/nasdaq">{list_index_listed_on_nasdaq()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/exchange/nyse">Listed on NYSE</a
+          href="/list/exchange/nyse">{list_index_listed_on_nyse()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/exchange/amex">Listed on AMEX</a
+          href="/list/exchange/amex">{list_index_listed_on_amex()}</a
         >
       </li>
     </ul>
@@ -212,19 +301,19 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/index/dowjones">Listed on Dow Jones</a
+          href="/list/index/dowjones">{list_index_listed_on_dow_jones()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/index/nasdaq100">Listed on NASDAQ 100</a
+          href="/list/index/nasdaq100">{list_index_listed_on_nasdaq_100()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/index/sp500">Listed on S&P 500</a
+          href="/list/index/sp500">{list_index_listed_on_sp500()}</a
         >
       </li>
     </ul>
@@ -244,38 +333,38 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/highest-open-interest">Companies with Highest OI</a
+          href="/list/highest-open-interest">{list_index_companies_highest_oi()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-open-interest-change"
-          >Companies with Highest OI Change</a
+          >{list_index_companies_highest_oi_change()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/highest-option-iv-rank">Companies with Highest IV Rank</a
+          href="/list/highest-option-iv-rank">{list_index_companies_highest_iv_rank()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/highest-option-premium">Companies with Highest Premium</a
+          href="/list/highest-option-premium">{list_index_companies_highest_premium()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/highest-call-volume">Companies with Highest Call Volume</a
+          href="/list/highest-call-volume">{list_index_companies_highest_call_volume()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/highest-put-volume">Companies with Highest Put Volume</a
+          href="/list/highest-put-volume">{list_index_companies_highest_put_volume()}</a
         >
       </li>
 
@@ -283,14 +372,14 @@
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-open-interest-by-contract"
-          >Option Contracts with Highest Open Interest</a
+          >{list_index_option_contracts_highest_oi()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-volume-by-contract"
-          >Most Active Options by Contract</a
+          >{list_index_most_active_options_by_contract()}</a
         >
       </li>
     </ul>
@@ -309,59 +398,59 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/faang">FAANG</a
+          href="/list/faang">{list_index_faang()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/magnificent-seven">Magnificent Seven</a
-        >
-      </li>
-
-      <li>
-        <a
-          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/penny-stocks">Penny Stocks</a
-        >
-      </li>
-      <li>
-        <a
-          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/most-shorted-stocks">Most Shorted Stocks</a
-        >
-      </li>
-      <li>
-        <a
-          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/oversold-stocks/">Oversold Stocks</a
+          href="/list/magnificent-seven">{list_index_magnificent_seven()}</a
         >
       </li>
 
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/overbought-stocks/">Overbought Stocks</a
+          href="/list/penny-stocks">{list_index_penny_stocks()}</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/most-shorted-stocks">{list_index_most_shorted_stocks()}</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/oversold-stocks/">{list_index_oversold_stocks()}</a
         >
       </li>
 
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/most-buybacks/">Biggest Buybacks</a
+          href="/list/overbought-stocks/">{list_index_overbought_stocks()}</a
         >
       </li>
 
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/reit-stocks">All REITs</a
+          href="/list/most-buybacks/">{list_index_biggest_buybacks()}</a
+        >
+      </li>
+
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/reit-stocks">{list_index_all_reits()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/spacs-stocks">All SPACs</a
+          href="/list/spacs-stocks">{list_index_all_spacs()}</a
         >
       </li>
     </ul>
@@ -381,43 +470,43 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/etf/new-launches">New Launches</a
+          href="/etf/new-launches">{list_index_new_launches()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/etf/etf-providers">ETF Providers</a
+          href="/etf/etf-providers">{list_index_etf_providers()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/bitcoin-etfs">Bitcoin ETFs</a
+          href="/list/bitcoin-etfs">{list_index_bitcoin_etfs()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/ethereum-etfs">Ethereum ETFs</a
+          href="/list/ethereum-etfs">{list_index_ethereum_etfs()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/crypto-etfs">Crypto ETFs</a
+          href="/list/crypto-etfs">{list_index_crypto_etfs()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/covered-call-etfs">Covered Call ETFs</a
+          href="/list/covered-call-etfs">{list_index_covered_call_etfs()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/monthly-dividend-etfs">Monthly Dividend ETFs</a
+          href="/list/monthly-dividend-etfs">{list_index_monthly_dividend_etfs()}</a
         >
       </li>
     </ul>
@@ -435,91 +524,91 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/mobile-games/">Mobile Games</a
+          href="/list/mobile-games/">{list_index_category_mobile_games()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/social-media-stocks/">Social Media</a
+          href="/list/social-media-stocks/">{list_index_category_social_media()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/clean-energy/">Clean Energy</a
+          href="/list/clean-energy/">{list_index_category_clean_energy()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/esports/">E-Sports</a
+          href="/list/esports/">{list_index_category_esports()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/car-company-stocks/">Car Companies</a
+          href="/list/car-company-stocks/">{list_index_category_car_companies()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/ai-stocks/">Artificial Intelligence</a
+          href="/list/ai-stocks/">{list_index_category_ai()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/electric-vehicles/">Electric Vehicles</a
+          href="/list/electric-vehicles/">{list_index_category_electric_vehicles()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/online-gambling/">Online Gambling</a
+          href="/list/online-gambling/">{list_index_category_online_gambling()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/augmented-reality/">Augmented Reality</a
+          href="/list/augmented-reality/">{list_index_category_augmented_reality()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/gaming-stocks/">Gaming</a
+          href="/list/gaming-stocks/">{list_index_category_gaming()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/pharmaceutical-stocks/">Pharmaceuticals</a
+          href="/list/pharmaceutical-stocks/">{list_index_category_pharmaceuticals()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/online-dating/">Online Dating</a
+          href="/list/online-dating/">{list_index_category_online_dating()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/virtual-reality/">Virtual Reality</a
+          href="/list/virtual-reality/">{list_index_category_virtual_reality()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sports-betting/">Sports Betting</a
+          href="/list/sports-betting/">{list_index_category_sports_betting()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/metaverse/">Metaverse</a
+          href="/list/metaverse/">{list_index_category_metaverse()}</a
         >
       </li>
     </ul>
@@ -538,43 +627,43 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/ca">Canada</a
+          href="/list/country/ca">{list_index_country_canada()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/cn">China</a
+          href="/list/country/cn">{list_index_country_china()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/in">India</a
+          href="/list/country/in">{list_index_country_india()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/jp">Japan</a
+          href="/list/country/jp">{list_index_country_japan()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/de">Germany</a
+          href="/list/country/de">{list_index_country_germany()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/il">Israel</a
+          href="/list/country/il">{list_index_country_israel()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/country/gb">United Kingdom</a
+          href="/list/country/gb">{list_index_country_uk()}</a
         >
       </li>
     </ul>
@@ -595,67 +684,67 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/financial">Financials</a
+          href="/list/sector/financial">{list_index_sector_financials()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/healthcare">Healthcare</a
+          href="/list/sector/healthcare">{list_index_sector_healthcare()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/technology">Technology</a
+          href="/list/sector/technology">{list_index_sector_technology()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/industrials">Industrials</a
+          href="/list/sector/industrials">{list_index_sector_industrials()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/energy">Energy</a
+          href="/list/sector/energy">{list_index_sector_energy()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/utilities">Utilities</a
+          href="/list/sector/utilities">{list_index_sector_utilities()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/consumer-cyclical">Consumer Cyclical</a
+          href="/list/sector/consumer-cyclical">{list_index_sector_consumer_cyclical()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/real-estate">Real Estate</a
+          href="/list/sector/real-estate">{list_index_sector_real_estate()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/basic-materials">Basic Materials</a
+          href="/list/sector/basic-materials">{list_index_sector_basic_materials()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/communication-services">Communication Services</a
+          href="/list/sector/communication-services">{list_index_sector_communication_services()}</a
         >
       </li>
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          href="/list/sector/consumer-defensive">Consumer Defensive</a
+          href="/list/sector/consumer-defensive">{list_index_sector_consumer_defensive()}</a
         >
       </li>
     </ul>

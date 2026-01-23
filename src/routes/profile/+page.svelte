@@ -15,6 +15,87 @@
     subscribeUser,
   } from "$lib/notifications";
   import { onMount } from "svelte";
+  import {
+    profile_seo_title,
+    profile_seo_description,
+    profile_breadcrumb_home,
+    profile_breadcrumb_label,
+    profile_page_title,
+    profile_user_info_title,
+    profile_user_email,
+    profile_user_registered,
+    profile_update_password,
+    profile_discord_title,
+    profile_discord_description,
+    profile_discord_access_granted,
+    profile_discord_premium_access,
+    profile_discord_link_account,
+    profile_push_title,
+    profile_push_checking,
+    profile_push_active,
+    profile_push_disable,
+    profile_push_processing,
+    profile_push_description,
+    profile_push_enable,
+    profile_push_activating,
+    profile_push_enable_settings,
+    profile_push_install_required,
+    profile_push_install_app,
+    profile_subscription_title,
+    profile_subscription_status,
+    profile_subscription_active,
+    profile_subscription_no_active,
+    profile_subscription_current_plan,
+    profile_subscription_lifetime,
+    profile_subscription_free,
+    profile_subscription_processing,
+    profile_subscription_credits,
+    profile_subscription_manage,
+    profile_help_title,
+    profile_help_how_to,
+    profile_help_email,
+    profile_help_subreddit,
+    profile_help_discord,
+    profile_help_discord_channel,
+    profile_modal_cancel_title,
+    profile_modal_cancel_description,
+    profile_modal_proceed,
+    profile_modal_proceeding,
+    profile_modal_reactivate_title,
+    profile_modal_reactivate_description,
+    profile_modal_upgrade_plus_title,
+    profile_modal_upgrade_plus_description,
+    profile_modal_upgrade_plus_button,
+    profile_modal_upgrade_pro_title,
+    profile_modal_upgrade_pro_description,
+    profile_modal_upgrade_pro_button,
+    profile_install_title,
+    profile_install_ios,
+    profile_install_android,
+    profile_install_ios_step1,
+    profile_install_ios_step2,
+    profile_install_ios_step3,
+    profile_install_ios_note,
+    profile_install_android_step1,
+    profile_install_android_step2,
+    profile_install_android_step3,
+    profile_install_android_step4,
+    profile_install_close,
+    profile_toast_cancel_success,
+    profile_toast_reactivate_success,
+    profile_toast_change_plan_success,
+    profile_toast_error,
+    profile_toast_push_deactivated,
+    profile_toast_push_deactivate_failed,
+    profile_toast_push_allow,
+    profile_toast_push_activated,
+    profile_toast_push_activate_failed,
+    profile_toast_push_error,
+    profile_toast_premium_pro_only,
+    profile_toast_premium_loading,
+    profile_toast_premium_success,
+    profile_toast_premium_error,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   export let form;
@@ -35,7 +116,7 @@
       switch (result.type) {
         case "success":
           toast.success(
-            "Subscription Cancelled successfully! Please wait a moment...",
+            profile_toast_cancel_success(),
             {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             },
@@ -44,7 +125,7 @@
           break;
         case "redirect":
           toast.success(
-            "Subscription Cancelled successfully! Please wait a moment...",
+            profile_toast_cancel_success(),
             {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             },
@@ -52,7 +133,7 @@
           await update();
           break;
         case "failure":
-          toast.error("Something went wrong.", {
+          toast.error(profile_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -83,7 +164,7 @@
       switch (result.type) {
         case "success":
           toast.success(
-            "Subscription Reactivate successfully! Please wait a moment...",
+            profile_toast_reactivate_success(),
             {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             },
@@ -92,7 +173,7 @@
           break;
         case "redirect":
           toast.success(
-            "Subscription Reactivate successfully! Please wait a moment...",
+            profile_toast_reactivate_success(),
             {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             },
@@ -100,13 +181,13 @@
           await update();
           break;
         case "failure":
-          toast.error("Something went wrong.", {
+          toast.error(profile_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "error":
-          toast.error("Something went wrong, please try again...", {
+          toast.error(profile_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           break;
@@ -131,7 +212,7 @@
       switch (result.type) {
         case "success":
           toast.success(
-            "Changing to Annual Plan successfully! Please wait a moment...",
+            profile_toast_change_plan_success(),
             {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             },
@@ -140,7 +221,7 @@
           break;
         case "redirect":
           toast.success(
-            "Changing to Annual Plan successfully! Please wait a moment...",
+            profile_toast_change_plan_success(),
             {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             },
@@ -148,7 +229,7 @@
           await update();
           break;
         case "failure":
-          toast.error("Something went wrong.", {
+          toast.error(profile_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -190,13 +271,13 @@
     try {
       await unsubscribe();
       isPushSubscribed = false;
-      toast.success("Push notification deactivated successfully!", {
+      toast.success(profile_toast_push_deactivated(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } catch (error) {
       console.error("Error unsubscribing:", error);
       toast.error(
-        "Failed to deactivate push notifications. Please try again.",
+        profile_toast_push_deactivate_failed(),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -212,7 +293,7 @@
       // First check if notifications are allowed
       const permission = await requestNotificationPermission();
       if (!permission) {
-        toast.error("Please allow notifications in your browser settings", {
+        toast.error(profile_toast_push_allow(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
         loading = false;
@@ -231,12 +312,12 @@
 
       if (output?.success === true) {
         isPushSubscribed = true;
-        toast.success("Push notification activated successfully!", {
+        toast.success(profile_toast_push_activated(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       } else {
         toast.error(
-          "Failed to activate push notifications. Please try again or check if your browser supports push notifications.",
+          profile_toast_push_activate_failed(),
           {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           },
@@ -244,7 +325,7 @@
       }
     } catch (error) {
       console.error("Error subscribing to push notifications:", error);
-      toast.error("An error occurred. Please try again.", {
+      toast.error(profile_toast_push_error(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -255,7 +336,7 @@
   async function handlePremiumAccess() {
     // build the promise that does the work
     if (data?.user?.tier !== "Pro") {
-      toast?.error("Premium Access is for Pro Members only.", {
+      toast?.error(profile_toast_premium_pro_only(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -274,12 +355,12 @@
     toast.promise(
       premiumPromise,
       {
-        loading: "Assigning premium access...",
+        loading: profile_toast_premium_loading(),
         success: () => {
           data.user.discord = { access: true };
-          return "Premium access granted!";
+          return profile_toast_premium_success();
         },
-        error: "Failed to assign premium access. Please try again later.",
+        error: profile_toast_premium_error(),
       },
       {
         style: {
@@ -299,8 +380,8 @@
 </script>
 
 <SEO
-  title="My Account - Stocknear | Manage Your Profile, Password, Subscriptions & Notifications"
-  description="Easily manage your profile, change your password, update subscription plans, and customize notifications on Stocknear. Stay in control of your stock analysis and alerts."
+  title={profile_seo_title()}
+  description={profile_seo_description()}
 />
 
 <section
@@ -314,10 +395,10 @@
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
       >
-        Home
+        {profile_breadcrumb_home()}
       </a>
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">My Account</li>
+    <li class="text-gray-500 dark:text-zinc-400">{profile_breadcrumb_label()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -330,7 +411,7 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              My Account
+              {profile_page_title()}
             </h1>
           </div>
 
@@ -340,14 +421,14 @@
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
             >
-              User Information
+              {profile_user_info_title()}
             </h2>
             <div class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
-              <strong>Email:</strong>
+              <strong>{profile_user_email()}</strong>
               {data?.user?.email}
             </div>
             <div class="mt-1 mb-5 text-sm text-gray-800 dark:text-zinc-300">
-              <strong>Registered Date:</strong>
+              <strong>{profile_user_registered()}</strong>
               {new Date(data?.user?.created ?? null)?.toLocaleString("en-US", {
                 month: "short",
                 day: "numeric",
@@ -357,7 +438,7 @@
             <a
               href="/update-password"
               class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
-              >Update Password</a
+              >{profile_update_password()}</a
             >
           </div>
 
@@ -367,13 +448,10 @@
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
             >
-              Premium Discord Access
+              {profile_discord_title()}
             </h2>
             <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-              Gain access to real-time options flow from major institutional
-              players, live dark pool activity, instant earnings updates,
-              market-moving news, and much more — all designed to keep you ahead
-              of the market.
+              {profile_discord_description()}
             </p>
 
             <div class="mt-2">
@@ -382,7 +460,7 @@
                   <button
                     class="flex flex-row items-center w-fit border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm px-4 py-2 rounded-full mt-5"
                   >
-                    Access Granted
+                    {profile_discord_access_granted()}
                   </button>
                 {:else}
                   <button
@@ -390,7 +468,7 @@
                     class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Crown class="w-4 h-4 inline-block mr-1.5" />
-                    Premium Access
+                    {profile_discord_premium_access()}
                   </button>
                 {/if}
               {:else}
@@ -401,7 +479,7 @@
                     class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Link class="w-4 h-4 inline-block mr-1.5" />
-                    Link Discord Account
+                    {profile_discord_link_account()}
                   </button>
                 </form>
               {/if}
@@ -414,18 +492,18 @@
             <h3
               class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2"
             >
-              Push Notification
+              {profile_push_title()}
             </h3>
             {#if pwaInstalled}
               <div class="mt-3">
                 {#if nottifPermGranted === null}
                   <p class="text-sm text-gray-800 dark:text-zinc-300">
-                    Checking permissions...
+                    {profile_push_checking()}
                   </p>
                 {:else if nottifPermGranted === true}
                   {#if isPushSubscribed}
                     <p class="mb-3 text-sm text-gray-800 dark:text-zinc-300">
-                      Push notifications are currently active.
+                      {profile_push_active()}
                     </p>
                     <div class="mt-3">
                       {#if !loading}
@@ -433,7 +511,7 @@
                           class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
                           type="button"
                           on:click={handlePushUnsubscribe}
-                          >Disable notifications</button
+                          >{profile_push_disable()}</button
                         >
                       {:else}
                         <button
@@ -466,52 +544,48 @@
                                 />
                               </circle>
                             </svg>
-                            Processing...
+                            {profile_push_processing()}
                           </div>
                         </button>
                       {/if}
                     </div>
                   {:else}
                     <p class="mb-3 text-sm text-gray-800 dark:text-zinc-300">
-                      Stay up-to-date with real-time price alerts, the latest
-                      stock news, and earnings calls delivered straight to your
-                      device.
+                      {profile_push_description()}
                     </p>
                     {#if !loading}
                       <button
                         class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
                         type="button"
                         on:click={handlePushSubscribe}
-                        >Enable notifications</button
+                        >{profile_push_enable()}</button
                       >
                     {:else}
                       <button
                         class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
                         ><div class="flex flex-row m-auto items-center">
                           <span class="loading loading-infinity"></span>
-                          <span class=" ml-1.5">Activating...</span>
+                          <span class=" ml-1.5">{profile_push_activating()}</span>
                         </div></button
                       >
                     {/if}
                   {/if}
                 {:else if nottifPermGranted === false}
                   <p class="text-sm text-gray-800 dark:text-zinc-300">
-                    Review your settings and enable notifications to stay
-                    updated with Stocknear alerts.
+                    {profile_push_enable_settings()}
                   </p>
                 {/if}
               </div>
             {:else}
               <div class="mt-2">
                 <p class="mb-5 text-sm text-gray-800 dark:text-zinc-300">
-                  You can activate the push notification only if you downloaded
-                  the app.
+                  {profile_push_install_required()}
                 </p>
                 <label
                   for="installModal"
                   class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                 >
-                  Install the App
+                  {profile_push_install_app()}
                 </label>
               </div>
             {/if}
@@ -523,13 +597,13 @@
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
             >
-              Manage Subscription
+              {profile_subscription_title()}
             </h2>
             <div class="flex flex-row items-center">
               <span
                 class="text-sm sm:text-[1rem] text-gray-800 dark:text-zinc-300"
               >
-                Status:
+                {profile_subscription_status()}
               </span>
               <div class="ml-2 flex flex-row items-center">
                 <span class="relative flex h-2 w-2">
@@ -554,10 +628,10 @@
 
                 <span class="ml-2 text-sm text-gray-700 dark:text-zinc-200">
                   {#if data?.user?.lifetime === true}
-                    Active
+                    {profile_subscription_active()}
                   {:else}
                     {subscriptionData?.status_formatted ??
-                      "No Active Subscription"}
+                      profile_subscription_no_active()}
                   {/if}
                 </span>
               </div>
@@ -599,28 +673,26 @@
 
             <div class="flex flex-col justify-start items-start mt-4 mb-3">
               <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
-                Current Plan:
+                {profile_subscription_current_plan()}
               </span>
               <span class="text-sm text-gray-700 dark:text-zinc-200">
                 {#if data?.user?.lifetime}
-                  Lifetime Access
+                  {profile_subscription_lifetime()}
                 {:else}
                   {["Active", "Paid", "Cancelled", "On Trial"]?.includes(
                     subscriptionData?.status_formatted,
                   )
                     ? subscriptionData?.product_name ||
                       subscriptionData?.first_order_item?.product_name ||
-                      "Processing..."
-                    : "Free Subscription"}
+                      profile_subscription_processing()
+                    : profile_subscription_free()}
                 {/if}
               </span>
             </div>
 
             <div class="flex flex-col justify-start items-start mb-3">
               <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
-                Credits Available: {data?.user?.credits?.toLocaleString(
-                  "en-US",
-                ) ?? 0}
+                {profile_subscription_credits({ credits: data?.user?.credits?.toLocaleString("en-US") ?? "0" })}
               </span>
             </div>
 
@@ -633,7 +705,7 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
-                      >Manage your subscription</a
+                      >{profile_subscription_manage()}</a
                     >
                   </p>
                 </div>
@@ -707,22 +779,22 @@
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
             >
-              Need help?
+              {profile_help_title()}
             </h2>
             <div class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
-              <strong>Here's how to get support:</strong>
+              <strong>{profile_help_how_to()}</strong>
             </div>
             <div class="mt-2 mb-1 text-sm text-gray-800 dark:text-zinc-300">
               <ul class="list-disc pl-5">
                 <li>
-                  Send an email to <a
+                  {profile_help_email()} <a
                     href={`mailto:${emailAddress}`}
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >{emailAddress}</a
                   >
                 </li>
                 <li>
-                  Join our official Subreddit
+                  {profile_help_subreddit()}
                   <a
                     rel="noopener noreferrer"
                     target="_blank"
@@ -733,12 +805,12 @@
                   >.
                 </li>
                 <li>
-                  Join our official <a
+                  {profile_help_discord()} <a
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://discord.com/invite/hCwZMMZ2MT"
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                    >Discord Channel</a
+                    >{profile_help_discord_channel()}</a
                   >.
                 </li>
               </ul>
@@ -770,11 +842,10 @@
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
       >
-        Are you sure?
+        {profile_modal_cancel_title()}
       </h3>
       <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
-        You will no longer be charged for this subscription, and at the end of
-        the billing period, your account will transfer to the Free Plan.
+        {profile_modal_cancel_description()}
       </span>
     </div>
 
@@ -784,7 +855,7 @@
         ? ''
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
-      Proceed
+      {profile_modal_proceed()}
       <input
         class="hidden"
         name="subscriptionId"
@@ -797,7 +868,7 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
         </div>
       </label>
     {/if}
@@ -827,11 +898,10 @@
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
       >
-        Reactivate Subscription
+        {profile_modal_reactivate_title()}
       </h3>
       <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
-        Reactivate your Subscription now to unlock unlimited features and gain
-        the edge over the competition.
+        {profile_modal_reactivate_description()}
       </span>
     </div>
 
@@ -841,7 +911,7 @@
         ? ''
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
-      Proceed
+      {profile_modal_proceed()}
       <input
         class="hidden"
         name="subscriptionId"
@@ -854,7 +924,7 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
         </div>
       </label>
     {/if}
@@ -890,11 +960,10 @@
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
       >
-        Are you sure?
+        {profile_modal_upgrade_plus_title()}
       </h3>
       <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
-        You're Account will be upgraded to Plus (Annual Plan). You’ll only be
-        charged the difference between your current plan and the new one.
+        {profile_modal_upgrade_plus_description()}
       </span>
     </div>
 
@@ -904,7 +973,7 @@
         ? ''
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
-      Upgrade to Plus (Annual)
+      {profile_modal_upgrade_plus_button()}
       <input
         class="hidden"
         name="subscriptionId"
@@ -918,7 +987,7 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
         </div>
       </label>
     {/if}
@@ -951,11 +1020,10 @@
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
       >
-        Are you sure?
+        {profile_modal_upgrade_pro_title()}
       </h3>
       <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
-        You're Account will be upgraded to Pro (Annual Plan). You’ll only be
-        charged the difference between your current plan and the new one.
+        {profile_modal_upgrade_pro_description()}
       </span>
     </div>
 
@@ -965,7 +1033,7 @@
         ? ''
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
-      Upgrade to Pro (Annual)
+      {profile_modal_upgrade_pro_button()}
       <input
         class="hidden"
         name="subscriptionId"
@@ -979,7 +1047,7 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
         </div>
       </label>
     {/if}
@@ -999,7 +1067,7 @@
       <h4
         class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
       >
-        Steps to install
+        {profile_install_title()}
       </h4>
       <label
         for="installModal"
@@ -1029,7 +1097,7 @@
             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
         >
-          Apple (iOS)
+          {profile_install_ios()}
         </button>
         <button
           type="button"
@@ -1039,7 +1107,7 @@
             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
         >
-          Android
+          {profile_install_android()}
         </button>
       </div>
 
@@ -1047,21 +1115,21 @@
         <ul
           class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
         >
-          <li class="mb-2">Tap on the Safari share button.</li>
-          <li class="mb-2">Tap on "Add to Home Screen."</li>
-          <li class="mb-4">Tap on "Add."</li>
+          <li class="mb-2">{profile_install_ios_step1()}</li>
+          <li class="mb-2">{profile_install_ios_step2()}</li>
+          <li class="mb-4">{profile_install_ios_step3()}</li>
           <p class="text-sm mb-4 text-gray-800 dark:text-zinc-300">
-            Note that web apps on iOS can only be installed using Safari.
+            {profile_install_ios_note()}
           </p>
         </ul>
       {:else}
         <ul
           class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
         >
-          <li class="mb-2">Open Stocknear in Chrome.</li>
-          <li class="mb-2">Tap the three-dot menu in the top right.</li>
-          <li class="mb-2">Tap "Install app" or "Add to Home screen."</li>
-          <li class="mb-4">Confirm to install.</li>
+          <li class="mb-2">{profile_install_android_step1()}</li>
+          <li class="mb-2">{profile_install_android_step2()}</li>
+          <li class="mb-2">{profile_install_android_step3()}</li>
+          <li class="mb-4">{profile_install_android_step4()}</li>
         </ul>
       {/if}
     </div>
@@ -1071,7 +1139,7 @@
         for="installModal"
         class="mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center cursor-pointer"
       >
-        Close
+        {profile_install_close()}
       </label>
     </div>
   </div>
