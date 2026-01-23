@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Become a sponsor to Stocknear",
+  "donation_seo_description": "Your sponsor helps us to become the number 1 stock analysis platform in the world with the best price plans.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Hey 👋,",
+  "donation_intro_paragraph_1": "Thank you for considering supporting our mission. As the sole person behind Stocknear—handling everything from backend development to customer service—I'm committed to keeping our platform affordable and accessible to all investors.",
+  "donation_intro_paragraph_2": "Our Plans are priced ensure that high-quality stock data is within reach for retail investors of all backgrounds.",
+  "donation_support_paragraph_1": "While the Membership is designed to sustain our basic operations, your additional support can help us go even further. By sponsoring, you're not just supporting a platform; you're investing in a vision of open, transparent, and affordable financial analysis.",
+  "donation_support_list_intro": "Your support will directly contribute to:",
+  "donation_support_list_item_1": "Maintaining our low price point",
+  "donation_support_list_item_2": "Better data quality and features",
+  "donation_support_list_item_3": "Furthering our goal to become the #1 stock analysis platform in the industry",
+  "donation_cta_title": "Become a sponsor to Stocknear",
+  "donation_cta_paragraph_1": "If you believe in our mission and want to support us beyond your Subscription, please support us via GitHub Sponsors. Every contribution, no matter the size, makes a significant impact on our ability to serve you and the retail investor community.",
+  "donation_cta_paragraph_2": "Your support means the world to me and helps keep Stocknear running smoothly.",
+  "donation_sidebar_about_title": "About Us",
+  "donation_iframe_title": "Sponsor Stocknear"
+}

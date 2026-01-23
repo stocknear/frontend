@@ -5,6 +5,29 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    market_news_back_to_top,
+    market_news_image_alt,
+    market_news_more_stock_news,
+    market_news_pagination_next,
+    market_news_pagination_page_of,
+    market_news_pagination_previous,
+    market_news_press_seo_description,
+    market_news_press_seo_title,
+    market_news_pro_subscription_title,
+    market_news_rows_label,
+    market_news_stock_news_label,
+    market_news_stocks_label,
+    market_news_time_ago,
+    market_news_time_day,
+    market_news_time_days,
+    market_news_time_hour,
+    market_news_time_hours,
+    market_news_time_minute,
+    market_news_time_minutes,
+    market_news_upgrade_description,
+    market_news_upgrade_label,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -38,13 +61,19 @@
     const minutes = Math.abs(Math.round(difference / (1000 * 60)));
 
     if (minutes < 60) {
-      return `${minutes} minutes`;
+      return minutes === 1
+        ? market_news_time_minute({ count: minutes })
+        : market_news_time_minutes({ count: minutes });
     } else if (minutes < 1440) {
       const hours = Math.round(minutes / 60);
-      return `${hours} hour${hours !== 1 ? "s" : ""}`;
+      return hours === 1
+        ? market_news_time_hour({ count: hours })
+        : market_news_time_hours({ count: hours });
     } else {
       const days = Math.round(minutes / 1440);
-      return `${days} day${days !== 1 ? "s" : ""}`;
+      return days === 1
+        ? market_news_time_day({ count: days })
+        : market_news_time_days({ count: days });
     }
   };
 
@@ -153,9 +182,8 @@
 </script>
 
 <SEO
-  title="Press
-    Releases From Publicly Traded Companies"
-  description="Press releases for publicly traded companies on the US stock market. Includes important company events, earnings releases and more."
+  title={market_news_press_seo_title()}
+  description={market_news_press_seo_description()}
 />
 
 <div class="w-full overflow-hidden m-auto mt-5">
@@ -182,7 +210,7 @@
                         <img
                           src={item?.image}
                           class="h-full w-full object-cover"
-                          alt="news image"
+                          alt={market_news_image_alt()}
                           loading="lazy"
                         />
                       </div>
@@ -192,7 +220,9 @@
                       <h3
                         class="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-zinc-400 truncate mb-2"
                       >
-                        {formatDate(item?.publishedDate)} ago · {item?.site}
+                        {market_news_time_ago({
+                          time: formatDate(item?.publishedDate),
+                        })} · {item?.site}
                       </h3>
 
                       <a
@@ -217,7 +247,7 @@
                       <div class="mt-3">
                         <span
                           class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                          >Stocks:</span
+                          >{market_news_stocks_label()}</span
                         >
 
                         <a
@@ -258,13 +288,18 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span class="hidden sm:inline">Previous</span>
+                <span class="hidden sm:inline">
+                  {market_news_pagination_previous()}
+                </span>
               </Button>
             </div>
 
             <div class="flex flex-row items-center gap-4">
               <span class="text-sm text-gray-600 dark:text-zinc-300">
-                Page {currentPage} of {totalPages}
+                {market_news_pagination_page_of({
+                  currentPage,
+                  totalPages,
+                })}
               </span>
 
               <DropdownMenu.Root>
@@ -274,7 +309,7 @@
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
-                      {rowsPerPage} Rows
+                      {rowsPerPage} {market_news_rows_label()}
                     </span>
                     <svg
                       class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -308,7 +343,9 @@
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
                         >
-                          <span class="text-sm">{item} Rows</span>
+                          <span class="text-sm">
+                            {item} {market_news_rows_label()}
+                          </span>
                         </label>
                       </DropdownMenu.Item>
                     {/each}
@@ -323,7 +360,9 @@
                 disabled={currentPage === totalPages}
                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span class="hidden sm:inline">Next</span>
+                <span class="hidden sm:inline">
+                  {market_news_pagination_next()}
+                </span>
                 <svg
                   class="h-5 w-5 inline-block shrink-0 -rotate-90"
                   viewBox="0 0 20 20"
@@ -346,7 +385,7 @@
               on:click={scrollToTop}
               class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
             >
-              Back to Top <svg
+              {market_news_back_to_top()} <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-180"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -372,15 +411,15 @@
               <span
                 class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Upgrade
+                {market_news_upgrade_label()}
               </span>
               <h2
                 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
               >
-                Pro Subscription
+                {market_news_pro_subscription_title()}
               </h2>
               <p class="text-sm text-gray-600 dark:text-zinc-300">
-                Upgrade now for unlimited access to all data, tools and no ads.
+                {market_news_upgrade_description()}
               </p>
             </a>
           </div>
@@ -394,12 +433,14 @@
               <h3
                 class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-3"
               >
-                Stock News
+                {market_news_stock_news_label()}
               </h3>
               <ul class="text-sm text-gray-600 dark:text-zinc-300">
                 {#each stockNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
-                    {formatDate(item?.publishedDate)} ago -
+                    {market_news_time_ago({
+                      time: formatDate(item?.publishedDate),
+                    })} -
                     <a
                       class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                       href={item?.url}
@@ -414,7 +455,7 @@
                 href={`/market-news`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-5 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                More Stock News
+                {market_news_more_stock_news()}
               </a>
             </div>
           </div>

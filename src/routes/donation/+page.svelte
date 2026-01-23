@@ -3,12 +3,33 @@
 
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_contact_us,
+    common_home,
+    common_learn_more_sponsor,
+    common_let_me_know,
+    donation_cta_paragraph_1,
+    donation_cta_paragraph_2,
+    donation_cta_title,
+    donation_intro_greeting,
+    donation_intro_paragraph_1,
+    donation_intro_paragraph_2,
+    donation_iframe_title,
+    donation_seo_description,
+    donation_seo_title,
+    donation_sidebar_about_title,
+    donation_support_list_intro,
+    donation_support_list_item_1,
+    donation_support_list_item_2,
+    donation_support_list_item_3,
+    donation_support_paragraph_1,
+    donation_title,
+  } from "$lib/paraglide/messages.js";
 </script>
 
 <SEO
-  title="Become
-    a sponsor to Stocknear"
-  description="Your sponsor helps us to become the number 1 stock analysis platform in the world with the best price plans."
+  title={donation_seo_title()}
+  description={donation_seo_description()}
 />
 
 <section
@@ -21,10 +42,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Sponsor</li>
+    <li class="text-gray-800 dark:text-zinc-300">{donation_title()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -37,7 +58,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Sponsor
+              {donation_title()}
             </h1>
           </div>
 
@@ -48,34 +69,25 @@
               <h2
                 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-5"
               >
-                Hey 👋,
+                {donation_intro_greeting()}
               </h2>
               <p class="mb-5">
-                Thank you for considering supporting our mission. As the sole
-                person behind Stocknear—handling everything from backend
-                development to customer service—I'm committed to keeping our
-                platform affordable and accessible to all investors.
+                {donation_intro_paragraph_1()}
                 <br />
                 <br />
-                Our Plans are priced ensure that high-quality stock data is within
-                reach for retail investors of all backgrounds.
+                {donation_intro_paragraph_2()}
               </p>
               <div class="mb-5">
-                While the Membership is designed to sustain our basic
-                operations, your additional support can help us go even further.
-                By sponsoring, you're not just supporting a platform; you're
-                investing in a vision of open, transparent, and affordable
-                financial analysis.
+                {donation_support_paragraph_1()}
                 <br />
                 <br />
 
-                Your support will directly contribute to:
+                {donation_support_list_intro()}
                 <ul class="list-disc pl-6 pt-2 space-y-2">
-                  <li>Maintaining our low price point</li>
-                  <li>Better data quality and features</li>
+                  <li>{donation_support_list_item_1()}</li>
+                  <li>{donation_support_list_item_2()}</li>
                   <li>
-                    Furthering our goal to become the #1 stock analysis platform
-                    in the industry
+                    {donation_support_list_item_3()}
                   </li>
                 </ul>
               </div>
@@ -83,25 +95,21 @@
               <h2
                 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Become a sponsor to Stocknear
+                {donation_cta_title()}
               </h2>
               <p class="mb-5">
-                If you believe in our mission and want to support us beyond your
-                Subscription, please support us via GitHub Sponsors. Every
-                contribution, no matter the size, makes a significant impact on
-                our ability to serve you and the retail investor community.
+                {donation_cta_paragraph_1()}
                 <br />
                 <br />
                 <iframe
                   class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
                   src="https://github.com/sponsors/stocknear/card"
-                  title="Sponsor Stocknear"
+                  title={donation_iframe_title()}
                   height={$screenWidth < 640 ? "300" : "auto"}
                 ></iframe>
                 <br />
 
-                Your support means the world to me and helps keep Stocknear
-                running smoothly.
+                {donation_cta_paragraph_2()}
               </p>
             </div>
           </div>
@@ -116,12 +124,14 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">About Us</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  {donation_sidebar_about_title()}
+                </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Learn more about why we're doing this here
+                {common_learn_more_sponsor()}
               </span>
             </a>
           </div>
@@ -135,13 +145,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Contact Us
+                  {common_contact_us()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Let me know if you need something
+                {common_let_me_know()}
               </span>
             </a>
           </div>

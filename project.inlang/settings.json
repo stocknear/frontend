@@ -16,14 +16,17 @@
       "./messages/{locale}/contact.json",
       "./messages/{locale}/cookies.json",
       "./messages/{locale}/data.json",
+      "./messages/{locale}/donation.json",
       "./messages/{locale}/feedback.json",
       "./messages/{locale}/faq.json",
       "./messages/{locale}/footer.json",
       "./messages/{locale}/imprint.json",
       "./messages/{locale}/login.json",
+      "./messages/{locale}/market_news.json",
       "./messages/{locale}/pricing.json",
       "./messages/{locale}/privacy.json",
       "./messages/{locale}/register.json",
+      "./messages/{locale}/sitemap.json",
       "./messages/{locale}/terms.json"
     ]
   }

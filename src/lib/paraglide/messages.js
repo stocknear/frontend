@@ -452,6 +452,86 @@ export const data_options_content = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).data_options_content(inputs);
 };
 
+export const donation_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_seo_title(inputs);
+};
+
+export const donation_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_seo_description(inputs);
+};
+
+export const donation_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_title(inputs);
+};
+
+export const donation_intro_greeting = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_intro_greeting(inputs);
+};
+
+export const donation_intro_paragraph_1 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_intro_paragraph_1(inputs);
+};
+
+export const donation_intro_paragraph_2 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_intro_paragraph_2(inputs);
+};
+
+export const donation_support_paragraph_1 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_support_paragraph_1(inputs);
+};
+
+export const donation_support_list_intro = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_support_list_intro(inputs);
+};
+
+export const donation_support_list_item_1 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_support_list_item_1(inputs);
+};
+
+export const donation_support_list_item_2 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_support_list_item_2(inputs);
+};
+
+export const donation_support_list_item_3 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_support_list_item_3(inputs);
+};
+
+export const donation_cta_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_cta_title(inputs);
+};
+
+export const donation_cta_paragraph_1 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_cta_paragraph_1(inputs);
+};
+
+export const donation_cta_paragraph_2 = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_cta_paragraph_2(inputs);
+};
+
+export const donation_sidebar_about_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_sidebar_about_title(inputs);
+};
+
+export const donation_iframe_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).donation_iframe_title(inputs);
+};
+
 export const faq_seo_title = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).faq_seo_title(inputs);
@@ -965,6 +1045,166 @@ export const login_toast_success = (inputs = {}, options = {}) => {
 export const login_toast_invalid = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).login_toast_invalid(inputs);
+};
+
+export const market_news_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_seo_title(inputs);
+};
+
+export const market_news_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_seo_description(inputs);
+};
+
+export const market_news_seo_keywords = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_seo_keywords(inputs);
+};
+
+export const market_news_structured_name = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_structured_name(inputs);
+};
+
+export const market_news_structured_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_structured_description(inputs);
+};
+
+export const market_news_structured_item_list_name = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_structured_item_list_name(inputs);
+};
+
+export const market_news_structured_item_list_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_structured_item_list_description(inputs);
+};
+
+export const market_news_general_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_general_seo_title(inputs);
+};
+
+export const market_news_general_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_general_seo_description(inputs);
+};
+
+export const market_news_press_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_press_seo_title(inputs);
+};
+
+export const market_news_press_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_press_seo_description(inputs);
+};
+
+export const market_news_pagination_previous = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_pagination_previous(inputs);
+};
+
+export const market_news_pagination_next = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_pagination_next(inputs);
+};
+
+export const market_news_pagination_page_of = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_pagination_page_of(inputs);
+};
+
+export const market_news_rows_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_rows_label(inputs);
+};
+
+export const market_news_back_to_top = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_back_to_top(inputs);
+};
+
+export const market_news_upgrade_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_upgrade_label(inputs);
+};
+
+export const market_news_pro_subscription_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_pro_subscription_title(inputs);
+};
+
+export const market_news_upgrade_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_upgrade_description(inputs);
+};
+
+export const market_news_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_label(inputs);
+};
+
+export const market_news_more_market_news = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_more_market_news(inputs);
+};
+
+export const market_news_stock_news_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_stock_news_label(inputs);
+};
+
+export const market_news_more_stock_news = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_more_stock_news(inputs);
+};
+
+export const market_news_time_minute = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_minute(inputs);
+};
+
+export const market_news_time_minutes = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_minutes(inputs);
+};
+
+export const market_news_time_hour = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_hour(inputs);
+};
+
+export const market_news_time_hours = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_hours(inputs);
+};
+
+export const market_news_time_day = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_day(inputs);
+};
+
+export const market_news_time_days = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_days(inputs);
+};
+
+export const market_news_time_ago = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_time_ago(inputs);
+};
+
+export const market_news_image_alt = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_image_alt(inputs);
+};
+
+export const market_news_stocks_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).market_news_stocks_label(inputs);
 };
 
 export const pricing_seo_title = (inputs = {}, options = {}) => {
@@ -1702,6 +1942,316 @@ export const register_toast_invalid = (inputs = {}, options = {}) => {
   return getMessagesForLocale(locale).register_toast_invalid(inputs);
 };
 
+export const sitemap_seo_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_seo_title(inputs);
+};
+
+export const sitemap_seo_description = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_seo_description(inputs);
+};
+
+export const sitemap_section_aria_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_section_aria_label(inputs);
+};
+
+export const sitemap_breadcrumb_aria_label = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_breadcrumb_aria_label(inputs);
+};
+
+export const sitemap_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_title(inputs);
+};
+
+export const sitemap_intro = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_intro(inputs);
+};
+
+export const sitemap_pages_heading = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_pages_heading(inputs);
+};
+
+export const sitemap_articles_heading = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_articles_heading(inputs);
+};
+
+export const sitemap_learning_center_heading = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_learning_center_heading(inputs);
+};
+
+export const sitemap_financial_terms_heading = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_financial_terms_heading(inputs);
+};
+
+export const sitemap_visit_page_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_visit_page_title(inputs);
+};
+
+export const sitemap_sidebar_pro_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_sidebar_pro_title(inputs);
+};
+
+export const sitemap_sidebar_pro_desc = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_sidebar_pro_desc(inputs);
+};
+
+export const sitemap_sidebar_screener_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_sidebar_screener_title(inputs);
+};
+
+export const sitemap_sidebar_screener_desc = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_sidebar_screener_desc(inputs);
+};
+
+export const sitemap_sidebar_watchlists_title = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_sidebar_watchlists_title(inputs);
+};
+
+export const sitemap_sidebar_watchlists_desc = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_sidebar_watchlists_desc(inputs);
+};
+
+export const sitemap_tab_ai_agent = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_ai_agent(inputs);
+};
+
+export const sitemap_tab_stocks = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_stocks(inputs);
+};
+
+export const sitemap_tab_etfs = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_etfs(inputs);
+};
+
+export const sitemap_tab_etf_provider = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_etf_provider(inputs);
+};
+
+export const sitemap_tab_options_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_options_flow(inputs);
+};
+
+export const sitemap_tab_market_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_market_flow(inputs);
+};
+
+export const sitemap_tab_dark_pool_flow = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_dark_pool_flow(inputs);
+};
+
+export const sitemap_tab_earnings = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_earnings(inputs);
+};
+
+export const sitemap_tab_dividends = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_dividends(inputs);
+};
+
+export const sitemap_tab_economic_events = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_economic_events(inputs);
+};
+
+export const sitemap_tab_market_news = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_market_news(inputs);
+};
+
+export const sitemap_tab_us_senate_portfolio = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_us_senate_portfolio(inputs);
+};
+
+export const sitemap_tab_institutional_portfolio = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_institutional_portfolio(inputs);
+};
+
+export const sitemap_tab_highest_open_interest = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_highest_open_interest(inputs);
+};
+
+export const sitemap_tab_highest_open_interest_change = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_highest_open_interest_change(inputs);
+};
+
+export const sitemap_tab_highest_iv_rank = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_highest_iv_rank(inputs);
+};
+
+export const sitemap_tab_highest_option_premium = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_highest_option_premium(inputs);
+};
+
+export const sitemap_tab_insider_tracker = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_insider_tracker(inputs);
+};
+
+export const sitemap_tab_potus_tracker = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_potus_tracker(inputs);
+};
+
+export const sitemap_tab_options_calculator = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_options_calculator(inputs);
+};
+
+export const sitemap_tab_top_stock_gainers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_top_stock_gainers(inputs);
+};
+
+export const sitemap_tab_top_stock_losers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_top_stock_losers(inputs);
+};
+
+export const sitemap_tab_most_active_stocks = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_most_active_stocks(inputs);
+};
+
+export const sitemap_tab_premarket_stock_gainers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_premarket_stock_gainers(inputs);
+};
+
+export const sitemap_tab_premarket_stock_losers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_premarket_stock_losers(inputs);
+};
+
+export const sitemap_tab_afterhours_stock_gainers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_afterhours_stock_gainers(inputs);
+};
+
+export const sitemap_tab_afterhours_stock_losers = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_afterhours_stock_losers(inputs);
+};
+
+export const sitemap_tab_watchlist = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_watchlist(inputs);
+};
+
+export const sitemap_tab_top_analyst_stock_picks = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_top_analyst_stock_picks(inputs);
+};
+
+export const sitemap_tab_top_wallstreet_analysts = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_top_wallstreet_analysts(inputs);
+};
+
+export const sitemap_tab_stock_screener = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_stock_screener(inputs);
+};
+
+export const sitemap_tab_market_heatmap = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_market_heatmap(inputs);
+};
+
+export const sitemap_tab_stock_lists = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_stock_lists(inputs);
+};
+
+export const sitemap_tab_price_alerts = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_price_alerts(inputs);
+};
+
+export const sitemap_tab_about = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_about(inputs);
+};
+
+export const sitemap_tab_contact_us = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_contact_us(inputs);
+};
+
+export const sitemap_tab_terms_of_use = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_terms_of_use(inputs);
+};
+
+export const sitemap_tab_imprint = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_imprint(inputs);
+};
+
+export const sitemap_tab_privacy_policy = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_privacy_policy(inputs);
+};
+
+export const sitemap_tab_pricing = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_pricing(inputs);
+};
+
+export const sitemap_tab_free_newsletter = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_free_newsletter(inputs);
+};
+
+export const sitemap_tab_blog = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_blog(inputs);
+};
+
+export const sitemap_tab_data_disclaimer = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_data_disclaimer(inputs);
+};
+
+export const sitemap_tab_faq = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_faq(inputs);
+};
+
+export const sitemap_tab_advertise_with_us = (inputs = {}, options = {}) => {
+  const locale = options?.locale ?? getLocale();
+  return getMessagesForLocale(locale).sitemap_tab_advertise_with_us(inputs);
+};
+
 export const terms_seo_title = (inputs = {}, options = {}) => {
   const locale = options?.locale ?? getLocale();
   return getMessagesForLocale(locale).terms_seo_title(inputs);
@@ -2042,6 +2592,22 @@ export const m = {
   data_etf_content,
   data_options_title,
   data_options_content,
+  donation_seo_title,
+  donation_seo_description,
+  donation_title,
+  donation_intro_greeting,
+  donation_intro_paragraph_1,
+  donation_intro_paragraph_2,
+  donation_support_paragraph_1,
+  donation_support_list_intro,
+  donation_support_list_item_1,
+  donation_support_list_item_2,
+  donation_support_list_item_3,
+  donation_cta_title,
+  donation_cta_paragraph_1,
+  donation_cta_paragraph_2,
+  donation_sidebar_about_title,
+  donation_iframe_title,
   faq_seo_title,
   faq_seo_description,
   faq_breadcrumb,
@@ -2145,6 +2711,38 @@ export const m = {
   login_toast_verify_email,
   login_toast_success,
   login_toast_invalid,
+  market_news_seo_title,
+  market_news_seo_description,
+  market_news_seo_keywords,
+  market_news_structured_name,
+  market_news_structured_description,
+  market_news_structured_item_list_name,
+  market_news_structured_item_list_description,
+  market_news_general_seo_title,
+  market_news_general_seo_description,
+  market_news_press_seo_title,
+  market_news_press_seo_description,
+  market_news_pagination_previous,
+  market_news_pagination_next,
+  market_news_pagination_page_of,
+  market_news_rows_label,
+  market_news_back_to_top,
+  market_news_upgrade_label,
+  market_news_pro_subscription_title,
+  market_news_upgrade_description,
+  market_news_label,
+  market_news_more_market_news,
+  market_news_stock_news_label,
+  market_news_more_stock_news,
+  market_news_time_minute,
+  market_news_time_minutes,
+  market_news_time_hour,
+  market_news_time_hours,
+  market_news_time_day,
+  market_news_time_days,
+  market_news_time_ago,
+  market_news_image_alt,
+  market_news_stocks_label,
   pricing_seo_title,
   pricing_seo_description,
   pricing_investors,
@@ -2292,6 +2890,68 @@ export const m = {
   register_logout_button,
   register_toast_success,
   register_toast_invalid,
+  sitemap_seo_title,
+  sitemap_seo_description,
+  sitemap_section_aria_label,
+  sitemap_breadcrumb_aria_label,
+  sitemap_title,
+  sitemap_intro,
+  sitemap_pages_heading,
+  sitemap_articles_heading,
+  sitemap_learning_center_heading,
+  sitemap_financial_terms_heading,
+  sitemap_visit_page_title,
+  sitemap_sidebar_pro_title,
+  sitemap_sidebar_pro_desc,
+  sitemap_sidebar_screener_title,
+  sitemap_sidebar_screener_desc,
+  sitemap_sidebar_watchlists_title,
+  sitemap_sidebar_watchlists_desc,
+  sitemap_tab_ai_agent,
+  sitemap_tab_stocks,
+  sitemap_tab_etfs,
+  sitemap_tab_etf_provider,
+  sitemap_tab_options_flow,
+  sitemap_tab_market_flow,
+  sitemap_tab_dark_pool_flow,
+  sitemap_tab_earnings,
+  sitemap_tab_dividends,
+  sitemap_tab_economic_events,
+  sitemap_tab_market_news,
+  sitemap_tab_us_senate_portfolio,
+  sitemap_tab_institutional_portfolio,
+  sitemap_tab_highest_open_interest,
+  sitemap_tab_highest_open_interest_change,
+  sitemap_tab_highest_iv_rank,
+  sitemap_tab_highest_option_premium,
+  sitemap_tab_insider_tracker,
+  sitemap_tab_potus_tracker,
+  sitemap_tab_options_calculator,
+  sitemap_tab_top_stock_gainers,
+  sitemap_tab_top_stock_losers,
+  sitemap_tab_most_active_stocks,
+  sitemap_tab_premarket_stock_gainers,
+  sitemap_tab_premarket_stock_losers,
+  sitemap_tab_afterhours_stock_gainers,
+  sitemap_tab_afterhours_stock_losers,
+  sitemap_tab_watchlist,
+  sitemap_tab_top_analyst_stock_picks,
+  sitemap_tab_top_wallstreet_analysts,
+  sitemap_tab_stock_screener,
+  sitemap_tab_market_heatmap,
+  sitemap_tab_stock_lists,
+  sitemap_tab_price_alerts,
+  sitemap_tab_about,
+  sitemap_tab_contact_us,
+  sitemap_tab_terms_of_use,
+  sitemap_tab_imprint,
+  sitemap_tab_privacy_policy,
+  sitemap_tab_pricing,
+  sitemap_tab_free_newsletter,
+  sitemap_tab_blog,
+  sitemap_tab_data_disclaimer,
+  sitemap_tab_faq,
+  sitemap_tab_advertise_with_us,
   terms_seo_title,
   terms_seo_description,
   terms_breadcrumb,

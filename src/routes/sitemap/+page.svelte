@@ -3,216 +3,281 @@
 
   import { convertToSlug } from "$lib/utils";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    sitemap_articles_heading,
+    sitemap_breadcrumb_aria_label,
+    sitemap_financial_terms_heading,
+    sitemap_intro,
+    sitemap_learning_center_heading,
+    sitemap_pages_heading,
+    sitemap_seo_description,
+    sitemap_seo_title,
+    sitemap_section_aria_label,
+    sitemap_sidebar_pro_desc,
+    sitemap_sidebar_pro_title,
+    sitemap_sidebar_screener_desc,
+    sitemap_sidebar_screener_title,
+    sitemap_sidebar_watchlists_desc,
+    sitemap_sidebar_watchlists_title,
+    sitemap_tab_about,
+    sitemap_tab_advertise_with_us,
+    sitemap_tab_ai_agent,
+    sitemap_tab_afterhours_stock_gainers,
+    sitemap_tab_afterhours_stock_losers,
+    sitemap_tab_blog,
+    sitemap_tab_contact_us,
+    sitemap_tab_dark_pool_flow,
+    sitemap_tab_data_disclaimer,
+    sitemap_tab_dividends,
+    sitemap_tab_earnings,
+    sitemap_tab_economic_events,
+    sitemap_tab_etf_provider,
+    sitemap_tab_etfs,
+    sitemap_tab_faq,
+    sitemap_tab_free_newsletter,
+    sitemap_tab_highest_iv_rank,
+    sitemap_tab_highest_open_interest,
+    sitemap_tab_highest_open_interest_change,
+    sitemap_tab_highest_option_premium,
+    sitemap_tab_imprint,
+    sitemap_tab_institutional_portfolio,
+    sitemap_tab_insider_tracker,
+    sitemap_tab_market_flow,
+    sitemap_tab_market_heatmap,
+    sitemap_tab_market_news,
+    sitemap_tab_most_active_stocks,
+    sitemap_tab_options_calculator,
+    sitemap_tab_options_flow,
+    sitemap_tab_potus_tracker,
+    sitemap_tab_premarket_stock_gainers,
+    sitemap_tab_premarket_stock_losers,
+    sitemap_tab_price_alerts,
+    sitemap_tab_pricing,
+    sitemap_tab_privacy_policy,
+    sitemap_tab_stock_lists,
+    sitemap_tab_stock_screener,
+    sitemap_tab_stocks,
+    sitemap_tab_terms_of_use,
+    sitemap_tab_top_analyst_stock_picks,
+    sitemap_tab_top_stock_gainers,
+    sitemap_tab_top_stock_losers,
+    sitemap_tab_top_wallstreet_analysts,
+    sitemap_tab_us_senate_portfolio,
+    sitemap_tab_watchlist,
+    sitemap_title,
+    sitemap_visit_page_title,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   const tabs = [
     {
-      title: "AI Agent",
+      title: sitemap_tab_ai_agent(),
       link: "/chat",
     },
     {
-      title: "Stocks",
+      title: sitemap_tab_stocks(),
       link: "/stocks",
     },
     {
-      title: "ETFs",
+      title: sitemap_tab_etfs(),
       link: "/etf",
     },
     {
-      title: "ETF Provider",
+      title: sitemap_tab_etf_provider(),
       link: "/etf/etf-providers",
     },
     {
-      title: "Options Flow",
+      title: sitemap_tab_options_flow(),
       link: "/options-flow",
     },
     {
-      title: "Market Flow",
+      title: sitemap_tab_market_flow(),
       link: "/market-flow",
     },
     {
-      title: "Dark Pool Flow",
+      title: sitemap_tab_dark_pool_flow(),
       link: "/unusual-order-flow",
     },
     {
-      title: "Earnings",
+      title: sitemap_tab_earnings(),
       link: "/earnings-calendar",
     },
     {
-      title: "Dividends",
+      title: sitemap_tab_dividends(),
       link: "/dividends-calendar",
     },
     {
-      title: "Economic Events",
+      title: sitemap_tab_economic_events(),
       link: "/economic-calendar",
     },
     {
-      title: "Market News",
+      title: sitemap_tab_market_news(),
       link: "/market-news",
     },
     {
-      title: "U.S. Senate Portfolio",
+      title: sitemap_tab_us_senate_portfolio(),
       link: "/politicians",
     },
     {
-      title: "Instituitonal Portfolio",
+      title: sitemap_tab_institutional_portfolio(),
       link: "/hedge-funds",
     },
     {
-      title: "Highest Open Interest",
+      title: sitemap_tab_highest_open_interest(),
       link: "/list/highest-open-interest-change",
     },
     {
-      title: "Highest Open Interest Change",
+      title: sitemap_tab_highest_open_interest_change(),
       link: "/list/highest-open-interest",
     },
     {
-      title: "Highest IV Rank",
+      title: sitemap_tab_highest_iv_rank(),
       link: "/list/highest-option-iv-rank",
     },
     {
-      title: "Highest Option Premium",
+      title: sitemap_tab_highest_option_premium(),
       link: "/list/highest-option-premium",
     },
     {
-      title: "Insider Tracker",
+      title: sitemap_tab_insider_tracker(),
       link: "/insider-tracker",
     },
     {
-      title: "POTUS Tracker",
+      title: sitemap_tab_potus_tracker(),
       link: "/potus-tracker",
     },
     {
-      title: "Options Calculator",
+      title: sitemap_tab_options_calculator(),
       link: "/options-calculator",
     },
     {
-      title: "Top Stock Gainers",
+      title: sitemap_tab_top_stock_gainers(),
       link: "/market-mover/gainers",
     },
     {
-      title: "Top Stock Losers",
+      title: sitemap_tab_top_stock_losers(),
       link: "/market-mover/losers",
     },
     {
-      title: "Most Active Stocks",
+      title: sitemap_tab_most_active_stocks(),
       link: "/market-mover/active",
     },
     {
-      title: "Premarket Stock Gainers",
+      title: sitemap_tab_premarket_stock_gainers(),
       link: "/market-mover/premarket/gainers",
     },
     {
-      title: "Premarket Stock Losers",
+      title: sitemap_tab_premarket_stock_losers(),
       link: "/market-mover/premarket/losers",
     },
     {
-      title: "Afterhours Stock Gainers",
+      title: sitemap_tab_afterhours_stock_gainers(),
       link: "/market-mover/afterhours/gainers",
     },
     {
-      title: "Afterhours Stock Losers",
+      title: sitemap_tab_afterhours_stock_losers(),
       link: "/market-mover/afterhours/losers",
     },
     {
-      title: "Watchlist",
+      title: sitemap_tab_watchlist(),
       link: "/watchlist/stocks",
     },
     {
-      title: "Top Analyst Stocks Picks",
+      title: sitemap_tab_top_analyst_stock_picks(),
       link: "/analysts/top-stocks",
     },
     {
-      title: "Top Wallstreet Analysts",
+      title: sitemap_tab_top_wallstreet_analysts(),
       link: "/analysts",
     },
     {
-      title: "Stock Screener",
+      title: sitemap_tab_stock_screener(),
       link: "/stock-screener",
     },
     {
-      title: "Market Heatmap",
+      title: sitemap_tab_market_heatmap(),
       link: "/heatmap",
     },
     {
-      title: "Stock Lists",
+      title: sitemap_tab_stock_lists(),
       link: "/list",
     },
     {
-      title: "Price Alerts",
+      title: sitemap_tab_price_alerts(),
       link: "/price-alert",
     },
     {
-      title: "About",
+      title: sitemap_tab_about(),
       link: "/about",
     },
     {
-      title: "Contact Us",
+      title: sitemap_tab_contact_us(),
       link: "/contact",
     },
     {
-      title: "Terms of Use",
+      title: sitemap_tab_terms_of_use(),
       link: "/terms-of-use",
     },
     {
-      title: "Imprint",
+      title: sitemap_tab_imprint(),
       link: "/imprint",
     },
     {
-      title: "Privacy Policy",
+      title: sitemap_tab_privacy_policy(),
       link: "/privacy-policy",
     },
     {
-      title: "Pricing",
+      title: sitemap_tab_pricing(),
       link: "/pricing",
     },
     {
-      title: "Free Newsletter",
+      title: sitemap_tab_free_newsletter(),
       link: "/newsletter",
     },
     {
-      title: "Blog",
+      title: sitemap_tab_blog(),
       link: "/blog",
     },
     {
-      title: "Data Disclaimer",
+      title: sitemap_tab_data_disclaimer(),
       link: "/data-disclaimer",
     },
     {
-      title: "FAQ",
+      title: sitemap_tab_faq(),
       link: "/faq",
     },
     {
-      title: "Advertise with Us",
+      title: sitemap_tab_advertise_with_us(),
       link: "/advertise",
     },
   ];
 </script>
 
 <SEO
-  title="Sitemap | Complete Financial Market Directory"
-  description="Navigate through Stocknear's complete collection of financial tools and market analysis resources. Access real-time stock data, ETFs, options flow, and more."
+  title={sitemap_seo_title()}
+  description={sitemap_seo_description()}
 />
 
 <main class="text-gray-700 dark:text-zinc-200">
   <section
     class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6"
-    aria-label="Sitemap Navigation"
+    aria-label={sitemap_section_aria_label()}
   >
     <BreadCrumb
       tag="nav"
-      ariaLabel="Breadcrumb"
+      ariaLabel={sitemap_breadcrumb_aria_label()}
       containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
     >
       <li>
         <a
           href="/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
+          >{common_home()}</a
         >
       </li>
       <li class="text-gray-800 dark:text-zinc-300" aria-current="page">
-        Sitemap
+        {sitemap_title()}
       </li>
     </BreadCrumb>
 
@@ -226,7 +291,7 @@
               <h1
                 class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Sitemap
+                {sitemap_title()}
               </h1>
             </div>
 
@@ -235,17 +300,14 @@
                 <p
                   class="text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                 >
-                  Explore a comprehensive list of Stocknear's financial tools
-                  and resources. Find real-time stock data, market analysis,
-                  ETFs, options flow, and more. Use our search bar for quick
-                  access to specific stock symbols.
+                  {sitemap_intro()}
                 </p>
                 <h2
                   class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
                 >
-                  Pages
+                  {sitemap_pages_heading()}
                 </h2>
-                <nav aria-label="Site Pages">
+                <nav aria-label={sitemap_pages_heading()}>
                   <ul
                     class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
@@ -254,7 +316,9 @@
                         <a
                           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           href={item?.link}
-                          title={`Visit ${item?.title} page`}>{item?.title}</a
+                          title={sitemap_visit_page_title({
+                            title: item?.title,
+                          })}>{item?.title}</a
                         >
                       </li>
                     {/each}
@@ -264,9 +328,9 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
                 >
-                  Articles
+                  {sitemap_articles_heading()}
                 </h2>
-                <nav aria-label="Site Pages">
+                <nav aria-label={sitemap_articles_heading()}>
                   <ul
                     class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
@@ -276,7 +340,9 @@
                           <a
                             href={"/blog/article/" + convertToSlug(item?.title)}
                             class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                            title={`Visit ${item?.title} page`}>{item?.title}</a
+                            title={sitemap_visit_page_title({
+                              title: item?.title,
+                            })}>{item?.title}</a
                           >
                         </li>
                       {/if}
@@ -287,9 +353,9 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
                 >
-                  Learning Center
+                  {sitemap_learning_center_heading()}
                 </h2>
-                <nav aria-label="Site Pages">
+                <nav aria-label={sitemap_learning_center_heading()}>
                   <ul
                     class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
@@ -299,7 +365,9 @@
                           href={"/learning-center/article/" +
                             convertToSlug(item?.title)}
                           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                          title={`Visit ${item?.title} page`}>{item?.title}</a
+                          title={sitemap_visit_page_title({
+                            title: item?.title,
+                          })}>{item?.title}</a
                         >
                       </li>
                     {/each}
@@ -309,9 +377,9 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
                 >
-                  Financial terms
+                  {sitemap_financial_terms_heading()}
                 </h2>
-                <nav aria-label="Site Pages">
+                <nav aria-label={sitemap_financial_terms_heading()}>
                   <ul
                     class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
@@ -322,7 +390,9 @@
                         <a
                           href={"/blog/article/" + convertToSlug(item?.title)}
                           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                          title={`Visit ${item?.title} page`}
+                          title={sitemap_visit_page_title({
+                            title: item?.title,
+                          })}
                         >
                           {item?.title}
                         </a>
@@ -344,14 +414,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Pro Subscription
+                    {sitemap_sidebar_pro_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {sitemap_sidebar_pro_desc()}
                 </span>
               </a>
             </div>
@@ -365,14 +434,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Stock Screener
+                    {sitemap_sidebar_screener_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Filter, sort and analyze all stocks to find your next
-                  investment.
+                  {sitemap_sidebar_screener_desc()}
                 </span>
               </a>
             </div>
@@ -386,12 +454,12 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Watchlists
+                    {sitemap_sidebar_watchlists_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-                  >Keep track of your favorite stocks in real-time.
+                  >{sitemap_sidebar_watchlists_desc()}
                 </span>
               </a>
             </div>

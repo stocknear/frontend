@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Werde Sponsor von Stocknear",
+  "donation_seo_description": "Dein Sponsoring hilft uns, zur Nummer 1 der Aktienanalyseplattformen weltweit zu werden – mit den besten Preisplänen.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Hey 👋,",
+  "donation_intro_paragraph_1": "Danke, dass du in Erwägung ziehst, unsere Mission zu unterstützen. Als alleinige Person hinter Stocknear – von Backend-Entwicklung bis Kundensupport – setze ich alles daran, unsere Plattform erschwinglich und für alle Anleger zugänglich zu halten.",
+  "donation_intro_paragraph_2": "Unsere Pläne sind so bepreist, dass hochwertige Aktiendaten für Privatanleger aller Hintergründe erreichbar sind.",
+  "donation_support_paragraph_1": "Während die Mitgliedschaft unsere grundlegenden Betriebskosten deckt, kann deine zusätzliche Unterstützung uns noch weiter voranbringen. Mit deinem Sponsoring unterstützt du nicht nur eine Plattform, sondern investierst in eine Vision von offener, transparenter und bezahlbarer Finanzanalyse.",
+  "donation_support_list_intro": "Deine Unterstützung trägt direkt dazu bei:",
+  "donation_support_list_item_1": "Unseren niedrigen Preis zu halten",
+  "donation_support_list_item_2": "Bessere Datenqualität und Funktionen",
+  "donation_support_list_item_3": "Unser Ziel voranzutreiben, zur #1 Aktienanalyseplattform der Branche zu werden",
+  "donation_cta_title": "Werde Sponsor von Stocknear",
+  "donation_cta_paragraph_1": "Wenn du an unsere Mission glaubst und uns über dein Abonnement hinaus unterstützen möchtest, unterstütze uns über GitHub Sponsors. Jeder Beitrag – egal wie groß – hat einen spürbaren Einfluss auf unsere Fähigkeit, dich und die Community der Privatanleger zu unterstützen.",
+  "donation_cta_paragraph_2": "Deine Unterstützung bedeutet mir sehr viel und hilft, Stocknear am Laufen zu halten.",
+  "donation_sidebar_about_title": "Über uns",
+  "donation_iframe_title": "Stocknear unterstützen"
+}
