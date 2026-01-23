@@ -1,6 +1,10 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 // and what to do when importing types
+
+// Locale type from Paraglide
+type Locale = "en" | "de";
+
 declare namespace App {
   // interface Error {}
   interface Locals {
@@ -18,6 +22,7 @@ declare namespace App {
       marketing: boolean;
       timestamp?: number;
     } | null;
+    locale: Locale;
   }
   // interface PageData {}
   // interface Platform {}

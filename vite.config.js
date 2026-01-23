@@ -1,5 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import { sveltekit } from "@sveltejs/kit/vite";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
 // import { partytownVite } from '@builder.io/partytown/utils';
 // import { visualizer } from "rollup-plugin-visualizer";
 
@@ -9,6 +10,10 @@ const config = {
     // visualizer({ open: false, filename: "stats.html" }), // Plugin to visualize the bundle
     tailwindcss(),
     sveltekit(),
+    paraglideVitePlugin({
+      project: "./project.inlang",
+      outdir: "./src/lib/paraglide",
+    }),
     // partytownVite(),
   ],
 

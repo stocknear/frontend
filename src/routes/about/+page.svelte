@@ -1,16 +1,55 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
+  // Import individual message functions for tree-shaking
+  import {
+    about_seo_title,
+    about_seo_description,
+    about_hero_title,
+    about_hero_description,
+    about_values_label,
+    about_values_title,
+    about_values_description,
+    about_value_accuracy_title,
+    about_value_accuracy_description,
+    about_value_speed_title,
+    about_value_speed_description,
+    about_value_objectivity_title,
+    about_value_objectivity_description,
+    about_value_built_title,
+    about_value_built_description,
+    about_founder_label,
+    about_founder_title,
+    about_founder_subtitle,
+    about_founder_name,
+    about_founder_role,
+    about_founder_bio_1,
+    about_founder_bio_2,
+    about_founder_credentials,
+    about_cta_title,
+    about_cta_description,
+    about_cta_button_primary,
+    about_cta_button_secondary,
+    twitter,
+    discord,
+  } from "$lib/paraglide/messages.js";
+  import LanguageSwitcher from "$lib/components/LanguageSwitcher.svelte";
+
   export let data;
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
 </script>
 
 <SEO
-  title="About"
-  description="Stocknear was built to give everyday investors the same data Wall Street uses. Founded by Dr. Muslem Rahimi, we're on a mission to democratize stock analysis."
+  title={about_seo_title()}
+  description={about_seo_description()}
 />
 
 <div class="text-gray-700 dark:text-zinc-200 w-full">
+  <!-- Language Switcher (positioned top-right) -->
+  <div class="w-full flex justify-end px-4 py-2 bg-gray-50/50 dark:bg-zinc-900/30 border-b border-gray-200 dark:border-zinc-800">
+    <LanguageSwitcher />
+  </div>
+
   <!-- Hero Section -->
   <section
     class="border-b border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950/60"
@@ -20,13 +59,12 @@
         <h1
           class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl leading-tight"
         >
-          About us
+          {about_hero_title()}
         </h1>
         <p
           class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-800 dark:text-zinc-300"
         >
-          Stocknear exists because we believe every investor deserves access to
-          the same institutional-grade data that hedge funds pay thousands for.
+          {about_hero_description()}
         </p>
       </div>
     </div>
@@ -39,17 +77,17 @@
         <p
           class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
         >
-          Our Values
+          {about_values_label()}
         </p>
         <h2
           class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white leading-8 sm:text-4xl"
         >
-          What we stand for
+          {about_values_title()}
         </h2>
         <p
           class="mt-4 max-w-2xl text-lg text-gray-800 dark:text-zinc-300 lg:mx-auto"
         >
-          Every decision we make is guided by these principles.
+          {about_values_description()}
         </p>
       </div>
       <div class="mt-12">
@@ -79,13 +117,11 @@
               <p
                 class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
               >
-                Data Accuracy First
+                {about_value_accuracy_title()}
               </p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
-              We partner with the same data vendors that serve hedge funds. No
-              scraped data. No guesswork. Just clean, verified information you
-              can trust.
+              {about_value_accuracy_description()}
             </dd>
           </div>
           <div class="relative">
@@ -111,13 +147,11 @@
               <p
                 class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
               >
-                Speed Matters
+                {about_value_speed_title()}
               </p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
-              Markets move fast. Our platform loads instantly. Every screen,
-              every chart, every data point is optimized so you never miss an
-              opportunity.
+              {about_value_speed_description()}
             </dd>
           </div>
           <div class="relative">
@@ -143,13 +177,11 @@
               <p
                 class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
               >
-                Complete Objectivity
+                {about_value_objectivity_title()}
               </p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
-              We show the data. You make the decisions. No hidden agendas, no
-              paid promotions, no "hot picks." Just unbiased information for
-              every stock.
+              {about_value_objectivity_description()}
             </dd>
           </div>
           <div class="relative">
@@ -175,13 +207,11 @@
               <p
                 class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
               >
-                Built for You
+                {about_value_built_title()}
               </p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-800 dark:text-zinc-300">
-              We're investors too. Every feature is designed based on what we'd
-              want to see. Your feedback shapes our roadmap—not venture
-              capitalists.
+              {about_value_built_description()}
             </dd>
           </div>
         </dl>
@@ -199,16 +229,15 @@
           <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
           >
-            Let me Solo it
+            {about_founder_label()}
           </p>
           <h2
             class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
           >
-            From Physics to Finance
+            {about_founder_title()}
           </h2>
           <p class="mt-4 text-lg text-gray-800 dark:text-zinc-300">
-            The same analytical rigor that explores the universe now powers your
-            investment research.
+            {about_founder_subtitle()}
           </p>
         </div>
         <div class="lg:col-span-2 mt-10 lg:mt-0">
@@ -222,32 +251,22 @@
             <div class="space-y-4">
               <div>
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                  Dr. Muslem Rahimi
+                  {about_founder_name()}
                 </h3>
                 <p class="text-gray-500 dark:text-zinc-400 font-medium">
-                  Chief of Nothing
+                  {about_founder_role()}
                 </p>
               </div>
               <div class="text-gray-800 dark:text-zinc-300 space-y-3">
                 <p>
-                  Honestly, I never planned to start a fintech company. As a
-                  physicist, I was focused on research and academia. But when I
-                  began trading stocks, I quickly saw the gaps in the tools
-                  available to retail investors.
+                  {about_founder_bio_1()}
                 </p>
                 <p>
-                  I like to solve problems and I realized that by applying the
-                  same data analysis techniques from physics, I could create a
-                  platform that gives everyday investors access to
-                  institutional-grade data. So that's what I did. Stocknear was
-                  born out of a desire to challenge myself to learn new skills
-                  and build something meaningful.
+                  {about_founder_bio_2()}
                 </p>
 
                 <p class="text-sm text-gray-800 dark:text-zinc-300">
-                  PhD in Theoretical Particle Physics (University of Siegen) ·
-                  MSc in Particle Physics (Technical University of Munich) · BSc
-                  in Physics (University of Göttingen)
+                  {about_founder_credentials()}
                 </p>
               </div>
               <div class="flex space-x-4 pt-2">
@@ -257,7 +276,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span class="sr-only">Twitter</span>
+                  <span class="sr-only">{twitter()}</span>
                   <svg class="size-5" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
@@ -270,7 +289,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span class="sr-only">Discord</span>
+                  <span class="sr-only">{discord()}</span>
                   <svg
                     class="size-6"
                     fill="currentColor"
@@ -297,26 +316,25 @@
         <h2
           class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
         >
-          Ready to access institutional-grade data?
+          {about_cta_title()}
         </h2>
         <p
           class="mt-4 text-lg text-gray-800 dark:text-zinc-300 max-w-2xl mx-auto"
         >
-          Join thousands of investors who are now data-driven instead of
-          emotions. Start with a free account and upgrade when you're ready.
+          {about_cta_description()}
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="/register"
             class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-white bg-gray-900 hover:bg-gray-800 transition-colors"
           >
-            Get Started Free
+            {about_cta_button_primary()}
           </a>
           <a
             href="/pricing"
             class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
           >
-            View Pricing
+            {about_cta_button_secondary()}
           </a>
         </div>
       </div>
