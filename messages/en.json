@@ -349,5 +349,9 @@
   "pricing_faq_q9_answer": "Of course. There is a \"Cancel Subscription\" button in your account area that you get access to after signing up. You can also send us a message and we will cancel for you.",
   "pricing_upgrade_modal_title": "Upgrade to Pro",
   "pricing_upgrade_modal_content": "To upgrade your account from Plus to Pro, please contact us via email and we will handle the upgrade for you.",
-  "pricing_upgrade_modal_button": "Contact Support"
+  "pricing_upgrade_modal_button": "Contact Support",
+  "pricing_upgrade_modal_response_time": "We typically respond within 24 hours.",
+  "pricing_billed_annually_120": "Billed annually $120",
+  "pricing_billed_annually_360": "Billed annually $360",
+  "pricing_pro_active": "Pro Plan Active"
 }

@@ -349,5 +349,9 @@
   "pricing_faq_q9_answer": "Natürlich. Es gibt einen \"Abonnement kündigen\"-Button in deinem Kontobereich, auf den du nach der Anmeldung Zugriff hast. Du kannst uns auch eine Nachricht senden und wir kündigen für dich.",
   "pricing_upgrade_modal_title": "Upgrade auf Pro",
   "pricing_upgrade_modal_content": "Um dein Konto von Plus auf Pro zu upgraden, kontaktiere uns bitte per E-Mail und wir kümmern uns um das Upgrade für dich.",
-  "pricing_upgrade_modal_button": "Support kontaktieren"
+  "pricing_upgrade_modal_button": "Support kontaktieren",
+  "pricing_upgrade_modal_response_time": "Wir antworten in der Regel innerhalb von 24 Stunden.",
+  "pricing_billed_annually_120": "Jährlich abgerechnet $120",
+  "pricing_billed_annually_360": "Jährlich abgerechnet $360",
+  "pricing_pro_active": "Pro-Plan aktiv"
 }

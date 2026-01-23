@@ -83,6 +83,10 @@
     pricing_upgrade_modal_title,
     pricing_upgrade_modal_content,
     pricing_upgrade_modal_button,
+    pricing_upgrade_modal_response_time,
+    pricing_billed_annually_120,
+    pricing_billed_annually_360,
+    pricing_pro_active,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -360,7 +364,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="mr-2">10 Credits/mo</span>
+            ><span class="mr-2">{pricing_feature_credits_10()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -375,7 +379,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">1 Watchlist (up to 5 stocks)</span>
+            ><span class="">{pricing_feature_watchlist_1()}</span>
           </li>
 
           <li class="flex items-start">
@@ -391,7 +395,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">1 Portfolio (up to 5 stocks)</span>
+            ><span class="">{pricing_feature_portfolio_1()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -406,7 +410,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">3 Price Alerts</span>
+            ><span class="">{pricing_feature_alerts_3()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -421,7 +425,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Real-Time Notification</span>
+            ><span class="">{pricing_feature_notification()}</span>
           </li>
 
           <li class="flex items-start">
@@ -483,7 +487,7 @@
               </g></svg
             >
 
-            <span class="">Hedge Fund Portfolio Access</span>
+            <span class="">{pricing_feature_hedgefund()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -544,7 +548,7 @@
               </g></svg
             >
 
-            <span class="">US Congress Portfolio Access</span>
+            <span class="">{pricing_feature_congress()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -605,191 +609,7 @@
               </g></svg
             >
 
-            <span class="">Financial History Access</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              viewBox="0 0 64 64"
-              version="1.1"
-              fill="currentColor"
-              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></g><g id="SVGRepo_iconCarrier">
-                <rect
-                  id="Icons"
-                  x="-448"
-                  y="-64"
-                  width="1280"
-                  height="800"
-                  style="fill:none;"
-                ></rect>
-                <g id="Icons1" serif:id="Icons">
-                  <g id="Strike"> </g> <g id="H1"> </g> <g id="H2"> </g>
-                  <g id="H3"> </g> <g id="list-ul"> </g>
-                  <g id="hamburger-1"> </g> <g id="hamburger-2"> </g>
-                  <g id="list-ol"> </g> <g id="list-task"> </g>
-                  <g id="trash"> </g> <g id="vertical-menu"> </g>
-                  <g id="horizontal-menu"> </g> <g id="sidebar-2"> </g>
-                  <g id="Pen"> </g> <g id="Pen1" serif:id="Pen"> </g>
-                  <g id="clock"> </g> <g id="external-link"> </g>
-                  <g id="hr"> </g> <g id="info"> </g> <g id="warning"> </g>
-                  <g id="plus-circle"> </g> <g id="minus-circle"> </g>
-                  <g id="vue"> </g> <g id="cog"> </g> <g id="logo"> </g>
-                  <path
-                    id="times"
-                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
-                  ></path>
-                  <path
-                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
-                  ></path> <g id="radio-check"> </g> <g id="eye-slash"> </g>
-                  <g id="eye"> </g> <g id="toggle-off"> </g>
-                  <g id="shredder"> </g>
-                  <g
-                    id="spinner--loading--dots-"
-                    serif:id="spinner [loading, dots]"
-                  >
-                  </g> <g id="react"> </g> <g id="check-selected"> </g>
-                  <g id="turn-off"> </g> <g id="code-block"> </g>
-                  <g id="user"> </g> <g id="coffee-bean"> </g>
-                  <g id="coffee-beans">
-                    <g id="coffee-bean1" serif:id="coffee-bean"> </g>
-                  </g> <g id="coffee-bean-filled"> </g>
-                  <g id="coffee-beans-filled">
-                    <g id="coffee-bean2" serif:id="coffee-bean"> </g>
-                  </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
-                  <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
-                </g>
-              </g></svg
-            >
-
-            <span class="">Stock Screener</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              viewBox="0 0 64 64"
-              version="1.1"
-              fill="currentColor"
-              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></g><g id="SVGRepo_iconCarrier">
-                <rect
-                  id="Icons"
-                  x="-448"
-                  y="-64"
-                  width="1280"
-                  height="800"
-                  style="fill:none;"
-                ></rect>
-                <g id="Icons1" serif:id="Icons">
-                  <g id="Strike"> </g> <g id="H1"> </g> <g id="H2"> </g>
-                  <g id="H3"> </g> <g id="list-ul"> </g>
-                  <g id="hamburger-1"> </g> <g id="hamburger-2"> </g>
-                  <g id="list-ol"> </g> <g id="list-task"> </g>
-                  <g id="trash"> </g> <g id="vertical-menu"> </g>
-                  <g id="horizontal-menu"> </g> <g id="sidebar-2"> </g>
-                  <g id="Pen"> </g> <g id="Pen1" serif:id="Pen"> </g>
-                  <g id="clock"> </g> <g id="external-link"> </g>
-                  <g id="hr"> </g> <g id="info"> </g> <g id="warning"> </g>
-                  <g id="plus-circle"> </g> <g id="minus-circle"> </g>
-                  <g id="vue"> </g> <g id="cog"> </g> <g id="logo"> </g>
-                  <path
-                    id="times"
-                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
-                  ></path>
-                  <path
-                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
-                  ></path> <g id="radio-check"> </g> <g id="eye-slash"> </g>
-                  <g id="eye"> </g> <g id="toggle-off"> </g>
-                  <g id="shredder"> </g>
-                  <g
-                    id="spinner--loading--dots-"
-                    serif:id="spinner [loading, dots]"
-                  >
-                  </g> <g id="react"> </g> <g id="check-selected"> </g>
-                  <g id="turn-off"> </g> <g id="code-block"> </g>
-                  <g id="user"> </g> <g id="coffee-bean"> </g>
-                  <g id="coffee-beans">
-                    <g id="coffee-bean1" serif:id="coffee-bean"> </g>
-                  </g> <g id="coffee-bean-filled"> </g>
-                  <g id="coffee-beans-filled">
-                    <g id="coffee-bean2" serif:id="coffee-bean"> </g>
-                  </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
-                  <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
-                </g>
-              </g></svg
-            >
-
-            <span class="">Financial Data Download</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              viewBox="0 0 64 64"
-              version="1.1"
-              fill="currentColor"
-              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></g><g id="SVGRepo_iconCarrier">
-                <rect
-                  id="Icons"
-                  x="-448"
-                  y="-64"
-                  width="1280"
-                  height="800"
-                  style="fill:none;"
-                ></rect>
-                <g id="Icons1" serif:id="Icons">
-                  <g id="Strike"> </g> <g id="H1"> </g> <g id="H2"> </g>
-                  <g id="H3"> </g> <g id="list-ul"> </g>
-                  <g id="hamburger-1"> </g> <g id="hamburger-2"> </g>
-                  <g id="list-ol"> </g> <g id="list-task"> </g>
-                  <g id="trash"> </g> <g id="vertical-menu"> </g>
-                  <g id="horizontal-menu"> </g> <g id="sidebar-2"> </g>
-                  <g id="Pen"> </g> <g id="Pen1" serif:id="Pen"> </g>
-                  <g id="clock"> </g> <g id="external-link"> </g>
-                  <g id="hr"> </g> <g id="info"> </g> <g id="warning"> </g>
-                  <g id="plus-circle"> </g> <g id="minus-circle"> </g>
-                  <g id="vue"> </g> <g id="cog"> </g> <g id="logo"> </g>
-                  <path
-                    id="times"
-                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
-                  ></path>
-                  <path
-                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
-                  ></path> <g id="radio-check"> </g> <g id="eye-slash"> </g>
-                  <g id="eye"> </g> <g id="toggle-off"> </g>
-                  <g id="shredder"> </g>
-                  <g
-                    id="spinner--loading--dots-"
-                    serif:id="spinner [loading, dots]"
-                  >
-                  </g> <g id="react"> </g> <g id="check-selected"> </g>
-                  <g id="turn-off"> </g> <g id="code-block"> </g>
-                  <g id="user"> </g> <g id="coffee-bean"> </g>
-                  <g id="coffee-beans">
-                    <g id="coffee-bean1" serif:id="coffee-bean"> </g>
-                  </g> <g id="coffee-bean-filled"> </g>
-                  <g id="coffee-beans-filled">
-                    <g id="coffee-bean2" serif:id="coffee-bean"> </g>
-                  </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
-                  <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
-                </g>
-              </g></svg
-            >
-
-            <span class="">No Ads</span>
+            <span class="">{pricing_feature_history()}</span>
           </li>
 
           <li class="flex items-start">
@@ -851,7 +671,129 @@
               </g></svg
             >
 
-            <span class="">Real-Time & Historical Options Data</span>
+            <span class="">{pricing_feature_screener()}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              viewBox="0 0 64 64"
+              version="1.1"
+              fill="currentColor"
+              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
+              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g><g id="SVGRepo_iconCarrier">
+                <rect
+                  id="Icons"
+                  x="-448"
+                  y="-64"
+                  width="1280"
+                  height="800"
+                  style="fill:none;"
+                ></rect>
+                <g id="Icons1" serif:id="Icons">
+                  <g id="Strike"> </g> <g id="H1"> </g> <g id="H2"> </g>
+                  <g id="H3"> </g> <g id="list-ul"> </g>
+                  <g id="hamburger-1"> </g> <g id="hamburger-2"> </g>
+                  <g id="list-ol"> </g> <g id="list-task"> </g>
+                  <g id="trash"> </g> <g id="vertical-menu"> </g>
+                  <g id="horizontal-menu"> </g> <g id="sidebar-2"> </g>
+                  <g id="Pen"> </g> <g id="Pen1" serif:id="Pen"> </g>
+                  <g id="clock"> </g> <g id="external-link"> </g>
+                  <g id="hr"> </g> <g id="info"> </g> <g id="warning"> </g>
+                  <g id="plus-circle"> </g> <g id="minus-circle"> </g>
+                  <g id="vue"> </g> <g id="cog"> </g> <g id="logo"> </g>
+                  <path
+                    id="times"
+                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
+                  ></path>
+                  <path
+                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
+                  ></path> <g id="radio-check"> </g> <g id="eye-slash"> </g>
+                  <g id="eye"> </g> <g id="toggle-off"> </g>
+                  <g id="shredder"> </g>
+                  <g
+                    id="spinner--loading--dots-"
+                    serif:id="spinner [loading, dots]"
+                  >
+                  </g> <g id="react"> </g> <g id="check-selected"> </g>
+                  <g id="turn-off"> </g> <g id="code-block"> </g>
+                  <g id="user"> </g> <g id="coffee-bean"> </g>
+                  <g id="coffee-beans">
+                    <g id="coffee-bean1" serif:id="coffee-bean"> </g>
+                  </g> <g id="coffee-bean-filled"> </g>
+                  <g id="coffee-beans-filled">
+                    <g id="coffee-bean2" serif:id="coffee-bean"> </g>
+                  </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
+                  <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
+                </g>
+              </g></svg
+            >
+
+            <span class="">{pricing_feature_download()}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              viewBox="0 0 64 64"
+              version="1.1"
+              fill="currentColor"
+              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
+              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g><g id="SVGRepo_iconCarrier">
+                <rect
+                  id="Icons"
+                  x="-448"
+                  y="-64"
+                  width="1280"
+                  height="800"
+                  style="fill:none;"
+                ></rect>
+                <g id="Icons1" serif:id="Icons">
+                  <g id="Strike"> </g> <g id="H1"> </g> <g id="H2"> </g>
+                  <g id="H3"> </g> <g id="list-ul"> </g>
+                  <g id="hamburger-1"> </g> <g id="hamburger-2"> </g>
+                  <g id="list-ol"> </g> <g id="list-task"> </g>
+                  <g id="trash"> </g> <g id="vertical-menu"> </g>
+                  <g id="horizontal-menu"> </g> <g id="sidebar-2"> </g>
+                  <g id="Pen"> </g> <g id="Pen1" serif:id="Pen"> </g>
+                  <g id="clock"> </g> <g id="external-link"> </g>
+                  <g id="hr"> </g> <g id="info"> </g> <g id="warning"> </g>
+                  <g id="plus-circle"> </g> <g id="minus-circle"> </g>
+                  <g id="vue"> </g> <g id="cog"> </g> <g id="logo"> </g>
+                  <path
+                    id="times"
+                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
+                  ></path>
+                  <path
+                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
+                  ></path> <g id="radio-check"> </g> <g id="eye-slash"> </g>
+                  <g id="eye"> </g> <g id="toggle-off"> </g>
+                  <g id="shredder"> </g>
+                  <g
+                    id="spinner--loading--dots-"
+                    serif:id="spinner [loading, dots]"
+                  >
+                  </g> <g id="react"> </g> <g id="check-selected"> </g>
+                  <g id="turn-off"> </g> <g id="code-block"> </g>
+                  <g id="user"> </g> <g id="coffee-bean"> </g>
+                  <g id="coffee-beans">
+                    <g id="coffee-bean1" serif:id="coffee-bean"> </g>
+                  </g> <g id="coffee-bean-filled"> </g>
+                  <g id="coffee-beans-filled">
+                    <g id="coffee-bean2" serif:id="coffee-bean"> </g>
+                  </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
+                  <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
+                </g>
+              </g></svg
+            >
+
+            <span class="">{pricing_feature_no_ads()}</span>
           </li>
 
           <li class="flex items-start">
@@ -913,7 +855,69 @@
               </g></svg
             >
 
-            <span class="">Real-Time Options Flow Data</span>
+            <span class="">{pricing_feature_options_historical()}</span>
+          </li>
+
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              viewBox="0 0 64 64"
+              version="1.1"
+              fill="currentColor"
+              style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
+              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g><g id="SVGRepo_iconCarrier">
+                <rect
+                  id="Icons"
+                  x="-448"
+                  y="-64"
+                  width="1280"
+                  height="800"
+                  style="fill:none;"
+                ></rect>
+                <g id="Icons1" serif:id="Icons">
+                  <g id="Strike"> </g> <g id="H1"> </g> <g id="H2"> </g>
+                  <g id="H3"> </g> <g id="list-ul"> </g>
+                  <g id="hamburger-1"> </g> <g id="hamburger-2"> </g>
+                  <g id="list-ol"> </g> <g id="list-task"> </g>
+                  <g id="trash"> </g> <g id="vertical-menu"> </g>
+                  <g id="horizontal-menu"> </g> <g id="sidebar-2"> </g>
+                  <g id="Pen"> </g> <g id="Pen1" serif:id="Pen"> </g>
+                  <g id="clock"> </g> <g id="external-link"> </g>
+                  <g id="hr"> </g> <g id="info"> </g> <g id="warning"> </g>
+                  <g id="plus-circle"> </g> <g id="minus-circle"> </g>
+                  <g id="vue"> </g> <g id="cog"> </g> <g id="logo"> </g>
+                  <path
+                    id="times"
+                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
+                  ></path>
+                  <path
+                    d="M32.033,29.19l15.55,-15.55l2.863,2.863l-15.55,15.55l15.55,15.55l-2.863,2.863l-15.55,-15.55l-15.55,15.55l-2.863,-2.863l15.55,-15.55l-15.55,-15.55l2.863,-2.863l15.55,15.55Z"
+                  ></path> <g id="radio-check"> </g> <g id="eye-slash"> </g>
+                  <g id="eye"> </g> <g id="toggle-off"> </g>
+                  <g id="shredder"> </g>
+                  <g
+                    id="spinner--loading--dots-"
+                    serif:id="spinner [loading, dots]"
+                  >
+                  </g> <g id="react"> </g> <g id="check-selected"> </g>
+                  <g id="turn-off"> </g> <g id="code-block"> </g>
+                  <g id="user"> </g> <g id="coffee-bean"> </g>
+                  <g id="coffee-beans">
+                    <g id="coffee-bean1" serif:id="coffee-bean"> </g>
+                  </g> <g id="coffee-bean-filled"> </g>
+                  <g id="coffee-beans-filled">
+                    <g id="coffee-bean2" serif:id="coffee-bean"> </g>
+                  </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
+                  <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
+                </g>
+              </g></svg
+            >
+
+            <span class="">{pricing_feature_options_flow()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -974,7 +978,7 @@
               </g></svg
             >
 
-            <span class="">Real-Time Unusual Orders</span>
+            <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1035,7 +1039,7 @@
               </g></svg
             >
 
-            <span class="">Premium Discord Channel Access</span>
+            <span class="">{pricing_feature_discord()}</span>
           </li>
         </ul>
         <div
@@ -1045,7 +1049,7 @@
             <label
               for="userLogin"
               class="text-[rgb(var(--pricing-ink))] cursor-pointer w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] rounded-full font-semibold sm:hover:bg-white/80 dark:sm:hover:bg-[rgb(var(--pricing-card))] transition duration-150 flex items-center justify-center"
-              >Get Registered Now<svg
+              >{pricing_get_registered()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -1067,9 +1071,9 @@
         class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6"
       >
         <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-semibold tracking-tight">Plus</h3>
+          <h3 class="text-2xl font-semibold tracking-tight">{pricing_plus_title()}</h3>
         </div>
-        <p class="mt-2 text-sm">Essential tools for individual investors.</p>
+        <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           <!--
           <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
@@ -1093,7 +1097,7 @@
       -->
           <span
             class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
-            >Billed annually $120</span
+            >{pricing_billed_annually_120()}</span
           >
         </p>
         <!--
@@ -1120,7 +1124,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="mr-2">150 Credits/mo </span>
+            ><span class="mr-2">{pricing_feature_credits_150()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1135,7 +1139,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Unlimited Watchlist up to 100 stocks</span>
+            ><span class="">{pricing_feature_watchlist_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1150,7 +1154,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Unlimited Portfolio up to 100 stocks</span>
+            ><span class="">{pricing_feature_portfolio_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1165,7 +1169,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Unlimited Price Alerts</span>
+            ><span class="">{pricing_feature_alerts_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1182,41 +1186,7 @@
               ></path></svg
             >
 
-            <span class="">Unlimited Stock Screener</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Unlimited Financial Data Download</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="">Real-Time Notification</span>
+            <span class="">{pricing_feature_screener_unlimited()}</span>
           </li>
 
           <li class="flex items-start">
@@ -1234,8 +1204,9 @@
               ></path></svg
             >
 
-            <span class="">Hedge Fund Portfolio Access</span>
+            <span class="">{pricing_feature_download_unlimited()}</span>
           </li>
+
           <li class="flex items-start">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -1249,26 +1220,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            >
-
-            <span class="">US Congress Portfolio Access</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Financial History Access</span>
+            ><span class="">{pricing_feature_notification()}</span>
           </li>
 
           <li class="flex items-start">
@@ -1286,7 +1238,59 @@
               ></path></svg
             >
 
-            <span class="">No Ads</span>
+            <span class="">{pricing_feature_hedgefund()}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">{pricing_feature_congress()}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">{pricing_feature_history()}</span>
+          </li>
+
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">{pricing_feature_no_ads()}</span>
           </li>
 
           <li class="flex items-start">
@@ -1348,7 +1352,7 @@
               </g></svg
             >
 
-            <span class="">Real-Time & Historical Options Data</span>
+            <span class="">{pricing_feature_options_historical()}</span>
           </li>
 
           <li class="flex items-start">
@@ -1410,7 +1414,7 @@
               </g></svg
             >
 
-            <span class="">Real-Time Options Flow Data</span>
+            <span class="">{pricing_feature_options_flow()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1471,7 +1475,7 @@
               </g></svg
             >
 
-            <span class="">Real-Time Unusual Orders</span>
+            <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1532,7 +1536,7 @@
               </g></svg
             >
 
-            <span class="">Premium Discord Channel Access</span>
+            <span class="">{pricing_feature_discord()}</span>
           </li>
         </ul>
         <div
@@ -1555,13 +1559,13 @@
                   d="M5 13l4 4L19 7"
                 ></path>
               </svg>
-              Current Plan
+              {pricing_current_plan()}
             </div>
           {:else if data?.user?.tier === "Pro"}
             <div
               class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-full font-semibold flex items-center justify-center cursor-not-allowed"
             >
-              Pro Plan Active
+              {pricing_pro_active()}
             </div>
           {:else}
             <label
@@ -1569,8 +1573,8 @@
               on:click={() => purchasePlan("plus")}
               class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
               >{data?.user?.freeTrial
-                ? "Unlock Plus Access"
-                : "Start Free 7 Day Trial"}<svg
+                ? pricing_get_plus()
+                : pricing_start_trial()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -1591,10 +1595,10 @@
         class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-gray-900 dark:text-white"
       >
         <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-semibold tracking-tight">Pro</h3>
+          <h3 class="text-2xl font-semibold tracking-tight">{pricing_pro_title()}</h3>
         </div>
         <p class="text-sm mt-2 text-gray-800 dark:text-zinc-300">
-          Professional tools at retail pricing.
+          {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           <!--
@@ -1605,7 +1609,7 @@
           <span class="text-4xl font-semibold">
             {mode ? "$30" : "$45"}
           </span>
-          <span class="text-sm text-gray-500 dark:text-zinc-400">/month</span>
+          <span class="text-sm text-gray-500 dark:text-zinc-400">{pricing_per_month()}</span>
         </div>
         <p
           class="text-xs mt-2 uppercase tracking-[0.2em] {!mode
@@ -1620,7 +1624,7 @@
           <span
             class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
           >
-            Billed annually $360</span
+            {pricing_billed_annually_360()}</span
           >
         </p>
         <!--
@@ -1647,7 +1651,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="mr-2">1,000 Credits/mo</span>
+            ><span class="mr-2">{pricing_feature_credits_1000()}</span>
           </li>
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
             <svg
@@ -1662,23 +1666,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Everything in Plus and ...</span>
-          </li>
-
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="">Watchlist with unlimited stocks</span>
+            ><span class="">{pricing_feature_everything_plus()}</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
@@ -1694,7 +1682,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Portfolio with unlimited stocks</span>
+            ><span class="">{pricing_feature_watchlist_pro()}</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
@@ -1710,9 +1698,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            >
-
-            <span class="">Real-Time Options & Historical Data</span>
+            ><span class="">{pricing_feature_portfolio_pro()}</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
@@ -1730,7 +1716,25 @@
               ></path></svg
             >
 
-            <span class="">Real-Time Options Flow Data</span>
+            <span class="">{pricing_feature_options_realtime()}</span>
+          </li>
+
+          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">{pricing_feature_options_flow()}</span>
           </li>
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
             <svg
@@ -1747,7 +1751,7 @@
               ></path></svg
             >
 
-            <span class="">Real-Time Unusual Orders</span>
+            <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
             <svg
@@ -1764,7 +1768,7 @@
               ></path></svg
             >
 
-            <span class="">Premium Discord Channel Access</span>
+            <span class="">{pricing_feature_discord()}</span>
           </li>
         </ul>
         <!--
@@ -1797,13 +1801,13 @@
                   d="M5 13l4 4L19 7"
                 ></path>
               </svg>
-              Current Plan
+              {pricing_current_plan()}
             </div>
           {:else if data?.user?.tier === "Plus"}
             <label
               for="upgradeProModal"
               class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center"
-              >Upgrade to Pro<svg
+              >{pricing_upgrade_pro()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -1823,8 +1827,8 @@
               on:click={() => purchasePlan("pro")}
               class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
               >{data?.user?.freeTrial
-                ? "Unlock Pro Access"
-                : "Start Free 7 Day Trial"}<svg
+                ? pricing_unlock_pro()
+                : pricing_start_trial()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -1862,15 +1866,13 @@
             ></path>
           </svg>
           <p class="text-sm text-[rgb(var(--pricing-ink))]">
-            You're currently subscribed to <span class="font-semibold"
-              >{data?.user?.tier}</span
-            >.
+            {pricing_subscribed_notice({ tier: data?.user?.tier })}
             <a
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
               class="underline underline-offset-2 font-medium text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-              >Manage your subscription</a
+              >{pricing_manage_subscription()}</a
             >
           </p>
         </div>
@@ -1887,11 +1889,10 @@
             <h2
               class="text-3xl sm:text-4xl font-semibold text-[rgb(var(--pricing-ink))]"
             >
-              Frequently Asked Questions
+              {pricing_faq_title()}
             </h2>
             <p class="mt-3 text-sm sm:text-base">
-              Clear answers to the most common questions about trials, billing,
-              and upgrades.
+              {pricing_faq_subtitle()}
             </p>
           </div>
 
@@ -1926,18 +1927,13 @@
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
-                  >What are the advantages of Stocknear Service?</summary
+                  >{pricing_faq_q1_title()}</summary
                 >
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    Stocknear Service provides simplified, actionable trading
-                    data and an extensive tool suite for every investor,
-                    featuring exclusive, high-quality Wall Street data at an
-                    unmatched price. We also offer proprietary AI Agents and
-                    models for accurate analyzes, all within a single unified
-                    platform.
+                    {pricing_faq_q1_answer()}
                   </p>
                 </div>
               </details>
@@ -1949,19 +1945,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  What are credits and how do they work?
+                  {pricing_faq_q2_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    On Stocknear, certain premium features have monthly usage
-                    limits. Credits represent your available usage for these
-                    features. The more credits you have, the more you can access
-                    advanced tools like chatting with our AI Agent and bulk
-                    downloading data. Your credits reset monthly based on your
-                    subscription plan, with higher-tier plans offering more
-                    credits for increased usage.
+                    {pricing_faq_q2_answer()}
                   </p>
                 </div>
               </details>
@@ -1973,16 +1963,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  What’s included with Premium Discord Channel Access?
+                  {pricing_faq_q3_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    Gain access to real-time options flow from major
-                    institutional players, live dark pool activity, instant
-                    earnings updates, market-moving news, and much more — all
-                    designed to keep you ahead of the market.
+                    {pricing_faq_q3_answer()}
                   </p>
                 </div>
               </details>
@@ -1995,16 +1982,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  How does the 7 day trial work?
+                  {pricing_faq_q4_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
                   >
-                    You are entitled to one FREE 7 day trial. You can cancel
-                    anytime within your trial period with no obligations. If you
-                    go past 7 days without cancelling, your account will be
-                    automatically billed.
+                    {pricing_faq_q4_answer()}
                   </p>
                 </div>
               </details>
@@ -2017,15 +2001,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  Can I change my plan at any time?
+                  {pricing_faq_q5_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
                   >
-                    Yes, you can easily upgrade your plan on your Account Page.
-                    Or simply reach out to us via email, and we’ll take care of
-                    it for you.
+                    {pricing_faq_q5_answer()}
                     <a
                       href={`mailto:${emailAddress}`}
                       class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
@@ -2044,15 +2026,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  Are there any commissions in addition to the subscription
-                  plans?
+                  {pricing_faq_q6_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    No, we do not charge any additional commissions or hidden
-                    fees beyond our subscription plans.
+                    {pricing_faq_q6_answer()}
                   </p>
                 </div>
               </details>
@@ -2064,18 +2044,15 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  Can I request a refund?
+                  {pricing_faq_q7_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    We offer a 30 day money back guarantee, no questions asked.
-                    Just send an email to <a
-                      href={`mailto:${emailAddress}`}
-                      class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
-                      >{emailAddress}</a
-                    > and you will get a full refund.
+                    {@html pricing_faq_q7_answer({
+                      email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`
+                    })}
                   </p>
                 </div>
               </details>
@@ -2088,13 +2065,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  What are my payment options?
+                  {pricing_faq_q8_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    We support only Credit Card payments.
+                    {pricing_faq_q8_answer()}
                   </p>
                 </div>
               </details>
@@ -2107,15 +2084,13 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
-                  Can I cancel at any time?
+                  {pricing_faq_q9_title()}
                 </summary>
                 <div class="collapse-content">
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    Of course. There is a "Cancel Subscription" button in your
-                    account area that you get access to after signing up. You
-                    can also send us a message and we will cancel for you.
+                    {pricing_faq_q9_answer()}
                   </p>
                 </div>
               </details>
@@ -2142,7 +2117,7 @@
       <h4
         class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
       >
-        Upgrade to Pro
+        {pricing_upgrade_modal_title()}
       </h4>
       <label
         for="upgradeProModal"
@@ -2164,8 +2139,7 @@
       class="flex flex-col justify-center items-center text-center px-4 pb-6"
     >
       <p class="text-sm text-gray-800 dark:text-zinc-300 mt-4">
-        To upgrade your account from Plus to Pro, please contact us via email
-        and we will handle the upgrade for you.
+        {pricing_upgrade_modal_content()}
       </p>
 
       <a
@@ -2182,11 +2156,11 @@
             d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4l-8 5l-8-5V6l8 5l8-5z"
           />
         </svg>
-        support@stocknear.com
+        {pricing_upgrade_modal_button()}
       </a>
 
       <p class="text-xs text-gray-500 dark:text-zinc-500 mt-4">
-        We typically respond within 24 hours.
+        {pricing_upgrade_modal_response_time()}
       </p>
     </div>
   </div>
