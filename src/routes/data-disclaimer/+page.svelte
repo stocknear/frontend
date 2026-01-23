@@ -1,14 +1,46 @@
 <script>
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    common_sponsor_us,
+    common_learn_more_sponsor,
+    common_contact_us,
+    common_let_me_know,
+    data_seo_title,
+    data_seo_description,
+    data_breadcrumb,
+    data_hero_title,
+    data_intro,
+    data_contact,
+    data_market_title,
+    data_market_content,
+    data_coverage_title,
+    data_coverage_content,
+    data_fundamentals_title,
+    data_fundamentals_content,
+    data_business_title,
+    data_business_content,
+    data_analyst_title,
+    data_analyst_content,
+    data_etf_title,
+    data_etf_content,
+    data_options_title,
+    data_options_content,
+    faq_sidebar_pro_title,
+    faq_sidebar_pro_desc,
+    faq_sidebar_about_title,
+  } from "$lib/paraglide/messages.js";
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
   const emailAddress = "support@stocknear.com";
+  const fmpLink = `<a href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear" target="_blank" rel="noopener noreferrer" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Financial Modeling Prep (FMP)</a>`;
+  const mainStreetLink = `<a href="https://mainstreetdata.com" target="_blank" rel="noopener noreferrer" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>`;
 </script>
 
 <SEO
-  title="Data Disclaimer | Financial Data Sources & Accuracy"
-  description="Comprehensive information about our financial data sources, accuracy standards, and usage guidelines for stock market data, analyst estimates, and financial metrics."
+  title={data_seo_title()}
+  description={data_seo_description()}
 />
 
 <section
@@ -21,10 +53,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Data Disclaimer</li>
+    <li class="text-gray-800 dark:text-zinc-300">{data_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -37,7 +69,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Data Disclaimer
+              {data_hero_title()}
             </h1>
           </div>
 
@@ -46,178 +78,89 @@
               <p
                 class="mb-5 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                The financial data presented on Stocknear is provided for
-                informational and educational purposes only. This information
-                should not be construed as financial advice or used as the sole
-                basis for trading or investment decisions.
+                {data_intro()}
                 <br />
-                We maintain rigorous standards for data accuracy and quality assurance.
-                If you identify any discrepancies or require clarification, please
-                reach out to us via
-                <a
-                  href={discordURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  Discord
-                </a>
-                or contact our support team at
-                <a
-                  href="mailto:{emailAddress}"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  {emailAddress}
-                </a>.
+                {@html data_contact({
+                  discordLink: `<a href="${discordURL}" target="_blank" rel="noopener noreferrer" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Discord</a>`,
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                })}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Market Data & Stock Charts
+                {data_market_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Our comprehensive market data and real-time stock charts are
-                powered by
-                <a
-                  href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  Financial Modeling Prep (FMP)
-                </a>, a leading provider of financial data services. This
-                includes intraday pricing, historical data, and technical
-                indicators.
+                {@html data_market_content({ fmpLink })}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Market Coverage
+                {data_coverage_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Stocknear provides comprehensive coverage of securities listed
-                on major U.S. exchanges, including NASDAQ, NYSE, NYSE American,
-                and NYSE Arca. Our database encompasses stocks, ETFs, ADRs, and
-                select OTC securities. We are actively expanding our coverage to
-                include additional global exchanges and financial instruments.
+                {data_coverage_content()}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Financial Fundamentals
+                {data_fundamentals_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Our fundamental financial data is sourced from
-                <a
-                  href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  Financial Modeling Prep
-                </a>
-                and is derived from official SEC filings (Forms 10-K, 10-Q, and 8-K).
-                While our systems update this information daily, there may be inherent
-                delays due to standard SEC filing windows and corporate reporting
-                schedules. All financial data presented is based on official, audited
-                company submissions to regulatory authorities.
+                {@html data_fundamentals_content({ fmpLink })}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Business Metrics Data
+                {data_business_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Business Metrics Data, including operational KPIs and non-GAAP
-                unit economics, is provided through our partner
-                <a
-                  href="https://mainstreetdata.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  Main Street Data
-                </a>. Their research team aggregates, normalizes, and
-                continuously validates these disclosures from company filings,
-                investor presentations, and management commentary to ensure
-                high-integrity business performance coverage across our
-                platform.
+                {@html data_business_content({ mainStreetLink })}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Analyst Coverage & Market Projections
+                {data_analyst_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Our analyst coverage integrates data from multiple authoritative
-                sources. Price targets and analyst ratings are provided by
-                Benzinga, representing consensus views from leading Wall Street
-                analysts. Revenue projections and EPS forecasts are aggregated
-                from both Benzinga and
-                <a
-                  href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  Financial Modeling Prep
-                </a>. While we strive to present the most accurate forecasts,
-                users should note that market predictions are inherently
-                uncertain and should be considered as part of a broader
-                investment research process.
+                {@html data_analyst_content({ fmpLink })}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                ETF Analytics
+                {data_etf_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Our ETF holdings data and analytics are provided through our
-                partnership with
-                <a
-                  href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                >
-                  Financial Modeling Prep
-                </a>, ensuring accurate and timely information on fund
-                compositions, allocations, and performance metrics.
+                {@html data_etf_content({ fmpLink })}
               </p>
 
               <h2
                 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Options Market Data
+                {data_options_title()}
               </h2>
               <p
                 class="mb-10 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Our options market data infrastructure leverages multiple data
-                vendors, combining their feeds into a unified pipeline to
-                deliver comprehensive full-stream OPRA (Options Price Reporting
-                Authority) data. By aggregating real-time options flow and
-                individual options chain data from several sources, we ensure
-                complete coverage of options market activity and pricing across
-                all major U.S. options exchanges.
+                {data_options_content()}
               </p>
             </div>
           </div>
@@ -233,13 +176,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Pro Subscription
+                  {faq_sidebar_pro_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Upgrade now for unlimited access to all data, tools and no ads.
+                {faq_sidebar_pro_desc()}
               </span>
             </a>
           </div>
@@ -252,12 +195,12 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">About Us</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">{faq_sidebar_about_title()}</h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Learn more about why we're doing this here
+                {common_learn_more_sponsor()}
               </span>
             </a>
           </div>
@@ -271,13 +214,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Contact Us
+                  {common_contact_us()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Let me know if you need something
+                {common_let_me_know()}
               </span>
             </a>
           </div>

@@ -8,6 +8,25 @@
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    contact_seo_title,
+    contact_breadcrumb,
+    contact_hero_title,
+    contact_intro,
+    contact_email_label,
+    contact_subject_label,
+    contact_message_label,
+    contact_send_button,
+    contact_processing,
+    contact_success,
+    contact_sidebar_pro_title,
+    contact_sidebar_pro_desc,
+    contact_sidebar_screener_title,
+    contact_sidebar_screener_desc,
+    contact_sidebar_watchlist_title,
+    contact_sidebar_watchlist_desc,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   export let form;
@@ -64,7 +83,7 @@
   };
 </script>
 
-<SEO title="Contact us" description="" />
+<SEO title={contact_seo_title()} description="" />
 
 {#key messageSent}
   <section
@@ -77,10 +96,10 @@
         <a
           href="/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
+          >{common_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">Contact Us</li>
+      <li class="text-gray-800 dark:text-zinc-300">{contact_breadcrumb()}</li>
     </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
@@ -93,20 +112,15 @@
               <h1
                 class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Contact Us
+                {contact_hero_title()}
               </h1>
             </div>
 
             <div class="w-full m-auto">
               <p class="text-sm sm:text-base">
-                We would love to hear from you. Please submit a message using
-                the contact form below and we will get back to you as soon as
-                possible. You can also send an email directly to
-                <a
-                  href={`mailto:${emailAddress}`}
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >{emailAddress}</a
-                >.
+                {@html contact_intro({
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                })}
               </p>
 
               <form
@@ -118,19 +132,19 @@
                   <Input
                     type="email"
                     id="email"
-                    label="Email"
+                    label={contact_email_label()}
                     value={form?.data?.email}
                     required={true}
                   />
                   <Input
                     type="text"
                     id="subject"
-                    label="Subject"
+                    label={contact_subject_label()}
                     required={true}
                   />
                 </div>
                 <div class="mt-5 w-full max-w-[650px]">
-                  <TextArea label="Message" id="message" required={true} />
+                  <TextArea label={contact_message_label()} id="message" required={true} />
 
                   {#if showTurnstile}
                     <div class="pt-5">
@@ -150,7 +164,7 @@
                       type="submit"
                       class="mt-5 cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
                     >
-                      <span>Send Message</span>
+                      <span>{contact_send_button()}</span>
                     </button>
                   {:else}
                     <label
@@ -158,7 +172,7 @@
                     >
                       <div class="flex flex-row m-auto items-center">
                         <span class="loading loading-spinner"></span>
-                        <span class="ml-1.5">Processing...</span>
+                        <span class="ml-1.5">{contact_processing()}</span>
                       </div>
                     </label>
                   {/if}
@@ -185,8 +199,7 @@
                           </div>
                           <div class="ml-3 sm:ml-4">
                             <span class="text-base"
-                              >Your message was sent successfully. We will get
-                              back to you soon.</span
+                              >{contact_success()}</span
                             >
                           </div>
                         </div>
@@ -208,14 +221,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Pro Subscription
+                    {contact_sidebar_pro_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {contact_sidebar_pro_desc()}
                 </span>
               </a>
             </div>
@@ -229,14 +241,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Stock Screener
+                    {contact_sidebar_screener_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Filter, sort and analyze all stocks to find your next
-                  investment.
+                  {contact_sidebar_screener_desc()}
                 </span>
               </a>
             </div>
@@ -250,12 +261,12 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Watchlists
+                    {contact_sidebar_watchlist_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-                  >Keep track of your favorite stocks in real-time.
+                  >{contact_sidebar_watchlist_desc()}
                 </span>
               </a>
             </div>

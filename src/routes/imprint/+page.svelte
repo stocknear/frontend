@@ -1,12 +1,41 @@
 <script>
   import SEO from "$lib/components/SEO.svelte";
-
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    common_sponsor_us,
+    common_learn_more_sponsor,
+    common_contact_us,
+    common_let_me_know,
+    imprint_seo_title,
+    imprint_breadcrumb,
+    imprint_hero_title,
+    imprint_tmg_notice,
+    imprint_managing_director,
+    imprint_managing_director_de,
+    imprint_registered,
+    imprint_vat,
+    imprint_responsible,
+    imprint_odr_notice,
+    imprint_odr_content,
+    imprint_odr_note,
+    imprint_vsbg_title,
+    imprint_vsbg_content,
+    imprint_disclaimer_title,
+    imprint_content_warning_title,
+    imprint_content_warning,
+    imprint_external_links_title,
+    imprint_external_links,
+    imprint_copyright_title,
+    imprint_copyright,
+    imprint_special_conditions_title,
+    imprint_special_conditions,
+  } from "$lib/paraglide/messages.js";
 
   const emailAddress = "support@stocknear.com";
 </script>
 
-<SEO title="Imprint" description="" />
+<SEO title={imprint_seo_title()} description="" />
 
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
@@ -18,10 +47,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Imprint</li>
+    <li class="text-gray-800 dark:text-zinc-300">{imprint_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -34,7 +63,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Imprint
+              {imprint_hero_title()}
             </h1>
           </div>
 
@@ -43,7 +72,7 @@
           >
             <div class="">
               <p class="italic mb-2 text-xs text-gray-800 dark:text-zinc-300">
-                According to § 5 Telemediengesetz (TMG) ‍
+                {imprint_tmg_notice()}
               </p>
 
               <p class=" mb-5">
@@ -61,29 +90,23 @@
                 >.
                 <br class="mb-3" />
 
-                Managing Director (<span class="italic">Geschäftsführer</span>):
+                {imprint_managing_director()} (<span class="italic">{imprint_managing_director_de()}</span>):
                 Dr. rer. nat. Muslem Rahimi
                 <br class="mb-3" />
 
-                Registered in the commercial register at the local court at
-                Siegen under: HRB 13800
+                {imprint_registered()}
                 <br />
-                VAT ID: DE366905061
+                {imprint_vat()}
               </p>
 
               <p class="mb-5">
-                Responsible for the content according § 55 Abs. 2 RStV
+                {imprint_responsible()}
                 <br />
-                Notice according to the Online Dispute Settlement Regulation
+                {imprint_odr_notice()}
               </p>
 
               <p class="mb-5">
-                Under applicable law, we are required to inform consumers of the
-                existence of the European Online Dispute Resolution platform,
-                which can be used to resolve disputes without having to go to
-                court. The European Commission is responsible for setting up the
-                platform. The European Online Dispute Resolution Platform can be
-                found here:
+                {imprint_odr_content()}
                 <a
                   target="_blank"
                   href="http://ec.europa.eu/odr"
@@ -91,101 +114,59 @@
                   >http://ec.europa.eu/odr.</a
                 >
                 <br />
-                However, we would like to point out that we are not prepared to participate
-                in the dispute resolution procedure within the framework of theEuropean
-                Online Dispute Resolution Platform. To contact us, please use our
-                above e-mail and phone number.
+                {imprint_odr_note()}
               </p>
 
               <h2
                 class="mb-3 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
               >
-                Notice in accordance with the Consumer Dispute Settlement Act
-                (VSBG)
+                {imprint_vsbg_title()}
               </h2>
 
               <p class=" mb-5">
-                We are not willing and obliged to participate in dispute
-                resolution proceedings before a consumer arbitration board.
+                {imprint_vsbg_content()}
               </p>
 
               <h1
                 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-start mb-5"
               >
-                Disclaimer - legal notice
+                {imprint_disclaimer_title()}
               </h1>
               <h1
                 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
               >
-                § 1 Content warning
+                {imprint_content_warning_title()}
               </h1>
 
               <p class=" mb-3 ml-2">
-                The free and freely accessible content of this website has been
-                created with the greatest possible care, but the provider of
-                this website does not guarantee the accuracy and timeliness of
-                the free and freely accessible journalistic advice and news.
-                Contributions identified by name reflect the opinion of the
-                respective author and not always the opinion of the provider.
-                Simply by calling up the free and freely accessible content, no
-                contractual relationship is established between the user and the
-                provider; in this respect, there is no intention on the part of
-                the provider to be legally bound.
+                {imprint_content_warning()}
               </p>
 
               <h1
                 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
               >
-                § 2 External Links
+                {imprint_external_links_title()}
               </h1>
               <p class=" mb-3 ml-2">
-                This website contains links to third-party websites ("external
-                links"). These websites are subject to the liability of the
-                respective operators. When the external links were first
-                created, the provider checked the external content for any legal
-                violations. At that time, no legal violations were apparent. The
-                provider has no influence on the current and future design and
-                content of the linked pages. The inclusion of external links
-                does not imply that the provider adopts the content behind the
-                reference or link as its own. A constant control of the external
-                links is not reasonable for the provider without concrete
-                evidence of violations. However, in the event of knowledge of
-                legal violations, such external links will be deleted
-                immediately.
+                {imprint_external_links()}
               </p>
 
               <h1
                 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
               >
-                § 3 Copyrights and ancillary copyrights
+                {imprint_copyright_title()}
               </h1>
               <p class=" mb-3 ml-2">
-                The content published on this website is subject to German
-                copyright and ancillary copyright law. Any use not permitted by
-                German copyright and ancillary copyright law requires the prior
-                written consent of the provider or the respective copyright
-                holder. This applies in particular to the copying, editing,
-                translation, storage, processing or reproduction of content in
-                databases or other electronic media and systems. Contents and
-                rights of third parties are marked as such. The unauthorized
-                reproduction or transmission of individual content or complete
-                pages is not permitted and is punishable by law. Only the
-                production of copies and downloads for personal, private and
-                non-commercial use is permitted. The display of this website in
-                external frames is only permitted with written permission.
+                {imprint_copyright()}
               </p>
 
               <h1
                 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
               >
-                § 4 Special conditions of use
+                {imprint_special_conditions_title()}
               </h1>
               <p class=" mb-3 ml-2">
-                Insofar as special conditions for individual uses of this
-                website deviate from the aforementioned paragraphs, this will be
-                expressly pointed out at the appropriate place. In this case,
-                the special conditions of use shall apply in the respective
-                individual case.
+                {imprint_special_conditions()}
               </p>
             </div>
           </div>
@@ -201,13 +182,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Sponsor Us
+                  {common_sponsor_us()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Learn more about why we're doing this here
+                {common_learn_more_sponsor()}
               </span>
             </a>
           </div>
@@ -221,13 +202,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Contact Us
+                  {common_contact_us()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Let me know if you need something
+                {common_let_me_know()}
               </span>
             </a>
           </div>

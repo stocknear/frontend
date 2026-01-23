@@ -4,6 +4,87 @@
 
   import SEO from "$lib/components/SEO.svelte";
   // import Discount from "$lib/components/Discount.svelte";
+  import {
+    pricing_seo_title,
+    pricing_seo_description,
+    pricing_investors,
+    pricing_trustpilot,
+    pricing_reviews,
+    pricing_hero_title,
+    pricing_hero_subtitle,
+    pricing_free_trial,
+    pricing_cancel_anytime,
+    pricing_no_hidden_fees,
+    pricing_monthly,
+    pricing_annual,
+    pricing_save,
+    pricing_per_month,
+    pricing_basic_title,
+    pricing_basic_subtitle,
+    pricing_plus_title,
+    pricing_plus_subtitle,
+    pricing_pro_title,
+    pricing_pro_subtitle,
+    pricing_feature_credits_10,
+    pricing_feature_credits_150,
+    pricing_feature_credits_1000,
+    pricing_feature_watchlist_1,
+    pricing_feature_watchlist_unlimited,
+    pricing_feature_watchlist_pro,
+    pricing_feature_portfolio_1,
+    pricing_feature_portfolio_unlimited,
+    pricing_feature_portfolio_pro,
+    pricing_feature_alerts_3,
+    pricing_feature_alerts_unlimited,
+    pricing_feature_notification,
+    pricing_feature_hedgefund,
+    pricing_feature_congress,
+    pricing_feature_history,
+    pricing_feature_screener,
+    pricing_feature_screener_unlimited,
+    pricing_feature_download,
+    pricing_feature_download_unlimited,
+    pricing_feature_no_ads,
+    pricing_feature_options_historical,
+    pricing_feature_options_flow,
+    pricing_feature_unusual_orders,
+    pricing_feature_discord,
+    pricing_feature_everything_plus,
+    pricing_feature_options_realtime,
+    pricing_get_registered,
+    pricing_get_plus,
+    pricing_upgrade_plus,
+    pricing_current_plan,
+    pricing_upgrade_pro,
+    pricing_unlock_pro,
+    pricing_start_trial,
+    pricing_subscribed_notice,
+    pricing_manage_subscription,
+    pricing_faq_title,
+    pricing_faq_subtitle,
+    pricing_faq_q1_title,
+    pricing_faq_q1_answer,
+    pricing_faq_q2_title,
+    pricing_faq_q2_answer,
+    pricing_faq_q3_title,
+    pricing_faq_q3_answer,
+    pricing_faq_q4_title,
+    pricing_faq_q4_answer,
+    pricing_faq_q5_title,
+    pricing_faq_q5_answer,
+    pricing_faq_q6_title,
+    pricing_faq_q6_answer,
+    pricing_faq_q7_title,
+    pricing_faq_q7_answer,
+    pricing_faq_q8_title,
+    pricing_faq_q8_answer,
+    pricing_faq_q9_title,
+    pricing_faq_q9_answer,
+    pricing_upgrade_modal_title,
+    pricing_upgrade_modal_content,
+    pricing_upgrade_modal_button,
+  } from "$lib/paraglide/messages.js";
+
   export let data;
   export let form;
 
@@ -92,8 +173,8 @@
 </script>
 
 <SEO
-  title="Stocknear Pricing - Pro Stock Analysis Plans & Premium Features "
-  description="Unlock premium stock analysis features with Stocknear Pro and Lifetime plans. Get unlimited access to advanced tools, real-time data, AI forecasts, options flow, and institutional-grade analytics. Start your free trial today."
+  title={pricing_seo_title()}
+  description={pricing_seo_description()}
   keywords="stocknear pricing, stocknear pro, stock analysis subscription, premium stock tools, investment analytics pricing, trading tools subscription, stock data premium, financial analysis plans"
   structuredData={{
     "@context": "https://schema.org",
@@ -176,7 +257,7 @@
             d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z"
           ></path>
         </svg>
-        <span>10,000+ investors</span>
+        <span>{pricing_investors()}</span>
       </div>
       <div
         class="flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 py-2 shadow-none"
@@ -187,40 +268,39 @@
           />
         </svg>
         <span class="text-[rgb(var(--pricing-ink))]">4.6/5</span>
-        <span class="font-medium">Trustpilot</span>
+        <span class="font-medium">{pricing_trustpilot()}</span>
         <a
           rel="noopener noreferrer"
           target="_blank"
           href="https://www.trustpilot.com/review/stocknear.com"
           class="underline underline-offset-4 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >
-          Reviews
+          {pricing_reviews()}
         </a>
       </div>
     </div>
 
     <div class="mx-auto mt-10 text-center max-w-3xl">
       <h1 class="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight">
-        Upgrade for real-time edge on every trade.
+        {pricing_hero_title()}
       </h1>
       <p class="mt-4 text-base sm:text-lg">
-        Start free, upgrade anytime. Every tier is built for focus: clean data,
-        smart alerts, and tools that save hours.
+        {pricing_hero_subtitle()}
       </p>
       <div
         class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.18em]"
       >
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
-          >7-day free trial</span
+          >{pricing_free_trial()}</span
         >
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
-          >Cancel anytime</span
+          >{pricing_cancel_anytime()}</span
         >
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
-          >No hidden fees</span
+          >{pricing_no_hidden_fees()}</span
         >
       </div>
     </div>
@@ -231,7 +311,7 @@
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
     >
       <span class={mode ? "" : "text-[rgb(var(--pricing-ink))]"}>
-        Monthly
+        {pricing_monthly()}
       </span>
       <label class="relative inline-flex cursor-pointer items-center">
         <input type="checkbox" bind:checked={mode} class="peer sr-only" />
@@ -245,11 +325,11 @@
           class="absolute left-1 top-1 h-6 w-6 rounded-full bg-muted dark:bg-white shadow-md transition peer-checked:translate-x-8 peer-checked:bg-white dark:bg-zinc-200"
         ></span>
       </label>
-      <span class={mode ? "text-[rgb(var(--pricing-ink))]" : ""}> Annual </span>
+      <span class={mode ? "text-[rgb(var(--pricing-ink))]" : ""}> {pricing_annual()} </span>
       <span
         class="rounded-full px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em]"
       >
-        Save 33%
+        {pricing_save()}
       </span>
     </div>
 
@@ -258,12 +338,12 @@
         class="hidden sm:flex flex-col relative rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
       >
         <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-semibold tracking-tight">Basic</h3>
+          <h3 class="text-2xl font-semibold tracking-tight">{pricing_basic_title()}</h3>
         </div>
-        <p class="mt-2 text-sm">Everything you need to explore the platform.</p>
+        <p class="mt-2 text-sm">{pricing_basic_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           <span class="text-4xl font-semibold">$0</span>
-          <span class="text-sm">/month</span>
+          <span class="text-sm">{pricing_per_month()}</span>
         </div>
 
         <ul class="mt-6 mb-6 space-y-2 text-sm">
@@ -999,7 +1079,7 @@
           <span class="text-4xl font-semibold">
             {mode ? "$10" : "$15"}
           </span>
-          <span class="text-sm">/month</span>
+          <span class="text-sm">{pricing_per_month()}</span>
         </div>
         <p
           class="text-xs mt-2 uppercase tracking-[0.2em] {!mode

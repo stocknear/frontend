@@ -1,6 +1,42 @@
 <script>
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    common_home,
+    common_sponsor_us,
+    common_learn_more_sponsor,
+    common_contact_us,
+    common_let_me_know,
+    faq_seo_title,
+    faq_seo_description,
+    faq_breadcrumb,
+    faq_hero_title,
+    faq_q1_title,
+    faq_q1_answer,
+    faq_q2_title,
+    faq_q2_answer,
+    faq_q3_title,
+    faq_q3_answer_1,
+    faq_q3_answer_2,
+    faq_q3_answer_3,
+    faq_q4_title,
+    faq_q4_answer,
+    faq_q5_title,
+    faq_q5_answer,
+    faq_q6_title,
+    faq_q6_answer,
+    faq_q7_title,
+    faq_q7_answer_1,
+    faq_q7_answer_2,
+    faq_q8_title,
+    faq_q8_answer,
+    faq_q9_title,
+    faq_q9_answer,
+    faq_sidebar_pro_title,
+    faq_sidebar_pro_desc,
+    faq_sidebar_about_title,
+    footer_learning_center,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   let discordURL = import.meta.env.VITE_DISCORD_URL;
@@ -8,8 +44,8 @@
 </script>
 
 <SEO
-  title="Frequently Asked Questions - Stocknear Help Center"
-  description="Get answers to common questions about Stocknear's stock analysis platform. Find help with features, subscriptions, data sources, technical analysis tools, and investment research capabilities."
+  title={faq_seo_title()}
+  description={faq_seo_description()}
   keywords="Stocknear FAQ, stock platform help, investment platform questions, stock analysis help, trading platform support, financial data questions, subscription help, platform features"
   structuredData={{
     "@context": "https://schema.org",
@@ -35,10 +71,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">FAQ</li>
+    <li class="text-gray-800 dark:text-zinc-300">{faq_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -51,7 +87,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Frequently Asked Questions
+              {faq_hero_title()}
             </h1>
           </div>
 
@@ -60,154 +96,125 @@
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                1. Is there a guide on how to use Stocknear’s features?
+                {faq_q1_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Yes! We've created the
-                <a
-                  href="/learning-center"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >Learning Center</a
-                > to explain each feature in detail—what it does, how to integrate
-                it into your strategies, and its market impact. We update it regularly,
-                so check back often for new content.
+                {@html faq_q1_answer({
+                  learningCenterLink: `<a href="/learning-center" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_learning_center()}</a>`
+                })}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                2. How long does it take to see earnings releases?
+                {faq_q2_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Earnings reports are available on Stocknear within 1-5 minutes
-                after they go live.
+                {faq_q2_answer()}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                3. Why is your data different from other finance sites?
+                {faq_q3_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Like other platforms, we source data from third-party providers.
-                With thousands of stocks and funds worldwide, manual data
-                collection is impractical.
+                {faq_q3_answer_1()}
               </p>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Data providers rely on automated methods, which can lead to
-                variations between platforms. Differences in definitions and
-                collection techniques can cause slight discrepancies.
+                {faq_q3_answer_2()}
               </p>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                If you notice an inaccuracy, please contact us at <a
-                  href={`mailto:${emailAddress}`}
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >{emailAddress}</a
-                >.
+                {@html faq_q3_answer_3({
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                })}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                4. Is the Options data real-time or delayed?
+                {faq_q4_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Our <a
-                  href="/options-flow"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >options flow</a
-                > feature provides real-time options data from Benzinga without delays.
+                {@html faq_q4_answer({
+                  optionsFlowLink: `<a href="/options-flow" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Options Flow</a>`
+                })}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                5. Why do other platforms show options data that Stocknear
-                doesn’t?
+                {faq_q5_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                We focus on unusual options activity from hedge funds and
-                institutional traders. Retail investor contracts are excluded to
-                eliminate noise and highlight significant market moves.
+                {faq_q5_answer()}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                6. Is Dark Pool data real-time or delayed?
+                {faq_q6_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Dark Pool data is delayed by 15 minutes. We partner with major
-                exchanges to provide exclusive Wall Street insights typically
-                reserved for institutional traders.
+                {faq_q6_answer()}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                7. I found an error in the data. What should I do?
+                {faq_q7_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Please email <a
-                  href={`mailto:${emailAddress}`}
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >{emailAddress}</a
-                >, and we’ll investigate immediately.
+                {@html faq_q7_answer_1({
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                })}
               </p>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                We manually verify every error report and work with data
-                providers to ensure corrections are made at the source.
+                {faq_q7_answer_2()}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                8. Can I request new features? How can I contact you?
+                {faq_q8_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Absolutely! Email us or join our <a
-                  href={discordURL}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >official Discord</a
-                > for quicker responses from our dev team. We’re always open to new
-                ideas to improve the platform.
+                {@html faq_q8_answer({
+                  discordLink: `<a href="${discordURL}" rel="noopener noreferrer" target="_blank" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Discord</a>`
+                })}
               </p>
 
               <h2
                 class="mb-1 text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
               >
-                9. Do you offer an API?
+                {faq_q9_title()}
               </h2>
               <p
                 class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
               >
-                Not at the moment. We license data from third-party providers
-                and don’t have redistribution rights. However, we plan to offer
-                an API in the future.
+                {faq_q9_answer()}
               </p>
             </div>
           </div>
@@ -223,13 +230,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Pro Subscription
+                  {faq_sidebar_pro_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Upgrade now for unlimited access to all data, tools and no ads.
+                {faq_sidebar_pro_desc()}
               </span>
             </a>
           </div>
@@ -242,12 +249,12 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">About Us</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">{faq_sidebar_about_title()}</h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Learn more about why we're doing this here
+                {common_learn_more_sponsor()}
               </span>
             </a>
           </div>
@@ -261,13 +268,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Contact Us
+                  {common_contact_us()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Let me know if you need something
+                {common_let_me_know()}
               </span>
             </a>
           </div>
