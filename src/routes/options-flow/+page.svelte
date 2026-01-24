@@ -27,6 +27,7 @@
   import Input from "$lib/components/Input.svelte";
   import Copy from "lucide-svelte/icons/copy";
   import Zap from "lucide-svelte/icons/zap";
+  import * as m from "$lib/paraglide/messages";
 
   import { page } from "$app/stores";
 
@@ -118,14 +119,17 @@
 
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let selectedPopularStrategy = "";
-  const popularStrategyList = [
-    { key: "bullishSweeps", label: "Bullish Sweeps" },
-    { key: "bearishSweeps", label: "Bearish Sweeps" },
-    { key: "highPremiumBlocks", label: "High Premium Blocks" },
-    { key: "unusualSizeOI", label: "Unusual Size vs OI" },
-    { key: "etfIndexFlow", label: "ETF & Index Flow" },
-    { key: "zeroDteFlow", label: "0DTE Flow" },
-    { key: "repeatedFlow", label: "Repeated Flow" },
+  $: popularStrategyList = [
+    { key: "bullishSweeps", label: m.options_flow_strategy_bullish_sweeps() },
+    { key: "bearishSweeps", label: m.options_flow_strategy_bearish_sweeps() },
+    {
+      key: "highPremiumBlocks",
+      label: m.options_flow_strategy_high_premium_blocks(),
+    },
+    { key: "unusualSizeOI", label: m.options_flow_strategy_unusual_size_oi() },
+    { key: "etfIndexFlow", label: m.options_flow_strategy_etf_index_flow() },
+    { key: "zeroDteFlow", label: m.options_flow_strategy_zero_dte_flow() },
+    { key: "repeatedFlow", label: m.options_flow_strategy_repeated_flow() },
   ];
 
   let displayRules = [];
@@ -1886,15 +1890,14 @@
 </script>
 
 <SEO
-  title="Options Flow Scanner - Live Sweeps, Blocks & Unusual Activity"
-  description="Monitor live options flow, sweeps, and blocks across US stocks and ETFs. Spot unusual activity and short-term trade setups in real time."
-  keywords="options flow, options flow scanner, unusual options activity, sweep orders, block trades, smart money, call flow, put flow, options alerts, OPRA options flow"
+  title={m.options_flow_seo_title()}
+  description={m.options_flow_seo_description()}
+  keywords={m.options_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Options Flow Scanner",
-    description:
-      "Live options flow with sweeps, blocks, and unusual activity for short-term trade setups",
+    name: m.options_flow_structured_name(),
+    description: m.options_flow_structured_description(),
     url: "https://stocknear.com/options-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1933,7 +1936,9 @@
 
 <section class="overflow-y-auto mb-10 text-gray-700 dark:text-zinc-200">
   <div
-    class="w-full flex justify-center items-center p-3 sm:p-0 transition-all duration-300 {isFullWidth ? 'max-w-full' : 'max-w-screen sm:max-w-[1400px]'}"
+    class="w-full flex justify-center items-center p-3 sm:p-0 transition-all duration-300 {isFullWidth
+      ? 'max-w-full'
+      : 'max-w-screen sm:max-w-[1400px]'}"
   >
     <div class="w-full m-auto min-h-screen">
       <!--
@@ -1952,7 +1957,7 @@
             <h1
               class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Options Flow
+              {m.options_flow_main_title()}
             </h1>
           </div>
 
@@ -1961,19 +1966,19 @@
               <div
                 class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
               >
-                Popular Filters
+                {m.options_flow_popular_filters()}
               </div>
               <div class="relative inline-block text-left grow">
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="min-w-[110px]  w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate"
                         >{selectedPopularStrategy?.length !== 0
                           ? selectedPopularStrategy
-                          : "Select popular"}</span
+                          : m.options_flow_select_popular()}</span
                       >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -2000,7 +2005,7 @@
                     <DropdownMenu.Label
                       class="text-gray-500 dark:text-zinc-400 font-normal"
                     >
-                      Popular Strategies
+                      {m.options_flow_popular_strategies()}
                     </DropdownMenu.Label>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Group>
@@ -2018,25 +2023,25 @@
               </div>
             </div>
 
-            <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
+            <div class=" flex w-full sm:w-[50%] md:block md:w-auto ml-2">
               <div
                 class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
               >
-                Saved Filters
+                {m.options_flow_saved_filters()}
               </div>
-              <div class="relative inline-block text-left grow">
+              <div class="relative inline-block w-full">
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="min-w-[110px]  w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate max-w-48"
                         >{selectedStrategy?.length !== 0
                           ? strategyList?.find(
                               (item) => item.id === selectedStrategy,
                             )?.title
-                          : "Select Filter"}</span
+                          : m.options_flow_select_filter()}</span
                       >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -2081,7 +2086,9 @@
                               clip-rule="evenodd"
                             ></path>
                           </svg>
-                          <div class="text-sm text-start">New Filter</div>
+                          <div class="text-sm text-start">
+                            {m.options_flow_new_filter()}
+                          </div>
                         </Button>
                       </DropdownMenu.Trigger>
                     </DropdownMenu.Label>
@@ -2283,7 +2290,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              {ruleOfList?.length} Filters
+              {m.options_flow_filters_count({ count: ruleOfList?.length })}
             </button>
             <div class="flex flex-row items-center ml-auto justify-start">
               <div class="flex items-center gap-1">
@@ -2306,7 +2313,7 @@
             >
               <label
                 for="ruleModal"
-                class="inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
+                class="text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
               >
                 <svg
                   class="h-5 w-5"
@@ -2321,7 +2328,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div>Add Filters</div>
+                <div>{m.options_flow_add_filters()}</div>
               </label>
 
               <!-- Quick Search Input -->
@@ -2348,7 +2355,9 @@
                   </div>
                   <input
                     type="text"
-                    placeholder={`Search ${allRows?.length} filters...`}
+                    placeholder={m.options_flow_search_filters({
+                      count: allRows?.length,
+                    })}
                     bind:value={quickSearchTerm}
                     on:input={handleQuickSearchInput}
                     on:keydown={handleQuickSearchKeydown}
@@ -2435,7 +2444,7 @@
                   <div
                     class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                   >
-                    No available filters found
+                    {m.options_flow_no_filters_found()}
                   </div>
                 {/if}
               </div>
@@ -3262,7 +3271,9 @@
                   class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
                   {(data?.user?.tier === "Pro"
-                    ? (tableSearchValue?.length > 0 ? tableSearchDisplayedData?.length : displayedData?.length)
+                    ? tableSearchValue?.length > 0
+                      ? tableSearchDisplayedData?.length
+                      : displayedData?.length
                     : totalOrders
                   )?.toLocaleString("en-US")} Trades
                 </h2>
@@ -3300,7 +3311,7 @@
                     bind:value={tableSearchValue}
                     on:input={debouncedTableSearch}
                     type="text"
-                    placeholder="Find..."
+                    placeholder={m.options_flow_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -3316,8 +3327,12 @@
 
                   <button
                     on:click={toggleFullWidth}
-                    title={isFullWidth ? "Exit full width" : "Expand to full width"}
-                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth ? 'border-violet-400 dark:border-violet-500' : ''}"
+                    title={isFullWidth
+                      ? "Exit full width"
+                      : "Expand to full width"}
+                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                      ? 'border-violet-400 dark:border-violet-500'
+                      : ''}"
                   >
                     {#if isFullWidth}
                       <svg
@@ -3350,7 +3365,11 @@
                         <line x1="3" y1="21" x2="10" y2="14" />
                       </svg>
                     {/if}
-                    <span class="truncate text-[0.85rem] sm:text-sm">{isFullWidth ? "Normal Width" : "Full Width"}</span>
+                    <span class="truncate text-[0.85rem] sm:text-sm"
+                      >{isFullWidth
+                        ? m.options_flow_normal_width()
+                        : m.options_flow_full_width()}</span
+                    >
                   </button>
 
                   {#if customColumnOrder?.length > 0}
@@ -3398,13 +3417,13 @@
               </div>
             {:else}
               <Infobox
-                text={`No Option Trades found for "${tableSearchValue}"`}
+                text={m.options_flow_no_trades_query({
+                  query: tableSearchValue,
+                })}
               />
             {/if}
           {:else}
-            <Infobox
-              text={`No data found based on filter(s) selected. Please adjust your filters and try again.`}
-            />
+            <Infobox text={m.options_flow_no_data_filters()} />
           {/if}
         {:else}
           <div class="flex justify-center items-center h-80">
@@ -3448,7 +3467,7 @@
           <h1
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            Select filters ({allRows?.length} total)
+            {m.options_flow_select_filters_title({ count: allRows?.length })}
           </h1>
           <label
             for="ruleModal"
@@ -3523,7 +3542,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder="Search"
+              placeholder={m.options_flow_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -3570,7 +3589,7 @@
 
         {#if searchTerm?.length > 0 && filteredRows?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            Nothing found
+            {m.options_flow_nothing_found()}
           </div>
         {/if}
       </div>
@@ -3594,7 +3613,7 @@
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      New Filter
+      {m.options_flow_modal_new_title()}
     </h1>
 
     <form
@@ -3606,7 +3625,7 @@
         id="title"
         type="text"
         errors=""
-        label="Filter Name"
+        label={m.options_flow_modal_new_name_label()}
         required={true}
       />
 
@@ -3614,7 +3633,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        Create Filter
+        {m.options_flow_modal_new_create()}
       </button>
     </form>
   </div>
@@ -3633,17 +3652,17 @@
           bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      Delete Filter
+      {m.options_flow_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      Are you sure you want to delete this filter? This action cannot be undone.
+      {m.options_flow_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{m.options_flow_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -3670,7 +3689,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Filter</label
+        >{m.options_flow_modal_delete_confirm()}</label
       >
     </div>
   </div>

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Options Flow Scanner - Live Sweeps, Blocks & ungewöhnliche Aktivität",
+  "options_flow_seo_description": "Überwache Live Options Flow, Sweeps und Blocks bei US-Aktien und ETFs. Erkenne ungewöhnliche Aktivitäten und kurzfristige Trade-Setups in Echtzeit.",
+  "options_flow_seo_keywords": "options flow, options flow scanner, ungewöhnliche optionsaktivität, sweep orders, block trades, smart money, call flow, put flow, options alerts",
+  "options_flow_structured_name": "Options Flow Scanner",
+  "options_flow_structured_description": "Live Options Flow mit Sweeps, Blocks und ungewöhnlicher Aktivität für kurzfristige Trade-Setups",
+
+  "options_flow_main_title": "Options Flow",
+
+  "options_flow_popular_filters": "Beliebte Filter",
+  "options_flow_popular_strategies": "Beliebte Strategien",
+  "options_flow_select_popular": "Auswählen",
+  "options_flow_saved_filters": "Gespeicherte Filter",
+  "options_flow_select_filter": "Filter auswählen",
+  "options_flow_new_filter": "Neuer Filter",
+
+  "options_flow_filters_count": "{count} Filter",
+  "options_flow_add_filters": "Filter hinzufügen",
+  "options_flow_search_filters": "Suche in {count} Filtern...",
+  "options_flow_select_filters_title": "Flow-Filter auswählen ({count} gesamt)",
+  "options_flow_nothing_found": "Nichts gefunden",
+  "options_flow_no_filters_found": "Keine verfügbaren Filter gefunden",
+
+  "options_flow_search_placeholder": "Finden...",
+  "options_flow_search_input_placeholder": "Suchen...",
+  "options_flow_full_width": "Volle Breite",
+  "options_flow_normal_width": "Normale Breite",
+
+  "options_flow_no_trades_query": "Keine Options-Trades gefunden für \"{query}\"",
+  "options_flow_no_data_filters": "Keine Daten basierend auf den ausgewählten Filtern gefunden. Bitte passe deine Filter an und versuche es erneut.",
+
+  "options_flow_modal_new_title": "Neuer Filter",
+  "options_flow_modal_new_name_label": "Filter Name",
+  "options_flow_modal_new_create": "Filter erstellen",
+
+  "options_flow_modal_delete_title": "Filter löschen",
+  "options_flow_modal_delete_message": "Bist du sicher, dass du diesen Filter löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "options_flow_modal_delete_cancel": "Abbrechen",
+  "options_flow_modal_delete_confirm": "Filter löschen",
+
+  "options_flow_strategy_bullish_sweeps": "Bullish Sweeps",
+  "options_flow_strategy_bearish_sweeps": "Bearish Sweeps",
+  "options_flow_strategy_high_premium_blocks": "High Premium Blocks",
+  "options_flow_strategy_unusual_size_oi": "Unusual Size vs OI",
+  "options_flow_strategy_etf_index_flow": "ETF & Index Flow",
+  "options_flow_strategy_zero_dte_flow": "0DTE Flow",
+  "options_flow_strategy_repeated_flow": "Repeated Flow"
+}

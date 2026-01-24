@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Unusual Order Flow - Dark Pool Prints & Block Trades",
+  "unusual_order_flow_seo_description": "Track real-time dark pool prints and block trades to spot institutional activity that often precedes short-term moves.",
+  "unusual_order_flow_seo_keywords": "unusual order flow, dark pool prints, block trades, institutional order flow, smart money, hidden liquidity, real-time order flow, dark pool scanner",
+  "unusual_order_flow_structured_name": "Unusual Order Flow Scanner",
+  "unusual_order_flow_structured_description": "Real-time dark pool prints and block trades for short-term market signal",
+
+  "unusual_order_flow_main_title": "Unusual Order Flow",
+
+  "unusual_order_flow_popular_filters": "Popular Filters",
+  "unusual_order_flow_select_popular": "Select popular",
+  "unusual_order_flow_saved_filters": "Saved Filters",
+  "unusual_order_flow_select_filter": "Select Filter",
+  "unusual_order_flow_new_filter": "New Filter",
+
+  "unusual_order_flow_filters_count": "{count} Filters",
+  "unusual_order_flow_add_filters": "Add Filters",
+  "unusual_order_flow_search_filters": "Search {count} filters...",
+  "unusual_order_flow_select_filters_title": "Select flow filters ({count} total)",
+  "unusual_order_flow_nothing_found": "Nothing found",
+  "unusual_order_flow_no_filters_found": "No available filters found",
+
+  "unusual_order_flow_search_placeholder": "Find...",
+  "unusual_order_flow_search_input_placeholder": "Search...",
+  "unusual_order_flow_full_width": "Full Width",
+  "unusual_order_flow_normal_width": "Normal Width",
+
+  "unusual_order_flow_no_trades_query": "No Unusual Trades found for \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Looks like your taste is one-of-a-kind! No matches found... yet!",
+
+  "unusual_order_flow_modal_new_title": "New Filter",
+  "unusual_order_flow_modal_new_name_label": "Filter Name",
+  "unusual_order_flow_modal_new_create": "Create Filter",
+
+  "unusual_order_flow_modal_delete_title": "Delete Filter",
+  "unusual_order_flow_modal_delete_message": "Are you sure you want to delete this filter? This action cannot be undone.",
+  "unusual_order_flow_modal_delete_cancel": "Cancel",
+  "unusual_order_flow_modal_delete_confirm": "Delete Filter",
+
+  "unusual_order_flow_save": "Save",
+  "unusual_order_flow_save_as_new": "Save as New",
+  "unusual_order_flow_reset_all": "Reset All",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark Pool Prints",
+  "unusual_order_flow_strategy_block_orders": "Block Orders",
+  "unusual_order_flow_strategy_mega_premium": "Mega Premium",
+  "unusual_order_flow_strategy_etf_flow": "ETF Flow",
+  "unusual_order_flow_strategy_high_volume": "High Volume",
+  "unusual_order_flow_strategy_large_stock_flow": "Large Stock Flow",
+
+  "unusual_order_flow_total_volume": "Total Volume",
+  "unusual_order_flow_total_value": "Total Value",
+  "unusual_order_flow_transaction_type": "Transaction Type",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Block",
+  "unusual_order_flow_asset_type": "Asset Type",
+  "unusual_order_flow_stock": "Stock",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 Min Delayed",
+  "unusual_order_flow_delayed_title": "15 min Delayed SIP Data",
+  "unusual_order_flow_delayed_content": "Intrinio's SIP feed delivers high-quality, consolidated U.S. equity data from all major exchanges — including trades, quotes, and NBBO. The 15-minute delay provides rich market insight with full exchange coverage.",
+
+  "unusual_order_flow_hide_filter_area": "Hide Filter Area",
+  "unusual_order_flow_show_filter_area": "Show Filter Area",
+  "unusual_order_flow_exit_full_width": "Exit full width",
+  "unusual_order_flow_expand_full_width": "Expand to full width",
+  "unusual_order_flow_reset_column_order": "Reset column order",
+  "unusual_order_flow_remove_filter": "Remove filter",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Value"
+}

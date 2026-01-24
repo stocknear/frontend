@@ -1,0 +1,49 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Options Flow Scanner - Live Sweeps, Blocks & Unusual Activity",
+  "options_flow_seo_description": "Monitor live options flow, sweeps, and blocks across US stocks and ETFs. Spot unusual activity and short-term trade setups in real time.",
+  "options_flow_seo_keywords": "options flow, options flow scanner, unusual options activity, sweep orders, block trades, smart money, call flow, put flow, options alerts, OPRA options flow",
+  "options_flow_structured_name": "Options Flow Scanner",
+  "options_flow_structured_description": "Live options flow with sweeps, blocks, and unusual activity for short-term trade setups",
+
+  "options_flow_main_title": "Options Flow",
+
+  "options_flow_popular_filters": "Popular Filters",
+  "options_flow_popular_strategies": "Popular Strategies",
+  "options_flow_select_popular": "Select popular",
+  "options_flow_saved_filters": "Saved Filters",
+  "options_flow_select_filter": "Select Filter",
+  "options_flow_new_filter": "New Filter",
+
+  "options_flow_filters_count": "{count} Filters",
+  "options_flow_add_filters": "Add Filters",
+  "options_flow_search_filters": "Search {count} filters...",
+  "options_flow_select_filters_title": "Select flow filters ({count} total)",
+  "options_flow_nothing_found": "Nothing found",
+  "options_flow_no_filters_found": "No available filters found",
+
+  "options_flow_search_placeholder": "Find...",
+  "options_flow_search_input_placeholder": "Search...",
+  "options_flow_full_width": "Full Width",
+  "options_flow_normal_width": "Normal Width",
+
+  "options_flow_no_trades_query": "No Option Trades found for \"{query}\"",
+  "options_flow_no_data_filters": "No data found based on filter(s) selected. Please adjust your filters and try again.",
+
+  "options_flow_modal_new_title": "New Filter",
+  "options_flow_modal_new_name_label": "Filter Name",
+  "options_flow_modal_new_create": "Create Filter",
+
+  "options_flow_modal_delete_title": "Delete Filter",
+  "options_flow_modal_delete_message": "Are you sure you want to delete this filter? This action cannot be undone.",
+  "options_flow_modal_delete_cancel": "Cancel",
+  "options_flow_modal_delete_confirm": "Delete Filter",
+
+  "options_flow_strategy_bullish_sweeps": "Bullish Sweeps",
+  "options_flow_strategy_bearish_sweeps": "Bearish Sweeps",
+  "options_flow_strategy_high_premium_blocks": "High Premium Blocks",
+  "options_flow_strategy_unusual_size_oi": "Unusual Size vs OI",
+  "options_flow_strategy_etf_index_flow": "ETF & Index Flow",
+  "options_flow_strategy_zero_dte_flow": "0DTE Flow",
+  "options_flow_strategy_repeated_flow": "Repeated Flow"
+}

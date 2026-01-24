@@ -8,6 +8,7 @@
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import { formatDate } from "$lib/utils";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -98,15 +99,14 @@
 </script>
 
 <SEO
-  title="Market News Flow - Trade-Ready Catalysts in Real Time"
-  description="Follow real-time market news and catalysts that move price. Built for options traders who need fast context for short-term setups."
-  keywords="market news flow, trade catalysts, breaking market news, options trader news, price movement news, real-time market updates"
+  title={m.news_flow_seo_title()}
+  description={m.news_flow_seo_description()}
+  keywords={m.news_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Market News Flow",
-    description:
-      "Real-time market news and catalysts for short-term trade planning",
+    name: m.news_flow_structured_name(),
+    description: m.news_flow_structured_description(),
     url: "https://stocknear.com/news-flow",
     applicationCategory: "FinanceApplication",
     breadcrumb: {
@@ -144,10 +144,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.news_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">News Flow</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.news_flow_breadcrumb_news_flow()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -160,12 +160,12 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              News Flow
+              {m.news_flow_main_title()}
             </h1>
           </div>
 
           <Infobox
-            text="Track the latest breaking news and understand why stock prices moved in real-time"
+            text={m.news_flow_infobox()}
           />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
@@ -175,7 +175,7 @@
               <h2
                 class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {data?.getData?.totalItems?.toLocaleString("en-US")} News
+                {m.news_flow_news_count({ count: data?.getData?.totalItems?.toLocaleString("en-US") })}
               </h2>
 
               <div
@@ -207,7 +207,7 @@
                     bind:value={inputValue}
                     on:input={search}
                     type="text"
-                    placeholder="Find..."
+                    placeholder={m.news_flow_search_placeholder()}
                     class="py-[7px] text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -298,7 +298,7 @@
             </table>
           {:else}
             <Infobox
-              text="There are no major stock market news available yet."
+              text={m.news_flow_no_news()}
             />
           {/if}
 
@@ -326,13 +326,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Market Flow
+                  {m.news_flow_sidebar_market_flow_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Track real-time options sentiment.
+                {m.news_flow_sidebar_market_flow_description()}
               </span>
             </a>
           </div>
@@ -346,13 +346,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Options Flow
+                  {m.news_flow_sidebar_options_flow_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Monitor real-time unusual options activity and flow patterns
+                {m.news_flow_sidebar_options_flow_description()}
               </span>
             </a>
           </div>
@@ -365,13 +365,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  Dark Pool Flow
+                  {m.news_flow_sidebar_dark_pool_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                Analyze hidden institutional flow and dark pool trading data
+                {m.news_flow_sidebar_dark_pool_description()}
               </span>
             </a>
           </div>

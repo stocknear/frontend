@@ -52,7 +52,10 @@
       "./messages/{locale}/market-flow.json",
       "./messages/{locale}/hedge-funds.json",
       "./messages/{locale}/stock-screener.json",
-      "./messages/{locale}/options-screener.json"
+      "./messages/{locale}/options-screener.json",
+      "./messages/{locale}/news-flow.json",
+      "./messages/{locale}/options-flow.json",
+      "./messages/{locale}/unusual-order-flow.json"
     ]
   }
 }

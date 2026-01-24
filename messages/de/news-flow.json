@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Startseite",
+  "news_flow_breadcrumb_news_flow": "News Flow",
+
+  "news_flow_seo_title": "Market News Flow - Handelsrelevante Katalysatoren in Echtzeit",
+  "news_flow_seo_description": "Verfolge Marktnachrichten und Katalysatoren in Echtzeit, die Kurse bewegen. Entwickelt für Options-Trader, die schnellen Kontext für kurzfristige Setups brauchen.",
+  "news_flow_seo_keywords": "market news flow, handelskatalysatoren, breaking marktnews, options trader news, kursbewegungsnews, echtzeit markt-updates",
+  "news_flow_structured_name": "Market News Flow",
+  "news_flow_structured_description": "Echtzeit-Marktnachrichten und Katalysatoren für kurzfristige Handelsplanung",
+
+  "news_flow_main_title": "News Flow",
+  "news_flow_news_count": "{count} News",
+  "news_flow_search_placeholder": "Suchen...",
+
+  "news_flow_infobox": "Verfolge die neuesten Breaking News und verstehe, warum sich Aktienkurse in Echtzeit bewegt haben",
+  "news_flow_no_news": "Es sind noch keine wichtigen Börsen-News verfügbar.",
+
+  "news_flow_sidebar_market_flow_title": "Market Flow",
+  "news_flow_sidebar_market_flow_description": "Verfolge Options-Sentiment in Echtzeit.",
+  "news_flow_sidebar_options_flow_title": "Options Flow",
+  "news_flow_sidebar_options_flow_description": "Überwache ungewöhnliche Optionsaktivitäten und Flow-Muster in Echtzeit",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Flow",
+  "news_flow_sidebar_dark_pool_description": "Analysiere versteckten institutionellen Flow und Dark Pool Trading-Daten"
+}

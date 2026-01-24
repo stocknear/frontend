@@ -21,6 +21,7 @@
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
   import UnusualOrderFlowExport from "$lib/components/UnusualOrderFlowExport.svelte";
@@ -53,13 +54,19 @@
 
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let selectedPopularStrategy = "";
-  const popularStrategyList = [
-    { key: "darkPoolPrints", label: "Dark Pool Prints" },
-    { key: "blockOrders", label: "Block Orders" },
-    { key: "megaPremium", label: "Mega Premium" },
-    { key: "etfFlow", label: "ETF Flow" },
-    { key: "highVolume", label: "High Volume" },
-    { key: "largeStockFlow", label: "Large Stock Flow" },
+  $: popularStrategyList = [
+    {
+      key: "darkPoolPrints",
+      label: m.unusual_order_flow_strategy_dark_pool_prints(),
+    },
+    { key: "blockOrders", label: m.unusual_order_flow_strategy_block_orders() },
+    { key: "megaPremium", label: m.unusual_order_flow_strategy_mega_premium() },
+    { key: "etfFlow", label: m.unusual_order_flow_strategy_etf_flow() },
+    { key: "highVolume", label: m.unusual_order_flow_strategy_high_volume() },
+    {
+      key: "largeStockFlow",
+      label: m.unusual_order_flow_strategy_large_stock_flow(),
+    },
   ];
   let displayRules = [];
   let filteredData = [];
@@ -1373,7 +1380,10 @@
   function toggleFullWidth() {
     isFullWidth = !isFullWidth;
     try {
-      localStorage.setItem("unusual-order-flow-full-width", String(isFullWidth));
+      localStorage.setItem(
+        "unusual-order-flow-full-width",
+        String(isFullWidth),
+      );
     } catch (e) {
       console.warn("Failed to save full width preference:", e);
     }
@@ -1381,7 +1391,9 @@
 
   onMount(async () => {
     // Load full width preference
-    const savedFullWidth = localStorage.getItem("unusual-order-flow-full-width");
+    const savedFullWidth = localStorage.getItem(
+      "unusual-order-flow-full-width",
+    );
     if (savedFullWidth !== null) {
       isFullWidth = savedFullWidth === "true";
     }
@@ -1536,15 +1548,14 @@
 </script>
 
 <SEO
-  title="Unusual Order Flow - Dark Pool Prints & Block Trades"
-  description="Track real-time dark pool prints and block trades to spot institutional activity that often precedes short-term moves."
-  keywords="unusual order flow, dark pool prints, block trades, institutional order flow, smart money, hidden liquidity, real-time order flow, dark pool scanner"
+  title={m.unusual_order_flow_seo_title()}
+  description={m.unusual_order_flow_seo_description()}
+  keywords={m.unusual_order_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Unusual Order Flow Scanner",
-    description:
-      "Real-time dark pool prints and block trades for short-term market signal",
+    name: m.unusual_order_flow_structured_name(),
+    description: m.unusual_order_flow_structured_description(),
     url: "https://stocknear.com/unusual-order-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1572,7 +1583,9 @@
 
 <div class="overflow-y-auto">
   <section
-    class="w-full flex justify-center items-center p-3 sm:p-0 transition-all duration-300 {isFullWidth ? 'max-w-full' : 'max-w-screen sm:max-w-[1400px]'}"
+    class="w-full flex justify-center items-center p-3 sm:p-0 transition-all duration-300 {isFullWidth
+      ? 'max-w-full'
+      : 'max-w-screen sm:max-w-[1400px]'}"
   >
     <div class="w-full m-auto min-h-screen">
       <!--
@@ -1590,7 +1603,7 @@
           <h1
             class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            Unusual Order Flow
+            {m.unusual_order_flow_main_title()}
           </h1>
         </div>
 
@@ -1599,19 +1612,19 @@
             <div
               class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
             >
-              Popular Filters
+              {m.unusual_order_flow_popular_filters()}
             </div>
             <div class="relative inline-block text-left grow">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-full border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                    class="min-w-[110px]  w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate"
                       >{selectedPopularStrategy?.length !== 0
                         ? selectedPopularStrategy
-                        : "Select popular"}</span
+                        : m.unusual_order_flow_select_popular()}</span
                     >
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1638,7 +1651,7 @@
                   <DropdownMenu.Label
                     class="text-gray-500 dark:text-zinc-400 font-normal"
                   >
-                    Popular Filters
+                    {m.unusual_order_flow_popular_filters()}
                   </DropdownMenu.Label>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Group>
@@ -1660,7 +1673,7 @@
             <div
               class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
             >
-              Saved Filters
+              {m.unusual_order_flow_saved_filters()}
             </div>
             <div class="relative inline-block text-left grow">
               <DropdownMenu.Root>
@@ -1674,7 +1687,7 @@
                         ? strategyList?.find(
                             (item) => item.id === selectedStrategy,
                           )?.title
-                        : "Select Filter"}</span
+                        : m.unusual_order_flow_select_filter()}</span
                     >
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1719,7 +1732,9 @@
                             clip-rule="evenodd"
                           ></path>
                         </svg>
-                        <div class="text-sm text-start">New Filter</div>
+                        <div class="text-sm text-start">
+                          {m.unusual_order_flow_new_filter()}
+                        </div>
                       </Button>
                     </DropdownMenu.Trigger>
                   </DropdownMenu.Label>
@@ -1891,7 +1906,9 @@
           <button
             on:click={() => (showFilters = !showFilters)}
             class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
-            title="Hide Filter Area"
+            title={showFilters
+              ? m.unusual_order_flow_hide_filter_area()
+              : m.unusual_order_flow_show_filter_area()}
           >
             <svg
               class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
@@ -1905,7 +1922,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {ruleOfList?.length} Filters
+            {m.unusual_order_flow_filters_count({ count: ruleOfList?.length })}
           </button>
           <div class="flex flex-row items-center ml-auto justify-start">
             <div class="flex items-center gap-1">
@@ -1923,12 +1940,12 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                15 Min Delayed
+                {m.unusual_order_flow_delayed()}
               </span>
               <InfoModal
                 id="sip-data-info"
-                title="15 min Delayed SIP Data"
-                content="Intrinio’s SIP feed delivers high-quality, consolidated U.S. equity data from all major exchanges — including trades, quotes, and NBBO. The 15-minute delay provides rich market insight with full exchange coverage."
+                title={m.unusual_order_flow_delayed_title()}
+                content={m.unusual_order_flow_delayed_content()}
               />
             </div>
           </div>
@@ -1940,7 +1957,7 @@
               <!-- Add Filters Button -->
               <label
                 for="ruleModal"
-                class="mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden focus:ring-0"
+                class="text-sm mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden focus:ring-0"
               >
                 <svg
                   class="h-5 w-5"
@@ -1955,7 +1972,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div>Add Filters</div>
+                <div>{m.unusual_order_flow_add_filters()}</div>
               </label>
 
               <!-- Quick Search Input -->
@@ -1982,7 +1999,9 @@
                   </div>
                   <input
                     type="text"
-                    placeholder={`Search ${allRows?.length} filters...`}
+                    placeholder={m.unusual_order_flow_search_filters({
+                      count: allRows?.length,
+                    })}
                     bind:value={quickSearchTerm}
                     on:input={handleQuickSearchInput}
                     on:keydown={handleQuickSearchKeydown}
@@ -2069,7 +2088,7 @@
                   <div
                     class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                   >
-                    No available filters found
+                    {m.unusual_order_flow_no_filters_found()}
                   </div>
                 {/if}
               </div>
@@ -2089,7 +2108,7 @@
                       d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
                     /></svg
                   >
-                  <div>Save</div>
+                  <div>{m.unusual_order_flow_save()}</div>
                 </label>
 
                 {#if strategyList?.length > 0}
@@ -2109,7 +2128,7 @@
                     class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
-                    <div>Save as New</div>
+                    <div>{m.unusual_order_flow_save_as_new()}</div>
                   </label>
                 {/if}
               {/if}
@@ -2134,7 +2153,7 @@
                       /></g
                     ></svg
                   >
-                  <div>Reset All</div>
+                  <div>{m.unusual_order_flow_reset_all()}</div>
                 </label>
               {/if}
             </div>
@@ -2171,7 +2190,7 @@
                   <button
                     on:click={() => handleDeleteRule(row?.rule)}
                     class="mr-1.5 cursor-pointer text-gray-400 hover:text-rose-500 focus:outline-hidden"
-                    title="Remove filter"
+                    title={m.unusual_order_flow_remove_filter()}
                   >
                     <svg
                       class="w-6 h-6"
@@ -2297,7 +2316,7 @@
                                   <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
                                     <input
                                       type="text"
-                                      placeholder="Min"
+                                      placeholder={m.unusual_order_flow_min()}
                                       value={Array.isArray(
                                         valueMappings[row?.rule],
                                       )
@@ -2312,7 +2331,7 @@
                                     </span>
                                     <input
                                       type="text"
-                                      placeholder="Max"
+                                      placeholder={m.unusual_order_flow_max()}
                                       value={Array.isArray(
                                         valueMappings[row?.rule],
                                       )
@@ -2326,7 +2345,7 @@
                                 {:else}
                                   <input
                                     type="text"
-                                    placeholder="Value"
+                                    placeholder={m.unusual_order_flow_value()}
                                     value={valueMappings[row?.rule] === "any"
                                       ? ""
                                       : valueMappings[row?.rule]}
@@ -2491,7 +2510,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >Total Volume</span
+                  >{m.unusual_order_flow_total_volume()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <span class="text-start text-[1rem] font-semibold">
@@ -2527,7 +2546,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >Total Value</span
+                  >{m.unusual_order_flow_total_value()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <span class="text-start text-[1rem] font-semibold">
@@ -2567,7 +2586,7 @@
               >
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >Transaction Type</span
+                  >{m.unusual_order_flow_transaction_type()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <div class="flex items-center gap-3 text-[11px] sm:text-xs">
@@ -2576,14 +2595,15 @@
                         class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
                       ></span>
                       <span class="text-gray-500 dark:text-zinc-400"
-                        >Dark Pool</span
+                        >{m.unusual_order_flow_dark_pool()}</span
                       >
                     </div>
                     <div class="flex items-center gap-1">
                       <span
                         class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400">Block</span
+                      <span class="text-gray-500 dark:text-zinc-400"
+                        >{m.unusual_order_flow_block()}</span
                       >
                     </div>
                   </div>
@@ -2645,7 +2665,7 @@
               >
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >Asset Type</span
+                  >{m.unusual_order_flow_asset_type()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <div class="flex items-center gap-3 text-[11px] sm:text-xs">
@@ -2653,14 +2673,17 @@
                       <span
                         class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400">Stock</span
+                      <span class="text-gray-500 dark:text-zinc-400"
+                        >{m.unusual_order_flow_stock()}</span
                       >
                     </div>
                     <div class="flex items-center gap-1">
                       <span
                         class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400">ETF</span>
+                      <span class="text-gray-500 dark:text-zinc-400"
+                        >{m.unusual_order_flow_etf()}</span
+                      >
                     </div>
                   </div>
                 {/if}
@@ -2730,7 +2753,9 @@
                   class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
                   {(data?.user?.tier === "Pro"
-                    ? (tableSearchValue?.length > 0 ? tableSearchDisplayedData?.length : displayedData?.length)
+                    ? tableSearchValue?.length > 0
+                      ? tableSearchDisplayedData?.length
+                      : displayedData?.length
                     : totalOrders
                   )?.toLocaleString("en-US")} Trades
                 </h2>
@@ -2768,7 +2793,7 @@
                     bind:value={tableSearchValue}
                     on:input={debouncedTableSearch}
                     type="text"
-                    placeholder="Find..."
+                    placeholder={m.unusual_order_flow_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -2785,8 +2810,12 @@
 
                   <button
                     on:click={toggleFullWidth}
-                    title={isFullWidth ? "Exit full width" : "Expand to full width"}
-                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth ? 'border-violet-400 dark:border-violet-500' : ''}"
+                    title={isFullWidth
+                      ? m.unusual_order_flow_exit_full_width()
+                      : m.unusual_order_flow_expand_full_width()}
+                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                      ? 'border-violet-400 dark:border-violet-500'
+                      : ''}"
                   >
                     {#if isFullWidth}
                       <svg
@@ -2819,13 +2848,17 @@
                         <line x1="3" y1="21" x2="10" y2="14" />
                       </svg>
                     {/if}
-                    <span class="truncate text-[0.85rem] sm:text-sm">{isFullWidth ? "Normal Width" : "Full Width"}</span>
+                    <span class="truncate text-[0.85rem] sm:text-sm"
+                      >{isFullWidth
+                        ? m.unusual_order_flow_normal_width()
+                        : m.unusual_order_flow_full_width()}</span
+                    >
                   </button>
 
                   {#if customColumnOrder}
                     <button
                       on:click={() => unusualOrderFlowResetColumnOrder?.()}
-                      title="Reset column order"
+                      title={m.unusual_order_flow_reset_column_order()}
                       class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                     >
                       <svg
@@ -2849,7 +2882,9 @@
 
             {#if tableSearchValue?.length > 0 && tableSearchDisplayedData?.length === 0}
               <Infobox
-                text={`No Unusual Trades found for "${tableSearchValue}"`}
+                text={m.unusual_order_flow_no_trades_query({
+                  query: tableSearchValue,
+                })}
               />
             {:else}
               <div class="flex w-full m-auto h-full overflow-hidden">
@@ -2871,9 +2906,7 @@
               </div>
             {/if}
           {:else}
-            <Infobox
-              text="Looks like your taste is one-of-a-kind! No matches found... yet!"
-            />
+            <Infobox text={m.unusual_order_flow_no_data_filters()} />
           {/if}
         </div>
       {:else}
@@ -2994,7 +3027,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder="Search"
+              placeholder={m.unusual_order_flow_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -3041,7 +3074,7 @@
 
         {#if searchTerm?.length > 0 && filteredRows?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            Nothing found
+            {m.unusual_order_flow_nothing_found()}
           </div>
         {/if}
       </div>
@@ -3060,7 +3093,7 @@
     class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-300 dark:border-zinc-700 shadow-none"
   >
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-      New Filter
+      {m.unusual_order_flow_modal_new_title()}
     </h1>
 
     <form
@@ -3072,7 +3105,7 @@
         id="title"
         type="text"
         errors=""
-        label="Filter Name"
+        label={m.unusual_order_flow_modal_new_name_label()}
         required={true}
       />
 
@@ -3080,7 +3113,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 duration-100 w-full rounded-full m-auto font-semibold text-md"
       >
-        Create Filter
+        {m.unusual_order_flow_modal_new_create()}
       </button>
     </form>
   </div>
@@ -3098,17 +3131,17 @@
     class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-300 dark:border-zinc-700 shadow-none"
   >
     <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-      Delete Filter
+      {m.unusual_order_flow_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-600 dark:text-zinc-300">
-      Are you sure you want to delete this filter? This action cannot be undone.
+      {m.unusual_order_flow_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300"
-        tabindex="0">Cancel</label
+        tabindex="0">{m.unusual_order_flow_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -3136,7 +3169,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Filter</label
+        >{m.unusual_order_flow_modal_delete_confirm()}</label
       >
     </div>
   </div>

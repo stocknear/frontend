@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Unusual Order Flow - Dark Pool Prints & Block Trades",
+  "unusual_order_flow_seo_description": "Verfolge Dark Pool Prints und Block Trades in Echtzeit, um institutionelle Aktivitäten zu erkennen, die oft kurzfristigen Bewegungen vorausgehen.",
+  "unusual_order_flow_seo_keywords": "unusual order flow, dark pool prints, block trades, institutioneller order flow, smart money, versteckte liquidität, echtzeit order flow, dark pool scanner",
+  "unusual_order_flow_structured_name": "Unusual Order Flow Scanner",
+  "unusual_order_flow_structured_description": "Echtzeit Dark Pool Prints und Block Trades für kurzfristige Marktsignale",
+
+  "unusual_order_flow_main_title": "Unusual Order Flow",
+
+  "unusual_order_flow_popular_filters": "Beliebte Filter",
+  "unusual_order_flow_select_popular": "Auswählen",
+  "unusual_order_flow_saved_filters": "Gespeicherte Filter",
+  "unusual_order_flow_select_filter": "Filter auswählen",
+  "unusual_order_flow_new_filter": "Neuer Filter",
+
+  "unusual_order_flow_filters_count": "{count} Filter",
+  "unusual_order_flow_add_filters": "Filter hinzufügen",
+  "unusual_order_flow_search_filters": "Suche in {count} Filtern...",
+  "unusual_order_flow_select_filters_title": "Flow-Filter auswählen ({count} gesamt)",
+  "unusual_order_flow_nothing_found": "Nichts gefunden",
+  "unusual_order_flow_no_filters_found": "Keine verfügbaren Filter gefunden",
+
+  "unusual_order_flow_search_placeholder": "Finden...",
+  "unusual_order_flow_search_input_placeholder": "Suchen...",
+  "unusual_order_flow_full_width": "Volle Breite",
+  "unusual_order_flow_normal_width": "Normale Breite",
+
+  "unusual_order_flow_no_trades_query": "Keine ungewöhnlichen Trades gefunden für \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Dein Geschmack ist einzigartig! Noch keine Treffer gefunden...",
+
+  "unusual_order_flow_modal_new_title": "Neuer Filter",
+  "unusual_order_flow_modal_new_name_label": "Filter Name",
+  "unusual_order_flow_modal_new_create": "Filter erstellen",
+
+  "unusual_order_flow_modal_delete_title": "Filter löschen",
+  "unusual_order_flow_modal_delete_message": "Bist du sicher, dass du diesen Filter löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "unusual_order_flow_modal_delete_cancel": "Abbrechen",
+  "unusual_order_flow_modal_delete_confirm": "Filter löschen",
+
+  "unusual_order_flow_save": "Speichern",
+  "unusual_order_flow_save_as_new": "Neu speichern",
+  "unusual_order_flow_reset_all": "Alles zurücksetzen",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark Pool Prints",
+  "unusual_order_flow_strategy_block_orders": "Block Orders",
+  "unusual_order_flow_strategy_mega_premium": "Mega Premium",
+  "unusual_order_flow_strategy_etf_flow": "ETF Flow",
+  "unusual_order_flow_strategy_high_volume": "High Volume",
+  "unusual_order_flow_strategy_large_stock_flow": "Large Stock Flow",
+
+  "unusual_order_flow_total_volume": "Gesamtvolumen",
+  "unusual_order_flow_total_value": "Gesamtwert",
+  "unusual_order_flow_transaction_type": "Transaktionstyp",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Block",
+  "unusual_order_flow_asset_type": "Asset-Typ",
+  "unusual_order_flow_stock": "Aktie",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 Min Verzögert",
+  "unusual_order_flow_delayed_title": "15 Min Verzögerte SIP-Daten",
+  "unusual_order_flow_delayed_content": "Intrinios SIP-Feed liefert hochwertige, konsolidierte US-Aktiendaten von allen großen Börsen — einschließlich Trades, Quotes und NBBO. Die 15-Minuten-Verzögerung bietet umfassende Markteinblicke mit voller Börsenabdeckung.",
+
+  "unusual_order_flow_hide_filter_area": "Filterbereich ausblenden",
+  "unusual_order_flow_show_filter_area": "Filterbereich anzeigen",
+  "unusual_order_flow_exit_full_width": "Volle Breite beenden",
+  "unusual_order_flow_expand_full_width": "Auf volle Breite erweitern",
+  "unusual_order_flow_reset_column_order": "Spaltenreihenfolge zurücksetzen",
+  "unusual_order_flow_remove_filter": "Filter entfernen",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Wert"
+}

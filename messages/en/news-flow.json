@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Home",
+  "news_flow_breadcrumb_news_flow": "News Flow",
+
+  "news_flow_seo_title": "Market News Flow - Trade-Ready Catalysts in Real Time",
+  "news_flow_seo_description": "Follow real-time market news and catalysts that move price. Built for options traders who need fast context for short-term setups.",
+  "news_flow_seo_keywords": "market news flow, trade catalysts, breaking market news, options trader news, price movement news, real-time market updates",
+  "news_flow_structured_name": "Market News Flow",
+  "news_flow_structured_description": "Real-time market news and catalysts for short-term trade planning",
+
+  "news_flow_main_title": "News Flow",
+  "news_flow_news_count": "{count} News",
+  "news_flow_search_placeholder": "Find...",
+
+  "news_flow_infobox": "Track the latest breaking news and understand why stock prices moved in real-time",
+  "news_flow_no_news": "There are no major stock market news available yet.",
+
+  "news_flow_sidebar_market_flow_title": "Market Flow",
+  "news_flow_sidebar_market_flow_description": "Track real-time options sentiment.",
+  "news_flow_sidebar_options_flow_title": "Options Flow",
+  "news_flow_sidebar_options_flow_description": "Monitor real-time unusual options activity and flow patterns",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Flow",
+  "news_flow_sidebar_dark_pool_description": "Analyze hidden institutional flow and dark pool trading data"
+}
