@@ -35,7 +35,7 @@
   "etf_provider_detail_structured_item_name": "{provider} ETFs",
   "etf_provider_detail_structured_item_description": "Exchange-traded funds managed by {provider}",
   "etf_provider_detail_infobox": "{provider} has {count} ETFs listed with a total of {assets} in assets under management. The funds have an average expense ratio of {expenseRatio}%.",
-  "etf_provider_detail_count": "{count} ETFs from {provider}",
+  "etf_provider_detail_count": "{count} ETFs",
   "etf_provider_detail_empty": "No ETFs found for \"{query}\"",
   "etf_provider_detail_no_data": "No data Available",
 

@@ -35,7 +35,7 @@
   "etf_provider_detail_structured_item_name": "{provider} ETFs",
   "etf_provider_detail_structured_item_description": "Von {provider} verwaltete Exchange-Traded Funds",
   "etf_provider_detail_infobox": "{provider} hat {count} ETFs gelistet mit insgesamt {assets} an verwaltetem Vermögen. Die Fonds haben eine durchschnittliche Kostenquote von {expenseRatio}%.",
-  "etf_provider_detail_count": "{count} ETFs von {provider}",
+  "etf_provider_detail_count": "{count} ETFs",
   "etf_provider_detail_empty": "Keine ETFs gefunden für \"{query}\"",
   "etf_provider_detail_no_data": "Keine Daten verfügbar",
 
