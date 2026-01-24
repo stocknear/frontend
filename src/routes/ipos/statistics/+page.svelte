@@ -3,15 +3,49 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import IPOChart from "$lib/components/IPOChart.svelte";
-  import { formatDate } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
   import * as m from "$lib/paraglide/messages";
+  import {
+    market_news_time_minute,
+    market_news_time_minutes,
+    market_news_time_hour,
+    market_news_time_hours,
+    market_news_time_day,
+    market_news_time_days,
+    market_news_time_ago,
+  } from "$lib/paraglide/messages";
 
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
 
   export let data;
+
+  const formatDate = (dateString) => {
+    const inputDate = new Date(dateString);
+    const nycTime = new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    });
+    const currentNYCDate = new Date(nycTime);
+    const difference = inputDate.getTime() - currentNYCDate.getTime();
+    const minutes = Math.abs(Math.round(difference / (1000 * 60)));
+
+    if (minutes < 60) {
+      return minutes === 1
+        ? market_news_time_minute({ count: minutes })
+        : market_news_time_minutes({ count: minutes });
+    } else if (minutes < 1440) {
+      const hours = Math.round(minutes / 60);
+      return hours === 1
+        ? market_news_time_hour({ count: hours })
+        : market_news_time_hours({ count: hours });
+    } else {
+      const days = Math.round(minutes / 1440);
+      return days === 1
+        ? market_news_time_day({ count: days })
+        : market_news_time_days({ count: days });
+    }
+  };
 
   let marketNews = data?.getNews;
   let isLoaded = false;
@@ -276,12 +310,12 @@
               <h3
                 class="text-lg font-semibold text-gray-900 dark:text-white mb-3"
               >
-                Stock News
+                {m.ipos_statistics_stock_news()}
               </h3>
               <ul class="">
                 {#each marketNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
-                    {formatDate(item?.publishedDate)} -
+                    {market_news_time_ago({ time: formatDate(item?.publishedDate) })} -
                     <a
                       class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                       href={item?.url}
@@ -296,7 +330,7 @@
                 href={`/market-news`}
                 class="flex justify-center items-center rounded-full cursor-pointer w-full py-2.5 mt-3 text-[0.95rem] text-center font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition"
               >
-                More Stocks News
+                {m.ipos_statistics_more_news()}
               </a>
             </div>
           </div>
