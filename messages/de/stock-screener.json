@@ -60,5 +60,9 @@
   "stock_screener_strategy_top_shorted": "Meist Geshortete Aktien",
   "stock_screener_strategy_momentum_ta": "Momentum TA Aktien",
   "stock_screener_strategy_undervalued": "Unterbewertete Aktien",
-  "stock_screener_strategy_strong_cash_flow": "Starker Cash Flow"
+  "stock_screener_strategy_strong_cash_flow": "Starker Cash Flow",
+
+  "stock_screener_save": "Speichern",
+  "stock_screener_save_as_new": "Neu speichern",
+  "stock_screener_reset_all": "Alles zurücksetzen"
 }

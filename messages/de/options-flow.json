@@ -45,5 +45,9 @@
   "options_flow_strategy_unusual_size_oi": "Unusual Size vs OI",
   "options_flow_strategy_etf_index_flow": "ETF & Index Flow",
   "options_flow_strategy_zero_dte_flow": "0DTE Flow",
-  "options_flow_strategy_repeated_flow": "Repeated Flow"
+  "options_flow_strategy_repeated_flow": "Repeated Flow",
+
+  "options_flow_save": "Speichern",
+  "options_flow_save_as_new": "Neu speichern",
+  "options_flow_reset_all": "Alles zurücksetzen"
 }
