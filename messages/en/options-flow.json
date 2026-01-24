@@ -49,5 +49,21 @@
 
   "options_flow_save": "Save",
   "options_flow_save_as_new": "Save as New",
-  "options_flow_reset_all": "Reset All"
+  "options_flow_reset_all": "Reset All",
+
+  "options_flow_market_closed": "Market Closed",
+  "options_flow_paused": "Paused",
+  "options_flow_live_flow": "Live Flow",
+  "options_flow_pick_date": "Pick a date",
+
+  "options_flow_realtime_data": "Realtime Options Data",
+  "options_flow_realtime_data_title": "Realtime Options Data from OPRA",
+  "options_flow_realtime_data_content": "Our options flow is powered by realtime OPRA data, the official consolidated feed for all U.S. listed options trades. This ensures every print you see is delivered directly from OPRA in realtime, giving you institutional-grade visibility into large trades, sweeps, unusual activity, and premium flow as it happens. By relying on OPRA's high-integrity trade stream, you gain faster insights, cleaner data, and a more accurate view of where smart money is moving in the options market.",
+
+  "options_flow_hide_filter_area": "Hide Filter Area",
+  "options_flow_show_filter_area": "Show Filter Area",
+
+  "options_flow_put_to_call": "Put to call",
+  "options_flow_call_flow": "Call flow",
+  "options_flow_put_flow": "Put flow"
 }

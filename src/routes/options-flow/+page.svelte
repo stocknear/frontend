@@ -2187,7 +2187,7 @@
               <span
                 class="text-xs sm:text-sm sm:text-lg text-gray-500 dark:text-zinc-400 mr-3"
               >
-                {$isOpen ? "Paused" : "Market Closed"}
+                {$isOpen ? m.options_flow_paused() : m.options_flow_market_closed()}
               </span>
 
               <label
@@ -2225,7 +2225,7 @@
                     ? 'text-emerald-600 dark:text-emerald-400'
                     : 'text-gray-500 dark:text-zinc-400'}"
                 >
-                  Live Flow
+                  {m.options_flow_live_flow()}
                 </span>
               </div>
             </div>
@@ -2244,7 +2244,7 @@
                       <span class="text-sm font-medium tracking-tight">
                         {selectedDate
                           ? df.format(selectedDate?.toDate())
-                          : "Pick a date"}
+                          : m.options_flow_pick_date()}
                       </span>
                     </Button>
                   </Popover.Trigger>
@@ -2276,7 +2276,7 @@
             <button
               on:click={() => (showFilters = !showFilters)}
               class="flex cursor-pointer items-center text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
-              title="Hide Filter Area"
+              title={showFilters ? m.options_flow_hide_filter_area() : m.options_flow_show_filter_area()}
             >
               <svg
                 class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
@@ -2296,12 +2296,12 @@
               <div class="flex items-center gap-1">
                 <span class="inline-flex items-center text-xs">
                   <Zap class="w-3 h-3 mr-1" />
-                  Realtime Options Data
+                  {m.options_flow_realtime_data()}
                 </span>
                 <InfoModal
                   id="options-flow-info"
-                  title="Realtime Options Data from OPRA"
-                  content="Our options flow is powered by realtime OPRA data, the official consolidated feed for all U.S. listed options trades. This ensures every print you see is delivered directly from OPRA in realtime, giving you institutional-grade visibility into large trades, sweeps, unusual activity, and premium flow as it happens. By relying on OPRA’s high-integrity trade stream, you gain faster insights, cleaner data, and a more accurate view of where smart money is moving in the options market."
+                  title={m.options_flow_realtime_data_title()}
+                  content={m.options_flow_realtime_data_content()}
                 />
               </div>
             </div>
@@ -2961,7 +2961,7 @@
                 >
                   <div class="flex flex-col items-start">
                     <span class="text-xs text-gray-500 dark:text-zinc-400"
-                      >Put to call</span
+                      >{m.options_flow_put_to_call()}</span
                     >
                     {#if data?.user?.tier === "Pro"}
                       <span class="text-start text-lg font-semibold mt-1">
@@ -3056,7 +3056,7 @@
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
                       <span class="text-xs text-gray-500 dark:text-zinc-400"
-                        >Call flow</span
+                        >{m.options_flow_call_flow()}</span
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
@@ -3160,7 +3160,7 @@
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
                       <span class="text-xs text-gray-500 dark:text-zinc-400"
-                        >Put flow</span
+                        >{m.options_flow_put_flow()}</span
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span

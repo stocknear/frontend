@@ -49,5 +49,21 @@
 
   "options_flow_save": "Speichern",
   "options_flow_save_as_new": "Neu speichern",
-  "options_flow_reset_all": "Alles zurücksetzen"
+  "options_flow_reset_all": "Alles zurücksetzen",
+
+  "options_flow_market_closed": "Markt geschlossen",
+  "options_flow_paused": "Pausiert",
+  "options_flow_live_flow": "Live Flow",
+  "options_flow_pick_date": "Datum wählen",
+
+  "options_flow_realtime_data": "Echtzeit Options-Daten",
+  "options_flow_realtime_data_title": "Echtzeit Options-Daten von OPRA",
+  "options_flow_realtime_data_content": "Unser Options Flow wird von Echtzeit-OPRA-Daten unterstützt, dem offiziellen konsolidierten Feed für alle US-gelisteten Options-Trades. Das stellt sicher, dass jeder Trade, den du siehst, direkt von OPRA in Echtzeit geliefert wird, und gibt dir institutionelle Einblicke in große Trades, Sweeps, ungewöhnliche Aktivitäten und Premium Flow. Durch den Einsatz von OPRAs hochwertigem Trade-Stream erhältst du schnellere Einblicke, sauberere Daten und eine genauere Sicht darauf, wohin das Smart Money im Optionsmarkt fließt.",
+
+  "options_flow_hide_filter_area": "Filterbereich ausblenden",
+  "options_flow_show_filter_area": "Filterbereich anzeigen",
+
+  "options_flow_put_to_call": "Put zu Call",
+  "options_flow_call_flow": "Call Flow",
+  "options_flow_put_flow": "Put Flow"
 }
