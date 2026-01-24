@@ -8,6 +8,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -328,21 +329,19 @@
 </script>
 
 <SEO
-  title="New ETF Launches - Recently Listed Exchange-Traded Funds Directory"
-  description="Complete directory of {originalData?.length ||
-    100} newest ETFs launched on US markets, sorted by inception date. Discover emerging investment themes, innovative fund structures, and latest ETF innovations from leading providers. Track new fund launches for early investment opportunities."
-  keywords="new ETF launches, recent ETFs, newest exchange-traded funds, ETF innovations, new fund launches, emerging ETFs, latest ETFs, ETF inception dates, new investment opportunities"
+  title={m.etf_new_launches_seo_title()}
+  description={m.etf_new_launches_seo_description({ count: String(originalData?.length || 100) })}
+  keywords={m.etf_new_launches_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "New ETF Launches Directory",
-    description:
-      "Recently launched exchange-traded funds sorted by inception date",
+    name: m.etf_new_launches_structured_name(),
+    description: m.etf_new_launches_structured_description(),
     url: "https://stocknear.com/etf/new-launches",
     mainEntity: {
       "@type": "ItemList",
-      name: "Recent ETF Launches",
-      description: "Newest exchange-traded funds available for trading",
+      name: m.etf_new_launches_structured_item_name(),
+      description: m.etf_new_launches_structured_item_description(),
       numberOfItems: originalData?.length || 0,
     },
     about: {
@@ -364,11 +363,11 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.etf_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <a class="text-gray-800 dark:text-zinc-300">New Launches of ETFs</a>
+      <a class="text-gray-800 dark:text-zinc-300">{m.etf_breadcrumb_new_launches()}</a>
     </li>
   </BreadCrumb>
 
@@ -382,11 +381,11 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              New Launches of ETFs
+              {m.etf_new_launches_main_name()}
             </h1>
           </div>
 
-          <Infobox text="Recently introduced Exchange-Traded Funds" />
+          <Infobox text={m.etf_new_launches_infobox()} />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
@@ -395,7 +394,7 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {originalData?.length?.toLocaleString("en-US")} new ETFs
+                {m.etf_new_launches_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
               </h2>
               <div
                 class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -429,7 +428,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder="Find..."
+                      placeholder={m.etf_search_placeholder()}
                       class="w-full bg-transparent text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
                     />
                   </div>
@@ -588,7 +587,7 @@
                 on:rowsPerPageChange={handleRowsPerPageChange}
               />
             {:else}
-              <Infobox text={`No ETFs found for "${inputValue}"`} />
+              <Infobox text={m.etf_new_launches_empty({ query: inputValue })} />
             {/if}
           </div>
         </main>

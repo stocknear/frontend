@@ -7,6 +7,7 @@
   import { onMount } from "svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { page } from "$app/stores";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -325,20 +326,19 @@
 </script>
 
 <SEO
-  title="Top ETF Providers Directory - Leading Fund Companies by Assets Under Management"
-  description="Comprehensive directory of leading ETF providers ranked by assets under management (AUM). Compare expense ratios, fund counts, and average holdings across major ETF companies including Vanguard, BlackRock, State Street, and other top fund managers."
-  keywords="ETF providers, ETF companies, fund managers, BlackRock ETFs, Vanguard ETFs, State Street ETFs, ETF sponsors, fund companies by AUM, ETF manager comparison, ETF industry leaders"
+  title={m.etf_providers_seo_title()}
+  description={m.etf_providers_seo_description()}
+  keywords={m.etf_providers_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "ETF Providers Directory",
-    description:
-      "Complete directory of exchange-traded fund providers and sponsors",
+    name: m.etf_providers_structured_name(),
+    description: m.etf_providers_structured_description(),
     url: "https://stocknear.com/etf/etf-providers",
     mainEntity: {
       "@type": "ItemList",
-      name: "ETF Fund Managers",
-      description: "Leading ETF providers ranked by assets under management",
+      name: m.etf_providers_structured_item_name(),
+      description: m.etf_providers_structured_item_description(),
       numberOfItems: etfProviderList?.length || 0,
     },
     about: {
@@ -351,9 +351,7 @@
 />
 
 <section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
-  <Infobox
-    text={"Every Exchange-Traded Fund (ETF) is managed by a specific company. Below is a list of companies offering actively traded ETFs on the U.S. stock market."}
-  />
+  <Infobox text={m.etf_providers_infobox()} />
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
@@ -362,7 +360,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
       >
-        {originalData?.length?.toLocaleString("en-US")} ETF Providers
+        {m.etf_providers_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -390,7 +388,7 @@
             type="text"
             bind:value={inputValue}
             on:input={search}
-            placeholder="Find..."
+            placeholder={m.etf_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -500,7 +498,7 @@
           on:rowsPerPageChange={handleRowsPerPageChange}
         />
       {:else}
-        <Infobox text={`No ETF providers found for "${inputValue}"`} />
+        <Infobox text={m.etf_providers_empty({ query: inputValue })} />
       {/if}
     </div>
   </div>

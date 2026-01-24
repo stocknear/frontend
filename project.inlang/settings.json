@@ -19,6 +19,7 @@
       "./messages/{locale}/data.json",
       "./messages/{locale}/donation.json",
       "./messages/{locale}/dashboard.json",
+      "./messages/{locale}/etf.json",
       "./messages/{locale}/feedback.json",
       "./messages/{locale}/faq.json",
       "./messages/{locale}/footer.json",
