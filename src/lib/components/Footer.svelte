@@ -258,13 +258,17 @@
                   <button
                     use:builder.action
                     {...builder}
-                    class="size-8 flex items-center justify-center mt-3 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 hover:bg-gray-200/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer overflow-hidden"
+                    class="flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 hover:bg-gray-200/60 dark:hover:bg-zinc-800/60 text-xs text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer"
                   >
                     <img
-                      class="size-6 object-cover"
+                      class="size-4 object-cover rounded-sm"
                       src={getFlagUrl(currentLocale)}
                       alt={languageNames[currentLocale]}
                     />
+                    <span class="uppercase font-medium">{currentLocale}</span>
+                    <svg class="size-3 opacity-60" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
                   </button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
@@ -282,7 +286,7 @@
                       on:click={() => switchLanguage(lang)}
                     >
                       <img
-                        class="size-5 object-cover rounded-sm"
+                        class="size-4 object-cover rounded-sm"
                         src={getFlagUrl(lang)}
                         alt={languageNames[lang]}
                       />
