@@ -1,0 +1,55 @@
+{
+  "market_flow_breadcrumb_home": "Home",
+  "market_flow_breadcrumb_market_flow": "Market Flow",
+
+  "market_flow_seo_title": "Market Flow - Real-Time S&P 500 Options Sentiment & Market Tide",
+  "market_flow_seo_description": "Track real-time S&P 500 market flow and options sentiment analysis. Monitor call/put premium flows, market tide indicators, and institutional options activity. Free market sentiment tracker with live data.",
+  "market_flow_seo_keywords": "market flow, options sentiment, market tide, S&P 500 flow, call put ratio, options premium flow, market sentiment, institutional flow, SPX options flow",
+  "market_flow_structured_name": "Market Flow Tracker",
+  "market_flow_structured_description": "Real-time S&P 500 market flow and options sentiment analysis",
+
+  "market_flow_overview_intro": "Overview for all option chains of",
+  "market_flow_overview_as_of": "As of",
+  "market_flow_overview_total_volume": "the total volume is",
+  "market_flow_overview_contracts": "contracts, which is",
+  "market_flow_overview_of_average": "of average daily volume of",
+  "market_flow_overview_contracts_period": "contracts.",
+  "market_flow_overview_volume_pc_ratio": "The volume put-call ratio is",
+  "market_flow_overview_net_call_premium": "Current net call premium flow is",
+  "market_flow_overview_net_put_premium": "and net put premium flow is",
+  "market_flow_overview_indicating": "indicating a",
+  "market_flow_overview_sentiment": "sentiment in the market.",
+
+  "market_flow_sentiment_bullish": "bullish",
+  "market_flow_sentiment_bearish": "bearish",
+  "market_flow_sentiment_neutral": "neutral",
+  "market_flow_sentiment_unknown": "unknown",
+
+  "market_flow_upgrade": "Upgrade",
+  "market_flow_upgrade_to_pro": "Upgrade to Pro to unlock",
+
+  "market_flow_card_net_volume": "Net Volume",
+  "market_flow_card_net_call_prem": "Net Call Prem",
+  "market_flow_card_net_put_prem": "Net Put Prem",
+  "market_flow_card_most_active_sector": "Most Active Sector",
+
+  "market_flow_section_sp500_flow": "S&P 500 Flow",
+  "market_flow_section_fear_greed": "Fear & Greed",
+  "market_flow_section_sector_flow": "Sector Flow",
+  "market_flow_section_open_interest": "Open Interest (OI)",
+  "market_flow_section_volume": "Volume",
+
+  "market_flow_last_update": "Last Update:",
+  "market_flow_view_intraday_bars": "View Intraday Bars",
+
+  "market_flow_stat_todays_oi": "Today's Open Interest",
+  "market_flow_stat_put_call_ratio": "Put-Call Ratio",
+  "market_flow_stat_put_oi": "Put Open Interest",
+  "market_flow_stat_call_oi": "Call Open Interest",
+  "market_flow_stat_todays_volume": "Today's Volume",
+  "market_flow_stat_put_volume": "Put Volume",
+  "market_flow_stat_call_volume": "Call Volume",
+
+  "market_flow_modal_title": "Intraday Open Interest & Volume",
+  "market_flow_modal_description": "Interval totals with cumulative change since market open."
+}

@@ -1,0 +1,55 @@
+{
+  "market_flow_breadcrumb_home": "Startseite",
+  "market_flow_breadcrumb_market_flow": "Market Flow",
+
+  "market_flow_seo_title": "Market Flow - Echtzeit S&P 500 Options-Sentiment & Market Tide",
+  "market_flow_seo_description": "Verfolge Echtzeit S&P 500 Market Flow und Options-Sentiment-Analyse. Überwache Call/Put Premium Flows, Market Tide Indikatoren und institutionelle Options-Aktivität. Kostenloser Markt-Sentiment-Tracker mit Live-Daten.",
+  "market_flow_seo_keywords": "Market Flow, Options-Sentiment, Market Tide, S&P 500 Flow, Call Put Ratio, Options Premium Flow, Markt-Sentiment, institutioneller Flow, SPX Options Flow",
+  "market_flow_structured_name": "Market Flow Tracker",
+  "market_flow_structured_description": "Echtzeit S&P 500 Market Flow und Options-Sentiment-Analyse",
+
+  "market_flow_overview_intro": "Übersicht aller Optionsketten von",
+  "market_flow_overview_as_of": "Stand",
+  "market_flow_overview_total_volume": "beträgt das Gesamtvolumen",
+  "market_flow_overview_contracts": "Kontrakte, was",
+  "market_flow_overview_of_average": "des durchschnittlichen Tagesvolumens von",
+  "market_flow_overview_contracts_period": "Kontrakten entspricht.",
+  "market_flow_overview_volume_pc_ratio": "Das Volumen Put-Call-Verhältnis beträgt",
+  "market_flow_overview_net_call_premium": "Der aktuelle Netto-Call-Premium-Flow beträgt",
+  "market_flow_overview_net_put_premium": "und der Netto-Put-Premium-Flow beträgt",
+  "market_flow_overview_indicating": "was auf eine",
+  "market_flow_overview_sentiment": "Stimmung am Markt hindeutet.",
+
+  "market_flow_sentiment_bullish": "bullische",
+  "market_flow_sentiment_bearish": "bärische",
+  "market_flow_sentiment_neutral": "neutrale",
+  "market_flow_sentiment_unknown": "unbekannte",
+
+  "market_flow_upgrade": "Upgrade",
+  "market_flow_upgrade_to_pro": "Upgrade auf Pro zum Freischalten",
+
+  "market_flow_card_net_volume": "Netto-Volumen",
+  "market_flow_card_net_call_prem": "Netto Call Prem",
+  "market_flow_card_net_put_prem": "Netto Put Prem",
+  "market_flow_card_most_active_sector": "Aktivster Sektor",
+
+  "market_flow_section_sp500_flow": "S&P 500 Flow",
+  "market_flow_section_fear_greed": "Fear & Greed",
+  "market_flow_section_sector_flow": "Sektor Flow",
+  "market_flow_section_open_interest": "Open Interest (OI)",
+  "market_flow_section_volume": "Volumen",
+
+  "market_flow_last_update": "Letztes Update:",
+  "market_flow_view_intraday_bars": "Intraday Bars anzeigen",
+
+  "market_flow_stat_todays_oi": "Heutiges Open Interest",
+  "market_flow_stat_put_call_ratio": "Put-Call-Verhältnis",
+  "market_flow_stat_put_oi": "Put Open Interest",
+  "market_flow_stat_call_oi": "Call Open Interest",
+  "market_flow_stat_todays_volume": "Heutiges Volumen",
+  "market_flow_stat_put_volume": "Put Volumen",
+  "market_flow_stat_call_volume": "Call Volumen",
+
+  "market_flow_modal_title": "Intraday Open Interest & Volumen",
+  "market_flow_modal_description": "Intervall-Summen mit kumulativer Änderung seit Marktöffnung."
+}
