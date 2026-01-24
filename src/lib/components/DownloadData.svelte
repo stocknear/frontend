@@ -4,6 +4,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let rawData;
@@ -32,7 +33,7 @@
       return rawData;
     } catch (error) {
       console.error("Failed to prepare download", error);
-      toast.error("Unable to prepare download", {
+      toast.error(m.common_toast_download_preparing(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return rawData;
@@ -49,7 +50,7 @@
 
     if (data?.user?.downloadCredits > 500) {
       toast.error(
-        "Abusive usage detected. Please read our Terms of Service to understand more.",
+        m.common_toast_download_abusive(),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -73,7 +74,7 @@
         const dataset = await ensureDownloadData();
 
         if (!dataset?.length) {
-          toast.error("No data available to download", {
+          toast.error(m.common_toast_download_no_data(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           return;
@@ -86,9 +87,9 @@
         }
       })(),
       {
-        loading: "Downloading data...",
-        success: "Download complete!",
-        error: "Download failed. Try again.",
+        loading: m.common_toast_downloading(),
+        success: m.common_toast_download_complete(),
+        error: m.common_toast_download_failed(),
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       },
     );
@@ -219,7 +220,7 @@
 
     if (totalCreditCost === 0 || tickers?.length === 0) {
       toast.error(
-        `Select at least one ${tickers?.length === 0 ? "symbol" : "bulk data"} to download`,
+        m.common_toast_select_bulk({ type: tickers?.length === 0 ? "symbol" : "bulk data" }),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -254,18 +255,18 @@
           URL.revokeObjectURL(url);
         })(),
         {
-          loading: "Downloading data...",
-          success: "Download complete!",
-          error: "Download failed. Try again.",
+          loading: m.common_toast_downloading(),
+          success: m.common_toast_download_complete(),
+          error: m.common_toast_download_failed(),
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
       );
     } else if (tickers?.length === 0) {
-      toast.error("Add tickers first to your watchlist", {
+      toast.error(m.common_toast_add_tickers(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
-      toast.error("Not enough credits", {
+      toast.error(m.common_toast_not_enough_credits(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -292,7 +293,7 @@
           builders={[builder]}
           class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
-          <span class="truncate text-[0.85rem] sm:text-sm">Bulk Download</span>
+          <span class="truncate text-[0.85rem] sm:text-sm">{m.common_bulk_download()}</span>
           <svg
             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
             viewBox="0 0 20 20"
@@ -319,7 +320,7 @@
         <DropdownMenu.Label
           class="text-gray-500 dark:text-zinc-400 font-semibold dark:font-normal text-xs"
         >
-          {data?.user?.credits} Credits left
+          {m.common_credits_left({ count: data?.user?.credits })}
         </DropdownMenu.Label>
         <!-- Dropdown items -->
         <DropdownMenu.Group class="pb-2">
@@ -336,7 +337,7 @@
               >
                 <span class="mr-1 text-sm">{item?.name}</span>
                 <span class="mr-2 text-xs inline-block"
-                  >({item?.credit} Credits)</span
+                  >{m.common_credits_cost({ count: item?.credit })}</span
                 >
                 <div class="relative ml-auto">
                   <input
@@ -362,13 +363,13 @@
           <span
             class="w-full text-gray-500 dark:text-zinc-400 bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
           >
-            = Credit Cost {totalCreditCost}
+            {m.common_credit_cost_total({ count: totalCreditCost })}
           </span>
           <button
             on:click={handleBulkDownload}
             class="whitespace-nowrap w-full flex justify-end text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
           >
-            Bulk Download
+            {m.common_bulk_download()}
           </button>
         </div>
       </DropdownMenu.Content>
@@ -380,7 +381,7 @@
           builders={[builder]}
           class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
-          <span class="truncate text-[0.85rem] sm:text-sm"> Download </span>
+          <span class="truncate text-[0.85rem] sm:text-sm"> {m.common_download()} </span>
           <svg
             class="-mr-1 ml-1 h-5 w-5 inline-block"
             viewBox="0 0 20 20"
@@ -408,7 +409,7 @@
             on:click={() => download("csv")}
             class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
           >
-            <span>Download to CSV</span>
+            <span>{m.common_download_csv()}</span>
             {#if !isSubscribed}
               <svg
                 class="ml-1 size-4"
@@ -430,7 +431,7 @@
             on:click={() => download("excel")}
             class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
           >
-            <span>Download to Excel</span>
+            <span>{m.common_download_excel()}</span>
             {#if !isSubscribed}
               <svg
                 class="ml-1 size-4"

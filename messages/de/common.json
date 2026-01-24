@@ -6,5 +6,23 @@
   "common_contact_us": "Kontakt",
   "common_sponsor_us": "Unterstütze uns",
   "common_learn_more_sponsor": "Erfahre mehr darüber, warum wir das tun",
-  "common_let_me_know": "Lass mich wissen, wenn du etwas brauchst"
+  "common_let_me_know": "Lass mich wissen, wenn du etwas brauchst",
+
+  "common_download": "Download",
+  "common_download_csv": "Als CSV herunterladen",
+  "common_download_excel": "Als Excel herunterladen",
+  "common_bulk_download": "Bulk-Download",
+  "common_credits_left": "{count} Credits übrig",
+  "common_credits_cost": "({count} Credits)",
+  "common_credit_cost_total": "= Credit-Kosten {count}",
+
+  "common_toast_download_preparing": "Download konnte nicht vorbereitet werden",
+  "common_toast_download_abusive": "Missbrauch erkannt. Bitte lies unsere Nutzungsbedingungen für weitere Informationen.",
+  "common_toast_download_no_data": "Keine Daten zum Herunterladen verfügbar",
+  "common_toast_downloading": "Daten werden heruntergeladen...",
+  "common_toast_download_complete": "Download abgeschlossen!",
+  "common_toast_download_failed": "Download fehlgeschlagen. Bitte erneut versuchen.",
+  "common_toast_select_bulk": "Wähle mindestens ein {type} zum Herunterladen",
+  "common_toast_add_tickers": "Füge zuerst Aktien zu deiner Watchlist hinzu",
+  "common_toast_not_enough_credits": "Nicht genügend Credits"
 }
