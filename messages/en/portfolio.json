@@ -1,7 +1,11 @@
 {
   "portfolio_breadcrumb_home": "Home",
-  "portfolio_breadcrumb_portfolio": "Portfolio",
+  "portfolio_breadcrumb_portfolio": "Portfolio Tracker",
   "portfolio_breadcrumb_analysis": "Analysis",
+
+  "portfolio_layout_title": "Portfolio Tracker",
+  "portfolio_tab_overview": "Overview",
+  "portfolio_tab_analysis": "Analysis",
 
   "portfolio_seo_title": "Portfolio Tracker & AI Stock Analysis",
   "portfolio_seo_description": "Track stocks and ETFs in real time, get AI insights and price alerts, and visualize performance, risk, and dividends. A fast, free portfolio tracker for investors.",

@@ -1,7 +1,11 @@
 {
   "portfolio_breadcrumb_home": "Startseite",
-  "portfolio_breadcrumb_portfolio": "Portfolio",
+  "portfolio_breadcrumb_portfolio": "Portfolio-Tracker",
   "portfolio_breadcrumb_analysis": "Analyse",
+
+  "portfolio_layout_title": "Portfolio-Tracker",
+  "portfolio_tab_overview": "Übersicht",
+  "portfolio_tab_analysis": "Analyse",
 
   "portfolio_seo_title": "Portfolio-Tracker & KI-Aktienanalyse",
   "portfolio_seo_description": "Verfolge Aktien und ETFs in Echtzeit, erhalte KI-Insights und Preisalarme, und visualisiere Performance, Risiko und Dividenden. Ein schneller, kostenloser Portfolio-Tracker für Anleger.",

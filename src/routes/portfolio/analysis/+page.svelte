@@ -103,36 +103,32 @@
     }}
 />
 
-<section
-    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-gray-700 dark:text-zinc-200"
->
-    <div class="mx-auto w-full space-y-8">
-        <!-- Portfolio AI Summary Section -->
-        <BullvsBear
-            data={{ user: data?.user, bullBear: bullBearData }}
-            tickers={portfolioData}
-            {portfolioId}
-            showAnalyzeButton={true}
-        />
+<div class="mx-auto w-full space-y-8 mt-5">
+    <!-- Portfolio AI Summary Section -->
+    <BullvsBear
+        data={{ user: data?.user, bullBear: bullBearData }}
+        tickers={portfolioData}
+        {portfolioId}
+        showAnalyzeButton={true}
+    />
 
-        <!--Fundamentals section-->
-        <div class="w-full m-auto mt-10">
-            <h2
-                class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
-            >
-                {m.portfolio_analysis_vs_market_title()}
-            </h2>
-            <p class="mb-4 text-sm text-gray-800 dark:text-zinc-300 max-w-3xl">
-                {m.portfolio_analysis_vs_market_description()}
-            </p>
+    <!--Fundamentals section-->
+    <div class="w-full m-auto mt-10">
+        <h2
+            class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+        >
+            {m.portfolio_analysis_vs_market_title()}
+        </h2>
+        <p class="mb-4 text-sm text-gray-800 dark:text-zinc-300 max-w-3xl">
+            {m.portfolio_analysis_vs_market_description()}
+        </p>
 
-            <Fundamentals title="Valuation" data={valuationData} />
-            <Fundamentals title="Growth" data={growthData} />
-            <Fundamentals title="Efficiency" data={efficiencyData} />
-            <Fundamentals title="Margins" data={marginsData} />
-        </div>
-
-        <!-- Diversification Section -->
-        <Diversification data={diversificationData} />
+        <Fundamentals title="Valuation" data={valuationData} />
+        <Fundamentals title="Growth" data={growthData} />
+        <Fundamentals title="Efficiency" data={efficiencyData} />
+        <Fundamentals title="Margins" data={marginsData} />
     </div>
-</section>
+
+    <!-- Diversification Section -->
+    <Diversification data={diversificationData} />
+</div>

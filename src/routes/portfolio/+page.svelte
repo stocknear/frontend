@@ -855,10 +855,7 @@
   }}
 />
 
-<section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-gray-700 dark:text-zinc-200"
->
-  <div class="w-full overflow-hidden m-auto">
+<div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
@@ -1411,8 +1408,7 @@
         </main>
       </div>
     </div>
-  </div>
-</section>
+</div>
 
 <!--Start Create Watchlist Modal-->
 
