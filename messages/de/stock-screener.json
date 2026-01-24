@@ -1,0 +1,64 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Startseite",
+  "stock_screener_breadcrumb_stock_screener": "Aktien Screener",
+
+  "stock_screener_seo_title": "Erweiterter Aktien Screener - Kostenloses Aktienfilter & Analyse-Tool",
+  "stock_screener_seo_description": "Leistungsstarker Aktien Screener mit {count} Filterkriterien. Filtere Aktien nach Fundamentaldaten, Technik, Bewertungskennzahlen und Performance-Indikatoren. Echtzeit-Daten jede Minute aktualisiert für optimale Aktiensuche und Analyse.",
+  "stock_screener_seo_keywords": "aktien screener, kostenloser aktien screener, aktienfilter, aktienscanner, fundamental screener, technischer screener, value aktien screener, wachstumsaktien screener, dividendenaktien screener, aktienanalyse tool",
+  "stock_screener_structured_name": "Aktien Screener Tool",
+  "stock_screener_structured_description": "Erweiterte Aktien-Screening- und Filterplattform mit Echtzeit-Marktdaten",
+
+  "stock_screener_main_title": "Aktien Screener",
+  "stock_screener_matches_found": "{count} Treffer gefunden",
+  "stock_screener_stocks_count": "{count} Aktien",
+
+  "stock_screener_popular_screens": "Beliebte Screens",
+  "stock_screener_popular_strategies": "Beliebte Strategien",
+  "stock_screener_select_popular": "Auswählen",
+  "stock_screener_saved_screens": "Gespeicherte Screens",
+  "stock_screener_select_screen": "Screen auswählen",
+  "stock_screener_new_screen": "Neuer Screen",
+
+  "stock_screener_filters_count": "{count} Filter",
+  "stock_screener_add_filters": "Filter hinzufügen",
+  "stock_screener_search_filters": "Suche in {count} Filtern...",
+  "stock_screener_select_filters_title": "Screener-Filter auswählen ({count} gesamt)",
+  "stock_screener_nothing_found": "Nichts gefunden",
+
+  "stock_screener_search_placeholder": "Suchen...",
+  "stock_screener_search_input_placeholder": "Suchen...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Wert",
+
+  "stock_screener_normal_width": "Normale Breite",
+  "stock_screener_full_width": "Volle Breite",
+
+  "stock_screener_pagination_previous": "Zurück",
+  "stock_screener_pagination_next": "Weiter",
+  "stock_screener_pagination_page_of": "Seite {current} von {total}",
+  "stock_screener_rows_label": "{rows} Zeilen",
+  "stock_screener_back_to_top": "Nach oben",
+
+  "stock_screener_no_stocks_query": "Keine Aktien gefunden für \"{query}\"",
+  "stock_screener_no_stocks": "Keine Aktien gefunden.",
+
+  "stock_screener_modal_new_title": "Neuer Screener",
+  "stock_screener_modal_new_name_label": "Screener Name",
+  "stock_screener_modal_new_create": "Screener erstellen",
+
+  "stock_screener_modal_delete_title": "Screener löschen",
+  "stock_screener_modal_delete_message": "Bist du sicher, dass du diesen Screener löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "stock_screener_modal_delete_cancel": "Abbrechen",
+  "stock_screener_modal_delete_confirm": "Löschen",
+
+  "stock_screener_strategy_earnings_volatility": "Earnings Volatility",
+  "stock_screener_strategy_dividend_growth": "Dividenden-Wachstum",
+  "stock_screener_strategy_monthly_dividends": "Monatliche Dividenden",
+  "stock_screener_strategy_top_gainers_1y": "Top Gewinner 1J",
+  "stock_screener_strategy_top_shorted": "Meist Geshortete Aktien",
+  "stock_screener_strategy_momentum_ta": "Momentum TA Aktien",
+  "stock_screener_strategy_undervalued": "Unterbewertete Aktien",
+  "stock_screener_strategy_strong_cash_flow": "Starker Cash Flow"
+}

@@ -50,7 +50,8 @@
       "./messages/{locale}/price-alert.json",
       "./messages/{locale}/notifications.json",
       "./messages/{locale}/market-flow.json",
-      "./messages/{locale}/hedge-funds.json"
+      "./messages/{locale}/hedge-funds.json",
+      "./messages/{locale}/stock-screener.json"
     ]
   }
 }

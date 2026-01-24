@@ -24,6 +24,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
@@ -60,15 +61,15 @@
   let groupedRules = {};
   let displayRules = [];
   let selectedPopularStrategy = "";
-  const popularStrategyList = [
-    { key: "earningsVolatility", label: "Earnings Volatility" },
-    { key: "dividendGrowth", label: "Dividend Growth" },
-    { key: "monthlyDividends", label: "Monthly Dividends" },
-    { key: "topGainers1Y", label: "Top Gainers 1Y" },
-    { key: "topShortedStocks", label: "Top Shorted Stocks" },
-    { key: "momentumTAStocks", label: "Momentum TA Stocks" },
-    { key: "underValuedStocks", label: "Undervalued Stocks" },
-    { key: "strongCashFlow", label: "Strong Cash Flow" },
+  $: popularStrategyList = [
+    { key: "earningsVolatility", label: m.stock_screener_strategy_earnings_volatility() },
+    { key: "dividendGrowth", label: m.stock_screener_strategy_dividend_growth() },
+    { key: "monthlyDividends", label: m.stock_screener_strategy_monthly_dividends() },
+    { key: "topGainers1Y", label: m.stock_screener_strategy_top_gainers_1y() },
+    { key: "topShortedStocks", label: m.stock_screener_strategy_top_shorted() },
+    { key: "momentumTAStocks", label: m.stock_screener_strategy_momentum_ta() },
+    { key: "underValuedStocks", label: m.stock_screener_strategy_undervalued() },
+    { key: "strongCashFlow", label: m.stock_screener_strategy_strong_cash_flow() },
   ];
 
   const onlySubscriberRules = [
@@ -3290,16 +3291,14 @@ const handleKeyDown = (event) => {
 </script>
 
 <SEO
-  title="Advanced Stock Screener - Free Stock Filter & Analysis Tool"
-  description="Powerful stock screener with {allRows?.length ||
-    'advanced'} filtering criteria. Screen stocks by fundamentals, technicals, valuation metrics, and performance indicators. Real-time data updated every minute for optimal stock discovery and analysis."
-  keywords="stock screener, free stock screener, stock filter, stock scanner, fundamental screener, technical screener, value stocks screener, growth stocks screener, dividend stocks screener, stock analysis tool"
+  title={m.stock_screener_seo_title()}
+  description={m.stock_screener_seo_description({ count: allRows?.length || 'advanced' })}
+  keywords={m.stock_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Stock Screener Tool",
-    description:
-      "Advanced stock screening and filtering platform with real-time market data",
+    name: m.stock_screener_structured_name(),
+    description: m.stock_screener_structured_description(),
     url: "https://stocknear.com/stock-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -3340,11 +3339,11 @@ const handleKeyDown = (event) => {
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.stock_screener_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">Stock Screener</span>
+      <span class="text-gray-500 dark:text-zinc-400">{m.stock_screener_breadcrumb_stock_screener()}</span>
     </li>
   </BreadCrumb>
 
@@ -3355,12 +3354,12 @@ const handleKeyDown = (event) => {
         <h1
           class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          Stock Screener
+          {m.stock_screener_main_title()}
         </h1>
         <span
           class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
         >
-          {filteredData?.length?.toLocaleString("en-US")} Matches Found
+          {m.stock_screener_matches_found({ count: filteredData?.length?.toLocaleString("en-US") })}
         </span>
       </div>
 
@@ -3369,7 +3368,7 @@ const handleKeyDown = (event) => {
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            Popular Screens
+            {m.stock_screener_popular_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -3381,7 +3380,7 @@ const handleKeyDown = (event) => {
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
                       ? selectedPopularStrategy
-                      : "Select popular"}</span
+                      : m.stock_screener_select_popular()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -3408,7 +3407,7 @@ const handleKeyDown = (event) => {
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
-                  Popular Strategies
+                  {m.stock_screener_popular_strategies()}
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Group>
@@ -3430,7 +3429,7 @@ const handleKeyDown = (event) => {
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            Saved Screens
+            {m.stock_screener_saved_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -3444,7 +3443,7 @@ const handleKeyDown = (event) => {
                       ? strategyList?.find(
                           (item) => item.id === selectedStrategy,
                         )?.title
-                      : "Select screen"}</span
+                      : m.stock_screener_select_screen()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -3493,7 +3492,7 @@ const handleKeyDown = (event) => {
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">New Screen</div>
+                      <div class="text-sm text-start">{m.stock_screener_new_screen()}</div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -3564,7 +3563,7 @@ const handleKeyDown = (event) => {
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {ruleOfList?.length} Filters
+            {m.stock_screener_filters_count({ count: ruleOfList?.length })}
           </button>
         </div>
       </div>
@@ -3587,7 +3586,7 @@ const handleKeyDown = (event) => {
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <div>Add Filters</div>
+            <div>{m.stock_screener_add_filters()}</div>
           </label>
 
           <!-- Quick Search Input -->
@@ -3614,7 +3613,7 @@ const handleKeyDown = (event) => {
               </div>
               <input
                 type="text"
-                placeholder={`Search ${allRows?.length} filters...`}
+                placeholder={m.stock_screener_search_filters({ count: allRows?.length })}
                 bind:value={quickSearchTerm}
                 on:input={handleQuickSearchInput}
                 on:keydown={handleQuickSearchKeydown}
@@ -3942,7 +3941,7 @@ const handleKeyDown = (event) => {
                                 <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
                                   <input
                                     type="text"
-                                    placeholder="Min"
+                                    placeholder={m.stock_screener_input_min()}
                                     value={Array?.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -3957,7 +3956,7 @@ const handleKeyDown = (event) => {
                                   </span>
                                   <input
                                     type="text"
-                                    placeholder="Max"
+                                    placeholder={m.stock_screener_input_max()}
                                     value={Array?.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -3971,7 +3970,7 @@ const handleKeyDown = (event) => {
                               {:else}
                                 <input
                                   type="text"
-                                  placeholder="Value"
+                                  placeholder={m.stock_screener_input_value()}
                                   value={valueMappings[row?.rule] !== "any"
                                     ? valueMappings[row?.rule]
                                     : ""}
@@ -4053,7 +4052,7 @@ const handleKeyDown = (event) => {
                                 ? 'hidden'
                                 : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
                                       focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300"
-                              placeholder="Search..."
+                              placeholder={m.stock_screener_search_input_placeholder()}
                             />
                           </div>
                         {/if}
@@ -4181,7 +4180,7 @@ const handleKeyDown = (event) => {
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {filteredData?.length?.toLocaleString("en-US")} Stocks
+      {m.stock_screener_stocks_count({ count: filteredData?.length?.toLocaleString("en-US") })}
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -4212,7 +4211,7 @@ const handleKeyDown = (event) => {
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder="Find..."
+            placeholder={m.stock_screener_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -4264,7 +4263,7 @@ const handleKeyDown = (event) => {
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth ? "Normal Width" : "Full Width"}</span
+            >{isFullWidth ? m.stock_screener_normal_width() : m.stock_screener_full_width()}</span
           >
         </button>
 
@@ -4819,14 +4818,14 @@ const handleKeyDown = (event) => {
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                   clip-rule="evenodd"
                 ></path>
-              </svg> <span class="hidden sm:inline">Previous</span></Button
+              </svg> <span class="hidden sm:inline">{m.stock_screener_pagination_previous()}</span></Button
             >
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {m.stock_screener_pagination_page_of({ current: currentPage, total: totalPages })}
             </span>
 
             <DropdownMenu.Root>
@@ -4836,7 +4835,7 @@ const handleKeyDown = (event) => {
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{rowsPerPage} Rows</span
+                    >{m.stock_screener_rows_label({ rows: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -4871,7 +4870,7 @@ const handleKeyDown = (event) => {
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{item} Rows</span>
+                        <span class="text-sm">{m.stock_screener_rows_label({ rows: item })}</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -4887,7 +4886,7 @@ const handleKeyDown = (event) => {
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">Next</span>
+              <span class="hidden sm:inline">{m.stock_screener_pagination_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -4911,7 +4910,7 @@ const handleKeyDown = (event) => {
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to Top <svg
+            {m.stock_screener_back_to_top()} <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -4930,8 +4929,8 @@ const handleKeyDown = (event) => {
     {:else}
       <Infobox
         text={inputValue?.length > 0
-          ? `No Stocks found for "${inputValue}"`
-          : "No Stocks found."}
+          ? m.stock_screener_no_stocks_query({ query: inputValue })
+          : m.stock_screener_no_stocks()}
       />
     {/if}
   {:else}
@@ -4988,7 +4987,7 @@ const handleKeyDown = (event) => {
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            Select screener filters ({allRows?.length} total)
+            {m.stock_screener_select_filters_title({ count: allRows?.length })}
           </h2>
           <label
             for="ruleModal"
@@ -5063,7 +5062,7 @@ const handleKeyDown = (event) => {
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder="Search..."
+              placeholder={m.stock_screener_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -5127,7 +5126,7 @@ const handleKeyDown = (event) => {
         {/each}
         {#if searchTerm?.length > 0 && Object?.entries(filteredGroupedRules)?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            Nothing found
+            {m.stock_screener_nothing_found()}
           </div>
         {/if}
       </div>
@@ -5150,7 +5149,7 @@ const handleKeyDown = (event) => {
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      New Screener
+      {m.stock_screener_modal_new_title()}
     </h1>
 
     <form
@@ -5162,7 +5161,7 @@ const handleKeyDown = (event) => {
         id="title"
         type="text"
         errors=""
-        label="Screener Name"
+        label={m.stock_screener_modal_new_name_label()}
         required={true}
       />
 
@@ -5170,7 +5169,7 @@ const handleKeyDown = (event) => {
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        Create Screener
+        {m.stock_screener_modal_new_create()}
       </button>
     </form>
   </div>
@@ -5189,18 +5188,17 @@ const handleKeyDown = (event) => {
         bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      Delete Screener
+      {m.stock_screener_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      Are you sure you want to delete this screener? This action cannot be
-      undone.
+      {m.stock_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
             transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{m.stock_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -5228,7 +5226,7 @@ const handleKeyDown = (event) => {
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Screener</label
+        >{m.stock_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>

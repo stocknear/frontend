@@ -1,0 +1,64 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Home",
+  "stock_screener_breadcrumb_stock_screener": "Stock Screener",
+
+  "stock_screener_seo_title": "Advanced Stock Screener - Free Stock Filter & Analysis Tool",
+  "stock_screener_seo_description": "Powerful stock screener with {count} filtering criteria. Screen stocks by fundamentals, technicals, valuation metrics, and performance indicators. Real-time data updated every minute for optimal stock discovery and analysis.",
+  "stock_screener_seo_keywords": "stock screener, free stock screener, stock filter, stock scanner, fundamental screener, technical screener, value stocks screener, growth stocks screener, dividend stocks screener, stock analysis tool",
+  "stock_screener_structured_name": "Stock Screener Tool",
+  "stock_screener_structured_description": "Advanced stock screening and filtering platform with real-time market data",
+
+  "stock_screener_main_title": "Stock Screener",
+  "stock_screener_matches_found": "{count} Matches Found",
+  "stock_screener_stocks_count": "{count} Stocks",
+
+  "stock_screener_popular_screens": "Popular Screens",
+  "stock_screener_popular_strategies": "Popular Strategies",
+  "stock_screener_select_popular": "Select popular",
+  "stock_screener_saved_screens": "Saved Screens",
+  "stock_screener_select_screen": "Select screen",
+  "stock_screener_new_screen": "New Screen",
+
+  "stock_screener_filters_count": "{count} Filters",
+  "stock_screener_add_filters": "Add Filters",
+  "stock_screener_search_filters": "Search {count} filters...",
+  "stock_screener_select_filters_title": "Select screener filters ({count} total)",
+  "stock_screener_nothing_found": "Nothing found",
+
+  "stock_screener_search_placeholder": "Find...",
+  "stock_screener_search_input_placeholder": "Search...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Value",
+
+  "stock_screener_normal_width": "Normal Width",
+  "stock_screener_full_width": "Full Width",
+
+  "stock_screener_pagination_previous": "Previous",
+  "stock_screener_pagination_next": "Next",
+  "stock_screener_pagination_page_of": "Page {current} of {total}",
+  "stock_screener_rows_label": "{rows} Rows",
+  "stock_screener_back_to_top": "Back to Top",
+
+  "stock_screener_no_stocks_query": "No Stocks found for \"{query}\"",
+  "stock_screener_no_stocks": "No Stocks found.",
+
+  "stock_screener_modal_new_title": "New Screener",
+  "stock_screener_modal_new_name_label": "Screener Name",
+  "stock_screener_modal_new_create": "Create Screener",
+
+  "stock_screener_modal_delete_title": "Delete Screener",
+  "stock_screener_modal_delete_message": "Are you sure you want to delete this screener? This action cannot be undone.",
+  "stock_screener_modal_delete_cancel": "Cancel",
+  "stock_screener_modal_delete_confirm": "Delete",
+
+  "stock_screener_strategy_earnings_volatility": "Earnings Volatility",
+  "stock_screener_strategy_dividend_growth": "Dividend Growth",
+  "stock_screener_strategy_monthly_dividends": "Monthly Dividends",
+  "stock_screener_strategy_top_gainers_1y": "Top Gainers 1Y",
+  "stock_screener_strategy_top_shorted": "Top Shorted Stocks",
+  "stock_screener_strategy_momentum_ta": "Momentum TA Stocks",
+  "stock_screener_strategy_undervalued": "Undervalued Stocks",
+  "stock_screener_strategy_strong_cash_flow": "Strong Cash Flow"
+}
