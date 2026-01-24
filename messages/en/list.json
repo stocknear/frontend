@@ -515,5 +515,64 @@
 
   "list_slug_sports_betting_title": "Sports Betting Stocks",
 
-  "list_slug_virtual_reality_title": "Virtual Reality Stocks"
+  "list_slug_virtual_reality_title": "Virtual Reality Stocks",
+
+  "list_country_seo_title": "{country} Companies Listed on US Stock Exchanges",
+  "list_country_seo_description": "Explore {country} companies trading on U.S. stock exchanges. Find stocks from {country} with market data, financials, and performance metrics.",
+  "list_country_infobox": "This list shows all {country} companies that are listed on U.S. stock exchanges, allowing American investors to access these international stocks.",
+  "list_country_label_canada": "Canadian",
+  "list_country_label_china": "Chinese",
+  "list_country_label_germany": "German",
+  "list_country_label_india": "Indian",
+  "list_country_label_israel": "Israeli",
+  "list_country_label_japan": "Japanese",
+  "list_country_label_uk": "UK",
+
+  "list_dividend_kings_title": "Dividend Kings - 50+ Years of Dividend Increases",
+  "list_dividend_kings_description": "Dividend Kings are elite companies that have increased their dividends for 50 or more consecutive years, demonstrating exceptional financial stability and commitment to shareholders.",
+  "list_dividend_aristocrats_title": "Dividend Aristocrats - 25+ Years of Dividend Increases",
+  "list_dividend_aristocrats_description": "Dividend Aristocrats are S&P 500 companies that have increased their dividends for at least 25 consecutive years, representing reliable income investments with proven track records.",
+
+  "list_exchange_seo_title": "All Stocks Listed on {exchange}",
+  "list_exchange_seo_description": "Explore all stocks trading on the {exchange} exchange. Browse complete listings with real-time quotes, market data, and financial metrics.",
+  "list_exchange_infobox": "This list shows all stocks currently trading on the {exchange} exchange, providing comprehensive coverage of this major U.S. stock exchange.",
+  "list_exchange_name_amex": "AMEX",
+  "list_exchange_name_nasdaq": "NASDAQ",
+  "list_exchange_name_nyse": "NYSE",
+
+  "list_index_seo_title": "{index} Stocks - Complete Index Holdings",
+  "list_index_seo_description": "Explore all stocks in the {index} index. View complete holdings with market data, sector breakdown, and performance metrics.",
+  "list_index_exchange_dowjones": "Dow Jones Industrial Average",
+  "list_index_exchange_nasdaq100": "NASDAQ 100",
+  "list_index_exchange_sp500": "S&P 500",
+  "list_index_info_dowjones": "The Dow Jones Industrial Average (DJIA) is a stock market index of 30 prominent companies listed on U.S. stock exchanges. It is one of the oldest and most widely followed equity indices.",
+  "list_index_info_nasdaq100": "The NASDAQ 100 is a stock market index made up of 100 of the largest non-financial companies listed on the NASDAQ stock exchange, weighted by market capitalization.",
+  "list_index_info_sp500": "The S&P 500 is a stock market index tracking the stock performance of 500 of the largest companies listed on U.S. stock exchanges. It is one of the most commonly followed equity indices.",
+
+  "list_market_cap_seo_title": "{category} Stocks - {range}",
+  "list_market_cap_seo_description": "Explore {category} stocks with market capitalization {range}. Find stocks in this market cap category with comprehensive financial data.",
+  "list_market_cap_infobox": "This list shows {category} stocks with market capitalization {range}. Market cap categories help investors identify companies by size.",
+  "list_market_cap_mega": "Mega-Cap",
+  "list_market_cap_large": "Large-Cap",
+  "list_market_cap_mid": "Mid-Cap",
+  "list_market_cap_small": "Small-Cap",
+  "list_market_cap_micro": "Micro-Cap",
+  "list_market_cap_nano": "Nano-Cap",
+  "list_market_cap_value_billion": "${value}B",
+  "list_market_cap_value_million": "${value}M",
+  "list_market_cap_range_above": "above {value}",
+  "list_market_cap_range_below": "below {value}",
+  "list_market_cap_range_between": "between {min} and {max}",
+
+  "list_sector_seo_title": "{sector} Sector Stocks - Complete List",
+  "list_sector_seo_description": "Explore all {sector} sector stocks. This list contains {count} companies with a combined market cap of {marketCap} and total revenue of {revenue}.",
+  "list_sector_seo_keywords": "{sector} stocks, {sector} sector, {sector} companies, sector investing",
+  "list_sector_infobox": "The {sector} sector contains {count} publicly traded companies with a combined market capitalization of {marketCap} and total revenue of {revenue}.",
+  "list_sector_breadcrumb_label": "Sectors",
+  "list_sector_structured_name": "{sector} Sector Stocks",
+  "list_sector_structured_description": "Complete list of stocks in the {sector} sector",
+  "list_sector_main_name": "{sector} Stocks",
+  "list_sector_main_description": "All publicly traded companies in the {sector} sector",
+
+  "list_industry_infobox": "This industry contains {count} publicly traded companies with a combined market capitalization of {marketCap} and total revenue of {revenue}."
 }

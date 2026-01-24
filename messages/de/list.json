@@ -515,5 +515,64 @@
 
   "list_slug_sports_betting_title": "Sportwetten-Aktien",
 
-  "list_slug_virtual_reality_title": "Virtual-Reality-Aktien"
+  "list_slug_virtual_reality_title": "Virtual-Reality-Aktien",
+
+  "list_country_seo_title": "{country} Unternehmen an US-Börsen",
+  "list_country_seo_description": "Entdecke {country} Unternehmen an US-Börsen. Finde Aktien aus {country} mit Marktdaten, Finanzkennzahlen und Performance-Metriken.",
+  "list_country_infobox": "Diese Liste zeigt alle {country} Unternehmen, die an US-Börsen notiert sind und amerikanischen Investoren Zugang zu diesen internationalen Aktien bieten.",
+  "list_country_label_canada": "Kanadische",
+  "list_country_label_china": "Chinesische",
+  "list_country_label_germany": "Deutsche",
+  "list_country_label_india": "Indische",
+  "list_country_label_israel": "Israelische",
+  "list_country_label_japan": "Japanische",
+  "list_country_label_uk": "Britische",
+
+  "list_dividend_kings_title": "Dividenden-Könige – 50+ Jahre Dividendenerhöhungen",
+  "list_dividend_kings_description": "Dividenden-Könige sind Elite-Unternehmen, die ihre Dividenden seit 50 oder mehr Jahren in Folge erhöht haben – ein Zeichen außergewöhnlicher finanzieller Stabilität und Aktionärstreue.",
+  "list_dividend_aristocrats_title": "Dividenden-Aristokraten – 25+ Jahre Dividendenerhöhungen",
+  "list_dividend_aristocrats_description": "Dividenden-Aristokraten sind S&P-500-Unternehmen, die ihre Dividenden seit mindestens 25 Jahren in Folge erhöht haben – zuverlässige Einkommensinvestments mit bewährter Erfolgsbilanz.",
+
+  "list_exchange_seo_title": "Alle Aktien an der {exchange}",
+  "list_exchange_seo_description": "Entdecke alle Aktien an der {exchange}. Durchsuche vollständige Listen mit Echtzeitkursen, Marktdaten und Finanzkennzahlen.",
+  "list_exchange_infobox": "Diese Liste zeigt alle Aktien, die aktuell an der {exchange} gehandelt werden – umfassende Abdeckung dieser großen US-Börse.",
+  "list_exchange_name_amex": "AMEX",
+  "list_exchange_name_nasdaq": "NASDAQ",
+  "list_exchange_name_nyse": "NYSE",
+
+  "list_index_seo_title": "{index}-Aktien – Vollständige Index-Holdings",
+  "list_index_seo_description": "Entdecke alle Aktien im {index}-Index. Sieh dir vollständige Holdings mit Marktdaten, Sektoraufteilung und Performance-Metriken an.",
+  "list_index_exchange_dowjones": "Dow Jones Industrial Average",
+  "list_index_exchange_nasdaq100": "NASDAQ 100",
+  "list_index_exchange_sp500": "S&P 500",
+  "list_index_info_dowjones": "Der Dow Jones Industrial Average (DJIA) ist ein Aktienindex mit 30 führenden Unternehmen an US-Börsen. Er ist einer der ältesten und meistbeachteten Aktienindizes.",
+  "list_index_info_nasdaq100": "Der NASDAQ 100 ist ein Aktienindex der 100 größten nicht-finanziellen Unternehmen an der NASDAQ, gewichtet nach Marktkapitalisierung.",
+  "list_index_info_sp500": "Der S&P 500 ist ein Aktienindex, der die Performance von 500 der größten Unternehmen an US-Börsen abbildet. Er ist einer der meistbeachteten Aktienindizes.",
+
+  "list_market_cap_seo_title": "{category}-Aktien – {range}",
+  "list_market_cap_seo_description": "Entdecke {category}-Aktien mit Marktkapitalisierung {range}. Finde Aktien in dieser Market-Cap-Kategorie mit umfassenden Finanzdaten.",
+  "list_market_cap_infobox": "Diese Liste zeigt {category}-Aktien mit Marktkapitalisierung {range}. Market-Cap-Kategorien helfen Investoren, Unternehmen nach Größe zu identifizieren.",
+  "list_market_cap_mega": "Mega-Cap",
+  "list_market_cap_large": "Large-Cap",
+  "list_market_cap_mid": "Mid-Cap",
+  "list_market_cap_small": "Small-Cap",
+  "list_market_cap_micro": "Micro-Cap",
+  "list_market_cap_nano": "Nano-Cap",
+  "list_market_cap_value_billion": "${value} Mrd.",
+  "list_market_cap_value_million": "${value} Mio.",
+  "list_market_cap_range_above": "über {value}",
+  "list_market_cap_range_below": "unter {value}",
+  "list_market_cap_range_between": "zwischen {min} und {max}",
+
+  "list_sector_seo_title": "{sector}-Sektor-Aktien – Vollständige Liste",
+  "list_sector_seo_description": "Entdecke alle {sector}-Sektor-Aktien. Diese Liste enthält {count} Unternehmen mit einer kombinierten Marktkapitalisierung von {marketCap} und einem Gesamtumsatz von {revenue}.",
+  "list_sector_seo_keywords": "{sector}-Aktien, {sector}-Sektor, {sector}-Unternehmen, Sektor-Investing",
+  "list_sector_infobox": "Der {sector}-Sektor enthält {count} börsennotierte Unternehmen mit einer kombinierten Marktkapitalisierung von {marketCap} und einem Gesamtumsatz von {revenue}.",
+  "list_sector_breadcrumb_label": "Sektoren",
+  "list_sector_structured_name": "{sector}-Sektor-Aktien",
+  "list_sector_structured_description": "Vollständige Liste der Aktien im {sector}-Sektor",
+  "list_sector_main_name": "{sector}-Aktien",
+  "list_sector_main_description": "Alle börsennotierten Unternehmen im {sector}-Sektor",
+
+  "list_industry_infobox": "Diese Branche enthält {count} börsennotierte Unternehmen mit einer kombinierten Marktkapitalisierung von {marketCap} und einem Gesamtumsatz von {revenue}."
 }
