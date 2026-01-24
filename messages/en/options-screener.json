@@ -1,0 +1,65 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Home",
+  "options_screener_breadcrumb_options_screener": "Options Screener",
+
+  "options_screener_seo_title": "Options Screener - Find Unusual Flow & High-Conviction Setups",
+  "options_screener_seo_description": "Screen options by unusual activity, implied volatility, open interest, volume, Greeks, and expiration to surface short-term trade setups.",
+  "options_screener_seo_keywords": "options screener, unusual options activity, options scanner, implied volatility screener, IV skew, open interest, high volume options, options trading tool, Greeks screener",
+  "options_screener_structured_name": "Options Screener Tool",
+  "options_screener_structured_description": "Options screener focused on unusual activity, IV, and open interest for short-term setups",
+
+  "options_screener_main_title": "Options Screener",
+  "options_screener_contracts_count": "{count} Contracts",
+  "options_screener_expire_on": "All option contracts expire on {date}",
+
+  "options_screener_popular_screens": "Popular Screens",
+  "options_screener_popular_strategies": "Popular Strategies",
+  "options_screener_select_popular": "Select popular",
+  "options_screener_saved_screens": "Saved Screens",
+  "options_screener_select_screen": "Select screen",
+  "options_screener_new_screen": "New Screen",
+
+  "options_screener_filters_count": "{count} Filters",
+  "options_screener_add_filters": "Add Filters",
+  "options_screener_search_filters": "Search {count} filters...",
+  "options_screener_select_filters_title": "Select screener filters ({count} total)",
+  "options_screener_nothing_found": "Nothing found",
+
+  "options_screener_tab_general": "General",
+  "options_screener_tab_filters": "Filters",
+  "options_screener_tab_greeks": "Greeks",
+
+  "options_screener_search_placeholder": "Find...",
+  "options_screener_search_input_placeholder": "Search...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Value",
+
+  "options_screener_normal_width": "Normal Width",
+  "options_screener_full_width": "Full Width",
+
+  "options_screener_pagination_previous": "Previous",
+  "options_screener_pagination_next": "Next",
+  "options_screener_pagination_page_of": "Page {current} of {total}",
+  "options_screener_rows_label": "{rows} Rows",
+  "options_screener_back_to_top": "Back to Top",
+
+  "options_screener_no_contracts_query": "No Contracts found for \"{query}\"",
+  "options_screener_no_contracts": "No Contracts found.",
+
+  "options_screener_modal_new_title": "New Screener",
+  "options_screener_modal_new_name_label": "Screener Name",
+  "options_screener_modal_new_create": "Create Screener",
+
+  "options_screener_modal_delete_title": "Delete Screener",
+  "options_screener_modal_delete_message": "Are you sure you want to delete this screener? This action cannot be undone.",
+  "options_screener_modal_delete_cancel": "Cancel",
+  "options_screener_modal_delete_confirm": "Delete",
+
+  "options_screener_strategy_high_iv_rank": "High IV Rank",
+  "options_screener_strategy_volume_surge": "Volume Surge",
+  "options_screener_strategy_itm_calls": "ITM Calls",
+  "options_screener_strategy_otm_puts": "OTM Puts",
+  "options_screener_strategy_high_premium_flow": "High Premium Flow"
+}
