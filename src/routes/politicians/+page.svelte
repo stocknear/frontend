@@ -5,6 +5,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import { onMount } from "svelte";
   import { page } from "$app/stores";
@@ -544,15 +545,14 @@
 </script>
 
 <SEO
-  title="Congress Trading Tracker - Real-Time Politicians Stock Trades "
-  description="Track real-time stock trades by US Congress members, senators, and politicians. Monitor Nancy Pelosi trades, senate stock purchases, and congressional insider trading. Free politician trading tracker with detailed transaction history."
-  keywords="congress trading, nancy pelosi trades, politician stock trades, senate trades, congressional trading, insider trading congress, political stock tracker, us politicians trading, pelosi portfolio, congress stock trades"
+  title={m.politicians_seo_title()}
+  description={m.politicians_seo_description()}
+  keywords={m.politicians_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Congress Trading Tracker",
-    description:
-      "Real-time tracking of stock trades by US politicians and congress members",
+    name: m.politicians_structured_name(),
+    description: m.politicians_structured_description(),
     url: "https://stocknear.com/politicians",
     applicationCategory: "FinanceApplication",
     breadcrumb: {
@@ -561,13 +561,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: m.politicians_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Politicians Trading",
+          name: m.politicians_breadcrumb_politicians(),
           item: "https://stocknear.com/politicians",
         },
       ],
@@ -590,10 +590,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.politicians_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Politicians</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.politicians_breadcrumb_politicians()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -605,7 +605,7 @@
           <h1
             class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            All US Politicians
+            {m.politicians_main_title()}
           </h1>
           <div
             class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-gray-600 dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
@@ -616,7 +616,7 @@
               <h2
                 class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {originalData?.length?.toLocaleString("en-US")} Members
+                {m.politicians_count_members({ count: originalData?.length?.toLocaleString("en-US") })}
               </h2>
             </div>
 
@@ -651,7 +651,7 @@
                   type="text"
                   bind:value={inputValue}
                   on:input={search}
-                  placeholder="Find..."
+                  placeholder={m.politicians_search_placeholder()}
                   class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                 />
               </div>
@@ -663,7 +663,7 @@
                       builders={[builder]}
                       class="min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="truncate">Party</span>
+                      <span class="truncate">{m.politicians_filter_party()}</span>
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -916,10 +916,10 @@
                 </table>
               </div>
             {:else if displayList?.length === 0 && inputValue?.length > 0}
-              <Infobox text={`No Congress Member found for "${inputValue}"`} />
+              <Infobox text={m.politicians_empty_search({ query: inputValue })} />
             {:else}
               <Infobox
-                text="No results found for your search or filter criteria."
+                text={m.politicians_empty_filter()}
               />
             {/if}
 
@@ -948,14 +948,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span></Button
+                    <span class="hidden sm:inline">{m.politicians_pagination_previous()}</span></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    Page {currentPage} of {totalPages}
+                    {m.politicians_pagination_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -965,7 +965,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{rowsPerPage} Rows</span
+                          >{m.politicians_pagination_rows({ count: rowsPerPage })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1000,7 +1000,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{item} Rows</span>
+                              <span class="text-sm">{m.politicians_pagination_rows({ count: item })}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1016,7 +1016,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.politicians_pagination_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1040,7 +1040,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  Back to Top <svg
+                  {m.politicians_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"

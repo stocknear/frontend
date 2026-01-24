@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Home",
+  "politicians_breadcrumb_politicians": "Politicians",
+  "politicians_breadcrumb_flow": "Congress Flow",
+
+  "politicians_seo_title": "Congress Trading Tracker - Real-Time Politicians Stock Trades",
+  "politicians_seo_description": "Track real-time stock trades by US Congress members, senators, and politicians. Monitor Nancy Pelosi trades, senate stock purchases, and congressional insider trading. Free politician trading tracker with detailed transaction history.",
+  "politicians_seo_keywords": "congress trading, nancy pelosi trades, politician stock trades, senate trades, congressional trading, insider trading congress, political stock tracker, us politicians trading, pelosi portfolio, congress stock trades",
+  "politicians_structured_name": "Congress Trading Tracker",
+  "politicians_structured_description": "Real-time tracking of stock trades by US politicians and congress members",
+
+  "politicians_main_title": "All US Politicians",
+  "politicians_count_members": "{count} Members",
+  "politicians_search_placeholder": "Find...",
+  "politicians_filter_party": "Party",
+  "politicians_empty_search": "No Congress Member found for \"{query}\"",
+  "politicians_empty_filter": "No results found for your search or filter criteria.",
+
+  "politicians_pagination_previous": "Previous",
+  "politicians_pagination_next": "Next",
+  "politicians_pagination_page_of": "Page {current} of {total}",
+  "politicians_pagination_rows": "{count} Rows",
+  "politicians_back_to_top": "Back to Top",
+
+  "politicians_flow_seo_title": "Latest Congressional Trading",
+  "politicians_flow_seo_description": "Find the latest congress trading and see what insiders who have access to regulations are investing.",
+
+  "politicians_flow_title": "Latest Trades of Politicians",
+  "politicians_flow_description_intro": "Overview of the latest congressional trading activity. The buy-sell ratio shows",
+  "politicians_flow_description_buys": "{percent}% buys",
+  "politicians_flow_description_versus": "versus",
+  "politicians_flow_description_sells": "{percent}% sells",
+  "politicians_flow_description_active_party": "among recent filings. The most active party is",
+  "politicians_flow_description_with": "with",
+  "politicians_flow_description_transactions": "transactions, indicating",
+  "politicians_flow_description_sentiment": "sentiment among congressional members.",
+  "politicians_flow_sentiment_bullish": "bullish",
+  "politicians_flow_sentiment_bearish": "bearish",
+  "politicians_flow_sentiment_neutral": "neutral",
+  "politicians_flow_count_trades": "{count} Trades",
+  "politicians_flow_empty_search": "No Stocks found for \"{query}\"",
+
+  "politicians_detail_stats_rank": "Rank",
+  "politicians_detail_stats_trades_scored": "Trades Scored",
+  "politicians_detail_stats_success_rate": "Success Rate",
+  "politicians_detail_stats_avg_return": "Avg. Return",
+  "politicians_detail_stats_total_amount": "Total Amount",
+  "politicians_detail_stats_transaction": "Transaction",
+  "politicians_detail_stats_last_transaction": "Last Transaction",
+  "politicians_detail_stats_buy_sell": "Buy/Sell",
+
+  "politicians_detail_main_sectors": "Main Sectors:",
+  "politicians_detail_top_industries": "Top Industries:",
+  "politicians_detail_count_stocks": "{count} Stocks",
+  "politicians_detail_empty_search": "No data is available for \"{query}\"",
+  "politicians_detail_empty": "No data is available for the searched analyst.",
+
+  "politicians_detail_mobile_filed": "Filed",
+  "politicians_detail_mobile_view_chart": "View Chart",
+  "politicians_detail_mobile_amt": "Amt",
+  "politicians_detail_mobile_trades": "{count} trade",
+  "politicians_detail_mobile_trades_plural": "{count} trades"
+}

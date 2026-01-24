@@ -11,6 +11,7 @@
   import { page } from "$app/stores";
   import { screenWidth } from "$lib/store";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import DownloadData from "$lib/components/DownloadData.svelte";
 
@@ -496,14 +497,14 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.politicians_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/politicians"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Politicians</a
+        >{m.politicians_breadcrumb_politicians()}</a
       >
     </li>
 
@@ -598,7 +599,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Rank
+                    {m.politicians_detail_stats_rank()}
                   </div>
                 </div>
 
@@ -618,7 +619,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Trades Scored
+                    {m.politicians_detail_stats_trades_scored()}
                   </div>
                 </div>
 
@@ -665,7 +666,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Success Rate
+                    {m.politicians_detail_stats_success_rate()}
                   </div>
                 </div>
                 <div
@@ -711,7 +712,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Avg. Return
+                    {m.politicians_detail_stats_avg_return()}
                   </div>
                 </div>
               </div>
@@ -732,7 +733,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  Total Amount
+                  {m.politicians_detail_stats_total_amount()}
                 </div>
               </div>
 
@@ -747,7 +748,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  Transaction
+                  {m.politicians_detail_stats_transaction()}
                 </div>
               </div>
 
@@ -769,7 +770,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  Last Transaction
+                  {m.politicians_detail_stats_last_transaction()}
                 </div>
               </div>
               <div
@@ -783,7 +784,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  Buy/Sell
+                  {m.politicians_detail_stats_buy_sell()}
                 </div>
               </div>
             </div>
@@ -799,7 +800,7 @@
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      Main Sectors:
+                      {m.politicians_detail_main_sectors()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -822,7 +823,7 @@
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      Top Industries:
+                      {m.politicians_detail_top_industries()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -848,7 +849,7 @@
                 <h2
                   class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {originalData?.length?.toLocaleString("en-US")} Stocks
+                  {m.politicians_detail_count_stocks({ count: originalData?.length?.toLocaleString("en-US") })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
@@ -879,7 +880,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder="Find..."
+                      placeholder={m.politicians_search_placeholder()}
                       class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
@@ -1003,7 +1004,7 @@
                           <p
                             class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mb-0.5"
                           >
-                            Filed
+                            {m.politicians_detail_mobile_filed()}
                           </p>
                           <p
                             class="text-[13px] tabular-nums text-gray-800 dark:text-zinc-300"
@@ -1025,7 +1026,7 @@
                         on:click={() => openGraph(item?.ticker)}
                         class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
-                        <span>View Chart</span>
+                        <span>{m.politicians_detail_mobile_view_chart()}</span>
                         <svg
                           class="h-4 w-4 transition-transform {checkedSymbol ===
                           (item?.ticker ?? item?.symbol)
@@ -1236,12 +1237,12 @@
               {/if}
             {:else if stockList?.length === 0 && inputValue?.length > 0}
               <div class="pt-5">
-                <Infobox text={`No data is available for "${inputValue}"`} />
+                <Infobox text={m.politicians_detail_empty_search({ query: inputValue })} />
               </div>
             {:else}
               <div class="pt-5">
                 <Infobox
-                  text="No data is available for the searched analyst."
+                  text={m.politicians_detail_empty()}
                 />
               </div>
             {/if}
@@ -1271,14 +1272,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span></Button
+                    <span class="hidden sm:inline">{m.politicians_pagination_previous()}</span></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    Page {currentPage} of {totalPages}
+                    {m.politicians_pagination_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -1288,7 +1289,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{rowsPerPage} Rows</span
+                          >{m.politicians_pagination_rows({ count: rowsPerPage })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1323,7 +1324,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{item} Rows</span>
+                              <span class="text-sm">{m.politicians_pagination_rows({ count: item })}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1339,7 +1340,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.politicians_pagination_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1363,7 +1364,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  Back to Top <svg
+                  {m.politicians_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
