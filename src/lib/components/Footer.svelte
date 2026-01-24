@@ -35,15 +35,17 @@
     common_privacy_policy,
     common_imprint,
   } from "$lib/paraglide/messages.js";
-  import Globe from "lucide-svelte/icons/globe";
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
 
-  // Language flags
-  const languageFlags: Record<Locale, string> = {
-    en: "🇺🇸",
-    de: "🇩🇪",
+  // Language flag country codes for flagsapi.com
+  const flagCodes: Record<Locale, string> = {
+    en: "US",
+    de: "DE",
   };
+
+  const getFlagUrl = (locale: Locale) =>
+    `https://flagsapi.com/${flagCodes[locale]}/shiny/64.png`;
 
   let currentLocale = $derived(getLocale());
 
@@ -256,27 +258,34 @@
                   <button
                     use:builder.action
                     {...builder}
-                    class="w-fit flex items-center gap-2 mt-3 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 px-3 py-1.5 text-xs text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer"
+                    class="size-8 flex items-center justify-center mt-3 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 hover:bg-gray-200/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer overflow-hidden"
                   >
-                    <Globe class="h-4 w-4" />
-                    <span>{footer_language()}</span>
+                    <img
+                      class="size-6 object-cover"
+                      src={getFlagUrl(currentLocale)}
+                      alt={languageNames[currentLocale]}
+                    />
                   </button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
                   side="top"
                   align="start"
                   sideOffset={8}
-                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200 min-w-[120px]"
+                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200 min-w-[140px]"
                 >
                   {#each locales as lang}
                     <DropdownMenu.Item
-                      class="flex items-center gap-2 px-3 py-2 text-sm rounded-lg cursor-pointer {currentLocale ===
+                      class="flex items-center gap-3 px-3 py-2 text-sm rounded-lg cursor-pointer {currentLocale ===
                       lang
                         ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
                         : 'hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'} transition"
                       on:click={() => switchLanguage(lang)}
                     >
-                      <span>{languageFlags[lang]}</span>
+                      <img
+                        class="size-5 object-cover rounded-sm"
+                        src={getFlagUrl(lang)}
+                        alt={languageNames[lang]}
+                      />
                       <span>{languageNames[lang]}</span>
                     </DropdownMenu.Item>
                   {/each}
