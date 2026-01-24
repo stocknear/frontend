@@ -15,7 +15,6 @@
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import { mode } from "mode-watcher";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import CheckMark from "lucide-svelte/icons/check";
@@ -62,10 +61,10 @@
   // Tab label translation helper
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "Daily": m.earnings_tab_daily,
-      "Weekly": m.earnings_tab_weekly,
-      "Details": m.earnings_tab_details,
-      "Compact": m.earnings_tab_compact,
+      Daily: m.earnings_tab_daily,
+      Weekly: m.earnings_tab_weekly,
+      Details: m.earnings_tab_details,
+      Compact: m.earnings_tab_compact,
     };
     return tabLabels[tab]?.() ?? tab;
   }
@@ -73,9 +72,9 @@
   // Time option label translation helper
   function getTimeLabel(value: string): string {
     const timeLabels: Record<string, () => string> = {
-      "anytime": m.earnings_time_any,
-      "bmo": m.earnings_time_before_open,
-      "amc": m.earnings_time_after_close,
+      anytime: m.earnings_time_any,
+      bmo: m.earnings_time_before_open,
+      amc: m.earnings_time_after_close,
     };
     return timeLabels[value]?.() ?? value;
   }
@@ -226,11 +225,22 @@
     "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3";
 
   let formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
-  let formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d");
-  let formattedWednesday = format(addDays(formattedMonday, 2), "EEE, MMM d");
-  let formattedThursday = format(addDays(formattedMonday, 3), "EEE, MMM d");
-  let formattedFriday = format(addDays(formattedMonday, 4), "EEE, MMM d");
-  formattedMonday = format(formattedMonday, "EEE, MMM d");
+  let initialLocale = getDateLocale();
+  let formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d", {
+    locale: initialLocale,
+  });
+  let formattedWednesday = format(addDays(formattedMonday, 2), "EEE, MMM d", {
+    locale: initialLocale,
+  });
+  let formattedThursday = format(addDays(formattedMonday, 3), "EEE, MMM d", {
+    locale: initialLocale,
+  });
+  let formattedFriday = format(addDays(formattedMonday, 4), "EEE, MMM d", {
+    locale: initialLocale,
+  });
+  formattedMonday = format(formattedMonday, "EEE, MMM d", {
+    locale: initialLocale,
+  });
 
   let formattedWeekday = [
     formattedMonday,
@@ -463,10 +473,18 @@
 
     formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
     const locale = getDateLocale();
-    formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d", { locale });
-    formattedWednesday = format(addDays(formattedMonday, 2), "EEE, MMM d", { locale });
-    formattedThursday = format(addDays(formattedMonday, 3), "EEE, MMM d", { locale });
-    formattedFriday = format(addDays(formattedMonday, 4), "EEE, MMM d", { locale });
+    formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d", {
+      locale,
+    });
+    formattedWednesday = format(addDays(formattedMonday, 2), "EEE, MMM d", {
+      locale,
+    });
+    formattedThursday = format(addDays(formattedMonday, 3), "EEE, MMM d", {
+      locale,
+    });
+    formattedFriday = format(addDays(formattedMonday, 4), "EEE, MMM d", {
+      locale,
+    });
     formattedMonday = format(formattedMonday, "EEE, MMM d", { locale });
 
     formattedWeekday = [
@@ -639,7 +657,7 @@
         timeframe = "Details";
       }
     } else if (timeframe === "Details" || timeframe === "Compact") {
-      timeframe = "Daily";
+      timeframe = "Weekly";
     }
   }
 
@@ -714,7 +732,9 @@
         >{m.earnings_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{m.earnings_breadcrumb_calendar()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {m.earnings_breadcrumb_calendar()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -836,7 +856,9 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{m.earnings_count({ count: day?.length })}</span>
+                        <span class="text-sm"
+                          >{m.earnings_count({ count: day?.length })}</span
+                        >
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -977,7 +999,9 @@
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
-                          {formattedWeekday[index]?.split(", ")[1]} · {m.earnings_count({ count: day?.length })}
+                          {formattedWeekday[index]?.split(", ")[1]} · {m.earnings_count(
+                            { count: day?.length },
+                          )}
                         </h2>
 
                         <div
@@ -1223,7 +1247,8 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">{m.earnings_pagination_previous()}</span
+                              <span class="hidden sm:inline"
+                                >{m.earnings_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1232,7 +1257,10 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {m.earnings_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
+                              {m.earnings_pagination_page_of({
+                                current: dailyCurrentPage,
+                                total: dailyTotalPages,
+                              })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1243,7 +1271,9 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{m.earnings_pagination_rows({ count: dailyRowsPerPage })}</span
+                                    >{m.earnings_pagination_rows({
+                                      count: dailyRowsPerPage,
+                                    })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1278,7 +1308,11 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{m.earnings_pagination_rows({ count: item })}</span>
+                                        <span class="text-sm"
+                                          >{m.earnings_pagination_rows({
+                                            count: item,
+                                          })}</span
+                                        >
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1294,7 +1328,9 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">{m.earnings_pagination_next()}</span>
+                              <span class="hidden sm:inline"
+                                >{m.earnings_pagination_next()}</span
+                              >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1317,7 +1353,8 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.earnings_back_to_top()} <svg
+                            {m.earnings_back_to_top()}
+                            <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1335,9 +1372,7 @@
                       {/if}
                     {:else}
                       <div class="mt-5 mb-3">
-                        <Infobox
-                          text={m.earnings_empty()}
-                        />
+                        <Infobox text={m.earnings_empty()} />
                       </div>
                     {/if}
                   {/if}
@@ -1355,7 +1390,9 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{m.earnings_count({ count: day?.length })}</span>
+                        <span class="text-sm"
+                          >{m.earnings_count({ count: day?.length })}</span
+                        >
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -1412,7 +1449,10 @@
                                   class="flex w-full cursor-pointer items-center justify-between gap-2 px-3 py-2"
                                 >
                                   <span class="flex min-w-0 items-center gap-1">
-                                    <span class="shrink-0" on:click|stopPropagation>
+                                    <span
+                                      class="shrink-0"
+                                      on:click|stopPropagation
+                                    >
                                       <HoverStockChart symbol={item?.symbol} />
                                     </span>
                                     <span class="min-w-0 truncate">
@@ -1512,7 +1552,11 @@
                                               class="py-1.5 text-sm"
                                               title="Estimated Revenue"
                                             >
-                                              <span class="hidden md:inline">{m.earnings_expanded_revenue_est()}</span><span class="inline md:hidden">{m.earnings_expanded_revenue_estimate()}</span>
+                                              <span class="hidden md:inline"
+                                                >{m.earnings_expanded_revenue_est()}</span
+                                              ><span class="inline md:hidden"
+                                                >{m.earnings_expanded_revenue_estimate()}</span
+                                              >
                                             </td>
                                             <td
                                               class="text-right font-semibold"
@@ -1549,7 +1593,11 @@
                                               class="pb-0.5 pt-1.5"
                                               title="Estimated EPS"
                                             >
-                                              <span class="hidden md:inline">{m.earnings_expanded_eps_est()}</span><span class="inline md:hidden">{m.earnings_expanded_eps_estimate()}</span>
+                                              <span class="hidden md:inline"
+                                                >{m.earnings_expanded_eps_est()}</span
+                                              ><span class="inline md:hidden"
+                                                >{m.earnings_expanded_eps_estimate()}</span
+                                              >
                                             </td>
                                             <td
                                               class="text-right font-semibold"
@@ -1744,7 +1792,9 @@
                                     <tr
                                       class=" border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{m.earnings_expanded_reports()}</td>
+                                      <td class="py-1.5 text-sm"
+                                        >{m.earnings_expanded_reports()}</td
+                                      >
                                       <td class="text-right font-semibold">
                                         <span
                                           class="flex items-center justify-end"
@@ -1849,7 +1899,8 @@
                                     <tr>
                                       <td
                                         class="pb-0.5 pt-1.5"
-                                        title="Estimated EPS">{m.earnings_expanded_eps_est()}</td
+                                        title="Estimated EPS"
+                                        >{m.earnings_expanded_eps_est()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {item?.epsEst !== null
