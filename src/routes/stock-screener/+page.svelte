@@ -4289,17 +4289,17 @@ const handleKeyDown = (event) => {
           </button>
         {/if}
       </div>
-      <nav class="w-full flex flex-row items-center order-2 lg:order-0">
+      <nav class="w-full flex flex-row items-center order-2 lg:order-0 mt-3">
         <ul
           class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
         >
           <li>
             <button
               on:click={() => (displayTableTab = "general")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'general'
-                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               General
             </button>
@@ -4307,20 +4307,19 @@ const handleKeyDown = (event) => {
           <li>
             <button
               on:click={() => (displayTableTab = "filters")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'filters'
-                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              <span class="">Filters</span>
-              <span
-                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center {ruleOfList?.length !==
-                0
-                  ? 'text-white bg-rose-500'
-                  : 'text-gray-700 dark:text-zinc-200 bg-gray-100 dark:bg-zinc-900'}"
-              >
-                {ruleOfList?.length}
-              </span>
+              <span>Filters</span>
+              {#if ruleOfList?.length > 0}
+                <div
+                  class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
+                >
+                  {ruleOfList?.length}
+                </div>
+              {/if}
             </button>
           </li>
           <li>
@@ -4328,10 +4327,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("performance")}
               on:mouseenter={() => handleTabHover("performance")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'performance'
-                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               Performance
             </button>
@@ -4341,10 +4340,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("analysts")}
               on:mouseenter={() => handleTabHover("analysts")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'analysts'
-                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               Analysts
             </button>
@@ -4354,10 +4353,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("dividends")}
               on:mouseenter={() => handleTabHover("dividends")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'dividends'
-                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               Dividends
             </button>
@@ -4367,10 +4366,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("financials")}
               on:mouseenter={() => handleTabHover("financials")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'financials'
-                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               Financials
             </button>
