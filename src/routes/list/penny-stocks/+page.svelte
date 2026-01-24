@@ -2,6 +2,20 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_index_penny_stocks,
+    list_penny_infobox,
+    list_penny_main_description,
+    list_penny_main_name,
+    list_penny_seo_description,
+    list_penny_seo_keywords,
+    list_penny_seo_title,
+    list_penny_structured_description,
+    list_penny_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -14,15 +28,14 @@
 </script>
 
 <SEO
-  title="Penny Stocks List - Actively Traded Stocks Under $5 "
-  description="Complete list of actively traded penny stocks under $5 per share with volume over 10K. Find low-priced stocks for speculative trading and investment opportunities with high volume and liquidity."
-  keywords="penny stocks, penny stock list, stocks under $5, low price stocks, cheap stocks, small cap stocks, penny stock trading, sub $5 stocks, micro cap stocks"
+  title={list_penny_seo_title()}
+  description={list_penny_seo_description()}
+  keywords={list_penny_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Penny Stocks List",
-    description:
-      "Complete directory of actively traded penny stocks under $5 per share with high volume",
+    name: list_penny_structured_name(),
+    description: list_penny_structured_description(),
     url: "https://stocknear.com/list/penny-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -30,45 +43,42 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Penny Stocks",
+          name: list_index_penny_stocks(),
           item: "https://stocknear.com/list/penny-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Penny Stocks Directory",
-      description:
-        "List of actively traded stocks under $5 per share with trading volume over 10,000",
+      name: list_penny_main_name(),
+      description: list_penny_main_description(),
       numberOfItems: data?.getPennyStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of actively traded penny stocks priced below $5 per share with trading volume over 10,000 shares. These low-priced stocks offer speculative investment opportunities but carry higher risk due to volatility and liquidity concerns."
-  />
+  <Infobox text={list_penny_infobox()} />
 
   <!-- Page wrapper -->
   <Table
     {data}
     rawData={data?.getPennyStocks}
     {defaultList}
-    title={data?.getPennyStocks?.length?.toLocaleString("en-US") +
-      " " +
-      "Stocks"}
+    title={list_count_stocks({
+      count: data?.getPennyStocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

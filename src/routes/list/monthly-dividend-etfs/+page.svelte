@@ -9,6 +9,22 @@
   import SEO from "$lib/components/SEO.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_monthly_dividend_etfs,
+    list_index_monthly_dividend_etfs,
+    list_monthly_dividend_etfs_empty,
+    list_monthly_dividend_etfs_infobox,
+    list_monthly_dividend_etfs_main_description,
+    list_monthly_dividend_etfs_main_name,
+    list_monthly_dividend_etfs_seo_description,
+    list_monthly_dividend_etfs_seo_keywords,
+    list_monthly_dividend_etfs_seo_title,
+    list_monthly_dividend_etfs_structured_description,
+    list_reset_column_order,
+    list_search_placeholder,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -374,15 +390,14 @@
 </script>
 
 <SEO
-  title="Monthly Dividend ETFs List - High-Yield Income ETFs "
-  description="Complete list of monthly dividend ETFs that pay dividends every month. Compare yields, expense ratios, and performance of JEPI, QYLD, DIVO and other monthly income exchange-traded funds. Consistent monthly cash flow for income investors."
-  keywords="monthly dividend ETFs, monthly dividend ETF list, JEPI ETF, QYLD ETF, DIVO ETF, monthly income ETFs, high yield monthly ETFs, monthly cash flow, income investing ETFs, dividend paying ETFs monthly"
+  title={list_monthly_dividend_etfs_seo_title()}
+  description={list_monthly_dividend_etfs_seo_description()}
+  keywords={list_monthly_dividend_etfs_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Monthly Dividend ETFs List",
-    description:
-      "Complete directory of monthly dividend exchange-traded funds that provide consistent monthly income",
+    name: list_index_monthly_dividend_etfs(),
+    description: list_monthly_dividend_etfs_structured_description(),
     url: "https://stocknear.com/list/monthly-dividend-etfs",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -390,37 +405,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Monthly Dividend ETFs",
+          name: list_index_monthly_dividend_etfs(),
           item: "https://stocknear.com/list/monthly-dividend-etfs",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Monthly Dividend ETF Directory",
-      description:
-        "List of exchange-traded funds that pay dividends monthly for consistent income",
+      name: list_monthly_dividend_etfs_main_name(),
+      description: list_monthly_dividend_etfs_main_description(),
       numberOfItems: originalData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of monthly dividend ETFs that provide regular monthly income distributions. These exchange-traded funds pay dividends twelve times per year, offering consistent cash flow for income-focused investors. Popular monthly dividend ETFs include JEPI, QYLD, and DIVO."
-  />
+  <Infobox text={list_monthly_dividend_etfs_infobox()} />
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
@@ -429,7 +441,9 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
       >
-        {originalData?.length?.toLocaleString("en-US")} Monthly Dividend ETFs
+        {list_count_monthly_dividend_etfs({
+          count: originalData?.length?.toLocaleString("en-US") ?? "0",
+        })}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -457,7 +471,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder="Find..."
+            placeholder={list_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
@@ -469,7 +483,7 @@
         {#if customColumnOrder?.length > 0}
           <button
             on:click={resetColumnOrder}
-            title="Reset column order"
+            title={list_reset_column_order()}
             class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
           >
             <svg
@@ -586,7 +600,9 @@
           on:rowsPerPageChange={handleRowsPerPageChange}
         />
       {:else}
-        <Infobox text={`No monthly dividend ETFs found for "${inputValue}"`} />
+        <Infobox
+          text={list_monthly_dividend_etfs_empty({ query: inputValue ?? "" })}
+        />
       {/if}
     </div>
   </div>

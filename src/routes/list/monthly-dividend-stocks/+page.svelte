@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_monthly_dividend_stocks_infobox,
+    list_monthly_dividend_stocks_main_description,
+    list_monthly_dividend_stocks_main_name,
+    list_monthly_dividend_stocks_seo_description,
+    list_monthly_dividend_stocks_seo_keywords,
+    list_monthly_dividend_stocks_seo_title,
+    list_monthly_dividend_stocks_structured_description,
+    list_monthly_dividend_stocks_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -15,15 +28,14 @@
 </script>
 
 <SEO
-  title="Monthly Dividend Stocks List - Income Stocks That Pay Monthly "
-  description="Complete list of monthly dividend stocks that pay dividends every month. Find reliable income stocks for consistent monthly cash flow including REITs, BDCs, and dividend aristocrats with monthly distributions."
-  keywords="monthly dividend stocks, monthly income stocks, monthly dividend paying stocks, monthly cash flow stocks, income investing, dividend stocks monthly, REITs monthly dividends"
+  title={list_monthly_dividend_stocks_seo_title()}
+  description={list_monthly_dividend_stocks_seo_description()}
+  keywords={list_monthly_dividend_stocks_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Monthly Dividend Stocks List",
-    description:
-      "Complete directory of stocks that pay dividends every month for consistent income",
+    name: list_monthly_dividend_stocks_structured_name(),
+    description: list_monthly_dividend_stocks_structured_description(),
     url: "https://stocknear.com/list/monthly-dividend-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -31,43 +43,42 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Monthly Dividend Stocks",
+          name: list_monthly_dividend_stocks_structured_name(),
           item: "https://stocknear.com/list/monthly-dividend-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Monthly Dividend Stocks Directory",
-      description:
-        "List of stocks that pay dividends monthly for consistent income generation",
+      name: list_monthly_dividend_stocks_main_name(),
+      description: list_monthly_dividend_stocks_main_description(),
       numberOfItems: data?.getData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of stocks that pay dividends every month, providing consistent monthly income for investors. Includes REITs, BDCs, closed-end funds, and other securities listed on major US exchanges that distribute monthly dividends."
-  />
+  <Infobox text={list_monthly_dividend_stocks_infobox()} />
 
   <!-- Page wrapper -->
   <Table
     {data}
     rawData={data?.getData}
     {defaultList}
-    title={data?.getData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

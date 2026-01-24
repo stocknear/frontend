@@ -3,6 +3,22 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_car_company_infobox,
+    list_car_company_main_description,
+    list_car_company_main_name,
+    list_car_company_seo_description,
+    list_car_company_seo_keywords,
+    list_car_company_seo_title,
+    list_car_company_structured_description,
+    list_car_company_structured_name,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   let rawData = data?.getData || [];
@@ -14,15 +30,14 @@
 </script>
 
 <SEO
-  title="Car Company Stocks List - Top Auto Manufacturers "
-  description="Complete list of car company and automaker stocks ranked by market capitalization. Analyze Tesla, Toyota, Ford, GM and other automotive industry leaders with market cap, revenue, and performance metrics."
-  keywords="car company stocks, auto stocks, automotive stocks, car manufacturer stocks, TSLA stock, F stock, GM stock, TM stock, auto industry stocks, vehicle manufacturer stocks"
+  title={list_car_company_seo_title()}
+  description={list_car_company_seo_description()}
+  keywords={list_car_company_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Car Company Stocks List",
-    description:
-      "Complete directory of car company and automaker stocks ranked by market capitalization",
+    name: list_car_company_structured_name(),
+    description: list_car_company_structured_description(),
     url: "https://stocknear.com/list/car-company-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -30,37 +45,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Car Company Stocks",
+          name: list_car_company_structured_name(),
           item: "https://stocknear.com/list/car-company-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Automotive Stocks Directory",
-      description:
-        "List of car company and automaker stocks with market capitalization and financial metrics",
+      name: list_car_company_main_name(),
+      description: list_car_company_main_description(),
       numberOfItems: rawData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of car company and automaker stocks ranked by market capitalization. Includes major automotive manufacturers like Tesla, Toyota, Ford, General Motors, and other leading vehicle companies. Compare financial metrics, market performance, and industry positioning."
-  />
+  <Infobox text={list_car_company_infobox()} />
 
   <div
     class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
@@ -70,7 +82,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -84,7 +96,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -98,7 +110,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -112,6 +124,8 @@
   <Table
     {data}
     rawData={data?.getData}
-    title={data?.getData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

@@ -2,6 +2,13 @@
   import { abbreviateNumber } from "$lib/utils";
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import {
+    list_count_stocks,
+    list_industry_infobox,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -18,10 +25,11 @@
 
 <section class="w-full overflow-hidden m-auto min-h-screen">
   <Infobox
-    text={`The industry has a total of ${rawData?.length} stocks, with a combined market
-    cap of ${abbreviateNumber(totalMarketCap)} and a total revenue of ${abbreviateNumber(
-      totalRevenue,
-    )}.`}
+    text={list_industry_infobox({
+      count: rawData?.length?.toLocaleString("en-US") ?? "0",
+      marketCap: abbreviateNumber(totalMarketCap),
+      revenue: abbreviateNumber(totalRevenue),
+    })}
   />
 
   <div
@@ -32,7 +40,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -46,7 +54,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -60,7 +68,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -75,8 +83,9 @@
   <Table
     {data}
     rawData={data?.getIndustryStocks?.stocks}
-    title={data?.getIndustryStocks?.stocks?.length?.toLocaleString("en-US") +
-      " " +
-      "Stocks"}
+    title={list_count_stocks({
+      count:
+        data?.getIndustryStocks?.stocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

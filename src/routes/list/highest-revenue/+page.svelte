@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_highest_revenue_infobox,
+    list_highest_revenue_main_description,
+    list_highest_revenue_main_name,
+    list_highest_revenue_seo_description,
+    list_highest_revenue_seo_keywords,
+    list_highest_revenue_seo_title,
+    list_highest_revenue_structured_description,
+    list_highest_revenue_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -14,14 +27,14 @@
 </script>
 
 <SEO
-  title="Highest Revenue Companies - Biggest US Companies by Revenue "
-  description="List of the biggest US public companies ranked by total revenue and sales in the past 12 months. Discover which American corporations generate the most annual revenue."
-  keywords="highest revenue companies, biggest companies by revenue, largest companies by sales, top revenue companies, US companies by revenue, highest sales companies"
+  title={list_highest_revenue_seo_title()}
+  description={list_highest_revenue_seo_description()}
+  keywords={list_highest_revenue_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Highest Revenue Companies",
-    description: "US companies ranked by highest total revenue and sales",
+    name: list_highest_revenue_structured_name(),
+    description: list_highest_revenue_structured_description(),
     url: "https://stocknear.com/list/highest-revenue",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -29,43 +42,42 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Highest Revenue",
+          name: list_highest_revenue_structured_name(),
           item: "https://stocknear.com/list/highest-revenue",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Companies by Revenue",
-      description:
-        "List of US public companies ranked by total revenue and sales",
+      name: list_highest_revenue_main_name(),
+      description: list_highest_revenue_main_description(),
       numberOfItems: data?.getData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are the biggest US public companies ranked by total revenue and sales over the past 12 months. Track which American corporations generate the most annual revenue across all sectors."
-  />
+  <Infobox text={list_highest_revenue_infobox()} />
 
   <!-- Page wrapper -->
   <Table
     {data}
     rawData={data?.getData}
     {defaultList}
-    title={data?.getData?.length?.toLocaleString("en-US") + " Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

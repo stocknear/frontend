@@ -23,6 +23,15 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import Infobox from "$lib/components/Infobox.svelte";
+  import {
+    list_add_label,
+    list_clear,
+    list_indicators_label,
+    list_reset_column_order,
+    list_search_indicators_placeholder,
+    list_search_placeholder,
+    list_toast_unlock_pro,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   export let rawData;
@@ -1443,7 +1452,7 @@
         localStorage.setItem(indicatorsTabKey, JSON.stringify(indicatorRows));
       }
     } else {
-      toast.error("Unlock this feature with Pro Subscription.", {
+      toast.error(list_toast_unlock_pro(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -2421,7 +2430,7 @@
         bind:value={inputValue}
         on:input={search}
         type="text"
-        placeholder="Find..."
+        placeholder={list_search_placeholder()}
         class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
       />
     </div>
@@ -2446,7 +2455,9 @@
             on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
             class="min-w-fit w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span class="w-fit text-[0.85rem] sm:text-sm">Indicators</span>
+            <span class="w-fit text-[0.85rem] sm:text-sm"
+              >{list_indicators_label()}</span
+            >
             <svg
               class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
               viewBox="0 0 20 20"
@@ -2483,15 +2494,15 @@
                 autofocus=""
                 class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-200 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
                 type="text"
-                placeholder="Search indicators..."
+                placeholder={list_search_indicators_placeholder()}
               />
 
               <!-- Clear Button - Shown only when searchQuery has input -->
               {#if searchQuery?.length > 0}
                 <button
                   on:click={() => (searchQuery = "")}
-                  aria-label="Clear"
-                  title="Clear"
+                  aria-label={list_clear()}
+                  title={list_clear()}
                   tabindex="0"
                   class="absolute right-2 top-1/2 transform -translate-y-1/2"
                 >
@@ -2606,7 +2617,7 @@
       {#if customColumnOrder?.length > 0}
         <button
           on:click={resetColumnOrder}
-          title="Reset column order"
+          title={list_reset_column_order()}
           class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
         >
           <svg
@@ -2792,7 +2803,7 @@
                             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                           ></path>
                         </svg>
-                        <span class="text-sm">Add</span>
+                        <span class="text-sm">{list_add_label()}</span>
                       {/if}
                     </button>
                   {/if}

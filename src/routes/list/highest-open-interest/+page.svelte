@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_highest_oi_infobox,
+    list_highest_oi_main_description,
+    list_highest_oi_main_name,
+    list_highest_oi_seo_description,
+    list_highest_oi_seo_keywords,
+    list_highest_oi_seo_title,
+    list_highest_oi_structured_description,
+    list_highest_oi_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -28,14 +41,14 @@
 </script>
 
 <SEO
-  title="Highest Open Interest Stocks - Top Options Open Interest "
-  description="List of US stocks ranked by highest options open interest. Track which companies have the most outstanding options contracts and highest options activity."
-  keywords="highest open interest stocks, options open interest, outstanding options contracts, options activity, highest OI stocks, open interest leaders"
+  title={list_highest_oi_seo_title()}
+  description={list_highest_oi_seo_description()}
+  keywords={list_highest_oi_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Highest Open Interest Stocks",
-    description: "US stocks ranked by highest options open interest",
+    name: list_highest_oi_structured_name(),
+    description: list_highest_oi_structured_description(),
     url: "https://stocknear.com/list/highest-open-interest",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -43,36 +56,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Highest Open Interest",
+          name: list_highest_oi_structured_name(),
           item: "https://stocknear.com/list/highest-open-interest",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Stocks by Open Interest",
-      description: "List of US stocks ranked by options open interest",
+      name: list_highest_oi_main_name(),
+      description: list_highest_oi_main_description(),
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are US stocks with the highest options open interest (OI). Open interest represents the total number of outstanding options contracts available for trading, indicating market liquidity and investor interest."
-  />
+  <Infobox text={list_highest_oi_infobox()} />
 
   <!-- Page wrapper -->
   <Table
@@ -80,6 +91,8 @@
     rawData={data?.getStocks}
     {excludedRules}
     {defaultList}
-    title={data?.getStocks?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getStocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

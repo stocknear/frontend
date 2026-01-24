@@ -3,6 +3,23 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    list_category_stock_lists,
+    list_count_stocks,
+    list_country_label_canada,
+    list_country_label_china,
+    list_country_label_germany,
+    list_country_label_india,
+    list_country_label_israel,
+    list_country_label_japan,
+    list_country_label_uk,
+    list_country_seo_description,
+    list_country_seo_title,
+    list_country_infobox,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -18,25 +35,36 @@
   );
 
   const countryNavigation = {
-    ca: "Canadian",
-    de: "German",
-    in: "Indian",
-    il: "Israeli",
-    jp: "Japanese",
-    gb: "UK",
-    cn: "Chinese",
+    ca: list_country_label_canada,
+    de: list_country_label_germany,
+    in: list_country_label_india,
+    il: list_country_label_israel,
+    jp: list_country_label_japan,
+    gb: list_country_label_uk,
+    cn: list_country_label_china,
   };
 </script>
 
 <SEO
-  title={`List of ${countryNavigation[data?.getParams?.toLowerCase()]} Companies on the US Stock Market`}
-  description={`Explore a complete list of ${countryNavigation[data?.getParams?.toLowerCase()]} companies publicly traded on the US stock market. Find stock symbols, market data, and more.`}
+  title={list_country_seo_title({
+    country:
+      countryNavigation[data?.getParams?.toLowerCase()]?.() ??
+      list_category_stock_lists(),
+  })}
+  description={list_country_seo_description({
+    country:
+      countryNavigation[data?.getParams?.toLowerCase()]?.() ??
+      list_category_stock_lists(),
+  })}
 />
 
 <section class="w-full overflow-hidden m-auto">
   <Infobox
-    text={`A complete list of the ${countryNavigation[data?.getParams?.toLowerCase()]} companies
-    that are listed on the US stock market.`}
+    text={list_country_infobox({
+      country:
+        countryNavigation[data?.getParams?.toLowerCase()]?.() ??
+        list_category_stock_lists(),
+    })}
   />
 
   <div
@@ -47,7 +75,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -61,7 +89,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -75,7 +103,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -89,8 +117,8 @@
   <Table
     {data}
     rawData={data?.getCountryCategory}
-    title={data?.getCountryCategory?.length?.toLocaleString("en-US") +
-      " " +
-      "Stocks"}
+    title={list_count_stocks({
+      count: data?.getCountryCategory?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

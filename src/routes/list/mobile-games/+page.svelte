@@ -3,6 +3,22 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+    list_mobile_games_infobox,
+    list_mobile_games_main_description,
+    list_mobile_games_main_name,
+    list_mobile_games_seo_description,
+    list_mobile_games_seo_keywords,
+    list_mobile_games_seo_title,
+    list_mobile_games_structured_description,
+    list_mobile_games_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   let rawData = data?.getData;
@@ -14,15 +30,14 @@
 </script>
 
 <SEO
-  title="Mobile Game Stocks List - Mobile Gaming Companies "
-  description="Complete list of mobile gaming and mobile game developer stocks. Analyze companies developing mobile games, gaming apps, and mobile entertainment with market cap, revenue, and growth metrics."
-  keywords="mobile game stocks, mobile gaming stocks, mobile game developers, gaming app stocks, mobile entertainment stocks, game developer stocks, smartphone gaming companies"
+  title={list_mobile_games_seo_title()}
+  description={list_mobile_games_seo_description()}
+  keywords={list_mobile_games_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Mobile Game Stocks List",
-    description:
-      "Complete directory of mobile gaming companies and mobile game developers",
+    name: list_mobile_games_structured_name(),
+    description: list_mobile_games_structured_description(),
     url: "https://stocknear.com/list/mobile-games",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -30,37 +45,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Mobile Game Stocks",
+          name: list_mobile_games_structured_name(),
           item: "https://stocknear.com/list/mobile-games",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Mobile Gaming Companies Directory",
-      description:
-        "List of mobile gaming and mobile game development companies with market capitalization data",
+      name: list_mobile_games_main_name(),
+      description: list_mobile_games_main_description(),
       numberOfItems: rawData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of mobile gaming and mobile game developer stocks. Includes companies developing popular mobile games, gaming apps, and mobile entertainment platforms. Track the performance of the rapidly growing mobile gaming industry."
-  />
+  <Infobox text={list_mobile_games_infobox()} />
 
   <div
     class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
@@ -70,7 +82,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -84,7 +96,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -98,7 +110,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -112,6 +124,8 @@
   <Table
     {data}
     rawData={data?.getData}
-    title={data?.getData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

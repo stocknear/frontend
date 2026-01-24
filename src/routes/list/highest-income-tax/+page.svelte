@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_highest_income_tax_infobox,
+    list_highest_income_tax_main_description,
+    list_highest_income_tax_main_name,
+    list_highest_income_tax_seo_description,
+    list_highest_income_tax_seo_keywords,
+    list_highest_income_tax_seo_title,
+    list_highest_income_tax_structured_description,
+    list_highest_income_tax_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -14,14 +27,14 @@
 </script>
 
 <SEO
-  title="Highest Income Tax Companies - US Companies That Pay Most Taxes "
-  description="List of US companies paying the highest income taxes ranked by corporate tax payments. Discover which public companies contribute most in federal income tax expenses and corporate tax rates."
-  keywords="highest income tax companies, companies paying most taxes, corporate tax payments, income tax expense, corporate tax rates, highest corporate taxes, US tax paying companies"
+  title={list_highest_income_tax_seo_title()}
+  description={list_highest_income_tax_seo_description()}
+  keywords={list_highest_income_tax_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Highest Income Tax Companies",
-    description: "US companies ranked by highest corporate income tax payments",
+    name: list_highest_income_tax_structured_name(),
+    description: list_highest_income_tax_structured_description(),
     url: "https://stocknear.com/list/highest-income-tax",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -29,43 +42,42 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Highest Income Tax",
+          name: list_highest_income_tax_structured_name(),
           item: "https://stocknear.com/list/highest-income-tax",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Companies by Income Tax Payments",
-      description:
-        "List of US public companies ranked by corporate income tax expenses",
+      name: list_highest_income_tax_main_name(),
+      description: list_highest_income_tax_main_description(),
       numberOfItems: data?.getData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are the biggest public companies in the US, ranked by the total amount of corporate income taxes they paid in the past 12 months. Track which companies contribute most to federal tax revenue."
-  />
+  <Infobox text={list_highest_income_tax_infobox()} />
 
   <!-- Page wrapper -->
   <Table
     {data}
     rawData={data?.getData}
     {defaultList}
-    title={data?.getData?.length?.toLocaleString("en-US") + " Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

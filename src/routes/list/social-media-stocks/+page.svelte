@@ -3,6 +3,22 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+    list_social_media_infobox,
+    list_social_media_main_description,
+    list_social_media_main_name,
+    list_social_media_seo_description,
+    list_social_media_seo_keywords,
+    list_social_media_seo_title,
+    list_social_media_structured_description,
+    list_social_media_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   let rawData = data?.getData;
@@ -14,15 +30,14 @@
 </script>
 
 <SEO
-  title="Social Media Stocks List - Social Media Company Stocks "
-  description="Complete list of social media company stocks including Meta, X (Twitter), Snap, Pinterest and other social networking platforms. Analyze market cap, revenue, and growth metrics of social media investments."
-  keywords="social media stocks, social media company stocks, META stock, SNAP stock, PINS stock, social networking stocks, social platform stocks, digital media stocks"
+  title={list_social_media_seo_title()}
+  description={list_social_media_seo_description()}
+  keywords={list_social_media_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Social Media Stocks List",
-    description:
-      "Complete directory of social media companies and social networking platforms",
+    name: list_social_media_structured_name(),
+    description: list_social_media_structured_description(),
     url: "https://stocknear.com/list/social-media-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -30,37 +45,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Social Media Stocks",
+          name: list_social_media_structured_name(),
           item: "https://stocknear.com/list/social-media-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Social Media Companies Directory",
-      description:
-        "List of social media and social networking companies with market capitalization data",
+      name: list_social_media_main_name(),
+      description: list_social_media_main_description(),
       numberOfItems: rawData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of social media company stocks including Meta, Snap, Pinterest, and other companies that own social networks or have significant social media operations. Analyze the performance of leading social networking platforms and digital media companies."
-  />
+  <Infobox text={list_social_media_infobox()} />
 
   <div
     class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
@@ -70,7 +82,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -84,7 +96,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -98,7 +110,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -112,6 +124,8 @@
   <Table
     {data}
     rawData={data?.getData}
-    title={data?.getData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

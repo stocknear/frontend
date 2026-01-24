@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_spac_infobox,
+    list_spac_main_description,
+    list_spac_main_name,
+    list_spac_seo_description,
+    list_spac_seo_keywords,
+    list_spac_seo_title,
+    list_spac_structured_description,
+    list_spac_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -21,15 +34,14 @@
 </script>
 
 <SEO
-  title="SPAC Stocks List - Special Purpose Acquisition Companies "
-  description="Complete list of actively traded SPAC stocks (Special Purpose Acquisition Companies) on US markets. Track blank check companies and shell companies seeking acquisition targets."
-  keywords="SPAC stocks, special purpose acquisition companies, blank check companies, shell companies, SPAC investments, acquisition companies, SPAC list"
+  title={list_spac_seo_title()}
+  description={list_spac_seo_description()}
+  keywords={list_spac_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "SPAC Stocks",
-    description:
-      "List of actively traded Special Purpose Acquisition Companies (SPACs)",
+    name: list_spac_structured_name(),
+    description: list_spac_structured_description(),
     url: "https://stocknear.com/list/spacs-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -37,37 +49,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "SPAC Stocks",
+          name: list_spac_structured_name(),
           item: "https://stocknear.com/list/spacs-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "SPAC Companies",
-      description:
-        "List of Special Purpose Acquisition Companies (SPACs) trading on US markets",
+      name: list_spac_main_name(),
+      description: list_spac_main_description(),
       numberOfItems: data?.getData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are all actively traded SPACs (Special Purpose Acquisition Companies) on the US stock market. SPACs are blank check companies that raise capital through public offerings to acquire private companies and bring them public."
-  />
+  <Infobox text={list_spac_infobox()} />
 
   <!-- Page wrapper -->
   <Table
@@ -75,6 +84,8 @@
     rawData={data?.getData}
     {excludedRules}
     {defaultList}
-    title={data?.getData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

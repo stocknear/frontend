@@ -2,6 +2,20 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_index_most_shorted_stocks,
+    list_most_shorted_infobox,
+    list_most_shorted_main_description,
+    list_most_shorted_main_name,
+    list_most_shorted_seo_description,
+    list_most_shorted_seo_keywords,
+    list_most_shorted_seo_title,
+    list_most_shorted_structured_description,
+    list_most_shorted_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -24,15 +38,14 @@
 </script>
 
 <SEO
-  title="Most Shorted Stocks List - High Short Interest Stocks "
-  description="Complete list of most shorted stocks with highest short interest as percentage of float. Track heavily shorted stocks, short squeeze candidates, and bearish sentiment indicators for contrarian investing strategies."
-  keywords="most shorted stocks, high short interest stocks, heavily shorted stocks, short squeeze stocks, short float percentage, bearish stocks, contrarian investing, short interest data"
+  title={list_most_shorted_seo_title()}
+  description={list_most_shorted_seo_description()}
+  keywords={list_most_shorted_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Most Shorted Stocks List",
-    description:
-      "Complete directory of stocks with the highest short interest relative to their float",
+    name: list_most_shorted_structured_name(),
+    description: list_most_shorted_structured_description(),
     url: "https://stocknear.com/list/most-shorted-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -40,37 +53,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Most Shorted Stocks",
+          name: list_index_most_shorted_stocks(),
           item: "https://stocknear.com/list/most-shorted-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "High Short Interest Stocks Directory",
-      description:
-        "List of stocks with the highest number of shares shorted relative to float",
+      name: list_most_shorted_main_name(),
+      description: list_most_shorted_main_description(),
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of stocks with the highest short interest as a percentage of float. These heavily shorted stocks represent bearish sentiment and potential short squeeze candidates. Float represents shares available for trading by the public."
-  />
+  <Infobox text={list_most_shorted_infobox()} />
 
   <!-- Page wrapper -->
   <Table
@@ -78,6 +88,8 @@
     rawData={data?.getStocks}
     {excludedRules}
     {defaultList}
-    title={data?.getStocks?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getStocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

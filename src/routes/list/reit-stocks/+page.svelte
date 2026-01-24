@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_reit_infobox,
+    list_reit_main_description,
+    list_reit_main_name,
+    list_reit_seo_description,
+    list_reit_seo_keywords,
+    list_reit_seo_title,
+    list_reit_structured_description,
+    list_reit_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -23,15 +36,14 @@
 </script>
 
 <SEO
-  title="REIT Stocks List - Real Estate Investment Trusts "
-  description="Complete list of REIT stocks (Real Estate Investment Trusts) with dividend yields, market cap, and performance metrics. Analyze residential, commercial, industrial, and specialty REITs for income investing."
-  keywords="REIT stocks, real estate investment trusts, REIT list, dividend REITs, real estate stocks, income REITs, commercial real estate stocks, residential REITs"
+  title={list_reit_seo_title()}
+  description={list_reit_seo_description()}
+  keywords={list_reit_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "REIT Stocks List",
-    description:
-      "Complete directory of Real Estate Investment Trusts (REITs) for income and real estate exposure",
+    name: list_reit_structured_name(),
+    description: list_reit_structured_description(),
     url: "https://stocknear.com/list/reit-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -39,37 +51,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "REIT Stocks",
+          name: list_reit_structured_name(),
           item: "https://stocknear.com/list/reit-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Real Estate Investment Trusts Directory",
-      description:
-        "List of actively traded REITs on the US stock market with dividend and performance data",
+      name: list_reit_main_name(),
+      description: list_reit_main_description(),
       numberOfItems: data?.getAllREITS?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of actively traded Real Estate Investment Trusts (REITs) on the US stock market. REITs provide exposure to real estate sectors including residential, commercial, industrial, and specialty properties while offering attractive dividend yields for income investors."
-  />
+  <Infobox text={list_reit_infobox()} />
 
   <!-- Page wrapper -->
   <Table
@@ -77,6 +86,8 @@
     rawData={data?.getAllREITS}
     {excludedRules}
     {defaultList}
-    title={data?.getAllREITS?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getAllREITS?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

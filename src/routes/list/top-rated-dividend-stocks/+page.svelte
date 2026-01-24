@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_top_rated_dividend_infobox,
+    list_top_rated_dividend_main_description,
+    list_top_rated_dividend_main_name,
+    list_top_rated_dividend_seo_description,
+    list_top_rated_dividend_seo_keywords,
+    list_top_rated_dividend_seo_title,
+    list_top_rated_dividend_structured_description,
+    list_top_rated_dividend_structured_name,
+  } from "$lib/paraglide/messages.js";
   export let data;
 
   const defaultList = [
@@ -13,15 +26,14 @@
 </script>
 
 <SEO
-  title="Top-Rated Dividend Stocks - Analyst Buy Recommendations "
-  description="Complete list of dividend stocks rated as Buy or Strong Buy by analysts. High-quality dividend stocks with sustainable yields, strong fundamentals, and positive analyst sentiment for income investing."
-  keywords="top rated dividend stocks, buy rated dividend stocks, analyst recommendations dividend, dividend stock ratings, dividend aristocrats, quality dividend stocks, income stocks buy rating"
+  title={list_top_rated_dividend_seo_title()}
+  description={list_top_rated_dividend_seo_description()}
+  keywords={list_top_rated_dividend_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top-Rated Dividend Stocks List",
-    description:
-      "Complete directory of dividend stocks with Buy or Strong Buy analyst ratings",
+    name: list_top_rated_dividend_structured_name(),
+    description: list_top_rated_dividend_structured_description(),
     url: "https://stocknear.com/list/top-rated-dividend-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -29,43 +41,42 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Top-Rated Dividend Stocks",
+          name: list_top_rated_dividend_structured_name(),
           item: "https://stocknear.com/list/top-rated-dividend-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "High-Quality Dividend Stocks Directory",
-      description:
-        "List of dividend stocks with Buy or Strong Buy analyst ratings and sustainable yields",
+      name: list_top_rated_dividend_main_name(),
+      description: list_top_rated_dividend_main_description(),
       numberOfItems: data?.getDividendStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of high-quality dividend stocks with Buy or Strong Buy analyst ratings. Each stock has consensus ratings from at least 10 analysts, dividend yields of 2% or higher, and payout ratios below 60% for sustainable income generation."
-  />
+  <Infobox text={list_top_rated_dividend_infobox()} />
 
   <!-- Page wrapper -->
   <Table
     {data}
     rawData={data?.getDividendStocks}
     {defaultList}
-    title={data?.getDividendStocks?.length?.toLocaleString("en-US") + " Stocks"}
+    title={list_count_stocks({
+      count: data?.getDividendStocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

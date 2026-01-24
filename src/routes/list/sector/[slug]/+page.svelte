@@ -3,6 +3,23 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+    list_sector_breadcrumb_label,
+    list_sector_infobox,
+    list_sector_main_description,
+    list_sector_main_name,
+    list_sector_seo_description,
+    list_sector_seo_keywords,
+    list_sector_seo_title,
+    list_sector_structured_description,
+    list_sector_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -16,54 +33,63 @@
     (total, stock) => total + stock?.revenue,
     0,
   );
+
+  $: sectorName = data?.getParams ?? "";
+  $: formattedSector = sectorName
+    ?.split(" ")
+    ?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    ?.join(" ");
+  $: sectorSlug = sectorName?.toLowerCase()?.replace(/\s+/g, "-");
 </script>
 
 <SEO
-  title={`${data?.getParams
-    ?.split(" ")
-    ?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    ?.join(" ")} Stocks List - Sector Analysis`}
-  description={`Complete list of ${data?.getParams} sector stocks with ${rawData?.length} companies, combined market cap of ${abbreviateNumber(totalMarketCap)} and total revenue of ${abbreviateNumber(totalRevenue)}. Analyze sector performance, trends, and leading companies.`}
-  keywords={`${data?.getParams?.toLowerCase()} stocks, ${data?.getParams?.toLowerCase()} sector, ${data?.getParams?.toLowerCase()} companies, sector analysis, ${data?.getParams?.toLowerCase()} investments`}
+  title={list_sector_seo_title({ sector: formattedSector })}
+  description={list_sector_seo_description({
+    sector: sectorName,
+    count: rawData?.length?.toLocaleString("en-US") ?? "0",
+    marketCap: abbreviateNumber(totalMarketCap),
+    revenue: abbreviateNumber(totalRevenue),
+  })}
+  keywords={list_sector_seo_keywords({ sector: sectorName?.toLowerCase() })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: `${data?.getParams} Sector Stocks`,
-    description: `Complete directory of companies in the ${data?.getParams} sector`,
-    url: `https://stocknear.com/list/sector/${data?.getParams?.toLowerCase()?.replace(/\s+/g, "-")}`,
+    name: list_sector_structured_name({ sector: sectorName }),
+    description: list_sector_structured_description({ sector: sectorName }),
+    url: `https://stocknear.com/list/sector/${sectorSlug}`,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Sector Stocks",
+          name: list_sector_breadcrumb_label(),
           item: "https://stocknear.com/list/sector",
         },
         {
           "@type": "ListItem",
           position: 4,
-          name: `${data?.getParams}`,
-          item: `https://stocknear.com/list/sector/${data?.getParams?.toLowerCase()?.replace(/\s+/g, "-")}`,
+          name: sectorName,
+          item: `https://stocknear.com/list/sector/${sectorSlug}`,
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: `${data?.getParams} Sector Directory`,
-      description: `List of companies in the ${data?.getParams} sector with market capitalization and financial metrics`,
+      name: list_sector_main_name({ sector: sectorName }),
+      description: list_sector_main_description({ sector: sectorName }),
       numberOfItems: rawData?.length || 0,
     },
   }}
@@ -71,7 +97,12 @@
 
 <section class="w-full overflow-hidden m-auto">
   <Infobox
-    text={`Comprehensive analysis of the ${data?.getParams} sector with ${rawData?.length} publicly traded companies. Combined market capitalization of ${abbreviateNumber(totalMarketCap)} and total revenue of ${abbreviateNumber(totalRevenue)}. Track sector performance, trends, and leading market players.`}
+    text={list_sector_infobox({
+      sector: sectorName,
+      count: rawData?.length?.toLocaleString("en-US") ?? "0",
+      marketCap: abbreviateNumber(totalMarketCap),
+      revenue: abbreviateNumber(totalRevenue),
+    })}
   />
 
   <div
@@ -82,7 +113,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -96,7 +127,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -110,7 +141,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -124,8 +155,8 @@
   <Table
     {data}
     rawData={data?.getSectorCategory}
-    title={data?.getSectorCategory?.length?.toLocaleString("en-US") +
-      " " +
-      "Stocks"}
+    title={list_count_stocks({
+      count: data?.getSectorCategory?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

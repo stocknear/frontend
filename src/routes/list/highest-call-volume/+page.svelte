@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_highest_call_volume_infobox,
+    list_highest_call_volume_main_description,
+    list_highest_call_volume_main_name,
+    list_highest_call_volume_seo_description,
+    list_highest_call_volume_seo_keywords,
+    list_highest_call_volume_seo_title,
+    list_highest_call_volume_structured_description,
+    list_highest_call_volume_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -24,15 +37,14 @@
 </script>
 
 <SEO
-  title="Highest Call Volume Stocks - Options Trading Activity "
-  description="Complete list of stocks with highest call option volume indicating bullish sentiment and options trading activity. Track call volume leaders for momentum trading and options strategies."
-  keywords="highest call volume stocks, call option volume, bullish options activity, options trading volume, call volume leaders, options momentum stocks, bullish sentiment indicators"
+  title={list_highest_call_volume_seo_title()}
+  description={list_highest_call_volume_seo_description()}
+  keywords={list_highest_call_volume_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Highest Call Volume Stocks List",
-    description:
-      "Complete directory of stocks with the highest call option trading volume",
+    name: list_highest_call_volume_structured_name(),
+    description: list_highest_call_volume_structured_description(),
     url: "https://stocknear.com/list/highest-call-volume",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -40,37 +52,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Highest Call Volume",
+          name: list_highest_call_volume_structured_name(),
           item: "https://stocknear.com/list/highest-call-volume",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "High Call Volume Stocks Directory",
-      description:
-        "List of stocks with the highest call option contract trading volume",
+      name: list_highest_call_volume_main_name(),
+      description: list_highest_call_volume_main_description(),
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of stocks with the highest call option volume, indicating strong bullish sentiment and active options trading. High call volume often signals investor optimism and can precede significant price movements."
-  />
+  <Infobox text={list_highest_call_volume_infobox()} />
 
   <!-- Page wrapper -->
   <Table
@@ -78,6 +87,8 @@
     rawData={data?.getStocks}
     {excludedRules}
     {defaultList}
-    title={data?.getStocks?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getStocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

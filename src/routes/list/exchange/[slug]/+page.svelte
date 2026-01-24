@@ -3,6 +3,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    list_category_stock_lists,
+    list_count_stocks,
+    list_exchange_infobox,
+    list_exchange_name_amex,
+    list_exchange_name_nasdaq,
+    list_exchange_name_nyse,
+    list_exchange_seo_description,
+    list_exchange_seo_title,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -18,21 +31,32 @@
   );
 
   const exchangeNavigation = {
-    amex: "AMEX (American Stock Exchange)",
-    nyse: "NYSE (New York Stock Exchange)",
-    nasdaq: "NASDAQ",
+    amex: list_exchange_name_amex,
+    nyse: list_exchange_name_nyse,
+    nasdaq: list_exchange_name_nasdaq,
   };
 </script>
 
 <SEO
-  title={`All Stocks Listed on the ${exchangeNavigation[data?.getParams?.toLowerCase()]}`}
-  description={`All of the stocks listed on the ${exchangeNavigation[data?.getParams?.toLowerCase()]} in the US.`}
+  title={list_exchange_seo_title({
+    exchange:
+      exchangeNavigation[data?.getParams?.toLowerCase()]?.() ??
+      list_category_stock_lists(),
+  })}
+  description={list_exchange_seo_description({
+    exchange:
+      exchangeNavigation[data?.getParams?.toLowerCase()]?.() ??
+      list_category_stock_lists(),
+  })}
 />
 
 <section class="w-full overflow-hidden m-auto">
   <Infobox
-    text={`A complete list of the ${exchangeNavigation[data?.getParams?.toLowerCase()]} companies
-    that are listed on the US stock market.`}
+    text={list_exchange_infobox({
+      exchange:
+        exchangeNavigation[data?.getParams?.toLowerCase()]?.() ??
+        list_category_stock_lists(),
+    })}
   />
 
   <div
@@ -43,7 +67,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -57,7 +81,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -71,7 +95,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -85,8 +109,8 @@
   <Table
     {data}
     rawData={data?.getExchangeCategory}
-    title={data?.getExchangeCategory?.length?.toLocaleString("en-US") +
-      " " +
-      "Stocks"}
+    title={list_count_stocks({
+      count: data?.getExchangeCategory?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

@@ -2,6 +2,19 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_stocks,
+    list_index_oversold_stocks,
+    list_oversold_infobox,
+    list_oversold_main_description,
+    list_oversold_main_name,
+    list_oversold_seo_description,
+    list_oversold_seo_keywords,
+    list_oversold_seo_title,
+    list_oversold_structured_description,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -24,14 +37,14 @@
 </script>
 
 <SEO
-  title="Oversold Stocks - RSI Under 30 Buying Opportunities "
-  description="List of oversold US stocks with RSI under 30 based on technical analysis. Discover potential buying opportunities from stocks in oversold territory with low RSI indicators."
-  keywords="oversold stocks, RSI under 30, oversold buying opportunities, technical analysis stocks, RSI indicator, undervalued stocks, oversold conditions"
+  title={list_oversold_seo_title()}
+  description={list_oversold_seo_description()}
+  keywords={list_oversold_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Oversold Stocks",
-    description: "US stocks that are oversold based on RSI indicator analysis",
+    name: list_index_oversold_stocks(),
+    description: list_oversold_structured_description(),
     url: "https://stocknear.com/list/oversold-stocks",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -39,37 +52,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Oversold Stocks",
+          name: list_index_oversold_stocks(),
           item: "https://stocknear.com/list/oversold-stocks",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Oversold Stocks by RSI",
-      description:
-        "List of US stocks that are oversold based on RSI technical indicator",
+      name: list_oversold_main_name(),
+      description: list_oversold_main_description(),
       numberOfItems: data?.getOverSoldStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are US stocks that are oversold according to the Relative Strength Index (RSI), a key technical analysis indicator. An RSI under 30 typically indicates oversold conditions and potential buying opportunities as stocks may bounce back."
-  />
+  <Infobox text={list_oversold_infobox()} />
 
   <!-- Page wrapper -->
   <Table
@@ -77,8 +87,8 @@
     rawData={data?.getOverSoldStocks}
     {excludedRules}
     {defaultList}
-    title={data?.getOverSoldStocks?.length?.toLocaleString("en-US") +
-      " " +
-      "Stocks"}
+    title={list_count_stocks({
+      count: data?.getOverSoldStocks?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

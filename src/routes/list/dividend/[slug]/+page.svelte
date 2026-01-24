@@ -2,6 +2,13 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    list_count_stocks,
+    list_dividend_aristocrats_description,
+    list_dividend_aristocrats_title,
+    list_dividend_kings_description,
+    list_dividend_kings_title,
+  } from "$lib/paraglide/messages.js";
 
   import { page } from "$app/stores";
 
@@ -26,14 +33,14 @@
 
   $: text =
     $page?.url?.pathname === "/list/dividend/dividend-kings"
-      ? "Dividend kings are companies that have been raising their dividend payments every year for 50 or more years. This is a list of all the dividend kings on the US stock market."
-      : "Dividend aristocrats are companies in the S&P500 index that have been raising their dividends every year for 25 or more years. This is a list of all the dividend aristocrats.";
+      ? list_dividend_kings_description()
+      : list_dividend_aristocrats_description();
 </script>
 
 <SEO
   title={$page?.url?.pathname === "/list/dividend/dividend-kings"
-    ? "List of Dividend Kings (50+ Years of Dividend Growth"
-    : "List of Dividend Aristocrats (25+ Years of Dividend Growth)"}
+    ? list_dividend_kings_title()
+    : list_dividend_aristocrats_title()}
   description={text}
 />
 
@@ -46,6 +53,8 @@
     rawData={data?.getDividendCategory}
     {excludedRules}
     {defaultList}
-    title={data?.getDividendCategory?.length + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getDividendCategory?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

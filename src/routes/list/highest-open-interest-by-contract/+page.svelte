@@ -5,6 +5,28 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_back_to_top,
+    list_category_stock_lists,
+    list_count_contracts,
+    list_no_results,
+    list_open_interest_contracts_infobox,
+    list_open_interest_contracts_main_description,
+    list_open_interest_contracts_main_name,
+    list_open_interest_contracts_seo_description,
+    list_open_interest_contracts_seo_keywords,
+    list_open_interest_contracts_seo_title,
+    list_open_interest_contracts_structured_description,
+    list_open_interest_contracts_structured_name,
+    list_option_contract_not_found,
+    list_pagination_next,
+    list_pagination_page_of,
+    list_pagination_previous,
+    list_reset_column_order,
+    list_rows_label,
+    list_search_placeholder,
+  } from "$lib/paraglide/messages.js";
 
   import { onMount } from "svelte";
   import { page } from "$app/stores";
@@ -449,15 +471,14 @@
 </script>
 
 <SEO
-  title="Top Options Contracts by Open Interest — Highest OI"
-  description="Discover US options contracts ranked by highest open interest. See the largest OI contracts, volume / OI ratios and emerging options flow to spot institutional activity."
-  keywords="highest open interest, top options contracts, options open interest, options OI, high OI contracts, institutional options flow"
+  title={list_open_interest_contracts_seo_title()}
+  description={list_open_interest_contracts_seo_description()}
+  keywords={list_open_interest_contracts_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top Options Contracts by Open Interest",
-    description:
-      "US options contracts ranked by highest open interest (OI) with volume/OI ratio and emerging options flow.",
+    name: list_open_interest_contracts_structured_name(),
+    description: list_open_interest_contracts_structured_description(),
     url: "https://stocknear.com/list/highest-open-interest-by-contract",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -465,37 +486,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Top Options Contracts by Open Interest",
+          name: list_open_interest_contracts_structured_name(),
           item: "https://stocknear.com/list/highest-open-interest-by-contract",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Options Contracts by Open Interest",
-      description:
-        "List of US options contracts ranked by open interest and volume-to-OI ratio to highlight heavy, institution-driven contracts.",
+      name: list_open_interest_contracts_main_name(),
+      description: list_open_interest_contracts_main_description(),
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are US options contracts with the highest in open interest (OI). Open interest represents outstanding options contracts, and significant changes often indicate shifting investor sentiment or emerging trading opportunities."
-  />
+  <Infobox text={list_open_interest_contracts_infobox()} />
   <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden mt-5">
     <div
       class="relative flex justify-center items-start overflow-hidden w-full"
@@ -510,7 +528,9 @@
             <h2
               class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {originalData?.length?.toLocaleString("en-US")} Contracts
+              {list_count_contracts({
+                count: originalData?.length?.toLocaleString("en-US") ?? "0",
+              })}
             </h2>
           </div>
 
@@ -543,7 +563,7 @@
                 type="text"
                 bind:value={inputValue}
                 on:input={search}
-                placeholder="Find..."
+                placeholder={list_search_placeholder()}
                 class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
@@ -559,7 +579,7 @@
             {#if customColumnOrder?.length > 0}
               <button
                 on:click={resetColumnOrder}
-                title="Reset column order"
+                title={list_reset_column_order()}
                 class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
               >
                 <svg
@@ -663,11 +683,13 @@
               </table>
             </div>
           {:else if displayList?.length === 0 && inputValue?.length > 0}
-            <Infobox text={`No Option Contract found for "${inputValue}"`} />
-          {:else}
             <Infobox
-              text="No results found for your search or filter criteria."
+              text={list_option_contract_not_found({
+                query: inputValue ?? "",
+              })}
             />
+          {:else}
+            <Infobox text={list_no_results()} />
           {/if}
 
           <!-- Pagination controls -->
@@ -695,14 +717,19 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">Previous</span></Button
+                  <span class="hidden sm:inline"
+                    >{list_pagination_previous()}</span
+                  ></Button
                 >
               </div>
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  Page {currentPage} of {totalPages}
+                  {list_pagination_page_of({
+                    current: currentPage,
+                    total: totalPages,
+                  })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -712,7 +739,7 @@
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{rowsPerPage} Rows</span
+                        >{list_rows_label({ rows: rowsPerPage })}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -747,7 +774,9 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{item} Rows</span>
+                        <span class="text-sm"
+                          >{list_rows_label({ rows: item })}</span
+                        >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -763,7 +792,9 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">Next</span>
+                  <span class="hidden sm:inline"
+                    >{list_pagination_next()}</span
+                  >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -787,7 +818,8 @@
                 on:click={scrollToTop}
                 class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
-                Back to Top <svg
+                {list_back_to_top()}
+                <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"
                   viewBox="0 0 20 20"
                   fill="currentColor"

@@ -9,6 +9,25 @@
   import SEO from "$lib/components/SEO.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_ethereum_etfs,
+    list_ethereum_etfs_empty,
+    list_ethereum_etfs_infobox,
+    list_ethereum_etfs_main_description,
+    list_ethereum_etfs_main_name,
+    list_ethereum_etfs_seo_description,
+    list_ethereum_etfs_seo_keywords,
+    list_ethereum_etfs_seo_title,
+    list_ethereum_etfs_structured_description,
+    list_index_ethereum_etfs,
+    list_label_avg_cost,
+    list_label_total_assets,
+    list_label_total_etfs,
+    list_reset_column_order,
+    list_search_placeholder,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -382,15 +401,14 @@
 </script>
 
 <SEO
-  title="Ethereum ETFs List - Complete ETH Spot ETF Directory "
-  description="Comprehensive list of Ethereum ETFs trading on US stock exchanges. Compare Ethereum spot ETFs, expense ratios, assets under management, and real-time performance. Track ETHE, ETHW, FETH and more Ethereum exchange-traded funds."
-  keywords="ethereum ETFs, ethereum ETF list, spot ethereum ETF, ETHE ETF, ethereum exchange traded funds, crypto ETFs, ETH investment funds, ethereum ETF comparison, ETHW ETF, FETH ETF"
+  title={list_ethereum_etfs_seo_title()}
+  description={list_ethereum_etfs_seo_description()}
+  keywords={list_ethereum_etfs_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Ethereum ETFs List",
-    description:
-      "Complete directory of Ethereum exchange-traded funds available on US stock exchanges",
+    name: list_index_ethereum_etfs(),
+    description: list_ethereum_etfs_structured_description(),
     url: "https://stocknear.com/list/ethereum-etfs",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -398,37 +416,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Ethereum ETFs",
+          name: list_index_ethereum_etfs(),
           item: "https://stocknear.com/list/ethereum-etfs",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Ethereum ETF Directory",
-      description:
-        "List of Ethereum exchange-traded funds with performance metrics and expense ratios",
+      name: list_ethereum_etfs_main_name(),
+      description: list_ethereum_etfs_main_description(),
       numberOfItems: rawData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of Ethereum ETFs available for trading on the US stock market, offering investors exposure to the cryptocurrency's price movements."
-  />
+  <Infobox text={list_ethereum_etfs_infobox()} />
 
   <div
     class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
@@ -438,7 +453,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total ETFs
+          {list_label_total_etfs()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -452,7 +467,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Assets
+          {list_label_total_assets()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -466,7 +481,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Avg. Cost
+          {list_label_avg_cost()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -484,7 +499,9 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
       >
-        {originalData?.length?.toLocaleString("en-US")} Ethereum ETFs
+        {list_count_ethereum_etfs({
+          count: originalData?.length?.toLocaleString("en-US") ?? "0",
+        })}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -512,7 +529,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder="Find..."
+            placeholder={list_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
@@ -524,7 +541,7 @@
         {#if customColumnOrder?.length > 0}
           <button
             on:click={resetColumnOrder}
-            title="Reset column order"
+            title={list_reset_column_order()}
             class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
           >
             <svg
@@ -641,7 +658,9 @@
           on:rowsPerPageChange={handleRowsPerPageChange}
         />
       {:else}
-        <Infobox text={`No Ethereum ETFs found for "${inputValue}"`} />
+        <Infobox
+          text={list_ethereum_etfs_empty({ query: inputValue ?? "" })}
+        />
       {/if}
     </div>
   </div>

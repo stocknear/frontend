@@ -15,7 +15,6 @@
     list_category_top_rated_dividend_stocks,
     list_index_all_reits,
     list_index_all_spacs,
-    list_index_augmented_reality,
     list_index_biggest_buybacks,
     list_index_bitcoin_etfs,
     list_index_category_ai,
@@ -81,6 +80,17 @@
     list_section_market_cap_groups,
     list_section_popular_lists,
     list_section_sector_groups,
+    list_index_sector_financials,
+    list_index_sector_healthcare,
+    list_index_sector_technology,
+    list_index_sector_industrials,
+    list_index_sector_energy,
+    list_index_sector_utilities,
+    list_index_sector_consumer_cyclical,
+    list_index_sector_real_estate,
+    list_index_sector_basic_materials,
+    list_index_sector_communication_services,
+    list_index_sector_consumer_defensive,
     list_seo_description,
     list_seo_keywords,
     list_seo_title,
@@ -122,8 +132,7 @@
     mainEntity: {
       "@type": "ItemList",
       name: list_structured_main_name(),
-      description:
-        "Various stock list categories including market cap, dividends, sectors, and special lists",
+      description: list_structured_main_description(),
       numberOfItems: 50,
     },
   }}
@@ -136,7 +145,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      Popular Lists
+      {list_section_popular_lists()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -174,7 +183,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Market Cap Groups
+      {list_section_market_cap_groups()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -222,7 +231,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Dividends Lists
+      {list_section_dividend_lists()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -261,7 +270,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Exchange Groups
+      {list_section_exchange_groups()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -293,7 +302,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Index Groups
+      {list_section_index_groups()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -325,7 +334,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Options Lists
+      {list_section_options_lists()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -390,7 +399,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Other Lists
+      {list_section_other_lists()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -462,7 +471,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      ETF Lists
+      {list_section_etf_lists()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -516,7 +525,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Category of Stocks Ranked by Market Cap
+      {list_section_category_ranked_by_market_cap()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -619,7 +628,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Non-US Stocks Listed on US Exchanges
+      {list_section_non_us_listed()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"
@@ -676,7 +685,7 @@
     <h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
     >
-      Sector Groups
+      {list_section_sector_groups()}
     </h2>
     <ul
       class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300 md:columns-2 md:gap-x-10"

@@ -9,6 +9,22 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_count_covered_call_etfs,
+    list_covered_call_etfs_empty,
+    list_covered_call_etfs_infobox,
+    list_covered_call_etfs_main_description,
+    list_covered_call_etfs_main_name,
+    list_covered_call_etfs_seo_description,
+    list_covered_call_etfs_seo_keywords,
+    list_covered_call_etfs_seo_title,
+    list_covered_call_etfs_structured_description,
+    list_index_covered_call_etfs,
+    list_reset_column_order,
+    list_search_placeholder,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -374,15 +390,14 @@
 </script>
 
 <SEO
-  title="Covered Call ETFs List - Options Income Strategy ETFs "
-  description="Complete list of covered call ETFs that generate income through options strategies. Compare yields, expense ratios, and performance of JEPI, QYLD, XYLD and other covered call exchange-traded funds. Enhanced income through call writing strategies."
-  keywords="covered call ETFs, covered call ETF list, JEPI ETF, QYLD ETF, XYLD ETF, options income ETFs, covered call strategy, income generating ETFs, high yield ETFs, call writing funds, dividend ETFs with options"
+  title={list_covered_call_etfs_seo_title()}
+  description={list_covered_call_etfs_seo_description()}
+  keywords={list_covered_call_etfs_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Covered Call ETFs List",
-    description:
-      "Complete directory of covered call exchange-traded funds that use options strategies to generate enhanced income",
+    name: list_index_covered_call_etfs(),
+    description: list_covered_call_etfs_structured_description(),
     url: "https://stocknear.com/list/covered-call-etfs",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -390,37 +405,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Covered Call ETFs",
+          name: list_index_covered_call_etfs(),
           item: "https://stocknear.com/list/covered-call-etfs",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Covered Call ETF Directory",
-      description:
-        "List of covered call exchange-traded funds with income generation through options strategies",
+      name: list_covered_call_etfs_main_name(),
+      description: list_covered_call_etfs_main_description(),
       numberOfItems: originalData?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="Comprehensive list of covered call ETFs that generate enhanced income through options strategies. These exchange-traded funds write covered call options on their underlying holdings, typically providing higher yields than traditional equity ETFs while potentially limiting upside potential. Popular funds include JEPI, QYLD, and XYLD."
-  />
+  <Infobox text={list_covered_call_etfs_infobox()} />
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
@@ -429,7 +441,9 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
       >
-        {originalData?.length?.toLocaleString("en-US")} Covered Call ETFs
+        {list_count_covered_call_etfs({
+          count: originalData?.length?.toLocaleString("en-US") ?? "0",
+        })}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -457,7 +471,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder="Find..."
+            placeholder={list_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
@@ -469,7 +483,7 @@
         {#if customColumnOrder?.length > 0}
           <button
             on:click={resetColumnOrder}
-            title="Reset column order"
+            title={list_reset_column_order()}
             class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
           >
             <svg
@@ -586,7 +600,9 @@
           on:rowsPerPageChange={handleRowsPerPageChange}
         />
       {:else}
-        <Infobox text={`No covered call ETFs found for "${inputValue}"`} />
+        <Infobox
+          text={list_covered_call_etfs_empty({ query: inputValue ?? "" })}
+        />
       {/if}
     </div>
   </div>

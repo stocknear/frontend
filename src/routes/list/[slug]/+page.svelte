@@ -4,6 +4,32 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import { page } from "$app/stores";
+  import {
+    list_count_stocks,
+    list_label_total_market_cap,
+    list_label_total_revenue,
+    list_label_total_stocks,
+    list_slug_ai_info,
+    list_slug_ai_title,
+    list_slug_augmented_reality_title,
+    list_slug_faang_description,
+    list_slug_faang_info,
+    list_slug_faang_title,
+    list_slug_gaming_info,
+    list_slug_gaming_title,
+    list_slug_magnificent_seven_description,
+    list_slug_magnificent_seven_info,
+    list_slug_magnificent_seven_title,
+    list_slug_metaverse_description,
+    list_slug_metaverse_info,
+    list_slug_metaverse_title,
+    list_slug_online_dating_title,
+    list_slug_online_gambling_title,
+    list_slug_pharmaceutical_description,
+    list_slug_pharmaceutical_title,
+    list_slug_sports_betting_title,
+    list_slug_virtual_reality_title,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
   let rawData = data?.getData;
@@ -15,79 +41,75 @@
 
   const navigation = [
     {
-      title: "A List of The Five FAANG Companies",
-      description:
-        "The FAANG stocks are a list of five U.S. technology companies: Facebook (now Meta), Amazon, Apple, Netflix and Alphabet (Google).",
-      info: "The FAANG stocks refer to five major U.S. tech companies: Meta (formerly Facebook), Amazon, Apple, Netflix, and Alphabet (Google). Originally popularized by Jim Cramer as FAANG.",
+      title: list_slug_faang_title,
+      description: list_slug_faang_description,
+      info: list_slug_faang_info,
       link: "/list/faang",
     },
     {
-      title: "A List of All Magnificent Seven Stocks",
-      description:
-        "The Magnificent Seven stocks refer to seven leading U.S. technology companies: Meta (formerly Facebook), Amazon, Apple, Microsoft, Nvidia, Alphabet (Google), and Tesla.",
-      info: "The magnificent seven stocks are 7 technology stocks that drove a large portion of the market's returns in 2023 and 2024. The list includes Apple, Microsoft, Amazon, Alphabet (Google), Tesla, Nvidia and Meta Platforms.",
+      title: list_slug_magnificent_seven_title,
+      description: list_slug_magnificent_seven_description,
+      info: list_slug_magnificent_seven_info,
       link: "/list/magnificent-seven",
     },
     {
-      title: "A List of Artificial Intelligence (AI) Stocks",
-      description: "",
-      info: "This is a list of the top stocks that are directly involved with artificial intelligence (AI) and/or have significant exposure to the growth of AI technology.",
+      title: list_slug_ai_title,
+      description: () => "",
+      info: list_slug_ai_info,
       link: "/list/ai-stocks",
     },
     {
-      title: "A List of Augmented Reality Stocks",
-      description: "",
-      info: "",
+      title: list_slug_augmented_reality_title,
+      description: () => "",
+      info: () => "",
       link: "/list/augmented-reality",
     },
     {
-      title: "A List of Augmented Reality Stocks",
-      description: "",
-      info: "",
+      title: list_slug_augmented_reality_title,
+      description: () => "",
+      info: () => "",
       link: "/list/augmented-reality",
     },
     {
-      title: "A List of Gaming Company Stocks by Market Cap",
-      description: "",
-      info: "The biggest gaming company stocks, ranked by market cap. This list includes stocks of companies who get a significant percentage of their revenue from video games or gaming-related products.",
+      title: list_slug_gaming_title,
+      description: () => "",
+      info: list_slug_gaming_info,
       link: "/list/gaming-stocks",
     },
     {
-      title: "The Biggest Pharmaceutical Stocks by Market Cap",
-      description:
-        "A list of the biggest pharmaceutical and drug company stocks, ranked by market cap.",
-      info: "",
+      title: list_slug_pharmaceutical_title,
+      description: list_slug_pharmaceutical_description,
+      info: () => "",
       link: "/list/pharmaceutical-stocks",
     },
     {
-      title: "A List of Online Dating Stocks",
-      description: "",
-      info: "",
+      title: list_slug_online_dating_title,
+      description: () => "",
+      info: () => "",
       link: "/list/online-dating",
     },
     {
-      title: "A List of Virtual Reality Stocks",
-      description: "",
-      info: "",
+      title: list_slug_virtual_reality_title,
+      description: () => "",
+      info: () => "",
       link: "/list/virtual-reality",
     },
     {
-      title: "A List of Online Gambling Stocks",
-      description: "",
-      info: "",
+      title: list_slug_online_gambling_title,
+      description: () => "",
+      info: () => "",
       link: "/list/online-gambling",
     },
     {
-      title: "A List of Sports Betting Stocks",
-      description: "",
-      info: "",
+      title: list_slug_sports_betting_title,
+      description: () => "",
+      info: () => "",
       link: "/list/sports-betting",
     },
     {
-      title: "A List of Metaverse Stocks, Sorted by Market Cap",
-      description:
-        "These are the biggest stocks that are making significant investments in the metaverse, a concept related to virtual worlds accessed through augmented and virtual reality devices.",
-      info: "The metaverse is a concept for virtual environments that people can access through the internet, usually via augmented reality (AR) or virtual reality (VR) devices. Many companies are making huge investments in the metaverse, which is expected to become a big market in the future.",
+      title: list_slug_metaverse_title,
+      description: list_slug_metaverse_description,
+      info: list_slug_metaverse_info,
       link: "/list/metaverse",
     },
   ];
@@ -96,16 +118,21 @@
   $: currentNavigation = navigation?.find(
     (cat) => $page.url.pathname === cat?.link,
   );
+  $: currentTitle = currentNavigation?.title ? currentNavigation.title() : "";
+  $: currentDescription = currentNavigation?.description
+    ? currentNavigation.description()
+    : "";
+  $: currentInfo = currentNavigation?.info ? currentNavigation.info() : "";
 </script>
 
 <SEO
-  title={currentNavigation?.title}
-  description={currentNavigation?.description}
+  title={currentTitle}
+  description={currentDescription}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  {#if currentNavigation?.info}
-    <Infobox text={currentNavigation?.info} />
+  {#if currentInfo}
+    <Infobox text={currentInfo} />
   {/if}
 
   <div
@@ -116,7 +143,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Stocks
+          {list_label_total_stocks()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -130,7 +157,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Market Cap
+          {list_label_total_market_cap()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -144,7 +171,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          Total Revenue
+          {list_label_total_revenue()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -158,6 +185,8 @@
   <Table
     {data}
     rawData={data?.getData}
-    title={data?.getData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+    title={list_count_stocks({
+      count: data?.getData?.length?.toLocaleString("en-US") ?? "0",
+    })}
   />
 </section>

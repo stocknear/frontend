@@ -2,6 +2,18 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    common_home,
+    list_category_stock_lists,
+    list_highest_option_premium_infobox,
+    list_highest_option_premium_main_description,
+    list_highest_option_premium_main_name,
+    list_highest_option_premium_seo_description,
+    list_highest_option_premium_seo_keywords,
+    list_highest_option_premium_seo_title,
+    list_highest_option_premium_structured_description,
+    list_highest_option_premium_structured_name,
+  } from "$lib/paraglide/messages.js";
 
   export let data;
 
@@ -28,14 +40,14 @@
 </script>
 
 <SEO
-  title="Highest Options Premium Stocks - Top Total Options Premium "
-  description="List of US stocks ranked by highest total options premium. Track which companies have the most options premium value and highest options market interest."
-  keywords="highest options premium, total options premium, options market leaders, options premium value, premium collection stocks, highest premium stocks"
+  title={list_highest_option_premium_seo_title()}
+  description={list_highest_option_premium_seo_description()}
+  keywords={list_highest_option_premium_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Highest Options Premium Stocks",
-    description: "US stocks ranked by highest total options premium",
+    name: list_highest_option_premium_structured_name(),
+    description: list_highest_option_premium_structured_description(),
     url: "https://stocknear.com/list/highest-option-premium",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -43,36 +55,34 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: common_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stock Lists",
+          name: list_category_stock_lists(),
           item: "https://stocknear.com/list",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Highest Options Premium",
+          name: list_highest_option_premium_structured_name(),
           item: "https://stocknear.com/list/highest-option-premium",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Stocks by Options Premium",
-      description: "List of US stocks ranked by total options premium value",
+      name: list_highest_option_premium_main_name(),
+      description: list_highest_option_premium_main_description(),
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
 />
 
 <section class="w-full overflow-hidden m-auto">
-  <Infobox
-    text="These are US stocks with the highest total options premium. The premium represents the sum of all options contract values for each stock, reflecting market sentiment, volatility expectations, and overall options trading interest."
-  />
+  <Infobox text={list_highest_option_premium_infobox()} />
 
   <!-- Page wrapper -->
   <Table {data} rawData={data?.getStocks} {excludedRules} {defaultList} />
