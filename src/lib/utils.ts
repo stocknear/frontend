@@ -2,6 +2,16 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
+import { getLocale } from "$lib/paraglide/runtime.js";
+
+// Helper to get current locale safely (returns "en" as fallback)
+function getCurrentLocale(): string {
+  try {
+    return getLocale() || "en";
+  } catch {
+    return "en";
+  }
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -1173,6 +1183,13 @@ export function abbreviateNumberWithColor(number, addDollarSign = false, color =
   }
 
   const negative = number < 0;
+  const locale = getCurrentLocale();
+  const isGerman = locale === "de";
+
+  // Locale-specific suffixes: German uses Mio/Mrd with space
+  const suffixesEn = ["", "K", "M", "B", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixesDe = ["", "K", " Mio", " Mrd", " Mrd", " Bio", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixes = isGerman ? suffixesDe : suffixesEn;
 
   // Handle special case for exactly 1000
   if (Math.abs(number) === 1000) {
@@ -1187,13 +1204,12 @@ export function abbreviateNumberWithColor(number, addDollarSign = false, color =
   }
 
   if (Math.abs(number) !== 0 && Math.abs(number) > 1000) {
-    const suffixes = ["", "K", "M", "B", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
     const magnitude = Math.floor(Math.log10(Math.abs(number)));
     let index = Math.min(Math.floor(magnitude / 3), suffixes.length - 1);
 
     // Special case to keep numbers in trillions formatted as billions
     if (index >= 4) {
-      index = 3; // Keep the suffix at "B"
+      index = 3; // Keep the suffix at "B" / "Mrd"
     }
 
     let abbreviation = Math.abs(number) / Math.pow(10, index * 3);
@@ -1213,16 +1229,23 @@ export function abbreviateNumberWithColor(number, addDollarSign = false, color =
 
     let suffix = suffixes[index];
 
-if (color) {
-  if (suffix === "K") {
-    suffix = '<span class="font-semibold text-[#8F82FE]">K</span>';
-  } else if (suffix === "M") {
-    suffix = '<span class="font-semibold text-[#C8A32D]">M</span>';
-  } else if (suffix === "B") {
-    suffix = '<span class="font-semibold text-[#2CB8A6]">B</span>';
-  }
-}
-
+    if (color && !isGerman) {
+      if (suffix === "K") {
+        suffix = '<span class="font-semibold text-[#8F82FE]">K</span>';
+      } else if (suffix === "M") {
+        suffix = '<span class="font-semibold text-[#C8A32D]">M</span>';
+      } else if (suffix === "B") {
+        suffix = '<span class="font-semibold text-[#2CB8A6]">B</span>';
+      }
+    } else if (color && isGerman) {
+      if (suffix === "K") {
+        suffix = '<span class="font-semibold text-[#8F82FE]">K</span>';
+      } else if (suffix === " Mio") {
+        suffix = ' <span class="font-semibold text-[#C8A32D]">Mio</span>';
+      } else if (suffix === " Mrd") {
+        suffix = ' <span class="font-semibold text-[#2CB8A6]">Mrd</span>';
+      }
+    }
 
     const formattedNumber = abbreviation + suffix;
 
@@ -1254,6 +1277,13 @@ export function abbreviateNumber(
   }
 
   const negative = number < 0;
+  const locale = getCurrentLocale();
+  const isGerman = locale === "de";
+
+  // Locale-specific suffixes: German uses Mio/Mrd with space
+  const suffixesEn = ["", "K", "M", "B", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixesDe = ["", "K", " Mio", " Mrd", " Mrd", " Bio", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixes = isGerman ? suffixesDe : suffixesEn;
 
   // Handle special case for exactly 1000
   if (Math.abs(number) === 1000) {
@@ -1267,13 +1297,12 @@ export function abbreviateNumber(
   }
 
   if (Math.abs(number) !== 0 && Math.abs(number) > 1000) {
-    const suffixes = ["", "K", "M", "B", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
     const magnitude = Math.floor(Math.log10(Math.abs(number)));
     let index = Math.min(Math.floor(magnitude / 3), suffixes.length - 1);
 
     // Special case to keep numbers in trillions formatted as billions
     if (index >= 4) {
-      index = 3; // Keep the suffix at "B"
+      index = 3; // Keep the suffix at "B" / "Mrd"
     }
 
     let abbreviation = Math.abs(number) / Math.pow(10, index * 3);
