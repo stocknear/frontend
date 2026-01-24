@@ -13,6 +13,7 @@ mkdir -p builds
 
 # Build to timestamped directory
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+npx @inlang/paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide
 npm run build
 mv build "builds/build_$TIMESTAMP"
 
