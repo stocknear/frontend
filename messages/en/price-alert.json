@@ -1,0 +1,41 @@
+{
+  "price_alert_breadcrumb_home": "Home",
+  "price_alert_breadcrumb_price_alert": "Price Alert",
+
+  "price_alert_seo_title": "Stock Price Alerts - Real-Time Price Notifications & Market Updates",
+  "price_alert_seo_description": "Create custom stock price alerts and get instant notifications when your target prices are hit. Track earnings, news, and price movements for your watchlist with real-time market data.",
+  "price_alert_seo_keywords": "stock price alerts, price notifications, stock alerts, price targets, earnings calendar, stock news feed, real-time alerts, market notifications, stock watchlist, price monitoring",
+  "price_alert_structured_name": "Price Alerts - Stocknear",
+  "price_alert_structured_description": "Real-time stock price alert system with instant notifications",
+
+  "price_alert_main_title": "Price Alerts",
+
+  "price_alert_search_placeholder": "Find...",
+  "price_alert_no_results": "No results found",
+  "price_alert_edit_alert": "Edit Alert",
+  "price_alert_cancel": "Cancel",
+
+  "price_alert_empty_title": "No Alerts set",
+  "price_alert_empty_description": "Create price alerts for your stocks that have the most potential in your opinion.",
+  "price_alert_get_started": "Get Started",
+
+  "price_alert_tab_news": "News",
+  "price_alert_tab_earnings": "Earnings Release",
+  "price_alert_no_news": "No news yet. Add some stocks to the price alert list to see the latest news.",
+  "price_alert_no_earnings": "No earnings yet. Add some stocks to the alert list to see the latest earnings data.",
+
+  "price_alert_toast_deleted": "Price alerts deleted successfully",
+  "price_alert_toast_select_symbols": "You need to select symbols before you can delete them",
+
+  "price_alert_earnings_will_report_today": "will report today",
+  "price_alert_earnings_will_report_tomorrow": "will report tomorrow",
+  "price_alert_earnings_will_report_monday": "will report Monday",
+  "price_alert_earnings_after_close": "after market closes.",
+  "price_alert_earnings_before_open": "before market opens.",
+  "price_alert_earnings_during_market": "during market.",
+  "price_alert_earnings_analysts_estimate": "Analysts estimate",
+  "price_alert_earnings_in_revenue": "in revenue",
+  "price_alert_earnings_yoy": "YoY",
+  "price_alert_earnings_and": "and",
+  "price_alert_earnings_in_eps": "in earnings per share"
+}

@@ -10,6 +10,8 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import Overview from "$lib/components/Portfolio/Overview.svelte";
+  import * as m from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime.js";
 
   import { onMount, afterUpdate } from "svelte";
   import { goto, invalidateAll } from "$app/navigation";
@@ -45,6 +47,33 @@
   let socket;
 
   const tabs = ["News", "Earnings Release"];
+
+  // Tab translation helper
+  function getTabLabel(tab: string): string {
+    const tabLabels: Record<string, () => string> = {
+      "News": () => m.portfolio_tab_news(),
+      "Earnings Release": () => m.portfolio_tab_earnings(),
+    };
+    return tabLabels[tab]?.() ?? tab;
+  }
+
+  // Locale-aware time formatting for news
+  function formatTimeLocale(dateStr: string): string {
+    const date = new Date(dateStr);
+    const locale = getLocale();
+    if (locale === "de") {
+      return date.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }) + " Uhr";
+    }
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
 
   let isLoaded = false;
   let displayPortfolio;
@@ -149,14 +178,14 @@
 
     // Validate the title input
     if (!title || title.toString().trim().length === 0) {
-      toast.error("Title cannot be empty!", {
+      toast.error(m.portfolio_toast_title_empty(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
     }
 
     if (title.toString().length > 100) {
-      toast.error("Title is too long. Keep it simple and concise bruv!", {
+      toast.error(m.portfolio_toast_title_long(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -181,7 +210,7 @@
         // If the server returned an error (e.g. non‑Pro user already has a portfolio),
         // throw an error to be caught by toast.promise.
         throw new Error(
-          output.error || "Something went wrong. Please try again!",
+          output.error || m.portfolio_toast_error(),
         );
       }
       return output;
@@ -189,9 +218,9 @@
 
     // Use toast.promise to display a loading toast, then a success or error message
     toast.promise(promise, {
-      loading: "Creating portfolio...",
-      success: "Portfolio created successfully!",
-      error: (err) => err.message || "Something went wrong. Please try again!",
+      loading: m.portfolio_toast_creating(),
+      success: m.portfolio_toast_created(),
+      error: (err) => err.message || m.portfolio_toast_error(),
     });
 
     try {
@@ -260,7 +289,7 @@
       const output = await response.json();
 
       if (output === "success") {
-        toast.success("Portfolio deleted successfully!", {
+        toast.success(m.portfolio_toast_deleted(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
@@ -294,13 +323,13 @@
         const clicked = document.getElementById("deletePortfolio");
         clicked.dispatchEvent(new MouseEvent("click"));
       } else {
-        toast.error("Something went wrong. Please try again!", {
+        toast.error(m.portfolio_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("An error occurred. Please try again later.", {
+      toast.error(m.portfolio_toast_error_generic(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -331,7 +360,7 @@
 
   async function handleDeleteTickers() {
     if (numberOfChecked === 0) {
-      toast.error(`You need to select symbols before you can delete them`, {
+      toast.error(m.portfolio_toast_select_symbols(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
@@ -470,13 +499,13 @@
           // Force reload ALL load functions to get fresh data from server
           await invalidateAll();
         } else {
-          toast.error(output?.error || "Failed to save portfolio changes", {
+          toast.error(output?.error || m.portfolio_toast_save_failed(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
         }
       } catch (error) {
         console.error("Error saving portfolio:", error);
-        toast.error("An error occurred while saving", {
+        toast.error(m.portfolio_toast_save_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
@@ -495,7 +524,7 @@
 
   async function handleAddTicker(event, ticker) {
     if (portfolio?.some((item) => item?.symbol === ticker)) {
-      toast.error("This symbol is already in your portfolio", {
+      toast.error(m.portfolio_toast_already_in_portfolio(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       inputValue = "";
@@ -529,9 +558,9 @@
 
     // Use toast.promise to display notifications based on the promise's state.
     toast?.promise(promise, {
-      loading: "Updating portfolio...",
-      success: "Portfolio updated successfully!",
-      error: (err) => err.message || "Failed to update portfolio",
+      loading: m.portfolio_toast_updating(),
+      success: m.portfolio_toast_updated(),
+      error: (err) => err.message || m.portfolio_toast_error(),
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
 
@@ -750,30 +779,27 @@
 </script>
 
 <SEO
-  title="Portfolio Tracker & AI Stock Analysis"
-  description="Track stocks and ETFs in real time, get AI insights and price alerts, and visualize performance, risk, and dividends. A fast, free portfolio tracker for investors."
-  keywords="stock portfolio, portfolio tracker, stock tracker, ETF tracker, investment tracker, watchlist, price alerts, performance analytics, dividends, P&L, portfolio management"
+  title={m.portfolio_seo_title()}
+  description={m.portfolio_seo_description()}
+  keywords={m.portfolio_seo_keywords()}
   canonical="https://stocknear.com/portfolio/stocks"
   openGraph={{
     type: "website",
     url: "https://stocknear.com/portfolio/stocks",
-    title: "Portfolio Tracker & AI Stock Analysis",
-    description:
-      "Real-time prices, AI insights, alerts, and performance analytics for your stock & ETF portfolio.",
+    title: m.portfolio_seo_title(),
+    description: m.portfolio_seo_description(),
   }}
   twitter={{
     card: "summary",
-    title: "Portfolio Tracker & AI Stock Analysis",
-    description:
-      "Real-time prices, AI insights, alerts, and performance analytics for your stock & ETF portfolio.",
+    title: m.portfolio_seo_title(),
+    description: m.portfolio_seo_description(),
   }}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Portfolio Tracker",
-    alternateName: "Stock Portfolio Tracker",
-    description:
-      "Personal stock and ETF portfolio tracking tool with real-time prices, AI analysis, alerts, and performance analytics.",
+    name: m.portfolio_structured_name(),
+    alternateName: m.portfolio_structured_name(),
+    description: m.portfolio_structured_description(),
     url: "https://stocknear.com/portfolio/stocks",
     isAccessibleForFree: true,
     inLanguage: "en",
@@ -803,13 +829,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: m.portfolio_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Portfolio",
+          name: m.portfolio_breadcrumb_portfolio(),
           item: "https://stocknear.com/portfolio",
         },
         {
@@ -857,7 +883,7 @@
                         <span class="truncate font-medium text-sm"
                           >{displayPortfolio?.title !== undefined
                             ? displayPortfolio?.title
-                            : "Create Portfolio"}</span
+                            : m.portfolio_create_portfolio()}</span
                         >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -905,7 +931,7 @@
                                 ></path>
                               </svg>
                               <div class="text-sm text-start">
-                                New Portfolio
+                                {m.portfolio_new_portfolio()}
                               </div>
                             </label>
                           </Button>
@@ -963,8 +989,8 @@
                       <Combobox.Input
                         on:input={search}
                         class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
-                        placeholder="Add stock..."
-                        aria-label="Add stock..."
+                        placeholder={m.portfolio_add_stock_placeholder()}
+                        aria-label={m.portfolio_add_stock_placeholder()}
                       />
                     </div>
 
@@ -996,7 +1022,7 @@
                           <span
                             class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                           >
-                            No results found
+                            {m.portfolio_no_results()}
                           </span>
                         {/each}
                       {:else}
@@ -1006,7 +1032,7 @@
                           <span
                             class=" text-sm text-gray-500 dark:text-zinc-400"
                           >
-                            No results found
+                            {m.portfolio_no_results()}
                           </span>
                         </Combobox.Item>
                       {/if}
@@ -1058,11 +1084,11 @@
                       >
                       {#if !editMode}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          Edit Portfolio
+                          {m.portfolio_edit_portfolio()}
                         </span>
                       {:else}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          Cancel
+                          {m.portfolio_cancel()}
                         </span>
                       {/if}
                     </label>
@@ -1078,19 +1104,18 @@
                 class="flex flex-col justify-center items-center m-auto z-0 pt-10"
               >
                 <span class=" font-bold text-xl sm:text-3xl">
-                  Empty Portfolio
+                  {m.portfolio_empty_title()}
                 </span>
 
                 <span class=" text-sm sm:text-lg m-auto p-4 text-center">
-                  Fill it up with your favorite stocks and get realtime data and
-                  the latest news in one place!
+                  {m.portfolio_empty_description()}
                 </span>
                 {#if !data?.user}
                   <a
                     class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                     href="/register"
                   >
-                    Get Started
+                    {m.portfolio_get_started()}
                     <span
                       class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
                     >
@@ -1208,7 +1233,7 @@
                                       ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                       : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                                   >
-                                    {item}
+                                    {getTabLabel(item)}
                                   </button>
                                 {/each}
                               </div>
@@ -1236,13 +1261,7 @@
                                   <div
                                     class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                                   >
-                                    {new Date(
-                                      items[0].publishedDate,
-                                    ).toLocaleTimeString("en-US", {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                      hour12: true,
-                                    })}
+                                    {formatTimeLocale(items[0].publishedDate)}
                                   </div>
                                   <div class="grow px-3 py-2 lg:py-1">
                                     <h4 class="text-sm lg:text-base">
@@ -1252,13 +1271,7 @@
                                       class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
                                     >
                                       <div class=" lg:hidden">
-                                        {new Date(
-                                          items[0].publishedDate,
-                                        ).toLocaleTimeString("en-US", {
-                                          hour: "2-digit",
-                                          minute: "2-digit",
-                                          hour12: true,
-                                        })}
+                                        {formatTimeLocale(items[0].publishedDate)}
                                       </div>
                                       <div class="flex flex-wrap gap-x-2">
                                         {#each symbols as symbol}
@@ -1280,8 +1293,7 @@
                           <span
                             class="text-sm text-gray-600 dark:text-zinc-300"
                           >
-                            No news yet. Add some stocks to the portfolio to see
-                            the latest news.
+                            {m.portfolio_no_news()}
                           </span>
                         {/if}
                       {:else if groupedEarnings?.length > 0}
@@ -1312,34 +1324,34 @@
                                   <div>
                                     {removeCompanyStrings(item?.name)}
                                     (<HoverStockChart symbol={item?.symbol} />)
-                                    will report
+                                    {m.portfolio_earnings_will_report()}
 
                                     {#if item?.time}
                                       {#if compareTimes(item?.time, "16:00") >= 0}
-                                        after market closes.
+                                        {m.portfolio_earnings_after_close()}
                                       {:else if compareTimes(item?.time, "09:30") <= 0}
-                                        before market opens.
+                                        {m.portfolio_earnings_before_open()}
                                       {:else}
-                                        during market.
+                                        {m.portfolio_earnings_during_market()}
                                       {/if}
                                     {/if}
-                                    Analysts estimate
+                                    {m.portfolio_earnings_analysts_estimate()}
                                     <strong
                                       >{abbreviateNumber(
                                         item?.revenueEst,
                                       )}</strong
                                     >
-                                    in revenue ({(
+                                    {m.portfolio_earnings_in_revenue()} ({(
                                       (item?.revenueEst / item?.revenuePrior -
                                         1) *
                                       100
-                                    )?.toFixed(2)}% YoY) and
+                                    )?.toFixed(2)}% {m.portfolio_earnings_yoy()}) {m.portfolio_earnings_and()}
                                     <strong>{item?.epsEst}</strong>
-                                    in earnings per share {#if item?.epsPrior !== 0}
+                                    {m.portfolio_earnings_in_eps()} {#if item?.epsPrior !== 0}
                                       ({(
                                         (item?.epsEst / item?.epsPrior - 1) *
                                         100
-                                      )?.toFixed(2)}% YoY).
+                                      )?.toFixed(2)}% {m.portfolio_earnings_yoy()}).
                                     {/if}
                                   </div>
 
@@ -1359,8 +1371,7 @@
                         <br />
                         <div class="mt-3 sm:mt-0">
                           <Infobox
-                            text="No earnings data available. Add some stocks to the portfolio to see
-                        the latest earnings data."
+                            text={m.portfolio_no_earnings()}
                           />
                         </div>
                       {/if}
@@ -1371,14 +1382,13 @@
                     class="flex flex-col justify-center items-center m-auto pt-10 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
-                      Empty Portfolio
+                      {m.portfolio_empty_title()}
                     </span>
 
                     <span
                       class=" text-sm sm:text-lg pt-5 m-auto p-4 text-center"
                     >
-                      Fill it up with your favorite stocks and get realtime data
-                      and the latest news in one place!
+                      {m.portfolio_empty_description()}
                     </span>
                   </div>
                 {/if}
@@ -1418,13 +1428,13 @@
     class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 shadow-none"
   >
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">New Portfolio</h3>
+      <h3 class="font-bold text-2xl mb-5">{m.portfolio_modal_new_title()}</h3>
 
       <form on:submit={createPortfolio} class="space-y-2 w-full m-auto">
         <Input
           id="title"
           type="text"
-          label="List Name"
+          label={m.portfolio_modal_list_name()}
           errors=""
           required={true}
         />
@@ -1436,7 +1446,7 @@
           type="submit"
           class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
         >
-          Create Portfolio
+          {m.portfolio_modal_create_button()}
         </button>
       </form>
     </div>
@@ -1455,16 +1465,15 @@
   <div
     class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Portfolio</h3>
+    <h3 class="text-lg font-medium mb-2">{m.portfolio_modal_delete_title()}</h3>
     <p class="text-sm mb-6">
-      Are you sure you want to delete this portfolio? This action cannot be
-      undone.
+      {m.portfolio_modal_delete_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deletePortfolio"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{m.portfolio_cancel()}</label
       ><label
         for="deletePortfolio"
         on:click={deletePortfolio}
@@ -1489,7 +1498,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Portfolio</label
+        >{m.portfolio_modal_delete_button()}</label
       >
     </div>
   </div>

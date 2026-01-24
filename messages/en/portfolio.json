@@ -1,0 +1,73 @@
+{
+  "portfolio_breadcrumb_home": "Home",
+  "portfolio_breadcrumb_portfolio": "Portfolio",
+  "portfolio_breadcrumb_analysis": "Analysis",
+
+  "portfolio_seo_title": "Portfolio Tracker & AI Stock Analysis",
+  "portfolio_seo_description": "Track stocks and ETFs in real time, get AI insights and price alerts, and visualize performance, risk, and dividends. A fast, free portfolio tracker for investors.",
+  "portfolio_seo_keywords": "stock portfolio, portfolio tracker, stock tracker, ETF tracker, investment tracker, watchlist, price alerts, performance analytics, dividends, P&L, portfolio management",
+  "portfolio_structured_name": "Portfolio Tracker",
+  "portfolio_structured_description": "Personal stock and ETF portfolio tracking tool with real-time prices, AI analysis, alerts, and performance analytics.",
+
+  "portfolio_main_title": "Portfolio",
+  "portfolio_create_portfolio": "Create Portfolio",
+  "portfolio_new_portfolio": "New Portfolio",
+  "portfolio_delete_portfolio": "Delete Portfolio",
+
+  "portfolio_add_stock_placeholder": "Add stock...",
+  "portfolio_no_results": "No results found",
+  "portfolio_edit_portfolio": "Edit Portfolio",
+  "portfolio_cancel": "Cancel",
+
+  "portfolio_empty_title": "Empty Portfolio",
+  "portfolio_empty_description": "Fill it up with your favorite stocks and get realtime data and the latest news in one place!",
+  "portfolio_get_started": "Get Started",
+
+  "portfolio_count_stocks": "{count} Stocks",
+
+  "portfolio_tab_news": "News",
+  "portfolio_tab_earnings": "Earnings Release",
+  "portfolio_no_news": "No news yet. Add some stocks to the portfolio to see the latest news.",
+  "portfolio_no_earnings": "No earnings data available. Add some stocks to the portfolio to see the latest earnings data.",
+
+  "portfolio_modal_new_title": "New Portfolio",
+  "portfolio_modal_list_name": "List Name",
+  "portfolio_modal_create_button": "Create Portfolio",
+
+  "portfolio_modal_delete_title": "Delete Portfolio",
+  "portfolio_modal_delete_confirm": "Are you sure you want to delete this portfolio? This action cannot be undone.",
+  "portfolio_modal_delete_button": "Delete Portfolio",
+
+  "portfolio_toast_creating": "Creating portfolio...",
+  "portfolio_toast_created": "Portfolio created successfully!",
+  "portfolio_toast_deleted": "Portfolio deleted successfully!",
+  "portfolio_toast_updating": "Updating portfolio...",
+  "portfolio_toast_updated": "Portfolio updated successfully!",
+  "portfolio_toast_error": "Something went wrong. Please try again!",
+  "portfolio_toast_error_generic": "An error occurred. Please try again later.",
+  "portfolio_toast_title_empty": "Title cannot be empty!",
+  "portfolio_toast_title_long": "Title is too long. Keep it simple and concise bruv!",
+  "portfolio_toast_already_in_portfolio": "This symbol is already in your portfolio",
+  "portfolio_toast_select_symbols": "You need to select symbols before you can delete them",
+  "portfolio_toast_save_failed": "Failed to save portfolio changes",
+  "portfolio_toast_save_error": "An error occurred while saving",
+
+  "portfolio_earnings_will_report": "will report",
+  "portfolio_earnings_after_close": "after market closes.",
+  "portfolio_earnings_before_open": "before market opens.",
+  "portfolio_earnings_during_market": "during market.",
+  "portfolio_earnings_analysts_estimate": "Analysts estimate",
+  "portfolio_earnings_in_revenue": "in revenue",
+  "portfolio_earnings_yoy": "YoY",
+  "portfolio_earnings_and": "and",
+  "portfolio_earnings_in_eps": "in earnings per share",
+
+  "portfolio_analysis_seo_title": "Portfolio Analysis - AI Insights, Fundamentals & Diversification",
+  "portfolio_analysis_seo_description": "Get AI-powered bull/bear analysis, valuation metrics, growth insights, and diversification breakdown for your stock portfolio. Compare your holdings against market benchmarks.",
+  "portfolio_analysis_seo_keywords": "portfolio analysis, AI portfolio insights, bull bear analysis, portfolio valuation, growth metrics, portfolio diversification, investment analysis, portfolio fundamentals, stock analysis, market benchmarks",
+  "portfolio_analysis_structured_name": "Portfolio Analysis",
+  "portfolio_analysis_structured_description": "Comprehensive portfolio analysis tool with AI-powered bull/bear insights, valuation metrics, growth analysis, efficiency ratios, and diversification breakdown.",
+
+  "portfolio_analysis_vs_market_title": "Portfolio vs US Market",
+  "portfolio_analysis_vs_market_description": "Shows your portfolio's weighted-average Valuation, Growth, Efficiency and Margins compared to US market benchmarks - revealing if your holdings are expensive/cheap, growing/shrinking, efficient and profitable vs the broader market."
+}

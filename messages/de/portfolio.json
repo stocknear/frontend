@@ -1,0 +1,73 @@
+{
+  "portfolio_breadcrumb_home": "Startseite",
+  "portfolio_breadcrumb_portfolio": "Portfolio",
+  "portfolio_breadcrumb_analysis": "Analyse",
+
+  "portfolio_seo_title": "Portfolio-Tracker & KI-Aktienanalyse",
+  "portfolio_seo_description": "Verfolge Aktien und ETFs in Echtzeit, erhalte KI-Insights und Preisalarme, und visualisiere Performance, Risiko und Dividenden. Ein schneller, kostenloser Portfolio-Tracker für Anleger.",
+  "portfolio_seo_keywords": "Aktienportfolio, Portfolio-Tracker, Aktien-Tracker, ETF-Tracker, Investment-Tracker, Watchlist, Preisalarme, Performance-Analyse, Dividenden, P&L, Portfolio-Management",
+  "portfolio_structured_name": "Portfolio-Tracker",
+  "portfolio_structured_description": "Persönliches Aktien- und ETF-Portfolio-Tracking-Tool mit Echtzeit-Kursen, KI-Analyse, Alarmen und Performance-Analysen.",
+
+  "portfolio_main_title": "Portfolio",
+  "portfolio_create_portfolio": "Portfolio erstellen",
+  "portfolio_new_portfolio": "Neues Portfolio",
+  "portfolio_delete_portfolio": "Portfolio löschen",
+
+  "portfolio_add_stock_placeholder": "Aktie hinzufügen...",
+  "portfolio_no_results": "Keine Ergebnisse gefunden",
+  "portfolio_edit_portfolio": "Portfolio bearbeiten",
+  "portfolio_cancel": "Abbrechen",
+
+  "portfolio_empty_title": "Leeres Portfolio",
+  "portfolio_empty_description": "Fülle es mit deinen Lieblingsaktien und erhalte Echtzeitdaten und die neuesten Nachrichten an einem Ort!",
+  "portfolio_get_started": "Jetzt starten",
+
+  "portfolio_count_stocks": "{count} Aktien",
+
+  "portfolio_tab_news": "Nachrichten",
+  "portfolio_tab_earnings": "Earnings-Termine",
+  "portfolio_no_news": "Noch keine News. Füge Aktien zum Portfolio hinzu, um die neuesten Nachrichten zu sehen.",
+  "portfolio_no_earnings": "Keine Earnings-Daten verfügbar. Füge Aktien zum Portfolio hinzu, um die neuesten Earnings-Daten zu sehen.",
+
+  "portfolio_modal_new_title": "Neues Portfolio",
+  "portfolio_modal_list_name": "Listenname",
+  "portfolio_modal_create_button": "Portfolio erstellen",
+
+  "portfolio_modal_delete_title": "Portfolio löschen",
+  "portfolio_modal_delete_confirm": "Bist du sicher, dass du dieses Portfolio löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "portfolio_modal_delete_button": "Portfolio löschen",
+
+  "portfolio_toast_creating": "Portfolio wird erstellt...",
+  "portfolio_toast_created": "Portfolio erfolgreich erstellt!",
+  "portfolio_toast_deleted": "Portfolio erfolgreich gelöscht!",
+  "portfolio_toast_updating": "Portfolio wird aktualisiert...",
+  "portfolio_toast_updated": "Portfolio erfolgreich aktualisiert!",
+  "portfolio_toast_error": "Etwas ist schiefgelaufen. Bitte versuche es erneut!",
+  "portfolio_toast_error_generic": "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
+  "portfolio_toast_title_empty": "Der Titel darf nicht leer sein!",
+  "portfolio_toast_title_long": "Der Titel ist zu lang. Halte ihn kurz und prägnant!",
+  "portfolio_toast_already_in_portfolio": "Dieses Symbol ist bereits in deinem Portfolio",
+  "portfolio_toast_select_symbols": "Du musst Symbole auswählen, bevor du sie löschen kannst",
+  "portfolio_toast_save_failed": "Portfolio-Änderungen konnten nicht gespeichert werden",
+  "portfolio_toast_save_error": "Ein Fehler ist beim Speichern aufgetreten",
+
+  "portfolio_earnings_will_report": "wird berichten",
+  "portfolio_earnings_after_close": "nach Börsenschluss.",
+  "portfolio_earnings_before_open": "vor Börseneröffnung.",
+  "portfolio_earnings_during_market": "während der Handelszeit.",
+  "portfolio_earnings_analysts_estimate": "Analysten schätzen",
+  "portfolio_earnings_in_revenue": "an Revenue",
+  "portfolio_earnings_yoy": "ggü. Vj.",
+  "portfolio_earnings_and": "und",
+  "portfolio_earnings_in_eps": "an Earnings per Share",
+
+  "portfolio_analysis_seo_title": "Portfolio-Analyse - KI-Insights, Fundamentaldaten & Diversifikation",
+  "portfolio_analysis_seo_description": "Erhalte KI-gestützte Bull/Bear-Analysen, Bewertungskennzahlen, Wachstums-Insights und Diversifikations-Aufschlüsselung für dein Aktienportfolio. Vergleiche deine Holdings mit Markt-Benchmarks.",
+  "portfolio_analysis_seo_keywords": "Portfolio-Analyse, KI-Portfolio-Insights, Bull-Bear-Analyse, Portfolio-Bewertung, Wachstumskennzahlen, Portfolio-Diversifikation, Investment-Analyse, Portfolio-Fundamentaldaten, Aktienanalyse, Markt-Benchmarks",
+  "portfolio_analysis_structured_name": "Portfolio-Analyse",
+  "portfolio_analysis_structured_description": "Umfassendes Portfolio-Analyse-Tool mit KI-gestützten Bull/Bear-Insights, Bewertungskennzahlen, Wachstumsanalyse, Effizienz-Ratios und Diversifikations-Aufschlüsselung.",
+
+  "portfolio_analysis_vs_market_title": "Portfolio vs US-Markt",
+  "portfolio_analysis_vs_market_description": "Zeigt die gewichteten Durchschnitte deines Portfolios für Bewertung, Wachstum, Effizienz und Margen im Vergleich zu US-Markt-Benchmarks - und zeigt, ob deine Holdings teuer/günstig, wachsend/schrumpfend, effizient und profitabel im Vergleich zum Gesamtmarkt sind."
+}

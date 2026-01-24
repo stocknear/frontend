@@ -1,0 +1,41 @@
+{
+  "price_alert_breadcrumb_home": "Startseite",
+  "price_alert_breadcrumb_price_alert": "Preisalarm",
+
+  "price_alert_seo_title": "Aktien-Preisalarme - Echtzeit-Preisbenachrichtigungen & Markt-Updates",
+  "price_alert_seo_description": "Erstelle individuelle Aktien-Preisalarme und erhalte sofortige Benachrichtigungen, wenn deine Zielpreise erreicht werden. Verfolge Earnings, News und Kursbewegungen für deine Watchlist mit Echtzeit-Marktdaten.",
+  "price_alert_seo_keywords": "Aktien-Preisalarme, Preisbenachrichtigungen, Aktienalarme, Kursziele, Earnings-Kalender, Aktien-News-Feed, Echtzeit-Alarme, Marktbenachrichtigungen, Aktien-Watchlist, Kursüberwachung",
+  "price_alert_structured_name": "Preisalarme - Stocknear",
+  "price_alert_structured_description": "Echtzeit-Aktienpreis-Alarmsystem mit sofortigen Benachrichtigungen",
+
+  "price_alert_main_title": "Preisalarme",
+
+  "price_alert_search_placeholder": "Suchen...",
+  "price_alert_no_results": "Keine Ergebnisse gefunden",
+  "price_alert_edit_alert": "Alarm bearbeiten",
+  "price_alert_cancel": "Abbrechen",
+
+  "price_alert_empty_title": "Keine Alarme gesetzt",
+  "price_alert_empty_description": "Erstelle Preisalarme für Aktien, die deiner Meinung nach das größte Potenzial haben.",
+  "price_alert_get_started": "Jetzt starten",
+
+  "price_alert_tab_news": "Nachrichten",
+  "price_alert_tab_earnings": "Earnings-Termine",
+  "price_alert_no_news": "Noch keine News. Füge Aktien zur Preisalarm-Liste hinzu, um die neuesten Nachrichten zu sehen.",
+  "price_alert_no_earnings": "Noch keine Earnings. Füge Aktien zur Alarm-Liste hinzu, um die neuesten Earnings-Daten zu sehen.",
+
+  "price_alert_toast_deleted": "Preisalarme erfolgreich gelöscht",
+  "price_alert_toast_select_symbols": "Du musst Symbole auswählen, bevor du sie löschen kannst",
+
+  "price_alert_earnings_will_report_today": "wird heute berichten",
+  "price_alert_earnings_will_report_tomorrow": "wird morgen berichten",
+  "price_alert_earnings_will_report_monday": "wird am Montag berichten",
+  "price_alert_earnings_after_close": "nach Börsenschluss.",
+  "price_alert_earnings_before_open": "vor Börseneröffnung.",
+  "price_alert_earnings_during_market": "während der Handelszeit.",
+  "price_alert_earnings_analysts_estimate": "Analysten schätzen",
+  "price_alert_earnings_in_revenue": "an Revenue",
+  "price_alert_earnings_yoy": "ggü. Vj.",
+  "price_alert_earnings_and": "und",
+  "price_alert_earnings_in_eps": "an Earnings per Share"
+}

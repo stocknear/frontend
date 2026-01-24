@@ -1,0 +1,50 @@
+{
+  "notifications_breadcrumb_home": "Startseite",
+  "notifications_breadcrumb_notifications": "Benachrichtigungen",
+
+  "notifications_seo_title": "Aktienmarkt-Benachrichtigungen | Echtzeit-Updates & Alarme",
+  "notifications_seo_description": "Bleib informiert mit Echtzeit-Aktienmarkt-Benachrichtigungen. Erhalte sofortige Alarme zu Kursänderungen, Trends und Marktbewegungen für klügere Investmententscheidungen.",
+
+  "notifications_main_title": "Benachrichtigung",
+  "notifications_alerts_count": "{count} Alarme",
+
+  "notifications_mark_all_read": "Alle als gelesen markieren",
+  "notifications_marking": "Markiere...",
+  "notifications_settings": "Einstellungen",
+  "notifications_customize": "Benachrichtigungen anpassen",
+
+  "notifications_channel_earnings_surprise": "Earnings Surprise",
+  "notifications_channel_wiim": "Why Price Moved",
+  "notifications_channel_top_analyst": "Top Analyst Rating",
+  "notifications_no_channels": "Keine Benachrichtigungskanäle verfügbar.",
+
+  "notifications_empty": "Du hast noch keine Benachrichtigungen.",
+
+  "notifications_pagination_previous": "Zurück",
+  "notifications_pagination_next": "Weiter",
+  "notifications_pagination_page_of": "Seite {current} von {total}",
+  "notifications_pagination_rows": "{count} Zeilen",
+  "notifications_back_to_top": "Nach oben",
+
+  "notifications_modal_delete_title": "Alle Benachrichtigungen löschen",
+  "notifications_modal_delete_confirm": "Bist du sicher, dass du alle Benachrichtigungen löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "notifications_modal_delete_button": "Benachrichtigungen löschen",
+  "notifications_modal_deleting": "Lösche...",
+  "notifications_modal_cancel": "Abbrechen",
+  "notifications_delete_error": "Benachrichtigungen konnten nicht gelöscht werden. Bitte versuche es erneut.",
+
+  "notifications_type_price_alert_triggered": "Preisalarm ausgelöst für",
+  "notifications_type_price_is": "Der Preis von",
+  "notifications_type_is_condition": "ist {condition} deinem Ziel von",
+  "notifications_type_breaking_news": "BREAKING News für",
+  "notifications_type_wiim_new_data": "Neue Daten für das \"Why Price Moved\"-Event sind verfügbar.",
+  "notifications_type_top_analyst_new": "Neues Top Analyst Rating für",
+  "notifications_type_top_analyst_rating": "Das Rating-Unternehmen {analyst} hat ein neues Rating von \"{rating}\" mit einem aktualisierten Kursziel von {price} veröffentlicht.",
+  "notifications_type_earnings_release": "Earnings Release für",
+  "notifications_type_earnings_surprise_new": "Neue Daten für das \"Earnings Surprise\"-Event sind verfügbar.",
+
+  "notifications_sidebar_watchlist": "Watchlist",
+  "notifications_sidebar_watchlist_description": "Erhalte Echtzeit-Updates deiner Lieblingsaktien",
+  "notifications_sidebar_portfolio": "Portfolio-Tracker",
+  "notifications_sidebar_portfolio_description": "Erhalte Echtzeit-Updates deines Portfolios"
+}

@@ -18,6 +18,8 @@
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
 
@@ -59,6 +61,33 @@
 
   const tabs = ["News", "Earnings Release"];
 
+  // Tab translation helper
+  function getTabLabel(tab: string): string {
+    const tabLabels: Record<string, () => string> = {
+      "News": () => m.price_alert_tab_news(),
+      "Earnings Release": () => m.price_alert_tab_earnings(),
+    };
+    return tabLabels[tab]?.() ?? tab;
+  }
+
+  // Locale-aware time formatting for news
+  function formatTimeLocale(dateStr: string): string {
+    const date = new Date(dateStr);
+    const locale = getLocale();
+    if (locale === "de") {
+      return date.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }) + " Uhr";
+    }
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
+
   async function handleFilter(priceAlertId) {
     const filterSet = new Set(deletePriceAlertList);
 
@@ -76,11 +105,11 @@
 
   async function handleDeleteTickers() {
     if (numberOfChecked === 0) {
-      toast?.error(`You need to select symbols before you can delete them`, {
+      toast?.error(m.price_alert_toast_select_symbols(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
-      toast.success(`Price alerts deleted successfully`, {
+      toast.success(m.price_alert_toast_deleted(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
 
@@ -258,15 +287,14 @@
 </script>
 
 <SEO
-  title="Stock Price Alerts - Real-Time Price Notifications & Market Updates"
-  description="Create custom stock price alerts and get instant notifications when your target prices are hit. Track earnings, news, and price movements for your watchlist with real-time market data."
-  keywords="stock price alerts, price notifications, stock alerts, price targets, earnings calendar, stock news feed, real-time alerts, market notifications, stock watchlist, price monitoring"
+  title={m.price_alert_seo_title()}
+  description={m.price_alert_seo_description()}
+  keywords={m.price_alert_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Price Alerts - Stocknear",
-    description:
-      "Real-time stock price alert system with instant notifications",
+    name: m.price_alert_structured_name(),
+    description: m.price_alert_structured_description(),
     applicationCategory: "FinanceApplication",
     offers: {
       "@type": "Offer",
@@ -294,10 +322,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.price_alert_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">Price Alert</li>
+    <li class="text-gray-500 dark:text-zinc-400">{m.price_alert_breadcrumb_price_alert()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -310,7 +338,7 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Price Alerts
+              {m.price_alert_main_title()}
             </h1>
           </div>
 
@@ -357,10 +385,10 @@
                     >
                     {#if !editMode}
                       <span class="ml-1 text-[0.85rem] sm:text-sm">
-                        Edit Alert
+                        {m.price_alert_edit_alert()}
                       </span>
                     {:else}
-                      <span class="ml-1 text-sm sm:text-[1rem]"> Cancel </span>
+                      <span class="ml-1 text-sm sm:text-[1rem]"> {m.price_alert_cancel()} </span>
                     {/if}
                   </label>
                 </div>
@@ -376,8 +404,8 @@
                     <Combobox.Input
                       on:input={search}
                       class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
-                      placeholder="Find..."
-                      aria-label="Find..."
+                      placeholder={m.price_alert_search_placeholder()}
+                      aria-label={m.price_alert_search_placeholder()}
                     />
                   </div>
                   <Combobox.Content
@@ -408,7 +436,7 @@
                         <span
                           class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                         >
-                          No results found
+                          {m.price_alert_no_results()}
                         </span>
                       {/each}
                     {:else}
@@ -416,7 +444,7 @@
                         class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class=" text-sm text-gray-500 dark:text-zinc-400">
-                          No results found
+                          {m.price_alert_no_results()}
                         </span>
                       </Combobox.Item>
                     {/if}
@@ -575,7 +603,7 @@
                                 ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                 : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                             >
-                              {item}
+                              {getTabLabel(item)}
                             </button>
                           {/each}
                         </div>
@@ -603,13 +631,7 @@
                             <div
                               class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                             >
-                              {new Date(
-                                items[0].publishedDate,
-                              ).toLocaleTimeString("en-US", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                hour12: true,
-                              })}
+                              {formatTimeLocale(items[0].publishedDate)}
                             </div>
                             <div class="grow px-3 py-2 lg:py-1">
                               <h4 class="text-sm lg:text-base">
@@ -619,13 +641,7 @@
                                 class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
                               >
                                 <div class=" lg:hidden">
-                                  {new Date(
-                                    items[0].publishedDate,
-                                  ).toLocaleTimeString("en-US", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    hour12: true,
-                                  })}
+                                  {formatTimeLocale(items[0].publishedDate)}
                                 </div>
                                 <div class="flex flex-wrap gap-x-2">
                                   {#each symbols as symbol}
@@ -647,8 +663,7 @@
                     <div
                       class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300"
                     >
-                      No news yet. Add some stocks to the price alert list to
-                      see the latest news.
+                      {m.price_alert_no_news()}
                     </div>
                   {/if}
                 {:else if groupedEarnings?.length > 0}
@@ -679,7 +694,7 @@
                               <strong>{item?.name}</strong>
                               (<HoverStockChart symbol={item?.symbol} />)
                               {item?.isToday
-                                ? "will report today"
+                                ? m.price_alert_earnings_will_report_today()
                                 : [
                                       "Monday",
                                       "Tuesday",
@@ -690,28 +705,27 @@
                                         weekday: "long",
                                       }),
                                     )
-                                  ? "will report tomorrow"
-                                  : "will report Monday"}
+                                  ? m.price_alert_earnings_will_report_tomorrow()
+                                  : m.price_alert_earnings_will_report_monday()}
                               {#if item?.time}
                                 {#if compareTimes(item?.time, "16:00") >= 0}
-                                  after market closes.
+                                  {m.price_alert_earnings_after_close()}
                                 {:else if compareTimes(item?.time, "09:30") <= 0}
-                                  before market opens.
+                                  {m.price_alert_earnings_before_open()}
                                 {:else}
-                                  during market.
+                                  {m.price_alert_earnings_during_market()}
                                 {/if}
                               {/if}
-                              Analysts estimate {abbreviateNumber(
+                              {m.price_alert_earnings_analysts_estimate()} {abbreviateNumber(
                                 item?.revenueEst,
-                              )} in revenue ({(
+                              )} {m.price_alert_earnings_in_revenue()} ({(
                                 (item?.revenueEst / item?.revenuePrior - 1) *
                                 100
-                              )?.toFixed(2)}% YoY) and {item?.epsEst} in earnings
-                              per share {#if item?.epsPrior !== 0}
+                              )?.toFixed(2)}% {m.price_alert_earnings_yoy()}) {m.price_alert_earnings_and()} {item?.epsEst} {m.price_alert_earnings_in_eps()} {#if item?.epsPrior !== 0}
                                 ({(
                                   (item?.epsEst / item?.epsPrior - 1) *
                                   100
-                                )?.toFixed(2)}% YoY).
+                                )?.toFixed(2)}% {m.price_alert_earnings_yoy()}).
                               {/if}
                             </div>
 
@@ -731,8 +745,7 @@
                   <div
                     class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300"
                   >
-                    No earnings yet. Add some stocks to the alert list to see
-                    the latest earnings data.
+                    {m.price_alert_no_earnings()}
                   </div>
                 {/if}
               </div>
@@ -741,14 +754,13 @@
           {#if priceAlertList?.length === 0}
             <div class="flex flex-col justify-center items-center m-auto mt-14">
               <span class=" font-bold text-xl sm:text-3xl">
-                No Alerts set
+                {m.price_alert_empty_title()}
               </span>
 
               <span
                 class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-gray-600 dark:text-zinc-300"
               >
-                Create price alerts for your stocks that have the most potential
-                in your opinion.
+                {m.price_alert_empty_description()}
               </span>
 
               {#if !data?.user}
@@ -756,7 +768,7 @@
                   class="w-64 flex mt-10 justify-center items-center m-auto rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 group"
                   href="/register"
                 >
-                  Get Started
+                  {m.price_alert_get_started()}
                   <span
                     class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
                   >

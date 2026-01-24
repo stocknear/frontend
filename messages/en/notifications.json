@@ -1,0 +1,50 @@
+{
+  "notifications_breadcrumb_home": "Home",
+  "notifications_breadcrumb_notifications": "Notifications",
+
+  "notifications_seo_title": "Stock Market Notifications | Real-Time Updates & Alerts",
+  "notifications_seo_description": "Stay informed with real-time stock market notifications. Get instant alerts on price changes, trends, and market movements to make smarter investment decisions.",
+
+  "notifications_main_title": "Notification",
+  "notifications_alerts_count": "{count} Alerts",
+
+  "notifications_mark_all_read": "Mark all as read",
+  "notifications_marking": "Marking...",
+  "notifications_settings": "Settings",
+  "notifications_customize": "Customize your notifications",
+
+  "notifications_channel_earnings_surprise": "Earnings Surprise",
+  "notifications_channel_wiim": "Why Price Moved",
+  "notifications_channel_top_analyst": "Top Analyst Rating",
+  "notifications_no_channels": "No notification channels available.",
+
+  "notifications_empty": "You have no notifications yet.",
+
+  "notifications_pagination_previous": "Previous",
+  "notifications_pagination_next": "Next",
+  "notifications_pagination_page_of": "Page {current} of {total}",
+  "notifications_pagination_rows": "{count} Rows",
+  "notifications_back_to_top": "Back to Top",
+
+  "notifications_modal_delete_title": "Delete All Notifications",
+  "notifications_modal_delete_confirm": "Are you sure you want to delete all notifications? This action cannot be undone.",
+  "notifications_modal_delete_button": "Delete Notifications",
+  "notifications_modal_deleting": "Deleting...",
+  "notifications_modal_cancel": "Cancel",
+  "notifications_delete_error": "Failed to delete notifications. Please try again.",
+
+  "notifications_type_price_alert_triggered": "Price Alert triggered for",
+  "notifications_type_price_is": "The price of",
+  "notifications_type_is_condition": "is {condition} your target of",
+  "notifications_type_breaking_news": "BREAKING News for",
+  "notifications_type_wiim_new_data": "New data for \"Why Price Moved\" event is out.",
+  "notifications_type_top_analyst_new": "New Top Analyst Rating for",
+  "notifications_type_top_analyst_rating": "The rating company {analyst} has issued a new rating of \"{rating}\" with an updated price target of {price}.",
+  "notifications_type_earnings_release": "Earnings Release for",
+  "notifications_type_earnings_surprise_new": "New data for \"Earnings Surprise\" event is out.",
+
+  "notifications_sidebar_watchlist": "Watchlist",
+  "notifications_sidebar_watchlist_description": "Get realtime updates of your favorite stocks",
+  "notifications_sidebar_portfolio": "Portfolio Tracker",
+  "notifications_sidebar_portfolio_description": "Get realtime updates of your portfolio"
+}

@@ -3,6 +3,7 @@
     import BullvsBear from "$lib/components/Portfolio/BullvsBear.svelte";
     import Diversification from "$lib/components/Portfolio/Diversification.svelte";
     import SEO from "$lib/components/SEO.svelte";
+    import * as m from "$lib/paraglide/messages";
 
     export let data;
 
@@ -25,30 +26,27 @@
 </script>
 
 <SEO
-    title="Portfolio Analysis - AI Insights, Fundamentals & Diversification"
-    description="Get AI-powered bull/bear analysis, valuation metrics, growth insights, and diversification breakdown for your stock portfolio. Compare your holdings against market benchmarks."
-    keywords="portfolio analysis, AI portfolio insights, bull bear analysis, portfolio valuation, growth metrics, portfolio diversification, investment analysis, portfolio fundamentals, stock analysis, market benchmarks"
+    title={m.portfolio_analysis_seo_title()}
+    description={m.portfolio_analysis_seo_description()}
+    keywords={m.portfolio_analysis_seo_keywords()}
     canonical="https://stocknear.com/portfolio/analysis"
     openGraph={{
         type: "website",
         url: "https://stocknear.com/portfolio/analysis",
-        title: "Portfolio Analysis - AI Insights & Fundamentals",
-        description:
-            "AI-powered portfolio analysis with bull/bear insights, valuation, growth, efficiency, margins, and diversification breakdown.",
+        title: m.portfolio_analysis_seo_title(),
+        description: m.portfolio_analysis_seo_description(),
     }}
     twitter={{
         card: "summary",
-        title: "Portfolio Analysis - AI Insights & Fundamentals",
-        description:
-            "AI-powered portfolio analysis with bull/bear insights, valuation, growth, efficiency, margins, and diversification breakdown.",
+        title: m.portfolio_analysis_seo_title(),
+        description: m.portfolio_analysis_seo_description(),
     }}
     structuredData={{
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        name: "Portfolio Analysis",
-        alternateName: "Stock Portfolio Analysis Tool",
-        description:
-            "Comprehensive portfolio analysis tool with AI-powered bull/bear insights, valuation metrics, growth analysis, efficiency ratios, and diversification breakdown.",
+        name: m.portfolio_analysis_structured_name(),
+        alternateName: m.portfolio_analysis_structured_name(),
+        description: m.portfolio_analysis_structured_description(),
         url: "https://stocknear.com/portfolio/analysis",
         isAccessibleForFree: true,
         inLanguage: "en",
@@ -79,19 +77,19 @@
                 {
                     "@type": "ListItem",
                     position: 1,
-                    name: "Home",
+                    name: m.portfolio_breadcrumb_home(),
                     item: "https://stocknear.com",
                 },
                 {
                     "@type": "ListItem",
                     position: 2,
-                    name: "Portfolio",
+                    name: m.portfolio_breadcrumb_portfolio(),
                     item: "https://stocknear.com/portfolio",
                 },
                 {
                     "@type": "ListItem",
                     position: 3,
-                    name: "Analysis",
+                    name: m.portfolio_breadcrumb_analysis(),
                     item: "https://stocknear.com/portfolio/analysis",
                 },
             ],
@@ -122,14 +120,10 @@
             <h2
                 class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
             >
-                Portfolio vs US Market
+                {m.portfolio_analysis_vs_market_title()}
             </h2>
             <p class="mb-4 text-sm text-gray-800 dark:text-zinc-300 max-w-3xl">
-                Shows your portfolio's weighted-average Valuation, Growth,
-                Efficiency and Margins compared to US market benchmarks -
-                revealing if your holdings are expensive/cheap,
-                growing/shrinking, efficient and profitable vs the broader
-                market.
+                {m.portfolio_analysis_vs_market_description()}
             </p>
 
             <Fundamentals title="Valuation" data={valuationData} />
