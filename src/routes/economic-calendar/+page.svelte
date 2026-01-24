@@ -1,5 +1,8 @@
 <script lang="ts">
   import { format, startOfWeek, addDays, addWeeks, subWeeks } from "date-fns";
+  import { de, enUS } from "date-fns/locale";
+  import { getLocale } from "$lib/paraglide/runtime.js";
+  import * as m from "$lib/paraglide/messages";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber, listOfRelevantCountries } from "$lib/utils";
 
@@ -75,8 +78,17 @@
   $: economicCalendar = data?.getEconomicCalendar;
   // Calculate the week days
   $: daysOfWeek = getDaysOfWeek(currentWeek);
+  // Get date-fns locale based on current language
+  function getDateLocale() {
+    try {
+      return getLocale() === "de" ? de : enUS;
+    } catch {
+      return enUS;
+    }
+  }
+
   // Format days for header labels
-  $: formattedWeekday = daysOfWeek.map((day) => format(day.date, "EEE, MMM d"));
+  $: formattedWeekday = daysOfWeek.map((day) => format(day.date, "EEE, MMM d", { locale: getDateLocale() }));
 
   // Recalculate weekday data when the economicCalendar or days change – but only when not sorting
   $: if (!sortMode) {
@@ -611,15 +623,14 @@
 </script>
 
 <SEO
-  title="Economic Calendar - Live Market-Moving Events & Financial Data Releases"
-  description="Stay ahead with our comprehensive economic calendar featuring real-time financial events, economic indicators, and market-moving data releases. Track GDP, inflation, employment data, central bank meetings, and key economic announcements with precise timing and forecasts. Essential tool for traders and investors to anticipate market volatility."
-  keywords="economic calendar, financial events, market calendar, economic indicators, GDP release, inflation data, employment statistics, central bank meetings, economic news, market-moving events, financial data releases, economic announcements, trading calendar, investment planning"
+  title={m.economic_seo_title()}
+  description={m.economic_seo_description()}
+  keywords={m.economic_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Economic Calendar",
-    description:
-      "Comprehensive economic calendar tracking global financial events, economic indicators, and market-moving data releases",
+    name: m.economic_structured_name(),
+    description: m.economic_structured_description(),
     url: "https://stocknear.com/economic-calendar",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
@@ -630,13 +641,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: m.economic_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Economic Calendar",
+          name: m.economic_breadcrumb_calendar(),
           item: "https://stocknear.com/economic-calendar",
         },
       ],
@@ -675,10 +686,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.economic_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Economic Calendar</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.economic_breadcrumb_calendar()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -691,7 +702,7 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Economic Calendar
+              {m.economic_main_name()}
             </h1>
           </div>
 
@@ -750,7 +761,7 @@
                         >
                           <span class="text-md">{formattedWeekday[index]}</span>
                           <span class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
-                            >{day?.length} Events</span
+                            >{m.economic_count_events({ count: day?.length })}</span
                           >
                         </div>
                         <label
@@ -798,7 +809,7 @@
                         builders={[builder]}
                         class={dropdownButtonClasses}
                       >
-                        <span class="truncate">Filter Country</span>
+                        <span class="truncate">{m.economic_filter_country()}</span>
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -831,7 +842,7 @@
                           on:input={handleInput}
                           autocomplete="off"
                           class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-200 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 bg-transparent"
-                          placeholder="Search..."
+                          placeholder={m.economic_filter_search()}
                         />
                         {#if searchQuery?.length > 0}
                           <label
@@ -874,7 +885,7 @@
                           <DropdownMenu.Item
                             class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:hover:text-violet-400 transition"
                           >
-                            No country found
+                            {m.economic_filter_no_country()}
                           </DropdownMenu.Item>
                         {/each}
                       </DropdownMenu.Group>
@@ -887,7 +898,7 @@
                         builders={[builder]}
                         class={dropdownButtonClasses}
                       >
-                        <span class="truncate">Filter Importance</span>
+                        <span class="truncate">{m.economic_filter_importance()}</span>
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -973,7 +984,7 @@
                           <path d="M7.5 6.5h-4v-4" />
                         </g>
                       </svg>
-                      Reset All
+                      {m.economic_filter_reset()}
                     </Button>
                   {/if}
                 </div>
@@ -991,14 +1002,13 @@
                           <h2
                             class="font-semibold text-xl text-gray-900 dark:text-white"
                           >
-                            {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
-                            Events
+                            {formattedWeekday[index]?.split(", ")[1]} · {m.economic_count_events({ count: day?.length })}
                           </h2>
                           {#if filterList.length !== 0}
                             <div
                               class="text-sm flex flex-row items-center text-gray-600 dark:text-zinc-300"
                             >
-                              <span>Filters</span>
+                              <span>{m.economic_filters_label()}</span>
                               <span
                                 class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-white/80 dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
                               >
@@ -1038,7 +1048,7 @@
                               bind:value={tableSearchValue}
                               on:input={tableSearch}
                               type="text"
-                              placeholder="Find..."
+                              placeholder={m.economic_search_placeholder()}
                               class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
@@ -1276,7 +1286,7 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">Previous</span
+                              <span class="hidden sm:inline">{m.economic_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1285,7 +1295,7 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              Page {dailyCurrentPage} of {dailyTotalPages}
+                              {m.economic_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1296,7 +1306,7 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{dailyRowsPerPage} Rows</span
+                                    >{m.economic_pagination_rows({ count: dailyRowsPerPage })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1331,7 +1341,7 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{item} Rows</span>
+                                        <span class="text-sm">{m.economic_pagination_rows({ count: item })}</span>
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1347,7 +1357,7 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">Next</span>
+                              <span class="hidden sm:inline">{m.economic_pagination_next()}</span>
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1370,7 +1380,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            Back to Top <svg
+                            {m.economic_back_to_top()} <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1387,21 +1397,21 @@
                         </div>
                       {/if}
                     {:else}
-                      <Infobox text="No Events available for the day." />
+                      <Infobox text={m.economic_empty_day()} />
                     {/if}
                   {/if}
                 {/each}
                 <div
                   class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 p-3 mt-6"
                 >
-                  <strong>Source:</strong> Economic Calendar provided by
+                  <strong>{m.economic_source_label()}</strong> {m.economic_source_text()}
                   <a
                     href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                     target="_blank"
                     rel="noopener"
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                    >Financial Modeling Prep</a
-                  > and times are shown in ET (Eastern Time).
+                    >{m.economic_source_provider()}</a
+                  > {m.economic_source_times()}
                 </div>
               </div>
             </div>

@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Startseite",
+  "economic_breadcrumb_calendar": "Wirtschaftskalender",
+
+  "economic_seo_title": "Wirtschaftskalender - Live-Marktereignisse & Finanzdaten-Veröffentlichungen",
+  "economic_seo_description": "Bleib mit unserem umfassenden Wirtschaftskalender auf dem Laufenden. Echtzeit-Finanzevents, Wirtschaftsindikatoren und marktbewegende Datenveröffentlichungen. Verfolge BIP, Inflation, Beschäftigungsdaten, Zentralbanksitzungen und wichtige Wirtschaftsankündigungen mit präzisem Timing und Prognosen.",
+  "economic_seo_keywords": "Wirtschaftskalender, Finanzevents, Marktkalender, Wirtschaftsindikatoren, BIP-Veröffentlichung, Inflationsdaten, Beschäftigungsstatistiken, Zentralbanksitzungen, Wirtschaftsnachrichten, marktbewegende Events, Finanzdaten-Veröffentlichungen, Wirtschaftsankündigungen, Trading-Kalender, Investitionsplanung",
+  "economic_structured_name": "Wirtschaftskalender",
+  "economic_structured_description": "Umfassender Wirtschaftskalender zur Verfolgung globaler Finanzevents, Wirtschaftsindikatoren und marktbewegender Datenveröffentlichungen",
+
+  "economic_main_name": "Wirtschaftskalender",
+  "economic_count_events": "{count} Events",
+  "economic_empty_day": "Keine Events für den Tag verfügbar.",
+
+  "economic_filter_country": "Land filtern",
+  "economic_filter_importance": "Wichtigkeit filtern",
+  "economic_filter_reset": "Zurücksetzen",
+  "economic_filter_search": "Suchen...",
+  "economic_filter_no_country": "Kein Land gefunden",
+  "economic_filters_label": "Filter",
+
+  "economic_pagination_previous": "Zurück",
+  "economic_pagination_next": "Weiter",
+  "economic_pagination_page_of": "Seite {current} von {total}",
+  "economic_pagination_rows": "{count} Zeilen",
+  "economic_back_to_top": "Nach oben",
+  "economic_search_placeholder": "Suchen...",
+
+  "economic_source_label": "Quelle:",
+  "economic_source_text": "Wirtschaftskalender bereitgestellt von",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "und Zeiten werden in ET (Eastern Time) angezeigt."
+}

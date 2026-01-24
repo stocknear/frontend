@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Home",
+  "economic_breadcrumb_calendar": "Economic Calendar",
+
+  "economic_seo_title": "Economic Calendar - Live Market-Moving Events & Financial Data Releases",
+  "economic_seo_description": "Stay ahead with our comprehensive economic calendar featuring real-time financial events, economic indicators, and market-moving data releases. Track GDP, inflation, employment data, central bank meetings, and key economic announcements with precise timing and forecasts. Essential tool for traders and investors to anticipate market volatility.",
+  "economic_seo_keywords": "economic calendar, financial events, market calendar, economic indicators, GDP release, inflation data, employment statistics, central bank meetings, economic news, market-moving events, financial data releases, economic announcements, trading calendar, investment planning",
+  "economic_structured_name": "Economic Calendar",
+  "economic_structured_description": "Comprehensive economic calendar tracking global financial events, economic indicators, and market-moving data releases",
+
+  "economic_main_name": "Economic Calendar",
+  "economic_count_events": "{count} Events",
+  "economic_empty_day": "No Events available for the day.",
+
+  "economic_filter_country": "Filter Country",
+  "economic_filter_importance": "Filter Importance",
+  "economic_filter_reset": "Reset All",
+  "economic_filter_search": "Search...",
+  "economic_filter_no_country": "No country found",
+  "economic_filters_label": "Filters",
+
+  "economic_pagination_previous": "Previous",
+  "economic_pagination_next": "Next",
+  "economic_pagination_page_of": "Page {current} of {total}",
+  "economic_pagination_rows": "{count} Rows",
+  "economic_back_to_top": "Back to Top",
+  "economic_search_placeholder": "Find...",
+
+  "economic_source_label": "Source:",
+  "economic_source_text": "Economic Calendar provided by",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "and times are shown in ET (Eastern Time)."
+}
