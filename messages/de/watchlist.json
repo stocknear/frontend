@@ -28,8 +28,8 @@
 
   "watchlist_count_stocks": "{count} Aktien",
 
-  "watchlist_tab_news": "News",
-  "watchlist_tab_earnings": "Earnings Release",
+  "watchlist_tab_news": "Nachrichten",
+  "watchlist_tab_earnings": "Earnings-Termine",
   "watchlist_no_news": "Noch keine News. Füge Aktien zur Watchlist hinzu, um die neuesten Nachrichten zu sehen.",
   "watchlist_no_earnings": "Keine Earnings-Daten verfügbar. Füge Aktien zur Watchlist hinzu, um die neuesten Earnings-Daten zu sehen.",
 
@@ -59,7 +59,7 @@
   "watchlist_earnings_during_market": "während der Handelszeit.",
   "watchlist_earnings_analysts_estimate": "Analysten schätzen",
   "watchlist_earnings_in_revenue": "an Revenue",
-  "watchlist_earnings_yoy": "YoY",
+  "watchlist_earnings_yoy": "ggü. Vj.",
   "watchlist_earnings_and": "und",
   "watchlist_earnings_in_eps": "an Earnings per Share"
 }
