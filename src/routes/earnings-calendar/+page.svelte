@@ -7,6 +7,8 @@
     subWeeks,
     differenceInWeeks,
   } from "date-fns";
+  import { de, enUS } from "date-fns/locale";
+  import { getLocale } from "$lib/paraglide/runtime.js";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -56,6 +58,36 @@
     { value: "bmo", label: "Before Open", isPremium: true },
     { value: "amc", label: "After Close", isPremium: true },
   ];
+
+  // Tab label translation helper
+  function getTabLabel(tab: string): string {
+    const tabLabels: Record<string, () => string> = {
+      "Daily": m.earnings_tab_daily,
+      "Weekly": m.earnings_tab_weekly,
+      "Details": m.earnings_tab_details,
+      "Compact": m.earnings_tab_compact,
+    };
+    return tabLabels[tab]?.() ?? tab;
+  }
+
+  // Time option label translation helper
+  function getTimeLabel(value: string): string {
+    const timeLabels: Record<string, () => string> = {
+      "anytime": m.earnings_time_any,
+      "bmo": m.earnings_time_before_open,
+      "amc": m.earnings_time_after_close,
+    };
+    return timeLabels[value]?.() ?? value;
+  }
+
+  // Get date-fns locale based on current language
+  function getDateLocale() {
+    try {
+      return getLocale() === "de" ? de : enUS;
+    } catch {
+      return enUS;
+    }
+  }
 
   function handleTimeOptionClick(option) {
     if (option.isPremium && !["Plus", "Pro"]?.includes(data?.user?.tier)) {
@@ -430,11 +462,12 @@
     }
 
     formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
-    formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d");
-    formattedWednesday = format(addDays(formattedMonday, 2), "EEE, MMM d");
-    formattedThursday = format(addDays(formattedMonday, 3), "EEE, MMM d");
-    formattedFriday = format(addDays(formattedMonday, 4), "EEE, MMM d");
-    formattedMonday = format(formattedMonday, "EEE, MMM d");
+    const locale = getDateLocale();
+    formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d", { locale });
+    formattedWednesday = format(addDays(formattedMonday, 2), "EEE, MMM d", { locale });
+    formattedThursday = format(addDays(formattedMonday, 3), "EEE, MMM d", { locale });
+    formattedFriday = format(addDays(formattedMonday, 4), "EEE, MMM d", { locale });
+    formattedMonday = format(formattedMonday, "EEE, MMM d", { locale });
 
     formattedWeekday = [
       formattedMonday,
@@ -707,7 +740,7 @@
                       builders={[builder]}
                       class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                     >
-                      <span class="truncate">Time of Day</span>
+                      <span class="truncate">{m.earnings_time_of_day()}</span>
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -739,7 +772,7 @@
                           <span
                             class="flex items-center justify-between w-full"
                           >
-                            {option.label}
+                            {getTimeLabel(option.value)}
                             {#if option.isPremium && !["Plus", "Pro"]?.includes(data?.user?.tier)}
                               <svg
                                 class=" w-3.5 h-3.5"
@@ -775,7 +808,7 @@
                         ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                         : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                     >
-                      {item}
+                      {getTabLabel(item)}
                     </button>
                   {/each}
                 </div>
@@ -1141,7 +1174,7 @@
                                             d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
                                           /></svg
                                         >
-                                        After Close
+                                        {m.earnings_time_after_close()}
                                       {:else}
                                         <svg
                                           class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
@@ -1156,7 +1189,7 @@
                                             /></g
                                           ></svg
                                         >
-                                        Before Open
+                                        {m.earnings_time_before_open()}
                                       {/if}
                                     </td>
                                   {/if}
@@ -1412,7 +1445,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >Reports</td
+                                              >{m.earnings_expanded_reports()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1434,7 +1467,7 @@
                                                       d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                                                     ></path>
                                                   </svg>
-                                                  After Close
+                                                  {m.earnings_time_after_close()}
                                                 {:else}
                                                   <svg
                                                     class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
@@ -1449,7 +1482,7 @@
                                                       d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                                                     ></path>
                                                   </svg>
-                                                  Before Open
+                                                  {m.earnings_time_before_open()}
                                                 {/if}
                                               </span>
                                             </td>
@@ -1459,7 +1492,7 @@
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
                                               <td class="py-1.5 text-sm">
-                                                Market Cap
+                                                {m.earnings_expanded_market_cap()}
                                               </td>
                                               <td
                                                 class="text-right font-semibold"
@@ -1479,12 +1512,7 @@
                                               class="py-1.5 text-sm"
                                               title="Estimated Revenue"
                                             >
-                                              Revenue <span
-                                                class="hidden md:inline"
-                                                >Est.</span
-                                              ><span class="inline md:hidden"
-                                                >Estimate</span
-                                              >
+                                              <span class="hidden md:inline">{m.earnings_expanded_revenue_est()}</span><span class="inline md:hidden">{m.earnings_expanded_revenue_estimate()}</span>
                                             </td>
                                             <td
                                               class="text-right font-semibold"
@@ -1521,11 +1549,7 @@
                                               class="pb-0.5 pt-1.5"
                                               title="Estimated EPS"
                                             >
-                                              EPS <span class="hidden md:inline"
-                                                >Est.</span
-                                              ><span class="inline md:hidden"
-                                                >Estimate</span
-                                              >
+                                              <span class="hidden md:inline">{m.earnings_expanded_eps_est()}</span><span class="inline md:hidden">{m.earnings_expanded_eps_estimate()}</span>
                                             </td>
                                             <td
                                               class="text-right font-semibold"
@@ -1720,7 +1744,7 @@
                                     <tr
                                       class=" border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">Reports</td>
+                                      <td class="py-1.5 text-sm">{m.earnings_expanded_reports()}</td>
                                       <td class="text-right font-semibold">
                                         <span
                                           class="flex items-center justify-end"
@@ -1739,7 +1763,7 @@
                                                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                                               />
                                             </svg>
-                                            After Close
+                                            {m.earnings_time_after_close()}
                                           {:else}
                                             <svg
                                               class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
@@ -1754,7 +1778,7 @@
                                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                                               />
                                             </svg>
-                                            Before Open
+                                            {m.earnings_time_before_open()}
                                           {/if}
                                         </span>
                                       </td>
@@ -1764,7 +1788,7 @@
                                         class="border-b border-gray-300 dark:border-zinc-700"
                                       >
                                         <td class="py-1.5 text-sm"
-                                          >Market Cap</td
+                                          >{m.earnings_expanded_market_cap()}</td
                                         >
                                         <td class="text-right font-semibold">
                                           {@html abbreviateNumber(
@@ -1781,7 +1805,7 @@
                                       <td
                                         class="py-1.5 text-sm"
                                         title="Estimated Revenue"
-                                        >Revenue Est.</td
+                                        >{m.earnings_expanded_revenue_est()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {#if item?.revenueEst !== null}
@@ -1825,7 +1849,7 @@
                                     <tr>
                                       <td
                                         class="pb-0.5 pt-1.5"
-                                        title="Estimated EPS">EPS Est.</td
+                                        title="Estimated EPS">{m.earnings_expanded_eps_est()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {item?.epsEst !== null

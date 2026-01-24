@@ -18,8 +18,8 @@
   "dividends_tab_compact": "Kompakt",
 
   "dividends_time_any": "Jederzeit",
-  "dividends_time_before_open": "Vor Börseneröffnung",
-  "dividends_time_after_close": "Nach Börsenschluss",
+  "dividends_time_before_open": "Vor Eröffnung",
+  "dividends_time_after_close": "Nach Schluss",
 
   "dividends_expanded_ex_date": "Ex-Datum",
   "dividends_expanded_market_cap": "Market Cap",

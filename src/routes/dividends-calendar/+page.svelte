@@ -7,6 +7,8 @@
     subWeeks,
     differenceInWeeks,
   } from "date-fns";
+  import { de, enUS } from "date-fns/locale";
+  import { getLocale } from "$lib/paraglide/runtime.js";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -77,6 +79,26 @@
   // Tab options
   const tabs = ["Daily", "Weekly"];
   const mobileTabs = ["Details", "Compact"];
+
+  // Tab label translation helper
+  function getTabLabel(tab: string): string {
+    const tabLabels: Record<string, () => string> = {
+      "Daily": m.dividends_tab_daily,
+      "Weekly": m.dividends_tab_weekly,
+      "Details": m.dividends_tab_details,
+      "Compact": m.dividends_tab_compact,
+    };
+    return tabLabels[tab]?.() ?? tab;
+  }
+
+  // Get date-fns locale based on current language
+  function getDateLocale() {
+    try {
+      return getLocale() === "de" ? de : enUS;
+    } catch {
+      return enUS;
+    }
+  }
 
   function toggleExpanded(dayIndex, itemIndex) {
     const key = `${dayIndex}-${itemIndex}`;
@@ -177,12 +199,13 @@
 
     // Generate formatted weekday labels
     const formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
+    const locale = getDateLocale();
     formattedWeekday = [
-      format(formattedMonday, "EEE, MMM d"),
-      format(addDays(formattedMonday, 1), "EEE, MMM d"),
-      format(addDays(formattedMonday, 2), "EEE, MMM d"),
-      format(addDays(formattedMonday, 3), "EEE, MMM d"),
-      format(addDays(formattedMonday, 4), "EEE, MMM d"),
+      format(formattedMonday, "EEE, MMM d", { locale }),
+      format(addDays(formattedMonday, 1), "EEE, MMM d", { locale }),
+      format(addDays(formattedMonday, 2), "EEE, MMM d", { locale }),
+      format(addDays(formattedMonday, 3), "EEE, MMM d", { locale }),
+      format(addDays(formattedMonday, 4), "EEE, MMM d", { locale }),
     ];
 
     // Generate days of week with dates
@@ -619,7 +642,7 @@
                         ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                         : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                     >
-                      {item}
+                      {getTabLabel(item)}
                     </button>
                   {/each}
                 </div>
@@ -1213,7 +1236,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >Ex-Date</td
+                                              >{m.dividends_expanded_ex_date()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1235,7 +1258,7 @@
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
                                               <td class="py-1.5 text-sm"
-                                                >Market Cap</td
+                                                >{m.dividends_expanded_market_cap()}</td
                                               >
                                               <td
                                                 class="text-right font-semibold"
@@ -1252,7 +1275,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >Amount</td
+                                              >{m.dividends_expanded_amount()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1265,7 +1288,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >Revenue</td
+                                              >{m.dividends_expanded_revenue()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1277,7 +1300,7 @@
                                           </tr>
                                           <tr>
                                             <td class="pb-0.5 pt-1.5">
-                                              Payment Date
+                                              {m.dividends_expanded_payment_date()}
                                             </td>
                                             <td
                                               class="text-right font-semibold"
@@ -1466,7 +1489,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">Dividend</td>
+                                      <td class="py-1.5 text-sm">{m.dividends_expanded_dividend()}</td>
                                       <td class="text-right font-semibold">
                                         ${item?.adjDividend?.toFixed(4) ||
                                           "n/a"}
@@ -1475,7 +1498,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">Revenue</td>
+                                      <td class="py-1.5 text-sm">{m.dividends_expanded_revenue()}</td>
                                       <td class="text-right font-semibold">
                                         {item?.revenue
                                           ? `$${abbreviateNumber(item?.revenue, false, true)}`
@@ -1485,7 +1508,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">Ex-Date</td>
+                                      <td class="py-1.5 text-sm">{m.dividends_expanded_ex_date()}</td>
                                       <td class="text-right font-semibold">
                                         {item?.exDividendDate
                                           ? new Date(
@@ -1499,7 +1522,7 @@
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td class="pb-0.5 pt-1.5">Payment Date</td
+                                      <td class="pb-0.5 pt-1.5">{m.dividends_expanded_payment_date()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {item?.paymentDate

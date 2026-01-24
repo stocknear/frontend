@@ -21,8 +21,8 @@
 
   "earnings_time_of_day": "Tageszeit",
   "earnings_time_any": "Jederzeit",
-  "earnings_time_before_open": "Vor Börseneröffnung",
-  "earnings_time_after_close": "Nach Börsenschluss",
+  "earnings_time_before_open": "Vor Eröffnung",
+  "earnings_time_after_close": "Nach Schluss",
 
   "earnings_expanded_reports": "Berichte",
   "earnings_expanded_market_cap": "Market Cap",
