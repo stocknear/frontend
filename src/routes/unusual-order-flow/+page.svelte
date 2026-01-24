@@ -2097,7 +2097,7 @@
                 <label
                   for={!data?.user ? "userLogin" : ""}
                   on:click={() => handleSave(true)}
-                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"

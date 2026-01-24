@@ -61,5 +61,9 @@
   "options_screener_strategy_volume_surge": "Volume Surge",
   "options_screener_strategy_itm_calls": "ITM Calls",
   "options_screener_strategy_otm_puts": "OTM Puts",
-  "options_screener_strategy_high_premium_flow": "High Premium Flow"
+  "options_screener_strategy_high_premium_flow": "High Premium Flow",
+
+  "options_screener_save": "Speichern",
+  "options_screener_save_as_new": "Neu speichern",
+  "options_screener_reset_all": "Alles zurücksetzen"
 }
