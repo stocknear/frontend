@@ -4,6 +4,8 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime";
 
   export let data;
 
@@ -48,25 +50,24 @@
 </script>
 
 <SEO
-  title="{formatString(
-    companyName,
-  )} Holdings & Portfolio - 13F Filings Analysis"
-  description="Detailed analysis of {formatString(
-    companyName,
-  )} hedge fund holdings, portfolio positions, and investment strategy. Track their latest 13F filings, top stock picks, sector allocation, and performance metrics."
-  keywords="{formatString(companyName)?.toLowerCase()} holdings, {formatString(
-    companyName,
-  )?.toLowerCase()} portfolio, {formatString(
-    companyName,
-  )?.toLowerCase()} 13F filings, hedge fund positions, institutional investor holdings, {formatString(
-    companyName,
-  )?.toLowerCase()} stock picks, hedge fund analysis"
+  title={m.hedge_funds_slug_seo_title({
+    companyName: formatString(companyName),
+  })}
+  description={m.hedge_funds_slug_seo_description({
+    companyName: formatString(companyName),
+  })}
+  keywords={m.hedge_funds_slug_seo_keywords({
+    companyNameLower: formatString(companyName)?.toLowerCase(),
+  })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "{formatString(companyName)} Holdings & Portfolio Analysis",
-    description:
-      "Comprehensive analysis of {formatString(companyName)} hedge fund holdings and investment positions",
+    name: m.hedge_funds_slug_structured_name({
+      companyName: formatString(companyName),
+    }),
+    description: m.hedge_funds_slug_structured_description({
+      companyName: formatString(companyName),
+    }),
     url: "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -74,13 +75,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: m.hedge_funds_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Hedge Funds",
+          name: m.hedge_funds_breadcrumb_hedge_funds(),
           item: "https://stocknear.com/hedge-funds",
         },
         {
@@ -114,14 +115,14 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.hedge_funds_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/hedge-funds"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Hedge Fund</a
+        >{m.hedge_funds_breadcrumb_hedge_fund()}</a
       >
     </li>
 
@@ -164,12 +165,13 @@
                     {formatString(companyName)}
                   </h1>
                   <p class="mb-0.5 text-sm text-gray-800 dark:text-zinc-300">
-                    CIK Number: {data?.getHedgeFundsData?.cik}
+                    {m.hedge_funds_slug_cik_number()}
+                    {data?.getHedgeFundsData?.cik}
                   </p>
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-5 md:p-0 lg:mt-0"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
@@ -180,7 +182,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Market Value
+                    {m.hedge_funds_slug_market_value()}
                   </div>
                 </div>
 
@@ -190,28 +192,13 @@
                   <div
                     class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
                   >
-                    {data?.getHedgeFundsData?.holdings?.length?.toLocaleString(
-                      "en-US",
-                    )}
+                    {hedgeFundStats?.averageHoldingPeriod}
+                    {m.hedge_funds_slug_months()}
                   </div>
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    # of Holdings
-                  </div>
-                </div>
-                <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
-                >
-                  <div
-                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
-                  >
-                    {hedgeFundStats?.averageHoldingPeriod} months
-                  </div>
-                  <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-                  >
-                    Avg. Holding Period
+                    {m.hedge_funds_slug_avg_holding_period()}
                   </div>
                 </div>
 
@@ -249,7 +236,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Win Rate
+                    {m.hedge_funds_slug_win_rate()}
                   </div>
                 </div>
                 <div
@@ -288,7 +275,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Peformance 3-Years
+                    {m.hedge_funds_slug_performance_3year()}
                   </div>
                 </div>
               </div>
@@ -305,7 +292,7 @@
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      Main Sectors:
+                      {m.hedge_funds_slug_main_sectors()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -328,7 +315,7 @@
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      Top Industries:
+                      {m.hedge_funds_slug_top_industries()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -353,19 +340,20 @@
                   {excludedRules}
                   {defaultList}
                   {specificRows}
-                  title={`Filing Date: ${new Date(
+                  title={`${m.hedge_funds_slug_filing_date()} ${new Date(
                     data?.getHedgeFundsData?.filingDate,
-                  ).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}`}
+                  ).toLocaleDateString(
+                    getLocale() === "de" ? "de-DE" : "en-US",
+                    {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    },
+                  )}`}
                 />
               </div>
             {:else}
-              <Infobox
-                text={`The data of the hedge fund is currently not available.`}
-              />
+              <Infobox text={m.hedge_funds_slug_no_data()} />
             {/if}
           </div>
         </main>

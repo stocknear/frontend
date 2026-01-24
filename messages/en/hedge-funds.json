@@ -1,0 +1,45 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Home",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedge Funds",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedge Fund",
+
+  "hedge_funds_seo_title": "Hedge Fund Tracker - Top Hedge Fund Holdings & 13F Filings",
+  "hedge_funds_seo_description": "Track top hedge fund holdings, 13F filings, and institutional investor portfolios. Monitor what hedge funds are buying and selling with detailed position analysis. Free hedge fund tracking tool.",
+  "hedge_funds_seo_keywords": "hedge fund tracker, hedge fund holdings, 13F filings, institutional investors, hedge fund positions, top hedge funds, institutional holdings, hedge fund portfolios, berkshire hathaway holdings",
+  "hedge_funds_structured_name": "Hedge Fund Tracker",
+  "hedge_funds_structured_description": "Comprehensive tracking of hedge fund holdings and institutional investments",
+
+  "hedge_funds_main_title": "Top Hedge Funds in US",
+  "hedge_funds_infobox": "List of all Wall Street Institutions with the highest Asset under Management.",
+  "hedge_funds_count_institutes": "{count} Institutes",
+
+  "hedge_funds_search_placeholder": "Find...",
+  "hedge_funds_loading": "Loading...",
+  "hedge_funds_no_data": "No data available.",
+
+  "hedge_funds_pagination_previous": "Previous",
+  "hedge_funds_pagination_next": "Next",
+  "hedge_funds_pagination_page_of": "Page {current} of {total}",
+  "hedge_funds_rows_label": "{rows} Rows",
+  "hedge_funds_back_to_top": "Back to Top",
+
+  "hedge_funds_slug_seo_title": "{companyName} Holdings & Portfolio - 13F Filings Analysis",
+  "hedge_funds_slug_seo_description": "Detailed analysis of {companyName} hedge fund holdings, portfolio positions, and investment strategy. Track their latest 13F filings, top stock picks, sector allocation, and performance metrics.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} holdings, {companyNameLower} portfolio, {companyNameLower} 13F filings, hedge fund positions, institutional investor holdings, {companyNameLower} stock picks, hedge fund analysis",
+  "hedge_funds_slug_structured_name": "{companyName} Holdings & Portfolio Analysis",
+  "hedge_funds_slug_structured_description": "Comprehensive analysis of {companyName} hedge fund holdings and investment positions",
+
+  "hedge_funds_slug_cik_number": "CIK Number:",
+  "hedge_funds_slug_market_value": "Market Value",
+  "hedge_funds_slug_holdings": "# of Holdings",
+  "hedge_funds_slug_avg_holding_period": "Avg. Holding Period",
+  "hedge_funds_slug_months": "months",
+  "hedge_funds_slug_win_rate": "Win Rate",
+  "hedge_funds_slug_performance_3year": "Performance 3-Years",
+
+  "hedge_funds_slug_main_sectors": "Main Sectors:",
+  "hedge_funds_slug_top_industries": "Top Industries:",
+  "hedge_funds_slug_filing_date": "Filing Date:",
+  "hedge_funds_slug_no_data": "The data of the hedge fund is currently not available."
+}

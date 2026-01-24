@@ -1,0 +1,45 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Startseite",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedge Funds",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedge Fund",
+
+  "hedge_funds_seo_title": "Hedge Fund Tracker - Top Hedge Fund Holdings & 13F Filings",
+  "hedge_funds_seo_description": "Verfolge Top Hedge Fund Holdings, 13F Filings und institutionelle Anlegerportfolios. Überwache was Hedge Funds kaufen und verkaufen mit detaillierter Positionsanalyse. Kostenloses Hedge Fund Tracking-Tool.",
+  "hedge_funds_seo_keywords": "hedge fund tracker, hedge fund holdings, 13F filings, institutionelle anleger, hedge fund positionen, top hedge funds, institutionelle beteiligungen, hedge fund portfolios",
+  "hedge_funds_structured_name": "Hedge Fund Tracker",
+  "hedge_funds_structured_description": "Umfassendes Tracking von Hedge Fund Holdings und institutionellen Investments",
+
+  "hedge_funds_main_title": "Top Hedge Funds in den USA",
+  "hedge_funds_infobox": "Liste aller Wall Street Institutionen mit dem höchsten verwalteten Vermögen.",
+  "hedge_funds_count_institutes": "{count} Institute",
+
+  "hedge_funds_search_placeholder": "Suchen...",
+  "hedge_funds_loading": "Laden...",
+  "hedge_funds_no_data": "Keine Daten verfügbar.",
+
+  "hedge_funds_pagination_previous": "Zurück",
+  "hedge_funds_pagination_next": "Weiter",
+  "hedge_funds_pagination_page_of": "Seite {current} von {total}",
+  "hedge_funds_rows_label": "{rows} Zeilen",
+  "hedge_funds_back_to_top": "Nach oben",
+
+  "hedge_funds_slug_seo_title": "{companyName} Holdings & Portfolio - 13F Filings Analyse",
+  "hedge_funds_slug_seo_description": "Detaillierte Analyse der {companyName} Hedge Fund Holdings, Portfolio-Positionen und Anlagestrategie. Verfolge die neuesten 13F Filings, Top-Aktienauswahl, Sektorallokation und Performance-Kennzahlen.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} holdings, {companyNameLower} portfolio, {companyNameLower} 13F filings, hedge fund positionen, institutionelle anleger holdings, {companyNameLower} aktienauswahl, hedge fund analyse",
+  "hedge_funds_slug_structured_name": "{companyName} Holdings & Portfolio Analyse",
+  "hedge_funds_slug_structured_description": "Umfassende Analyse der {companyName} Hedge Fund Holdings und Investment-Positionen",
+
+  "hedge_funds_slug_cik_number": "CIK Nummer:",
+  "hedge_funds_slug_market_value": "Market Value",
+  "hedge_funds_slug_holdings": "Anzahl Holdings",
+  "hedge_funds_slug_avg_holding_period": "Durchschn. Haltedauer",
+  "hedge_funds_slug_months": "Monate",
+  "hedge_funds_slug_win_rate": "Win Rate",
+  "hedge_funds_slug_performance_3year": "Performance 3 Jahre",
+
+  "hedge_funds_slug_main_sectors": "Hauptsektoren:",
+  "hedge_funds_slug_top_industries": "Top Branchen:",
+  "hedge_funds_slug_filing_date": "Filing-Datum:",
+  "hedge_funds_slug_no_data": "Die Daten des Hedge Funds sind derzeit nicht verfügbar."
+}
