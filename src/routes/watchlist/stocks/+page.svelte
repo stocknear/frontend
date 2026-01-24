@@ -11,6 +11,7 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import * as m from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime.js";
 
   import { onMount } from "svelte";
   import Input from "$lib/components/Input.svelte";
@@ -104,6 +105,23 @@
       "Earnings Release": m.watchlist_tab_earnings,
     };
     return tabLabels[tab]?.() ?? tab;
+  }
+
+  function formatTimeLocale(dateString: string): string {
+    const date = new Date(dateString);
+    const isGerman = getLocale() === "de";
+    if (isGerman) {
+      return date.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }) + " Uhr";
+    }
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
   }
 
   let isLoaded = false;
@@ -1034,13 +1052,7 @@
                                   <div
                                     class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                                   >
-                                    {new Date(
-                                      items[0].publishedDate,
-                                    ).toLocaleTimeString("en-US", {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                      hour12: true,
-                                    })}
+                                    {formatTimeLocale(items[0].publishedDate)}
                                   </div>
                                   <div class="grow px-3 py-2 lg:py-1">
                                     <h4 class="text-sm lg:text-base">
@@ -1050,13 +1062,7 @@
                                       class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
                                     >
                                       <div class=" lg:hidden">
-                                        {new Date(
-                                          items[0].publishedDate,
-                                        ).toLocaleTimeString("en-US", {
-                                          hour: "2-digit",
-                                          minute: "2-digit",
-                                          hour12: true,
-                                        })}
+                                        {formatTimeLocale(items[0].publishedDate)}
                                       </div>
                                       <div class="flex flex-wrap gap-x-2">
                                         {#each symbols as symbol}

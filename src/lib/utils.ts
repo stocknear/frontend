@@ -582,16 +582,17 @@ export const computeGrowthSingleList = (data, actualList) => {
     // Split the time string into components
     const [hours, minutes, seconds] = timeString.split(":").map(Number);
 
-    // Determine AM or PM
+    const isGerman = getCurrentLocale() === "de";
+
+    if (isGerman) {
+      // German: 24-hour format with "Uhr"
+      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} Uhr`;
+    }
+
+    // English: 12-hour format with AM/PM
     const period = hours >= 12 ? "PM" : "AM";
-
-    // Convert hours from 24-hour to 12-hour format
     const formattedHours = hours % 12 || 12; // Converts 0 to 12 for midnight
-
-    // Format the time string
-    const formattedTimeString = `${formattedHours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${period}`;
-
-    return formattedTimeString;
+    return `${formattedHours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${period}`;
   }
 
 
