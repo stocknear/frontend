@@ -1,0 +1,65 @@
+{
+  "watchlist_breadcrumb_home": "Startseite",
+  "watchlist_breadcrumb_watchlist": "Watchlist",
+
+  "watchlist_seo_title": "Aktien-Watchlist - Verfolge dein Portfolio & überwache Aktienkurse",
+  "watchlist_seo_description": "Erstelle und verwalte deine persönliche Aktien-Watchlist mit Echtzeit-Kursüberwachung. Überwache deine Lieblingsaktien, ETFs und Investments mit Kursalarmen und Performance-Analysen. Kostenloser Portfolio-Tracker mit erweiterten Funktionen.",
+  "watchlist_seo_keywords": "Aktien-Watchlist, Portfolio-Tracker, Aktien-Tracker, Investment-Tracker, Aktienüberwachung, Kursalarme, Portfolio-Management, Aktien-Performance, Investment-Watchlist",
+  "watchlist_structured_name": "Aktien-Watchlist-Tracker",
+  "watchlist_structured_description": "Persönliche Aktien-Watchlist und Portfolio-Tracking-Tool",
+
+  "watchlist_main_title": "Watchlist",
+  "watchlist_create_watchlist": "Watchlist erstellen",
+  "watchlist_new_watchlist": "Neue Watchlist",
+  "watchlist_delete_watchlist": "Watchlist löschen",
+
+  "watchlist_add_stock_placeholder": "Aktie hinzufügen...",
+  "watchlist_no_results": "Keine Ergebnisse gefunden",
+  "watchlist_edit_watchlist": "Watchlist bearbeiten",
+  "watchlist_cancel": "Abbrechen",
+  "watchlist_normal_width": "Normale Breite",
+  "watchlist_full_width": "Volle Breite",
+  "watchlist_exit_full_width": "Volle Breite beenden",
+  "watchlist_expand_full_width": "Auf volle Breite erweitern",
+
+  "watchlist_empty_title": "Leere Watchlist",
+  "watchlist_empty_description": "Fülle sie mit deinen Lieblingsaktien und erhalte Echtzeitdaten und die neuesten Nachrichten an einem Ort!",
+  "watchlist_get_started": "Jetzt starten",
+
+  "watchlist_count_stocks": "{count} Aktien",
+
+  "watchlist_tab_news": "News",
+  "watchlist_tab_earnings": "Earnings Release",
+  "watchlist_no_news": "Noch keine News. Füge Aktien zur Watchlist hinzu, um die neuesten Nachrichten zu sehen.",
+  "watchlist_no_earnings": "Keine Earnings-Daten verfügbar. Füge Aktien zur Watchlist hinzu, um die neuesten Earnings-Daten zu sehen.",
+
+  "watchlist_modal_new_title": "Neue Watchlist",
+  "watchlist_modal_list_name": "Listenname",
+  "watchlist_modal_create_button": "Watchlist erstellen",
+
+  "watchlist_modal_delete_title": "Watchlist löschen",
+  "watchlist_modal_delete_confirm": "Bist du sicher, dass du diese Watchlist löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "watchlist_modal_delete_button": "Watchlist löschen",
+
+  "watchlist_toast_creating": "Watchlist wird erstellt...",
+  "watchlist_toast_created": "Watchlist erfolgreich erstellt!",
+  "watchlist_toast_deleted": "Watchlist erfolgreich gelöscht!",
+  "watchlist_toast_updating": "Watchlist wird aktualisiert...",
+  "watchlist_toast_updated": "Watchlist erfolgreich aktualisiert!",
+  "watchlist_toast_error": "Etwas ist schiefgelaufen. Bitte versuche es erneut!",
+  "watchlist_toast_error_generic": "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
+  "watchlist_toast_title_empty": "Der Titel darf nicht leer sein!",
+  "watchlist_toast_title_long": "Der Titel ist zu lang. Halte ihn kurz und prägnant!",
+  "watchlist_toast_already_in_list": "Dieses Symbol ist bereits in deiner Watchlist",
+  "watchlist_toast_select_symbols": "Du musst Symbole auswählen, bevor du sie löschen kannst",
+
+  "watchlist_earnings_will_report": "wird berichten",
+  "watchlist_earnings_after_close": "nach Börsenschluss.",
+  "watchlist_earnings_before_open": "vor Börseneröffnung.",
+  "watchlist_earnings_during_market": "während der Handelszeit.",
+  "watchlist_earnings_analysts_estimate": "Analysten schätzen",
+  "watchlist_earnings_in_revenue": "an Revenue",
+  "watchlist_earnings_yoy": "YoY",
+  "watchlist_earnings_and": "und",
+  "watchlist_earnings_in_eps": "an Earnings per Share"
+}

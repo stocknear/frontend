@@ -1,0 +1,65 @@
+{
+  "watchlist_breadcrumb_home": "Home",
+  "watchlist_breadcrumb_watchlist": "Watchlist",
+
+  "watchlist_seo_title": "Stock Watchlist - Track Your Portfolio & Monitor Stock Prices",
+  "watchlist_seo_description": "Create and manage your personal stock watchlist with real-time price tracking. Monitor your favorite stocks, ETFs, and investments with price alerts and performance analytics. Free stock portfolio tracker with advanced features.",
+  "watchlist_seo_keywords": "stock watchlist, portfolio tracker, stock tracker, investment tracker, stock monitoring, price alerts, portfolio management, stock performance, investment watchlist",
+  "watchlist_structured_name": "Stock Watchlist Tracker",
+  "watchlist_structured_description": "Personal stock watchlist and portfolio tracking tool",
+
+  "watchlist_main_title": "Watchlist",
+  "watchlist_create_watchlist": "Create Watchlist",
+  "watchlist_new_watchlist": "New Watchlist",
+  "watchlist_delete_watchlist": "Delete Watchlist",
+
+  "watchlist_add_stock_placeholder": "Add stock...",
+  "watchlist_no_results": "No results found",
+  "watchlist_edit_watchlist": "Edit Watchlist",
+  "watchlist_cancel": "Cancel",
+  "watchlist_normal_width": "Normal Width",
+  "watchlist_full_width": "Full Width",
+  "watchlist_exit_full_width": "Exit full width",
+  "watchlist_expand_full_width": "Expand to full width",
+
+  "watchlist_empty_title": "Empty Watchlist",
+  "watchlist_empty_description": "Fill it up with your favorite stocks and get realtime data and the latest news in one place!",
+  "watchlist_get_started": "Get Started",
+
+  "watchlist_count_stocks": "{count} Stocks",
+
+  "watchlist_tab_news": "News",
+  "watchlist_tab_earnings": "Earnings Release",
+  "watchlist_no_news": "No news yet. Add some stocks to the watchlist to see the latest news.",
+  "watchlist_no_earnings": "No earnings data available. Add some stocks to the watchlist to see the latest earnings data.",
+
+  "watchlist_modal_new_title": "New Watchlist",
+  "watchlist_modal_list_name": "List Name",
+  "watchlist_modal_create_button": "Create Watchlist",
+
+  "watchlist_modal_delete_title": "Delete Watchlist",
+  "watchlist_modal_delete_confirm": "Are you sure you want to delete this watchlist? This action cannot be undone.",
+  "watchlist_modal_delete_button": "Delete Watchlist",
+
+  "watchlist_toast_creating": "Creating watchlist...",
+  "watchlist_toast_created": "Watchlist created successfully!",
+  "watchlist_toast_deleted": "Watchlist deleted successfully!",
+  "watchlist_toast_updating": "Updating watchlist...",
+  "watchlist_toast_updated": "Watchlist updated successfully!",
+  "watchlist_toast_error": "Something went wrong. Please try again!",
+  "watchlist_toast_error_generic": "An error occurred. Please try again later.",
+  "watchlist_toast_title_empty": "Title cannot be empty!",
+  "watchlist_toast_title_long": "Title is too long. Keep it simple and concise bruv!",
+  "watchlist_toast_already_in_list": "This symbol is already in your watchlist",
+  "watchlist_toast_select_symbols": "You need to select symbols before you can delete them",
+
+  "watchlist_earnings_will_report": "will report",
+  "watchlist_earnings_after_close": "after market closes.",
+  "watchlist_earnings_before_open": "before market opens.",
+  "watchlist_earnings_during_market": "during market.",
+  "watchlist_earnings_analysts_estimate": "Analysts estimate",
+  "watchlist_earnings_in_revenue": "in revenue",
+  "watchlist_earnings_yoy": "YoY",
+  "watchlist_earnings_and": "and",
+  "watchlist_earnings_in_eps": "in earnings per share"
+}

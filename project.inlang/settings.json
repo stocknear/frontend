@@ -44,7 +44,8 @@
       "./messages/{locale}/register.json",
       "./messages/{locale}/searchbar.json",
       "./messages/{locale}/sitemap.json",
-      "./messages/{locale}/terms.json"
+      "./messages/{locale}/terms.json",
+      "./messages/{locale}/watchlist.json"
     ]
   }
 }
