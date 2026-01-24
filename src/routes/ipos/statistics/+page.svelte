@@ -5,6 +5,7 @@
   import IPOChart from "$lib/components/IPOChart.svelte";
   import { formatDate } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
@@ -192,9 +193,9 @@
 </script>
 
 <SEO
-  title="IPO Statistics & Historical Charts - Initial Public Offering Market Data"
-  description="Comprehensive IPO statistics and interactive charts for US stock market initial public offerings. Track annual and monthly IPO trends from 2015-2025, analyze market cycles, and discover IPO performance patterns."
-  keywords="IPO statistics, initial public offering charts, IPO market data, IPO trends, IPO analysis, historical IPO data, IPO performance, annual IPO statistics, monthly IPO data"
+  title={m.ipos_statistics_seo_title()}
+  description={m.ipos_statistics_seo_description()}
+  keywords={m.ipos_statistics_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Dataset",
@@ -226,26 +227,19 @@
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
             <Infobox
-              text="  This page provides statistics and charts on initial public
-              offerings (IPOs) in the U.S. stock market. Annual data is
-              available from 2015 to 2025, with monthly data starting from 2019."
+              text={m.ipos_statistics_infobox()}
             />
 
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 sm:mb-0 mt-2"
             >
-              Number of IPOs by Year
+              {m.ipos_statistics_title()}
             </h1>
 
             <div
               class="mb-2 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
             >
-              There have been {data?.getIPOCalendar?.length?.toLocaleString(
-                "en-US",
-              )} IPOs between 2015 and 2025. The least was in {minYear} with only
-              {minCount}. The full year {maxYear} was an all-time record with {maxCount?.toLocaleString(
-                "en-US",
-              )} IPOs.
+              {m.ipos_statistics_description({ count: data?.getIPOCalendar?.length?.toLocaleString("en-US"), minYear, minCount, maxYear, maxCount: maxCount?.toLocaleString("en-US") })}
             </div>
 
             {#if isLoaded && config}

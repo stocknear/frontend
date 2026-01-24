@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Startseite",
+  "earnings_breadcrumb_calendar": "Earnings-Kalender",
+
+  "earnings_seo_title": "Earnings-Kalender - Volatilitäts-Setups für Optionshändler",
+  "earnings_seo_description": "Verfolge Earnings-Termine, erwartete Bewegungen und Analystenschätzungen für Options-Volatilitäts-Trades und IV-Crush-Setups.",
+  "earnings_seo_keywords": "Earnings-Kalender, Options-Earnings-Plays, erwartete Bewegung, IV Crush, Earnings-Volatilität, EPS-Schätzungen, Revenue-Prognosen, Earnings-Zeitplan",
+
+  "earnings_structured_name": "Earnings-Kalender",
+  "earnings_structured_description": "Earnings-Kalender für Optionshändler mit Fokus auf Volatilität und erwartete Bewegungen",
+
+  "earnings_main_name": "Earnings-Kalender",
+  "earnings_count": "{count} Earnings",
+  "earnings_empty": "Keine Earnings-Berichte für den Tag verfügbar.",
+  "earnings_empty_scheduled": "Keine Earnings geplant",
+
+  "earnings_tab_daily": "Täglich",
+  "earnings_tab_weekly": "Wöchentlich",
+  "earnings_tab_details": "Details",
+  "earnings_tab_compact": "Kompakt",
+
+  "earnings_time_of_day": "Tageszeit",
+  "earnings_time_any": "Jederzeit",
+  "earnings_time_before_open": "Vor Börseneröffnung",
+  "earnings_time_after_close": "Nach Börsenschluss",
+
+  "earnings_expanded_reports": "Berichte",
+  "earnings_expanded_market_cap": "Market Cap",
+  "earnings_expanded_revenue_est": "Revenue Schätz.",
+  "earnings_expanded_revenue_estimate": "Revenue-Schätzung",
+  "earnings_expanded_eps_est": "EPS Schätz.",
+  "earnings_expanded_eps_estimate": "EPS-Schätzung",
+
+  "earnings_pagination_previous": "Zurück",
+  "earnings_pagination_next": "Weiter",
+  "earnings_pagination_page_of": "Seite {current} von {total}",
+  "earnings_pagination_rows": "{count} Zeilen",
+  "earnings_back_to_top": "Nach oben",
+  "earnings_search_placeholder": "Suchen..."
+}

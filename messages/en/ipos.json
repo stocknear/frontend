@@ -1,0 +1,29 @@
+{
+  "ipos_breadcrumb_home": "Home",
+  "ipos_breadcrumb_data": "IPO Data",
+
+  "ipos_seo_title": "IPO Calendar - Recent & Upcoming IPOs | Initial Public Offerings",
+  "ipos_seo_description": "Track recent and upcoming IPOs (Initial Public Offerings) with detailed analysis. Monitor IPO performance, prices, dates, and returns since listing. Free IPO calendar and tracker with comprehensive data.",
+  "ipos_seo_keywords": "IPO calendar, upcoming IPOs, recent IPOs, initial public offerings, IPO tracker, IPO performance, IPO prices, new stock listings, public offerings",
+
+  "ipos_main_name_recent": "Recent IPOs",
+  "ipos_main_name_statistics": "IPO Statistics",
+  "ipos_count": "{count} Stocks",
+  "ipos_tab_recent": "Recent",
+  "ipos_tab_statistics": "Statistics",
+  "ipos_tab_latest": "Latest",
+
+  "ipos_statistics_seo_title": "IPO Statistics & Historical Charts - Initial Public Offering Market Data",
+  "ipos_statistics_seo_description": "Comprehensive IPO statistics and interactive charts for US stock market initial public offerings. Track annual and monthly IPO trends from 2015-2025, analyze market cycles, and discover IPO performance patterns.",
+  "ipos_statistics_seo_keywords": "IPO statistics, initial public offering charts, IPO market data, IPO trends, IPO analysis, historical IPO data, IPO performance, annual IPO statistics, monthly IPO data",
+  "ipos_statistics_infobox": "This page provides statistics and charts on initial public offerings (IPOs) in the U.S. stock market. Annual data is available from 2015 to 2025, with monthly data starting from 2019.",
+  "ipos_statistics_title": "Number of IPOs by Year",
+  "ipos_statistics_description": "There have been {count} IPOs between 2015 and 2025. The least was in {minYear} with only {minCount}. The full year {maxYear} was an all-time record with {maxCount} IPOs.",
+  "ipos_statistics_stock_news": "Stock News",
+  "ipos_statistics_more_news": "More Stocks News",
+
+  "ipos_year_seo_title": "{year} IPOs List - Complete Initial Public Offering Directory",
+  "ipos_year_seo_description": "Comprehensive list of all {year} initial public offerings (IPOs) on the US stock market. Track IPO performance, pricing, returns since listing, and market debuts with detailed company information and historical data.",
+  "ipos_year_seo_keywords": "{year} IPOs, initial public offerings {year}, IPO list {year}, {year} IPO performance, recent IPOs, IPO calendar {year}, new public companies {year}",
+  "ipos_year_empty": "No IPOs found. Please adjust your search timeframe for the latest {year} IPOs."
+}

@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Startseite",
+  "dividends_breadcrumb_calendar": "Dividendenkalender",
+
+  "dividends_seo_title": "Dividendenkalender - Ex-Dividenden-Termine & Zahlungsplan für Aktien",
+  "dividends_seo_description": "Verfolge bevorstehende Ex-Dividenden-Termine und Zahlungspläne für Aktien. Plane deine Dividenden-Capture-Strategie mit unserem umfassenden Kalender mit Ausschüttungsbeträgen, Zahlungsterminen und Market Cap Daten.",
+  "dividends_seo_keywords": "Dividendenkalender, Ex-Dividenden-Termine, Dividenden-Zahlungsplan, Dividenden-Capture, Aktiendividenden, Dividendenaktien, Dividendenzahlungstermine, bevorstehende Dividenden",
+
+  "dividends_main_name": "Dividendenkalender",
+  "dividends_count": "{count} Dividenden",
+  "dividends_empty_day": "Keine Dividenden für den Tag verfügbar.",
+  "dividends_empty_none": "Keine Dividenden",
+  "dividends_empty_scheduled": "Keine Dividenden geplant",
+
+  "dividends_tab_daily": "Täglich",
+  "dividends_tab_weekly": "Wöchentlich",
+  "dividends_tab_details": "Details",
+  "dividends_tab_compact": "Kompakt",
+
+  "dividends_time_any": "Jederzeit",
+  "dividends_time_before_open": "Vor Börseneröffnung",
+  "dividends_time_after_close": "Nach Börsenschluss",
+
+  "dividends_expanded_ex_date": "Ex-Datum",
+  "dividends_expanded_market_cap": "Market Cap",
+  "dividends_expanded_amount": "Betrag",
+  "dividends_expanded_revenue": "Revenue",
+  "dividends_expanded_payment_date": "Zahlungstermin",
+  "dividends_expanded_date": "Datum",
+  "dividends_expanded_dividend": "Dividende",
+
+  "dividends_pagination_previous": "Zurück",
+  "dividends_pagination_next": "Weiter",
+  "dividends_pagination_page_of": "Seite {current} von {total}",
+  "dividends_pagination_rows": "{count} Zeilen",
+  "dividends_back_to_top": "Nach oben",
+  "dividends_search_placeholder": "Suchen..."
+}

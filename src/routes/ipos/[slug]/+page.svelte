@@ -4,6 +4,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Table from "$lib/components/Table/Table.svelte";
   import { formatDate } from "$lib/utils";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -49,9 +50,9 @@
 </script>
 
 <SEO
-  title="{data?.getYear} IPOs List - Complete Initial Public Offering Directory"
-  description="Comprehensive list of all {data?.getYear} initial public offerings (IPOs) on the US stock market. Track IPO performance, pricing, returns since listing, and market debuts with detailed company information and historical data."
-  keywords="{data?.getYear} IPOs, initial public offerings {data?.getYear}, IPO list {data?.getYear}, {data?.getYear} IPO performance, recent IPOs, IPO calendar {data?.getYear}, new public companies {data?.getYear}"
+  title={m.ipos_year_seo_title({ year: data?.getYear })}
+  description={m.ipos_year_seo_description({ year: data?.getYear })}
+  keywords={m.ipos_year_seo_keywords({ year: data?.getYear })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -88,14 +89,13 @@
                 {excludedRules}
                 {defaultList}
                 {specificRows}
-                title={rawData?.length?.toLocaleString("en-US") + " Stocks"}
+                title={m.ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
               />
             </div>
           {:else}
             <div class="w-full">
               <Infobox
-                text={`No IPOs found. Please adjust your search timeframe for the latest ${year}
-          IPOs.`}
+                text={m.ipos_year_empty({ year })}
               />
             </div>
           {/if}

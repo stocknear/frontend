@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -51,10 +52,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.ipos_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">IPO Data</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.ipos_breadcrumb_data()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -67,9 +68,9 @@
             class="mb-6 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
             {activeIdx === 0
-              ? "Recent IPOs"
+              ? m.ipos_main_name_recent()
               : activeIdx === 1
-                ? "IPO Statistics"
+                ? m.ipos_main_name_statistics()
                 : "IPO News"}
           </h1>
 

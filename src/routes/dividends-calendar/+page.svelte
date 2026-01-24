@@ -19,6 +19,7 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -517,9 +518,9 @@
 </script>
 
 <SEO
-  title="Dividend Calendar - Ex-Dividend Dates & Payment Schedule for Stocks"
-  description="Track dividend payments with our comprehensive dividend calendar featuring ex-dividend dates, payment dates, and dividend amounts for all US dividend-paying stocks. Monitor upcoming dividend distributions, cash amounts, and payment schedules to optimize your dividend investment strategy and income planning."
-  keywords="dividend calendar, ex-dividend dates, dividend payments, dividend schedule, dividend stocks, dividend income, dividend yields, payment dates, cash dividends, dividend distribution, dividend investing, income investing, dividend tracker, quarterly dividends"
+  title={m.dividends_seo_title()}
+  description={m.dividends_seo_description()}
+  keywords={m.dividends_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -581,10 +582,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.dividends_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Dividends Calendar</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.dividends_breadcrumb_calendar()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -600,7 +601,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Dividends Calendar
+                {m.dividends_main_name()}
               </h1>
 
               <div class="inline-flex sm:ml-auto">
@@ -647,7 +648,7 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{day?.length} Dividends</span>
+                        <span class="text-sm">{m.dividends_count({ count: day?.length })}</span>
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -742,7 +743,7 @@
                               <span
                                 class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
                               >
-                                {day?.length} Dividends</span
+                                {m.dividends_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -789,8 +790,7 @@
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
-                          {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
-                          Dividends
+                          {formattedWeekday[index]?.split(", ")[1]} · {m.dividends_count({ count: day?.length })}
                         </h2>
 
                         <div
@@ -823,7 +823,7 @@
                               bind:value={inputValue}
                               on:input={search}
                               type="text"
-                              placeholder="Find..."
+                              placeholder={m.dividends_search_placeholder()}
                               class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
@@ -989,7 +989,7 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">Previous</span
+                              <span class="hidden sm:inline">{m.dividends_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -998,7 +998,7 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              Page {dailyCurrentPage} of {dailyTotalPages}
+                              {m.dividends_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1009,7 +1009,7 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{dailyRowsPerPage} Rows</span
+                                    >{m.dividends_pagination_rows({ count: dailyRowsPerPage })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1044,7 +1044,7 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{item} Rows</span>
+                                        <span class="text-sm">{m.dividends_pagination_rows({ count: item })}</span>
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1060,7 +1060,7 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">Next</span>
+                              <span class="hidden sm:inline">{m.dividends_pagination_next()}</span>
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1083,7 +1083,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            Back to Top <svg
+                            {m.dividends_back_to_top()} <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1101,7 +1101,7 @@
                       {/if}
                     {:else}
                       <div class="mt-5">
-                        <Infobox text="No Dividends available for the day." />
+                        <Infobox text={m.dividends_empty_day()} />
                       </div>
                     {/if}
                   {/if}
@@ -1120,7 +1120,7 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{day?.length} Dividends</span>
+                        <span class="text-sm">{m.dividends_count({ count: day?.length })}</span>
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -1306,7 +1306,7 @@
                           <div
                             class="text-center text-gray-500 dark:text-gray-400 py-8"
                           >
-                            No dividends
+                            {m.dividends_empty_none()}
                           </div>
                         {/if}
                       </div>
@@ -1372,7 +1372,7 @@
                                 >{formattedWeekday[index]}</span
                               >
                               <span class="text-sm m-auto pt-1 pb-1">
-                                {day?.length} Dividends</span
+                                {m.dividends_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -1524,7 +1524,7 @@
                       <div
                         class="text-center text-sm text-gray-500 dark:text-gray-400 py-8"
                       >
-                        No dividends scheduled
+                        {m.dividends_empty_scheduled()}
                       </div>
                     {/if}
                   </div>

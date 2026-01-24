@@ -1,0 +1,29 @@
+{
+  "ipos_breadcrumb_home": "Startseite",
+  "ipos_breadcrumb_data": "IPO-Daten",
+
+  "ipos_seo_title": "IPO-Kalender - Aktuelle & Kommende IPOs | Börsengänge",
+  "ipos_seo_description": "Verfolge aktuelle und kommende IPOs (Börsengänge) mit detaillierter Analyse. Überwache IPO-Performance, Preise, Termine und Renditen seit Börsengang. Kostenloser IPO-Kalender und Tracker mit umfassenden Daten.",
+  "ipos_seo_keywords": "IPO-Kalender, kommende IPOs, aktuelle IPOs, Börsengänge, IPO-Tracker, IPO-Performance, IPO-Preise, neue Börsennotierungen, öffentliche Angebote",
+
+  "ipos_main_name_recent": "Aktuelle IPOs",
+  "ipos_main_name_statistics": "IPO-Statistiken",
+  "ipos_count": "{count} Aktien",
+  "ipos_tab_recent": "Aktuell",
+  "ipos_tab_statistics": "Statistiken",
+  "ipos_tab_latest": "Neueste",
+
+  "ipos_statistics_seo_title": "IPO-Statistiken & Historische Charts - Börsengang-Marktdaten",
+  "ipos_statistics_seo_description": "Umfassende IPO-Statistiken und interaktive Charts für US-Aktienmarkt-Börsengänge. Verfolge jährliche und monatliche IPO-Trends von 2015-2025, analysiere Marktzyklen und entdecke IPO-Performance-Muster.",
+  "ipos_statistics_seo_keywords": "IPO-Statistiken, Börsengang-Charts, IPO-Marktdaten, IPO-Trends, IPO-Analyse, historische IPO-Daten, IPO-Performance, jährliche IPO-Statistiken, monatliche IPO-Daten",
+  "ipos_statistics_infobox": "Diese Seite bietet Statistiken und Charts zu Börsengängen (IPOs) am US-Aktienmarkt. Jahresdaten sind von 2015 bis 2025 verfügbar, monatliche Daten ab 2019.",
+  "ipos_statistics_title": "Anzahl der IPOs nach Jahr",
+  "ipos_statistics_description": "Es gab {count} IPOs zwischen 2015 und 2025. Am wenigsten waren es in {minYear} mit nur {minCount}. Das Gesamtjahr {maxYear} war mit {maxCount} IPOs ein Allzeitrekord.",
+  "ipos_statistics_stock_news": "Aktien-News",
+  "ipos_statistics_more_news": "Mehr Aktien-News",
+
+  "ipos_year_seo_title": "{year} IPOs Liste - Vollständiges Börsengang-Verzeichnis",
+  "ipos_year_seo_description": "Umfassende Liste aller {year} Börsengänge (IPOs) am US-Aktienmarkt. Verfolge IPO-Performance, Preise, Renditen seit Börsengang und Marktdebüts mit detaillierten Unternehmensinformationen und historischen Daten.",
+  "ipos_year_seo_keywords": "{year} IPOs, Börsengänge {year}, IPO-Liste {year}, {year} IPO-Performance, aktuelle IPOs, IPO-Kalender {year}, neue börsennotierte Unternehmen {year}",
+  "ipos_year_empty": "Keine IPOs gefunden. Bitte passe deinen Suchzeitraum für die neuesten {year} IPOs an."
+}

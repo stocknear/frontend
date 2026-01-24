@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Home",
+  "earnings_breadcrumb_calendar": "Earnings Calendar",
+
+  "earnings_seo_title": "Earnings Calendar - Volatility Setups for Options Traders",
+  "earnings_seo_description": "Track earnings dates, expected moves, and analyst estimates to plan options volatility trades and IV crush setups.",
+  "earnings_seo_keywords": "earnings calendar, options earnings plays, expected move, IV crush, earnings volatility, EPS estimates, revenue forecasts, earnings schedule",
+
+  "earnings_structured_name": "Earnings Calendar",
+  "earnings_structured_description": "Earnings calendar built for options traders focused on volatility and expected moves",
+
+  "earnings_main_name": "Earnings Calendar",
+  "earnings_count": "{count} Earnings",
+  "earnings_empty": "No Earnings reports available for the day.",
+  "earnings_empty_scheduled": "No earnings scheduled",
+
+  "earnings_tab_daily": "Daily",
+  "earnings_tab_weekly": "Weekly",
+  "earnings_tab_details": "Details",
+  "earnings_tab_compact": "Compact",
+
+  "earnings_time_of_day": "Time of Day",
+  "earnings_time_any": "Any Time",
+  "earnings_time_before_open": "Before Open",
+  "earnings_time_after_close": "After Close",
+
+  "earnings_expanded_reports": "Reports",
+  "earnings_expanded_market_cap": "Market Cap",
+  "earnings_expanded_revenue_est": "Revenue Est.",
+  "earnings_expanded_revenue_estimate": "Revenue Estimate",
+  "earnings_expanded_eps_est": "EPS Est.",
+  "earnings_expanded_eps_estimate": "EPS Estimate",
+
+  "earnings_pagination_previous": "Previous",
+  "earnings_pagination_next": "Next",
+  "earnings_pagination_page_of": "Page {current} of {total}",
+  "earnings_pagination_rows": "{count} Rows",
+  "earnings_back_to_top": "Back to Top",
+  "earnings_search_placeholder": "Find..."
+}

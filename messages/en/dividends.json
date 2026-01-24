@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Home",
+  "dividends_breadcrumb_calendar": "Dividends Calendar",
+
+  "dividends_seo_title": "Dividend Calendar - Ex-Dividend Dates & Payment Schedule for Stocks",
+  "dividends_seo_description": "Track upcoming ex-dividend dates and payment schedules for stocks. Plan your dividend capture strategy with our comprehensive calendar showing cash amounts, payment dates, and market cap data.",
+  "dividends_seo_keywords": "dividend calendar, ex-dividend dates, dividend payment schedule, dividend capture, stock dividends, dividend stocks, dividend payment dates, upcoming dividends",
+
+  "dividends_main_name": "Dividends Calendar",
+  "dividends_count": "{count} Dividends",
+  "dividends_empty_day": "No Dividends available for the day.",
+  "dividends_empty_none": "No dividends",
+  "dividends_empty_scheduled": "No dividends scheduled",
+
+  "dividends_tab_daily": "Daily",
+  "dividends_tab_weekly": "Weekly",
+  "dividends_tab_details": "Details",
+  "dividends_tab_compact": "Compact",
+
+  "dividends_time_any": "Any Time",
+  "dividends_time_before_open": "Before Open",
+  "dividends_time_after_close": "After Close",
+
+  "dividends_expanded_ex_date": "Ex-Date",
+  "dividends_expanded_market_cap": "Market Cap",
+  "dividends_expanded_amount": "Amount",
+  "dividends_expanded_revenue": "Revenue",
+  "dividends_expanded_payment_date": "Payment Date",
+  "dividends_expanded_date": "Date",
+  "dividends_expanded_dividend": "Dividend",
+
+  "dividends_pagination_previous": "Previous",
+  "dividends_pagination_next": "Next",
+  "dividends_pagination_page_of": "Page {current} of {total}",
+  "dividends_pagination_rows": "{count} Rows",
+  "dividends_back_to_top": "Back to Top",
+  "dividends_search_placeholder": "Find..."
+}

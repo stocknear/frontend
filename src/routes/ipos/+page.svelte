@@ -2,6 +2,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Table from "$lib/components/Table/Table.svelte";
   import { formatDate } from "$lib/utils";
+  import * as m from "$lib/paraglide/messages";
   export let data;
 
   let marketNews = data?.getNews;
@@ -32,9 +33,9 @@
 </script>
 
 <SEO
-  title="IPO Calendar - Recent & Upcoming IPOs | Initial Public Offerings "
-  description="Track recent and upcoming IPOs (Initial Public Offerings) with detailed analysis. Monitor IPO performance, prices, dates, and returns since listing. Free IPO calendar and tracker with comprehensive data."
-  keywords="IPO calendar, upcoming IPOs, recent IPOs, initial public offerings, IPO tracker, IPO performance, IPO prices, new stock listings, public offerings"
+  title={m.ipos_seo_title()}
+  description={m.ipos_seo_description()}
+  keywords={m.ipos_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -76,7 +77,7 @@
       <main class="w-full">
         <div class="w-full overflow-x-auto">
           <Table
-            title={rawData?.length?.toLocaleString("en-US") + " Stocks"}
+            title={m.ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
             {data}
             {rawData}
             {excludedRules}

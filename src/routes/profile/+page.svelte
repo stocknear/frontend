@@ -115,21 +115,15 @@
     return async ({ result, update }) => {
       switch (result.type) {
         case "success":
-          toast.success(
-            profile_toast_cancel_success(),
-            {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            },
-          );
+          toast.success(profile_toast_cancel_success(), {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
           await update();
           break;
         case "redirect":
-          toast.success(
-            profile_toast_cancel_success(),
-            {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            },
-          );
+          toast.success(profile_toast_cancel_success(), {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
           await update();
           break;
         case "failure":
@@ -163,21 +157,15 @@
     return async ({ result, update }) => {
       switch (result.type) {
         case "success":
-          toast.success(
-            profile_toast_reactivate_success(),
-            {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            },
-          );
+          toast.success(profile_toast_reactivate_success(), {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
           await update();
           break;
         case "redirect":
-          toast.success(
-            profile_toast_reactivate_success(),
-            {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            },
-          );
+          toast.success(profile_toast_reactivate_success(), {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
           await update();
           break;
         case "failure":
@@ -211,21 +199,15 @@
     return async ({ result, update }) => {
       switch (result.type) {
         case "success":
-          toast.success(
-            profile_toast_change_plan_success(),
-            {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            },
-          );
+          toast.success(profile_toast_change_plan_success(), {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
           await update();
           break;
         case "redirect":
-          toast.success(
-            profile_toast_change_plan_success(),
-            {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            },
-          );
+          toast.success(profile_toast_change_plan_success(), {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
           await update();
           break;
         case "failure":
@@ -276,12 +258,9 @@
       });
     } catch (error) {
       console.error("Error unsubscribing:", error);
-      toast.error(
-        profile_toast_push_deactivate_failed(),
-        {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        },
-      );
+      toast.error(profile_toast_push_deactivate_failed(), {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
     }
     loading = false;
   }
@@ -316,12 +295,9 @@
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       } else {
-        toast.error(
-          profile_toast_push_activate_failed(),
-          {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          },
-        );
+        toast.error(profile_toast_push_activate_failed(), {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
       }
     } catch (error) {
       console.error("Error subscribing to push notifications:", error);
@@ -379,10 +355,7 @@
   }
 </script>
 
-<SEO
-  title={profile_seo_title()}
-  description={profile_seo_description()}
-/>
+<SEO title={profile_seo_title()} description={profile_seo_description()} />
 
 <section
   class="text-gray-700 dark:text-zinc-200 w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
@@ -398,7 +371,9 @@
         {profile_breadcrumb_home()}
       </a>
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{profile_breadcrumb_label()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {profile_breadcrumb_label()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -565,7 +540,9 @@
                         class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
                         ><div class="flex flex-row m-auto items-center">
                           <span class="loading loading-infinity"></span>
-                          <span class=" ml-1.5">{profile_push_activating()}</span>
+                          <span class=" ml-1.5"
+                            >{profile_push_activating()}</span
+                          >
                         </div></button
                       >
                     {/if}
@@ -678,6 +655,8 @@
               <span class="text-sm text-gray-700 dark:text-zinc-200">
                 {#if data?.user?.lifetime}
                   {profile_subscription_lifetime()}
+                {:else if ["Plus", "Pro"]?.includes(data?.user?.tier)}
+                  {data?.user?.tier} Subscription
                 {:else}
                   {["Active", "Paid", "Cancelled", "On Trial"]?.includes(
                     subscriptionData?.status_formatted,
@@ -692,7 +671,9 @@
 
             <div class="flex flex-col justify-start items-start mb-3">
               <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
-                {profile_subscription_credits({ credits: data?.user?.credits?.toLocaleString("en-US") ?? "0" })}
+                {profile_subscription_credits({
+                  credits: data?.user?.credits?.toLocaleString("en-US") ?? "0",
+                })}
               </span>
             </div>
 
@@ -787,7 +768,8 @@
             <div class="mt-2 mb-1 text-sm text-gray-800 dark:text-zinc-300">
               <ul class="list-disc pl-5">
                 <li>
-                  {profile_help_email()} <a
+                  {profile_help_email()}
+                  <a
                     href={`mailto:${emailAddress}`}
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >{emailAddress}</a
@@ -805,7 +787,8 @@
                   >.
                 </li>
                 <li>
-                  {profile_help_discord()} <a
+                  {profile_help_discord()}
+                  <a
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://discord.com/invite/hCwZMMZ2MT"
@@ -868,7 +851,9 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
+          <span class="text-white dark:text-gray-900 ml-2"
+            >{profile_modal_proceeding()}</span
+          >
         </div>
       </label>
     {/if}
@@ -924,7 +909,9 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
+          <span class="text-white dark:text-gray-900 ml-2"
+            >{profile_modal_proceeding()}</span
+          >
         </div>
       </label>
     {/if}
@@ -987,7 +974,9 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
+          <span class="text-white dark:text-gray-900 ml-2"
+            >{profile_modal_proceeding()}</span
+          >
         </div>
       </label>
     {/if}
@@ -1047,7 +1036,9 @@
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-gray-900 ml-2">{profile_modal_proceeding()}</span>
+          <span class="text-white dark:text-gray-900 ml-2"
+            >{profile_modal_proceeding()}</span
+          >
         </div>
       </label>
     {/if}

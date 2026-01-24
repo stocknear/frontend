@@ -5,6 +5,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -28,9 +29,9 @@
 </script>
 
 <SEO
-  title="Top Analyst Strong Buy Stocks - Best Stock Picks from 5-Star Analysts"
-  description="Discover the top Strong Buy stocks recommended by the best-performing Wall Street analysts with 4+ star ratings. Find high-conviction stock picks with strong upside potential and exceptional analyst accuracy."
-  keywords="top analyst strong buy stocks, best analyst stock picks, strong buy recommendations, 5 star analyst stocks, top-rated analyst picks, high conviction stock picks, Wall Street best buys, analyst strong buy list"
+  title={m.analysts_top_stocks_seo_title()}
+  description={m.analysts_top_stocks_seo_description()}
+  keywords={m.analysts_top_stocks_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -79,10 +80,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.analysts_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">Top Analyst Stocks</li>
+    <li class="text-muted dark:text-gray-300">{m.analysts_top_stocks_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -93,12 +94,12 @@
         <main class="w-full lg:pr-5">
           <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
             <h1 class="mb-3 text-2xl sm:text-3xl font-bold">
-              Top Strong Buy Stocks
+              {m.analysts_top_stocks_title()}
             </h1>
           </div>
 
           <Infobox
-            text={"Strong Buy stocks by top-rated analysts with a star rating of 4 or above, known for their exceptional accuracy and returns. Stocks are ranked based on the volume of analyst ratings."}
+            text={m.analysts_top_stocks_infobox()}
           />
 
           <div class="w-full m-auto">
@@ -108,7 +109,7 @@
               {defaultList}
               {excludedRules}
               {hideLastRow}
-              title={`Top ${rawData?.length} Stocks`}
+              title={m.analysts_top_stocks_count({ count: rawData?.length })}
             />
           </div>
           <UpgradeToPro {data} />

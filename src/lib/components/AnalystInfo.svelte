@@ -1,3 +1,7 @@
+<script lang="ts">
+  import * as m from "$lib/paraglide/messages";
+</script>
+
 <div class="mt-6 py-8 xl:mt-10 border-t border-gray-300 dark:border-zinc-700">
   <div
     class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8 text-gray-700 dark:text-zinc-200"
@@ -6,10 +10,10 @@
       <h3
         class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        Analyst Star Rankings
+        {m.analysts_info_title()}
       </h3>
       <p class="mt-3 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
-        How we score analyst performance at a glance.
+        {m.analysts_info_subtitle()}
       </p>
     </div>
     <div class="mx-auto mt-8 max-w-2xl lg:max-w-5xl">
@@ -37,10 +41,10 @@
                 ></path></svg
               >
             </div>
-            Success Rate
+            {m.analysts_info_success_rate_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            The percentage of profitable ratings over the past year.
+            {m.analysts_info_success_rate_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
@@ -64,10 +68,10 @@
                 ></path></svg
               >
             </div>
-            Average Return
+            {m.analysts_info_avg_return_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            The average one-year return following each rating.
+            {m.analysts_info_avg_return_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
@@ -91,10 +95,10 @@
                 ></path></svg
               >
             </div>
-            Rating Count
+            {m.analysts_info_rating_count_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            Analysts with more rated ideas carry higher weight.
+            {m.analysts_info_rating_count_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
@@ -118,10 +122,10 @@
                 ></path></svg
               >
             </div>
-            Recency
+            {m.analysts_info_recency_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            Newer ratings carry more weight than older calls.
+            {m.analysts_info_recency_desc()}
           </dd>
         </div>
       </dl>

@@ -22,6 +22,7 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -615,9 +616,9 @@
 </script>
 
 <SEO
-  title="Earnings Calendar - Volatility Setups for Options Traders"
-  description="Track earnings dates, expected moves, and analyst estimates to plan options volatility trades and IV crush setups."
-  keywords="earnings calendar, options earnings plays, expected move, IV crush, earnings volatility, EPS estimates, revenue forecasts, earnings schedule"
+  title={m.earnings_seo_title()}
+  description={m.earnings_seo_description()}
+  keywords={m.earnings_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -677,10 +678,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.earnings_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">Earnings Calendar</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.earnings_breadcrumb_calendar()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -696,7 +697,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Earnings Calendar
+                {m.earnings_main_name()}
               </h1>
 
               <div class="inline-flex sm:ml-auto">
@@ -802,7 +803,7 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{day?.length} Earnings</span>
+                        <span class="text-sm">{m.earnings_count({ count: day?.length })}</span>
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -894,7 +895,7 @@
                                 >{formattedWeekday[index]}</span
                               >
                               <span class="text-sm m-auto pt-1 pb-1">
-                                {day?.length} Earnings</span
+                                {m.earnings_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -943,8 +944,7 @@
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
-                          {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
-                          Earnings
+                          {formattedWeekday[index]?.split(", ")[1]} · {m.earnings_count({ count: day?.length })}
                         </h2>
 
                         <div
@@ -977,7 +977,7 @@
                               bind:value={inputValue}
                               on:input={search}
                               type="text"
-                              placeholder="Find..."
+                              placeholder={m.earnings_search_placeholder()}
                               class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
@@ -1190,7 +1190,7 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">Previous</span
+                              <span class="hidden sm:inline">{m.earnings_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1199,7 +1199,7 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              Page {dailyCurrentPage} of {dailyTotalPages}
+                              {m.earnings_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1210,7 +1210,7 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{dailyRowsPerPage} Rows</span
+                                    >{m.earnings_pagination_rows({ count: dailyRowsPerPage })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1245,7 +1245,7 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{item} Rows</span>
+                                        <span class="text-sm">{m.earnings_pagination_rows({ count: item })}</span>
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1261,7 +1261,7 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">Next</span>
+                              <span class="hidden sm:inline">{m.earnings_pagination_next()}</span>
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1284,7 +1284,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            Back to Top <svg
+                            {m.earnings_back_to_top()} <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1303,7 +1303,7 @@
                     {:else}
                       <div class="mt-5 mb-3">
                         <Infobox
-                          text=" No Earnings reports available for the day."
+                          text={m.earnings_empty()}
                         />
                       </div>
                     {/if}
@@ -1322,7 +1322,7 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{day?.length} Earnings</span>
+                        <span class="text-sm">{m.earnings_count({ count: day?.length })}</span>
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -1572,7 +1572,7 @@
                           <div
                             class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
                           >
-                            No earnings scheduled
+                            {m.earnings_empty_scheduled()}
                           </div>
                         {/if}
                       </div>
@@ -1642,7 +1642,7 @@
                                 >{formattedWeekday[index]}</span
                               >
                               <span class="text-sm m-auto pt-1 pb-1">
-                                {day?.length} Earnings</span
+                                {m.earnings_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -1867,7 +1867,7 @@
                       <div
                         class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
                       >
-                        No earnings scheduled
+                        {m.earnings_empty_scheduled()}
                       </div>
                     {/if}
                   </div>

@@ -12,6 +12,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -453,9 +454,9 @@
 </script>
 
 <SEO
-  title="{analystName} Stock Analyst Profile - {companyName} Research Coverage"
-  description="Detailed profile of {analystName}, equity research analyst at {companyName}. Track their stock ratings, price targets, success rate of {successRate}%, and average return of {avgReturn}% across {totalRatings} stock recommendations."
-  keywords="{analystName?.toLowerCase()}, {companyName?.toLowerCase()} analyst, {analystName?.toLowerCase()} stock picks, equity research analyst, stock analyst ratings, {companyName?.toLowerCase()} research, analyst price targets, Wall Street analyst profile"
+  title={m.analysts_detail_seo_title({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a" })}
+  description={m.analysts_detail_seo_description({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a", successRate: successRate ?? "n/a", avgReturn: avgReturn ?? "n/a", totalRatings: totalRatings ?? 0 })}
+  keywords={m.analysts_detail_seo_keywords({ analystName: analystName?.toLowerCase() ?? "", companyName: companyName?.toLowerCase() ?? "" })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Person",
@@ -492,14 +493,14 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >Home</a
+        >{m.analysts_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/analysts"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >Analyst</a
+        >{m.analysts_breadcrumb_analysts()}</a
       >
     </li>
 
@@ -541,7 +542,7 @@
                   <p
                     class="mb-0.5 text-sm font-medium text-gray-800 dark:text-zinc-300"
                   >
-                    Stock Analyst at {companyName ?? "n/a"}
+                    {m.analysts_detail_stock_analyst_at({ companyName: companyName ?? "n/a" })}
                   </p>
                   <div class="inline-flex items-center">
                     <div class="flex flex-row items-center">
@@ -591,7 +592,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Out of {numOfAnalysts ?? "n/a"} analysts
+                    {m.analysts_detail_out_of_analysts({ count: numOfAnalysts ?? "n/a" })}
                   </div>
                 </div>
                 <div
@@ -605,7 +606,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Total ratings
+                    {m.analysts_detail_total_ratings()}
                   </div>
                 </div>
                 <div
@@ -646,7 +647,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Success rate
+                    {m.analysts_detail_success_rate()}
                   </div>
                 </div>
                 <div
@@ -687,7 +688,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    Average return
+                    {m.analysts_detail_average_return()}
                   </div>
                 </div>
               </div>
@@ -704,7 +705,7 @@
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      Main Sectors:
+                      {m.analysts_detail_main_sectors()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -727,7 +728,7 @@
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      Top Industries:
+                      {m.analysts_detail_top_industries()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -753,7 +754,7 @@
                 <h2
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {rawData?.length?.toLocaleString("en-US")} Stocks
+                  {m.analysts_detail_count({ count: rawData?.length?.toLocaleString("en-US") })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -784,7 +785,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder="Find..."
+                      placeholder={m.analysts_search_placeholder()}
                       class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
@@ -939,12 +940,12 @@
                         class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
                         <span
-                          >{item?.ratings} Rating{item?.ratings > 1
-                            ? "s"
-                            : ""}</span
+                          >{item?.ratings} {item?.ratings > 1
+                            ? m.analysts_detail_ratings()
+                            : m.analysts_detail_rating()}</span
                         >
                         <div class="flex items-center gap-1">
-                          <span>View Chart</span>
+                          <span>{m.analysts_detail_view_chart()}</span>
                           <svg
                             class="h-4 w-4 transition-transform {checkedSymbol ===
                             item?.ticker
@@ -1216,14 +1217,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span></Button
+                    <span class="hidden sm:inline">{m.analysts_pagination_previous()}</span></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    Page {currentPage} of {totalPages}
+                    {m.analysts_pagination_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -1233,7 +1234,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{rowsPerPage} Rows</span
+                          >{m.analysts_pagination_rows({ count: rowsPerPage })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1268,7 +1269,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{item} Rows</span>
+                              <span class="text-sm">{m.analysts_pagination_rows({ count: item })}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1284,7 +1285,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.analysts_pagination_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1308,7 +1309,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  Back to Top <svg
+                  {m.analysts_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -1325,12 +1326,12 @@
               </div>
             {:else if stockList?.length === 0 && inputValue?.length > 0}
               <div class="pt-5">
-                <Infobox text={`No data is available for "${inputValue}"`} />
+                <Infobox text={m.analysts_detail_empty({ query: inputValue })} />
               </div>
             {:else}
               <div class="pt-5">
                 <Infobox
-                  text="No data is available for the searched analyst."
+                  text={m.analysts_detail_no_data()}
                 />
               </div>
             {/if}
