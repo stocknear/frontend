@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { onDestroy, onMount } from "svelte";
     import { mode } from "mode-watcher";
-    import highcharts from "$lib/highcharts.ts";
+    import { init, dispose, type KLineData } from "klinecharts";
     import { abbreviateNumber } from "$lib/utils";
 
     export let plotData = {};
@@ -12,51 +13,95 @@
         DIA: "DOW",
         IWM: "RUSSELL",
     };
-    let changesPercentage = plotData?.changesPercentage || 0;
-    let priceData = plotData?.price || [];
-    let relativeVolume = plotData?.relativeVolume || 0;
-    let bullPercentage = plotData?.bullPercentage || 0;
-    let bearPercentage = plotData?.bearPercentage || 0;
-    let bullPrem = plotData?.bullPrem || 0;
-    let bearPrem = plotData?.bearPrem || 0;
-    let config = null;
+
+    let chartContainer: HTMLDivElement | null = null;
+    let chart: ReturnType<typeof init> | null = null;
+    let resizeObserver: ResizeObserver | null = null;
+
+    let changesPercentage = 0;
+    let priceData: any[] = [];
+    let relativeVolume = 0;
+    let bullPercentage = 0;
+    let bearPercentage = 0;
+    let bullPrem = 0;
+    let bearPrem = 0;
+    let isPositive = true;
+
+    $: changesPercentage = plotData?.changesPercentage || 0;
+    $: priceData = plotData?.price || [];
+    $: relativeVolume = plotData?.relativeVolume || 0;
+    $: bullPercentage = plotData?.bullPercentage || 0;
+    $: bearPercentage = plotData?.bearPercentage || 0;
+    $: bullPrem = plotData?.bullPrem || 0;
+    $: bearPrem = plotData?.bearPrem || 0;
 
     $: isPositive = changesPercentage >= 0;
 
-    function chart(priceData) {
-        const rawData = priceData || [];
+    const toNumber = (value: unknown): number | null => {
+        const n =
+            typeof value === "number"
+                ? value
+                : typeof value === "string"
+                  ? Number(value)
+                  : NaN;
+        return Number.isFinite(n) ? n : null;
+    };
 
-        // Area chart data - just time and close price
-        const seriesData = rawData?.map((item) => [
-            Date.UTC(
-                new Date(item?.time).getUTCFullYear(),
-                new Date(item?.time).getUTCMonth(),
-                new Date(item?.time).getUTCDate(),
-                new Date(item?.time).getUTCHours(),
-                new Date(item?.time).getUTCMinutes(),
-                new Date(item?.time).getUTCSeconds(),
-            ),
-            item?.close,
-        ]);
+    const parseTimestamp = (value: unknown): number | null => {
+        if (typeof value === "number" && Number.isFinite(value)) {
+            if (value > 1e12) return Math.floor(value);
+            if (value > 1e9) return Math.floor(value * 1000);
+            return null;
+        }
 
-        // Find the lowest & highest values
-        let minValue = Math?.min(
-            ...rawData?.map((item) => item?.low ?? item?.close),
-        );
-        let maxValue = Math?.max(
-            ...rawData?.map((item) => item?.high ?? item?.close),
-        );
+        if (typeof value !== "string") return null;
+        const [datePart, timePart] = value.trim().split(" ");
+        if (!datePart || !timePart) return null;
 
-        let padding = 0.002;
+        const [year, month, day] = datePart.split("-").map(Number);
+        const [hour, minute, second] = timePart.split(":").map(Number);
 
-        // Area colors based on positive/negative change (same as stocks page)
-        const isNegative = changesPercentage < 0;
+        if (
+            !Number.isFinite(year) ||
+            !Number.isFinite(month) ||
+            !Number.isFinite(day) ||
+            !Number.isFinite(hour) ||
+            !Number.isFinite(minute)
+        ) {
+            return null;
+        }
 
+        const sec = Number.isFinite(second) ? second : 0;
+        return Date.UTC(year, month - 1, day, hour, minute, sec);
+    };
+
+    const buildMiniBars = (rawData: any[]): KLineData[] => {
+        const list = Array.isArray(rawData) ? rawData : [];
+        return list
+            .map((item) => {
+                const timestamp = parseTimestamp(item?.time ?? item?.date);
+                const close = toNumber(item?.close);
+                if (timestamp === null || close === null) return null;
+                return {
+                    timestamp,
+                    open: close,
+                    high: close,
+                    low: close,
+                    close,
+                    volume: 0,
+                };
+            })
+            .filter((bar): bar is KLineData => Boolean(bar))
+            .sort((a, b) => a.timestamp - b.timestamp);
+    };
+
+    const applyMiniStyles = (isNegative: boolean, isLight: boolean) => {
+        if (!chart) return;
         const lineColor = isNegative
-            ? $mode === "light"
+            ? isLight
                 ? "#dc2626"
                 : "#f87171"
-            : $mode === "light"
+            : isLight
               ? "#16a34a"
               : "#34d399";
 
@@ -68,122 +113,105 @@
             ? "rgba(220, 38, 38, 0.02)"
             : "rgba(22, 163, 74, 0.02)";
 
-        const baseDate =
-            rawData && rawData?.length
-                ? new Date(rawData?.at(0)?.time)
-                : new Date();
-
-        // Set the fixed start and end times (9:30 and 16:00)
-        const startTime = new Date(
-            baseDate.getFullYear(),
-            baseDate.getMonth(),
-            baseDate.getDate(),
-            9,
-            30,
-        ).getTime();
-        const endTime = new Date(
-            baseDate.getFullYear(),
-            baseDate.getMonth(),
-            baseDate.getDate(),
-            16,
-            0,
-        ).getTime();
-
-        const options = {
-            chart: {
-                backgroundColor: "transparent",
-                animation: false,
-                height: null,
-            },
-            credits: { enabled: false },
-            title: { text: null },
-            xAxis: {
-                type: "datetime",
-                min: startTime,
-                max: endTime,
-                tickLength: 0,
-                categories: null,
-                crosshair: false,
-                labels: {
-                    style: {
-                        color: $mode === "light" ? "#666" : "#999",
-                        fontSize: "9px",
-                    },
-                    distance: 5,
-                    formatter: function () {
-                        const date = new Date(this?.value);
-                        const timeString = date?.toLocaleTimeString("en-US", {
-                            hour: "numeric",
-                            hour12: true,
-                        });
-                        return timeString.replace(/\s/g, "");
-                    },
-                },
-                tickPositioner: function () {
-                    const positions = [];
-                    const info = this.getExtremes();
-                    const tickCount = 3;
-                    const interval = Math.floor(
-                        (info.max - info.min) / tickCount,
-                    );
-
-                    for (let i = 0; i <= tickCount; i++) {
-                        positions.push(info.min + i * interval);
-                    }
-                    return positions;
-                },
-            },
-            tooltip: {
-                enabled: false,
-            },
-            yAxis: [
-                {
-                    startOnTick: false,
-                    endOnTick: false,
-                    visible: false,
-                },
-            ],
-            plotOptions: {
-                series: {
-                    animation: false,
-                    marker: { enabled: false },
-                    states: { hover: { enabled: false } },
-                },
+        chart.setStyles({
+            grid: { show: false },
+            xAxis: { show: false },
+            yAxis: { show: false },
+            crosshair: { show: false },
+            candle: {
+                type: "area",
                 area: {
-                    animation: false,
-                    lineWidth: 2,
-                    threshold: null,
-                    states: { hover: { enabled: false } },
-                },
-            },
-            legend: { enabled: false },
-            series: [
-                {
-                    name: "Price",
-                    type: "area",
-                    data: seriesData,
-                    animation: false,
-                    color: lineColor,
-                    lineWidth: 1,
-                    marker: { enabled: false },
-                    fillColor: {
-                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                        stops: [
-                            [0, fillColorStart],
-                            [1, fillColorEnd],
-                        ],
+                    lineColor,
+                    lineSize: 1,
+                    smooth: true,
+                    value: "close",
+                    backgroundColor: [
+                        { offset: 0, color: fillColorStart },
+                        { offset: 1, color: fillColorEnd },
+                    ],
+                    point: {
+                        show: false,
+                        radius: 0,
+                        rippleRadius: 0,
+                        animation: false,
                     },
                 },
-            ],
-        };
+                priceMark: {
+                    show: false,
+                    high: { show: false },
+                    low: { show: false },
+                    last: { show: false },
+                },
+                tooltip: { showRule: "none" },
+            },
+            indicator: {
+                lastValueMark: { show: false },
+                tooltip: { showRule: "none" },
+            },
+            separator: {
+                size: 0,
+                color: "transparent",
+                fill: false,
+                activeBackgroundColor: "transparent",
+            },
+        });
+    };
 
-        return options;
+    const updateChartData = (rawData: any[], ticker: string) => {
+        if (!chart) return;
+        const bars = buildMiniBars(rawData);
+        chart.setSymbol({
+            ticker: ticker ? ticker.toUpperCase() : "",
+            pricePrecision: 2,
+            volumePrecision: 0,
+        });
+        chart.setPeriod({ type: "minute", span: 1 });
+        chart.setDataLoader({
+            getBars: async ({ type, callback }) => {
+                if (type === "init") {
+                    callback(bars, { backward: false, forward: false });
+                    return;
+                }
+                callback([], { backward: false, forward: false });
+            },
+        });
+        if (bars.length) {
+            chart.scrollToRealTime();
+        }
+    };
+
+    onMount(() => {
+        if (!chartContainer) return;
+        chart = init(chartContainer, { timezone: "America/New_York" });
+        if (!chart) return;
+        chart.setZoomEnabled(false);
+        chart.setScrollEnabled(false);
+        chart.setOffsetRightDistance(0);
+        applyMiniStyles(changesPercentage < 0, $mode === "light");
+        updateChartData(priceData, symbol);
+
+        resizeObserver = new ResizeObserver(() => chart?.resize());
+        resizeObserver.observe(chartContainer);
+    });
+
+    onDestroy(() => {
+        resizeObserver?.disconnect();
+        resizeObserver = null;
+        if (chart) {
+            dispose(chart);
+            chart = null;
+        }
+    });
+
+    $: if (chart) {
+        applyMiniStyles(changesPercentage < 0, $mode === "light");
     }
 
-    config = chart(priceData);
+    $: if (chart) {
+        updateChartData(priceData, symbol);
+    }
 </script>
 
-{#if config}
     <div
         class=" bg-white/60 dark:bg-zinc-950/40 overflow-hidden text-gray-700 dark:text-zinc-200"
     >
@@ -235,7 +263,7 @@
                     </div>
                 </div>
 
-                <div class="flex-1 h-[90px]" use:highcharts={config}></div>
+                <div class="flex-1 h-[90px]" bind:this={chartContainer}></div>
             </div>
 
             <div
@@ -301,4 +329,3 @@
             </div>
         </div>
     </div>
-{/if}
