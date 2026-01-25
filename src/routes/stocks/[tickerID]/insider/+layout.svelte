@@ -1,36 +1,32 @@
 <script lang="ts">
   import { stockTicker } from "$lib/store";
-
   import { page } from "$app/stores";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
   let newsList = data?.getNews ?? [];
 
   const formatDate = (dateString) => {
-    // Create a date object for the input dateString
     const inputDate = new Date(dateString);
-
-    // Create a date object for the current time in New York City
     const nycTime = new Date().toLocaleString("en-US", {
       timeZone: "America/New_York",
     });
     const currentNYCDate = new Date(nycTime);
-
-    // Calculate the difference in milliseconds
     const difference = inputDate.getTime() - currentNYCDate.getTime();
-
-    // Convert the difference to minutes
     const minutes = Math.abs(Math.round(difference / (1000 * 60)));
 
     if (minutes < 60) {
-      return `${minutes} minutes`;
+      const unit = minutes === 1 ? m.time_minute() : m.time_minutes();
+      return m.time_ago({ count: minutes, unit });
     } else if (minutes < 1440) {
       const hours = Math.round(minutes / 60);
-      return `${hours} hour${hours !== 1 ? "s" : ""}`;
+      const unit = hours === 1 ? m.time_hour() : m.time_hours();
+      return m.time_ago({ count: hours, unit });
     } else {
       const days = Math.round(minutes / 1440);
-      return `${days} day${days !== 1 ? "s" : ""}`;
+      const unit = days === 1 ? m.time_day() : m.time_days();
+      return m.time_ago({ count: days, unit });
     }
   };
 
@@ -90,7 +86,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                Insider Trading
+                {m.stock_detail_insider_nav_insider_trading()}
               </a>
 
               <a
@@ -101,7 +97,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                13F Institute
+                {m.stock_detail_insider_nav_13f_institute()}
               </a>
               <!--
               <a
@@ -123,7 +119,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                Transcripts
+                {m.stock_detail_insider_nav_transcripts()}
               </a>
             </ul>
           </nav>
@@ -142,12 +138,11 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-xl font-semibold sm:ml-3">
-                    Pro Subscription
+                    {m.stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
                 <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {m.stock_detail_stats_upgrade_desc()}
                 </span>
               </a>
             </div>
@@ -159,7 +154,7 @@
             >
               <div class="p-4 text-sm">
                 <h3 class="text-lg font-semibold mb-3">
-                  {$stockTicker} News
+                  {m.stock_detail_stats_ticker_news({ ticker: $stockTicker })}
                 </h3>
                 <ul class="">
                   {#each newsList?.slice(0, 10) as item}

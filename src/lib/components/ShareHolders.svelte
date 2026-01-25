@@ -14,6 +14,7 @@
   import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -78,7 +79,7 @@
     // Add "Others" if there's remaining ownership
     if (othersOwnership > 0) {
       pieData.push({
-        name: "Others",
+        name: m.stock_detail_shareholders_others(),
         y: othersOwnership,
         color: "#9B7BA7", // Light purple
       });
@@ -96,7 +97,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-center text-sm font-semibold tracking-tight">${removeCompanyStrings($displayCompanyName)} Top Shareholders</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-center text-sm font-semibold tracking-tight">${m.stock_detail_shareholders_chart_title({ company: removeCompanyStrings($displayCompanyName) })}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -138,7 +139,7 @@
       },
       series: [
         {
-          name: "Ownership",
+          name: m.stock_detail_shareholders_ownership(),
           data: pieData,
           animation: false,
         },
@@ -279,18 +280,18 @@
     }
   }
 
-  let columns = [
-    { key: "name", label: "Institute", align: "left" },
-    { key: "ownership", label: "Ownership", align: "right" },
-    { key: "sharesNumber", label: "Shares", align: "right" },
+  $: columns = [
+    { key: "name", label: m.stock_detail_shareholders_col_institute(), align: "left" },
+    { key: "ownership", label: m.stock_detail_shareholders_col_ownership(), align: "right" },
+    { key: "sharesNumber", label: m.stock_detail_shareholders_col_shares(), align: "right" },
     {
       key: "changeInSharesNumberPercentage",
-      label: "Shares % Change",
+      label: m.stock_detail_shareholders_col_shares_change(),
       align: "right",
     },
-    { key: "marketValue", label: "Value", align: "right" },
-    { key: "weight", label: "Portfolio", align: "right" },
-    { key: "filingDate", label: "Filing", align: "right" },
+    { key: "marketValue", label: m.stock_detail_shareholders_col_value(), align: "right" },
+    { key: "weight", label: m.stock_detail_shareholders_col_portfolio(), align: "right" },
+    { key: "filingDate", label: m.stock_detail_shareholders_col_filing(), align: "right" },
   ];
 
   let sortOrders = {
@@ -381,46 +382,38 @@
         class="mt-3 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
       >
         <p>
-          Total Institutes of {rawData?.investorsHolding?.toLocaleString(
-            "en-US",
-          )} in {removeCompanyStrings($displayCompanyName)}
-          {rawData?.investorsHoldingChange >= 0
-            ? "expanded their positions with an increase of"
-            : "reduced their positions with a decrease of"}
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >{Math.abs(rawData?.investorsHoldingChange)}</span
-          >
-          investors compared to the previous quarter.
-          {rawData?.numberOf13FsharesChange >= 0
-            ? "An additional"
-            : "A reduction of"}
-          <span class="font-semibold text-gray-900 dark:text-white">
-            {@html abbreviateNumber(
+          {@html m.stock_detail_shareholders_description({
+            count: rawData?.investorsHolding?.toLocaleString("en-US"),
+            company: removeCompanyStrings($displayCompanyName),
+            direction: rawData?.investorsHoldingChange >= 0
+              ? m.stock_detail_shareholders_expanded()
+              : m.stock_detail_shareholders_reduced(),
+            changeType: rawData?.investorsHoldingChange >= 0
+              ? m.stock_detail_shareholders_increase()
+              : m.stock_detail_shareholders_decrease(),
+            change: Math.abs(rawData?.investorsHoldingChange),
+            sharesDirection: rawData?.numberOf13FsharesChange >= 0
+              ? m.stock_detail_shareholders_additional()
+              : m.stock_detail_shareholders_reduction(),
+            sharesChange: abbreviateNumber(
               Math.abs(rawData?.numberOf13FsharesChange),
               false,
               true,
-            )}
-          </span>
-          shares, as total invested capital {rawData?.totalInvestedChange >= 0
-            ? "grew by"
-            : "declined by"}
-          <span class="font-semibold text-gray-900 dark:text-white">
-            {@html abbreviateNumber(
+            ),
+            capitalDirection: rawData?.totalInvestedChange >= 0
+              ? m.stock_detail_shareholders_grew()
+              : m.stock_detail_shareholders_declined(),
+            capitalChange: abbreviateNumber(
               Math.abs(rawData?.totalInvestedChange),
               true,
               true,
-            )}
-          </span>
-          {rawData?.ownershipPercent >= rawData?.lastOwnershipPercent
-            ? "with ownership percentage increasing from"
-            : "with ownership percentage dropping from"}
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >{rawData?.lastOwnershipPercent?.toFixed(2)}%</span
-          >
-          to
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >{rawData?.ownershipPercent?.toFixed(2)}%</span
-          >.
+            ),
+            ownershipDirection: rawData?.ownershipPercent >= rawData?.lastOwnershipPercent
+              ? m.stock_detail_shareholders_increasing()
+              : m.stock_detail_shareholders_dropping(),
+            lastOwnership: rawData?.lastOwnershipPercent?.toFixed(2),
+            currentOwnership: rawData?.ownershipPercent?.toFixed(2),
+          })}
         </p>
 
         <div
@@ -433,15 +426,15 @@
         <h1
           class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 mt-6"
         >
-          Options Activity
+          {m.stock_detail_shareholders_options_activity()}
         </h1>
 
         <div class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
-          Institutions are holding {callPercentage > 55
-            ? "more Calls Contracts as Puts Contracts, indicating a bullish sentiment."
+          {m.stock_detail_shareholders_options_holding()} {callPercentage > 55
+            ? m.stock_detail_shareholders_options_bullish()
             : callPercentage < 45
-              ? "more Puts Contracts as Calls Contracts, indicating a bearish sentiment."
-              : "Calls/Puts contracts nearly balanced, indicating a neutral sentiment."}
+              ? m.stock_detail_shareholders_options_bearish()
+              : m.stock_detail_shareholders_options_neutral()}
         </div>
 
         <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
@@ -455,7 +448,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >Put/Call</span
+                  >{m.stock_detail_shareholders_put_call()}</span
                 >
                 <span
                   class="text-start text-sm text-gray-700 dark:text-zinc-200"
@@ -515,7 +508,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >Call Flow</span
+                  >{m.stock_detail_shareholders_call_flow()}</span
                 >
                 <span
                   class="text-start text-sm text-gray-700 dark:text-zinc-200"
@@ -577,7 +570,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >Put Flow</span
+                  >{m.stock_detail_shareholders_put_flow()}</span
                 >
                 <span
                   class="text-start text-sm text-gray-700 dark:text-zinc-200"
@@ -642,7 +635,7 @@
           <h2
             class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
           >
-            Top Shareholders
+            {m.stock_detail_shareholders_top_shareholders()}
           </h2>
           <div
             class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -673,7 +666,7 @@
                 bind:value={inputValue}
                 on:input={search}
                 type="text"
-                placeholder="Find..."
+                placeholder={m.stock_detail_shareholders_find()}
                 class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
@@ -795,14 +788,14 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">Previous</span>
+              <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
             </Button>
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
             </span>
 
             <DropdownMenu.Root>
@@ -812,7 +805,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{rowsPerPage} Rows</span
+                    >{m.stock_detail_rows({ count: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -847,7 +840,7 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{item} Rows</span>
+                        <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -863,7 +856,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">Next</span>
+              <span class="hidden sm:inline">{m.stock_detail_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -887,7 +880,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to Top <svg
+            {m.stock_detail_back_to_top()} <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"

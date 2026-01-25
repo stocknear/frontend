@@ -413,7 +413,7 @@ ${summaryData.outlook}
         },
       },
       title: {
-        text: `<h3 class="mt-3 -mb-3 text-sm sm:text-lg">Insider Trading Activity</h3>`,
+        text: `<h3 class="mt-3 -mb-3 text-sm sm:text-lg">${m.stock_detail_insider_chart_title()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -436,7 +436,7 @@ ${summaryData.outlook}
       },
       yAxis: {
         title: {
-          text: $screenWidth < 640 ? null : "Stock Price ($)",
+          text: $screenWidth < 640 ? null : m.stock_detail_insider_yaxis_label(),
           style: {
             color: $mode === "light" ? "#6b7280" : "#fff",
           },
@@ -524,7 +524,7 @@ ${summaryData.outlook}
       },
       series: [
         {
-          name: "Stock Price",
+          name: m.stock_detail_insider_stock_price(),
           type: "spline",
           data: priceData,
           color: $mode === "light" ? "#000" : "#fff",
@@ -533,7 +533,7 @@ ${summaryData.outlook}
           zIndex: 1,
         },
         {
-          name: "Insider Purchases",
+          name: m.stock_detail_insider_purchases(),
           type: "bubble",
           data: purchaseMarkers,
           color: "#22c55e", // Green for purchases
@@ -545,7 +545,7 @@ ${summaryData.outlook}
           showInLegend: purchaseMarkers.length > 0,
         },
         {
-          name: "Insider Sales",
+          name: m.stock_detail_insider_sales(),
           type: "bubble",
           data: saleMarkers,
           color: "#ef4444", // Red for sales
@@ -768,13 +768,13 @@ ${summaryData.outlook}
     updatePaginatedData(); // Update display with loaded preference
   }
 
-  let columns = [
-    { key: "name", label: "Name", align: "left" },
-    { key: "transactionDate", label: "Transaction Date", align: "right" },
-    { key: "securitiesTransacted", label: "Shares", align: "right" },
-    { key: "price", label: "Price", align: "right" },
-    { key: "value", label: "Value", align: "right" },
-    { key: "transactionType", label: "Type", align: "right" },
+  $: columns = [
+    { key: "name", label: m.stock_detail_insider_col_name(), align: "left" },
+    { key: "transactionDate", label: m.stock_detail_insider_col_transaction_date(), align: "right" },
+    { key: "securitiesTransacted", label: m.stock_detail_insider_col_shares(), align: "right" },
+    { key: "price", label: m.stock_detail_insider_col_price(), align: "right" },
+    { key: "value", label: m.stock_detail_insider_col_value(), align: "right" },
+    { key: "transactionType", label: m.stock_detail_insider_col_type(), align: "right" },
   ];
 
   let sortOrders = {
@@ -953,35 +953,23 @@ ${summaryData.outlook}
         <p
           class="mt-4 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
         >
-          We track
-          <strong>{totalTransaction}</strong> insider transactions spanning
-          <strong
-            >{rawData
+          {@html m.stock_detail_insider_description({
+            transactions: totalTransaction,
+            purchases: rawData
               ?.filter((item) => item?.transactionType?.includes("P"))
-              ?.length?.toLocaleString("en-US")}</strong
-          >
-          purchases and
-          <strong
-            >{rawData
+              ?.length?.toLocaleString("en-US"),
+            sales: rawData
               ?.filter((item) => item?.transactionType?.includes("S"))
-              ?.length?.toLocaleString("en-US")}</strong
-          >
-          sales, with a total transaction value of
-          <strong
-            >${abbreviateNumber(
+              ?.length?.toLocaleString("en-US"),
+            value: "$" + abbreviateNumber(
               rawData?.reduce((sum, item) => sum + (item?.value || 0), 0),
-            )}</strong
-          >. Recent activity shows
-          <strong
-            >{rawData?.filter(
+            ),
+            recent: rawData?.filter(
               (item) =>
                 new Date(item?.transactionDate) >
                 new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
-            )?.length || 0}</strong
-          >
-          transactions in the last 90 days, indicating
-          <strong
-            >{rawData?.filter(
+            )?.length || 0,
+            sentiment: rawData?.filter(
               (item) =>
                 new Date(item?.transactionDate) >
                   new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) &&
@@ -993,10 +981,9 @@ ${summaryData.outlook}
                   new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) &&
                 item?.transactionType?.includes("S"),
             )?.length
-              ? "bullish insider accumulation"
-              : "insider distribution"}</strong
-          >
-          among company executives and key stakeholders.
+              ? m.stock_detail_insider_bullish()
+              : m.stock_detail_insider_bearish(),
+          })}
         </p>
 
         <div
@@ -1350,7 +1337,7 @@ ${summaryData.outlook}
             <h2
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
             >
-              {totalTransaction} Transactions
+              {m.stock_detail_insider_transactions_title({ count: totalTransaction })}
             </h2>
             <div
               class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
