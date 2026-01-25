@@ -782,5 +782,7 @@
   "stock_detail_employees_col_change": "Veränderung",
   "stock_detail_employees_col_growth": "Wachstum",
   "stock_detail_employees_no_history": "Keine Historie gefunden",
-  "stock_detail_employees_chart_title": "{company} Mitarbeiter"
+  "stock_detail_employees_chart_title": "{company} Mitarbeiter",
+  "stock_detail_employees_rankings": "Mitarbeiter-Rankings",
+  "stock_detail_more_news": "Mehr News"
 }

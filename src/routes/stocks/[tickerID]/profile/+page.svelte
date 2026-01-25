@@ -437,7 +437,7 @@ ${paragraphs.join("\n")}
                 </tbody>
               </table>
             {:else}
-              No SEC filings available.
+              {m.stock_detail_profile_no_filings()}
             {/if}
             <div
               class="border-b border-gray-300 dark:border-zinc-700 py-3 text-lg sm:text-xl font-semibold"
@@ -446,7 +446,7 @@ ${paragraphs.join("\n")}
                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition sm:hover:underline sm:hover:underline-offset-4"
                 href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${rawData?.cik}&amp;count=100`}
                 target="_blank"
-                rel="noopener noreferrer">View All SEC Filings</a
+                rel="noopener noreferrer">{m.stock_detail_profile_view_all_filings()}</a
               >
             </div>
           </div>

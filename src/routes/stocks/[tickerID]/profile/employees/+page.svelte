@@ -4,6 +4,7 @@
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import * as m from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
 
@@ -27,11 +28,23 @@
 
   let dateDistance = false;
 
-  const columns = [
-    { key: "date", label: "Date", align: "left" },
-    { key: "employeeCount", label: "Employees", align: "right" },
-    { key: "change", label: "Change", align: "right" },
-    { key: "growth", label: "Growth", align: "right" },
+  $: columns = [
+    { key: "date", label: m.stock_detail_employees_col_date(), align: "left" },
+    {
+      key: "employeeCount",
+      label: m.stock_detail_employees_col_employees(),
+      align: "right",
+    },
+    {
+      key: "change",
+      label: m.stock_detail_employees_col_change(),
+      align: "right",
+    },
+    {
+      key: "growth",
+      label: m.stock_detail_employees_col_growth(),
+      align: "right",
+    },
   ];
 
   const rowsPerPageOptions = [20, 50, 100];
@@ -275,7 +288,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm sm:text-lg">${removeCompanyStrings($displayCompanyName)} Employees</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm sm:text-lg">${m.stock_detail_employees_chart_title({ company: removeCompanyStrings($displayCompanyName) })}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -337,16 +350,16 @@
           let tooltipContent = `<span class="m-auto text-sm font-[501]">Year ${yearValue}</span><br>`;
 
           // Loop through each point in the shared tooltip
-          this.points.forEach((point) => {
+          this.points.forEach((point, index) => {
             const label = point?.series?.name ?? "";
-            const value =
-              point?.series?.name === "Growth"
-                ? point?.y === null || point?.y === undefined
-                  ? "n/a"
-                  : `${point.y.toFixed(2)}%`
-                : point?.y === null || point?.y === undefined
-                  ? "n/a"
-                  : point.y.toLocaleString("en-US");
+            const isGrowthSeries = index === 1;
+            const value = isGrowthSeries
+              ? point?.y === null || point?.y === undefined
+                ? "n/a"
+                : `${point.y.toFixed(2)}%`
+              : point?.y === null || point?.y === undefined
+                ? "n/a"
+                : point.y.toLocaleString("en-US");
             tooltipContent += `
     <span class="font-normal text-sm mt-1">${label}: ${value}</span><br>`;
           });
@@ -356,7 +369,7 @@
       },
       series: [
         {
-          name: "Employees",
+          name: m.stock_detail_employees_label(),
           type: "column",
           data: totalList,
           color: $mode === "light" ? "#2C6288" : "#fff",
@@ -364,7 +377,7 @@
           yAxis: 0,
         },
         {
-          name: "Growth",
+          name: m.stock_detail_employees_col_growth(),
           type: "spline",
           data: growthList,
           color: $mode === "light" ? "#1D4ED8" : "#38BDF8",
@@ -406,25 +419,26 @@
         },
       );
       const formattedChangeRate = new Intl.NumberFormat("en").format(
-        changeRate,
+        Math.abs(changeRate),
       );
       const changeDirection =
-        changeRate >= 0 && changeRate !== null ? "increased" : "decreased";
+        changeRate >= 0 && changeRate !== null
+          ? m.stock_detail_employees_increased()
+          : m.stock_detail_employees_decreased();
       const growthRateClass =
         changeRate >= 0 && changeRate !== null
           ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
           : "text-rose-600 dark:text-rose-400";
 
-      return `
-   <span>
-    ${$displayCompanyName} had ${formattedEmployees} employees on ${latestdate}. The number of employees ${changeDirection}
-    by ${formattedChangeRate} or
-    <span class="${growthRateClass}">
-     ${growthRate}%
-    </span>
-    compared to the previous year.
-   </span>
-  `;
+      return `<span>${m.stock_detail_employees_info_has_data({
+        company: $displayCompanyName,
+        employees: formattedEmployees,
+        date: latestdate,
+        direction: changeDirection,
+        change: formattedChangeRate,
+        colorClass: growthRateClass,
+        growth: growthRate,
+      })}</span>`;
     } else if (employeeHistory?.length !== 0 && dateDistance) {
       const abbreviatedEmployees = abbreviateNumber(employees);
       const latestdate = new Date(employeeHistory?.at(0)?.date).toLocaleString(
@@ -436,17 +450,15 @@
         },
       );
 
-      return `
-   <span>
-    ${$displayCompanyName} had ${abbreviatedEmployees} employees on ${latestdate}. Since then, the company has not submitted any additional employee data for more than a year.
-   </span>
-  `;
+      return `<span>${m.stock_detail_employees_info_old_data({
+        company: $displayCompanyName,
+        employees: abbreviatedEmployees,
+        date: latestdate,
+      })}</span>`;
     } else {
-      return `
-   <span>
-    No employee history for ${$displayCompanyName}. Probably, no records of past employees.
-   </span>
-  `;
+      return `<span>${m.stock_detail_employees_info_no_data({
+        company: $displayCompanyName,
+      })}</span>`;
     }
   }
 
@@ -493,16 +505,30 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Employee Count | Workforce Growth & Hiring Trends`}
-  description={`Comprehensive employee count analysis for ${$displayCompanyName} (${$stockTicker}). Track workforce growth, hiring trends, headcount changes, and employment statistics with historical data and growth rate calculations.`}
-  keywords={`${$stockTicker} employee count, ${$displayCompanyName} workforce, company headcount, ${$stockTicker} hiring trends, employee growth rate, workforce analysis, ${$stockTicker} employment statistics, company size employees`}
+  title={m.stock_detail_employees_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={m.stock_detail_employees_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={m.stock_detail_employees_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/profile/employees`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} Employee Analysis`,
-    description: `Professional workforce analysis and employee count tracking for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_employees_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: m.stock_detail_employees_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/profile/employees`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -536,7 +562,9 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <div class="mb-6">
           <h2 class="text-xl sm:text-2xl font-bold mb-4">
-            {removeCompanyStrings($displayCompanyName)} Employees
+            {m.stock_detail_employees_title({
+              company: removeCompanyStrings($displayCompanyName),
+            })}
           </h2>
 
           <Infobox text={htmlOutput} />
@@ -546,7 +574,7 @@
           class="my-5 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-3 sm:gap-6"
         >
           <div>
-            Employees
+            {m.stock_detail_employees_label()}
             <div
               class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
             >
@@ -558,7 +586,8 @@
             </div>
           </div>
           <div>
-            Change (1Y) <div
+            {m.stock_detail_employees_change_1y()}
+            <div
               class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
             >
               {#if dateDistance}
@@ -571,7 +600,8 @@
             </div>
           </div>
           <div>
-            Growth (1Y) <div
+            {m.stock_detail_employees_growth_1y()}
+            <div
               class="mt-0.5 text-lg {growthRate && growthRate > 0
                 ? "before:content-['+'] "
                 : ''} font-semibold bp:text-xl sm:mt-1.5 sm:text-2xl"
@@ -580,7 +610,7 @@
             </div>
           </div>
           <div>
-            Revenue / Employee
+            {m.stock_detail_employees_revenue_per()}
             <div
               class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
             >
@@ -594,7 +624,7 @@
             </div>
           </div>
           <div>
-            Profits / Employee
+            {m.stock_detail_employees_profits_per()}
             <div
               class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
             >
@@ -606,7 +636,7 @@
             </div>
           </div>
           <div>
-            Market Cap
+            {m.stock_detail_employees_market_cap()}
             <div
               class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
             >
@@ -633,7 +663,7 @@
                 <h3
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
                 >
-                  History
+                  {m.stock_detail_employees_history()}
                 </h3>
 
                 <div class=" w-full flex order-1 items-center ml-auto">
@@ -709,7 +739,7 @@
             </div>
 
             <div
-              class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mt-8 sm:mt-6"
+              class="flex flex-row items-center justify-between mt-8 sm:mt-6 gap-4"
             >
               <div class="flex items-center gap-2">
                 <Button
@@ -730,13 +760,18 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">Previous</span>
+                  <span class="hidden sm:inline"
+                    >{m.stock_detail_previous()}</span
+                  >
                 </Button>
               </div>
 
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  Page {currentPage} of {totalPages}
+                  {m.stock_detail_page_of({
+                    current: currentPage,
+                    total: totalPages,
+                  })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -746,7 +781,7 @@
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm">
-                        {rowsPerPage} Rows
+                        {m.stock_detail_rows({ count: rowsPerPage })}
                       </span>
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -780,7 +815,7 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer text-sm"
                           >
-                            {item} Rows
+                            {m.stock_detail_rows({ count: item })}
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -795,7 +830,7 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">Next</span>
+                  <span class="hidden sm:inline">{m.stock_detail_next()}</span>
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -817,7 +852,7 @@
           <h1
             class="text-xl m-auto flex justify-center font-semibold mb-4 mt-10"
           >
-            No history found
+            {m.stock_detail_employees_no_history()}
           </h1>
         {/if}
       </div>

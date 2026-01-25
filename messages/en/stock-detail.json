@@ -782,5 +782,7 @@
   "stock_detail_employees_col_change": "Change",
   "stock_detail_employees_col_growth": "Growth",
   "stock_detail_employees_no_history": "No history found",
-  "stock_detail_employees_chart_title": "{company} Employees"
+  "stock_detail_employees_chart_title": "{company} Employees",
+  "stock_detail_employees_rankings": "Employee Rankings",
+  "stock_detail_more_news": "More News"
 }
