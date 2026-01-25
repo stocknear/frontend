@@ -24,13 +24,16 @@
     const minutes = Math.abs(Math.round(difference / (1000 * 60)));
 
     if (minutes < 60) {
-      return `${minutes} minutes`;
+      const unit = minutes === 1 ? m.time_minute() : m.time_minutes();
+      return m.time_ago({ count: minutes, unit });
     } else if (minutes < 1440) {
       const hours = Math.round(minutes / 60);
-      return `${hours} hour${hours !== 1 ? "s" : ""}`;
+      const unit = hours === 1 ? m.time_hour() : m.time_hours();
+      return m.time_ago({ count: hours, unit });
     } else {
       const days = Math.round(minutes / 1440);
-      return `${days} day${days !== 1 ? "s" : ""}`;
+      const unit = days === 1 ? m.time_day() : m.time_days();
+      return m.time_ago({ count: days, unit });
     }
   };
 
@@ -151,7 +154,7 @@
                 <ul class=" mb-3">
                   {#each newsList?.slice(0, 10) as item}
                     <li class="mb-3 last:mb-1">
-                      {formatDate(item?.publishedDate)} ago -
+                      {formatDate(item?.publishedDate)} -
                       <a
                         class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                         href={item?.url}
