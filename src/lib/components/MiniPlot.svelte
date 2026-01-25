@@ -26,6 +26,8 @@
     let bullPrem = 0;
     let bearPrem = 0;
     let isPositive = true;
+    let sessionStart: number | null = null;
+    let sessionEnd: number | null = null;
 
     $: changesPercentage = plotData?.changesPercentage || 0;
     $: priceData = plotData?.price || [];
@@ -72,12 +74,67 @@
         }
 
         const sec = Number.isFinite(second) ? second : 0;
-        return Date.UTC(year, month - 1, day, hour, minute, sec);
+        const localDate = new Date(year, month - 1, day, hour, minute, sec);
+        return Date.UTC(
+            localDate.getUTCFullYear(),
+            localDate.getUTCMonth(),
+            localDate.getUTCDate(),
+            localDate.getUTCHours(),
+            localDate.getUTCMinutes(),
+            localDate.getUTCSeconds(),
+        );
     };
+
+    const formatXAxisLabel = (timestamp: number): string => {
+        const isBoundary =
+            (sessionStart !== null && timestamp === sessionStart) ||
+            (sessionEnd !== null && timestamp === sessionEnd);
+        const value = new Date(timestamp).toLocaleTimeString("en-US", {
+            hour: "numeric",
+            ...(isBoundary ? { minute: "2-digit" } : {}),
+            hour12: true,
+        });
+        return value.replace(/\s/g, "").replace(":00", "");
+    };
+
+    const buildSessionTimestamp = (
+        baseTimestamp: number,
+        hours: number,
+        minutes: number,
+    ): number => {
+        const baseDate = new Date(baseTimestamp);
+        const localDate = new Date(
+            baseDate.getFullYear(),
+            baseDate.getMonth(),
+            baseDate.getDate(),
+            hours,
+            minutes,
+            0,
+            0,
+        );
+        return Date.UTC(
+            localDate.getUTCFullYear(),
+            localDate.getUTCMonth(),
+            localDate.getUTCDate(),
+            localDate.getUTCHours(),
+            localDate.getUTCMinutes(),
+            localDate.getUTCSeconds(),
+            localDate.getUTCMilliseconds(),
+        );
+    };
+
+    const makeFlatBar = (timestamp: number, close: number): KLineData => ({
+        timestamp,
+        open: close,
+        high: close,
+        low: close,
+        close,
+        volume: 0,
+    });
 
     const buildMiniBars = (rawData: any[]): KLineData[] => {
         const list = Array.isArray(rawData) ? rawData : [];
-        return list
+        const bars = list
             .map((item) => {
                 const timestamp = parseTimestamp(item?.time ?? item?.date);
                 const close = toNumber(item?.close);
@@ -93,6 +150,30 @@
             })
             .filter((bar): bar is KLineData => Boolean(bar))
             .sort((a, b) => a.timestamp - b.timestamp);
+
+        if (!bars.length) return [];
+
+        const sessionStart = buildSessionTimestamp(bars[0].timestamp, 9, 30);
+        const sessionEnd = buildSessionTimestamp(bars[0].timestamp, 16, 0);
+        let sessionBars = bars.filter(
+            (bar) => bar.timestamp >= sessionStart && bar.timestamp <= sessionEnd,
+        );
+        if (!sessionBars.length) {
+            sessionBars = [...bars];
+        }
+
+        const output = [...sessionBars];
+        const first = output[0];
+        const last = output[output.length - 1];
+
+        if (first && first.timestamp > sessionStart) {
+            output.unshift(makeFlatBar(sessionStart, first.close));
+        }
+        if (last && last.timestamp < sessionEnd) {
+            output.push(makeFlatBar(sessionEnd, last.close));
+        }
+
+        return output.sort((a, b) => a.timestamp - b.timestamp);
     };
 
     const applyMiniStyles = (isNegative: boolean, isLight: boolean) => {
@@ -113,9 +194,24 @@
             ? "rgba(220, 38, 38, 0.02)"
             : "rgba(22, 163, 74, 0.02)";
 
+        const axisText = isLight ? "#666" : "#999";
         chart.setStyles({
             grid: { show: false },
-            xAxis: { show: false },
+            xAxis: {
+                show: true,
+                size: "auto",
+                axisLine: { show: false, color: "transparent", size: 0 },
+                tickLine: { show: false, color: "transparent", size: 0, length: 0 },
+                tickText: {
+                    show: true,
+                    color: axisText,
+                    size: 9,
+                    family: "Space Grotesk",
+                    weight: 500,
+                    marginStart: 2,
+                    marginEnd: 2,
+                },
+            },
             yAxis: { show: false },
             crosshair: {
                 show: false,
@@ -170,6 +266,8 @@
     const updateChartData = (rawData: any[], ticker: string) => {
         if (!chart) return;
         const bars = buildMiniBars(rawData);
+        sessionStart = bars[0]?.timestamp ?? null;
+        sessionEnd = bars[bars.length - 1]?.timestamp ?? null;
         chart.setSymbol({
             ticker: ticker ? ticker.toUpperCase() : "",
             pricePrecision: 2,
@@ -192,11 +290,19 @@
 
     onMount(() => {
         if (!chartContainer) return;
-        chart = init(chartContainer, { timezone: "America/New_York" });
+        chart = init(chartContainer);
         if (!chart) return;
         chart.setZoomEnabled(false);
         chart.setScrollEnabled(false);
         chart.setOffsetRightDistance(0);
+        chart.setFormatter({
+            formatDate: ({ timestamp, type }) => {
+                if (type === "xAxis") {
+                    return formatXAxisLabel(timestamp);
+                }
+                return formatXAxisLabel(timestamp);
+            },
+        });
         applyMiniStyles(changesPercentage < 0, $mode === "light");
         updateChartData(priceData, symbol);
 
