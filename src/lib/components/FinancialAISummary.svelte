@@ -4,6 +4,7 @@
   import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
@@ -103,13 +104,13 @@
     }
 
     if (!["Plus", "Pro"]?.includes(data?.user?.tier)) {
-      errorMessage = "This feature requires a Plus or Pro subscription.";
+      errorMessage = m.stock_detail_ai_subscription_required();
       showModal = true;
       return;
     }
 
     if (data?.user?.credits < 3) {
-      errorMessage = `Insufficient credits. You have ${data?.user?.credits} credits. This summary costs 3 credits.`;
+      errorMessage = m.stock_detail_ai_insufficient_credits({ credits: data?.user?.credits });
       showModal = true;
       return;
     }
@@ -196,19 +197,19 @@
 
   function getPeriodLabel(period: string): string {
     const labels = {
-      annual: "Annual",
-      quarterly: "Quarterly",
-      ttm: "TTM (Trailing Twelve Months)",
+      annual: m.stock_detail_ai_period_annual(),
+      quarterly: m.stock_detail_ai_period_quarterly(),
+      ttm: m.stock_detail_ai_period_ttm(),
     };
-    return labels[period] || "Annual";
+    return labels[period] || m.stock_detail_ai_period_annual();
   }
 
   function getStatementLabel(statement: string): string {
     const labels = {
-      "income-statement": "Income Statement",
-      "balance-sheet": "Balance Sheet",
-      "cash-flow": "Cash Flow Statement",
-      ratios: "Financial Ratios",
+      "income-statement": m.stock_detail_ai_statement_income(),
+      "balance-sheet": m.stock_detail_ai_statement_balance(),
+      "cash-flow": m.stock_detail_ai_statement_cashflow(),
+      ratios: m.stock_detail_ai_statement_ratios(),
     };
     return labels[statement] || "Financial";
   }
@@ -351,7 +352,7 @@ ${summaryData.investorTakeaway}
   function copyToClipboard() {
     const markdown = generateMarkdown();
     navigator.clipboard.writeText(markdown).then(() => {
-      toast.success("Summary copied to clipboard!", {
+      toast.success(m.stock_detail_ai_summary_copied(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     });
@@ -373,7 +374,7 @@ ${summaryData.investorTakeaway}
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    toast.success("Summary downloaded!", {
+    toast.success(m.stock_detail_ai_summary_downloaded(), {
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
   }
@@ -406,7 +407,7 @@ ${summaryData.investorTakeaway}
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       ></path>
     </svg>
-    Analyzing...
+    {m.stock_detail_ai_analyzing()}
   {:else}
     <svg
       class="w-4 h-4 mr-1"
@@ -422,7 +423,7 @@ ${summaryData.investorTakeaway}
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
       />
     </svg>
-    {hasCachedSummary ? "Show Summary" : "AI Summarize"}
+    {hasCachedSummary ? m.stock_detail_ai_show_summary() : m.stock_detail_ai_summarize()}
   {/if}
 </Button>
 
@@ -464,7 +465,7 @@ ${summaryData.investorTakeaway}
               <h2
                 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white truncate"
               >
-                AI Financial Analysis
+                {m.stock_detail_ai_financial_analysis()}
               </h2>
               <p
                 class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
@@ -511,12 +512,10 @@ ${summaryData.investorTakeaway}
               ></span>
             </label>
             <p class="text-sm text-gray-700 dark:text-zinc-200 font-medium">
-              Analyzing financial data...
+              {m.stock_detail_ai_analyzing_data()}
             </p>
             <p class="text-xs text-gray-500 dark:text-zinc-400">
-              Extracting insights from {getStatementLabel(
-                statementType,
-              ).toLowerCase()}
+              {m.stock_detail_ai_extracting_insights({ statement: getStatementLabel(statementType).toLowerCase() })}
             </p>
           </div>
         {:else if errorMessage}
@@ -553,7 +552,7 @@ ${summaryData.investorTakeaway}
                   <span
                     class="text-xs font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-wider"
                   >
-                    {summaryData.yearsAnalyzed} Overall Health
+                    {summaryData.yearsAnalyzed} {m.stock_detail_ai_overall_health()}
                   </span>
                 </div>
                 <div
@@ -599,7 +598,7 @@ ${summaryData.investorTakeaway}
                       d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                     />
                   </svg>
-                  Copy
+                  {m.stock_detail_ai_copy()}
                 </button>
                 <button
                   on:click={downloadMarkdown}
@@ -618,7 +617,7 @@ ${summaryData.investorTakeaway}
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                     />
                   </svg>
-                  Download
+                  {m.stock_detail_financials_download()}
                 </button>
               </div>
             </div>
@@ -648,7 +647,7 @@ ${summaryData.investorTakeaway}
               <h4
                 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
               >
-                Executive Summary
+                {m.stock_detail_ai_executive_summary()}
               </h4>
             </div>
             <p
@@ -702,7 +701,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >CAGR</span
+                      >{m.stock_detail_ai_cagr()}</span
                     >
                     <span
                       class="text-base sm:text-lg font-bold {summaryData.revenueAnalysis.cagr?.startsWith(
@@ -717,7 +716,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >Trend</span
+                      >{m.stock_detail_ai_trend()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -786,7 +785,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >Margins</span
+                      >{m.stock_detail_ai_margins()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -856,7 +855,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >Efficiency</span
+                      >{m.stock_detail_ai_efficiency()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -922,7 +921,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >Consistency</span
+                      >{m.stock_detail_ai_consistency()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -969,7 +968,7 @@ ${summaryData.investorTakeaway}
                 <h5
                   class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                 >
-                  Key Strengths
+                  {m.stock_detail_ai_key_strengths()}
                 </h5>
               </div>
               <ul class="space-y-2 sm:space-y-2.5">
@@ -1018,7 +1017,7 @@ ${summaryData.investorTakeaway}
                   <h5
                     class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                   >
-                    Red Flags
+                    {m.stock_detail_ai_red_flags()}
                   </h5>
                 </div>
                 <ul class="space-y-2 sm:space-y-2.5">
@@ -1067,7 +1066,7 @@ ${summaryData.investorTakeaway}
               <h5
                 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
               >
-                Investor Takeaway
+                {m.stock_detail_ai_investor_takeaway()}
               </h5>
             </div>
             <p
@@ -1082,9 +1081,7 @@ ${summaryData.investorTakeaway}
             class="bg-gray-50 dark:bg-gray-900/50 border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-3 sm:p-4"
           >
             <p class="text-xs text-gray-800 dark:text-gray-200 italic">
-              This analysis was generated by AI and may not capture all nuances
-              from the financial statements. Please review the full financial
-              data for complete information.
+              {m.stock_detail_ai_disclaimer()}
             </p>
           </div>
         {/if}

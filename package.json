@@ -13,9 +13,9 @@
     "test:unit": "vitest",
     "lint": "prettier --plugin-search-dir . --check .",
     "format": "prettier --plugin-search-dir . --write .",
-    "test:chrome": "npx playwright test --project=chromium",
-    "test:firefox": "npx playwright test --project=firefox",
-    "test:safari": "npx playwright test --headed --project=safari"
+    "test:chrome": "bunx playwright test --project=chromium",
+    "test:firefox": "bunx playwright test --project=firefox",
+    "test:safari": "bunx playwright test --headed --project=safari"
   },
   "devDependencies": {
     "@bprogress/core": "^1.2.3",
@@ -64,7 +64,7 @@
     "sass-embedded": "^1.89.2",
     "showdown": "^2.1.0",
     "string-similarity": "^4.0.4",
-    "svelte": "^5.47.1",
+    "svelte": "^5.48.2",
     "svelte-check": "^3.6.9",
     "svelte-dnd-action": "^0.9.61",
     "svelte-inview": "^4.0.2",
