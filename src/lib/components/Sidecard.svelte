@@ -8,6 +8,7 @@
     abbreviateNumber,
     removeCompanyStrings,
   } from "$lib/utils";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let priceTargetUpside = 0;
@@ -352,7 +353,7 @@
       <h2
         class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        About {$stockTicker}
+        {m.stock_detail_about({ ticker: $stockTicker })}
       </h2>
       <p class="text-sm text-gray-800 dark:text-zinc-300">
         {snippet}
@@ -362,7 +363,7 @@
           href={`/stocks/${$stockTicker}/profile`}
           class="w-full text-sm mt-1 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >
-          [Read more]
+          {m.stock_detail_read_more()}
         </a>
       </div>
 
@@ -370,7 +371,7 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >Industry</span
+            >{m.stock_detail_industry()}</span
           >
           <a
             href={getIndustryHref(industry)}
@@ -381,7 +382,7 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >Sector</span
+            >{m.stock_detail_sector()}</span
           >
           <a
             href={sectorNavigation?.find((item) => item?.title === sector)
@@ -393,14 +394,14 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >IPO Date</span
+            >{m.stock_detail_ipo_date()}</span
           >
           <span>{ipoDate}</span>
         </div>
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >Employees</span
+            >{m.stock_detail_employees()}</span
           >
           <a
             href={`/stocks/${$stockTicker}/profile/employees`}
@@ -413,14 +414,14 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >Stock Exchange</span
+            >{m.stock_detail_stock_exchange()}</span
           >
           <span>{exchange ?? "n/a"}</span>
         </div>
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >Ticker Symbol</span
+            >{m.stock_detail_ticker_symbol()}</span
           >
           <span>{$stockTicker}</span>
         </div>
@@ -430,7 +431,7 @@
           >
             <span
               class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-              >Website</span
+              >{m.stock_detail_website()}</span
             >
             <a
               href={website}
@@ -444,7 +445,7 @@
         href={`/stocks/${$stockTicker}/profile`}
         class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
       >
-        Full Company Profile
+        {m.stock_detail_full_company_profile()}
       </a>
     </div>
   </div>
@@ -463,7 +464,7 @@
         <h2
           class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          Financial Performance
+          {m.stock_detail_financial_performance()}
         </h2>
         <p class="text-sm text-gray-800 dark:text-zinc-300">
           In {financialPerformance?.history?.at(-1)?.date?.slice(0, 4)}, {removeCompanyStrings(
@@ -500,7 +501,7 @@
           href={`/stocks/${$stockTicker}/financials`}
           class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
-          Financial Statements
+          {m.stock_detail_financial_statements()}
         </a>
       </div>
     </div>
@@ -520,7 +521,7 @@
         <h2
           class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          Analyst Forecast
+          {m.stock_detail_analyst_forecast()}
         </h2>
         <p class="text-sm text-gray-800 dark:text-zinc-300">
           According to {numOfAnalyst} analyst ratings, the average rating for {$stockTicker}
@@ -540,7 +541,7 @@
           href={`/stocks/${$stockTicker}/forecast/analyst`}
           class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
-          Stock Forecasts
+          {m.stock_detail_stock_forecasts()}
         </a>
       </div>
     </div>

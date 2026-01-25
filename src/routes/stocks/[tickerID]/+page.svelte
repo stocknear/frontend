@@ -26,6 +26,7 @@
   import EarningsSurprise from "$lib/components/EarningsSurprise.svelte";
   import Sidecard from "$lib/components/Sidecard.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import {
     convertTimestamp,
@@ -1155,7 +1156,7 @@
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
                   <p class="text-sm text-gray-500 dark:text-zinc-300">
-                    No data available
+                    {m.stock_detail_no_data()}
                   </p>
                 </div>
               {:else}
@@ -1184,7 +1185,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Bid</td
+                      >{m.stock_detail_bid()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1202,7 +1203,7 @@
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/market-cap`}
                         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                        >Market Cap</a
+                        >{m.stock_detail_market_cap()}</a
                       ></td
                     >
                     <td
@@ -1222,7 +1223,7 @@
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/revenue`}
                         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                        >Revenue (ttm)</a
+                        >{m.stock_detail_revenue_ttm()}</a
                       ></td
                     >
                     <td
@@ -1238,7 +1239,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Net Income (ttm)</td
+                      >{m.stock_detail_net_income_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1252,7 +1253,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >EPS (ttm)</td
+                      >{m.stock_detail_eps_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1263,7 +1264,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >PE Ratio (ttm)</td
+                      >{m.stock_detail_pe_ratio_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1274,7 +1275,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Forward PE</td
+                      >{m.stock_detail_forward_pe()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1286,7 +1287,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >P/B (ttm)</td
+                      >{m.stock_detail_pb_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1300,7 +1301,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >P/S (ttm)</td
+                      >{m.stock_detail_ps_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1314,7 +1315,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Total Assets (ttm)</td
+                      >{m.stock_detail_total_assets_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1327,7 +1328,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Total Liabilities (ttm)</td
+                      >{m.stock_detail_total_liabilities_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1343,7 +1344,7 @@
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                     >
-                      Total Equity (ttm)
+                      {m.stock_detail_total_equity_ttm()}
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1362,7 +1363,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Ask</td
+                      >{m.stock_detail_ask()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1377,7 +1378,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Volume</td
+                      >{m.stock_detail_volume()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1388,7 +1389,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Avg. Volume (20D)</td
+                      >{m.stock_detail_avg_volume_20d()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1403,7 +1404,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Open</td
+                      >{m.stock_detail_open()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1416,7 +1417,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Previous Close</td
+                      >{m.stock_detail_prev_close()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1429,7 +1430,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Day's Range</td
+                      >{m.stock_detail_days_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1444,7 +1445,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >52-Week Range</td
+                      >{m.stock_detail_52w_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1459,7 +1460,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Beta</td
+                      >{m.stock_detail_beta()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1481,7 +1482,7 @@
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
                           ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                          : " cursor-text"}>Analyst</a
+                          : " cursor-text"}>{m.stock_detail_analyst()}</a
                       >
                     </td>
                     <td
@@ -1506,7 +1507,7 @@
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
                           ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                          : " cursor-text"}>Price Target</a
+                          : " cursor-text"}>{m.stock_detail_price_target()}</a
                       >
                     </td>
                     <td
@@ -1530,7 +1531,7 @@
                           : ""}
                         class={data?.getStockDeck?.annualDividend
                           ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                          : " cursor-text"}>Dividends</a
+                          : " cursor-text"}>{m.stock_detail_dividends()}</a
                       >
                     </td>
                     <td
@@ -1549,7 +1550,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Ex-Dividend Date</td
+                      >{m.stock_detail_ex_dividend_date()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"

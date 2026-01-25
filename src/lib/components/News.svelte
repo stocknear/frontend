@@ -10,6 +10,7 @@
   import { page } from "$app/stores";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -222,7 +223,7 @@
           <label
             class="mr-1 cursor-pointer flex flex-row items-center text-2xl font-bold"
           >
-            <h2>News</h2>
+            <h2>{m.stock_detail_news()}</h2>
           </label>
         </div>
       </div>
@@ -241,7 +242,7 @@
               class="cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
               'all'
                 ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                : ''}">All</button
+                : ''}">{m.stock_detail_news_all()}</button
             >
           </li>
           {#if hasVideos}
@@ -251,7 +252,7 @@
                 class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'videos'
                   ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                  : ''}">Videos</button
+                  : ''}">{m.stock_detail_news_videos()}</button
               >
             </li>
           {/if}
@@ -263,8 +264,8 @@
                 'press-releases'
                   ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                   : ''}"
-                ><span class="inline sm:hidden">Press</span><span
-                  class="hidden sm:inline">Press Releases</span
+                ><span class="inline sm:hidden">{m.stock_detail_news_press()}</span><span
+                  class="hidden sm:inline">{m.stock_detail_news_press_releases()}</span
                 ></button
               >
             </li>
@@ -392,8 +393,7 @@
               <div class="ml-3 w-full sm:ml-4">
                 <div class="flex w-full flex-row justify-between">
                   <div>
-                    No {displaySection === "videos" ? "videos" : "articles"} found
-                    for this stock.
+                    {displaySection === "videos" ? m.stock_detail_news_no_videos() : m.stock_detail_news_no_articles()}
                   </div>
                 </div>
               </div>
@@ -425,14 +425,14 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">Previous</span>
+              <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
             </Button>
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
             </span>
 
             <DropdownMenu.Root>
@@ -442,7 +442,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{rowsPerPage} Rows</span
+                    >{m.stock_detail_rows({ count: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -477,7 +477,7 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{item} Rows</span>
+                        <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -493,7 +493,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">Next</span>
+              <span class="hidden sm:inline">{m.stock_detail_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -517,7 +517,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to Top <svg
+            {m.stock_detail_back_to_top()} <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -534,7 +534,7 @@
         </div>
       {/if}
     {:else}
-      <span class="text-white"> No News article available yet </span>
+      <span class="text-white"> {m.stock_detail_news_no_available()} </span>
     {/if}
   </div>
 </div>
