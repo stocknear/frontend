@@ -11,12 +11,25 @@
   import highcharts from "$lib/highcharts.ts";
   import { createHighchartsRangeSelector } from "$lib/highchartsRangeSelector";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
 
   let timePeriod = "Daily";
   let plotPeriod = "Max";
+
+  // Translation mapping for time periods
+  const getTimePeriodLabel = (period) => {
+    const labels = {
+      Daily: m.stock_detail_history_daily,
+      Weekly: m.stock_detail_history_weekly,
+      Monthly: m.stock_detail_history_monthly,
+      Quarterly: m.stock_detail_history_quarterly,
+      Annual: m.stock_detail_history_annual,
+    };
+    return labels[period]?.() ?? period;
+  };
   let rawData = [];
   let originalData = [];
   let config = null;
@@ -371,7 +384,7 @@
       legend: { enabled: false },
       series: [
         {
-          name: "Price",
+          name: m.stock_detail_history_price(),
           type: "area",
           data: priceList,
           animation: false,
@@ -395,14 +408,26 @@
   }
 
   $: columns = [
-    { key: "time", label: "Date", align: "left" },
-    { key: "open", label: "Open", align: "right" },
-    { key: "high", label: "High", align: "right" },
-    { key: "low", label: "Low", align: "right" },
-    { key: "close", label: "Close", align: "right" },
-    { key: "adjClose", label: "Adj Close", align: "right" },
-    { key: "changesPercentage", label: "% Change", align: "right" },
-    { key: "volume", label: "Volume", align: "right" },
+    { key: "time", label: m.stock_detail_history_col_date(), align: "left" },
+    { key: "open", label: m.stock_detail_history_col_open(), align: "right" },
+    { key: "high", label: m.stock_detail_history_col_high(), align: "right" },
+    { key: "low", label: m.stock_detail_history_col_low(), align: "right" },
+    { key: "close", label: m.stock_detail_history_col_close(), align: "right" },
+    {
+      key: "adjClose",
+      label: m.stock_detail_history_col_adj_close(),
+      align: "right",
+    },
+    {
+      key: "changesPercentage",
+      label: m.stock_detail_history_col_change(),
+      align: "right",
+    },
+    {
+      key: "volume",
+      label: m.stock_detail_history_col_volume(),
+      align: "right",
+    },
   ];
 
   $: sortOrders = {
@@ -504,7 +529,7 @@
           <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
             {#if config}
               <h1 class="text-xl sm:text-2xl font-bold mb-3">
-                {ticker} Stock Price History
+                {m.stock_detail_history_title({ ticker })}
               </h1>
               <div class="relative">
                 <div
@@ -533,7 +558,9 @@
               <div
                 class="mt-5 border-t border-b pt-2 pb-2 border-gray-300 dark:border-zinc-700 flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
               >
-                <h2 class="text-xl sm:text-2xl font-bold">Historical Data</h2>
+                <h2 class="text-xl sm:text-2xl font-bold">
+                  {m.stock_detail_history_historical_data()}
+                </h2>
                 <div class="flex flex-row items-center ml-auto w-fit">
                   <div class="relative inline-block text-left ml-auto mr-2">
                     <DropdownMenu.Root>
@@ -542,7 +569,9 @@
                           builders={[builder]}
                           class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          <span class="truncate px-1">{timePeriod}</span>
+                          <span class="truncate px-1"
+                            >{getTimePeriodLabel(timePeriod)}</span
+                          >
                           <svg
                             class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                             viewBox="0 0 20 20"
@@ -563,29 +592,29 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                        class="w-auto min-w-56 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                       >
                         <DropdownMenu.Label
                           class="text-muted dark:text-gray-400 font-normal"
                         >
-                          Select time frame
+                          {m.stock_detail_history_select_timeframe()}
                         </DropdownMenu.Label>
                         <DropdownMenu.Separator />
                         <DropdownMenu.Group>
                           <DropdownMenu.Item
                             on:click={() => (timePeriod = "Daily")}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
-                            Daily
+                            {m.stock_detail_history_daily()}
                           </DropdownMenu.Item>
 
                           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
                             {#each ["Weekly", "Monthly", "Quarterly", "Annual"] as entry}
                               <DropdownMenu.Item
                                 on:click={() => goto("/pricing")}
-                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                               >
-                                {entry}
+                                {getTimePeriodLabel(entry)}
                                 <svg
                                   class="ml-auto -mt-0.5 w-4 h-4 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -600,21 +629,21 @@
                           {:else}
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Monthly")}
-                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                             >
-                              Monthly
+                              {m.stock_detail_history_monthly()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Quarterly")}
-                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                             >
-                              Quarterly
+                              {m.stock_detail_history_quarterly()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Annual")}
-                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                             >
-                              Annual
+                              {m.stock_detail_history_annual()}
                             </DropdownMenu.Item>
                           {/if}
                         </DropdownMenu.Group>
@@ -648,15 +677,17 @@
                             class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                           >
                             {#if timePeriod === "Weekly"}
-                              Week of {new Date(item?.time).toLocaleString(
-                                "en-US",
-                                {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                  timeZone: "Europe/Berlin",
-                                },
-                              )}
+                              {m.stock_detail_history_week_of({
+                                date: new Date(item?.time).toLocaleString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    timeZone: "Europe/Berlin",
+                                  },
+                                ),
+                              })}
                             {:else}
                               {new Date(item?.time).toLocaleString("en-US", {
                                 month: "short",
@@ -735,7 +766,9 @@
               </div>
             {:else}
               <Infobox
-                text={`No price history are available for ${$displayCompanyName}.`}
+                text={m.stock_detail_history_no_data({
+                  company: $displayCompanyName,
+                })}
               />
             {/if}
           </div>

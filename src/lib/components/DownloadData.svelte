@@ -49,12 +49,9 @@
     }
 
     if (data?.user?.downloadCredits > 500) {
-      toast.error(
-        m.common_toast_download_abusive(),
-        {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        },
-      );
+      toast.error(m.common_toast_download_abusive(), {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
       return;
     }
 
@@ -220,7 +217,9 @@
 
     if (totalCreditCost === 0 || tickers?.length === 0) {
       toast.error(
-        m.common_toast_select_bulk({ type: tickers?.length === 0 ? "symbol" : "bulk data" }),
+        m.common_toast_select_bulk({
+          type: tickers?.length === 0 ? "symbol" : "bulk data",
+        }),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -293,7 +292,9 @@
           builders={[builder]}
           class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
-          <span class="truncate text-[0.85rem] sm:text-sm">{m.common_bulk_download()}</span>
+          <span class="truncate text-[0.85rem] sm:text-sm"
+            >{m.common_bulk_download()}</span
+          >
           <svg
             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
             viewBox="0 0 20 20"
@@ -326,7 +327,7 @@
         <DropdownMenu.Group class="pb-2">
           {#each bulkData as item}
             <DropdownMenu.Item
-              class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
             >
               <label
                 on:click|capture={(event) => {
@@ -381,7 +382,9 @@
           builders={[builder]}
           class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
-          <span class="truncate text-[0.85rem] sm:text-sm"> {m.common_download()} </span>
+          <span class="truncate text-[0.85rem] sm:text-sm">
+            {m.common_download()}
+          </span>
           <svg
             class="-mr-1 ml-1 h-5 w-5 inline-block"
             viewBox="0 0 20 20"
@@ -407,7 +410,7 @@
         <DropdownMenu.Group>
           <DropdownMenu.Item
             on:click={() => download("csv")}
-            class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
           >
             <span>{m.common_download_csv()}</span>
             {#if !isSubscribed}
@@ -429,7 +432,7 @@
 
           <DropdownMenu.Item
             on:click={() => download("excel")}
-            class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
           >
             <span>{m.common_download_excel()}</span>
             {#if !isSubscribed}

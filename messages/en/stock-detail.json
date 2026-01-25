@@ -784,5 +784,27 @@
   "stock_detail_employees_no_history": "No history found",
   "stock_detail_employees_chart_title": "{company} Employees",
   "stock_detail_employees_rankings": "Employee Rankings",
-  "stock_detail_more_news": "More News"
+  "stock_detail_more_news": "More News",
+
+  "stock_detail_history_title": "{ticker} Stock Price History",
+  "stock_detail_history_price": "Price",
+  "stock_detail_history_historical_data": "Historical Data",
+  "stock_detail_history_select_timeframe": "Select time frame",
+  "stock_detail_history_daily": "Daily",
+  "stock_detail_history_weekly": "Weekly",
+  "stock_detail_history_monthly": "Monthly",
+  "stock_detail_history_quarterly": "Quarterly",
+  "stock_detail_history_annual": "Annual",
+  "stock_detail_history_week_of": "Week of {date}",
+  "stock_detail_history_no_data": "No price history available for {company}.",
+  "stock_detail_history_col_date": "Date",
+  "stock_detail_history_col_open": "Open",
+  "stock_detail_history_col_high": "High",
+  "stock_detail_history_col_low": "Low",
+  "stock_detail_history_col_close": "Close",
+  "stock_detail_history_col_adj_close": "Adj Close",
+  "stock_detail_history_col_change": "% Change",
+  "stock_detail_history_col_volume": "Volume",
+  "stock_detail_history_dividend_yield": "Dividend Yield",
+  "stock_detail_history_dividend_rankings": "Dividend Rankings"
 }

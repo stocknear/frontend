@@ -784,5 +784,27 @@
   "stock_detail_employees_no_history": "Keine Historie gefunden",
   "stock_detail_employees_chart_title": "{company} Mitarbeiter",
   "stock_detail_employees_rankings": "Mitarbeiter-Rankings",
-  "stock_detail_more_news": "Mehr News"
+  "stock_detail_more_news": "Mehr News",
+
+  "stock_detail_history_title": "{ticker} Aktienkurs-Historie",
+  "stock_detail_history_price": "Kurs",
+  "stock_detail_history_historical_data": "Historische Daten",
+  "stock_detail_history_select_timeframe": "Zeitraum auswählen",
+  "stock_detail_history_daily": "Täglich",
+  "stock_detail_history_weekly": "Wöchentlich",
+  "stock_detail_history_monthly": "Monatlich",
+  "stock_detail_history_quarterly": "Quartalweise",
+  "stock_detail_history_annual": "Jährlich",
+  "stock_detail_history_week_of": "Woche vom {date}",
+  "stock_detail_history_no_data": "Keine Kurshistorie für {company} verfügbar.",
+  "stock_detail_history_col_date": "Datum",
+  "stock_detail_history_col_open": "Eröffnung",
+  "stock_detail_history_col_high": "Hoch",
+  "stock_detail_history_col_low": "Tief",
+  "stock_detail_history_col_close": "Schluss",
+  "stock_detail_history_col_adj_close": "Ber. Schluss",
+  "stock_detail_history_col_change": "% Änderung",
+  "stock_detail_history_col_volume": "Volumen",
+  "stock_detail_history_dividend_yield": "Dividendenrendite",
+  "stock_detail_history_dividend_rankings": "Dividenden-Rankings"
 }
