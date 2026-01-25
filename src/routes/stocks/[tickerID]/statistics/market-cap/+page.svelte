@@ -658,16 +658,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Market Cap Analysis | Historical Valuation & Growth Trends`}
-  description={`Comprehensive market capitalization analysis for ${$displayCompanyName} (${$stockTicker}). Track historical market cap trends, valuation growth, size classification, and year-over-year changes with detailed charts and quarterly data.`}
-  keywords={`${$stockTicker} market cap, ${$displayCompanyName} market capitalization, company valuation, ${$stockTicker} net worth, market cap history, valuation trends, company size analysis, ${$stockTicker} enterprise value, market cap growth`}
+  title={m.stock_detail_stats_market_cap_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_market_cap_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_stats_market_cap_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} Market Cap Analysis`,
-    description: `Professional market capitalization tracking and valuation analysis for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_stats_market_cap_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_stats_market_cap_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`,
     applicationCategory: "FinanceApplication",
     featureList: [

@@ -61,16 +61,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Fail-to-Deliver (FTD) Analysis | Settlement Risk & Short Interest`}
-  description={`Comprehensive fail-to-deliver (FTD) analysis for ${$displayCompanyName} (${$stockTicker}). Track settlement failures, delivery issues, and potential short squeeze indicators with historical FTD data and volume ratios for informed trading decisions.`}
-  keywords={`${$stockTicker} fail to deliver, ${$displayCompanyName} FTD analysis, settlement failures, delivery issues, ${$stockTicker} FTD shares, short squeeze indicators, settlement risk analysis, fail to deliver data, FTD volume ratio`}
+  title={m.stock_detail_stats_ftd_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_ftd_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_stats_ftd_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/fail-to-deliver`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} Fail-to-Deliver Analysis`,
-    description: `Professional fail-to-deliver tracking and analysis for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_stats_ftd_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_stats_ftd_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/fail-to-deliver`,
     applicationCategory: "FinanceApplication",
     featureList: [

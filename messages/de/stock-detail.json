@@ -387,5 +387,65 @@
   "stock_detail_stats_short_interest_rankings": "Short Interest Rankings",
   "stock_detail_stats_revenue_rankings": "Revenue Rankings",
   "stock_detail_stats_ftd_rankings": "Fail-to-Deliver Ranks",
-  "stock_detail_stats_ticker_news": "{ticker} News"
+  "stock_detail_stats_ticker_news": "{ticker} News",
+
+  "stock_detail_stats_overview_seo_title": "{company} ({ticker}) Statistiken & Bewertungskennzahlen",
+  "stock_detail_stats_overview_seo_description": "Detaillierte Statistiken für die {company} ({ticker}) Aktie, einschließlich Bewertung, Kennzahlen, Finanzdaten, Aktieninformationen und mehr.",
+
+  "stock_detail_stats_market_cap_seo_title": "{company} ({ticker}) Market Cap Analyse | Historische Bewertung & Wachstumstrends",
+  "stock_detail_stats_market_cap_seo_description": "Umfassende Marktkapitalisierungsanalyse für {company} ({ticker}). Verfolge historische Market Cap Trends, Bewertungswachstum, Größenklassifizierung und Jahresvergleiche mit detaillierten Charts und Quartalsdaten.",
+  "stock_detail_stats_market_cap_seo_keywords": "{ticker} Market Cap, {company} Marktkapitalisierung, Unternehmensbewertung, {ticker} Nettowert, Market Cap Historie, Bewertungstrends, Unternehmensgrößenanalyse, {ticker} Enterprise Value, Market Cap Wachstum",
+  "stock_detail_stats_market_cap_structured_name": "{company} Market Cap Analyse",
+  "stock_detail_stats_market_cap_structured_desc": "Professionelle Marktkapitalisierungs-Tracking und Bewertungsanalyse für {company} ({ticker})",
+
+  "stock_detail_stats_short_interest_seo_title": "{company} ({ticker}) Short Interest Analyse | Historische Daten & Squeeze-Indikatoren",
+  "stock_detail_stats_short_interest_seo_description": "Umfassende Short Interest Analyse für {company} ({ticker}). Verfolge Short-Position-Änderungen, Days to Cover, Short Ratio, Float-Prozentsatz und historische Trends. Fortgeschrittene Short Squeeze Erkennung und bärische Stimmungsanalyse-Tools.",
+  "stock_detail_stats_short_interest_seo_keywords": "{ticker} Short Interest, {company} Short Squeeze, Days to Cover, Short Float Prozentsatz, {ticker} Short Ratio, Short-Position-Analyse, Short Interest Historie, bärische Stimmungsanalyse, Squeeze-Indikatoren",
+  "stock_detail_stats_short_interest_structured_name": "{company} Short Interest Analyse",
+  "stock_detail_stats_short_interest_structured_desc": "Professionelles Short Interest Tracking und Squeeze-Analyse für {company} ({ticker})",
+
+  "stock_detail_stats_revenue_seo_title": "{company} ({ticker}) Revenue Analyse | Historisches Umsatzwachstum & Trends",
+  "stock_detail_stats_revenue_seo_description": "Umfassende Revenue-Analyse für {company} ({ticker}). Verfolge historische Umsatzentwicklung, Revenue-Wachstumstrends, Quartalsumsätze und Jahresvergleiche mit detaillierten Finanzeinblicken und Charts.",
+  "stock_detail_stats_revenue_seo_keywords": "{ticker} Revenue-Analyse, {company} Umsatzentwicklung, Revenue-Wachstumstrends, {ticker} Quartalsumsatz, historische Umsatzdaten, Revenue-Wachstumsrate, {ticker} Umsatztrends, Unternehmens-Revenue-Historie",
+  "stock_detail_stats_revenue_structured_name": "{company} Revenue Analyse",
+  "stock_detail_stats_revenue_structured_desc": "Professionelles Revenue-Tracking und Umsatzanalyse für {company} ({ticker})",
+
+  "stock_detail_stats_ftd_seo_title": "{company} ({ticker}) Fail-to-Deliver (FTD) Analyse | Abwicklungsrisiko & Short Interest",
+  "stock_detail_stats_ftd_seo_description": "Umfassende Fail-to-Deliver (FTD) Analyse für {company} ({ticker}). Verfolge Abwicklungsfehler, Lieferprobleme und potenzielle Short Squeeze Indikatoren mit historischen FTD-Daten und Volumen-Verhältnissen für fundierte Trading-Entscheidungen.",
+  "stock_detail_stats_ftd_seo_keywords": "{ticker} Fail to Deliver, {company} FTD Analyse, Abwicklungsfehler, Lieferprobleme, {ticker} FTD Aktien, Short Squeeze Indikatoren, Abwicklungsrisiko-Analyse, Fail to Deliver Daten, FTD Volumen-Verhältnis",
+  "stock_detail_stats_ftd_structured_name": "{company} Fail-to-Deliver Analyse",
+  "stock_detail_stats_ftd_structured_desc": "Professionelles Fail-to-Deliver Tracking und Analyse für {company} ({ticker})",
+
+  "stock_detail_stats_earnings_seo_title": "{company} ({ticker}) Earnings Surprise Analyse | EPS & Revenue Auswirkungen",
+  "stock_detail_stats_earnings_seo_description": "Tiefgehende Analyse von Earnings Surprises für {company} ({ticker}), Tracking von EPS und Revenue Beats oder Misses. Erkunde historische Earnings-Auswirkungen auf den Aktienkurs und Performance-Trends.",
+  "stock_detail_stats_earnings_seo_keywords": "{ticker} Earnings Surprise, {company} EPS Surprise, Revenue Surprise, Earnings-Analyse, historischer Aktienkurs, EPS Beats, Revenue Beats",
+  "stock_detail_stats_earnings_structured_name": "{company} Earnings Surprise Analyse",
+  "stock_detail_stats_earnings_structured_desc": "Detailliertes Tracking von EPS und Revenue Surprises für {company} ({ticker}), mit historischen Aktienkursreaktionen und Performance-Einblicken.",
+
+  "stock_detail_stats_price_reaction_seo_title": "{company} ({ticker}) Earnings Kursreaktion | Historische Auswirkungen & Volatilitätsanalyse",
+  "stock_detail_stats_price_reaction_seo_description": "Fortgeschrittene Earnings-Kursreaktionsanalyse für {company} ({ticker}). Verfolge historische Aktienperformance rund um Earnings-Veröffentlichungen, Volatilitätsauswirkungen, EPS Beats und Post-Earnings-Trends für strategische Trading-Einblicke.",
+  "stock_detail_stats_price_reaction_seo_keywords": "{ticker} Earnings Reaktion, {company} Earnings Auswirkungen, Aktienkursreaktion Earnings, Earnings Volatilitätsanalyse, {ticker} EPS Beats, Earnings Surprise Auswirkungen, Post Earnings Drift, Earnings Trading-Strategie",
+  "stock_detail_stats_price_reaction_structured_name": "{company} Earnings Kursreaktionsanalyse",
+  "stock_detail_stats_price_reaction_structured_desc": "Professionelle Earnings-Auswirkungsanalyse und Kursreaktions-Tracking für {company} ({ticker})",
+
+  "stock_detail_metrics_seo_title": "{company} ({ticker}) Business Metrics Übersicht",
+  "stock_detail_metrics_seo_description": "Umfassende Business Metrics für {company} ({ticker}) Aktie, einschließlich Revenue Breakdown, Operating Metrics und Performance-Indikatoren.",
+  "stock_detail_metrics_slug_seo_title": "{company} ({ticker}) {category} - Business Metrics",
+  "stock_detail_metrics_slug_seo_description": "Detaillierte {category} Metrics für {company} ({ticker}). Verfolge historische Trends und Performance-Indikatoren.",
+
+  "stock_detail_metrics_quarterly": "Quartalsweise",
+  "stock_detail_metrics_ttm": "TTM",
+  "stock_detail_metrics_period_ending": "Zeitraum Endend",
+  "stock_detail_metrics_quarter_ended": "Quartal Endend",
+  "stock_detail_metrics_period_ended": "Zeitraum Endend",
+  "stock_detail_metrics_growth": "Wachstum",
+  "stock_detail_metrics_upgrade": "Upgrade",
+  "stock_detail_metrics_history": "Historie",
+  "stock_detail_metrics_line_chart": "Liniendiagramm",
+  "stock_detail_metrics_bar_chart": "Balkendiagramm",
+  "stock_detail_metrics_close": "Schließen",
+  "stock_detail_metrics_peaked_at": "{label} erreichte seinen Höchststand bei {highest} am {highestDate} und seinen Tiefststand bei {lowest} am {lowestDate}.",
+  "stock_detail_metrics_source": "Business Metrics bereitgestellt von {link} und aus offiziellen Unternehmens-Pressemitteilungen und Dokumenten.",
+  "stock_detail_metrics_no_data": "Derzeit sind keine Business Metrics für {company} verfügbar.",
+  "stock_detail_metrics_no_category_data": "Derzeit sind keine Metrics für {category} verfügbar."
 }

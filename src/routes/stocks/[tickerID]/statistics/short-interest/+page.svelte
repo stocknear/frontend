@@ -264,16 +264,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Short Interest Analysis | Historical Data & Squeeze Indicators`}
-  description={`Comprehensive short interest analysis for ${$displayCompanyName} (${$stockTicker}). Track short position changes, days to cover, short ratio, float percentage, and historical trends. Advanced short squeeze detection and bearish sentiment analysis tools.`}
-  keywords={`${$stockTicker} short interest, ${$displayCompanyName} short squeeze, days to cover, short float percentage, ${$stockTicker} short ratio, short position analysis, short interest history, bearish sentiment analysis, squeeze indicators`}
+  title={m.stock_detail_stats_short_interest_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_short_interest_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_stats_short_interest_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} Short Interest Analysis`,
-    description: `Professional short interest tracking and squeeze analysis for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_stats_short_interest_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_stats_short_interest_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`,
     applicationCategory: "FinanceApplication",
     featureList: [

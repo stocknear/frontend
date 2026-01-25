@@ -68,16 +68,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Earnings Price Reaction | Historical Impact & Volatility Analysis`}
-  description={`Advanced earnings price reaction analysis for ${$displayCompanyName} (${$stockTicker}). Track historical stock performance around earnings releases, volatility impact, EPS beats, and post-earnings trends for strategic trading insights.`}
-  keywords={`${$stockTicker} earnings reaction, ${$displayCompanyName} earnings impact, stock price reaction earnings, earnings volatility analysis, ${$stockTicker} EPS beats, earnings surprise impact, post earnings drift, earnings trading strategy`}
+  title={m.stock_detail_stats_price_reaction_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_price_reaction_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_stats_price_reaction_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/price-reaction`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataAnalysis"],
-    name: `${$displayCompanyName} Earnings Price Reaction Analysis`,
-    description: `Professional earnings impact analysis and price reaction tracking for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_stats_price_reaction_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_stats_price_reaction_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/price-reaction`,
     applicationCategory: "FinanceApplication",
     featureList: [

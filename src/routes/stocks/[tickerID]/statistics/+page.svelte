@@ -27,8 +27,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Statistics & Valuation Metrics`}
-  description={`Detailed statistics for ${$displayCompanyName} (${$stockTicker}) stock, including valuation, metrics, financial numbers, share information and more.`}
+  title={m.stock_detail_stats_overview_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_overview_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
 />
 
 <section class="w-full text-gray-700 dark:text-zinc-200">

@@ -13,6 +13,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -25,7 +26,7 @@
   const limit = 6;
 
   // Tab state
-  let tabs = ["Quarterly", "TTM"];
+  $: tabs = [m.stock_detail_metrics_quarterly(), m.stock_detail_metrics_ttm()];
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
 
   function handleTabClick(index: number) {
@@ -103,7 +104,7 @@
       lowestValueDate = dateList[lowestValueIndex] || null;
     }
 
-    const label = isGrowth ? `${row.name} Growth` : row.name;
+    const label = isGrowth ? `${row.name} ${m.stock_detail_metrics_growth()}` : row.name;
 
     const options = {
       chart: {
@@ -199,7 +200,7 @@
   function handleChart(row: any, isGrowth: boolean) {
     currentRow = row;
     currentIsGrowth = isGrowth;
-    modalLabel = isGrowth ? `${row.name} Growth` : row.name;
+    modalLabel = isGrowth ? `${row.name} ${m.stock_detail_metrics_growth()}` : row.name;
     config = plotData(row, isGrowth);
   }
 
@@ -511,8 +512,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Business Metrics Overview`}
-  description={`View comprehensive business metrics for ${$displayCompanyName} (${$stockTicker}) stock, including revenue breakdown, operating metrics, and performance indicators.`}
+  title={m.stock_detail_metrics_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_metrics_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
 />
 
 <section class="overflow-hidden min-h-screen w-full">
@@ -612,7 +613,7 @@
                       <th
                         class="border-b border-r border-gray-300 dark:border-zinc-700 font-semibold text-xs text-start"
                       >
-                        Period Ending
+                        {m.stock_detail_metrics_period_ending()}
                       </th>
                       {#each tableData.formattedDates as formattedDate (formattedDate)}
                         <th
@@ -667,7 +668,7 @@
                                 href="/pricing"
                                 class="inline-flex items-center justify-end text-sm font-semibold"
                               >
-                                Upgrade
+                                {m.stock_detail_metrics_upgrade()}
                                 <svg
                                   class="ml-1 mt-px size-3.5"
                                   viewBox="0 0 20 20"
@@ -692,7 +693,7 @@
                           class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700"
                         >
                           <span class="ml-2 mr-5 md:mr-0"
-                            >{row.name} Growth</span
+                            >{row.name} {m.stock_detail_metrics_growth()}</span
                           >
                           <label
                             for="financialPlotModal"
@@ -729,7 +730,7 @@
                                 href="/pricing"
                                 class="inline-flex items-center justify-end text-sm font-semibold text-gray-600 dark:text-zinc-300"
                               >
-                                Upgrade
+                                {m.stock_detail_metrics_upgrade()}
                                 <svg
                                   class="ml-1 mt-px size-3.5"
                                   viewBox="0 0 20 20"
@@ -759,18 +760,11 @@
           <div
             class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 -mt-5"
           >
-            <strong>Source:</strong> Business metrics provided by
-            <a
-              href="https://mainstreetdata.com/"
-              target="_blank"
-              rel="noopener"
-              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-              >Main Street Data</a
-            > and sourced from official company press releases and documents.
+            <strong>Source:</strong> {@html m.stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
           </div>
         {:else}
           <Infobox
-            text={`Currently, there are no business metrics available for ${removeCompanyStrings($displayCompanyName)}.`}
+            text={m.stock_detail_metrics_no_data({ company: removeCompanyStrings($displayCompanyName) })}
           />
         {/if}
       </div>
@@ -793,10 +787,10 @@
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> Line Chart </span>
+            <span class="ml-1 mr-auto text-sm"> {m.stock_detail_metrics_line_chart()} </span>
           {:else}
             <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> Bar Chart </span>
+            <span class="ml-1 mr-auto text-sm"> {m.stock_detail_metrics_bar_chart()} </span>
           {/if}</Button
         >
       </div>
@@ -807,20 +801,13 @@
       ></div>
     {/if}
     <p class="text-sm mb-6 mt-5">
-      {modalLabel} peaked at
-      <strong
-        >{currentIsGrowth
-          ? highestValue?.toFixed(2) + "%"
-          : abbreviateNumber(highestValue?.toFixed(2))}</strong
-      >
-      in <strong>{highestValueDate}</strong>
-      and hit its lowest at
-      <strong
-        >{currentIsGrowth
-          ? lowestValue?.toFixed(2) + "%"
-          : abbreviateNumber(lowestValue?.toFixed(2))}</strong
-      >
-      in <strong>{lowestValueDate}</strong>.
+      {m.stock_detail_metrics_peaked_at({
+        label: modalLabel,
+        highest: currentIsGrowth ? highestValue?.toFixed(2) + "%" : abbreviateNumber(highestValue?.toFixed(2)),
+        highestDate: highestValueDate,
+        lowest: currentIsGrowth ? lowestValue?.toFixed(2) + "%" : abbreviateNumber(lowestValue?.toFixed(2)),
+        lowestDate: lowestValueDate
+      })}
     </p>
 
     <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
@@ -828,7 +815,7 @@
         for="financialPlotModal"
         class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
       >
-        Close
+        {m.stock_detail_metrics_close()}
       </label>
     </div>
   </div>

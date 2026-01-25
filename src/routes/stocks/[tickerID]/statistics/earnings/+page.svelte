@@ -541,16 +541,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Earnings Surprise Analysis | EPS & Revenue Impact`}
-  description={`In-depth analysis of earnings surprises for ${$displayCompanyName} (${$stockTicker}), tracking EPS and revenue beats or misses. Explore historical earnings impact on stock price and performance trends.`}
-  keywords={`${$stockTicker} earnings surprise, ${$displayCompanyName} EPS surprise, revenue surprise, earnings analysis, historical stock price, EPS beats, revenue beats`}
+  title={m.stock_detail_stats_earnings_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_earnings_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_stats_earnings_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataAnalysis"],
-    name: `${$displayCompanyName} Earnings Surprise Analysis`,
-    description: `Detailed tracking of EPS and revenue surprises for ${$displayCompanyName} (${$stockTicker}), with historical stock price reactions and performance insights.`,
+    name: m.stock_detail_stats_earnings_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_stats_earnings_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`,
     applicationCategory: "FinanceApplication",
     featureList: [

@@ -676,16 +676,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Revenue Analysis | Historical Sales Growth & Trends`}
-  description={`Comprehensive revenue analysis for ${$displayCompanyName} (${$stockTicker}). Track historical sales performance, revenue growth trends, quarterly revenue data, and year-over-year comparisons with detailed financial insights and charts.`}
-  keywords={`${$stockTicker} revenue analysis, ${$displayCompanyName} sales performance, revenue growth trends, ${$stockTicker} quarterly revenue, historical sales data, revenue growth rate, ${$stockTicker} sales trends, company revenue history`}
+  title={m.stock_detail_stats_revenue_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_stats_revenue_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_stats_revenue_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/revenue`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} Revenue Analysis`,
-    description: `Professional revenue tracking and sales performance analysis for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_stats_revenue_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_stats_revenue_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/revenue`,
     applicationCategory: "FinanceApplication",
     featureList: [
