@@ -368,5 +368,24 @@
 
   "stock_detail_stats_market_cap_infobox": "{company} hat eine Market Cap oder einen Nettowert von {marketCap} am {date}. Die Market Cap ist im letzten Jahr um {changePercent}% {changeDirection}.",
   "stock_detail_stats_short_interest_infobox": "{company} hat ein Short Interest von insgesamt {shortInterest}. Das Short Interest ist zum Vormonat um {changePercent}% {changeDirection}.",
-  "stock_detail_stats_revenue_infobox": "{company} meldete einen jährlichen Revenue von {annualRevenue}, was einem Wachstum von {growthPercent}% entspricht. Für das Quartal bis {quarterDate} erzielte {company} einen Revenue von {quarterRevenue}."
+  "stock_detail_stats_revenue_infobox": "{company} meldete einen jährlichen Revenue von {annualRevenue}, was einem Wachstum von {growthPercent}% entspricht. Für das Quartal bis {quarterDate} erzielte {company} einen Revenue von {quarterRevenue}.",
+
+  "stock_detail_stats_market_cap_definition": "Die Marktkapitalisierung, auch Nettowert genannt, ist der Gesamtwert aller ausstehenden Aktien eines Unternehmens. Sie wird berechnet, indem der Aktienkurs mit der Anzahl der ausstehenden Aktien multipliziert wird.",
+  "stock_detail_stats_market_cap_formula": "Formel: Market Cap = Aktienkurs * Ausstehende Aktien",
+  "stock_detail_stats_short_interest_definition": "Short Interest ist die Gesamtzahl der Aktien eines Unternehmens, die leerverkauft, aber noch nicht eingedeckt oder geschlossen wurden. Es zeigt, wie viele Aktien Anleger geliehen und in Erwartung eines Kursrückgangs verkauft haben.",
+  "stock_detail_stats_short_interest_formula": "Formel: Short Interest = Gesamtzahl der noch ausstehenden Leerverkäufe",
+  "stock_detail_stats_revenue_definition_title": "Revenue Definition",
+  "stock_detail_stats_revenue_definition": "Revenue, auch Umsatz genannt, ist der Geldbetrag, den ein Unternehmen aus seinen Geschäftstätigkeiten erhält, wie z.B. dem Verkauf von Produkten oder Dienstleistungen. Der Revenue berücksichtigt keine Ausgaben und unterscheidet sich daher vom Gewinn.",
+  "stock_detail_stats_ftd_definition_title": "Fail-to-Deliver Definition",
+  "stock_detail_stats_ftd_definition": "Ein Fail-to-Deliver tritt auf, wenn verkaufte Wertpapiere nicht bis zum vereinbarten Abwicklungsdatum an den Käufer geliefert werden. FTD-Kennzahlen helfen Tradern, Marktstress und erhöhtes Short Interest zu erkennen – plötzliche Anstiege können Short Squeezes oder Liquiditätsengpässe ankündigen.",
+
+  "stock_detail_stats_full_definition": "Vollständige Definition",
+  "stock_detail_stats_company": "Unternehmen",
+  "stock_detail_stats_short_float": "Short % Float",
+  "stock_detail_stats_ftd_avg_volume_header": "FTD / Avg Volume",
+  "stock_detail_stats_category_rankings": "{category} Rankings",
+  "stock_detail_stats_short_interest_rankings": "Short Interest Rankings",
+  "stock_detail_stats_revenue_rankings": "Revenue Rankings",
+  "stock_detail_stats_ftd_rankings": "Fail-to-Deliver Ranks",
+  "stock_detail_stats_ticker_news": "{ticker} News"
 }

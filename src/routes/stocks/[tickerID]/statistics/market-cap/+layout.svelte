@@ -1,5 +1,6 @@
 <script lang="ts">
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   const similarStocks = data?.getSimilarStocks;
@@ -91,12 +92,11 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-xl font-semibold sm:ml-3">
-                    Pro Subscription
+                    {m.stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
                 <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {m.stock_detail_stats_upgrade_desc()}
                 </span>
               </a>
             </div>
@@ -106,22 +106,20 @@
             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
             <h3 class="p-2 pt-4 text-xl font-semibold">
-              Market Capitalization
+              {m.stock_detail_stats_market_capitalization()}
             </h3>
             <div class=" p-2">
-              Market capitalization, also called net worth, is the total value
-              of all of a company's outstanding shares. It is calculated by
-              multiplying the stock price by the number of shares outstanding.
+              {m.stock_detail_stats_market_cap_definition()}
               <br />
               <br />
-              Formula: Market Cap = Stock Price * Shares Outstanding
+              {m.stock_detail_stats_market_cap_formula()}
             </div>
             <div class="px-2">
               <a
                 href="/blog/article/market-capitalization"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Full Definition
+                {m.stock_detail_stats_full_definition()}
               </a>
             </div>
           </div>
@@ -130,7 +128,7 @@
             <div
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
-              <h3 class="p-2 pt-4 text-xl font-semibold">Related Stocks</h3>
+              <h3 class="p-2 pt-4 text-xl font-semibold">{m.stock_detail_stats_related_stocks()}</h3>
               <table
                 class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
@@ -139,11 +137,11 @@
                   ><tr
                     ><th
                       class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
-                      >Company</th
+                      >{m.stock_detail_stats_company()}</th
                     >
                     <th
                       class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
-                      >Market Cap</th
+                      >{m.stock_detail_stats_nav_market_cap()}</th
                     ></tr
                   ></thead
                 >
@@ -176,7 +174,7 @@
                     href={capCategory?.link}
                     class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
                   >
-                    {capCategory?.name} Rankings
+                    {m.stock_detail_stats_category_rankings({ category: capCategory?.name })}
                   </a>
                 </div>
               {/if}

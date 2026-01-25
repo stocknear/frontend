@@ -368,5 +368,24 @@
 
   "stock_detail_stats_market_cap_infobox": "{company} has a market cap or net worth of {marketCap} as of {date}. Its market cap has {changeDirection} by {changePercent}% in one year.",
   "stock_detail_stats_short_interest_infobox": "{company} has a total short interest of {shortInterest}. Its short interest has {changeDirection} by {changePercent}% to the previous month.",
-  "stock_detail_stats_revenue_infobox": "{company} reported an annual revenue of {annualRevenue}, reflecting a {growthPercent}% growth. For the quarter ending {quarterDate}, {company} generated {quarterRevenue} in revenue."
+  "stock_detail_stats_revenue_infobox": "{company} reported an annual revenue of {annualRevenue}, reflecting a {growthPercent}% growth. For the quarter ending {quarterDate}, {company} generated {quarterRevenue} in revenue.",
+
+  "stock_detail_stats_market_cap_definition": "Market capitalization, also called net worth, is the total value of all of a company's outstanding shares. It is calculated by multiplying the stock price by the number of shares outstanding.",
+  "stock_detail_stats_market_cap_formula": "Formula: Market Cap = Stock Price * Shares Outstanding",
+  "stock_detail_stats_short_interest_definition": "Short interest is the total number of a company's shares that have been sold short but not yet covered or closed out. It reflects how many shares investors have borrowed and sold in anticipation of a price decline.",
+  "stock_detail_stats_short_interest_formula": "Formula: Short Interest = Total Shares Sold Short and Still Outstanding",
+  "stock_detail_stats_revenue_definition_title": "Revenue Definition",
+  "stock_detail_stats_revenue_definition": "Revenue, also called sales, is the amount of money a company receives from its business activities, such as sales of products or services. Revenue does not take any expenses into account and is therefore different from profits.",
+  "stock_detail_stats_ftd_definition_title": "Fail-to-Deliver Definition",
+  "stock_detail_stats_ftd_definition": "A fail-to-deliver occurs when securities sold are not delivered to the buyer by the agreed settlement date. FTD metrics help traders identify market stress and elevated short interest—sudden spikes may presage short squeezes or liquidity bottlenecks.",
+
+  "stock_detail_stats_full_definition": "Full Definition",
+  "stock_detail_stats_company": "Company",
+  "stock_detail_stats_short_float": "Short % Float",
+  "stock_detail_stats_ftd_avg_volume_header": "FTD / Avg Volume",
+  "stock_detail_stats_category_rankings": "{category} Rankings",
+  "stock_detail_stats_short_interest_rankings": "Short Interest Rankings",
+  "stock_detail_stats_revenue_rankings": "Revenue Rankings",
+  "stock_detail_stats_ftd_rankings": "Fail-to-Deliver Ranks",
+  "stock_detail_stats_ticker_news": "{ticker} News"
 }
