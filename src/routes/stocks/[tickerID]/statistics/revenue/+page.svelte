@@ -8,6 +8,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import highcharts from "$lib/highcharts.ts";
 
@@ -724,13 +725,19 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">Revenue</h1>
+            <h1 class="text-xl sm:text-2xl font-bold">{m.stock_detail_stats_nav_revenue()}</h1>
           </div>
 
           {#if Object?.keys(data?.getHistoricalRevenue)?.length > 0}
             <div class="grid grid-cols-1 gap-2">
               <Infobox
-                text={`${removeCompanyStrings($displayCompanyName)} reported an annual revenue of ${abbreviateNumber(rawData?.annual?.at(0)?.revenue)}, reflecting a ${rawData?.growthRevenue}% growth. For the quarter ending ${formatDate(rawData?.quarter?.at(0)?.date)}, ${removeCompanyStrings($displayCompanyName)} generated ${abbreviateNumber(rawData?.quarter?.at(0)?.revenue)} in revenue.`}
+                text={m.stock_detail_stats_revenue_infobox({
+                  company: removeCompanyStrings($displayCompanyName),
+                  annualRevenue: abbreviateNumber(rawData?.annual?.at(0)?.revenue),
+                  growthPercent: rawData?.growthRevenue,
+                  quarterDate: formatDate(rawData?.quarter?.at(0)?.date),
+                  quarterRevenue: abbreviateNumber(rawData?.quarter?.at(0)?.revenue)
+                })}
               />
 
               <div
@@ -740,7 +747,7 @@
                   class="revenue-ttm-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
-                    <span>Revenue (ttm)</span>
+                    <span>{m.stock_detail_stats_revenue_ttm()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold">
@@ -754,7 +761,7 @@
                   class="revenue-growth-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
-                    <span>Revenue Growth</span>
+                    <span>{m.stock_detail_stats_revenue_growth()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -769,7 +776,7 @@
                   class="ps-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
-                    <span>Price / Sales Ratio</span>
+                    <span>{m.stock_detail_stats_price_sales_ratio()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -782,7 +789,7 @@
                   class="rev-per-emp-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
-                    <span>Revenue / Employee </span>
+                    <span>{m.stock_detail_stats_revenue_per_employee()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -796,7 +803,7 @@
                   class="employees-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
-                    <span>Employees </span>
+                    <span>{m.stock_detail_employees()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -809,7 +816,7 @@
                   class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
-                    <span>Market Cap </span>
+                    <span>{m.stock_detail_market_cap()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -823,7 +830,7 @@
               <div
                 class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
-                <h2 class="text-xl sm:text-2xl font-bold">Revenue Chart</h2>
+                <h2 class="text-xl sm:text-2xl font-bold">{m.stock_detail_stats_revenue_chart()}</h2>
                 <div class="ml-auto">
                   <div class="inline-flex mt-2 sm:mt-0">
                     <div
@@ -911,7 +918,7 @@
               <div
                 class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
-                <h3 class="text-xl sm:text-2xl font-bold">History</h3>
+                <h3 class="text-xl sm:text-2xl font-bold">{m.stock_detail_stats_history()}</h3>
 
                 <div class="inline-flex ml-auto">
                   <div
@@ -1022,12 +1029,12 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span>
+                    <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      Page {currentPage} of {totalPages}
+                      {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -1037,7 +1044,7 @@
                           class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >{rowsPerPage} Rows</span
+                            >{m.stock_detail_rows({ count: rowsPerPage })}</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1071,7 +1078,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{item} Rows</span>
+                                <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -1085,7 +1092,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.stock_detail_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1107,7 +1114,7 @@
                     on:click={scrollToTop}
                     class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
-                    Back to Top <svg
+                    {m.stock_detail_back_to_top()} <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -1124,14 +1131,11 @@
                 </div>
               {/if}
               <span class="text-sm mt-2">
-                Sources: Historical revenue is based on company filings
-                submitted to the U.S. Securities and Exchange Commission (SEC).
-                The most recent revenue numbers may be taken from company press
-                releases.
+                {m.stock_detail_stats_sources()}
               </span>
             </div>
           {:else}
-            <Infobox text="No data available" />
+            <Infobox text={m.stock_detail_no_data()} />
           {/if}
         </div>
       </main>

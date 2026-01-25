@@ -14,6 +14,7 @@
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -592,7 +593,7 @@
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Earnings Surprise
+              {m.stock_detail_stats_earnings_surprise()}
             </h1>
           </div>
 
@@ -610,7 +611,7 @@
                 <h2
                   class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  Earnings Chart
+                  {m.stock_detail_stats_earnings_chart()}
                 </h2>
                 <div class="ml-auto">
                   <div class="inline-flex mt-3 sm:mt-0">
@@ -625,7 +626,7 @@
                             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                         >
-                          {item}
+                          {i === 0 ? m.stock_detail_stats_eps_surprise() : m.stock_detail_stats_revenue_surprise()}
                         </button>
                       {/each}
                     </div>
@@ -717,7 +718,7 @@
                   <h3
                     class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
                   >
-                    History
+                    {m.stock_detail_stats_history()}
                   </h3>
 
                   <div class=" w-full flex order-1 items-center ml-auto">
@@ -813,12 +814,12 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span>
+                    <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      Page {currentPage} of {totalPages}
+                      {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -828,7 +829,7 @@
                           class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm">
-                            {rowsPerPage} Rows
+                            {m.stock_detail_rows({ count: rowsPerPage })}
                           </span>
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -863,7 +864,7 @@
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
                                 <span class="text-sm">
-                                  {item} Rows
+                                  {m.stock_detail_rows({ count: item })}
                                 </span>
                               </label>
                             </DropdownMenu.Item>
@@ -878,7 +879,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.stock_detail_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -897,7 +898,7 @@
               {/if}
             </div>
           {:else}
-            <Infobox text="No data available" />
+            <Infobox text={m.stock_detail_no_data()} />
           {/if}
         </div>
       </main>

@@ -3,6 +3,7 @@
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -117,13 +118,13 @@
         <div class="sm:pl-7 sm:pt-7 sm:pb-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between mb-3">
             <h1 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-0">
-              Price Reaction to Earnings Reports
+              {m.stock_detail_stats_price_reaction_title()}
             </h1>
           </div>
 
           <div class="mb-5 mt-5 w-full">
             <Infobox
-              text="This table provides an overview of how a stock's price historically reacted around earnings reports. It displays key metrics like price changes over specific timeframes and Relative Strength Index (RSI)."
+              text={m.stock_detail_stats_price_reaction_info()}
             />
           </div>
 
@@ -135,7 +136,7 @@
                 class="eps-beats-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>EPS Beats Estimate</span>
+                  <span>{m.stock_detail_stats_eps_beats_estimate()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isSubscribed}
@@ -163,7 +164,7 @@
                     {#if isSubscribed}
                       <span class="text-sm"
                         >{`${earningsData?.positiveEpsSurprises}/${earningsData?.totalReports}`}
-                        quarters</span
+                        {m.stock_detail_stats_quarters()}</span
                       >
                     {:else}
                       <span class="text-sm">
@@ -177,14 +178,14 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>{`/${earningsData?.totalReports}`}
-                        quarters</span
+                        {m.stock_detail_stats_quarters()}</span
                       >
                     {/if}
                     <span class="text-xs font-semibold">
                       {earningsData?.positiveEpsSurprises >
                       earningsData?.totalReports / 2
-                        ? "Above Average"
-                        : "Below Average"}
+                        ? m.stock_detail_stats_above_average()
+                        : m.stock_detail_stats_below_average()}
                     </span>
                   </div>
                 </div>
@@ -194,7 +195,7 @@
                 class="revenue-beats-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>Revenue Beats Estimate</span>
+                  <span>{m.stock_detail_stats_revenue_beats_estimate()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isSubscribed}
@@ -222,7 +223,7 @@
                     {#if isSubscribed}
                       <span class="text-sm"
                         >{`${earningsData?.positiveRevenueSurprises}/${earningsData?.totalReports}`}
-                        quarters</span
+                        {m.stock_detail_stats_quarters()}</span
                       >
                     {:else}
                       <span class="text-sm">
@@ -236,14 +237,14 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>{`/${earningsData?.totalReports}`}
-                        quarters</span
+                        {m.stock_detail_stats_quarters()}</span
                       >
                     {/if}
                     <span class="text-xs font-semibold">
                       {earningsData?.positiveRevenueSurprises >
                       earningsData?.totalReports / 2
-                        ? "Above Average"
-                        : "Below Average"}
+                        ? m.stock_detail_stats_above_average()
+                        : m.stock_detail_stats_below_average()}
                     </span>
                   </div>
                 </div>
@@ -253,7 +254,7 @@
                 class="avg-price-impact-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>Avg. Price Impact</span>
+                  <span>{m.stock_detail_stats_avg_price_impact()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isSubscribed}
@@ -281,16 +282,14 @@
                   {/if}
                   <div class="flex flex-col ml-2">
                     {#if isSubscribed}
-                      <span class="text-sm">Next Day</span>
+                      <span class="text-sm">{m.stock_detail_stats_next_day()}</span>
                       <span class="text-xs font-semibold">
-                        {metrics?.avgPriceImpact >= 0 ? "Positive" : "Negative"}
-                        Trend
+                        {metrics?.avgPriceImpact >= 0 ? m.stock_detail_stats_positive_trend() : m.stock_detail_stats_negative_trend()}
                       </span>
                     {:else}
-                      <span class="text-sm">Next Day</span>
+                      <span class="text-sm">{m.stock_detail_stats_next_day()}</span>
                       <span class="text-xs font-semibold">
-                        {metrics?.avgPriceImpact >= 0 ? "Positive" : "Negative"}
-                        Trend
+                        {metrics?.avgPriceImpact >= 0 ? m.stock_detail_stats_positive_trend() : m.stock_detail_stats_negative_trend()}
                       </span>
                     {/if}
                   </div>
@@ -301,7 +300,7 @@
                 class="volatility-impact-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>Volatility Impact</span>
+                  <span>{m.stock_detail_stats_volatility_impact()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isSubscribed}
@@ -327,20 +326,18 @@
                   {/if}
                   <div class="flex flex-col ml-2">
                     {#if isSubscribed}
-                      <span class="text-sm">Range</span>
+                      <span class="text-sm">{m.stock_detail_stats_range()}</span>
                       <span class="text-xs font-semibold">
                         {Number(metrics.volatilityImpact) > 3
-                          ? "High"
-                          : "Normal"}
-                        Impact
+                          ? m.stock_detail_stats_high_impact()
+                          : m.stock_detail_stats_low_impact()}
                       </span>
                     {:else}
-                      <span class="text-sm">Range</span>
+                      <span class="text-sm">{m.stock_detail_stats_range()}</span>
                       <span class="text-xs font-semibold">
                         {Number(metrics.volatilityImpact) > 3
-                          ? "High"
-                          : "Normal"}
-                        Impact
+                          ? m.stock_detail_stats_high_impact()
+                          : m.stock_detail_stats_low_impact()}
                       </span>
                     {/if}
                   </div>
@@ -356,7 +353,7 @@
                   ><tr class=" text-sm"
                     ><th
                       class="w-36 whitespace-nowrap font-normal h-5 text-left px-1"
-                      >Report Date</th
+                      >{m.stock_detail_stats_report_date()}</th
                     ><th
                       class="px-4 last:pr-11 w-20 last:w-24.5 whitespace-nowrap font-normal h-5 text-right p-0"
                       >-1 Week</th
@@ -529,7 +526,7 @@
 
                           <!-- Time -->
                           <div class="flex items-center justify-end">
-                            <div class="font-semibold mr-1">Release:</div>
+                            <div class="font-semibold mr-1">{m.stock_detail_stats_release()}:</div>
 
                             <div class="font-semibold mr-1.5">
                               {checkTime(item?.time) ?? "-"}
@@ -703,7 +700,7 @@
             </div>
             <UpgradeToPro {data} />
           {:else}
-            <Infobox text="No data available" />
+            <Infobox text={m.stock_detail_no_data()} />
           {/if}
         </div>
       </main>

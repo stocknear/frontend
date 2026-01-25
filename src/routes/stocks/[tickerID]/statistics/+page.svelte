@@ -4,6 +4,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import PopupInfo from "$lib/components/PopupInfo.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   let rawData = data?.getStatistics ?? {};
@@ -44,7 +45,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Statistics
+                {m.stock_detail_stats_title()}
               </h1>
             </div>
 
@@ -52,17 +53,16 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Share Statistics
+                {m.stock_detail_stats_share_statistics()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                {companyName} has {abbreviateNumber(
-                  rawData?.sharesOutStanding,
-                  false,
-                )}
-                shares outstanding. The number of shares has increased by {rawData?.sharesYoY}%
-                in one year.
+                {m.stock_detail_stats_shares_outstanding({
+                  company: companyName,
+                  shares: abbreviateNumber(rawData?.sharesOutStanding, false),
+                  marketCap: abbreviateNumber(rawData?.marketCap, false)
+                })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -126,17 +126,18 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Short Selling Information
+                {m.stock_detail_stats_short_selling_info()}
               </h2>
               {#if rawData?.sharesShort}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  The latest short interest is {abbreviateNumber(
-                    rawData?.sharesShort,
-                    false,
-                  )}, so {rawData?.shortOutstandingPercent}% of the outstanding
-                  shares have been sold short.
+                  {m.stock_detail_stats_short_selling({
+                    company: companyName,
+                    shortInterest: rawData?.shortOutstandingPercent,
+                    sharesShort: abbreviateNumber(rawData?.sharesShort, false),
+                    shortRatio: rawData?.shortRatio
+                  })}
                 </p>
               {/if}
               <table
@@ -176,18 +177,13 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Valuation Ratios
+                {m.stock_detail_stats_valuation_ratios()}
               </h2>
               {#if rawData?.priceToEarningsRatio}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  The PE ratio is {rawData?.priceToEarningsRatio} and the forward
-                  PE ratio is {rawData?.forwardPE}.
-                  {rawData?.priceToEarningsGrowthRatio !== null
-                    ? `${companyName}'s PEG ratio is
-                ${rawData?.priceToEarningsGrowthRatio}.`
-                    : ""}
+                  {m.stock_detail_stats_pe_ratio({ peRatio: rawData?.priceToEarningsRatio })}
                 </p>
               {/if}
 
@@ -238,25 +234,22 @@
                 href={`/stocks/${$stockTicker}/financials/ratios`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Financial Ratio History
+                {m.stock_detail_stats_financial_ratio_history()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Enterprise Valuation
+                {m.stock_detail_stats_enterprise_valuation()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.enterpriseValue !== null}
-                  {companyName} has an Enterprise Value (EV) of {abbreviateNumber(
-                    rawData?.enterpriseValue,
-                    false,
-                  )}.
-                {:else}
-                  Currently the Enterprise Value (EV) is not available for {companyName}.
+                  {m.stock_detail_stats_enterprise_value_text({
+                    enterpriseValue: abbreviateNumber(rawData?.enterpriseValue, false)
+                  })}
                 {/if}
               </p>
               <table
@@ -290,14 +283,16 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Financial Position
+                {m.stock_detail_stats_financial_position()}
               </h2>
               {#if rawData?.currentRatio}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  The company has a current ratio of {rawData?.currentRatio},
-                  with a Debt / Equity ratio of {rawData?.debtToEquityRatio}.
+                  {m.stock_detail_stats_financial_position_text({
+                    company: companyName,
+                    currentRatio: rawData?.currentRatio
+                  })}
                 </p>
               {/if}
               <table
@@ -345,18 +340,15 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Financial Efficiency
+                {m.stock_detail_stats_financial_efficiency()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                Return on Equity is {checkValue(
-                  rawData?.returnOnEquity,
-                  "percent",
-                )} and Return on Invested Capital is {checkValue(
-                  rawData?.returnOnInvestedCapital,
-                  "percent",
-                )}.
+                {m.stock_detail_stats_roe_text({
+                  roe: rawData?.returnOnEquity ?? 0,
+                  roic: rawData?.returnOnInvestedCapital ?? 0
+                })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -418,7 +410,7 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Taxes
+                {m.stock_detail_stats_taxes()}
               </h2>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -447,16 +439,12 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Stock Price Statistics
+                {m.stock_detail_stats_stock_price_statistics()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                The stock price has increased by {rawData?.change1Y}% in the
-                last 52 weeks. The beta is {rawData?.beta}, so {companyName}'s
-                price volatility has been {rawData?.beta > 0
-                  ? "higher"
-                  : "lower"} than the market average.
+                {m.stock_detail_stats_stock_price_text({ changePercent: rawData?.change1Y })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -502,18 +490,18 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Income Statement
+                {m.stock_detail_stats_income_statement()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.revenue !== null && rawData?.revenue !== 0}
-                  In the last 12 months, {companyName} had revenue of {abbreviateNumber(
-                    rawData?.revenue,
-                    false,
-                  )}
-                  and earned {abbreviateNumber(rawData?.netIncome, false)}
-                  in profits. Earnings per share was {rawData?.eps}.
+                  {m.stock_detail_stats_in_last_12_months({
+                    company: companyName,
+                    revenue: abbreviateNumber(rawData?.revenue, false),
+                    earnings: abbreviateNumber(rawData?.netIncome, false),
+                    eps: rawData?.eps
+                  })}
                 {/if}
               </p>
               <table
@@ -573,27 +561,25 @@
                 href={`/stocks/${$stockTicker}/financials`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Full Income Statement
+                {m.stock_detail_stats_full_income_statement()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Balance Sheet
+                {m.stock_detail_stats_balance_sheet()}
               </h2>
               {#if rawData?.cashAndCashEquivalents}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  The company has {abbreviateNumber(
-                    rawData?.cashAndCashEquivalents,
-                    false,
-                  )} in cash and {abbreviateNumber(rawData?.totalDebt, false)} in
-                  debt, giving a net cash position of {abbreviateNumber(
-                    rawData?.cashAndCashEquivalents - rawData?.totalDebt,
-                    false,
-                  )}.
+                  {m.stock_detail_stats_balance_sheet_text({
+                    company: companyName,
+                    cash: abbreviateNumber(rawData?.cashAndCashEquivalents, false),
+                    totalAssets: abbreviateNumber(rawData?.totalAssets, false),
+                    totalLiabilities: abbreviateNumber(rawData?.totalDebt, false)
+                  })}
                 </p>
               {/if}
               <table
@@ -650,30 +636,23 @@
                 href={`/stocks/${$stockTicker}/financials/balance-sheet`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Full Balance Sheet
+                {m.stock_detail_stats_full_balance_sheet()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Cash Flow
+                {m.stock_detail_stats_cash_flow()}
               </h2>
               {#if rawData?.operatingCashFlow}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  In the last 12 months, operating cash flow was {abbreviateNumber(
-                    rawData?.operatingCashFlow,
-                    false,
-                  )}
-                  and capital expenditures {abbreviateNumber(
-                    rawData?.capitalExpenditure,
-                    false,
-                  )}, giving a free cash flow of {abbreviateNumber(
-                    rawData?.freeCashFlow,
-                    false,
-                  )}.
+                  {m.stock_detail_stats_cash_flow_text({
+                    company: companyName,
+                    operatingCashFlow: abbreviateNumber(rawData?.operatingCashFlow, false)
+                  })}
                 </p>
               {/if}
               <table
@@ -712,26 +691,25 @@
                 href={`/stocks/${$stockTicker}/financials/cash-flow`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Full Cash Flow Statement
+                {m.stock_detail_stats_full_cash_flow()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Margins
+                {m.stock_detail_stats_margins()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.grossProfitMargin !== 0 && rawData?.grossProfitMargin !== null}
-                  Gross margin is {checkValue(
-                    rawData?.grossProfitMargin,
-                    "percent",
-                  )}, with operating and profit margins of {checkValue(
-                    rawData?.operatingProfitMargin,
-                    "percent",
-                  )} and {checkValue(rawData?.netProfitMargin, "percent")}.
+                  {m.stock_detail_stats_margins_text({
+                    company: companyName,
+                    grossMargin: rawData?.grossProfitMargin,
+                    operatingMargin: rawData?.operatingProfitMargin,
+                    netMargin: rawData?.netProfitMargin
+                  })}
                 {/if}
               </p>
               <table
@@ -806,16 +784,17 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Dividends &amp; Yields
+                {m.stock_detail_stats_dividends_yields()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.annualDividend !== null && rawData?.dividendYield !== null}
-                  {$stockTicker} pays an annual dividend of ${rawData?.annualDividend},
-                  which amounts to a dividend yield of {rawData?.dividendYield}%.
-                {:else}
-                  {$stockTicker} does not appear to pay any dividends at this time.
+                  {m.stock_detail_stats_dividend_text({
+                    company: companyName,
+                    annualDividend: rawData?.annualDividend,
+                    dividendYield: rawData?.dividendYield
+                  })}
                 {/if}
               </p>
               <table
@@ -870,26 +849,26 @@
                 href={`/stocks/${$stockTicker}/dividends`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Dividend Details
+                {m.stock_detail_stats_dividend_details()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Analyst Forecast
+                {m.stock_detail_stats_analyst_forecast()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 data-test="statistics-text"
               >
                 {#if rawData?.priceTarget && rawData?.upside && rawData?.analystRating}
-                  The average price target for {$stockTicker} is ${rawData?.priceTarget},
-                  which is {rawData?.upside}% {rawData?.upside > 0
-                    ? "higher"
-                    : "lower"} than the current price. The consensus rating is "{rawData?.analystRating}".
-                {:else}
-                  Currently there are no analyst rating for {$stockTicker}.
+                  {m.stock_detail_stats_analyst_text({
+                    numAnalysts: rawData?.analystCounter,
+                    company: companyName,
+                    priceTarget: rawData?.priceTarget,
+                    rating: rawData?.analystRating
+                  })}
                 {/if}
               </p>
               <table
@@ -926,20 +905,19 @@
                 href={`/stocks/${$stockTicker}/forecast/analyst`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Stock Forecasts
+                {m.stock_detail_stock_forecasts()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Fair Value
+                {m.stock_detail_stats_fair_value()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                There are several formulas that can be used to estimate the
-                intrinsic value of a stock.
+                {m.stock_detail_stats_fair_value_text({ dcf: rawData?.dcf ?? "n/a" })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -979,22 +957,22 @@
                 <h2
                   class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  Stock Splits
+                  {m.stock_detail_stats_stock_splits()}
                 </h2>
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                   data-test="statistics-text"
                 >
-                  The last stock split was on {new Date(
-                    rawData?.lastStockSplit,
-                  ).toLocaleString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    timeZone: "Europe/Berlin",
-                  })}. It was a
-                  {rawData?.splitType}
-                  split with a ratio of {rawData?.splitRatio}.
+                  {m.stock_detail_stats_stock_split_text({
+                    splitType: rawData?.splitType,
+                    splitRatio: rawData?.splitRatio,
+                    splitDate: new Date(rawData?.lastStockSplit).toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                      timeZone: "Europe/Berlin"
+                    })
+                  })}
                 </p>
                 <table
                   class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -1031,7 +1009,7 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Scores
+                {m.stock_detail_stats_scores()}
               </h2>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -1053,7 +1031,7 @@
           </div>
         </div>
       {:else}
-        <Infobox text="No statistical data availabe right now." />
+        <Infobox text={m.stock_detail_stats_no_data()} />
       {/if}
     </div>
   </div>

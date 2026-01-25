@@ -4,6 +4,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import FailToDeliver from "$lib/components/FailToDeliver.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -112,7 +113,7 @@
             class="w-full flex flex-col items-start sm:items-center sm:flex-row justify-between mb-3"
           >
             <h1 class="text-xl sm:text-2xl font-bold">
-              SEC Fail-to-Deliver Shares
+              {m.stock_detail_stats_ftd_title()}
             </h1>
           </div>
 
@@ -124,7 +125,7 @@
                 class="ftd-total-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>Total FTD Shares</span>
+                  <span>{m.stock_detail_stats_total_ftd_shares()}</span>
                 </div>
                 <div class="flex items-baseline">
                   <span class="text-xl font-bold">
@@ -135,8 +136,8 @@
                   <div class="flex flex-col ml-2">
                     <span class="text-sm">
                       {rawData?.slice(-1)?.at(0)?.failToDeliver > 1e5
-                        ? "Above Average"
-                        : "Below Average"}
+                        ? m.stock_detail_stats_above_average()
+                        : m.stock_detail_stats_below_average()}
                     </span>
                   </div>
                 </div>
@@ -146,7 +147,7 @@
                 class="ftd-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>FTD / Avg. Volume</span>
+                  <span>{m.stock_detail_stats_ftd_avg_volume()}</span>
                 </div>
                 <div class="flex items-baseline">
                   <span class="text-xl font-bold"
@@ -158,7 +159,7 @@
                   >
                   <div class="flex flex-col ml-2">
                     <span class="text-sm">
-                      {relativeFTD > 20 ? "High Impact" : "Low Impact"}
+                      {relativeFTD > 20 ? m.stock_detail_stats_high_impact() : m.stock_detail_stats_low_impact()}
                     </span>
                   </div>
                 </div>
@@ -168,7 +169,7 @@
                 class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>1-Year Change</span>
+                  <span>{m.stock_detail_stats_1_year_change()}</span>
                 </div>
                 <div class="flex items-baseline">
                   <span class="text-xl font-bold"
@@ -182,8 +183,8 @@
                     <span class="text-sm">
                       {changePercentageYearAgo
                         ? changePercentageYearAgo >= 0
-                          ? "Positive Trend"
-                          : "Negative Trend"
+                          ? m.stock_detail_stats_positive_trend()
+                          : m.stock_detail_stats_negative_trend()
                         : ""}
                     </span>
                   </div>
@@ -195,7 +196,7 @@
               <FailToDeliver {data} {rawData} />
             </div>
           {:else}
-            <Infobox text="No data available" />
+            <Infobox text={m.stock_detail_no_data()} />
           {/if}
         </div>
       </main>

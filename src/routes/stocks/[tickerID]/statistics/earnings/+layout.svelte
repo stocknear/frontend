@@ -2,6 +2,7 @@
     import { stockTicker } from "$lib/store";
     import { page } from "$app/stores";
     import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+    import * as m from "$lib/paraglide/messages";
 
     export let data;
     const similarStocks = data?.getSimilarStocks;
@@ -68,7 +69,7 @@
                                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                             >
-                                Surprise
+                                {m.stock_detail_stats_surprise()}
                             </a>
 
                             <a
@@ -80,7 +81,7 @@
                                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                             >
-                                Price Reaction
+                                {m.stock_detail_stats_price_reaction()}
                             </a>
                         </ul>
                     </nav>
@@ -104,12 +105,11 @@
                                         <h2
                                             class="text-start text-xl font-semibold sm:ml-3"
                                         >
-                                            Pro Subscription
+                                            {m.stock_detail_stats_pro_subscription()}
                                         </h2>
                                     </div>
                                     <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                                        Upgrade now for unlimited access to all
-                                        data, tools and no ads.
+                                        {m.stock_detail_stats_upgrade_desc()}
                                     </span>
                                 </a>
                             </div>
@@ -119,15 +119,10 @@
                             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
                         >
                             <h3 class="p-2 pt-4 text-xl font-semibold">
-                                Earnings Surprise
+                                {m.stock_detail_stats_earnings_surprise()}
                             </h3>
                             <div class="p-2">
-                                Earnings Surprise occurs when a company’s
-                                reported earnings per share (EPS) differ from
-                                analysts’ expectations. A positive surprise
-                                (better than expected) often drives the stock
-                                price higher, while a negative surprise (worse
-                                than expected) can lead to declines.
+                                {m.stock_detail_stats_earnings_surprise_desc()}
                             </div>
 
                             <div class="px-2">
@@ -135,7 +130,7 @@
                                     href="/learning-center/article/leverage-earnings-releases-to-your-advantage"
                                     class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
                                 >
-                                    More Information
+                                    {m.stock_detail_stats_more_information()}
                                 </a>
                             </div>
                         </div>
@@ -145,7 +140,7 @@
                                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
                             >
                                 <h3 class="p-2 pt-4 text-xl font-semibold">
-                                    Related Stocks
+                                    {m.stock_detail_stats_related_stocks()}
                                 </h3>
                                 <table
                                     class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -155,7 +150,7 @@
                                         ><tr
                                             ><th
                                                 class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
-                                                >Company</th
+                                                >{m.stock_detail_company()}</th
                                             >
                                             <th
                                                 class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
