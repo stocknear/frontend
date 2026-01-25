@@ -413,7 +413,7 @@ ${summaryData.outlook}
         },
       },
       title: {
-        text: `<h3 class="mt-3 -mb-3 text-sm sm:text-lg">${m.stock_detail_insider_chart_title()}</h3>`,
+        text: `<h3 class="mt-3 -mb-3 text-sm sm:text-lg"></h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -436,7 +436,8 @@ ${summaryData.outlook}
       },
       yAxis: {
         title: {
-          text: $screenWidth < 640 ? null : m.stock_detail_insider_yaxis_label(),
+          text:
+            $screenWidth < 640 ? null : m.stock_detail_insider_yaxis_label(),
           style: {
             color: $mode === "light" ? "#6b7280" : "#fff",
           },
@@ -542,7 +543,7 @@ ${summaryData.outlook}
           },
           animation: false,
           zIndex: 3,
-          showInLegend: purchaseMarkers.length > 0,
+          showInLegend: purchaseMarkers?.length > 0,
         },
         {
           name: m.stock_detail_insider_sales(),
@@ -673,6 +674,9 @@ ${summaryData.outlook}
     } else {
       checkedItems.add(value);
     }
+    // Reassign to trigger Svelte reactivity (Sets are mutable)
+    checkedItems = new Set(checkedItems);
+
     const filterSet = new Set(filterList);
     filterSet.has(value) ? filterSet.delete(value) : filterSet.add(value);
     filterList = Array.from(filterSet);
@@ -684,8 +688,6 @@ ${summaryData.outlook}
       currentPage = 1; // Reset to first page
       updatePaginatedData();
     }
-
-    transactionList = [...transactionList];
   }
 
   // Handle messages from our filtering web worker.
@@ -740,9 +742,8 @@ ${summaryData.outlook}
     }
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -770,11 +771,23 @@ ${summaryData.outlook}
 
   $: columns = [
     { key: "name", label: m.stock_detail_insider_col_name(), align: "left" },
-    { key: "transactionDate", label: m.stock_detail_insider_col_transaction_date(), align: "right" },
-    { key: "securitiesTransacted", label: m.stock_detail_insider_col_shares(), align: "right" },
+    {
+      key: "transactionDate",
+      label: m.stock_detail_insider_col_transaction_date(),
+      align: "right",
+    },
+    {
+      key: "securitiesTransacted",
+      label: m.stock_detail_insider_col_shares(),
+      align: "right",
+    },
     { key: "price", label: m.stock_detail_insider_col_price(), align: "right" },
     { key: "value", label: m.stock_detail_insider_col_value(), align: "right" },
-    { key: "transactionType", label: m.stock_detail_insider_col_type(), align: "right" },
+    {
+      key: "transactionType",
+      label: m.stock_detail_insider_col_type(),
+      align: "right",
+    },
   ];
 
   let sortOrders = {
@@ -859,22 +872,35 @@ ${summaryData.outlook}
     currentPage = 1; // Reset to first page when sorting
     updatePaginatedData();
   };
-
-  function isChecked(item) {
-    return checkedItems.has(item);
-  }
 </script>
 
 <SEO
-  title={m.stock_detail_insider_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_insider_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_insider_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
+  title={m.stock_detail_insider_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={m.stock_detail_insider_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={m.stock_detail_insider_seo_keywords({
+    ticker: $stockTicker,
+    company: $displayCompanyName,
+  })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
-    name: m.stock_detail_insider_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
-    headline: m.stock_detail_insider_structured_headline({ company: $displayCompanyName }),
-    description: m.stock_detail_insider_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: m.stock_detail_insider_structured_name({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
+    headline: m.stock_detail_insider_structured_headline({
+      company: $displayCompanyName,
+    }),
+    description: m.stock_detail_insider_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/insider`,
 
     author: {
@@ -961,28 +987,32 @@ ${summaryData.outlook}
             sales: rawData
               ?.filter((item) => item?.transactionType?.includes("S"))
               ?.length?.toLocaleString("en-US"),
-            value: "$" + abbreviateNumber(
-              rawData?.reduce((sum, item) => sum + (item?.value || 0), 0),
-            ),
-            recent: rawData?.filter(
-              (item) =>
-                new Date(item?.transactionDate) >
-                new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
-            )?.length || 0,
-            sentiment: rawData?.filter(
-              (item) =>
-                new Date(item?.transactionDate) >
-                  new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) &&
-                item?.transactionType?.includes("P"),
-            )?.length >
-            rawData?.filter(
-              (item) =>
-                new Date(item?.transactionDate) >
-                  new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) &&
-                item?.transactionType?.includes("S"),
-            )?.length
-              ? m.stock_detail_insider_bullish()
-              : m.stock_detail_insider_bearish(),
+            value:
+              "$" +
+              abbreviateNumber(
+                rawData?.reduce((sum, item) => sum + (item?.value || 0), 0),
+              ),
+            recent:
+              rawData?.filter(
+                (item) =>
+                  new Date(item?.transactionDate) >
+                  new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+              )?.length || 0,
+            sentiment:
+              rawData?.filter(
+                (item) =>
+                  new Date(item?.transactionDate) >
+                    new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) &&
+                  item?.transactionType?.includes("P"),
+              )?.length >
+              rawData?.filter(
+                (item) =>
+                  new Date(item?.transactionDate) >
+                    new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) &&
+                  item?.transactionType?.includes("S"),
+              )?.length
+                ? m.stock_detail_insider_bullish()
+                : m.stock_detail_insider_bearish(),
           })}
         </p>
 
@@ -997,7 +1027,9 @@ ${summaryData.outlook}
                 builders={[builder]}
                 class="w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span class="truncate">{m.stock_detail_insider_filter_type()}</span>
+                <span class="truncate"
+                  >{m.stock_detail_insider_filter_type()}</span
+                >
                 <svg
                   class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                   viewBox="0 0 20 20"
@@ -1021,22 +1053,23 @@ ${summaryData.outlook}
               class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
             >
               <DropdownMenu.Group>
-                {#each transactionList as item}
+                {#each transactionList as item (item + "-" + checkedItems.has(item))}
                   <DropdownMenu.Item
                     class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <div
-                      on:click|capture={(event) => event.preventDefault()}
-                      class="flex items-center"
+                      on:click|capture|preventDefault={() =>
+                        handleChangeValue(item)}
+                      class="flex items-center cursor-pointer"
                     >
-                      <label
+                      <input
+                        type="checkbox"
+                        checked={checkedItems.has(item)}
+                        on:click|preventDefault|stopPropagation={() =>
+                          handleChangeValue(item)}
                         class="cursor-pointer"
-                        on:click={() => handleChangeValue(item)}
-                        for={item}
-                      >
-                        <input type="checkbox" checked={isChecked(item)} />
-                        <span class="ml-2">{item}</span>
-                      </label>
+                      />
+                      <span class="ml-2">{item}</span>
                     </div>
                   </DropdownMenu.Item>
                 {/each}
@@ -1307,7 +1340,8 @@ ${summaryData.outlook}
                   <p
                     class="text-sm text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
                   >
-                    {summaryData?.outlook ?? m.stock_detail_insider_no_outlook()}
+                    {summaryData?.outlook ??
+                      m.stock_detail_insider_no_outlook()}
                   </p>
                 </div>
 
@@ -1337,7 +1371,9 @@ ${summaryData.outlook}
             <h2
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
             >
-              {m.stock_detail_insider_transactions_title({ count: totalTransaction })}
+              {m.stock_detail_insider_transactions_title({
+                count: totalTransaction,
+              })}
             </h2>
             <div
               class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -1462,14 +1498,19 @@ ${summaryData.outlook}
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
+                  <span class="hidden sm:inline"
+                    >{m.stock_detail_previous()}</span
+                  >
                 </Button>
               </div>
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
+                  {m.stock_detail_page_of({
+                    current: currentPage,
+                    total: totalPages,
+                  })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -1514,7 +1555,9 @@ ${summaryData.outlook}
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
+                            <span class="text-sm"
+                              >{m.stock_detail_rows({ count: item })}</span
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1554,7 +1597,8 @@ ${summaryData.outlook}
                 on:click={scrollToTop}
                 class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {m.stock_detail_back_to_top()} <svg
+                {m.stock_detail_back_to_top()}
+                <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -1572,15 +1616,21 @@ ${summaryData.outlook}
           {/if}
         {:else if displayList?.length === 0 && inputValue?.length > 0}
           <div class="w-full flex items-center justify-start text-start">
-            <Infobox text={m.stock_detail_insider_no_results({ query: inputValue })} />
+            <Infobox
+              text={m.stock_detail_insider_no_results({ query: inputValue })}
+            />
           </div>
         {:else if displayList?.length === 0 && filterList?.length > 0}
           <Infobox
-            text={m.stock_detail_insider_no_type({ company: removeCompanyStrings($displayCompanyName) })}
+            text={m.stock_detail_insider_no_type({
+              company: removeCompanyStrings($displayCompanyName),
+            })}
           />
         {:else}
           <Infobox
-            text={m.stock_detail_insider_no_history({ company: $displayCompanyName })}
+            text={m.stock_detail_insider_no_history({
+              company: $displayCompanyName,
+            })}
           />
         {/if}
       </div>

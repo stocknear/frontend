@@ -97,7 +97,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-center text-sm font-semibold tracking-tight">${m.stock_detail_shareholders_chart_title({ company: removeCompanyStrings($displayCompanyName) })}</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-center text-sm font-semibold tracking-tight"></h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -266,9 +266,8 @@
     initialize();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -281,17 +280,41 @@
   }
 
   $: columns = [
-    { key: "name", label: m.stock_detail_shareholders_col_institute(), align: "left" },
-    { key: "ownership", label: m.stock_detail_shareholders_col_ownership(), align: "right" },
-    { key: "sharesNumber", label: m.stock_detail_shareholders_col_shares(), align: "right" },
+    {
+      key: "name",
+      label: m.stock_detail_shareholders_col_institute(),
+      align: "left",
+    },
+    {
+      key: "ownership",
+      label: m.stock_detail_shareholders_col_ownership(),
+      align: "right",
+    },
+    {
+      key: "sharesNumber",
+      label: m.stock_detail_shareholders_col_shares(),
+      align: "right",
+    },
     {
       key: "changeInSharesNumberPercentage",
       label: m.stock_detail_shareholders_col_shares_change(),
       align: "right",
     },
-    { key: "marketValue", label: m.stock_detail_shareholders_col_value(), align: "right" },
-    { key: "weight", label: m.stock_detail_shareholders_col_portfolio(), align: "right" },
-    { key: "filingDate", label: m.stock_detail_shareholders_col_filing(), align: "right" },
+    {
+      key: "marketValue",
+      label: m.stock_detail_shareholders_col_value(),
+      align: "right",
+    },
+    {
+      key: "weight",
+      label: m.stock_detail_shareholders_col_portfolio(),
+      align: "right",
+    },
+    {
+      key: "filingDate",
+      label: m.stock_detail_shareholders_col_filing(),
+      align: "right",
+    },
   ];
 
   let sortOrders = {
@@ -385,32 +408,37 @@
           {@html m.stock_detail_shareholders_description({
             count: rawData?.investorsHolding?.toLocaleString("en-US"),
             company: removeCompanyStrings($displayCompanyName),
-            direction: rawData?.investorsHoldingChange >= 0
-              ? m.stock_detail_shareholders_expanded()
-              : m.stock_detail_shareholders_reduced(),
-            changeType: rawData?.investorsHoldingChange >= 0
-              ? m.stock_detail_shareholders_increase()
-              : m.stock_detail_shareholders_decrease(),
+            direction:
+              rawData?.investorsHoldingChange >= 0
+                ? m.stock_detail_shareholders_expanded()
+                : m.stock_detail_shareholders_reduced(),
+            changeType:
+              rawData?.investorsHoldingChange >= 0
+                ? m.stock_detail_shareholders_increase()
+                : m.stock_detail_shareholders_decrease(),
             change: Math.abs(rawData?.investorsHoldingChange),
-            sharesDirection: rawData?.numberOf13FsharesChange >= 0
-              ? m.stock_detail_shareholders_additional()
-              : m.stock_detail_shareholders_reduction(),
+            sharesDirection:
+              rawData?.numberOf13FsharesChange >= 0
+                ? m.stock_detail_shareholders_additional()
+                : m.stock_detail_shareholders_reduction(),
             sharesChange: abbreviateNumber(
               Math.abs(rawData?.numberOf13FsharesChange),
               false,
               true,
             ),
-            capitalDirection: rawData?.totalInvestedChange >= 0
-              ? m.stock_detail_shareholders_grew()
-              : m.stock_detail_shareholders_declined(),
+            capitalDirection:
+              rawData?.totalInvestedChange >= 0
+                ? m.stock_detail_shareholders_grew()
+                : m.stock_detail_shareholders_declined(),
             capitalChange: abbreviateNumber(
               Math.abs(rawData?.totalInvestedChange),
               true,
               true,
             ),
-            ownershipDirection: rawData?.ownershipPercent >= rawData?.lastOwnershipPercent
-              ? m.stock_detail_shareholders_increasing()
-              : m.stock_detail_shareholders_dropping(),
+            ownershipDirection:
+              rawData?.ownershipPercent >= rawData?.lastOwnershipPercent
+                ? m.stock_detail_shareholders_increasing()
+                : m.stock_detail_shareholders_dropping(),
             lastOwnership: rawData?.lastOwnershipPercent?.toFixed(2),
             currentOwnership: rawData?.ownershipPercent?.toFixed(2),
           })}
@@ -430,7 +458,8 @@
         </h1>
 
         <div class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
-          {m.stock_detail_shareholders_options_holding()} {callPercentage > 55
+          {m.stock_detail_shareholders_options_holding()}
+          {callPercentage > 55
             ? m.stock_detail_shareholders_options_bullish()
             : callPercentage < 45
               ? m.stock_detail_shareholders_options_bearish()
@@ -795,7 +824,10 @@
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
+              {m.stock_detail_page_of({
+                current: currentPage,
+                total: totalPages,
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -840,7 +872,9 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
+                        <span class="text-sm"
+                          >{m.stock_detail_rows({ count: item })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -880,7 +914,8 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {m.stock_detail_back_to_top()} <svg
+            {m.stock_detail_back_to_top()}
+            <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"
