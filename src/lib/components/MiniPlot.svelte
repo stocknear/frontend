@@ -17,6 +17,9 @@
     let chartContainer: HTMLDivElement | null = null;
     let chart: ReturnType<typeof init> | null = null;
     let resizeObserver: ResizeObserver | null = null;
+    let resizeRaf: number | null = null;
+    let lastContainerWidth = 0;
+    let lastContainerHeight = 0;
 
     let changesPercentage = 0;
     let priceData: any[] = [];
@@ -28,6 +31,10 @@
     let isPositive = true;
     let sessionStart: number | null = null;
     let sessionEnd: number | null = null;
+    let sessionBarCount = 0;
+    let sessionIntervalMs = 60 * 1000;
+    let missingRightBars = 0;
+    let currentBarCount = 0;
     let miniAxisRegistered = false;
 
     const MINI_X_AXIS_NAME = "mini_x_axis";
@@ -161,15 +168,6 @@
         );
     };
 
-    const makeFlatBar = (timestamp: number, close: number): KLineData => ({
-        timestamp,
-        open: close,
-        high: close,
-        low: close,
-        close,
-        volume: 0,
-    });
-
     const buildMiniBars = (rawData: any[]): KLineData[] => {
         const list = Array.isArray(rawData) ? rawData : [];
         const parsed = list
@@ -208,41 +206,46 @@
 
         const sessionStart = buildSessionTimestamp(bars[0].timestamp, 9, 30);
         const sessionEnd = buildSessionTimestamp(bars[0].timestamp, 16, 0);
-        let sessionBars = bars.filter(
+        const sessionBars = bars.filter(
             (bar) =>
                 bar.timestamp >= sessionStart && bar.timestamp <= sessionEnd,
         );
         if (!sessionBars.length) {
-            sessionBars = [...bars];
+            return [...bars];
         }
 
-        const output = [...sessionBars];
-        const first = output[0];
-        const last = output[output.length - 1];
-
-        if (first && first.timestamp > sessionStart) {
-            output.unshift(makeFlatBar(sessionStart, first.close));
-        }
-        if (last && last.timestamp < sessionEnd) {
-            output.push(makeFlatBar(sessionEnd, last.close));
-        }
-
-        return output.sort((a, b) => a.timestamp - b.timestamp);
+        return sessionBars;
     };
 
-    const updateBarSpace = (barCount: number) => {
-        if (!chart || !chartContainer || barCount <= 0) return;
+    const computeIntervalMs = (bars: KLineData[]): number => {
+        if (bars.length < 2) return 60 * 1000;
+        const diffs: number[] = [];
+        for (let i = 1; i < bars.length; i += 1) {
+            const diff = bars[i].timestamp - bars[i - 1].timestamp;
+            if (diff > 0) diffs.push(diff);
+        }
+        if (!diffs.length) return 60 * 1000;
+        diffs.sort((a, b) => a - b);
+        return diffs[Math.floor(diffs.length / 2)];
+    };
+
+    const updateBarSpace = () => {
+        if (!chart || !chartContainer || currentBarCount <= 0) return;
         const paneWidth = chart.getSize("candle_pane", "main")?.width;
         const containerWidth = chartContainer.clientWidth || undefined;
         const chartWidth = chart.getSize()?.width;
         const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
         if (!width) return;
-        const desired = width / barCount;
-        const clamped = Math.max(0.2, desired);
+        const targetCount = sessionBarCount > 0 ? sessionBarCount : currentBarCount;
+        const desired = width / targetCount;
+        const clamped = Math.max(1, desired);
         chart.setBarSpace(clamped);
+        const barSpace = chart.getBarSpace()?.bar ?? clamped;
+        const offsetRight = Math.max(0, missingRightBars * barSpace);
+        chart.setOffsetRightDistance(offsetRight);
     };
 
-    const applyMiniStyles = (isLight: boolean) => {
+    const applyMiniStyles = (isLight: boolean, isNegative: boolean) => {
         if (!chart) return;
         const upColor = isLight ? "#16a34a" : "#22c55e";
         const downColor = isLight ? "#dc2626" : "#ef4444";
@@ -253,6 +256,13 @@
         const chartFont = "Space Grotesk";
         const lastPriceMarker = "#111112";
         const lastPriceText = "#ffffff";
+        const lineColor = isNegative ? downColor : upColor;
+        const fillColorStart = isNegative
+            ? "rgba(220, 38, 38, 0.18)"
+            : "rgba(22, 163, 74, 0.16)";
+        const fillColorEnd = isNegative
+            ? "rgba(220, 38, 38, 0.02)"
+            : "rgba(22, 163, 74, 0.02)";
         chart.setStyles({
             grid: {
                 show: true,
@@ -323,7 +333,7 @@
                 },
             },
             candle: {
-                type: "candle_solid",
+                type: "area",
                 bar: {
                     compareRule: "current_open",
                     upColor,
@@ -335,6 +345,25 @@
                     upWickColor: upColor,
                     downWickColor: downColor,
                     noChangeWickColor: axisText,
+                },
+                area: {
+                    value: "close",
+                    lineSize: 1,
+                    lineColor,
+                    smooth: false,
+                    backgroundColor: [
+                        { offset: 0, color: fillColorStart },
+                        { offset: 1, color: fillColorEnd },
+                    ],
+                    point: {
+                        show: false,
+                        color: "transparent",
+                        radius: 0,
+                        rippleColor: "transparent",
+                        rippleRadius: 0,
+                        animation: false,
+                        animationDuration: 0,
+                    },
                 },
                 priceMark: {
                     show: true,
@@ -386,8 +415,36 @@
     const updateChartData = (rawData: any[], ticker: string) => {
         if (!chart) return;
         const bars = buildMiniBars(rawData);
-        sessionStart = bars[0]?.timestamp ?? null;
-        sessionEnd = bars[bars.length - 1]?.timestamp ?? null;
+        currentBarCount = bars.length;
+        if (!bars.length) {
+            sessionStart = null;
+            sessionEnd = null;
+            sessionBarCount = 0;
+            missingRightBars = 0;
+            chart.setOffsetRightDistance(0);
+            chart.setDataLoader({
+                getBars: async ({ type, callback }) => {
+                    if (type === "init") {
+                        callback([], { backward: false, forward: false });
+                        return;
+                    }
+                    callback([], { backward: false, forward: false });
+                },
+            });
+            return;
+        }
+
+        const baseTimestamp = bars[0].timestamp;
+        sessionStart = buildSessionTimestamp(baseTimestamp, 9, 30);
+        sessionEnd = buildSessionTimestamp(baseTimestamp, 16, 0);
+        sessionIntervalMs = computeIntervalMs(bars);
+        sessionBarCount =
+            Math.round((sessionEnd - sessionStart) / sessionIntervalMs) + 1;
+        const lastTimestamp = bars[bars.length - 1].timestamp;
+        missingRightBars =
+            lastTimestamp < sessionEnd
+                ? Math.round((sessionEnd - lastTimestamp) / sessionIntervalMs)
+                : 0;
         chart.setSymbol({
             ticker: ticker ? ticker.toUpperCase() : "",
             pricePrecision: 2,
@@ -403,10 +460,7 @@
                 callback([], { backward: false, forward: false });
             },
         });
-        updateBarSpace(bars.length);
-        if (bars.length) {
-            chart.scrollToRealTime();
-        }
+        updateBarSpace();
     };
 
     onMount(() => {
@@ -417,8 +471,6 @@
         chart.setZoomEnabled(false);
         chart.setScrollEnabled(false);
         chart.setOffsetRightDistance(0);
-        chart.setMaxOffsetLeftDistance(0);
-        chart.setMaxOffsetRightDistance(0);
         chart.setLeftMinVisibleBarCount(0);
         chart.setRightMinVisibleBarCount(0);
         chart.setPaneOptions({
@@ -445,17 +497,38 @@
                 return formatXAxisLabel(timestamp);
             },
         });
-        applyMiniStyles($mode === "light");
+        applyMiniStyles($mode === "light", changesPercentage < 0);
         updateChartData(priceData, symbol);
 
-        resizeObserver = new ResizeObserver(() => {
-            chart?.resize();
-            updateBarSpace(chart?.getDataList()?.length ?? 0);
+        resizeObserver = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            if (!entry) return;
+            const { width, height } = entry.contentRect;
+            if (
+                Math.round(width) === Math.round(lastContainerWidth) &&
+                Math.round(height) === Math.round(lastContainerHeight)
+            ) {
+                return;
+            }
+            lastContainerWidth = width;
+            lastContainerHeight = height;
+            if (resizeRaf !== null) {
+                cancelAnimationFrame(resizeRaf);
+            }
+            resizeRaf = requestAnimationFrame(() => {
+                resizeRaf = null;
+                chart?.resize();
+                updateBarSpace();
+            });
         });
         resizeObserver.observe(chartContainer);
     });
 
     onDestroy(() => {
+        if (resizeRaf !== null) {
+            cancelAnimationFrame(resizeRaf);
+            resizeRaf = null;
+        }
         resizeObserver?.disconnect();
         resizeObserver = null;
         if (chart) {
@@ -465,7 +538,8 @@
     });
 
     $: if (chart) {
-        applyMiniStyles($mode === "light");
+        changesPercentage;
+        applyMiniStyles($mode === "light", changesPercentage < 0);
     }
 
     $: if (chart) {
