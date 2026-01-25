@@ -14,6 +14,7 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   const defaultList = [
@@ -221,7 +222,7 @@
     const ticker = data?.symbol?.trim()?.toUpperCase();
 
     if (tickerList?.includes(ticker)) {
-      toast?.error("Ticker is already included");
+      toast?.error(m.compare_toast_ticker_included());
     } else {
       tickerList.push(ticker);
     }
@@ -248,7 +249,7 @@
     };
 
     if (!Array.isArray(defaultTickers)) {
-      toast?.error("Invalid ticker list");
+      toast?.error(m.compare_toast_invalid_list());
       return;
     }
 
@@ -286,7 +287,7 @@
 
     // Guard clause: ensure the ticker exists
     if (!tickerList?.includes(ticker)) {
-      toast?.error(`Ticker "${ticker}" not found in your watchlist`);
+      toast?.error(m.compare_toast_ticker_not_found({ ticker }));
       return;
     }
 
@@ -810,9 +811,9 @@
 </script>
 
 <SEO
-  title="Stock Comparison Tool - Compare Stocks Side by Side"
-  description="Compare stocks side by side with interactive charts, financial metrics, performance analysis, and key statistics. Analyze multiple companies across price, revenue, market cap, ratios, and more financial data."
-  keywords="stock comparison tool, compare stocks, stock analysis, side by side comparison, financial metrics comparison, stock performance comparison, investment analysis, stock charts comparison, earnings comparison"
+  title={tickerList?.length === 0 ? m.compare_seo_title() : m.compare_title_vs({ tickers: tickerList.join(" vs ") })}
+  description={m.compare_seo_description()}
+  keywords={m.compare_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -851,10 +852,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >Home</a
+        >{m.compare_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">Compare Stocks</li>
+    <li class="text-gray-500 dark:text-zinc-400">{m.compare_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -868,8 +869,8 @@
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {tickerList?.length === 0
-                ? "Compare Stocks"
-                : `Compare Stocks: ${tickerList.join(" vs ")}`}
+                ? m.compare_title()
+                : m.compare_title_vs({ tickers: tickerList.join(" vs ") })}
             </h1>
           </div>
 
@@ -911,8 +912,8 @@
                       class="{tickerList?.length > 10
                         ? 'cursor-not-allowed'
                         : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
-                      placeholder="Find..."
-                      aria-label="Find..."
+                      placeholder={m.compare_search_placeholder()}
+                      aria-label={m.compare_search_placeholder()}
                     />
                   </div>
 
@@ -946,7 +947,7 @@
                         <span
                           class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                         >
-                          No results found
+                          {m.compare_no_results()}
                         </span>
                       {/each}
                     {:else}
@@ -955,8 +956,8 @@
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
-                            ? "No results found"
-                            : "Start searching..."}
+                            ? m.compare_no_results()
+                            : m.compare_start_searching()}
                         </span>
                       </Combobox.Item>
                     {/if}
@@ -1094,7 +1095,7 @@
               {#key rawTableData}
                 <Table
                   title={`${rawTableData?.length} ${
-                    rawTableData?.length > 1 ? "Stocks" : "Stock"
+                    rawTableData?.length > 1 ? m.compare_stocks_plural() : m.compare_stocks_singular()
                   }`}
                   {data}
                   rawData={rawTableData}
@@ -1108,10 +1109,10 @@
               <h2
                 class="mt-8 text-xl -mb-2 sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Average Return
+                {m.compare_average_return()}
               </h2>
               <Infobox
-                text="The average return is based on the stock’s total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends."
+                text={m.compare_average_return_info()}
               />
 
               <div
@@ -1124,10 +1125,10 @@
                     <thead
                       ><tr
                         class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
-                        ><th class="text-left">Symbol</th> <th>1 Month</th>
-                        <th>Year-to-date</th>
-                        <th>1 Year</th> <th>5 Years</th>
-                        <th>Max</th></tr
+                        ><th class="text-left">{m.compare_table_symbol()}</th> <th>{m.compare_table_1month()}</th>
+                        <th>{m.compare_table_ytd()}</th>
+                        <th>{m.compare_table_1year()}</th> <th>{m.compare_table_5years()}</th>
+                        <th>{m.compare_table_max()}</th></tr
                       ></thead
                     >
                     <tbody>
@@ -1167,7 +1168,7 @@
               <h3
                 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
               >
-                Popular Stock Comparisons
+                {m.compare_popular_comparisons()}
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
@@ -1247,7 +1248,7 @@
                 class="flex h-[300px] w-full items-center justify-center overflow-y-hidden rounded px-8 bp:h-[350px] md:h-[400px] lg:h-[500px]"
               >
                 <div class="text-center text-xl font-semibold sm:text-2xl">
-                  Add a symbol to get started
+                  {m.compare_add_symbol()}
                 </div>
               </div>
             </div>
@@ -1256,7 +1257,7 @@
               <h3
                 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
               >
-                Popular Stock Comparisons
+                {m.compare_popular_comparisons()}
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">

@@ -55,7 +55,12 @@
       "./messages/{locale}/options-screener.json",
       "./messages/{locale}/news-flow.json",
       "./messages/{locale}/options-flow.json",
-      "./messages/{locale}/unusual-order-flow.json"
+      "./messages/{locale}/unusual-order-flow.json",
+      "./messages/{locale}/compare.json",
+      "./messages/{locale}/options-calculator.json",
+      "./messages/{locale}/potus-tracker.json",
+      "./messages/{locale}/insider-tracker.json",
+      "./messages/{locale}/reddit-tracker.json"
     ]
   }
 }

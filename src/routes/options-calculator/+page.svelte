@@ -11,6 +11,7 @@
   import Trash from "lucide-svelte/icons/trash";
   import { toast } from "svelte-sonner";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -539,7 +540,7 @@
 
   async function handleAddOptionLeg() {
     if (userStrategy?.length >= 5) {
-      toast.error("You've reached the maximum number of option legs.", {
+      toast.error(m.options_calculator_toast_max_legs(), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
 
@@ -568,7 +569,7 @@
 
   function handleDeleteOptionLeg(index) {
     if (userStrategy?.length === 1) {
-      toast.error("At least one option leg is required!", {
+      toast.error(m.options_calculator_toast_one_leg_required(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
@@ -710,7 +711,7 @@
 
   async function handleSaveStrategy() {
     if (data?.user?.tier !== "Pro") {
-      toast.error("Upgrade to Pro to unlock this feature!", {
+      toast.error(m.options_calculator_toast_upgrade_pro(), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
       return;
@@ -730,7 +731,7 @@
         }),
       );
 
-      toast.success("Options Strategy saved!", {
+      toast.success(m.options_calculator_toast_saved(), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
     } catch (e) {
@@ -811,9 +812,9 @@
 </script>
 
 <SEO
-  title="Options Calculator - P/L, Breakeven & Greeks for Fast Trade Planning"
-  description="Calculate options P/L, breakeven, Greeks, and risk-reward in seconds. Built for short-term options setups and fast decision-making."
-  keywords="options calculator, options P&L calculator, breakeven calculator, options Greeks calculator, risk reward, probability of profit, options strategy calculator"
+  title={m.options_calculator_seo_title()}
+  description={m.options_calculator_seo_description()}
+  keywords={m.options_calculator_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -866,10 +867,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >Home</a
+        >{m.options_calculator_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">Options Calculator</li>
+    <li class="text-gray-500 dark:text-zinc-400">{m.options_calculator_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
@@ -885,7 +886,7 @@
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Options Calculator
+                {m.options_calculator_title()}
               </h1>
             </div>
           </div>
@@ -934,8 +935,8 @@
                     <Combobox.Input
                       on:input={search}
                       class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
-                      placeholder="Find..."
-                      aria-label="Find..."
+                      placeholder={m.options_calculator_search_placeholder()}
+                      aria-label={m.options_calculator_search_placeholder()}
                     />
                   </div>
                   <Combobox.Content
@@ -966,7 +967,7 @@
                         <span
                           class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                         >
-                          No results found
+                          {m.options_calculator_no_results()}
                         </span>
                       {/each}
                     {:else}
@@ -975,8 +976,8 @@
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
-                            ? "No results found"
-                            : "Start searching..."}
+                            ? m.options_calculator_no_results()
+                            : m.options_calculator_start_searching()}
                         </span>
                       </Combobox.Item>
                     {/if}
@@ -988,14 +989,14 @@
                   on:click={() => handleAddOptionLeg()}
                   class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
-                  Add Option Leg
+                  {m.options_calculator_add_option_leg()}
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
                   class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
-                  Save Strategy
+                  {m.options_calculator_save_strategy()}
                 </button>
                 <div
                   class="order-last relative inline-block text-left cursor-pointer mt-3 sm:mt-0 sm:ml-3"
@@ -1006,7 +1007,7 @@
                         builders={[builder]}
                         class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        <span class="truncate">Custom Strategy</span>
+                        <span class="truncate">{m.options_calculator_custom_strategy()}</span>
                         <svg
                           class="-mr-1 ml-3 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -1064,43 +1065,43 @@
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Symbol
+                        {m.options_calculator_table_symbol()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Action
+                        {m.options_calculator_table_action()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Quantity
+                        {m.options_calculator_table_quantity()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Expiration Date
+                        {m.options_calculator_table_expiration()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Strike
+                        {m.options_calculator_table_strike()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Type
+                        {m.options_calculator_table_type()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        Price
+                        {m.options_calculator_table_price()}
                       </th>
                       <th scope="col" class="px-4 py-2 text-sm font-semibold"
                       ></th>
@@ -1272,7 +1273,7 @@
                 <h2
                   class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  Profit/Loss Chart
+                  {m.options_calculator_profit_loss_chart()}
                 </h2>
 
                 <div
@@ -1299,7 +1300,7 @@
                 <h2
                   class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
                 >
-                  Trade Information
+                  {m.options_calculator_trade_information()}
                 </h2>
 
                 <!-- Trade Information Card -->
@@ -1308,7 +1309,7 @@
                 >
                   {#each userStrategy as item, index}
                     <div>
-                      {"Option-Leg" + " " + (index + 1)}
+                      {m.options_calculator_option_leg() + " " + (index + 1)}
                     </div>
                     <div
                       class="{item?.action === 'Buy'
@@ -1328,12 +1329,12 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
                 >
-                  Stock
+                  {m.options_calculator_stock()}
                 </h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 mb-6">
                   <div>
                     <div class="text-gray-800 dark:text-zinc-300 text-sm">
-                      {selectedTicker} Current Price
+                      {selectedTicker} {m.options_calculator_current_price()}
                     </div>
                     <div class="flex items-baseline">
                       <span
@@ -1349,11 +1350,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {selectedTicker} Breakeven Price
+                      {selectedTicker} {m.options_calculator_breakeven_price()}
                       <InfoModal
-                        title="Breakeven Price"
+                        title={m.options_calculator_breakeven_price()}
                         id="breakevenModal"
-                        content="The stock price at which an options position will neither make nor lose money."
+                        content={m.options_calculator_breakeven_info()}
                       />
                     </div>
                     <div class="flex items-baseline">
@@ -1371,7 +1372,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
                 >
-                  Trade Details
+                  {m.options_calculator_trade_details()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1380,11 +1381,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Cost of Trade
+                      {m.options_calculator_cost_of_trade()}
                       <InfoModal
-                        title="Cost of Trade"
+                        title={m.options_calculator_cost_of_trade()}
                         id="premModal"
-                        content="The Cost of Trade refers to the total amount needed to open a position. For options, buying a contract creates a net debit (positive cost), while selling a contract creates a net credit (negative cost)."
+                        content={m.options_calculator_cost_of_trade_info()}
                       />
                     </div>
                     <div class="flex items-baseline">
@@ -1402,11 +1403,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Maximum Profit
+                      {m.options_calculator_max_profit()}
                       <InfoModal
-                        title="Maximum Profit"
+                        title={m.options_calculator_max_profit()}
                         id="maxProfitModal"
-                        content="Maximum Profit is the highest possible gain from an options position or strategy. For long positions, profit is unlimited for calls and capped for puts (if the stock drops to zero). For short positions, profit is limited to the premium received, achieved if the option expires worthless or is repurchased at a lower price."
+                        content={m.options_calculator_max_profit_info()}
                       />
                     </div>
                     <div
@@ -1420,11 +1421,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Maximum Loss
+                      {m.options_calculator_max_loss()}
                       <InfoModal
-                        title="Maximum Loss"
+                        title={m.options_calculator_max_loss()}
                         id="maxLossModal"
-                        content="Maximum Loss is the worst possible financial outcome of an options position. For long calls or puts, it's limited to the premium paid. For naked calls, losses can be unlimited due to unlimited upside risk. For naked puts, the maximum loss is the strike price minus the premium if the stock drops to zero. In defined-risk spreads, it's the difference between strike prices minus net premium received or paid."
+                        content={m.options_calculator_max_loss_info()}
                       />
                     </div>
                     <div
@@ -1439,7 +1440,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
-                  Probability Analysis
+                  {m.options_calculator_probability_analysis()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1448,11 +1449,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Probability of Profit
+                      {m.options_calculator_pop()}
                       <InfoModal
-                        title="Probability of Profit (PoP)"
+                        title={m.options_calculator_pop()}
                         id="popModal"
-                        content="The Probability of Profit (PoP) measures the likelihood that a trade will result in a profit at expiration. It is calculated using the Black-Scholes model and implied volatility derived from option prices. This metric provides an estimate of the success rate for a given strategy under current market conditions."
+                        content={m.options_calculator_pop_info()}
                       />
                     </div>
                     <div
@@ -1468,11 +1469,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Prob. of Max Profit
+                      {m.options_calculator_pop_max_profit()}
                       <InfoModal
-                        title="Probability of Maximum Profit"
+                        title={m.options_calculator_pop_max_profit()}
                         id="popMaxProfitModal"
-                        content="The Probability of Maximum Profit represents the likelihood that a trade will achieve its highest possible profit at expiration. This metric considers factors such as the behavior of the underlying asset, time to expiration, and market volatility (implied volatility derived from option prices)."
+                        content={m.options_calculator_pop_max_profit_info()}
                       />
                     </div>
                     <div
@@ -1486,11 +1487,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Prob. of Max Loss
+                      {m.options_calculator_pop_max_loss()}
                       <InfoModal
-                        title="Probability of Maximum Loss"
+                        title={m.options_calculator_pop_max_loss()}
                         id="popMaxLossModal"
-                        content="The Probability of Maximum Loss represents the likelihood that a trade will incur its worst possible outcome at expiration. This metric helps traders understand the risk of losing their entire investment or facing maximum exposure based on the strategy. It is calculated using the Black-Scholes model."
+                        content={m.options_calculator_pop_max_loss_info()}
                       />
                     </div>
                     <div
@@ -1505,7 +1506,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
-                  Risk Reward Analysis
+                  {m.options_calculator_risk_reward()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1514,11 +1515,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Expected Value (EV)
+                      {m.options_calculator_ev()}
                       <InfoModal
-                        title="Expected Value (EV)"
+                        title={m.options_calculator_ev()}
                         id="evModal"
-                        content="The Expected Value (EV) is the weighted average of all possible outcomes of an options trade, where each payoff at a possible ending price is multiplied by its probability of occurring, and then each resulting value is summed together. It is based on the probability distribution of the security's prices at a future date. This statistical measure helps traders assess the theoretical profitability of a strategy if it were to be repeated many times."
+                        content={m.options_calculator_ev_info()}
                       />
                     </div>
 
@@ -1561,11 +1562,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Expected Return
+                      {m.options_calculator_expected_return()}
                       <InfoModal
-                        title="Expected Return (EV/Risk)"
+                        title={m.options_calculator_expected_return()}
                         id="expectedReturnModal"
-                        content="The ratio of Expected Value (EV) divided by Maximum Risk, expressed as a percentage. This metric shows the expected profit or loss relative to the maximum potential loss of the trade. For example, if a trade has an Expected Value of $100 and a Maximum Risk of $1,000, the Expected Return would be 10%. This standardized measurement helps traders compare different strategies regardless of position size or structure, providing a risk-adjusted way to evaluate trading opportunities."
+                        content={m.options_calculator_expected_return_info()}
                       />
                     </div>
 
@@ -1603,11 +1604,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Reward/Risk
+                      {m.options_calculator_reward_risk()}
                       <InfoModal
-                        title="Reward/Risk Ratio"
+                        title={m.options_calculator_reward_risk()}
                         id="rewardRiskModal"
-                        content="The Reward/Risk Percentage measures the potential profit of a trade relative to its potential loss, expressed as a percentage. It is calculated as Maximum Profit divided by Maximum Loss. For example, if a trade has a max profit of $500 and max loss of $200, the Reward/Risk is 250%. This helps traders evaluate whether the potential rewards justify the risks taken on a particular trade. A higher percentage indicates more favorable risk-reward."
+                        content={m.options_calculator_reward_risk_info()}
                       />
                     </div>
 
@@ -1643,7 +1644,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
-                  Position Greeks
+                  {m.options_calculator_greeks()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1652,11 +1653,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Delta (Δ)
+                      {m.options_calculator_delta()}
                       <InfoModal
-                        title="Delta (Δ)"
+                        title={m.options_calculator_delta()}
                         id="deltaModal"
-                        content="Delta measures how much the value of your trade position will change for every $1 move in the underlying stock. For example, a delta of 50 means your position will gain $50 if the stock rises $1, or lose $50 if it falls $1. Positive delta = bullish exposure, negative delta = bearish exposure."
+                        content={m.options_calculator_delta_info()}
                       />
                     </div>
 
@@ -1689,11 +1690,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Gamma (Γ)
+                      {m.options_calculator_gamma()}
                       <InfoModal
-                        title="Gamma (Γ)"
+                        title={m.options_calculator_gamma()}
                         id="gammaModal"
-                        content="Gamma indicates how quickly Delta changes with each $1 move in the underlying asset. High gamma means your delta will change rapidly as the stock moves. Gamma is highest for at-the-money options near expiration. Positive gamma benefits from large moves, negative gamma is hurt by them."
+                        content={m.options_calculator_gamma_info()}
                       />
                     </div>
 
@@ -1726,11 +1727,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Theta (Θ)
+                      {m.options_calculator_theta()}
                       <InfoModal
-                        title="Theta (Θ)"
+                        title={m.options_calculator_theta()}
                         id="thetaModal"
-                        content="Theta measures your position's daily loss in value due to time decay. A theta of -$50 means your position loses $50 per day just from the passage of time, assuming all else stays constant. Option buyers have negative theta (time works against them), while sellers have positive theta."
+                        content={m.options_calculator_theta_info()}
                       />
                     </div>
                     {#if isPro}
@@ -1741,7 +1742,7 @@
                       >
                         {positionGreeks?.theta >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.theta?.toFixed(2),
-                        )?.toLocaleString("en-US")}/day
+                        )?.toLocaleString("en-US")}{m.options_calculator_per_day()}
                       </div>
                     {:else}
                       <a href="/pricing" class="flex mt-2">
@@ -1766,11 +1767,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      Vega (ν)
+                      {m.options_calculator_vega()}
                       <InfoModal
-                        title="Vega (ν)"
+                        title={m.options_calculator_vega()}
                         id="vegaModal"
-                        content="Vega measures the amount the position will change for every 1% change in implied volatility. A vega of $100 means your position will gain $100 if IV rises by 1%, or lose $100 if IV falls by 1%. Long options have positive vega, short options have negative vega."
+                        content={m.options_calculator_vega_info()}
                       />
                     </div>
 

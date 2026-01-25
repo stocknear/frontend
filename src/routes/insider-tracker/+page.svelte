@@ -13,6 +13,7 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -407,9 +408,9 @@
 </script>
 
 <SEO
-  title="Insider Trading Tracker - Real-Time Corporate Insider Buys & Sells "
-  description="Track real-time insider trading activity from corporate executives, directors, and institutional investors. Monitor insider buys, sells, and ownership changes across all US stocks. Free insider trading tracker with alerts."
-  keywords="insider trading tracker, insider trading data, insider buys, insider sells, corporate insider trading, executive trading, insider transactions, insider ownership, insider trading alerts"
+  title={m.insider_tracker_seo_title()}
+  description={m.insider_tracker_seo_description()}
+  keywords={m.insider_tracker_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -459,10 +460,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >Home</a
+        >{m.insider_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">Insider Tracker</li>
+    <li class="text-gray-500 dark:text-zinc-400">{m.insider_tracker_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -475,14 +476,12 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Insider Tracker
+              {m.insider_tracker_title()}
             </h1>
           </div>
 
           <Infobox
-            text="We update our data in real time to bring you the latest
-                      insights on unusual insider trading, sourced from SEC
-                      filings with a minimum transaction value of 1 million dollars."
+            text={m.insider_tracker_infobox()}
           />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
@@ -492,7 +491,7 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {originalData?.length?.toLocaleString("en-US")} Stocks
+                {originalData?.length?.toLocaleString("en-US")} {m.insider_tracker_stocks()}
               </h2>
               <div
                 class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -523,7 +522,7 @@
                     bind:value={inputValue}
                     on:input={search}
                     type="text"
-                    placeholder="Find..."
+                    placeholder={m.insider_tracker_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -539,7 +538,7 @@
                 {#if customColumnOrder?.length > 0}
                   <button
                     on:click={resetColumnOrder}
-                    title="Reset column order"
+                    title={m.insider_tracker_reset_columns()}
                     class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                   >
                     <svg
@@ -734,7 +733,7 @@
               </div>
             {:else}
               <div class="w-full flex items-center justify-start text-start">
-                <Infobox text={`No results found for "${inputValue}" `} />
+                <Infobox text={m.insider_tracker_no_results({ query: inputValue })} />
               </div>
             {/if}
 
@@ -763,14 +762,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span></Button
+                    <span class="hidden sm:inline">{m.insider_tracker_previous()}</span></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    Page {currentPage} of {totalPages}
+                    {m.insider_tracker_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -780,7 +779,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{rowsPerPage} Rows</span
+                          >{rowsPerPage} {m.insider_tracker_rows()}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -815,7 +814,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{item} Rows</span>
+                              <span class="text-sm">{item} {m.insider_tracker_rows()}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -831,7 +830,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.insider_tracker_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -855,7 +854,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  Back to Top <svg
+                  {m.insider_tracker_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"

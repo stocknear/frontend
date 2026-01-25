@@ -10,6 +10,7 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -88,15 +89,15 @@
 
   let activeIdx = 0;
 
-  const tabs = [
+  $: tabs = [
     {
-      title: "Week",
+      title: m.reddit_tracker_tab_week(),
     },
     {
-      title: "Month",
+      title: m.reddit_tracker_tab_month(),
     },
     {
-      title: "3 Months",
+      title: m.reddit_tracker_tab_3months(),
     },
   ];
 
@@ -214,9 +215,9 @@
 </script>
 
 <SEO
-  title={`Reddit Stock Tracker - ${getSubredditDisplay(currentSubreddit)} Analytics & Sentiment`}
-  description={`Track ${getSubredditDisplay(currentSubreddit)} stock discussions, sentiment analysis, and trending stocks from r/${currentSubreddit}. Monitor mentions, sentiment scores, and social trading insights. Free Reddit stock tracker with real-time data.`}
-  keywords={`${currentSubreddit}, reddit stocks, ${currentSubreddit} sentiment, reddit trading, ${currentSubreddit} tracker, reddit analytics, reddit stock mentions, social trading`}
+  title={m.reddit_tracker_seo_title({ subreddit: getSubredditDisplay(currentSubreddit) })}
+  description={m.reddit_tracker_seo_description({ subreddit: getSubredditDisplay(currentSubreddit) })}
+  keywords={m.reddit_tracker_seo_keywords({ subreddit: currentSubreddit })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -260,10 +261,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >Home</a
+        >{m.reddit_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">Reddit Tracker</li>
+    <li class="text-gray-500 dark:text-zinc-400">{m.reddit_tracker_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -276,7 +277,7 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Reddit Stock Tracker
+              {m.reddit_tracker_title()}
             </h1>
             <p class="text-sm text-gray-800 dark:text-zinc-300">
               {getSubredditDescription(currentSubreddit)}
@@ -311,7 +312,7 @@
               <h2
                 class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Subreddit
+                {m.reddit_tracker_subreddit_label()}
               </h2>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
@@ -367,9 +368,7 @@
                 {excludedRules}
                 {defaultList}
                 {specificRows}
-                title={rawData?.length?.toLocaleString("en-US") +
-                  " " +
-                  "Stocks"}
+                title={m.reddit_tracker_stocks_count({ count: rawData?.length?.toLocaleString("en-US") })}
               />
             {/key}
           {/if}
