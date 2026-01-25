@@ -172,5 +172,22 @@
   "stock_detail_export_date_range_error": "Startdatum muss vor oder am Enddatum liegen.",
   "stock_detail_export_credits_error": "Nicht genügend Credits. Dein Guthaben beträgt {balance}.",
   "stock_detail_export_generating": "Export wird erstellt. Dies kann 2-3 Minuten dauern.",
-  "stock_detail_download_started": "Download gestartet."
+  "stock_detail_download_started": "Download gestartet.",
+
+  "time_ago": "vor {count} {unit}",
+  "time_just_now": "Gerade eben",
+  "time_year": "Jahr",
+  "time_years": "Jahren",
+  "time_month": "Monat",
+  "time_months": "Monaten",
+  "time_week": "Woche",
+  "time_weeks": "Wochen",
+  "time_day": "Tag",
+  "time_days": "Tagen",
+  "time_hour": "Stunde",
+  "time_hours": "Stunden",
+  "time_minute": "Minute",
+  "time_minutes": "Minuten",
+  "time_second": "Sekunde",
+  "time_seconds": "Sekunden"
 }

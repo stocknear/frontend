@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 import { getLocale } from "$lib/paraglide/runtime.js";
+import * as m from "$lib/paraglide/messages";
 
 // Helper to get current locale safely (returns "en" as fallback)
 function getCurrentLocale(): string {
@@ -1344,9 +1345,9 @@ export function abbreviateNumber(
 
 export function formatDate(dateStr, short = false) {
   try {
-    const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})$/.exec(dateStr);
-    if (!m) throw new Error('Bad date format');
-    const [, y, mo, d, h, mi, s] = m.map(Number);
+    const regex = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})$/.exec(dateStr);
+    if (!regex) throw new Error('Bad date format');
+    const [, y, mo, d, h, mi, s] = regex.map(Number);
 
     // Build an ISO string with the *correct* NY offset for that instant.
     const offset = zoneOffsetForWallTime(
@@ -1367,6 +1368,20 @@ export function formatDate(dateStr, short = false) {
     // If it's in the future by <1s, treat as now.
     if (seconds < 0) seconds = 0;
 
+    // Helper to get translated unit
+    const getUnit = (unit: string, count: number) => {
+      const unitMap: Record<string, () => string> = {
+        year: () => count === 1 ? m.time_year() : m.time_years(),
+        month: () => count === 1 ? m.time_month() : m.time_months(),
+        week: () => count === 1 ? m.time_week() : m.time_weeks(),
+        day: () => count === 1 ? m.time_day() : m.time_days(),
+        hour: () => count === 1 ? m.time_hour() : m.time_hours(),
+        minute: () => count === 1 ? m.time_minute() : m.time_minutes(),
+        second: () => count === 1 ? m.time_second() : m.time_seconds(),
+      };
+      return unitMap[unit]?.() || unit;
+    };
+
     const intervals = [
       { unit: 'year',   short: 'y',  seconds: 31536000 },
       { unit: 'month',  short: 'mo', seconds: 2592000 },
@@ -1382,12 +1397,12 @@ export function formatDate(dateStr, short = false) {
       if (count >= 1) {
         if (unit === 'hour' && count >= 24) {
           const days = Math.floor(count / 24);
-          return short ? `${days}d` : `${days} day${days === 1 ? '' : 's'} ago`;
+          return short ? `${days}d` : m.time_ago({ count: days.toString(), unit: getUnit('day', days) });
         }
-        return short ? `${count}${sfx}` : `${count} ${unit}${count === 1 ? '' : 's'} ago`;
+        return short ? `${count}${sfx}` : m.time_ago({ count: count.toString(), unit: getUnit(unit, count) });
       }
     }
-    return short ? '0s' : 'Just now';
+    return short ? '0s' : m.time_just_now();
   } catch (err) {
     console.error('Error formatting date:', err);
     return 'Invalid date';

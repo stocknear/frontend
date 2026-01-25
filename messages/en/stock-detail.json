@@ -172,5 +172,22 @@
   "stock_detail_export_date_range_error": "Start date must be on or before end date.",
   "stock_detail_export_credits_error": "Insufficient credits. Your balance is {balance}.",
   "stock_detail_export_generating": "Generating export. This can take 2-3 minutes.",
-  "stock_detail_download_started": "Download started."
+  "stock_detail_download_started": "Download started.",
+
+  "time_ago": "{count} {unit} ago",
+  "time_just_now": "Just now",
+  "time_year": "year",
+  "time_years": "years",
+  "time_month": "month",
+  "time_months": "months",
+  "time_week": "week",
+  "time_weeks": "weeks",
+  "time_day": "day",
+  "time_days": "days",
+  "time_hour": "hour",
+  "time_hours": "hours",
+  "time_minute": "minute",
+  "time_minutes": "minutes",
+  "time_second": "second",
+  "time_seconds": "seconds"
 }
