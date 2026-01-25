@@ -117,7 +117,17 @@
             grid: { show: false },
             xAxis: { show: false },
             yAxis: { show: false },
-            crosshair: { show: false },
+            crosshair: {
+                show: false,
+                horizontal: {
+                    line: { show: false },
+                    text: { show: false },
+                },
+                vertical: {
+                    line: { show: false },
+                    text: { show: false },
+                },
+            },
             candle: {
                 type: "area",
                 area: {
@@ -263,7 +273,10 @@
                     </div>
                 </div>
 
-                <div class="flex-1 h-[90px]" bind:this={chartContainer}></div>
+                <div
+                    class="flex-1 h-[90px] pointer-events-none"
+                    bind:this={chartContainer}
+                ></div>
             </div>
 
             <div

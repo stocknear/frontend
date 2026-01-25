@@ -13,6 +13,7 @@
   import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -359,16 +360,16 @@ ${summaryData.outlook}
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Earnings Call Transcripts | Quarterly Conference Call Analysis`}
-  description={`Complete earnings call transcripts for ${$displayCompanyName} (${$stockTicker}). Access quarterly conference call recordings, management commentary, Q&A sessions, and analyst discussions with searchable transcript analysis and key insights.`}
-  keywords={`${$stockTicker} earnings call transcript, ${$displayCompanyName} conference call, quarterly earnings transcript, ${$stockTicker} management commentary, earnings call analysis, conference call recording, quarterly results discussion`}
+  title={m.stock_detail_transcripts_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_transcripts_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_transcripts_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/insider/transcripts`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Article"],
-    name: `${$displayCompanyName} Earnings Call Transcripts`,
-    description: `Professional earnings call transcript analysis for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_transcripts_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_transcripts_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/insider/transcripts`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -405,7 +406,7 @@ ${summaryData.outlook}
             <h1
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
             >
-              Transcripts
+              {m.stock_detail_transcripts_title()}
             </h1>
 
             <div
@@ -419,7 +420,7 @@ ${summaryData.outlook}
                       builders={[builder]}
                       class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="truncate">Year: {year}</span>
+                      <span class="truncate">{m.stock_detail_transcripts_year({ year })}</span>
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -458,7 +459,7 @@ ${summaryData.outlook}
                             }}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            FY {yr}
+                            {m.stock_detail_transcripts_fy({ year: yr })}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
@@ -466,7 +467,7 @@ ${summaryData.outlook}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
-                              <span>FY {yr}</span>
+                              <span>{m.stock_detail_transcripts_fy({ year: yr })}</span>
                               <svg
                                 class="size-4"
                                 viewBox="0 0 20 20"
@@ -496,7 +497,7 @@ ${summaryData.outlook}
                       builders={[builder]}
                       class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="truncate">Quarter: Q{quarter}</span>
+                      <span class="truncate">{m.stock_detail_transcripts_quarter({ quarter })}</span>
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -530,7 +531,7 @@ ${summaryData.outlook}
                             }}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            Q{q}
+                            {m.stock_detail_transcripts_q({ quarter: q })}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
@@ -538,7 +539,7 @@ ${summaryData.outlook}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
-                              <span>Q{q}</span>
+                              <span>{m.stock_detail_transcripts_q({ quarter: q })}</span>
                               <svg
                                 class="size-4"
                                 viewBox="0 0 20 20"
@@ -576,8 +577,7 @@ ${summaryData.outlook}
                   <h2
                     class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                   >
-                    Q{displayQuarter}
-                    {displayYear} Earnings Call
+                    {m.stock_detail_transcripts_earnings_call({ quarter: displayQuarter, year: displayYear })}
                   </h2>
                   <p class="text-sm text-gray-500 dark:text-zinc-400 mt-1">
                     {$displayCompanyName} ({$stockTicker})
@@ -634,9 +634,9 @@ ${summaryData.outlook}
                     {/if}
                     {summaryGenerated
                       ? showSummary
-                        ? "Hide Summary"
-                        : "Show Summary"
-                      : "AI Summarize"}
+                        ? m.stock_detail_insider_hide_summary()
+                        : m.stock_detail_insider_show_summary()
+                      : m.stock_detail_insider_ai_summarize()}
                   </button>
                 </div>
               </div>
@@ -660,10 +660,10 @@ ${summaryData.outlook}
                     <p
                       class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium"
                     >
-                      Analyzing transcript with AI...
+                      {m.stock_detail_transcripts_ai_loading()}
                     </p>
                     <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
-                      Extracting key insights and financial metrics
+                      {m.stock_detail_transcripts_ai_loading_sub()}
                     </p>
                   </div>
                 {:else}
@@ -690,12 +690,12 @@ ${summaryData.outlook}
                         <h3
                           class="text-lg font-semibold text-gray-900 dark:text-white"
                         >
-                          AI-Generated Summary
+                          {m.stock_detail_transcripts_ai_title()}
                         </h3>
                       </div>
                       <div class="flex items-center gap-3">
                         <span class="text-sm text-gray-800 dark:text-zinc-300"
-                          >Overall Sentiment:</span
+                          >{m.stock_detail_transcripts_sentiment_label()}</span
                         >
                         <div class="flex items-center gap-2">
                           <span
@@ -744,7 +744,7 @@ ${summaryData.outlook}
                               d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                             />
                           </svg>
-                          Copy
+                          {m.stock_detail_insider_copy()}
                         </button>
                         <button
                           on:click={downloadMarkdown}
@@ -763,7 +763,7 @@ ${summaryData.outlook}
                               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                             />
                           </svg>
-                          Download
+                          {m.stock_detail_insider_download()}
                         </button>
                       </div>
                     </div>
@@ -782,7 +782,7 @@ ${summaryData.outlook}
                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                           />
                         </svg>
-                        Key Highlights
+                        {m.stock_detail_transcripts_key_highlights()}
                       </h4>
                       <ul class="space-y-2">
                         {#each summaryData?.keyHighlights ?? [] as highlight}
@@ -824,7 +824,7 @@ ${summaryData.outlook}
                             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                           />
                         </svg>
-                        Risk Factors Mentioned
+                        {m.stock_detail_transcripts_risk_factors()}
                       </h4>
                       <ul class="space-y-2">
                         {#each summaryData?.risks ?? [] as risk}
@@ -872,12 +872,12 @@ ${summaryData.outlook}
                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                           />
                         </svg>
-                        Management Outlook
+                        {m.stock_detail_transcripts_management_outlook()}
                       </h4>
                       <p
                         class="text-sm text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
                       >
-                        {summaryData?.outlook ?? "No outlook available."}
+                        {summaryData?.outlook ?? m.stock_detail_transcripts_no_outlook()}
                       </p>
                     </div>
 
@@ -885,9 +885,7 @@ ${summaryData.outlook}
                     <p
                       class="text-xs text-gray-500 dark:text-zinc-400 italic border-t border-gray-300 dark:border-zinc-700 pt-4"
                     >
-                      This summary was generated by AI and may not capture all
-                      nuances from the earnings call. Please read the full
-                      transcript for complete information.
+                      {m.stock_detail_transcripts_disclaimer()}
                     </p>
                   </div>
                 {/if}
@@ -969,12 +967,12 @@ ${summaryData.outlook}
                     d="M5 10l7-7m0 0l7 7m-7-7v18"
                   />
                 </svg>
-                Back to top
+                {m.stock_detail_transcripts_back_to_top()}
               </button>
             </div>
           {:else}
             <Infobox
-              text={`No transcript available for ${$displayCompanyName} for Q${displayQuarter} of ${displayYear}`}
+              text={m.stock_detail_transcripts_no_transcript({ company: $displayCompanyName, quarter: displayQuarter, year: displayYear })}
             />
           {/if}
         {:else}

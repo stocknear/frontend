@@ -2,20 +2,21 @@
   import { displayCompanyName, stockTicker } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
   import Dividends from "$lib/components/Dividends.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Dividend Analysis - Historical Payments, Yield Calculator & Ex-Dividend Dates`}
-  description={`Complete dividend analysis for ${$displayCompanyName} (${$stockTicker}) including historical dividend payments, current yield, payout ratio, ex-dividend dates, and dividend growth trends. Track ${$stockTicker} dividend sustainability, quarterly distributions, and income investing metrics. Essential data for dividend investors and income portfolio strategies.`}
-  keywords={`${$stockTicker} dividends, ${$displayCompanyName} dividend yield, ${$stockTicker} dividend history, dividend payments, ex-dividend dates, dividend growth, payout ratio, dividend sustainability, income investing, quarterly dividends, dividend calendar, yield analysis, dividend aristocrat`}
+  title={m.stock_detail_dividends_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_dividends_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_dividends_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
-    name: `${$displayCompanyName} (${$stockTicker}) Dividend Analysis`,
-    headline: `${$displayCompanyName} Dividend History, Yield & Payment Analysis`,
-    description: `Comprehensive dividend analysis for ${$displayCompanyName} (${$stockTicker}) including historical payments, current yield, and future dividend projections`,
+    name: m.stock_detail_dividends_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: m.stock_detail_dividends_structured_headline({ company: $displayCompanyName }),
+    description: m.stock_detail_dividends_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/dividends`,
 
     author: {

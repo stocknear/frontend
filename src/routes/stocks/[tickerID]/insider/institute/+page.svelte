@@ -3,21 +3,22 @@
 
   import ShareHolders from "$lib/components/ShareHolders.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) 13F Institutional Ownership | Holdings & Changes Analysis`}
-  description={`Comprehensive 13F institutional ownership analysis for ${$displayCompanyName} (${$stockTicker}). Track hedge fund holdings, institutional investor positions, ownership changes, and smart money movements with detailed quarterly filings analysis.`}
-  keywords={`${$stockTicker} institutional ownership, ${$displayCompanyName} 13F filings, hedge fund holdings, institutional investors, ${$stockTicker} ownership changes, smart money tracking, institutional positions, 13F analysis`}
+  title={m.stock_detail_institute_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_institute_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_institute_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/insider/institute`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} 13F Institutional Ownership`,
-    description: `Professional 13F filing analysis and institutional ownership tracking for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_institute_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_institute_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/insider/institute`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -59,7 +60,7 @@
           <h1
             class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            13F Institute Ownership
+            {m.stock_detail_institute_title()}
           </h1>
         </div>
 

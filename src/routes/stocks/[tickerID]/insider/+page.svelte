@@ -14,6 +14,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -865,15 +866,15 @@ ${summaryData.outlook}
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Insider Trading Analysis - Executive Transactions & SEC Filings Tracker`}
-  description={`Professional insider trading analysis for ${$displayCompanyName} (${$stockTicker}) with real-time SEC filings, executive transactions, and institutional insider activity. Track ${$stockTicker} insider sentiment through purchase/sale patterns, insider ownership changes, and key executive trading behavior. Essential intelligence for understanding management confidence and insider positioning.`}
-  keywords={`${$stockTicker} insider trading, ${$displayCompanyName} insider transactions, SEC filings, executive trades, insider ownership, management trading, ${$stockTicker} insider activity, insider sentiment, executive stock sales, insider purchases, Form 4 filings, insider analysis`}
+  title={m.stock_detail_insider_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_insider_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_insider_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
-    name: `${$displayCompanyName} (${$stockTicker}) Insider Trading Analysis`,
-    headline: `${$displayCompanyName} Insider Trading Intelligence - Executive Transactions & SEC Filing Analysis`,
-    description: `Comprehensive insider trading analysis for ${$displayCompanyName} (${$stockTicker}) including executive transactions, SEC filings, and insider sentiment tracking`,
+    name: m.stock_detail_insider_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: m.stock_detail_insider_structured_headline({ company: $displayCompanyName }),
+    description: m.stock_detail_insider_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/insider`,
 
     author: {
@@ -945,7 +946,7 @@ ${summaryData.outlook}
           <h1
             class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            {$stockTicker} Insider Trading
+            {m.stock_detail_insider_title({ ticker: $stockTicker })}
           </h1>
         </div>
 
@@ -1009,7 +1010,7 @@ ${summaryData.outlook}
                 builders={[builder]}
                 class="w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span class="truncate">Filter Type</span>
+                <span class="truncate">{m.stock_detail_insider_filter_type()}</span>
                 <svg
                   class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                   viewBox="0 0 20 20"
@@ -1080,9 +1081,9 @@ ${summaryData.outlook}
             {/if}
             {summaryGenerated
               ? showSummary
-                ? "Hide Summary"
-                : "Show Summary"
-              : "AI Summarize"}
+                ? m.stock_detail_insider_hide_summary()
+                : m.stock_detail_insider_show_summary()
+              : m.stock_detail_insider_ai_summarize()}
           </button>
         </div>
 
@@ -1104,10 +1105,10 @@ ${summaryData.outlook}
                 <p
                   class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium"
                 >
-                  Analyzing insider trading data with AI...
+                  {m.stock_detail_insider_ai_loading()}
                 </p>
                 <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
-                  Extracting key patterns and sentiment
+                  {m.stock_detail_insider_ai_loading_sub()}
                 </p>
               </div>
             {:else}
@@ -1134,12 +1135,12 @@ ${summaryData.outlook}
                     <h3
                       class="text-lg font-semibold text-gray-900 dark:text-white"
                     >
-                      AI-Generated Summary
+                      {m.stock_detail_insider_ai_title()}
                     </h3>
                   </div>
                   <div class="flex items-center gap-3">
                     <span class="text-sm text-gray-800 dark:text-zinc-300"
-                      >Insider Sentiment:</span
+                      >{m.stock_detail_insider_sentiment_label()}</span
                     >
                     <div class="flex items-center gap-2">
                       <span
@@ -1186,7 +1187,7 @@ ${summaryData.outlook}
                           d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                         />
                       </svg>
-                      Copy
+                      {m.stock_detail_insider_copy()}
                     </button>
                     <button
                       on:click={downloadMarkdown}
@@ -1205,7 +1206,7 @@ ${summaryData.outlook}
                           d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                         />
                       </svg>
-                      Download
+                      {m.stock_detail_insider_download()}
                     </button>
                   </div>
                 </div>
@@ -1224,7 +1225,7 @@ ${summaryData.outlook}
                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                       />
                     </svg>
-                    Key Highlights
+                    {m.stock_detail_insider_key_highlights()}
                   </h4>
                   <ul class="space-y-2">
                     {#each summaryData?.keyHighlights ?? [] as highlight}
@@ -1266,7 +1267,7 @@ ${summaryData.outlook}
                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                       />
                     </svg>
-                    Risk Signals
+                    {m.stock_detail_insider_risk_signals()}
                   </h4>
                   <ul class="space-y-2">
                     {#each summaryData?.risks ?? [] as risk}
@@ -1314,12 +1315,12 @@ ${summaryData.outlook}
                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                       />
                     </svg>
-                    Insider Activity Outlook
+                    {m.stock_detail_insider_outlook()}
                   </h4>
                   <p
                     class="text-sm text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
                   >
-                    {summaryData?.outlook ?? "No outlook available."}
+                    {summaryData?.outlook ?? m.stock_detail_insider_no_outlook()}
                   </p>
                 </div>
 
@@ -1327,9 +1328,7 @@ ${summaryData.outlook}
                 <p
                   class="text-xs text-gray-500 dark:text-zinc-400 italic border-t border-gray-300 dark:border-zinc-700 pt-4"
                 >
-                  This summary was generated by AI based on insider trading
-                  data. It should not be considered investment advice. Please
-                  conduct your own research.
+                  {m.stock_detail_insider_disclaimer()}
                 </p>
               </div>
             {/if}
@@ -1382,7 +1381,7 @@ ${summaryData.outlook}
                   bind:value={inputValue}
                   on:input={search}
                   type="text"
-                  placeholder="Find..."
+                  placeholder={m.stock_detail_insider_find()}
                   class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
@@ -1476,14 +1475,14 @@ ${summaryData.outlook}
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">Previous</span>
+                  <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
                 </Button>
               </div>
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  Page {currentPage} of {totalPages}
+                  {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -1493,7 +1492,7 @@ ${summaryData.outlook}
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{rowsPerPage} Rows</span
+                        >{m.stock_detail_rows({ count: rowsPerPage })}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1528,7 +1527,7 @@ ${summaryData.outlook}
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{item} Rows</span>
+                            <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1544,7 +1543,7 @@ ${summaryData.outlook}
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">Next</span>
+                  <span class="hidden sm:inline">{m.stock_detail_next()}</span>
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -1568,7 +1567,7 @@ ${summaryData.outlook}
                 on:click={scrollToTop}
                 class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
-                Back to Top <svg
+                {m.stock_detail_back_to_top()} <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -1586,16 +1585,15 @@ ${summaryData.outlook}
           {/if}
         {:else if displayList?.length === 0 && inputValue?.length > 0}
           <div class="w-full flex items-center justify-start text-start">
-            <Infobox text={`No results found for "${inputValue}" `} />
+            <Infobox text={m.stock_detail_insider_no_results({ query: inputValue })} />
           </div>
         {:else if displayList?.length === 0 && filterList?.length > 0}
           <Infobox
-            text={`No Transaction Type found for ${removeCompanyStrings($displayCompanyName)}. Try a different filter...`}
+            text={m.stock_detail_insider_no_type({ company: removeCompanyStrings($displayCompanyName) })}
           />
         {:else}
           <Infobox
-            text={`No trading history available for ${$displayCompanyName}. Likely no
-       insider trading has happened yet.`}
+            text={m.stock_detail_insider_no_history({ company: $displayCompanyName })}
           />
         {/if}
       </div>

@@ -2,6 +2,7 @@
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { sectorNavigation } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -35,15 +36,15 @@ ${paragraphs.join("\n")}
 </div>`;
   }
 
-  let formattedText = textToParagraphs(
-    rawData?.description || "No Company description available at the moment.",
+  $: formattedText = textToParagraphs(
+    rawData?.description || m.stock_detail_profile_no_description(),
   );
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Company Profile - Business Overview, Management Team & Corporate Information`}
-  description={`Comprehensive company profile for ${$displayCompanyName} (${$stockTicker}) including business description, industry analysis, management team, executive leadership, corporate governance, and key business metrics. Access detailed information about ${$stockTicker} operations, business model, competitive positioning, and strategic initiatives.`}
-  keywords={`${$stockTicker} company profile, ${$displayCompanyName} business overview, ${$stockTicker} management team, company information, business description, executive leadership, corporate governance, ${$displayCompanyName} industry, business model, company analysis`}
+  title={m.stock_detail_profile_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_profile_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_profile_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["Organization", "Corporation", "WebPage"],
@@ -125,7 +126,7 @@ ${paragraphs.join("\n")}
         <div class="sm:p-7 w-full mt-2 sm:mt-0">
           <div class="lg:float-left lg:w-[calc(100%-336px-20px)]">
             <h1 class="text-xl sm:text-2xl font-bold mb-4 w-full">
-              Company Description
+              {m.stock_detail_profile_company_description()}
             </h1>
             {@html formattedText}
           </div>
@@ -147,7 +148,7 @@ ${paragraphs.join("\n")}
                 <tbody
                   ><tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">Country</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_country()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.country
                         ? rawData?.country?.replace("US", "United States")
@@ -157,7 +158,7 @@ ${paragraphs.join("\n")}
 
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">IPO Date</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_ipo_date()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.ipoDate !== null &&
                       rawData?.ipoDate?.length > 0
@@ -172,7 +173,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">Industry</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_industry()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       ><a
                         href={rawData?.industry
@@ -185,7 +186,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">Sector</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_sector()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2">
                       <a
                         href={sectorNavigation?.find(
@@ -198,7 +199,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">Employees</td
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_employees()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       ><a
@@ -214,7 +215,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">CEO</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_ceo()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.ceo || "n/a"}</td
                     ></tr
@@ -224,7 +225,7 @@ ${paragraphs.join("\n")}
             </div>
 
             <h2 class="mt-6 xs:mt-8 font-bold text-2xl mb-2">
-              Contact Details
+              {m.stock_detail_profile_contact_details()}
             </h2>
             <div
               class="rounded border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 pb-2 pt-4"
@@ -234,13 +235,13 @@ ${paragraphs.join("\n")}
                   ><tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td colspan="2" class="pb-3"
-                      ><div class="mb-2 text-lg font-bold">Address:</div>
+                      ><div class="mb-2 text-lg font-bold">{m.stock_detail_profile_address()}</div>
                       <div>
                         {rawData?.address
                           ? rawData?.address
-                          : "No Address available"}<br />{rawData?.city
+                          : m.stock_detail_profile_no_address()}<br />{rawData?.city
                           ? rawData?.city
-                          : "No city data available"}, {rawData?.state ?? ""}<br
+                          : m.stock_detail_profile_no_city()}, {rawData?.state ?? ""}<br
                         />{rawData?.country?.replace("US", "United States") ??
                           ""}
                       </div></td
@@ -249,7 +250,7 @@ ${paragraphs.join("\n")}
 
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-0.5 py-2 font-semibold">Website</td>
+                    ><td class="px-0.5 py-2 font-semibold">{m.stock_detail_profile_website()}</td>
                     <td class="px-0.5 py-2 text-right">
                       <a
                         href={rawData?.website}
@@ -261,7 +262,7 @@ ${paragraphs.join("\n")}
                 >
               </table>
             </div>
-            <h2 class="mt-6 xs:mt-8 font-bold text-2xl mb-2">Stock Details</h2>
+            <h2 class="mt-6 xs:mt-8 font-bold text-2xl mb-2">{m.stock_detail_profile_stock_details()}</h2>
             <div
               class="rounded border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2 pb-2 pt-2 xs:px-4 xs:pt-2.5"
             >
@@ -270,7 +271,7 @@ ${paragraphs.join("\n")}
                   ><tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
-                      >Ticker Symbol</td
+                      >{m.stock_detail_profile_ticker_symbol()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{$stockTicker?.toUpperCase() ?? "n/a"}</td
@@ -278,7 +279,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">Exchange</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_exchange()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.exchange ?? "n/a"}</td
                     ></tr
@@ -286,7 +287,7 @@ ${paragraphs.join("\n")}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
-                      >Fiscal Year</td
+                      >{m.stock_detail_profile_fiscal_year()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.fiscalYearRange ?? "n/a"}</td
@@ -295,7 +296,7 @@ ${paragraphs.join("\n")}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
-                      >Reporting Currency</td
+                      >{m.stock_detail_profile_reporting_currency()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.currency ?? "n/a"}</td
@@ -303,7 +304,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">CIK Code</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_cik_code()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.cik ?? "n/a"}</td
                     ></tr
@@ -311,7 +312,7 @@ ${paragraphs.join("\n")}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
-                      >CUSIP Number</td
+                      >{m.stock_detail_profile_cusip_number()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.cusip ?? "n/a"}</td
@@ -320,7 +321,7 @@ ${paragraphs.join("\n")}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
-                      >ISIN Number</td
+                      >{m.stock_detail_profile_isin_number()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.isin ?? "n/a"}</td
@@ -329,7 +330,7 @@ ${paragraphs.join("\n")}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
-                      >Employer ID</td
+                      >{m.stock_detail_profile_employer_id()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.taxIdentificationNumber ?? "n/a"}</td
@@ -337,7 +338,7 @@ ${paragraphs.join("\n")}
                   >
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
-                    ><td class="px-1 py-1.5 font-semibold lg:py-2">SIC Code</td>
+                    ><td class="px-1 py-1.5 font-semibold lg:py-2">{m.stock_detail_profile_sic_code()}</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.sicCode ?? "n/a"}</td
                     ></tr
@@ -349,7 +350,7 @@ ${paragraphs.join("\n")}
 
           <div class=" mb-2 lg:float-left lg:w-[calc(100%-336px-40px)]">
             <h2 class="mt-6 lg:mt-4 text-xl sm:text-2xl font-bold mb-5">
-              Key Executives
+              {m.stock_detail_profile_key_executives()}
             </h2>
             {#if rawData?.executives?.length > 0}
               <table class="mb-6 w-full xs:mb-8">
@@ -358,11 +359,11 @@ ${paragraphs.join("\n")}
                   ><tr class="border-y border-gray-300 dark:border-zinc-700"
                     ><th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
-                      >Name</th
+                      >{m.stock_detail_profile_col_name()}</th
                     >
                     <th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
-                      >Position</th
+                      >{m.stock_detail_profile_col_position()}</th
                     ></tr
                   ></thead
                 >
@@ -382,10 +383,10 @@ ${paragraphs.join("\n")}
                 </tbody>
               </table>
             {:else}
-              No executives data available.
+              {m.stock_detail_profile_no_executives()}
             {/if}
             <h2 class="mt-10 text-xl sm:text-2xl font-bold mb-5">
-              Latest SEC Filings
+              {m.stock_detail_profile_sec_filings()}
             </h2>
             {#if rawData?.filings?.length > 0}
               <table class="w-full">
@@ -394,15 +395,15 @@ ${paragraphs.join("\n")}
                   ><tr class="border-y border-gray-300 dark:border-zinc-700"
                     ><th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
-                      >Date</th
+                      >{m.stock_detail_profile_col_date()}</th
                     >
                     <th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
-                      >Type</th
+                      >{m.stock_detail_profile_col_type()}</th
                     >
                     <th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
-                      >Title</th
+                      >{m.stock_detail_profile_col_title()}</th
                     ></tr
                   ></thead
                 >

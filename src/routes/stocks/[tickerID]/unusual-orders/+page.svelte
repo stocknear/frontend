@@ -6,6 +6,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   let historicalDarkPool = data?.getHistoricalDarkPool || [];
@@ -16,15 +17,15 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Unusual Orders — Block Trades & Dark Pool Activity`}
-  description={`Unusual Orders for ${$displayCompanyName} (${$stockTicker}): on-exchange block trades (≥10,000 shares) and off-exchange dark pool executions — institutional flow, hidden volume, and market impact.`}
-  keywords={`${$stockTicker} unusual orders, ${$stockTicker} block trades, ${$stockTicker} dark pool, ${$displayCompanyName} institutional flow, block trade data, dark liquidity, hidden trading volume, ATS trading, off-exchange trades, market impact`}
+  title={m.stock_detail_unusual_orders_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_unusual_orders_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_unusual_orders_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "AnalysisNewsArticle", "WebPage"],
-    name: `${$displayCompanyName} (${$stockTicker}) Unusual Orders Analysis`,
-    headline: `${$displayCompanyName} — Unusual Orders: Block Trades (≥10,000 shares) & Dark Pool Activity`,
-    description: `Analysis of unusual orders for ${$displayCompanyName} (${$stockTicker}): on-exchange block trades (10,000+ shares) and off-exchange dark pool executions, showing institutional positioning, hidden volume, and potential market impact.`,
+    name: m.stock_detail_unusual_orders_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: m.stock_detail_unusual_orders_structured_headline({ company: $displayCompanyName }),
+    description: m.stock_detail_unusual_orders_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/unusual-orders`,
     author: {
       "@type": "Organization",
@@ -94,7 +95,7 @@
         <div class="w-full">
           {#if priceLevel?.length === 0 && hottestTrades?.length === 0 && historicalDarkPool?.length === 0}
             <Infobox
-              text={`No Dark Pool activity are detected for ${$displayCompanyName}`}
+              text={m.stock_detail_unusual_orders_no_activity({ company: $displayCompanyName })}
             />
           {/if}
         </div>
