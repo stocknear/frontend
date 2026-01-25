@@ -1,6 +1,7 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   import { openPriceAlert, newPriceAlertData } from "$lib/store";
 
@@ -19,7 +20,7 @@
   async function handleCreateAlert() {
     // Validate input locally.
     if (targetPrice < 0) {
-      toast.error("Target Price must be above zero", {
+      toast.error(m.stock_detail_target_price_error(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -58,9 +59,9 @@
 
     // Use toast.promise to handle pending, success, and error states.
     toast.promise(promise, {
-      loading: "Creating price alert...",
-      success: "Successfully created price alert",
-      error: (err) => err.message || "Failed to create price alert",
+      loading: m.stock_detail_creating_alert(),
+      success: m.stock_detail_alert_created(),
+      error: (err) => err.message || m.stock_detail_alert_failed(),
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
 
@@ -137,7 +138,7 @@
       <h2
         class="font-semibold text-lg text-start mb-5 tracking-tight text-gray-900 dark:text-white"
       >
-        Price Alert on {ticker}
+        {m.stock_detail_price_alert_on({ ticker })}
       </h2>
 
       <div
@@ -145,7 +146,7 @@
       >
         <label
           class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-          >Symbol</label
+          >{m.stock_detail_symbol()}</label
         >
 
         <label
@@ -161,7 +162,7 @@
           />
           -->
 
-          {ticker?.toUpperCase()}, Regular trading hours
+          {ticker?.toUpperCase()}, {m.stock_detail_regular_trading_hours()}
         </label>
       </div>
 
@@ -170,11 +171,11 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-            >Condition</label
+            >{m.stock_detail_condition()}</label
           >
           <input
             type="text"
-            value="Price"
+            value={m.stock_detail_price()}
             class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
             readonly
           />
@@ -184,15 +185,15 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-            >Crossing</label
+            >{m.stock_detail_crossing()}</label
           >
           <div class="relative w-full sm:w-[80%]">
             <select
               on:change={changeStatement}
               class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
-              <option value="above" selected>Above</option>
-              <option value="below">Below</option>
+              <option value="above" selected>{m.stock_detail_above()}</option>
+              <option value="below">{m.stock_detail_below()}</option>
             </select>
             <svg
               class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
@@ -208,7 +209,7 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-            >Value</label
+            >{m.stock_detail_value()}</label
           >
 
           <div class="relative w-full sm:w-[80%]">
@@ -259,11 +260,13 @@
           <div class="flex flex-col gap-2 mt-5">
             <label
               class="text-sm sm:text-[1rem] font-semibold text-gray-700 dark:text-zinc-200"
-              >Quick Summary:</label
+              >{m.stock_detail_quick_summary()}</label
             >
             <p class="text-sm text-gray-800 dark:text-zinc-300">
-              Your price alert will notify you when the stock price is {condition}
-              {targetPrice}.
+              {m.stock_detail_alert_notify_text({
+                condition: condition === "above" ? m.stock_detail_above().toLowerCase() : m.stock_detail_below().toLowerCase(),
+                targetPrice: targetPrice.toString(),
+              })}
             </p>
           </div>
         {/if}
@@ -274,13 +277,13 @@
             for="priceAlertModal"
             class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >
-            Cancel
+            {m.stock_detail_cancel()}
           </label>
           <button
             on:click={handleCreateAlert}
             class="cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition"
           >
-            Save
+            {m.stock_detail_save()}
           </button>
         </div>
       </div>

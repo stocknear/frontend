@@ -54,11 +54,11 @@
   function plotAnalyst() {
     // X-axis categories
     const categories = [
-      "Strong<br>Sell",
-      "Sell",
-      "Hold",
-      "Buy",
-      "Strong<br>Buy",
+      m.stock_detail_strong_sell(),
+      m.stock_detail_sell(),
+      m.stock_detail_hold(),
+      m.stock_detail_buy(),
+      m.stock_detail_strong_buy(),
     ];
 
     // Corresponding data
@@ -80,9 +80,9 @@
         animation: false,
       },
       title: {
-        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">Price Target: <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
-        <div class="text-gray-800 dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? "upside" : "downside"})</div>
-        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">Analyst Consensus: <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
+        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${m.stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
+        <div class="text-gray-800 dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? m.stock_detail_upside() : m.stock_detail_downside()})</div>
+        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${m.stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -246,7 +246,7 @@
           // Format the x value to display time in a custom format
           const dateStr = this.points?.[0]?.key;
           const year = typeof dateStr === "string" ? dateStr.slice(0, 4) : dateStr;
-          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">FY ${year}</span><br>`;
+          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${m.stock_detail_fy({ year })}</span><br>`;
 
           // Loop through each point in the shared tooltip
           this.points.forEach((point) => {
@@ -261,7 +261,7 @@
       },
       series: [
         {
-          name: "Revenue",
+          name: m.stock_detail_revenue(),
           type: "column",
           data: revenue,
           color: "#457BA1",
@@ -276,7 +276,7 @@
           },
         },
         {
-          name: "Earnings",
+          name: m.stock_detail_earnings(),
           type: "column",
           data: netIncome,
           color: "#EE5365",
@@ -467,23 +467,23 @@
           {m.stock_detail_financial_performance()}
         </h2>
         <p class="text-sm text-gray-800 dark:text-zinc-300">
-          In {financialPerformance?.history?.at(-1)?.date?.slice(0, 4)}, {removeCompanyStrings(
-            $displayCompanyName,
-          )}'s revenue was {abbreviateNumber(
-            financialPerformance?.history?.at(-1)?.revenue,
-          )}, {financialPerformance?.changePercentageRevenue >= 0
-            ? "an increase"
-            : "a decrease"} of {financialPerformance?.changePercentageRevenue?.toLocaleString(
-            "en-US",
-          )}% compared to the previous year's {abbreviateNumber(
-            financialPerformance?.history?.at(-2)?.revenue,
-          )}. Earnings were {abbreviateNumber(
-            financialPerformance?.history?.at(-1)?.netIncome,
-          )}, {financialPerformance?.changePercentageNetIncome >= 0
-            ? "an increase"
-            : "a decrease"} of {financialPerformance?.changePercentageNetIncome?.toLocaleString(
-            "en-US",
-          )}%.
+          {m.stock_detail_financial_text_part1({
+            year: financialPerformance?.history?.at(-1)?.date?.slice(0, 4),
+            company: removeCompanyStrings($displayCompanyName),
+            revenue: abbreviateNumber(financialPerformance?.history?.at(-1)?.revenue),
+            direction: financialPerformance?.changePercentageRevenue >= 0
+              ? m.stock_detail_financial_increase()
+              : m.stock_detail_financial_decrease(),
+            changePercent: financialPerformance?.changePercentageRevenue?.toLocaleString("en-US"),
+            prevRevenue: abbreviateNumber(financialPerformance?.history?.at(-2)?.revenue),
+          })}
+          {m.stock_detail_financial_text_part2({
+            earnings: abbreviateNumber(financialPerformance?.history?.at(-1)?.netIncome),
+            direction: financialPerformance?.changePercentageNetIncome >= 0
+              ? m.stock_detail_financial_increase()
+              : m.stock_detail_financial_decrease(),
+            changePercent: financialPerformance?.changePercentageNetIncome?.toLocaleString("en-US"),
+          })}
         </p>
 
         {#if configFinancial}
@@ -494,7 +494,7 @@
         {/if}
         {#if currency !== "USD"}
           <span class="text-sm text-gray-500 dark:text-zinc-400 mt-2"
-            >Financial numbers in {currency}</span
+            >{m.stock_detail_financial_numbers_in({ currency })}</span
           >
         {/if}
         <a
@@ -524,10 +524,14 @@
           {m.stock_detail_analyst_forecast()}
         </h2>
         <p class="text-sm text-gray-800 dark:text-zinc-300">
-          According to {numOfAnalyst} analyst ratings, the average rating for {$stockTicker}
-          stock is "{consensusRating}." The 12-month stock price forecast is {priceTarget},
-          which is {priceTargetUpside > 0 ? "an increase" : "a decrease"} of {priceTargetUpside}%
-          from the latest price.
+          {m.stock_detail_analyst_forecast_text({
+            numAnalysts: numOfAnalyst,
+            ticker: $stockTicker,
+            rating: consensusRating,
+            priceTarget: priceTarget,
+            direction: priceTargetUpside > 0 ? m.stock_detail_upside() : m.stock_detail_downside(),
+            upside: Math.abs(priceTargetUpside),
+          })}
         </p>
 
         {#if configAnalyst}

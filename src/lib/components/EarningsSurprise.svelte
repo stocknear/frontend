@@ -1,6 +1,7 @@
 <script lang="ts">
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  import * as m from "$lib/paraglide/messages";
   export let data;
 
   let rawData = {};
@@ -55,13 +56,13 @@
           <h3
             class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            Earnings Surprise
+            {m.stock_detail_earnings_surprise()}
           </h3>
           <label
             class="{latestInfoDate(rawData?.date)
               ? 'border border-gray-300 shadow dark:border-zinc-700'
               : 'hidden'} bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
-            >New</label
+            >{m.stock_detail_new()}</label
           >
         </div>
       </div>
@@ -73,42 +74,44 @@
         : ' pl-1'} "
     >
       <div class="mt-1">
-        {removeCompanyStrings($displayCompanyName)} has released their quartely earnings
-        on {new Date(rawData?.date)?.toLocaleString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          daySuffix: "2-digit",
-          timeZone: "UTC",
-        })}:
+        {m.stock_detail_quarterly_earnings_released({
+          company: removeCompanyStrings($displayCompanyName),
+          date: new Date(rawData?.date)?.toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            daySuffix: "2-digit",
+            timeZone: "UTC",
+          }),
+        })}
       </div>
 
       <li
         class="ml-[20px] sm:ml-[30px]"
         style="line-height: 22px; margin-top:10px; margin-bottom: 10px; list-style-type: disc;"
       >
-        Revenue of <span class=""
+        {m.stock_detail_revenue_of()} <span class=""
           >{abbreviateNumber(rawData?.revenue, true)}</span
         >
-        {rawData?.revenueSurprise > 0 ? "exceeds" : "misses"} estimates by {abbreviateNumber(
+        {rawData?.revenueSurprise > 0 ? m.stock_detail_exceeds_estimates_by() : m.stock_detail_misses_estimates_by()} {abbreviateNumber(
           Math.abs(rawData?.revenueSurprise),
           true,
-        )}, with
+        )}, {m.stock_detail_with()}
         <span
           class=" {revenueRatio > 0
             ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
             : 'text-rose-600 dark:text-rose-400'}">{revenueRatio}%</span
         >
-        YoY {revenueRatio < 0 ? "decline" : "growth"}.
+        {m.stock_detail_yoy()} {revenueRatio < 0 ? m.stock_detail_yoy_decline() : m.stock_detail_yoy_growth()}.
       </li>
       <li
         class="ml-[20px] sm:ml-[30px]"
         style="line-height: 22px; margin-top: 0px; margin-bottom: 0px; list-style-type: disc;"
       >
-        EPS of <span class="">{rawData?.eps}</span>
-        {rawData?.epsSurprise > 0 ? "exceeds" : "misses"} estimates by {rawData?.epsSurprise?.toFixed(
+        {m.stock_detail_eps_of()} <span class="">{rawData?.eps}</span>
+        {rawData?.epsSurprise > 0 ? m.stock_detail_exceeds_estimates_by() : m.stock_detail_misses_estimates_by()} {rawData?.epsSurprise?.toFixed(
           2,
-        )}, with
+        )}, {m.stock_detail_with()}
         <span
           class=" {epsRatio === null
             ? ''
@@ -118,7 +121,7 @@
         >
           {epsRatio === null ? "n/a" : `${epsRatio}%`}
         </span>
-        YoY {epsRatio === null ? "" : epsRatio < 0 ? "decline" : "growth"}.
+        {m.stock_detail_yoy()} {epsRatio === null ? "" : epsRatio < 0 ? m.stock_detail_yoy_decline() : m.stock_detail_yoy_growth()}.
       </li>
     </div>
   </div>
