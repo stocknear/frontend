@@ -1,7 +1,18 @@
 {
   "etf_breadcrumb_home": "Home",
+  "etf_breadcrumb_current": "All ETFs",
   "etf_breadcrumb_new_launches": "New Launches of ETFs",
   "etf_breadcrumb_providers": "ETF Providers",
+
+  "etf_main_seo_title": "Complete ETF Directory - All Exchange-Traded Funds with Real-Time Analysis",
+  "etf_main_seo_description": "Comprehensive ETF database featuring exchange-traded funds with real-time quotes, expense ratios, AUM, and holdings analysis. Compare ETF performance, track popular funds like SPY, QQQ, and IWM with advanced portfolio diversification tools.",
+  "etf_main_seo_keywords": "ETF directory, exchange-traded funds list, ETF analysis, ETF expense ratios, ETF holdings, portfolio diversification, passive investing, index funds, ETF screener, fund comparison, asset allocation, SPY ETF, QQQ ETF, sector ETFs, bond ETFs",
+  "etf_main_title": "All ETF Symbols",
+  "etf_main_description": "List of all {count} ETF symbols we support",
+  "etf_main_table_title": "{count} ETFs",
+  "etf_main_no_results": "No ETFs found for \"{query}\"",
+  "etf_column_asset_class": "Asset Class",
+  "etf_column_asset": "Asset",
 
   "etf_new_launches_seo_title": "New ETF Launches - Recently Listed Exchange-Traded Funds Directory",
   "etf_new_launches_seo_description": "Complete directory of {count} newest ETFs launched on US markets, sorted by inception date. Discover emerging investment themes, innovative fund structures, and latest ETF innovations from leading providers. Track new fund launches for early investment opportunities.",

@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Support erhalten",
+  "support_breadcrumb_home": "Startseite",
+  "support_breadcrumb_current": "Support erhalten",
+  "support_title": "Support erhalten",
+  "support_description_1": "Bitte sende deine Support-Anfrage über das untenstehende Formular und wir werden uns so schnell wie möglich bei dir melden. Du kannst auch direkt eine E-Mail senden an",
+  "support_description_2": "Antworten auf häufige Fragen findest du hier:",
+  "support_faq_link": "Häufig gestellte Fragen",
+  "support_description_3": "Wenn du Hilfe bei einem Fehler oder einer Datenungenauigkeit benötigst, gib bitte die genaue URL der Seite an, auf der du ihn gefunden hast.",
+  "support_label_email": "E-Mail",
+  "support_label_subject": "Betreff",
+  "support_label_message": "Nachricht",
+  "support_button_send": "Nachricht senden",
+  "support_button_processing": "Wird verarbeitet...",
+  "support_success_message": "Deine Nachricht wurde erfolgreich gesendet. Wir werden uns bald bei dir melden.",
+  "support_toast_error": "Etwas ist schief gelaufen. Bitte versuche es erneut...",
+  "support_sidebar_pro_title": "Pro Abonnement",
+  "support_sidebar_pro_description": "Upgrade jetzt für unbegrenzten Zugang zu allen Daten, Tools und ohne Werbung.",
+  "support_sidebar_screener_title": "Aktien Screener",
+  "support_sidebar_screener_description": "Filtere, sortiere und analysiere alle Aktien, um deine nächste Investition zu finden.",
+  "support_sidebar_watchlist_title": "Watchlists",
+  "support_sidebar_watchlist_description": "Behalte deine Lieblingsaktien in Echtzeit im Blick."
+}

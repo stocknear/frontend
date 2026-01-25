@@ -9,6 +9,7 @@
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let form;
@@ -43,7 +44,7 @@
         case "failure":
           messageSent = false;
           errorMessage = true;
-          toast.error("Something went wrong. Please try again...", {
+          toast.error(m.support_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -51,7 +52,7 @@
         case "error":
           messageSent = false;
           errorMessage = true;
-          toast.error("Something went wrong. Please try again...", {
+          toast.error(m.support_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           break;
@@ -65,7 +66,7 @@
   };
 </script>
 
-<SEO title="Get Support" description="" />
+<SEO title={m.support_seo_title()} description="" />
 
 {#key messageSent}
   <section
@@ -78,10 +79,10 @@
         <a
           href="/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
+          >{m.support_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">Get Support</li>
+      <li class="text-gray-800 dark:text-zinc-300">{m.support_breadcrumb_current()}</li>
     </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
@@ -94,15 +95,13 @@
               <h1
                 class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Get Support
+                {m.support_title()}
               </h1>
             </div>
 
             <div class="w-full m-auto">
               <p class="text-sm sm:text-base">
-                Please submit your support request using the form below and we
-                will get back to you as soon as possible. You can also send an
-                email directly to <a
+                {m.support_description_1()} <a
                   href={`mailto:${emailAddress}`}
                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
@@ -110,16 +109,15 @@
               </p>
               <br />
               <p class="text-sm sm:text-base">
-                You can find answers to some common questions here: <a
+                {m.support_description_2()} <a
                   href="/faq"
                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >Frequently Asked Questions</a
+                  >{m.support_faq_link()}</a
                 >.
               </p>
               <br />
               <p class="text-sm sm:text-base">
-                If you need help with an error or data inaccuracy, please
-                include the exact URL of the page where you found it.
+                {m.support_description_3()}
               </p>
 
               <form
@@ -131,19 +129,19 @@
                   <Input
                     type="email"
                     id="email"
-                    label="Email"
+                    label={m.support_label_email()}
                     value={form?.data?.email}
                     required={true}
                   />
                   <Input
                     type="text"
                     id="subject"
-                    label="Subject"
+                    label={m.support_label_subject()}
                     required={true}
                   />
                 </div>
                 <div class="mt-5 w-full max-w-[650px]">
-                  <TextArea label="Message" id="message" required={true} />
+                  <TextArea label={m.support_label_message()} id="message" required={true} />
 
                   {#if showTurnstile}
                     <div class="pt-5">
@@ -163,7 +161,7 @@
                       type="submit"
                       class="mt-5 cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
                     >
-                      <span>Send Message</span>
+                      <span>{m.support_button_send()}</span>
                     </button>
                   {:else}
                     <label
@@ -171,7 +169,7 @@
                     >
                       <div class="flex flex-row m-auto items-center">
                         <span class="loading loading-spinner"></span>
-                        <span class="ml-1.5">Processing...</span>
+                        <span class="ml-1.5">{m.support_button_processing()}</span>
                       </div>
                     </label>
                   {/if}
@@ -198,8 +196,7 @@
                           </div>
                           <div class="ml-3 sm:ml-4">
                             <span class="text-base"
-                              >Your message was sent successfully. We will get
-                              back to you soon.</span
+                              >{m.support_success_message()}</span
                             >
                           </div>
                         </div>
@@ -221,14 +218,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Pro Subscription
+                    {m.support_sidebar_pro_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {m.support_sidebar_pro_description()}
                 </span>
               </a>
             </div>
@@ -242,14 +238,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Stock Screener
+                    {m.support_sidebar_screener_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Filter, sort and analyze all stocks to find your next
-                  investment.
+                  {m.support_sidebar_screener_description()}
                 </span>
               </a>
             </div>
@@ -263,12 +258,12 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Watchlists
+                    {m.support_sidebar_watchlist_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-                  >Keep track of your favorite stocks in real-time.
+                  >{m.support_sidebar_watchlist_description()}
                 </span>
               </a>
             </div>

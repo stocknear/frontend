@@ -15,6 +15,7 @@
   import { keymap } from "prosemirror-keymap";
   import { schema } from "prosemirror-schema-basic";
   import { chatReasoning } from "$lib/store";
+  import * as m from "$lib/paraglide/messages";
 
   import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -131,8 +132,8 @@
           span.className =
             "text-gray-500 dark:text-zinc-400 pointer-events-none";
           span.textContent = editable
-            ? "Ask anything"
-            : "Read-only: You don’t have permission to edit this chat.";
+            ? m.chat_placeholder_editable()
+            : m.chat_placeholder_readonly();
           return span;
         });
 
@@ -478,8 +479,7 @@
       messages = [
         ...messages,
         {
-          content:
-            "Failed to connect to the chat service. Please try again later.",
+          content: m.chat_error_connect(),
           role: "system",
         },
       ];
@@ -892,7 +892,7 @@
                           <DropdownMenu.Label
                             class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                           >
-                            {data?.user?.credits} Credits left
+                            {data?.user?.credits} {m.chat_credits_left()}
                           </DropdownMenu.Label>
                         {/if}
                         <!--
@@ -938,7 +938,7 @@
                             <div
                               class="flex flex-row items-center w-full text-sm"
                             >
-                              <span>Stock Agents</span>
+                              <span>{m.chat_stock_agents()}</span>
                             </div>
                             <svg
                               class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -1016,7 +1016,7 @@
                             <div
                               class="flex flex-row items-center w-full text-sm"
                             >
-                              <span>How to Use Agents correctly</span>
+                              <span>{m.chat_how_to_use_agents()}</span>
                             </div>
                             <svg
                               class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -1066,7 +1066,7 @@
                                   <span>{option?.name} </span>
 
                                   <span class="ml-auto text-xs"
-                                    >{option?.credit} Credits</span
+                                    >{option?.credit} {m.chat_credits()}</span
                                   >
                                 </div>
                               </DropdownMenu.Item>

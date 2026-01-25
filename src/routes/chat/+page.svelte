@@ -13,6 +13,7 @@
   import { keymap } from "prosemirror-keymap";
   import { agentOptions, agentCategory } from "$lib/utils";
   import { chatReasoning } from "$lib/store";
+  import * as m from "$lib/paraglide/messages";
 
   import { schema } from "prosemirror-schema-basic";
 
@@ -135,8 +136,7 @@
           const span = document.createElement("span");
           span.className =
             "text-gray-500 dark:text-zinc-400 pointer-events-none text-sm sm:text-[1rem]";
-          span.textContent =
-            "Ask anything about stocks — get real-time updates";
+          span.textContent = m.chat_placeholder();
           return span;
         });
 
@@ -276,7 +276,7 @@
 
     if (data?.user?.credits < 2) {
       toast.error(
-        `Insufficient credits. Your current balance is ${data?.user?.credits}.`,
+        `${m.chat_toast_insufficient_credits()} ${data?.user?.credits}.`,
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -419,7 +419,7 @@
       const output = await response.json();
 
       if (output === "success") {
-        toast.success("Thread deleted successfully!", {
+        toast.success(m.chat_toast_deleted(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
@@ -429,13 +429,13 @@
 
         historyChat = [...updatedHistoryChat];
       } else {
-        toast.error("Something went wrong. Please try again!", {
+        toast.error(m.chat_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("An error occurred. Please try again later.", {
+      toast.error(m.chat_toast_error_occurred(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -443,9 +443,9 @@
 </script>
 
 <SEO
-  title="AI-Powered Stock Market Analysis - Financial AI Agent & Market Intelligence"
-  description="Advanced AI financial agent providing real-time stock analysis, market insights, and investment research. Chat with specialized AI agents for stock screening, earnings analysis, options flow tracking, dark pool activity, and market sentiment analysis. Get personalized investment recommendations and comprehensive market intelligence."
-  keywords="AI financial advisor, stock market AI, financial AI agent, AI investment analysis, automated stock research, AI trading insights, machine learning finance, financial chatbot, AI market analysis, algorithmic trading insights, AI portfolio analysis, artificial intelligence investing"
+  title={m.chat_seo_title()}
+  description={m.chat_seo_description()}
+  keywords={m.chat_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -526,7 +526,7 @@
             <h1
               class="block text-2xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 text-center relative w-fit flex justify-center m-auto break-words"
             >
-              Your investing friend
+              {m.chat_title()}
             </h1>
 
             <div
@@ -607,7 +607,7 @@
                                 <DropdownMenu.Label
                                   class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                                 >
-                                  {data?.user?.credits} Credits left
+                                  {data?.user?.credits} {m.chat_credits_left()}
                                 </DropdownMenu.Label>
                               {/if}
                               <!--
@@ -653,7 +653,7 @@
                                   <div
                                     class="flex flex-row items-center w-full text-sm"
                                   >
-                                    <span>Stock Agents</span>
+                                    <span>{m.chat_stock_agents()}</span>
                                   </div>
                                   <svg
                                     class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -735,7 +735,7 @@
                                   <div
                                     class="flex flex-row items-center w-full text-sm"
                                   >
-                                    <span>How to Use Agents correctly</span>
+                                    <span>{m.chat_how_to_use_agents()}</span>
                                   </div>
                                   <svg
                                     class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -790,7 +790,7 @@
                                         <span>{option?.name} </span>
 
                                         <span class="ml-auto text-xs"
-                                          >{option?.credit} Credits</span
+                                          >{option?.credit} {m.chat_credits()}</span
                                         >
                                       </div>
                                     </DropdownMenu.Item>
@@ -923,7 +923,7 @@
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
                 ></path></svg
-              > <span class="ml-2">Threads</span>
+              > <span class="ml-2">{m.chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
               {#each historyChat as item}
@@ -944,7 +944,7 @@
                     >
                       <span
                         class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 w-full"
-                        >Last message {formatDate(item?.updated)} ago</span
+                        >{m.chat_last_message()} {formatDate(item?.updated)} {m.chat_ago()}</span
                       >
                       <button
                         on:click|preventDefault={(e) => {
@@ -993,10 +993,10 @@
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
                 ></path></svg
-              > <span class="ml-2">Threads</span>
+              > <span class="ml-2">{m.chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
-              Looks like we haven’t chatted before.
+              {m.chat_no_threads()}
             </div>
 
             <div
@@ -1005,16 +1005,15 @@
               <h2
                 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4"
               >
-                Ready to Analyze Stocks?
+                {m.chat_ready_to_analyze()}
               </h2>
               <p class="mb-4 text-gray-800 dark:text-zinc-300">
-                Explore detailed financial data, analyst ratings, and technicals
-                for thousands of stocks.
+                {m.chat_ready_description()}
               </p>
               <label
                 for="userLogin"
                 class="cursor-pointer bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 inline-block text-sm sm:text-[1rem] font-semibold"
-                >Get Started</label
+                >{m.chat_get_started()}</label
               >
             </div>
           </div>
@@ -1036,10 +1035,10 @@
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
                 ></path></svg
-              > <span class="ml-2">Threads</span>
+              > <span class="ml-2">{m.chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
-              Looks like we haven’t chatted before.
+              {m.chat_no_threads()}
             </div>
           </div>
         {/if}
@@ -1056,15 +1055,15 @@
   <div
     class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Thread</h3>
+    <h3 class="text-lg font-medium mb-2">{m.chat_delete_thread_title()}</h3>
     <p class="text-sm mb-6">
-      Are you sure you want to delete this thread? This action cannot be undone.
+      {m.chat_delete_thread_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThread"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{m.chat_cancel()}</label
       ><label
         for="deleteThread"
         on:click={handleDeleteThread}
@@ -1089,7 +1088,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Thread</label
+        >{m.chat_delete()}</label
       >
     </div>
   </div>

@@ -1,7 +1,18 @@
 {
   "etf_breadcrumb_home": "Startseite",
+  "etf_breadcrumb_current": "Alle ETFs",
   "etf_breadcrumb_new_launches": "Neue ETF-Auflegungen",
   "etf_breadcrumb_providers": "ETF-Anbieter",
+
+  "etf_main_seo_title": "Vollständiges ETF-Verzeichnis - Alle Exchange-Traded Funds mit Echtzeit-Analyse",
+  "etf_main_seo_description": "Umfassende ETF-Datenbank mit Exchange-Traded Funds, Echtzeit-Kursen, Kostenquoten, AUM und Holdings-Analyse. Vergleiche ETF-Performance, verfolge beliebte Fonds wie SPY, QQQ und IWM mit fortschrittlichen Portfolio-Diversifikationstools.",
+  "etf_main_seo_keywords": "ETF-Verzeichnis, Exchange-Traded Funds Liste, ETF-Analyse, ETF-Kostenquoten, ETF-Holdings, Portfolio-Diversifikation, passives Investieren, Indexfonds, ETF-Screener, Fondsvergleich",
+  "etf_main_title": "Alle ETF-Symbole",
+  "etf_main_description": "Liste aller {count} ETF-Symbole, die wir unterstützen",
+  "etf_main_table_title": "{count} ETFs",
+  "etf_main_no_results": "Keine ETFs gefunden für \"{query}\"",
+  "etf_column_asset_class": "Anlageklasse",
+  "etf_column_asset": "Vermögen",
 
   "etf_new_launches_seo_title": "Neue ETF-Auflegungen - Verzeichnis kürzlich gelisteter Exchange-Traded Funds",
   "etf_new_launches_seo_description": "Vollständiges Verzeichnis der {count} neuesten ETFs an US-Märkten, sortiert nach Auflagedatum. Entdecke neue Anlagethemen, innovative Fondsstrukturen und die neuesten ETF-Innovationen führender Anbieter. Verfolge neue Fondsauflegungen für frühe Investitionsmöglichkeiten.",

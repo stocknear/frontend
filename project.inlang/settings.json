@@ -60,7 +60,10 @@
       "./messages/{locale}/options-calculator.json",
       "./messages/{locale}/potus-tracker.json",
       "./messages/{locale}/insider-tracker.json",
-      "./messages/{locale}/reddit-tracker.json"
+      "./messages/{locale}/reddit-tracker.json",
+      "./messages/{locale}/chat.json",
+      "./messages/{locale}/support.json",
+      "./messages/{locale}/stocks.json"
     ]
   }
 }

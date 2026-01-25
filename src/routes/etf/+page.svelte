@@ -11,6 +11,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -154,11 +155,11 @@
   }
 
   $: columns = [
-    { key: "symbol", label: "Symbol", align: "left" },
-    { key: "name", label: "Fund Name", align: "left" },
-    { key: "assetClass", label: "Asset Class", align: "left" },
-    { key: "aum", label: "Asset", align: "right" },
-    { key: "expenseRatio", label: "Expense Ratio", align: "right" },
+    { key: "symbol", label: m.etf_table_column_symbol(), align: "left" },
+    { key: "name", label: m.etf_table_column_fund_name(), align: "left" },
+    { key: "assetClass", label: m.etf_column_asset_class(), align: "left" },
+    { key: "aum", label: m.etf_column_asset(), align: "right" },
+    { key: "expenseRatio", label: m.etf_table_column_expense_ratio(), align: "right" },
   ];
 
   let sortOrders = {
@@ -253,11 +254,9 @@
 </script>
 
 <SEO
-  title="Complete ETF Directory - All {originalData?.length ||
-    0} Exchange-Traded Funds with Real-Time Analysis"
-  description="Comprehensive ETF database featuring {originalData?.length ||
-    0} exchange-traded funds with real-time quotes, expense ratios, AUM, and holdings analysis. Compare ETF performance, track popular funds like SPY, QQQ, and IWM with advanced portfolio diversification tools."
-  keywords="ETF directory, exchange-traded funds list, ETF analysis, ETF expense ratios, ETF holdings, portfolio diversification, passive investing, index funds, ETF screener, fund comparison, asset allocation, SPY ETF, QQQ ETF, sector ETFs, bond ETFs"
+  title={m.etf_main_seo_title()}
+  description={m.etf_main_seo_description()}
+  keywords={m.etf_main_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -309,10 +308,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.etf_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">All ETFs</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.etf_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -325,12 +324,12 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              All ETF Symbols
+              {m.etf_main_title()}
             </h1>
             <p
               class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
             >
-              List of all {originalData?.length} ETF symbols we support
+              {m.etf_main_description({ count: originalData?.length })}
             </p>
           </div>
 
@@ -343,7 +342,7 @@
                 <h2
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {originalData?.length?.toLocaleString("en-US")} ETFs
+                  {m.etf_main_table_title({ count: originalData?.length?.toLocaleString("en-US") })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -376,7 +375,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder="Find..."
+                      placeholder={m.etf_search_placeholder()}
                       class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
@@ -472,14 +471,14 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <span class="hidden sm:inline">Previous</span></Button
+                      <span class="hidden sm:inline">{m.etf_pagination_previous()}</span></Button
                     >
                   </div>
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      Page {currentPage} of {totalPages}
+                      {m.etf_pagination_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -489,7 +488,7 @@
                           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >{rowsPerPage} Rows</span
+                            >{m.etf_pagination_rows({ count: rowsPerPage })}</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -524,7 +523,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{item} Rows</span>
+                                <span class="text-sm">{m.etf_pagination_rows({ count: item })}</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -540,7 +539,7 @@
                       disabled={currentPage === totalPages}
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="hidden sm:inline">Next</span>
+                      <span class="hidden sm:inline">{m.etf_pagination_next()}</span>
                       <svg
                         class="h-5 w-5 inline-block shrink-0 -rotate-90"
                         viewBox="0 0 20 20"
@@ -564,7 +563,7 @@
                     on:click={scrollToTop}
                     class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
-                    Back to Top <svg
+                    {m.etf_back_to_top()} <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -581,7 +580,7 @@
                 </div>
               {/if}
             {:else}
-              <Infobox text={`No ETFs found for "${inputValue}"`} />
+              <Infobox text={m.etf_main_no_results({ query: inputValue })} />
             {/if}
           </div>
         </main>

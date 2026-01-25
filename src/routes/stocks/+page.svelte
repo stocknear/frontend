@@ -2,6 +2,7 @@
   import Table from "$lib/components/Table/Table.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -17,10 +18,9 @@
 </script>
 
 <SEO
-  title="Complete Stock Market Directory - All US Stock Tickers with Real-Time Analysis"
-  description="Comprehensive directory of {rawData?.length ||
-    5000}+ US stock ticker symbols with real-time quotes, financial analysis, and investment research tools. Search NYSE, NASDAQ, and all major exchanges including blue-chip stocks, growth stocks, and dividend stocks for complete market coverage."
-  keywords="stock tickers list, US stock symbols directory, NYSE stocks, NASDAQ stocks, stock market database, real-time stock quotes, financial analysis tools, stock screener, investment research, market capitalization data, stock fundamentals, equity analysis, trading symbols"
+  title={m.stocks_seo_title()}
+  description={m.stocks_seo_description()}
+  keywords={m.stocks_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -78,10 +78,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{m.stocks_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">All Stocks</li>
+    <li class="text-gray-800 dark:text-zinc-300">{m.stocks_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -92,12 +92,12 @@
         <main class="w-full">
           <div class="mb-2 border-b-[2px]">
             <h1 class="mb-1 e text-2xl sm:text-3xl font-bold">
-              All Stock Symbols
+              {m.stocks_title()}
             </h1>
             <p
               class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
             >
-              List of all {rawData?.length} stock symbols we support
+              {m.stocks_description({ count: rawData?.length })}
             </p>
           </div>
 
@@ -108,7 +108,7 @@
               {rawData}
               {defaultList}
               {excludedRules}
-              title={rawData?.length?.toLocaleString("en-US") + " Stocks"}
+              title={rawData?.length?.toLocaleString("en-US") + " " + m.stocks_table_title()}
             />
           </div>
         </main>
