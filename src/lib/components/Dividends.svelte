@@ -7,6 +7,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -28,6 +29,20 @@
   let rowsPerPageOptions = [20, 50, 100];
   let totalPages = 1;
   let pagePathName = $page?.url?.pathname;
+
+  const getFrequencyTranslation = (freq: string) => {
+    const freqMap: Record<string, () => string> = {
+      year: m.stock_detail_dividends_freq_year,
+      quarter: m.stock_detail_dividends_freq_quarter,
+      month: m.stock_detail_dividends_freq_month,
+      week: m.stock_detail_dividends_freq_week,
+      day: m.stock_detail_dividends_freq_day,
+      "6 months": m.stock_detail_dividends_freq_6months,
+      "2 weeks": m.stock_detail_dividends_freq_2weeks,
+      "half-month": m.stock_detail_dividends_freq_halfmonth,
+    };
+    return freqMap[freq]?.() ?? freq;
+  };
 
   const mapFrequency: Record<string, string> = {
     Annually: "year",
@@ -62,11 +77,12 @@
   const getFreqUnit = (payoutFrequency?: string) => {
     if (!payoutFrequency) return "";
     // exact match first
-    if (payoutFrequency in mapFrequency) return mapFrequency[payoutFrequency];
+    if (payoutFrequency in mapFrequency) return getFrequencyTranslation(mapFrequency[payoutFrequency]);
 
     // otherwise, try normalized match
     const norm = payoutFrequency.toLowerCase().replace(/\s+/g, " ").trim();
-    return normalizedMap.get(norm) ?? "";
+    const freqKey = normalizedMap.get(norm);
+    return freqKey ? getFrequencyTranslation(freqKey) : "";
   };
 
   function updatePaginatedData() {
@@ -136,12 +152,15 @@
           },
         );
 
-        return `
-       <span>
-  ${ticker} has a dividend yield of ${dividendYield}% and paid $${annualDividend} per share in the past year. The dividend is paid once per ${mapFrequency[payoutFrequency] ?? "n/a"} and the last ex-dividend date was ${formattedExDividendDate}.
-</span>
+        const freqTranslated = getFreqUnit(payoutFrequency) || "n/a";
 
-      `;
+        return `<span>${m.stock_detail_dividends_info_current({
+          ticker,
+          divYield: dividendYield,
+          annual: annualDividend,
+          frequency: freqTranslated,
+          date: formattedExDividendDate
+        })}</span>`;
       } else {
         const latestDividendDate = new Date(history.at(0)?.date).toLocaleString(
           "en-US",
@@ -152,23 +171,19 @@
           },
         );
 
-        return `
-        <span>
-          ${$displayCompanyName} issued its most recent dividend on ${latestDividendDate}. 
-          Since then, the company has not distributed any further dividends for over 12 months.
-        </span>
-      `;
+        return `<span>${m.stock_detail_dividends_info_old({
+          company: $displayCompanyName,
+          date: latestDividendDate
+        })}</span>`;
       }
     } else {
-      return `
-      <span>
-        No dividend history available for ${$displayCompanyName}.
-      </span>
-    `;
+      return `<span>${m.stock_detail_dividends_info_none({
+        company: $displayCompanyName
+      })}</span>`;
     }
   }
 
-  let htmlOutput = `No dividend history available for ${$displayCompanyName}.`;
+  let htmlOutput = m.stock_detail_dividends_info_none({ company: $displayCompanyName });
 
   $: {
     if (pagePathName) {
@@ -176,12 +191,12 @@
     }
   }
 
-  let columns = [
-    { key: "date", label: "Ex-Dividend Date", align: "left" },
-    { key: "adjDividend", label: "Cash Amount", align: "right" },
-    { key: "declarationDate", label: "Declaration Date", align: "right" },
-    { key: "recordDate", label: "Record Date", align: "right" },
-    { key: "paymentDate", label: "Pay Date", align: "right" },
+  $: columns = [
+    { key: "date", label: m.stock_detail_dividends_col_ex_date(), align: "left" },
+    { key: "adjDividend", label: m.stock_detail_dividends_col_cash_amount(), align: "right" },
+    { key: "declarationDate", label: m.stock_detail_dividends_col_declaration_date(), align: "right" },
+    { key: "recordDate", label: m.stock_detail_dividends_col_record_date(), align: "right" },
+    { key: "paymentDate", label: m.stock_detail_dividends_col_pay_date(), align: "right" },
   ];
 
   let sortOrders = {
@@ -273,7 +288,7 @@
           <h2
             class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 w-full"
           >
-            Dividends
+            {m.stock_detail_dividends_heading()}
           </h2>
 
           <Infobox text={htmlOutput} />
@@ -287,7 +302,7 @@
               <label
                 class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Dividend Yield
+                {m.stock_detail_dividends_yield()}
               </label>
               <div
                 class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
@@ -299,7 +314,7 @@
               <label
                 class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Annual Dividend
+                {m.stock_detail_dividends_annual()}
               </label>
 
               <div
@@ -312,7 +327,7 @@
               <label
                 class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Ex-Dividend Date
+                {m.stock_detail_dividends_ex_date()}
               </label>
 
               <div
@@ -331,7 +346,7 @@
               <label
                 class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Payout Frequency
+                {m.stock_detail_dividends_payout_frequency()}
               </label>
 
               <div
@@ -344,7 +359,7 @@
               <label
                 class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Payout Ratio
+                {m.stock_detail_dividends_payout_ratio()}
               </label>
 
               <div
@@ -359,7 +374,7 @@
               <label
                 class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                Dividend Growth
+                {m.stock_detail_dividends_growth()}
               </label>
 
               <div
@@ -376,7 +391,7 @@
             <h3
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              History
+              {m.stock_detail_dividends_history()}
             </h3>
 
             <div class="inline-flex ml-auto">
@@ -486,14 +501,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">Previous</span>
+                    <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
                   </Button>
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    Page {currentPage} of {totalPages}
+                    {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -503,7 +518,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{rowsPerPage} Rows</span
+                          >{m.stock_detail_rows({ count: rowsPerPage })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -538,7 +553,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{item} Rows</span>
+                              <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -554,7 +569,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{m.stock_detail_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -578,7 +593,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  Back to Top <svg
+                  {m.stock_detail_dividends_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -596,10 +611,10 @@
             {/if}
 
             <div class="text-gray-800 dark:text-zinc-300 text-sm italic mt-7">
-              * Dividend amounts are adjusted for stock splits when applicable.
+              {m.stock_detail_dividends_adjusted_note()}
             </div>
           {:else}
-            <Infobox text="No dividend data found" />
+            <Infobox text={m.stock_detail_dividends_no_data()} />
           {/if}
         {/if}
       </div>
