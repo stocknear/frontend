@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "blog_seo_title": "Stock Analysis Blog - Investment Insights & Market Analysis",
+  "blog_seo_description": "Expert stock analysis blog with investment insights, market trends, company research, and financial analysis. Learn how to invest correctly with our comprehensive stock market guides and investment strategies.",
+  "blog_seo_keywords": "stock analysis blog, investment insights, market analysis, stock market blog, investment strategies, company research, financial analysis, stock market trends, investment education, market commentary",
+  "blog_structured_name": "Stock Analysis Blog",
+  "blog_structured_description": "Expert investment insights and stock market analysis blog",
+  "blog_structured_blog_posts": "Blog Posts",
+  "blog_structured_blog_posts_description": "Stock analysis and investment insight articles",
+  "blog_title": "Stock Analysis Blog",
+  "blog_published": "Published:",
+  "blog_previous": "Previous",
+  "blog_next": "Next",
+  "blog_last_updated": "Last Updated:",
+  "blog_alt_wallpaper": "Wallpaper",
+  "blog_alt_post_wallpaper": "Stock Analysis Blog Post Wallpaper"
+}

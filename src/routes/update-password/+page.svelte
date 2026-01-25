@@ -4,6 +4,7 @@
   import { mode } from "mode-watcher";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let form;
@@ -13,11 +14,11 @@
     isUpdating = true;
     return async ({ result, update }) => {
       if (result.type === "success" && result.data?.success) {
-        toast.success("Password updated!", {
+        toast.success(m.update_password_success(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       } else {
-        toast.error("Invalid credentials", {
+        toast.error(m.update_password_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
@@ -27,7 +28,7 @@
   };
 </script>
 
-<SEO title="Update Password" description="Update your account password" />
+<SEO title={m.update_password_seo_title()} description={m.update_password_seo_description()} />
 
 <section
   class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto px-3 sm:px-0"
@@ -56,13 +57,13 @@
             class="flex flex-col space-y-2 w-full max-w-lg m-auto"
           >
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold mb-6 text-center">
-              Reset Your Password
+              {m.update_password_title()}
             </h1>
 
             <Input
               id="oldPassword"
               name="oldPassword"
-              label="Old Password"
+              label={m.update_password_old_password_label()}
               type="password"
               required
               errors={form?.errors?.errorOldPassword}
@@ -70,7 +71,7 @@
             <Input
               id="password"
               name="password"
-              label="New Password"
+              label={m.update_password_new_password_label()}
               type="password"
               required
               errors={form?.errors?.errorPassword}
@@ -78,7 +79,7 @@
             <Input
               id="passwordConfirm"
               name="passwordConfirm"
-              label="Confirm New Password"
+              label={m.update_password_confirm_label()}
               type="password"
               required
               errors={form?.errors?.errorPasswordConfirm}
@@ -90,7 +91,7 @@
                   type="submit"
                   class="cursor-pointer py-2.5 bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto font-semibold text-[1rem]"
                 >
-                  <span>Update Password</span>
+                  <span>{m.update_password_button()}</span>
                 </button>
               {:else}
                 <label
@@ -98,7 +99,7 @@
                 >
                   <div class="flex flex-row m-auto items-center">
                     <span class="loading loading-infinity"></span>
-                    <span class=" ml-1.5">Processing</span>
+                    <span class=" ml-1.5">{m.update_password_loading()}</span>
                   </div>
                 </label>
               {/if}

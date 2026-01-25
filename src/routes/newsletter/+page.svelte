@@ -1,13 +1,14 @@
 <script lang="ts">
   import logo from "$lib/images/newsletter.png";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title="Market Newsletter: Stay Informed in Just 2 Minutes Per Day"
-  description="Stay ahead in the market with our pro newsletter! Get the latest updates, trends, and insights delivered straight to your inbox."
+  title={m.newsletter_seo_title()}
+  description={m.newsletter_seo_description()}
 />
 
 <div
@@ -20,16 +21,15 @@
           <p
             class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
-            Newsletter
+            {m.newsletter_label()}
           </p>
           <h1
             class="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            Stay informed in just 2 minutes per day
+            {m.newsletter_title()}
           </h1>
           <p class="text-[0.95rem] text-gray-800 dark:text-zinc-300">
-            Pre-market Report is a Newsletter that makes it super easy to keep
-            up with financial markets.
+            {m.newsletter_description()}
           </p>
         </div>
 
@@ -37,34 +37,27 @@
           class="space-y-4 text-[0.95rem] leading-relaxed text-gray-800 dark:text-zinc-300"
         >
           <p>
-            Our summaries are presented in short, bullet-point format, so
-            reading this newsletter will never feel like a chore.
+            {m.newsletter_intro_1()}
           </p>
           <p>
-            Let us read the news for you and filter out the noise, then we'll
-            send you the bullet points. Here's what you'll get:
+            {m.newsletter_intro_2()}
           </p>
           <ul class="ml-5 list-disc space-y-3">
             <li>
-              Access the latest analyst reports, with key insights extracted
-              using AI.
+              {m.newsletter_feature_1()}
             </li>
             <li>
-              Get a quick snapshot of recent and upcoming earnings releases.
+              {m.newsletter_feature_2()}
             </li>
             <li>
-              Stay updated on major economic events with the potential to
-              significantly impact the market.
+              {m.newsletter_feature_3()}
             </li>
             <li>
-              Benefit from accurate, up-to-date information sourced exclusively
-              from top-tier outlets.
+              {m.newsletter_feature_4()}
             </li>
           </ul>
           <p>
-            The newsletter is completely free and will be delivered to your
-            inbox every morning before the market opens, Monday to Friday
-            (except holidays).
+            {m.newsletter_closing()}
           </p>
         </div>
 
@@ -73,7 +66,7 @@
             href="/register"
             class="inline-flex w-full items-center justify-center rounded-full border border-gray-300/80 bg-white/80 px-6 py-3 text-sm font-semibold text-gray-800 transition hover:bg-gray-100/80 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-100 dark:hover:bg-zinc-800/70 sm:w-auto"
           >
-            Sign Up for Free
+            {m.newsletter_signup_button()}
           </a>
         {/if}
       </div>

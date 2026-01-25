@@ -63,7 +63,14 @@
       "./messages/{locale}/reddit-tracker.json",
       "./messages/{locale}/chat.json",
       "./messages/{locale}/support.json",
-      "./messages/{locale}/stocks.json"
+      "./messages/{locale}/stocks.json",
+      "./messages/{locale}/blog.json",
+      "./messages/{locale}/learning-center.json",
+      "./messages/{locale}/advertise.json",
+      "./messages/{locale}/affiliate.json",
+      "./messages/{locale}/newsletter.json",
+      "./messages/{locale}/auth.json",
+      "./messages/{locale}/stock-detail.json"
     ]
   }
 }

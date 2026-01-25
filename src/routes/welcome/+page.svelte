@@ -3,6 +3,7 @@
   import confetti from "canvas-confetti";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -85,7 +86,7 @@
   });
 </script>
 
-<SEO title="Welcome to Stocknear" description="" />
+<SEO title={m.welcome_seo_title()} description="" />
 
 <main class="text-gray-700 dark:text-zinc-200 w-full min-h-screen pb-20">
   <section
@@ -102,13 +103,12 @@
         <h1
           class="mt-1 text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          You have now {tier} Access!
+          {m.welcome_title({ tier })}
         </h1>
         <p
           class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-gray-800 dark:text-zinc-300"
         >
-          Your subscription pays for itself with just one better trade decision.
-          Join thousands of investors making smarter, data-driven choices.
+          {m.welcome_subtitle()}
         </p>
       </div>
     </div>
@@ -118,23 +118,19 @@
     <h2
       class="text-xl font-semibold mb-5 tracking-tight text-gray-900 dark:text-white"
     >
-      Welcome aboard! 👋
+      {m.welcome_greeting()}
     </h2>
 
     <p
       class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
     >
-      Thank you for subscribing to <strong>Stocknear</strong>! You've made a
-      smart investment that typically pays for itself with just one prevented
-      loss or better-timed trade.
+      {@html m.welcome_thanks()}
     </p>
 
     <p
       class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
     >
-      You now have access to the same institutional-grade tools and real-time
-      data that hedge funds pay thousands for monthly. Need assistance with any
-      feature? Our support team is here to help at
+      {m.welcome_access_info()}
       <a
         href="mailto:{emailAddress}"
         class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
@@ -147,32 +143,32 @@
       <p
         class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
       >
-        Your Pro subscription unlocks:
+        {m.welcome_pro_unlocks_title()}
       </p>
       <ul
         class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
       >
-        <li>Real-time options flow and dark pool activity tracking</li>
-        <li>AI-powered forecasts and market analysis</li>
-        <li>Congressional and hedge fund portfolio insights</li>
-        <li>Advanced screeners and unlimited alerts</li>
-        <li>Priority access to new features and updates</li>
+        <li>{m.welcome_pro_feature_1()}</li>
+        <li>{m.welcome_pro_feature_2()}</li>
+        <li>{m.welcome_pro_feature_3()}</li>
+        <li>{m.welcome_pro_feature_4()}</li>
+        <li>{m.welcome_pro_feature_5()}</li>
       </ul>
     {:else if tier === "Plus"}
       <p
         class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
       >
-        Your Plus subscription unlocks:
+        {m.welcome_plus_unlocks_title()}
       </p>
       <ul
         class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
       >
-        <li>Unlimited watchlists and price alerts</li>
-        <li>AI-powered forecasts and market analysis</li>
-        <li>Congressional and hedge fund portfolio insights</li>
-        <li>Advanced stock screeners with custom filters</li>
-        <li>Complete financial history and analysis tools</li>
-        <li>Ad-free experience across the platform</li>
+        <li>{m.welcome_plus_feature_1()}</li>
+        <li>{m.welcome_plus_feature_2()}</li>
+        <li>{m.welcome_plus_feature_3()}</li>
+        <li>{m.welcome_plus_feature_4()}</li>
+        <li>{m.welcome_plus_feature_5()}</li>
+        <li>{m.welcome_plus_feature_6()}</li>
       </ul>
     {/if}
 
@@ -180,7 +176,7 @@
       href="/"
       class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200"
     >
-      Start Researching Now!
+      {m.welcome_cta_button()}
     </a>
   </div>
 </main>

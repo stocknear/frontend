@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Market Newsletter: Stay Informed in Just 2 Minutes Per Day",
+  "newsletter_seo_description": "Stay ahead in the market with our pro newsletter! Get the latest updates, trends, and insights delivered straight to your inbox.",
+  "newsletter_label": "Newsletter",
+  "newsletter_title": "Stay informed in just 2 minutes per day",
+  "newsletter_description": "Pre-market Report is a Newsletter that makes it super easy to keep up with financial markets.",
+  "newsletter_intro_1": "Our summaries are presented in short, bullet-point format, so reading this newsletter will never feel like a chore.",
+  "newsletter_intro_2": "Let us read the news for you and filter out the noise, then we'll send you the bullet points. Here's what you'll get:",
+  "newsletter_feature_1": "Access the latest analyst reports, with key insights extracted using AI.",
+  "newsletter_feature_2": "Get a quick snapshot of recent and upcoming earnings releases.",
+  "newsletter_feature_3": "Stay updated on major economic events with the potential to significantly impact the market.",
+  "newsletter_feature_4": "Benefit from accurate, up-to-date information sourced exclusively from top-tier outlets.",
+  "newsletter_closing": "The newsletter is completely free and will be delivered to your inbox every morning before the market opens, Monday to Friday (except holidays).",
+  "newsletter_signup_button": "Sign Up for Free"
+}

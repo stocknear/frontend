@@ -1,13 +1,14 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title="Advertise With Us"
-  description="Partner with Stocknear, the premier financial research platform for self-directed investors. Reach over 6,000+ engaged investors, traders, and analysts with our high-conversion newsletter and advanced market tools."
+  title={m.advertise_seo_title()}
+  description={m.advertise_seo_description()}
 />
 
 <section
@@ -21,17 +22,17 @@
         <a
           href="/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >Home</a
+          >{m.advertise_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">Advertise</li>
+      <li class="text-gray-800 dark:text-zinc-300">{m.advertise_breadcrumb_current()}</li>
     </BreadCrumb>
 
     <div class="mt-8 border-b border-gray-200/70 pb-4 dark:border-zinc-700">
       <h1
         class="mt-2 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
       >
-        Advertise With Us
+        {m.advertise_title()}
       </h1>
     </div>
 
@@ -40,54 +41,42 @@
         class="space-y-6 text-[0.95rem] leading-relaxed text-gray-800 dark:text-zinc-300"
       >
         <p>
-          Stocknear is a daily research hub for self-directed investors. We
-          bring real-time market data, options flow, screeners, earnings
-          calendars, and curated news into one fast, intuitive experience that
-          keeps investors coming back day after day.
+          {m.advertise_intro_1()}
         </p>
 
         <p>
-          Partner with us to reach a highly targeted audience of serious
-          investors who actively seek quality financial content and tools. Our
-          community spans the full spectrum of investment strategies-from
-          conservative dividend investors and long-term allocators to active
-          options traders and technical analysts. This diversity, combined with
-          our global reach, ensures your message reaches high-intent
-          decision-makers.
+          {m.advertise_intro_2()}
         </p>
 
         <div class="space-y-4">
           <h2
             class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            Newsletter Advertising That Delivers Results
+            {m.advertise_newsletter_title()}
           </h2>
           <p>
-            Our newsletter isn't just another email in the inbox-it's a trusted
-            daily resource that investors rely on for market insights and
-            opportunities.
+            {m.advertise_newsletter_description()}
           </p>
           <ul class="ml-5 list-disc space-y-3">
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >6,000+ highly engaged subscribers</strong
-              > who actively consume financial content
+                >{m.advertise_newsletter_subscribers()}</strong
+              > {m.advertise_newsletter_subscribers_detail()}
             </li>
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >30% open rate</strong
-              >-significantly outperforming industry benchmarks
+                >{m.advertise_newsletter_open_rate()}</strong
+              >{m.advertise_newsletter_open_rate_detail()}
             </li>
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >Consistent daily reach</strong
-              > with newsletters delivered Monday through Friday
+                >{m.advertise_newsletter_daily_reach()}</strong
+              > {m.advertise_newsletter_daily_reach_detail()}
             </li>
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >Premium audience</strong
-              > of decision-makers with disposable income for investment products
-              and services
+                >{m.advertise_newsletter_premium_audience()}</strong
+              > {m.advertise_newsletter_premium_audience_detail()}
             </li>
           </ul>
         </div>
@@ -96,28 +85,28 @@
           <h2
             class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            Why Choose Stocknear?
+            {m.advertise_why_choose_title()}
           </h2>
           <ul class="ml-5 list-disc space-y-3">
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >Targeted Reach:</strong
-              > Connect directly with investors actively seeking financial solutions
+                >{m.advertise_why_targeted()}</strong
+              > {m.advertise_why_targeted_detail()}
             </li>
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >Trusted Platform:</strong
-              > Benefit from our reputation as a reliable, unbiased financial resource
+                >{m.advertise_why_trusted()}</strong
+              > {m.advertise_why_trusted_detail()}
             </li>
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >Growing Community:</strong
-              > Join us as we expand our influence in the retail investing space
+                >{m.advertise_why_growing()}</strong
+              > {m.advertise_why_growing_detail()}
             </li>
             <li>
               <strong class="text-gray-800 dark:text-zinc-200"
-                >Flexible Options:</strong
-              > Custom advertising solutions tailored to your budget and goals
+                >{m.advertise_why_flexible()}</strong
+              > {m.advertise_why_flexible_detail()}
             </li>
           </ul>
         </div>
@@ -126,24 +115,20 @@
           <h2
             class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            Ready to Get Started?
+            {m.advertise_cta_title()}
           </h2>
           <p>
-            Transform your marketing strategy with access to one of the most
-            engaged financial audiences online. Whether you're launching a new
-            product, building brand awareness, or driving conversions, we'll
-            help you achieve your goals.
+            {m.advertise_cta_description_1()}
           </p>
           <p>
             <strong class="text-gray-800 dark:text-zinc-200"
-              >Get in touch today:</strong
+              >{m.advertise_cta_contact()}</strong
             >
-            <br />Email us at
+            <br />{m.advertise_cta_email_intro()}
             <a
               class="font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
               href="mailto:contact@stocknear.com">contact@stocknear.com</a
-            > to discuss your advertising needs and discover how we can accelerate
-            your business growth.
+            > {m.advertise_cta_email_outro()}
           </p>
         </div>
       </main>
@@ -157,12 +142,11 @@
               <h2
                 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Sponsor Us
+                {m.advertise_sidebar_sponsor_title()}
               </h2>
             </div>
             <p class="text-[0.9rem] text-gray-800 dark:text-zinc-300">
-              Support our mission to democratize financial research for retail
-              investors.
+              {m.advertise_sidebar_sponsor_description()}
             </p>
           </a>
         </div>
@@ -175,11 +159,11 @@
               <h2
                 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                Contact Us
+                {m.advertise_sidebar_contact_title()}
               </h2>
             </div>
             <p class="text-[0.9rem] text-gray-800 dark:text-zinc-300">
-              Have questions? We're here to help with personalized solutions.
+              {m.advertise_sidebar_contact_description()}
             </p>
           </a>
         </div>

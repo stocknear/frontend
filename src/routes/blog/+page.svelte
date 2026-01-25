@@ -2,6 +2,7 @@
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import { page } from "$app/stores";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -14,14 +15,14 @@
 </script>
 
 <SEO
-  title="Stock Analysis Blog - Investment Insights & Market Analysis"
-  description="Expert stock analysis blog with investment insights, market trends, company research, and financial analysis. Learn how to invest correctly with our comprehensive stock market guides and investment strategies."
-  keywords="stock analysis blog, investment insights, market analysis, stock market blog, investment strategies, company research, financial analysis, stock market trends, investment education, market commentary"
+  title={m.blog_seo_title()}
+  description={m.blog_seo_description()}
+  keywords={m.blog_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Stock Analysis Blog",
-    description: "Expert investment insights and stock market analysis blog",
+    name: m.blog_structured_name(),
+    description: m.blog_structured_description(),
     url: "https://stocknear.com/blog",
     author: {
       "@type": "Organization",
@@ -35,8 +36,8 @@
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Blog Posts",
-      description: "Stock analysis and investment insight articles",
+      name: m.blog_structured_blog_posts(),
+      description: m.blog_structured_blog_posts_description(),
       numberOfItems: allBlogPosts?.length || 0,
     },
   }}
@@ -53,7 +54,7 @@
         <main class="w-full">
           <div class="mb-6 border-b-[2px] border-[#2C6288] dark:border-white">
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
-              Stock Analysis Blog
+              {m.blog_title()}
             </h1>
           </div>
 
@@ -72,7 +73,7 @@
                           item?.id,
                           item?.cover,
                         )}
-                        alt="Stock Analysis Blog Post Wallpaper"
+                        alt={m.blog_alt_post_wallpaper()}
                         loading="lazy"
                       /></a
                     >
@@ -96,7 +97,7 @@
                     </div>
                     <div class="mt-6 flex items-center">
                       <div class="flex text-sm">
-                        Published: <time datetime={item?.created} class="ml-1">
+                        {m.blog_published()} <time datetime={item?.created} class="ml-1">
                           {new Date(item?.created)?.toLocaleString("en-US", {
                             month: "short",
                             day: "numeric",
@@ -130,14 +131,14 @@
                     stroke-width="2"
                     d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
                   ></path></svg
-                ><span>Previous</span></a
+                ><span>{m.blog_previous()}</span></a
               >
             {/if}
             {#if currentPage < totalPages}
               <a
                 href={`/blog/?page=${currentPage + 1}`}
                 class="ml-auto flex flex-row item-center text-blue-800 dark:text-white sm:hover:text-muted dark:sm:hover:text-blue-400"
-                ><span>Next</span>
+                ><span>{m.blog_next()}</span>
                 <svg
                   class="w-6 h-6 ml-2 inline-block"
                   fill="none"

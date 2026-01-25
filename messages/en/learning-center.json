@@ -1,0 +1,15 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Learning Center - Stock Market Education & Investment Tutorials",
+  "learning_center_seo_description": "Master stock market investing with our comprehensive Learning Center. Free tutorials on trading strategies, technical analysis, fundamental analysis, portfolio management, and investment education for beginners to advanced traders.",
+  "learning_center_seo_keywords": "stock market education, investment tutorials, trading strategies, learn investing, stock analysis tutorials, financial education, investment guide, stock market basics, portfolio management, technical analysis course",
+  "learning_center_structured_name": "Stocknear Learning Center",
+  "learning_center_structured_description": "Comprehensive stock market education and investment tutorials",
+  "learning_center_structured_articles": "Educational Articles",
+  "learning_center_structured_articles_description": "Stock market education and investment tutorial articles",
+  "learning_center_title": "Learning Center",
+  "learning_center_published": "Published:",
+  "learning_center_previous": "Previous",
+  "learning_center_next": "Next",
+  "learning_center_alt_tutorial": "Tutorial Wallpaper"
+}

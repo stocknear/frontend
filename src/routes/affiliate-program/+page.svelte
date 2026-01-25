@@ -1,5 +1,6 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
@@ -56,7 +57,7 @@
           "name": "How do I sign up?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The Lemon Squeezy affiliate hub hosts our affiliate program. Click the 'Become an affiliate' button below to create a Lemon Squeezy account and join our program."
+            "text": "The Lemon Squeezy affiliate hub hosts our affiliate program. Click the '{m.affiliate_cta_button()}' button below to create a Lemon Squeezy account and join our program."
           }
         }
       ]
@@ -68,8 +69,8 @@
 -->
 
 <SEO
-  title="Affiliate Program - Earn Up to 20% Commission "
-  description="Join Stocknear's Affiliate Program and earn up to 20% commission on every sale. Refer customers and start earning cash today!"
+  title={m.affiliate_seo_title()}
+  description={m.affiliate_seo_description()}
 />
 
 <main class="text-muted dark:text-white w-full">
@@ -85,18 +86,17 @@
           loading="lazy"
         />
         <h1 class="mt-1 text-4xl font-bold sm:text-5xl lg:text-6xl">
-          Referral Program
+          {m.affiliate_title()}
         </h1>
         <p
           class="mx-auto mt-5 max-w-3xl text-xl leading-normal md:mt-7 md:text-2xl"
         >
-          Become a Stocknear affiliate today &amp; earn <strong>20%</strong> on each
-          sale!
+          {@html m.affiliate_subtitle()}
         </p>
         <p
           class="mx-auto max-w-3xl text-lg sm:text-xl leading-normal mt-3 mb-8"
         >
-          Refer customers and start earning cash today!
+          {m.affiliate_description()}
         </p>
         <div class="mb-8">
           <a
@@ -105,7 +105,7 @@
             target="_blank"
             class="text-white bg-blue-600 sm:hover:bg-blue-700 ease-out duration-50 px-5 py-3 text-lg font-semibold rounded"
           >
-            Become an affiliate
+            {m.affiliate_cta_button()}
           </a>
         </div>
       </div>
@@ -144,12 +144,10 @@
                 ></path>
               </svg>
             </div>
-            <p class="ml-16 text-lg font-semibold leading-6">Why promote us?</p>
+            <p class="ml-16 text-lg font-semibold leading-6">{m.affiliate_q1_title()}</p>
           </dt>
           <dd class="ml-16 mt-2">
-            Affiliate partnerships are one of the simplest yet most profitable
-            ways to make money online. You send customers our way, and we'll pay
-            you for it.
+            {m.affiliate_q1_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -180,13 +178,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              How much can I earn?
+              {m.affiliate_q2_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            You can earn up to <strong>$119.8</strong> commission on every referral
-            that results in a successful sale. There's no limit to how much you can
-            make by promoting us.
+            {@html m.affiliate_q2_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -217,13 +213,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              Do you support recurrent commissions?
+              {m.affiliate_q3_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            Yes, we offer recurring commissions! That means as long as your
-            referred customer remains a subscriber, you’ll continue earning 20%
-            on every payment they make. 🚀
+            {m.affiliate_q3_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -263,13 +257,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              When do I get paid?
+              {m.affiliate_q4_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            We payout on NET30 terms to account for refunds and chargebacks. For
-            example, commissions generated in January would be paid out on March
-            15th (NET30).
+            {m.affiliate_q4_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -302,13 +294,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              How do I make money as an affiliate?
+              {m.affiliate_q5_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            All you have to do is recommend us using your affiliate link on your
-            website, blog, and social media. We track your clicks and
-            transactions so you can get paid.
+            {m.affiliate_q5_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -332,13 +322,11 @@
               >
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              What are the payout minimums?
+              {m.affiliate_q6_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            We require a minimum balance of $50.00 before processing an
-            affiliate payout. We set this to avoid any fraudulent issues with
-            our affiliate program.
+            {m.affiliate_q6_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -397,13 +385,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              How do I sign up?
+              {m.affiliate_q7_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            The Lemon Squeezy affiliate hub hosts our affiliate program. Click
-            the "Become an affiliate" button below to create a Lemon Squeezy
-            account and join our program.
+            {m.affiliate_q7_answer()}
           </dd>
         </div>
       </dl>
@@ -417,7 +403,7 @@
       class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-28 rounded mt-10 mb-10"
     >
       <div class="m-auto flex flex-col justify-center items-center">
-        <h2 class="text-2xl font-semibold">Start earning cash today!</h2>
+        <h2 class="text-2xl font-semibold">{m.affiliate_cta_section_title()}</h2>
         <div class="mt-8">
           <a
             href="https://affiliates.lemonsqueezy.com/programs/stocknear"
@@ -425,7 +411,7 @@
             target="_blank"
             class="text-white bg-blue-600 sm:hover:bg-blue-700 ease-out duration-50 px-5 py-3 text-lg font-semibold rounded"
           >
-            Become an affiliate
+            {m.affiliate_cta_button()}
           </a>
         </div>
       </div>

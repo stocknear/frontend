@@ -1,0 +1,15 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Lernzentrum - Börsenbildung & Investment Tutorials",
+  "learning_center_seo_description": "Meistere das Investieren an der Börse mit unserem umfassenden Lernzentrum. Kostenlose Tutorials zu Trading-Strategien, technischer Analyse, Fundamentalanalyse, Portfolio Management und Investment-Bildung für Anfänger bis Fortgeschrittene.",
+  "learning_center_seo_keywords": "Börsenbildung, Investment Tutorials, Trading Strategien, Investieren lernen, Aktienanalyse Tutorials, Finanzbildung, Investment Guide, Börsen Grundlagen, Portfolio Management, Technische Analyse Kurs",
+  "learning_center_structured_name": "Stocknear Lernzentrum",
+  "learning_center_structured_description": "Umfassende Börsenbildung und Investment Tutorials",
+  "learning_center_structured_articles": "Lehrreiche Artikel",
+  "learning_center_structured_articles_description": "Börsenbildung und Investment Tutorial Artikel",
+  "learning_center_title": "Lernzentrum",
+  "learning_center_published": "Veröffentlicht:",
+  "learning_center_previous": "Zurück",
+  "learning_center_next": "Weiter",
+  "learning_center_alt_tutorial": "Tutorial Titelbild"
+}
