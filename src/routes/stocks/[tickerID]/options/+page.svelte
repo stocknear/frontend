@@ -3,20 +3,21 @@
   import OptionsChainStatistics from "$lib/components/Options/OptionsChainStatistics.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Options Flow, IV & Open Interest`}
-  description={`Live options chain, flow, IV, and open interest for ${$displayCompanyName} (${$stockTicker}) to plan short-term trades.`}
-  keywords={`${$stockTicker} options flow, ${$displayCompanyName} options chain, unusual options activity, implied volatility, open interest, options sweeps`}
+  title={m.stock_detail_options_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
-    name: `${$displayCompanyName} (${$stockTicker}) Options Analysis`,
-    headline: `${$displayCompanyName} Options Flow & Volatility Snapshot`,
-    description: `Options flow, implied volatility, and open interest overview for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_options_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: m.stock_detail_options_structured_headline({ company: $displayCompanyName }),
+    description: m.stock_detail_options_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options`,
 
     author: {
@@ -91,7 +92,7 @@
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No Options Data available for the company." />
+            <Infobox text={m.stock_detail_options_no_data()} />
           </div>
         </div>
       {/if}

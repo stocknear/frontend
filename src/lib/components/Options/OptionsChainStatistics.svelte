@@ -4,6 +4,7 @@
   import highcharts from "$lib/highcharts.ts";
   import { abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -56,12 +57,11 @@
       },
 
       title: {
-        text: `<h3 class="">IV (30d)</h3>`,
+        text: `<h3 class="">${m.stock_detail_options_iv_30d()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
-          // Using inline CSS for margin-top and margin-bottom
         },
-        useHTML: true, // Enable HTML to apply custom class styling
+        useHTML: true,
       },
 
       pane: {
@@ -218,7 +218,7 @@
       },
 
       title: {
-        text: `<h3 class="">Open Interest</h3>`,
+        text: `<h3 class="">${m.stock_detail_options_open_interest()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -309,7 +309,7 @@
       },
 
       title: {
-        text: `<h3 class="">Put-Call Ratio</h3>`,
+        text: `<h3 class="">${m.stock_detail_options_put_call_ratio()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -445,7 +445,7 @@
       },
 
       title: {
-        text: `<h3 class="">Volume</h3>`,
+        text: `<h3 class="">${m.stock_detail_options_volume()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -536,7 +536,7 @@
       },
 
       title: {
-        text: `<h3 class="">Put-Call Ratio</h3>`,
+        text: `<h3 class="">${m.stock_detail_options_put_call_ratio()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -696,13 +696,13 @@
         <div class="w-full mb-10">
           <div class="flex flex-row items-center">
             <h2 class="mb-2 text-xl sm:text-2xl font-bold w-fit">
-              {ticker} Option Overview
+              {m.stock_detail_options_overview_title({ ticker })}
             </h2>
             <div class="ml-1 -mt-3">
               <InfoModal
                 id="opra-data-info"
-                title="Realtime OPRA Options Data"
-                content="Unlock realtime options flow, trades, and market insights for this stock — sourced directly from the Options Price Reporting Authority (OPRA)."
+                title={m.stock_detail_options_opra_title()}
+                content={m.stock_detail_options_opra_content()}
               />
             </div>
           </div>
@@ -847,7 +847,7 @@
 
         <!-- Apply the blur class to the chart -->
         <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">
-          Implied Volatility
+          {m.stock_detail_options_implied_volatility()}
         </h2>
         <div
           class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full m-auto"
@@ -870,10 +870,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Implied Volatility (30d)</span>
+                <span>{m.stock_detail_options_iv_30d_label()}</span>
                 <InfoModal
                   id="iv-30d-info"
-                  content="Implied Volatility (IV) estimates how much the market expects a stock to move over the next 30 days. 
+                  content="Implied Volatility (IV) estimates how much the market expects a stock to move over the next 30 days.
               A higher IV suggests more expected movement (often bearish fear or bullish excitement), while a lower IV suggests less expected movement."
                 />
               </div>
@@ -905,7 +905,7 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>IV Rank</span>
+                <span>{m.stock_detail_options_iv_rank()}</span>
                 <InfoModal
                   id="iv-rank-info"
                   content="IV Rank shows how current Implied Volatility (IV) compares to its past levels.  
@@ -940,7 +940,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Historical Volatility</span>
+                <span>{m.stock_detail_options_historical_volatility()}</span>
                 <InfoModal
                   id="historical-vol-info"
                   content="Historical Volatility shows how much a stock’s price fluctuated over the past 30 days.  
@@ -975,7 +975,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>IV Low</span>
+                <span>{m.stock_detail_options_iv_low()}</span>
                 <InfoModal
                   id="iv-low-info"
                   content="IV Low shows the lowest Implied Volatility (IV) level reached in the past 12 months.  
@@ -1006,7 +1006,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>IV High</span>
+                <span>{m.stock_detail_options_iv_high()}</span>
                 <InfoModal
                   id="iv-high-info"
                   content="IV High shows the highest Implied Volatility (IV) level reached in the past 12 months.  
@@ -1042,7 +1042,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
           ><h2
             class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
           >
-            Open Interest (OI)
+            {m.stock_detail_options_oi_heading()}
           </h2>
           <svg
             class="size-6 sm:size-7 mt-1"
@@ -1080,7 +1080,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Today's Open Interest</span>
+                <span>{m.stock_detail_options_today_oi()}</span>
                 <InfoModal
                   id="oi-today-info"
                   content="Open Interest (OI) is the total number of outstanding options contracts (both calls and puts) that are still open.  
@@ -1112,7 +1112,7 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Put-Call Ratio</span>
+                <span>{m.stock_detail_options_put_call_ratio()}</span>
                 <InfoModal
                   id="oi-pc-ratio-info"
                   content="The Open Interest (OI) Put-Call Ratio compares the number of open put contracts to open call contracts.  
@@ -1145,7 +1145,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Put Open Interest</span>
+                <span>{m.stock_detail_options_put_oi()}</span>
                 <InfoModal
                   id="put-oi-info"
                   content="Put Open Interest is the total number of open put option contracts on a stock.  
@@ -1178,7 +1178,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Call Open Interest</span>
+                <span>{m.stock_detail_options_call_oi()}</span>
                 <InfoModal
                   id="call-oi-info"
                   content="Call Open Interest is the total number of open call option contracts on a stock.  
@@ -1211,7 +1211,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Open Interest Avg (30-day)</span>
+                <span>{m.stock_detail_options_oi_avg_30d()}</span>
                 <InfoModal
                   id="oi-avg-info"
                   content="The average Open Interest over the past 30 days shows typical market activity in options contracts."
@@ -1242,7 +1242,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Today vs Open Interest Avg (30-day)</span>
+                <span>{m.stock_detail_options_today_vs_oi_avg()}</span>
                 <InfoModal
                   id="oi-today-vs-avg-info"
                   content="This compares today's Open Interest to the 30-day average.  
@@ -1279,7 +1279,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
           ><h2
             class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
           >
-            Option Volume
+            {m.stock_detail_options_volume_heading()}
           </h2>
           <svg
             class="size-6 sm:size-7 mt-1"
@@ -1317,7 +1317,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Today's Volume</span>
+                <span>{m.stock_detail_options_today_volume()}</span>
                 <InfoModal
                   id="vol-today-info"
                   content="Today's Volume is the total number of options contracts (calls and puts) traded during the current trading day.  
@@ -1349,7 +1349,7 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Put-Call Ratio</span>
+                <span>{m.stock_detail_options_put_call_ratio()}</span>
                 <InfoModal
                   id="vol-pc-ratio-info"
                   content="The Put-Call Ratio compares the volume of traded put options to call options during a period.  
@@ -1382,7 +1382,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Put Volume</span>
+                <span>{m.stock_detail_options_put_volume()}</span>
                 <InfoModal
                   id="put-vol-info"
                   content="Put Volume is the total number of put option contracts traded today.  
@@ -1415,7 +1415,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Call Volume</span>
+                <span>{m.stock_detail_options_call_volume()}</span>
                 <InfoModal
                   id="call-vol-info"
                   content="Call Volume is the total number of call option contracts traded today.  
@@ -1448,7 +1448,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Volume Avg (30-day)</span>
+                <span>{m.stock_detail_options_volume_avg_30d()}</span>
                 <InfoModal
                   id="vol-avg-info"
                   content="The average Volume over the past 30 days shows typical market activity in options contracts."
@@ -1479,7 +1479,7 @@ A low ratio (<1) means more calls traded — often seen as bullish sentiment."
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>Today vs Volume Avg (30-day)</span>
+                <span>{m.stock_detail_options_today_vs_vol_avg()}</span>
                 <InfoModal
                   id="vol-today-vs-avg-info"
                   content="This compares today's trading volume to the 30-day average volume.  
@@ -1517,14 +1517,11 @@ Lower volume today than average suggests less activity or fading interest."
             <h3
               class="mb-4 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
             >
-              Option Chain Statistics
+              {m.stock_detail_options_chain_statistics()}
             </h3>
 
             <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-              This table provides a comprehensive overview of all <strong
-                >{ticker}</strong
-              >
-              options grouped by their expiration dates.
+              {@html m.stock_detail_options_chain_desc({ ticker })}
             </p>
 
             <div
@@ -1538,15 +1535,15 @@ Lower volume today than average suggests less activity or fading interest."
                     class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
                     <tr>
-                      <td class="text-start">Expiration</td>
-                      <td class="text-end">Call Vol</td>
-                      <td class="text-end">Put Vol</td>
-                      <td class="text-end">P/C Vol</td>
-                      <td class="text-end">Call OI</td>
-                      <td class="text-end">Put OI</td>
-                      <td class="text-end">P/C OI</td>
-                      <td class="text-end">Implied Volatility</td>
-                      <td class="text-end">Max Pain</td>
+                      <td class="text-start">{m.stock_detail_options_col_expiration()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_call_vol()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_put_vol()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_pc_vol()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_call_oi()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_put_oi()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_pc_oi()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_iv()}</td>
+                      <td class="text-end">{m.stock_detail_options_col_max_pain()}</td>
                     </tr>
                   </thead>
                   <tbody>

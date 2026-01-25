@@ -555,7 +555,7 @@ ${summaryData.outlook}
           },
           animation: false,
           zIndex: 3,
-          showInLegend: saleMarkers.length > 0,
+          showInLegend: saleMarkers?.length > 0,
         },
       ],
     };
