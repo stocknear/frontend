@@ -189,5 +189,19 @@
   "time_minute": "minute",
   "time_minutes": "minutes",
   "time_second": "second",
-  "time_seconds": "seconds"
+  "time_seconds": "seconds",
+
+  "stock_detail_financials_income": "Income",
+  "stock_detail_financials_balance_sheet": "Balance Sheet",
+  "stock_detail_financials_cashflow": "Cashflow",
+  "stock_detail_financials_ratios": "Ratios",
+  "stock_detail_financials_annual": "Annual",
+  "stock_detail_financials_quarterly": "Quarterly",
+  "stock_detail_financials_ttm": "TTM",
+  "stock_detail_financials_download": "Download",
+  "stock_detail_financials_in_currency": "Financials in {currency}. Fiscal year is {range}.",
+  "stock_detail_financials_fiscal_quarter": "Fiscal Quarter",
+  "stock_detail_financials_fiscal_year": "Fiscal Year",
+  "stock_detail_financials_period_ending": "Period Ending",
+  "stock_detail_financials_sec_filings": "SEC Filings:"
 }

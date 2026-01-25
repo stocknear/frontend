@@ -2,6 +2,7 @@
   import { stockTicker, selectedTimePeriod } from "$lib/store";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   let displaySubSection = "income";
@@ -100,7 +101,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Income
+                  {m.stock_detail_financials_income()}
                 </a>
 
                 <a
@@ -113,7 +114,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Balance Sheet
+                  {m.stock_detail_financials_balance_sheet()}
                 </a>
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
@@ -125,7 +126,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Cashflow
+                  {m.stock_detail_financials_cashflow()}
                 </a>
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
@@ -137,7 +138,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Ratios
+                  {m.stock_detail_financials_ratios()}
                 </a>
 
                 <a
@@ -148,7 +149,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Annual
+                  {m.stock_detail_financials_annual()}
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=quarterly"}
@@ -158,7 +159,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Quarterly
+                  {m.stock_detail_financials_quarterly()}
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=ttm"}
@@ -168,7 +169,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  TTM
+                  {m.stock_detail_financials_ttm()}
                 </a>
               </ul>
 
@@ -183,7 +184,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Annual
+                  {m.stock_detail_financials_annual()}
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=quarterly"}
@@ -193,7 +194,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Quarterly
+                  {m.stock_detail_financials_quarterly()}
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=ttm"}
@@ -203,7 +204,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  TTM
+                  {m.stock_detail_financials_ttm()}
                 </a>
               </ul>
             </nav>
