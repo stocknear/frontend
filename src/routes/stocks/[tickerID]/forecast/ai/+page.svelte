@@ -833,7 +833,7 @@
 
                         <tr class="font-normal text-sm whitespace-nowrap">
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
-                            >Price</td
+                            >{m.stock_detail_forecast_ai_price()}</td
                           >
                           {#each tableQuarterChange as item, index}
                             <td class="text-sm">
@@ -866,7 +866,7 @@
                         <!-- QoQ Change Row -->
                         <tr class="font-normal text-sm whitespace-nowrap">
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
-                            >% Change</td
+                            >{m.stock_detail_forecast_ai_pct_change()}</td
                           >
                           {#each tableQuarterChange as item, index}
                             <td class="text-sm">
@@ -911,14 +911,11 @@
 
           {#if Object?.keys(data?.getPriceAnalysis)?.length > 0}
             <div class="">
-              <h1 class="text-xl sm:text-2xl font-bold">Trend Forecast</h1>
+              <h1 class="text-xl sm:text-2xl font-bold">{m.stock_detail_forecast_ai_trend_title()}</h1>
             </div>
             <div class="w-full mb-6 mt-3">
               <p class="mt-4">
-                Using our AI model trained on historical seasonal data, we
-                generated a 12-month forecast for {removeCompanyStrings(
-                  $displayCompanyName,
-                )}. The model predicts a median target price of
+                {m.stock_detail_forecast_ai_trend_intro({ company: removeCompanyStrings($displayCompanyName) })}
                 <strong>
                   {#if isSubscribed}
                     ${medianPriceTarget}
@@ -927,7 +924,7 @@
                       href="/pricing"
                       class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
-                      Upgrade <svg
+                      {m.stock_detail_forecast_ai_upgrade()} <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -939,7 +936,7 @@
                       </svg>
                     </a>
                   {/if}
-                </strong>, ranging from
+                </strong>, {m.stock_detail_forecast_ai_ranging_from()}
                 <strong>
                   {#if isSubscribed}
                     ${lowPriceTarget}
@@ -948,7 +945,7 @@
                       href="/pricing"
                       class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
-                      Upgrade <svg
+                      {m.stock_detail_forecast_ai_upgrade()} <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -961,7 +958,7 @@
                     </a>
                   {/if}
                 </strong>
-                to
+                {m.stock_detail_forecast_ai_to()}
                 <strong>
                   {#if isSubscribed}
                     ${highPriceTarget}
@@ -970,7 +967,7 @@
                       href="/pricing"
                       class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
-                      Upgrade <svg
+                      {m.stock_detail_forecast_ai_upgrade()} <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -982,7 +979,7 @@
                       </svg>
                     </a>
                   {/if}
-                </strong>, indicating a
+                </strong>, {m.stock_detail_forecast_ai_indicating()}
                 <strong
                   class={medianChange >= 0 && isSubscribed
                     ? "text-emerald-600 dark:text-emerald-400"
@@ -992,8 +989,8 @@
                 >
                   {#if isSubscribed}
                     {medianChange > 0
-                      ? "potential increase"
-                      : "potential decrease"} of {medianChange >= 0
+                      ? m.stock_detail_forecast_ai_potential_increase()
+                      : m.stock_detail_forecast_ai_potential_decrease()} {m.stock_detail_forecast_ai_of()} {medianChange >= 0
                       ? "+"
                       : ""}{medianChange}%
                   {:else}
@@ -1001,7 +998,7 @@
                       href="/pricing"
                       class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
-                      Upgrade <svg
+                      {m.stock_detail_forecast_ai_upgrade()} <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -1014,7 +1011,7 @@
                     </a>
                   {/if}
                 </strong>
-                from the current price of
+                {m.stock_detail_forecast_ai_from_current()}
                 <strong>
                   {#if isSubscribed}
                     ${price}
@@ -1023,7 +1020,7 @@
                       href="/pricing"
                       class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
-                      Upgrade <svg
+                      {m.stock_detail_forecast_ai_upgrade()} <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -1035,10 +1032,7 @@
                       </svg>
                     </a>
                   {/if}
-                </strong>. This forecast is based on comprehensive analysis of
-                seasonal patterns, market trends, and historical performance
-                data to provide insights into the stock's potential trajectory
-                over the next twelve months.
+                </strong>. {m.stock_detail_forecast_ai_based_analysis()}
               </p>
 
               <div>
@@ -1062,7 +1056,7 @@
                           href="/pricing"
                           class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
                         >
-                          <span>Upgrade</span>
+                          <span>{m.stock_detail_forecast_ai_upgrade()}</span>
                           <svg
                             class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
                             xmlns="http://www.w3.org/2000/svg"
@@ -1086,24 +1080,24 @@
                           class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm"
                           ><th
                             class="py-[3px] text-left font-semibold lg:py-0.5"
-                            >Target</th
-                          > <th class="font-semibold">Low</th>
-                          <th class="font-semibold">Average</th>
-                          <th class="font-semibold">Median</th>
-                          <th class="font-semibold">High</th></tr
+                            >{m.stock_detail_forecast_target()}</th
+                          > <th class="font-semibold">{m.stock_detail_forecast_low()}</th>
+                          <th class="font-semibold">{m.stock_detail_forecast_average()}</th>
+                          <th class="font-semibold">{m.stock_detail_forecast_median()}</th>
+                          <th class="font-semibold">{m.stock_detail_forecast_high()}</th></tr
                         ></thead
                       >
                       <tbody
                         ><tr
                           class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm"
                         >
-                          <td class="py-[3px] text-left lg:py-0.5">Price</td>
+                          <td class="py-[3px] text-left lg:py-0.5">{m.stock_detail_forecast_price()}</td>
                           {#if !isSubscribed}
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1119,7 +1113,7 @@
                               <a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1135,7 +1129,7 @@
                               <a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1151,7 +1145,7 @@
                               <a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1172,7 +1166,7 @@
                         </tr>
 
                         <tr class="text-sm text-gray-600 dark:text-zinc-300">
-                          <td class="py-[3px] text-left lg:py-0.5">% Change</td>
+                          <td class="py-[3px] text-left lg:py-0.5">{m.stock_detail_forecast_change()}</td>
                           {#if !isSubscribed}
                             <td class="whitespace-nowrap">
                               <a
@@ -1196,7 +1190,7 @@
                               ><a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1212,7 +1206,7 @@
                               ><a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1228,7 +1222,7 @@
                               ><a
                                 href="/pricing"
                                 class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
-                                >Upgrade <svg
+                                >{m.stock_detail_forecast_ai_upgrade()} <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1274,7 +1268,7 @@
               </div>
             </div>
           {:else}
-            <Infobox text="No AI Price Forecast available right now" />
+            <Infobox text={m.stock_detail_forecast_ai_no_data()} />
           {/if}
         </div>
       </main>

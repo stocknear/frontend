@@ -35,19 +35,25 @@
 
   $: tabs = [m.stock_detail_forecast_analyst_all(), m.stock_detail_forecast_analyst_top()];
 
+  // Static column config for sort initialization (labels are reactive separately)
+  const columnConfig = [
+    { key: "analyst_name", type: "string", align: "left" },
+    { key: "analyst", type: "string", align: "left" },
+    { key: "rating_current", type: "string", align: "right" },
+    { key: "action_company", type: "string", align: "right" },
+    { key: "adjusted_pt_current", type: "number", align: "right" },
+    { key: "upside", type: "number", align: "right" },
+    { key: "date", type: "date", align: "right" },
+  ];
+
   $: columnDefinitions = [
-    { key: "analyst_name", label: m.stock_detail_forecast_analyst_col_analyst(), type: "string", align: "left" },
-    { key: "analyst", label: m.stock_detail_forecast_analyst_col_firm(), type: "string", align: "left" },
-    { key: "rating_current", label: m.stock_detail_forecast_analyst_col_rating(), type: "string", align: "right" },
-    { key: "action_company", label: m.stock_detail_forecast_analyst_col_action(), type: "string", align: "right" },
-    {
-      key: "adjusted_pt_current",
-      label: m.stock_detail_forecast_analyst_col_price_target(),
-      type: "number",
-      align: "right",
-    },
-    { key: "upside", label: m.stock_detail_forecast_analyst_col_upside(), type: "number", align: "right" },
-    { key: "date", label: m.stock_detail_forecast_analyst_col_date(), type: "date", align: "right" },
+    { ...columnConfig[0], label: m.stock_detail_forecast_analyst_col_analyst() },
+    { ...columnConfig[1], label: m.stock_detail_forecast_analyst_col_firm() },
+    { ...columnConfig[2], label: m.stock_detail_forecast_analyst_col_rating() },
+    { ...columnConfig[3], label: m.stock_detail_forecast_analyst_col_action() },
+    { ...columnConfig[4], label: m.stock_detail_forecast_analyst_col_price_target() },
+    { ...columnConfig[5], label: m.stock_detail_forecast_analyst_col_upside() },
+    { ...columnConfig[6], label: m.stock_detail_forecast_analyst_col_date() },
   ];
 
   let activeIdx = 0;
@@ -57,7 +63,7 @@
   const orderCycle = ["none", "asc", "desc"];
 
   const createInitialSortOrders = () =>
-    columnDefinitions.reduce((acc, column) => {
+    columnConfig.reduce((acc, column) => {
       acc[column.key] = { order: "none", type: column.type };
       return acc;
     }, {});
@@ -135,7 +141,7 @@
           orderCycle.length
       ];
 
-    sortOrders = columnDefinitions.reduce((acc, column) => {
+    sortOrders = columnConfig.reduce((acc, column) => {
       acc[column.key] = {
         ...sortOrders[column.key],
         order: column.key === key ? nextOrder : "none",

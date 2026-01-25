@@ -976,7 +976,7 @@
                 </div>
                 {#if numOfAnalyst > 0}
                   <p>
-                    {m.stock_detail_forecast_price_description({ count: numOfAnalyst, company: $stockTicker, price: medianPriceTarget?.replace('$', ''), high: highPriceTarget?.replace('$', ''), low: lowPriceTarget?.replace('$', '') })}
+                    {m.stock_detail_forecast_price_description({ count: numOfAnalyst, company: $stockTicker, price: medianPriceTarget, high: highPriceTarget, low: lowPriceTarget })}
                   </p>
                 {:else}
                   {m.stock_detail_forecast_no_analyst_data()}
