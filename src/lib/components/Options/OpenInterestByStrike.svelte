@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -221,12 +222,12 @@
   // Get display text for selected dates
   function getSelectedDatesText() {
     if (selectedDates.has("All")) {
-      return "All Expiries";
+      return m.stock_detail_options_oi_all_expiries();
     } else if (selectedDates.size === 1) {
       const singleDate = Array.from(selectedDates)[0];
       return formatDate(singleDate);
     } else {
-      return `${selectedDates.size} Expiries Selected`;
+      return m.stock_detail_options_oi_expiries_selected({ count: selectedDates.size });
     }
   }
 
@@ -435,10 +436,10 @@
   });
 
   $: columns = [
-    { key: "strike", label: "Strike Price", align: "left" },
-    { key: "call_oi", label: `Call OI`, align: "right" },
-    { key: "put_oi", label: `Put OI`, align: "right" },
-    { key: "put_call_ratio", label: `P/C OI`, align: "right" },
+    { key: "strike", label: m.stock_detail_options_oi_col_strike(), align: "left" },
+    { key: "call_oi", label: m.stock_detail_options_col_call_oi(), align: "right" },
+    { key: "put_oi", label: m.stock_detail_options_col_put_oi(), align: "right" },
+    { key: "put_call_ratio", label: m.stock_detail_options_col_pc_oi(), align: "right" },
   ];
 
   $: sortOrders = {
@@ -522,7 +523,7 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    Open Interest Chart
+    {m.stock_detail_options_oi_chart_title()}
   </h2>
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
@@ -580,7 +581,7 @@
           class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="truncate text-sm">
-            Date Expiration | {getSelectedDatesText()}
+            {m.stock_detail_options_oi_date_expiration()} | {getSelectedDatesText()}
           </span>
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -622,7 +623,7 @@
                   >
                     <input type="checkbox" checked={isDateChecked(item)} />
                     <span class="ml-2">
-                      {item === "All" ? "All Expiries" : formatDate(item)}
+                      {item === "All" ? m.stock_detail_options_oi_all_expiries() : formatDate(item)}
                     </span>
                   </label>
                 </div>
@@ -696,7 +697,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
-        Open Interest Table
+        {m.stock_detail_options_oi_table_title()}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -773,14 +774,14 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          <span class="hidden sm:inline">Previous</span>
+          <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
         </Button>
       </div>
 
       <!-- Page info and rows selector in center -->
       <div class="flex flex-row items-center gap-4">
         <span class="text-sm text-gray-600 dark:text-zinc-300">
-          Page {currentPage} of {totalPages}
+          {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
         </span>
 
         <DropdownMenu.Root>
@@ -790,7 +791,7 @@
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
-                >{rowsPerPage} Rows</span
+                >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
               >
               <svg
                 class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -825,7 +826,7 @@
                     on:click={() => changeRowsPerPage(item)}
                     class="inline-flex justify-between w-full items-center cursor-pointer"
                   >
-                    <span class="text-sm">{item} Rows</span>
+                    <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
                   </label>
                 </DropdownMenu.Item>
               {/each}
@@ -841,7 +842,7 @@
           disabled={currentPage === totalPages}
           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          <span class="hidden sm:inline">Next</span>
+          <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
           <svg
             class="h-5 w-5 inline-block shrink-0 -rotate-90"
             viewBox="0 0 20 20"
@@ -865,7 +866,7 @@
         on:click={scrollToTop}
         class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
       >
-        Back to Top <svg
+        {m.stock_detail_options_common_back_to_top()} <svg
           class="h-5 w-5 inline-block shrink-0 rotate-180"
           viewBox="0 0 20 20"
           fill="currentColor"

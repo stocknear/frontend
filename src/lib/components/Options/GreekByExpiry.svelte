@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
   import { abbreviateNumber } from "$lib/utils";
   import { onMount } from "svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -383,25 +384,25 @@
   }
 
   $: columns = [
-    { key: "expiry", label: "Expiry Date", align: "left" },
+    { key: "expiry", label: m.stock_detail_options_greek_col_expiry_date(), align: "left" },
     {
       key: isGamma ? "call_gex" : "call_dex",
-      label: isGamma ? "Call GEX" : "Call Delta",
+      label: isGamma ? m.stock_detail_options_greek_col_call_gex() : m.stock_detail_options_greek_col_call_delta(),
       align: "right",
     },
     {
       key: isGamma ? "put_gex" : "put_dex",
-      label: isGamma ? "Put GEX" : "Put Delta",
+      label: isGamma ? m.stock_detail_options_greek_col_put_gex() : m.stock_detail_options_greek_col_put_delta(),
       align: "right",
     },
     {
       key: isGamma ? "net_gex" : "net_dex",
-      label: isGamma ? "Net GEX" : "Net Delta",
+      label: isGamma ? m.stock_detail_options_greek_col_net_gex() : m.stock_detail_options_greek_col_net_delta(),
       align: "right",
     },
     {
       key: "put_call_ratio",
-      label: isGamma ? "P/C GEX" : "P/C Delta",
+      label: isGamma ? m.stock_detail_options_greek_col_pc_gex() : m.stock_detail_options_greek_col_pc_delta(),
       align: "right",
     },
   ];
@@ -486,7 +487,7 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    By Expiry <InfoModal
+    {m.stock_detail_options_greek_by_expiry()} <InfoModal
       content={title === "Gamma"
         ? `Gamma Exposure (GEX) for ${ticker} options representing the estimated dollar value of shares that option sellers must buy or sell to maintain delta neutrality for each 1% move in ${ticker}'s stock price by expiration.`
         : `Delta Exposure (DEX) for ${ticker} options representing the estimated net number of ${ticker} shares that option sellers must hold or short to hedge their current options positions and maintain delta neutrality at expiration.`}
@@ -577,7 +578,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
-        {title === "Gamma" ? "GEX" : "DEX"} Table
+        {title === "Gamma" ? m.stock_detail_options_gex_table() : m.stock_detail_options_dex_table()}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -687,14 +688,14 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          <span class="hidden sm:inline">Previous</span>
+          <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
         </Button>
       </div>
 
       <!-- Page info and rows selector in center -->
       <div class="flex flex-row items-center gap-4">
         <span class="text-sm text-gray-600 dark:text-zinc-300">
-          Page {currentPage} of {totalPages}
+          {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
         </span>
 
         <DropdownMenu.Root>
@@ -704,7 +705,7 @@
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
-                >{rowsPerPage} Rows</span
+                >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
               >
               <svg
                 class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -739,7 +740,7 @@
                     on:click={() => changeRowsPerPage(item)}
                     class="inline-flex justify-between w-full items-center cursor-pointer"
                   >
-                    <span class="text-sm">{item} Rows</span>
+                    <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
                   </label>
                 </DropdownMenu.Item>
               {/each}
@@ -755,7 +756,7 @@
           disabled={currentPage === totalPages}
           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          <span class="hidden sm:inline">Next</span>
+          <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
           <svg
             class="h-5 w-5 inline-block shrink-0 -rotate-90"
             viewBox="0 0 20 20"
@@ -779,7 +780,7 @@
         on:click={scrollToTop}
         class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
       >
-        Back to Top <svg
+        {m.stock_detail_options_common_back_to_top()} <svg
           class="h-5 w-5 inline-block shrink-0 rotate-180"
           viewBox="0 0 20 20"
           fill="currentColor"

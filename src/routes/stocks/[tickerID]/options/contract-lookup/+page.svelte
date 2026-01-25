@@ -4,21 +4,22 @@
   import SEO from "$lib/components/SEO.svelte";
   import ContractLookup from "$lib/components/Options/ContractLookup.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Options Contract Lookup`}
-  description={`Lookup ${$displayCompanyName} (${$stockTicker}) options contracts and key metrics for fast trade planning.`}
-  keywords={`${$stockTicker} options contract lookup, options chain, options metrics`}
+  title={m.stock_detail_options_contract_lookup_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_contract_lookup_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_contract_lookup_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/contract-lookup`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebApplication"],
-    name: `${$displayCompanyName} Options Contract Lookup`,
-    description: `Options contract lookup for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_options_contract_lookup_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_contract_lookup_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/contract-lookup`,
     applicationCategory: "FinanceApplication",
     offers: {
@@ -58,7 +59,7 @@
         <ContractLookup {data} ticker={$stockTicker} />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
-          <Infobox text="No data is available" />
+          <Infobox text={m.stock_detail_options_oi_no_data()} />
         </div>
       {/if}
     </div>

@@ -9,6 +9,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -160,17 +161,17 @@
   });
 
   $: columns = [
-    { key: "strike_price", label: "Type", align: "left" },
-    { key: "dte", label: "DTE", align: "right" },
-    { key: "otm", label: "% OTM", align: "right" },
-    { key: "last", label: "Last", align: "right" },
-    { key: "high", label: "Low-High", align: "right" },
-    { key: "volume", label: "Volume", align: "right" },
-    { key: "open_interest", label: "OI", align: "right" },
-    { key: "changeOI", label: "OI Change", align: "right" },
-    { key: "iv", label: "IV", align: "right" },
-    { key: "total_premium", label: "Prem", align: "right" },
-    { key: "option_symbol", label: "Option Symbol", align: "right" },
+    { key: "strike_price", label: m.stock_detail_options_hottest_col_type(), align: "left" },
+    { key: "dte", label: m.stock_detail_options_hottest_col_dte(), align: "right" },
+    { key: "otm", label: m.stock_detail_options_hottest_col_otm(), align: "right" },
+    { key: "last", label: m.stock_detail_options_hottest_col_last(), align: "right" },
+    { key: "high", label: m.stock_detail_options_hottest_col_low_high(), align: "right" },
+    { key: "volume", label: m.stock_detail_options_hottest_col_volume(), align: "right" },
+    { key: "open_interest", label: m.stock_detail_options_hottest_col_oi(), align: "right" },
+    { key: "changeOI", label: m.stock_detail_options_hottest_col_oi_change(), align: "right" },
+    { key: "iv", label: m.stock_detail_options_hottest_col_iv(), align: "right" },
+    { key: "total_premium", label: m.stock_detail_options_hottest_col_prem(), align: "right" },
+    { key: "option_symbol", label: m.stock_detail_options_hottest_col_option_symbol(), align: "right" },
   ];
 
   $: sortOrders = {
@@ -462,7 +463,7 @@
             <h2
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
             >
-              {(rawData?.length || 0)?.toLocaleString("en-US")} Contracts
+              {m.stock_detail_options_hottest_contracts_count({ count: (rawData?.length || 0)?.toLocaleString("en-US") })}
             </h2>
             <div
               class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -589,14 +590,14 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span class="hidden sm:inline">Previous</span>
+                <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
               </Button>
             </div>
 
             <!-- Page info and rows selector in center -->
             <div class="flex flex-row items-center gap-4">
               <span class="text-sm text-gray-600 dark:text-zinc-300">
-                Page {currentPage} of {totalPages}
+                {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
               </span>
 
               <DropdownMenu.Root>
@@ -606,7 +607,7 @@
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm"
-                      >{rowsPerPage} Rows</span
+                      >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
                     >
                     <svg
                       class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -640,7 +641,7 @@
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
                         >
-                          <span class="text-sm">{item} Rows</span>
+                          <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
                         </label>
                       </DropdownMenu.Item>
                     {/each}
@@ -656,7 +657,7 @@
                 disabled={currentPage === totalPages}
                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span class="hidden sm:inline">Next</span>
+                <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
                 <svg
                   class="h-5 w-5 inline-block shrink-0 -rotate-90"
                   viewBox="0 0 20 20"
@@ -680,7 +681,7 @@
               on:click={scrollToTop}
               class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
             >
-              Back to Top <svg
+              {m.stock_detail_options_common_back_to_top()} <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-180"
                 viewBox="0 0 20 20"
                 fill="currentColor"

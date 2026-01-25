@@ -4,21 +4,22 @@
   import SEO from "$lib/components/SEO.svelte";
   import HottestContracts from "$lib/components/Options/HottestContracts.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Highest Options Volume Contracts`}
-  description={`Track the highest-volume contracts for ${$displayCompanyName} (${$stockTicker}) to spot concentrated flow.`}
-  keywords={`${$stockTicker} options volume, highest volume contracts, options flow`}
+  title={m.stock_detail_options_hottest_vol_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_hottest_vol_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_hottest_vol_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts/volume`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataFeed"],
-    name: `${$displayCompanyName} Highest Volume Options`,
-    description: `Highest options volume contracts for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_options_hottest_vol_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_hottest_vol_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts/volume`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -55,12 +56,12 @@
           ticker={$stockTicker?.toUpperCase()}
           assetType="stocks"
           type="volume"
-          title="Highest Volume Options"
+          title={m.stock_detail_options_hottest_vol_title()}
         />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No data is available" />
+            <Infobox text={m.stock_detail_options_hottest_oi_no_data()} />
           </div>
         </div>
       {/if}

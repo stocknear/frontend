@@ -3,6 +3,7 @@
 
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import UnusualActivity from "$lib/components/Options/UnusualActivity.svelte";
 
@@ -10,16 +11,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Unusual Options Activity`}
-  description={`Spot unusual options activity, sweeps, and blocks in ${$displayCompanyName} (${$stockTicker}) for short-term setups.`}
-  keywords={`${$stockTicker} unusual options activity, sweeps, block trades, options flow`}
+  title={m.stock_detail_options_unusual_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_unusual_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_unusual_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/unusual-activity`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataFeed"],
-    name: `${$displayCompanyName} Unusual Options Activity`,
-    description: `Unusual options activity for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_options_unusual_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_unusual_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/unusual-activity`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -65,7 +66,7 @@
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <Infobox
-            text="No unusual options trading activity with a premium of at least $1 million was found."
+            text={m.stock_detail_options_unusual_no_data()}
           />
         </div>
       {/if}

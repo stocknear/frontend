@@ -8,6 +8,7 @@
   import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
 
   import { onMount } from "svelte";
 
@@ -135,16 +136,16 @@
   });
 
   $: columns = [
-    { key: "optionType", label: "Type", align: "left" },
-    { key: "date", label: "Transaction Date", align: "right" },
-    { key: "dte", label: "DTE", align: "right" },
-    { key: "unusualType", label: "Type", align: "right" },
-    { key: "executionEst", label: "Exec", align: "right" },
-    { key: "sentiment", label: "Sent.", align: "right" },
-    { key: "size", label: "Size", align: "right" },
-    { key: "price", label: "Spot", align: "right" },
-    { key: "premium", label: "Prem", align: "right" },
-    { key: "optionSymbol", label: "Option Chain", align: "right" },
+    { key: "optionType", label: m.stock_detail_options_unusual_col_type(), align: "left" },
+    { key: "date", label: m.stock_detail_options_unusual_col_date(), align: "right" },
+    { key: "dte", label: m.stock_detail_options_unusual_col_dte(), align: "right" },
+    { key: "unusualType", label: m.stock_detail_options_unusual_col_unusual_type(), align: "right" },
+    { key: "executionEst", label: m.stock_detail_options_unusual_col_exec(), align: "right" },
+    { key: "sentiment", label: m.stock_detail_options_unusual_col_sent(), align: "right" },
+    { key: "size", label: m.stock_detail_options_unusual_col_size(), align: "right" },
+    { key: "price", label: m.stock_detail_options_unusual_col_spot(), align: "right" },
+    { key: "premium", label: m.stock_detail_options_unusual_col_prem(), align: "right" },
+    { key: "optionSymbol", label: m.stock_detail_options_unusual_col_option_chain(), align: "right" },
   ];
 
   $: sortOrders = {
@@ -389,7 +390,7 @@
         <h2
           class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
-          {ticker} Unusual Activity
+          {m.stock_detail_options_unusual_title({ ticker })}
         </h2>
         <p
           class="{rawData?.length > 0
@@ -480,7 +481,7 @@
             <h2
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
             >
-              {(rawData?.length || 0)?.toLocaleString("en-US")} Activity
+              {m.stock_detail_options_unusual_activity_count({ count: (rawData?.length || 0)?.toLocaleString("en-US") })}
             </h2>
             <div
               class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -603,14 +604,14 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span class="hidden sm:inline">Previous</span>
+                <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
               </Button>
             </div>
 
             <!-- Page info and rows selector in center -->
             <div class="flex flex-row items-center gap-4">
               <span class="text-sm text-gray-600 dark:text-zinc-300">
-                Page {currentPage} of {totalPages}
+                {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
               </span>
 
               <DropdownMenu.Root>
@@ -620,7 +621,7 @@
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm"
-                      >{rowsPerPage} Rows</span
+                      >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
                     >
                     <svg
                       class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -655,7 +656,7 @@
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
                         >
-                          <span class="text-sm">{item} Rows</span>
+                          <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
                         </label>
                       </DropdownMenu.Item>
                     {/each}
@@ -671,7 +672,7 @@
                 disabled={currentPage === totalPages}
                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span class="hidden sm:inline">Next</span>
+                <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
                 <svg
                   class="h-5 w-5 inline-block shrink-0 -rotate-90"
                   viewBox="0 0 20 20"
@@ -695,7 +696,7 @@
               on:click={scrollToTop}
               class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
             >
-              Back to Top <svg
+              {m.stock_detail_options_common_back_to_top()} <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-180"
                 viewBox="0 0 20 20"
                 fill="currentColor"

@@ -1,25 +1,24 @@
 <script lang="ts">
   import { stockTicker, displayCompanyName } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
-
   import Infobox from "$lib/components/Infobox.svelte";
-
   import GreekByStrike from "$lib/components/Options/GreekByStrike.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) DEX by Strike`}
-  description={`Delta exposure by strike for ${$displayCompanyName} (${$stockTicker}) to map hedging levels.`}
-  keywords={`${$stockTicker} DEX by strike, delta exposure, dealer hedging`}
+  title={m.stock_detail_options_dex_strike_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_dex_strike_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_dex_strike_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/dex/strike`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
-    name: `${$displayCompanyName} Delta Exposure by Strike`,
-    description: `Delta exposure by strike for ${$displayCompanyName} (${$stockTicker}) options`,
+    name: m.stock_detail_options_dex_strike_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_dex_strike_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/dex/strike`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -53,13 +52,13 @@
       {#if Object?.keys(data?.getData)?.length > 0}
         <GreekByStrike
           {data}
-          title="Delta"
+          title={m.stock_detail_options_dex_title_delta()}
           ticker={$stockTicker?.toUpperCase()}
         />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No data is available" />
+            <Infobox text={m.stock_detail_options_dex_no_data()} />
           </div>
         </div>
       {/if}

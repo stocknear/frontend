@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
   import { abbreviateNumber } from "$lib/utils";
   import { onMount } from "svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -725,25 +726,25 @@
   }
 
   $: columns = [
-    { key: "strike", label: "Strike Price", align: "left" },
+    { key: "strike", label: m.stock_detail_options_greek_col_strike(), align: "left" },
     {
       key: isGamma ? "call_gex" : "call_dex",
-      label: `Call ${isGamma ? "GEX" : "Delta"}`,
+      label: isGamma ? m.stock_detail_options_greek_col_call_gex() : m.stock_detail_options_greek_col_call_delta(),
       align: "right",
     },
     {
       key: isGamma ? "put_gex" : "put_dex",
-      label: `Put ${isGamma ? "GEX" : "Delta"}`,
+      label: isGamma ? m.stock_detail_options_greek_col_put_gex() : m.stock_detail_options_greek_col_put_delta(),
       align: "right",
     },
     {
       key: isGamma ? "net_gex" : "net_dex",
-      label: `Net ${isGamma ? "GEX" : "Delta"}`,
+      label: isGamma ? m.stock_detail_options_greek_col_net_gex() : m.stock_detail_options_greek_col_net_delta(),
       align: "right",
     },
     {
       key: "put_call_ratio",
-      label: `P/C`,
+      label: m.stock_detail_options_greek_col_pc(),
       align: "right",
     },
   ];
@@ -827,7 +828,7 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    By Strike <InfoModal
+    {m.stock_detail_options_greek_by_strike()} <InfoModal
       content={title === "Gamma"
         ? `Gamma Exposure (GEX) for ${ticker} options, representing the estimated dollar value of shares that option sellers must buy or sell to maintain delta neutrality for each 1% move in ${ticker}'s stock price.`
         : `Delta Exposure (DEX) for ${ticker} options, representing the estimated net number of ${ticker} shares that option sellers must hold or short to hedge their current options positions and maintain delta neutrality.`}
@@ -921,7 +922,7 @@
           class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="truncate text-sm"
-            >Date to Expiration | {selectedDTEsText}</span
+            >{m.stock_detail_options_greek_dte_label()} | {selectedDTEsText}</span
           >
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -964,7 +965,7 @@
                       handleDTEChange(item)}
                   />
                   <span class="ml-2">
-                    {item === "All" ? "All DTE" : item}
+                    {item === "All" ? m.stock_detail_options_greek_all_dte() : item}
                   </span>
                 </div>
               </DropdownMenu.Item>
@@ -1010,7 +1011,7 @@
                     checked={isCustomSelected}
                     on:click|preventDefault|stopPropagation={handleCustomToggle}
                   />
-                  <span class="ml-2">Custom</span>
+                  <span class="ml-2">{m.stock_detail_options_greek_custom()}</span>
                 </div>
                 <input
                   type="number"
@@ -1024,11 +1025,11 @@
                   on:keyup|stopPropagation
                   on:keypress|stopPropagation
                   on:focus|stopPropagation
-                  placeholder="Min"
+                  placeholder={m.stock_detail_options_greek_min()}
                   min="0"
                   class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
                 />
-                <span class="text-gray-500 dark:text-zinc-400">to</span>
+                <span class="text-gray-500 dark:text-zinc-400">{m.stock_detail_options_greek_to()}</span>
                 <input
                   type="number"
                   bind:value={customMax}
@@ -1041,7 +1042,7 @@
                   on:keyup|stopPropagation
                   on:keypress|stopPropagation
                   on:focus|stopPropagation
-                  placeholder="Max"
+                  placeholder={m.stock_detail_options_greek_max()}
                   min="0"
                   class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
                 />
@@ -1052,7 +1053,7 @@
               on:click={() => goto("/pricing")}
               class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
             >
-              Custom
+              {m.stock_detail_options_greek_custom()}
               <svg
                 class="ml-1 size-4"
                 viewBox="0 0 20 20"
@@ -1121,7 +1122,7 @@
         <h2
           class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
         >
-          {title === "Gamma" ? "GEX" : "DEX"} Table
+          {title === "Gamma" ? m.stock_detail_options_gex_table() : m.stock_detail_options_dex_table()}
         </h2>
         <div
           class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -1231,14 +1232,14 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="hidden sm:inline">Previous</span>
+            <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
           </Button>
         </div>
 
         <!-- Page info and rows selector in center -->
         <div class="flex flex-row items-center gap-4">
           <span class="text-sm text-gray-600 dark:text-zinc-300">
-            Page {currentPage} of {totalPages}
+            {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
           </span>
 
           <DropdownMenu.Root>
@@ -1248,7 +1249,7 @@
                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="truncate text-[0.85rem] sm:text-sm"
-                  >{rowsPerPage} Rows</span
+                  >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
                 >
                 <svg
                   class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1282,7 +1283,7 @@
                       on:click={() => changeRowsPerPage(item)}
                       class="inline-flex justify-between w-full items-center cursor-pointer"
                     >
-                      <span class="text-sm">{item} Rows</span>
+                      <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
                     </label>
                   </DropdownMenu.Item>
                 {/each}
@@ -1297,7 +1298,7 @@
             disabled={currentPage === totalPages}
             class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span class="hidden sm:inline">Next</span>
+            <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
             <svg
               class="h-5 w-5 inline-block shrink-0 -rotate-90"
               viewBox="0 0 20 20"
@@ -1321,7 +1322,7 @@
           on:click={scrollToTop}
           class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
         >
-          Back to Top <svg
+          {m.stock_detail_options_common_back_to_top()} <svg
             class="h-5 w-5 inline-block shrink-0 rotate-180"
             viewBox="0 0 20 20"
             fill="currentColor"

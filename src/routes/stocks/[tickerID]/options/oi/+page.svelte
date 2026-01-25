@@ -3,6 +3,7 @@
 
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import OpenInterestByStrike from "$lib/components/Options/OpenInterestByStrike.svelte";
 
@@ -10,16 +11,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Open Interest by Strike | Options Positioning`}
-  description={`Track open interest by strike for ${$displayCompanyName} (${$stockTicker}) to spot positioning and key levels for short-term moves.`}
-  keywords={`${$stockTicker} open interest, OI by strike, options positioning, strike concentration`}
+  title={m.stock_detail_options_oi_strike_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_oi_strike_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_oi_strike_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/oi`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
-    name: `${$displayCompanyName} Open Interest Analysis`,
-    description: `Open interest by strike for ${$displayCompanyName} (${$stockTicker}) options`,
+    name: m.stock_detail_options_oi_strike_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_oi_strike_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/oi`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -61,7 +62,7 @@
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No data is available" />
+            <Infobox text={m.stock_detail_options_oi_no_data()} />
           </div>
         </div>
       {/if}

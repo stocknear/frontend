@@ -3,6 +3,7 @@
 
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import MaxPain from "$lib/components/Options/MaxPain.svelte";
 
@@ -10,16 +11,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Max Pain & Pin Levels`}
-  description={`Find max pain levels and potential pin zones for ${$displayCompanyName} (${$stockTicker}) options into expiration.`}
-  keywords={`${$stockTicker} max pain, options pin, pin risk, max pain level`}
+  title={m.stock_detail_options_max_pain_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_max_pain_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_max_pain_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/max-pain`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
-    name: `${$displayCompanyName} Options Max Pain Analysis`,
-    description: `Max pain analysis for ${$displayCompanyName} (${$stockTicker}) options`,
+    name: m.stock_detail_options_max_pain_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_max_pain_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/max-pain`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -61,7 +62,7 @@
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No Max Pain data available for the company." />
+            <Infobox text={m.stock_detail_options_max_pain_no_data()} />
           </div>
         </div>
       {/if}

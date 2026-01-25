@@ -4,22 +4,23 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import GreekByExpiry from "$lib/components/Options/GreekByExpiry.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
   let rawData = data?.getData || [];
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) GEX by Expiry`}
-  description={`Gamma exposure by expiry for ${$displayCompanyName} (${$stockTicker}) to map dealer positioning into expiration.`}
-  keywords={`${$stockTicker} GEX by expiry, gamma exposure, options gamma, dealer positioning`}
+  title={m.stock_detail_options_gex_expiry_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_options_gex_expiry_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_options_gex_expiry_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/gex/expiry`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
-    name: `${$displayCompanyName} Gamma Exposure by Expiry`,
-    description: `Gamma exposure by expiry for ${$displayCompanyName} (${$stockTicker}) options`,
+    name: m.stock_detail_options_gex_expiry_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_options_gex_expiry_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/gex/expiry`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -53,13 +54,13 @@
       {#if rawData?.length > 0}
         <GreekByExpiry
           {data}
-          title="Gamma"
+          title={m.stock_detail_options_gex_title_gamma()}
           ticker={$stockTicker?.toUpperCase()}
         />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No data is available" />
+            <Infobox text={m.stock_detail_options_gex_no_data()} />
           </div>
         </div>
       {/if}
