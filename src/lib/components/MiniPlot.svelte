@@ -3,6 +3,7 @@
     import { mode } from "mode-watcher";
     import { init, dispose, registerXAxis, type KLineData } from "klinecharts";
     import { abbreviateNumber } from "$lib/utils";
+    import { screenWidth } from "$lib/store";
 
     export let plotData = {};
     export let symbol = "";
@@ -38,12 +39,24 @@
     let miniAxisRegistered = false;
 
     const MINI_X_AXIS_NAME = "mini_x_axis";
-    const MINI_AXIS_LABELS = [
-        { label: "9:30 AM", minutes: 9 * 60 + 30 },
-        { label: "11 AM", minutes: 11 * 60 },
-        { label: "1 PM", minutes: 13 * 60 },
-        { label: "4 PM", minutes: 16 * 60 },
-    ];
+
+    let MINI_AXIS_LABELS = [];
+    $: MINI_AXIS_LABELS =
+        $screenWidth > 640
+            ? [
+                  { label: "10 AM", minutes: 10 * 60 },
+                  { label: "11 AM", minutes: 11 * 60 },
+                  { label: "12 PM", minutes: 12 * 60 },
+                  { label: "1 PM", minutes: 13 * 60 },
+                  { label: "2 PM", minutes: 14 * 60 },
+                  { label: "3 PM", minutes: 15 * 60 },
+                  { label: "4 PM", minutes: 16 * 60 },
+              ]
+            : [
+                  { label: "10 AM", minutes: 10 * 60 },
+                  { label: "1 PM", minutes: 13 * 60 },
+                  { label: "4 PM", minutes: 16 * 60 },
+              ];
     const MINI_AXIS_START_MIN = 9 * 60 + 30;
     const MINI_AXIS_END_MIN = 16 * 60;
     const MINI_AXIS_RANGE_MIN = MINI_AXIS_END_MIN - MINI_AXIS_START_MIN;
@@ -236,7 +249,8 @@
         const chartWidth = chart.getSize()?.width;
         const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
         if (!width) return;
-        const targetCount = sessionBarCount > 0 ? sessionBarCount : currentBarCount;
+        const targetCount =
+            sessionBarCount > 0 ? sessionBarCount : currentBarCount;
         const desired = width / targetCount;
         const clamped = Math.max(1, desired);
         chart.setBarSpace(clamped);
@@ -599,7 +613,7 @@
             </div>
 
             <div
-                class="flex-1 h-[90px] pointer-events-none bg-gradient-to-b from-white/40 to-transparent dark:from-zinc-900/40"
+                class="flex-1 h-[90px] px-1 pointer-events-none bg-gradient-to-b from-white/40 to-transparent dark:from-zinc-900/40"
                 bind:this={chartContainer}
             ></div>
         </div>
