@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
   export let data;
 </script>
 
@@ -23,12 +24,11 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-xl font-semibold sm:ml-3">
-                    Pro Subscription
+                    {m.stock_detail_forecast_ai_aside_pro_title()}
                   </h2>
                 </div>
                 <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {m.stock_detail_forecast_ai_aside_pro_desc()}
                 </span>
               </a>
             </div>
@@ -39,18 +39,10 @@
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">
-                AI Score Definition
+                {m.stock_detail_forecast_ai_aside_score_title()}
               </h3>
               <div class=" p-2">
-                The AI Score leverages advanced machine learning algorithms that
-                analyze a comprehensive blend of technical indicators,
-                fundamental metrics, market sentiment data, and historical price
-                patterns to forecast short-term stock momentum over the next 30
-                days. Scored on a scale of 1-10, where scores of 7+ indicate
-                bullish sentiment, 4-6 suggest neutral/sideways movement, and
-                1-3 signal bearish conditions. Higher scores reflect greater
-                statistical confidence in the directional prediction, backed by
-                rigorous backtesting across multiple market cycles.
+                {m.stock_detail_forecast_ai_aside_score_desc()}
               </div>
               <!--
             <div class="px-2">
@@ -70,13 +62,10 @@
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">
-                AI Trend Forecast Definition
+                {m.stock_detail_forecast_ai_aside_trend_title()}
               </h3>
               <div class=" p-2">
-                The AI Trend Model forecasts stock trends by analyzing
-                historical price data. It detects patterns, seasonality, and
-                trends to predict future price movements, making it useful for
-                predicting price targets for the next 12 months.
+                {m.stock_detail_forecast_ai_aside_trend_desc()}
               </div>
               <!--
             <div class="px-2">

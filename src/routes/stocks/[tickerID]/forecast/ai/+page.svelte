@@ -6,6 +6,7 @@
   import { mode } from "mode-watcher";
 
   import SEO from "$lib/components/SEO.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   export let data;
 
@@ -548,16 +549,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) AI Stock Forecast | Machine Learning Price Predictions`}
-  description={`Advanced AI-powered stock forecast for ${$displayCompanyName} (${$stockTicker}). Machine learning price predictions, algorithmic analysis, trend forecasting, and technical indicators with real-time market sentiment and momentum analysis.`}
-  keywords={`${$stockTicker} AI forecast, ${$displayCompanyName} stock prediction, machine learning stock analysis, AI price target, ${$stockTicker} algorithmic forecast, stock prediction model, AI trading signals, predictive stock analysis`}
+  title={m.stock_detail_forecast_ai_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_forecast_ai_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_forecast_ai_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/forecast/ai`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "SoftwareApplication"],
-    name: `${$displayCompanyName} AI Stock Forecast`,
-    description: `Advanced AI-powered forecasting and prediction analysis for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_forecast_ai_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_forecast_ai_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/forecast/ai`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -598,11 +599,11 @@
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           {#if data?.getAIScore?.backtest?.length > 0}
             <div class="">
-              <h1 class="text-xl sm:text-2xl font-bold">AI Score Forecast</h1>
+              <h1 class="text-xl sm:text-2xl font-bold">{m.stock_detail_forecast_ai_score_title()}</h1>
             </div>
 
             <p class="mt-4">
-              As of the latest evaluation, our AI model assigns a score of
+              {m.stock_detail_forecast_ai_score_intro()}
               <strong
                 >{#if isSubscribed}
                   {data?.getAIScore?.score || "n/a"}
@@ -611,7 +612,7 @@
                     href="/pricing"
                     class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
-                    Upgrade <svg
+                    {m.stock_detail_forecast_ai_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -624,20 +625,20 @@
                   </a>
                 {/if}</strong
               >
-              out of 10, indicating a
+              {m.stock_detail_forecast_ai_out_of_10()}
               <strong>
                 {#if isSubscribed}
                   {[10, 9, 8, 7]?.includes(data?.getAIScore?.score)
-                    ? "bullish"
+                    ? m.stock_detail_forecast_ai_bullish()
                     : [6, 5, 4]?.includes(data?.getAIScore?.score)
-                      ? "neutral"
-                      : "bearish"}
+                      ? m.stock_detail_forecast_ai_neutral()
+                      : m.stock_detail_forecast_ai_bearish()}
                 {:else}
                   <a
                     href="/pricing"
                     class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
-                    Upgrade <svg
+                    {m.stock_detail_forecast_ai_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -650,7 +651,7 @@
                   </a>
                 {/if}
               </strong>
-              outlook. The model demonstrates an accuracy rate of
+              {m.stock_detail_forecast_ai_outlook()}
               <strong>
                 {#if isSubscribed}
                   {data?.getAIScore?.accuracy
@@ -661,7 +662,7 @@
                     href="/pricing"
                     class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
-                    Upgrade <svg
+                    {m.stock_detail_forecast_ai_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -674,8 +675,7 @@
                   </a>
                 {/if}
               </strong>
-              based on historical backtesting. Following this AI Score methodology,
-              the average return would be
+              {m.stock_detail_forecast_ai_based_on()}
               <strong
                 class={avgReturn >= 0 && isSubscribed
                   ? "text-emerald-600 dark:text-emerald-400"
@@ -690,7 +690,7 @@
                     href="/pricing"
                     class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
-                    Upgrade <svg
+                    {m.stock_detail_forecast_ai_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -702,20 +702,20 @@
                     </svg>
                   </a>
                 {/if}
-              </strong>. The current forecast suggests
+              </strong>. {m.stock_detail_forecast_ai_suggests()}
               <strong>
                 {#if isSubscribed}
                   {data?.getAIScore?.score > 6
-                    ? "positive momentum"
+                    ? m.stock_detail_forecast_ai_positive_momentum()
                     : data?.getAIScore?.score < 5
-                      ? "potential downside risk"
-                      : "sideways movement"}
+                      ? m.stock_detail_forecast_ai_downside_risk()
+                      : m.stock_detail_forecast_ai_sideways()}
                 {:else}
                   <a
                     href="/pricing"
                     class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
-                    Upgrade <svg
+                    {m.stock_detail_forecast_ai_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -728,7 +728,7 @@
                   </a>
                 {/if}
               </strong>
-              for the stock's near-term performance.
+              {m.stock_detail_forecast_ai_near_term()}
             </p>
 
             <div class="w-full mb-10 mt-3">
@@ -753,7 +753,7 @@
                           href="/pricing"
                           class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
                         >
-                          <span>Upgrade</span>
+                          <span>{m.stock_detail_forecast_ai_upgrade()}</span>
                           <svg
                             class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
                             xmlns="http://www.w3.org/2000/svg"
@@ -781,7 +781,7 @@
                           <th
                             class="py-[3px] text-left font-semibold lg:py-0.5 text-gray-600 dark:text-zinc-300"
                           >
-                            Date
+                            {m.stock_detail_forecast_ai_date()}
                           </th>
                           {#each tableDates as item}
                             <th
@@ -798,23 +798,23 @@
                           class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm whitespace-nowrap"
                         >
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
-                            >Score</td
+                            >{m.stock_detail_forecast_ai_score()}</td
                           >
                           {#each tableScore as val, index}
                             <td class="text-right whitespace-nowrap text-sm">
                               {#if isSubscribed}
                                 {val}
                                 {[10, 9, 8, 7].includes(Number(val))
-                                  ? "(Bullish)"
+                                  ? m.stock_detail_forecast_ai_bullish_label()
                                   : [6, 5, 4].includes(Number(val))
-                                    ? "(Hold)"
-                                    : "(Sell)"}
+                                    ? m.stock_detail_forecast_ai_hold_label()
+                                    : m.stock_detail_forecast_ai_sell_label()}
                               {:else}
                                 <a
                                   href="/pricing"
                                   class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >
-                                  Upgrade
+                                  {m.stock_detail_forecast_ai_upgrade()}
                                   <svg
                                     class="w-4 h-4 mb-1 inline-block"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -846,7 +846,7 @@
                                   href="/pricing"
                                   class="text-sm text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                                 >
-                                  Upgrade
+                                  {m.stock_detail_forecast_ai_upgrade()}
                                   <svg
                                     class="w-4 h-4 mb-1 inline-block"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -885,7 +885,7 @@
                                   href="/pricing"
                                   class="text-sm text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                                 >
-                                  Upgrade
+                                  {m.stock_detail_forecast_ai_upgrade()}
                                   <svg
                                     class="w-4 h-4 mb-1 inline-block"
                                     xmlns="http://www.w3.org/2000/svg"

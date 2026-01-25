@@ -11,6 +11,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import { removeCompanyStrings } from "$lib/utils";
   export let data;
@@ -32,21 +33,21 @@
   let totalPages = 1;
   let pagePathName = $page?.url?.pathname;
 
-  const tabs = ["All Analysts", "Top Analysts"];
+  $: tabs = [m.stock_detail_forecast_analyst_all(), m.stock_detail_forecast_analyst_top()];
 
-  const columnDefinitions = [
-    { key: "analyst_name", label: "Analyst", type: "string", align: "left" },
-    { key: "analyst", label: "Firm", type: "string", align: "left" },
-    { key: "rating_current", label: "Rating", type: "string", align: "right" },
-    { key: "action_company", label: "Action", type: "string", align: "right" },
+  $: columnDefinitions = [
+    { key: "analyst_name", label: m.stock_detail_forecast_analyst_col_analyst(), type: "string", align: "left" },
+    { key: "analyst", label: m.stock_detail_forecast_analyst_col_firm(), type: "string", align: "left" },
+    { key: "rating_current", label: m.stock_detail_forecast_analyst_col_rating(), type: "string", align: "right" },
+    { key: "action_company", label: m.stock_detail_forecast_analyst_col_action(), type: "string", align: "right" },
     {
       key: "adjusted_pt_current",
-      label: "Price Target",
+      label: m.stock_detail_forecast_analyst_col_price_target(),
       type: "number",
       align: "right",
     },
-    { key: "upside", label: "Upside", type: "number", align: "right" },
-    { key: "date", label: "Date", type: "date", align: "right" },
+    { key: "upside", label: m.stock_detail_forecast_analyst_col_upside(), type: "number", align: "right" },
+    { key: "date", label: m.stock_detail_forecast_analyst_col_date(), type: "date", align: "right" },
   ];
 
   let activeIdx = 0;
@@ -433,16 +434,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Analyst Ratings | Price Targets & Recommendations`}
-  description={`Comprehensive analyst ratings and price targets for ${$displayCompanyName} (${$stockTicker}). Track Wall Street analyst upgrades, downgrades, consensus ratings, and professional forecasts from top investment firms and research houses.`}
-  keywords={`${$stockTicker} analyst ratings, ${$displayCompanyName} price targets, Wall Street recommendations, ${$stockTicker} analyst upgrades, stock analyst opinions, price target consensus, ${$stockTicker} analyst forecasts, investment research ratings`}
+  title={m.stock_detail_forecast_analyst_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_forecast_analyst_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={m.stock_detail_forecast_analyst_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/forecast/analyst`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Review"],
-    name: `${$displayCompanyName} Analyst Ratings`,
-    description: `Professional analyst ratings and price targets for ${$displayCompanyName} (${$stockTicker})`,
+    name: m.stock_detail_forecast_analyst_structured_name({ company: $displayCompanyName }),
+    description: m.stock_detail_forecast_analyst_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/forecast/analyst`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -479,7 +480,7 @@
             class="mb-5 flex flex-col justify-between gap-y-2.5 sm:mb-2 sm:flex-row sm:items-end"
           >
             <h1 class="mb-px text-xl font-bold sm:text-2xl sm:pl-1">
-              Analyst Ratings
+              {m.stock_detail_forecast_analyst_title()}
             </h1>
             <div>
               <div class="flex flex-col w-full sm:w-fit items-end justify-end">
@@ -541,7 +542,7 @@
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
             >
-              Total Analysts
+              {m.stock_detail_forecast_analyst_total()}
             </div>
 
             <div
@@ -556,7 +557,7 @@
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
             >
-              Consensus Rating
+              {m.stock_detail_forecast_analyst_consensus()}
             </div>
             <div
               class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
@@ -570,7 +571,7 @@
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
             >
-              Price Target
+              {m.stock_detail_forecast_analyst_price_target()}
             </div>
             <div
               class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
@@ -586,7 +587,7 @@
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
             >
-              Upside
+              {m.stock_detail_forecast_analyst_upside()}
             </div>
             <div
               class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl {changesPercentage &&
@@ -604,7 +605,7 @@
         {#if rawData?.length !== 0}
           {#if activeIdx === 1}
             <Infobox
-              text="Considering only the latest rating within the past 12 months from each unique analyst with a 4-star or higher rating."
+              text={m.stock_detail_forecast_analyst_top_info()}
             />
           {/if}
 
@@ -612,7 +613,7 @@
             class="mt-10 mb-2 items-center justify-between py-0 md:mt-8 md:flex md:py-2"
           >
             <div class="flex justify-between md:block">
-              <h3 class="text-xl sm:text-2xl font-bold">Ratings History</h3>
+              <h3 class="text-xl sm:text-2xl font-bold">{m.stock_detail_forecast_analyst_history()}</h3>
             </div>
           </div>
 
@@ -791,7 +792,7 @@
                               <label
                                 class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 mb-1"
                               >
-                                New
+                                {m.stock_detail_forecast_new()}
                               </label>
                             {/if}
                             {new Date(item?.date).toLocaleString("en-US", {
@@ -833,13 +834,13 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">Previous</span>
+                  <span class="hidden sm:inline">{m.stock_detail_forecast_analyst_previous()}</span>
                 </Button>
               </div>
 
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  Page {currentPage} of {totalPages}
+                  {m.stock_detail_forecast_analyst_page({ current: currentPage, total: totalPages })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -849,7 +850,7 @@
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm">
-                        {rowsPerPage} Rows
+                        {m.stock_detail_forecast_analyst_rows({ count: rowsPerPage })}
                       </span>
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -883,7 +884,7 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{item} Rows</span>
+                            <span class="text-sm">{m.stock_detail_forecast_analyst_rows({ count: item })}</span>
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -898,7 +899,7 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">Next</span>
+                  <span class="hidden sm:inline">{m.stock_detail_forecast_analyst_next()}</span>
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -918,8 +919,7 @@
           {/if}
         {:else if activeIdx === 1}
           <Infobox
-            text={`There are no top analyst ratings available for the past 12 months for
-       ${removeCompanyStrings($displayCompanyName)}`}
+            text={m.stock_detail_forecast_analyst_no_top({ company: removeCompanyStrings($displayCompanyName) })}
           />
         {/if}
 

@@ -4,6 +4,7 @@
   import { abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import * as m from "$lib/paraglide/messages";
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
@@ -544,8 +545,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) DCF Valuation & Intrinsic Value`}
-  description={`Discounted Cash Flow (DCF) valuation model for ${$displayCompanyName} (${$stockTicker}). See intrinsic value estimates and projections.`}
+  title={m.stock_detail_forecast_dcf_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={m.stock_detail_forecast_dcf_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
 />
 
 <section class="w-full overflow-hidden min-h-screen">
@@ -558,7 +559,7 @@
           <main class="w-full lg:w-3/4 lg:pr-5">
             <div class="mb-3">
               <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
-                DCF Calculator
+                {m.stock_detail_forecast_dcf_title()}
               </h1>
             </div>
 
@@ -566,7 +567,7 @@
               class="mt-5 mb-6 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-4 sm:gap-6"
             >
               <div>
-                Current Price
+                {m.stock_detail_forecast_dcf_current_price()}
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center"
                 >
@@ -575,7 +576,7 @@
               </div>
 
               <div>
-                Dividends Paid
+                {m.stock_detail_forecast_dcf_dividends_paid()}
                 <div
                   class="mt-0.5 text-lg font-bold bp:text-xl sm:mt-1.5 sm:text-2xl"
                 >
@@ -584,7 +585,7 @@
               </div>
 
               <div>
-                DCF Fair Value (today)
+                {m.stock_detail_forecast_dcf_fair_value()}
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center"
                 >
@@ -603,7 +604,7 @@
               </div>
 
               <div>
-                Projected Value in {yearsToProject} years
+                {m.stock_detail_forecast_dcf_projected_value({ years: yearsToProject })}
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center"
                 >
@@ -629,7 +630,7 @@
                 for="showSteps"
                 class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
-                Show Calculation Steps
+                {m.stock_detail_forecast_dcf_show_steps()}
               </label>
             </div>
 
@@ -648,7 +649,7 @@
 
             {#if valuationData?.[historyKey]?.length > 0}
               <h2 class="text-xl sm:text-2xl font-bold text-start mr-auto mb-4">
-                Historical and Projected {metricLabel}
+                {m.stock_detail_forecast_dcf_historical_projected({ metric: metricLabel })}
               </h2>
 
               <div class="mb-8">
@@ -669,7 +670,7 @@
               class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-gray-700 dark:text-zinc-200"
             >
               <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">DCF Inputs</h2>
+                <h2 class="text-xl font-bold">{m.stock_detail_forecast_dcf_inputs()}</h2>
               </div>
 
               <div class="space-y-6">
@@ -678,10 +679,10 @@
                     for="metric"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    Metric
+                    {m.stock_detail_forecast_dcf_metric()}
                     <InfoModal
                       id="metric"
-                      content="This is the metric you will use for your valuation projections. The appropriate metric depends on the industry. For most companies, free cash flow or operating cash flow is commonly used, as it reflects the cash available to shareholders. For banks and other financial institutions, earnings or book value are often more meaningful, because cash flows do not accurately capture their performance. Choose the metric that best represents how the company generates value."
+                      content={m.stock_detail_forecast_dcf_metric_info()}
                     />
                   </label>
                   <select
@@ -690,12 +691,12 @@
                     on:change={() => onMetricChange()}
                     class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 cursor-pointer text-gray-700 dark:text-zinc-200"
                   >
-                    <option value="freeCashFlow">Free Cash Flow</option>
-                    <option value="operatingIncome">Operating Income</option>
+                    <option value="freeCashFlow">{m.stock_detail_forecast_dcf_fcf()}</option>
+                    <option value="operatingIncome">{m.stock_detail_forecast_dcf_operating_income()}</option>
                     <option value="operatingCashFlow"
-                      >Operating Cash Flow</option
+                      >{m.stock_detail_forecast_dcf_ocf()}</option
                     >
-                    <option value="bookValue">Book Value</option>
+                    <option value="bookValue">{m.stock_detail_forecast_dcf_book_value()}</option>
                   </select>
                 </div>
 
@@ -704,10 +705,10 @@
                     for="years"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    Number of Years To Project
+                    {m.stock_detail_forecast_dcf_years_to_project()}
                     <InfoModal
                       id="years"
-                      content="The number of years to project the company's future performance."
+                      content={m.stock_detail_forecast_dcf_years_info()}
                     />
                   </label>
                   <select
@@ -727,10 +728,10 @@
                     for="metric-growth"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    {metricLabel} Growth Rate
+                    {m.stock_detail_forecast_dcf_growth_rate({ metric: metricLabel })}
                     <InfoModal
                       id="metricGrowthRate"
-                      content="Expected annual growth rate for the selected metric."
+                      content={m.stock_detail_forecast_dcf_growth_info()}
                     />
                   </label>
                   <div class="relative">
@@ -748,10 +749,10 @@
                     />
                   </div>
                   <p class="mt-2 text-xs">
-                    5-year historical {metricLabel} growth: {selectedMetric ===
+                    {m.stock_detail_forecast_dcf_historical_growth({ metric: metricLabel, value: selectedMetric ===
                     "freeCashFlow"
                       ? valuationData?.freeCashFlowGrowth || 0
-                      : valuationData?.operatingIncomeGrowth || 0}%
+                      : valuationData?.operatingIncomeGrowth || 0 })}
                   </p>
                 </div>
 
@@ -760,10 +761,10 @@
                     for="shares-growth"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    Diluted Shares Growth Rate
+                    {m.stock_detail_forecast_dcf_shares_growth()}
                     <InfoModal
                       id="dilutedSharedsGrowthRate"
-                      content="Expected annual change in diluted shares outstanding."
+                      content={m.stock_detail_forecast_dcf_shares_info()}
                     />
                   </label>
                   <div class="relative">
@@ -781,8 +782,7 @@
                     />
                   </div>
                   <p class="mt-2 text-xs">
-                    5-year historical shares growth: {valuationData?.sharesGrowth ||
-                      0}%
+                    {m.stock_detail_forecast_dcf_historical_shares({ value: valuationData?.sharesGrowth || 0 })}
                   </p>
                 </div>
 
@@ -791,10 +791,10 @@
                     for="dividend-growth"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    Dividend Growth Rate
+                    {m.stock_detail_forecast_dcf_dividend_growth()}
                     <InfoModal
                       id="dividendGrowthRate"
-                      content="Expected annual growth rate for dividends per share."
+                      content={m.stock_detail_forecast_dcf_dividend_info()}
                     />
                   </label>
                   <div class="relative">
@@ -818,10 +818,10 @@
                     for="price-ratio"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    Price Ratio
+                    {m.stock_detail_forecast_dcf_price_ratio()}
                     <InfoModal
                       id="priceRatio"
-                      content="Expected price ratio to apply to the per-share metric."
+                      content={m.stock_detail_forecast_dcf_price_ratio_info()}
                     />
                   </label>
                   <input
@@ -833,9 +833,7 @@
                     class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-gray-700 dark:text-zinc-200"
                   />
                   <p class="mt-2 text-xs">
-                    5-year average P/{metricShortLabel}: {valuationData?.[
-                      ratioAvgKey
-                    ] ?? 0}
+                    {m.stock_detail_forecast_dcf_avg_ratio({ metric: metricShortLabel, value: valuationData?.[ratioAvgKey] ?? 0 })}
                   </p>
                 </div>
 
@@ -844,10 +842,10 @@
                     for="discount-rate"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    Discount Rate
+                    {m.stock_detail_forecast_dcf_discount_rate()}
                     <InfoModal
                       id="discountedRate"
-                      content="Your target annual rate of return from this investment."
+                      content={m.stock_detail_forecast_dcf_discount_info()}
                     />
                   </label>
                   <div class="relative">
@@ -865,7 +863,7 @@
                     />
                   </div>
                   <p class="mt-2 text-xs">
-                    A sane starting discount rate is 10%.
+                    {m.stock_detail_forecast_dcf_discount_hint()}
                   </p>
                 </div>
               </div>
@@ -873,7 +871,7 @@
           </aside>
         {:else}
           <div class="w-full">
-            <Infobox text="No valuation data available." />
+            <Infobox text={m.stock_detail_forecast_dcf_no_data()} />
           </div>
         {/if}
       </div>
@@ -896,61 +894,41 @@
     <div class="mx-auto h-1.5 w-20 shrink-0 rounded-full" />
     <div class="mb-5 text-center overflow-y-auto max-h-[80vh]">
       <h3 class="font-bold text-xl sm:text-2xl mb-5 text-start">
-        DCF Calculation Breakdown
+        {m.stock_detail_forecast_dcf_breakdown_title()}
       </h3>
       <div class="space-y-6 text-start">
         <div>
-          <h3 class="font-semibold mb-2">Step 1: Project {metricLabel}</h3>
+          <h3 class="font-semibold mb-2">{m.stock_detail_forecast_dcf_step1_title({ metric: metricLabel })}</h3>
           <p class="text-sm">
-            The most recent {metricLabel} (TTM) value is
-            <span class="font-semibold">{abbreviateNumber(latestMetric)}</span>
-            as of {new Date(latestDate)?.toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}.
+            {m.stock_detail_forecast_dcf_step1_recent({ metric: metricLabel, value: abbreviateNumber(latestMetric), date: new Date(latestDate)?.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })}
           </p>
           <p class="text-sm">
-            We will project this out {yearsToProject} years with a yearly growth
-            rate of
-            <span class="font-semibold">{metricGrowthRate}%</span>.
+            {m.stock_detail_forecast_dcf_step1_project({ years: yearsToProject, rate: metricGrowthRate })}
           </p>
           <p class="text-sm">
-            Starting with {abbreviateNumber(latestMetric)} and growing at {metricGrowthRate}%
-            for {yearsToProject} years, we estimate {metricLabel} will be
-            <span class="font-semibold"
-              >{abbreviateNumber(futureMetric ?? 0)}</span
-            >.
+            {m.stock_detail_forecast_dcf_step1_result({ start: abbreviateNumber(latestMetric), rate: metricGrowthRate, years: yearsToProject, metric: metricLabel, result: abbreviateNumber(futureMetric ?? 0) })}
           </p>
         </div>
 
         <div>
           <h3 class="font-semibold mb-2">
-            Step 2: Project Future Diluted Shares Outstanding
+            {m.stock_detail_forecast_dcf_step2_title()}
           </h3>
           <p class="text-sm">
-            The most recent Diluted Shares Outstanding value is <span
-              class="font-semibold">{abbreviateNumber(dilutedShares)}</span
-            >.
+            {m.stock_detail_forecast_dcf_step2_recent({ value: abbreviateNumber(dilutedShares) })}
           </p>
           <p class="text-sm">
-            We will project this out {yearsToProject} year(s) with a growth rate
-            of <span class="font-semibold">{sharesGrowthRate}%</span>.
+            {m.stock_detail_forecast_dcf_step2_project({ years: yearsToProject, rate: sharesGrowthRate })}
           </p>
           <p class="text-sm">
-            Estimated Diluted Shares Outstanding: <span class="font-semibold"
-              >{abbreviateNumber(futureShares ?? 0)}</span
-            >.
+            {m.stock_detail_forecast_dcf_step2_result({ value: abbreviateNumber(futureShares ?? 0) })}
           </p>
         </div>
 
         <div>
-          <h3 class="font-semibold mb-2">Step 3: Project Future Stock Price</h3>
+          <h3 class="font-semibold mb-2">{m.stock_detail_forecast_dcf_step3_title()}</h3>
           <p class="text-sm mb-3">
-            Using a price ratio of <span class="font-semibold"
-              >{priceRatioAvg}</span
-            >, formula: (Future {metricLabel} ÷ Future Diluted Shares Outstanding)
-            × Price Ratio
+            {m.stock_detail_forecast_dcf_step3_formula({ ratio: priceRatioAvg, metric: metricLabel })}
           </p>
           <p class="text-sm">
             ({abbreviateNumber(futureMetric ?? 0)} ÷ {abbreviateNumber(
@@ -966,53 +944,31 @@
 
         <div>
           <h3 class="font-semibold mb-2">
-            Step 4: Project Future Dividends Paid
+            {m.stock_detail_forecast_dcf_step4_title()}
           </h3>
           <p class="text-sm">
-            Forward dividend per share: <span class="font-semibold"
-              >${forwardDividend}</span
-            >.
+            {m.stock_detail_forecast_dcf_step4_forward({ value: forwardDividend })}
           </p>
           <p class="text-sm">
-            Projected over {yearsToProject} years with a growth rate of
-            <span class="font-semibold"
-              >{dividendGrowthRate
-                ? dividendGrowthRate?.toFixed(2) + "%"
-                : "n/a"}</span
-            >, dividends add to total shareholder return.
+            {m.stock_detail_forecast_dcf_step4_project({ years: yearsToProject, rate: dividendGrowthRate ? dividendGrowthRate?.toFixed(2) + "%" : "n/a" })}
           </p>
           <p class="text-sm">
-            Expected dividends in {yearsToProject} years:
-            <span class="font-semibold">${totalDividends}</span>.
+            {m.stock_detail_forecast_dcf_step4_result({ years: yearsToProject, value: totalDividends })}
           </p>
         </div>
 
         <div>
           <h3 class="font-semibold mb-2">
-            Step 5: Discount the Projected Stock Price
+            {m.stock_detail_forecast_dcf_step5_title()}
           </h3>
           <p class="text-sm">
-            Projected stock price: <span class="font-semibold"
-              >{futureStockPrice && futureStockPrice > 0
-                ? "$" + futureStockPrice
-                : "n/a"}</span
-            >.
+            {m.stock_detail_forecast_dcf_step5_projected({ value: futureStockPrice && futureStockPrice > 0 ? "$" + futureStockPrice : "n/a" })}
           </p>
           <p class="text-sm">
-            Including dividends, total future value: <span class="font-semibold"
-              >{totalFutureValue && totalFutureValue > 0
-                ? "$" + totalFutureValue
-                : "n/a"}</span
-            >.
+            {m.stock_detail_forecast_dcf_step5_total({ value: totalFutureValue && totalFutureValue > 0 ? "$" + totalFutureValue : "n/a" })}
           </p>
           <p class="text-sm">
-            Discounted at <span class="font-semibold">{discountRate}%</span> per
-            year over {yearsToProject} years → Fair Value:
-            <strong
-              >{presentValue && presentValue > 0
-                ? "$" + presentValue
-                : "n/a"}</strong
-            >.
+            {m.stock_detail_forecast_dcf_step5_result({ rate: discountRate, years: yearsToProject, value: presentValue && presentValue > 0 ? "$" + presentValue : "n/a" })}
           </p>
         </div>
       </div>
@@ -1022,7 +978,7 @@
       <label
         for="showSteps"
         class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"
-        >Close</label
+        >{m.stock_detail_forecast_dcf_close()}</label
       >
     </div>
   </div>

@@ -222,7 +222,7 @@
     <div>
       <div class="mb-4 flex justify-center px-2 sm:px-4">
         <div
-          class="-mt-16 grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 w-full max-w-[400px] sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1000px]"
+          class="-mt-16 grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 w-full max-w-[400px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[1150px]"
         >
           {#each Object.keys(plotData) as symbol}
             <a
