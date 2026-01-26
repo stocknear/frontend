@@ -17,12 +17,12 @@ function detectLocaleFromRequest(request: Request): { locale: Locale; needsToSet
 
   // Check for existing valid locale cookie
   const existingLocale = existingCookieHeader
-    .split("; ")
-    .find((c) => c.startsWith(cookieName + "="))
+    ?.split("; ")
+    ?.find((c) => c.startsWith(cookieName + "="))
     ?.split("=")[1];
 
   // If valid cookie exists, use it
-  if (existingLocale && (locales as readonly string[]).includes(existingLocale)) {
+  if (existingLocale && (locales as readonly string[])?.includes(existingLocale)) {
     return {
       locale: existingLocale as Locale,
       needsToSetCookie: false,
