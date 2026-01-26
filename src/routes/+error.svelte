@@ -41,7 +41,7 @@
 
         <a
           href="/"
-          class="flex justify-center items-center w-1/2 m-auto py-2.5 mt-10 rounded duration-100 bg-black sm:hover:bg-muted text-white sm:hover:bg-blue-600 dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
+          class="flex justify-center items-center w-1/2 m-auto py-2.5 mt-10 rounded-full duration-100 bg-black sm:hover:bg-muted text-white sm:hover:bg-blue-600 dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
         >
           {m.error_back_home()}
         </a>

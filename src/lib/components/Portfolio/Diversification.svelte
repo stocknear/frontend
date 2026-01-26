@@ -1,4 +1,5 @@
 <script lang="ts">
+    import * as m from "$lib/paraglide/messages";
     import highcharts from "$lib/highcharts";
     import { onMount } from "svelte";
     import { mode } from "mode-watcher";
@@ -88,9 +89,9 @@
     }
 
     function getScoreLabel(score: string) {
-        if (score === "good") return "Well Diversified";
-        if (score === "moderate") return "Moderately Concentrated";
-        return "Highly Concentrated";
+        if (score === "good") return m.portfolio_diversification_well_diversified();
+        if (score === "moderate") return m.portfolio_diversification_moderately_concentrated();
+        return m.portfolio_diversification_highly_concentrated();
     }
 
     let sankeyConfig = null;
@@ -288,7 +289,7 @@
         <h2
             class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2"
         >
-            Diversification
+            {m.portfolio_diversification_title()}
         </h2>
     </div>
 
@@ -299,7 +300,7 @@
         >
             <div class="flex items-center gap-3 mb-3 sm:mb-0">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Portfolio Concentration
+                    {m.portfolio_diversification_concentration()}
                 </h3>
                 {#if portfolioData?.length > 0}
                     <span
@@ -322,10 +323,10 @@
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
                 >
-                    <span>HHI Score</span>
+                    <span>{m.portfolio_diversification_hhi_score()}</span>
                     <InfoModal
                         id="hhi"
-                        content="Herfindahl-Hirschman Index measures portfolio concentration. Lower scores indicate better diversification. HHI < 1500: Well diversified, 1500-2500: Moderate concentration, > 2500: High concentration."
+                        content={m.portfolio_diversification_hhi_info()}
                     />
                 </div>
                 <div class="flex items-baseline">
@@ -351,10 +352,10 @@
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
                 >
-                    <span>Sectors / Industries</span>
+                    <span>{m.portfolio_diversification_sectors_industries()}</span>
                     <InfoModal
                         id="sectors"
-                        content="Number of unique sectors and industries in your portfolio. More sectors and industries generally indicate better diversification across different market segments."
+                        content={m.portfolio_diversification_sectors_info()}
                     />
                 </div>
                 <div class="flex items-baseline">
@@ -375,10 +376,10 @@
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
                 >
-                    <span>Largest Position</span>
+                    <span>{m.portfolio_diversification_largest_position()}</span>
                     <InfoModal
                         id="largest"
-                        content="Percentage of your portfolio in the single largest holding. Generally, no single position should exceed 15-20% to maintain proper diversification and risk management."
+                        content={m.portfolio_diversification_largest_info()}
                     />
                 </div>
                 <div class="flex items-baseline">
@@ -404,10 +405,10 @@
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
                 >
-                    <span>Top 5 Holdings</span>
+                    <span>{m.portfolio_diversification_top5()}</span>
                     <InfoModal
                         id="top5"
-                        content="Percentage of your portfolio in the top 5 largest holdings. Top 5 < 50%: Well diversified, 50-70%: Moderate concentration, > 70%: High concentration risk."
+                        content={m.portfolio_diversification_top5_info()}
                     />
                 </div>
                 <div class="flex items-baseline">
@@ -430,10 +431,10 @@
     <div
         class="grid grid-cols-4 gap-2 sm:gap-4 mb-3 text-xs sm:text-sm font-medium text-gray-500 dark:text-zinc-400"
     >
-        <div class="text-left">Portfolio</div>
-        <div class="text-center">Sector</div>
-        <div class="text-center">Industry</div>
-        <div class="text-right">Ticker</div>
+        <div class="text-left">{m.portfolio_diversification_col_portfolio()}</div>
+        <div class="text-center">{m.portfolio_diversification_col_sector()}</div>
+        <div class="text-center">{m.portfolio_diversification_col_industry()}</div>
+        <div class="text-right">{m.portfolio_diversification_col_ticker()}</div>
     </div>
 
     <!-- Sankey Chart -->
@@ -444,11 +445,10 @@
             >
                 <div class="text-center">
                     <p class="text-lg font-medium mb-2">
-                        No Portfolio Holdings
+                        {m.portfolio_diversification_empty_title()}
                     </p>
                     <p class="text-sm">
-                        Add stocks to your portfolio to see diversification
-                        analysis
+                        {m.portfolio_diversification_empty_description()}
                     </p>
                 </div>
             </div>
@@ -458,7 +458,7 @@
             <div
                 class="flex items-center justify-center h-[500px] sm:h-[650px] text-gray-500 dark:text-zinc-400"
             >
-                <p class="text-sm">Loading diversification chart...</p>
+                <p class="text-sm">{m.portfolio_diversification_loading()}</p>
             </div>
         {/if}
     </div>

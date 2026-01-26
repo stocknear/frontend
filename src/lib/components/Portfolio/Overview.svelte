@@ -1,4 +1,5 @@
 <script lang="ts">
+    import * as m from "$lib/paraglide/messages";
     import highcharts from "$lib/highcharts";
     import { screenWidth } from "$lib/store.ts";
     import { mode } from "mode-watcher";
@@ -88,7 +89,13 @@
 
     let portfolioBeta = 0;
     let healthScores = {
-        categories: ["Moat", "Trend", "Growth", "Fundamentals", "Volatility"],
+        categories: [
+            m.portfolio_overview_health_moat(),
+            m.portfolio_overview_health_trend(),
+            m.portfolio_overview_health_growth(),
+            m.portfolio_overview_health_fundamentals(),
+            m.portfolio_overview_health_volatility()
+        ],
         values: [50, 50, 50, 50, 50], // Default values
     };
     let annualDividends = 0;
@@ -137,7 +144,7 @@
         // Build series array with cumulative returns
         const series = [
             {
-                name: "Portfolio",
+                name: m.portfolio_overview_portfolio(),
                 data: portfolioCumulativeReturns,
                 color: "#3B82F6",
             },
@@ -146,7 +153,7 @@
         // Add benchmark data if available
         if (benchmarkData.length > 0) {
             series.push({
-                name: "S&P 500",
+                name: m.portfolio_overview_sp500(),
                 data: benchmarkCumulativeReturns,
                 color: "#10B981",
             });
@@ -287,25 +294,25 @@
     })();
 
     $: overallHealthStatus = (() => {
-        if (!healthScores?.values?.length) return "Healthy";
+        if (!healthScores?.values?.length) return m.portfolio_overview_status_healthy();
         const avgScore =
             healthScores.values.reduce((a, b) => a + b, 0) /
             healthScores.values.length;
-        if (avgScore >= 70) return "Excellent";
-        if (avgScore >= 60) return "Healthy";
-        if (avgScore >= 50) return "Neutral";
-        if (avgScore >= 30) return "Bad";
-        return "Needs Attention";
+        if (avgScore >= 70) return m.portfolio_overview_status_excellent();
+        if (avgScore >= 60) return m.portfolio_overview_status_healthy();
+        if (avgScore >= 50) return m.portfolio_overview_status_neutral();
+        if (avgScore >= 30) return m.portfolio_overview_status_bad();
+        return m.portfolio_overview_status_needs_attention();
     })();
 
     $: healthStatusColor = (() => {
-        if (overallHealthStatus === "Excellent")
+        if (overallHealthStatus === m.portfolio_overview_status_excellent())
             return "text-emerald-600 dark:text-emerald-400";
-        if (overallHealthStatus === "Healthy")
+        if (overallHealthStatus === m.portfolio_overview_status_healthy())
             return "text-emerald-600 dark:text-emerald-400";
-        if (overallHealthStatus === "Neutral")
+        if (overallHealthStatus === m.portfolio_overview_status_neutral())
             return "text-yellow-800 dark:text-yellow-400";
-        if (overallHealthStatus === "Bad")
+        if (overallHealthStatus === m.portfolio_overview_status_bad())
             return "text-rose-600 dark:text-rose-400";
         return "text-rose-600 dark:text-rose-400";
     })();
@@ -431,7 +438,7 @@
                             .add();
 
                         chart.renderer
-                            .text("Overall", cx, cy + 22)
+                            .text(m.portfolio_overview_overall(), cx, cy + 22)
                             .attr({
                                 zIndex: 5,
                                 "text-anchor": "middle",
@@ -537,7 +544,7 @@
                         <div style="text-align: center;">
                             <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${category}</div>
                             <div style="font-size: 20px; font-weight: 700; color: ${color};">${value.toFixed(1)}</div>
-                            <div class="text-gray-300" style="font-size: 11px; margin-top: 2px;">out of 100</div>
+                            <div class="text-gray-300" style="font-size: 11px; margin-top: 2px;">${m.portfolio_overview_out_of_100()}</div>
                         </div>
                     `;
                 },
@@ -634,7 +641,7 @@
                                 <h2
                                     class="relative m-0 text-[1rem] font-semibold"
                                 >
-                                    Performance vs US Market
+                                    {m.portfolio_overview_perf_title()}
                                 </h2>
 
                                 <!-- Time Period Selector -->
@@ -678,11 +685,11 @@
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="The total current value of your portfolio"
                                                 >
-                                                    Total Value
+                                                    {m.portfolio_overview_total_value()}
                                                 </span>
                                                 • {portfolioData?.length?.toLocaleString(
                                                     "en-US",
-                                                )} assets
+                                                )} {m.portfolio_overview_assets()}
                                             </p>
                                         </div>
                                     </li>
@@ -706,7 +713,7 @@
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="Unrealised gains/losses on open positions"
                                                 >
-                                                    Unrealised Returns
+                                                    {m.portfolio_overview_unrealized_returns()}
                                                 </span>
                                                 <span aria-hidden="true">
                                                     •
@@ -742,7 +749,7 @@
                                                 <p
                                                     class="m-0 text-sm font-medium text-slate-600 dark:text-slate-300"
                                                 >
-                                                    /yr
+                                                    {m.portfolio_overview_per_year()}
                                                 </p>
                                             </div>
                                             <p class="m-0 text-xs">
@@ -750,10 +757,10 @@
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="Estimated annual dividend income"
                                                 >
-                                                    Est. Dividends
+                                                    {m.portfolio_overview_est_dividends()}
                                                 </span>
                                                 • {dividendYield?.toFixed(2)}%
-                                                Yield
+                                                {m.portfolio_overview_yield()}
                                             </p>
                                         </div>
                                     </li>
@@ -774,7 +781,7 @@
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="Estimated annual dividend income"
                                                 >
-                                                    Beta
+                                                    {m.portfolio_overview_beta()}
                                                 </span>
                                             </p>
                                         </div>
@@ -792,8 +799,7 @@
                                 class="flex items-center justify-center h-[100px] sm:h-[235px] text-center"
                             >
                                 <p class="text-sm">
-                                    Add shares and average price to view
-                                    performance chart
+                                    {m.portfolio_overview_empty_perf()}
                                 </p>
                             </div>
                         {/if}
@@ -809,19 +815,19 @@
                 >
                     {#if portfolioData.length > 0}
                         <h3 class="text-[1rem] font-semibold">
-                            Status: <span class={healthStatusColor}
+                            {m.portfolio_overview_status()} <span class={healthStatusColor}
                                 >{overallHealthStatus}</span
                             >
                         </h3>
                     {/if}
                     <p class="text-sm">
                         {#if portfolioData.length === 0 || bestStrength === biggestRisk}
-                            Add assets to your portfolio to view health status.
+                            {m.portfolio_overview_health_empty()}
                         {:else}
-                            Your best strength is <span class=" font-semibold"
+                            {m.portfolio_overview_best_strength()} <span class=" font-semibold"
                                 >{bestStrength}</span
                             >
-                            and your biggest risk is
+                            {m.portfolio_overview_biggest_risk()}
                             <span class="font-semibold">{biggestRisk}</span>.
                         {/if}
                     </p>
@@ -832,7 +838,7 @@
                             <div
                                 class=" flex items-center justify-center text-gray-500 dark:text-gray-400"
                             >
-                                <p class="text-sm">Loading health scores...</p>
+                                <p class="text-sm">{m.portfolio_overview_loading_health()}</p>
                             </div>
                         {/if}
                     </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { invalidateAll } from "$app/navigation";
@@ -149,7 +150,7 @@
   function copyToClipboard() {
     const md = generateMarkdown();
     navigator.clipboard.writeText(md);
-    toast.success("Summary copied to clipboard!", {
+    toast.success(m.portfolio_bullbear_toast_copied(), {
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
   }
@@ -166,7 +167,7 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    toast.success("Summary downloaded!", {
+    toast.success(m.portfolio_bullbear_toast_downloaded(), {
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
   }
@@ -189,7 +190,7 @@
 
     // Check if user is logged in
     if (!data?.user) {
-      toast.error("Please log in to use this feature.", {
+      toast.error(m.portfolio_bullbear_toast_login(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -198,7 +199,7 @@
     // Check if user has the right tier
     if (!["Plus", "Pro"]?.includes(data?.user?.tier)) {
       toast.error(
-        "This feature is available exclusively for Subscribers. Please upgrade your plan.",
+        m.portfolio_bullbear_toast_upgrade(),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -209,7 +210,7 @@
     // Check if user has enough credits
     if (data?.user?.credits < SUMMARY_CREDIT_COST) {
       toast.error(
-        `Insufficient credits. Your current balance is ${data?.user?.credits}. This feature costs ${SUMMARY_CREDIT_COST} credits.`,
+        m.portfolio_bullbear_toast_credits({ credits: data?.user?.credits, cost: SUMMARY_CREDIT_COST }),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -262,7 +263,7 @@
       }
     } catch (e) {
       console.error("Summary generation error:", e);
-      toast.error("Something went wrong. Please try again.", {
+      toast.error(m.portfolio_bullbear_toast_error(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       showSummary = false;
@@ -318,7 +319,7 @@
   <!-- Header with Generate Button -->
   <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-      Portfolio Analysis
+      {m.portfolio_bullbear_title()}
     </h2>
 
     {#if showAnalyzeButton && !hasNoTickers}
@@ -346,9 +347,9 @@
         {/if}
         {summaryGenerated
           ? showSummary
-            ? "Hide Summary"
-            : "Show Summary"
-          : "AI Summarize"}
+            ? m.portfolio_bullbear_hide_summary()
+            : m.portfolio_bullbear_show_summary()
+          : m.portfolio_bullbear_ai_summarize()}
       </button>
     {/if}
   </div>
@@ -357,8 +358,8 @@
     <!-- No tickers in portfolio -->
     <div class="flex justify-center items-center h-40">
       <div class="text-center text-gray-700 dark:text-zinc-400">
-        <p class="text-lg font-medium mb-2">No Tickers in Portfolio</p>
-        <p class="text-sm">Add tickers to your portfolio to analyze it</p>
+        <p class="text-lg font-medium mb-2">{m.portfolio_bullbear_empty_title()}</p>
+        <p class="text-sm">{m.portfolio_bullbear_empty_description()}</p>
       </div>
     </div>
   {:else if showSummary}
@@ -377,10 +378,10 @@
             ></span>
           </label>
           <p class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium">
-            Analyzing your portfolio with AI...
+            {m.portfolio_bullbear_loading()}
           </p>
           <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400 text-center">
-            Evaluating positions, concentration, and strategic implications
+            {m.portfolio_bullbear_loading_description()}
           </p>
         </div>
       {:else}
@@ -405,12 +406,12 @@
                 />
               </svg>
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                AI-Generated Summary
+                {m.portfolio_bullbear_ai_summary()}
               </h3>
             </div>
             <div class="flex items-center gap-3">
               <span class="text-sm text-gray-800 dark:text-zinc-300"
-                >Portfolio Sentiment:</span
+                >{m.portfolio_bullbear_sentiment()}</span
               >
               <div class="flex items-center gap-2">
                 <span
@@ -457,7 +458,7 @@
                     d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                   />
                 </svg>
-                Copy
+                {m.portfolio_bullbear_copy()}
               </button>
               <button
                 on:click={downloadMarkdown}
@@ -476,7 +477,7 @@
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                   />
                 </svg>
-                Download
+                {m.portfolio_bullbear_download()}
               </button>
             </div>
           </div>
@@ -495,7 +496,7 @@
                   d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                 />
               </svg>
-              Key Highlights
+              {m.portfolio_bullbear_highlights()}
             </h4>
             <ul class="space-y-2">
               {#each summaryData?.keyHighlights ?? [] as highlight}
@@ -538,7 +539,7 @@
                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                   />
                 </svg>
-                Risk Signals
+                {m.portfolio_bullbear_risks()}
               </h4>
               <ul class="space-y-2">
                 {#each summaryData?.risks ?? [] as risk}
@@ -587,12 +588,12 @@
                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                 />
               </svg>
-              Strategic Outlook
+              {m.portfolio_bullbear_outlook()}
             </h4>
             <p
               class="text-sm text-gray-700 dark:text-zinc-200 bg-white/70 dark:bg-zinc-950/40 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
             >
-              {summaryData?.outlook ?? "No outlook available."}
+              {summaryData?.outlook ?? m.portfolio_bullbear_no_outlook()}
             </p>
           </div>
 
@@ -600,9 +601,7 @@
           <p
             class="text-xs text-gray-500 dark:text-zinc-400 italic border-t border-gray-300 dark:border-zinc-700 pt-4"
           >
-            This summary was generated by AI based on your portfolio holdings.
-            It should not be considered investment advice. Please conduct your
-            own research.
+            {m.portfolio_bullbear_disclaimer()}
           </p>
         </div>
       {/if}
