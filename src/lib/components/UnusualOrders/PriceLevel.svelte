@@ -7,6 +7,29 @@
   import LineChartIcon from "lucide-svelte/icons/chart-spline";
   import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
 
+  import {
+    stock_detail_price_levels_title,
+    stock_detail_price_levels_info,
+    stock_detail_price_levels_chart_title,
+    stock_detail_price_levels_current_price,
+    stock_detail_price_levels_key_support,
+    stock_detail_price_levels_key_resistance,
+    stock_detail_price_levels_strength,
+    stock_detail_price_levels_support,
+    stock_detail_price_levels_resistance,
+    stock_detail_price_levels_support_zone,
+    stock_detail_price_levels_resistance_zone,
+    stock_detail_price_levels_current_price_label,
+    stock_detail_price_levels_shares,
+    stock_detail_price_levels_of_total,
+    stock_detail_price_levels_upgrade_unlock,
+    stock_detail_price_levels_note,
+    stock_detail_price_levels_volume,
+    stock_detail_exchange_chart_type_column,
+    stock_detail_exchange_chart_type_line,
+    stock_detail_exchange_chart_type_scatter,
+  } from "$lib/paraglide/messages";
+
   export let data;
   export let rawData = [];
   export let metrics = {};
@@ -25,10 +48,10 @@
   type ChartType = "column" | "spline" | "scatter";
   let chartType: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "spline", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  $: chartTypes = [
+    { type: "column" as ChartType, label: stock_detail_exchange_chart_type_column(), icon: BarChartIcon },
+    { type: "spline" as ChartType, label: stock_detail_exchange_chart_type_line(), icon: LineChartIcon },
+    { type: "scatter" as ChartType, label: stock_detail_exchange_chart_type_scatter(), icon: ScatterChartIcon },
   ];
 
   function changeChartType(type: ChartType) {
@@ -168,7 +191,7 @@
         },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">Volume by Price Level</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${stock_detail_price_levels_chart_title()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -184,7 +207,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `Current $${currentPrice}`,
+              text: stock_detail_price_levels_current_price({ price: currentPrice }),
               style: {
                 color: $mode === "light" ? "#000" : "#fff",
                 fontSize: "10px",
@@ -245,10 +268,10 @@
           const isSupport = price < currentPrice;
           const isResistance = price > currentPrice;
           const zone = isSupport
-            ? "Support Zone"
+            ? stock_detail_price_levels_support_zone()
             : isResistance
-              ? "Resistance Zone"
-              : "Current Price";
+              ? stock_detail_price_levels_resistance_zone()
+              : stock_detail_price_levels_current_price_label();
           const zoneColor = isSupport
             ? "#22c55e"
             : isResistance
@@ -260,8 +283,8 @@
               <div style="font-weight: 600; font-size: 13px;">$${price}</div>
               <div style="font-size: 10px; color: ${zoneColor}; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px;">${zone}</div>
               <div style="margin-top: 6px; font-size: 11px;">
-                ${abbreviateNumber(volume)} shares<br/>
-                ${pctOfTotal}% of total activity
+                ${stock_detail_price_levels_shares({ count: abbreviateNumber(volume) })}<br/>
+                ${stock_detail_price_levels_of_total({ pct: pctOfTotal })}
               </div>
             </div>
           `;
@@ -291,7 +314,7 @@
       },
       series: [
         {
-          name: "Volume",
+          name: stock_detail_price_levels_volume(),
           type: chartType,
           data: sizes,
           animation: false,
@@ -318,11 +341,11 @@
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-1.5">
         <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-          Key Price Levels
+          {stock_detail_price_levels_title()}
         </h3>
         <InfoModal
-          title="Key Price Levels"
-          content="Shows where large institutional orders (block trades & dark pool) concentrated over the last 30 days. Higher volume at a price suggests stronger interest. Note: Direction (buy/sell) is unknown."
+          title={stock_detail_price_levels_title()}
+          content={stock_detail_price_levels_info()}
           id="keyPriceLevelsInfo"
         />
       </div>
@@ -336,14 +359,12 @@
           class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
-            <span>Key Support</span>
+            <span>{stock_detail_price_levels_key_support()}</span>
             {#if keySupport?.strength && !showLocked}
               <span
                 class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
               >
-                Strength: {typeof keySupport.strength === "number"
-                  ? keySupport.strength.toFixed(1)
-                  : keySupport.strength}%
+                {stock_detail_price_levels_strength({ pct: typeof keySupport.strength === "number" ? keySupport.strength.toFixed(1) : keySupport.strength })}
               </span>
             {/if}
           </div>
@@ -386,14 +407,12 @@
           class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
-            <span>Key Resistance</span>
+            <span>{stock_detail_price_levels_key_resistance()}</span>
             {#if keyResistance?.strength && !showLocked}
               <span
                 class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
               >
-                Strength: {typeof keyResistance.strength === "number"
-                  ? keyResistance.strength.toFixed(1)
-                  : keyResistance.strength}%
+                {stock_detail_price_levels_strength({ pct: typeof keyResistance.strength === "number" ? keyResistance.strength.toFixed(1) : keyResistance.strength })}
               </span>
             {/if}
           </div>
@@ -451,7 +470,7 @@
               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
             />
           </svg>
-          <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+          <span class="text-sm font-medium">{stock_detail_price_levels_upgrade_unlock()}</span>
         </a>
       </div>
     {:else}
@@ -462,11 +481,11 @@
         >
           <span class="flex items-center gap-1.5">
             <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
-            Support
+            {stock_detail_price_levels_support()}
           </span>
           <span class="flex items-center gap-1.5">
             <span class="w-2.5 h-2.5 rounded-sm bg-red-500"></span>
-            Resistance
+            {stock_detail_price_levels_resistance()}
           </span>
         </div>
 
@@ -500,8 +519,7 @@
 
       <!-- Note -->
       <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
-        Based on 30-day institutional order flow. Direction unknown — use with
-        other analysis.
+        {stock_detail_price_levels_note()}
       </p>
     {/if}
   {/if}

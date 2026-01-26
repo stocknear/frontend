@@ -5,6 +5,21 @@
 
   import { abbreviateNumber } from "$lib/utils";
 
+  import {
+    stock_detail_hottest_trades_title,
+    stock_detail_hottest_trades_info,
+    stock_detail_hottest_trades_col_rank,
+    stock_detail_hottest_trades_col_time,
+    stock_detail_hottest_trades_col_price,
+    stock_detail_hottest_trades_col_size,
+    stock_detail_hottest_trades_col_size_vol,
+    stock_detail_hottest_trades_col_size_avg_vol,
+    stock_detail_hottest_trades_col_avg_paid,
+    stock_detail_hottest_trades_col_type,
+    stock_detail_hottest_trades_type_block,
+    stock_detail_hottest_trades_type_dark_pool,
+  } from "$lib/paraglide/messages";
+
   export let data;
   export let rawData = [];
   export let ticker;
@@ -54,14 +69,14 @@
   }
 
   $: columns = [
-    { key: "rank", label: "Rank", align: "left" },
-    { key: "date", label: "Time", align: "left" },
-    { key: "price", label: "Price", align: "right" },
-    { key: "size", label: "Size", align: "right" },
-    { key: "sizeVolRatio", label: "Size / Vol", align: "right" },
-    { key: "sizeAvgVolRatio", label: "Size / Avg Vol", align: "right" },
-    { key: "premium", label: "Avg. Paid", align: "right" },
-    { key: "transactionType", label: "Type", align: "right" },
+    { key: "rank", label: stock_detail_hottest_trades_col_rank(), align: "left" },
+    { key: "date", label: stock_detail_hottest_trades_col_time(), align: "left" },
+    { key: "price", label: stock_detail_hottest_trades_col_price(), align: "right" },
+    { key: "size", label: stock_detail_hottest_trades_col_size(), align: "right" },
+    { key: "sizeVolRatio", label: stock_detail_hottest_trades_col_size_vol(), align: "right" },
+    { key: "sizeAvgVolRatio", label: stock_detail_hottest_trades_col_size_avg_vol(), align: "right" },
+    { key: "premium", label: stock_detail_hottest_trades_col_avg_paid(), align: "right" },
+    { key: "transactionType", label: stock_detail_hottest_trades_col_type(), align: "right" },
   ];
   $: sortOrders = {
     rank: { order: "none", type: "number" },
@@ -141,11 +156,11 @@
         for="hottestDPTrade"
         class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
       >
-        Hottest Trades Today
+        {stock_detail_hottest_trades_title()}
       </label>
       <InfoModal
-        title={"Hottest Trades Today"}
-        content={"Real-time hottest trades highlight significant premium flows, revealing where big players are active and hinting at market trends or sentiment."}
+        title={stock_detail_hottest_trades_title()}
+        content={stock_detail_hottest_trades_info()}
         id={"hottestDPTrade"}
       />
     </div>
@@ -207,8 +222,8 @@
                 </td>
                 <td class="text-sm sm:text-[1rem] text-end whitespace-nowrap">
                   {item?.transactionType
-                    ?.replace("B", "Block")
-                    ?.replace("DP", "Dark Pool")}
+                    ?.replace("B", stock_detail_hottest_trades_type_block())
+                    ?.replace("DP", stock_detail_hottest_trades_type_dark_pool())}
                 </td>
               </tr>
             {/each}

@@ -8,6 +8,26 @@
   import LineChartIcon from "lucide-svelte/icons/chart-spline";
   import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
 
+  import {
+    stock_detail_exchange_breakdown_title,
+    stock_detail_exchange_breakdown_info,
+    stock_detail_exchange_chart_title,
+    stock_detail_exchange_dark_pool_activity,
+    stock_detail_exchange_30_day_avg,
+    stock_detail_exchange_top_venue,
+    stock_detail_exchange_of_volume,
+    stock_detail_exchange_latest_value,
+    stock_detail_exchange_institutional_activity,
+    stock_detail_exchange_off_exchange,
+    stock_detail_exchange_on_exchange,
+    stock_detail_exchange_upgrade_unlock,
+    stock_detail_exchange_total,
+    stock_detail_exchange_note,
+    stock_detail_exchange_chart_type_column,
+    stock_detail_exchange_chart_type_line,
+    stock_detail_exchange_chart_type_scatter,
+  } from "$lib/paraglide/messages";
+
   export let data;
   export let rawData: Array<Record<string, any>> = [];
 
@@ -25,10 +45,10 @@
   type ChartType = "column" | "spline" | "scatter";
   let chartType: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "spline", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  $: chartTypes = [
+    { type: "column" as ChartType, label: stock_detail_exchange_chart_type_column(), icon: BarChartIcon },
+    { type: "spline" as ChartType, label: stock_detail_exchange_chart_type_line(), icon: LineChartIcon },
+    { type: "scatter" as ChartType, label: stock_detail_exchange_chart_type_scatter(), icon: ScatterChartIcon },
   ];
 
   function changeChartType(type: ChartType) {
@@ -191,7 +211,7 @@
         },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">Exchange Distribution (30 Days)</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${stock_detail_exchange_chart_title()}</h3>`,
         useHTML: true,
         zIndex: 0,
         style: { color: isLightMode ? "black" : "white" },
@@ -283,7 +303,7 @@
           content += `</div>`;
           content += `
             <div style="margin-top: 10px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; font-size: 13px;">
-              <span style="font-weight: 600;">Total:</span>
+              <span style="font-weight: 600;">${stock_detail_exchange_total()}</span>
               <span style="font-weight: 700;">${abbreviateNumber(total, true, true)}</span>
             </div>`;
           content += `</div>`;
@@ -372,11 +392,11 @@
           <h3
             class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white"
           >
-            Exchange Breakdown
+            {stock_detail_exchange_breakdown_title()}
           </h3>
           <InfoModal
-            title="Exchange Breakdown"
-            content="Shows how unusual order volume is distributed across exchanges over the last 30 days. Off-Exchange (Dark Pool) trades are private institutional transactions hidden from public view until reporting. High dark pool activity may indicate institutional accumulation or distribution, but direction (buy/sell) is unknown."
+            title={stock_detail_exchange_breakdown_title()}
+            content={stock_detail_exchange_breakdown_info()}
             id="unusualOrdersExchangeInfo"
           />
         </div>
@@ -389,7 +409,7 @@
           class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
-            <span>Dark Pool Activity</span>
+            <span>{stock_detail_exchange_dark_pool_activity()}</span>
             {#if !showLocked}
               <span class="ml-auto text-xs tabular-nums">
                 {darkPoolTrend}
@@ -424,7 +444,7 @@
             <div
               class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
             >
-              30-day avg: {pctText(avgDarkPoolPct)}
+              {stock_detail_exchange_30_day_avg({ pct: pctText(avgDarkPoolPct) })}
             </div>
           {/if}
         </div>
@@ -434,7 +454,7 @@
           class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
-            <span>Top On-Exchange Venue</span>
+            <span>{stock_detail_exchange_top_venue()}</span>
           </div>
           {#if showLocked}
             <a
@@ -469,7 +489,7 @@
             <div
               class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
             >
-              {pctText(topOnExchangeVenue.pct)} of on-exchange volume
+              {stock_detail_exchange_of_volume({ pct: pctText(topOnExchangeVenue.pct) })}
             </div>
           {:else}
             <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
@@ -483,7 +503,7 @@
           class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
-            <span>Latest Transaction Value</span>
+            <span>{stock_detail_exchange_latest_value()}</span>
           </div>
           {#if showLocked}
             <a
@@ -513,7 +533,7 @@
             <div
               class="text-sm text-gray-800 dark:text-zinc-300 mt-1 capitalize"
             >
-              {activityLevel} institutional activity
+              {stock_detail_exchange_institutional_activity({ level: activityLevel })}
             </div>
           {/if}
         </div>
@@ -537,7 +557,7 @@
                 d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
               />
             </svg>
-            <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+            <span class="text-sm font-medium">{stock_detail_exchange_upgrade_unlock()}</span>
           </a>
         </div>
       {:else}
@@ -551,14 +571,14 @@
                 class="w-2.5 h-2.5 rounded-sm"
                 style="background-color: #E15759;"
               ></span>
-              Off-Exchange
+              {stock_detail_exchange_off_exchange()}
             </span>
             <span class="flex items-center gap-1.5">
               <span
                 class="w-2.5 h-2.5 rounded-sm"
                 style="background-color: #4E79A7;"
               ></span>
-              On-Exchange
+              {stock_detail_exchange_on_exchange()}
             </span>
           </div>
 
@@ -598,8 +618,7 @@
 
         <!-- Interpretation Note -->
         <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
-          Dark pool trades hide large orders from public view. High % may
-          indicate institutional positioning but direction is unknown.
+          {stock_detail_exchange_note()}
         </p>
       {/if}
     </main>

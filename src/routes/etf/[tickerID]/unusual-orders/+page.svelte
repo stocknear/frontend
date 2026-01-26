@@ -92,11 +92,13 @@
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
-      <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-4 w-full m-auto mt-2 sm:mt-0">
+      <div class="sm:pl-7 sm:pb-7 sm:pt-3 pt-5 w-full m-auto">
         <div class="w-full">
           {#if priceLevel?.length === 0 && hottestTrades?.length === 0 && historicalDarkPool?.length === 0}
             <Infobox
-              text={etf_detail_unusual_orders_no_data({ name: $displayCompanyName })}
+              text={etf_detail_unusual_orders_no_data({
+                name: $displayCompanyName,
+              })}
             />
           {/if}
         </div>
