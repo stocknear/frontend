@@ -4,7 +4,38 @@
   import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_ai_analyzing,
+  stock_detail_ai_analyzing_data,
+  stock_detail_ai_cagr,
+  stock_detail_ai_consistency,
+  stock_detail_ai_copy,
+  stock_detail_ai_disclaimer,
+  stock_detail_ai_efficiency,
+  stock_detail_ai_executive_summary,
+  stock_detail_ai_extracting_insights,
+  stock_detail_ai_financial_analysis,
+  stock_detail_ai_insufficient_credits,
+  stock_detail_ai_investor_takeaway,
+  stock_detail_ai_key_strengths,
+  stock_detail_ai_margins,
+  stock_detail_ai_overall_health,
+  stock_detail_ai_period_annual,
+  stock_detail_ai_period_quarterly,
+  stock_detail_ai_period_ttm,
+  stock_detail_ai_red_flags,
+  stock_detail_ai_show_summary,
+  stock_detail_ai_statement_balance,
+  stock_detail_ai_statement_cashflow,
+  stock_detail_ai_statement_income,
+  stock_detail_ai_statement_ratios,
+  stock_detail_ai_subscription_required,
+  stock_detail_ai_summarize,
+  stock_detail_ai_summary_copied,
+  stock_detail_ai_summary_downloaded,
+  stock_detail_ai_trend,
+  stock_detail_financials_download,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
@@ -104,13 +135,13 @@
     }
 
     if (!["Plus", "Pro"]?.includes(data?.user?.tier)) {
-      errorMessage = m.stock_detail_ai_subscription_required();
+      errorMessage = stock_detail_ai_subscription_required();
       showModal = true;
       return;
     }
 
     if (data?.user?.credits < 3) {
-      errorMessage = m.stock_detail_ai_insufficient_credits({ credits: data?.user?.credits });
+      errorMessage = stock_detail_ai_insufficient_credits({ credits: data?.user?.credits });
       showModal = true;
       return;
     }
@@ -197,19 +228,19 @@
 
   function getPeriodLabel(period: string): string {
     const labels = {
-      annual: m.stock_detail_ai_period_annual(),
-      quarterly: m.stock_detail_ai_period_quarterly(),
-      ttm: m.stock_detail_ai_period_ttm(),
+      annual: stock_detail_ai_period_annual(),
+      quarterly: stock_detail_ai_period_quarterly(),
+      ttm: stock_detail_ai_period_ttm(),
     };
-    return labels[period] || m.stock_detail_ai_period_annual();
+    return labels[period] || stock_detail_ai_period_annual();
   }
 
   function getStatementLabel(statement: string): string {
     const labels = {
-      "income-statement": m.stock_detail_ai_statement_income(),
-      "balance-sheet": m.stock_detail_ai_statement_balance(),
-      "cash-flow": m.stock_detail_ai_statement_cashflow(),
-      ratios: m.stock_detail_ai_statement_ratios(),
+      "income-statement": stock_detail_ai_statement_income(),
+      "balance-sheet": stock_detail_ai_statement_balance(),
+      "cash-flow": stock_detail_ai_statement_cashflow(),
+      ratios: stock_detail_ai_statement_ratios(),
     };
     return labels[statement] || "Financial";
   }
@@ -352,7 +383,7 @@ ${summaryData.investorTakeaway}
   function copyToClipboard() {
     const markdown = generateMarkdown();
     navigator.clipboard.writeText(markdown).then(() => {
-      toast.success(m.stock_detail_ai_summary_copied(), {
+      toast.success(stock_detail_ai_summary_copied(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     });
@@ -374,7 +405,7 @@ ${summaryData.investorTakeaway}
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    toast.success(m.stock_detail_ai_summary_downloaded(), {
+    toast.success(stock_detail_ai_summary_downloaded(), {
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
   }
@@ -407,7 +438,7 @@ ${summaryData.investorTakeaway}
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       ></path>
     </svg>
-    {m.stock_detail_ai_analyzing()}
+    {stock_detail_ai_analyzing()}
   {:else}
     <svg
       class="w-4 h-4 mr-1"
@@ -423,7 +454,7 @@ ${summaryData.investorTakeaway}
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
       />
     </svg>
-    {hasCachedSummary ? m.stock_detail_ai_show_summary() : m.stock_detail_ai_summarize()}
+    {hasCachedSummary ? stock_detail_ai_show_summary() : stock_detail_ai_summarize()}
   {/if}
 </Button>
 
@@ -465,7 +496,7 @@ ${summaryData.investorTakeaway}
               <h2
                 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white truncate"
               >
-                {m.stock_detail_ai_financial_analysis()}
+                {stock_detail_ai_financial_analysis()}
               </h2>
               <p
                 class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
@@ -512,10 +543,10 @@ ${summaryData.investorTakeaway}
               ></span>
             </label>
             <p class="text-sm text-gray-700 dark:text-zinc-200 font-medium">
-              {m.stock_detail_ai_analyzing_data()}
+              {stock_detail_ai_analyzing_data()}
             </p>
             <p class="text-xs text-gray-500 dark:text-zinc-400">
-              {m.stock_detail_ai_extracting_insights({ statement: getStatementLabel(statementType).toLowerCase() })}
+              {stock_detail_ai_extracting_insights({ statement: getStatementLabel(statementType).toLowerCase() })}
             </p>
           </div>
         {:else if errorMessage}
@@ -552,7 +583,7 @@ ${summaryData.investorTakeaway}
                   <span
                     class="text-xs font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-wider"
                   >
-                    {summaryData.yearsAnalyzed} {m.stock_detail_ai_overall_health()}
+                    {summaryData.yearsAnalyzed} {stock_detail_ai_overall_health()}
                   </span>
                 </div>
                 <div
@@ -598,7 +629,7 @@ ${summaryData.investorTakeaway}
                       d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                     />
                   </svg>
-                  {m.stock_detail_ai_copy()}
+                  {stock_detail_ai_copy()}
                 </button>
                 <button
                   on:click={downloadMarkdown}
@@ -617,7 +648,7 @@ ${summaryData.investorTakeaway}
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                     />
                   </svg>
-                  {m.stock_detail_financials_download()}
+                  {stock_detail_financials_download()}
                 </button>
               </div>
             </div>
@@ -647,7 +678,7 @@ ${summaryData.investorTakeaway}
               <h4
                 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
               >
-                {m.stock_detail_ai_executive_summary()}
+                {stock_detail_ai_executive_summary()}
               </h4>
             </div>
             <p
@@ -701,7 +732,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >{m.stock_detail_ai_cagr()}</span
+                      >{stock_detail_ai_cagr()}</span
                     >
                     <span
                       class="text-base sm:text-lg font-bold {summaryData.revenueAnalysis.cagr?.startsWith(
@@ -716,7 +747,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >{m.stock_detail_ai_trend()}</span
+                      >{stock_detail_ai_trend()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -785,7 +816,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >{m.stock_detail_ai_margins()}</span
+                      >{stock_detail_ai_margins()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -855,7 +886,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >{m.stock_detail_ai_efficiency()}</span
+                      >{stock_detail_ai_efficiency()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -921,7 +952,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-center gap-2">
                     <span
                       class="text-xs font-medium text-gray-600 dark:text-gray-200"
-                      >{m.stock_detail_ai_consistency()}</span
+                      >{stock_detail_ai_consistency()}</span
                     >
                     <span
                       class="font-semibold text-xs sm:text-sm {getAssessmentColor(
@@ -968,7 +999,7 @@ ${summaryData.investorTakeaway}
                 <h5
                   class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                 >
-                  {m.stock_detail_ai_key_strengths()}
+                  {stock_detail_ai_key_strengths()}
                 </h5>
               </div>
               <ul class="space-y-2 sm:space-y-2.5">
@@ -1017,7 +1048,7 @@ ${summaryData.investorTakeaway}
                   <h5
                     class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                   >
-                    {m.stock_detail_ai_red_flags()}
+                    {stock_detail_ai_red_flags()}
                   </h5>
                 </div>
                 <ul class="space-y-2 sm:space-y-2.5">
@@ -1066,7 +1097,7 @@ ${summaryData.investorTakeaway}
               <h5
                 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
               >
-                {m.stock_detail_ai_investor_takeaway()}
+                {stock_detail_ai_investor_takeaway()}
               </h5>
             </div>
             <p
@@ -1081,7 +1112,7 @@ ${summaryData.investorTakeaway}
             class="bg-gray-50 dark:bg-gray-900/50 border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-3 sm:p-4"
           >
             <p class="text-xs text-gray-800 dark:text-gray-200 italic">
-              {m.stock_detail_ai_disclaimer()}
+              {stock_detail_ai_disclaimer()}
             </p>
           </div>
         {/if}

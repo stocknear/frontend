@@ -7,7 +7,19 @@
   import { onMount } from "svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  etf_providers_count,
+  etf_providers_empty,
+  etf_providers_infobox,
+  etf_providers_seo_description,
+  etf_providers_seo_keywords,
+  etf_providers_seo_title,
+  etf_providers_structured_description,
+  etf_providers_structured_item_description,
+  etf_providers_structured_item_name,
+  etf_providers_structured_name,
+  etf_search_placeholder,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -326,19 +338,19 @@
 </script>
 
 <SEO
-  title={m.etf_providers_seo_title()}
-  description={m.etf_providers_seo_description()}
-  keywords={m.etf_providers_seo_keywords()}
+  title={etf_providers_seo_title()}
+  description={etf_providers_seo_description()}
+  keywords={etf_providers_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: m.etf_providers_structured_name(),
-    description: m.etf_providers_structured_description(),
+    name: etf_providers_structured_name(),
+    description: etf_providers_structured_description(),
     url: "https://stocknear.com/etf/etf-providers",
     mainEntity: {
       "@type": "ItemList",
-      name: m.etf_providers_structured_item_name(),
-      description: m.etf_providers_structured_item_description(),
+      name: etf_providers_structured_item_name(),
+      description: etf_providers_structured_item_description(),
       numberOfItems: etfProviderList?.length || 0,
     },
     about: {
@@ -351,7 +363,7 @@
 />
 
 <section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
-  <Infobox text={m.etf_providers_infobox()} />
+  <Infobox text={etf_providers_infobox()} />
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
@@ -360,7 +372,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
       >
-        {m.etf_providers_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
+        {etf_providers_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -388,7 +400,7 @@
             type="text"
             bind:value={inputValue}
             on:input={search}
-            placeholder={m.etf_search_placeholder()}
+            placeholder={etf_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -498,7 +510,7 @@
           on:rowsPerPageChange={handleRowsPerPageChange}
         />
       {:else}
-        <Infobox text={m.etf_providers_empty({ query: inputValue })} />
+        <Infobox text={etf_providers_empty({ query: inputValue })} />
       {/if}
     </div>
   </div>

@@ -14,7 +14,55 @@
   import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
   import LineChartIcon from "lucide-svelte/icons/chart-spline";
   import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_chart_current_price,
+  stock_detail_options_common_back_to_top,
+  stock_detail_options_common_call,
+  stock_detail_options_common_day,
+  stock_detail_options_common_days,
+  stock_detail_options_common_next,
+  stock_detail_options_common_page_of,
+  stock_detail_options_common_previous,
+  stock_detail_options_common_put,
+  stock_detail_options_common_rows,
+  stock_detail_options_max_pain_by_expiry_title,
+  stock_detail_options_max_pain_by_strike_title,
+  stock_detail_options_max_pain_chart_expiry_title,
+  stock_detail_options_max_pain_chart_strike_title,
+  stock_detail_options_max_pain_col_expiration,
+  stock_detail_options_max_pain_col_max_pain,
+  stock_detail_options_max_pain_col_vs_current_price,
+  stock_detail_options_max_pain_date_expiration,
+  stock_detail_options_max_pain_expiry_levels_above,
+  stock_detail_options_max_pain_expiry_levels_around,
+  stock_detail_options_max_pain_expiry_levels_below,
+  stock_detail_options_max_pain_expiry_magnetic_level,
+  stock_detail_options_max_pain_expiry_spread_consensus,
+  stock_detail_options_max_pain_expiry_spread_divergent,
+  stock_detail_options_max_pain_expiry_timing,
+  stock_detail_options_max_pain_expiry_trend_falling,
+  stock_detail_options_max_pain_expiry_trend_rising,
+  stock_detail_options_max_pain_expiry_trend_stable,
+  stock_detail_options_max_pain_high_dispersion,
+  stock_detail_options_max_pain_magnetic_zone,
+  stock_detail_options_max_pain_overview_sentence,
+  stock_detail_options_max_pain_position_above,
+  stock_detail_options_max_pain_position_below,
+  stock_detail_options_max_pain_position_pinned,
+  stock_detail_options_max_pain_pressure_down,
+  stock_detail_options_max_pain_pressure_stable,
+  stock_detail_options_max_pain_pressure_up,
+  stock_detail_options_max_pain_table_title,
+  stock_detail_options_max_pain_trend_detail_falling,
+  stock_detail_options_max_pain_trend_detail_rising,
+  stock_detail_options_max_pain_trend_detail_stable,
+  stock_detail_options_max_pain_trend_falling,
+  stock_detail_options_max_pain_trend_rising,
+  stock_detail_options_max_pain_trend_sentence,
+  stock_detail_options_max_pain_trend_stable,
+  stock_detail_options_max_pain_upgrade_locked,
+  stock_detail_options_max_pain_upgrade_unlock,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let ticker = null;
@@ -147,44 +195,44 @@
 
   $: nearTermDayLabel =
     Number(nearTermDaysLeft) === 1
-      ? m.stock_detail_options_common_day()
-      : m.stock_detail_options_common_days();
+      ? stock_detail_options_common_day()
+      : stock_detail_options_common_days();
 
   $: maxPainPositionText =
     Math.abs(priceVsMaxPain) < 2
-      ? m.stock_detail_options_max_pain_position_pinned()
+      ? stock_detail_options_max_pain_position_pinned()
       : priceVsMaxPain > 0
-        ? m.stock_detail_options_max_pain_position_above({
+        ? stock_detail_options_max_pain_position_above({
             percent: Math.abs(priceVsMaxPain).toFixed(1),
           })
-        : m.stock_detail_options_max_pain_position_below({
+        : stock_detail_options_max_pain_position_below({
             percent: Math.abs(priceVsMaxPain).toFixed(1),
           });
 
   $: maxPainPressureText =
     Math.abs(priceVsMaxPain) > 5
       ? priceVsMaxPain > 0
-        ? m.stock_detail_options_max_pain_pressure_down()
-        : m.stock_detail_options_max_pain_pressure_up()
-      : m.stock_detail_options_max_pain_pressure_stable();
+        ? stock_detail_options_max_pain_pressure_down()
+        : stock_detail_options_max_pain_pressure_up()
+      : stock_detail_options_max_pain_pressure_stable();
 
   $: maxPainTrendLabel =
     maxPainTrend === "rising"
-      ? m.stock_detail_options_max_pain_trend_rising()
+      ? stock_detail_options_max_pain_trend_rising()
       : maxPainTrend === "falling"
-        ? m.stock_detail_options_max_pain_trend_falling()
-        : m.stock_detail_options_max_pain_trend_stable();
+        ? stock_detail_options_max_pain_trend_falling()
+        : stock_detail_options_max_pain_trend_stable();
 
   $: maxPainTrendDetail =
     maxPainTrend === "rising"
-      ? m.stock_detail_options_max_pain_trend_detail_rising()
+      ? stock_detail_options_max_pain_trend_detail_rising()
       : maxPainTrend === "falling"
-        ? m.stock_detail_options_max_pain_trend_detail_falling()
-        : m.stock_detail_options_max_pain_trend_detail_stable();
+        ? stock_detail_options_max_pain_trend_detail_falling()
+        : stock_detail_options_max_pain_trend_detail_stable();
 
   $: maxPainMagneticText =
     maxPainClusters.length > 0
-      ? m.stock_detail_options_max_pain_magnetic_zone({
+      ? stock_detail_options_max_pain_magnetic_zone({
           price: maxPainClusters[0].price,
           count: maxPainClusters[0].count,
         })
@@ -192,7 +240,7 @@
 
   $: maxPainDispersionText =
     significantDeviations > rawData.length * 0.5
-      ? m.stock_detail_options_max_pain_high_dispersion()
+      ? stock_detail_options_max_pain_high_dispersion()
       : "";
 
   $: maxPainExpirySpreadPercent =
@@ -204,18 +252,18 @@
 
   $: maxPainExpiryTrendSentence =
     maxPainTrend === "rising"
-      ? m.stock_detail_options_max_pain_expiry_trend_rising({
+      ? stock_detail_options_max_pain_expiry_trend_rising({
           ticker,
           min: maxPainRange.min,
           max: maxPainRange.max,
         })
       : maxPainTrend === "falling"
-        ? m.stock_detail_options_max_pain_expiry_trend_falling({
+        ? stock_detail_options_max_pain_expiry_trend_falling({
             ticker,
             min: maxPainRange.min,
             max: maxPainRange.max,
           })
-        : m.stock_detail_options_max_pain_expiry_trend_stable({
+        : stock_detail_options_max_pain_expiry_trend_stable({
             ticker,
             avg: averageMaxPain.toFixed(2),
           });
@@ -223,31 +271,31 @@
   $: maxPainExpirySpreadSentence =
     averageMaxPain > 0 &&
     Math.abs(maxPainRange.max - maxPainRange.min) / averageMaxPain > 0.1
-      ? m.stock_detail_options_max_pain_expiry_spread_divergent({
+      ? stock_detail_options_max_pain_expiry_spread_divergent({
           spread: maxPainExpirySpreadPercent,
         })
-      : m.stock_detail_options_max_pain_expiry_spread_consensus({
+      : stock_detail_options_max_pain_expiry_spread_consensus({
           spread: maxPainExpirySpreadPercent,
         });
 
   $: maxPainExpiryLevelsSentence =
     rawData?.filter((item) => item.maxPain < currentPrice).length >
     rawData.length * 0.7
-      ? m.stock_detail_options_max_pain_expiry_levels_below({
+      ? stock_detail_options_max_pain_expiry_levels_below({
           price: currentPrice,
         })
       : rawData?.filter((item) => item.maxPain > currentPrice).length >
           rawData?.length * 0.7
-        ? m.stock_detail_options_max_pain_expiry_levels_above({
+        ? stock_detail_options_max_pain_expiry_levels_above({
             price: currentPrice,
           })
-        : m.stock_detail_options_max_pain_expiry_levels_around({
+        : stock_detail_options_max_pain_expiry_levels_around({
             price: currentPrice,
           });
 
   $: maxPainExpiryMagneticSentence =
     maxPainClusters.length > 0 && maxPainClusters[0].count >= 3
-      ? m.stock_detail_options_max_pain_expiry_magnetic_level({
+      ? stock_detail_options_max_pain_expiry_magnetic_level({
           price: maxPainClusters[0].price,
           count: maxPainClusters[0].count,
         })
@@ -448,7 +496,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_max_pain_chart_strike_title()}</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${stock_detail_options_max_pain_chart_strike_title()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -465,7 +513,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: m.stock_detail_options_chart_current_price({
+              text: stock_detail_options_chart_current_price({
                 price: currentPrice,
               }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
@@ -558,7 +606,7 @@
 
       series: [
         {
-          name: m.stock_detail_options_common_call(),
+          name: stock_detail_options_common_call(),
           type: chartTypeStrike,
           data: callSeries,
           color: $mode === "light" ? "#08B108" : "#00FC50",
@@ -568,7 +616,7 @@
           animation: false,
         },
         {
-          name: m.stock_detail_options_common_put(),
+          name: stock_detail_options_common_put(),
           type: chartTypeStrike,
           data: putSeries,
           color: "#FF0808",
@@ -630,7 +678,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_max_pain_chart_expiry_title()}</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${stock_detail_options_max_pain_chart_expiry_title()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -664,7 +712,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: m.stock_detail_options_chart_current_price({
+              text: stock_detail_options_chart_current_price({
                 price: currentPrice,
               }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
@@ -743,11 +791,11 @@
   }
 
   $: columns = [
-    { key: "expiration", label: m.stock_detail_options_max_pain_col_expiration(), align: "left" },
-    { key: "maxPain", label: m.stock_detail_options_max_pain_col_max_pain(), align: "right" },
+    { key: "expiration", label: stock_detail_options_max_pain_col_expiration(), align: "left" },
+    { key: "maxPain", label: stock_detail_options_max_pain_col_max_pain(), align: "right" },
     {
       key: "changesPercentage",
-      label: m.stock_detail_options_max_pain_col_vs_current_price(),
+      label: stock_detail_options_max_pain_col_vs_current_price(),
       align: "right",
     },
   ];
@@ -865,13 +913,13 @@
         <h2
           class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
-          {m.stock_detail_options_max_pain_by_strike_title({ company: removeCompanyStrings($displayCompanyName) })}
+          {stock_detail_options_max_pain_by_strike_title({ company: removeCompanyStrings($displayCompanyName) })}
         </h2>
 
         <!-- Insightful overview paragraph -->
         <div class="w-full mt-4 mb-6">
           <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-            {@html m.stock_detail_options_max_pain_overview_sentence({
+            {@html stock_detail_options_max_pain_overview_sentence({
               ticker,
               price: currentPrice,
               position: maxPainPositionText,
@@ -881,7 +929,7 @@
               dayLabel: nearTermDayLabel,
             })}
             {maxPainPressureText ? ` ${maxPainPressureText}` : ""}
-            {@html ` ${m.stock_detail_options_max_pain_trend_sentence({
+            {@html ` ${stock_detail_options_max_pain_trend_sentence({
               trend: maxPainTrendLabel,
               min: maxPainRange.min,
               max: maxPainRange.max,
@@ -900,7 +948,7 @@
                 class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="truncate text-sm"
-                  >{m.stock_detail_options_max_pain_date_expiration()} | {formatDate(selectedDate)}</span
+                  >{stock_detail_options_max_pain_date_expiration()} | {formatDate(selectedDate)}</span
                 >
                 <svg
                   class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -1001,7 +1049,7 @@
         <h2
           class="mt-10 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
-          {m.stock_detail_options_max_pain_by_expiry_title({ company: removeCompanyStrings($displayCompanyName) })}
+          {stock_detail_options_max_pain_by_expiry_title({ company: removeCompanyStrings($displayCompanyName) })}
         </h2>
 
         {#if data?.user?.tier === "Pro"}
@@ -1018,7 +1066,7 @@
               {maxPainExpiryMagneticSentence
                 ? ` ${maxPainExpiryMagneticSentence}`
                 : ""}
-              {` ${m.stock_detail_options_max_pain_expiry_timing()}`}
+              {` ${stock_detail_options_max_pain_expiry_timing()}`}
             </p>
           </div>
 
@@ -1057,7 +1105,7 @@
           <!-- Locked state for non-Pro users -->
           <div class="w-full mt-4 mb-2">
             <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {m.stock_detail_options_max_pain_upgrade_locked()}
+              {stock_detail_options_max_pain_upgrade_locked()}
             </p>
           </div>
 
@@ -1071,7 +1119,7 @@
                     <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
                     </svg>
-                    <span class="text-sm font-medium">{m.stock_detail_options_max_pain_upgrade_unlock()}</span>
+                    <span class="text-sm font-medium">{stock_detail_options_max_pain_upgrade_unlock()}</span>
                   </a>
                 </div>
               </div>
@@ -1087,7 +1135,7 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
               >
-                {m.stock_detail_options_max_pain_table_title()}
+                {stock_detail_options_max_pain_table_title()}
               </h2>
               {#if data?.user?.tier === "Pro"}
                 <div
@@ -1160,7 +1208,7 @@
                   <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
                   </svg>
-                  <span class="text-sm font-medium">{m.stock_detail_options_max_pain_upgrade_unlock()}</span>
+                  <span class="text-sm font-medium">{stock_detail_options_max_pain_upgrade_unlock()}</span>
                 </a>
               </div>
             </div>
@@ -1191,14 +1239,14 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
+                  <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
                 </Button>
               </div>
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
+                  {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -1208,7 +1256,7 @@
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
+                        >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1243,7 +1291,7 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
+                            <span class="text-sm">{stock_detail_options_common_rows({ count: item })}</span>
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1259,7 +1307,7 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
+                  <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -1283,7 +1331,7 @@
                 on:click={scrollToTop}
                 class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {m.stock_detail_options_common_back_to_top()} <svg
+                {stock_detail_options_common_back_to_top()} <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"
                   viewBox="0 0 20 20"
                   fill="currentColor"

@@ -1,5 +1,16 @@
 <script lang="ts">
-  import * as m from "$lib/paraglide/messages";
+  import {
+  analysts_info_avg_return_desc,
+  analysts_info_avg_return_title,
+  analysts_info_rating_count_desc,
+  analysts_info_rating_count_title,
+  analysts_info_recency_desc,
+  analysts_info_recency_title,
+  analysts_info_subtitle,
+  analysts_info_success_rate_desc,
+  analysts_info_success_rate_title,
+  analysts_info_title,
+} from "$lib/paraglide/messages";
 </script>
 
 <div class="mt-6 py-8 xl:mt-10 border-t border-gray-300 dark:border-zinc-700">
@@ -10,10 +21,10 @@
       <h3
         class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        {m.analysts_info_title()}
+        {analysts_info_title()}
       </h3>
       <p class="mt-3 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
-        {m.analysts_info_subtitle()}
+        {analysts_info_subtitle()}
       </p>
     </div>
     <div class="mx-auto mt-8 max-w-2xl lg:max-w-5xl">
@@ -41,10 +52,10 @@
                 ></path></svg
               >
             </div>
-            {m.analysts_info_success_rate_title()}
+            {analysts_info_success_rate_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {m.analysts_info_success_rate_desc()}
+            {analysts_info_success_rate_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
@@ -68,10 +79,10 @@
                 ></path></svg
               >
             </div>
-            {m.analysts_info_avg_return_title()}
+            {analysts_info_avg_return_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {m.analysts_info_avg_return_desc()}
+            {analysts_info_avg_return_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
@@ -95,10 +106,10 @@
                 ></path></svg
               >
             </div>
-            {m.analysts_info_rating_count_title()}
+            {analysts_info_rating_count_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {m.analysts_info_rating_count_desc()}
+            {analysts_info_rating_count_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
@@ -122,10 +133,10 @@
                 ></path></svg
               >
             </div>
-            {m.analysts_info_recency_title()}
+            {analysts_info_recency_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {m.analysts_info_recency_desc()}
+            {analysts_info_recency_desc()}
           </dd>
         </div>
       </dl>

@@ -1,7 +1,10 @@
 <script>
   import { getImageURL } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  blog_alt_wallpaper,
+  blog_last_updated,
+} from "$lib/paraglide/messages";
   // import ArticleBreadcrumbStructuredData from "$lib/components/ArticleBreadcrumbStructuredData.svelte";
 
   export let data;
@@ -97,7 +100,7 @@
             )}
             class="h-[200px] w-full object-cover lg:h-[350px] rounded-2xl border border-gray-300 dark:border-zinc-700"
             loading="lazy"
-            alt={m.blog_alt_wallpaper()}
+            alt={blog_alt_wallpaper()}
           />
         {/if}
         <div class="lg:flex">
@@ -118,7 +121,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  {m.blog_last_updated()} {new Date(article?.updated)?.toLocaleString(
+                  {blog_last_updated()} {new Date(article?.updated)?.toLocaleString(
                     "en-US",
                     {
                       month: "short",

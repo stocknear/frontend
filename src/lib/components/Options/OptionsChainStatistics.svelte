@@ -4,7 +4,71 @@
   import highcharts from "$lib/highcharts.ts";
   import { abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_call_oi,
+  stock_detail_options_call_volume,
+  stock_detail_options_chain_desc,
+  stock_detail_options_chain_statistics,
+  stock_detail_options_col_call_oi,
+  stock_detail_options_col_call_vol,
+  stock_detail_options_col_expiration,
+  stock_detail_options_col_iv,
+  stock_detail_options_col_max_pain,
+  stock_detail_options_col_pc_oi,
+  stock_detail_options_col_pc_vol,
+  stock_detail_options_col_put_oi,
+  stock_detail_options_col_put_vol,
+  stock_detail_options_historical_volatility,
+  stock_detail_options_implied_volatility,
+  stock_detail_options_info_call_oi,
+  stock_detail_options_info_call_vol,
+  stock_detail_options_info_historical_vol,
+  stock_detail_options_info_iv_30d,
+  stock_detail_options_info_iv_high,
+  stock_detail_options_info_iv_low,
+  stock_detail_options_info_iv_rank,
+  stock_detail_options_info_oi_avg,
+  stock_detail_options_info_oi_pc_ratio,
+  stock_detail_options_info_oi_today,
+  stock_detail_options_info_oi_vs_avg,
+  stock_detail_options_info_put_oi,
+  stock_detail_options_info_put_vol,
+  stock_detail_options_info_vol_avg,
+  stock_detail_options_info_vol_pc_ratio,
+  stock_detail_options_info_vol_today,
+  stock_detail_options_info_vol_vs_avg,
+  stock_detail_options_iv_30d,
+  stock_detail_options_iv_30d_label,
+  stock_detail_options_iv_high,
+  stock_detail_options_iv_low,
+  stock_detail_options_iv_rank,
+  stock_detail_options_oi_avg_30d,
+  stock_detail_options_oi_heading,
+  stock_detail_options_open_interest,
+  stock_detail_options_opra_content,
+  stock_detail_options_opra_title,
+  stock_detail_options_overview_and_iv_rank,
+  stock_detail_options_overview_as_of,
+  stock_detail_options_overview_contracts_pc_ratio,
+  stock_detail_options_overview_contracts_which_is,
+  stock_detail_options_overview_have_iv,
+  stock_detail_options_overview_indicating,
+  stock_detail_options_overview_intro,
+  stock_detail_options_overview_of_avg_volume,
+  stock_detail_options_overview_sentiment_market,
+  stock_detail_options_overview_title,
+  stock_detail_options_overview_volume_is,
+  stock_detail_options_put_call_ratio,
+  stock_detail_options_put_oi,
+  stock_detail_options_put_volume,
+  stock_detail_options_today_oi,
+  stock_detail_options_today_volume,
+  stock_detail_options_today_vs_oi_avg,
+  stock_detail_options_today_vs_vol_avg,
+  stock_detail_options_volume,
+  stock_detail_options_volume_avg_30d,
+  stock_detail_options_volume_heading,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -57,7 +121,7 @@
       },
 
       title: {
-        text: `<h3 class="">${m.stock_detail_options_iv_30d()}</h3>`,
+        text: `<h3 class="">${stock_detail_options_iv_30d()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -218,7 +282,7 @@
       },
 
       title: {
-        text: `<h3 class="">${m.stock_detail_options_open_interest()}</h3>`,
+        text: `<h3 class="">${stock_detail_options_open_interest()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -309,7 +373,7 @@
       },
 
       title: {
-        text: `<h3 class="">${m.stock_detail_options_put_call_ratio()}</h3>`,
+        text: `<h3 class="">${stock_detail_options_put_call_ratio()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -445,7 +509,7 @@
       },
 
       title: {
-        text: `<h3 class="">${m.stock_detail_options_volume()}</h3>`,
+        text: `<h3 class="">${stock_detail_options_volume()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -536,7 +600,7 @@
       },
 
       title: {
-        text: `<h3 class="">${m.stock_detail_options_put_call_ratio()}</h3>`,
+        text: `<h3 class="">${stock_detail_options_put_call_ratio()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -696,21 +760,21 @@
         <div class="w-full mb-10">
           <div class="flex flex-row items-center">
             <h2 class="mb-2 text-xl sm:text-2xl font-bold w-fit">
-              {m.stock_detail_options_overview_title({ ticker })}
+              {stock_detail_options_overview_title({ ticker })}
             </h2>
             <div class="ml-1 -mt-3">
               <InfoModal
                 id="opra-data-info"
-                title={m.stock_detail_options_opra_title()}
-                content={m.stock_detail_options_opra_content()}
+                title={stock_detail_options_opra_title()}
+                content={stock_detail_options_opra_content()}
               />
             </div>
           </div>
 
           <p class="mt-4">
-            {m.stock_detail_options_overview_intro()} <strong>{ticker}</strong>. {m.stock_detail_options_overview_as_of()}
+            {stock_detail_options_overview_intro()} <strong>{ticker}</strong>. {stock_detail_options_overview_as_of()}
             <strong>{overview?.date}</strong>, <strong>{ticker}</strong>
-            {m.stock_detail_options_overview_have_iv()}
+            {stock_detail_options_overview_have_iv()}
             {#if isSubscribed}
               <strong
                 >{overview?.currentIV
@@ -731,7 +795,7 @@
                 </svg>
               </a>
             {/if}
-            {m.stock_detail_options_overview_and_iv_rank()}
+            {stock_detail_options_overview_and_iv_rank()}
             {#if isSubscribed}
               <strong
                 >{overview?.ivRank ? overview?.ivRank + "%" : "n/a"}</strong
@@ -750,7 +814,7 @@
                 </svg>
               </a>
             {/if}
-            . {m.stock_detail_options_overview_volume_is()}
+            . {stock_detail_options_overview_volume_is()}
             {#if isSubscribed}
               <strong>{overview?.totalVolume?.toLocaleString("en-US")}</strong>
             {:else}
@@ -767,7 +831,7 @@
                 </svg>
               </a>
             {/if}
-            {m.stock_detail_options_overview_contracts_which_is()}
+            {stock_detail_options_overview_contracts_which_is()}
             {#if isSubscribed}
               <strong
                 >{overview?.volumePercentage
@@ -788,7 +852,7 @@
                 </svg>
               </a>
             {/if}
-            {m.stock_detail_options_overview_of_avg_volume()}
+            {stock_detail_options_overview_of_avg_volume()}
             {#if isSubscribed}
               <strong
                 >{overview?.avgDailyVolume?.toLocaleString("en-US")}</strong
@@ -807,7 +871,7 @@
                 </svg>
               </a>
             {/if}
-            {m.stock_detail_options_overview_contracts_pc_ratio()}
+            {stock_detail_options_overview_contracts_pc_ratio()}
             {#if isSubscribed}
               <strong>{overview?.putCallRatio}</strong>
             {:else}
@@ -824,7 +888,7 @@
                 </svg>
               </a>
             {/if}
-            , {m.stock_detail_options_overview_indicating()}
+            , {stock_detail_options_overview_indicating()}
             {#if isSubscribed}
               <strong>{overview?.sentiment}</strong>
             {:else}
@@ -841,13 +905,13 @@
                 </svg>
               </a>
             {/if}
-            {m.stock_detail_options_overview_sentiment_market()}
+            {stock_detail_options_overview_sentiment_market()}
           </p>
         </div>
 
         <!-- Apply the blur class to the chart -->
         <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">
-          {m.stock_detail_options_implied_volatility()}
+          {stock_detail_options_implied_volatility()}
         </h2>
         <div
           class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full m-auto"
@@ -870,10 +934,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_iv_30d_label()}</span>
+                <span>{stock_detail_options_iv_30d_label()}</span>
                 <InfoModal
                   id="iv-30d-info"
-                  content={m.stock_detail_options_info_iv_30d()}
+                  content={stock_detail_options_info_iv_30d()}
                 />
               </div>
 
@@ -904,10 +968,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_iv_rank()}</span>
+                <span>{stock_detail_options_iv_rank()}</span>
                 <InfoModal
                   id="iv-rank-info"
-                  content={m.stock_detail_options_info_iv_rank()}
+                  content={stock_detail_options_info_iv_rank()}
                 />
               </div>
 
@@ -937,10 +1001,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_historical_volatility()}</span>
+                <span>{stock_detail_options_historical_volatility()}</span>
                 <InfoModal
                   id="historical-vol-info"
-                  content={m.stock_detail_options_info_historical_vol()}
+                  content={stock_detail_options_info_historical_vol()}
                 />
               </div>
 
@@ -970,10 +1034,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_iv_low()}</span>
+                <span>{stock_detail_options_iv_low()}</span>
                 <InfoModal
                   id="iv-low-info"
-                  content={m.stock_detail_options_info_iv_low()}
+                  content={stock_detail_options_info_iv_low()}
                 />
               </div>
               {#if isSubscribed}
@@ -1000,10 +1064,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_iv_high()}</span>
+                <span>{stock_detail_options_iv_high()}</span>
                 <InfoModal
                   id="iv-high-info"
-                  content={m.stock_detail_options_info_iv_high()}
+                  content={stock_detail_options_info_iv_high()}
                 />
               </div>
 
@@ -1035,7 +1099,7 @@
           ><h2
             class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
           >
-            {m.stock_detail_options_oi_heading()}
+            {stock_detail_options_oi_heading()}
           </h2>
           <svg
             class="size-6 sm:size-7 mt-1"
@@ -1073,10 +1137,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_today_oi()}</span>
+                <span>{stock_detail_options_today_oi()}</span>
                 <InfoModal
                   id="oi-today-info"
-                  content={m.stock_detail_options_info_oi_today()}
+                  content={stock_detail_options_info_oi_today()}
                 />
               </div>
               {#if isSubscribed}
@@ -1103,10 +1167,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_put_call_ratio()}</span>
+                <span>{stock_detail_options_put_call_ratio()}</span>
                 <InfoModal
                   id="oi-pc-ratio-info"
-                  content={m.stock_detail_options_info_oi_pc_ratio()}
+                  content={stock_detail_options_info_oi_pc_ratio()}
                 />
               </div>
 
@@ -1134,10 +1198,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_put_oi()}</span>
+                <span>{stock_detail_options_put_oi()}</span>
                 <InfoModal
                   id="put-oi-info"
-                  content={m.stock_detail_options_info_put_oi()}
+                  content={stock_detail_options_info_put_oi()}
                 />
               </div>
 
@@ -1165,10 +1229,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_call_oi()}</span>
+                <span>{stock_detail_options_call_oi()}</span>
                 <InfoModal
                   id="call-oi-info"
-                  content={m.stock_detail_options_info_call_oi()}
+                  content={stock_detail_options_info_call_oi()}
                 />
               </div>
 
@@ -1196,10 +1260,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_oi_avg_30d()}</span>
+                <span>{stock_detail_options_oi_avg_30d()}</span>
                 <InfoModal
                   id="oi-avg-info"
-                  content={m.stock_detail_options_info_oi_avg()}
+                  content={stock_detail_options_info_oi_avg()}
                 />
               </div>
 
@@ -1227,10 +1291,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_today_vs_oi_avg()}</span>
+                <span>{stock_detail_options_today_vs_oi_avg()}</span>
                 <InfoModal
                   id="oi-today-vs-avg-info"
-                  content={m.stock_detail_options_info_oi_vs_avg()}
+                  content={stock_detail_options_info_oi_vs_avg()}
                 />
               </div>
 
@@ -1262,7 +1326,7 @@
           ><h2
             class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
           >
-            {m.stock_detail_options_volume_heading()}
+            {stock_detail_options_volume_heading()}
           </h2>
           <svg
             class="size-6 sm:size-7 mt-1"
@@ -1300,10 +1364,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_today_volume()}</span>
+                <span>{stock_detail_options_today_volume()}</span>
                 <InfoModal
                   id="vol-today-info"
-                  content={m.stock_detail_options_info_vol_today()}
+                  content={stock_detail_options_info_vol_today()}
                 />
               </div>
               {#if isSubscribed}
@@ -1330,10 +1394,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_put_call_ratio()}</span>
+                <span>{stock_detail_options_put_call_ratio()}</span>
                 <InfoModal
                   id="vol-pc-ratio-info"
-                  content={m.stock_detail_options_info_vol_pc_ratio()}
+                  content={stock_detail_options_info_vol_pc_ratio()}
                 />
               </div>
 
@@ -1361,10 +1425,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_put_volume()}</span>
+                <span>{stock_detail_options_put_volume()}</span>
                 <InfoModal
                   id="put-vol-info"
-                  content={m.stock_detail_options_info_put_vol()}
+                  content={stock_detail_options_info_put_vol()}
                 />
               </div>
 
@@ -1392,10 +1456,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_call_volume()}</span>
+                <span>{stock_detail_options_call_volume()}</span>
                 <InfoModal
                   id="call-vol-info"
-                  content={m.stock_detail_options_info_call_vol()}
+                  content={stock_detail_options_info_call_vol()}
                 />
               </div>
 
@@ -1423,10 +1487,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_volume_avg_30d()}</span>
+                <span>{stock_detail_options_volume_avg_30d()}</span>
                 <InfoModal
                   id="vol-avg-info"
-                  content={m.stock_detail_options_info_vol_avg()}
+                  content={stock_detail_options_info_vol_avg()}
                 />
               </div>
 
@@ -1454,10 +1518,10 @@
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
-                <span>{m.stock_detail_options_today_vs_vol_avg()}</span>
+                <span>{stock_detail_options_today_vs_vol_avg()}</span>
                 <InfoModal
                   id="vol-today-vs-avg-info"
-                  content={m.stock_detail_options_info_vol_vs_avg()}
+                  content={stock_detail_options_info_vol_vs_avg()}
                 />
               </div>
 
@@ -1490,11 +1554,11 @@
             <h3
               class="mb-4 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
             >
-              {m.stock_detail_options_chain_statistics()}
+              {stock_detail_options_chain_statistics()}
             </h3>
 
             <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {@html m.stock_detail_options_chain_desc({ ticker })}
+              {@html stock_detail_options_chain_desc({ ticker })}
             </p>
 
             <div
@@ -1508,15 +1572,15 @@
                     class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
                     <tr>
-                      <td class="text-start">{m.stock_detail_options_col_expiration()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_call_vol()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_put_vol()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_pc_vol()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_call_oi()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_put_oi()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_pc_oi()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_iv()}</td>
-                      <td class="text-end">{m.stock_detail_options_col_max_pain()}</td>
+                      <td class="text-start">{stock_detail_options_col_expiration()}</td>
+                      <td class="text-end">{stock_detail_options_col_call_vol()}</td>
+                      <td class="text-end">{stock_detail_options_col_put_vol()}</td>
+                      <td class="text-end">{stock_detail_options_col_pc_vol()}</td>
+                      <td class="text-end">{stock_detail_options_col_call_oi()}</td>
+                      <td class="text-end">{stock_detail_options_col_put_oi()}</td>
+                      <td class="text-end">{stock_detail_options_col_pc_oi()}</td>
+                      <td class="text-end">{stock_detail_options_col_iv()}</td>
+                      <td class="text-end">{stock_detail_options_col_max_pain()}</td>
                     </tr>
                   </thead>
                   <tbody>

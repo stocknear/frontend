@@ -13,7 +13,21 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_metrics_bar_chart,
+  stock_detail_metrics_close,
+  stock_detail_metrics_growth,
+  stock_detail_metrics_line_chart,
+  stock_detail_metrics_no_data,
+  stock_detail_metrics_peaked_at,
+  stock_detail_metrics_period_ending,
+  stock_detail_metrics_quarterly,
+  stock_detail_metrics_seo_description,
+  stock_detail_metrics_seo_title,
+  stock_detail_metrics_source,
+  stock_detail_metrics_ttm,
+  stock_detail_metrics_upgrade,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -26,7 +40,7 @@
   const limit = 6;
 
   // Tab state
-  $: tabs = [m.stock_detail_metrics_quarterly(), m.stock_detail_metrics_ttm()];
+  $: tabs = [stock_detail_metrics_quarterly(), stock_detail_metrics_ttm()];
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
 
   function handleTabClick(index: number) {
@@ -104,7 +118,7 @@
       lowestValueDate = dateList[lowestValueIndex] || null;
     }
 
-    const label = isGrowth ? `${row.name} ${m.stock_detail_metrics_growth()}` : row.name;
+    const label = isGrowth ? `${row.name} ${stock_detail_metrics_growth()}` : row.name;
 
     const options = {
       chart: {
@@ -200,7 +214,7 @@
   function handleChart(row: any, isGrowth: boolean) {
     currentRow = row;
     currentIsGrowth = isGrowth;
-    modalLabel = isGrowth ? `${row.name} ${m.stock_detail_metrics_growth()}` : row.name;
+    modalLabel = isGrowth ? `${row.name} ${stock_detail_metrics_growth()}` : row.name;
     config = plotData(row, isGrowth);
   }
 
@@ -512,8 +526,8 @@
 </script>
 
 <SEO
-  title={m.stock_detail_metrics_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_metrics_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_metrics_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_metrics_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
 />
 
 <section class="overflow-hidden min-h-screen w-full">
@@ -613,7 +627,7 @@
                       <th
                         class="border-b border-r border-gray-300 dark:border-zinc-700 font-semibold text-xs text-start"
                       >
-                        {m.stock_detail_metrics_period_ending()}
+                        {stock_detail_metrics_period_ending()}
                       </th>
                       {#each tableData.formattedDates as formattedDate (formattedDate)}
                         <th
@@ -668,7 +682,7 @@
                                 href="/pricing"
                                 class="inline-flex items-center justify-end text-sm font-semibold"
                               >
-                                {m.stock_detail_metrics_upgrade()}
+                                {stock_detail_metrics_upgrade()}
                                 <svg
                                   class="ml-1 mt-px size-3.5"
                                   viewBox="0 0 20 20"
@@ -693,7 +707,7 @@
                           class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700"
                         >
                           <span class="ml-2 mr-5 md:mr-0"
-                            >{row.name} {m.stock_detail_metrics_growth()}</span
+                            >{row.name} {stock_detail_metrics_growth()}</span
                           >
                           <label
                             for="financialPlotModal"
@@ -730,7 +744,7 @@
                                 href="/pricing"
                                 class="inline-flex items-center justify-end text-sm font-semibold text-gray-600 dark:text-zinc-300"
                               >
-                                {m.stock_detail_metrics_upgrade()}
+                                {stock_detail_metrics_upgrade()}
                                 <svg
                                   class="ml-1 mt-px size-3.5"
                                   viewBox="0 0 20 20"
@@ -760,11 +774,11 @@
           <div
             class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 -mt-5"
           >
-            <strong>Source:</strong> {@html m.stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
+            <strong>Source:</strong> {@html stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
           </div>
         {:else}
           <Infobox
-            text={m.stock_detail_metrics_no_data({ company: removeCompanyStrings($displayCompanyName) })}
+            text={stock_detail_metrics_no_data({ company: removeCompanyStrings($displayCompanyName) })}
           />
         {/if}
       </div>
@@ -787,10 +801,10 @@
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {m.stock_detail_metrics_line_chart()} </span>
+            <span class="ml-1 mr-auto text-sm"> {stock_detail_metrics_line_chart()} </span>
           {:else}
             <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {m.stock_detail_metrics_bar_chart()} </span>
+            <span class="ml-1 mr-auto text-sm"> {stock_detail_metrics_bar_chart()} </span>
           {/if}</Button
         >
       </div>
@@ -801,7 +815,7 @@
       ></div>
     {/if}
     <p class="text-sm mb-6 mt-5">
-      {m.stock_detail_metrics_peaked_at({
+      {stock_detail_metrics_peaked_at({
         label: modalLabel,
         highest: currentIsGrowth ? highestValue?.toFixed(2) + "%" : abbreviateNumber(highestValue?.toFixed(2)),
         highestDate: highestValueDate,
@@ -815,7 +829,7 @@
         for="financialPlotModal"
         class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
       >
-        {m.stock_detail_metrics_close()}
+        {stock_detail_metrics_close()}
       </label>
     </div>
   </div>

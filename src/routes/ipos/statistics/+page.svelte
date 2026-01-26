@@ -4,7 +4,16 @@
   import { mode } from "mode-watcher";
   import IPOChart from "$lib/components/IPOChart.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  ipos_statistics_description,
+  ipos_statistics_infobox,
+  ipos_statistics_more_news,
+  ipos_statistics_seo_description,
+  ipos_statistics_seo_keywords,
+  ipos_statistics_seo_title,
+  ipos_statistics_stock_news,
+  ipos_statistics_title,
+} from "$lib/paraglide/messages";
   import {
     market_news_time_minute,
     market_news_time_minutes,
@@ -227,9 +236,9 @@
 </script>
 
 <SEO
-  title={m.ipos_statistics_seo_title()}
-  description={m.ipos_statistics_seo_description()}
-  keywords={m.ipos_statistics_seo_keywords()}
+  title={ipos_statistics_seo_title()}
+  description={ipos_statistics_seo_description()}
+  keywords={ipos_statistics_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Dataset",
@@ -261,19 +270,19 @@
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
             <Infobox
-              text={m.ipos_statistics_infobox()}
+              text={ipos_statistics_infobox()}
             />
 
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 sm:mb-0 mt-2"
             >
-              {m.ipos_statistics_title()}
+              {ipos_statistics_title()}
             </h1>
 
             <div
               class="mb-2 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
             >
-              {m.ipos_statistics_description({ count: data?.getIPOCalendar?.length?.toLocaleString("en-US"), minYear, minCount, maxYear, maxCount: maxCount?.toLocaleString("en-US") })}
+              {ipos_statistics_description({ count: data?.getIPOCalendar?.length?.toLocaleString("en-US"), minYear, minCount, maxYear, maxCount: maxCount?.toLocaleString("en-US") })}
             </div>
 
             {#if isLoaded && config}
@@ -310,7 +319,7 @@
               <h3
                 class="text-lg font-semibold text-gray-900 dark:text-white mb-3"
               >
-                {m.ipos_statistics_stock_news()}
+                {ipos_statistics_stock_news()}
               </h3>
               <ul class="">
                 {#each marketNews?.slice(0, 10) as item}
@@ -330,7 +339,7 @@
                 href={`/market-news`}
                 class="flex justify-center items-center rounded-full cursor-pointer w-full py-2.5 mt-3 text-[0.95rem] text-center font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition"
               >
-                {m.ipos_statistics_more_news()}
+                {ipos_statistics_more_news()}
               </a>
             </div>
           </div>

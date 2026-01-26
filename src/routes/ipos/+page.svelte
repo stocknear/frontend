@@ -2,7 +2,12 @@
   import SEO from "$lib/components/SEO.svelte";
   import Table from "$lib/components/Table/Table.svelte";
   import { formatDate } from "$lib/utils";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  ipos_count,
+  ipos_seo_description,
+  ipos_seo_keywords,
+  ipos_seo_title,
+} from "$lib/paraglide/messages";
   export let data;
 
   let marketNews = data?.getNews;
@@ -33,9 +38,9 @@
 </script>
 
 <SEO
-  title={m.ipos_seo_title()}
-  description={m.ipos_seo_description()}
-  keywords={m.ipos_seo_keywords()}
+  title={ipos_seo_title()}
+  description={ipos_seo_description()}
+  keywords={ipos_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -77,7 +82,7 @@
       <main class="w-full">
         <div class="w-full overflow-x-auto">
           <Table
-            title={m.ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
+            title={ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
             {data}
             {rawData}
             {excludedRules}

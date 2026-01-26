@@ -26,7 +26,33 @@
   import EarningsSurprise from "$lib/components/EarningsSurprise.svelte";
   import Sidecard from "$lib/components/Sidecard.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_52w_range,
+  stock_detail_analyst,
+  stock_detail_ask,
+  stock_detail_avg_volume_20d,
+  stock_detail_beta,
+  stock_detail_bid,
+  stock_detail_days_range,
+  stock_detail_dividends,
+  stock_detail_eps_ttm,
+  stock_detail_ex_dividend_date,
+  stock_detail_forward_pe,
+  stock_detail_market_cap,
+  stock_detail_net_income_ttm,
+  stock_detail_no_data,
+  stock_detail_open,
+  stock_detail_pb_ttm,
+  stock_detail_pe_ratio_ttm,
+  stock_detail_prev_close,
+  stock_detail_price_target,
+  stock_detail_ps_ttm,
+  stock_detail_revenue_ttm,
+  stock_detail_total_assets_ttm,
+  stock_detail_total_equity_ttm,
+  stock_detail_total_liabilities_ttm,
+  stock_detail_volume,
+} from "$lib/paraglide/messages";
 
   import {
     convertTimestamp,
@@ -1156,7 +1182,7 @@
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
                   <p class="text-sm text-gray-500 dark:text-zinc-300">
-                    {m.stock_detail_no_data()}
+                    {stock_detail_no_data()}
                   </p>
                 </div>
               {:else}
@@ -1185,7 +1211,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_bid()}</td
+                      >{stock_detail_bid()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1203,7 +1229,7 @@
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/market-cap`}
                         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                        >{m.stock_detail_market_cap()}</a
+                        >{stock_detail_market_cap()}</a
                       ></td
                     >
                     <td
@@ -1223,7 +1249,7 @@
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/revenue`}
                         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                        >{m.stock_detail_revenue_ttm()}</a
+                        >{stock_detail_revenue_ttm()}</a
                       ></td
                     >
                     <td
@@ -1239,7 +1265,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_net_income_ttm()}</td
+                      >{stock_detail_net_income_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1253,7 +1279,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_eps_ttm()}</td
+                      >{stock_detail_eps_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1264,7 +1290,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_pe_ratio_ttm()}</td
+                      >{stock_detail_pe_ratio_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1275,7 +1301,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_forward_pe()}</td
+                      >{stock_detail_forward_pe()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1287,7 +1313,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_pb_ttm()}</td
+                      >{stock_detail_pb_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1301,7 +1327,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_ps_ttm()}</td
+                      >{stock_detail_ps_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1315,7 +1341,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_total_assets_ttm()}</td
+                      >{stock_detail_total_assets_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1328,7 +1354,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_total_liabilities_ttm()}</td
+                      >{stock_detail_total_liabilities_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1344,7 +1370,7 @@
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                     >
-                      {m.stock_detail_total_equity_ttm()}
+                      {stock_detail_total_equity_ttm()}
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1363,7 +1389,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_ask()}</td
+                      >{stock_detail_ask()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1378,7 +1404,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_volume()}</td
+                      >{stock_detail_volume()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1389,7 +1415,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_avg_volume_20d()}</td
+                      >{stock_detail_avg_volume_20d()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1404,7 +1430,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_open()}</td
+                      >{stock_detail_open()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1417,7 +1443,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_prev_close()}</td
+                      >{stock_detail_prev_close()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1430,7 +1456,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_days_range()}</td
+                      >{stock_detail_days_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1445,7 +1471,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_52w_range()}</td
+                      >{stock_detail_52w_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1460,7 +1486,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_beta()}</td
+                      >{stock_detail_beta()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1482,7 +1508,7 @@
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
                           ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                          : " cursor-text"}>{m.stock_detail_analyst()}</a
+                          : " cursor-text"}>{stock_detail_analyst()}</a
                       >
                     </td>
                     <td
@@ -1507,7 +1533,7 @@
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
                           ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                          : " cursor-text"}>{m.stock_detail_price_target()}</a
+                          : " cursor-text"}>{stock_detail_price_target()}</a
                       >
                     </td>
                     <td
@@ -1531,7 +1557,7 @@
                           : ""}
                         class={data?.getStockDeck?.annualDividend
                           ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-                          : " cursor-text"}>{m.stock_detail_dividends()}</a
+                          : " cursor-text"}>{stock_detail_dividends()}</a
                       >
                     </td>
                     <td
@@ -1550,7 +1576,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{m.stock_detail_ex_dividend_date()}</td
+                      >{stock_detail_ex_dividend_date()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"

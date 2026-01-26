@@ -13,7 +13,40 @@
   //import * as XLSX from 'xlsx';
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_next,
+  stock_detail_no_data,
+  stock_detail_page_of,
+  stock_detail_previous,
+  stock_detail_rows,
+  stock_detail_stats_10_years,
+  stock_detail_stats_1_month,
+  stock_detail_stats_1_year,
+  stock_detail_stats_1_year_change,
+  stock_detail_stats_3_years,
+  stock_detail_stats_5_years,
+  stock_detail_stats_6_months,
+  stock_detail_stats_annual,
+  stock_detail_stats_category,
+  stock_detail_stats_decreased,
+  stock_detail_stats_history,
+  stock_detail_stats_increased,
+  stock_detail_stats_market_cap_chart,
+  stock_detail_stats_market_cap_infobox,
+  stock_detail_stats_market_cap_seo_description,
+  stock_detail_stats_market_cap_seo_keywords,
+  stock_detail_stats_market_cap_seo_title,
+  stock_detail_stats_market_cap_structured_desc,
+  stock_detail_stats_market_cap_structured_name,
+  stock_detail_stats_market_capitalization,
+  stock_detail_stats_max,
+  stock_detail_stats_nav_market_cap,
+  stock_detail_stats_negative_trend,
+  stock_detail_stats_positive_trend,
+  stock_detail_stats_quarterly,
+  stock_detail_stats_select_time_frame,
+  stock_detail_stats_unchanged,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -658,16 +691,16 @@
 </script>
 
 <SEO
-  title={m.stock_detail_stats_market_cap_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_stats_market_cap_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_stats_market_cap_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_market_cap_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_stats_market_cap_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_stats_market_cap_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: m.stock_detail_stats_market_cap_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_stats_market_cap_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_market_cap_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_stats_market_cap_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -707,13 +740,13 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">{m.stock_detail_stats_market_capitalization()}</h1>
+            <h1 class="text-xl sm:text-2xl font-bold">{stock_detail_stats_market_capitalization()}</h1>
           </div>
 
           {#if rawData?.length !== 0}
             <div class="grid grid-cols-1 gap-2">
               <Infobox
-                text={m.stock_detail_stats_market_cap_infobox({
+                text={stock_detail_stats_market_cap_infobox({
                   company: removeCompanyStrings($displayCompanyName),
                   marketCap: abbreviateNumber(data?.getStockQuote?.marketCap),
                   date: new Date()?.toLocaleString("en-US", {
@@ -723,10 +756,10 @@
                     timeZone: "UTC",
                   }),
                   changeDirection: changePercentageYearAgo > 0
-                    ? m.stock_detail_stats_increased()
+                    ? stock_detail_stats_increased()
                     : changePercentageYearAgo < 0
-                      ? m.stock_detail_stats_decreased()
-                      : m.stock_detail_stats_unchanged(),
+                      ? stock_detail_stats_decreased()
+                      : stock_detail_stats_unchanged(),
                   changePercent: abbreviateNumber(changePercentageYearAgo?.toFixed(2))
                 })}
               />
@@ -738,7 +771,7 @@
                   class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class=" text-sm mb-2 flex items-center">
-                    <span>{m.stock_detail_stats_nav_market_cap()}</span>
+                    <span>{stock_detail_stats_nav_market_cap()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold">
@@ -751,7 +784,7 @@
                   class="category-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class=" text-sm mb-2 flex items-center">
-                    <span>{m.stock_detail_stats_category()}</span>
+                    <span>{stock_detail_stats_category()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -773,7 +806,7 @@
                   class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
                 >
                   <div class=" text-sm mb-2 flex items-center">
-                    <span>{m.stock_detail_stats_1_year_change()}</span>
+                    <span>{stock_detail_stats_1_year_change()}</span>
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
@@ -795,8 +828,8 @@
                               : ''}"
                         >
                           {changePercentageYearAgo >= 0
-                            ? m.stock_detail_stats_positive_trend()
-                            : m.stock_detail_stats_negative_trend()}
+                            ? stock_detail_stats_positive_trend()
+                            : stock_detail_stats_negative_trend()}
                         </span>
                       </div>
                     {/if}
@@ -808,7 +841,7 @@
                 class="flex flex-col sm:flex-row items-start sm:items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
                 <h2 class="mb-3 sm:mb-0 text-xl sm:text-2xl font-bold">
-                  {m.stock_detail_stats_market_cap_chart()}
+                  {stock_detail_stats_market_cap_chart()}
                 </h2>
 
                 <div
@@ -851,7 +884,7 @@
                         <DropdownMenu.Label
                           class="text-gray-500 dark:text-zinc-400 font-normal"
                         >
-                          {m.stock_detail_stats_select_time_frame()}
+                          {stock_detail_stats_select_time_frame()}
                         </DropdownMenu.Label>
                         <DropdownMenu.Separator />
                         <DropdownMenu.Group>
@@ -859,43 +892,43 @@
                             on:click={() => changeStatement("1M")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_1_month()}
+                            {stock_detail_stats_1_month()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("6M")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_6_months()}
+                            {stock_detail_stats_6_months()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("1Y")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_1_year()}
+                            {stock_detail_stats_1_year()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("3Y")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_3_years()}
+                            {stock_detail_stats_3_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("5Y")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_5_years()}
+                            {stock_detail_stats_5_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("10Y")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_10_years()}
+                            {stock_detail_stats_10_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("Max")}
                             class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.stock_detail_stats_max()}
+                            {stock_detail_stats_max()}
                           </DropdownMenu.Item>
                         </DropdownMenu.Group>
                       </DropdownMenu.Content>
@@ -918,7 +951,7 @@
                 class=" flex flex-row items-center w-full justify-between mt-2 border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
                 <h3 class="history-driver text-xl sm:text-2xl font-bold">
-                  {m.stock_detail_stats_history()}
+                  {stock_detail_stats_history()}
                 </h3>
 
                 <div class="inline-flex justify-center rounded w-auto">
@@ -939,7 +972,7 @@
                                 ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                 : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                             >
-                              {i === 0 ? m.stock_detail_stats_annual() : m.stock_detail_stats_quarterly()}
+                              {i === 0 ? stock_detail_stats_annual() : stock_detail_stats_quarterly()}
                             </button>
                           {/each}
                         </div>
@@ -1014,12 +1047,12 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
+                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -1029,7 +1062,7 @@
                           class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >{m.stock_detail_rows({ count: rowsPerPage })}</span
+                            >{stock_detail_rows({ count: rowsPerPage })}</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1063,7 +1096,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
+                                <span class="text-sm">{stock_detail_rows({ count: item })}</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -1077,7 +1110,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{m.stock_detail_next()}</span>
+                    <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1096,7 +1129,7 @@
               {/if}
             </div>
           {:else}
-            <Infobox text={m.stock_detail_no_data()} />
+            <Infobox text={stock_detail_no_data()} />
           {/if}
         </div>
       </main>

@@ -14,7 +14,27 @@
     import BarChartIcon from "lucide-svelte/icons/chart-column-increasing";
     import LineChartIcon from "lucide-svelte/icons/chart-spline";
     import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
-    import * as m from "$lib/paraglide/messages";
+    import {
+  stock_detail_options_chart_current_price,
+  stock_detail_options_common_back_to_top,
+  stock_detail_options_common_call,
+  stock_detail_options_common_day,
+  stock_detail_options_common_days,
+  stock_detail_options_common_next,
+  stock_detail_options_common_page_of,
+  stock_detail_options_common_previous,
+  stock_detail_options_common_put,
+  stock_detail_options_common_rows,
+  stock_detail_options_greeks_col_delta,
+  stock_detail_options_greeks_col_gamma,
+  stock_detail_options_greeks_col_strike,
+  stock_detail_options_greeks_col_theta,
+  stock_detail_options_greeks_col_vega,
+  stock_detail_options_greeks_date_expiration,
+  stock_detail_options_greeks_description,
+  stock_detail_options_greeks_table_title,
+  stock_detail_options_greeks_title,
+} from "$lib/paraglide/messages";
 
     export let data;
     export let ticker = null;
@@ -52,8 +72,8 @@
         if (dte == null) return "";
         const dayLabel =
             dte === 1
-                ? m.stock_detail_options_common_day()
-                : m.stock_detail_options_common_days();
+                ? stock_detail_options_common_day()
+                : stock_detail_options_common_days();
         return `(${dte} ${dayLabel})`;
     };
 
@@ -336,7 +356,7 @@
         const series = [];
         if (selectedType === "Calls & Puts" || selectedType === "Calls") {
             series?.push({
-                name: m.stock_detail_options_common_call(),
+                name: stock_detail_options_common_call(),
                 type: chartType,
                 data: callSeries,
                 color: "#06988A",
@@ -348,7 +368,7 @@
         }
         if (selectedType === "Calls & Puts" || selectedType === "Puts") {
             series?.push({
-                name: m.stock_detail_options_common_put(),
+                name: stock_detail_options_common_put(),
                 type: chartType,
                 data: putSeries,
                 color: "#FF0808",
@@ -411,7 +431,7 @@
                         dashStyle: "Dash",
                         width: 1.5,
                         label: {
-                            text: m.stock_detail_options_chart_current_price({
+                            text: stock_detail_options_chart_current_price({
                                 price: currentPrice,
                             }),
                             style: {
@@ -519,11 +539,11 @@
 
     // Columns and sorting state (compatible with your TableHeader)
     $: columns = [
-        { key: "strike", label: m.stock_detail_options_greeks_col_strike(), align: "left" },
-        { key: "totalDelta", label: m.stock_detail_options_greeks_col_delta(), align: "right" },
-        { key: "totalGamma", label: m.stock_detail_options_greeks_col_gamma(), align: "right" },
-        { key: "totalTheta", label: m.stock_detail_options_greeks_col_theta(), align: "right" },
-        { key: "totalVega", label: m.stock_detail_options_greeks_col_vega(), align: "right" },
+        { key: "strike", label: stock_detail_options_greeks_col_strike(), align: "left" },
+        { key: "totalDelta", label: stock_detail_options_greeks_col_delta(), align: "right" },
+        { key: "totalGamma", label: stock_detail_options_greeks_col_gamma(), align: "right" },
+        { key: "totalTheta", label: stock_detail_options_greeks_col_theta(), align: "right" },
+        { key: "totalVega", label: stock_detail_options_greeks_col_vega(), align: "right" },
     ];
 
     $: sortOrders = {
@@ -634,13 +654,13 @@
                 <h2
                     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
                 >
-                    {m.stock_detail_options_greeks_title({ company: removeCompanyStrings($displayCompanyName) })}
+                    {stock_detail_options_greeks_title({ company: removeCompanyStrings($displayCompanyName) })}
                 </h2>
 
                 <div
                     class="w-full mt-4 mb-6 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                    {m.stock_detail_options_greeks_description({ ticker })}
+                    {stock_detail_options_greeks_description({ ticker })}
                 </div>
 
                 <div>
@@ -717,7 +737,7 @@
                                     class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     <span class=" text-sm"
-                                        >{m.stock_detail_options_greeks_date_expiration()} | {formatDate(
+                                        >{stock_detail_options_greeks_date_expiration()} | {formatDate(
                                             selectedDate,
                                         )}</span
                                     >
@@ -831,7 +851,7 @@
                         <h2
                             class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                         >
-                            {m.stock_detail_options_greeks_table_title({ greek: selectedGreek })}
+                            {stock_detail_options_greeks_table_title({ greek: selectedGreek })}
                         </h2>
 
                         <div
@@ -938,7 +958,7 @@
                                         clip-rule="evenodd"
                                     ></path>
                                 </svg>
-                                <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
+                                <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
                             </Button>
                         </div>
 
@@ -947,7 +967,7 @@
                             <span
                                 class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                                {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
+                                {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -958,7 +978,7 @@
                                     >
                                         <span
                                             class="truncate text-[0.85rem] sm:text-sm"
-                                            >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
+                                            >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
                                         >
                                         <svg
                                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -995,7 +1015,7 @@
                                                     class="inline-flex justify-between w-full items-center cursor-pointer"
                                                 >
                                                     <span class="text-sm"
-                                                        >{m.stock_detail_options_common_rows({ count: item })}</span
+                                                        >{stock_detail_options_common_rows({ count: item })}</span
                                                     >
                                                 </label>
                                             </DropdownMenu.Item>
@@ -1012,7 +1032,7 @@
                                 disabled={currentPage === totalPages}
                                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                                <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
+                                <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
                                 <svg
                                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                     viewBox="0 0 20 20"
@@ -1036,7 +1056,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                         >
-                            {m.stock_detail_options_common_back_to_top()} <svg
+                            {stock_detail_options_common_back_to_top()} <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-180"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"

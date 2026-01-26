@@ -9,7 +9,47 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  notifications_alerts_count,
+  notifications_back_to_top,
+  notifications_breadcrumb_home,
+  notifications_breadcrumb_notifications,
+  notifications_channel_earnings_surprise,
+  notifications_channel_top_analyst,
+  notifications_channel_wiim,
+  notifications_customize,
+  notifications_delete_error,
+  notifications_empty,
+  notifications_main_title,
+  notifications_mark_all_read,
+  notifications_marking,
+  notifications_modal_cancel,
+  notifications_modal_delete_button,
+  notifications_modal_delete_confirm,
+  notifications_modal_delete_title,
+  notifications_modal_deleting,
+  notifications_no_channels,
+  notifications_pagination_next,
+  notifications_pagination_page_of,
+  notifications_pagination_previous,
+  notifications_pagination_rows,
+  notifications_seo_description,
+  notifications_seo_title,
+  notifications_settings,
+  notifications_sidebar_portfolio,
+  notifications_sidebar_portfolio_description,
+  notifications_sidebar_watchlist,
+  notifications_sidebar_watchlist_description,
+  notifications_type_breaking_news,
+  notifications_type_earnings_release,
+  notifications_type_earnings_surprise_new,
+  notifications_type_is_condition,
+  notifications_type_price_alert_triggered,
+  notifications_type_price_is,
+  notifications_type_top_analyst_new,
+  notifications_type_top_analyst_rating,
+  notifications_type_wiim_new_data,
+} from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
@@ -83,9 +123,9 @@
   // Channel labels use functions to get translated values at runtime
   function getChannelLabel(key: string): string {
     const labelGetters: Record<string, () => string> = {
-      earningsSurprise: () => m.notifications_channel_earnings_surprise(),
-      wiim: () => m.notifications_channel_wiim(),
-      topAnalyst: () => m.notifications_channel_top_analyst(),
+      earningsSurprise: () => notifications_channel_earnings_surprise(),
+      wiim: () => notifications_channel_wiim(),
+      topAnalyst: () => notifications_channel_top_analyst(),
     };
     return labelGetters[key]?.() ?? key.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
   }
@@ -605,7 +645,7 @@
       closeDeleteModal();
     } catch (error) {
       console.error("Failed to delete notifications", error);
-      deleteError = m.notifications_delete_error();
+      deleteError = notifications_delete_error();
     } finally {
       deleteInFlight = false;
     }
@@ -636,15 +676,15 @@
 </script>
 
 <SEO
-  title={m.notifications_seo_title()}
-  description={m.notifications_seo_description()}
+  title={notifications_seo_title()}
+  description={notifications_seo_description()}
 />
 
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    items={[{ label: m.notifications_breadcrumb_home(), href: "/" }, { label: m.notifications_breadcrumb_notifications() }]}
+    items={[{ label: notifications_breadcrumb_home(), href: "/" }, { label: notifications_breadcrumb_notifications() }]}
   />
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -657,7 +697,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.notifications_main_title()}
+              {notifications_main_title()}
             </h1>
           </div>
 
@@ -667,7 +707,7 @@
             <h2
               class="text-start w-full mb-2 sm:mb-0 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.notifications_alerts_count({ count: totalItems?.toLocaleString(getLocale() === "de" ? "de-DE" : "en-US") })}
+              {notifications_alerts_count({ count: totalItems?.toLocaleString(getLocale() === "de" ? "de-DE" : "en-US") })}
             </h2>
             <div
               class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none py-1 sm:py-0 w-full"
@@ -682,7 +722,7 @@
                   aria-disabled={markAllDisabled}
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{updateInFlight ? m.notifications_marking() : m.notifications_mark_all_read()}</span
+                    >{updateInFlight ? notifications_marking() : notifications_mark_all_read()}</span
                   >
                 </Button>
               </div>
@@ -697,7 +737,7 @@
                       class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{m.notifications_settings()}</span
+                        >{notifications_settings()}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -725,7 +765,7 @@
                     <DropdownMenu.Label
                       class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                     >
-                      {m.notifications_customize()}
+                      {notifications_customize()}
                     </DropdownMenu.Label>
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
@@ -765,7 +805,7 @@
                         <DropdownMenu.Item
                           class="text-sm text-gray-500 dark:text-zinc-400"
                         >
-                          {m.notifications_no_channels()}
+                          {notifications_no_channels()}
                         </DropdownMenu.Item>
                       {/if}
                     </DropdownMenu.Group>
@@ -834,7 +874,7 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {m.notifications_type_price_alert_triggered()} <HoverStockChart
+                                {notifications_type_price_alert_triggered()} <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
                                   assetType={item?.liveResults?.assetType}
                                 />
@@ -842,10 +882,10 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {m.notifications_type_price_is()} <span class="font-semibold"
+                                {notifications_type_price_is()} <span class="font-semibold"
                                   >{item?.liveResults?.currentPrice}</span
                                 >
-                                {m.notifications_type_is_condition({ condition: item?.liveResults?.condition })}
+                                {notifications_type_is_condition({ condition: item?.liveResults?.condition })}
                                 <span class="font-semibold"
                                   >{item?.liveResults?.targetPrice}</span
                                 >
@@ -892,7 +932,7 @@
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
                                 <span class="font-semibold"
-                                  >{m.notifications_type_breaking_news()}</span
+                                  >{notifications_type_breaking_news()}</span
                                 >
                                 <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
@@ -902,7 +942,7 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {m.notifications_type_wiim_new_data()}
+                                {notifications_type_wiim_new_data()}
                               </div>
                             </div>
                           </div>
@@ -945,7 +985,7 @@
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
                                 <span class="font-semibold"
-                                  >{m.notifications_type_top_analyst_new()}</span
+                                  >{notifications_type_top_analyst_new()}</span
                                 >
                                 <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
@@ -956,7 +996,7 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {m.notifications_type_top_analyst_rating({ analyst: item?.liveResults?.analyst, rating: item?.liveResults?.rating_current, price: "$" + item?.liveResults?.adjusted_pt_current })}
+                                {notifications_type_top_analyst_rating({ analyst: item?.liveResults?.analyst, rating: item?.liveResults?.rating_current, price: "$" + item?.liveResults?.adjusted_pt_current })}
                               </div>
                             </div>
                           </div>
@@ -999,7 +1039,7 @@
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
                                 <span class="font-semibold"
-                                  >{m.notifications_type_earnings_release()}</span
+                                  >{notifications_type_earnings_release()}</span
                                 >
                                 <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
@@ -1009,7 +1049,7 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {m.notifications_type_earnings_surprise_new()}
+                                {notifications_type_earnings_surprise_new()}
                               </div>
                             </div>
                           </div>
@@ -1047,13 +1087,13 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">{m.notifications_pagination_previous()}</span>
+                  <span class="hidden sm:inline">{notifications_pagination_previous()}</span>
                 </Button>
               </div>
 
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  {m.notifications_pagination_page_of({ current: currentPage, total: totalPages })}
+                  {notifications_pagination_page_of({ current: currentPage, total: totalPages })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -1063,7 +1103,7 @@
                       class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{m.notifications_pagination_rows({ count: selectedRowsPerPage })}</span
+                        >{notifications_pagination_rows({ count: selectedRowsPerPage })}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1097,7 +1137,7 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{m.notifications_pagination_rows({ count: item })}</span>
+                            <span class="text-sm">{notifications_pagination_rows({ count: item })}</span>
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1112,7 +1152,7 @@
                   disabled={currentPage === totalPages}
                   class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">{m.notifications_pagination_next()}</span>
+                  <span class="hidden sm:inline">{notifications_pagination_next()}</span>
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -1135,7 +1175,7 @@
                 on:click={scrollToTop}
                 class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {m.notifications_back_to_top()}
+                {notifications_back_to_top()}
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"
                   viewBox="0 0 20 20"
@@ -1153,7 +1193,7 @@
             </div>
           {:else}
             <div class="w-full flex items-center justify-start text-start">
-              <Infobox text={m.notifications_empty()} />
+              <Infobox text={notifications_empty()} />
             </div>
           {/if}
         </main>
@@ -1167,12 +1207,12 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">{m.notifications_sidebar_watchlist()}</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">{notifications_sidebar_watchlist()}</h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                {m.notifications_sidebar_watchlist_description()}
+                {notifications_sidebar_watchlist_description()}
               </span>
             </a>
           </div>
@@ -1186,13 +1226,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  {m.notifications_sidebar_portfolio()}
+                  {notifications_sidebar_portfolio()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                {m.notifications_sidebar_portfolio_description()}
+                {notifications_sidebar_portfolio_description()}
               </span>
             </a>
           </div>
@@ -1211,9 +1251,9 @@
   <div
     class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/90 text-gray-700 dark:text-zinc-200"
   >
-    <h3 class="text-lg font-medium mb-2">{m.notifications_modal_delete_title()}</h3>
+    <h3 class="text-lg font-medium mb-2">{notifications_modal_delete_title()}</h3>
     <p class="text-sm mb-4">
-      {m.notifications_modal_delete_confirm()}
+      {notifications_modal_delete_confirm()}
     </p>
     {#if deleteError}
       <p class="text-sm text-red-600 dark:text-red-400 mb-4" role="alert">
@@ -1227,7 +1267,7 @@
         tabindex="0"
         on:click={() => {
           deleteError = null;
-        }}>{m.notifications_modal_cancel()}</label
+        }}>{notifications_modal_cancel()}</label
       ><button
         type="button"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
@@ -1256,7 +1296,7 @@
             y2="17"
           ></line></svg
         ><span class="whitespace-nowrap"
-          >{deleteInFlight ? m.notifications_modal_deleting() : m.notifications_modal_delete_button()}</span
+          >{deleteInFlight ? notifications_modal_deleting() : notifications_modal_delete_button()}</span
         >
       </button>
     </div>

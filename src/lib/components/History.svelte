@@ -11,7 +11,26 @@
   import highcharts from "$lib/highcharts.ts";
   import { createHighchartsRangeSelector } from "$lib/highchartsRangeSelector";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_history_annual,
+  stock_detail_history_col_adj_close,
+  stock_detail_history_col_change,
+  stock_detail_history_col_close,
+  stock_detail_history_col_date,
+  stock_detail_history_col_high,
+  stock_detail_history_col_low,
+  stock_detail_history_col_open,
+  stock_detail_history_col_volume,
+  stock_detail_history_daily,
+  stock_detail_history_historical_data,
+  stock_detail_history_monthly,
+  stock_detail_history_no_data,
+  stock_detail_history_price,
+  stock_detail_history_quarterly,
+  stock_detail_history_select_timeframe,
+  stock_detail_history_title,
+  stock_detail_history_week_of,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -384,7 +403,7 @@
       legend: { enabled: false },
       series: [
         {
-          name: m.stock_detail_history_price(),
+          name: stock_detail_history_price(),
           type: "area",
           data: priceList,
           animation: false,
@@ -408,24 +427,24 @@
   }
 
   $: columns = [
-    { key: "time", label: m.stock_detail_history_col_date(), align: "left" },
-    { key: "open", label: m.stock_detail_history_col_open(), align: "right" },
-    { key: "high", label: m.stock_detail_history_col_high(), align: "right" },
-    { key: "low", label: m.stock_detail_history_col_low(), align: "right" },
-    { key: "close", label: m.stock_detail_history_col_close(), align: "right" },
+    { key: "time", label: stock_detail_history_col_date(), align: "left" },
+    { key: "open", label: stock_detail_history_col_open(), align: "right" },
+    { key: "high", label: stock_detail_history_col_high(), align: "right" },
+    { key: "low", label: stock_detail_history_col_low(), align: "right" },
+    { key: "close", label: stock_detail_history_col_close(), align: "right" },
     {
       key: "adjClose",
-      label: m.stock_detail_history_col_adj_close(),
+      label: stock_detail_history_col_adj_close(),
       align: "right",
     },
     {
       key: "changesPercentage",
-      label: m.stock_detail_history_col_change(),
+      label: stock_detail_history_col_change(),
       align: "right",
     },
     {
       key: "volume",
-      label: m.stock_detail_history_col_volume(),
+      label: stock_detail_history_col_volume(),
       align: "right",
     },
   ];
@@ -529,7 +548,7 @@
           <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
             {#if config}
               <h1 class="text-xl sm:text-2xl font-bold mb-3">
-                {m.stock_detail_history_title({ ticker })}
+                {stock_detail_history_title({ ticker })}
               </h1>
               <div class="relative">
                 <div
@@ -559,7 +578,7 @@
                 class="mt-5 border-t border-b pt-2 pb-2 border-gray-300 dark:border-zinc-700 flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
-                  {m.stock_detail_history_historical_data()}
+                  {stock_detail_history_historical_data()}
                 </h2>
                 <div class="flex flex-row items-center ml-auto w-fit">
                   <div class="relative inline-block text-left ml-auto mr-2">
@@ -597,7 +616,7 @@
                         <DropdownMenu.Label
                           class="text-muted dark:text-gray-400 font-normal"
                         >
-                          {m.stock_detail_history_select_timeframe()}
+                          {stock_detail_history_select_timeframe()}
                         </DropdownMenu.Label>
                         <DropdownMenu.Separator />
                         <DropdownMenu.Group>
@@ -605,7 +624,7 @@
                             on:click={() => (timePeriod = "Daily")}
                             class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
-                            {m.stock_detail_history_daily()}
+                            {stock_detail_history_daily()}
                           </DropdownMenu.Item>
 
                           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
@@ -631,19 +650,19 @@
                               on:click={() => (timePeriod = "Monthly")}
                               class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                             >
-                              {m.stock_detail_history_monthly()}
+                              {stock_detail_history_monthly()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Quarterly")}
                               class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                             >
-                              {m.stock_detail_history_quarterly()}
+                              {stock_detail_history_quarterly()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Annual")}
                               class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                             >
-                              {m.stock_detail_history_annual()}
+                              {stock_detail_history_annual()}
                             </DropdownMenu.Item>
                           {/if}
                         </DropdownMenu.Group>
@@ -677,7 +696,7 @@
                             class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                           >
                             {#if timePeriod === "Weekly"}
-                              {m.stock_detail_history_week_of({
+                              {stock_detail_history_week_of({
                                 date: new Date(item?.time).toLocaleString(
                                   "en-US",
                                   {
@@ -766,7 +785,7 @@
               </div>
             {:else}
               <Infobox
-                text={m.stock_detail_history_no_data({
+                text={stock_detail_history_no_data({
                   company: $displayCompanyName,
                 })}
               />

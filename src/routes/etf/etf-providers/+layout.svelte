@@ -3,7 +3,11 @@
   import { formatETFName } from "$lib/utils";
 
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  etf_breadcrumb_home,
+  etf_breadcrumb_providers,
+  etf_providers_main_name,
+} from "$lib/paraglide/messages";
 
   export let data;
   let currentPath = "";
@@ -31,14 +35,14 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.etf_breadcrumb_home()}</a
+        >{etf_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/etf/etf-providers"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.etf_breadcrumb_providers()}</a
+        >{etf_breadcrumb_providers()}</a
       >
     </li>
     {#if currentPath?.length !== 0 && typeof currentPath !== undefined}
@@ -56,7 +60,7 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.etf_providers_main_name()}
+              {etf_providers_main_name()}
             </h1>
           </div>
 

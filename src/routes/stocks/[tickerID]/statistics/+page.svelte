@@ -4,7 +4,50 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import PopupInfo from "$lib/components/PopupInfo.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_stats_analyst_forecast,
+  stock_detail_stats_analyst_text,
+  stock_detail_stats_balance_sheet,
+  stock_detail_stats_balance_sheet_text,
+  stock_detail_stats_cash_flow,
+  stock_detail_stats_cash_flow_text,
+  stock_detail_stats_dividend_details,
+  stock_detail_stats_dividend_text,
+  stock_detail_stats_dividends_yields,
+  stock_detail_stats_enterprise_valuation,
+  stock_detail_stats_enterprise_value_text,
+  stock_detail_stats_fair_value,
+  stock_detail_stats_fair_value_text,
+  stock_detail_stats_financial_efficiency,
+  stock_detail_stats_financial_position,
+  stock_detail_stats_financial_position_text,
+  stock_detail_stats_financial_ratio_history,
+  stock_detail_stats_full_balance_sheet,
+  stock_detail_stats_full_cash_flow,
+  stock_detail_stats_full_income_statement,
+  stock_detail_stats_in_last_12_months,
+  stock_detail_stats_income_statement,
+  stock_detail_stats_margins,
+  stock_detail_stats_margins_text,
+  stock_detail_stats_no_data,
+  stock_detail_stats_overview_seo_description,
+  stock_detail_stats_overview_seo_title,
+  stock_detail_stats_pe_ratio,
+  stock_detail_stats_roe_text,
+  stock_detail_stats_scores,
+  stock_detail_stats_share_statistics,
+  stock_detail_stats_shares_outstanding,
+  stock_detail_stats_short_selling,
+  stock_detail_stats_short_selling_info,
+  stock_detail_stats_stock_price_statistics,
+  stock_detail_stats_stock_price_text,
+  stock_detail_stats_stock_split_text,
+  stock_detail_stats_stock_splits,
+  stock_detail_stats_taxes,
+  stock_detail_stats_title,
+  stock_detail_stats_valuation_ratios,
+  stock_detail_stock_forecasts,
+} from "$lib/paraglide/messages";
 
   export let data;
   let rawData = data?.getStatistics ?? {};
@@ -27,8 +70,8 @@
 </script>
 
 <SEO
-  title={m.stock_detail_stats_overview_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_stats_overview_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_overview_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_stats_overview_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
 />
 
 <section class="w-full text-gray-700 dark:text-zinc-200">
@@ -45,7 +88,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.stock_detail_stats_title()}
+                {stock_detail_stats_title()}
               </h1>
             </div>
 
@@ -53,12 +96,12 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_share_statistics()}
+                {stock_detail_stats_share_statistics()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                {m.stock_detail_stats_shares_outstanding({
+                {stock_detail_stats_shares_outstanding({
                   company: companyName,
                   shares: abbreviateNumber(rawData?.sharesOutStanding, false),
                   marketCap: abbreviateNumber(rawData?.marketCap, false)
@@ -126,13 +169,13 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_short_selling_info()}
+                {stock_detail_stats_short_selling_info()}
               </h2>
               {#if rawData?.sharesShort}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  {m.stock_detail_stats_short_selling({
+                  {stock_detail_stats_short_selling({
                     company: companyName,
                     shortInterest: rawData?.shortOutstandingPercent,
                     sharesShort: abbreviateNumber(rawData?.sharesShort, false),
@@ -177,13 +220,13 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_valuation_ratios()}
+                {stock_detail_stats_valuation_ratios()}
               </h2>
               {#if rawData?.priceToEarningsRatio}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  {m.stock_detail_stats_pe_ratio({ peRatio: rawData?.priceToEarningsRatio })}
+                  {stock_detail_stats_pe_ratio({ peRatio: rawData?.priceToEarningsRatio })}
                 </p>
               {/if}
 
@@ -234,20 +277,20 @@
                 href={`/stocks/${$stockTicker}/financials/ratios`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stats_financial_ratio_history()}
+                {stock_detail_stats_financial_ratio_history()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_enterprise_valuation()}
+                {stock_detail_stats_enterprise_valuation()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.enterpriseValue !== null}
-                  {m.stock_detail_stats_enterprise_value_text({
+                  {stock_detail_stats_enterprise_value_text({
                     enterpriseValue: abbreviateNumber(rawData?.enterpriseValue, false)
                   })}
                 {/if}
@@ -283,13 +326,13 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_financial_position()}
+                {stock_detail_stats_financial_position()}
               </h2>
               {#if rawData?.currentRatio}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  {m.stock_detail_stats_financial_position_text({
+                  {stock_detail_stats_financial_position_text({
                     company: companyName,
                     currentRatio: rawData?.currentRatio
                   })}
@@ -340,12 +383,12 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_financial_efficiency()}
+                {stock_detail_stats_financial_efficiency()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                {m.stock_detail_stats_roe_text({
+                {stock_detail_stats_roe_text({
                   roe: rawData?.returnOnEquity ?? 0,
                   roic: rawData?.returnOnInvestedCapital ?? 0
                 })}
@@ -410,7 +453,7 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_taxes()}
+                {stock_detail_stats_taxes()}
               </h2>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -439,12 +482,12 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_stock_price_statistics()}
+                {stock_detail_stats_stock_price_statistics()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                {m.stock_detail_stats_stock_price_text({ changePercent: rawData?.change1Y })}
+                {stock_detail_stats_stock_price_text({ changePercent: rawData?.change1Y })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -490,13 +533,13 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_income_statement()}
+                {stock_detail_stats_income_statement()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.revenue !== null && rawData?.revenue !== 0}
-                  {m.stock_detail_stats_in_last_12_months({
+                  {stock_detail_stats_in_last_12_months({
                     company: companyName,
                     revenue: abbreviateNumber(rawData?.revenue, false),
                     earnings: abbreviateNumber(rawData?.netIncome, false),
@@ -561,20 +604,20 @@
                 href={`/stocks/${$stockTicker}/financials`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stats_full_income_statement()}
+                {stock_detail_stats_full_income_statement()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_balance_sheet()}
+                {stock_detail_stats_balance_sheet()}
               </h2>
               {#if rawData?.cashAndCashEquivalents}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  {m.stock_detail_stats_balance_sheet_text({
+                  {stock_detail_stats_balance_sheet_text({
                     company: companyName,
                     cash: abbreviateNumber(rawData?.cashAndCashEquivalents, false),
                     totalAssets: abbreviateNumber(rawData?.totalAssets, false),
@@ -636,20 +679,20 @@
                 href={`/stocks/${$stockTicker}/financials/balance-sheet`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stats_full_balance_sheet()}
+                {stock_detail_stats_full_balance_sheet()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_cash_flow()}
+                {stock_detail_stats_cash_flow()}
               </h2>
               {#if rawData?.operatingCashFlow}
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 >
-                  {m.stock_detail_stats_cash_flow_text({
+                  {stock_detail_stats_cash_flow_text({
                     company: companyName,
                     operatingCashFlow: abbreviateNumber(rawData?.operatingCashFlow, false)
                   })}
@@ -691,20 +734,20 @@
                 href={`/stocks/${$stockTicker}/financials/cash-flow`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stats_full_cash_flow()}
+                {stock_detail_stats_full_cash_flow()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_margins()}
+                {stock_detail_stats_margins()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.grossProfitMargin !== 0 && rawData?.grossProfitMargin !== null}
-                  {m.stock_detail_stats_margins_text({
+                  {stock_detail_stats_margins_text({
                     company: companyName,
                     grossMargin: rawData?.grossProfitMargin,
                     operatingMargin: rawData?.operatingProfitMargin,
@@ -784,13 +827,13 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_dividends_yields()}
+                {stock_detail_stats_dividends_yields()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 {#if rawData?.annualDividend !== null && rawData?.dividendYield !== null}
-                  {m.stock_detail_stats_dividend_text({
+                  {stock_detail_stats_dividend_text({
                     company: companyName,
                     annualDividend: rawData?.annualDividend,
                     dividendYield: rawData?.dividendYield
@@ -849,21 +892,21 @@
                 href={`/stocks/${$stockTicker}/dividends`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stats_dividend_details()}
+                {stock_detail_stats_dividend_details()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_analyst_forecast()}
+                {stock_detail_stats_analyst_forecast()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 data-test="statistics-text"
               >
                 {#if rawData?.priceTarget && rawData?.upside && rawData?.analystRating}
-                  {m.stock_detail_stats_analyst_text({
+                  {stock_detail_stats_analyst_text({
                     numAnalysts: rawData?.analystCounter,
                     company: companyName,
                     priceTarget: rawData?.priceTarget,
@@ -905,19 +948,19 @@
                 href={`/stocks/${$stockTicker}/forecast/analyst`}
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stock_forecasts()}
+                {stock_detail_stock_forecasts()}
               </a>
             </div>
             <div>
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_fair_value()}
+                {stock_detail_stats_fair_value()}
               </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                {m.stock_detail_stats_fair_value_text({ dcf: rawData?.dcf ?? "n/a" })}
+                {stock_detail_stats_fair_value_text({ dcf: rawData?.dcf ?? "n/a" })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -957,13 +1000,13 @@
                 <h2
                   class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  {m.stock_detail_stats_stock_splits()}
+                  {stock_detail_stats_stock_splits()}
                 </h2>
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                   data-test="statistics-text"
                 >
-                  {m.stock_detail_stats_stock_split_text({
+                  {stock_detail_stats_stock_split_text({
                     splitType: rawData?.splitType,
                     splitRatio: rawData?.splitRatio,
                     splitDate: new Date(rawData?.lastStockSplit).toLocaleString("en-US", {
@@ -1009,7 +1052,7 @@
               <h2
                 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
-                {m.stock_detail_stats_scores()}
+                {stock_detail_stats_scores()}
               </h2>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -1031,7 +1074,7 @@
           </div>
         </div>
       {:else}
-        <Infobox text={m.stock_detail_stats_no_data()} />
+        <Infobox text={stock_detail_stats_no_data()} />
       {/if}
     </div>
   </div>

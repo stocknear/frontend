@@ -12,7 +12,32 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  analysts_back_to_top,
+  analysts_breadcrumb_analysts,
+  analysts_breadcrumb_home,
+  analysts_detail_average_return,
+  analysts_detail_count,
+  analysts_detail_empty,
+  analysts_detail_main_sectors,
+  analysts_detail_no_data,
+  analysts_detail_out_of_analysts,
+  analysts_detail_rating,
+  analysts_detail_ratings,
+  analysts_detail_seo_description,
+  analysts_detail_seo_keywords,
+  analysts_detail_seo_title,
+  analysts_detail_stock_analyst_at,
+  analysts_detail_success_rate,
+  analysts_detail_top_industries,
+  analysts_detail_total_ratings,
+  analysts_detail_view_chart,
+  analysts_pagination_next,
+  analysts_pagination_page_of,
+  analysts_pagination_previous,
+  analysts_pagination_rows,
+  analysts_search_placeholder,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -454,9 +479,9 @@
 </script>
 
 <SEO
-  title={m.analysts_detail_seo_title({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a" })}
-  description={m.analysts_detail_seo_description({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a", successRate: successRate ?? "n/a", avgReturn: avgReturn ?? "n/a", totalRatings: totalRatings ?? 0 })}
-  keywords={m.analysts_detail_seo_keywords({ analystName: analystName?.toLowerCase() ?? "", companyName: companyName?.toLowerCase() ?? "" })}
+  title={analysts_detail_seo_title({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a" })}
+  description={analysts_detail_seo_description({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a", successRate: successRate ?? "n/a", avgReturn: avgReturn ?? "n/a", totalRatings: totalRatings ?? 0 })}
+  keywords={analysts_detail_seo_keywords({ analystName: analystName?.toLowerCase() ?? "", companyName: companyName?.toLowerCase() ?? "" })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Person",
@@ -493,14 +518,14 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >{m.analysts_breadcrumb_home()}</a
+        >{analysts_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/analysts"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >{m.analysts_breadcrumb_analysts()}</a
+        >{analysts_breadcrumb_analysts()}</a
       >
     </li>
 
@@ -542,7 +567,7 @@
                   <p
                     class="mb-0.5 text-sm font-medium text-gray-800 dark:text-zinc-300"
                   >
-                    {m.analysts_detail_stock_analyst_at({ companyName: companyName ?? "n/a" })}
+                    {analysts_detail_stock_analyst_at({ companyName: companyName ?? "n/a" })}
                   </p>
                   <div class="inline-flex items-center">
                     <div class="flex flex-row items-center">
@@ -592,7 +617,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.analysts_detail_out_of_analysts({ count: numOfAnalysts ?? "n/a" })}
+                    {analysts_detail_out_of_analysts({ count: numOfAnalysts ?? "n/a" })}
                   </div>
                 </div>
                 <div
@@ -606,7 +631,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.analysts_detail_total_ratings()}
+                    {analysts_detail_total_ratings()}
                   </div>
                 </div>
                 <div
@@ -647,7 +672,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.analysts_detail_success_rate()}
+                    {analysts_detail_success_rate()}
                   </div>
                 </div>
                 <div
@@ -688,7 +713,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.analysts_detail_average_return()}
+                    {analysts_detail_average_return()}
                   </div>
                 </div>
               </div>
@@ -705,7 +730,7 @@
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      {m.analysts_detail_main_sectors()}
+                      {analysts_detail_main_sectors()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -728,7 +753,7 @@
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      {m.analysts_detail_top_industries()}
+                      {analysts_detail_top_industries()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -754,7 +779,7 @@
                 <h2
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {m.analysts_detail_count({ count: rawData?.length?.toLocaleString("en-US") })}
+                  {analysts_detail_count({ count: rawData?.length?.toLocaleString("en-US") })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -785,7 +810,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder={m.analysts_search_placeholder()}
+                      placeholder={analysts_search_placeholder()}
                       class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
@@ -941,11 +966,11 @@
                       >
                         <span
                           >{item?.ratings} {item?.ratings > 1
-                            ? m.analysts_detail_ratings()
-                            : m.analysts_detail_rating()}</span
+                            ? analysts_detail_ratings()
+                            : analysts_detail_rating()}</span
                         >
                         <div class="flex items-center gap-1">
-                          <span>{m.analysts_detail_view_chart()}</span>
+                          <span>{analysts_detail_view_chart()}</span>
                           <svg
                             class="h-4 w-4 transition-transform {checkedSymbol ===
                             item?.ticker
@@ -1217,14 +1242,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{m.analysts_pagination_previous()}</span></Button
+                    <span class="hidden sm:inline">{analysts_pagination_previous()}</span></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    {m.analysts_pagination_page_of({ current: currentPage, total: totalPages })}
+                    {analysts_pagination_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -1234,7 +1259,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{m.analysts_pagination_rows({ count: rowsPerPage })}</span
+                          >{analysts_pagination_rows({ count: rowsPerPage })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1269,7 +1294,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{m.analysts_pagination_rows({ count: item })}</span>
+                              <span class="text-sm">{analysts_pagination_rows({ count: item })}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1285,7 +1310,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{m.analysts_pagination_next()}</span>
+                    <span class="hidden sm:inline">{analysts_pagination_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1309,7 +1334,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  {m.analysts_back_to_top()} <svg
+                  {analysts_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -1326,12 +1351,12 @@
               </div>
             {:else if stockList?.length === 0 && inputValue?.length > 0}
               <div class="pt-5">
-                <Infobox text={m.analysts_detail_empty({ query: inputValue })} />
+                <Infobox text={analysts_detail_empty({ query: inputValue })} />
               </div>
             {:else}
               <div class="pt-5">
                 <Infobox
-                  text={m.analysts_detail_no_data()}
+                  text={analysts_detail_no_data()}
                 />
               </div>
             {/if}

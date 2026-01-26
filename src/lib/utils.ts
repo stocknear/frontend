@@ -3,7 +3,24 @@ import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 import { getLocale } from "$lib/paraglide/runtime.js";
-import * as m from "$lib/paraglide/messages";
+import {
+  time_ago,
+  time_day,
+  time_days,
+  time_hour,
+  time_hours,
+  time_just_now,
+  time_minute,
+  time_minutes,
+  time_month,
+  time_months,
+  time_second,
+  time_seconds,
+  time_week,
+  time_weeks,
+  time_year,
+  time_years,
+} from "$lib/paraglide/messages";
 
 // Helper to get current locale safely (returns "en" as fallback)
 function getCurrentLocale(): string {
@@ -1371,13 +1388,13 @@ export function formatDate(dateStr, short = false) {
     // Helper to get translated unit
     const getUnit = (unit: string, count: number) => {
       const unitMap: Record<string, () => string> = {
-        year: () => count === 1 ? m.time_year() : m.time_years(),
-        month: () => count === 1 ? m.time_month() : m.time_months(),
-        week: () => count === 1 ? m.time_week() : m.time_weeks(),
-        day: () => count === 1 ? m.time_day() : m.time_days(),
-        hour: () => count === 1 ? m.time_hour() : m.time_hours(),
-        minute: () => count === 1 ? m.time_minute() : m.time_minutes(),
-        second: () => count === 1 ? m.time_second() : m.time_seconds(),
+        year: () => count === 1 ? time_year() : time_years(),
+        month: () => count === 1 ? time_month() : time_months(),
+        week: () => count === 1 ? time_week() : time_weeks(),
+        day: () => count === 1 ? time_day() : time_days(),
+        hour: () => count === 1 ? time_hour() : time_hours(),
+        minute: () => count === 1 ? time_minute() : time_minutes(),
+        second: () => count === 1 ? time_second() : time_seconds(),
       };
       return unitMap[unit]?.() || unit;
     };
@@ -1397,12 +1414,12 @@ export function formatDate(dateStr, short = false) {
       if (count >= 1) {
         if (unit === 'hour' && count >= 24) {
           const days = Math.floor(count / 24);
-          return short ? `${days}d` : m.time_ago({ count: days.toString(), unit: getUnit('day', days) });
+          return short ? `${days}d` : time_ago({ count: days.toString(), unit: getUnit('day', days) });
         }
-        return short ? `${count}${sfx}` : m.time_ago({ count: count.toString(), unit: getUnit(unit, count) });
+        return short ? `${count}${sfx}` : time_ago({ count: count.toString(), unit: getUnit(unit, count) });
       }
     }
-    return short ? '0s' : m.time_just_now();
+    return short ? '0s' : time_just_now();
   } catch (err) {
     console.error('Error formatting date:', err);
     return 'Invalid date';

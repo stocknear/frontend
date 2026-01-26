@@ -1,5 +1,12 @@
 <script lang="ts">
-    import * as m from "$lib/paraglide/messages";
+    import {
+  portfolio_fundamentals_efficiency,
+  portfolio_fundamentals_growth,
+  portfolio_fundamentals_margins,
+  portfolio_fundamentals_portfolio,
+  portfolio_fundamentals_us_market,
+  portfolio_fundamentals_valuation,
+} from "$lib/paraglide/messages";
     import highcharts from "$lib/highcharts";
     import { onMount } from "svelte";
     import { mode } from "mode-watcher";
@@ -12,10 +19,10 @@
     // Get translated display title based on internal identifier
     function getDisplayTitle(t: string): string {
         const titleMap = {
-            "Valuation": m.portfolio_fundamentals_valuation(),
-            "Growth": m.portfolio_fundamentals_growth(),
-            "Efficiency": m.portfolio_fundamentals_efficiency(),
-            "Margins": m.portfolio_fundamentals_margins(),
+            "Valuation": portfolio_fundamentals_valuation(),
+            "Growth": portfolio_fundamentals_growth(),
+            "Efficiency": portfolio_fundamentals_efficiency(),
+            "Margins": portfolio_fundamentals_margins(),
         };
         return titleMap[t] || t;
     }
@@ -78,15 +85,15 @@
         : {
               gauge1: {
                   value: null,
-                  label: m.portfolio_fundamentals_portfolio(),
+                  label: portfolio_fundamentals_portfolio(),
                   compareValue: 0,
-                  compareLabel: m.portfolio_fundamentals_us_market(),
+                  compareLabel: portfolio_fundamentals_us_market(),
               },
               gauge2: {
                   value: null,
-                  label: m.portfolio_fundamentals_portfolio(),
+                  label: portfolio_fundamentals_portfolio(),
                   compareValue: 0,
-                  compareLabel: m.portfolio_fundamentals_us_market(),
+                  compareLabel: portfolio_fundamentals_us_market(),
               },
               stats: getDefaultStats(title).map((stat) => ({
                   ...stat,

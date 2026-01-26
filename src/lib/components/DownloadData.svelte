@@ -4,7 +4,24 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  common_bulk_download,
+  common_credit_cost_total,
+  common_credits_cost,
+  common_credits_left,
+  common_download,
+  common_download_csv,
+  common_download_excel,
+  common_toast_add_tickers,
+  common_toast_download_abusive,
+  common_toast_download_complete,
+  common_toast_download_failed,
+  common_toast_download_no_data,
+  common_toast_download_preparing,
+  common_toast_downloading,
+  common_toast_not_enough_credits,
+  common_toast_select_bulk,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let rawData;
@@ -33,7 +50,7 @@
       return rawData;
     } catch (error) {
       console.error("Failed to prepare download", error);
-      toast.error(m.common_toast_download_preparing(), {
+      toast.error(common_toast_download_preparing(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return rawData;
@@ -49,7 +66,7 @@
     }
 
     if (data?.user?.downloadCredits > 500) {
-      toast.error(m.common_toast_download_abusive(), {
+      toast.error(common_toast_download_abusive(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -71,7 +88,7 @@
         const dataset = await ensureDownloadData();
 
         if (!dataset?.length) {
-          toast.error(m.common_toast_download_no_data(), {
+          toast.error(common_toast_download_no_data(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           return;
@@ -84,9 +101,9 @@
         }
       })(),
       {
-        loading: m.common_toast_downloading(),
-        success: m.common_toast_download_complete(),
-        error: m.common_toast_download_failed(),
+        loading: common_toast_downloading(),
+        success: common_toast_download_complete(),
+        error: common_toast_download_failed(),
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       },
     );
@@ -217,7 +234,7 @@
 
     if (totalCreditCost === 0 || tickers?.length === 0) {
       toast.error(
-        m.common_toast_select_bulk({
+        common_toast_select_bulk({
           type: tickers?.length === 0 ? "symbol" : "bulk data",
         }),
         {
@@ -254,18 +271,18 @@
           URL.revokeObjectURL(url);
         })(),
         {
-          loading: m.common_toast_downloading(),
-          success: m.common_toast_download_complete(),
-          error: m.common_toast_download_failed(),
+          loading: common_toast_downloading(),
+          success: common_toast_download_complete(),
+          error: common_toast_download_failed(),
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
       );
     } else if (tickers?.length === 0) {
-      toast.error(m.common_toast_add_tickers(), {
+      toast.error(common_toast_add_tickers(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
-      toast.error(m.common_toast_not_enough_credits(), {
+      toast.error(common_toast_not_enough_credits(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -293,7 +310,7 @@
           class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{m.common_bulk_download()}</span
+            >{common_bulk_download()}</span
           >
           <svg
             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -321,7 +338,7 @@
         <DropdownMenu.Label
           class="text-gray-500 dark:text-zinc-400 font-semibold dark:font-normal text-xs"
         >
-          {m.common_credits_left({ count: data?.user?.credits })}
+          {common_credits_left({ count: data?.user?.credits })}
         </DropdownMenu.Label>
         <!-- Dropdown items -->
         <DropdownMenu.Group class="pb-2">
@@ -338,7 +355,7 @@
               >
                 <span class="mr-1 text-sm">{item?.name}</span>
                 <span class="mr-2 text-xs inline-block"
-                  >{m.common_credits_cost({ count: item?.credit })}</span
+                  >{common_credits_cost({ count: item?.credit })}</span
                 >
                 <div class="relative ml-auto">
                   <input
@@ -364,13 +381,13 @@
           <span
             class="w-full text-gray-500 dark:text-zinc-400 bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
           >
-            {m.common_credit_cost_total({ count: totalCreditCost })}
+            {common_credit_cost_total({ count: totalCreditCost })}
           </span>
           <button
             on:click={handleBulkDownload}
             class="whitespace-nowrap w-full flex justify-end text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
           >
-            {m.common_bulk_download()}
+            {common_bulk_download()}
           </button>
         </div>
       </DropdownMenu.Content>
@@ -383,7 +400,7 @@
           class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           <span class="truncate text-[0.85rem] sm:text-sm">
-            {m.common_download()}
+            {common_download()}
           </span>
           <svg
             class="-mr-1 ml-1 h-5 w-5 inline-block"
@@ -412,7 +429,7 @@
             on:click={() => download("csv")}
             class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
           >
-            <span>{m.common_download_csv()}</span>
+            <span>{common_download_csv()}</span>
             {#if !isSubscribed}
               <svg
                 class="ml-1 size-4"
@@ -434,7 +451,7 @@
             on:click={() => download("excel")}
             class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
           >
-            <span>{m.common_download_excel()}</span>
+            <span>{common_download_excel()}</span>
             {#if !isSubscribed}
               <svg
                 class="ml-1 size-4"

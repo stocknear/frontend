@@ -14,7 +14,43 @@
   import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_back_to_top,
+  stock_detail_next,
+  stock_detail_page_of,
+  stock_detail_previous,
+  stock_detail_rows,
+  stock_detail_shareholders_additional,
+  stock_detail_shareholders_call_flow,
+  stock_detail_shareholders_col_filing,
+  stock_detail_shareholders_col_institute,
+  stock_detail_shareholders_col_ownership,
+  stock_detail_shareholders_col_portfolio,
+  stock_detail_shareholders_col_shares,
+  stock_detail_shareholders_col_shares_change,
+  stock_detail_shareholders_col_value,
+  stock_detail_shareholders_declined,
+  stock_detail_shareholders_decrease,
+  stock_detail_shareholders_description,
+  stock_detail_shareholders_dropping,
+  stock_detail_shareholders_expanded,
+  stock_detail_shareholders_find,
+  stock_detail_shareholders_grew,
+  stock_detail_shareholders_increase,
+  stock_detail_shareholders_increasing,
+  stock_detail_shareholders_options_activity,
+  stock_detail_shareholders_options_bearish,
+  stock_detail_shareholders_options_bullish,
+  stock_detail_shareholders_options_holding,
+  stock_detail_shareholders_options_neutral,
+  stock_detail_shareholders_others,
+  stock_detail_shareholders_ownership,
+  stock_detail_shareholders_put_call,
+  stock_detail_shareholders_put_flow,
+  stock_detail_shareholders_reduced,
+  stock_detail_shareholders_reduction,
+  stock_detail_shareholders_top_shareholders,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -79,7 +115,7 @@
     // Add "Others" if there's remaining ownership
     if (othersOwnership > 0) {
       pieData.push({
-        name: m.stock_detail_shareholders_others(),
+        name: stock_detail_shareholders_others(),
         y: othersOwnership,
         color: "#9B7BA7", // Light purple
       });
@@ -139,7 +175,7 @@
       },
       series: [
         {
-          name: m.stock_detail_shareholders_ownership(),
+          name: stock_detail_shareholders_ownership(),
           data: pieData,
           animation: false,
         },
@@ -282,37 +318,37 @@
   $: columns = [
     {
       key: "name",
-      label: m.stock_detail_shareholders_col_institute(),
+      label: stock_detail_shareholders_col_institute(),
       align: "left",
     },
     {
       key: "ownership",
-      label: m.stock_detail_shareholders_col_ownership(),
+      label: stock_detail_shareholders_col_ownership(),
       align: "right",
     },
     {
       key: "sharesNumber",
-      label: m.stock_detail_shareholders_col_shares(),
+      label: stock_detail_shareholders_col_shares(),
       align: "right",
     },
     {
       key: "changeInSharesNumberPercentage",
-      label: m.stock_detail_shareholders_col_shares_change(),
+      label: stock_detail_shareholders_col_shares_change(),
       align: "right",
     },
     {
       key: "marketValue",
-      label: m.stock_detail_shareholders_col_value(),
+      label: stock_detail_shareholders_col_value(),
       align: "right",
     },
     {
       key: "weight",
-      label: m.stock_detail_shareholders_col_portfolio(),
+      label: stock_detail_shareholders_col_portfolio(),
       align: "right",
     },
     {
       key: "filingDate",
-      label: m.stock_detail_shareholders_col_filing(),
+      label: stock_detail_shareholders_col_filing(),
       align: "right",
     },
   ];
@@ -405,22 +441,22 @@
         class="mt-3 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
       >
         <p>
-          {@html m.stock_detail_shareholders_description({
+          {@html stock_detail_shareholders_description({
             count: rawData?.investorsHolding?.toLocaleString("en-US"),
             company: removeCompanyStrings($displayCompanyName),
             direction:
               rawData?.investorsHoldingChange >= 0
-                ? m.stock_detail_shareholders_expanded()
-                : m.stock_detail_shareholders_reduced(),
+                ? stock_detail_shareholders_expanded()
+                : stock_detail_shareholders_reduced(),
             changeType:
               rawData?.investorsHoldingChange >= 0
-                ? m.stock_detail_shareholders_increase()
-                : m.stock_detail_shareholders_decrease(),
+                ? stock_detail_shareholders_increase()
+                : stock_detail_shareholders_decrease(),
             change: Math.abs(rawData?.investorsHoldingChange),
             sharesDirection:
               rawData?.numberOf13FsharesChange >= 0
-                ? m.stock_detail_shareholders_additional()
-                : m.stock_detail_shareholders_reduction(),
+                ? stock_detail_shareholders_additional()
+                : stock_detail_shareholders_reduction(),
             sharesChange: abbreviateNumber(
               Math.abs(rawData?.numberOf13FsharesChange),
               false,
@@ -428,8 +464,8 @@
             ),
             capitalDirection:
               rawData?.totalInvestedChange >= 0
-                ? m.stock_detail_shareholders_grew()
-                : m.stock_detail_shareholders_declined(),
+                ? stock_detail_shareholders_grew()
+                : stock_detail_shareholders_declined(),
             capitalChange: abbreviateNumber(
               Math.abs(rawData?.totalInvestedChange),
               true,
@@ -437,8 +473,8 @@
             ),
             ownershipDirection:
               rawData?.ownershipPercent >= rawData?.lastOwnershipPercent
-                ? m.stock_detail_shareholders_increasing()
-                : m.stock_detail_shareholders_dropping(),
+                ? stock_detail_shareholders_increasing()
+                : stock_detail_shareholders_dropping(),
             lastOwnership: rawData?.lastOwnershipPercent?.toFixed(2),
             currentOwnership: rawData?.ownershipPercent?.toFixed(2),
           })}
@@ -454,16 +490,16 @@
         <h1
           class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 mt-6"
         >
-          {m.stock_detail_shareholders_options_activity()}
+          {stock_detail_shareholders_options_activity()}
         </h1>
 
         <div class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
-          {m.stock_detail_shareholders_options_holding()}
+          {stock_detail_shareholders_options_holding()}
           {callPercentage > 55
-            ? m.stock_detail_shareholders_options_bullish()
+            ? stock_detail_shareholders_options_bullish()
             : callPercentage < 45
-              ? m.stock_detail_shareholders_options_bearish()
-              : m.stock_detail_shareholders_options_neutral()}
+              ? stock_detail_shareholders_options_bearish()
+              : stock_detail_shareholders_options_neutral()}
         </div>
 
         <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
@@ -477,7 +513,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >{m.stock_detail_shareholders_put_call()}</span
+                  >{stock_detail_shareholders_put_call()}</span
                 >
                 <span
                   class="text-start text-sm text-gray-700 dark:text-zinc-200"
@@ -537,7 +573,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >{m.stock_detail_shareholders_call_flow()}</span
+                  >{stock_detail_shareholders_call_flow()}</span
                 >
                 <span
                   class="text-start text-sm text-gray-700 dark:text-zinc-200"
@@ -599,7 +635,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >{m.stock_detail_shareholders_put_flow()}</span
+                  >{stock_detail_shareholders_put_flow()}</span
                 >
                 <span
                   class="text-start text-sm text-gray-700 dark:text-zinc-200"
@@ -664,7 +700,7 @@
           <h2
             class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
           >
-            {m.stock_detail_shareholders_top_shareholders()}
+            {stock_detail_shareholders_top_shareholders()}
           </h2>
           <div
             class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -695,7 +731,7 @@
                 bind:value={inputValue}
                 on:input={search}
                 type="text"
-                placeholder={m.stock_detail_shareholders_find()}
+                placeholder={stock_detail_shareholders_find()}
                 class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
@@ -817,14 +853,14 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
+              <span class="hidden sm:inline">{stock_detail_previous()}</span>
             </Button>
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.stock_detail_page_of({
+              {stock_detail_page_of({
                 current: currentPage,
                 total: totalPages,
               })}
@@ -837,7 +873,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{m.stock_detail_rows({ count: rowsPerPage })}</span
+                    >{stock_detail_rows({ count: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -873,7 +909,7 @@
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
                         <span class="text-sm"
-                          >{m.stock_detail_rows({ count: item })}</span
+                          >{stock_detail_rows({ count: item })}</span
                         >
                       </label>
                     </DropdownMenu.Item>
@@ -890,7 +926,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">{m.stock_detail_next()}</span>
+              <span class="hidden sm:inline">{stock_detail_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -914,7 +950,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {m.stock_detail_back_to_top()}
+            {stock_detail_back_to_top()}
             <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"

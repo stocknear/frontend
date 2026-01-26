@@ -11,7 +11,31 @@
   import { page } from "$app/stores";
   import { screenWidth } from "$lib/store";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  politicians_back_to_top,
+  politicians_breadcrumb_home,
+  politicians_breadcrumb_politicians,
+  politicians_detail_count_stocks,
+  politicians_detail_empty,
+  politicians_detail_empty_search,
+  politicians_detail_main_sectors,
+  politicians_detail_mobile_filed,
+  politicians_detail_mobile_view_chart,
+  politicians_detail_stats_avg_return,
+  politicians_detail_stats_buy_sell,
+  politicians_detail_stats_last_transaction,
+  politicians_detail_stats_rank,
+  politicians_detail_stats_success_rate,
+  politicians_detail_stats_total_amount,
+  politicians_detail_stats_trades_scored,
+  politicians_detail_stats_transaction,
+  politicians_detail_top_industries,
+  politicians_pagination_next,
+  politicians_pagination_page_of,
+  politicians_pagination_previous,
+  politicians_pagination_rows,
+  politicians_search_placeholder,
+} from "$lib/paraglide/messages";
 
   import DownloadData from "$lib/components/DownloadData.svelte";
 
@@ -497,14 +521,14 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.politicians_breadcrumb_home()}</a
+        >{politicians_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/politicians"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.politicians_breadcrumb_politicians()}</a
+        >{politicians_breadcrumb_politicians()}</a
       >
     </li>
 
@@ -599,7 +623,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.politicians_detail_stats_rank()}
+                    {politicians_detail_stats_rank()}
                   </div>
                 </div>
 
@@ -619,7 +643,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.politicians_detail_stats_trades_scored()}
+                    {politicians_detail_stats_trades_scored()}
                   </div>
                 </div>
 
@@ -666,7 +690,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.politicians_detail_stats_success_rate()}
+                    {politicians_detail_stats_success_rate()}
                   </div>
                 </div>
                 <div
@@ -712,7 +736,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.politicians_detail_stats_avg_return()}
+                    {politicians_detail_stats_avg_return()}
                   </div>
                 </div>
               </div>
@@ -733,7 +757,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  {m.politicians_detail_stats_total_amount()}
+                  {politicians_detail_stats_total_amount()}
                 </div>
               </div>
 
@@ -748,7 +772,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  {m.politicians_detail_stats_transaction()}
+                  {politicians_detail_stats_transaction()}
                 </div>
               </div>
 
@@ -770,7 +794,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  {m.politicians_detail_stats_last_transaction()}
+                  {politicians_detail_stats_last_transaction()}
                 </div>
               </div>
               <div
@@ -784,7 +808,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
-                  {m.politicians_detail_stats_buy_sell()}
+                  {politicians_detail_stats_buy_sell()}
                 </div>
               </div>
             </div>
@@ -800,7 +824,7 @@
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      {m.politicians_detail_main_sectors()}
+                      {politicians_detail_main_sectors()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -823,7 +847,7 @@
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      {m.politicians_detail_top_industries()}
+                      {politicians_detail_top_industries()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -849,7 +873,7 @@
                 <h2
                   class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {m.politicians_detail_count_stocks({ count: originalData?.length?.toLocaleString("en-US") })}
+                  {politicians_detail_count_stocks({ count: originalData?.length?.toLocaleString("en-US") })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
@@ -880,7 +904,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder={m.politicians_search_placeholder()}
+                      placeholder={politicians_search_placeholder()}
                       class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
@@ -1004,7 +1028,7 @@
                           <p
                             class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mb-0.5"
                           >
-                            {m.politicians_detail_mobile_filed()}
+                            {politicians_detail_mobile_filed()}
                           </p>
                           <p
                             class="text-[13px] tabular-nums text-gray-800 dark:text-zinc-300"
@@ -1026,7 +1050,7 @@
                         on:click={() => openGraph(item?.ticker)}
                         class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
-                        <span>{m.politicians_detail_mobile_view_chart()}</span>
+                        <span>{politicians_detail_mobile_view_chart()}</span>
                         <svg
                           class="h-4 w-4 transition-transform {checkedSymbol ===
                           (item?.ticker ?? item?.symbol)
@@ -1237,12 +1261,12 @@
               {/if}
             {:else if stockList?.length === 0 && inputValue?.length > 0}
               <div class="pt-5">
-                <Infobox text={m.politicians_detail_empty_search({ query: inputValue })} />
+                <Infobox text={politicians_detail_empty_search({ query: inputValue })} />
               </div>
             {:else}
               <div class="pt-5">
                 <Infobox
-                  text={m.politicians_detail_empty()}
+                  text={politicians_detail_empty()}
                 />
               </div>
             {/if}
@@ -1272,14 +1296,14 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{m.politicians_pagination_previous()}</span></Button
+                    <span class="hidden sm:inline">{politicians_pagination_previous()}</span></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    {m.politicians_pagination_page_of({ current: currentPage, total: totalPages })}
+                    {politicians_pagination_page_of({ current: currentPage, total: totalPages })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -1289,7 +1313,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{m.politicians_pagination_rows({ count: rowsPerPage })}</span
+                          >{politicians_pagination_rows({ count: rowsPerPage })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1324,7 +1348,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{m.politicians_pagination_rows({ count: item })}</span>
+                              <span class="text-sm">{politicians_pagination_rows({ count: item })}</span>
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1340,7 +1364,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{m.politicians_pagination_next()}</span>
+                    <span class="hidden sm:inline">{politicians_pagination_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1364,7 +1388,7 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  {m.politicians_back_to_top()} <svg
+                  {politicians_back_to_top()} <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"

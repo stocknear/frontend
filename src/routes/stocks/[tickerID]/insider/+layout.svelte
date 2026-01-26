@@ -1,7 +1,21 @@
 <script lang="ts">
   import { stockTicker } from "$lib/store";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_insider_nav_13f_institute,
+  stock_detail_insider_nav_insider_trading,
+  stock_detail_insider_nav_transcripts,
+  stock_detail_stats_pro_subscription,
+  stock_detail_stats_ticker_news,
+  stock_detail_stats_upgrade_desc,
+  time_ago,
+  time_day,
+  time_days,
+  time_hour,
+  time_hours,
+  time_minute,
+  time_minutes,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -17,16 +31,16 @@
     const minutes = Math.abs(Math.round(difference / (1000 * 60)));
 
     if (minutes < 60) {
-      const unit = minutes === 1 ? m.time_minute() : m.time_minutes();
-      return m.time_ago({ count: minutes, unit });
+      const unit = minutes === 1 ? time_minute() : time_minutes();
+      return time_ago({ count: minutes, unit });
     } else if (minutes < 1440) {
       const hours = Math.round(minutes / 60);
-      const unit = hours === 1 ? m.time_hour() : m.time_hours();
-      return m.time_ago({ count: hours, unit });
+      const unit = hours === 1 ? time_hour() : time_hours();
+      return time_ago({ count: hours, unit });
     } else {
       const days = Math.round(minutes / 1440);
-      const unit = days === 1 ? m.time_day() : m.time_days();
-      return m.time_ago({ count: days, unit });
+      const unit = days === 1 ? time_day() : time_days();
+      return time_ago({ count: days, unit });
     }
   };
 
@@ -86,7 +100,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                {m.stock_detail_insider_nav_insider_trading()}
+                {stock_detail_insider_nav_insider_trading()}
               </a>
 
               <a
@@ -97,7 +111,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                {m.stock_detail_insider_nav_13f_institute()}
+                {stock_detail_insider_nav_13f_institute()}
               </a>
               <!--
               <a
@@ -119,7 +133,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                {m.stock_detail_insider_nav_transcripts()}
+                {stock_detail_insider_nav_transcripts()}
               </a>
             </ul>
           </nav>
@@ -138,11 +152,11 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-xl font-semibold sm:ml-3">
-                    {m.stock_detail_stats_pro_subscription()}
+                    {stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
                 <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                  {m.stock_detail_stats_upgrade_desc()}
+                  {stock_detail_stats_upgrade_desc()}
                 </span>
               </a>
             </div>
@@ -154,7 +168,7 @@
             >
               <div class="p-4 text-sm">
                 <h3 class="text-lg font-semibold mb-3">
-                  {m.stock_detail_stats_ticker_news({ ticker: $stockTicker })}
+                  {stock_detail_stats_ticker_news({ ticker: $stockTicker })}
                 </h3>
                 <ul class="">
                   {#each newsList?.slice(0, 10) as item}

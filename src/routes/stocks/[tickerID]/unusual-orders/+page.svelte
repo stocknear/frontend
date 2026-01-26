@@ -6,7 +6,15 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_unusual_orders_no_activity,
+  stock_detail_unusual_orders_seo_description,
+  stock_detail_unusual_orders_seo_keywords,
+  stock_detail_unusual_orders_seo_title,
+  stock_detail_unusual_orders_structured_desc,
+  stock_detail_unusual_orders_structured_headline,
+  stock_detail_unusual_orders_structured_name,
+} from "$lib/paraglide/messages";
 
   export let data;
   let historicalDarkPool = data?.getHistoricalDarkPool || [];
@@ -17,15 +25,15 @@
 </script>
 
 <SEO
-  title={m.stock_detail_unusual_orders_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_unusual_orders_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_unusual_orders_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
+  title={stock_detail_unusual_orders_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_unusual_orders_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_unusual_orders_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "AnalysisNewsArticle", "WebPage"],
-    name: m.stock_detail_unusual_orders_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
-    headline: m.stock_detail_unusual_orders_structured_headline({ company: $displayCompanyName }),
-    description: m.stock_detail_unusual_orders_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_unusual_orders_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: stock_detail_unusual_orders_structured_headline({ company: $displayCompanyName }),
+    description: stock_detail_unusual_orders_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/unusual-orders`,
     author: {
       "@type": "Organization",
@@ -95,7 +103,7 @@
         <div class="w-full">
           {#if priceLevel?.length === 0 && hottestTrades?.length === 0 && historicalDarkPool?.length === 0}
             <Infobox
-              text={m.stock_detail_unusual_orders_no_activity({ company: $displayCompanyName })}
+              text={stock_detail_unusual_orders_no_activity({ company: $displayCompanyName })}
             />
           {/if}
         </div>

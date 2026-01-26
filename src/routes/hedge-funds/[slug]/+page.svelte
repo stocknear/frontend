@@ -4,7 +4,26 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  hedge_funds_breadcrumb_hedge_fund,
+  hedge_funds_breadcrumb_hedge_funds,
+  hedge_funds_breadcrumb_home,
+  hedge_funds_slug_avg_holding_period,
+  hedge_funds_slug_cik_number,
+  hedge_funds_slug_filing_date,
+  hedge_funds_slug_main_sectors,
+  hedge_funds_slug_market_value,
+  hedge_funds_slug_months,
+  hedge_funds_slug_no_data,
+  hedge_funds_slug_performance_3year,
+  hedge_funds_slug_seo_description,
+  hedge_funds_slug_seo_keywords,
+  hedge_funds_slug_seo_title,
+  hedge_funds_slug_structured_description,
+  hedge_funds_slug_structured_name,
+  hedge_funds_slug_top_industries,
+  hedge_funds_slug_win_rate,
+} from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime";
 
   export let data;
@@ -50,22 +69,22 @@
 </script>
 
 <SEO
-  title={m.hedge_funds_slug_seo_title({
+  title={hedge_funds_slug_seo_title({
     companyName: formatString(companyName),
   })}
-  description={m.hedge_funds_slug_seo_description({
+  description={hedge_funds_slug_seo_description({
     companyName: formatString(companyName),
   })}
-  keywords={m.hedge_funds_slug_seo_keywords({
+  keywords={hedge_funds_slug_seo_keywords({
     companyNameLower: formatString(companyName)?.toLowerCase(),
   })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: m.hedge_funds_slug_structured_name({
+    name: hedge_funds_slug_structured_name({
       companyName: formatString(companyName),
     }),
-    description: m.hedge_funds_slug_structured_description({
+    description: hedge_funds_slug_structured_description({
       companyName: formatString(companyName),
     }),
     url: "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
@@ -75,13 +94,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: m.hedge_funds_breadcrumb_home(),
+          name: hedge_funds_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: m.hedge_funds_breadcrumb_hedge_funds(),
+          name: hedge_funds_breadcrumb_hedge_funds(),
           item: "https://stocknear.com/hedge-funds",
         },
         {
@@ -115,14 +134,14 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.hedge_funds_breadcrumb_home()}</a
+        >{hedge_funds_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/hedge-funds"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.hedge_funds_breadcrumb_hedge_fund()}</a
+        >{hedge_funds_breadcrumb_hedge_fund()}</a
       >
     </li>
 
@@ -165,7 +184,7 @@
                     {formatString(companyName)}
                   </h1>
                   <p class="mb-0.5 text-sm text-gray-800 dark:text-zinc-300">
-                    {m.hedge_funds_slug_cik_number()}
+                    {hedge_funds_slug_cik_number()}
                     {data?.getHedgeFundsData?.cik}
                   </p>
                 </div>
@@ -182,7 +201,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.hedge_funds_slug_market_value()}
+                    {hedge_funds_slug_market_value()}
                   </div>
                 </div>
 
@@ -193,12 +212,12 @@
                     class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
                   >
                     {hedgeFundStats?.averageHoldingPeriod}
-                    {m.hedge_funds_slug_months()}
+                    {hedge_funds_slug_months()}
                   </div>
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.hedge_funds_slug_avg_holding_period()}
+                    {hedge_funds_slug_avg_holding_period()}
                   </div>
                 </div>
 
@@ -236,7 +255,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.hedge_funds_slug_win_rate()}
+                    {hedge_funds_slug_win_rate()}
                   </div>
                 </div>
                 <div
@@ -275,7 +294,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {m.hedge_funds_slug_performance_3year()}
+                    {hedge_funds_slug_performance_3year()}
                   </div>
                 </div>
               </div>
@@ -292,7 +311,7 @@
                     <div
                       class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      {m.hedge_funds_slug_main_sectors()}
+                      {hedge_funds_slug_main_sectors()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -315,7 +334,7 @@
                     <div
                       class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
-                      {m.hedge_funds_slug_top_industries()}
+                      {hedge_funds_slug_top_industries()}
                     </div>
                     <div
                       class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-start sm:justify-center"
@@ -340,7 +359,7 @@
                   {excludedRules}
                   {defaultList}
                   {specificRows}
-                  title={`${m.hedge_funds_slug_filing_date()} ${new Date(
+                  title={`${hedge_funds_slug_filing_date()} ${new Date(
                     data?.getHedgeFundsData?.filingDate,
                   ).toLocaleDateString(
                     getLocale() === "de" ? "de-DE" : "en-US",
@@ -353,7 +372,7 @@
                 />
               </div>
             {:else}
-              <Infobox text={m.hedge_funds_slug_no_data()} />
+              <Infobox text={hedge_funds_slug_no_data()} />
             {/if}
           </div>
         </main>

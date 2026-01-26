@@ -4,7 +4,13 @@
   import SEO from "$lib/components/SEO.svelte";
   import Table from "$lib/components/Table/Table.svelte";
   import { formatDate } from "$lib/utils";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  ipos_count,
+  ipos_year_empty,
+  ipos_year_seo_description,
+  ipos_year_seo_keywords,
+  ipos_year_seo_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -50,9 +56,9 @@
 </script>
 
 <SEO
-  title={m.ipos_year_seo_title({ year: data?.getYear })}
-  description={m.ipos_year_seo_description({ year: data?.getYear })}
-  keywords={m.ipos_year_seo_keywords({ year: data?.getYear })}
+  title={ipos_year_seo_title({ year: data?.getYear })}
+  description={ipos_year_seo_description({ year: data?.getYear })}
+  keywords={ipos_year_seo_keywords({ year: data?.getYear })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -89,13 +95,13 @@
                 {excludedRules}
                 {defaultList}
                 {specificRows}
-                title={m.ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
+                title={ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
               />
             </div>
           {:else}
             <div class="w-full">
               <Infobox
-                text={m.ipos_year_empty({ year })}
+                text={ipos_year_empty({ year })}
               />
             </div>
           {/if}

@@ -1,5 +1,14 @@
 <script lang="ts">
-  import * as m from "$lib/paraglide/messages";
+  import {
+  market_news_breadcrumb_home,
+  market_news_breadcrumb_market_news,
+  market_news_tab_all_stocks,
+  market_news_tab_markets,
+  market_news_tab_press_releases,
+  market_news_title_all_stocks,
+  market_news_title_markets,
+  market_news_title_press_releases,
+} from "$lib/paraglide/messages";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
@@ -7,15 +16,15 @@
 
   $: tabs = [
     {
-      title: m.market_news_tab_all_stocks(),
+      title: market_news_tab_all_stocks(),
       path: "/market-news",
     },
     {
-      title: m.market_news_tab_markets(),
+      title: market_news_tab_markets(),
       path: "/market-news/general",
     },
     {
-      title: m.market_news_tab_press_releases(),
+      title: market_news_tab_press_releases(),
       path: "/market-news/press-releases",
     },
   ];
@@ -42,10 +51,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.market_news_breadcrumb_home()}</a
+        >{market_news_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{m.market_news_breadcrumb_market_news()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">{market_news_breadcrumb_market_news()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -59,10 +68,10 @@
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {activeIdx === 0
-                ? m.market_news_title_all_stocks()
+                ? market_news_title_all_stocks()
                 : activeIdx === 1
-                  ? m.market_news_title_markets()
-                  : m.market_news_title_press_releases()}
+                  ? market_news_title_markets()
+                  : market_news_title_press_releases()}
             </h1>
           </div>
 

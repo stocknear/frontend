@@ -1,5 +1,24 @@
 <script lang="ts">
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_col_call_oi,
+  stock_detail_options_col_pc_oi,
+  stock_detail_options_col_put_oi,
+  stock_detail_options_common_back_to_top,
+  stock_detail_options_common_call,
+  stock_detail_options_common_next,
+  stock_detail_options_common_page_of,
+  stock_detail_options_common_previous,
+  stock_detail_options_common_put,
+  stock_detail_options_common_rows,
+  stock_detail_options_oi_chart_expiry_title,
+  stock_detail_options_oi_chart_title,
+  stock_detail_options_oi_col_expiry_date,
+  stock_detail_options_oi_expiry_summary_active,
+  stock_detail_options_oi_expiry_summary_intro,
+  stock_detail_options_oi_expiry_summary_no_data,
+  stock_detail_options_oi_expiry_summary_totals,
+  stock_detail_options_oi_table_title,
+} from "$lib/paraglide/messages";
   import { abbreviateNumber } from "$lib/utils";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
@@ -203,7 +222,7 @@
         squareSymbol: true, // Ensures symbols are circular, not square
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_oi_chart_expiry_title({ ticker })}</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${stock_detail_options_oi_chart_expiry_title({ ticker })}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "#111827" : "#f4f4f5" },
       },
@@ -309,7 +328,7 @@
 
       series: [
         {
-          name: m.stock_detail_options_common_put(),
+          name: stock_detail_options_common_put(),
           type: chartType,
           data: putValues,
           color: "#CC2619",
@@ -318,7 +337,7 @@
           animation: false,
         },
         {
-          name: m.stock_detail_options_common_call(),
+          name: stock_detail_options_common_call(),
           type: chartType,
           data: callValues,
           color: "#00C440",
@@ -348,20 +367,20 @@
   initialize();
 
   $: columns = [
-    { key: "expiry", label: m.stock_detail_options_oi_col_expiry_date(), align: "left" },
+    { key: "expiry", label: stock_detail_options_oi_col_expiry_date(), align: "left" },
     {
       key: "call_oi",
-      label: m.stock_detail_options_col_call_oi(),
+      label: stock_detail_options_col_call_oi(),
       align: "right",
     },
     {
       key: "put_oi",
-      label: m.stock_detail_options_col_put_oi(),
+      label: stock_detail_options_col_put_oi(),
       align: "right",
     },
     {
       key: "put_call_ratio",
-      label: m.stock_detail_options_col_pc_oi(),
+      label: stock_detail_options_col_pc_oi(),
       align: "right",
     },
   ];
@@ -453,28 +472,28 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    {m.stock_detail_options_oi_chart_title()}
+    {stock_detail_options_oi_chart_title()}
   </h2>
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
     {#if rawData?.length > 0}
-      <span>{@html m.stock_detail_options_oi_expiry_summary_intro({ ticker })}</span>
+      <span>{@html stock_detail_options_oi_expiry_summary_intro({ ticker })}</span>
       {" "}
       <span
-        >{@html m.stock_detail_options_oi_expiry_summary_active({
+        >{@html stock_detail_options_oi_expiry_summary_active({
           count: rawData?.length,
         })}</span
       >
       {" "}
       <span
-        >{@html m.stock_detail_options_oi_expiry_summary_totals({
+        >{@html stock_detail_options_oi_expiry_summary_totals({
           total: formattedTotalOI,
           call: formattedCallOI,
           put: formattedPutOI,
         })}</span
       >
     {:else}
-      {m.stock_detail_options_oi_expiry_summary_no_data()}
+      {stock_detail_options_oi_expiry_summary_no_data()}
     {/if}
   </p>
 
@@ -523,7 +542,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
-        {m.stock_detail_options_oi_table_title()}
+        {stock_detail_options_oi_table_title()}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -609,14 +628,14 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
+          <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
         </Button>
       </div>
 
       <!-- Page info and rows selector in center -->
       <div class="flex flex-row items-center gap-4">
         <span class="text-sm text-gray-600 dark:text-zinc-300">
-          {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
+          {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
         </span>
 
         <DropdownMenu.Root>
@@ -626,7 +645,7 @@
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
-                >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
+                >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
               >
               <svg
                 class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -661,7 +680,7 @@
                     on:click={() => changeRowsPerPage(item)}
                     class="inline-flex justify-between w-full items-center cursor-pointer"
                   >
-                    <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
+                    <span class="text-sm">{stock_detail_options_common_rows({ count: item })}</span>
                   </label>
                 </DropdownMenu.Item>
               {/each}
@@ -677,7 +696,7 @@
           disabled={currentPage === totalPages}
           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
+          <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
           <svg
             class="h-5 w-5 inline-block shrink-0 -rotate-90"
             viewBox="0 0 20 20"
@@ -701,7 +720,7 @@
         on:click={scrollToTop}
         class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
       >
-        {m.stock_detail_options_common_back_to_top()} <svg
+        {stock_detail_options_common_back_to_top()} <svg
           class="h-5 w-5 inline-block shrink-0 rotate-180"
           viewBox="0 0 20 20"
           fill="currentColor"

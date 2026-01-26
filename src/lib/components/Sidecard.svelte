@@ -8,7 +8,40 @@
     abbreviateNumber,
     removeCompanyStrings,
   } from "$lib/utils";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_about,
+  stock_detail_analyst_consensus,
+  stock_detail_analyst_forecast,
+  stock_detail_analyst_forecast_text,
+  stock_detail_buy,
+  stock_detail_downside,
+  stock_detail_earnings,
+  stock_detail_employees,
+  stock_detail_financial_decrease,
+  stock_detail_financial_increase,
+  stock_detail_financial_numbers_in,
+  stock_detail_financial_performance,
+  stock_detail_financial_statements,
+  stock_detail_financial_text_part1,
+  stock_detail_financial_text_part2,
+  stock_detail_full_company_profile,
+  stock_detail_fy,
+  stock_detail_hold,
+  stock_detail_industry,
+  stock_detail_ipo_date,
+  stock_detail_price_target_label,
+  stock_detail_read_more,
+  stock_detail_revenue,
+  stock_detail_sector,
+  stock_detail_sell,
+  stock_detail_stock_exchange,
+  stock_detail_stock_forecasts,
+  stock_detail_strong_buy,
+  stock_detail_strong_sell,
+  stock_detail_ticker_symbol,
+  stock_detail_upside,
+  stock_detail_website,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let priceTargetUpside = 0;
@@ -54,11 +87,11 @@
   function plotAnalyst() {
     // X-axis categories
     const categories = [
-      m.stock_detail_strong_sell(),
-      m.stock_detail_sell(),
-      m.stock_detail_hold(),
-      m.stock_detail_buy(),
-      m.stock_detail_strong_buy(),
+      stock_detail_strong_sell(),
+      stock_detail_sell(),
+      stock_detail_hold(),
+      stock_detail_buy(),
+      stock_detail_strong_buy(),
     ];
 
     // Corresponding data
@@ -80,9 +113,9 @@
         animation: false,
       },
       title: {
-        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${m.stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
-        <div class="text-gray-800 dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? m.stock_detail_upside() : m.stock_detail_downside()})</div>
-        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${m.stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
+        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
+        <div class="text-gray-800 dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? stock_detail_upside() : stock_detail_downside()})</div>
+        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -246,7 +279,7 @@
           // Format the x value to display time in a custom format
           const dateStr = this.points?.[0]?.key;
           const year = typeof dateStr === "string" ? dateStr.slice(0, 4) : dateStr;
-          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${m.stock_detail_fy({ year })}</span><br>`;
+          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${stock_detail_fy({ year })}</span><br>`;
 
           // Loop through each point in the shared tooltip
           this.points.forEach((point) => {
@@ -261,7 +294,7 @@
       },
       series: [
         {
-          name: m.stock_detail_revenue(),
+          name: stock_detail_revenue(),
           type: "column",
           data: revenue,
           color: "#457BA1",
@@ -276,7 +309,7 @@
           },
         },
         {
-          name: m.stock_detail_earnings(),
+          name: stock_detail_earnings(),
           type: "column",
           data: netIncome,
           color: "#EE5365",
@@ -353,7 +386,7 @@
       <h2
         class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        {m.stock_detail_about({ ticker: $stockTicker })}
+        {stock_detail_about({ ticker: $stockTicker })}
       </h2>
       <p class="text-sm text-gray-800 dark:text-zinc-300">
         {snippet}
@@ -363,7 +396,7 @@
           href={`/stocks/${$stockTicker}/profile`}
           class="w-full text-sm mt-1 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >
-          {m.stock_detail_read_more()}
+          {stock_detail_read_more()}
         </a>
       </div>
 
@@ -371,7 +404,7 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >{m.stock_detail_industry()}</span
+            >{stock_detail_industry()}</span
           >
           <a
             href={getIndustryHref(industry)}
@@ -382,7 +415,7 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >{m.stock_detail_sector()}</span
+            >{stock_detail_sector()}</span
           >
           <a
             href={sectorNavigation?.find((item) => item?.title === sector)
@@ -394,14 +427,14 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >{m.stock_detail_ipo_date()}</span
+            >{stock_detail_ipo_date()}</span
           >
           <span>{ipoDate}</span>
         </div>
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >{m.stock_detail_employees()}</span
+            >{stock_detail_employees()}</span
           >
           <a
             href={`/stocks/${$stockTicker}/profile/employees`}
@@ -414,14 +447,14 @@
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >{m.stock_detail_stock_exchange()}</span
+            >{stock_detail_stock_exchange()}</span
           >
           <span>{exchange ?? "n/a"}</span>
         </div>
         <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
           <span
             class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-            >{m.stock_detail_ticker_symbol()}</span
+            >{stock_detail_ticker_symbol()}</span
           >
           <span>{$stockTicker}</span>
         </div>
@@ -431,7 +464,7 @@
           >
             <span
               class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-              >{m.stock_detail_website()}</span
+              >{stock_detail_website()}</span
             >
             <a
               href={website}
@@ -445,7 +478,7 @@
         href={`/stocks/${$stockTicker}/profile`}
         class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
       >
-        {m.stock_detail_full_company_profile()}
+        {stock_detail_full_company_profile()}
       </a>
     </div>
   </div>
@@ -464,24 +497,24 @@
         <h2
           class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          {m.stock_detail_financial_performance()}
+          {stock_detail_financial_performance()}
         </h2>
         <p class="text-sm text-gray-800 dark:text-zinc-300">
-          {m.stock_detail_financial_text_part1({
+          {stock_detail_financial_text_part1({
             year: financialPerformance?.history?.at(-1)?.date?.slice(0, 4),
             company: removeCompanyStrings($displayCompanyName),
             revenue: abbreviateNumber(financialPerformance?.history?.at(-1)?.revenue),
             direction: financialPerformance?.changePercentageRevenue >= 0
-              ? m.stock_detail_financial_increase()
-              : m.stock_detail_financial_decrease(),
+              ? stock_detail_financial_increase()
+              : stock_detail_financial_decrease(),
             changePercent: financialPerformance?.changePercentageRevenue?.toLocaleString("en-US"),
             prevRevenue: abbreviateNumber(financialPerformance?.history?.at(-2)?.revenue),
           })}
-          {m.stock_detail_financial_text_part2({
+          {stock_detail_financial_text_part2({
             earnings: abbreviateNumber(financialPerformance?.history?.at(-1)?.netIncome),
             direction: financialPerformance?.changePercentageNetIncome >= 0
-              ? m.stock_detail_financial_increase()
-              : m.stock_detail_financial_decrease(),
+              ? stock_detail_financial_increase()
+              : stock_detail_financial_decrease(),
             changePercent: financialPerformance?.changePercentageNetIncome?.toLocaleString("en-US"),
           })}
         </p>
@@ -494,14 +527,14 @@
         {/if}
         {#if currency !== "USD"}
           <span class="text-sm text-gray-500 dark:text-zinc-400 mt-2"
-            >{m.stock_detail_financial_numbers_in({ currency })}</span
+            >{stock_detail_financial_numbers_in({ currency })}</span
           >
         {/if}
         <a
           href={`/stocks/${$stockTicker}/financials`}
           class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
-          {m.stock_detail_financial_statements()}
+          {stock_detail_financial_statements()}
         </a>
       </div>
     </div>
@@ -521,15 +554,15 @@
         <h2
           class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          {m.stock_detail_analyst_forecast()}
+          {stock_detail_analyst_forecast()}
         </h2>
         <p class="text-sm text-gray-800 dark:text-zinc-300">
-          {m.stock_detail_analyst_forecast_text({
+          {stock_detail_analyst_forecast_text({
             numAnalysts: numOfAnalyst,
             ticker: $stockTicker,
             rating: consensusRating,
             priceTarget: priceTarget,
-            direction: priceTargetUpside > 0 ? m.stock_detail_upside() : m.stock_detail_downside(),
+            direction: priceTargetUpside > 0 ? stock_detail_upside() : stock_detail_downside(),
             upside: Math.abs(priceTargetUpside),
           })}
         </p>
@@ -545,7 +578,7 @@
           href={`/stocks/${$stockTicker}/forecast/analyst`}
           class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
-          {m.stock_detail_stock_forecasts()}
+          {stock_detail_stock_forecasts()}
         </a>
       </div>
     </div>

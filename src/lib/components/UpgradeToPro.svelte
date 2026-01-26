@@ -1,6 +1,18 @@
 <script lang="ts">
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  upgrade_to_pro_cta,
+  upgrade_to_pro_feature_analyst_desc,
+  upgrade_to_pro_feature_analyst_title,
+  upgrade_to_pro_feature_data_desc,
+  upgrade_to_pro_feature_data_title,
+  upgrade_to_pro_feature_flow_desc,
+  upgrade_to_pro_feature_flow_title,
+  upgrade_to_pro_feature_history_desc,
+  upgrade_to_pro_feature_history_title,
+  upgrade_to_pro_subtitle,
+  upgrade_to_pro_title,
+} from "$lib/paraglide/messages";
   export let data;
   export let display = false;
 </script>
@@ -12,10 +24,10 @@
         <h3
           class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          {m.upgrade_to_pro_title()}
+          {upgrade_to_pro_title()}
         </h3>
         <p class="mt-4 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
-          {m.upgrade_to_pro_subtitle()}
+          {upgrade_to_pro_subtitle()}
         </p>
       </div>
 
@@ -45,10 +57,10 @@
                 ></path></svg
               >
             </div>
-            {m.upgrade_to_pro_feature_data_title()}
+            {upgrade_to_pro_feature_data_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {m.upgrade_to_pro_feature_data_desc()}
+            {upgrade_to_pro_feature_data_desc()}
           </dd>
         </div>
 
@@ -74,10 +86,10 @@
                 ></path></svg
               >
             </div>
-            {m.upgrade_to_pro_feature_flow_title()}
+            {upgrade_to_pro_feature_flow_title()}
           </dt>
           <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {m.upgrade_to_pro_feature_flow_desc()}
+            {upgrade_to_pro_feature_flow_desc()}
           </dd>
         </div>
 
@@ -109,10 +121,10 @@
                   </g></svg
                 >
               </div>
-              {m.upgrade_to_pro_feature_analyst_title()}
+              {upgrade_to_pro_feature_analyst_title()}
             </dt>
             <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-              {m.upgrade_to_pro_feature_analyst_desc()}
+              {upgrade_to_pro_feature_analyst_desc()}
             </dd>
           </div>
 
@@ -139,10 +151,10 @@
                   ></path></svg
                 >
               </div>
-              {m.upgrade_to_pro_feature_history_title()}
+              {upgrade_to_pro_feature_history_title()}
             </dt>
             <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-              {m.upgrade_to_pro_feature_history_desc()}
+              {upgrade_to_pro_feature_history_desc()}
             </dd>
           </div>
         </dl>
@@ -153,7 +165,7 @@
           href="/pricing"
           class="mt-10 flex flex-row items-center justify-center text-[1rem] items-center px-6 py-3 w-fit m-auto rounded-full font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-150 ease-in-out group"
         >
-          {m.upgrade_to_pro_cta()}
+          {upgrade_to_pro_cta()}
           <span
             class="ml-2 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
           >

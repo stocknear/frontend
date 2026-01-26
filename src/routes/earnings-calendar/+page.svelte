@@ -23,7 +23,32 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  earnings_back_to_top,
+  earnings_breadcrumb_calendar,
+  earnings_breadcrumb_home,
+  earnings_count,
+  earnings_empty,
+  earnings_empty_scheduled,
+  earnings_expanded_eps_est,
+  earnings_expanded_eps_estimate,
+  earnings_expanded_market_cap,
+  earnings_expanded_reports,
+  earnings_expanded_revenue_est,
+  earnings_expanded_revenue_estimate,
+  earnings_main_name,
+  earnings_pagination_next,
+  earnings_pagination_page_of,
+  earnings_pagination_previous,
+  earnings_pagination_rows,
+  earnings_search_placeholder,
+  earnings_seo_description,
+  earnings_seo_keywords,
+  earnings_seo_title,
+  earnings_time_after_close,
+  earnings_time_before_open,
+  earnings_time_of_day,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -667,9 +692,9 @@
 </script>
 
 <SEO
-  title={m.earnings_seo_title()}
-  description={m.earnings_seo_description()}
-  keywords={m.earnings_seo_keywords()}
+  title={earnings_seo_title()}
+  description={earnings_seo_description()}
+  keywords={earnings_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -729,11 +754,11 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.earnings_breadcrumb_home()}</a
+        >{earnings_breadcrumb_home()}</a
       >
     </li>
     <li class="text-gray-800 dark:text-zinc-300">
-      {m.earnings_breadcrumb_calendar()}
+      {earnings_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
 
@@ -750,7 +775,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.earnings_main_name()}
+                {earnings_main_name()}
               </h1>
 
               <div class="inline-flex sm:ml-auto">
@@ -760,7 +785,7 @@
                       builders={[builder]}
                       class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                     >
-                      <span class="truncate">{m.earnings_time_of_day()}</span>
+                      <span class="truncate">{earnings_time_of_day()}</span>
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -857,7 +882,7 @@
                           >{formattedWeekday[index]}</span
                         >
                         <span class="text-sm"
-                          >{m.earnings_count({ count: day?.length })}</span
+                          >{earnings_count({ count: day?.length })}</span
                         >
                         {#if index === 0}
                           <button
@@ -950,7 +975,7 @@
                                 >{formattedWeekday[index]}</span
                               >
                               <span class="text-sm m-auto pt-1 pb-1">
-                                {m.earnings_count({ count: day?.length })}</span
+                                {earnings_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -999,7 +1024,7 @@
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
-                          {formattedWeekday[index]?.split(", ")[1]} · {m.earnings_count(
+                          {formattedWeekday[index]?.split(", ")[1]} · {earnings_count(
                             { count: day?.length },
                           )}
                         </h2>
@@ -1034,7 +1059,7 @@
                               bind:value={inputValue}
                               on:input={search}
                               type="text"
-                              placeholder={m.earnings_search_placeholder()}
+                              placeholder={earnings_search_placeholder()}
                               class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
@@ -1198,7 +1223,7 @@
                                             d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
                                           /></svg
                                         >
-                                        {m.earnings_time_after_close()}
+                                        {earnings_time_after_close()}
                                       {:else}
                                         <svg
                                           class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
@@ -1213,7 +1238,7 @@
                                             /></g
                                           ></svg
                                         >
-                                        {m.earnings_time_before_open()}
+                                        {earnings_time_before_open()}
                                       {/if}
                                     </td>
                                   {/if}
@@ -1248,7 +1273,7 @@
                                 ></path>
                               </svg>
                               <span class="hidden sm:inline"
-                                >{m.earnings_pagination_previous()}</span
+                                >{earnings_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1257,7 +1282,7 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {m.earnings_pagination_page_of({
+                              {earnings_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
                               })}
@@ -1271,7 +1296,7 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{m.earnings_pagination_rows({
+                                    >{earnings_pagination_rows({
                                       count: dailyRowsPerPage,
                                     })}</span
                                   >
@@ -1309,7 +1334,7 @@
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
                                         <span class="text-sm"
-                                          >{m.earnings_pagination_rows({
+                                          >{earnings_pagination_rows({
                                             count: item,
                                           })}</span
                                         >
@@ -1329,7 +1354,7 @@
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
-                                >{m.earnings_pagination_next()}</span
+                                >{earnings_pagination_next()}</span
                               >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
@@ -1353,7 +1378,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.earnings_back_to_top()}
+                            {earnings_back_to_top()}
                             <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
@@ -1372,7 +1397,7 @@
                       {/if}
                     {:else}
                       <div class="mt-5 mb-3">
-                        <Infobox text={m.earnings_empty()} />
+                        <Infobox text={earnings_empty()} />
                       </div>
                     {/if}
                   {/if}
@@ -1391,7 +1416,7 @@
                           >{formattedWeekday[index]}</span
                         >
                         <span class="text-sm"
-                          >{m.earnings_count({ count: day?.length })}</span
+                          >{earnings_count({ count: day?.length })}</span
                         >
                         {#if index === 0}
                           <button
@@ -1485,7 +1510,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >{m.earnings_expanded_reports()}</td
+                                              >{earnings_expanded_reports()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1507,7 +1532,7 @@
                                                       d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                                                     ></path>
                                                   </svg>
-                                                  {m.earnings_time_after_close()}
+                                                  {earnings_time_after_close()}
                                                 {:else}
                                                   <svg
                                                     class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
@@ -1522,7 +1547,7 @@
                                                       d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                                                     ></path>
                                                   </svg>
-                                                  {m.earnings_time_before_open()}
+                                                  {earnings_time_before_open()}
                                                 {/if}
                                               </span>
                                             </td>
@@ -1532,7 +1557,7 @@
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
                                               <td class="py-1.5 text-sm">
-                                                {m.earnings_expanded_market_cap()}
+                                                {earnings_expanded_market_cap()}
                                               </td>
                                               <td
                                                 class="text-right font-semibold"
@@ -1553,9 +1578,9 @@
                                               title="Estimated Revenue"
                                             >
                                               <span class="hidden md:inline"
-                                                >{m.earnings_expanded_revenue_est()}</span
+                                                >{earnings_expanded_revenue_est()}</span
                                               ><span class="inline md:hidden"
-                                                >{m.earnings_expanded_revenue_estimate()}</span
+                                                >{earnings_expanded_revenue_estimate()}</span
                                               >
                                             </td>
                                             <td
@@ -1594,9 +1619,9 @@
                                               title="Estimated EPS"
                                             >
                                               <span class="hidden md:inline"
-                                                >{m.earnings_expanded_eps_est()}</span
+                                                >{earnings_expanded_eps_est()}</span
                                               ><span class="inline md:hidden"
-                                                >{m.earnings_expanded_eps_estimate()}</span
+                                                >{earnings_expanded_eps_estimate()}</span
                                               >
                                             </td>
                                             <td
@@ -1644,7 +1669,7 @@
                           <div
                             class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
                           >
-                            {m.earnings_empty_scheduled()}
+                            {earnings_empty_scheduled()}
                           </div>
                         {/if}
                       </div>
@@ -1714,7 +1739,7 @@
                                 >{formattedWeekday[index]}</span
                               >
                               <span class="text-sm m-auto pt-1 pb-1">
-                                {m.earnings_count({ count: day?.length })}</span
+                                {earnings_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -1793,7 +1818,7 @@
                                       class=" border-b border-gray-300 dark:border-zinc-700"
                                     >
                                       <td class="py-1.5 text-sm"
-                                        >{m.earnings_expanded_reports()}</td
+                                        >{earnings_expanded_reports()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         <span
@@ -1813,7 +1838,7 @@
                                                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                                               />
                                             </svg>
-                                            {m.earnings_time_after_close()}
+                                            {earnings_time_after_close()}
                                           {:else}
                                             <svg
                                               class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
@@ -1828,7 +1853,7 @@
                                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                                               />
                                             </svg>
-                                            {m.earnings_time_before_open()}
+                                            {earnings_time_before_open()}
                                           {/if}
                                         </span>
                                       </td>
@@ -1838,7 +1863,7 @@
                                         class="border-b border-gray-300 dark:border-zinc-700"
                                       >
                                         <td class="py-1.5 text-sm"
-                                          >{m.earnings_expanded_market_cap()}</td
+                                          >{earnings_expanded_market_cap()}</td
                                         >
                                         <td class="text-right font-semibold">
                                           {@html abbreviateNumber(
@@ -1855,7 +1880,7 @@
                                       <td
                                         class="py-1.5 text-sm"
                                         title="Estimated Revenue"
-                                        >{m.earnings_expanded_revenue_est()}</td
+                                        >{earnings_expanded_revenue_est()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {#if item?.revenueEst !== null}
@@ -1900,7 +1925,7 @@
                                       <td
                                         class="pb-0.5 pt-1.5"
                                         title="Estimated EPS"
-                                        >{m.earnings_expanded_eps_est()}</td
+                                        >{earnings_expanded_eps_est()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {item?.epsEst !== null
@@ -1942,7 +1967,7 @@
                       <div
                         class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
                       >
-                        {m.earnings_empty_scheduled()}
+                        {earnings_empty_scheduled()}
                       </div>
                     {/if}
                   </div>

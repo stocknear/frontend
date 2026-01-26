@@ -8,7 +8,26 @@
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import { formatDate } from "$lib/utils";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  news_flow_breadcrumb_home,
+  news_flow_breadcrumb_news_flow,
+  news_flow_infobox,
+  news_flow_main_title,
+  news_flow_news_count,
+  news_flow_no_news,
+  news_flow_search_placeholder,
+  news_flow_seo_description,
+  news_flow_seo_keywords,
+  news_flow_seo_title,
+  news_flow_sidebar_dark_pool_description,
+  news_flow_sidebar_dark_pool_title,
+  news_flow_sidebar_market_flow_description,
+  news_flow_sidebar_market_flow_title,
+  news_flow_sidebar_options_flow_description,
+  news_flow_sidebar_options_flow_title,
+  news_flow_structured_description,
+  news_flow_structured_name,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -99,14 +118,14 @@
 </script>
 
 <SEO
-  title={m.news_flow_seo_title()}
-  description={m.news_flow_seo_description()}
-  keywords={m.news_flow_seo_keywords()}
+  title={news_flow_seo_title()}
+  description={news_flow_seo_description()}
+  keywords={news_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: m.news_flow_structured_name(),
-    description: m.news_flow_structured_description(),
+    name: news_flow_structured_name(),
+    description: news_flow_structured_description(),
     url: "https://stocknear.com/news-flow",
     applicationCategory: "FinanceApplication",
     breadcrumb: {
@@ -144,10 +163,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.news_flow_breadcrumb_home()}</a
+        >{news_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{m.news_flow_breadcrumb_news_flow()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">{news_flow_breadcrumb_news_flow()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -160,12 +179,12 @@
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.news_flow_main_title()}
+              {news_flow_main_title()}
             </h1>
           </div>
 
           <Infobox
-            text={m.news_flow_infobox()}
+            text={news_flow_infobox()}
           />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
@@ -175,7 +194,7 @@
               <h2
                 class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {m.news_flow_news_count({ count: data?.getData?.totalItems?.toLocaleString("en-US") })}
+                {news_flow_news_count({ count: data?.getData?.totalItems?.toLocaleString("en-US") })}
               </h2>
 
               <div
@@ -207,7 +226,7 @@
                     bind:value={inputValue}
                     on:input={search}
                     type="text"
-                    placeholder={m.news_flow_search_placeholder()}
+                    placeholder={news_flow_search_placeholder()}
                     class="py-[7px] text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -298,7 +317,7 @@
             </table>
           {:else}
             <Infobox
-              text={m.news_flow_no_news()}
+              text={news_flow_no_news()}
             />
           {/if}
 
@@ -326,13 +345,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  {m.news_flow_sidebar_market_flow_title()}
+                  {news_flow_sidebar_market_flow_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                {m.news_flow_sidebar_market_flow_description()}
+                {news_flow_sidebar_market_flow_description()}
               </span>
             </a>
           </div>
@@ -346,13 +365,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  {m.news_flow_sidebar_options_flow_title()}
+                  {news_flow_sidebar_options_flow_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                {m.news_flow_sidebar_options_flow_description()}
+                {news_flow_sidebar_options_flow_description()}
               </span>
             </a>
           </div>
@@ -365,13 +384,13 @@
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">
-                  {m.news_flow_sidebar_dark_pool_title()}
+                  {news_flow_sidebar_dark_pool_title()}
                 </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
               >
-                {m.news_flow_sidebar_dark_pool_description()}
+                {news_flow_sidebar_dark_pool_description()}
               </span>
             </a>
           </div>

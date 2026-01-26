@@ -14,7 +14,17 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_metrics_history,
+  stock_detail_metrics_no_category_data,
+  stock_detail_metrics_period_ended,
+  stock_detail_metrics_quarter_ended,
+  stock_detail_metrics_quarterly,
+  stock_detail_metrics_slug_seo_description,
+  stock_detail_metrics_slug_seo_title,
+  stock_detail_metrics_source,
+  stock_detail_metrics_ttm,
+} from "$lib/paraglide/messages";
 
   export let data;
   $selectedTimePeriod = "ttm";
@@ -32,7 +42,7 @@
   // Cache for computed values
   const computeCache = new Map();
 
-  $: tabs = [m.stock_detail_metrics_quarterly(), m.stock_detail_metrics_ttm()];
+  $: tabs = [stock_detail_metrics_quarterly(), stock_detail_metrics_ttm()];
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
 
   function handleTabClick(index: number) {
@@ -545,8 +555,8 @@
 </script>
 
 <SEO
-  title={m.stock_detail_metrics_slug_seo_title({ company: $displayCompanyName, ticker: $stockTicker, category: categoryName })}
-  description={m.stock_detail_metrics_slug_seo_description({ company: $displayCompanyName, ticker: $stockTicker, category: categoryName })}
+  title={stock_detail_metrics_slug_seo_title({ company: $displayCompanyName, ticker: $stockTicker, category: categoryName })}
+  description={stock_detail_metrics_slug_seo_description({ company: $displayCompanyName, ticker: $stockTicker, category: categoryName })}
 />
 
 {#key data?.getParams}
@@ -694,7 +704,7 @@
               <div
                 class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
-                <h3 class="text-xl sm:text-2xl font-bold">{m.stock_detail_metrics_history()}</h3>
+                <h3 class="text-xl sm:text-2xl font-bold">{stock_detail_metrics_history()}</h3>
                 <div class="ml-2">
                   <DownloadData
                     {data}
@@ -714,8 +724,8 @@
                     <tr>
                       <th class="font-semibold text-start text-xs">
                         {$selectedTimePeriod === "quarterly"
-                          ? m.stock_detail_metrics_quarter_ended()
-                          : m.stock_detail_metrics_period_ended()}
+                          ? stock_detail_metrics_quarter_ended()
+                          : stock_detail_metrics_period_ended()}
                       </th>
                       {#each categoryMetrics as metric}
                         <th class="font-semibold text-end">
@@ -743,11 +753,11 @@
               <div
                 class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 mt-4"
               >
-                <strong>Source:</strong> {@html m.stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
+                <strong>Source:</strong> {@html stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
               </div>
             {:else}
               <Infobox
-                text={m.stock_detail_metrics_no_category_data({ category: categoryName })}
+                text={stock_detail_metrics_no_category_data({ category: categoryName })}
               />
             {/if}
           </div>

@@ -1,7 +1,23 @@
 <script lang="ts">
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_after_market_closes,
+  stock_detail_analysts_project_revenue,
+  stock_detail_and_eps_of,
+  stock_detail_before_market_opens,
+  stock_detail_decrease,
+  stock_detail_during_market_hours,
+  stock_detail_earnings_scheduled,
+  stock_detail_increase,
+  stock_detail_making_a,
+  stock_detail_next_earnings_release,
+  stock_detail_reflecting_a,
+  stock_detail_upgrade,
+  stock_detail_yoy,
+  stock_detail_yoy_growth,
+  stock_detail_yoy_shrinking,
+} from "$lib/paraglide/messages";
   export let data;
   export let hideTitle = false;
 
@@ -51,7 +67,7 @@
               <h3
                 class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.stock_detail_next_earnings_release()}
+                {stock_detail_next_earnings_release()}
               </h3>
               <svg
                 class="size-6 inline-block mt-1.5"
@@ -71,7 +87,7 @@
       {/if}
 
       <div class="text-sm text-gray-800 dark:text-zinc-300">
-        {m.stock_detail_earnings_scheduled({ company: $displayCompanyName })}
+        {stock_detail_earnings_scheduled({ company: $displayCompanyName })}
         <strong
           >{new Date(rawData?.date ?? null)?.toLocaleString("en-US", {
             month: "short",
@@ -81,19 +97,19 @@
           })}</strong
         >,
         {#if compareTimes(rawData?.time, "16:00") >= 0}
-          {m.stock_detail_after_market_closes()}
+          {stock_detail_after_market_closes()}
         {:else if compareTimes(rawData?.time, "09:30") <= 0}
-          {m.stock_detail_before_market_opens()}
+          {stock_detail_before_market_opens()}
         {:else}
-          {m.stock_detail_during_market_hours()}
+          {stock_detail_during_market_hours()}
         {/if}
-        <br />{m.stock_detail_analysts_project_revenue()}
+        <br />{stock_detail_analysts_project_revenue()}
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           ...
           <a
             class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
             href="/pricing"
-            >{m.stock_detail_upgrade()} <svg
+            >{stock_detail_upgrade()} <svg
               class="w-4 h-4 mb-1 inline-block"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -106,7 +122,7 @@
         {:else}
           <span class="font-bold"
             >{@html abbreviateNumber(rawData?.revenueEst, true, true)}</span
-          >, {m.stock_detail_reflecting_a()}
+          >, {stock_detail_reflecting_a()}
           <span
             class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
               ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
@@ -117,23 +133,23 @@
               ? abbreviateNumber(revenueRatio) + "%"
               : "n/a"}</span
           >
-          {m.stock_detail_yoy()} {revenueRatio > 0
-            ? m.stock_detail_yoy_growth()
+          {stock_detail_yoy()} {revenueRatio > 0
+            ? stock_detail_yoy_growth()
             : revenueRatio < 0
-              ? m.stock_detail_yoy_shrinking()
+              ? stock_detail_yoy_shrinking()
               : ""}
           {#if epsRatio !== null}
-            {m.stock_detail_and_eps_of()}
-            <span class="font-bold">{rawData?.epsEst}</span>, {m.stock_detail_making_a()}
+            {stock_detail_and_eps_of()}
+            <span class="font-bold">{rawData?.epsEst}</span>, {stock_detail_making_a()}
             <span
               class="{epsRatio > 0
                 ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                 : 'text-rose-600 dark:text-rose-400'} font-semibold"
               >{epsRatio}%</span
             >
-            {epsRatio > 0 ? m.stock_detail_increase() : epsRatio < 0 ? m.stock_detail_decrease() : ""} {m.stock_detail_yoy()}.
+            {epsRatio > 0 ? stock_detail_increase() : epsRatio < 0 ? stock_detail_decrease() : ""} {stock_detail_yoy()}.
           {:else}
-            {m.stock_detail_and_eps_of()}
+            {stock_detail_and_eps_of()}
             <span class="font-semibold">{rawData?.epsEst}</span>.
           {/if}
         {/if}

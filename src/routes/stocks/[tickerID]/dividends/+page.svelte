@@ -2,21 +2,28 @@
   import { displayCompanyName, stockTicker } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
   import Dividends from "$lib/components/Dividends.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_dividends_seo_description,
+  stock_detail_dividends_seo_keywords,
+  stock_detail_dividends_seo_title,
+  stock_detail_dividends_structured_desc,
+  stock_detail_dividends_structured_headline,
+  stock_detail_dividends_structured_name,
+} from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={m.stock_detail_dividends_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_dividends_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_dividends_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
+  title={stock_detail_dividends_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_dividends_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_dividends_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
-    name: m.stock_detail_dividends_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
-    headline: m.stock_detail_dividends_structured_headline({ company: $displayCompanyName }),
-    description: m.stock_detail_dividends_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_dividends_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: stock_detail_dividends_structured_headline({ company: $displayCompanyName }),
+    description: stock_detail_dividends_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/dividends`,
 
     author: {

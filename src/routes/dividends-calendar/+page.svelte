@@ -21,7 +21,30 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  dividends_back_to_top,
+  dividends_breadcrumb_calendar,
+  dividends_breadcrumb_home,
+  dividends_count,
+  dividends_empty_day,
+  dividends_empty_none,
+  dividends_empty_scheduled,
+  dividends_expanded_amount,
+  dividends_expanded_dividend,
+  dividends_expanded_ex_date,
+  dividends_expanded_market_cap,
+  dividends_expanded_payment_date,
+  dividends_expanded_revenue,
+  dividends_main_name,
+  dividends_pagination_next,
+  dividends_pagination_page_of,
+  dividends_pagination_previous,
+  dividends_pagination_rows,
+  dividends_search_placeholder,
+  dividends_seo_description,
+  dividends_seo_keywords,
+  dividends_seo_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -541,9 +564,9 @@
 </script>
 
 <SEO
-  title={m.dividends_seo_title()}
-  description={m.dividends_seo_description()}
-  keywords={m.dividends_seo_keywords()}
+  title={dividends_seo_title()}
+  description={dividends_seo_description()}
+  keywords={dividends_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -605,10 +628,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.dividends_breadcrumb_home()}</a
+        >{dividends_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{m.dividends_breadcrumb_calendar()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">{dividends_breadcrumb_calendar()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -624,7 +647,7 @@
               <h1
                 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.dividends_main_name()}
+                {dividends_main_name()}
               </h1>
 
               <div class="inline-flex sm:ml-auto">
@@ -671,7 +694,7 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{m.dividends_count({ count: day?.length })}</span>
+                        <span class="text-sm">{dividends_count({ count: day?.length })}</span>
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -766,7 +789,7 @@
                               <span
                                 class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
                               >
-                                {m.dividends_count({ count: day?.length })}</span
+                                {dividends_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -813,7 +836,7 @@
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
-                          {formattedWeekday[index]?.split(", ")[1]} · {m.dividends_count({ count: day?.length })}
+                          {formattedWeekday[index]?.split(", ")[1]} · {dividends_count({ count: day?.length })}
                         </h2>
 
                         <div
@@ -846,7 +869,7 @@
                               bind:value={inputValue}
                               on:input={search}
                               type="text"
-                              placeholder={m.dividends_search_placeholder()}
+                              placeholder={dividends_search_placeholder()}
                               class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
@@ -1012,7 +1035,7 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">{m.dividends_pagination_previous()}</span
+                              <span class="hidden sm:inline">{dividends_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1021,7 +1044,7 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {m.dividends_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
+                              {dividends_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1032,7 +1055,7 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{m.dividends_pagination_rows({ count: dailyRowsPerPage })}</span
+                                    >{dividends_pagination_rows({ count: dailyRowsPerPage })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1067,7 +1090,7 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{m.dividends_pagination_rows({ count: item })}</span>
+                                        <span class="text-sm">{dividends_pagination_rows({ count: item })}</span>
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1083,7 +1106,7 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">{m.dividends_pagination_next()}</span>
+                              <span class="hidden sm:inline">{dividends_pagination_next()}</span>
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1106,7 +1129,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.dividends_back_to_top()} <svg
+                            {dividends_back_to_top()} <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1124,7 +1147,7 @@
                       {/if}
                     {:else}
                       <div class="mt-5">
-                        <Infobox text={m.dividends_empty_day()} />
+                        <Infobox text={dividends_empty_day()} />
                       </div>
                     {/if}
                   {/if}
@@ -1143,7 +1166,7 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{m.dividends_count({ count: day?.length })}</span>
+                        <span class="text-sm">{dividends_count({ count: day?.length })}</span>
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -1236,7 +1259,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >{m.dividends_expanded_ex_date()}</td
+                                              >{dividends_expanded_ex_date()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1258,7 +1281,7 @@
                                               class="border-b border-gray-300 dark:border-zinc-700"
                                             >
                                               <td class="py-1.5 text-sm"
-                                                >{m.dividends_expanded_market_cap()}</td
+                                                >{dividends_expanded_market_cap()}</td
                                               >
                                               <td
                                                 class="text-right font-semibold"
@@ -1275,7 +1298,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >{m.dividends_expanded_amount()}</td
+                                              >{dividends_expanded_amount()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1288,7 +1311,7 @@
                                             class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5 text-sm"
-                                              >{m.dividends_expanded_revenue()}</td
+                                              >{dividends_expanded_revenue()}</td
                                             >
                                             <td
                                               class="text-right font-semibold"
@@ -1300,7 +1323,7 @@
                                           </tr>
                                           <tr>
                                             <td class="pb-0.5 pt-1.5">
-                                              {m.dividends_expanded_payment_date()}
+                                              {dividends_expanded_payment_date()}
                                             </td>
                                             <td
                                               class="text-right font-semibold"
@@ -1329,7 +1352,7 @@
                           <div
                             class="text-center text-gray-500 dark:text-gray-400 py-8"
                           >
-                            {m.dividends_empty_none()}
+                            {dividends_empty_none()}
                           </div>
                         {/if}
                       </div>
@@ -1395,7 +1418,7 @@
                                 >{formattedWeekday[index]}</span
                               >
                               <span class="text-sm m-auto pt-1 pb-1">
-                                {m.dividends_count({ count: day?.length })}</span
+                                {dividends_count({ count: day?.length })}</span
                               >
                             </div>
                             <label
@@ -1489,7 +1512,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{m.dividends_expanded_dividend()}</td>
+                                      <td class="py-1.5 text-sm">{dividends_expanded_dividend()}</td>
                                       <td class="text-right font-semibold">
                                         ${item?.adjDividend?.toFixed(4) ||
                                           "n/a"}
@@ -1498,7 +1521,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{m.dividends_expanded_revenue()}</td>
+                                      <td class="py-1.5 text-sm">{dividends_expanded_revenue()}</td>
                                       <td class="text-right font-semibold">
                                         {item?.revenue
                                           ? `$${abbreviateNumber(item?.revenue, false, true)}`
@@ -1508,7 +1531,7 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{m.dividends_expanded_ex_date()}</td>
+                                      <td class="py-1.5 text-sm">{dividends_expanded_ex_date()}</td>
                                       <td class="text-right font-semibold">
                                         {item?.exDividendDate
                                           ? new Date(
@@ -1522,7 +1545,7 @@
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td class="pb-0.5 pt-1.5">{m.dividends_expanded_payment_date()}</td
+                                      <td class="pb-0.5 pt-1.5">{dividends_expanded_payment_date()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {item?.paymentDate
@@ -1547,7 +1570,7 @@
                       <div
                         class="text-center text-sm text-gray-500 dark:text-gray-400 py-8"
                       >
-                        {m.dividends_empty_scheduled()}
+                        {dividends_empty_scheduled()}
                       </div>
                     {/if}
                   </div>

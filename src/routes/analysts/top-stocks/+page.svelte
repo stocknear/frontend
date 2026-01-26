@@ -5,7 +5,16 @@
   import SEO from "$lib/components/SEO.svelte";
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  analysts_breadcrumb_home,
+  analysts_top_stocks_breadcrumb,
+  analysts_top_stocks_count,
+  analysts_top_stocks_infobox,
+  analysts_top_stocks_seo_description,
+  analysts_top_stocks_seo_keywords,
+  analysts_top_stocks_seo_title,
+  analysts_top_stocks_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -29,9 +38,9 @@
 </script>
 
 <SEO
-  title={m.analysts_top_stocks_seo_title()}
-  description={m.analysts_top_stocks_seo_description()}
-  keywords={m.analysts_top_stocks_seo_keywords()}
+  title={analysts_top_stocks_seo_title()}
+  description={analysts_top_stocks_seo_description()}
+  keywords={analysts_top_stocks_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -80,10 +89,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.analysts_breadcrumb_home()}</a
+        >{analysts_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">{m.analysts_top_stocks_breadcrumb()}</li>
+    <li class="text-muted dark:text-gray-300">{analysts_top_stocks_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -94,12 +103,12 @@
         <main class="w-full lg:pr-5">
           <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
             <h1 class="mb-3 text-2xl sm:text-3xl font-bold">
-              {m.analysts_top_stocks_title()}
+              {analysts_top_stocks_title()}
             </h1>
           </div>
 
           <Infobox
-            text={m.analysts_top_stocks_infobox()}
+            text={analysts_top_stocks_infobox()}
           />
 
           <div class="w-full m-auto">
@@ -109,7 +118,7 @@
               {defaultList}
               {excludedRules}
               {hideLastRow}
-              title={m.analysts_top_stocks_count({ count: rawData?.length })}
+              title={analysts_top_stocks_count({ count: rawData?.length })}
             />
           </div>
           <UpgradeToPro {data} />

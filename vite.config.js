@@ -13,7 +13,7 @@ const config = {
     paraglideVitePlugin({
       project: "./project.inlang",
       outdir: "./src/lib/paraglide",
-      outputStructure: "message-modules",
+      outputStructure: "locale-modules",
     }),
     // partytownVite(),
   ],

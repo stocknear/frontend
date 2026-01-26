@@ -11,7 +11,52 @@
   import VolumeChart from "$lib/components/MarketFlow/VolumeChart.svelte";
   import IntradayBarsChart from "$lib/components/MarketFlow/IntradayBarsChart.svelte";
   import LineChart from "lucide-svelte/icons/chart-no-axes-gantt";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  market_flow_breadcrumb_home,
+  market_flow_breadcrumb_market_flow,
+  market_flow_card_most_active_sector,
+  market_flow_card_net_call_prem,
+  market_flow_card_net_put_prem,
+  market_flow_card_net_volume,
+  market_flow_last_update,
+  market_flow_modal_description,
+  market_flow_modal_title,
+  market_flow_overview_as_of,
+  market_flow_overview_contracts,
+  market_flow_overview_contracts_period,
+  market_flow_overview_indicating,
+  market_flow_overview_intro,
+  market_flow_overview_net_call_premium,
+  market_flow_overview_net_put_premium,
+  market_flow_overview_of_average,
+  market_flow_overview_sentiment,
+  market_flow_overview_total_volume,
+  market_flow_overview_volume_pc_ratio,
+  market_flow_section_fear_greed,
+  market_flow_section_open_interest,
+  market_flow_section_sector_flow,
+  market_flow_section_sp500_flow,
+  market_flow_section_volume,
+  market_flow_sentiment_bearish,
+  market_flow_sentiment_bullish,
+  market_flow_sentiment_neutral,
+  market_flow_sentiment_unknown,
+  market_flow_seo_description,
+  market_flow_seo_keywords,
+  market_flow_seo_title,
+  market_flow_stat_call_oi,
+  market_flow_stat_call_volume,
+  market_flow_stat_put_call_ratio,
+  market_flow_stat_put_oi,
+  market_flow_stat_put_volume,
+  market_flow_stat_todays_oi,
+  market_flow_stat_todays_volume,
+  market_flow_structured_description,
+  market_flow_structured_name,
+  market_flow_upgrade,
+  market_flow_upgrade_to_pro,
+  market_flow_view_intraday_bars,
+} from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
@@ -227,14 +272,14 @@
 </script>
 
 <SEO
-  title={m.market_flow_seo_title()}
-  description={m.market_flow_seo_description()}
-  keywords={m.market_flow_seo_keywords()}
+  title={market_flow_seo_title()}
+  description={market_flow_seo_description()}
+  keywords={market_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: m.market_flow_structured_name(),
-    description: m.market_flow_structured_description(),
+    name: market_flow_structured_name(),
+    description: market_flow_structured_description(),
     url: "https://stocknear.com/market-flow",
     applicationCategory: "FinanceApplication",
     breadcrumb: {
@@ -243,13 +288,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: m.market_flow_breadcrumb_home(),
+          name: market_flow_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: m.market_flow_breadcrumb_market_flow(),
+          name: market_flow_breadcrumb_market_flow(),
           item: "https://stocknear.com/market-flow",
         },
       ],
@@ -270,10 +315,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.market_flow_breadcrumb_home()}</a
+        >{market_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">{m.market_flow_breadcrumb_market_flow()}</li>
+    <li class="text-muted dark:text-gray-300">{market_flow_breadcrumb_market_flow()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto">
@@ -286,13 +331,13 @@
             <p
               class="mb-5 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
             >
-              {m.market_flow_overview_intro()} <strong
+              {market_flow_overview_intro()} <strong
                 class="font-semibold text-gray-900 dark:text-white"
                 >S&P500</strong
-              >. {m.market_flow_overview_as_of()}
+              >. {market_flow_overview_as_of()}
               <strong class="font-semibold text-gray-900 dark:text-white"
                 >{marketFlowDate}</strong
-              >, {m.market_flow_overview_total_volume()}
+              >, {market_flow_overview_total_volume()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {(overview?.putVol + overview?.callVol)?.toLocaleString(
@@ -303,7 +348,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -316,7 +361,7 @@
                   </a>
                 {/if}
               </strong>
-              {m.market_flow_overview_contracts()}
+              {market_flow_overview_contracts()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.avg30Vol && overview?.avg30Vol > 0
@@ -331,7 +376,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -344,7 +389,7 @@
                   </a>
                 {/if}
               </strong>
-              {m.market_flow_overview_of_average()}
+              {market_flow_overview_of_average()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.avg30Vol?.toLocaleString("en-US") || "n/a"}
@@ -353,7 +398,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -366,7 +411,7 @@
                   </a>
                 {/if}
               </strong>
-              {m.market_flow_overview_contracts_period()} {m.market_flow_overview_volume_pc_ratio()}
+              {market_flow_overview_contracts_period()} {market_flow_overview_volume_pc_ratio()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.pcVol?.toFixed(2) || "n/a"}
@@ -375,7 +420,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -387,7 +432,7 @@
                     </svg>
                   </a>
                 {/if}
-              </strong>. {m.market_flow_overview_net_call_premium()}
+              </strong>. {market_flow_overview_net_call_premium()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {abbreviateNumber(
@@ -398,7 +443,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -411,7 +456,7 @@
                   </a>
                 {/if}
               </strong>
-              {m.market_flow_overview_net_put_premium()}
+              {market_flow_overview_net_put_premium()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {abbreviateNumber(
@@ -422,7 +467,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -434,7 +479,7 @@
                     </svg>
                   </a>
                 {/if}
-              </strong>, {m.market_flow_overview_indicating()}
+              </strong>, {market_flow_overview_indicating()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {(() => {
@@ -448,7 +493,7 @@
                     );
 
                     if (netCallPremium == null || netPutPremium == null) {
-                      return m.market_flow_sentiment_unknown();
+                      return market_flow_sentiment_unknown();
                     }
 
                     const netPremiumDiff = netCallPremium - netPutPremium;
@@ -456,17 +501,17 @@
                       Math.abs(netCallPremium) + Math.abs(netPutPremium);
 
                     if (totalPremium === 0) {
-                      return m.market_flow_sentiment_neutral();
+                      return market_flow_sentiment_neutral();
                     }
 
                     const premiumRatio = netPremiumDiff / totalPremium;
 
                     if (premiumRatio > 0.2) {
-                      return m.market_flow_sentiment_bullish();
+                      return market_flow_sentiment_bullish();
                     } else if (premiumRatio < -0.2) {
-                      return m.market_flow_sentiment_bearish();
+                      return market_flow_sentiment_bearish();
                     } else {
-                      return m.market_flow_sentiment_neutral();
+                      return market_flow_sentiment_neutral();
                     }
                   })()}
                 {:else}
@@ -474,7 +519,7 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {m.market_flow_upgrade()} <svg
+                    {market_flow_upgrade()} <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -487,7 +532,7 @@
                   </a>
                 {/if}
               </strong>
-              {m.market_flow_overview_sentiment()}
+              {market_flow_overview_sentiment()}
             </p>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -497,7 +542,7 @@
                 <div
                   class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
-                  <span>{m.market_flow_card_net_volume()}</span>
+                  <span>{market_flow_card_net_volume()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
@@ -537,7 +582,7 @@
                 <div
                   class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
-                  <span>{m.market_flow_card_net_call_prem()}</span>
+                  <span>{market_flow_card_net_call_prem()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
@@ -577,7 +622,7 @@
                 <div
                   class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
-                  <span>{m.market_flow_card_net_put_prem()}</span>
+                  <span>{market_flow_card_net_put_prem()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
@@ -617,7 +662,7 @@
                 <div
                   class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
-                  <span>{m.market_flow_card_most_active_sector()}</span>
+                  <span>{market_flow_card_most_active_sector()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
@@ -661,7 +706,7 @@
                 <h2
                   class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {m.market_flow_section_sp500_flow()}
+                  {market_flow_section_sp500_flow()}
                 </h2>
                 {#if data?.user?.tier === "Pro"}
                   <div class="relative">
@@ -686,7 +731,7 @@
                         />
                       </svg>
                       <span class="text-sm font-medium"
-                        >{m.market_flow_upgrade_to_pro()}</span
+                        >{market_flow_upgrade_to_pro()}</span
                       >
                     </a>
                   </div>
@@ -698,10 +743,10 @@
                   <h2
                     class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                   >
-                    {m.market_flow_section_fear_greed()}
+                    {market_flow_section_fear_greed()}
                   </h2>
                   <span class="text-xs italic text-gray-800 dark:text-zinc-300">
-                    {m.market_flow_last_update()} {new Date(
+                    {market_flow_last_update()} {new Date(
                       data?.getFearAndGreed?.current?.date,
                     )?.toLocaleDateString(getLocale() === "de" ? "de-DE" : "en-US", {
                       month: "short",
@@ -720,7 +765,7 @@
                 <h2
                   class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {m.market_flow_section_sector_flow()}
+                  {market_flow_section_sector_flow()}
                 </h2>
                 {#if data?.user?.tier === "Pro"}
                   <div class="relative">
@@ -745,7 +790,7 @@
                         />
                       </svg>
                       <span class="text-sm font-medium"
-                        >{m.market_flow_upgrade_to_pro()}</span
+                        >{market_flow_upgrade_to_pro()}</span
                       >
                     </a>
                   </div>
@@ -761,7 +806,7 @@
                   <h2
                     class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
                   >
-                    {m.market_flow_section_open_interest()}
+                    {market_flow_section_open_interest()}
                   </h2>
                   <div class="flex items-center gap-2 mb-6">
                     <label
@@ -769,7 +814,7 @@
                       class="order-0 sm:order-1 cursor-pointer text-md font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <LineChart class="size-6 inline-block " />
-                      {m.market_flow_view_intraday_bars()}
+                      {market_flow_view_intraday_bars()}
                       {#if !isPro}
                         <svg
                           class="inline-block ml-1 -mt-1 w-3.5 h-3.5"
@@ -798,7 +843,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_todays_oi()}</span>
+                          <span>{market_flow_stat_todays_oi()}</span>
                           <InfoModal
                             id="todaysOI"
                             content="Open Interest (OI) is the total number of outstanding options contracts (both calls and puts) that are still open.  
@@ -837,7 +882,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_put_call_ratio()}</span>
+                          <span>{market_flow_stat_put_call_ratio()}</span>
                           <InfoModal
                             id="putCallRatio"
                             content="The Open Interest (OI) Put-Call Ratio compares the number of open put contracts to open call contracts.  
@@ -875,7 +920,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_put_oi()}</span>
+                          <span>{market_flow_stat_put_oi()}</span>
                           <InfoModal
                             id="putCallOI"
                             content="Put Open Interest is the total number of open put option contracts on a stock.  
@@ -913,7 +958,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_call_oi()}</span>
+                          <span>{market_flow_stat_call_oi()}</span>
                           <InfoModal
                             id="callOI"
                             content="Call Open Interest is the total number of open call option contracts on a stock.  
@@ -956,7 +1001,7 @@
                   <h2
                     class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
                   >
-                    {m.market_flow_section_volume()}
+                    {market_flow_section_volume()}
                   </h2>
                   <div
                     class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full m-auto"
@@ -972,7 +1017,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_todays_volume()}</span>
+                          <span>{market_flow_stat_todays_volume()}</span>
                           <InfoModal
                             id="todaysVolume"
                             content="Volume is the total number of options contracts traded today.  
@@ -1011,7 +1056,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_put_call_ratio()}</span>
+                          <span>{market_flow_stat_put_call_ratio()}</span>
                           <InfoModal
                             id="putCallRatioVol"
                             content="The Volume Put-Call Ratio compares the number of traded put contracts to call contracts.  
@@ -1049,7 +1094,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_put_volume()}</span>
+                          <span>{market_flow_stat_put_volume()}</span>
                           <InfoModal
                             id="putVol"
                             content="Put Volume is the total number of put option contracts traded today.  
@@ -1087,7 +1132,7 @@
                         <div
                           class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
-                          <span>{m.market_flow_stat_call_volume()}</span>
+                          <span>{market_flow_stat_call_volume()}</span>
                           <InfoModal
                             id="callVol"
                             content="Call Volume is the total number of call option contracts traded today.  
@@ -1144,10 +1189,10 @@
         <h3
           class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
         >
-          {m.market_flow_modal_title()}
+          {market_flow_modal_title()}
         </h3>
         <p class="text-xs sm:text-sm text-gray-600 dark:text-zinc-300">
-          {m.market_flow_modal_description()}
+          {market_flow_modal_description()}
         </p>
       </div>
       <label

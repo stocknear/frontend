@@ -2,22 +2,28 @@
   import { stockTicker, displayCompanyName } from "$lib/store";
   import History from "$lib/components/History.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_history_seo_description,
+  stock_detail_history_seo_keywords,
+  stock_detail_history_seo_title,
+  stock_detail_history_structured_desc,
+  stock_detail_history_structured_name,
+} from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={m.stock_detail_history_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_history_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_history_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
+  title={stock_detail_history_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_history_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_history_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/history`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: m.stock_detail_history_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_history_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_history_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_history_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/history`,
     applicationCategory: "FinanceApplication",
     featureList: [

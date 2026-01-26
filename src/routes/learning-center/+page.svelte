@@ -2,7 +2,20 @@
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  learning_center_alt_tutorial,
+  learning_center_next,
+  learning_center_previous,
+  learning_center_published,
+  learning_center_seo_description,
+  learning_center_seo_keywords,
+  learning_center_seo_title,
+  learning_center_structured_articles,
+  learning_center_structured_articles_description,
+  learning_center_structured_description,
+  learning_center_structured_name,
+  learning_center_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -15,14 +28,14 @@
 </script>
 
 <SEO
-  title={m.learning_center_seo_title()}
-  description={m.learning_center_seo_description()}
-  keywords={m.learning_center_seo_keywords()}
+  title={learning_center_seo_title()}
+  description={learning_center_seo_description()}
+  keywords={learning_center_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    name: m.learning_center_structured_name(),
-    description: m.learning_center_structured_description(),
+    name: learning_center_structured_name(),
+    description: learning_center_structured_description(),
     url: "https://stocknear.com/learning-center",
     educationalUse: "Investment Education",
     audience: {
@@ -38,8 +51,8 @@
     ],
     mainEntity: {
       "@type": "ItemList",
-      name: m.learning_center_structured_articles(),
-      description: m.learning_center_structured_articles_description(),
+      name: learning_center_structured_articles(),
+      description: learning_center_structured_articles_description(),
       numberOfItems: allBlogPosts?.length || 0,
     },
   }}
@@ -58,7 +71,7 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.learning_center_title()}
+              {learning_center_title()}
             </h1>
           </div>
 
@@ -79,7 +92,7 @@
                           item?.id,
                           item?.cover,
                         )}
-                        alt={m.learning_center_alt_tutorial()}
+                        alt={learning_center_alt_tutorial()}
                         loading="lazy"
                       /></a
                     >
@@ -110,7 +123,7 @@
                       <div
                         class="flex items-center text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                       >
-                        {m.learning_center_published()}
+                        {learning_center_published()}
                         <time
                           datetime={item?.created}
                           class="ml-1 text-sm normal-case text-gray-600 dark:text-zinc-300 tabular-nums"
@@ -148,14 +161,14 @@
                     stroke-width="2"
                     d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
                   ></path></svg
-                ><span>{m.learning_center_previous()}</span></a
+                ><span>{learning_center_previous()}</span></a
               >
             {/if}
             {#if currentPage < totalPages}
               <a
                 href={`/learning-center/?page=${currentPage + 1}`}
                 class="ml-auto inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                ><span>{m.learning_center_next()}</span>
+                ><span>{learning_center_next()}</span>
                 <svg
                   class="w-5 h-5 inline-block"
                   fill="none"

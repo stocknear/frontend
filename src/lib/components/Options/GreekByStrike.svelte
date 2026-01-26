@@ -1,5 +1,54 @@
 <script lang="ts">
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_chart_current_price,
+  stock_detail_options_common_back_to_top,
+  stock_detail_options_common_next,
+  stock_detail_options_common_page_of,
+  stock_detail_options_common_previous,
+  stock_detail_options_common_rows,
+  stock_detail_options_dex_table,
+  stock_detail_options_gex_table,
+  stock_detail_options_greek_all_dte,
+  stock_detail_options_greek_by_strike,
+  stock_detail_options_greek_chart_title,
+  stock_detail_options_greek_col_call_delta,
+  stock_detail_options_greek_col_call_gex,
+  stock_detail_options_greek_col_net_delta,
+  stock_detail_options_greek_col_net_gex,
+  stock_detail_options_greek_col_pc,
+  stock_detail_options_greek_col_put_delta,
+  stock_detail_options_greek_col_put_gex,
+  stock_detail_options_greek_col_strike,
+  stock_detail_options_greek_custom,
+  stock_detail_options_greek_dte_label,
+  stock_detail_options_greek_max,
+  stock_detail_options_greek_min,
+  stock_detail_options_greek_strike_delta_all,
+  stock_detail_options_greek_strike_delta_context_above,
+  stock_detail_options_greek_strike_delta_context_at,
+  stock_detail_options_greek_strike_delta_context_below,
+  stock_detail_options_greek_strike_delta_context_other,
+  stock_detail_options_greek_strike_delta_max_intro,
+  stock_detail_options_greek_strike_delta_multi,
+  stock_detail_options_greek_strike_delta_single,
+  stock_detail_options_greek_strike_delta_totals,
+  stock_detail_options_greek_strike_gamma_all,
+  stock_detail_options_greek_strike_gamma_context_above,
+  stock_detail_options_greek_strike_gamma_context_at,
+  stock_detail_options_greek_strike_gamma_context_below,
+  stock_detail_options_greek_strike_gamma_max_intro,
+  stock_detail_options_greek_strike_gamma_multi,
+  stock_detail_options_greek_strike_gamma_single,
+  stock_detail_options_greek_strike_gamma_totals,
+  stock_detail_options_greek_strike_info_delta,
+  stock_detail_options_greek_strike_info_gamma,
+  stock_detail_options_greek_strike_intro,
+  stock_detail_options_greek_strike_no_data,
+  stock_detail_options_greek_strike_no_data_all,
+  stock_detail_options_greek_to,
+  stock_detail_options_greek_type_delta,
+  stock_detail_options_greek_type_gamma,
+} from "$lib/paraglide/messages";
   import { abbreviateNumber } from "$lib/utils";
   import { onMount } from "svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -111,7 +160,7 @@
   let selectedDTEs = new Set(["All"]); // Start with "All" selected
   let checkedDTEs = new Set(["All"]); // Track which DTEs are checked
   let selectedDTEsText = "All"; // Text to display in the dropdown
-  let selectedDTEsLabel = m.stock_detail_options_greek_all_dte();
+  let selectedDTEsLabel = stock_detail_options_greek_all_dte();
 
   // Custom range state
   let customMin: number | null = null;
@@ -269,8 +318,8 @@
       ?.slice(0, 3) || [];
 
   $: greekTypeLabel = isGamma
-    ? m.stock_detail_options_greek_type_gamma()
-    : m.stock_detail_options_greek_type_delta();
+    ? stock_detail_options_greek_type_gamma()
+    : stock_detail_options_greek_type_delta();
 
   $: greekMetricLabel = isGamma ? "GEX" : "DEX";
 
@@ -306,74 +355,74 @@
 
   $: summaryDteText = isGamma
     ? selectedDTEs.has("All")
-      ? m.stock_detail_options_greek_strike_gamma_all()
+      ? stock_detail_options_greek_strike_gamma_all()
       : selectedDTEs.size === 1
-        ? m.stock_detail_options_greek_strike_gamma_single({
+        ? stock_detail_options_greek_strike_gamma_single({
             dte: selectedDTEsLabel,
           })
-        : m.stock_detail_options_greek_strike_gamma_multi({
+        : stock_detail_options_greek_strike_gamma_multi({
             count: selectedDTEs.size,
           })
     : selectedDTEs.has("All")
-      ? m.stock_detail_options_greek_strike_delta_all()
+      ? stock_detail_options_greek_strike_delta_all()
       : selectedDTEs.size === 1
-        ? m.stock_detail_options_greek_strike_delta_single({
+        ? stock_detail_options_greek_strike_delta_single({
             dte: selectedDTEsLabel,
           })
-        : m.stock_detail_options_greek_strike_delta_multi({
+        : stock_detail_options_greek_strike_delta_multi({
             count: selectedDTEs.size,
           });
 
   $: summaryTotalsText = isGamma
-    ? m.stock_detail_options_greek_strike_gamma_totals({
+    ? stock_detail_options_greek_strike_gamma_totals({
         call: formattedCallExposure,
         put: formattedPutExposure,
         ratio: overallPutCallRatio,
       })
-    : m.stock_detail_options_greek_strike_delta_totals({
+    : stock_detail_options_greek_strike_delta_totals({
         call: formattedCallExposure,
         put: formattedPutExposure,
         ratio: overallPutCallRatio,
       });
 
   $: summaryMaxIntroText = isGamma
-    ? m.stock_detail_options_greek_strike_gamma_max_intro({
+    ? stock_detail_options_greek_strike_gamma_max_intro({
         strike: formattedMaxStrike,
         net: formattedNetExposure,
       })
-    : m.stock_detail_options_greek_strike_delta_max_intro({
+    : stock_detail_options_greek_strike_delta_max_intro({
         strike: formattedMaxStrike,
         net: formattedNetExposure,
       });
 
   $: summaryContextText = isGamma
     ? maxStrike > currentPrice
-      ? m.stock_detail_options_greek_strike_gamma_context_above({
+      ? stock_detail_options_greek_strike_gamma_context_above({
           percent: percentAbove,
         })
       : maxStrike < currentPrice
-        ? m.stock_detail_options_greek_strike_gamma_context_below({
+        ? stock_detail_options_greek_strike_gamma_context_below({
             percent: percentBelow,
           })
-        : m.stock_detail_options_greek_strike_gamma_context_at()
+        : stock_detail_options_greek_strike_gamma_context_at()
     : maxExposureStrike?.net_dex > 0 && maxStrike > currentPrice
-      ? m.stock_detail_options_greek_strike_delta_context_above({
+      ? stock_detail_options_greek_strike_delta_context_above({
           percent: percentAbove,
         })
       : maxExposureStrike?.net_dex < 0 && maxStrike < currentPrice
-        ? m.stock_detail_options_greek_strike_delta_context_below({
+        ? stock_detail_options_greek_strike_delta_context_below({
             percent: percentBelow,
           })
         : maxStrike === currentPrice
-          ? m.stock_detail_options_greek_strike_delta_context_at()
-          : m.stock_detail_options_greek_strike_delta_context_other();
+          ? stock_detail_options_greek_strike_delta_context_at()
+          : stock_detail_options_greek_strike_delta_context_other();
 
   $: noDataRange =
     selectedDTEsText === "All"
-      ? m.stock_detail_options_greek_strike_no_data_all()
+      ? stock_detail_options_greek_strike_no_data_all()
       : selectedDTEsLabel;
 
-  $: noDataText = m.stock_detail_options_greek_strike_no_data({
+  $: noDataText = stock_detail_options_greek_strike_no_data({
     type: greekTypeLabel,
     range: noDataRange,
   });
@@ -475,11 +524,11 @@
 
   function getDteLabel(value: string): string {
     if (value === "All") {
-      return m.stock_detail_options_greek_all_dte();
+      return stock_detail_options_greek_all_dte();
     }
 
     if (value === "Custom") {
-      return m.stock_detail_options_greek_custom();
+      return stock_detail_options_greek_custom();
     }
 
     return value;
@@ -708,7 +757,7 @@
         },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_greek_chart_title({ ticker, metric: greekMetricLabel })}</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${stock_detail_options_greek_chart_title({ ticker, metric: greekMetricLabel })}</h3>`,
         style: {
           color: $mode === "light" ? "#111827" : "#f4f4f5",
         },
@@ -786,7 +835,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: m.stock_detail_options_chart_current_price({
+              text: stock_detail_options_chart_current_price({
                 price: currentPrice,
               }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
@@ -863,25 +912,25 @@
   }
 
   $: columns = [
-    { key: "strike", label: m.stock_detail_options_greek_col_strike(), align: "left" },
+    { key: "strike", label: stock_detail_options_greek_col_strike(), align: "left" },
     {
       key: isGamma ? "call_gex" : "call_dex",
-      label: isGamma ? m.stock_detail_options_greek_col_call_gex() : m.stock_detail_options_greek_col_call_delta(),
+      label: isGamma ? stock_detail_options_greek_col_call_gex() : stock_detail_options_greek_col_call_delta(),
       align: "right",
     },
     {
       key: isGamma ? "put_gex" : "put_dex",
-      label: isGamma ? m.stock_detail_options_greek_col_put_gex() : m.stock_detail_options_greek_col_put_delta(),
+      label: isGamma ? stock_detail_options_greek_col_put_gex() : stock_detail_options_greek_col_put_delta(),
       align: "right",
     },
     {
       key: isGamma ? "net_gex" : "net_dex",
-      label: isGamma ? m.stock_detail_options_greek_col_net_gex() : m.stock_detail_options_greek_col_net_delta(),
+      label: isGamma ? stock_detail_options_greek_col_net_gex() : stock_detail_options_greek_col_net_delta(),
       align: "right",
     },
     {
       key: "put_call_ratio",
-      label: m.stock_detail_options_greek_col_pc(),
+      label: stock_detail_options_greek_col_pc(),
       align: "right",
     },
   ];
@@ -965,10 +1014,10 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    {m.stock_detail_options_greek_by_strike()} <InfoModal
+    {stock_detail_options_greek_by_strike()} <InfoModal
       content={isGamma
-        ? m.stock_detail_options_greek_strike_info_gamma({ ticker })
-        : m.stock_detail_options_greek_strike_info_delta({ ticker })}
+        ? stock_detail_options_greek_strike_info_gamma({ ticker })
+        : stock_detail_options_greek_strike_info_delta({ ticker })}
     />
   </h2>
 
@@ -977,7 +1026,7 @@
     {#if rawData?.length > 0}
       <p>
         {#if hasPrice}
-          <span>{@html m.stock_detail_options_greek_strike_intro({ ticker, price: formattedPrice })}</span>
+          <span>{@html stock_detail_options_greek_strike_intro({ ticker, price: formattedPrice })}</span>
           {" "}
         {/if}
         <span>{@html summaryDteText}</span>
@@ -1003,7 +1052,7 @@
           class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="truncate text-sm"
-            >{m.stock_detail_options_greek_dte_label()} | {selectedDTEsLabel}</span
+            >{stock_detail_options_greek_dte_label()} | {selectedDTEsLabel}</span
           >
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -1046,7 +1095,7 @@
                       handleDTEChange(item)}
                   />
                   <span class="ml-2">
-                    {item === "All" ? m.stock_detail_options_greek_all_dte() : item}
+                    {item === "All" ? stock_detail_options_greek_all_dte() : item}
                   </span>
                 </div>
               </DropdownMenu.Item>
@@ -1092,7 +1141,7 @@
                     checked={isCustomSelected}
                     on:click|preventDefault|stopPropagation={handleCustomToggle}
                   />
-                  <span class="ml-2">{m.stock_detail_options_greek_custom()}</span>
+                  <span class="ml-2">{stock_detail_options_greek_custom()}</span>
                 </div>
                 <input
                   type="number"
@@ -1106,11 +1155,11 @@
                   on:keyup|stopPropagation
                   on:keypress|stopPropagation
                   on:focus|stopPropagation
-                  placeholder={m.stock_detail_options_greek_min()}
+                  placeholder={stock_detail_options_greek_min()}
                   min="0"
                   class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
                 />
-                <span class="text-gray-500 dark:text-zinc-400">{m.stock_detail_options_greek_to()}</span>
+                <span class="text-gray-500 dark:text-zinc-400">{stock_detail_options_greek_to()}</span>
                 <input
                   type="number"
                   bind:value={customMax}
@@ -1123,7 +1172,7 @@
                   on:keyup|stopPropagation
                   on:keypress|stopPropagation
                   on:focus|stopPropagation
-                  placeholder={m.stock_detail_options_greek_max()}
+                  placeholder={stock_detail_options_greek_max()}
                   min="0"
                   class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
                 />
@@ -1134,7 +1183,7 @@
               on:click={() => goto("/pricing")}
               class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
             >
-              {m.stock_detail_options_greek_custom()}
+              {stock_detail_options_greek_custom()}
               <svg
                 class="ml-1 size-4"
                 viewBox="0 0 20 20"
@@ -1203,7 +1252,7 @@
         <h2
           class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
         >
-          {title === "Gamma" ? m.stock_detail_options_gex_table() : m.stock_detail_options_dex_table()}
+          {title === "Gamma" ? stock_detail_options_gex_table() : stock_detail_options_dex_table()}
         </h2>
         <div
           class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -1313,14 +1362,14 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
+            <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
           </Button>
         </div>
 
         <!-- Page info and rows selector in center -->
         <div class="flex flex-row items-center gap-4">
           <span class="text-sm text-gray-600 dark:text-zinc-300">
-            {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
+            {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
           </span>
 
           <DropdownMenu.Root>
@@ -1330,7 +1379,7 @@
                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="truncate text-[0.85rem] sm:text-sm"
-                  >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
+                  >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
                 >
                 <svg
                   class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1364,7 +1413,7 @@
                       on:click={() => changeRowsPerPage(item)}
                       class="inline-flex justify-between w-full items-center cursor-pointer"
                     >
-                      <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
+                      <span class="text-sm">{stock_detail_options_common_rows({ count: item })}</span>
                     </label>
                   </DropdownMenu.Item>
                 {/each}
@@ -1379,7 +1428,7 @@
             disabled={currentPage === totalPages}
             class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
+            <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
             <svg
               class="h-5 w-5 inline-block shrink-0 -rotate-90"
               viewBox="0 0 20 20"
@@ -1403,7 +1452,7 @@
           on:click={scrollToTop}
           class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
         >
-          {m.stock_detail_options_common_back_to_top()} <svg
+          {stock_detail_options_common_back_to_top()} <svg
             class="h-5 w-5 inline-block shrink-0 rotate-180"
             viewBox="0 0 20 20"
             fill="currentColor"

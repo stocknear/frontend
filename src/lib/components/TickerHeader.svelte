@@ -1,6 +1,12 @@
 <script lang="ts">
   import NumberFlow, { continuous } from "@number-flow/svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_after_hours,
+  stock_detail_at_close,
+  stock_detail_market_open,
+  stock_detail_pre_market,
+  stock_detail_real_time_price,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -36,7 +42,7 @@
 
           <div class="mt-[1px] text-xs text-gray-800 dark:text-gray-300">
             {data?.getStockQuote?.exchange}: {ticker?.toUpperCase()}
-            · {m.stock_detail_real_time_price()} · USD
+            · {stock_detail_real_time_price()} · USD
           </div>
         </div>
       </div>
@@ -126,7 +132,7 @@
           <div class="mt-0.5 text-[0.85rem] sm:text-sm">
             {#if !isOpen}
               <span class="block font-semibold sm:inline mb-0.5 sm:mb-0"
-                >{m.stock_detail_at_close()}</span
+                >{stock_detail_at_close()}</span
               >
             {/if}
             {displayLegend?.date}
@@ -134,7 +140,7 @@
               <span
                 class="{Object?.keys(prePostData)?.length !== 0
                   ? 'block sm:inline'
-                  : 'inline'} mb-0.5 sm:mb-0">- {m.stock_detail_market_open()}</span
+                  : 'inline'} mb-0.5 sm:mb-0">- {stock_detail_market_open()}</span
               >
             {/if}
           </div>
@@ -213,8 +219,8 @@
                 <span
                   class="ml-0.5 whitespace-nowrap font-semibold md:ml-1 mb-0.5 sm:mb-0"
                   >{prePostData?.time?.includes("AM")
-                    ? m.stock_detail_pre_market()
-                    : m.stock_detail_after_hours()}:</span
+                    ? stock_detail_pre_market()
+                    : stock_detail_after_hours()}:</span
                 ></span
               >
               <span class="sm:ml-1 whitespace-nowrap">{prePostData?.time}</span>

@@ -24,7 +24,61 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_screener_add_filters,
+  stock_screener_back_to_top,
+  stock_screener_breadcrumb_home,
+  stock_screener_breadcrumb_stock_screener,
+  stock_screener_filters_count,
+  stock_screener_full_width,
+  stock_screener_input_max,
+  stock_screener_input_min,
+  stock_screener_input_value,
+  stock_screener_main_title,
+  stock_screener_matches_found,
+  stock_screener_modal_delete_cancel,
+  stock_screener_modal_delete_confirm,
+  stock_screener_modal_delete_message,
+  stock_screener_modal_delete_title,
+  stock_screener_modal_new_create,
+  stock_screener_modal_new_name_label,
+  stock_screener_modal_new_title,
+  stock_screener_new_screen,
+  stock_screener_no_stocks,
+  stock_screener_no_stocks_query,
+  stock_screener_normal_width,
+  stock_screener_nothing_found,
+  stock_screener_pagination_next,
+  stock_screener_pagination_page_of,
+  stock_screener_pagination_previous,
+  stock_screener_popular_screens,
+  stock_screener_popular_strategies,
+  stock_screener_reset_all,
+  stock_screener_rows_label,
+  stock_screener_save,
+  stock_screener_save_as_new,
+  stock_screener_saved_screens,
+  stock_screener_search_filters,
+  stock_screener_search_input_placeholder,
+  stock_screener_search_placeholder,
+  stock_screener_select_filters_title,
+  stock_screener_select_popular,
+  stock_screener_select_screen,
+  stock_screener_seo_description,
+  stock_screener_seo_keywords,
+  stock_screener_seo_title,
+  stock_screener_stocks_count,
+  stock_screener_strategy_dividend_growth,
+  stock_screener_strategy_earnings_volatility,
+  stock_screener_strategy_momentum_ta,
+  stock_screener_strategy_monthly_dividends,
+  stock_screener_strategy_strong_cash_flow,
+  stock_screener_strategy_top_gainers_1y,
+  stock_screener_strategy_top_shorted,
+  stock_screener_strategy_undervalued,
+  stock_screener_structured_description,
+  stock_screener_structured_name,
+} from "$lib/paraglide/messages";
 
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
@@ -64,26 +118,26 @@
   $: popularStrategyList = [
     {
       key: "earningsVolatility",
-      label: m.stock_screener_strategy_earnings_volatility(),
+      label: stock_screener_strategy_earnings_volatility(),
     },
     {
       key: "dividendGrowth",
-      label: m.stock_screener_strategy_dividend_growth(),
+      label: stock_screener_strategy_dividend_growth(),
     },
     {
       key: "monthlyDividends",
-      label: m.stock_screener_strategy_monthly_dividends(),
+      label: stock_screener_strategy_monthly_dividends(),
     },
-    { key: "topGainers1Y", label: m.stock_screener_strategy_top_gainers_1y() },
-    { key: "topShortedStocks", label: m.stock_screener_strategy_top_shorted() },
-    { key: "momentumTAStocks", label: m.stock_screener_strategy_momentum_ta() },
+    { key: "topGainers1Y", label: stock_screener_strategy_top_gainers_1y() },
+    { key: "topShortedStocks", label: stock_screener_strategy_top_shorted() },
+    { key: "momentumTAStocks", label: stock_screener_strategy_momentum_ta() },
     {
       key: "underValuedStocks",
-      label: m.stock_screener_strategy_undervalued(),
+      label: stock_screener_strategy_undervalued(),
     },
     {
       key: "strongCashFlow",
-      label: m.stock_screener_strategy_strong_cash_flow(),
+      label: stock_screener_strategy_strong_cash_flow(),
     },
   ];
 
@@ -3306,16 +3360,16 @@ const handleKeyDown = (event) => {
 </script>
 
 <SEO
-  title={m.stock_screener_seo_title()}
-  description={m.stock_screener_seo_description({
+  title={stock_screener_seo_title()}
+  description={stock_screener_seo_description({
     count: allRows?.length || "advanced",
   })}
-  keywords={m.stock_screener_seo_keywords()}
+  keywords={stock_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: m.stock_screener_structured_name(),
-    description: m.stock_screener_structured_description(),
+    name: stock_screener_structured_name(),
+    description: stock_screener_structured_description(),
     url: "https://stocknear.com/stock-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -3356,12 +3410,12 @@ const handleKeyDown = (event) => {
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.stock_screener_breadcrumb_home()}</a
+        >{stock_screener_breadcrumb_home()}</a
       >
     </li>
     <li>
       <span class="text-gray-500 dark:text-zinc-400"
-        >{m.stock_screener_breadcrumb_stock_screener()}</span
+        >{stock_screener_breadcrumb_stock_screener()}</span
       >
     </li>
   </BreadCrumb>
@@ -3373,12 +3427,12 @@ const handleKeyDown = (event) => {
         <h1
           class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          {m.stock_screener_main_title()}
+          {stock_screener_main_title()}
         </h1>
         <span
           class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
         >
-          {m.stock_screener_matches_found({
+          {stock_screener_matches_found({
             count: filteredData?.length?.toLocaleString("en-US"),
           })}
         </span>
@@ -3389,7 +3443,7 @@ const handleKeyDown = (event) => {
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            {m.stock_screener_popular_screens()}
+            {stock_screener_popular_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -3401,7 +3455,7 @@ const handleKeyDown = (event) => {
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
                       ? selectedPopularStrategy
-                      : m.stock_screener_select_popular()}</span
+                      : stock_screener_select_popular()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -3428,7 +3482,7 @@ const handleKeyDown = (event) => {
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
-                  {m.stock_screener_popular_strategies()}
+                  {stock_screener_popular_strategies()}
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Group>
@@ -3450,7 +3504,7 @@ const handleKeyDown = (event) => {
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            {m.stock_screener_saved_screens()}
+            {stock_screener_saved_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -3464,7 +3518,7 @@ const handleKeyDown = (event) => {
                       ? strategyList?.find(
                           (item) => item.id === selectedStrategy,
                         )?.title
-                      : m.stock_screener_select_screen()}</span
+                      : stock_screener_select_screen()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -3514,7 +3568,7 @@ const handleKeyDown = (event) => {
                         ></path>
                       </svg>
                       <div class="text-sm text-start">
-                        {m.stock_screener_new_screen()}
+                        {stock_screener_new_screen()}
                       </div>
                     </Button>
                   </DropdownMenu.Trigger>
@@ -3586,7 +3640,7 @@ const handleKeyDown = (event) => {
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {m.stock_screener_filters_count({ count: ruleOfList?.length })}
+            {stock_screener_filters_count({ count: ruleOfList?.length })}
           </button>
         </div>
       </div>
@@ -3609,7 +3663,7 @@ const handleKeyDown = (event) => {
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <div>{m.stock_screener_add_filters()}</div>
+            <div>{stock_screener_add_filters()}</div>
           </label>
 
           <!-- Quick Search Input -->
@@ -3636,7 +3690,7 @@ const handleKeyDown = (event) => {
               </div>
               <input
                 type="text"
-                placeholder={m.stock_screener_search_filters({
+                placeholder={stock_screener_search_filters({
                   count: allRows?.length,
                 })}
                 bind:value={quickSearchTerm}
@@ -3757,7 +3811,7 @@ const handleKeyDown = (event) => {
                   d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
                 /></svg
               >
-              <div>{m.stock_screener_save()}</div>
+              <div>{stock_screener_save()}</div>
             </label>
 
             {#if strategyList?.length > 0}
@@ -3769,7 +3823,7 @@ const handleKeyDown = (event) => {
                 class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
               >
                 <Copy class="w-4 h-4 inline-block mr-2" />
-                <div>{m.stock_screener_save_as_new()}</div>
+                <div>{stock_screener_save_as_new()}</div>
               </label>
             {/if}
           {/if}
@@ -3794,7 +3848,7 @@ const handleKeyDown = (event) => {
                   /></g
                 ></svg
               >
-              <div>{m.stock_screener_reset_all()}</div>
+              <div>{stock_screener_reset_all()}</div>
             </label>
           {/if}
         </div>
@@ -3966,7 +4020,7 @@ const handleKeyDown = (event) => {
                                 <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
                                   <input
                                     type="text"
-                                    placeholder={m.stock_screener_input_min()}
+                                    placeholder={stock_screener_input_min()}
                                     value={Array?.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -3981,7 +4035,7 @@ const handleKeyDown = (event) => {
                                   </span>
                                   <input
                                     type="text"
-                                    placeholder={m.stock_screener_input_max()}
+                                    placeholder={stock_screener_input_max()}
                                     value={Array?.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -3995,7 +4049,7 @@ const handleKeyDown = (event) => {
                               {:else}
                                 <input
                                   type="text"
-                                  placeholder={m.stock_screener_input_value()}
+                                  placeholder={stock_screener_input_value()}
                                   value={valueMappings[row?.rule] !== "any"
                                     ? valueMappings[row?.rule]
                                     : ""}
@@ -4077,7 +4131,7 @@ const handleKeyDown = (event) => {
                                 ? 'hidden'
                                 : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
                                       focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300"
-                              placeholder={m.stock_screener_search_input_placeholder()}
+                              placeholder={stock_screener_search_input_placeholder()}
                             />
                           </div>
                         {/if}
@@ -4205,7 +4259,7 @@ const handleKeyDown = (event) => {
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {m.stock_screener_stocks_count({
+      {stock_screener_stocks_count({
         count: filteredData?.length?.toLocaleString("en-US"),
       })}
     </h2>
@@ -4238,7 +4292,7 @@ const handleKeyDown = (event) => {
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder={m.stock_screener_search_placeholder()}
+            placeholder={stock_screener_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -4291,8 +4345,8 @@ const handleKeyDown = (event) => {
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
             >{isFullWidth
-              ? m.stock_screener_normal_width()
-              : m.stock_screener_full_width()}</span
+              ? stock_screener_normal_width()
+              : stock_screener_full_width()}</span
           >
         </button>
 
@@ -4848,7 +4902,7 @@ const handleKeyDown = (event) => {
                 ></path>
               </svg>
               <span class="hidden sm:inline"
-                >{m.stock_screener_pagination_previous()}</span
+                >{stock_screener_pagination_previous()}</span
               ></Button
             >
           </div>
@@ -4856,7 +4910,7 @@ const handleKeyDown = (event) => {
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.stock_screener_pagination_page_of({
+              {stock_screener_pagination_page_of({
                 current: currentPage,
                 total: totalPages,
               })}
@@ -4869,7 +4923,7 @@ const handleKeyDown = (event) => {
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{m.stock_screener_rows_label({ rows: rowsPerPage })}</span
+                    >{stock_screener_rows_label({ rows: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -4905,7 +4959,7 @@ const handleKeyDown = (event) => {
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
                         <span class="text-sm"
-                          >{m.stock_screener_rows_label({ rows: item })}</span
+                          >{stock_screener_rows_label({ rows: item })}</span
                         >
                       </label>
                     </DropdownMenu.Item>
@@ -4923,7 +4977,7 @@ const handleKeyDown = (event) => {
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline"
-                >{m.stock_screener_pagination_next()}</span
+                >{stock_screener_pagination_next()}</span
               >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
@@ -4948,7 +5002,7 @@ const handleKeyDown = (event) => {
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {m.stock_screener_back_to_top()}
+            {stock_screener_back_to_top()}
             <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
@@ -4968,8 +5022,8 @@ const handleKeyDown = (event) => {
     {:else}
       <Infobox
         text={inputValue?.length > 0
-          ? m.stock_screener_no_stocks_query({ query: inputValue })
-          : m.stock_screener_no_stocks()}
+          ? stock_screener_no_stocks_query({ query: inputValue })
+          : stock_screener_no_stocks()}
       />
     {/if}
   {:else}
@@ -5026,7 +5080,7 @@ const handleKeyDown = (event) => {
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {m.stock_screener_select_filters_title({ count: allRows?.length })}
+            {stock_screener_select_filters_title({ count: allRows?.length })}
           </h2>
           <label
             for="ruleModal"
@@ -5101,7 +5155,7 @@ const handleKeyDown = (event) => {
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder={m.stock_screener_search_input_placeholder()}
+              placeholder={stock_screener_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -5165,7 +5219,7 @@ const handleKeyDown = (event) => {
         {/each}
         {#if searchTerm?.length > 0 && Object?.entries(filteredGroupedRules)?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            {m.stock_screener_nothing_found()}
+            {stock_screener_nothing_found()}
           </div>
         {/if}
       </div>
@@ -5188,7 +5242,7 @@ const handleKeyDown = (event) => {
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      {m.stock_screener_modal_new_title()}
+      {stock_screener_modal_new_title()}
     </h1>
 
     <form
@@ -5200,7 +5254,7 @@ const handleKeyDown = (event) => {
         id="title"
         type="text"
         errors=""
-        label={m.stock_screener_modal_new_name_label()}
+        label={stock_screener_modal_new_name_label()}
         required={true}
       />
 
@@ -5208,7 +5262,7 @@ const handleKeyDown = (event) => {
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        {m.stock_screener_modal_new_create()}
+        {stock_screener_modal_new_create()}
       </button>
     </form>
   </div>
@@ -5227,17 +5281,17 @@ const handleKeyDown = (event) => {
         bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      {m.stock_screener_modal_delete_title()}
+      {stock_screener_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      {m.stock_screener_modal_delete_message()}
+      {stock_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
             transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{m.stock_screener_modal_delete_cancel()}</label
+        tabindex="0">{stock_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -5265,7 +5319,7 @@ const handleKeyDown = (event) => {
             x2="14"
             y2="17"
           ></line></svg
-        >{m.stock_screener_modal_delete_confirm()}</label
+        >{stock_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>

@@ -15,7 +15,15 @@
   import { keymap } from "prosemirror-keymap";
   import { schema } from "prosemirror-schema-basic";
   import { chatReasoning } from "$lib/store";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  chat_credits,
+  chat_credits_left,
+  chat_error_connect,
+  chat_how_to_use_agents,
+  chat_placeholder_editable,
+  chat_placeholder_readonly,
+  chat_stock_agents,
+} from "$lib/paraglide/messages";
 
   import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -132,8 +140,8 @@
           span.className =
             "text-gray-500 dark:text-zinc-400 pointer-events-none";
           span.textContent = editable
-            ? m.chat_placeholder_editable()
-            : m.chat_placeholder_readonly();
+            ? chat_placeholder_editable()
+            : chat_placeholder_readonly();
           return span;
         });
 
@@ -479,7 +487,7 @@
       messages = [
         ...messages,
         {
-          content: m.chat_error_connect(),
+          content: chat_error_connect(),
           role: "system",
         },
       ];
@@ -892,7 +900,7 @@
                           <DropdownMenu.Label
                             class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                           >
-                            {data?.user?.credits} {m.chat_credits_left()}
+                            {data?.user?.credits} {chat_credits_left()}
                           </DropdownMenu.Label>
                         {/if}
                         <!--
@@ -938,7 +946,7 @@
                             <div
                               class="flex flex-row items-center w-full text-sm"
                             >
-                              <span>{m.chat_stock_agents()}</span>
+                              <span>{chat_stock_agents()}</span>
                             </div>
                             <svg
                               class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -1016,7 +1024,7 @@
                             <div
                               class="flex flex-row items-center w-full text-sm"
                             >
-                              <span>{m.chat_how_to_use_agents()}</span>
+                              <span>{chat_how_to_use_agents()}</span>
                             </div>
                             <svg
                               class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -1066,7 +1074,7 @@
                                   <span>{option?.name} </span>
 
                                   <span class="ml-auto text-xs"
-                                    >{option?.credit} {m.chat_credits()}</span
+                                    >{option?.credit} {chat_credits()}</span
                                   >
                                 </div>
                               </DropdownMenu.Item>

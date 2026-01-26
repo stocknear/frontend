@@ -10,7 +10,28 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  etf_back_to_top,
+  etf_pagination_next,
+  etf_pagination_page_of,
+  etf_pagination_previous,
+  etf_pagination_rows,
+  etf_provider_detail_count,
+  etf_provider_detail_empty,
+  etf_provider_detail_infobox,
+  etf_provider_detail_no_data,
+  etf_provider_detail_seo_description,
+  etf_provider_detail_seo_keywords,
+  etf_provider_detail_seo_title,
+  etf_provider_detail_structured_description,
+  etf_provider_detail_structured_item_description,
+  etf_provider_detail_structured_item_name,
+  etf_provider_detail_structured_name,
+  etf_search_placeholder,
+  etf_stats_average_cost,
+  etf_stats_listed_funds,
+  etf_stats_total_assets,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -346,7 +367,7 @@
     sortOrders = { ...sortOrders };
   };
 
-  $: htmlOutput = m.etf_provider_detail_infobox({
+  $: htmlOutput = etf_provider_detail_infobox({
     provider: etfProviderName,
     count: String(originalData?.length || 0),
     assets: abbreviateNumber(totalAssets),
@@ -355,14 +376,14 @@
 </script>
 
 <SEO
-  title={m.etf_provider_detail_seo_title({ provider: etfProviderName, count: String(originalData?.length || 0) })}
-  description={m.etf_provider_detail_seo_description({ provider: etfProviderName, count: String(originalData?.length || 0), assets: abbreviateNumber(totalAssets), expenseRatio: avgExpenseRatio?.toFixed(2) || "0" })}
-  keywords={m.etf_provider_detail_seo_keywords({ provider: etfProviderName })}
+  title={etf_provider_detail_seo_title({ provider: etfProviderName, count: String(originalData?.length || 0) })}
+  description={etf_provider_detail_seo_description({ provider: etfProviderName, count: String(originalData?.length || 0), assets: abbreviateNumber(totalAssets), expenseRatio: avgExpenseRatio?.toFixed(2) || "0" })}
+  keywords={etf_provider_detail_seo_keywords({ provider: etfProviderName })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: m.etf_provider_detail_structured_name({ provider: etfProviderName }),
-    description: m.etf_provider_detail_structured_description({ provider: etfProviderName }),
+    name: etf_provider_detail_structured_name({ provider: etfProviderName }),
+    description: etf_provider_detail_structured_description({ provider: etfProviderName }),
     url: `https://stocknear.com/etf/etf-providers/${data?.getProviderName}`,
     about: {
       "@type": "Organization",
@@ -372,8 +393,8 @@
     },
     mainEntity: {
       "@type": "ItemList",
-      name: m.etf_provider_detail_structured_item_name({ provider: etfProviderName }),
-      description: m.etf_provider_detail_structured_item_description({ provider: etfProviderName }),
+      name: etf_provider_detail_structured_item_name({ provider: etfProviderName }),
+      description: etf_provider_detail_structured_item_description({ provider: etfProviderName }),
       numberOfItems: originalData?.length || 0,
     },
     additionalProperty: [
@@ -411,7 +432,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          {m.etf_stats_listed_funds()}
+          {etf_stats_listed_funds()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -425,7 +446,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          {m.etf_stats_total_assets()}
+          {etf_stats_total_assets()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -439,7 +460,7 @@
         <div
           class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
-          {m.etf_stats_average_cost()}
+          {etf_stats_average_cost()}
         </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -458,7 +479,7 @@
         <h2
           class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
         >
-          {m.etf_provider_detail_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
+          {etf_provider_detail_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
         </h2>
         <div
           class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -489,7 +510,7 @@
               type="text"
               bind:value={inputValue}
               on:input={search}
-              placeholder={m.etf_search_placeholder()}
+              placeholder={etf_search_placeholder()}
               class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
             />
           </div>
@@ -642,14 +663,14 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span class="hidden sm:inline">{m.etf_pagination_previous()}</span></Button
+                <span class="hidden sm:inline">{etf_pagination_previous()}</span></Button
               >
             </div>
 
             <!-- Page info and rows selector in center -->
             <div class="flex flex-row items-center gap-4">
               <span class="text-sm text-gray-600 dark:text-zinc-300">
-                {m.etf_pagination_page_of({ current: String(currentPage), total: String(totalPages) })}
+                {etf_pagination_page_of({ current: String(currentPage), total: String(totalPages) })}
               </span>
 
               <DropdownMenu.Root>
@@ -659,7 +680,7 @@
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm"
-                      >{m.etf_pagination_rows({ count: String(rowsPerPage) })}</span
+                      >{etf_pagination_rows({ count: String(rowsPerPage) })}</span
                     >
                     <svg
                       class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -694,7 +715,7 @@
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
                         >
-                          <span class="text-sm">{m.etf_pagination_rows({ count: String(item) })}</span>
+                          <span class="text-sm">{etf_pagination_rows({ count: String(item) })}</span>
                         </label>
                       </DropdownMenu.Item>
                     {/each}
@@ -710,7 +731,7 @@
                 disabled={currentPage === totalPages}
                 class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span class="hidden sm:inline">{m.etf_pagination_next()}</span>
+                <span class="hidden sm:inline">{etf_pagination_next()}</span>
                 <svg
                   class="h-5 w-5 inline-block shrink-0 -rotate-90"
                   viewBox="0 0 20 20"
@@ -734,7 +755,7 @@
               on:click={scrollToTop}
               class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
             >
-              {m.etf_back_to_top()} <svg
+              {etf_back_to_top()} <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-180"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -750,7 +771,7 @@
             </button>
           </div>
         {:else}
-          <Infobox text={m.etf_provider_detail_empty({ query: inputValue })} />
+          <Infobox text={etf_provider_detail_empty({ query: inputValue })} />
         {/if}
       </div>
     </div>
@@ -758,7 +779,7 @@
     <div
       class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-gray-800 dark:text-zinc-300"
     >
-      {m.etf_provider_detail_no_data()}
+      {etf_provider_detail_no_data()}
     </div>
   {/if}
 </section>

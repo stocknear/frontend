@@ -15,7 +15,44 @@
   import { browser } from "$app/environment";
   import { goto } from "$app/navigation";
   import InfoModal from "$lib/components/InfoModal.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_common_back_to_top,
+  stock_detail_options_common_close,
+  stock_detail_options_common_next,
+  stock_detail_options_common_page_of,
+  stock_detail_options_common_previous,
+  stock_detail_options_common_rows,
+  stock_detail_options_contract_lookup_1_month,
+  stock_detail_options_contract_lookup_1_week,
+  stock_detail_options_contract_lookup_1_year,
+  stock_detail_options_contract_lookup_3_months,
+  stock_detail_options_contract_lookup_3_years,
+  stock_detail_options_contract_lookup_6_months,
+  stock_detail_options_contract_lookup_col_avg_price,
+  stock_detail_options_contract_lookup_col_date,
+  stock_detail_options_contract_lookup_col_dex,
+  stock_detail_options_contract_lookup_col_gex,
+  stock_detail_options_contract_lookup_col_iv,
+  stock_detail_options_contract_lookup_col_last_price,
+  stock_detail_options_contract_lookup_col_oi,
+  stock_detail_options_contract_lookup_col_oi_change,
+  stock_detail_options_contract_lookup_col_pct_change_oi,
+  stock_detail_options_contract_lookup_col_total_prem,
+  stock_detail_options_contract_lookup_col_vol,
+  stock_detail_options_contract_lookup_contract_chart,
+  stock_detail_options_contract_lookup_contract_history,
+  stock_detail_options_contract_lookup_copied,
+  stock_detail_options_contract_lookup_copy_link,
+  stock_detail_options_contract_lookup_date_expiration,
+  stock_detail_options_contract_lookup_history,
+  stock_detail_options_contract_lookup_infobox,
+  stock_detail_options_contract_lookup_no_data,
+  stock_detail_options_contract_lookup_no_option_data,
+  stock_detail_options_contract_lookup_option_type,
+  stock_detail_options_contract_lookup_select_time,
+  stock_detail_options_contract_lookup_strike_price,
+  stock_detail_options_contract_lookup_title,
+} from "$lib/paraglide/messages";
 
   import { onMount } from "svelte";
 
@@ -49,7 +86,7 @@
   let sortedData = [];
   let infoText = {};
   let tooltipTitle;
-  let copyLabel = m.stock_detail_options_contract_lookup_copy_link();
+  let copyLabel = stock_detail_options_contract_lookup_copy_link();
   let copyTimer;
 
   // Pagination state
@@ -66,17 +103,17 @@
 
   // Define columns for sorting
   $: columns = [
-    { key: "date", label: m.stock_detail_options_contract_lookup_col_date(), align: "left" },
-    { key: "volume", label: m.stock_detail_options_contract_lookup_col_vol(), align: "right" },
-    { key: "open_interest", label: m.stock_detail_options_contract_lookup_col_oi(), align: "right" },
-    { key: "changeOI", label: m.stock_detail_options_contract_lookup_col_oi_change(), align: "right" },
-    { key: "changesPercentageOI", label: m.stock_detail_options_contract_lookup_col_pct_change_oi(), align: "right" },
-    { key: "close", label: m.stock_detail_options_contract_lookup_col_last_price(), align: "right" },
-    { key: "mark", label: m.stock_detail_options_contract_lookup_col_avg_price(), align: "right" },
-    { key: "implied_volatility", label: m.stock_detail_options_contract_lookup_col_iv(), align: "right" },
-    { key: "total_premium", label: m.stock_detail_options_contract_lookup_col_total_prem(), align: "right" },
-    { key: "gex", label: m.stock_detail_options_contract_lookup_col_gex(), align: "right" },
-    { key: "dex", label: m.stock_detail_options_contract_lookup_col_dex(), align: "right" },
+    { key: "date", label: stock_detail_options_contract_lookup_col_date(), align: "left" },
+    { key: "volume", label: stock_detail_options_contract_lookup_col_vol(), align: "right" },
+    { key: "open_interest", label: stock_detail_options_contract_lookup_col_oi(), align: "right" },
+    { key: "changeOI", label: stock_detail_options_contract_lookup_col_oi_change(), align: "right" },
+    { key: "changesPercentageOI", label: stock_detail_options_contract_lookup_col_pct_change_oi(), align: "right" },
+    { key: "close", label: stock_detail_options_contract_lookup_col_last_price(), align: "right" },
+    { key: "mark", label: stock_detail_options_contract_lookup_col_avg_price(), align: "right" },
+    { key: "implied_volatility", label: stock_detail_options_contract_lookup_col_iv(), align: "right" },
+    { key: "total_premium", label: stock_detail_options_contract_lookup_col_total_prem(), align: "right" },
+    { key: "gex", label: stock_detail_options_contract_lookup_col_gex(), align: "right" },
+    { key: "dex", label: stock_detail_options_contract_lookup_col_dex(), align: "right" },
   ];
 
   // Define sort orders for each column
@@ -346,7 +383,7 @@
       },
       credits: { enabled: false },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${m.stock_detail_options_contract_lookup_contract_history()}</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${stock_detail_options_contract_lookup_contract_history()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -658,17 +695,17 @@
     try {
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl.toString());
-        copyLabel = m.stock_detail_options_contract_lookup_copied();
+        copyLabel = stock_detail_options_contract_lookup_copied();
       } else {
-        window.prompt(m.stock_detail_options_contract_lookup_copy_link() + ":", shareUrl.toString());
-        copyLabel = m.stock_detail_options_contract_lookup_copied();
+        window.prompt(stock_detail_options_contract_lookup_copy_link() + ":", shareUrl.toString());
+        copyLabel = stock_detail_options_contract_lookup_copied();
       }
     } catch (e) {
       copyLabel = "Copy failed";
     } finally {
       if (copyTimer) clearTimeout(copyTimer);
       copyTimer = setTimeout(() => {
-        copyLabel = m.stock_detail_options_contract_lookup_copy_link();
+        copyLabel = stock_detail_options_contract_lookup_copy_link();
       }, 2000);
     }
   }
@@ -794,7 +831,7 @@
           <h2
             class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            {m.stock_detail_options_contract_lookup_title()}
+            {stock_detail_options_contract_lookup_title()}
           </h2>
           <Button
             on:click={copyContractLink}
@@ -806,7 +843,7 @@
         </div>
 
         <Infobox
-          text={m.stock_detail_options_contract_lookup_infobox()}
+          text={stock_detail_options_contract_lookup_infobox()}
         />
 
         <div
@@ -821,11 +858,11 @@
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
               >
                 <div class="flex flex-row items-center">
-                  {m.stock_detail_options_contract_lookup_date_expiration()}
+                  {stock_detail_options_contract_lookup_date_expiration()}
                   <div class="">
                     <InfoModal
                       id="dateExpiration"
-                      title={m.stock_detail_options_contract_lookup_date_expiration()}
+                      title={stock_detail_options_contract_lookup_date_expiration()}
                       callAPI={true}
                       parameter="dateExpiration"
                     />
@@ -909,11 +946,11 @@
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
               >
                 <div class="flex flex-row items-center">
-                  {m.stock_detail_options_contract_lookup_strike_price()}
+                  {stock_detail_options_contract_lookup_strike_price()}
                   <div class="">
                     <InfoModal
                       id="strikePrice"
-                      title={m.stock_detail_options_contract_lookup_strike_price()}
+                      title={stock_detail_options_contract_lookup_strike_price()}
                       callAPI={true}
                       parameter="strikePrice"
                     />
@@ -974,11 +1011,11 @@
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
               >
                 <div class="flex flex-row items-center">
-                  {m.stock_detail_options_contract_lookup_option_type()}
+                  {stock_detail_options_contract_lookup_option_type()}
                   <div class="">
                     <InfoModal
                       id="optionType"
-                      title={m.stock_detail_options_contract_lookup_option_type()}
+                      title={stock_detail_options_contract_lookup_option_type()}
                       callAPI={true}
                       parameter="optionType"
                     />
@@ -1250,7 +1287,7 @@
                 <h2
                   class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
                 >
-                  {m.stock_detail_options_contract_lookup_contract_chart()}
+                  {stock_detail_options_contract_lookup_contract_chart()}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -1337,7 +1374,7 @@
                           <DropdownMenu.Label
                             class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                           >
-                            {m.stock_detail_options_contract_lookup_select_time()}
+                            {stock_detail_options_contract_lookup_select_time()}
                           </DropdownMenu.Label>
                           <DropdownMenu.Separator />
                           <DropdownMenu.Group>
@@ -1345,37 +1382,37 @@
                               on:click={() => (selectedTimePeriod = "1W")}
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
-                              {m.stock_detail_options_contract_lookup_1_week()}
+                              {stock_detail_options_contract_lookup_1_week()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1M")}
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
-                              {m.stock_detail_options_contract_lookup_1_month()}
+                              {stock_detail_options_contract_lookup_1_month()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "3M")}
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
-                              {m.stock_detail_options_contract_lookup_3_months()}
+                              {stock_detail_options_contract_lookup_3_months()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "6M")}
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
-                              {m.stock_detail_options_contract_lookup_6_months()}
+                              {stock_detail_options_contract_lookup_6_months()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1Y")}
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
-                              {m.stock_detail_options_contract_lookup_1_year()}
+                              {stock_detail_options_contract_lookup_1_year()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "3Y")}
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
-                              {m.stock_detail_options_contract_lookup_3_years()}
+                              {stock_detail_options_contract_lookup_3_years()}
                             </DropdownMenu.Item>
                           </DropdownMenu.Group>
                         </DropdownMenu.Content>
@@ -1407,7 +1444,7 @@
                   <h2
                     class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
                   >
-                    {m.stock_detail_options_contract_lookup_history()}
+                    {stock_detail_options_contract_lookup_history()}
                   </h2>
                   <div
                     class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -1548,14 +1585,14 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <span class="hidden sm:inline">{m.stock_detail_options_common_previous()}</span>
+                      <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
                     </Button>
                   </div>
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {m.stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -1565,7 +1602,7 @@
                           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >{m.stock_detail_options_common_rows({ count: rowsPerPage })}</span
+                            >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1600,7 +1637,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{m.stock_detail_options_common_rows({ count: item })}</span>
+                                <span class="text-sm">{stock_detail_options_common_rows({ count: item })}</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -1616,7 +1653,7 @@
                       disabled={currentPage === totalPages}
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="hidden sm:inline">{m.stock_detail_options_common_next()}</span>
+                      <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
                       <svg
                         class="h-5 w-5 inline-block shrink-0 -rotate-90"
                         viewBox="0 0 20 20"
@@ -1640,7 +1677,7 @@
                     on:click={scrollToTop}
                     class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
-                    {m.stock_detail_options_common_back_to_top()} <svg
+                    {stock_detail_options_common_back_to_top()} <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -1671,12 +1708,12 @@
             </div>
           {:else}
             <Infobox
-              text={m.stock_detail_options_contract_lookup_no_data()}
+              text={stock_detail_options_contract_lookup_no_data()}
             />
           {/if}
         {:else}
           <Infobox
-            text={m.stock_detail_options_contract_lookup_no_option_data({ optionType: selectedOptionType })}
+            text={stock_detail_options_contract_lookup_no_option_data({ optionType: selectedOptionType })}
           />
         {/if}
       </div>
@@ -1718,7 +1755,7 @@
           for="mobileTooltip"
           class="cursor-pointer mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center"
         >
-          {m.stock_detail_options_common_close()}
+          {stock_detail_options_common_close()}
         </label>
       </div>
     </div>

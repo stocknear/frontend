@@ -1,6 +1,8 @@
 <script lang="ts">
   import { displayCompanyName, stockTicker } from "$lib/store";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_financials_income_statement,
+} from "$lib/paraglide/messages";
 
   import SEO from "$lib/components/SEO.svelte";
   import FinancialSection from "$lib/components/FinancialSection.svelte";
@@ -173,7 +175,7 @@
 
 <FinancialSection
   {data}
-  title={m.stock_detail_financials_income_statement()}
+  title={stock_detail_financials_income_statement()}
   statementType="income-statement"
   {statementConfig}
   enableFavorites

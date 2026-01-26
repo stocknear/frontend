@@ -9,7 +9,29 @@
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  support_breadcrumb_current,
+  support_breadcrumb_home,
+  support_button_processing,
+  support_button_send,
+  support_description_1,
+  support_description_2,
+  support_description_3,
+  support_faq_link,
+  support_label_email,
+  support_label_message,
+  support_label_subject,
+  support_seo_title,
+  support_sidebar_pro_description,
+  support_sidebar_pro_title,
+  support_sidebar_screener_description,
+  support_sidebar_screener_title,
+  support_sidebar_watchlist_description,
+  support_sidebar_watchlist_title,
+  support_success_message,
+  support_title,
+  support_toast_error,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let form;
@@ -44,7 +66,7 @@
         case "failure":
           messageSent = false;
           errorMessage = true;
-          toast.error(m.support_toast_error(), {
+          toast.error(support_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -52,7 +74,7 @@
         case "error":
           messageSent = false;
           errorMessage = true;
-          toast.error(m.support_toast_error(), {
+          toast.error(support_toast_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           break;
@@ -66,7 +88,7 @@
   };
 </script>
 
-<SEO title={m.support_seo_title()} description="" />
+<SEO title={support_seo_title()} description="" />
 
 {#key messageSent}
   <section
@@ -79,10 +101,10 @@
         <a
           href="/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >{m.support_breadcrumb_home()}</a
+          >{support_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">{m.support_breadcrumb_current()}</li>
+      <li class="text-gray-800 dark:text-zinc-300">{support_breadcrumb_current()}</li>
     </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
@@ -95,13 +117,13 @@
               <h1
                 class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.support_title()}
+                {support_title()}
               </h1>
             </div>
 
             <div class="w-full m-auto">
               <p class="text-sm sm:text-base">
-                {m.support_description_1()} <a
+                {support_description_1()} <a
                   href={`mailto:${emailAddress}`}
                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
@@ -109,15 +131,15 @@
               </p>
               <br />
               <p class="text-sm sm:text-base">
-                {m.support_description_2()} <a
+                {support_description_2()} <a
                   href="/faq"
                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                  >{m.support_faq_link()}</a
+                  >{support_faq_link()}</a
                 >.
               </p>
               <br />
               <p class="text-sm sm:text-base">
-                {m.support_description_3()}
+                {support_description_3()}
               </p>
 
               <form
@@ -129,19 +151,19 @@
                   <Input
                     type="email"
                     id="email"
-                    label={m.support_label_email()}
+                    label={support_label_email()}
                     value={form?.data?.email}
                     required={true}
                   />
                   <Input
                     type="text"
                     id="subject"
-                    label={m.support_label_subject()}
+                    label={support_label_subject()}
                     required={true}
                   />
                 </div>
                 <div class="mt-5 w-full max-w-[650px]">
-                  <TextArea label={m.support_label_message()} id="message" required={true} />
+                  <TextArea label={support_label_message()} id="message" required={true} />
 
                   {#if showTurnstile}
                     <div class="pt-5">
@@ -161,7 +183,7 @@
                       type="submit"
                       class="mt-5 cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
                     >
-                      <span>{m.support_button_send()}</span>
+                      <span>{support_button_send()}</span>
                     </button>
                   {:else}
                     <label
@@ -169,7 +191,7 @@
                     >
                       <div class="flex flex-row m-auto items-center">
                         <span class="loading loading-spinner"></span>
-                        <span class="ml-1.5">{m.support_button_processing()}</span>
+                        <span class="ml-1.5">{support_button_processing()}</span>
                       </div>
                     </label>
                   {/if}
@@ -196,7 +218,7 @@
                           </div>
                           <div class="ml-3 sm:ml-4">
                             <span class="text-base"
-                              >{m.support_success_message()}</span
+                              >{support_success_message()}</span
                             >
                           </div>
                         </div>
@@ -218,13 +240,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    {m.support_sidebar_pro_title()}
+                    {support_sidebar_pro_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  {m.support_sidebar_pro_description()}
+                  {support_sidebar_pro_description()}
                 </span>
               </a>
             </div>
@@ -238,13 +260,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    {m.support_sidebar_screener_title()}
+                    {support_sidebar_screener_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  {m.support_sidebar_screener_description()}
+                  {support_sidebar_screener_description()}
                 </span>
               </a>
             </div>
@@ -258,12 +280,12 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    {m.support_sidebar_watchlist_title()}
+                    {support_sidebar_watchlist_title()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-                  >{m.support_sidebar_watchlist_description()}
+                  >{support_sidebar_watchlist_description()}
                 </span>
               </a>
             </div>

@@ -11,7 +11,26 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  hedge_funds_back_to_top,
+  hedge_funds_breadcrumb_hedge_funds,
+  hedge_funds_breadcrumb_home,
+  hedge_funds_count_institutes,
+  hedge_funds_infobox,
+  hedge_funds_loading,
+  hedge_funds_main_title,
+  hedge_funds_no_data,
+  hedge_funds_pagination_next,
+  hedge_funds_pagination_page_of,
+  hedge_funds_pagination_previous,
+  hedge_funds_rows_label,
+  hedge_funds_search_placeholder,
+  hedge_funds_seo_description,
+  hedge_funds_seo_keywords,
+  hedge_funds_seo_title,
+  hedge_funds_structured_description,
+  hedge_funds_structured_name,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -476,14 +495,14 @@
 </script>
 
 <SEO
-  title={m.hedge_funds_seo_title()}
-  description={m.hedge_funds_seo_description()}
-  keywords={m.hedge_funds_seo_keywords()}
+  title={hedge_funds_seo_title()}
+  description={hedge_funds_seo_description()}
+  keywords={hedge_funds_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: m.hedge_funds_structured_name(),
-    description: m.hedge_funds_structured_description(),
+    name: hedge_funds_structured_name(),
+    description: hedge_funds_structured_description(),
     url: "https://stocknear.com/hedge-funds",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -491,13 +510,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: m.hedge_funds_breadcrumb_home(),
+          name: hedge_funds_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: m.hedge_funds_breadcrumb_hedge_funds(),
+          name: hedge_funds_breadcrumb_hedge_funds(),
           item: "https://stocknear.com/hedge-funds",
         },
       ],
@@ -523,10 +542,10 @@
         <a
           href="/"
           class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >{m.hedge_funds_breadcrumb_home()}</a
+          >{hedge_funds_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">{m.hedge_funds_breadcrumb_hedge_funds()}</li>
+      <li class="text-gray-800 dark:text-zinc-300">{hedge_funds_breadcrumb_hedge_funds()}</li>
     </BreadCrumb>
 
     <section class="w-full overflow-hidden m-auto sm:mt-10 px-0 mt-10">
@@ -539,12 +558,12 @@
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.hedge_funds_main_title()}
+                {hedge_funds_main_title()}
               </h1>
             </div>
 
             <Infobox
-              text={m.hedge_funds_infobox()}
+              text={hedge_funds_infobox()}
             />
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
@@ -554,7 +573,7 @@
                 <h2
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {m.hedge_funds_count_institutes({ count: totalItems?.toLocaleString("en-US") })}
+                  {hedge_funds_count_institutes({ count: totalItems?.toLocaleString("en-US") })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -587,7 +606,7 @@
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
-                      placeholder={m.hedge_funds_search_placeholder()}
+                      placeholder={hedge_funds_search_placeholder()}
                       class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
@@ -659,7 +678,7 @@
                           colspan={columns.length}
                           class="py-6 text-center text-sm text-gray-800 dark:text-zinc-300"
                         >
-                          {isLoading ? m.hedge_funds_loading() : m.hedge_funds_no_data()}
+                          {isLoading ? hedge_funds_loading() : hedge_funds_no_data()}
                         </td>
                       </tr>
                     {:else}
@@ -813,14 +832,14 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <span class="hidden sm:inline">{m.hedge_funds_pagination_previous()}</span></Button
+                      <span class="hidden sm:inline">{hedge_funds_pagination_previous()}</span></Button
                     >
                   </div>
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {m.hedge_funds_pagination_page_of({ current: currentPage, total: totalPages })}
+                      {hedge_funds_pagination_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -830,7 +849,7 @@
                           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >{m.hedge_funds_rows_label({ rows: rowsPerPage })}</span
+                            >{hedge_funds_rows_label({ rows: rowsPerPage })}</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -865,7 +884,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{m.hedge_funds_rows_label({ rows: item })}</span>
+                                <span class="text-sm">{hedge_funds_rows_label({ rows: item })}</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -881,7 +900,7 @@
                       disabled={currentPage === totalPages || isLoading}
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="hidden sm:inline">{m.hedge_funds_pagination_next()}</span>
+                      <span class="hidden sm:inline">{hedge_funds_pagination_next()}</span>
                       <svg
                         class="h-5 w-5 inline-block shrink-0 -rotate-90"
                         viewBox="0 0 20 20"
@@ -905,7 +924,7 @@
                     on:click={scrollToTop}
                     class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
-                    {m.hedge_funds_back_to_top()} <svg
+                    {hedge_funds_back_to_top()} <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
                       viewBox="0 0 20 20"
                       fill="currentColor"

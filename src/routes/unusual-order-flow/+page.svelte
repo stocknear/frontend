@@ -21,7 +21,66 @@
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  unusual_order_flow_add_filters,
+  unusual_order_flow_asset_type,
+  unusual_order_flow_block,
+  unusual_order_flow_dark_pool,
+  unusual_order_flow_delayed,
+  unusual_order_flow_delayed_content,
+  unusual_order_flow_delayed_title,
+  unusual_order_flow_etf,
+  unusual_order_flow_exit_full_width,
+  unusual_order_flow_expand_full_width,
+  unusual_order_flow_filters_count,
+  unusual_order_flow_full_width,
+  unusual_order_flow_hide_filter_area,
+  unusual_order_flow_main_title,
+  unusual_order_flow_max,
+  unusual_order_flow_min,
+  unusual_order_flow_modal_delete_cancel,
+  unusual_order_flow_modal_delete_confirm,
+  unusual_order_flow_modal_delete_message,
+  unusual_order_flow_modal_delete_title,
+  unusual_order_flow_modal_new_create,
+  unusual_order_flow_modal_new_name_label,
+  unusual_order_flow_modal_new_title,
+  unusual_order_flow_new_filter,
+  unusual_order_flow_no_data_filters,
+  unusual_order_flow_no_filters_found,
+  unusual_order_flow_no_trades_query,
+  unusual_order_flow_normal_width,
+  unusual_order_flow_nothing_found,
+  unusual_order_flow_popular_filters,
+  unusual_order_flow_remove_filter,
+  unusual_order_flow_reset_all,
+  unusual_order_flow_reset_column_order,
+  unusual_order_flow_save,
+  unusual_order_flow_save_as_new,
+  unusual_order_flow_saved_filters,
+  unusual_order_flow_search_filters,
+  unusual_order_flow_search_input_placeholder,
+  unusual_order_flow_search_placeholder,
+  unusual_order_flow_select_filter,
+  unusual_order_flow_select_popular,
+  unusual_order_flow_seo_description,
+  unusual_order_flow_seo_keywords,
+  unusual_order_flow_seo_title,
+  unusual_order_flow_show_filter_area,
+  unusual_order_flow_stock,
+  unusual_order_flow_strategy_block_orders,
+  unusual_order_flow_strategy_dark_pool_prints,
+  unusual_order_flow_strategy_etf_flow,
+  unusual_order_flow_strategy_high_volume,
+  unusual_order_flow_strategy_large_stock_flow,
+  unusual_order_flow_strategy_mega_premium,
+  unusual_order_flow_structured_description,
+  unusual_order_flow_structured_name,
+  unusual_order_flow_total_value,
+  unusual_order_flow_total_volume,
+  unusual_order_flow_transaction_type,
+  unusual_order_flow_value,
+} from "$lib/paraglide/messages";
 
   import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
   import UnusualOrderFlowExport from "$lib/components/UnusualOrderFlowExport.svelte";
@@ -57,15 +116,15 @@
   $: popularStrategyList = [
     {
       key: "darkPoolPrints",
-      label: m.unusual_order_flow_strategy_dark_pool_prints(),
+      label: unusual_order_flow_strategy_dark_pool_prints(),
     },
-    { key: "blockOrders", label: m.unusual_order_flow_strategy_block_orders() },
-    { key: "megaPremium", label: m.unusual_order_flow_strategy_mega_premium() },
-    { key: "etfFlow", label: m.unusual_order_flow_strategy_etf_flow() },
-    { key: "highVolume", label: m.unusual_order_flow_strategy_high_volume() },
+    { key: "blockOrders", label: unusual_order_flow_strategy_block_orders() },
+    { key: "megaPremium", label: unusual_order_flow_strategy_mega_premium() },
+    { key: "etfFlow", label: unusual_order_flow_strategy_etf_flow() },
+    { key: "highVolume", label: unusual_order_flow_strategy_high_volume() },
     {
       key: "largeStockFlow",
-      label: m.unusual_order_flow_strategy_large_stock_flow(),
+      label: unusual_order_flow_strategy_large_stock_flow(),
     },
   ];
   let displayRules = [];
@@ -1548,14 +1607,14 @@
 </script>
 
 <SEO
-  title={m.unusual_order_flow_seo_title()}
-  description={m.unusual_order_flow_seo_description()}
-  keywords={m.unusual_order_flow_seo_keywords()}
+  title={unusual_order_flow_seo_title()}
+  description={unusual_order_flow_seo_description()}
+  keywords={unusual_order_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: m.unusual_order_flow_structured_name(),
-    description: m.unusual_order_flow_structured_description(),
+    name: unusual_order_flow_structured_name(),
+    description: unusual_order_flow_structured_description(),
     url: "https://stocknear.com/unusual-order-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1603,7 +1662,7 @@
           <h1
             class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            {m.unusual_order_flow_main_title()}
+            {unusual_order_flow_main_title()}
           </h1>
         </div>
 
@@ -1612,7 +1671,7 @@
             <div
               class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
             >
-              {m.unusual_order_flow_popular_filters()}
+              {unusual_order_flow_popular_filters()}
             </div>
             <div class="relative inline-block text-left grow">
               <DropdownMenu.Root>
@@ -1624,7 +1683,7 @@
                     <span class="truncate"
                       >{selectedPopularStrategy?.length !== 0
                         ? selectedPopularStrategy
-                        : m.unusual_order_flow_select_popular()}</span
+                        : unusual_order_flow_select_popular()}</span
                     >
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1651,7 +1710,7 @@
                   <DropdownMenu.Label
                     class="text-gray-500 dark:text-zinc-400 font-normal"
                   >
-                    {m.unusual_order_flow_popular_filters()}
+                    {unusual_order_flow_popular_filters()}
                   </DropdownMenu.Label>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Group>
@@ -1673,7 +1732,7 @@
             <div
               class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
             >
-              {m.unusual_order_flow_saved_filters()}
+              {unusual_order_flow_saved_filters()}
             </div>
             <div class="relative inline-block text-left grow">
               <DropdownMenu.Root>
@@ -1687,7 +1746,7 @@
                         ? strategyList?.find(
                             (item) => item.id === selectedStrategy,
                           )?.title
-                        : m.unusual_order_flow_select_filter()}</span
+                        : unusual_order_flow_select_filter()}</span
                     >
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1733,7 +1792,7 @@
                           ></path>
                         </svg>
                         <div class="text-sm text-start">
-                          {m.unusual_order_flow_new_filter()}
+                          {unusual_order_flow_new_filter()}
                         </div>
                       </Button>
                     </DropdownMenu.Trigger>
@@ -1907,8 +1966,8 @@
             on:click={() => (showFilters = !showFilters)}
             class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
             title={showFilters
-              ? m.unusual_order_flow_hide_filter_area()
-              : m.unusual_order_flow_show_filter_area()}
+              ? unusual_order_flow_hide_filter_area()
+              : unusual_order_flow_show_filter_area()}
           >
             <svg
               class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
@@ -1922,7 +1981,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {m.unusual_order_flow_filters_count({ count: ruleOfList?.length })}
+            {unusual_order_flow_filters_count({ count: ruleOfList?.length })}
           </button>
           <div class="flex flex-row items-center ml-auto justify-start">
             <div class="flex items-center gap-1">
@@ -1940,12 +1999,12 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                {m.unusual_order_flow_delayed()}
+                {unusual_order_flow_delayed()}
               </span>
               <InfoModal
                 id="sip-data-info"
-                title={m.unusual_order_flow_delayed_title()}
-                content={m.unusual_order_flow_delayed_content()}
+                title={unusual_order_flow_delayed_title()}
+                content={unusual_order_flow_delayed_content()}
               />
             </div>
           </div>
@@ -1972,7 +2031,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div>{m.unusual_order_flow_add_filters()}</div>
+                <div>{unusual_order_flow_add_filters()}</div>
               </label>
 
               <!-- Quick Search Input -->
@@ -1999,7 +2058,7 @@
                   </div>
                   <input
                     type="text"
-                    placeholder={m.unusual_order_flow_search_filters({
+                    placeholder={unusual_order_flow_search_filters({
                       count: allRows?.length,
                     })}
                     bind:value={quickSearchTerm}
@@ -2088,7 +2147,7 @@
                   <div
                     class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                   >
-                    {m.unusual_order_flow_no_filters_found()}
+                    {unusual_order_flow_no_filters_found()}
                   </div>
                 {/if}
               </div>
@@ -2108,7 +2167,7 @@
                       d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
                     /></svg
                   >
-                  <div>{m.unusual_order_flow_save()}</div>
+                  <div>{unusual_order_flow_save()}</div>
                 </label>
 
                 {#if strategyList?.length > 0}
@@ -2128,7 +2187,7 @@
                     class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
-                    <div>{m.unusual_order_flow_save_as_new()}</div>
+                    <div>{unusual_order_flow_save_as_new()}</div>
                   </label>
                 {/if}
               {/if}
@@ -2153,7 +2212,7 @@
                       /></g
                     ></svg
                   >
-                  <div>{m.unusual_order_flow_reset_all()}</div>
+                  <div>{unusual_order_flow_reset_all()}</div>
                 </label>
               {/if}
             </div>
@@ -2190,7 +2249,7 @@
                   <button
                     on:click={() => handleDeleteRule(row?.rule)}
                     class="mr-1.5 cursor-pointer text-gray-400 hover:text-rose-500 focus:outline-hidden"
-                    title={m.unusual_order_flow_remove_filter()}
+                    title={unusual_order_flow_remove_filter()}
                   >
                     <svg
                       class="w-6 h-6"
@@ -2316,7 +2375,7 @@
                                   <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
                                     <input
                                       type="text"
-                                      placeholder={m.unusual_order_flow_min()}
+                                      placeholder={unusual_order_flow_min()}
                                       value={Array.isArray(
                                         valueMappings[row?.rule],
                                       )
@@ -2331,7 +2390,7 @@
                                     </span>
                                     <input
                                       type="text"
-                                      placeholder={m.unusual_order_flow_max()}
+                                      placeholder={unusual_order_flow_max()}
                                       value={Array.isArray(
                                         valueMappings[row?.rule],
                                       )
@@ -2345,7 +2404,7 @@
                                 {:else}
                                   <input
                                     type="text"
-                                    placeholder={m.unusual_order_flow_value()}
+                                    placeholder={unusual_order_flow_value()}
                                     value={valueMappings[row?.rule] === "any"
                                       ? ""
                                       : valueMappings[row?.rule]}
@@ -2510,7 +2569,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >{m.unusual_order_flow_total_volume()}</span
+                  >{unusual_order_flow_total_volume()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <span class="text-start text-[1rem] font-semibold">
@@ -2546,7 +2605,7 @@
               <div class="flex flex-col items-start">
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >{m.unusual_order_flow_total_value()}</span
+                  >{unusual_order_flow_total_value()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <span class="text-start text-[1rem] font-semibold">
@@ -2586,7 +2645,7 @@
               >
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >{m.unusual_order_flow_transaction_type()}</span
+                  >{unusual_order_flow_transaction_type()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <div class="flex items-center gap-3 text-[11px] sm:text-xs">
@@ -2595,7 +2654,7 @@
                         class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
                       ></span>
                       <span class="text-gray-500 dark:text-zinc-400"
-                        >{m.unusual_order_flow_dark_pool()}</span
+                        >{unusual_order_flow_dark_pool()}</span
                       >
                     </div>
                     <div class="flex items-center gap-1">
@@ -2603,7 +2662,7 @@
                         class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                       ></span>
                       <span class="text-gray-500 dark:text-zinc-400"
-                        >{m.unusual_order_flow_block()}</span
+                        >{unusual_order_flow_block()}</span
                       >
                     </div>
                   </div>
@@ -2665,7 +2724,7 @@
               >
                 <span
                   class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
-                  >{m.unusual_order_flow_asset_type()}</span
+                  >{unusual_order_flow_asset_type()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
                   <div class="flex items-center gap-3 text-[11px] sm:text-xs">
@@ -2674,7 +2733,7 @@
                         class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
                       ></span>
                       <span class="text-gray-500 dark:text-zinc-400"
-                        >{m.unusual_order_flow_stock()}</span
+                        >{unusual_order_flow_stock()}</span
                       >
                     </div>
                     <div class="flex items-center gap-1">
@@ -2682,7 +2741,7 @@
                         class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                       ></span>
                       <span class="text-gray-500 dark:text-zinc-400"
-                        >{m.unusual_order_flow_etf()}</span
+                        >{unusual_order_flow_etf()}</span
                       >
                     </div>
                   </div>
@@ -2793,7 +2852,7 @@
                     bind:value={tableSearchValue}
                     on:input={debouncedTableSearch}
                     type="text"
-                    placeholder={m.unusual_order_flow_search_placeholder()}
+                    placeholder={unusual_order_flow_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -2811,8 +2870,8 @@
                   <button
                     on:click={toggleFullWidth}
                     title={isFullWidth
-                      ? m.unusual_order_flow_exit_full_width()
-                      : m.unusual_order_flow_expand_full_width()}
+                      ? unusual_order_flow_exit_full_width()
+                      : unusual_order_flow_expand_full_width()}
                     class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                       ? 'border-violet-400 dark:border-violet-500'
                       : ''}"
@@ -2850,15 +2909,15 @@
                     {/if}
                     <span class="truncate text-[0.85rem] sm:text-sm"
                       >{isFullWidth
-                        ? m.unusual_order_flow_normal_width()
-                        : m.unusual_order_flow_full_width()}</span
+                        ? unusual_order_flow_normal_width()
+                        : unusual_order_flow_full_width()}</span
                     >
                   </button>
 
                   {#if customColumnOrder}
                     <button
                       on:click={() => unusualOrderFlowResetColumnOrder?.()}
-                      title={m.unusual_order_flow_reset_column_order()}
+                      title={unusual_order_flow_reset_column_order()}
                       class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                     >
                       <svg
@@ -2882,7 +2941,7 @@
 
             {#if tableSearchValue?.length > 0 && tableSearchDisplayedData?.length === 0}
               <Infobox
-                text={m.unusual_order_flow_no_trades_query({
+                text={unusual_order_flow_no_trades_query({
                   query: tableSearchValue,
                 })}
               />
@@ -2906,7 +2965,7 @@
               </div>
             {/if}
           {:else}
-            <Infobox text={m.unusual_order_flow_no_data_filters()} />
+            <Infobox text={unusual_order_flow_no_data_filters()} />
           {/if}
         </div>
       {:else}
@@ -3027,7 +3086,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder={m.unusual_order_flow_search_input_placeholder()}
+              placeholder={unusual_order_flow_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -3074,7 +3133,7 @@
 
         {#if searchTerm?.length > 0 && filteredRows?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            {m.unusual_order_flow_nothing_found()}
+            {unusual_order_flow_nothing_found()}
           </div>
         {/if}
       </div>
@@ -3093,7 +3152,7 @@
     class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-300 dark:border-zinc-700 shadow-none"
   >
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-      {m.unusual_order_flow_modal_new_title()}
+      {unusual_order_flow_modal_new_title()}
     </h1>
 
     <form
@@ -3105,7 +3164,7 @@
         id="title"
         type="text"
         errors=""
-        label={m.unusual_order_flow_modal_new_name_label()}
+        label={unusual_order_flow_modal_new_name_label()}
         required={true}
       />
 
@@ -3113,7 +3172,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 duration-100 w-full rounded-full m-auto font-semibold text-md"
       >
-        {m.unusual_order_flow_modal_new_create()}
+        {unusual_order_flow_modal_new_create()}
       </button>
     </form>
   </div>
@@ -3131,17 +3190,17 @@
     class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-300 dark:border-zinc-700 shadow-none"
   >
     <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-      {m.unusual_order_flow_modal_delete_title()}
+      {unusual_order_flow_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-600 dark:text-zinc-300">
-      {m.unusual_order_flow_modal_delete_message()}
+      {unusual_order_flow_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300"
-        tabindex="0">{m.unusual_order_flow_modal_delete_cancel()}</label
+        tabindex="0">{unusual_order_flow_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -3169,7 +3228,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >{m.unusual_order_flow_modal_delete_confirm()}</label
+        >{unusual_order_flow_modal_delete_confirm()}</label
       >
     </div>
   </div>

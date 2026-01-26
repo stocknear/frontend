@@ -1,14 +1,28 @@
 <script lang="ts">
   import logo from "$lib/images/newsletter.png";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  newsletter_closing,
+  newsletter_description,
+  newsletter_feature_1,
+  newsletter_feature_2,
+  newsletter_feature_3,
+  newsletter_feature_4,
+  newsletter_intro_1,
+  newsletter_intro_2,
+  newsletter_label,
+  newsletter_seo_description,
+  newsletter_seo_title,
+  newsletter_signup_button,
+  newsletter_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={m.newsletter_seo_title()}
-  description={m.newsletter_seo_description()}
+  title={newsletter_seo_title()}
+  description={newsletter_seo_description()}
 />
 
 <div
@@ -21,15 +35,15 @@
           <p
             class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
-            {m.newsletter_label()}
+            {newsletter_label()}
           </p>
           <h1
             class="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            {m.newsletter_title()}
+            {newsletter_title()}
           </h1>
           <p class="text-[0.95rem] text-gray-800 dark:text-zinc-300">
-            {m.newsletter_description()}
+            {newsletter_description()}
           </p>
         </div>
 
@@ -37,27 +51,27 @@
           class="space-y-4 text-[0.95rem] leading-relaxed text-gray-800 dark:text-zinc-300"
         >
           <p>
-            {m.newsletter_intro_1()}
+            {newsletter_intro_1()}
           </p>
           <p>
-            {m.newsletter_intro_2()}
+            {newsletter_intro_2()}
           </p>
           <ul class="ml-5 list-disc space-y-3">
             <li>
-              {m.newsletter_feature_1()}
+              {newsletter_feature_1()}
             </li>
             <li>
-              {m.newsletter_feature_2()}
+              {newsletter_feature_2()}
             </li>
             <li>
-              {m.newsletter_feature_3()}
+              {newsletter_feature_3()}
             </li>
             <li>
-              {m.newsletter_feature_4()}
+              {newsletter_feature_4()}
             </li>
           </ul>
           <p>
-            {m.newsletter_closing()}
+            {newsletter_closing()}
           </p>
         </div>
 
@@ -66,7 +80,7 @@
             href="/register"
             class="inline-flex w-full items-center justify-center rounded-full border border-gray-300/80 bg-white/80 px-6 py-3 text-sm font-semibold text-gray-800 transition hover:bg-gray-100/80 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-100 dark:hover:bg-zinc-800/70 sm:w-auto"
           >
-            {m.newsletter_signup_button()}
+            {newsletter_signup_button()}
           </a>
         {/if}
       </div>

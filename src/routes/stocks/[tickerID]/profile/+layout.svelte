@@ -1,7 +1,10 @@
 <script lang="ts">
   import { stockTicker } from "$lib/store";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_employees,
+  stock_detail_nav_overview,
+} from "$lib/paraglide/messages";
 
   let displaySubSection = "overview";
 
@@ -54,7 +57,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              {m.stock_detail_nav_overview()}
+              {stock_detail_nav_overview()}
             </a>
 
             <a
@@ -65,7 +68,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              {m.stock_detail_employees()}
+              {stock_detail_employees()}
             </a>
           </ul>
         </nav>

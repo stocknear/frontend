@@ -3,7 +3,58 @@
   import { goto } from "$app/navigation";
   import { clearCache, screenWidth } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  options_screener_add_filters,
+  options_screener_back_to_top,
+  options_screener_breadcrumb_home,
+  options_screener_breadcrumb_options_screener,
+  options_screener_contracts_count,
+  options_screener_expire_on,
+  options_screener_filters_count,
+  options_screener_full_width,
+  options_screener_main_title,
+  options_screener_modal_delete_cancel,
+  options_screener_modal_delete_confirm,
+  options_screener_modal_delete_message,
+  options_screener_modal_delete_title,
+  options_screener_modal_new_create,
+  options_screener_modal_new_name_label,
+  options_screener_modal_new_title,
+  options_screener_new_screen,
+  options_screener_no_contracts,
+  options_screener_no_contracts_query,
+  options_screener_normal_width,
+  options_screener_nothing_found,
+  options_screener_pagination_next,
+  options_screener_pagination_page_of,
+  options_screener_pagination_previous,
+  options_screener_popular_screens,
+  options_screener_popular_strategies,
+  options_screener_reset_all,
+  options_screener_rows_label,
+  options_screener_save,
+  options_screener_save_as_new,
+  options_screener_saved_screens,
+  options_screener_search_filters,
+  options_screener_search_input_placeholder,
+  options_screener_search_placeholder,
+  options_screener_select_filters_title,
+  options_screener_select_popular,
+  options_screener_select_screen,
+  options_screener_seo_description,
+  options_screener_seo_keywords,
+  options_screener_seo_title,
+  options_screener_strategy_high_iv_rank,
+  options_screener_strategy_high_premium_flow,
+  options_screener_strategy_itm_calls,
+  options_screener_strategy_otm_puts,
+  options_screener_strategy_volume_surge,
+  options_screener_structured_description,
+  options_screener_structured_name,
+  options_screener_tab_filters,
+  options_screener_tab_general,
+  options_screener_tab_greeks,
+} from "$lib/paraglide/messages";
 
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -52,13 +103,13 @@
 
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
-    { key: "highIVRank", label: m.options_screener_strategy_high_iv_rank() },
-    { key: "volumeSurge", label: m.options_screener_strategy_volume_surge() },
-    { key: "itmCalls", label: m.options_screener_strategy_itm_calls() },
-    { key: "otmPuts", label: m.options_screener_strategy_otm_puts() },
+    { key: "highIVRank", label: options_screener_strategy_high_iv_rank() },
+    { key: "volumeSurge", label: options_screener_strategy_volume_surge() },
+    { key: "itmCalls", label: options_screener_strategy_itm_calls() },
+    { key: "otmPuts", label: options_screener_strategy_otm_puts() },
     {
       key: "highPremiumFlow",
-      label: m.options_screener_strategy_high_premium_flow(),
+      label: options_screener_strategy_high_premium_flow(),
     },
   ];
 
@@ -1534,14 +1585,14 @@
 </script>
 
 <SEO
-  title={m.options_screener_seo_title()}
-  description={m.options_screener_seo_description()}
-  keywords={m.options_screener_seo_keywords()}
+  title={options_screener_seo_title()}
+  description={options_screener_seo_description()}
+  keywords={options_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: m.options_screener_structured_name(),
-    description: m.options_screener_structured_description(),
+    name: options_screener_structured_name(),
+    description: options_screener_structured_description(),
     url: "https://stocknear.com/options-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1579,12 +1630,12 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.options_screener_breadcrumb_home()}</a
+        >{options_screener_breadcrumb_home()}</a
       >
     </li>
     <li>
       <span class="text-gray-500 dark:text-zinc-400"
-        >{m.options_screener_breadcrumb_options_screener()}</span
+        >{options_screener_breadcrumb_options_screener()}</span
       >
     </li>
   </BreadCrumb>
@@ -1596,7 +1647,7 @@
         <h1
           class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          {m.options_screener_main_title()}
+          {options_screener_main_title()}
         </h1>
       </div>
 
@@ -1605,7 +1656,7 @@
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            {m.options_screener_popular_screens()}
+            {options_screener_popular_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -1617,7 +1668,7 @@
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
                       ? selectedPopularStrategy
-                      : m.options_screener_select_popular()}</span
+                      : options_screener_select_popular()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1644,7 +1695,7 @@
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
-                  {m.options_screener_popular_strategies()}
+                  {options_screener_popular_strategies()}
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Group>
@@ -1666,7 +1717,7 @@
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            {m.options_screener_saved_screens()}
+            {options_screener_saved_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -1680,7 +1731,7 @@
                       ? strategyList?.find(
                           (item) => item.id === selectedStrategy,
                         )?.title
-                      : m.options_screener_select_screen()}</span
+                      : options_screener_select_screen()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1726,7 +1777,7 @@
                         ></path>
                       </svg>
                       <div class="text-sm text-start">
-                        {m.options_screener_new_screen()}
+                        {options_screener_new_screen()}
                       </div>
                     </Button>
                   </DropdownMenu.Trigger>
@@ -1799,7 +1850,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {m.options_screener_filters_count({ count: ruleOfList?.length })}
+            {options_screener_filters_count({ count: ruleOfList?.length })}
           </button>
         </div>
       </div>
@@ -1824,7 +1875,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <div>{m.options_screener_add_filters()}</div>
+              <div>{options_screener_add_filters()}</div>
             </label>
 
             <!-- Quick Search Input -->
@@ -1851,7 +1902,7 @@
                 </div>
                 <input
                   type="text"
-                  placeholder={m.options_screener_search_filters({
+                  placeholder={options_screener_search_filters({
                     count: allRows?.length,
                   })}
                   bind:value={quickSearchTerm}
@@ -1940,7 +1991,7 @@
                 <div
                   class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                 >
-                  {m.options_screener_nothing_found()}
+                  {options_screener_nothing_found()}
                 </div>
               {/if}
             </div>
@@ -2039,7 +2090,7 @@
                     d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
                   /></svg
                 >
-                <div>{m.options_screener_save()}</div>
+                <div>{options_screener_save()}</div>
               </label>
 
               {#if strategyList?.length > 0}
@@ -2059,7 +2110,7 @@
                   class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
                 >
                   <Copy class="w-4 h-4 inline-block mr-2" />
-                  <div>{m.options_screener_save_as_new()}</div>
+                  <div>{options_screener_save_as_new()}</div>
                 </label>
               {/if}
             {/if}
@@ -2118,7 +2169,7 @@
                     /></g
                   ></svg
                 >
-                <div>{m.options_screener_reset_all()}</div>
+                <div>{options_screener_reset_all()}</div>
               </label>
             {/if}
           </div>
@@ -2477,7 +2528,7 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {m.options_screener_contracts_count({
+      {options_screener_contracts_count({
         count: filteredData?.length?.toLocaleString("en-US"),
       })}
     </h2>
@@ -2510,7 +2561,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder={m.options_screener_search_placeholder()}
+            placeholder={options_screener_search_placeholder()}
             class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -2563,8 +2614,8 @@
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
             >{isFullWidth
-              ? m.options_screener_normal_width()
-              : m.options_screener_full_width()}</span
+              ? options_screener_normal_width()
+              : options_screener_full_width()}</span
           >
         </button>
 
@@ -2602,7 +2653,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              {m.options_screener_tab_general()}
+              {options_screener_tab_general()}
             </button>
           </li>
           <li>
@@ -2613,7 +2664,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              <span>{m.options_screener_tab_filters()}</span>
+              <span>{options_screener_tab_filters()}</span>
               {#if ruleOfList?.length > 0}
                 <div
                   class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
@@ -2631,7 +2682,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              <span>{m.options_screener_tab_greeks()}</span>
+              <span>{options_screener_tab_greeks()}</span>
             </button>
           </li>
         </ul>
@@ -2642,7 +2693,7 @@
   <h3
     class="text-[0.95rem] font-semibold mb-2 whitespace-nowrap text-gray-500 dark:text-zinc-400"
   >
-    {m.options_screener_expire_on({ date: formatDate(selectedDate) })}
+    {options_screener_expire_on({ date: formatDate(selectedDate) })}
   </h3>
 
   <!--Start Matching Preview-->
@@ -2972,14 +3023,14 @@
                 ></path>
               </svg>
               <span class="hidden sm:inline"
-                >{m.options_screener_pagination_previous()}</span
+                >{options_screener_pagination_previous()}</span
               >
             </Button>
           </div>
 
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.options_screener_pagination_page_of({
+              {options_screener_pagination_page_of({
                 current: currentPage,
                 total: totalPages,
               })}
@@ -2992,7 +3043,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{m.options_screener_rows_label({
+                    >{options_screener_rows_label({
                       rows: rowsPerPage,
                     })}</span
                   >
@@ -3029,7 +3080,7 @@
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
                         <span class="text-sm"
-                          >{m.options_screener_rows_label({ rows: item })}</span
+                          >{options_screener_rows_label({ rows: item })}</span
                         >
                       </label>
                     </DropdownMenu.Item>
@@ -3046,7 +3097,7 @@
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline"
-                >{m.options_screener_pagination_next()}</span
+                >{options_screener_pagination_next()}</span
               >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
@@ -3070,7 +3121,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {m.options_screener_back_to_top()}
+            {options_screener_back_to_top()}
             <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
@@ -3090,8 +3141,8 @@
     {:else}
       <Infobox
         text={inputValue?.length > 0
-          ? m.options_screener_no_contracts_query({ query: inputValue })
-          : m.options_screener_no_contracts()}
+          ? options_screener_no_contracts_query({ query: inputValue })
+          : options_screener_no_contracts()}
       />
     {/if}
   {:else}
@@ -3148,7 +3199,7 @@
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {m.options_screener_select_filters_title({
+            {options_screener_select_filters_title({
               count: allRows?.length,
             })}
           </h2>
@@ -3225,7 +3276,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder={m.options_screener_search_input_placeholder()}
+              placeholder={options_screener_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -3265,7 +3316,7 @@
         {/each}
         {#if searchTerm?.length > 0 && Object?.entries(filteredGroupedRules)?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            {m.options_screener_nothing_found()}
+            {options_screener_nothing_found()}
           </div>
         {/if}
       </div>
@@ -3288,7 +3339,7 @@
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      {m.options_screener_modal_new_title()}
+      {options_screener_modal_new_title()}
     </h1>
 
     <form
@@ -3300,7 +3351,7 @@
         id="title"
         type="text"
         errors=""
-        label={m.options_screener_modal_new_name_label()}
+        label={options_screener_modal_new_name_label()}
         required={true}
       />
 
@@ -3308,7 +3359,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        {m.options_screener_modal_new_create()}
+        {options_screener_modal_new_create()}
       </button>
     </form>
   </div>
@@ -3327,17 +3378,17 @@
           bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      {m.options_screener_modal_delete_title()}
+      {options_screener_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      {m.options_screener_modal_delete_message()}
+      {options_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{m.options_screener_modal_delete_cancel()}</label
+        tabindex="0">{options_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -3365,7 +3416,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >{m.options_screener_modal_delete_confirm()}</label
+        >{options_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>

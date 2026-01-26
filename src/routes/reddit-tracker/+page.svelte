@@ -10,7 +10,19 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  reddit_tracker_breadcrumb_current,
+  reddit_tracker_breadcrumb_home,
+  reddit_tracker_seo_description,
+  reddit_tracker_seo_keywords,
+  reddit_tracker_seo_title,
+  reddit_tracker_stocks_count,
+  reddit_tracker_subreddit_label,
+  reddit_tracker_tab_3months,
+  reddit_tracker_tab_month,
+  reddit_tracker_tab_week,
+  reddit_tracker_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -91,13 +103,13 @@
 
   $: tabs = [
     {
-      title: m.reddit_tracker_tab_week(),
+      title: reddit_tracker_tab_week(),
     },
     {
-      title: m.reddit_tracker_tab_month(),
+      title: reddit_tracker_tab_month(),
     },
     {
-      title: m.reddit_tracker_tab_3months(),
+      title: reddit_tracker_tab_3months(),
     },
   ];
 
@@ -215,9 +227,9 @@
 </script>
 
 <SEO
-  title={m.reddit_tracker_seo_title({ subreddit: getSubredditDisplay(currentSubreddit) })}
-  description={m.reddit_tracker_seo_description({ subreddit: getSubredditDisplay(currentSubreddit) })}
-  keywords={m.reddit_tracker_seo_keywords({ subreddit: currentSubreddit })}
+  title={reddit_tracker_seo_title({ subreddit: getSubredditDisplay(currentSubreddit) })}
+  description={reddit_tracker_seo_description({ subreddit: getSubredditDisplay(currentSubreddit) })}
+  keywords={reddit_tracker_seo_keywords({ subreddit: currentSubreddit })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -261,10 +273,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >{m.reddit_tracker_breadcrumb_home()}</a
+        >{reddit_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{m.reddit_tracker_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">{reddit_tracker_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -277,7 +289,7 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.reddit_tracker_title()}
+              {reddit_tracker_title()}
             </h1>
             <p class="text-sm text-gray-800 dark:text-zinc-300">
               {getSubredditDescription(currentSubreddit)}
@@ -312,7 +324,7 @@
               <h2
                 class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.reddit_tracker_subreddit_label()}
+                {reddit_tracker_subreddit_label()}
               </h2>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
@@ -368,7 +380,7 @@
                 {excludedRules}
                 {defaultList}
                 {specificRows}
-                title={m.reddit_tracker_stocks_count({ count: rawData?.length?.toLocaleString("en-US") })}
+                title={reddit_tracker_stocks_count({ count: rawData?.length?.toLocaleString("en-US") })}
               />
             {/key}
           {/if}

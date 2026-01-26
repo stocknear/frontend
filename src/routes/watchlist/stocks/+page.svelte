@@ -10,7 +10,58 @@
   } from "$lib/utils";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  watchlist_add_stock_placeholder,
+  watchlist_breadcrumb_home,
+  watchlist_breadcrumb_watchlist,
+  watchlist_cancel,
+  watchlist_count_stocks,
+  watchlist_create_watchlist,
+  watchlist_earnings_after_close,
+  watchlist_earnings_analysts_estimate,
+  watchlist_earnings_and,
+  watchlist_earnings_before_open,
+  watchlist_earnings_during_market,
+  watchlist_earnings_in_eps,
+  watchlist_earnings_in_revenue,
+  watchlist_earnings_will_report,
+  watchlist_earnings_yoy,
+  watchlist_edit_watchlist,
+  watchlist_empty_description,
+  watchlist_empty_title,
+  watchlist_exit_full_width,
+  watchlist_expand_full_width,
+  watchlist_full_width,
+  watchlist_get_started,
+  watchlist_main_title,
+  watchlist_modal_create_button,
+  watchlist_modal_delete_button,
+  watchlist_modal_delete_confirm,
+  watchlist_modal_delete_title,
+  watchlist_modal_list_name,
+  watchlist_modal_new_title,
+  watchlist_new_watchlist,
+  watchlist_no_earnings,
+  watchlist_no_news,
+  watchlist_no_results,
+  watchlist_normal_width,
+  watchlist_seo_description,
+  watchlist_seo_keywords,
+  watchlist_seo_title,
+  watchlist_structured_description,
+  watchlist_structured_name,
+  watchlist_toast_already_in_list,
+  watchlist_toast_created,
+  watchlist_toast_creating,
+  watchlist_toast_deleted,
+  watchlist_toast_error,
+  watchlist_toast_error_generic,
+  watchlist_toast_select_symbols,
+  watchlist_toast_title_empty,
+  watchlist_toast_title_long,
+  watchlist_toast_updated,
+  watchlist_toast_updating,
+} from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   import { onMount } from "svelte";
@@ -182,14 +233,14 @@
 
     // Validate the title input
     if (!title || title.toString().trim().length === 0) {
-      toast.error(m.watchlist_toast_title_empty(), {
+      toast.error(watchlist_toast_title_empty(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
     }
 
     if (title.toString().length > 100) {
-      toast.error(m.watchlist_toast_title_long(), {
+      toast.error(watchlist_toast_title_long(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -222,9 +273,9 @@
 
     // Use toast.promise to display a loading toast, then a success or error message
     toast.promise(promise, {
-      loading: m.watchlist_toast_creating(),
-      success: m.watchlist_toast_created(),
-      error: (err) => err.message || m.watchlist_toast_error(),
+      loading: watchlist_toast_creating(),
+      success: watchlist_toast_created(),
+      error: (err) => err.message || watchlist_toast_error(),
     });
 
     try {
@@ -275,7 +326,7 @@
       const output = await response.json();
 
       if (output === "success") {
-        toast.success(m.watchlist_toast_deleted(), {
+        toast.success(watchlist_toast_deleted(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
@@ -288,13 +339,13 @@
         const clicked = document.getElementById("deleteWatchlist");
         clicked.dispatchEvent(new MouseEvent("click"));
       } else {
-        toast.error(m.watchlist_toast_error(), {
+        toast.error(watchlist_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(m.watchlist_toast_error_generic(), {
+      toast.error(watchlist_toast_error_generic(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -325,7 +376,7 @@
 
   async function handleDeleteTickers() {
     if (numberOfChecked === 0) {
-      toast.error(m.watchlist_toast_select_symbols(), {
+      toast.error(watchlist_toast_select_symbols(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
@@ -389,7 +440,7 @@
   async function handleAddTicker(event, ticker) {
     // Check if the ticker is already in the watchlist.
     if (watchList?.some((item) => item?.symbol === ticker)) {
-      toast.error(m.watchlist_toast_already_in_list(), {
+      toast.error(watchlist_toast_already_in_list(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       inputValue = "";
@@ -423,9 +474,9 @@
 
     // Use toast.promise to display notifications based on the promise's state.
     toast?.promise(promise, {
-      loading: m.watchlist_toast_updating(),
-      success: m.watchlist_toast_updated(),
-      error: (err) => err.message || m.watchlist_toast_error(),
+      loading: watchlist_toast_updating(),
+      success: watchlist_toast_updated(),
+      error: (err) => err.message || watchlist_toast_error(),
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
 
@@ -591,14 +642,14 @@
 </script>
 
 <SEO
-  title={m.watchlist_seo_title()}
-  description={m.watchlist_seo_description()}
-  keywords={m.watchlist_seo_keywords()}
+  title={watchlist_seo_title()}
+  description={watchlist_seo_description()}
+  keywords={watchlist_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: m.watchlist_structured_name(),
-    description: m.watchlist_structured_description(),
+    name: watchlist_structured_name(),
+    description: watchlist_structured_description(),
     url: "https://stocknear.com/watchlist/stocks",
     applicationCategory: "FinanceApplication",
     breadcrumb: {
@@ -607,13 +658,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: m.watchlist_breadcrumb_home(),
+          name: watchlist_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: m.watchlist_breadcrumb_watchlist(),
+          name: watchlist_breadcrumb_watchlist(),
           item: "https://stocknear.com/watchlist",
         },
         {
@@ -642,10 +693,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.watchlist_breadcrumb_home()}</a
+        >{watchlist_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{m.watchlist_breadcrumb_watchlist()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">{watchlist_breadcrumb_watchlist()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -657,7 +708,7 @@
           <h1
             class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"
           >
-            {m.watchlist_main_title()}
+            {watchlist_main_title()}
           </h1>
           {#if isLoaded}
             <div
@@ -678,7 +729,7 @@
                         <span class="truncate font-medium text-sm"
                           >{displayWatchList?.title !== undefined
                             ? displayWatchList?.title
-                            : m.watchlist_create_watchlist()}</span
+                            : watchlist_create_watchlist()}</span
                         >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -726,7 +777,7 @@
                                 ></path>
                               </svg>
                               <div class="text-sm text-start">
-                                {m.watchlist_new_watchlist()}
+                                {watchlist_new_watchlist()}
                               </div>
                             </label>
                           </Button>
@@ -784,8 +835,8 @@
                       <Combobox.Input
                         on:input={search}
                         class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
-                        placeholder={m.watchlist_add_stock_placeholder()}
-                        aria-label={m.watchlist_add_stock_placeholder()}
+                        placeholder={watchlist_add_stock_placeholder()}
+                        aria-label={watchlist_add_stock_placeholder()}
                       />
                     </div>
 
@@ -817,7 +868,7 @@
                           <span
                             class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                           >
-                            {m.watchlist_no_results()}
+                            {watchlist_no_results()}
                           </span>
                         {/each}
                       {:else}
@@ -827,7 +878,7 @@
                           <span
                             class=" text-sm text-gray-500 dark:text-zinc-400"
                           >
-                            {m.watchlist_no_results()}
+                            {watchlist_no_results()}
                           </span>
                         </Combobox.Item>
                       {/if}
@@ -879,11 +930,11 @@
                       >
                       {#if !editMode}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          {m.watchlist_edit_watchlist()}
+                          {watchlist_edit_watchlist()}
                         </span>
                       {:else}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          {m.watchlist_cancel()}
+                          {watchlist_cancel()}
                         </span>
                       {/if}
                     </label>
@@ -891,8 +942,8 @@
                     <button
                       on:click={toggleFullWidth}
                       title={isFullWidth
-                        ? m.watchlist_exit_full_width()
-                        : m.watchlist_expand_full_width()}
+                        ? watchlist_exit_full_width()
+                        : watchlist_expand_full_width()}
                       class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                         ? 'border-violet-400 dark:border-violet-500'
                         : ''}"
@@ -929,7 +980,7 @@
                         </svg>
                       {/if}
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{isFullWidth ? m.watchlist_normal_width() : m.watchlist_full_width()}</span
+                        >{isFullWidth ? watchlist_normal_width() : watchlist_full_width()}</span
                       >
                     </button>
                   </div>
@@ -942,18 +993,18 @@
                 class="flex flex-col justify-center items-center m-auto z-0 pt-16"
               >
                 <span class=" font-bold text-xl sm:text-3xl">
-                  {m.watchlist_empty_title()}
+                  {watchlist_empty_title()}
                 </span>
 
                 <span class=" text-sm sm:text-lg m-auto p-4 text-center">
-                  {m.watchlist_empty_description()}
+                  {watchlist_empty_description()}
                 </span>
                 {#if !data?.user}
                   <a
                     class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                     href="/register"
                   >
-                    {m.watchlist_get_started()}
+                    {watchlist_get_started()}
                     <span
                       class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
                     >
@@ -984,7 +1035,7 @@
                     <Table
                       {data}
                       rawData={watchList}
-                      title={m.watchlist_count_stocks({ count: watchList?.length })}
+                      title={watchlist_count_stocks({ count: watchList?.length })}
                       excludedRules={new Set([
                         "volume",
                         "price",
@@ -1084,7 +1135,7 @@
                           <span
                             class="text-sm text-gray-600 dark:text-zinc-300"
                           >
-                            {m.watchlist_no_news()}
+                            {watchlist_no_news()}
                           </span>
                         {/if}
                       {:else if groupedEarnings?.length > 0}
@@ -1114,28 +1165,28 @@
                                   <div>
                                     {removeCompanyStrings(item?.name)}
                                     (<HoverStockChart symbol={item?.symbol} />)
-                                    {m.watchlist_earnings_will_report()}
+                                    {watchlist_earnings_will_report()}
 
                                     {#if item?.time}
                                       {#if compareTimes(item?.time, "16:00") >= 0}
-                                        {m.watchlist_earnings_after_close()}
+                                        {watchlist_earnings_after_close()}
                                       {:else if compareTimes(item?.time, "09:30") <= 0}
-                                        {m.watchlist_earnings_before_open()}
+                                        {watchlist_earnings_before_open()}
                                       {:else}
-                                        {m.watchlist_earnings_during_market()}
+                                        {watchlist_earnings_during_market()}
                                       {/if}
                                     {/if}
-                                    {m.watchlist_earnings_analysts_estimate()} {abbreviateNumber(
+                                    {watchlist_earnings_analysts_estimate()} {abbreviateNumber(
                                       item?.revenueEst,
-                                    )} {m.watchlist_earnings_in_revenue()} ({(
+                                    )} {watchlist_earnings_in_revenue()} ({(
                                       (item?.revenueEst / item?.revenuePrior -
                                         1) *
                                       100
-                                    )?.toFixed(2)}% {m.watchlist_earnings_yoy()}) {m.watchlist_earnings_and()} {item?.epsEst} {m.watchlist_earnings_in_eps()} {#if item?.epsPrior !== 0}
+                                    )?.toFixed(2)}% {watchlist_earnings_yoy()}) {watchlist_earnings_and()} {item?.epsEst} {watchlist_earnings_in_eps()} {#if item?.epsPrior !== 0}
                                       ({(
                                         (item?.epsEst / item?.epsPrior - 1) *
                                         100
-                                      )?.toFixed(2)}% {m.watchlist_earnings_yoy()}).
+                                      )?.toFixed(2)}% {watchlist_earnings_yoy()}).
                                     {/if}
                                   </div>
 
@@ -1155,7 +1206,7 @@
                         <br />
                         <div class="mt-3 sm:mt-0">
                           <Infobox
-                            text={m.watchlist_no_earnings()}
+                            text={watchlist_no_earnings()}
                           />
                         </div>
                       {/if}
@@ -1166,13 +1217,13 @@
                     class="flex flex-col justify-center items-center m-auto pt-16 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
-                      {m.watchlist_empty_title()}
+                      {watchlist_empty_title()}
                     </span>
 
                     <span
                       class=" text-sm sm:text-lg pt-5 m-auto p-4 text-center"
                     >
-                      {m.watchlist_empty_description()}
+                      {watchlist_empty_description()}
                     </span>
                   </div>
                 {/if}
@@ -1212,13 +1263,13 @@
     class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 shadow-none"
   >
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">{m.watchlist_modal_new_title()}</h3>
+      <h3 class="font-bold text-2xl mb-5">{watchlist_modal_new_title()}</h3>
 
       <form on:submit={createWatchList} class="space-y-2 w-full m-auto">
         <Input
           id="title"
           type="text"
-          label={m.watchlist_modal_list_name()}
+          label={watchlist_modal_list_name()}
           errors=""
           required={true}
         />
@@ -1230,7 +1281,7 @@
           type="submit"
           class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
         >
-          {m.watchlist_modal_create_button()}
+          {watchlist_modal_create_button()}
         </button>
       </form>
     </div>
@@ -1249,15 +1300,15 @@
   <div
     class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
   >
-    <h3 class="text-lg font-medium mb-2">{m.watchlist_modal_delete_title()}</h3>
+    <h3 class="text-lg font-medium mb-2">{watchlist_modal_delete_title()}</h3>
     <p class="text-sm mb-6">
-      {m.watchlist_modal_delete_confirm()}
+      {watchlist_modal_delete_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlist"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{m.watchlist_cancel()}</label
+        tabindex="0">{watchlist_cancel()}</label
       ><label
         for="deleteWatchlist"
         on:click={deleteWatchlist}
@@ -1282,7 +1333,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >{m.watchlist_modal_delete_button()}</label
+        >{watchlist_modal_delete_button()}</label
       >
     </div>
   </div>

@@ -1,7 +1,12 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  ipos_breadcrumb_data,
+  ipos_breadcrumb_home,
+  ipos_main_name_recent,
+  ipos_main_name_statistics,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -52,10 +57,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.ipos_breadcrumb_home()}</a
+        >{ipos_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{m.ipos_breadcrumb_data()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">{ipos_breadcrumb_data()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -68,9 +73,9 @@
             class="mb-6 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
             {activeIdx === 0
-              ? m.ipos_main_name_recent()
+              ? ipos_main_name_recent()
               : activeIdx === 1
-                ? m.ipos_main_name_statistics()
+                ? ipos_main_name_statistics()
                 : "IPO News"}
           </h1>
 

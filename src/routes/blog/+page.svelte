@@ -2,7 +2,20 @@
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import { page } from "$app/stores";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  blog_alt_post_wallpaper,
+  blog_next,
+  blog_previous,
+  blog_published,
+  blog_seo_description,
+  blog_seo_keywords,
+  blog_seo_title,
+  blog_structured_blog_posts,
+  blog_structured_blog_posts_description,
+  blog_structured_description,
+  blog_structured_name,
+  blog_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -15,14 +28,14 @@
 </script>
 
 <SEO
-  title={m.blog_seo_title()}
-  description={m.blog_seo_description()}
-  keywords={m.blog_seo_keywords()}
+  title={blog_seo_title()}
+  description={blog_seo_description()}
+  keywords={blog_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: m.blog_structured_name(),
-    description: m.blog_structured_description(),
+    name: blog_structured_name(),
+    description: blog_structured_description(),
     url: "https://stocknear.com/blog",
     author: {
       "@type": "Organization",
@@ -36,8 +49,8 @@
     },
     mainEntity: {
       "@type": "ItemList",
-      name: m.blog_structured_blog_posts(),
-      description: m.blog_structured_blog_posts_description(),
+      name: blog_structured_blog_posts(),
+      description: blog_structured_blog_posts_description(),
       numberOfItems: allBlogPosts?.length || 0,
     },
   }}
@@ -54,7 +67,7 @@
         <main class="w-full">
           <div class="mb-6 border-b-[2px] border-[#2C6288] dark:border-white">
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
-              {m.blog_title()}
+              {blog_title()}
             </h1>
           </div>
 
@@ -73,7 +86,7 @@
                           item?.id,
                           item?.cover,
                         )}
-                        alt={m.blog_alt_post_wallpaper()}
+                        alt={blog_alt_post_wallpaper()}
                         loading="lazy"
                       /></a
                     >
@@ -97,7 +110,7 @@
                     </div>
                     <div class="mt-6 flex items-center">
                       <div class="flex text-sm">
-                        {m.blog_published()} <time datetime={item?.created} class="ml-1">
+                        {blog_published()} <time datetime={item?.created} class="ml-1">
                           {new Date(item?.created)?.toLocaleString("en-US", {
                             month: "short",
                             day: "numeric",
@@ -131,14 +144,14 @@
                     stroke-width="2"
                     d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
                   ></path></svg
-                ><span>{m.blog_previous()}</span></a
+                ><span>{blog_previous()}</span></a
               >
             {/if}
             {#if currentPage < totalPages}
               <a
                 href={`/blog/?page=${currentPage + 1}`}
                 class="ml-auto flex flex-row item-center text-blue-800 dark:text-white sm:hover:text-muted dark:sm:hover:text-blue-400"
-                ><span>{m.blog_next()}</span>
+                ><span>{blog_next()}</span>
                 <svg
                   class="w-6 h-6 ml-2 inline-block"
                   fill="none"

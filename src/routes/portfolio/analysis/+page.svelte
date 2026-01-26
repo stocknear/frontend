@@ -3,7 +3,18 @@
     import BullvsBear from "$lib/components/Portfolio/BullvsBear.svelte";
     import Diversification from "$lib/components/Portfolio/Diversification.svelte";
     import SEO from "$lib/components/SEO.svelte";
-    import * as m from "$lib/paraglide/messages";
+    import {
+  portfolio_analysis_seo_description,
+  portfolio_analysis_seo_keywords,
+  portfolio_analysis_seo_title,
+  portfolio_analysis_structured_description,
+  portfolio_analysis_structured_name,
+  portfolio_analysis_vs_market_description,
+  portfolio_analysis_vs_market_title,
+  portfolio_breadcrumb_analysis,
+  portfolio_breadcrumb_home,
+  portfolio_breadcrumb_portfolio,
+} from "$lib/paraglide/messages";
 
     export let data;
 
@@ -26,27 +37,27 @@
 </script>
 
 <SEO
-    title={m.portfolio_analysis_seo_title()}
-    description={m.portfolio_analysis_seo_description()}
-    keywords={m.portfolio_analysis_seo_keywords()}
+    title={portfolio_analysis_seo_title()}
+    description={portfolio_analysis_seo_description()}
+    keywords={portfolio_analysis_seo_keywords()}
     canonical="https://stocknear.com/portfolio/analysis"
     openGraph={{
         type: "website",
         url: "https://stocknear.com/portfolio/analysis",
-        title: m.portfolio_analysis_seo_title(),
-        description: m.portfolio_analysis_seo_description(),
+        title: portfolio_analysis_seo_title(),
+        description: portfolio_analysis_seo_description(),
     }}
     twitter={{
         card: "summary",
-        title: m.portfolio_analysis_seo_title(),
-        description: m.portfolio_analysis_seo_description(),
+        title: portfolio_analysis_seo_title(),
+        description: portfolio_analysis_seo_description(),
     }}
     structuredData={{
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        name: m.portfolio_analysis_structured_name(),
-        alternateName: m.portfolio_analysis_structured_name(),
-        description: m.portfolio_analysis_structured_description(),
+        name: portfolio_analysis_structured_name(),
+        alternateName: portfolio_analysis_structured_name(),
+        description: portfolio_analysis_structured_description(),
         url: "https://stocknear.com/portfolio/analysis",
         isAccessibleForFree: true,
         inLanguage: "en",
@@ -77,19 +88,19 @@
                 {
                     "@type": "ListItem",
                     position: 1,
-                    name: m.portfolio_breadcrumb_home(),
+                    name: portfolio_breadcrumb_home(),
                     item: "https://stocknear.com",
                 },
                 {
                     "@type": "ListItem",
                     position: 2,
-                    name: m.portfolio_breadcrumb_portfolio(),
+                    name: portfolio_breadcrumb_portfolio(),
                     item: "https://stocknear.com/portfolio",
                 },
                 {
                     "@type": "ListItem",
                     position: 3,
-                    name: m.portfolio_breadcrumb_analysis(),
+                    name: portfolio_breadcrumb_analysis(),
                     item: "https://stocknear.com/portfolio/analysis",
                 },
             ],
@@ -117,10 +128,10 @@
         <h2
             class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
         >
-            {m.portfolio_analysis_vs_market_title()}
+            {portfolio_analysis_vs_market_title()}
         </h2>
         <p class="mb-4 text-sm text-gray-800 dark:text-zinc-300 max-w-3xl">
-            {m.portfolio_analysis_vs_market_description()}
+            {portfolio_analysis_vs_market_description()}
         </p>
 
         <Fundamentals title="Valuation" data={valuationData} />

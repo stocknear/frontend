@@ -3,7 +3,6 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import GreekByStrike from "$lib/components/Options/GreekByStrike.svelte";
-  import { toUpper } from "lodash-es";
 
   export let data;
 </script>

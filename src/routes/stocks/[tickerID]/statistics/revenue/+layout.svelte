@@ -1,7 +1,18 @@
 <script lang="ts">
   import { stockTicker } from "$lib/store";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_stats_company,
+  stock_detail_stats_full_definition,
+  stock_detail_stats_nav_revenue,
+  stock_detail_stats_pro_subscription,
+  stock_detail_stats_related_stocks,
+  stock_detail_stats_revenue_definition,
+  stock_detail_stats_revenue_definition_title,
+  stock_detail_stats_revenue_rankings,
+  stock_detail_stats_ticker_news,
+  stock_detail_stats_upgrade_desc,
+} from "$lib/paraglide/messages";
 
   export let data;
   const similarStocks = data?.getSimilarStocks;
@@ -57,11 +68,11 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-xl font-semibold sm:ml-3">
-                    {m.stock_detail_stats_pro_subscription()}
+                    {stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
                 <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                  {m.stock_detail_stats_upgrade_desc()}
+                  {stock_detail_stats_upgrade_desc()}
                 </span>
               </a>
             </div>
@@ -70,16 +81,16 @@
           <div
             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <h3 class="p-2 pt-4 text-xl font-semibold">{m.stock_detail_stats_revenue_definition_title()}</h3>
+            <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_stats_revenue_definition_title()}</h3>
             <div class=" p-2">
-              {m.stock_detail_stats_revenue_definition()}
+              {stock_detail_stats_revenue_definition()}
             </div>
             <div class="px-2">
               <a
                 href="/blog/article/revenue"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                {m.stock_detail_stats_full_definition()}
+                {stock_detail_stats_full_definition()}
               </a>
             </div>
           </div>
@@ -88,7 +99,7 @@
             <div
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
-              <h3 class="p-2 pt-4 text-xl font-semibold">{m.stock_detail_stats_related_stocks()}</h3>
+              <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_stats_related_stocks()}</h3>
               <table
                 class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
@@ -97,11 +108,11 @@
                   ><tr
                     ><th
                       class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
-                      >{m.stock_detail_stats_company()}</th
+                      >{stock_detail_stats_company()}</th
                     >
                     <th
                       class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
-                      >{m.stock_detail_stats_nav_revenue()}</th
+                      >{stock_detail_stats_nav_revenue()}</th
                     ></tr
                   ></thead
                 >
@@ -133,7 +144,7 @@
                   href="/list/highest-revenue"
                   class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
                 >
-                  {m.stock_detail_stats_revenue_rankings()}
+                  {stock_detail_stats_revenue_rankings()}
                 </a>
               </div>
             </div>
@@ -145,7 +156,7 @@
             >
               <div class="p-4 text-sm">
                 <h3 class="text-xl font-semibold mb-3">
-                  {m.stock_detail_stats_ticker_news({ ticker: $stockTicker })}
+                  {stock_detail_stats_ticker_news({ ticker: $stockTicker })}
                 </h3>
                 <ul class="">
                   {#each newsList?.slice(0, 10) as item}

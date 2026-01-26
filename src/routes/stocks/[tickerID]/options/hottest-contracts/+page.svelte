@@ -4,22 +4,30 @@
   import SEO from "$lib/components/SEO.svelte";
   import HottestContracts from "$lib/components/Options/HottestContracts.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_hottest_oi_no_data,
+  stock_detail_options_hottest_oi_seo_description,
+  stock_detail_options_hottest_oi_seo_keywords,
+  stock_detail_options_hottest_oi_seo_title,
+  stock_detail_options_hottest_oi_structured_desc,
+  stock_detail_options_hottest_oi_structured_name,
+  stock_detail_options_hottest_oi_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={m.stock_detail_options_hottest_oi_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_options_hottest_oi_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_options_hottest_oi_seo_keywords({ ticker: $stockTicker })}
+  title={stock_detail_options_hottest_oi_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_options_hottest_oi_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_options_hottest_oi_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataFeed"],
-    name: m.stock_detail_options_hottest_oi_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_options_hottest_oi_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_options_hottest_oi_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_options_hottest_oi_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -62,12 +70,12 @@
           ticker={$stockTicker?.toUpperCase()}
           assetType="stocks"
           type="oi"
-          title={m.stock_detail_options_hottest_oi_title()}
+          title={stock_detail_options_hottest_oi_title()}
         />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text={m.stock_detail_options_hottest_oi_no_data()} />
+            <Infobox text={stock_detail_options_hottest_oi_no_data()} />
           </div>
         </div>
       {/if}

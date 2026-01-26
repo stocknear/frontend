@@ -11,7 +11,69 @@
   import Trash from "lucide-svelte/icons/trash";
   import { toast } from "svelte-sonner";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  options_calculator_add_option_leg,
+  options_calculator_breadcrumb_current,
+  options_calculator_breadcrumb_home,
+  options_calculator_breakeven_info,
+  options_calculator_breakeven_price,
+  options_calculator_cost_of_trade,
+  options_calculator_cost_of_trade_info,
+  options_calculator_current_price,
+  options_calculator_custom_strategy,
+  options_calculator_delta,
+  options_calculator_delta_info,
+  options_calculator_ev,
+  options_calculator_ev_info,
+  options_calculator_expected_return,
+  options_calculator_expected_return_info,
+  options_calculator_gamma,
+  options_calculator_gamma_info,
+  options_calculator_greeks,
+  options_calculator_max_loss,
+  options_calculator_max_loss_info,
+  options_calculator_max_profit,
+  options_calculator_max_profit_info,
+  options_calculator_no_results,
+  options_calculator_option_leg,
+  options_calculator_per_day,
+  options_calculator_pop,
+  options_calculator_pop_info,
+  options_calculator_pop_max_loss,
+  options_calculator_pop_max_loss_info,
+  options_calculator_pop_max_profit,
+  options_calculator_pop_max_profit_info,
+  options_calculator_probability_analysis,
+  options_calculator_profit_loss_chart,
+  options_calculator_reward_risk,
+  options_calculator_reward_risk_info,
+  options_calculator_risk_reward,
+  options_calculator_save_strategy,
+  options_calculator_search_placeholder,
+  options_calculator_seo_description,
+  options_calculator_seo_keywords,
+  options_calculator_seo_title,
+  options_calculator_start_searching,
+  options_calculator_stock,
+  options_calculator_table_action,
+  options_calculator_table_expiration,
+  options_calculator_table_price,
+  options_calculator_table_quantity,
+  options_calculator_table_strike,
+  options_calculator_table_symbol,
+  options_calculator_table_type,
+  options_calculator_theta,
+  options_calculator_theta_info,
+  options_calculator_title,
+  options_calculator_toast_max_legs,
+  options_calculator_toast_one_leg_required,
+  options_calculator_toast_saved,
+  options_calculator_toast_upgrade_pro,
+  options_calculator_trade_details,
+  options_calculator_trade_information,
+  options_calculator_vega,
+  options_calculator_vega_info,
+} from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -540,7 +602,7 @@
 
   async function handleAddOptionLeg() {
     if (userStrategy?.length >= 5) {
-      toast.error(m.options_calculator_toast_max_legs(), {
+      toast.error(options_calculator_toast_max_legs(), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
 
@@ -569,7 +631,7 @@
 
   function handleDeleteOptionLeg(index) {
     if (userStrategy?.length === 1) {
-      toast.error(m.options_calculator_toast_one_leg_required(), {
+      toast.error(options_calculator_toast_one_leg_required(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
@@ -711,7 +773,7 @@
 
   async function handleSaveStrategy() {
     if (data?.user?.tier !== "Pro") {
-      toast.error(m.options_calculator_toast_upgrade_pro(), {
+      toast.error(options_calculator_toast_upgrade_pro(), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
       return;
@@ -731,7 +793,7 @@
         }),
       );
 
-      toast.success(m.options_calculator_toast_saved(), {
+      toast.success(options_calculator_toast_saved(), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
     } catch (e) {
@@ -812,9 +874,9 @@
 </script>
 
 <SEO
-  title={m.options_calculator_seo_title()}
-  description={m.options_calculator_seo_description()}
-  keywords={m.options_calculator_seo_keywords()}
+  title={options_calculator_seo_title()}
+  description={options_calculator_seo_description()}
+  keywords={options_calculator_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -867,10 +929,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >{m.options_calculator_breadcrumb_home()}</a
+        >{options_calculator_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{m.options_calculator_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">{options_calculator_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
@@ -886,7 +948,7 @@
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.options_calculator_title()}
+                {options_calculator_title()}
               </h1>
             </div>
           </div>
@@ -935,8 +997,8 @@
                     <Combobox.Input
                       on:input={search}
                       class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
-                      placeholder={m.options_calculator_search_placeholder()}
-                      aria-label={m.options_calculator_search_placeholder()}
+                      placeholder={options_calculator_search_placeholder()}
+                      aria-label={options_calculator_search_placeholder()}
                     />
                   </div>
                   <Combobox.Content
@@ -967,7 +1029,7 @@
                         <span
                           class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                         >
-                          {m.options_calculator_no_results()}
+                          {options_calculator_no_results()}
                         </span>
                       {/each}
                     {:else}
@@ -976,8 +1038,8 @@
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
-                            ? m.options_calculator_no_results()
-                            : m.options_calculator_start_searching()}
+                            ? options_calculator_no_results()
+                            : options_calculator_start_searching()}
                         </span>
                       </Combobox.Item>
                     {/if}
@@ -989,14 +1051,14 @@
                   on:click={() => handleAddOptionLeg()}
                   class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
-                  {m.options_calculator_add_option_leg()}
+                  {options_calculator_add_option_leg()}
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
                   class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
-                  {m.options_calculator_save_strategy()}
+                  {options_calculator_save_strategy()}
                 </button>
                 <div
                   class="order-last relative inline-block text-left cursor-pointer mt-3 sm:mt-0 sm:ml-3"
@@ -1007,7 +1069,7 @@
                         builders={[builder]}
                         class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        <span class="truncate">{m.options_calculator_custom_strategy()}</span>
+                        <span class="truncate">{options_calculator_custom_strategy()}</span>
                         <svg
                           class="-mr-1 ml-3 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -1065,43 +1127,43 @@
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_symbol()}
+                        {options_calculator_table_symbol()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_action()}
+                        {options_calculator_table_action()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_quantity()}
+                        {options_calculator_table_quantity()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_expiration()}
+                        {options_calculator_table_expiration()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_strike()}
+                        {options_calculator_table_strike()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_type()}
+                        {options_calculator_table_type()}
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
-                        {m.options_calculator_table_price()}
+                        {options_calculator_table_price()}
                       </th>
                       <th scope="col" class="px-4 py-2 text-sm font-semibold"
                       ></th>
@@ -1273,7 +1335,7 @@
                 <h2
                   class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {m.options_calculator_profit_loss_chart()}
+                  {options_calculator_profit_loss_chart()}
                 </h2>
 
                 <div
@@ -1300,7 +1362,7 @@
                 <h2
                   class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
                 >
-                  {m.options_calculator_trade_information()}
+                  {options_calculator_trade_information()}
                 </h2>
 
                 <!-- Trade Information Card -->
@@ -1309,7 +1371,7 @@
                 >
                   {#each userStrategy as item, index}
                     <div>
-                      {m.options_calculator_option_leg() + " " + (index + 1)}
+                      {options_calculator_option_leg() + " " + (index + 1)}
                     </div>
                     <div
                       class="{item?.action === 'Buy'
@@ -1329,12 +1391,12 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
                 >
-                  {m.options_calculator_stock()}
+                  {options_calculator_stock()}
                 </h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 mb-6">
                   <div>
                     <div class="text-gray-800 dark:text-zinc-300 text-sm">
-                      {selectedTicker} {m.options_calculator_current_price()}
+                      {selectedTicker} {options_calculator_current_price()}
                     </div>
                     <div class="flex items-baseline">
                       <span
@@ -1350,11 +1412,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {selectedTicker} {m.options_calculator_breakeven_price()}
+                      {selectedTicker} {options_calculator_breakeven_price()}
                       <InfoModal
-                        title={m.options_calculator_breakeven_price()}
+                        title={options_calculator_breakeven_price()}
                         id="breakevenModal"
-                        content={m.options_calculator_breakeven_info()}
+                        content={options_calculator_breakeven_info()}
                       />
                     </div>
                     <div class="flex items-baseline">
@@ -1372,7 +1434,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
                 >
-                  {m.options_calculator_trade_details()}
+                  {options_calculator_trade_details()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1381,11 +1443,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_cost_of_trade()}
+                      {options_calculator_cost_of_trade()}
                       <InfoModal
-                        title={m.options_calculator_cost_of_trade()}
+                        title={options_calculator_cost_of_trade()}
                         id="premModal"
-                        content={m.options_calculator_cost_of_trade_info()}
+                        content={options_calculator_cost_of_trade_info()}
                       />
                     </div>
                     <div class="flex items-baseline">
@@ -1403,11 +1465,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_max_profit()}
+                      {options_calculator_max_profit()}
                       <InfoModal
-                        title={m.options_calculator_max_profit()}
+                        title={options_calculator_max_profit()}
                         id="maxProfitModal"
-                        content={m.options_calculator_max_profit_info()}
+                        content={options_calculator_max_profit_info()}
                       />
                     </div>
                     <div
@@ -1421,11 +1483,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_max_loss()}
+                      {options_calculator_max_loss()}
                       <InfoModal
-                        title={m.options_calculator_max_loss()}
+                        title={options_calculator_max_loss()}
                         id="maxLossModal"
-                        content={m.options_calculator_max_loss_info()}
+                        content={options_calculator_max_loss_info()}
                       />
                     </div>
                     <div
@@ -1440,7 +1502,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
-                  {m.options_calculator_probability_analysis()}
+                  {options_calculator_probability_analysis()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1449,11 +1511,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_pop()}
+                      {options_calculator_pop()}
                       <InfoModal
-                        title={m.options_calculator_pop()}
+                        title={options_calculator_pop()}
                         id="popModal"
-                        content={m.options_calculator_pop_info()}
+                        content={options_calculator_pop_info()}
                       />
                     </div>
                     <div
@@ -1469,11 +1531,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_pop_max_profit()}
+                      {options_calculator_pop_max_profit()}
                       <InfoModal
-                        title={m.options_calculator_pop_max_profit()}
+                        title={options_calculator_pop_max_profit()}
                         id="popMaxProfitModal"
-                        content={m.options_calculator_pop_max_profit_info()}
+                        content={options_calculator_pop_max_profit_info()}
                       />
                     </div>
                     <div
@@ -1487,11 +1549,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_pop_max_loss()}
+                      {options_calculator_pop_max_loss()}
                       <InfoModal
-                        title={m.options_calculator_pop_max_loss()}
+                        title={options_calculator_pop_max_loss()}
                         id="popMaxLossModal"
-                        content={m.options_calculator_pop_max_loss_info()}
+                        content={options_calculator_pop_max_loss_info()}
                       />
                     </div>
                     <div
@@ -1506,7 +1568,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
-                  {m.options_calculator_risk_reward()}
+                  {options_calculator_risk_reward()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1515,11 +1577,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_ev()}
+                      {options_calculator_ev()}
                       <InfoModal
-                        title={m.options_calculator_ev()}
+                        title={options_calculator_ev()}
                         id="evModal"
-                        content={m.options_calculator_ev_info()}
+                        content={options_calculator_ev_info()}
                       />
                     </div>
 
@@ -1562,11 +1624,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_expected_return()}
+                      {options_calculator_expected_return()}
                       <InfoModal
-                        title={m.options_calculator_expected_return()}
+                        title={options_calculator_expected_return()}
                         id="expectedReturnModal"
-                        content={m.options_calculator_expected_return_info()}
+                        content={options_calculator_expected_return_info()}
                       />
                     </div>
 
@@ -1604,11 +1666,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_reward_risk()}
+                      {options_calculator_reward_risk()}
                       <InfoModal
-                        title={m.options_calculator_reward_risk()}
+                        title={options_calculator_reward_risk()}
                         id="rewardRiskModal"
-                        content={m.options_calculator_reward_risk_info()}
+                        content={options_calculator_reward_risk_info()}
                       />
                     </div>
 
@@ -1644,7 +1706,7 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
-                  {m.options_calculator_greeks()}
+                  {options_calculator_greeks()}
                 </h2>
                 <div
                   class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
@@ -1653,11 +1715,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_delta()}
+                      {options_calculator_delta()}
                       <InfoModal
-                        title={m.options_calculator_delta()}
+                        title={options_calculator_delta()}
                         id="deltaModal"
-                        content={m.options_calculator_delta_info()}
+                        content={options_calculator_delta_info()}
                       />
                     </div>
 
@@ -1690,11 +1752,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_gamma()}
+                      {options_calculator_gamma()}
                       <InfoModal
-                        title={m.options_calculator_gamma()}
+                        title={options_calculator_gamma()}
                         id="gammaModal"
-                        content={m.options_calculator_gamma_info()}
+                        content={options_calculator_gamma_info()}
                       />
                     </div>
 
@@ -1727,11 +1789,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_theta()}
+                      {options_calculator_theta()}
                       <InfoModal
-                        title={m.options_calculator_theta()}
+                        title={options_calculator_theta()}
                         id="thetaModal"
-                        content={m.options_calculator_theta_info()}
+                        content={options_calculator_theta_info()}
                       />
                     </div>
                     {#if isPro}
@@ -1742,7 +1804,7 @@
                       >
                         {positionGreeks?.theta >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.theta?.toFixed(2),
-                        )?.toLocaleString("en-US")}{m.options_calculator_per_day()}
+                        )?.toLocaleString("en-US")}{options_calculator_per_day()}
                       </div>
                     {:else}
                       <a href="/pricing" class="flex mt-2">
@@ -1767,11 +1829,11 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {m.options_calculator_vega()}
+                      {options_calculator_vega()}
                       <InfoModal
-                        title={m.options_calculator_vega()}
+                        title={options_calculator_vega()}
                         id="vegaModal"
-                        content={m.options_calculator_vega_info()}
+                        content={options_calculator_vega_info()}
                       />
                     </div>
 

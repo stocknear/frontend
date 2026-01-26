@@ -10,7 +10,15 @@
     augmentStatementsWithGrowth,
   } from "$lib/utils";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_financials_download,
+  stock_detail_financials_fiscal_quarter,
+  stock_detail_financials_fiscal_year,
+  stock_detail_financials_in_currency,
+  stock_detail_financials_period_ending,
+  stock_detail_financials_sec_filings,
+  stock_detail_upgrade,
+} from "$lib/paraglide/messages";
   //import * as XLSX from 'xlsx';
   import FinancialTable from "$lib/components/FinancialTable.svelte";
   import FinancialAISummary from "$lib/components/FinancialAISummary.svelte";
@@ -343,7 +351,7 @@
                 <span
                   class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full"
                 >
-                  {m.stock_detail_financials_in_currency({ currency: financialData?.at(0)?.reportedCurrency, range: data?.getProfileData?.fiscalYearRange })}
+                  {stock_detail_financials_in_currency({ currency: financialData?.at(0)?.reportedCurrency, range: data?.getProfileData?.fiscalYearRange })}
                 </span>
 
                 <div class="flex flex-row items-center justify-end w-full">
@@ -384,7 +392,7 @@
                     on:click={() => exportFundamentalData("csv")}
                     class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="truncate">{m.stock_detail_financials_download()}</span>
+                    <span class="truncate">{stock_detail_financials_download()}</span>
                     <svg
                       class="{['Pro', 'Plus']?.includes(data?.user?.tier)
                         ? 'hidden'
@@ -438,8 +446,8 @@
                       <td
                         class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
                         >{$selectedTimePeriod !== "annual"
-                          ? m.stock_detail_financials_fiscal_quarter()
-                          : m.stock_detail_financials_fiscal_year()}</td
+                          ? stock_detail_financials_fiscal_quarter()
+                          : stock_detail_financials_fiscal_year()}</td
                       >
                       {#each financialData as item, index}
                         {#if $selectedTimePeriod === "annual"}
@@ -460,14 +468,14 @@
                         <td
                           class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
                         >
-                          {lockedFiscalYearRange || m.stock_detail_upgrade()}
+                          {lockedFiscalYearRange || stock_detail_upgrade()}
                         </td>
                       {/if}
                     </tr>
                     <tr class="border-b border-gray-300 dark:border-zinc-700">
                       <td
                         class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
-                        >{m.stock_detail_financials_period_ending()}</td
+                        >{stock_detail_financials_period_ending()}</td
                       >
                       {#each financialData as item, index}
                         <td
@@ -484,7 +492,7 @@
                         <td
                           class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
                         >
-                          {lockedPeriodRange || m.stock_detail_upgrade()}
+                          {lockedPeriodRange || stock_detail_upgrade()}
                         </td>
                       {/if}
                     </tr>
@@ -501,7 +509,7 @@
                       periodType={$selectedTimePeriod || "annual"}
                       showUpgradeColumn={hasLockedData}
                       upgradeHref="/pricing"
-                      upgradeLabel={m.stock_detail_upgrade()}
+                      upgradeLabel={stock_detail_upgrade()}
                     />
                   </tbody>
                 </table>
@@ -510,7 +518,7 @@
                 class="sm:flex sm:justify-between text-sm text-gray-800 dark:text-zinc-300"
               >
                 <div class="mt-2 flex ml-auto items-center gap-x-2">
-                  {m.stock_detail_financials_sec_filings()} <a
+                  {stock_detail_financials_sec_filings()} <a
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"

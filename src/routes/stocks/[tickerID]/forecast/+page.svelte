@@ -16,7 +16,45 @@
 
   import SEO from "$lib/components/SEO.svelte";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_forecast_analyst_all,
+  stock_detail_forecast_analyst_insight,
+  stock_detail_forecast_analyst_insight_fallback,
+  stock_detail_forecast_analyst_top,
+  stock_detail_forecast_average,
+  stock_detail_forecast_change,
+  stock_detail_forecast_direction_higher,
+  stock_detail_forecast_direction_lower,
+  stock_detail_forecast_direction_similar,
+  stock_detail_forecast_eps_next_year,
+  stock_detail_forecast_eps_this_year,
+  stock_detail_forecast_financial_forecast,
+  stock_detail_forecast_from,
+  stock_detail_forecast_high,
+  stock_detail_forecast_increased_by,
+  stock_detail_forecast_low,
+  stock_detail_forecast_median,
+  stock_detail_forecast_new,
+  stock_detail_forecast_no_analyst_data,
+  stock_detail_forecast_no_chart,
+  stock_detail_forecast_no_forecast_data,
+  stock_detail_forecast_price,
+  stock_detail_forecast_price_description,
+  stock_detail_forecast_price_title,
+  stock_detail_forecast_rating,
+  stock_detail_forecast_revenue_next_year,
+  stock_detail_forecast_revenue_this_year,
+  stock_detail_forecast_seo_description,
+  stock_detail_forecast_seo_keywords,
+  stock_detail_forecast_seo_title,
+  stock_detail_forecast_structured_desc,
+  stock_detail_forecast_structured_name,
+  stock_detail_forecast_target,
+  stock_detail_forecast_title,
+  stock_detail_forecast_total,
+  stock_detail_forecast_unlock_pro,
+  stock_detail_forecast_updated,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -46,7 +84,7 @@
 
   let categories = ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"];
 
-  $: tabs = [m.stock_detail_forecast_analyst_all(), m.stock_detail_forecast_analyst_top()];
+  $: tabs = [stock_detail_forecast_analyst_all(), stock_detail_forecast_analyst_top()];
   let activeIdx = 0;
 
   function changeTab(index) {
@@ -805,16 +843,16 @@
 </script>
 
 <SEO
-  title={m.stock_detail_forecast_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_forecast_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_forecast_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_forecast_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_forecast_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_forecast_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="article"
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["Article", "FinancialProduct", "AnalysisNewsArticle"],
-    headline: m.stock_detail_forecast_structured_name({ company: $displayCompanyName }),
-    name: m.stock_detail_forecast_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_forecast_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    headline: stock_detail_forecast_structured_name({ company: $displayCompanyName }),
+    name: stock_detail_forecast_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_forecast_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/forecast`,
 
     dateModified: new Date().toISOString(),
@@ -905,7 +943,7 @@
           class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between mt-3"
         >
           <h1 class="mb-px text-xl sm:text-2xl font-bold bp:text-3xl sm:pl-1">
-            {m.stock_detail_forecast_title()}
+            {stock_detail_forecast_title()}
           </h1>
           <div class="flex flex-col w-full sm:w-fit items-end justify-end">
             <div class="inline-flex justify-center w-full rounded sm:w-auto">
@@ -970,16 +1008,16 @@
             >
               <div>
                 <div class="flex items-baseline justify-between">
-                  <h2 class="mb-1 text-xl font-bold">{m.stock_detail_forecast_price_title()}</h2>
+                  <h2 class="mb-1 text-xl font-bold">{stock_detail_forecast_price_title()}</h2>
 
                   <span></span>
                 </div>
                 {#if numOfAnalyst > 0}
                   <p>
-                    {m.stock_detail_forecast_price_description({ count: numOfAnalyst, company: $stockTicker, price: medianPriceTarget, high: highPriceTarget, low: lowPriceTarget })}
+                    {stock_detail_forecast_price_description({ count: numOfAnalyst, company: $stockTicker, price: medianPriceTarget, high: highPriceTarget, low: lowPriceTarget })}
                   </p>
                 {:else}
-                  {m.stock_detail_forecast_no_analyst_data()}
+                  {stock_detail_forecast_no_analyst_data()}
                 {/if}
               </div>
               {#if numOfAnalyst > 0}
@@ -1001,7 +1039,7 @@
                 <div
                   class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
-                  {m.stock_detail_forecast_no_chart()}
+                  {stock_detail_forecast_no_chart()}
                 </div>
               {/if}
               <div
@@ -1017,18 +1055,18 @@
                       ><tr
                         class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                         ><th class="py-[3px] text-left font-semibold lg:py-0.5"
-                          >{m.stock_detail_forecast_target()}</th
-                        > <th class="font-semibold">{m.stock_detail_forecast_low()}</th>
-                        <th class="font-semibold">{m.stock_detail_forecast_average()}</th>
-                        <th class="font-semibold">{m.stock_detail_forecast_median()}</th>
-                        <th class="font-semibold">{m.stock_detail_forecast_high()}</th></tr
+                          >{stock_detail_forecast_target()}</th
+                        > <th class="font-semibold">{stock_detail_forecast_low()}</th>
+                        <th class="font-semibold">{stock_detail_forecast_average()}</th>
+                        <th class="font-semibold">{stock_detail_forecast_median()}</th>
+                        <th class="font-semibold">{stock_detail_forecast_high()}</th></tr
                       ></thead
                     >
                     <tbody
                       class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
                     >
                       <tr class="text-sm">
-                        <td class="py-[3px] text-left lg:py-0.5">{m.stock_detail_forecast_price()}</td>
+                        <td class="py-[3px] text-left lg:py-0.5">{stock_detail_forecast_price()}</td>
                         <td>{lowPriceTarget > 0 ? lowPriceTarget : "n/a"}</td>
                         <td>{avgPriceTarget > 0 ? avgPriceTarget : "n/a"}</td>
                         <td
@@ -1040,7 +1078,7 @@
                         ></tr
                       >
                       <tr class="text-sm text-gray-600 dark:text-zinc-300">
-                        <td class="py-[3px] text-left lg:py-0.5">{m.stock_detail_forecast_change()}</td>
+                        <td class="py-[3px] text-left lg:py-0.5">{stock_detail_forecast_change()}</td>
                         <td
                           class={lowChange > 0
                             ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
@@ -1088,12 +1126,12 @@
               <div>
                 <div class="flex flex-row items-center">
                   <h2 class="mb-1 text-xl font-bold">
-                    {m.stock_detail_forecast_analyst_insight()}
+                    {stock_detail_forecast_analyst_insight()}
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
                       class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-300 font-semibold text-xs px-2 py-0.5 ml-3"
-                      >{m.stock_detail_forecast_new()}</label
+                      >{stock_detail_forecast_new()}</label
                     >
                   {/if}
                 </div>
@@ -1103,13 +1141,13 @@
                       {data?.getAnalystInsight?.insight}
                     </p>
                     <p class="mt-5 italic text-sm">
-                      {m.stock_detail_forecast_updated({ date: data?.getAnalystInsight?.date })}
+                      {stock_detail_forecast_updated({ date: data?.getAnalystInsight?.date })}
                     </p>
                   {:else}
                     <p>
                       {data?.getAnalystInsight?.insight?.slice(0, 50) + "..."}
                       <span class="mt-3">
-                        {m.stock_detail_forecast_unlock_pro()}
+                        {stock_detail_forecast_unlock_pro()}
                         <a
                           class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           href="/pricing"
@@ -1127,25 +1165,25 @@
                     </p>
 
                     <p class="mt-5 italic text-sm">
-                      {m.stock_detail_forecast_updated({ date: data?.getAnalystInsight?.date })}
+                      {stock_detail_forecast_updated({ date: data?.getAnalystInsight?.date })}
                     </p>
                   {/if}
                 {:else if numOfAnalyst > 0}
                   <p>
-                    {m.stock_detail_forecast_analyst_insight_fallback({
+                    {stock_detail_forecast_analyst_insight_fallback({
                       count: numOfAnalyst,
                       company: $displayCompanyName,
                       rating: consensusRating,
                       direction: ["Strong Sell", "Sell"]?.includes(consensusRating)
-                        ? m.stock_detail_forecast_direction_lower()
+                        ? stock_detail_forecast_direction_lower()
                         : ["Strong Buy", "Buy"]?.includes(consensusRating)
-                          ? m.stock_detail_forecast_direction_higher()
-                          : m.stock_detail_forecast_direction_similar()
+                          ? stock_detail_forecast_direction_higher()
+                          : stock_detail_forecast_direction_similar()
                     })}
                   </p>
                 {:else}
                   <div class="min-w-[500px]">
-                    {m.stock_detail_forecast_no_analyst_data()}
+                    {stock_detail_forecast_no_analyst_data()}
                   </div>
                 {/if}
               </div>
@@ -1160,7 +1198,7 @@
                 <div
                   class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
-                  {m.stock_detail_forecast_no_chart()}
+                  {stock_detail_forecast_no_chart()}
                 </div>
               {/if}
               <div
@@ -1177,7 +1215,7 @@
                         class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                         ><th
                           class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
-                          >{m.stock_detail_forecast_rating()}</th
+                          >{stock_detail_forecast_rating()}</th
                         >
                         {#each recommendationList as item}
                           <th class="px-1 py-[3px] text-right font-semibold">
@@ -1209,7 +1247,7 @@
                         class="font-semibold text-sm"
                       >
                         <td class="whitespace-nowrap px-1 py-[3px] text-left"
-                          >{m.stock_detail_forecast_total()}</td
+                          >{stock_detail_forecast_total()}</td
                         >
                         {#each recommendationList as _, i}
                           <td class="px-1 py-[3px] text-right">
@@ -1225,7 +1263,7 @@
           </div>
 
           <h2 class="mt-8 text-xl sm:text-2xl font-bold mb-4">
-            {m.stock_detail_forecast_financial_forecast()}
+            {stock_detail_forecast_financial_forecast()}
           </h2>
           {#if data?.getAnalystEstimate?.length !== 0}
             <div
@@ -1237,7 +1275,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  {m.stock_detail_forecast_revenue_this_year()}
+                  {stock_detail_forecast_revenue_this_year()}
                 </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
@@ -1252,7 +1290,7 @@
                       : "n/a"}
                     {#if data?.getAnalystEstimate[index]?.estimatedRevenueAvg !== null && data?.getAnalystEstimate[index]?.estimatedRevenueAvg !== 0}
                       <div class="ml-2 block text-sm font-semibold lg:hidden">
-                        {m.stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.revenue !==
+                        {stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.revenue !==
                         undefined
                           ? abbreviateNumber(
                               data?.getAnalystEstimate[index - 1]?.revenue,
@@ -1284,7 +1322,7 @@
                           stroke-width="2"
                           d="M7 11l5-5m0 0l5 5m-5-5v12"
                         ></path></svg
-                      > <span class="sr-only">{m.stock_detail_forecast_increased_by()}</span>
+                      > <span class="sr-only">{stock_detail_forecast_increased_by()}</span>
                       {abbreviateNumber(changeRevenue?.toFixed(1))}%
                     </div>
                   {/if}
@@ -1293,7 +1331,7 @@
                   <div
                     class="ml-0.5 mt-1.5 hidden text-sm font-semibold lg:block"
                   >
-                    {m.stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.revenue !== null
+                    {stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.revenue !== null
                       ? abbreviateNumber(
                           data?.getAnalystEstimate[index - 1]?.revenue,
                         )
@@ -1307,7 +1345,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  {m.stock_detail_forecast_revenue_next_year()}
+                  {stock_detail_forecast_revenue_next_year()}
                 </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
@@ -1321,7 +1359,7 @@
                         )
                       : "n/a"}
                     <div class="ml-2 block text-sm font-semibold lg:hidden">
-                      {m.stock_detail_forecast_from()} {data?.getAnalystEstimate[index]
+                      {stock_detail_forecast_from()} {data?.getAnalystEstimate[index]
                         ?.estimatedRevenueAvg !== undefined
                         ? abbreviateNumber(
                             data?.getAnalystEstimate[index]
@@ -1352,14 +1390,14 @@
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
                       ></path></svg
-                    > <span class="sr-only">{m.stock_detail_forecast_increased_by()}</span>
+                    > <span class="sr-only">{stock_detail_forecast_increased_by()}</span>
                     {abbreviateNumber(changeRevenueNextYear?.toFixed(1))}%
                   </div>
                 </div>
                 <div
                   class="ml-0.5 mt-1.5 hidden text-sm font-semibold lg:block"
                 >
-                  {m.stock_detail_forecast_from()} {data?.getAnalystEstimate[index]?.estimatedRevenueAvg !==
+                  {stock_detail_forecast_from()} {data?.getAnalystEstimate[index]?.estimatedRevenueAvg !==
                   undefined
                     ? abbreviateNumber(
                         data?.getAnalystEstimate[index]?.estimatedRevenueAvg,
@@ -1373,7 +1411,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  {m.stock_detail_forecast_eps_this_year()}
+                  {stock_detail_forecast_eps_this_year()}
                 </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
@@ -1383,7 +1421,7 @@
                       data?.getAnalystEstimate[index]?.estimatedEpsAvg,
                     )}
                     <div class="ml-2 block text-sm font-semibold lg:hidden">
-                      {m.stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.eps}
+                      {stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.eps}
                     </div>
                   </div>
                   <div
@@ -1408,14 +1446,14 @@
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
                       ></path></svg
-                    > <span class="sr-only">{m.stock_detail_forecast_increased_by()}</span>
+                    > <span class="sr-only">{stock_detail_forecast_increased_by()}</span>
                     {abbreviateNumber(changeEPS?.toFixed(1))}%
                   </div>
                 </div>
                 <div
                   class="ml-0.5 mt-1.5 hidden text-sm font-semibold lg:block"
                 >
-                  {m.stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.eps}
+                  {stock_detail_forecast_from()} {data?.getAnalystEstimate[index - 1]?.eps}
                 </div>
               </div>
               <div
@@ -1424,7 +1462,7 @@
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 >
-                  {m.stock_detail_forecast_eps_next_year()}
+                  {stock_detail_forecast_eps_next_year()}
                 </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
@@ -1434,7 +1472,7 @@
                       data?.getAnalystEstimate[index + 1]?.estimatedEpsAvg,
                     )}
                     <div class="ml-2 block text-sm font-semibold lg:hidden">
-                      {m.stock_detail_forecast_from()} {abbreviateNumber(
+                      {stock_detail_forecast_from()} {abbreviateNumber(
                         data?.getAnalystEstimate[index]?.estimatedEpsAvg,
                       )}
                     </div>
@@ -1461,14 +1499,14 @@
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
                       ></path></svg
-                    > <span class="sr-only">{m.stock_detail_forecast_increased_by()}</span>
+                    > <span class="sr-only">{stock_detail_forecast_increased_by()}</span>
                     {abbreviateNumber(changeEPSNextYear?.toFixed(1))}%
                   </div>
                 </div>
                 <div
                   class="ml-0.5 mt-1.5 hidden text-sm font-semibold lg:block"
                 >
-                  {m.stock_detail_forecast_from()} {abbreviateNumber(
+                  {stock_detail_forecast_from()} {abbreviateNumber(
                     data?.getAnalystEstimate[index]?.estimatedEpsAvg,
                   )}
                 </div>
@@ -1495,7 +1533,7 @@
                   d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"
                 /></svg
               >
-              {m.stock_detail_forecast_no_forecast_data({ company: $displayCompanyName })}
+              {stock_detail_forecast_no_forecast_data({ company: $displayCompanyName })}
             </div>
           {/if}
         </div>

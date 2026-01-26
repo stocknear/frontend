@@ -13,7 +13,32 @@
   import { keymap } from "prosemirror-keymap";
   import { agentOptions, agentCategory } from "$lib/utils";
   import { chatReasoning } from "$lib/store";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  chat_ago,
+  chat_cancel,
+  chat_credits,
+  chat_credits_left,
+  chat_delete,
+  chat_delete_thread_confirm,
+  chat_delete_thread_title,
+  chat_get_started,
+  chat_how_to_use_agents,
+  chat_last_message,
+  chat_no_threads,
+  chat_placeholder,
+  chat_ready_description,
+  chat_ready_to_analyze,
+  chat_seo_description,
+  chat_seo_keywords,
+  chat_seo_title,
+  chat_stock_agents,
+  chat_threads,
+  chat_title,
+  chat_toast_deleted,
+  chat_toast_error,
+  chat_toast_error_occurred,
+  chat_toast_insufficient_credits,
+} from "$lib/paraglide/messages";
 
   import { schema } from "prosemirror-schema-basic";
 
@@ -136,7 +161,7 @@
           const span = document.createElement("span");
           span.className =
             "text-gray-500 dark:text-zinc-400 pointer-events-none text-sm sm:text-[1rem]";
-          span.textContent = m.chat_placeholder();
+          span.textContent = chat_placeholder();
           return span;
         });
 
@@ -276,7 +301,7 @@
 
     if (data?.user?.credits < 2) {
       toast.error(
-        `${m.chat_toast_insufficient_credits()} ${data?.user?.credits}.`,
+        `${chat_toast_insufficient_credits()} ${data?.user?.credits}.`,
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -419,7 +444,7 @@
       const output = await response.json();
 
       if (output === "success") {
-        toast.success(m.chat_toast_deleted(), {
+        toast.success(chat_toast_deleted(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
@@ -429,13 +454,13 @@
 
         historyChat = [...updatedHistoryChat];
       } else {
-        toast.error(m.chat_toast_error(), {
+        toast.error(chat_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(m.chat_toast_error_occurred(), {
+      toast.error(chat_toast_error_occurred(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -443,9 +468,9 @@
 </script>
 
 <SEO
-  title={m.chat_seo_title()}
-  description={m.chat_seo_description()}
-  keywords={m.chat_seo_keywords()}
+  title={chat_seo_title()}
+  description={chat_seo_description()}
+  keywords={chat_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -526,7 +551,7 @@
             <h1
               class="block text-2xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 text-center relative w-fit flex justify-center m-auto break-words"
             >
-              {m.chat_title()}
+              {chat_title()}
             </h1>
 
             <div
@@ -607,7 +632,7 @@
                                 <DropdownMenu.Label
                                   class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                                 >
-                                  {data?.user?.credits} {m.chat_credits_left()}
+                                  {data?.user?.credits} {chat_credits_left()}
                                 </DropdownMenu.Label>
                               {/if}
                               <!--
@@ -653,7 +678,7 @@
                                   <div
                                     class="flex flex-row items-center w-full text-sm"
                                   >
-                                    <span>{m.chat_stock_agents()}</span>
+                                    <span>{chat_stock_agents()}</span>
                                   </div>
                                   <svg
                                     class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -735,7 +760,7 @@
                                   <div
                                     class="flex flex-row items-center w-full text-sm"
                                   >
-                                    <span>{m.chat_how_to_use_agents()}</span>
+                                    <span>{chat_how_to_use_agents()}</span>
                                   </div>
                                   <svg
                                     class="ml-auto h-5 w-5 inline-block rotate-270"
@@ -790,7 +815,7 @@
                                         <span>{option?.name} </span>
 
                                         <span class="ml-auto text-xs"
-                                          >{option?.credit} {m.chat_credits()}</span
+                                          >{option?.credit} {chat_credits()}</span
                                         >
                                       </div>
                                     </DropdownMenu.Item>
@@ -923,7 +948,7 @@
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
                 ></path></svg
-              > <span class="ml-2">{m.chat_threads()}</span>
+              > <span class="ml-2">{chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
               {#each historyChat as item}
@@ -944,7 +969,7 @@
                     >
                       <span
                         class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 w-full"
-                        >{m.chat_last_message()} {formatDate(item?.updated)} {m.chat_ago()}</span
+                        >{chat_last_message()} {formatDate(item?.updated)} {chat_ago()}</span
                       >
                       <button
                         on:click|preventDefault={(e) => {
@@ -993,10 +1018,10 @@
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
                 ></path></svg
-              > <span class="ml-2">{m.chat_threads()}</span>
+              > <span class="ml-2">{chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
-              {m.chat_no_threads()}
+              {chat_no_threads()}
             </div>
 
             <div
@@ -1005,15 +1030,15 @@
               <h2
                 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4"
               >
-                {m.chat_ready_to_analyze()}
+                {chat_ready_to_analyze()}
               </h2>
               <p class="mb-4 text-gray-800 dark:text-zinc-300">
-                {m.chat_ready_description()}
+                {chat_ready_description()}
               </p>
               <label
                 for="userLogin"
                 class="cursor-pointer bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 inline-block text-sm sm:text-[1rem] font-semibold"
-                >{m.chat_get_started()}</label
+                >{chat_get_started()}</label
               >
             </div>
           </div>
@@ -1035,10 +1060,10 @@
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
                 ></path></svg
-              > <span class="ml-2">{m.chat_threads()}</span>
+              > <span class="ml-2">{chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
-              {m.chat_no_threads()}
+              {chat_no_threads()}
             </div>
           </div>
         {/if}
@@ -1055,15 +1080,15 @@
   <div
     class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
   >
-    <h3 class="text-lg font-medium mb-2">{m.chat_delete_thread_title()}</h3>
+    <h3 class="text-lg font-medium mb-2">{chat_delete_thread_title()}</h3>
     <p class="text-sm mb-6">
-      {m.chat_delete_thread_confirm()}
+      {chat_delete_thread_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThread"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{m.chat_cancel()}</label
+        tabindex="0">{chat_cancel()}</label
       ><label
         for="deleteThread"
         on:click={handleDeleteThread}
@@ -1088,7 +1113,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >{m.chat_delete()}</label
+        >{chat_delete()}</label
       >
     </div>
   </div>

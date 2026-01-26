@@ -27,7 +27,61 @@
   import Input from "$lib/components/Input.svelte";
   import Copy from "lucide-svelte/icons/copy";
   import Zap from "lucide-svelte/icons/zap";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  options_flow_add_filters,
+  options_flow_call_flow,
+  options_flow_filters_count,
+  options_flow_full_width,
+  options_flow_hide_filter_area,
+  options_flow_live_flow,
+  options_flow_main_title,
+  options_flow_market_closed,
+  options_flow_modal_delete_cancel,
+  options_flow_modal_delete_confirm,
+  options_flow_modal_delete_message,
+  options_flow_modal_delete_title,
+  options_flow_modal_new_create,
+  options_flow_modal_new_name_label,
+  options_flow_modal_new_title,
+  options_flow_new_filter,
+  options_flow_no_data_filters,
+  options_flow_no_filters_found,
+  options_flow_no_trades_query,
+  options_flow_normal_width,
+  options_flow_nothing_found,
+  options_flow_paused,
+  options_flow_pick_date,
+  options_flow_popular_filters,
+  options_flow_popular_strategies,
+  options_flow_put_flow,
+  options_flow_put_to_call,
+  options_flow_realtime_data,
+  options_flow_realtime_data_content,
+  options_flow_realtime_data_title,
+  options_flow_reset_all,
+  options_flow_save,
+  options_flow_save_as_new,
+  options_flow_saved_filters,
+  options_flow_search_filters,
+  options_flow_search_input_placeholder,
+  options_flow_search_placeholder,
+  options_flow_select_filter,
+  options_flow_select_filters_title,
+  options_flow_select_popular,
+  options_flow_seo_description,
+  options_flow_seo_keywords,
+  options_flow_seo_title,
+  options_flow_show_filter_area,
+  options_flow_strategy_bearish_sweeps,
+  options_flow_strategy_bullish_sweeps,
+  options_flow_strategy_etf_index_flow,
+  options_flow_strategy_high_premium_blocks,
+  options_flow_strategy_repeated_flow,
+  options_flow_strategy_unusual_size_oi,
+  options_flow_strategy_zero_dte_flow,
+  options_flow_structured_description,
+  options_flow_structured_name,
+} from "$lib/paraglide/messages";
 
   import { page } from "$app/stores";
 
@@ -120,16 +174,16 @@
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
-    { key: "bullishSweeps", label: m.options_flow_strategy_bullish_sweeps() },
-    { key: "bearishSweeps", label: m.options_flow_strategy_bearish_sweeps() },
+    { key: "bullishSweeps", label: options_flow_strategy_bullish_sweeps() },
+    { key: "bearishSweeps", label: options_flow_strategy_bearish_sweeps() },
     {
       key: "highPremiumBlocks",
-      label: m.options_flow_strategy_high_premium_blocks(),
+      label: options_flow_strategy_high_premium_blocks(),
     },
-    { key: "unusualSizeOI", label: m.options_flow_strategy_unusual_size_oi() },
-    { key: "etfIndexFlow", label: m.options_flow_strategy_etf_index_flow() },
-    { key: "zeroDteFlow", label: m.options_flow_strategy_zero_dte_flow() },
-    { key: "repeatedFlow", label: m.options_flow_strategy_repeated_flow() },
+    { key: "unusualSizeOI", label: options_flow_strategy_unusual_size_oi() },
+    { key: "etfIndexFlow", label: options_flow_strategy_etf_index_flow() },
+    { key: "zeroDteFlow", label: options_flow_strategy_zero_dte_flow() },
+    { key: "repeatedFlow", label: options_flow_strategy_repeated_flow() },
   ];
 
   let displayRules = [];
@@ -1890,14 +1944,14 @@
 </script>
 
 <SEO
-  title={m.options_flow_seo_title()}
-  description={m.options_flow_seo_description()}
-  keywords={m.options_flow_seo_keywords()}
+  title={options_flow_seo_title()}
+  description={options_flow_seo_description()}
+  keywords={options_flow_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: m.options_flow_structured_name(),
-    description: m.options_flow_structured_description(),
+    name: options_flow_structured_name(),
+    description: options_flow_structured_description(),
     url: "https://stocknear.com/options-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1957,7 +2011,7 @@
             <h1
               class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.options_flow_main_title()}
+              {options_flow_main_title()}
             </h1>
           </div>
 
@@ -1966,7 +2020,7 @@
               <div
                 class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
               >
-                {m.options_flow_popular_filters()}
+                {options_flow_popular_filters()}
               </div>
               <div class="relative inline-block text-left grow">
                 <DropdownMenu.Root>
@@ -1978,7 +2032,7 @@
                       <span class="truncate"
                         >{selectedPopularStrategy?.length !== 0
                           ? selectedPopularStrategy
-                          : m.options_flow_select_popular()}</span
+                          : options_flow_select_popular()}</span
                       >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -2005,7 +2059,7 @@
                     <DropdownMenu.Label
                       class="text-gray-500 dark:text-zinc-400 font-normal"
                     >
-                      {m.options_flow_popular_strategies()}
+                      {options_flow_popular_strategies()}
                     </DropdownMenu.Label>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Group>
@@ -2027,7 +2081,7 @@
               <div
                 class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
               >
-                {m.options_flow_saved_filters()}
+                {options_flow_saved_filters()}
               </div>
               <div class="relative inline-block w-full">
                 <DropdownMenu.Root>
@@ -2041,7 +2095,7 @@
                           ? strategyList?.find(
                               (item) => item.id === selectedStrategy,
                             )?.title
-                          : m.options_flow_select_filter()}</span
+                          : options_flow_select_filter()}</span
                       >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -2087,7 +2141,7 @@
                             ></path>
                           </svg>
                           <div class="text-sm text-start">
-                            {m.options_flow_new_filter()}
+                            {options_flow_new_filter()}
                           </div>
                         </Button>
                       </DropdownMenu.Trigger>
@@ -2187,7 +2241,7 @@
               <span
                 class="text-xs sm:text-sm sm:text-lg text-gray-500 dark:text-zinc-400 mr-3"
               >
-                {$isOpen ? m.options_flow_paused() : m.options_flow_market_closed()}
+                {$isOpen ? options_flow_paused() : options_flow_market_closed()}
               </span>
 
               <label
@@ -2225,7 +2279,7 @@
                     ? 'text-emerald-600 dark:text-emerald-400'
                     : 'text-gray-500 dark:text-zinc-400'}"
                 >
-                  {m.options_flow_live_flow()}
+                  {options_flow_live_flow()}
                 </span>
               </div>
             </div>
@@ -2244,7 +2298,7 @@
                       <span class="text-sm font-medium tracking-tight">
                         {selectedDate
                           ? df.format(selectedDate?.toDate())
-                          : m.options_flow_pick_date()}
+                          : options_flow_pick_date()}
                       </span>
                     </Button>
                   </Popover.Trigger>
@@ -2276,7 +2330,7 @@
             <button
               on:click={() => (showFilters = !showFilters)}
               class="flex cursor-pointer items-center text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
-              title={showFilters ? m.options_flow_hide_filter_area() : m.options_flow_show_filter_area()}
+              title={showFilters ? options_flow_hide_filter_area() : options_flow_show_filter_area()}
             >
               <svg
                 class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
@@ -2290,18 +2344,18 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              {m.options_flow_filters_count({ count: ruleOfList?.length })}
+              {options_flow_filters_count({ count: ruleOfList?.length })}
             </button>
             <div class="flex flex-row items-center ml-auto justify-start">
               <div class="flex items-center gap-1">
                 <span class="inline-flex items-center text-xs">
                   <Zap class="w-3 h-3 mr-1" />
-                  {m.options_flow_realtime_data()}
+                  {options_flow_realtime_data()}
                 </span>
                 <InfoModal
                   id="options-flow-info"
-                  title={m.options_flow_realtime_data_title()}
-                  content={m.options_flow_realtime_data_content()}
+                  title={options_flow_realtime_data_title()}
+                  content={options_flow_realtime_data_content()}
                 />
               </div>
             </div>
@@ -2328,7 +2382,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div>{m.options_flow_add_filters()}</div>
+                <div>{options_flow_add_filters()}</div>
               </label>
 
               <!-- Quick Search Input -->
@@ -2355,7 +2409,7 @@
                   </div>
                   <input
                     type="text"
-                    placeholder={m.options_flow_search_filters({
+                    placeholder={options_flow_search_filters({
                       count: allRows?.length,
                     })}
                     bind:value={quickSearchTerm}
@@ -2444,7 +2498,7 @@
                   <div
                     class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                   >
-                    {m.options_flow_no_filters_found()}
+                    {options_flow_no_filters_found()}
                   </div>
                 {/if}
               </div>
@@ -2464,7 +2518,7 @@
                       d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
                     /></svg
                   >
-                  <div>{m.options_flow_save()}</div>
+                  <div>{options_flow_save()}</div>
                 </label>
 
                 {#if strategyList?.length > 0}
@@ -2484,7 +2538,7 @@
                     class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
-                    <div>{m.options_flow_save_as_new()}</div>
+                    <div>{options_flow_save_as_new()}</div>
                   </label>
                 {/if}
               {/if}
@@ -2509,7 +2563,7 @@
                       /></g
                     ></svg
                   >
-                  <div>{m.options_flow_reset_all()}</div>
+                  <div>{options_flow_reset_all()}</div>
                 </label>
               {/if}
             </div>
@@ -2961,7 +3015,7 @@
                 >
                   <div class="flex flex-col items-start">
                     <span class="text-xs text-gray-500 dark:text-zinc-400"
-                      >{m.options_flow_put_to_call()}</span
+                      >{options_flow_put_to_call()}</span
                     >
                     {#if data?.user?.tier === "Pro"}
                       <span class="text-start text-lg font-semibold mt-1">
@@ -3056,7 +3110,7 @@
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
                       <span class="text-xs text-gray-500 dark:text-zinc-400"
-                        >{m.options_flow_call_flow()}</span
+                        >{options_flow_call_flow()}</span
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
@@ -3160,7 +3214,7 @@
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
                       <span class="text-xs text-gray-500 dark:text-zinc-400"
-                        >{m.options_flow_put_flow()}</span
+                        >{options_flow_put_flow()}</span
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
@@ -3311,7 +3365,7 @@
                     bind:value={tableSearchValue}
                     on:input={debouncedTableSearch}
                     type="text"
-                    placeholder={m.options_flow_search_placeholder()}
+                    placeholder={options_flow_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
@@ -3367,8 +3421,8 @@
                     {/if}
                     <span class="truncate text-[0.85rem] sm:text-sm"
                       >{isFullWidth
-                        ? m.options_flow_normal_width()
-                        : m.options_flow_full_width()}</span
+                        ? options_flow_normal_width()
+                        : options_flow_full_width()}</span
                     >
                   </button>
 
@@ -3417,13 +3471,13 @@
               </div>
             {:else}
               <Infobox
-                text={m.options_flow_no_trades_query({
+                text={options_flow_no_trades_query({
                   query: tableSearchValue,
                 })}
               />
             {/if}
           {:else}
-            <Infobox text={m.options_flow_no_data_filters()} />
+            <Infobox text={options_flow_no_data_filters()} />
           {/if}
         {:else}
           <div class="flex justify-center items-center h-80">
@@ -3467,7 +3521,7 @@
           <h1
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {m.options_flow_select_filters_title({ count: allRows?.length })}
+            {options_flow_select_filters_title({ count: allRows?.length })}
           </h1>
           <label
             for="ruleModal"
@@ -3542,7 +3596,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder={m.options_flow_search_input_placeholder()}
+              placeholder={options_flow_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -3589,7 +3643,7 @@
 
         {#if searchTerm?.length > 0 && filteredRows?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            {m.options_flow_nothing_found()}
+            {options_flow_nothing_found()}
           </div>
         {/if}
       </div>
@@ -3613,7 +3667,7 @@
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      {m.options_flow_modal_new_title()}
+      {options_flow_modal_new_title()}
     </h1>
 
     <form
@@ -3625,7 +3679,7 @@
         id="title"
         type="text"
         errors=""
-        label={m.options_flow_modal_new_name_label()}
+        label={options_flow_modal_new_name_label()}
         required={true}
       />
 
@@ -3633,7 +3687,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        {m.options_flow_modal_new_create()}
+        {options_flow_modal_new_create()}
       </button>
     </form>
   </div>
@@ -3652,17 +3706,17 @@
           bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      {m.options_flow_modal_delete_title()}
+      {options_flow_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      {m.options_flow_modal_delete_message()}
+      {options_flow_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{m.options_flow_modal_delete_cancel()}</label
+        tabindex="0">{options_flow_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -3689,7 +3743,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >{m.options_flow_modal_delete_confirm()}</label
+        >{options_flow_modal_delete_confirm()}</label
       >
     </div>
   </div>

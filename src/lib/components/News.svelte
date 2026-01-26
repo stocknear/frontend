@@ -10,7 +10,21 @@
   import { page } from "$app/stores";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_back_to_top,
+  stock_detail_news,
+  stock_detail_news_all,
+  stock_detail_news_no_articles,
+  stock_detail_news_no_available,
+  stock_detail_news_no_videos,
+  stock_detail_news_press,
+  stock_detail_news_press_releases,
+  stock_detail_news_videos,
+  stock_detail_next,
+  stock_detail_page_of,
+  stock_detail_previous,
+  stock_detail_rows,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -223,7 +237,7 @@
           <label
             class="mr-1 cursor-pointer flex flex-row items-center text-2xl font-bold"
           >
-            <h2>{m.stock_detail_news()}</h2>
+            <h2>{stock_detail_news()}</h2>
           </label>
         </div>
       </div>
@@ -242,7 +256,7 @@
               class="cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
               'all'
                 ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                : ''}">{m.stock_detail_news_all()}</button
+                : ''}">{stock_detail_news_all()}</button
             >
           </li>
           {#if hasVideos}
@@ -252,7 +266,7 @@
                 class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'videos'
                   ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                  : ''}">{m.stock_detail_news_videos()}</button
+                  : ''}">{stock_detail_news_videos()}</button
               >
             </li>
           {/if}
@@ -264,8 +278,8 @@
                 'press-releases'
                   ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                   : ''}"
-                ><span class="inline sm:hidden">{m.stock_detail_news_press()}</span><span
-                  class="hidden sm:inline">{m.stock_detail_news_press_releases()}</span
+                ><span class="inline sm:hidden">{stock_detail_news_press()}</span><span
+                  class="hidden sm:inline">{stock_detail_news_press_releases()}</span
                 ></button
               >
             </li>
@@ -393,7 +407,7 @@
               <div class="ml-3 w-full sm:ml-4">
                 <div class="flex w-full flex-row justify-between">
                   <div>
-                    {displaySection === "videos" ? m.stock_detail_news_no_videos() : m.stock_detail_news_no_articles()}
+                    {displaySection === "videos" ? stock_detail_news_no_videos() : stock_detail_news_no_articles()}
                   </div>
                 </div>
               </div>
@@ -425,14 +439,14 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
+              <span class="hidden sm:inline">{stock_detail_previous()}</span>
             </Button>
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
+              {stock_detail_page_of({ current: currentPage, total: totalPages })}
             </span>
 
             <DropdownMenu.Root>
@@ -442,7 +456,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{m.stock_detail_rows({ count: rowsPerPage })}</span
+                    >{stock_detail_rows({ count: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -477,7 +491,7 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
+                        <span class="text-sm">{stock_detail_rows({ count: item })}</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -493,7 +507,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">{m.stock_detail_next()}</span>
+              <span class="hidden sm:inline">{stock_detail_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -517,7 +531,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {m.stock_detail_back_to_top()} <svg
+            {stock_detail_back_to_top()} <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -534,7 +548,7 @@
         </div>
       {/if}
     {:else}
-      <span class="text-white"> {m.stock_detail_news_no_available()} </span>
+      <span class="text-white"> {stock_detail_news_no_available()} </span>
     {/if}
   </div>
 </div>

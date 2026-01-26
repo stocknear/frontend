@@ -1,5 +1,12 @@
 <script lang="ts">
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_forecast_ai_aside_pro_desc,
+  stock_detail_forecast_ai_aside_pro_title,
+  stock_detail_forecast_ai_aside_score_desc,
+  stock_detail_forecast_ai_aside_score_title,
+  stock_detail_forecast_ai_aside_trend_desc,
+  stock_detail_forecast_ai_aside_trend_title,
+} from "$lib/paraglide/messages";
   export let data;
 </script>
 
@@ -24,11 +31,11 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-xl font-semibold sm:ml-3">
-                    {m.stock_detail_forecast_ai_aside_pro_title()}
+                    {stock_detail_forecast_ai_aside_pro_title()}
                   </h2>
                 </div>
                 <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                  {m.stock_detail_forecast_ai_aside_pro_desc()}
+                  {stock_detail_forecast_ai_aside_pro_desc()}
                 </span>
               </a>
             </div>
@@ -39,10 +46,10 @@
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">
-                {m.stock_detail_forecast_ai_aside_score_title()}
+                {stock_detail_forecast_ai_aside_score_title()}
               </h3>
               <div class=" p-2">
-                {m.stock_detail_forecast_ai_aside_score_desc()}
+                {stock_detail_forecast_ai_aside_score_desc()}
               </div>
               <!--
             <div class="px-2">
@@ -62,10 +69,10 @@
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">
-                {m.stock_detail_forecast_ai_aside_trend_title()}
+                {stock_detail_forecast_ai_aside_trend_title()}
               </h3>
               <div class=" p-2">
-                {m.stock_detail_forecast_ai_aside_trend_desc()}
+                {stock_detail_forecast_ai_aside_trend_desc()}
               </div>
               <!--
             <div class="px-2">

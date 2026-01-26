@@ -4,7 +4,24 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import FailToDeliver from "$lib/components/FailToDeliver.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_no_data,
+  stock_detail_stats_1_year_change,
+  stock_detail_stats_above_average,
+  stock_detail_stats_below_average,
+  stock_detail_stats_ftd_avg_volume,
+  stock_detail_stats_ftd_seo_description,
+  stock_detail_stats_ftd_seo_keywords,
+  stock_detail_stats_ftd_seo_title,
+  stock_detail_stats_ftd_structured_desc,
+  stock_detail_stats_ftd_structured_name,
+  stock_detail_stats_ftd_title,
+  stock_detail_stats_high_impact,
+  stock_detail_stats_low_impact,
+  stock_detail_stats_negative_trend,
+  stock_detail_stats_positive_trend,
+  stock_detail_stats_total_ftd_shares,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -61,16 +78,16 @@
 </script>
 
 <SEO
-  title={m.stock_detail_stats_ftd_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_stats_ftd_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_stats_ftd_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_ftd_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_stats_ftd_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_stats_ftd_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/fail-to-deliver`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: m.stock_detail_stats_ftd_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_stats_ftd_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_ftd_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_stats_ftd_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/fail-to-deliver`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -113,7 +130,7 @@
             class="w-full flex flex-col items-start sm:items-center sm:flex-row justify-between mb-3"
           >
             <h1 class="text-xl sm:text-2xl font-bold">
-              {m.stock_detail_stats_ftd_title()}
+              {stock_detail_stats_ftd_title()}
             </h1>
           </div>
 
@@ -125,7 +142,7 @@
                 class="ftd-total-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>{m.stock_detail_stats_total_ftd_shares()}</span>
+                  <span>{stock_detail_stats_total_ftd_shares()}</span>
                 </div>
                 <div class="flex items-baseline">
                   <span class="text-xl font-bold">
@@ -136,8 +153,8 @@
                   <div class="flex flex-col ml-2">
                     <span class="text-sm">
                       {rawData?.slice(-1)?.at(0)?.failToDeliver > 1e5
-                        ? m.stock_detail_stats_above_average()
-                        : m.stock_detail_stats_below_average()}
+                        ? stock_detail_stats_above_average()
+                        : stock_detail_stats_below_average()}
                     </span>
                   </div>
                 </div>
@@ -147,7 +164,7 @@
                 class="ftd-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>{m.stock_detail_stats_ftd_avg_volume()}</span>
+                  <span>{stock_detail_stats_ftd_avg_volume()}</span>
                 </div>
                 <div class="flex items-baseline">
                   <span class="text-xl font-bold"
@@ -159,7 +176,7 @@
                   >
                   <div class="flex flex-col ml-2">
                     <span class="text-sm">
-                      {relativeFTD > 20 ? m.stock_detail_stats_high_impact() : m.stock_detail_stats_low_impact()}
+                      {relativeFTD > 20 ? stock_detail_stats_high_impact() : stock_detail_stats_low_impact()}
                     </span>
                   </div>
                 </div>
@@ -169,7 +186,7 @@
                 class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
-                  <span>{m.stock_detail_stats_1_year_change()}</span>
+                  <span>{stock_detail_stats_1_year_change()}</span>
                 </div>
                 <div class="flex items-baseline">
                   <span class="text-xl font-bold"
@@ -183,8 +200,8 @@
                     <span class="text-sm">
                       {changePercentageYearAgo
                         ? changePercentageYearAgo >= 0
-                          ? m.stock_detail_stats_positive_trend()
-                          : m.stock_detail_stats_negative_trend()
+                          ? stock_detail_stats_positive_trend()
+                          : stock_detail_stats_negative_trend()
                         : ""}
                     </span>
                   </div>
@@ -196,7 +213,7 @@
               <FailToDeliver {data} {rawData} />
             </div>
           {:else}
-            <Infobox text={m.stock_detail_no_data()} />
+            <Infobox text={stock_detail_no_data()} />
           {/if}
         </div>
       </main>

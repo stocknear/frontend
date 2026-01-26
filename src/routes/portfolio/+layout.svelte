@@ -2,7 +2,13 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  portfolio_breadcrumb_home,
+  portfolio_breadcrumb_portfolio,
+  portfolio_layout_title,
+  portfolio_tab_analysis,
+  portfolio_tab_overview,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -71,11 +77,11 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.portfolio_breadcrumb_home()}</a
+        >{portfolio_breadcrumb_home()}</a
       >
     </li>
     <li class="text-muted dark:text-gray-300">
-      {m.portfolio_breadcrumb_portfolio()}
+      {portfolio_breadcrumb_portfolio()}
     </li>
   </BreadCrumb>
 
@@ -86,7 +92,7 @@
       >
         <main class="w-full">
           <h1 class=" text-2xl sm:text-3xl font-bold">
-            {m.portfolio_layout_title()}
+            {portfolio_layout_title()}
           </h1>
 
           <nav
@@ -105,7 +111,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                {m.portfolio_tab_overview()}
+                {portfolio_tab_overview()}
               </a>
               <a
                 href={activePortfolioId
@@ -117,7 +123,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                {m.portfolio_tab_analysis()}
+                {portfolio_tab_analysis()}
               </a>
             </ul>
           </nav>

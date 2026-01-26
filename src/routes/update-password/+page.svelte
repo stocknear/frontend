@@ -4,7 +4,18 @@
   import { mode } from "mode-watcher";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  update_password_button,
+  update_password_confirm_label,
+  update_password_error,
+  update_password_loading,
+  update_password_new_password_label,
+  update_password_old_password_label,
+  update_password_seo_description,
+  update_password_seo_title,
+  update_password_success,
+  update_password_title,
+} from "$lib/paraglide/messages";
 
   export let data;
   export let form;
@@ -14,11 +25,11 @@
     isUpdating = true;
     return async ({ result, update }) => {
       if (result.type === "success" && result.data?.success) {
-        toast.success(m.update_password_success(), {
+        toast.success(update_password_success(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       } else {
-        toast.error(m.update_password_error(), {
+        toast.error(update_password_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
@@ -28,7 +39,7 @@
   };
 </script>
 
-<SEO title={m.update_password_seo_title()} description={m.update_password_seo_description()} />
+<SEO title={update_password_seo_title()} description={update_password_seo_description()} />
 
 <section
   class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto px-3 sm:px-0"
@@ -57,13 +68,13 @@
             class="flex flex-col space-y-2 w-full max-w-lg m-auto"
           >
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold mb-6 text-center">
-              {m.update_password_title()}
+              {update_password_title()}
             </h1>
 
             <Input
               id="oldPassword"
               name="oldPassword"
-              label={m.update_password_old_password_label()}
+              label={update_password_old_password_label()}
               type="password"
               required
               errors={form?.errors?.errorOldPassword}
@@ -71,7 +82,7 @@
             <Input
               id="password"
               name="password"
-              label={m.update_password_new_password_label()}
+              label={update_password_new_password_label()}
               type="password"
               required
               errors={form?.errors?.errorPassword}
@@ -79,7 +90,7 @@
             <Input
               id="passwordConfirm"
               name="passwordConfirm"
-              label={m.update_password_confirm_label()}
+              label={update_password_confirm_label()}
               type="password"
               required
               errors={form?.errors?.errorPasswordConfirm}
@@ -91,7 +102,7 @@
                   type="submit"
                   class="cursor-pointer py-2.5 bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto font-semibold text-[1rem]"
                 >
-                  <span>{m.update_password_button()}</span>
+                  <span>{update_password_button()}</span>
                 </button>
               {:else}
                 <label
@@ -99,7 +110,7 @@
                 >
                   <div class="flex flex-row m-auto items-center">
                     <span class="loading loading-infinity"></span>
-                    <span class=" ml-1.5">{m.update_password_loading()}</span>
+                    <span class=" ml-1.5">{update_password_loading()}</span>
                   </div>
                 </label>
               {/if}

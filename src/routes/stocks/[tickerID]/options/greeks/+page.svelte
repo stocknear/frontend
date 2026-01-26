@@ -3,7 +3,14 @@
 
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_options_greeks_no_data,
+  stock_detail_options_greeks_seo_description,
+  stock_detail_options_greeks_seo_keywords,
+  stock_detail_options_greeks_seo_title,
+  stock_detail_options_greeks_structured_desc,
+  stock_detail_options_greeks_structured_name,
+} from "$lib/paraglide/messages";
 
   import Greeks from "$lib/components/Options/Greeks.svelte";
 
@@ -11,16 +18,16 @@
 </script>
 
 <SEO
-  title={m.stock_detail_options_greeks_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_options_greeks_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_options_greeks_seo_keywords({ ticker: $stockTicker })}
+  title={stock_detail_options_greeks_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_options_greeks_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_options_greeks_seo_keywords({ ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/greeks`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
-    name: m.stock_detail_options_greeks_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_options_greeks_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_options_greeks_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_options_greeks_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/greeks`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -62,7 +69,7 @@
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text={m.stock_detail_options_greeks_no_data()} />
+            <Infobox text={stock_detail_options_greeks_no_data()} />
           </div>
         </div>
       {/if}

@@ -14,7 +14,23 @@
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_next,
+  stock_detail_no_data,
+  stock_detail_page_of,
+  stock_detail_previous,
+  stock_detail_rows,
+  stock_detail_stats_earnings_chart,
+  stock_detail_stats_earnings_seo_description,
+  stock_detail_stats_earnings_seo_keywords,
+  stock_detail_stats_earnings_seo_title,
+  stock_detail_stats_earnings_structured_desc,
+  stock_detail_stats_earnings_structured_name,
+  stock_detail_stats_earnings_surprise,
+  stock_detail_stats_eps_surprise,
+  stock_detail_stats_history,
+  stock_detail_stats_revenue_surprise,
+} from "$lib/paraglide/messages";
 
   export let data;
 
@@ -541,16 +557,16 @@
 </script>
 
 <SEO
-  title={m.stock_detail_stats_earnings_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_stats_earnings_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_stats_earnings_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_earnings_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_stats_earnings_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_stats_earnings_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataAnalysis"],
-    name: m.stock_detail_stats_earnings_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_stats_earnings_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_earnings_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_stats_earnings_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -593,7 +609,7 @@
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.stock_detail_stats_earnings_surprise()}
+              {stock_detail_stats_earnings_surprise()}
             </h1>
           </div>
 
@@ -611,7 +627,7 @@
                 <h2
                   class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {m.stock_detail_stats_earnings_chart()}
+                  {stock_detail_stats_earnings_chart()}
                 </h2>
                 <div class="ml-auto">
                   <div class="inline-flex mt-3 sm:mt-0">
@@ -626,7 +642,7 @@
                             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                         >
-                          {i === 0 ? m.stock_detail_stats_eps_surprise() : m.stock_detail_stats_revenue_surprise()}
+                          {i === 0 ? stock_detail_stats_eps_surprise() : stock_detail_stats_revenue_surprise()}
                         </button>
                       {/each}
                     </div>
@@ -718,7 +734,7 @@
                   <h3
                     class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
                   >
-                    {m.stock_detail_stats_history()}
+                    {stock_detail_stats_history()}
                   </h3>
 
                   <div class=" w-full flex order-1 items-center ml-auto">
@@ -814,12 +830,12 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
+                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -829,7 +845,7 @@
                           class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm">
-                            {m.stock_detail_rows({ count: rowsPerPage })}
+                            {stock_detail_rows({ count: rowsPerPage })}
                           </span>
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -864,7 +880,7 @@
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
                                 <span class="text-sm">
-                                  {m.stock_detail_rows({ count: item })}
+                                  {stock_detail_rows({ count: item })}
                                 </span>
                               </label>
                             </DropdownMenu.Item>
@@ -879,7 +895,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{m.stock_detail_next()}</span>
+                    <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -898,7 +914,7 @@
               {/if}
             </div>
           {:else}
-            <Infobox text={m.stock_detail_no_data()} />
+            <Infobox text={stock_detail_no_data()} />
           {/if}
         </div>
       </main>

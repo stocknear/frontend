@@ -9,7 +9,36 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  potus_tracker_breadcrumb_current,
+  potus_tracker_breadcrumb_home,
+  potus_tracker_close,
+  potus_tracker_donald_trump,
+  potus_tracker_executive_actions,
+  potus_tracker_infobox_declined,
+  potus_tracker_infobox_grown,
+  potus_tracker_new,
+  potus_tracker_official_schedule,
+  potus_tracker_open_link,
+  potus_tracker_read_more,
+  potus_tracker_read_source,
+  potus_tracker_select_sector,
+  potus_tracker_seo_description,
+  potus_tracker_seo_keywords,
+  potus_tracker_seo_title,
+  potus_tracker_sidebar_pro,
+  potus_tracker_sidebar_pro_desc,
+  potus_tracker_sidebar_screener,
+  potus_tracker_sidebar_screener_desc,
+  potus_tracker_sidebar_watchlist,
+  potus_tracker_sidebar_watchlist_desc,
+  potus_tracker_tab_executive_orders,
+  potus_tracker_tab_schedule,
+  potus_tracker_tab_truth_social,
+  potus_tracker_title,
+  potus_tracker_title_label,
+  potus_tracker_truth_social_posts,
+} from "$lib/paraglide/messages";
   //import html2canvas from "html2canvas-pro";
 
   export let data;
@@ -325,13 +354,13 @@
 
   $: tabs = [
     {
-      title: m.potus_tracker_tab_schedule(),
+      title: potus_tracker_tab_schedule(),
     },
     {
-      title: m.potus_tracker_tab_executive_orders(),
+      title: potus_tracker_tab_executive_orders(),
     },
     {
-      title: m.potus_tracker_tab_truth_social(),
+      title: potus_tracker_tab_truth_social(),
     },
   ];
 
@@ -584,9 +613,9 @@
 </script>
 
 <SEO
-  title={m.potus_tracker_seo_title()}
-  description={m.potus_tracker_seo_description()}
-  keywords={m.potus_tracker_seo_keywords()}
+  title={potus_tracker_seo_title()}
+  description={potus_tracker_seo_description()}
+  keywords={potus_tracker_seo_keywords()}
   structuredData={structuredDataGraph}
 />
 
@@ -600,10 +629,10 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-        >{m.potus_tracker_breadcrumb_home()}</a
+        >{potus_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{m.potus_tracker_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">{potus_tracker_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
@@ -621,7 +650,7 @@
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {m.potus_tracker_title()}
+                {potus_tracker_title()}
               </h1>
             </div>
           </div>
@@ -629,7 +658,7 @@
           <div class=" lg:float-left lg:w-[calc(100%-336px-40px)]">
             <div class="mt-5 mb-5">
               <Infobox
-                text={`${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? m.potus_tracker_infobox_grown({ sector: selectedSector }) : m.potus_tracker_infobox_declined({ sector: selectedSector })} <span class="${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? "text-emerald-600 dark:text-emerald-400 before:content-['+']" : "text-rose-600 dark:text-rose-400"}">
+                text={`${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? potus_tracker_infobox_grown({ sector: selectedSector }) : potus_tracker_infobox_declined({ sector: selectedSector })} <span class="${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? "text-emerald-600 dark:text-emerald-400 before:content-['+']" : "text-rose-600 dark:text-rose-400"}">
   ${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] ?? "n/a"}%</span>.`}
               />
             </div>
@@ -668,7 +697,7 @@
                     <DropdownMenu.Label
                       class="text-xs text-gray-500 dark:text-zinc-400 font-semibold"
                     >
-                      {m.potus_tracker_select_sector()}
+                      {potus_tracker_select_sector()}
                     </DropdownMenu.Label>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Group>
@@ -735,7 +764,7 @@
               <h3
                 class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
-                {m.potus_tracker_official_schedule()}
+                {potus_tracker_official_schedule()}
               </h3>
               <div class="">
                 <div class="space-y-4">
@@ -828,7 +857,7 @@
               <h3
                 class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
-                {m.potus_tracker_executive_actions()}
+                {potus_tracker_executive_actions()}
               </h3>
               <div class="">
                 <div class="space-y-4">
@@ -841,7 +870,7 @@
                         {#if latestInfoDate(date)}
                           <label
                             class="rounded-full border border-gray-300 shadow dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
-                            >{m.potus_tracker_new()}</label
+                            >{potus_tracker_new()}</label
                           >
                         {/if}
                       </div>
@@ -868,13 +897,13 @@
 
                             <div class="flex flex-col items-start w-full">
                               <h3 class="font-semibold">
-                                <span>{m.potus_tracker_donald_trump()}</span>
+                                <span>{potus_tracker_donald_trump()}</span>
                               </h3>
                               <h4
                                 class="text-sm text-gray-800 dark:text-zinc-300"
                               >
                                 <div>
-                                  {m.potus_tracker_title_label()} {item?.title}
+                                  {potus_tracker_title_label()} {item?.title}
                                   <!-- Sentiment badge -->
                                   <div
                                     class={`mt-2 px-3 py-1 rounded-full text-xs sm:text-sm w-fit border
@@ -918,7 +947,7 @@
                               target="_blank"
                               class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                             >
-                              {m.potus_tracker_open_link()} <svg
+                              {potus_tracker_open_link()} <svg
                                 class="size-5 inline-block"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -950,7 +979,7 @@
                               }}
                               class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                             >
-                              {m.potus_tracker_read_more()}
+                              {potus_tracker_read_more()}
                             </label>
                           </div>
                         </div>
@@ -978,7 +1007,7 @@
                 <h3
                   class="ml-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {m.potus_tracker_truth_social_posts()}
+                  {potus_tracker_truth_social_posts()}
                 </h3>
               </div>
 
@@ -1049,7 +1078,7 @@
                           }}
                           class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                         >
-                          {m.potus_tracker_read_more()}
+                          {potus_tracker_read_more()}
                         </label>
                       </div>
                     </div>
@@ -1072,13 +1101,13 @@
                     class="w-full flex justify-between items-center p-3 mt-3"
                   >
                     <h2 class="text-start text-base font-semibold sm:ml-3">
-                      {m.potus_tracker_sidebar_pro()}
+                      {potus_tracker_sidebar_pro()}
                     </h2>
                   </div>
                   <span
                     class="p-3 sm:ml-3 sm:mr-3 -mt-4 text-sm text-gray-800 dark:text-zinc-300"
                   >
-                    {m.potus_tracker_sidebar_pro_desc()}
+                    {potus_tracker_sidebar_pro_desc()}
                   </span>
                 </a>
               </div>
@@ -1093,13 +1122,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    {m.potus_tracker_sidebar_screener()}
+                    {potus_tracker_sidebar_screener()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  {m.potus_tracker_sidebar_screener_desc()}
+                  {potus_tracker_sidebar_screener_desc()}
                 </span>
               </a>
             </div>
@@ -1113,13 +1142,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    {m.potus_tracker_sidebar_watchlist()}
+                    {potus_tracker_sidebar_watchlist()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  {m.potus_tracker_sidebar_watchlist_desc()}
+                  {potus_tracker_sidebar_watchlist_desc()}
                 </span>
               </a>
             </div>
@@ -1186,14 +1215,14 @@
       <label
         for="executivePostModal"
         class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
-        tabindex="0">{m.potus_tracker_close()}</label
+        tabindex="0">{potus_tracker_close()}</label
       >
       <a
         href={postUrl}
         rel="noopener noreferrer"
         target="_blank"
         class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
-        tabindex="0">{m.potus_tracker_read_source()}</a
+        tabindex="0">{potus_tracker_read_source()}</a
       >
     </div>
   </div>
@@ -1261,7 +1290,7 @@
       <label
         for="socialPostModal"
         class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
-        tabindex="0">{m.potus_tracker_close()}</label
+        tabindex="0">{potus_tracker_close()}</label
       >
     </div>
   </div>

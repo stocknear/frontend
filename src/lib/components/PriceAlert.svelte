@@ -1,7 +1,25 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_above,
+  stock_detail_alert_created,
+  stock_detail_alert_failed,
+  stock_detail_alert_notify_text,
+  stock_detail_below,
+  stock_detail_cancel,
+  stock_detail_condition,
+  stock_detail_creating_alert,
+  stock_detail_crossing,
+  stock_detail_price,
+  stock_detail_price_alert_on,
+  stock_detail_quick_summary,
+  stock_detail_regular_trading_hours,
+  stock_detail_save,
+  stock_detail_symbol,
+  stock_detail_target_price_error,
+  stock_detail_value,
+} from "$lib/paraglide/messages";
 
   import { openPriceAlert, newPriceAlertData } from "$lib/store";
 
@@ -20,7 +38,7 @@
   async function handleCreateAlert() {
     // Validate input locally.
     if (targetPrice < 0) {
-      toast.error(m.stock_detail_target_price_error(), {
+      toast.error(stock_detail_target_price_error(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -59,9 +77,9 @@
 
     // Use toast.promise to handle pending, success, and error states.
     toast.promise(promise, {
-      loading: m.stock_detail_creating_alert(),
-      success: m.stock_detail_alert_created(),
-      error: (err) => err.message || m.stock_detail_alert_failed(),
+      loading: stock_detail_creating_alert(),
+      success: stock_detail_alert_created(),
+      error: (err) => err.message || stock_detail_alert_failed(),
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
 
@@ -138,7 +156,7 @@
       <h2
         class="font-semibold text-lg text-start mb-5 tracking-tight text-gray-900 dark:text-white"
       >
-        {m.stock_detail_price_alert_on({ ticker })}
+        {stock_detail_price_alert_on({ ticker })}
       </h2>
 
       <div
@@ -146,7 +164,7 @@
       >
         <label
           class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-          >{m.stock_detail_symbol()}</label
+          >{stock_detail_symbol()}</label
         >
 
         <label
@@ -162,7 +180,7 @@
           />
           -->
 
-          {ticker?.toUpperCase()}, {m.stock_detail_regular_trading_hours()}
+          {ticker?.toUpperCase()}, {stock_detail_regular_trading_hours()}
         </label>
       </div>
 
@@ -171,11 +189,11 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-            >{m.stock_detail_condition()}</label
+            >{stock_detail_condition()}</label
           >
           <input
             type="text"
-            value={m.stock_detail_price()}
+            value={stock_detail_price()}
             class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
             readonly
           />
@@ -185,15 +203,15 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-            >{m.stock_detail_crossing()}</label
+            >{stock_detail_crossing()}</label
           >
           <div class="relative w-full sm:w-[80%]">
             <select
               on:change={changeStatement}
               class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
-              <option value="above" selected>{m.stock_detail_above()}</option>
-              <option value="below">{m.stock_detail_below()}</option>
+              <option value="above" selected>{stock_detail_above()}</option>
+              <option value="below">{stock_detail_below()}</option>
             </select>
             <svg
               class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
@@ -209,7 +227,7 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
-            >{m.stock_detail_value()}</label
+            >{stock_detail_value()}</label
           >
 
           <div class="relative w-full sm:w-[80%]">
@@ -260,11 +278,11 @@
           <div class="flex flex-col gap-2 mt-5">
             <label
               class="text-sm sm:text-[1rem] font-semibold text-gray-700 dark:text-zinc-200"
-              >{m.stock_detail_quick_summary()}</label
+              >{stock_detail_quick_summary()}</label
             >
             <p class="text-sm text-gray-800 dark:text-zinc-300">
-              {m.stock_detail_alert_notify_text({
-                condition: condition === "above" ? m.stock_detail_above().toLowerCase() : m.stock_detail_below().toLowerCase(),
+              {stock_detail_alert_notify_text({
+                condition: condition === "above" ? stock_detail_above().toLowerCase() : stock_detail_below().toLowerCase(),
                 targetPrice: targetPrice.toString(),
               })}
             </p>
@@ -277,13 +295,13 @@
             for="priceAlertModal"
             class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >
-            {m.stock_detail_cancel()}
+            {stock_detail_cancel()}
           </label>
           <button
             on:click={handleCreateAlert}
             class="cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition"
           >
-            {m.stock_detail_save()}
+            {stock_detail_save()}
           </button>
         </div>
       </div>

@@ -9,7 +9,29 @@
   import { browser } from "$app/environment";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_next,
+  stock_detail_no_data,
+  stock_detail_page_of,
+  stock_detail_previous,
+  stock_detail_rows,
+  stock_detail_stats_change_mom,
+  stock_detail_stats_days_to_cover,
+  stock_detail_stats_decreased,
+  stock_detail_stats_history,
+  stock_detail_stats_increased,
+  stock_detail_stats_nav_short_interest,
+  stock_detail_stats_short_interest_infobox,
+  stock_detail_stats_short_interest_seo_description,
+  stock_detail_stats_short_interest_seo_keywords,
+  stock_detail_stats_short_interest_seo_title,
+  stock_detail_stats_short_interest_structured_desc,
+  stock_detail_stats_short_interest_structured_name,
+  stock_detail_stats_short_percent_floating,
+  stock_detail_stats_short_percent_outstanding,
+  stock_detail_stats_short_prior_month,
+  stock_detail_stats_unchanged,
+} from "$lib/paraglide/messages";
 
   //import * as XLSX from 'xlsx';
 
@@ -264,16 +286,16 @@
 </script>
 
 <SEO
-  title={m.stock_detail_stats_short_interest_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={m.stock_detail_stats_short_interest_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={m.stock_detail_stats_short_interest_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_short_interest_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
+  description={stock_detail_stats_short_interest_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  keywords={stock_detail_stats_short_interest_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: m.stock_detail_stats_short_interest_structured_name({ company: $displayCompanyName }),
-    description: m.stock_detail_stats_short_interest_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_short_interest_structured_name({ company: $displayCompanyName }),
+    description: stock_detail_stats_short_interest_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -316,21 +338,21 @@
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.stock_detail_stats_nav_short_interest()}
+              {stock_detail_stats_nav_short_interest()}
             </h1>
           </div>
 
           {#if rawData?.length !== 0}
             <div class="grid grid-cols-1 gap-2">
               <Infobox
-                text={m.stock_detail_stats_short_interest_infobox({
+                text={stock_detail_stats_short_interest_infobox({
                   company: removeCompanyStrings($displayCompanyName),
                   shortInterest: abbreviateNumber(data?.getData?.sharesShort),
                   changeDirection: (latestEntry?.percentChangeMoMo ?? 0) > 0
-                    ? m.stock_detail_stats_increased()
+                    ? stock_detail_stats_increased()
                     : (latestEntry?.percentChangeMoMo ?? 0) < 0
-                      ? m.stock_detail_stats_decreased()
-                      : m.stock_detail_stats_unchanged(),
+                      ? stock_detail_stats_decreased()
+                      : stock_detail_stats_unchanged(),
                   changePercent: abbreviateNumber(latestEntry?.percentChangeMoMo?.toFixed(2))
                 })}
               />
@@ -344,7 +366,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {m.stock_detail_stats_nav_short_interest()}
+                    {stock_detail_stats_nav_short_interest()}
                   </div>
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold text-gray-900 dark:text-white"
@@ -358,7 +380,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {m.stock_detail_stats_short_prior_month()}
+                    {stock_detail_stats_short_prior_month()}
                   </div>
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold text-gray-900 dark:text-white"
@@ -372,7 +394,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {m.stock_detail_stats_change_mom()}
+                    {stock_detail_stats_change_mom()}
                   </div>
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold {latestEntry?.percentChangeMoMo >
@@ -393,7 +415,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {m.stock_detail_stats_short_percent_floating()}
+                    {stock_detail_stats_short_percent_floating()}
                   </div>
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold text-gray-900 dark:text-white"
@@ -409,7 +431,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {m.stock_detail_stats_short_percent_outstanding()}
+                    {stock_detail_stats_short_percent_outstanding()}
                   </div>
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold text-gray-900 dark:text-white"
@@ -425,7 +447,7 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {m.stock_detail_stats_days_to_cover()}
+                    {stock_detail_stats_days_to_cover()}
                   </div>
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold text-gray-900 dark:text-white"
@@ -442,7 +464,7 @@
                   <h3
                     class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
                   >
-                    {m.stock_detail_stats_history()}
+                    {stock_detail_stats_history()}
                   </h3>
 
                   <div class=" w-full flex order-1 items-center ml-auto">
@@ -541,12 +563,12 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{m.stock_detail_previous()}</span>
+                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {m.stock_detail_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -556,7 +578,7 @@
                           class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >{m.stock_detail_rows({ count: rowsPerPage })}</span
+                            >{stock_detail_rows({ count: rowsPerPage })}</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -590,7 +612,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{m.stock_detail_rows({ count: item })}</span>
+                                <span class="text-sm">{stock_detail_rows({ count: item })}</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -604,7 +626,7 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{m.stock_detail_next()}</span>
+                    <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -623,7 +645,7 @@
               {/if}
             </div>
           {:else}
-            <Infobox text={m.stock_detail_no_data()} />
+            <Infobox text={stock_detail_no_data()} />
           {/if}
         </div>
       </main>

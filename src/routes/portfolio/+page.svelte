@@ -10,7 +10,56 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import Overview from "$lib/components/Portfolio/Overview.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  portfolio_add_stock_placeholder,
+  portfolio_breadcrumb_home,
+  portfolio_breadcrumb_portfolio,
+  portfolio_cancel,
+  portfolio_create_portfolio,
+  portfolio_earnings_after_close,
+  portfolio_earnings_analysts_estimate,
+  portfolio_earnings_and,
+  portfolio_earnings_before_open,
+  portfolio_earnings_during_market,
+  portfolio_earnings_in_eps,
+  portfolio_earnings_in_revenue,
+  portfolio_earnings_will_report,
+  portfolio_earnings_yoy,
+  portfolio_edit_portfolio,
+  portfolio_empty_description,
+  portfolio_empty_title,
+  portfolio_get_started,
+  portfolio_modal_create_button,
+  portfolio_modal_delete_button,
+  portfolio_modal_delete_confirm,
+  portfolio_modal_delete_title,
+  portfolio_modal_list_name,
+  portfolio_modal_new_title,
+  portfolio_new_portfolio,
+  portfolio_no_earnings,
+  portfolio_no_news,
+  portfolio_no_results,
+  portfolio_seo_description,
+  portfolio_seo_keywords,
+  portfolio_seo_title,
+  portfolio_structured_description,
+  portfolio_structured_name,
+  portfolio_tab_earnings,
+  portfolio_tab_news,
+  portfolio_toast_already_in_portfolio,
+  portfolio_toast_created,
+  portfolio_toast_creating,
+  portfolio_toast_deleted,
+  portfolio_toast_error,
+  portfolio_toast_error_generic,
+  portfolio_toast_save_error,
+  portfolio_toast_save_failed,
+  portfolio_toast_select_symbols,
+  portfolio_toast_title_empty,
+  portfolio_toast_title_long,
+  portfolio_toast_updated,
+  portfolio_toast_updating,
+} from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   import { onMount, afterUpdate } from "svelte";
@@ -51,8 +100,8 @@
   // Tab translation helper
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "News": () => m.portfolio_tab_news(),
-      "Earnings Release": () => m.portfolio_tab_earnings(),
+      "News": () => portfolio_tab_news(),
+      "Earnings Release": () => portfolio_tab_earnings(),
     };
     return tabLabels[tab]?.() ?? tab;
   }
@@ -178,14 +227,14 @@
 
     // Validate the title input
     if (!title || title.toString().trim().length === 0) {
-      toast.error(m.portfolio_toast_title_empty(), {
+      toast.error(portfolio_toast_title_empty(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
     }
 
     if (title.toString().length > 100) {
-      toast.error(m.portfolio_toast_title_long(), {
+      toast.error(portfolio_toast_title_long(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -210,7 +259,7 @@
         // If the server returned an error (e.g. non‑Pro user already has a portfolio),
         // throw an error to be caught by toast.promise.
         throw new Error(
-          output.error || m.portfolio_toast_error(),
+          output.error || portfolio_toast_error(),
         );
       }
       return output;
@@ -218,9 +267,9 @@
 
     // Use toast.promise to display a loading toast, then a success or error message
     toast.promise(promise, {
-      loading: m.portfolio_toast_creating(),
-      success: m.portfolio_toast_created(),
-      error: (err) => err.message || m.portfolio_toast_error(),
+      loading: portfolio_toast_creating(),
+      success: portfolio_toast_created(),
+      error: (err) => err.message || portfolio_toast_error(),
     });
 
     try {
@@ -289,7 +338,7 @@
       const output = await response.json();
 
       if (output === "success") {
-        toast.success(m.portfolio_toast_deleted(), {
+        toast.success(portfolio_toast_deleted(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
@@ -323,13 +372,13 @@
         const clicked = document.getElementById("deletePortfolio");
         clicked.dispatchEvent(new MouseEvent("click"));
       } else {
-        toast.error(m.portfolio_toast_error(), {
+        toast.error(portfolio_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(m.portfolio_toast_error_generic(), {
+      toast.error(portfolio_toast_error_generic(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -360,7 +409,7 @@
 
   async function handleDeleteTickers() {
     if (numberOfChecked === 0) {
-      toast.error(m.portfolio_toast_select_symbols(), {
+      toast.error(portfolio_toast_select_symbols(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
@@ -499,13 +548,13 @@
           // Force reload ALL load functions to get fresh data from server
           await invalidateAll();
         } else {
-          toast.error(output?.error || m.portfolio_toast_save_failed(), {
+          toast.error(output?.error || portfolio_toast_save_failed(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
         }
       } catch (error) {
         console.error("Error saving portfolio:", error);
-        toast.error(m.portfolio_toast_save_error(), {
+        toast.error(portfolio_toast_save_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
@@ -524,7 +573,7 @@
 
   async function handleAddTicker(event, ticker) {
     if (portfolio?.some((item) => item?.symbol === ticker)) {
-      toast.error(m.portfolio_toast_already_in_portfolio(), {
+      toast.error(portfolio_toast_already_in_portfolio(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       inputValue = "";
@@ -558,9 +607,9 @@
 
     // Use toast.promise to display notifications based on the promise's state.
     toast?.promise(promise, {
-      loading: m.portfolio_toast_updating(),
-      success: m.portfolio_toast_updated(),
-      error: (err) => err.message || m.portfolio_toast_error(),
+      loading: portfolio_toast_updating(),
+      success: portfolio_toast_updated(),
+      error: (err) => err.message || portfolio_toast_error(),
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
 
@@ -779,27 +828,27 @@
 </script>
 
 <SEO
-  title={m.portfolio_seo_title()}
-  description={m.portfolio_seo_description()}
-  keywords={m.portfolio_seo_keywords()}
+  title={portfolio_seo_title()}
+  description={portfolio_seo_description()}
+  keywords={portfolio_seo_keywords()}
   canonical="https://stocknear.com/portfolio/stocks"
   openGraph={{
     type: "website",
     url: "https://stocknear.com/portfolio/stocks",
-    title: m.portfolio_seo_title(),
-    description: m.portfolio_seo_description(),
+    title: portfolio_seo_title(),
+    description: portfolio_seo_description(),
   }}
   twitter={{
     card: "summary",
-    title: m.portfolio_seo_title(),
-    description: m.portfolio_seo_description(),
+    title: portfolio_seo_title(),
+    description: portfolio_seo_description(),
   }}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: m.portfolio_structured_name(),
-    alternateName: m.portfolio_structured_name(),
-    description: m.portfolio_structured_description(),
+    name: portfolio_structured_name(),
+    alternateName: portfolio_structured_name(),
+    description: portfolio_structured_description(),
     url: "https://stocknear.com/portfolio/stocks",
     isAccessibleForFree: true,
     inLanguage: "en",
@@ -829,13 +878,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: m.portfolio_breadcrumb_home(),
+          name: portfolio_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: m.portfolio_breadcrumb_portfolio(),
+          name: portfolio_breadcrumb_portfolio(),
           item: "https://stocknear.com/portfolio",
         },
         {
@@ -880,7 +929,7 @@
                         <span class="truncate font-medium text-sm"
                           >{displayPortfolio?.title !== undefined
                             ? displayPortfolio?.title
-                            : m.portfolio_create_portfolio()}</span
+                            : portfolio_create_portfolio()}</span
                         >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -928,7 +977,7 @@
                                 ></path>
                               </svg>
                               <div class="text-sm text-start">
-                                {m.portfolio_new_portfolio()}
+                                {portfolio_new_portfolio()}
                               </div>
                             </label>
                           </Button>
@@ -986,8 +1035,8 @@
                       <Combobox.Input
                         on:input={search}
                         class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
-                        placeholder={m.portfolio_add_stock_placeholder()}
-                        aria-label={m.portfolio_add_stock_placeholder()}
+                        placeholder={portfolio_add_stock_placeholder()}
+                        aria-label={portfolio_add_stock_placeholder()}
                       />
                     </div>
 
@@ -1019,7 +1068,7 @@
                           <span
                             class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                           >
-                            {m.portfolio_no_results()}
+                            {portfolio_no_results()}
                           </span>
                         {/each}
                       {:else}
@@ -1029,7 +1078,7 @@
                           <span
                             class=" text-sm text-gray-500 dark:text-zinc-400"
                           >
-                            {m.portfolio_no_results()}
+                            {portfolio_no_results()}
                           </span>
                         </Combobox.Item>
                       {/if}
@@ -1081,11 +1130,11 @@
                       >
                       {#if !editMode}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          {m.portfolio_edit_portfolio()}
+                          {portfolio_edit_portfolio()}
                         </span>
                       {:else}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          {m.portfolio_cancel()}
+                          {portfolio_cancel()}
                         </span>
                       {/if}
                     </label>
@@ -1101,18 +1150,18 @@
                 class="flex flex-col justify-center items-center m-auto z-0 pt-10"
               >
                 <span class=" font-bold text-xl sm:text-3xl">
-                  {m.portfolio_empty_title()}
+                  {portfolio_empty_title()}
                 </span>
 
                 <span class=" text-sm sm:text-lg m-auto p-4 text-center">
-                  {m.portfolio_empty_description()}
+                  {portfolio_empty_description()}
                 </span>
                 {#if !data?.user}
                   <a
                     class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                     href="/register"
                   >
-                    {m.portfolio_get_started()}
+                    {portfolio_get_started()}
                     <span
                       class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
                     >
@@ -1290,7 +1339,7 @@
                           <span
                             class="text-sm text-gray-600 dark:text-zinc-300"
                           >
-                            {m.portfolio_no_news()}
+                            {portfolio_no_news()}
                           </span>
                         {/if}
                       {:else if groupedEarnings?.length > 0}
@@ -1321,34 +1370,34 @@
                                   <div>
                                     {removeCompanyStrings(item?.name)}
                                     (<HoverStockChart symbol={item?.symbol} />)
-                                    {m.portfolio_earnings_will_report()}
+                                    {portfolio_earnings_will_report()}
 
                                     {#if item?.time}
                                       {#if compareTimes(item?.time, "16:00") >= 0}
-                                        {m.portfolio_earnings_after_close()}
+                                        {portfolio_earnings_after_close()}
                                       {:else if compareTimes(item?.time, "09:30") <= 0}
-                                        {m.portfolio_earnings_before_open()}
+                                        {portfolio_earnings_before_open()}
                                       {:else}
-                                        {m.portfolio_earnings_during_market()}
+                                        {portfolio_earnings_during_market()}
                                       {/if}
                                     {/if}
-                                    {m.portfolio_earnings_analysts_estimate()}
+                                    {portfolio_earnings_analysts_estimate()}
                                     <strong
                                       >{abbreviateNumber(
                                         item?.revenueEst,
                                       )}</strong
                                     >
-                                    {m.portfolio_earnings_in_revenue()} ({(
+                                    {portfolio_earnings_in_revenue()} ({(
                                       (item?.revenueEst / item?.revenuePrior -
                                         1) *
                                       100
-                                    )?.toFixed(2)}% {m.portfolio_earnings_yoy()}) {m.portfolio_earnings_and()}
+                                    )?.toFixed(2)}% {portfolio_earnings_yoy()}) {portfolio_earnings_and()}
                                     <strong>{item?.epsEst}</strong>
-                                    {m.portfolio_earnings_in_eps()} {#if item?.epsPrior !== 0}
+                                    {portfolio_earnings_in_eps()} {#if item?.epsPrior !== 0}
                                       ({(
                                         (item?.epsEst / item?.epsPrior - 1) *
                                         100
-                                      )?.toFixed(2)}% {m.portfolio_earnings_yoy()}).
+                                      )?.toFixed(2)}% {portfolio_earnings_yoy()}).
                                     {/if}
                                   </div>
 
@@ -1368,7 +1417,7 @@
                         <br />
                         <div class="mt-3 sm:mt-0">
                           <Infobox
-                            text={m.portfolio_no_earnings()}
+                            text={portfolio_no_earnings()}
                           />
                         </div>
                       {/if}
@@ -1379,13 +1428,13 @@
                     class="flex flex-col justify-center items-center m-auto pt-10 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
-                      {m.portfolio_empty_title()}
+                      {portfolio_empty_title()}
                     </span>
 
                     <span
                       class=" text-sm sm:text-lg pt-5 m-auto p-4 text-center"
                     >
-                      {m.portfolio_empty_description()}
+                      {portfolio_empty_description()}
                     </span>
                   </div>
                 {/if}
@@ -1424,13 +1473,13 @@
     class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 shadow-none"
   >
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">{m.portfolio_modal_new_title()}</h3>
+      <h3 class="font-bold text-2xl mb-5">{portfolio_modal_new_title()}</h3>
 
       <form on:submit={createPortfolio} class="space-y-2 w-full m-auto">
         <Input
           id="title"
           type="text"
-          label={m.portfolio_modal_list_name()}
+          label={portfolio_modal_list_name()}
           errors=""
           required={true}
         />
@@ -1442,7 +1491,7 @@
           type="submit"
           class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
         >
-          {m.portfolio_modal_create_button()}
+          {portfolio_modal_create_button()}
         </button>
       </form>
     </div>
@@ -1461,15 +1510,15 @@
   <div
     class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
   >
-    <h3 class="text-lg font-medium mb-2">{m.portfolio_modal_delete_title()}</h3>
+    <h3 class="text-lg font-medium mb-2">{portfolio_modal_delete_title()}</h3>
     <p class="text-sm mb-6">
-      {m.portfolio_modal_delete_confirm()}
+      {portfolio_modal_delete_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deletePortfolio"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{m.portfolio_cancel()}</label
+        tabindex="0">{portfolio_cancel()}</label
       ><label
         for="deletePortfolio"
         on:click={deletePortfolio}
@@ -1494,7 +1543,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >{m.portfolio_modal_delete_button()}</label
+        >{portfolio_modal_delete_button()}</label
       >
     </div>
   </div>

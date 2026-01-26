@@ -3,7 +3,17 @@
   import { mode } from "mode-watcher";
   import { enhance } from "$app/forms";
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  reset_password_button,
+  reset_password_description,
+  reset_password_email_label,
+  reset_password_error,
+  reset_password_loading,
+  reset_password_seo_description,
+  reset_password_seo_title,
+  reset_password_success,
+  reset_password_title,
+} from "$lib/paraglide/messages";
 
   let email: string = "";
   let loading = false;
@@ -14,20 +24,20 @@
     return async ({ result, update }) => {
       switch (result.type) {
         case "success":
-          toast.success(m.reset_password_success(), {
+          toast.success(reset_password_success(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "redirect":
           isClicked = true;
-          toast.success(m.reset_password_success(), {
+          toast.success(reset_password_success(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "failure":
-          toast.error(m.reset_password_error(), {
+          toast.error(reset_password_error(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -46,8 +56,8 @@
 </script>
 
 <SEO
-  title={m.reset_password_seo_title()}
-  description={m.reset_password_seo_description()}
+  title={reset_password_seo_title()}
+  description={reset_password_seo_description()}
 />
 
 <div class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto">
@@ -62,10 +72,10 @@
     </a>
   </div>
   <h2 class="text-center text-2xl font-bold tracking-tight mt-5 mb-2">
-    {m.reset_password_title()}
+    {reset_password_title()}
   </h2>
   <p class="text-center mt-1 mb-4">
-    {m.reset_password_description()}
+    {reset_password_description()}
   </p>
   <form
     action="?/reset"
@@ -75,7 +85,7 @@
   >
     <div class="w-full max-w-lg">
       <label class="text-start w-full label pb-1">
-        <span class="text-muted dark:text-white">{m.reset_password_email_label()}</span>
+        <span class="text-muted dark:text-white">{reset_password_email_label()}</span>
       </label>
       <input
         name="email"
@@ -93,7 +103,7 @@
             type="submit"
             class="cursor-pointer py-2.5 bg-black dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto text-white dark:text-black font-semibold text-[1rem]"
           >
-            <span>{m.reset_password_button()}</span>
+            <span>{reset_password_button()}</span>
           </button>
         {:else}
           <label
@@ -101,7 +111,7 @@
           >
             <div class="flex flex-row m-auto items-center">
               <span class="loading loading-infinity"></span>
-              <span class="ml-1.5">{m.reset_password_loading()}</span>
+              <span class="ml-1.5">{reset_password_loading()}</span>
             </div>
           </label>
         {/if}

@@ -11,7 +11,32 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  politicians_back_to_top,
+  politicians_breadcrumb_flow,
+  politicians_breadcrumb_home,
+  politicians_flow_count_trades,
+  politicians_flow_description_active_party,
+  politicians_flow_description_buys,
+  politicians_flow_description_intro,
+  politicians_flow_description_sells,
+  politicians_flow_description_sentiment,
+  politicians_flow_description_transactions,
+  politicians_flow_description_versus,
+  politicians_flow_description_with,
+  politicians_flow_empty_search,
+  politicians_flow_sentiment_bearish,
+  politicians_flow_sentiment_bullish,
+  politicians_flow_sentiment_neutral,
+  politicians_flow_seo_description,
+  politicians_flow_seo_title,
+  politicians_flow_title,
+  politicians_pagination_next,
+  politicians_pagination_page_of,
+  politicians_pagination_previous,
+  politicians_pagination_rows,
+  politicians_search_placeholder,
+} from "$lib/paraglide/messages";
 
   import SEO from "$lib/components/SEO.svelte";
 
@@ -408,8 +433,8 @@
 </script>
 
 <SEO
-  title={m.politicians_flow_seo_title()}
-  description={m.politicians_flow_seo_description()}
+  title={politicians_flow_seo_title()}
+  description={politicians_flow_seo_description()}
 />
 
 <section
@@ -422,10 +447,10 @@
       <a
         href="/"
         class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >{m.politicians_breadcrumb_home()}</a
+        >{politicians_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{m.politicians_breadcrumb_flow()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">{politicians_breadcrumb_flow()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -438,14 +463,14 @@
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {m.politicians_flow_title()}
+              {politicians_flow_title()}
             </h1>
           </div>
 
           <p
             class="mt-4 text-sm sm:text-[0.95rem] text-gray-800 dark:text-zinc-300"
           >
-            {m.politicians_flow_description_intro()}
+            {politicians_flow_description_intro()}
             <strong
               >{(() => {
                 // Use originalData for stats to show full dataset metrics
@@ -457,11 +482,11 @@
                     ?.length || 0;
                 const total = buys + sells;
                 return total > 0
-                  ? m.politicians_flow_description_buys({ percent: ((buys / total) * 100).toFixed(1) })
+                  ? politicians_flow_description_buys({ percent: ((buys / total) * 100).toFixed(1) })
                   : "n/a";
               })()}</strong
             >
-            {m.politicians_flow_description_versus()}
+            {politicians_flow_description_versus()}
             <strong
               >{(() => {
                 const buys =
@@ -472,11 +497,11 @@
                     ?.length || 0;
                 const total = buys + sells;
                 return total > 0
-                  ? m.politicians_flow_description_sells({ percent: ((sells / total) * 100).toFixed(1) })
+                  ? politicians_flow_description_sells({ percent: ((sells / total) * 100).toFixed(1) })
                   : "n/a";
               })()}</strong
             >
-            {m.politicians_flow_description_active_party()}
+            {politicians_flow_description_active_party()}
             <strong
               >{(() => {
                 const partyCount = {};
@@ -491,7 +516,7 @@
                 return mostActive ? mostActive[0] : "n/a";
               })()}</strong
             >
-            {m.politicians_flow_description_with()}
+            {politicians_flow_description_with()}
             <strong
               >{(() => {
                 const partyCount = {};
@@ -506,7 +531,7 @@
                 return mostActive ? mostActive[1] : "0";
               })()}</strong
             >
-            {m.politicians_flow_description_transactions()}
+            {politicians_flow_description_transactions()}
             <strong
               >{(() => {
                 const buys =
@@ -515,12 +540,12 @@
                 const sells =
                   originalData?.filter((item) => item?.type === "Sold")
                     ?.length || 0;
-                if (buys > sells) return m.politicians_flow_sentiment_bullish();
-                if (sells > buys) return m.politicians_flow_sentiment_bearish();
-                return m.politicians_flow_sentiment_neutral();
+                if (buys > sells) return politicians_flow_sentiment_bullish();
+                if (sells > buys) return politicians_flow_sentiment_bearish();
+                return politicians_flow_sentiment_neutral();
               })()}</strong
             >
-            {m.politicians_flow_description_sentiment()}
+            {politicians_flow_description_sentiment()}
           </p>
 
           <div class="w-full overflow-hidden m-auto">
@@ -539,7 +564,7 @@
                         <h2
                           class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                         >
-                          {m.politicians_flow_count_trades({ count: originalData?.length?.toLocaleString("en-US") })}
+                          {politicians_flow_count_trades({ count: originalData?.length?.toLocaleString("en-US") })}
                         </h2>
                         <div
                           class="mt-1 w-full flex flex-row items-center pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
@@ -573,7 +598,7 @@
                               bind:value={inputValue}
                               on:input={search}
                               type="text"
-                              placeholder={m.politicians_search_placeholder()}
+                              placeholder={politicians_search_placeholder()}
                               class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
                             />
                           </div>
@@ -761,7 +786,7 @@
                           </table>
                         {:else}
                           <Infobox
-                            text={m.politicians_flow_empty_search({ query: inputValue })}
+                            text={politicians_flow_empty_search({ query: inputValue })}
                           />
                         {/if}
                       </div>
@@ -791,7 +816,7 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">{m.politicians_pagination_previous()}</span
+                              <span class="hidden sm:inline">{politicians_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -801,7 +826,7 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {m.politicians_pagination_page_of({ current: currentPage, total: totalPages })}
+                              {politicians_pagination_page_of({ current: currentPage, total: totalPages })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -812,7 +837,7 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{m.politicians_pagination_rows({ count: rowsPerPage })}</span
+                                    >{politicians_pagination_rows({ count: rowsPerPage })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -847,7 +872,7 @@
                                         on:click={() => changeRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{m.politicians_pagination_rows({ count: item })}</span>
+                                        <span class="text-sm">{politicians_pagination_rows({ count: item })}</span>
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -863,7 +888,7 @@
                               disabled={currentPage === totalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">{m.politicians_pagination_next()}</span>
+                              <span class="hidden sm:inline">{politicians_pagination_next()}</span>
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -887,7 +912,7 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {m.politicians_back_to_top()} <svg
+                            {politicians_back_to_top()} <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"

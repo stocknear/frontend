@@ -2,7 +2,15 @@
   import { abbreviateNumber } from "$lib/utils";
   import { stockTicker, getCache, setCache } from "$lib/store";
   import { goto } from "$app/navigation";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  stock_detail_close,
+  stock_detail_financials_bar_chart,
+  stock_detail_financials_error_loading,
+  stock_detail_financials_growth_yoy,
+  stock_detail_financials_line_chart,
+  stock_detail_financials_loading,
+  stock_detail_financials_peaked_at,
+} from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
   import { onMount } from "svelte";
@@ -91,7 +99,7 @@
   const appendYoYSuffix = (label: string) => {
     const normalized = label.trim();
     if (!normalized) {
-      return m.stock_detail_financials_growth_yoy();
+      return stock_detail_financials_growth_yoy();
     }
     return YOY_REGEX.test(normalized) ? normalized : `${normalized} (YoY)`;
   };
@@ -771,7 +779,7 @@
           instance.setContent(`
             <div class="info-tooltip">
               <div class="info-tooltip__title">${infoLabel}</div>
-              <div class="info-tooltip__body">${m.stock_detail_financials_loading()}</div>
+              <div class="info-tooltip__body">${stock_detail_financials_loading()}</div>
             </div>
           `);
           try {
@@ -791,7 +799,7 @@
             instance.setContent(`
               <div class="info-tooltip">
                 <div class="info-tooltip__title">${infoLabel}</div>
-                <div class="info-tooltip__body">${m.stock_detail_financials_error_loading()}</div>
+                <div class="info-tooltip__body">${stock_detail_financials_error_loading()}</div>
               </div>
             `);
           }
@@ -1027,10 +1035,10 @@
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {m.stock_detail_financials_line_chart()} </span>
+            <span class="ml-1 mr-auto text-sm"> {stock_detail_financials_line_chart()} </span>
           {:else}
             <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {m.stock_detail_financials_bar_chart()} </span>
+            <span class="ml-1 mr-auto text-sm"> {stock_detail_financials_bar_chart()} </span>
           {/if}</Button
         >
       </div>
@@ -1038,7 +1046,7 @@
       <div class="" use:highcharts={config}></div>
     {/if}
     <p class="text-sm mb-6 mt-3">
-      {m.stock_detail_financials_peaked_at({
+      {stock_detail_financials_peaked_at({
         label: modalLabel,
         highest: formatModalMetricValue(highestValue),
         highDate: highestValueDate,
@@ -1052,7 +1060,7 @@
         for="financialPlotModal"
         class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
       >
-        {m.stock_detail_close()}
+        {stock_detail_close()}
       </label>
     </div>
   </div>

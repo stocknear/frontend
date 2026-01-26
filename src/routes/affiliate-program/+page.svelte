@@ -1,6 +1,28 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
-  import * as m from "$lib/paraglide/messages";
+  import {
+  affiliate_cta_button,
+  affiliate_cta_section_title,
+  affiliate_description,
+  affiliate_q1_answer,
+  affiliate_q1_title,
+  affiliate_q2_answer,
+  affiliate_q2_title,
+  affiliate_q3_answer,
+  affiliate_q3_title,
+  affiliate_q4_answer,
+  affiliate_q4_title,
+  affiliate_q5_answer,
+  affiliate_q5_title,
+  affiliate_q6_answer,
+  affiliate_q6_title,
+  affiliate_q7_answer,
+  affiliate_q7_title,
+  affiliate_seo_description,
+  affiliate_seo_title,
+  affiliate_subtitle,
+  affiliate_title,
+} from "$lib/paraglide/messages";
 
   export let data;
 </script>
@@ -57,7 +79,7 @@
           "name": "How do I sign up?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The Lemon Squeezy affiliate hub hosts our affiliate program. Click the '{m.affiliate_cta_button()}' button below to create a Lemon Squeezy account and join our program."
+            "text": "The Lemon Squeezy affiliate hub hosts our affiliate program. Click the '{affiliate_cta_button()}' button below to create a Lemon Squeezy account and join our program."
           }
         }
       ]
@@ -69,8 +91,8 @@
 -->
 
 <SEO
-  title={m.affiliate_seo_title()}
-  description={m.affiliate_seo_description()}
+  title={affiliate_seo_title()}
+  description={affiliate_seo_description()}
 />
 
 <main class="text-muted dark:text-white w-full">
@@ -86,17 +108,17 @@
           loading="lazy"
         />
         <h1 class="mt-1 text-4xl font-bold sm:text-5xl lg:text-6xl">
-          {m.affiliate_title()}
+          {affiliate_title()}
         </h1>
         <p
           class="mx-auto mt-5 max-w-3xl text-xl leading-normal md:mt-7 md:text-2xl"
         >
-          {@html m.affiliate_subtitle()}
+          {@html affiliate_subtitle()}
         </p>
         <p
           class="mx-auto max-w-3xl text-lg sm:text-xl leading-normal mt-3 mb-8"
         >
-          {m.affiliate_description()}
+          {affiliate_description()}
         </p>
         <div class="mb-8">
           <a
@@ -105,7 +127,7 @@
             target="_blank"
             class="text-white bg-blue-600 sm:hover:bg-blue-700 ease-out duration-50 px-5 py-3 text-lg font-semibold rounded"
           >
-            {m.affiliate_cta_button()}
+            {affiliate_cta_button()}
           </a>
         </div>
       </div>
@@ -144,10 +166,10 @@
                 ></path>
               </svg>
             </div>
-            <p class="ml-16 text-lg font-semibold leading-6">{m.affiliate_q1_title()}</p>
+            <p class="ml-16 text-lg font-semibold leading-6">{affiliate_q1_title()}</p>
           </dt>
           <dd class="ml-16 mt-2">
-            {m.affiliate_q1_answer()}
+            {affiliate_q1_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -178,11 +200,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              {m.affiliate_q2_title()}
+              {affiliate_q2_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            {@html m.affiliate_q2_answer()}
+            {@html affiliate_q2_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -213,11 +235,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              {m.affiliate_q3_title()}
+              {affiliate_q3_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            {m.affiliate_q3_answer()}
+            {affiliate_q3_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -257,11 +279,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              {m.affiliate_q4_title()}
+              {affiliate_q4_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            {m.affiliate_q4_answer()}
+            {affiliate_q4_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -294,11 +316,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              {m.affiliate_q5_title()}
+              {affiliate_q5_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            {m.affiliate_q5_answer()}
+            {affiliate_q5_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -322,11 +344,11 @@
               >
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              {m.affiliate_q6_title()}
+              {affiliate_q6_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            {m.affiliate_q6_answer()}
+            {affiliate_q6_answer()}
           </dd>
         </div>
         <div class="relative">
@@ -385,11 +407,11 @@
               </svg>
             </div>
             <p class="ml-16 text-lg font-semibold leading-6">
-              {m.affiliate_q7_title()}
+              {affiliate_q7_title()}
             </p>
           </dt>
           <dd class="ml-16 mt-2">
-            {m.affiliate_q7_answer()}
+            {affiliate_q7_answer()}
           </dd>
         </div>
       </dl>
@@ -403,7 +425,7 @@
       class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-28 rounded mt-10 mb-10"
     >
       <div class="m-auto flex flex-col justify-center items-center">
-        <h2 class="text-2xl font-semibold">{m.affiliate_cta_section_title()}</h2>
+        <h2 class="text-2xl font-semibold">{affiliate_cta_section_title()}</h2>
         <div class="mt-8">
           <a
             href="https://affiliates.lemonsqueezy.com/programs/stocknear"
@@ -411,7 +433,7 @@
             target="_blank"
             class="text-white bg-blue-600 sm:hover:bg-blue-700 ease-out duration-50 px-5 py-3 text-lg font-semibold rounded"
           >
-            {m.affiliate_cta_button()}
+            {affiliate_cta_button()}
           </a>
         </div>
       </div>
