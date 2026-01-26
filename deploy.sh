@@ -14,7 +14,7 @@ mkdir -p builds
 # Build to timestamped directory
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 npx @inlang/paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide
-npm run build
+NODE_OPTIONS=--max-old-space-size=16768 npm run build
 mv build "builds/build_$TIMESTAMP"
 
 # Atomic symlink update
