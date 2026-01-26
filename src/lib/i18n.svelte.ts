@@ -6,17 +6,23 @@
  */
 
 import { browser } from '$app/environment';
-import {
+import * as runtime from '$lib/paraglide/runtime.js';
+import type { Locale } from '$lib/paraglide/runtime.js';
+
+const {
   getLocale,
-  setLocale as paraglideSetLocale,
+  setLocale: paraglideSetLocale,
   overwriteGetLocale,
   overwriteSetLocale,
   locales,
-  baseLocale,
   isLocale,
   cookieName,
-  type Locale
-} from '$lib/paraglide/runtime.js';
+} = runtime;
+
+const baseLocale: Locale =
+  'baseLocale' in runtime && runtime.baseLocale
+    ? runtime.baseLocale
+    : locales[0];
 
 // Re-export for convenience
 export { locales, baseLocale, isLocale, type Locale };

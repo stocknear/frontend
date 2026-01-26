@@ -22,11 +22,21 @@
   type ChartType = "column" | "line" | "scatter";
   let chartType: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "line", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  const chartTypes: { type: ChartType; icon: any }[] = [
+    { type: "column", icon: BarChartIcon },
+    { type: "line", icon: LineChartIcon },
+    { type: "scatter", icon: ScatterChartIcon },
   ];
+
+  const chartTypeLabels: Record<ChartType, () => string> = {
+    column: m.stock_detail_options_chart_type_column,
+    line: m.stock_detail_options_chart_type_line,
+    scatter: m.stock_detail_options_chart_type_scatter,
+  };
+
+  function getChartTypeLabel(type: ChartType): string {
+    return chartTypeLabels[type]?.() ?? type;
+  }
 
   function changeChartType(type: ChartType) {
     chartType = type;
@@ -109,6 +119,52 @@
       ? Math.abs(totalPutExposure / totalCallExposure).toFixed(2)
       : "n/a";
 
+  $: greekMetricLabel = isGamma ? "GEX" : "DEX";
+
+  $: formattedTotalExposure = totalExposure?.toLocaleString("en-US");
+  $: formattedCallExposure = totalCallExposure?.toLocaleString("en-US");
+  $: formattedPutExposure = Math.abs(totalPutExposure)?.toLocaleString("en-US");
+
+  $: ratioContext = isGamma
+    ? overallPutCallRatio !== "n/a" &&
+        parseFloat(overallPutCallRatio) > 1
+      ? m.stock_detail_options_greek_expiry_gamma_context_high_put()
+      : overallPutCallRatio !== "n/a" &&
+          parseFloat(overallPutCallRatio) < 0.5
+        ? m.stock_detail_options_greek_expiry_gamma_context_high_call()
+        : m.stock_detail_options_greek_expiry_gamma_context_balanced()
+    : overallPutCallRatio !== "n/a" &&
+        parseFloat(overallPutCallRatio) > 1
+      ? m.stock_detail_options_greek_expiry_delta_context_high_put()
+      : overallPutCallRatio !== "n/a" &&
+          parseFloat(overallPutCallRatio) < 0.5
+        ? m.stock_detail_options_greek_expiry_delta_context_high_call()
+        : m.stock_detail_options_greek_expiry_delta_context_balanced();
+
+  $: summaryIntroText = isGamma
+    ? m.stock_detail_options_greek_expiry_gamma_intro({
+        ticker,
+        total: formattedTotalExposure,
+        call: formattedCallExposure,
+        put: formattedPutExposure,
+      })
+    : m.stock_detail_options_greek_expiry_delta_intro({
+        ticker,
+        total: formattedTotalExposure,
+        call: formattedCallExposure,
+        put: formattedPutExposure,
+      });
+
+  $: summaryRatioText = isGamma
+    ? m.stock_detail_options_greek_expiry_gamma_ratio({
+        ratio: overallPutCallRatio,
+        context: ratioContext,
+      })
+    : m.stock_detail_options_greek_expiry_delta_ratio({
+        ratio: overallPutCallRatio,
+        context: ratioContext,
+      });
+
   function formatDate(dateString) {
     if (!dateString) return null; // Handle null or undefined input
     const date = new Date(dateString);
@@ -182,7 +238,7 @@
         },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} ${title === "Gamma" ? "GEX" : "DEX"} Chart</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_greek_chart_title({ ticker, metric: greekMetricLabel })}</h3>`,
         style: {
           color: $mode === "light" ? "#111827" : "#f4f4f5",
         },
@@ -488,48 +544,18 @@
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
     {m.stock_detail_options_greek_by_expiry()} <InfoModal
-      content={title === "Gamma"
-        ? `Gamma Exposure (GEX) for ${ticker} options representing the estimated dollar value of shares that option sellers must buy or sell to maintain delta neutrality for each 1% move in ${ticker}'s stock price by expiration.`
-        : `Delta Exposure (DEX) for ${ticker} options representing the estimated net number of ${ticker} shares that option sellers must hold or short to hedge their current options positions and maintain delta neutrality at expiration.`}
+      content={isGamma
+        ? m.stock_detail_options_greek_expiry_info_gamma({ ticker })
+        : m.stock_detail_options_greek_expiry_info_delta({ ticker })}
     />
   </h2>
 
   <!-- Insightful overview paragraph -->
   <div class="w-full mt-4 mb-6 text-sm text-gray-800 dark:text-zinc-300">
     <p>
-      {#if isGamma}
-        The total Gamma Exposure (GEX) for <strong>{ticker}</strong> across all
-        expirations is
-        <strong>{totalExposure?.toLocaleString("en-US")}</strong> shares per 1%
-        move, with
-        <strong>{totalCallExposure?.toLocaleString("en-US")}</strong> from calls
-        and
-        <strong>{Math.abs(totalPutExposure)?.toLocaleString("en-US")}</strong>
-        from puts. The put-call GEX ratio of
-        <strong>{overallPutCallRatio}</strong>
-        {overallPutCallRatio !== "n/a" && parseFloat(overallPutCallRatio) > 1
-          ? "indicates heavy put positioning, suggesting market makers may need to buy shares on declines (supportive) and sell on rallies (resistance)"
-          : overallPutCallRatio !== "n/a" &&
-              parseFloat(overallPutCallRatio) < 0.5
-            ? "shows call-heavy positioning, potentially creating volatility as market makers hedge by selling into strength and buying weakness"
-            : "reflects balanced positioning between puts and calls"}.
-      {:else}
-        The total Delta Exposure (DEX) for <strong>{ticker}</strong> across all
-        expirations shows
-        <strong>{totalExposure?.toLocaleString("en-US")}</strong> net shares
-        that market makers must hedge, with
-        <strong>{totalCallExposure?.toLocaleString("en-US")}</strong> from calls
-        and
-        <strong>{Math.abs(totalPutExposure)?.toLocaleString("en-US")}</strong>
-        from puts. The put-call delta ratio of
-        <strong>{overallPutCallRatio}</strong>
-        {overallPutCallRatio !== "n/a" && parseFloat(overallPutCallRatio) > 1
-          ? "indicates defensive positioning with heavy put protection, which could accelerate downward moves if breached"
-          : overallPutCallRatio !== "n/a" &&
-              parseFloat(overallPutCallRatio) < 0.5
-            ? "shows bullish positioning with call dominance, potentially providing upward momentum but leaving the market vulnerable to sharp pullbacks"
-            : "suggests neutral market maker positioning"}.
-      {/if}
+      <span>{@html summaryIntroText}</span>
+      {" "}
+      <span>{@html summaryRatioText}</span>
     </p>
   </div>
 
@@ -546,7 +572,7 @@
               {chartType === item.type
               ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
               : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-            title={item.label}
+            title={getChartTypeLabel(item.type)}
           >
             <svelte:component this={item.icon} class="w-4 h-4" />
           </button>

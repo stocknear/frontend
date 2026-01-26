@@ -25,11 +25,21 @@
   type ChartType = "column" | "line" | "scatter";
   let chartType: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "line", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  const chartTypes: { type: ChartType; icon: any }[] = [
+    { type: "column", icon: BarChartIcon },
+    { type: "line", icon: LineChartIcon },
+    { type: "scatter", icon: ScatterChartIcon },
   ];
+
+  const chartTypeLabels: Record<ChartType, () => string> = {
+    column: m.stock_detail_options_chart_type_column,
+    line: m.stock_detail_options_chart_type_line,
+    scatter: m.stock_detail_options_chart_type_scatter,
+  };
+
+  function getChartTypeLabel(type: ChartType): string {
+    return chartTypeLabels[type]?.() ?? type;
+  }
 
   function changeChartType(type: ChartType) {
     chartType = type;
@@ -101,6 +111,7 @@
   let selectedDTEs = new Set(["All"]); // Start with "All" selected
   let checkedDTEs = new Set(["All"]); // Track which DTEs are checked
   let selectedDTEsText = "All"; // Text to display in the dropdown
+  let selectedDTEsLabel = m.stock_detail_options_greek_all_dte();
 
   // Custom range state
   let customMin: number | null = null;
@@ -257,6 +268,116 @@
       ?.sort((a, b) => a.strike - b.strike)
       ?.slice(0, 3) || [];
 
+  $: greekTypeLabel = isGamma
+    ? m.stock_detail_options_greek_type_gamma()
+    : m.stock_detail_options_greek_type_delta();
+
+  $: greekMetricLabel = isGamma ? "GEX" : "DEX";
+
+  $: hasPrice = Number.isFinite(currentPrice);
+  $: formattedPrice = hasPrice ? `$${currentPrice}` : "n/a";
+
+  $: formattedCallExposure = isGamma
+    ? totalCallExposure?.toLocaleString("en-US")
+    : abbreviateNumber(totalCallExposure);
+
+  $: formattedPutExposure = isGamma
+    ? Math.abs(totalPutExposure)?.toLocaleString("en-US")
+    : abbreviateNumber(Math.abs(totalPutExposure));
+
+  $: formattedNetExposure = isGamma
+    ? maxExposureStrike?.net_gex?.toLocaleString("en-US")
+    : abbreviateNumber(maxExposureStrike?.net_dex);
+
+  $: formattedMaxStrike =
+    maxExposureStrike?.strike !== undefined && maxExposureStrike?.strike !== null
+      ? `$${maxExposureStrike?.strike?.toFixed(2)}`
+      : "n/a";
+
+  $: maxStrike = maxExposureStrike?.strike ?? 0;
+  $: percentAbove =
+    currentPrice && maxStrike
+      ? (((maxStrike - currentPrice) / currentPrice) * 100).toFixed(1)
+      : "0.0";
+  $: percentBelow =
+    currentPrice && maxStrike
+      ? (((currentPrice - maxStrike) / currentPrice) * 100).toFixed(1)
+      : "0.0";
+
+  $: summaryDteText = isGamma
+    ? selectedDTEs.has("All")
+      ? m.stock_detail_options_greek_strike_gamma_all()
+      : selectedDTEs.size === 1
+        ? m.stock_detail_options_greek_strike_gamma_single({
+            dte: selectedDTEsLabel,
+          })
+        : m.stock_detail_options_greek_strike_gamma_multi({
+            count: selectedDTEs.size,
+          })
+    : selectedDTEs.has("All")
+      ? m.stock_detail_options_greek_strike_delta_all()
+      : selectedDTEs.size === 1
+        ? m.stock_detail_options_greek_strike_delta_single({
+            dte: selectedDTEsLabel,
+          })
+        : m.stock_detail_options_greek_strike_delta_multi({
+            count: selectedDTEs.size,
+          });
+
+  $: summaryTotalsText = isGamma
+    ? m.stock_detail_options_greek_strike_gamma_totals({
+        call: formattedCallExposure,
+        put: formattedPutExposure,
+        ratio: overallPutCallRatio,
+      })
+    : m.stock_detail_options_greek_strike_delta_totals({
+        call: formattedCallExposure,
+        put: formattedPutExposure,
+        ratio: overallPutCallRatio,
+      });
+
+  $: summaryMaxIntroText = isGamma
+    ? m.stock_detail_options_greek_strike_gamma_max_intro({
+        strike: formattedMaxStrike,
+        net: formattedNetExposure,
+      })
+    : m.stock_detail_options_greek_strike_delta_max_intro({
+        strike: formattedMaxStrike,
+        net: formattedNetExposure,
+      });
+
+  $: summaryContextText = isGamma
+    ? maxStrike > currentPrice
+      ? m.stock_detail_options_greek_strike_gamma_context_above({
+          percent: percentAbove,
+        })
+      : maxStrike < currentPrice
+        ? m.stock_detail_options_greek_strike_gamma_context_below({
+            percent: percentBelow,
+          })
+        : m.stock_detail_options_greek_strike_gamma_context_at()
+    : maxExposureStrike?.net_dex > 0 && maxStrike > currentPrice
+      ? m.stock_detail_options_greek_strike_delta_context_above({
+          percent: percentAbove,
+        })
+      : maxExposureStrike?.net_dex < 0 && maxStrike < currentPrice
+        ? m.stock_detail_options_greek_strike_delta_context_below({
+            percent: percentBelow,
+          })
+        : maxStrike === currentPrice
+          ? m.stock_detail_options_greek_strike_delta_context_at()
+          : m.stock_detail_options_greek_strike_delta_context_other();
+
+  $: noDataRange =
+    selectedDTEsText === "All"
+      ? m.stock_detail_options_greek_strike_no_data_all()
+      : selectedDTEsLabel;
+
+  $: noDataText = m.stock_detail_options_greek_strike_no_data({
+    type: greekTypeLabel,
+    range: noDataRange,
+  });
+
   // Function to handle DTE selection changes
   async function handleDTEChange(dteValue) {
     // If clicking on already selected item (not "All" and not "Custom"), uncheck it and revert to "All"
@@ -351,6 +472,20 @@
       saveDTESettings();
     }
   }
+
+  function getDteLabel(value: string): string {
+    if (value === "All") {
+      return m.stock_detail_options_greek_all_dte();
+    }
+
+    if (value === "Custom") {
+      return m.stock_detail_options_greek_custom();
+    }
+
+    return value;
+  }
+
+  $: selectedDTEsLabel = getDteLabel(selectedDTEsText);
 
   // Reactive array for checked state to ensure proper reactivity
   $: checkedDTEsArray = Array.from(checkedDTEs);
@@ -573,7 +708,7 @@
         },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} ${title === "Gamma" ? "GEX" : "DEX"} Chart</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_greek_chart_title({ ticker, metric: greekMetricLabel })}</h3>`,
         style: {
           color: $mode === "light" ? "#111827" : "#f4f4f5",
         },
@@ -651,7 +786,9 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `Current Price ${currentPrice}`,
+              text: m.stock_detail_options_chart_current_price({
+                price: currentPrice,
+              }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
             },
             zIndex: 5,
@@ -829,87 +966,31 @@
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
     {m.stock_detail_options_greek_by_strike()} <InfoModal
-      content={title === "Gamma"
-        ? `Gamma Exposure (GEX) for ${ticker} options, representing the estimated dollar value of shares that option sellers must buy or sell to maintain delta neutrality for each 1% move in ${ticker}'s stock price.`
-        : `Delta Exposure (DEX) for ${ticker} options, representing the estimated net number of ${ticker} shares that option sellers must hold or short to hedge their current options positions and maintain delta neutrality.`}
+      content={isGamma
+        ? m.stock_detail_options_greek_strike_info_gamma({ ticker })
+        : m.stock_detail_options_greek_strike_info_delta({ ticker })}
     />
   </h2>
 
   <!-- Insightful overview paragraph -->
   <div class="w-full mt-4 mb-6 text-sm text-gray-800 dark:text-zinc-300">
-    {#if rawData?.length > 0 && currentPrice}
+    {#if rawData?.length > 0}
       <p>
-        {#if isGamma}
-          <strong>{ticker}</strong> is currently trading at
-          <strong>${currentPrice}</strong>
-          with
-          {#if selectedDTEs.has("All")}
-            total Gamma Exposure (GEX) across all strikes and expirations
-            showing
-          {:else if selectedDTEs.size === 1}
-            Gamma Exposure (GEX) for <strong
-              >{Array.from(selectedDTEs)[0]}</strong
-            > showing
-          {:else}
-            combined Gamma Exposure (GEX) for <strong
-              >{selectedDTEs.size}</strong
-            > selected DTEs showing
-          {/if}
-          <strong>{totalCallExposure?.toLocaleString("en-US")}</strong> from
-          calls and
-          <strong>{Math.abs(totalPutExposure)?.toLocaleString("en-US")}</strong>
-          from puts, with a put-call ratio of
-          <strong>{overallPutCallRatio}</strong>. The maximum exposure
-          concentration is at the
-          <strong>${maxExposureStrike?.strike?.toFixed(2)}</strong>
-          strike with
-          <strong>{maxExposureStrike?.net_gex?.toLocaleString("en-US")}</strong>
-          net GEX,
-          {maxExposureStrike?.strike > currentPrice
-            ? `acting as potential resistance ${(((maxExposureStrike?.strike - currentPrice) / currentPrice) * 100).toFixed(1)}% above current price`
-            : maxExposureStrike?.strike < currentPrice
-              ? `providing potential support ${(((currentPrice - maxExposureStrike?.strike) / currentPrice) * 100).toFixed(1)}% below current price`
-              : "right at the current price level, creating a strong pinning effect"}.
-        {:else}
-          <strong>{ticker}</strong> is currently trading at
-          <strong>${currentPrice}</strong>
-          with
-          {#if selectedDTEs.has("All")}
-            total Delta Exposure (DEX) across all strikes and expirations
-            showing
-          {:else if selectedDTEs.size === 1}
-            Delta Exposure (DEX) for <strong
-              >{Array.from(selectedDTEs)[0]}</strong
-            > showing
-          {:else}
-            combined Delta Exposure (DEX) for <strong
-              >{selectedDTEs.size}</strong
-            > selected DTEs showing
-          {/if}
-          <strong>{abbreviateNumber(totalCallExposure)}</strong> shares from
-          calls and
-          <strong>{abbreviateNumber(Math.abs(totalPutExposure))}</strong> shares
-          from puts, with a put-call ratio of
-          <strong>{overallPutCallRatio}</strong>. The largest delta
-          concentration is at the
-          <strong>${maxExposureStrike?.strike?.toFixed(2)}</strong>
-          strike with
-          <strong>{abbreviateNumber(maxExposureStrike?.net_dex)}</strong> net
-          shares to hedge,
-          {maxExposureStrike?.net_dex > 0 &&
-          maxExposureStrike?.strike > currentPrice
-            ? `requiring market makers to short shares if reached, potentially capping upside ${(((maxExposureStrike?.strike - currentPrice) / currentPrice) * 100).toFixed(1)}% above`
-            : maxExposureStrike?.net_dex < 0 &&
-                maxExposureStrike?.strike < currentPrice
-              ? `forcing market makers to buy shares if breached, providing support ${(((currentPrice - maxExposureStrike?.strike) / currentPrice) * 100).toFixed(1)}% below`
-              : maxExposureStrike?.strike === currentPrice
-                ? "creating significant hedging pressure at the current level"
-                : "creating a key inflection point for hedging flows"}.
+        {#if hasPrice}
+          <span>{@html m.stock_detail_options_greek_strike_intro({ ticker, price: formattedPrice })}</span>
+          {" "}
         {/if}
+        <span>{@html summaryDteText}</span>
+        {" "}
+        <span>{@html summaryTotalsText}</span>
+        {" "}
+        <span>{@html summaryMaxIntroText}</span>
+        {" "}
+        <span>{@html summaryContextText}</span>.
       </p>
     {:else}
       <p>
-        No {title.toLowerCase()} exposure data available for the selected period.
+        {noDataText}
       </p>
     {/if}
   </div>
@@ -922,7 +1003,7 @@
           class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="truncate text-sm"
-            >{m.stock_detail_options_greek_dte_label()} | {selectedDTEsText}</span
+            >{m.stock_detail_options_greek_dte_label()} | {selectedDTEsLabel}</span
           >
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -1085,7 +1166,7 @@
               {chartType === item.type
               ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
               : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-            title={item.label}
+            title={getChartTypeLabel(item.type)}
           >
             <svelte:component this={item.icon} class="w-4 h-4" />
           </button>
@@ -1109,7 +1190,7 @@
       </div>
     {:else if rawData?.length === 0}
       <Infobox
-        text={`No ${title.toLowerCase()} exposure data available for ${selectedDTEsText === "All" ? "all expirations" : selectedDTEsText}. Try selecting a different expiration range.`}
+        text={noDataText}
       />
     {/if}
   </div>
