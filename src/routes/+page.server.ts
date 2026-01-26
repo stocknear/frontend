@@ -60,10 +60,10 @@ async function fetchWithTimeout(url, options = {}, timeout = REQUEST_TIMEOUT) {
 
 // Load function
 export async function load({ locals }) {
-  const { apiKey, apiURL} = locals;
+  const { apiKey, apiURL, locale} = locals;
 
  
-  const cacheKey = `dashboard:${apiKey}`;
+  const cacheKey = `dashboard:${apiKey}:${locale}`;
 
   // Check cache
   let dashboardData = dashboardCache.get(cacheKey);
@@ -73,11 +73,12 @@ export async function load({ locals }) {
       dashboardData = await fetchWithTimeout(
         `${apiURL}/dashboard-info`,
         {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-API-KEY': apiKey
           },
+          body: JSON?.stringify({lang: locale ?? 'en'})
         }
       );
       dashboardCache.set(cacheKey, dashboardData);
