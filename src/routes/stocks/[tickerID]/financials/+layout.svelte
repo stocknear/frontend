@@ -94,10 +94,10 @@
         <main class="w-full">
           <div class="m-auto">
             <nav
-              class="mt-1 mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
+              class=" sm:ml-4 pt-2 text-sm whitespace-nowrap overflow-x-auto sm:border-none border-b border-gray-300 dark:border-zinc-700"
             >
               <ul
-                class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
+                class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base border-b border-gray-300 dark:border-zinc-700"
               >
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
@@ -182,7 +182,7 @@
               </ul>
 
               <ul
-                class="flex flex-row items-center w-full mt-1 sm:hidden gap-1 pb-3 text-sm"
+                class="flex flex-row items-center w-full mt-1 sm:hidden gap-1 pb-3 text-sm pt-2"
               >
                 <a
                   href={$page?.url?.pathname}
