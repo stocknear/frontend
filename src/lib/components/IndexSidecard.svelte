@@ -2,6 +2,14 @@
   import { indexTicker } from "$lib/store";
   import { abbreviateNumber, sectorNavigation } from "$lib/utils";
 
+  import {
+    index_sidecard_about,
+    index_sidecard_top_sectors,
+    index_sidecard_sector,
+    index_sidecard_weight_percent,
+    index_sidecard_view_all_sectors,
+  } from "$lib/paraglide/messages";
+
   export let data;
 
   let info;
@@ -24,7 +32,7 @@
   <h2
     class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
   >
-    About {$indexTicker}
+    {index_sidecard_about({ ticker: $indexTicker })}
   </h2>
   <p class="text-sm text-gray-800 dark:text-zinc-300">
     {description}
@@ -39,7 +47,7 @@
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
           <span
             class="font-semibold tracking-tight text-gray-900 dark:text-white"
-            >Top 5 Sectors</span
+            >{index_sidecard_top_sectors()}</span
           >
         </h2>
 
@@ -50,11 +58,11 @@
                 class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
-                  >Sector</th
+                  >{index_sidecard_sector()}</th
                 >
 
                 <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
-                  >Weight %</th
+                  >{index_sidecard_weight_percent()}</th
                 >
               </tr>
             </thead>
@@ -89,7 +97,7 @@
           href={`/index/${$indexTicker}/holdings`}
           class="inline-flex justify-center items-center rounded-full cursor-pointer w-full py-2 mt-3 text-sm text-center font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-100"
         >
-          View All Sectors
+          {index_sidecard_view_all_sectors()}
         </a>
       </div>
     </div>

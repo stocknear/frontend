@@ -1064,7 +1064,7 @@
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
                   <p class="text-sm text-gray-500 dark:text-zinc-300">
-                    No data available
+                    {index_detail_no_data()}
                   </p>
                 </div>
               {:else}
