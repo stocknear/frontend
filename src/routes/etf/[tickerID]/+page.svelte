@@ -216,7 +216,9 @@
     const volumeUpColor =
       $mode === "light" ? "rgba(22, 163, 74, 0.35)" : "rgba(34, 197, 94, 0.35)";
     const volumeDownColor =
-      $mode === "light" ? "rgba(239, 68, 68, 0.35)" : "rgba(248, 113, 113, 0.35)";
+      $mode === "light"
+        ? "rgba(239, 68, 68, 0.35)"
+        : "rgba(248, 113, 113, 0.35)";
     const volumeSeriesData = rawData?.map((item) => {
       const volume = toNum(item?.volume) ?? 0;
       const closeValue = toNum(item?.close) ?? 0;
@@ -364,8 +366,7 @@
             return false;
           }
           // For 1D, this.x is the timestamp. For other periods, get timestamp from category
-          const timestampMs =
-            getPointTimeMs(this.points?.[0]?.point) ?? this.x;
+          const timestampMs = getPointTimeMs(this.points?.[0]?.point) ?? this.x;
           const date = new Date(timestampMs);
           let formattedDate;
           if (displayData === "1D") {
@@ -975,7 +976,7 @@
 </script>
 
 <SEO
-  title={`${$etfTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% - Fund Analysis & Holdings`}
+  title={`${$etfTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% - Fund Analysis & Holdings`}
   description={`Complete analysis of ${data?.companyName} (${$etfTicker}) ETF with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)}, expense ratio ${stockDeck?.expenseRatio ? stockDeck.expenseRatio.toFixed(2) + "%" : ""}, AUM ${stockDeck?.aum ? abbreviateNumber(stockDeck.aum) : ""}, and ${stockDeck?.holdingsCount ? abbreviateNumber(stockDeck.holdingsCount) : ""} holdings. Track ETF performance, dividend yield, and portfolio diversification metrics.`}
   keywords={`${$etfTicker} ETF, ${data?.companyName}, ETF analysis, exchange-traded fund, expense ratio, assets under management, ETF holdings, portfolio diversification, passive investing, fund performance, dividend yield, tracking error, ETF price`}
   structuredData={{

@@ -110,7 +110,7 @@
                 <td
                   class="py-3 px-3 sm:px-4 text-right tabular-nums text-gray-600 dark:text-zinc-300"
                 >
-                  ${item?.price?.toFixed(2)}
+                  {item?.price?.toFixed(2)}
                 </td>
                 <td class="py-3 px-3 sm:px-4 text-right tabular-nums">
                   {#if item?.changesPercentage >= 0}
@@ -206,7 +206,7 @@
                 <td
                   class="py-3 px-3 sm:px-4 text-right tabular-nums text-gray-600 dark:text-zinc-300"
                 >
-                  ${item?.price ? item?.price?.toFixed(2) : item?.price}
+                  {item?.price ? item?.price?.toFixed(2) : item?.price}
                 </td>
                 <td class="py-3 px-3 sm:px-4 text-right tabular-nums">
                   {#if item?.changesPercentage >= 0}

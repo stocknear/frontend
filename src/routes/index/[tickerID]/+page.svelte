@@ -28,6 +28,29 @@
   } from "$lib/utils";
   import { mode } from "mode-watcher";
 
+  import {
+    index_detail_no_data,
+    index_detail_na,
+    index_detail_bid,
+    index_detail_ask,
+    index_detail_volume,
+    index_detail_avg_volume_20d,
+    index_detail_50_day_ma,
+    index_detail_200_day_ma,
+    index_detail_eps_ttm,
+    index_detail_pe_ratio_ttm,
+    index_detail_shares_out,
+    index_detail_inception_date,
+    index_detail_open,
+    index_detail_prev_close,
+    index_detail_days_range,
+    index_detail_52w_range,
+    index_detail_exchange,
+    index_detail_expense_ratio,
+    index_detail_chart_price,
+    index_detail_chart_volume,
+  } from "$lib/paraglide/messages";
+
   export let data;
   export let form;
 
@@ -185,7 +208,9 @@
     const volumeUpColor =
       $mode === "light" ? "rgba(22, 163, 74, 0.35)" : "rgba(34, 197, 94, 0.35)";
     const volumeDownColor =
-      $mode === "light" ? "rgba(239, 68, 68, 0.35)" : "rgba(248, 113, 113, 0.35)";
+      $mode === "light"
+        ? "rgba(239, 68, 68, 0.35)"
+        : "rgba(248, 113, 113, 0.35)";
     const volumeSeriesData = rawData?.map((item) => {
       const volume = toNum(item?.volume) ?? 0;
       const closeValue = toNum(item?.close) ?? 0;
@@ -333,8 +358,7 @@
             return false;
           }
           // For 1D, this.x is the timestamp. For other periods, get timestamp from category
-          const timestampMs =
-            getPointTimeMs(this.points?.[0]?.point) ?? this.x;
+          const timestampMs = getPointTimeMs(this.points?.[0]?.point) ?? this.x;
           const date = new Date(timestampMs);
           let formattedDate;
           if (displayData === "1D") {
@@ -364,7 +388,7 @@
           // Loop through each point in the shared tooltip
           this.points?.forEach((point) => {
             const value =
-              point.series.name === "Volume"
+              point.series.name === index_detail_chart_volume()
                 ? formatVolumeValue(point.y)
                 : formatPriceValue(point.y);
             tooltipContent += `<div style="font-weight:600; margin-bottom:2px;">${point.series.name}: ${value}</div>`;
@@ -504,7 +528,7 @@
       legend: { enabled: false },
       series: [
         {
-          name: "Price",
+          name: index_detail_chart_price(),
           type: "area",
           data: displayData === "1D" ? seriesData : priceList,
           animation: false,
@@ -522,7 +546,7 @@
           },
         },
         {
-          name: "Volume",
+          name: index_detail_chart_volume(),
           type: "column",
           yAxis: 1,
           data: displayData === "1D" ? volumeSeriesData : volumeSeriesData,
@@ -931,7 +955,7 @@
 </script>
 
 <SEO
-  title={`${$indexTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% - Market Index Analysis`}
+  title={`${$indexTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% - Market Index Analysis`}
   description={`Complete ${data?.companyName} (${$indexTicker}) index analysis with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)}, market cap weighting, index constituents, and sector allocation. Track index performance, volatility patterns, and market representation for strategic asset allocation.`}
   keywords={`${$indexTicker} index, ${data?.companyName}, market index analysis, index constituents, market cap weighted index, sector allocation, index performance, market representation, benchmark analysis, index tracking`}
   structuredData={{
@@ -1069,18 +1093,18 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Bid</td
+                      >{index_detail_bid()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >n/a</td
+                      >{index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Avg. Volume (20D)</td
+                      >{index_detail_avg_volume_20d()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1095,22 +1119,22 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >50-Day MA</td
+                      >{index_detail_50_day_ma()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getStockQuote?.priceAvg50 ?? "n/a"}</td
+                      >{data?.getStockQuote?.priceAvg50 ?? index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >200-Day MA</td
+                      >{index_detail_200_day_ma()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getStockQuote?.priceAvg200 ?? "n/a"}</td
+                      >{data?.getStockQuote?.priceAvg200 ?? index_detail_na()}</td
                     ></tr
                   >
 
@@ -1118,26 +1142,26 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >EPS (ttm)</td
+                      >{index_detail_eps_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.eps
                         ? data?.getStockQuote?.eps?.toFixed(2)
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >PE Ratio (ttm)</td
+                      >{index_detail_pe_ratio_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.pe
                         ? data?.getStockQuote?.pe?.toFixed(2)
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
 
@@ -1145,7 +1169,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Shares Out
+                      >{index_detail_shares_out()}
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1153,18 +1177,18 @@
                         ? abbreviateNumber(
                             data?.getStockQuote?.sharesOutstanding,
                           )
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Inception Date</td
+                      >{index_detail_inception_date()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >n/a</td
+                      >{index_detail_na()}</td
                     ></tr
                   >
                 </tbody>
@@ -1175,80 +1199,80 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Ask</td
+                      >{index_detail_ask()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >n/a</td
+                      >{index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Volume</td
+                      >{index_detail_volume()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.volume
                         ? data?.getStockQuote?.volume?.toLocaleString("en-us")
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Open</td
+                      >{index_detail_open()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.open
                         ? data?.getStockQuote?.open?.toFixed(2)
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Previous Close</td
+                      >{index_detail_prev_close()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.previousClose
                         ? data?.getStockQuote?.previousClose?.toFixed(2)
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Day's Range</td
+                      >{index_detail_days_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.dayLow
                         ? data?.getStockQuote?.dayLow?.toFixed(2)
-                        : "n/a"} - {data?.getStockQuote?.dayHigh
+                        : index_detail_na()} - {data?.getStockQuote?.dayHigh
                         ? data?.getStockQuote?.dayHigh?.toFixed(2)
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >52-Week Range</td
+                      >{index_detail_52w_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.yearLow
                         ? data?.getStockQuote?.yearLow?.toFixed(2)
-                        : "n/a"} - {data?.getStockQuote?.yearHigh
+                        : index_detail_na()} - {data?.getStockQuote?.yearHigh
                         ? data?.getStockQuote?.yearHigh?.toFixed(2)
-                        : "n/a"}</td
+                        : index_detail_na()}</td
                     ></tr
                   >
 
@@ -1256,22 +1280,22 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Exchange
+                      >{index_detail_exchange()}
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getStockQuote?.exchange ?? "n/a"}</td
+                      >{data?.getStockQuote?.exchange ?? index_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Expense Ratio</td
+                      >{index_detail_expense_ratio()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >n/a</td
+                      >{index_detail_na()}</td
                     ></tr
                   >
                 </tbody>

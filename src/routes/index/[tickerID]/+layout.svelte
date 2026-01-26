@@ -29,6 +29,20 @@
   import TickerHeader from "$lib/components/TickerHeader.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
 
+  import {
+    index_detail_watchlist,
+    index_detail_price_alert,
+    index_detail_add_to_watchlist,
+    index_detail_ticker_added,
+    index_detail_ticker_add_failed,
+    index_detail_upgrade_watchlist,
+    index_detail_companies,
+    index_detail_company,
+    index_detail_nav_overview,
+    index_detail_nav_options,
+    index_detail_nav_history,
+  } from "$lib/paraglide/messages";
+
   export let data;
   let prePostData = data?.getPrePostQuote || {};
   $: $realtimePrice = data?.getStockQuote?.price?.toFixed(2);
@@ -90,12 +104,12 @@
         const output = await response.json();
         userWatchList = [output];
 
-        toast.success("Ticker added to your Watchlist", {
+        toast.success(index_detail_ticker_added(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       } catch (error) {
         console.error("Error creating watchlist:", error);
-        toast.error("Failed to add ticker to watchlist", {
+        toast.error(index_detail_ticker_add_failed(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       }
@@ -135,7 +149,7 @@
             !["Pro", "Plus"]?.includes(data?.user?.tier) &&
             updatedTickers.length > 5
           ) {
-            toast.error("Want to add more stocks? Go Plus or Pro!!", {
+            toast.error(index_detail_upgrade_watchlist(), {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
             });
             return;
@@ -539,7 +553,7 @@
                                 d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                               ></path></svg
                             >
-                            <span class="text-sm md:text-sm">Watchlist</span
+                            <span class="text-sm md:text-sm">{index_detail_watchlist()}</span
                             ></button
                           >
                           <label
@@ -563,7 +577,7 @@
                                 /></g
                               ></svg
                             >
-                            <span class="text-sm md:text-sm">Price Alert</span
+                            <span class="text-sm md:text-sm">{index_detail_price_alert()}</span
                             ></label
                           >
                           <StockPriceExport
@@ -607,7 +621,7 @@
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                             : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
-                          Overview
+                          {index_detail_nav_overview()}
                         </a>
 
                         <a
@@ -618,7 +632,7 @@
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                             : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
-                          Options
+                          {index_detail_nav_options()}
                         </a>
 
                         <a
@@ -629,7 +643,7 @@
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                             : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
-                          History
+                          {index_detail_nav_history()}
                         </a>
                       </ul>
                     </nav>
@@ -686,7 +700,7 @@
       <h3
         class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white"
       >
-        Add to Watchlist
+        {index_detail_add_to_watchlist()}
       </h3>
       <label
         for="addWatchListModal"
@@ -718,7 +732,7 @@
                   class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300"
                 >
                   {item?.ticker?.length}
-                  {item?.ticker?.length !== 1 ? "Companies" : "Company"}
+                  {item?.ticker?.length !== 1 ? index_detail_companies() : index_detail_company()}
                 </span>
               </div>
 

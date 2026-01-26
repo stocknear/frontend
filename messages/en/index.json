@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Overview",
+  "index_detail_nav_options": "Options",
+  "index_detail_nav_history": "History",
+  "index_detail_nav_holdings": "Holdings",
+
+  "index_detail_watchlist": "Watchlist",
+  "index_detail_price_alert": "Price Alert",
+  "index_detail_add_to_watchlist": "Add to Watchlist",
+  "index_detail_ticker_added": "Ticker added to your Watchlist",
+  "index_detail_ticker_add_failed": "Failed to add ticker to watchlist",
+  "index_detail_upgrade_watchlist": "Want to add more stocks? Go Plus or Pro!!",
+  "index_detail_companies": "Companies",
+  "index_detail_company": "Company",
+
+  "index_detail_no_data": "No data available",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Bid",
+  "index_detail_ask": "Ask",
+  "index_detail_volume": "Volume",
+  "index_detail_avg_volume_20d": "Avg. Volume (20D)",
+  "index_detail_50_day_ma": "50-Day MA",
+  "index_detail_200_day_ma": "200-Day MA",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "PE Ratio (ttm)",
+  "index_detail_shares_out": "Shares Out",
+  "index_detail_inception_date": "Inception Date",
+  "index_detail_open": "Open",
+  "index_detail_prev_close": "Previous Close",
+  "index_detail_days_range": "Day's Range",
+  "index_detail_52w_range": "52-Week Range",
+  "index_detail_exchange": "Exchange",
+  "index_detail_expense_ratio": "Expense Ratio",
+
+  "index_detail_chart_price": "Price",
+  "index_detail_chart_volume": "Volume",
+
+  "index_sidecard_about": "About {ticker}",
+  "index_sidecard_top_sectors": "Top 5 Sectors",
+  "index_sidecard_sector": "Sector",
+  "index_sidecard_weight_percent": "Weight %",
+  "index_sidecard_view_all_sectors": "View All Sectors"
+}
