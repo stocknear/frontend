@@ -1,8 +1,45 @@
 <script lang="ts">
   import { etfTicker } from "$lib/store";
-  import { formatDate } from "$lib/utils";
+  import {
+    stock_detail_dividends_definition_text,
+    stock_detail_dividends_definition_title,
+    stock_detail_dividends_full_definition,
+    stock_detail_stats_pro_subscription,
+    stock_detail_stats_ticker_news,
+    stock_detail_stats_upgrade_desc,
+    time_ago,
+    time_day,
+    time_days,
+    time_hour,
+    time_hours,
+    time_minute,
+    time_minutes,
+  } from "$lib/paraglide/messages";
 
   export let data;
+
+  const formatDate = (dateString) => {
+    const inputDate = new Date(dateString);
+    const nycTime = new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    });
+    const currentNYCDate = new Date(nycTime);
+    const difference = inputDate.getTime() - currentNYCDate.getTime();
+    const minutes = Math.abs(Math.round(difference / (1000 * 60)));
+
+    if (minutes < 60) {
+      const unit = minutes === 1 ? time_minute() : time_minutes();
+      return time_ago({ count: minutes, unit });
+    } else if (minutes < 1440) {
+      const hours = Math.round(minutes / 60);
+      const unit = hours === 1 ? time_hour() : time_hours();
+      return time_ago({ count: hours, unit });
+    } else {
+      const days = Math.round(minutes / 1440);
+      const unit = days === 1 ? time_day() : time_days();
+      return time_ago({ count: days, unit });
+    }
+  };
 
   let newsList = data?.getNews ?? [];
 </script>
@@ -28,14 +65,13 @@
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
                   <h2 class="text-start text-lg font-semibold ml-3">
-                    Pro Subscription
+                    {stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
                 <span
                   class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
                 >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
+                  {stock_detail_stats_upgrade_desc()}
                 </span>
               </a>
             </div>
@@ -44,13 +80,9 @@
           <div
             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <h3 class="p-2 pt-4 text-xl font-semibold">Dividend Definition</h3>
+            <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_dividends_definition_title()}</h3>
             <div class="p-2">
-              Dividends are payments made by a company to its shareholders,
-              typically derived from its profits. They represent a portion of
-              earnings distributed to investors as a reward for holding shares.
-              Dividends do not account for retained earnings or reinvestments
-              and are therefore different from a company's total profits.
+              {stock_detail_dividends_definition_text()}
             </div>
 
             <div class="px-2">
@@ -58,7 +90,7 @@
                 href="/blog/article/dividends"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
-                Full Definition
+                {stock_detail_dividends_full_definition()}
               </a>
             </div>
           </div>
@@ -69,7 +101,7 @@
             >
               <div class="p-4 text-sm">
                 <h3 class="text-lg font-semibold mb-3">
-                  {$etfTicker} News
+                  {stock_detail_stats_ticker_news({ ticker: $etfTicker })}
                 </h3>
                 <ul class="">
                   {#each newsList?.slice(0, 10) as item}
