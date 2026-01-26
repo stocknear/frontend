@@ -248,7 +248,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       transformPageChunk: ({ html }) =>
         html
           .replace('data-theme=""', `data-theme="${themeMode}"`)
-          .replace('lang="en"', `lang="${locale}"`),
+          .replace('%lang%', locale),
       },
     );
 

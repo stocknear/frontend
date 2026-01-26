@@ -1,9 +1,6 @@
-import { initClientLocalization } from "$lib/i18n.svelte";
+import type { Reroute } from '@sveltejs/kit';
+import { deLocalizeUrl } from '$lib/paraglide/runtime';
 
-/**
- * Client-side init hook.
- * Sets up reactive localization by overwriting Paraglide's getLocale/setLocale.
- */
-export async function init() {
-  initClientLocalization();
-}
+export const reroute: Reroute = (request) => {
+	return deLocalizeUrl(request.url).pathname;
+};
