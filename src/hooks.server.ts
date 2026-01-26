@@ -2,8 +2,76 @@ import { sequence } from "@sveltejs/kit/hooks";
 import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
-import { type Locale } from "$lib/paraglide/runtime.js";
+import { type Locale, locales, baseLocale, cookieName, cookieMaxAge } from "$lib/paraglide/runtime.js";
 import { STOCKNEAR_API_KEY } from "$env/static/private";
+
+// Locale detection constants
+const GERMAN_COUNTRY_CODE = "DE";
+
+/**
+ * Detects and injects locale cookie for first-time visitors based on Cloudflare IP geolocation.
+ * Returns the locale and whether a new cookie needs to be set on the response.
+ */
+function detectLocaleFromRequest(request: Request): { locale: Locale; needsToSetCookie: boolean; cookieHeader: string } {
+  const existingCookieHeader = request.headers.get("cookie") || "";
+
+  // Check for existing valid locale cookie
+  const existingLocale = existingCookieHeader
+    .split("; ")
+    .find((c) => c.startsWith(cookieName + "="))
+    ?.split("=")[1];
+
+  // If valid cookie exists, use it
+  if (existingLocale && (locales as readonly string[]).includes(existingLocale)) {
+    return {
+      locale: existingLocale as Locale,
+      needsToSetCookie: false,
+      cookieHeader: existingCookieHeader
+    };
+  }
+
+  // No valid cookie - detect from Cloudflare IP country
+  const country = request.headers.get("CF-IPCountry");
+  const detectedLocale: Locale = country === GERMAN_COUNTRY_CODE ? "de" : baseLocale;
+
+  // Inject cookie into header for paraglideMiddleware to pick up
+  const newCookie = `${cookieName}=${detectedLocale}`;
+  const updatedCookieHeader = existingCookieHeader
+    ? `${existingCookieHeader}; ${newCookie}`
+    : newCookie;
+
+  return {
+    locale: detectedLocale,
+    needsToSetCookie: true,
+    cookieHeader: updatedCookieHeader
+  };
+}
+
+/**
+ * Creates a request with modified cookie header for locale detection.
+ * Handles body cloning carefully to avoid "body already read" errors.
+ */
+function createRequestWithCookie(originalRequest: Request, cookieHeader: string, isSafeMethod: boolean): Request {
+  const newHeaders = new Headers(originalRequest.headers);
+  newHeaders.set("cookie", cookieHeader);
+
+  if (isSafeMethod) {
+    // Safe methods (GET/HEAD) - can clone with body
+    return new Request(originalRequest.url, {
+      method: originalRequest.method,
+      headers: newHeaders,
+      body: originalRequest.body,
+      // @ts-ignore - duplex is needed for streaming bodies
+      duplex: "half",
+    });
+  } else {
+    // Unsafe methods - create without body to avoid streaming issues
+    return new Request(originalRequest.url, {
+      method: originalRequest.method,
+      headers: newHeaders,
+    });
+  }
+}
 
 const getClientIp = (event) => {
   const cfIp = event.request.headers.get("cf-connecting-ip");
@@ -104,17 +172,21 @@ export const handle = sequence(async ({ event, resolve }) => {
   }
 
   const isSafeMethod = event.request.method === "GET" || event.request.method === "HEAD";
-  let middlewareRequest = event.request;
 
-  if (!isSafeMethod) {
-    try {
-      middlewareRequest = new Request(event.request.url, {
-        method: event.request.method,
-        headers: event.request.headers,
-      });
-    } catch {
-      middlewareRequest = event.request;
-    }
+  // Detect locale from cookie or Cloudflare IP geolocation
+  const { locale: detectedLocale, needsToSetCookie, cookieHeader } = detectLocaleFromRequest(event.request);
+
+  // Create request with injected cookie for paraglideMiddleware
+  let middlewareRequest: Request;
+  try {
+    middlewareRequest = needsToSetCookie
+      ? createRequestWithCookie(event.request, cookieHeader, isSafeMethod)
+      : (isSafeMethod ? event.request : new Request(event.request.url, {
+          method: event.request.method,
+          headers: event.request.headers,
+        }));
+  } catch {
+    middlewareRequest = event.request;
   }
 
   // Use Paraglide middleware for proper SSR locale handling with AsyncLocalStorage
@@ -190,6 +262,13 @@ export const handle = sequence(async ({ event, resolve }) => {
     });
 
     response.headers.append("set-cookie", cookieString);
+
+    // Set locale cookie for first-time visitors (persists the IP-detected locale)
+    if (needsToSetCookie) {
+      const isSecure = event.url.protocol === "https:";
+      const localeCookie = `${cookieName}=${detectedLocale}; Path=/; Max-Age=${cookieMaxAge}; SameSite=Lax${isSecure ? "; Secure" : ""}`;
+      response.headers.append("set-cookie", localeCookie);
+    }
 
     return response;
   });
