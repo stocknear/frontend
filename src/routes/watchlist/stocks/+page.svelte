@@ -61,6 +61,8 @@
   watchlist_toast_title_long,
   watchlist_toast_updated,
   watchlist_toast_updating,
+  watchlist_tab_news,
+  watchlist_tab_earnings,
 } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
@@ -152,8 +154,8 @@
 
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "News": m.watchlist_tab_news,
-      "Earnings Release": m.watchlist_tab_earnings,
+      "News": watchlist_tab_news,
+      "Earnings Release": watchlist_tab_earnings,
     };
     return tabLabels[tab]?.() ?? tab;
   }

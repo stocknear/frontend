@@ -4,6 +4,8 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
 
+  import { etf_detail_options_no_data } from "$lib/paraglide/messages";
+
   export let data;
 </script>
 
@@ -46,7 +48,7 @@
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No Options Data available for the company." />
+            <Infobox text={etf_detail_options_no_data()} />
           </div>
         </div>
       {/if}

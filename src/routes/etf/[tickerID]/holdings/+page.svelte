@@ -7,6 +7,26 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
 
+  import {
+    etf_detail_na,
+    etf_detail_expense_ratio,
+    etf_detail_holdings_title,
+    etf_detail_holdings_as_of,
+    etf_detail_holdings_total,
+    etf_detail_holdings_top10,
+    etf_detail_holdings_asset_class,
+    etf_detail_holdings_assets,
+    etf_detail_holdings_pe_ratio,
+    etf_detail_holdings_sector_allocation,
+    etf_detail_holdings_stocks_count,
+    etf_detail_holdings_infobox,
+    etf_detail_holdings_no_data,
+    etf_detail_holdings_price,
+    etf_detail_holdings_change,
+    etf_detail_holdings_shares,
+    etf_detail_holdings_weight,
+  } from "$lib/paraglide/messages";
+
   export let data;
   let rawData = [...data?.getETFHoldings?.holdings] ?? [];
 
@@ -30,16 +50,16 @@
     "weightPercentage",
   ]);
 
-  const defaultList = [
-    { name: "Price", rule: "price" },
-    { name: "% Change", rule: "changesPercentage" },
-    { name: "Shares", rule: "sharesNumber" },
-    { name: "% Weight", rule: "weightPercentage" },
+  $: defaultList = [
+    { name: etf_detail_holdings_price(), rule: "price" },
+    { name: etf_detail_holdings_change(), rule: "changesPercentage" },
+    { name: etf_detail_holdings_shares(), rule: "sharesNumber" },
+    { name: etf_detail_holdings_weight(), rule: "weightPercentage" },
   ];
 
-  const specificRows = [
-    { name: "% Weight", rule: "weightPercentage", type: "percent" },
-    { name: "Shares", rule: "sharesNumber", type: "int" },
+  $: specificRows = [
+    { name: etf_detail_holdings_weight(), rule: "weightPercentage", type: "percent" },
+    { name: etf_detail_holdings_shares(), rule: "sharesNumber", type: "int" },
   ];
 
   function plotPieChart() {
@@ -250,18 +270,9 @@
         ?.join(", ")
         ?.replace(/, ([^,]*)$/, ", and $1"); // replace last comma with ", and"
 
-      return `
-      <span>
-        The ${$displayCompanyName} is an equity ETF with a total of ${holdingsCount} individual holdings. 
-        The top holdings are ${topHoldings}.
-      </span>
-    `;
+      return `<span>${etf_detail_holdings_infobox({ name: $displayCompanyName, count: holdingsCount.toString(), holdings: topHoldings })}</span>`;
     } else {
-      return `
-      <span>
-        No financial data available for ${$displayCompanyName}.
-      </span>
-    `;
+      return `<span>${etf_detail_holdings_no_data({ name: $displayCompanyName })}</span>`;
     }
   }
 
@@ -337,13 +348,13 @@
           <h1
             class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            {$etfTicker} Holdings List
+            {etf_detail_holdings_title({ ticker: $etfTicker })}
           </h1>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
               class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400 md:ml-0"
             >
-              <span class="inline">As of </span>{formattedDate}
+              <span class="inline">{etf_detail_holdings_as_of()} </span>{formattedDate}
             </div>
           {/if}
         </div>
@@ -358,7 +369,7 @@
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
-              Total Holdings
+              {etf_detail_holdings_total()}
             </label>
             <div
               class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white"
@@ -372,7 +383,7 @@
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
-              Top 10 Percentage
+              {etf_detail_holdings_top10()}
             </label>
 
             <div
@@ -388,7 +399,7 @@
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
-              Asset Class
+              {etf_detail_holdings_asset_class()}
             </label>
 
             <div
@@ -402,7 +413,7 @@
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
-              Assets
+              {etf_detail_holdings_assets()}
             </label>
 
             <div
@@ -415,13 +426,13 @@
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
-              PE Ratio
+              {etf_detail_holdings_pe_ratio()}
             </label>
 
             <div
               class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white"
             >
-              {data?.getStockQuote?.pe?.toFixed(2) ?? "n/a"}
+              {data?.getStockQuote?.pe?.toFixed(2) ?? etf_detail_na()}
             </div>
           </div>
           <div
@@ -430,7 +441,7 @@
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
-              Expense Ratio
+              {etf_detail_expense_ratio()}
             </label>
 
             <div
@@ -448,7 +459,7 @@
                 <h2
                   class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  Sector Allocation
+                  {etf_detail_holdings_sector_allocation()}
                 </h2>
 
                 <div
@@ -465,7 +476,7 @@
         {#if rawData?.length > 0}
           <Table
             {data}
-            title={`${rawData?.length?.toLocaleString("en-US")} Stocks`}
+            title={etf_detail_holdings_stocks_count({ count: rawData?.length?.toLocaleString("en-US") })}
             {rawData}
             {excludedRules}
             {defaultList}

@@ -12,25 +12,25 @@
   import { createHighchartsRangeSelector } from "$lib/highchartsRangeSelector";
   import { mode } from "mode-watcher";
   import {
-  stock_detail_history_annual,
-  stock_detail_history_col_adj_close,
-  stock_detail_history_col_change,
-  stock_detail_history_col_close,
-  stock_detail_history_col_date,
-  stock_detail_history_col_high,
-  stock_detail_history_col_low,
-  stock_detail_history_col_open,
-  stock_detail_history_col_volume,
-  stock_detail_history_daily,
-  stock_detail_history_historical_data,
-  stock_detail_history_monthly,
-  stock_detail_history_no_data,
-  stock_detail_history_price,
-  stock_detail_history_quarterly,
-  stock_detail_history_select_timeframe,
-  stock_detail_history_title,
-  stock_detail_history_week_of,
-} from "$lib/paraglide/messages";
+    stock_detail_history_annual,
+    stock_detail_history_col_adj_close,
+    stock_detail_history_col_change,
+    stock_detail_history_col_close,
+    stock_detail_history_col_date,
+    stock_detail_history_col_high,
+    stock_detail_history_col_low,
+    stock_detail_history_col_open,
+    stock_detail_history_col_volume,
+    stock_detail_history_daily,
+    stock_detail_history_historical_data,
+    stock_detail_history_monthly,
+    stock_detail_history_no_data,
+    stock_detail_history_price,
+    stock_detail_history_quarterly,
+    stock_detail_history_select_timeframe,
+    stock_detail_history_title,
+    stock_detail_history_week_of,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -41,11 +41,11 @@
   // Translation mapping for time periods
   const getTimePeriodLabel = (period) => {
     const labels = {
-      Daily: m.stock_detail_history_daily,
-      Weekly: m.stock_detail_history_weekly,
-      Monthly: m.stock_detail_history_monthly,
-      Quarterly: m.stock_detail_history_quarterly,
-      Annual: m.stock_detail_history_annual,
+      Daily: stock_detail_history_daily,
+      Weekly: stock_detail_history_weekly,
+      Monthly: stock_detail_history_monthly,
+      Quarterly: stock_detail_history_quarterly,
+      Annual: stock_detail_history_annual,
     };
     return labels[period]?.() ?? period;
   };

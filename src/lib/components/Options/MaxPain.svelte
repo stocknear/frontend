@@ -15,54 +15,54 @@
   import LineChartIcon from "lucide-svelte/icons/chart-spline";
   import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
   import {
-  stock_detail_options_chart_current_price,
-  stock_detail_options_common_back_to_top,
-  stock_detail_options_common_call,
-  stock_detail_options_common_day,
-  stock_detail_options_common_days,
-  stock_detail_options_common_next,
-  stock_detail_options_common_page_of,
-  stock_detail_options_common_previous,
-  stock_detail_options_common_put,
-  stock_detail_options_common_rows,
-  stock_detail_options_max_pain_by_expiry_title,
-  stock_detail_options_max_pain_by_strike_title,
-  stock_detail_options_max_pain_chart_expiry_title,
-  stock_detail_options_max_pain_chart_strike_title,
-  stock_detail_options_max_pain_col_expiration,
-  stock_detail_options_max_pain_col_max_pain,
-  stock_detail_options_max_pain_col_vs_current_price,
-  stock_detail_options_max_pain_date_expiration,
-  stock_detail_options_max_pain_expiry_levels_above,
-  stock_detail_options_max_pain_expiry_levels_around,
-  stock_detail_options_max_pain_expiry_levels_below,
-  stock_detail_options_max_pain_expiry_magnetic_level,
-  stock_detail_options_max_pain_expiry_spread_consensus,
-  stock_detail_options_max_pain_expiry_spread_divergent,
-  stock_detail_options_max_pain_expiry_timing,
-  stock_detail_options_max_pain_expiry_trend_falling,
-  stock_detail_options_max_pain_expiry_trend_rising,
-  stock_detail_options_max_pain_expiry_trend_stable,
-  stock_detail_options_max_pain_high_dispersion,
-  stock_detail_options_max_pain_magnetic_zone,
-  stock_detail_options_max_pain_overview_sentence,
-  stock_detail_options_max_pain_position_above,
-  stock_detail_options_max_pain_position_below,
-  stock_detail_options_max_pain_position_pinned,
-  stock_detail_options_max_pain_pressure_down,
-  stock_detail_options_max_pain_pressure_stable,
-  stock_detail_options_max_pain_pressure_up,
-  stock_detail_options_max_pain_table_title,
-  stock_detail_options_max_pain_trend_detail_falling,
-  stock_detail_options_max_pain_trend_detail_rising,
-  stock_detail_options_max_pain_trend_detail_stable,
-  stock_detail_options_max_pain_trend_falling,
-  stock_detail_options_max_pain_trend_rising,
-  stock_detail_options_max_pain_trend_sentence,
-  stock_detail_options_max_pain_trend_stable,
-  stock_detail_options_max_pain_upgrade_locked,
-  stock_detail_options_max_pain_upgrade_unlock,
-} from "$lib/paraglide/messages";
+    stock_detail_options_chart_current_price,
+    stock_detail_options_common_back_to_top,
+    stock_detail_options_common_call,
+    stock_detail_options_common_day,
+    stock_detail_options_common_days,
+    stock_detail_options_common_next,
+    stock_detail_options_common_page_of,
+    stock_detail_options_common_previous,
+    stock_detail_options_common_put,
+    stock_detail_options_common_rows,
+    stock_detail_options_max_pain_by_expiry_title,
+    stock_detail_options_max_pain_by_strike_title,
+    stock_detail_options_max_pain_chart_expiry_title,
+    stock_detail_options_max_pain_chart_strike_title,
+    stock_detail_options_max_pain_col_expiration,
+    stock_detail_options_max_pain_col_max_pain,
+    stock_detail_options_max_pain_col_vs_current_price,
+    stock_detail_options_max_pain_date_expiration,
+    stock_detail_options_max_pain_expiry_levels_above,
+    stock_detail_options_max_pain_expiry_levels_around,
+    stock_detail_options_max_pain_expiry_levels_below,
+    stock_detail_options_max_pain_expiry_magnetic_level,
+    stock_detail_options_max_pain_expiry_spread_consensus,
+    stock_detail_options_max_pain_expiry_spread_divergent,
+    stock_detail_options_max_pain_expiry_timing,
+    stock_detail_options_max_pain_expiry_trend_falling,
+    stock_detail_options_max_pain_expiry_trend_rising,
+    stock_detail_options_max_pain_expiry_trend_stable,
+    stock_detail_options_max_pain_high_dispersion,
+    stock_detail_options_max_pain_magnetic_zone,
+    stock_detail_options_max_pain_overview_sentence,
+    stock_detail_options_max_pain_position_above,
+    stock_detail_options_max_pain_position_below,
+    stock_detail_options_max_pain_position_pinned,
+    stock_detail_options_max_pain_pressure_down,
+    stock_detail_options_max_pain_pressure_stable,
+    stock_detail_options_max_pain_pressure_up,
+    stock_detail_options_max_pain_table_title,
+    stock_detail_options_max_pain_trend_detail_falling,
+    stock_detail_options_max_pain_trend_detail_rising,
+    stock_detail_options_max_pain_trend_detail_stable,
+    stock_detail_options_max_pain_trend_falling,
+    stock_detail_options_max_pain_trend_rising,
+    stock_detail_options_max_pain_trend_sentence,
+    stock_detail_options_max_pain_trend_stable,
+    stock_detail_options_max_pain_upgrade_locked,
+    stock_detail_options_max_pain_upgrade_unlock,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let ticker = null;
@@ -79,9 +79,9 @@
 
   const getChartTypeLabel = (type: ChartType) => {
     const labels: Record<ChartType, () => string> = {
-      column: m.stock_detail_options_chart_type_column,
-      spline: m.stock_detail_options_chart_type_line,
-      scatter: m.stock_detail_options_chart_type_scatter,
+      column: stock_detail_options_chart_type_column,
+      spline: stock_detail_options_chart_type_line,
+      scatter: stock_detail_options_chart_type_scatter,
     };
     return labels[type]?.() ?? type;
   };
@@ -245,9 +245,10 @@
 
   $: maxPainExpirySpreadPercent =
     averageMaxPain > 0
-      ? (((maxPainRange.max - maxPainRange.min) / averageMaxPain) * 100).toFixed(
-          0,
-        )
+      ? (
+          ((maxPainRange.max - maxPainRange.min) / averageMaxPain) *
+          100
+        ).toFixed(0)
       : "0";
 
   $: maxPainExpiryTrendSentence =
@@ -612,7 +613,10 @@
           color: $mode === "light" ? "#08B108" : "#00FC50",
           borderColor: $mode === "light" ? "#08B108" : "#00FC50",
           borderRadius: 0,
-          marker: { enabled: chartTypeStrike !== "column", radius: chartTypeStrike === "scatter" ? 4 : 3 },
+          marker: {
+            enabled: chartTypeStrike !== "column",
+            radius: chartTypeStrike === "scatter" ? 4 : 3,
+          },
           animation: false,
         },
         {
@@ -622,7 +626,10 @@
           color: "#FF0808",
           borderColor: "#FF0808",
           borderRadius: 0,
-          marker: { enabled: chartTypeStrike !== "column", radius: chartTypeStrike === "scatter" ? 4 : 3 },
+          marker: {
+            enabled: chartTypeStrike !== "column",
+            radius: chartTypeStrike === "scatter" ? 4 : 3,
+          },
           animation: false,
         },
       ],
@@ -779,7 +786,10 @@
           color: $mode === "light" ? "#2C6288" : "#fff",
           borderColor: $mode === "light" ? "#2C6288" : "#fff",
           borderRadius: 0,
-          marker: { enabled: chartTypeExpiry !== "column", radius: chartTypeExpiry === "scatter" ? 4 : 3 },
+          marker: {
+            enabled: chartTypeExpiry !== "column",
+            radius: chartTypeExpiry === "scatter" ? 4 : 3,
+          },
           animation: false,
         },
       ],
@@ -791,8 +801,16 @@
   }
 
   $: columns = [
-    { key: "expiration", label: stock_detail_options_max_pain_col_expiration(), align: "left" },
-    { key: "maxPain", label: stock_detail_options_max_pain_col_max_pain(), align: "right" },
+    {
+      key: "expiration",
+      label: stock_detail_options_max_pain_col_expiration(),
+      align: "left",
+    },
+    {
+      key: "maxPain",
+      label: stock_detail_options_max_pain_col_max_pain(),
+      align: "right",
+    },
     {
       key: "changesPercentage",
       label: stock_detail_options_max_pain_col_vs_current_price(),
@@ -913,7 +931,9 @@
         <h2
           class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
-          {stock_detail_options_max_pain_by_strike_title({ company: removeCompanyStrings($displayCompanyName) })}
+          {stock_detail_options_max_pain_by_strike_title({
+            company: removeCompanyStrings($displayCompanyName),
+          })}
         </h2>
 
         <!-- Insightful overview paragraph -->
@@ -948,7 +968,9 @@
                 class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="truncate text-sm"
-                  >{stock_detail_options_max_pain_date_expiration()} | {formatDate(selectedDate)}</span
+                  >{stock_detail_options_max_pain_date_expiration()} | {formatDate(
+                    selectedDate,
+                  )}</span
                 >
                 <svg
                   class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -1049,7 +1071,9 @@
         <h2
           class="mt-10 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
-          {stock_detail_options_max_pain_by_expiry_title({ company: removeCompanyStrings($displayCompanyName) })}
+          {stock_detail_options_max_pain_by_expiry_title({
+            company: removeCompanyStrings($displayCompanyName),
+          })}
         </h2>
 
         {#if data?.user?.tier === "Pro"}
@@ -1115,11 +1139,23 @@
                 <div
                   class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 h-[360px] flex flex-col items-center justify-center"
                 >
-                  <a href="/pricing" class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
-                    <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
+                  <a
+                    href="/pricing"
+                    class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                  >
+                    <svg
+                      class="size-10"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                      />
                     </svg>
-                    <span class="text-sm font-medium">{stock_detail_options_max_pain_upgrade_unlock()}</span>
+                    <span class="text-sm font-medium"
+                      >{stock_detail_options_max_pain_upgrade_unlock()}</span
+                    >
                   </a>
                 </div>
               </div>
@@ -1204,11 +1240,23 @@
               <div
                 class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-[200px] flex flex-col items-center justify-center"
               >
-                <a href="/pricing" class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
-                  <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
+                <a
+                  href="/pricing"
+                  class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  <svg
+                    class="size-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
                   </svg>
-                  <span class="text-sm font-medium">{stock_detail_options_max_pain_upgrade_unlock()}</span>
+                  <span class="text-sm font-medium"
+                    >{stock_detail_options_max_pain_upgrade_unlock()}</span
+                  >
                 </a>
               </div>
             </div>
@@ -1239,14 +1287,19 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
+                  <span class="hidden sm:inline"
+                    >{stock_detail_options_common_previous()}</span
+                  >
                 </Button>
               </div>
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
+                  {stock_detail_options_common_page_of({
+                    current: currentPage,
+                    total: totalPages,
+                  })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -1256,7 +1309,9 @@
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
+                        >{stock_detail_options_common_rows({
+                          count: rowsPerPage,
+                        })}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1291,7 +1346,11 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{stock_detail_options_common_rows({ count: item })}</span>
+                            <span class="text-sm"
+                              >{stock_detail_options_common_rows({
+                                count: item,
+                              })}</span
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1307,7 +1366,9 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
+                  <span class="hidden sm:inline"
+                    >{stock_detail_options_common_next()}</span
+                  >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -1331,7 +1392,8 @@
                 on:click={scrollToTop}
                 class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {stock_detail_options_common_back_to_top()} <svg
+                {stock_detail_options_common_back_to_top()}
+                <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-180"
                   viewBox="0 0 20 20"
                   fill="currentColor"

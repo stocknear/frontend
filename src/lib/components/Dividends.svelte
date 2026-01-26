@@ -6,32 +6,38 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
   import {
-  stock_detail_dividends_adjusted_note,
-  stock_detail_dividends_annual,
-  stock_detail_dividends_back_to_top,
-  stock_detail_dividends_col_cash_amount,
-  stock_detail_dividends_col_declaration_date,
-  stock_detail_dividends_col_ex_date,
-  stock_detail_dividends_col_pay_date,
-  stock_detail_dividends_col_record_date,
-  stock_detail_dividends_ex_date,
-  stock_detail_dividends_growth,
-  stock_detail_dividends_heading,
-  stock_detail_dividends_history,
-  stock_detail_dividends_info_current,
-  stock_detail_dividends_info_none,
-  stock_detail_dividends_info_old,
-  stock_detail_dividends_no_data,
-  stock_detail_dividends_payout_frequency,
-  stock_detail_dividends_payout_ratio,
-  stock_detail_dividends_yield,
-  stock_detail_next,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-} from "$lib/paraglide/messages";
+    stock_detail_dividends_freq_year,
+    stock_detail_dividends_freq_quarter,
+    stock_detail_dividends_freq_week,
+    stock_detail_dividends_freq_day,
+    stock_detail_dividends_freq_2weeks,
+    stock_detail_dividends_freq_6months,
+    stock_detail_dividends_freq_halfmonth,
+    stock_detail_dividends_adjusted_note,
+    stock_detail_dividends_annual,
+    stock_detail_dividends_back_to_top,
+    stock_detail_dividends_col_cash_amount,
+    stock_detail_dividends_col_declaration_date,
+    stock_detail_dividends_col_ex_date,
+    stock_detail_dividends_col_pay_date,
+    stock_detail_dividends_col_record_date,
+    stock_detail_dividends_ex_date,
+    stock_detail_dividends_growth,
+    stock_detail_dividends_heading,
+    stock_detail_dividends_history,
+    stock_detail_dividends_info_current,
+    stock_detail_dividends_info_none,
+    stock_detail_dividends_info_old,
+    stock_detail_dividends_no_data,
+    stock_detail_dividends_payout_frequency,
+    stock_detail_dividends_payout_ratio,
+    stock_detail_dividends_yield,
+    stock_detail_next,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -56,14 +62,14 @@
 
   const getFrequencyTranslation = (freq: string) => {
     const freqMap: Record<string, () => string> = {
-      year: m.stock_detail_dividends_freq_year,
-      quarter: m.stock_detail_dividends_freq_quarter,
-      month: m.stock_detail_dividends_freq_month,
-      week: m.stock_detail_dividends_freq_week,
-      day: m.stock_detail_dividends_freq_day,
-      "6 months": m.stock_detail_dividends_freq_6months,
-      "2 weeks": m.stock_detail_dividends_freq_2weeks,
-      "half-month": m.stock_detail_dividends_freq_halfmonth,
+      year: stock_detail_dividends_freq_year,
+      quarter: stock_detail_dividends_freq_quarter,
+      month: stock_detail_dividends_freq_quarter,
+      week: stock_detail_dividends_freq_week,
+      day: stock_detail_dividends_freq_day,
+      "6 months": stock_detail_dividends_freq_6months,
+      "2 weeks": stock_detail_dividends_freq_2weeks,
+      "half-month": stock_detail_dividends_freq_halfmonth,
     };
     return freqMap[freq]?.() ?? freq;
   };
@@ -101,7 +107,8 @@
   const getFreqUnit = (payoutFrequency?: string) => {
     if (!payoutFrequency) return "";
     // exact match first
-    if (payoutFrequency in mapFrequency) return getFrequencyTranslation(mapFrequency[payoutFrequency]);
+    if (payoutFrequency in mapFrequency)
+      return getFrequencyTranslation(mapFrequency[payoutFrequency]);
 
     // otherwise, try normalized match
     const norm = payoutFrequency.toLowerCase().replace(/\s+/g, " ").trim();
@@ -183,7 +190,7 @@
           divYield: dividendYield,
           annual: annualDividend,
           frequency: freqTranslated,
-          date: formattedExDividendDate
+          date: formattedExDividendDate,
         })}</span>`;
       } else {
         const latestDividendDate = new Date(history.at(0)?.date).toLocaleString(
@@ -197,17 +204,19 @@
 
         return `<span>${stock_detail_dividends_info_old({
           company: $displayCompanyName,
-          date: latestDividendDate
+          date: latestDividendDate,
         })}</span>`;
       }
     } else {
       return `<span>${stock_detail_dividends_info_none({
-        company: $displayCompanyName
+        company: $displayCompanyName,
       })}</span>`;
     }
   }
 
-  let htmlOutput = stock_detail_dividends_info_none({ company: $displayCompanyName });
+  let htmlOutput = stock_detail_dividends_info_none({
+    company: $displayCompanyName,
+  });
 
   $: {
     if (pagePathName) {
@@ -217,10 +226,26 @@
 
   $: columns = [
     { key: "date", label: stock_detail_dividends_col_ex_date(), align: "left" },
-    { key: "adjDividend", label: stock_detail_dividends_col_cash_amount(), align: "right" },
-    { key: "declarationDate", label: stock_detail_dividends_col_declaration_date(), align: "right" },
-    { key: "recordDate", label: stock_detail_dividends_col_record_date(), align: "right" },
-    { key: "paymentDate", label: stock_detail_dividends_col_pay_date(), align: "right" },
+    {
+      key: "adjDividend",
+      label: stock_detail_dividends_col_cash_amount(),
+      align: "right",
+    },
+    {
+      key: "declarationDate",
+      label: stock_detail_dividends_col_declaration_date(),
+      align: "right",
+    },
+    {
+      key: "recordDate",
+      label: stock_detail_dividends_col_record_date(),
+      align: "right",
+    },
+    {
+      key: "paymentDate",
+      label: stock_detail_dividends_col_pay_date(),
+      align: "right",
+    },
   ];
 
   let sortOrders = {
@@ -525,14 +550,19 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
+                    <span class="hidden sm:inline"
+                      >{stock_detail_previous()}</span
+                    >
                   </Button>
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    {stock_detail_page_of({ current: currentPage, total: totalPages })}
+                    {stock_detail_page_of({
+                      current: currentPage,
+                      total: totalPages,
+                    })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -577,7 +607,9 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{stock_detail_rows({ count: item })}</span>
+                              <span class="text-sm"
+                                >{stock_detail_rows({ count: item })}</span
+                              >
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -617,7 +649,8 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  {stock_detail_dividends_back_to_top()} <svg
+                  {stock_detail_dividends_back_to_top()}
+                  <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"

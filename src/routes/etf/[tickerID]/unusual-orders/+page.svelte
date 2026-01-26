@@ -7,6 +7,8 @@
   import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
   import SEO from "$lib/components/SEO.svelte";
 
+  import { etf_detail_unusual_orders_no_data } from "$lib/paraglide/messages";
+
   export let data;
   let historicalDarkPool = data?.getHistoricalDarkPool || [];
   let priceLevel = data?.getPriceLevel?.priceLevel || [];
@@ -94,7 +96,7 @@
         <div class="w-full">
           {#if priceLevel?.length === 0 && hottestTrades?.length === 0 && historicalDarkPool?.length === 0}
             <Infobox
-              text={`No Dark Pool activity are detected for ${$displayCompanyName}`}
+              text={etf_detail_unusual_orders_no_data({ name: $displayCompanyName })}
             />
           {/if}
         </div>

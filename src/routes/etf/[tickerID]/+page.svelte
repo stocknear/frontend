@@ -31,6 +31,31 @@
     convertPeriodString,
   } from "$lib/utils";
 
+  import {
+    etf_detail_no_data,
+    etf_detail_na,
+    etf_detail_bid,
+    etf_detail_ask,
+    etf_detail_market_cap,
+    etf_detail_volume,
+    etf_detail_avg_volume_20d,
+    etf_detail_aum,
+    etf_detail_nav,
+    etf_detail_beta,
+    etf_detail_eps_ttm,
+    etf_detail_pe_ratio_ttm,
+    etf_detail_shares_out,
+    etf_detail_inception_date,
+    etf_detail_open,
+    etf_detail_prev_close,
+    etf_detail_days_range,
+    etf_detail_52w_range,
+    etf_detail_holdings,
+    etf_detail_expense_ratio,
+    etf_detail_chart_price,
+    etf_detail_chart_volume,
+  } from "$lib/paraglide/messages";
+
   export let data;
   export let form;
 
@@ -368,9 +393,10 @@
           let tooltipContent = "";
 
           // Loop through each point in the shared tooltip
+          const volumeLabel = etf_detail_chart_volume();
           this.points?.forEach((point) => {
             const value =
-              point.series.name === "Volume"
+              point.series.name === volumeLabel
                 ? formatVolumeValue(point.y)
                 : formatPriceValue(point.y);
             tooltipContent += `<div style="font-weight:600; margin-bottom:2px;">${point.series.name}: ${value}</div>`;
@@ -510,7 +536,7 @@
       legend: { enabled: false },
       series: [
         {
-          name: "Price",
+          name: etf_detail_chart_price(),
           type: "area",
           data: displayData === "1D" ? seriesData : priceList,
           animation: false,
@@ -528,7 +554,7 @@
           },
         },
         {
-          name: "Volume",
+          name: etf_detail_chart_volume(),
           type: "column",
           yAxis: 1,
           data: displayData === "1D" ? volumeSeriesData : volumeSeriesData,
@@ -1081,7 +1107,7 @@
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
                   <p class="text-sm text-gray-500 dark:text-zinc-300">
-                    No data available
+                    {etf_detail_no_data()}
                   </p>
                 </div>
               {:else}
@@ -1110,20 +1136,20 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Bid</td
+                      >{etf_detail_bid()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{$wsBidPrice !== 0 && $wsBidPrice !== null
                         ? $wsBidPrice
-                        : (data?.getStockQuote?.bid ?? "n/a")}</td
+                        : (data?.getStockQuote?.bid ?? etf_detail_na())}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Market Cap</td
+                      >{etf_detail_market_cap()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1134,26 +1160,26 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >AUM</td
+                      >{etf_detail_aum()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.aum !== null
                         ? abbreviateNumber(stockDeck?.aum)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >NAV</td
+                      >{etf_detail_nav()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.nav !== null
                         ? stockDeck?.nav?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
 
@@ -1161,13 +1187,13 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Beta</td
+                      >{etf_detail_beta()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.beta && stockDeck?.beta
                         ? stockDeck?.beta
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
 
@@ -1175,26 +1201,26 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >EPS (ttm)</td
+                      >{etf_detail_eps_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.eps
                         ? data?.getStockQuote?.eps?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >PE Ratio (ttm)</td
+                      >{etf_detail_pe_ratio_ttm()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.pe
                         ? data?.getStockQuote?.pe?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
 
@@ -1202,7 +1228,7 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Shares Out
+                      >{etf_detail_shares_out()}
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1210,14 +1236,14 @@
                         ? abbreviateNumber(
                             data?.getStockQuote?.sharesOutstanding,
                           )
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Inception Date</td
+                      >{etf_detail_inception_date()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1231,7 +1257,7 @@
                               daySuffix: "2-digit",
                             },
                           )
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                 </tbody>
@@ -1242,33 +1268,33 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Ask</td
+                      >{etf_detail_ask()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{$wsAskPrice !== 0 && $wsAskPrice !== null
                         ? $wsAskPrice
-                        : (data?.getStockQuote?.ask ?? "n/a")}</td
+                        : (data?.getStockQuote?.ask ?? etf_detail_na())}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Volume</td
+                      >{etf_detail_volume()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{quoteVolume
                         ? Math.floor(quoteVolume)?.toLocaleString("en-us")
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Avg. Volume (20D)</td
+                      >{etf_detail_avg_volume_20d()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
@@ -1276,63 +1302,63 @@
                         ? data?.getStockQuote?.avgVolume?.toLocaleString(
                             "en-us",
                           )
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Open</td
+                      >{etf_detail_open()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.open
                         ? data?.getStockQuote?.open?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Previous Close</td
+                      >{etf_detail_prev_close()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.previousClose
                         ? data?.getStockQuote?.previousClose?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Day's Range</td
+                      >{etf_detail_days_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.dayLow
                         ? data?.getStockQuote?.dayLow?.toFixed(2)
-                        : "n/a"} - {data?.getStockQuote?.dayHigh
+                        : etf_detail_na()} - {data?.getStockQuote?.dayHigh
                         ? data?.getStockQuote?.dayHigh?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >52-Week Range</td
+                      >{etf_detail_52w_range()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{data?.getStockQuote?.yearLow
                         ? data?.getStockQuote?.yearLow?.toFixed(2)
-                        : "n/a"} - {data?.getStockQuote?.yearHigh
+                        : etf_detail_na()} - {data?.getStockQuote?.yearHigh
                         ? data?.getStockQuote?.yearHigh?.toFixed(2)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
 
@@ -1340,26 +1366,26 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Holdings
+                      >{etf_detail_holdings()}
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.holdingsCount !== null
                         ? abbreviateNumber(stockDeck?.holdingsCount)
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >Expense Ratio</td
+                      >{etf_detail_expense_ratio()}</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.expenseRatio
                         ? stockDeck?.expenseRatio?.toFixed(2) + "%"
-                        : "n/a"}</td
+                        : etf_detail_na()}</td
                     ></tr
                   >
                 </tbody>
