@@ -1,5 +1,5 @@
 export const load = async ({ locals, params }) => {
-  const { apiURL, apiKey, user } = locals;
+  const { apiURL, apiKey, user, locale } = locals;
   const ticker = params.tickerID;
 
   if (!ticker) {
@@ -17,7 +17,8 @@ export const load = async ({ locals, params }) => {
   // Prepare the payload for the bulk request
   const postData = {
     ticker,
-    endpoints
+    endpoints,
+    lang: locale ?? 'en'
   };
 
   try {
