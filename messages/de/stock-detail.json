@@ -210,7 +210,7 @@
   "stock_detail_financials_cash_flow_statement": "Cashflow Statement",
   "stock_detail_financials_ratios_metrics": "Ratios und Kennzahlen",
 
-  "stock_detail_financials_growth_yoy": "Wachstum (YoY)",
+  "stock_detail_financials_growth_yoy": "Wachstum (ggü. Vj.)",
   "stock_detail_financials_line_chart": "Liniendiagramm",
   "stock_detail_financials_bar_chart": "Balkendiagramm",
   "stock_detail_financials_peaked_at": "{label} erreichte in {highDate} den Höchstwert von {highest} und in {lowDate} den Tiefstwert von {lowest}.",
