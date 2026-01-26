@@ -9,7 +9,6 @@
   } from "$lib/i18n.svelte";
   import { getLocale } from "$lib/paraglide/runtime.js";
   import {
-    footer_language,
     footer_tagline,
     footer_sections,
     footer_stocks,
@@ -266,8 +265,16 @@
                       alt={languageNames[currentLocale]}
                     />
                     <span class="uppercase font-medium">{currentLocale}</span>
-                    <svg class="size-3 opacity-60" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <svg
+                      class="size-3 opacity-60"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </button>
                 </DropdownMenu.Trigger>
