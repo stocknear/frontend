@@ -24,5 +24,15 @@
   "common_toast_download_failed": "Download failed. Try again.",
   "common_toast_select_bulk": "Select at least one {type} to download",
   "common_toast_add_tickers": "Add tickers first to your watchlist",
-  "common_toast_not_enough_credits": "Not enough credits"
+  "common_toast_not_enough_credits": "Not enough credits",
+
+  "common_period_1_day": "1 Day",
+  "common_period_5_days": "5 Days",
+  "common_period_1_month": "1 Month",
+  "common_period_ytd": "YTD",
+  "common_period_3_months": "3 Months",
+  "common_period_6_months": "6 Months",
+  "common_period_1_year": "1 Year",
+  "common_period_5_years": "5 Years",
+  "common_period_max": "Max"
 }

@@ -24,5 +24,15 @@
   "common_toast_download_failed": "Download fehlgeschlagen. Bitte erneut versuchen.",
   "common_toast_select_bulk": "Wähle mindestens ein {type} zum Herunterladen",
   "common_toast_add_tickers": "Füge zuerst Aktien zu deiner Watchlist hinzu",
-  "common_toast_not_enough_credits": "Nicht genügend Credits"
+  "common_toast_not_enough_credits": "Nicht genügend Credits",
+
+  "common_period_1_day": "1 Tag",
+  "common_period_5_days": "5 Tage",
+  "common_period_1_month": "1 Monat",
+  "common_period_ytd": "YTD",
+  "common_period_3_months": "3 Monate",
+  "common_period_6_months": "6 Monate",
+  "common_period_1_year": "1 Jahr",
+  "common_period_5_years": "5 Jahre",
+  "common_period_max": "Max"
 }

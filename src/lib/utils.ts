@@ -20,6 +20,15 @@ import {
   time_weeks,
   time_year,
   time_years,
+  common_period_1_day,
+  common_period_5_days,
+  common_period_1_month,
+  common_period_ytd,
+  common_period_3_months,
+  common_period_6_months,
+  common_period_1_year,
+  common_period_5_years,
+  common_period_max,
 } from "$lib/paraglide/messages";
 
 // Helper to get current locale safely (returns "en" as fallback)
@@ -1656,15 +1665,15 @@ function convertNYTimeToLocalTime(nyTimeString) {
 */
 export function convertPeriodString(interval) {
   const mapping = {
-    "1D": "1 Day",
-    "1W": "5 Days", // Assuming "1W" means a trading week (5 days)
-    "1M": "1 Month",
-    "YTD": "YTD",
-    "3M": "3 Months",
-    "6M": "6 Months",
-    "1Y": "1 Year",
-    "5Y": "5 Years",
-    "MAX": "Max",
+    "1D": common_period_1_day(),
+    "1W": common_period_5_days(), // Assuming "1W" means a trading week (5 days)
+    "1M": common_period_1_month(),
+    "YTD": common_period_ytd(),
+    "3M": common_period_3_months(),
+    "6M": common_period_6_months(),
+    "1Y": common_period_1_year(),
+    "5Y": common_period_5_years(),
+    "MAX": common_period_max(),
   };
 
   return mapping[interval] || interval; // Return original if no match
