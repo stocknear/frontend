@@ -62,14 +62,29 @@
   let displayRules = [];
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
-    { key: "earningsVolatility", label: m.stock_screener_strategy_earnings_volatility() },
-    { key: "dividendGrowth", label: m.stock_screener_strategy_dividend_growth() },
-    { key: "monthlyDividends", label: m.stock_screener_strategy_monthly_dividends() },
+    {
+      key: "earningsVolatility",
+      label: m.stock_screener_strategy_earnings_volatility(),
+    },
+    {
+      key: "dividendGrowth",
+      label: m.stock_screener_strategy_dividend_growth(),
+    },
+    {
+      key: "monthlyDividends",
+      label: m.stock_screener_strategy_monthly_dividends(),
+    },
     { key: "topGainers1Y", label: m.stock_screener_strategy_top_gainers_1y() },
     { key: "topShortedStocks", label: m.stock_screener_strategy_top_shorted() },
     { key: "momentumTAStocks", label: m.stock_screener_strategy_momentum_ta() },
-    { key: "underValuedStocks", label: m.stock_screener_strategy_undervalued() },
-    { key: "strongCashFlow", label: m.stock_screener_strategy_strong_cash_flow() },
+    {
+      key: "underValuedStocks",
+      label: m.stock_screener_strategy_undervalued(),
+    },
+    {
+      key: "strongCashFlow",
+      label: m.stock_screener_strategy_strong_cash_flow(),
+    },
   ];
 
   const onlySubscriberRules = [
@@ -3292,7 +3307,9 @@ const handleKeyDown = (event) => {
 
 <SEO
   title={m.stock_screener_seo_title()}
-  description={m.stock_screener_seo_description({ count: allRows?.length || 'advanced' })}
+  description={m.stock_screener_seo_description({
+    count: allRows?.length || "advanced",
+  })}
   keywords={m.stock_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
@@ -3343,7 +3360,9 @@ const handleKeyDown = (event) => {
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">{m.stock_screener_breadcrumb_stock_screener()}</span>
+      <span class="text-gray-500 dark:text-zinc-400"
+        >{m.stock_screener_breadcrumb_stock_screener()}</span
+      >
     </li>
   </BreadCrumb>
 
@@ -3359,7 +3378,9 @@ const handleKeyDown = (event) => {
         <span
           class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
         >
-          {m.stock_screener_matches_found({ count: filteredData?.length?.toLocaleString("en-US") })}
+          {m.stock_screener_matches_found({
+            count: filteredData?.length?.toLocaleString("en-US"),
+          })}
         </span>
       </div>
 
@@ -3492,7 +3513,9 @@ const handleKeyDown = (event) => {
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">{m.stock_screener_new_screen()}</div>
+                      <div class="text-sm text-start">
+                        {m.stock_screener_new_screen()}
+                      </div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -3613,7 +3636,9 @@ const handleKeyDown = (event) => {
               </div>
               <input
                 type="text"
-                placeholder={m.stock_screener_search_filters({ count: allRows?.length })}
+                placeholder={m.stock_screener_search_filters({
+                  count: allRows?.length,
+                })}
                 bind:value={quickSearchTerm}
                 on:input={handleQuickSearchInput}
                 on:keydown={handleQuickSearchKeydown}
@@ -4180,7 +4205,9 @@ const handleKeyDown = (event) => {
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {m.stock_screener_stocks_count({ count: filteredData?.length?.toLocaleString("en-US") })}
+      {m.stock_screener_stocks_count({
+        count: filteredData?.length?.toLocaleString("en-US"),
+      })}
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -4263,7 +4290,9 @@ const handleKeyDown = (event) => {
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth ? m.stock_screener_normal_width() : m.stock_screener_full_width()}</span
+            >{isFullWidth
+              ? m.stock_screener_normal_width()
+              : m.stock_screener_full_width()}</span
           >
         </button>
 
@@ -4289,7 +4318,7 @@ const handleKeyDown = (event) => {
           </button>
         {/if}
       </div>
-      <nav class="w-full flex flex-row items-center order-2 lg:order-0 mt-3">
+      <nav class="w-full flex flex-row items-center order-2 lg:order-0">
         <ul
           class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
         >
@@ -4817,14 +4846,20 @@ const handleKeyDown = (event) => {
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                   clip-rule="evenodd"
                 ></path>
-              </svg> <span class="hidden sm:inline">{m.stock_screener_pagination_previous()}</span></Button
+              </svg>
+              <span class="hidden sm:inline"
+                >{m.stock_screener_pagination_previous()}</span
+              ></Button
             >
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.stock_screener_pagination_page_of({ current: currentPage, total: totalPages })}
+              {m.stock_screener_pagination_page_of({
+                current: currentPage,
+                total: totalPages,
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -4869,7 +4904,9 @@ const handleKeyDown = (event) => {
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{m.stock_screener_rows_label({ rows: item })}</span>
+                        <span class="text-sm"
+                          >{m.stock_screener_rows_label({ rows: item })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -4885,7 +4922,9 @@ const handleKeyDown = (event) => {
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">{m.stock_screener_pagination_next()}</span>
+              <span class="hidden sm:inline"
+                >{m.stock_screener_pagination_next()}</span
+              >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -4909,7 +4948,8 @@ const handleKeyDown = (event) => {
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {m.stock_screener_back_to_top()} <svg
+            {m.stock_screener_back_to_top()}
+            <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"

@@ -56,7 +56,10 @@
     { key: "volumeSurge", label: m.options_screener_strategy_volume_surge() },
     { key: "itmCalls", label: m.options_screener_strategy_itm_calls() },
     { key: "otmPuts", label: m.options_screener_strategy_otm_puts() },
-    { key: "highPremiumFlow", label: m.options_screener_strategy_high_premium_flow() },
+    {
+      key: "highPremiumFlow",
+      label: m.options_screener_strategy_high_premium_flow(),
+    },
   ];
 
   let displayTableTab = "general";
@@ -970,9 +973,8 @@
     }
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -1566,7 +1568,9 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen pb-40 px-5 mt-5 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth ? 'max-w-full' : 'max-w-3xl sm:max-w-(--breakpoint-xl)'}"
+  class="w-full overflow-hidden min-h-screen pb-40 px-5 mt-5 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+    ? 'max-w-full'
+    : 'max-w-3xl sm:max-w-(--breakpoint-xl)'}"
 >
   <BreadCrumb
     containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
@@ -1579,7 +1583,9 @@
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">{m.options_screener_breadcrumb_options_screener()}</span>
+      <span class="text-gray-500 dark:text-zinc-400"
+        >{m.options_screener_breadcrumb_options_screener()}</span
+      >
     </li>
   </BreadCrumb>
 
@@ -1719,7 +1725,9 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">{m.options_screener_new_screen()}</div>
+                      <div class="text-sm text-start">
+                        {m.options_screener_new_screen()}
+                      </div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -1843,7 +1851,9 @@
                 </div>
                 <input
                   type="text"
-                  placeholder={m.options_screener_search_filters({ count: allRows?.length })}
+                  placeholder={m.options_screener_search_filters({
+                    count: allRows?.length,
+                  })}
                   bind:value={quickSearchTerm}
                   on:input={handleQuickSearchInput}
                   on:keydown={handleQuickSearchKeydown}
@@ -2467,7 +2477,9 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {m.options_screener_contracts_count({ count: filteredData?.length?.toLocaleString("en-US") })}
+      {m.options_screener_contracts_count({
+        count: filteredData?.length?.toLocaleString("en-US"),
+      })}
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -2514,7 +2526,9 @@
         <button
           on:click={toggleFullWidth}
           title={isFullWidth ? "Exit full width" : "Expand to full width"}
-          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth ? 'border-violet-400 dark:border-violet-500' : ''}"
+          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+            ? 'border-violet-400 dark:border-violet-500'
+            : ''}"
         >
           {#if isFullWidth}
             <svg
@@ -2547,7 +2561,11 @@
               <line x1="3" y1="21" x2="10" y2="14" />
             </svg>
           {/if}
-          <span class="truncate text-[0.85rem] sm:text-sm">{isFullWidth ? m.options_screener_normal_width() : m.options_screener_full_width()}</span>
+          <span class="truncate text-[0.85rem] sm:text-sm"
+            >{isFullWidth
+              ? m.options_screener_normal_width()
+              : m.options_screener_full_width()}</span
+          >
         </button>
 
         {#if customColumnOrder?.length > 0}
@@ -2572,7 +2590,7 @@
           </button>
         {/if}
       </div>
-      <nav class="w-full flex flex-row items-center order-2 lg:order-0 mt-3">
+      <nav class="w-full flex flex-row items-center order-2 lg:order-0">
         <ul
           class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
         >
@@ -2953,13 +2971,18 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">{m.options_screener_pagination_previous()}</span>
+              <span class="hidden sm:inline"
+                >{m.options_screener_pagination_previous()}</span
+              >
             </Button>
           </div>
 
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {m.options_screener_pagination_page_of({ current: currentPage, total: totalPages })}
+              {m.options_screener_pagination_page_of({
+                current: currentPage,
+                total: totalPages,
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -2969,7 +2992,9 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{m.options_screener_rows_label({ rows: rowsPerPage })}</span
+                    >{m.options_screener_rows_label({
+                      rows: rowsPerPage,
+                    })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -3003,7 +3028,9 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{m.options_screener_rows_label({ rows: item })}</span>
+                        <span class="text-sm"
+                          >{m.options_screener_rows_label({ rows: item })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -3018,7 +3045,9 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">{m.options_screener_pagination_next()}</span>
+              <span class="hidden sm:inline"
+                >{m.options_screener_pagination_next()}</span
+              >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -3119,7 +3148,9 @@
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {m.options_screener_select_filters_title({ count: allRows?.length })}
+            {m.options_screener_select_filters_title({
+              count: allRows?.length,
+            })}
           </h2>
           <label
             for="ruleModal"

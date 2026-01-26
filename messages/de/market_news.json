@@ -31,5 +31,14 @@
   "market_news_time_days": "{count} Tage",
   "market_news_time_ago": "vor {time}",
   "market_news_image_alt": "Newsbild",
-  "market_news_stocks_label": "Aktien:"
+  "market_news_stocks_label": "Aktien:",
+
+  "market_news_breadcrumb_home": "Startseite",
+  "market_news_breadcrumb_market_news": "Marktnachrichten",
+  "market_news_tab_all_stocks": "Alle Aktien",
+  "market_news_tab_markets": "Märkte",
+  "market_news_tab_press_releases": "Pressemitteilungen",
+  "market_news_title_all_stocks": "Alle Aktiennachrichten",
+  "market_news_title_markets": "Marktnachrichten",
+  "market_news_title_press_releases": "Pressemitteilungen"
 }
