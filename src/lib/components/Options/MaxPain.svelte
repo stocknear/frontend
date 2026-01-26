@@ -23,11 +23,20 @@
   type ChartType = "column" | "spline" | "scatter";
   let chartTypeStrike: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "spline", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  const chartTypes: { type: ChartType; icon: any }[] = [
+    { type: "column", icon: BarChartIcon },
+    { type: "spline", icon: LineChartIcon },
+    { type: "scatter", icon: ScatterChartIcon },
   ];
+
+  const getChartTypeLabel = (type: ChartType) => {
+    const labels: Record<ChartType, () => string> = {
+      column: m.stock_detail_options_chart_type_column,
+      spline: m.stock_detail_options_chart_type_line,
+      scatter: m.stock_detail_options_chart_type_scatter,
+    };
+    return labels[type]?.() ?? type;
+  };
 
   function changeChartTypeStrike(type: ChartType) {
     chartTypeStrike = type;
@@ -135,6 +144,114 @@
       .map(([price, count]) => ({ price: parseFloat(price), count }))
       .sort((a, b) => b.count - a.count);
   })();
+
+  $: nearTermDayLabel =
+    Number(nearTermDaysLeft) === 1
+      ? m.stock_detail_options_common_day()
+      : m.stock_detail_options_common_days();
+
+  $: maxPainPositionText =
+    Math.abs(priceVsMaxPain) < 2
+      ? m.stock_detail_options_max_pain_position_pinned()
+      : priceVsMaxPain > 0
+        ? m.stock_detail_options_max_pain_position_above({
+            percent: Math.abs(priceVsMaxPain).toFixed(1),
+          })
+        : m.stock_detail_options_max_pain_position_below({
+            percent: Math.abs(priceVsMaxPain).toFixed(1),
+          });
+
+  $: maxPainPressureText =
+    Math.abs(priceVsMaxPain) > 5
+      ? priceVsMaxPain > 0
+        ? m.stock_detail_options_max_pain_pressure_down()
+        : m.stock_detail_options_max_pain_pressure_up()
+      : m.stock_detail_options_max_pain_pressure_stable();
+
+  $: maxPainTrendLabel =
+    maxPainTrend === "rising"
+      ? m.stock_detail_options_max_pain_trend_rising()
+      : maxPainTrend === "falling"
+        ? m.stock_detail_options_max_pain_trend_falling()
+        : m.stock_detail_options_max_pain_trend_stable();
+
+  $: maxPainTrendDetail =
+    maxPainTrend === "rising"
+      ? m.stock_detail_options_max_pain_trend_detail_rising()
+      : maxPainTrend === "falling"
+        ? m.stock_detail_options_max_pain_trend_detail_falling()
+        : m.stock_detail_options_max_pain_trend_detail_stable();
+
+  $: maxPainMagneticText =
+    maxPainClusters.length > 0
+      ? m.stock_detail_options_max_pain_magnetic_zone({
+          price: maxPainClusters[0].price,
+          count: maxPainClusters[0].count,
+        })
+      : "";
+
+  $: maxPainDispersionText =
+    significantDeviations > rawData.length * 0.5
+      ? m.stock_detail_options_max_pain_high_dispersion()
+      : "";
+
+  $: maxPainExpirySpreadPercent =
+    averageMaxPain > 0
+      ? (((maxPainRange.max - maxPainRange.min) / averageMaxPain) * 100).toFixed(
+          0,
+        )
+      : "0";
+
+  $: maxPainExpiryTrendSentence =
+    maxPainTrend === "rising"
+      ? m.stock_detail_options_max_pain_expiry_trend_rising({
+          ticker,
+          min: maxPainRange.min,
+          max: maxPainRange.max,
+        })
+      : maxPainTrend === "falling"
+        ? m.stock_detail_options_max_pain_expiry_trend_falling({
+            ticker,
+            min: maxPainRange.min,
+            max: maxPainRange.max,
+          })
+        : m.stock_detail_options_max_pain_expiry_trend_stable({
+            ticker,
+            avg: averageMaxPain.toFixed(2),
+          });
+
+  $: maxPainExpirySpreadSentence =
+    averageMaxPain > 0 &&
+    Math.abs(maxPainRange.max - maxPainRange.min) / averageMaxPain > 0.1
+      ? m.stock_detail_options_max_pain_expiry_spread_divergent({
+          spread: maxPainExpirySpreadPercent,
+        })
+      : m.stock_detail_options_max_pain_expiry_spread_consensus({
+          spread: maxPainExpirySpreadPercent,
+        });
+
+  $: maxPainExpiryLevelsSentence =
+    rawData?.filter((item) => item.maxPain < currentPrice).length >
+    rawData.length * 0.7
+      ? m.stock_detail_options_max_pain_expiry_levels_below({
+          price: currentPrice,
+        })
+      : rawData?.filter((item) => item.maxPain > currentPrice).length >
+          rawData?.length * 0.7
+        ? m.stock_detail_options_max_pain_expiry_levels_above({
+            price: currentPrice,
+          })
+        : m.stock_detail_options_max_pain_expiry_levels_around({
+            price: currentPrice,
+          });
+
+  $: maxPainExpiryMagneticSentence =
+    maxPainClusters.length > 0 && maxPainClusters[0].count >= 3
+      ? m.stock_detail_options_max_pain_expiry_magnetic_level({
+          price: maxPainClusters[0].price,
+          count: maxPainClusters[0].count,
+        })
+      : "";
 
   // Pagination functions
   function updatePaginatedData() {
@@ -331,7 +448,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">Max Pain By Strike</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_max_pain_chart_strike_title()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -348,7 +465,9 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `Current Price ${currentPrice}`,
+              text: m.stock_detail_options_chart_current_price({
+                price: currentPrice,
+              }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
             },
             zIndex: 5,
@@ -439,7 +558,7 @@
 
       series: [
         {
-          name: "Call",
+          name: m.stock_detail_options_common_call(),
           type: chartTypeStrike,
           data: callSeries,
           color: $mode === "light" ? "#08B108" : "#00FC50",
@@ -449,7 +568,7 @@
           animation: false,
         },
         {
-          name: "Put",
+          name: m.stock_detail_options_common_put(),
           type: chartTypeStrike,
           data: putSeries,
           color: "#FF0808",
@@ -511,7 +630,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">Max Pain By Expiry</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_max_pain_chart_expiry_title()}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -545,7 +664,9 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `Current Price ${currentPrice}`,
+              text: m.stock_detail_options_chart_current_price({
+                price: currentPrice,
+              }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
             },
             zIndex: 5,
@@ -750,32 +871,24 @@
         <!-- Insightful overview paragraph -->
         <div class="w-full mt-4 mb-6">
           <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-            <strong>{ticker}</strong> trades at
-            <strong>${currentPrice}</strong>,
-            {Math.abs(priceVsMaxPain) < 2
-              ? "pinned near"
-              : priceVsMaxPain > 0
-                ? `${Math.abs(priceVsMaxPain).toFixed(1)}% above`
-                : `${Math.abs(priceVsMaxPain).toFixed(1)}% below`}
-            the near-term max pain of <strong>${nearTermMaxPain}</strong>
-            expiring {formatDate(nearTermExpiry)} ({nearTermDaysLeft} days).
-            {Math.abs(priceVsMaxPain) > 5
-              ? priceVsMaxPain > 0
-                ? " Expect downward pressure as dealers benefit from price declining toward max pain."
-                : " Look for upward drift as max pain acts as a magnet pulling price higher."
-              : " Price stability likely with balanced options positioning at this level."}
-            Max pain is <strong>{maxPainTrend}</strong> across expirations (${maxPainRange.min}-${maxPainRange.max}),
-            {maxPainTrend === "rising"
-              ? "reflecting growing call interest at higher strikes"
-              : maxPainTrend === "falling"
-                ? "signaling increased put positioning or downside protection"
-                : "indicating stable market expectations"}.
-            {maxPainClusters.length > 0
-              ? ` Key magnetic zone at ${maxPainClusters[0].price} where ${maxPainClusters[0].count} expirations converge.`
-              : ""}
-            {significantDeviations > rawData.length * 0.5
-              ? ` High dispersion in max pain levels suggests competing forces and potential volatility.`
-              : ""}
+            {@html m.stock_detail_options_max_pain_overview_sentence({
+              ticker,
+              price: currentPrice,
+              position: maxPainPositionText,
+              maxPain: nearTermMaxPain,
+              date: formatDate(nearTermExpiry),
+              days: nearTermDaysLeft,
+              dayLabel: nearTermDayLabel,
+            })}
+            {maxPainPressureText ? ` ${maxPainPressureText}` : ""}
+            {@html ` ${m.stock_detail_options_max_pain_trend_sentence({
+              trend: maxPainTrendLabel,
+              min: maxPainRange.min,
+              max: maxPainRange.max,
+              detail: maxPainTrendDetail,
+            })}`}
+            {maxPainMagneticText ? ` ${maxPainMagneticText}` : ""}
+            {maxPainDispersionText ? ` ${maxPainDispersionText}` : ""}
           </p>
         </div>
 
@@ -864,7 +977,7 @@
                     {chartTypeStrike === item.type
                     ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                     : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                  title={item.label}
+                  title={getChartTypeLabel(item.type)}
                 >
                   <svelte:component this={item.icon} class="w-4 h-4" />
                 </button>
@@ -895,32 +1008,17 @@
           <!-- Insightful overview paragraph for Max Pain By Expiry section -->
           <div class="w-full mt-4 mb-2">
             <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-              Max pain for <strong>{ticker}</strong> shows
-              {maxPainTrend === "rising"
-                ? ` an upward trend from ${maxPainRange.min} to ${maxPainRange.max}, suggesting bullish positioning in longer-dated options`
-                : maxPainTrend === "falling"
-                  ? ` a downward trend from ${maxPainRange.max} to ${maxPainRange.min}, indicating bearish sentiment or hedging activity`
-                  : ` stable levels around ${averageMaxPain.toFixed(2)}, reflecting balanced market expectations`}.
-              The {(
-                ((maxPainRange.max - maxPainRange.min) / averageMaxPain) *
-                100
-              ).toFixed(0)}% spread
-              {Math.abs(maxPainRange.max - maxPainRange.min) / averageMaxPain >
-              0.1
-                ? " signals divergent expectations across timeframes"
-                : " suggests strong consensus on fair value"}.
-              {rawData?.filter((item) => item.maxPain < currentPrice).length >
-              rawData.length * 0.7
-                ? ` Most levels below ${currentPrice} may cap rallies.`
-                : rawData?.filter((item) => item.maxPain > currentPrice).length >
-                    rawData?.length * 0.7
-                  ? ` Most levels above ${currentPrice} could support dips.`
-                  : ` Levels distributed around ${currentPrice}.`}
-              {maxPainClusters.length > 0 && maxPainClusters[0].count >= 3
-                ? ` Strong magnetic level at ${maxPainClusters[0].price} (${maxPainClusters[0].count} expirations).`
+              {@html maxPainExpiryTrendSentence}
+              {maxPainExpirySpreadSentence
+                ? ` ${maxPainExpirySpreadSentence}`
                 : ""}
-              Weekly expirations influence price 2-3 days before expiry; monthlies
-              throughout their final week.
+              {maxPainExpiryLevelsSentence
+                ? ` ${maxPainExpiryLevelsSentence}`
+                : ""}
+              {maxPainExpiryMagneticSentence
+                ? ` ${maxPainExpiryMagneticSentence}`
+                : ""}
+              {` ${m.stock_detail_options_max_pain_expiry_timing()}`}
             </p>
           </div>
 
@@ -936,7 +1034,7 @@
                     {chartTypeExpiry === item.type
                     ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                     : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                  title={item.label}
+                  title={getChartTypeLabel(item.type)}
                 >
                   <svelte:component this={item.icon} class="w-4 h-4" />
                 </button>
@@ -959,7 +1057,7 @@
           <!-- Locked state for non-Pro users -->
           <div class="w-full mt-4 mb-2">
             <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-              Upgrade to Pro to view max pain analysis across all expiration dates with trend insights and magnetic price levels.
+              {m.stock_detail_options_max_pain_upgrade_locked()}
             </p>
           </div>
 
@@ -973,7 +1071,7 @@
                     <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
                     </svg>
-                    <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+                    <span class="text-sm font-medium">{m.stock_detail_options_max_pain_upgrade_unlock()}</span>
                   </a>
                 </div>
               </div>
@@ -1062,7 +1160,7 @@
                   <svg class="size-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
                   </svg>
-                  <span class="text-sm font-medium">Upgrade to Pro to unlock</span>
+                  <span class="text-sm font-medium">{m.stock_detail_options_max_pain_upgrade_unlock()}</span>
                 </a>
               </div>
             </div>

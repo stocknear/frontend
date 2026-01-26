@@ -71,7 +71,8 @@
       "./messages/{locale}/newsletter.json",
       "./messages/{locale}/auth.json",
       "./messages/{locale}/stock-detail.json",
-      "./messages/{locale}/upgrade-to-pro.json"
+      "./messages/{locale}/upgrade-to-pro.json",
+      "./messages/{locale}/error.json"
     ]
   }
 }

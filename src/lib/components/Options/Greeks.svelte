@@ -23,11 +23,39 @@
     type ChartType = "column" | "spline" | "scatter";
     let chartType: ChartType = "spline";
 
-    const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-        { type: "column", label: "Column", icon: BarChartIcon },
-        { type: "spline", label: "Line", icon: LineChartIcon },
-        { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+    const chartTypes: { type: ChartType; icon: any }[] = [
+        { type: "column", icon: BarChartIcon },
+        { type: "spline", icon: LineChartIcon },
+        { type: "scatter", icon: ScatterChartIcon },
     ];
+
+    const getChartTypeLabel = (type: ChartType) => {
+        const labels: Record<ChartType, () => string> = {
+            column: m.stock_detail_options_chart_type_column,
+            spline: m.stock_detail_options_chart_type_line,
+            scatter: m.stock_detail_options_chart_type_scatter,
+        };
+        return labels[type]?.() ?? type;
+    };
+
+    const getPCTabLabel = (tab: string) => {
+        const labels: Record<string, () => string> = {
+            "Calls & Puts": m.stock_detail_options_greeks_tab_calls_puts,
+            Calls: m.stock_detail_options_greeks_tab_calls,
+            Puts: m.stock_detail_options_greeks_tab_puts,
+        };
+        return labels[tab]?.() ?? tab;
+    };
+
+    const formatDteLabel = (dateStr: string) => {
+        const dte = computeDTE(dateStr);
+        if (dte == null) return "";
+        const dayLabel =
+            dte === 1
+                ? m.stock_detail_options_common_day()
+                : m.stock_detail_options_common_days();
+        return `(${dte} ${dayLabel})`;
+    };
 
     function changeChartType(type: ChartType) {
         chartType = type;
@@ -308,7 +336,7 @@
         const series = [];
         if (selectedType === "Calls & Puts" || selectedType === "Calls") {
             series?.push({
-                name: "Call",
+                name: m.stock_detail_options_common_call(),
                 type: chartType,
                 data: callSeries,
                 color: "#06988A",
@@ -320,7 +348,7 @@
         }
         if (selectedType === "Calls & Puts" || selectedType === "Puts") {
             series?.push({
-                name: "Put",
+                name: m.stock_detail_options_common_put(),
                 type: chartType,
                 data: putSeries,
                 color: "#FF0808",
@@ -383,7 +411,9 @@
                         dashStyle: "Dash",
                         width: 1.5,
                         label: {
-                            text: `Current Price ${currentPrice}`,
+                            text: m.stock_detail_options_chart_current_price({
+                                price: currentPrice,
+                            }),
                             style: {
                                 color: $mode === "light" ? "#000" : "#fff",
                             },
@@ -640,7 +670,7 @@
                                                         ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                                         : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                                                 >
-                                                    {item}
+                                                    {getPCTabLabel(item)}
                                                 </button>
                                             {/each}
                                         </div>
@@ -728,11 +758,7 @@
                                                 <span>{formatDate(item)}</span>
                                                 <span
                                                     class="ml-2 text-xs text-gray-500 dark:text-zinc-400"
-                                                    >({computeDTE(item)} day{computeDTE(
-                                                        item,
-                                                    ) === 1
-                                                        ? ""
-                                                        : "s"})</span
+                                                    >{formatDteLabel(item)}</span
                                                 >
                                             </DropdownMenu.Item>
                                         {:else}
@@ -744,11 +770,7 @@
                                                 <span>{formatDate(item)}</span>
                                                 <span
                                                     class="ml-2 text-xs text-gray-500 dark:text-zinc-400"
-                                                    >({computeDTE(item)} day{computeDTE(
-                                                        item,
-                                                    ) === 1
-                                                        ? ""
-                                                        : "s"})</span
+                                                    >{formatDteLabel(item)}</span
                                                 >
                                                 <svg
                                                     class="ml-1 size-4"
@@ -781,7 +803,7 @@
                                             {chartType === item.type
                                             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                                        title={item.label}
+                                        title={getChartTypeLabel(item.type)}
                                     >
                                         <svelte:component this={item.icon} class="w-4 h-4" />
                                     </button>

@@ -1,0 +1,6 @@
+{
+  "error_title": "Page not found - {status}",
+  "error_body_prefix": "The page was not found. If this error occurs persistently, please report it to us via",
+  "error_body_suffix": "We will fix it asap!",
+  "error_back_home": "Back to Home Page"
+}

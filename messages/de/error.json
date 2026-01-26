@@ -1,0 +1,6 @@
+{
+  "error_title": "Seite nicht gefunden - {status}",
+  "error_body_prefix": "Die Seite wurde nicht gefunden. Wenn dieser Fehler dauerhaft auftritt, melde ihn bitte per",
+  "error_body_suffix": "Wir beheben es asap!",
+  "error_back_home": "Zur Startseite"
+}

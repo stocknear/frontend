@@ -1,5 +1,6 @@
 <script>
   import { page } from "$app/stores";
+  import * as m from "$lib/paraglide/messages";
   //import { trackError,trackButtonClick } from '$lib/mixpanel';
 
   const emailAddress = "support@stocknear.com";
@@ -10,7 +11,7 @@
     <div class="lg:flex">
       <div class="mt-10 mb-5 m-auto">
         <h1 class=" text-center text-2xl sm:text-4xl font-bold mb-5">
-          Page Not found - {$page?.status}
+          {m.error_title({ status: $page?.status })}
           <!--Server Maintenance-->
         </h1>
         <a href="/" class="flex justify-center items-center">
@@ -27,22 +28,22 @@
                 -->
 
         <div class="mt-4 text-md w-11/12 sm:w-full m-auto text-center">
-          The page was not found. If this error occurs persistenly please report
-          it to us via
+          {m.error_body_prefix()}
+          {" "}
           <a
             href={`mailto:${emailAddress}`}
             class="inline-block text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline"
             >{emailAddress}</a
           >.
           <br />
-          We will fix it asap!
+          {m.error_body_suffix()}
         </div>
 
         <a
           href="/"
           class="flex justify-center items-center w-1/2 m-auto py-2.5 mt-10 rounded duration-100 bg-black sm:hover:bg-muted text-white sm:hover:bg-blue-600 dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
         >
-          Back to Home Page
+          {m.error_back_home()}
         </a>
       </div>
     </div>
