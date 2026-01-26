@@ -3,16 +3,16 @@
     import { page } from "$app/stores";
     import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
     import {
-  stock_detail_company,
-  stock_detail_stats_earnings_surprise,
-  stock_detail_stats_earnings_surprise_desc,
-  stock_detail_stats_more_information,
-  stock_detail_stats_price_reaction,
-  stock_detail_stats_pro_subscription,
-  stock_detail_stats_related_stocks,
-  stock_detail_stats_surprise,
-  stock_detail_stats_upgrade_desc,
-} from "$lib/paraglide/messages";
+        stock_detail_company,
+        stock_detail_stats_earnings_surprise,
+        stock_detail_stats_earnings_surprise_desc,
+        stock_detail_stats_more_information,
+        stock_detail_stats_price_reaction,
+        stock_detail_stats_pro_subscription,
+        stock_detail_stats_related_stocks,
+        stock_detail_stats_surprise,
+        stock_detail_stats_upgrade_desc,
+    } from "$lib/paraglide/messages";
 
     export let data;
     const similarStocks = data?.getSimilarStocks;
@@ -69,7 +69,7 @@
                         class="mb-5 sm:mb-0 sm:ml-4 sm:pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
                     >
                         <ul
-                            class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+                            class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
                         >
                             <a
                                 href={`/stocks/${$stockTicker}/statistics/earnings`}

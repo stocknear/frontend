@@ -3,14 +3,14 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import {
-  stock_detail_financials_annual,
-  stock_detail_financials_balance_sheet,
-  stock_detail_financials_cashflow,
-  stock_detail_financials_income,
-  stock_detail_financials_quarterly,
-  stock_detail_financials_ratios,
-  stock_detail_financials_ttm,
-} from "$lib/paraglide/messages";
+    stock_detail_financials_annual,
+    stock_detail_financials_balance_sheet,
+    stock_detail_financials_cashflow,
+    stock_detail_financials_income,
+    stock_detail_financials_quarterly,
+    stock_detail_financials_ratios,
+    stock_detail_financials_ttm,
+  } from "$lib/paraglide/messages";
 
   export let data;
   let displaySubSection = "income";
@@ -97,7 +97,7 @@
               class="mt-1 mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
             >
               <ul
-                class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+                class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
               >
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod

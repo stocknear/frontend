@@ -2,13 +2,13 @@
   import { stockTicker } from "$lib/store";
   import { page } from "$app/stores";
   import {
-  stock_detail_stats_nav_earnings,
-  stock_detail_stats_nav_fail_to_deliver,
-  stock_detail_stats_nav_market_cap,
-  stock_detail_stats_nav_overview,
-  stock_detail_stats_nav_revenue,
-  stock_detail_stats_nav_short_interest,
-} from "$lib/paraglide/messages";
+    stock_detail_stats_nav_earnings,
+    stock_detail_stats_nav_fail_to_deliver,
+    stock_detail_stats_nav_market_cap,
+    stock_detail_stats_nav_overview,
+    stock_detail_stats_nav_revenue,
+    stock_detail_stats_nav_short_interest,
+  } from "$lib/paraglide/messages";
 
   let displaySubSection = "overview";
 
@@ -59,7 +59,7 @@
           class="mt-1 mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
         >
           <ul
-            class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+            class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
           >
             <a
               href={`/stocks/${$stockTicker}/statistics`}

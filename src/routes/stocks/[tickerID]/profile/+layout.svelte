@@ -2,9 +2,9 @@
   import { stockTicker } from "$lib/store";
   import { page } from "$app/stores";
   import {
-  stock_detail_employees,
-  stock_detail_nav_overview,
-} from "$lib/paraglide/messages";
+    stock_detail_employees,
+    stock_detail_nav_overview,
+  } from "$lib/paraglide/messages";
 
   let displaySubSection = "overview";
 
@@ -44,10 +44,10 @@
     <main class="w-full">
       <div class="m-auto">
         <nav
-          class="mb-5 sm:mb-0 sm:ml-4 pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
+          class=" sm:ml-4 sm:pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
         >
           <ul
-            class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+            class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
           >
             <a
               href={`/stocks/${$stockTicker}/profile`}

@@ -1,6 +1,10 @@
 <script lang="ts">
   import { indexTicker } from "$lib/store";
   import { page } from "$app/stores";
+  import {
+    stock_detail_options_dex_nav_expiry,
+    stock_detail_options_dex_nav_strike,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -15,8 +19,10 @@
 
     if (state !== "overview" && subSectionMap[state]) {
       displaySubSection = state;
+      //goto(`/index/${$indexTicker}${subSectionMap[state]}`);
     } else {
       displaySubSection = state;
+      //goto(`/index/${$indexTicker}/statistics`);
     }
   }
 
@@ -48,10 +54,24 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <nav class="sm:ml-4 overflow-x-auto text-sm whitespace-nowrap">
+          <nav
+            class=" sm:ml-4 sm:pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
+          >
             <ul
-              class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+              class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
             >
+              <!--
+              <a
+                href={`/index/${$indexTicker}/options/dex`}
+                on:click={() => changeSubSection("overview")}
+                class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection === 'overview'
+                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                  : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+              >
+                Overview
+              </a>
+              -->
+
               <a
                 href={`/index/${$indexTicker}/options/dex/strike`}
                 on:click={() => changeSubSection("strike")}
@@ -60,7 +80,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                By Strike
+                {stock_detail_options_dex_nav_strike()}
               </a>
               <a
                 href={`/index/${$indexTicker}/options/dex/expiry`}
@@ -70,7 +90,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                By Expiry
+                {stock_detail_options_dex_nav_expiry()}
               </a>
             </ul>
           </nav>
