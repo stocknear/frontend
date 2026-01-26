@@ -6,10 +6,11 @@ import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 export const load = async ({ params, locals }) => {
   const getData = async () => {
 
-    const { apiURL, apiKey } = locals;
+    const { apiURL, apiKey, locale } = locals;
 
     const postData = {
       ticker: params.tickerID,
+      lang: locale ?? 'en',
     };
 
     // make the POST request to the endpoint

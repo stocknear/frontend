@@ -93,8 +93,8 @@ const fetchWithTimeout = async (url, options, timeout) => {
 };
 
 // Main data fetching function
-const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
-  const cacheKey = `${endpoint}-${ticker}`;
+const fetchData = async (apiURL, apiKey, endpoint, ticker, lang = "en") => {
+  const cacheKey = `${endpoint}-${ticker}-${lang}`;
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
 
@@ -104,7 +104,7 @@ const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
       "Content-Type": "application/json",
       "X-API-KEY": apiKey
     },
-    body: JSON.stringify({ ticker, endpoints: ENDPOINTS })
+    body: JSON.stringify({ ticker, endpoints: ENDPOINTS, lang })
   };
 
   try {
@@ -137,7 +137,7 @@ const fetchWatchlist = async (pb, userId) => {
 
 // Main load function with parallel fetching
 export const load = async ({ params, locals }) => {
-  const { apiURL, apiKey, pb, user } = locals;
+  const { apiURL, apiKey, pb, user, locale } = locals;
   const { tickerID } = params;
 
   if (!tickerID) {
@@ -146,7 +146,7 @@ export const load = async ({ params, locals }) => {
 
   try {
     const [stockData, userWatchlist] = await Promise.all([
-      fetchData(apiURL, apiKey, "/bulk-data", tickerID),
+      fetchData(apiURL, apiKey, "/bulk-data", tickerID, locale ?? "en"),
       fetchWatchlist(pb, user?.id)
     ]);
 
