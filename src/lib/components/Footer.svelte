@@ -465,7 +465,7 @@
           href="/about"
           aria-label="About us"
         >
-          {footer_eu}
+          {footer_eu()}
           <svg
             class="size-5 inline-block ml-1 -mt-1"
             viewBox="0 -4 28 28"

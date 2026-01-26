@@ -79,7 +79,7 @@
   "pricing_upgrade_modal_content": "Um dein Konto von Plus auf Pro zu upgraden, kontaktiere uns bitte per E-Mail und wir kümmern uns um das Upgrade für dich.",
   "pricing_upgrade_modal_button": "Support kontaktieren",
   "pricing_upgrade_modal_response_time": "Wir antworten in der Regel innerhalb von 24 Stunden.",
-  "pricing_billed_annually_120": "Jährlich abgerechnet $120",
-  "pricing_billed_annually_360": "Jährlich abgerechnet $360",
+  "pricing_billed_annually_plus": "Jährlich abgerechnet €108",
+  "pricing_billed_annually_pro": "Jährlich abgerechnet €348",
   "pricing_pro_active": "Pro-Plan aktiv"
 }

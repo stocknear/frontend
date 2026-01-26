@@ -79,7 +79,7 @@
   "pricing_upgrade_modal_content": "To upgrade your account from Plus to Pro, please contact us via email and we will handle the upgrade for you.",
   "pricing_upgrade_modal_button": "Contact Support",
   "pricing_upgrade_modal_response_time": "We typically respond within 24 hours.",
-  "pricing_billed_annually_120": "Billed annually $120",
-  "pricing_billed_annually_360": "Billed annually $360",
+  "pricing_billed_annually_plus": "Billed annually €108",
+  "pricing_billed_annually_pro": "Billed annually €348",
   "pricing_pro_active": "Pro Plan Active"
 }

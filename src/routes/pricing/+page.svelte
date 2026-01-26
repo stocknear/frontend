@@ -84,8 +84,8 @@
     pricing_upgrade_modal_content,
     pricing_upgrade_modal_button,
     pricing_upgrade_modal_response_time,
-    pricing_billed_annually_120,
-    pricing_billed_annually_360,
+    pricing_billed_annually_plus,
+    pricing_billed_annually_pro,
     pricing_pro_active,
   } from "$lib/paraglide/messages.js";
 
@@ -329,7 +329,9 @@
           class="absolute left-1 top-1 h-6 w-6 rounded-full bg-muted dark:bg-white shadow-md transition peer-checked:translate-x-8 peer-checked:bg-white dark:bg-zinc-200"
         ></span>
       </label>
-      <span class={mode ? "text-[rgb(var(--pricing-ink))]" : ""}> {pricing_annual()} </span>
+      <span class={mode ? "text-[rgb(var(--pricing-ink))]" : ""}>
+        {pricing_annual()}
+      </span>
       <span
         class="rounded-full px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em]"
       >
@@ -342,7 +344,9 @@
         class="hidden sm:flex flex-col relative rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
       >
         <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-semibold tracking-tight">{pricing_basic_title()}</h3>
+          <h3 class="text-2xl font-semibold tracking-tight">
+            {pricing_basic_title()}
+          </h3>
         </div>
         <p class="mt-2 text-sm">{pricing_basic_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
@@ -1071,7 +1075,9 @@
         class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6"
       >
         <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-semibold tracking-tight">{pricing_plus_title()}</h3>
+          <h3 class="text-2xl font-semibold tracking-tight">
+            {pricing_plus_title()}
+          </h3>
         </div>
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
@@ -1081,7 +1087,7 @@
           </span>
           -->
           <span class="text-4xl font-semibold">
-            {mode ? "$10" : "$15"}
+            {mode ? "€9" : "€15"}
           </span>
           <span class="text-sm">{pricing_per_month()}</span>
         </div>
@@ -1092,12 +1098,12 @@
         >
           <!--
           <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
-            Billed annually ($120)
+            Billed annually (€120)
           </span>
       -->
           <span
             class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
-            >{pricing_billed_annually_120()}</span
+            >{pricing_billed_annually_plus()}</span
           >
         </p>
         <!--
@@ -1595,7 +1601,9 @@
         class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-gray-900 dark:text-white"
       >
         <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-semibold tracking-tight">{pricing_pro_title()}</h3>
+          <h3 class="text-2xl font-semibold tracking-tight">
+            {pricing_pro_title()}
+          </h3>
         </div>
         <p class="text-sm mt-2 text-gray-800 dark:text-zinc-300">
           {pricing_pro_subtitle()}
@@ -1607,9 +1615,11 @@
           </span>
           -->
           <span class="text-4xl font-semibold">
-            {mode ? "$30" : "$45"}
+            {mode ? "€29" : "€40"}
           </span>
-          <span class="text-sm text-gray-500 dark:text-zinc-400">{pricing_per_month()}</span>
+          <span class="text-sm text-gray-500 dark:text-zinc-400"
+            >{pricing_per_month()}</span
+          >
         </div>
         <p
           class="text-xs mt-2 uppercase tracking-[0.2em] {!mode
@@ -1624,7 +1634,7 @@
           <span
             class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
           >
-            {pricing_billed_annually_360()}</span
+            {pricing_billed_annually_pro()}</span
           >
         </p>
         <!--
@@ -2051,7 +2061,7 @@
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     {@html pricing_faq_q7_answer({
-                      email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`
+                      email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
                     })}
                   </p>
                 </div>
