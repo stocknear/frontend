@@ -10,6 +10,34 @@
   import { goto } from "$app/navigation";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
 
+  import {
+    etf_detail_na,
+    etf_sidecard_about,
+    etf_sidecard_asset_class,
+    etf_sidecard_ticker_symbol,
+    etf_sidecard_inception_date,
+    etf_sidecard_provider,
+    etf_sidecard_website,
+    etf_sidecard_fund_home_page,
+    etf_sidecard_exchange,
+    etf_sidecard_top_sectors,
+    etf_sidecard_sector,
+    etf_sidecard_weight_percent,
+    etf_sidecard_view_all_sectors,
+    etf_sidecard_top_holdings,
+    etf_sidecard_assets_percent,
+    etf_sidecard_name,
+    etf_sidecard_symbol,
+    etf_sidecard_weight,
+    etf_sidecard_view_more_holdings,
+    etf_sidecard_dividends,
+    etf_sidecard_dividend_yield,
+    etf_sidecard_ex_dividend,
+    etf_sidecard_amount,
+    etf_sidecard_payment_date,
+    etf_sidecard_full_dividend_history,
+  } from "$lib/paraglide/messages";
+
   export let data;
 
   let info;
@@ -74,7 +102,7 @@
   <h2
     class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
   >
-    About {$etfTicker}
+    {etf_sidecard_about({ ticker: $etfTicker })}
   </h2>
   <p class="text-sm text-gray-800 dark:text-zinc-300">
     {description}
@@ -86,33 +114,33 @@
     <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-        >Asset Class</span
+        >{etf_sidecard_asset_class()}</span
       >
-      <span>{assetClass ?? "n/a"}</span>
+      <span>{assetClass ?? etf_detail_na()}</span>
     </div>
     <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-        >Ticker Symbol</span
+        >{etf_sidecard_ticker_symbol()}</span
       >
       {$etfTicker}
     </div>
     <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-        >Inception Date</span
+        >{etf_sidecard_inception_date()}</span
       >
       <span>{ipoDate}</span>
     </div>
     <div class="col-span-1 text-sm text-gray-800 dark:text-zinc-300">
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-        >Provider</span
+        >{etf_sidecard_provider()}</span
       >
       <a
         href={`/etf/etf-providers/${provider}`}
         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-        >{provider ? formatETFName(provider) : "n/a"}</a
+        >{provider ? formatETFName(provider) : etf_detail_na()}</a
       >
     </div>
 
@@ -121,12 +149,12 @@
     >
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-        >Website</span
+        >{etf_sidecard_website()}</span
       >
       <a
         href={website}
         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
-        target="_blank">Fund Home Page</a
+        target="_blank">{etf_sidecard_fund_home_page()}</a
       >
     </div>
 
@@ -135,9 +163,9 @@
     >
       <span
         class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
-        >Exchange</span
+        >{etf_sidecard_exchange()}</span
       >
-      <span>{data?.getStockQuote?.exchange ?? "n/a"}</span>
+      <span>{data?.getStockQuote?.exchange ?? etf_detail_na()}</span>
     </div>
   </div>
 </div>
@@ -150,7 +178,7 @@
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
           <span
             class="font-semibold tracking-tight text-gray-900 dark:text-white"
-            >Top Sectors</span
+            >{etf_sidecard_top_sectors()}</span
           >
         </h2>
 
@@ -161,11 +189,11 @@
                 class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
-                  >Sector</th
+                  >{etf_sidecard_sector()}</th
                 >
 
                 <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
-                  >Weight %</th
+                  >{etf_sidecard_weight_percent()}</th
                 >
               </tr>
             </thead>
@@ -200,7 +228,7 @@
           href={`/etf/${$etfTicker}/holdings`}
           class="inline-flex items-center justify-center rounded-full cursor-pointer w-full py-2 mt-3 text-sm text-center font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-100"
         >
-          View All Sectors
+          {etf_sidecard_view_all_sectors()}
         </a>
       </div>
     </div>
@@ -219,12 +247,12 @@
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
           <span
             class="font-semibold tracking-tight text-gray-900 dark:text-white"
-            >Top 10 Holdings</span
+            >{etf_sidecard_top_holdings()}</span
           >
           <span
             class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400"
           >
-            {totalAssetPercentage}% of assets
+            {etf_sidecard_assets_percent({ percent: totalAssetPercentage })}
           </span>
         </h2>
 
@@ -234,13 +262,13 @@
               ><tr
                 class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 ><th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
-                  >Name</th
+                  >{etf_sidecard_name()}</th
                 >
                 <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
-                  >Symbol</th
+                  >{etf_sidecard_symbol()}</th
                 >
                 <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
-                  >Weight</th
+                  >{etf_sidecard_weight()}</th
                 ></tr
               ></thead
             >
@@ -256,7 +284,7 @@
                           ? formatString(item?.name?.slice(0, 20)) + "..."
                           : formatString(item?.name)?.replace("Usd", "USD")}
                       {:else}
-                        n/a
+                        {etf_detail_na()}
                       {/if}
                     </td>
 
@@ -278,7 +306,7 @@
           href={`/etf/${$etfTicker}/holdings`}
           class="inline-flex items-center justify-center rounded-full cursor-pointer w-full py-2 mt-3 text-sm text-center font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-100"
         >
-          View More Holdings
+          {etf_sidecard_view_more_holdings()}
         </a>
       </div>
     </div>
@@ -298,12 +326,12 @@
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
           <span
             class="font-semibold tracking-tight text-gray-900 dark:text-white"
-            >Dividends</span
+            >{etf_sidecard_dividends()}</span
           >
           <span
             class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400"
           >
-            Dividend Yield {dividendYield ?? "0"}%
+            {etf_sidecard_dividend_yield({ yield: dividendYield ?? "0" })}
           </span>
         </h2>
 
@@ -313,13 +341,13 @@
               ><tr
                 class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                 ><th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
-                  >Ex-Dividend</th
+                  >{etf_sidecard_ex_dividend()}</th
                 >
                 <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
-                  >Amount</th
+                  >{etf_sidecard_amount()}</th
                 >
                 <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
-                  >Payment Date</th
+                  >{etf_sidecard_payment_date()}</th
                 ></tr
               ></thead
             >
@@ -350,7 +378,7 @@
                           year: "numeric",
                           daySuffix: "2-digit",
                         })
-                      : "n/a"}
+                      : etf_detail_na()}
                   </td>
                 </tr>
               {/each}
@@ -362,7 +390,7 @@
           href={`/etf/${$etfTicker}/dividends`}
           class="inline-flex items-center justify-center rounded-full cursor-pointer w-full py-2 mt-3 text-sm text-center font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-100"
         >
-          Full Dividend History
+          {etf_sidecard_full_dividend_history()}
         </a>
       </div>
     </div>

@@ -155,5 +155,30 @@
 
   "etf_detail_history_seo_title": "{etfName} ({ticker}) Historical Price Data & Charts",
   "etf_detail_history_seo_description": "Historical price data and charts for {etfName} ({ticker}) ETF. Download historical prices and analyze long-term performance.",
-  "etf_detail_history_seo_keywords": "{ticker} historical prices, {etfName} price history, {ticker} chart, ETF historical data"
+  "etf_detail_history_seo_keywords": "{ticker} historical prices, {etfName} price history, {ticker} chart, ETF historical data",
+
+  "etf_sidecard_about": "About {ticker}",
+  "etf_sidecard_asset_class": "Asset Class",
+  "etf_sidecard_ticker_symbol": "Ticker Symbol",
+  "etf_sidecard_inception_date": "Inception Date",
+  "etf_sidecard_provider": "Provider",
+  "etf_sidecard_website": "Website",
+  "etf_sidecard_fund_home_page": "Fund Home Page",
+  "etf_sidecard_exchange": "Exchange",
+  "etf_sidecard_top_sectors": "Top Sectors",
+  "etf_sidecard_sector": "Sector",
+  "etf_sidecard_weight_percent": "Weight %",
+  "etf_sidecard_view_all_sectors": "View All Sectors",
+  "etf_sidecard_top_holdings": "Top 10 Holdings",
+  "etf_sidecard_assets_percent": "{percent}% of assets",
+  "etf_sidecard_name": "Name",
+  "etf_sidecard_symbol": "Symbol",
+  "etf_sidecard_weight": "Weight",
+  "etf_sidecard_view_more_holdings": "View More Holdings",
+  "etf_sidecard_dividends": "Dividends",
+  "etf_sidecard_dividend_yield": "Dividend Yield {yield}%",
+  "etf_sidecard_ex_dividend": "Ex-Dividend",
+  "etf_sidecard_amount": "Amount",
+  "etf_sidecard_payment_date": "Payment Date",
+  "etf_sidecard_full_dividend_history": "Full Dividend History"
 }

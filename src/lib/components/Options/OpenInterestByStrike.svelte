@@ -1,6 +1,9 @@
 <script lang="ts">
   import {
     stock_detail_options_chart_current_price,
+    stock_detail_options_chart_type_column,
+    stock_detail_options_chart_type_line,
+    stock_detail_options_chart_type_scatter,
     stock_detail_options_col_call_oi,
     stock_detail_options_col_pc_oi,
     stock_detail_options_col_put_oi,
