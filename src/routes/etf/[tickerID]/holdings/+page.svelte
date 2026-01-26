@@ -58,7 +58,11 @@
   ];
 
   $: specificRows = [
-    { name: etf_detail_holdings_weight(), rule: "weightPercentage", type: "percent" },
+    {
+      name: etf_detail_holdings_weight(),
+      rule: "weightPercentage",
+      type: "percent",
+    },
     { name: etf_detail_holdings_shares(), rule: "sharesNumber", type: "int" },
   ];
 
@@ -354,7 +358,8 @@
             <div
               class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400 md:ml-0"
             >
-              <span class="inline">{etf_detail_holdings_as_of()} </span>{formattedDate}
+              <span class="inline">{etf_detail_holdings_as_of() + " "}</span
+              >{formattedDate}
             </div>
           {/if}
         </div>
@@ -476,7 +481,9 @@
         {#if rawData?.length > 0}
           <Table
             {data}
-            title={etf_detail_holdings_stocks_count({ count: rawData?.length?.toLocaleString("en-US") })}
+            title={etf_detail_holdings_stocks_count({
+              count: rawData?.length?.toLocaleString("en-US"),
+            })}
             {rawData}
             {excludedRules}
             {defaultList}

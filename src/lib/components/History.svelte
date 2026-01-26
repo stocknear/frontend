@@ -30,6 +30,7 @@
     stock_detail_history_select_timeframe,
     stock_detail_history_title,
     stock_detail_history_week_of,
+    stock_detail_history_weekly,
   } from "$lib/paraglide/messages";
 
   export let data;
