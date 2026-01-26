@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { displayCompanyName } from "$lib/store";
   import InfoModal from "$lib/components/InfoModal.svelte";
-  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  import { abbreviateNumber } from "$lib/utils";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -11,6 +10,24 @@
   import { page } from "$app/stores";
   import { mode } from "mode-watcher";
   import { onMount } from "svelte";
+
+  import {
+    stock_detail_dark_pool_historical_chart_title,
+    stock_detail_dark_pool_historical_data,
+    stock_detail_dark_pool_historical_info,
+    stock_detail_dark_pool_tab_weekly,
+    stock_detail_dark_pool_tab_quarterly,
+    stock_detail_dark_pool_total_volume,
+    stock_detail_dark_pool_short_volume,
+    stock_detail_dark_pool_col_date,
+    stock_detail_dark_pool_col_long_volume,
+    stock_detail_dark_pool_col_long_short,
+    stock_detail_dark_pool_col_short_change,
+    stock_detail_dark_pool_previous,
+    stock_detail_dark_pool_next,
+    stock_detail_dark_pool_page_of,
+    stock_detail_dark_pool_rows,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let rawData = [];
@@ -76,7 +93,11 @@
 
   const originalData = rawData;
   let activeIdx = 0;
-  const tabs = ["Weekly", "Quarterly"];
+
+  $: tabs = [
+    stock_detail_dark_pool_tab_weekly(),
+    stock_detail_dark_pool_tab_quarterly(),
+  ];
 
   let config = null;
   let avgVolume = 0;
@@ -149,7 +170,7 @@
         reflow: false, // Disable automatic reflow for better performance
       },
       title: {
-        text: `<h3 class="mt-3 -mb-3 text-[1rem] sm:text-lg">${removeCompanyStrings($displayCompanyName)} Historical Chart</h3>`,
+        text: `<h3 class="mt-3 -mb-3 text-[1rem] sm:text-lg"></h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -226,7 +247,9 @@
         borderRadius: 4,
         formatter: function () {
           // Pre-format date to avoid repeated calculations
-          const formattedDate = new Date(this.points[0]?.key).toLocaleDateString("en-US", {
+          const formattedDate = new Date(
+            this.points[0]?.key,
+          ).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
             day: "numeric",
@@ -269,7 +292,7 @@
       },
       series: [
         {
-          name: "Total Volume",
+          name: stock_detail_dark_pool_total_volume(),
           data: totalVolumeList,
           type: "line",
           color: $mode === "light" ? "#2C6288" : "white",
@@ -277,7 +300,7 @@
           animation: false,
         },
         {
-          name: "Short Volume",
+          name: stock_detail_dark_pool_short_volume(),
           data: shortVolumeList,
           type: "area",
           color: "#E11D48",
@@ -426,12 +449,28 @@
     });
   }
 
-  let columns = [
-    { key: "date", label: "Date", align: "left" },
-    { key: "longVolume", label: "Long Volume", align: "right" },
-    { key: "shortVolume", label: "Short Volume", align: "right" },
-    { key: "longShortRatio", label: "Long / Short", align: "right" },
-    { key: "changesPercentage", label: "% Short Change", align: "right" },
+  $: columns = [
+    { key: "date", label: stock_detail_dark_pool_col_date(), align: "left" },
+    {
+      key: "longVolume",
+      label: stock_detail_dark_pool_col_long_volume(),
+      align: "right",
+    },
+    {
+      key: "shortVolume",
+      label: stock_detail_dark_pool_short_volume(),
+      align: "right",
+    },
+    {
+      key: "longShortRatio",
+      label: stock_detail_dark_pool_col_long_short(),
+      align: "right",
+    },
+    {
+      key: "changesPercentage",
+      label: stock_detail_dark_pool_col_short_change(),
+      align: "right",
+    },
   ];
 
   let sortOrders = {
@@ -539,11 +578,11 @@
         for="historicalDataInfo"
         class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
       >
-        Historical Dark Pool Chart
+        {stock_detail_dark_pool_historical_chart_title()}
       </label>
       <InfoModal
-        title={"Historical Data"}
-        content={"By analyzing historical dark pool activity, retail investors can gauge market sentiment through total and short volumes. High short volume may indicate bearish sentiment."}
+        title={stock_detail_dark_pool_historical_data()}
+        content={stock_detail_dark_pool_historical_info()}
         id={"historicalDataInfo"}
       />
     </div>
@@ -671,13 +710,18 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">Previous</span></Button
+              <span class="hidden sm:inline"
+                >{stock_detail_dark_pool_previous()}</span
+              ></Button
             >
           </div>
 
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {stock_detail_dark_pool_page_of({
+                current: currentPage,
+                total: totalPages,
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -687,7 +731,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{rowsPerPage} Rows</span
+                    >{stock_detail_dark_pool_rows({ count: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -721,7 +765,9 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{item} Rows</span>
+                        <span class="text-sm"
+                          >{stock_detail_dark_pool_rows({ count: item })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -736,7 +782,9 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">Next</span>
+              <span class="hidden sm:inline"
+                >{stock_detail_dark_pool_next()}</span
+              >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"

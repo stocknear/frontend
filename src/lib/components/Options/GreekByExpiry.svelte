@@ -1,5 +1,8 @@
 <script lang="ts">
   import {
+    stock_detail_options_chart_type_column,
+    stock_detail_options_chart_type_line,
+    stock_detail_options_chart_type_scatter,
     stock_detail_options_common_back_to_top,
     stock_detail_options_common_next,
     stock_detail_options_common_page_of,

@@ -1295,5 +1295,31 @@
   "stock_detail_options_greek_expiry_delta_ratio": "Das Put-Call-Delta-Verhältnis von <strong>{ratio}</strong> {context}.",
   "stock_detail_options_greek_expiry_delta_context_high_put": "zeigt defensive Positionierung mit starkem Put-Schutz, was Abwärtsbewegungen beschleunigen kann, wenn Levels brechen",
   "stock_detail_options_greek_expiry_delta_context_high_call": "zeigt bullish Positionierung mit Call-Dominanz, kann Aufwärtsmomentum liefern, macht den Markt aber anfällig für schnelle Pullbacks",
-  "stock_detail_options_greek_expiry_delta_context_balanced": "spricht für eine neutrale Positionierung der Market Maker"
+  "stock_detail_options_greek_expiry_delta_context_balanced": "spricht für eine neutrale Positionierung der Market Maker",
+
+  "stock_detail_unusual_orders_pro_subscription": "Pro Subscription",
+  "stock_detail_unusual_orders_pro_description": "Upgrade now for unlimited access to all data, tools and no ads.",
+  "stock_detail_unusual_orders_block_order": "Block Order",
+  "stock_detail_unusual_orders_block_order_description": "Block orders are large, institution-sized transactions executed on public exchanges (not off-exchange) with a minimum size of 10,000 shares. Because they occur on exchanges rather than in dark pools, block orders are visible to market data feeds and signal meaningful institutional accumulation or distribution.",
+  "stock_detail_unusual_orders_dark_pool_order": "Dark Pool Order",
+  "stock_detail_unusual_orders_dark_pool_description": "Dark pools are private, off-exchange venues where large institutions anonymously trade blocks of securities to minimize market impact and information leakage—revealing institutional positioning before retail investors catch on.",
+  "stock_detail_unusual_orders_full_definition": "Full Definition",
+  "stock_detail_unusual_orders_unusual_order_flow": "Unusual Order Flow",
+  "stock_detail_unusual_orders_follow_whales": "Follow the order feed of big whales in realtime",
+
+  "stock_detail_dark_pool_historical_chart_title": "Historical Dark Pool Chart",
+  "stock_detail_dark_pool_historical_data": "Historical Data",
+  "stock_detail_dark_pool_historical_info": "By analyzing historical dark pool activity, retail investors can gauge market sentiment through total and short volumes. High short volume may indicate bearish sentiment.",
+  "stock_detail_dark_pool_tab_weekly": "Weekly",
+  "stock_detail_dark_pool_tab_quarterly": "Quarterly",
+  "stock_detail_dark_pool_total_volume": "Total Volume",
+  "stock_detail_dark_pool_short_volume": "Short Volume",
+  "stock_detail_dark_pool_col_date": "Date",
+  "stock_detail_dark_pool_col_long_volume": "Long Volume",
+  "stock_detail_dark_pool_col_long_short": "Long / Short",
+  "stock_detail_dark_pool_col_short_change": "% Short Change",
+  "stock_detail_dark_pool_previous": "Previous",
+  "stock_detail_dark_pool_next": "Next",
+  "stock_detail_dark_pool_page_of": "Page {current} of {total}",
+  "stock_detail_dark_pool_rows": "{count} Rows"
 }

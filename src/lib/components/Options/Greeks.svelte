@@ -16,6 +16,9 @@
     import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
     import {
         stock_detail_options_chart_current_price,
+        stock_detail_options_chart_type_column,
+        stock_detail_options_chart_type_line,
+        stock_detail_options_chart_type_scatter,
         stock_detail_options_common_back_to_top,
         stock_detail_options_common_call,
         stock_detail_options_common_day,
@@ -32,6 +35,9 @@
         stock_detail_options_greeks_col_vega,
         stock_detail_options_greeks_date_expiration,
         stock_detail_options_greeks_description,
+        stock_detail_options_greeks_tab_calls,
+        stock_detail_options_greeks_tab_calls_puts,
+        stock_detail_options_greeks_tab_puts,
         stock_detail_options_greeks_table_title,
         stock_detail_options_greeks_title,
     } from "$lib/paraglide/messages";

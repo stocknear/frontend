@@ -16,6 +16,9 @@
   import ScatterChartIcon from "lucide-svelte/icons/circle-dot";
   import {
     stock_detail_options_chart_current_price,
+    stock_detail_options_chart_type_column,
+    stock_detail_options_chart_type_line,
+    stock_detail_options_chart_type_scatter,
     stock_detail_options_common_back_to_top,
     stock_detail_options_common_call,
     stock_detail_options_common_day,
