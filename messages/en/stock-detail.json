@@ -1027,6 +1027,7 @@
   "stock_detail_options_unusual_col_type": "Type",
   "stock_detail_options_unusual_col_transaction_date": "Transaction Date",
   "stock_detail_options_unusual_col_dte": "DTE",
+  "stock_detail_options_unusual_col_unusual_type": "Type",
   "stock_detail_options_unusual_col_exec": "Exec",
   "stock_detail_options_unusual_col_sent": "Sent.",
   "stock_detail_options_unusual_col_size": "Size",
@@ -1139,6 +1140,7 @@
   "stock_detail_options_common_back_to_top": "Back to Top",
   "stock_detail_options_common_call": "Call",
   "stock_detail_options_common_put": "Put",
+  "stock_detail_options_common_close": "Close",
 
   "stock_detail_options_oi_chart_title": "Open Interest Chart",
   "stock_detail_options_oi_table_title": "Open Interest Table",

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Für aktive Trader gebaut, die einen Vorteil wollen.",
+  "upgrade_to_pro_subtitle": "Du brauchst nicht mehr Schlagzeilen. Du brauchst den Flow, Katalysatoren und Kontext, die den Kurs bewegen. Pro bündelt Echtzeit-Options- und Dark-Pool-Daten, Analysten-Moves und lange Historie an einem Ort, damit du den Trade planst, statt ihm hinterherzulaufen.",
+  "upgrade_to_pro_feature_data_title": "Schalte den kompletten Daten-Stack frei",
+  "upgrade_to_pro_feature_data_desc": "Hol dir jedes Dataset und Tool in Stocknear, damit du Setups schnell prüfst und mit Überzeugung handelst.",
+  "upgrade_to_pro_feature_flow_title": "Live Options + Dark-Pool-Flow",
+  "upgrade_to_pro_feature_flow_desc": "Erkenne ungewöhnliche Aktivität und große Prints, sobald sie passieren, um vor der Menge zu handeln.",
+  "upgrade_to_pro_feature_analyst_title": "Analysten-Katalysatoren, die den Kurs bewegen",
+  "upgrade_to_pro_feature_analyst_desc": "Verfolge Upgrades, Downgrades und Kursziele, ohne News hinterherzulaufen.",
+  "upgrade_to_pro_feature_history_title": "Lange Historie fürs Backtesting",
+  "upgrade_to_pro_feature_history_desc": "Validiere Ideen mit Premium-Daten und bis zu 30 Jahren Historie.",
+  "upgrade_to_pro_cta": "Upgrade auf Pro"
+}

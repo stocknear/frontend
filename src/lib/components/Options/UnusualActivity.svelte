@@ -137,7 +137,7 @@
 
   $: columns = [
     { key: "optionType", label: m.stock_detail_options_unusual_col_type(), align: "left" },
-    { key: "date", label: m.stock_detail_options_unusual_col_date(), align: "right" },
+    { key: "date", label: m.stock_detail_options_unusual_col_transaction_date(), align: "right" },
     { key: "dte", label: m.stock_detail_options_unusual_col_dte(), align: "right" },
     { key: "unusualType", label: m.stock_detail_options_unusual_col_unusual_type(), align: "right" },
     { key: "executionEst", label: m.stock_detail_options_unusual_col_exec(), align: "right" },
@@ -431,39 +431,54 @@
               (item) => item.unusualType === "Sweep",
             ).length}
 
-            <strong>{ticker}</strong> has recorded
+            <strong>{ticker}</strong>
+            {m.stock_detail_options_unusual_intro_has_recorded()}
             <strong>{rawData.length}</strong>
-            unusual options
-            {rawData.length === 1 ? "trade" : "trades"} with a total premium of
-            <strong>${totalPremium.toLocaleString("en-US")}</strong>. The
-            activity is split between <strong>{callCount}</strong> call
-            {callCount === 1 ? "order" : "orders"} ({(
-              (callCount / rawData.length) *
-              100
-            ).toFixed(1)}%) and
-            <strong>{putCount}</strong> put {putCount === 1
-              ? "order"
-              : "orders"}
+            {m.stock_detail_options_unusual_intro_unusual_options()}
+            {rawData.length === 1
+              ? m.stock_detail_options_unusual_intro_trade()
+              : m.stock_detail_options_unusual_intro_trades()}
+            {m.stock_detail_options_unusual_intro_total_premium()}
+            <strong>${totalPremium.toLocaleString("en-US")}</strong>.
+            {m.stock_detail_options_unusual_intro_split_between()}
+            <strong>{callCount}</strong>
+            {callCount === 1
+              ? m.stock_detail_options_unusual_intro_call()
+              : m.stock_detail_options_unusual_intro_calls()}
+            {callCount === 1
+              ? m.stock_detail_options_unusual_intro_order()
+              : m.stock_detail_options_unusual_intro_orders()}
+            ({((callCount / rawData.length) * 100).toFixed(1)}%)
+            {m.stock_detail_options_unusual_intro_and()}
+            <strong>{putCount}</strong>
+            {putCount === 1
+              ? m.stock_detail_options_unusual_intro_put()
+              : m.stock_detail_options_unusual_intro_puts()}
+            {putCount === 1
+              ? m.stock_detail_options_unusual_intro_order()
+              : m.stock_detail_options_unusual_intro_orders()}
             ({((putCount / rawData.length) * 100).toFixed(1)}%),
             {@html callCount > putCount
-              ? `showing a <span class="text-emerald-600 dark:text-emerald-400">bullish skew</span>`
+              ? m.stock_detail_options_unusual_intro_bullish_skew()
               : putCount > callCount
-                ? `showing a <span class="text-rose-600 dark:text-rose-400">bearish skew</span>`
-                : `showing <span>balanced</span> positioning`}. Sentiment
-            analysis reveals
+                ? m.stock_detail_options_unusual_intro_bearish_skew()
+                : m.stock_detail_options_unusual_intro_balanced()}.
+            {m.stock_detail_options_unusual_intro_sentiment()}
             <strong
               >{((bullishCount / rawData.length) * 100).toFixed(0)}%</strong
             >
-            bullish and
+            {m.stock_detail_options_unusual_intro_bullish()}
+            {m.stock_detail_options_unusual_intro_and()}
             <strong
               >{((bearishCount / rawData.length) * 100).toFixed(0)}%</strong
             >
-            bearish positioning
+            {m.stock_detail_options_unusual_intro_bearish()}
+            {m.stock_detail_options_unusual_intro_positioning()}
             {@html bullishCount > bearishCount * 1.5
-              ? ", indicating <strong>strong bullish conviction</strong>"
+              ? m.stock_detail_options_unusual_intro_strong_bullish()
               : bearishCount > bullishCount * 1.5
-                ? ", indicating <strong>strong bearish conviction</strong>"
-                : ", showing <strong>mixed market sentiment</strong>"}.
+                ? m.stock_detail_options_unusual_intro_strong_bearish()
+                : m.stock_detail_options_unusual_intro_mixed()}.
           {/if}
         </p>
 

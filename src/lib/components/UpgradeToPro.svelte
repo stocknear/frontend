@@ -1,5 +1,6 @@
 <script lang="ts">
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
   export let data;
   export let display = false;
 </script>
@@ -11,13 +12,10 @@
         <h3
           class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          Built for active traders who want an edge.
+          {m.upgrade_to_pro_title()}
         </h3>
         <p class="mt-4 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
-          You do not need more headlines. You need the flow, catalysts, and
-          context that move price. Pro puts real-time options and dark pool
-          data, analyst moves, and deep history in one place so you can plan the
-          trade, not chase it.
+          {m.upgrade_to_pro_subtitle()}
         </p>
       </div>
 
@@ -44,16 +42,15 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >
-              </div>
-              Unlock the full data stack
-            </dt>
-            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-              Get every dataset and tool across Stocknear so you can vet setups
-              fast and act with conviction.
-            </dd>
-          </div>
+                ></path></svg
+              >
+            </div>
+            {m.upgrade_to_pro_feature_data_title()}
+          </dt>
+          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
+            {m.upgrade_to_pro_feature_data_desc()}
+          </dd>
+        </div>
 
           <!-- Average Return -->
           <div class="relative pl-14">
@@ -74,16 +71,15 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-                  ></path></svg
-                >
-              </div>
-              Live options + dark pool flow
-            </dt>
-            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-              Spot unusual activity and large prints as they happen to move
-              before the crowd.
-            </dd>
-          </div>
+                ></path></svg
+              >
+            </div>
+            {m.upgrade_to_pro_feature_flow_title()}
+          </dt>
+          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
+            {m.upgrade_to_pro_feature_flow_desc()}
+          </dd>
+        </div>
 
           <!-- Rating Count -->
           <div class="relative pl-14">
@@ -113,11 +109,10 @@
                   </g></svg
                 >
               </div>
-              Analyst catalysts that move price
+              {m.upgrade_to_pro_feature_analyst_title()}
             </dt>
             <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-              Track upgrades, downgrades, and price targets without chasing
-              news.
+              {m.upgrade_to_pro_feature_analyst_desc()}
             </dd>
           </div>
 
@@ -144,10 +139,10 @@
                   ></path></svg
                 >
               </div>
-              Deep history for backtesting
+              {m.upgrade_to_pro_feature_history_title()}
             </dt>
             <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-              Validate ideas with premium data and up to 30 years of history.
+              {m.upgrade_to_pro_feature_history_desc()}
             </dd>
           </div>
         </dl>
@@ -158,7 +153,7 @@
           href="/pricing"
           class="mt-10 flex flex-row items-center justify-center text-[1rem] items-center px-6 py-3 w-fit m-auto rounded-full font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition duration-150 ease-in-out group"
         >
-          Upgrade to Pro
+          {m.upgrade_to_pro_cta()}
           <span
             class="ml-2 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
           >

@@ -70,7 +70,8 @@
       "./messages/{locale}/affiliate.json",
       "./messages/{locale}/newsletter.json",
       "./messages/{locale}/auth.json",
-      "./messages/{locale}/stock-detail.json"
+      "./messages/{locale}/stock-detail.json",
+      "./messages/{locale}/upgrade-to-pro.json"
     ]
   }
 }
