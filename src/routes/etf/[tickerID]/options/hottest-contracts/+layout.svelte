@@ -1,6 +1,10 @@
 <script lang="ts">
   import { etfTicker } from "$lib/store";
   import { page } from "$app/stores";
+  import {
+    stock_detail_options_hottest_nav_oi,
+    stock_detail_options_hottest_nav_volume,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -14,8 +18,10 @@
 
     if (state !== "overview" && subSectionMap[state]) {
       displaySubSection = state;
+      //goto(`/etf/${$etfTicker}${subSectionMap[state]}`);
     } else {
       displaySubSection = state;
+      //goto(`/etf/${$etfTicker}/statistics`);
     }
   }
 
@@ -60,7 +66,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                By Open Interest
+                {stock_detail_options_hottest_nav_oi()}
               </a>
 
               <a
@@ -71,7 +77,7 @@
                   ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
-                By Volume
+                {stock_detail_options_hottest_nav_volume()}
               </a>
             </ul>
           </nav>
