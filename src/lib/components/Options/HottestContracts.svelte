@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
   import { screenWidth } from "$lib/store";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
@@ -9,7 +10,6 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import * as m from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -24,11 +24,6 @@
   let rawData = [];
   let sortedData = [];
   let displayList = [];
-  let maxMetric = 0;
-  let maxMetricLabel = "0";
-  let strikeAtMax = null;
-  let optionTypeAtMax = null;
-  let avgIv = "0.00";
 
   // Pagination state
   let currentPage = 1;
@@ -73,42 +68,6 @@
     }
     sortedData = [...rawData];
     updatePaginatedData();
-  }
-
-  $: {
-    if (rawData?.length) {
-      maxMetric =
-        type === "oi"
-          ? Math.max(...rawData.map((item) => item?.open_interest || 0))
-          : Math.max(...rawData.map((item) => item?.volume || 0));
-      maxMetricLabel = maxMetric.toLocaleString("en-US");
-      strikeAtMax =
-        type === "oi"
-          ? rawData.find((item) => item?.open_interest === maxMetric)
-              ?.strike_price
-          : rawData.find((item) => item?.volume === maxMetric)?.strike_price;
-      optionTypeAtMax =
-        type === "oi"
-          ? rawData.find((item) => item?.open_interest === maxMetric)
-              ?.option_type
-          : rawData.find((item) => item?.volume === maxMetric)?.option_type;
-      const ivValues = rawData.filter((item) => item?.iv);
-      if (ivValues.length) {
-        const sum = ivValues.reduce(
-          (running, item) => running + parseFloat(item.iv),
-          0,
-        );
-        avgIv = (sum / ivValues.length).toFixed(2);
-      } else {
-        avgIv = "0.00";
-      }
-    } else {
-      maxMetric = 0;
-      maxMetricLabel = "0";
-      strikeAtMax = null;
-      optionTypeAtMax = null;
-      avgIv = "0.00";
-    }
   }
 
   function computeOTM(strikePrice, optionType) {
@@ -440,31 +399,19 @@
         <p
           class="mt-4 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
         >
-          {#if rawData?.length}
-            {@html type === "oi"
-              ? m.stock_detail_options_hottest_intro_oi({
-                  count: maxMetricLabel,
-                  strike: strikeAtMax,
-                  optionType:
-                    optionTypeAtMax === "C"
-                      ? m.stock_detail_options_hottest_option_call()
-                      : optionTypeAtMax === "P"
-                        ? m.stock_detail_options_hottest_option_put()
-                        : "",
-                  avgIv,
-                })
-              : m.stock_detail_options_hottest_intro_volume({
-                  count: maxMetricLabel,
-                  strike: strikeAtMax,
-                  optionType:
-                    optionTypeAtMax === "C"
-                      ? m.stock_detail_options_hottest_option_call()
-                      : optionTypeAtMax === "P"
-                        ? m.stock_detail_options_hottest_option_put()
-                        : "",
-                  avgIv,
-                })}
-          {/if}
+          {@html type === "oi"
+            ? m.stock_detail_options_hottest_intro_oi({
+                count: Math.max(...rawData?.map((item) => item?.open_interest || 0))?.toLocaleString("en-US"),
+                strike: rawData?.find((item) => item?.open_interest === Math.max(...rawData?.map((i) => i?.open_interest || 0)))?.strike_price,
+                optionType: rawData?.find((item) => item?.open_interest === Math.max(...rawData?.map((i) => i?.open_interest || 0)))?.option_type === "C" ? m.stock_detail_options_hottest_option_call() : m.stock_detail_options_hottest_option_put(),
+                avgIv: (rawData?.filter((item) => item?.iv)?.reduce((sum, item) => sum + parseFloat(item.iv), 0) / rawData?.filter((item) => item?.iv)?.length || 0)?.toFixed(2)
+              })
+            : m.stock_detail_options_hottest_intro_volume({
+                count: Math.max(...rawData?.map((item) => item?.volume || 0))?.toLocaleString("en-US"),
+                strike: rawData?.find((item) => item?.volume === Math.max(...rawData?.map((i) => i?.volume || 0)))?.strike_price,
+                optionType: rawData?.find((item) => item?.volume === Math.max(...rawData?.map((i) => i?.volume || 0)))?.option_type === "C" ? m.stock_detail_options_hottest_option_call() : m.stock_detail_options_hottest_option_put(),
+                avgIv: (rawData?.filter((item) => item?.iv)?.reduce((sum, item) => sum + parseFloat(item.iv), 0) / rawData?.filter((item) => item?.iv)?.length || 0)?.toFixed(2)
+              })}
         </p>
 
         {#if config}
@@ -524,7 +471,7 @@
                           ? "dark:text-[#00FC50]"
                           : "dark:text-[#FF2F1F]"}
                       >
-                        {item?.option_type === "C" ? "Call" : "Put"}
+                        {item?.option_type === "C" ? m.stock_detail_options_common_call() : m.stock_detail_options_common_put()}
                         {" " + item?.strike_price}
                       </span>
                     </td>

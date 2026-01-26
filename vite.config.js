@@ -22,8 +22,14 @@ const config = {
     cors: true,
     watch: {
       usePolling: false, // Use native FS events for better performance
+      ignored: ["**/src/lib/paraglide/**"], // Don't watch generated paraglide files
     },
    // allowedHosts: ["rnxuv-78-94-200-246.a.free.pinggy.link"], //dev mode only for testing lemonsqueezy
+  },
+
+  optimizeDeps: {
+    // Pre-bundle paraglide for faster dev mode
+    entries: ["src/lib/paraglide/messages.js", "src/lib/paraglide/runtime.js"],
   },
 
   build: {

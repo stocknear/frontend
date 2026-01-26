@@ -64,7 +64,7 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-5 px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] min-h-screen overflow-hidden pb-20 pt-5 px-3 text-muted dark:text-white"
 >
   <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
     <li>
@@ -74,7 +74,9 @@
         >{m.portfolio_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">{m.portfolio_breadcrumb_portfolio()}</li>
+    <li class="text-muted dark:text-gray-300">
+      {m.portfolio_breadcrumb_portfolio()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -83,7 +85,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <h1 class=" text-2xl sm:text-3xl font-bold">{m.portfolio_layout_title()}</h1>
+          <h1 class=" text-2xl sm:text-3xl font-bold">
+            {m.portfolio_layout_title()}
+          </h1>
 
           <nav
             class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mt-3"
