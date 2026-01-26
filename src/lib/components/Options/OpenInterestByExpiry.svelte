@@ -19,11 +19,21 @@
   type ChartType = "column" | "line" | "scatter";
   let chartType: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "line", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  const chartTypes: { type: ChartType; icon: any }[] = [
+    { type: "column", icon: BarChartIcon },
+    { type: "line", icon: LineChartIcon },
+    { type: "scatter", icon: ScatterChartIcon },
   ];
+
+  const chartTypeLabels: Record<ChartType, () => string> = {
+    column: m.stock_detail_options_chart_type_column,
+    line: m.stock_detail_options_chart_type_line,
+    scatter: m.stock_detail_options_chart_type_scatter,
+  };
+
+  function getChartTypeLabel(type: ChartType): string {
+    return chartTypeLabels[type]?.() ?? type;
+  }
 
   function changeChartType(type: ChartType) {
     chartType = type;
@@ -47,6 +57,20 @@
     }
     return result;
   }, []);
+
+  let totalCallOI = 0;
+  let totalPutOI = 0;
+  let totalOI = 0;
+  let formattedTotalOI = "0";
+  let formattedCallOI = "0";
+  let formattedPutOI = "0";
+
+  $: totalCallOI = rawData?.reduce((sum, item) => sum + (item?.call_oi || 0), 0);
+  $: totalPutOI = rawData?.reduce((sum, item) => sum + (item?.put_oi || 0), 0);
+  $: totalOI = totalCallOI + totalPutOI;
+  $: formattedTotalOI = totalOI?.toLocaleString("en-US");
+  $: formattedCallOI = totalCallOI?.toLocaleString("en-US");
+  $: formattedPutOI = totalPutOI?.toLocaleString("en-US");
 
   // Track the currently sorted data separately
   let sortedData = [];
@@ -179,7 +203,7 @@
         squareSymbol: true, // Ensures symbols are circular, not square
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} Open Interest By Expiry</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_oi_chart_expiry_title({ ticker })}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "#111827" : "#f4f4f5" },
       },
@@ -285,7 +309,7 @@
 
       series: [
         {
-          name: "Put",
+          name: m.stock_detail_options_common_put(),
           type: chartType,
           data: putValues,
           color: "#CC2619",
@@ -294,7 +318,7 @@
           animation: false,
         },
         {
-          name: "Call",
+          name: m.stock_detail_options_common_call(),
           type: chartType,
           data: callValues,
           color: "#00C440",
@@ -434,27 +458,23 @@
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
     {#if rawData?.length > 0}
-      Open interest breakdown by expiration date for <strong>{ticker}</strong>
-      options contracts. Displaying data for <strong>{rawData?.length}</strong>
-      active expiration dates with future expiry.
-      {@const totalCallOI = rawData.reduce(
-        (sum, item) => sum + (item?.call_oi || 0),
-        0,
-      )}
-      {@const totalPutOI = rawData.reduce(
-        (sum, item) => sum + (item?.put_oi || 0),
-        0,
-      )}
-      {@const totalOI = totalCallOI + totalPutOI}
-
-      <br />
-      Total open interest across all expiries is
-      <strong>{totalOI.toLocaleString("en-US")}</strong>
-      contracts, with <strong>{totalCallOI.toLocaleString("en-US")}</strong>
-      call contracts and
-      <strong>{totalPutOI.toLocaleString("en-US")}</strong> put contracts.
+      <span>{@html m.stock_detail_options_oi_expiry_summary_intro({ ticker })}</span>
+      {" "}
+      <span
+        >{@html m.stock_detail_options_oi_expiry_summary_active({
+          count: rawData?.length,
+        })}</span
+      >
+      {" "}
+      <span
+        >{@html m.stock_detail_options_oi_expiry_summary_totals({
+          total: formattedTotalOI,
+          call: formattedCallOI,
+          put: formattedPutOI,
+        })}</span
+      >
     {:else}
-      No active option expiration dates found with future expiry dates.
+      {m.stock_detail_options_oi_expiry_summary_no_data()}
     {/if}
   </p>
 
@@ -471,7 +491,7 @@
               {chartType === item.type
               ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
               : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-            title={item.label}
+            title={getChartTypeLabel(item.type)}
           >
             <svelte:component this={item.icon} class="w-4 h-4" />
           </button>

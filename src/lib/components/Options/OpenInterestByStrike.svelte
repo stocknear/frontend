@@ -21,11 +21,21 @@
   type ChartType = "column" | "line" | "scatter";
   let chartType: ChartType = "column";
 
-  const chartTypes: { type: ChartType; label: string; icon: any }[] = [
-    { type: "column", label: "Column", icon: BarChartIcon },
-    { type: "line", label: "Line", icon: LineChartIcon },
-    { type: "scatter", label: "Scatter", icon: ScatterChartIcon },
+  const chartTypes: { type: ChartType; icon: any }[] = [
+    { type: "column", icon: BarChartIcon },
+    { type: "line", icon: LineChartIcon },
+    { type: "scatter", icon: ScatterChartIcon },
   ];
+
+  const chartTypeLabels: Record<ChartType, () => string> = {
+    column: m.stock_detail_options_chart_type_column,
+    line: m.stock_detail_options_chart_type_line,
+    scatter: m.stock_detail_options_chart_type_scatter,
+  };
+
+  function getChartTypeLabel(type: ChartType): string {
+    return chartTypeLabels[type]?.() ?? type;
+  }
 
   function changeChartType(type: ChartType) {
     chartType = type;
@@ -219,6 +229,27 @@
     config = plotData() || null;
   }
 
+  let totalCallOI = 0;
+  let totalPutOI = 0;
+  let totalRatio = 0;
+  let formattedCallOI = "0";
+  let formattedPutOI = "0";
+  let formattedRatio = "0.00";
+  let formattedPrice = "n/a";
+  let biasLabel = m.stock_detail_options_oi_bias_bullish();
+
+  $: totalCallOI = rawData?.reduce((sum, item) => sum + (item?.call_oi || 0), 0);
+  $: totalPutOI = rawData?.reduce((sum, item) => sum + (item?.put_oi || 0), 0);
+  $: totalRatio = totalCallOI > 0 ? totalPutOI / totalCallOI : 0;
+  $: formattedCallOI = totalCallOI?.toLocaleString("en-US");
+  $: formattedPutOI = totalPutOI?.toLocaleString("en-US");
+  $: formattedRatio = totalRatio?.toFixed(2);
+  $: formattedPrice = currentPrice !== null ? `$${currentPrice}` : "n/a";
+  $: biasLabel =
+    totalRatio > 1
+      ? m.stock_detail_options_oi_bias_bearish()
+      : m.stock_detail_options_oi_bias_bullish();
+
   // Get display text for selected dates
   function getSelectedDatesText() {
     if (selectedDates.has("All")) {
@@ -319,7 +350,7 @@
         squareSymbol: true,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} Open Interest By Strike</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${m.stock_detail_options_oi_chart_strike_title({ ticker })}</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "#111827" : "#f4f4f5" },
       },
@@ -338,7 +369,9 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `Current Price ${currentPrice}`,
+              text: m.stock_detail_options_chart_current_price({
+                price: currentPrice,
+              }),
               style: { color: $mode === "light" ? "#000" : "#fff" },
             },
             zIndex: 5,
@@ -408,7 +441,7 @@
       },
       series: [
         {
-          name: "Put",
+          name: m.stock_detail_options_common_put(),
           type: chartType,
           data: putValues,
           color: "#CC2619",
@@ -417,7 +450,7 @@
           animation: false,
         },
         {
-          name: "Call",
+          name: m.stock_detail_options_common_call(),
           type: chartType,
           data: callValues,
           color: "#00C440",
@@ -528,48 +561,41 @@
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
     {#if rawData?.length > 0}
-      Open interest data for <strong>{ticker}</strong> options contracts.
+      <span>{@html m.stock_detail_options_oi_summary_intro({ ticker })}</span>
+      {" "}
       {#if selectedDates.has("All")}
-        Displaying aggregated open interest across all expiration dates.
+        <span>{m.stock_detail_options_oi_summary_all_expiries()}</span>
       {:else if selectedDates.size === 1}
-        Showing open interest for contracts expiring on <strong
-          >{formatDate(Array.from(selectedDates)[0])}</strong
-        >.
+        <span
+          >{@html m.stock_detail_options_oi_summary_single_expiry({
+            date: formatDate(Array.from(selectedDates)[0]),
+          })}</span
+        >
       {:else}
-        Showing aggregated open interest for <strong
-          >{selectedDates.size}</strong
-        > selected expiration dates.
+        <span
+          >{@html m.stock_detail_options_oi_summary_multi_expiry({
+            count: selectedDates.size,
+          })}</span
+        >
       {/if}
-      Current stock price is <strong>${currentPrice}</strong>. Total call open
-      interest is
-      <strong
-        >{rawData
-          ?.reduce((sum, item) => sum + (item?.call_oi || 0), 0)
-          ?.toLocaleString("en-US")}</strong
+      {" "}
+      <span>{@html m.stock_detail_options_oi_summary_price({ price: formattedPrice })}</span>
+      {" "}
+      <span
+        >{@html m.stock_detail_options_oi_summary_totals({
+          call: formattedCallOI,
+          put: formattedPutOI,
+        })}</span
       >
-      contracts, while put open interest is
-      <strong
-        >{rawData
-          ?.reduce((sum, item) => sum + (item?.put_oi || 0), 0)
-          ?.toLocaleString("en-US")}</strong
+      {" "}
+      <span
+        >{@html m.stock_detail_options_oi_summary_ratio({
+          ratio: formattedRatio,
+          bias: biasLabel,
+        })}</span
       >
-      contracts. The overall put-call open interest ratio is
-      <strong
-        >{(
-          rawData.reduce((sum, item) => sum + (item?.put_oi || 0), 0) /
-            rawData.reduce((sum, item) => sum + (item?.call_oi || 0), 0) || 0
-        )?.toFixed(2)}</strong
-      >, indicating a
-      <strong
-        >{rawData.reduce((sum, item) => sum + (item?.put_oi || 0), 0) /
-          rawData.reduce((sum, item) => sum + (item?.call_oi || 0), 0) >
-        1
-          ? "bearish"
-          : "bullish"}</strong
-      >
-      bias in open interest positioning.
     {:else}
-      No open interest data available for the selected period.
+      {m.stock_detail_options_oi_summary_no_data()}
     {/if}
   </p>
 
@@ -666,7 +692,7 @@
               {chartType === item.type
               ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
               : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-            title={item.label}
+            title={getChartTypeLabel(item.type)}
           >
             <svelte:component this={item.icon} class="w-4 h-4" />
           </button>
