@@ -373,44 +373,235 @@
           marker: { enabled: false },
         },
       ];
-    } else if (["Delta", "Gamma", "Theta", "Vega"].includes(selectGraphType)) {
-      // Greeks with candlestick
-      const greekKey = selectGraphType.toLowerCase();
-      const greekColor = {
-        delta: "#06988A",
-        gamma: "#3B82F6",
-        theta: "#F59E0B",
-        vega: "#8B5CF6",
-      };
+    } else if (selectGraphType === "Delta") {
+      // Delta chart with stock price for context
+      // Shows how option tracks the underlying stock
+      const hasStockData = filteredData?.some((item) => item?.stockPrice);
+
       series = [
+        {
+          name: "Delta",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.delta ?? null,
+          ]),
+          color: "#06988A",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
         {
           name: "Option Price",
           type: "candlestick",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
             item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.high ?? Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ?? Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
           ...candlestickColors,
           yAxis: 2,
           animation: false,
+          zIndex: 1,
         },
-        {
-          name: selectGraphType,
+      ];
+
+      // Add stock price line if available
+      if (hasStockData) {
+        series.push({
+          name: "Stock Price",
           type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.[greekKey] ?? null,
+            item?.stockPrice ?? null,
           ]),
-          color: greekColor[greekKey],
+          color: "#9333EA",
+          yAxis: 3,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        });
+      }
+    } else if (selectGraphType === "Gamma") {
+      // Gamma chart with delta line to show how delta changes
+      series = [
+        {
+          name: "Gamma",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.gamma ?? null,
+          ]),
+          color: "#3B82F6",
           yAxis: 0,
           animation: false,
           lineWidth: 2,
           marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "Delta",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.delta ?? null,
+          ]),
+          color: "#06988A",
+          yAxis: 1,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        },
+        {
+          name: "Option Price",
+          type: "candlestick",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.open ?? item?.mark,
+            item?.high ?? Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ?? Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.close ?? item?.mark,
+          ]),
+          ...candlestickColors,
+          yAxis: 2,
+          animation: false,
+          zIndex: 1,
+        },
+      ];
+    } else if (selectGraphType === "Theta") {
+      // Theta chart with cumulative decay and DTE
+      // Calculate cumulative theta (running sum from earliest date)
+      let cumulativeTheta = 0;
+      const sortedForCumulative = [...filteredData].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+      const cumulativeMap = new Map();
+      sortedForCumulative.forEach((item) => {
+        cumulativeTheta += (item?.theta ?? 0);
+        cumulativeMap.set(item.date, cumulativeTheta);
+      });
+
+      series = [
+        {
+          name: "Daily Theta",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.theta ?? null,
+          ]),
+          color: "#F59E0B",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "Cumulative Decay",
+          type: "area",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            cumulativeMap.get(item.date) ?? null,
+          ]),
+          color: "rgba(245, 158, 11, 0.3)",
+          fillColor: {
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            stops: [
+              [0, "rgba(245, 158, 11, 0.4)"],
+              [1, "rgba(245, 158, 11, 0.05)"],
+            ],
+          },
+          yAxis: 0,
+          animation: false,
+          lineWidth: 1,
+          marker: { enabled: false },
+          zIndex: 1,
+        },
+        {
+          name: "DTE",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.dte ?? null,
+          ]),
+          color: "#EF4444",
+          yAxis: 1,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        },
+        {
+          name: "Option Price",
+          type: "candlestick",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.open ?? item?.mark,
+            item?.high ?? Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ?? Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.close ?? item?.mark,
+          ]),
+          ...candlestickColors,
+          yAxis: 2,
+          animation: false,
+          zIndex: 1,
+        },
+      ];
+    } else if (selectGraphType === "Vega") {
+      // Vega chart with IV line for context
+      series = [
+        {
+          name: "Vega",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.vega ?? null,
+          ]),
+          color: "#8B5CF6",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "IV %",
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.implied_volatility ? Math.round(item.implied_volatility * 100 * 100) / 100 : null,
+          ]),
+          color: "#EC4899",
+          yAxis: 1,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        },
+        {
+          name: "Option Price",
+          type: "candlestick",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.open ?? item?.mark,
+            item?.high ?? Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ?? Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.close ?? item?.mark,
+          ]),
+          ...candlestickColors,
+          yAxis: 2,
+          animation: false,
+          zIndex: 1,
         },
       ];
     }
@@ -540,21 +731,40 @@
           ).toLocaleDateString("en-US", headerOptions)}</span><br>`;
 
           this.points.forEach((point) => {
-            const suffix = point.series.name === "IV" ? "%" : "";
+            // Determine suffix based on series name
+            let suffix = "";
+            if (point.series.name === "IV" || point.series.name === "IV %") {
+              suffix = "%";
+            } else if (point.series.name === "DTE") {
+              suffix = " days";
+            }
+
+            // Format value based on series type
+            const formatValue = (val, name) => {
+              if (val === null || val === undefined) return "N/A";
+              if (name === "Stock Price") return val?.toFixed(2);
+              if (name === "Delta" || name === "Gamma" || name === "Vega") return val?.toFixed(4);
+              if (name === "Daily Theta" || name === "Cumulative Decay") return val?.toFixed(4);
+              if (name === "DTE") return Math.round(val);
+              if (name === "IV" || name === "IV %") return val?.toFixed(2);
+              return val?.toLocaleString("en-US");
+            };
 
             // Handle candlestick OHLC data
             if (point.series.type === "candlestick") {
               tooltipContent += `
+              <span class="font-semibold text-sm text-gray-300">Option Price</span><br>
               <span class="font-normal text-sm ">Open: ${point.point.open?.toFixed(2)}</span><br>
               <span class="font-normal text-sm ">High: ${point.point.high?.toFixed(2)}</span><br>
               <span class="font-normal text-sm ">Low: ${point.point.low?.toFixed(2)}</span><br>
               <span class="font-normal text-sm ">Close: ${point.point.close?.toFixed(2)}</span><br>`;
-            } else {
-              const raw = point?.y?.toLocaleString("en-US");
+            } else if (point.series.type !== "area") {
+              // Skip area charts in tooltip (cumulative is shown differently)
+              const formatted = formatValue(point?.y, point.series.name);
               tooltipContent += `
               <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
               <span class="font-normal text-sm">${point.series.name}:</span>
-              <span class="font-normal text-sm">${raw}${suffix}</span><br>`;
+              <span class="font-normal text-sm">${formatted}${suffix}</span><br>`;
             }
           });
 
@@ -787,18 +997,23 @@
       rawDataHistory = output?.history;
 
       if (rawDataHistory?.length > 0) {
-        /*
-      rawDataHistory.forEach((entry) => {
-        const matchingData = data?.getHistoricalPrice?.find(
-          (d) => d?.time === entry?.date,
-        );
-        if (matchingData) {
-          entry.price = matchingData?.close;
-        }
-      });
-      */
+        // Merge stock price data for context in Greek charts
+        rawDataHistory.forEach((entry) => {
+          const matchingData = data?.getHistoricalPrice?.find(
+            (d) => d?.time === entry?.date,
+          );
+          if (matchingData) {
+            entry.stockPrice = matchingData?.close;
+          }
+        });
 
-        //rawDataHistory = calculateDTE(rawDataHistory, selectedDate);
+        // Calculate DTE (Days to Expiration) for each entry
+        const expirationDate = new Date(selectedDate + "T00:00:00Z");
+        rawDataHistory.forEach((entry) => {
+          const entryDate = new Date(entry.date + "T00:00:00Z");
+          const diffTime = expirationDate.getTime() - entryDate.getTime();
+          entry.dte = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+        });
         config = plotData() || null;
         rawDataHistory = rawDataHistory?.sort(
           (a, b) => new Date(b?.date) - new Date(a?.date),
