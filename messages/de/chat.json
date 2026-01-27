@@ -30,5 +30,41 @@
   "chat_hours": "Stunden",
   "chat_day": "Tag",
   "chat_days": "Tage",
-  "chat_error_connect": "Verbindung zum Chat-Service fehlgeschlagen. Bitte versuche es später erneut."
+  "chat_error_connect": "Verbindung zum Chat-Service fehlgeschlagen. Bitte versuche es später erneut.",
+
+  "chat_default_gainers_losers_label": "Top Gewinner, Verlierer & Meistgehandelt",
+  "chat_default_gainers_losers_query": "Gib mir eine Zusammenfassung der heutigen Top-Aktien (Gewinner), der größten Verlierer und der meistgehandelten Aktien nach Volumen. Nenne wichtige Kennzahlen wie prozentuale Veränderung und Handelsvolumen.",
+
+  "chat_default_options_flow_label": "Highlights der Options Flow Aufträge heute",
+  "chat_default_options_flow_query": "Gib mir einen Überblick über den heutigen Options Flow, mit Fokus auf große Block Trades, ungewöhnliche Volumen-Spitzen und direktionale Stimmung.",
+
+  "chat_default_market_news_label": "Heutige Marktnachrichten",
+  "chat_default_market_news_query": "Gib mir eine Zusammenfassung der wichtigsten Marktnachrichten und Finanzereignisse von heute.",
+
+  "chat_default_bull_bear_label": "Bull vs Bear Case für Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear for Nvidia",
+
+  "chat_default_value_investor_label": "Sollte ich Intel jetzt als Value-Investor kaufen?",
+  "chat_default_value_investor_query": "@WarrenBuffet should I buy Intel right now?",
+
+  "chat_default_cathie_wood_label": "Wie bewertet Cathie Wood Tesla gerade?",
+  "chat_default_cathie_wood_query": "@CathieWood evaluate tesla and tell me if you would buy or sell it",
+
+  "chat_default_options_data_label": "Neueste Options-Daten Updates für SPY",
+  "chat_default_options_data_query": "@OptionsData latest options data updates for SPY",
+
+  "chat_default_undervalued_label": "Finde mir unterbewertete Aktien",
+  "chat_default_undervalued_query": "@StockScreener find me undervalued stocks with p/e above 0 and revenue growth above 5% and price to book ratio above 0",
+
+  "chat_default_gamestop_label": "Wie gesund ist Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData how healthy is Gamestop?",
+
+  "chat_default_spy_bullish_label": "Ist SPY gerade bullish?",
+  "chat_default_spy_bullish_query": "Ist SPY gerade bullish?",
+
+  "chat_default_nvidia_flow_label": "Nvidia Options Flow",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidia options flow",
+
+  "chat_default_googl_flow_label": "GOOGL ungewöhnlicher Order Flow",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Google order flow"
 }

@@ -29,6 +29,30 @@ import {
   common_period_1_year,
   common_period_5_years,
   common_period_max,
+  chat_default_gainers_losers_label,
+  chat_default_gainers_losers_query,
+  chat_default_options_flow_label,
+  chat_default_options_flow_query,
+  chat_default_market_news_label,
+  chat_default_market_news_query,
+  chat_default_bull_bear_label,
+  chat_default_bull_bear_query,
+  chat_default_value_investor_label,
+  chat_default_value_investor_query,
+  chat_default_cathie_wood_label,
+  chat_default_cathie_wood_query,
+  chat_default_options_data_label,
+  chat_default_options_data_query,
+  chat_default_undervalued_label,
+  chat_default_undervalued_query,
+  chat_default_gamestop_label,
+  chat_default_gamestop_query,
+  chat_default_spy_bullish_label,
+  chat_default_spy_bullish_query,
+  chat_default_nvidia_flow_label,
+  chat_default_nvidia_flow_query,
+  chat_default_googl_flow_label,
+  chat_default_googl_flow_query,
 } from "$lib/paraglide/messages";
 
 // Helper to get current locale safely (returns "en" as fallback)
@@ -2277,73 +2301,70 @@ export function getCreditFromQuery(query, agentOptions) {
   return foundAnyTrigger ? Math.max(totalCredit, 2) : 2;
 }
 
-export let defaultChats = [
-  {
-    label: "Top Gainers, Losers & Most Active",
-    query:
-      "Provide a summary of today’s top performing stocks (gainers), the biggest decliners (losers), and the most actively traded stocks by volume. Include key metrics such as percentage change and trading volume.",
-    type: "Stocks",
-  },
-  {
-    label: "Highlights of options flow orders today",
-    query:
-      "Provide an overview of today's notable options flow, focusing on large block trades, unusual volume spikes, and directional sentiment.",
-    type: "Options",
-  },
-  {
-    label: "Todays Market News",
-    query:
-      "Give me a summary of today’s top market news and key financial events.",
-    type: "Stocks",
-  },
-  {
-    label: "Bull vs Bear Case for Nvidia",
-    query: "@BullvsBear for Nvidia",
-    type: "Stocks",
-  },
-  {
-    label: "Should I buy Intel right now as a value investor.",
-    query: "@WarrenBuffet should I buy Intel right now?",
-    type: "Stocks",
-  },
-  {
-    label: "What does Cathie Wood evaluate Tesla right now",
-    query:
-      "@CathieWood evaluate tesla and tell me if you would buy or sell it",
-    type: "Stocks",
-  },
-  {
-    label: "Latest Option Data updates for SPY",
-    query: "@OptionsData latest options data updates for SPY",
-    type: "ETF",
-  },
-  {
-    label: "Find me undervalued stocks",
-    query:
-      "@StockScreener find me undervalued stocks with p/e above 0 and revenue growth above 5% and price to book ratio above 0",
-    type: "Stocks",
-  },
-  {
-    label: "How healthy is Gamestop?",
-    query: "@FundamentalData how healthy is Gamestop?",
-    type: "Stocks",
-  },
-  {
-    label: "Is SPY bullish right now?",
-    query: "Is SPY bullish right now?",
-    type: "ETF",
-  },
-  {
-    label: "Nvidia options flow",
-    query: "@OptionsFlowFeed Nvidia options flow",
-    type: "Options",
-  },
-  {
-    label: "GOOGL unusual order flow",
-    query: "@UnusualOrderFeed Google order flow",
-    type: "Stocks",
-  },
-];
+export function getDefaultChats() {
+  return [
+    {
+      label: chat_default_gainers_losers_label(),
+      query: chat_default_gainers_losers_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_options_flow_label(),
+      query: chat_default_options_flow_query(),
+      type: "Options",
+    },
+    {
+      label: chat_default_market_news_label(),
+      query: chat_default_market_news_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_bull_bear_label(),
+      query: chat_default_bull_bear_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_value_investor_label(),
+      query: chat_default_value_investor_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_cathie_wood_label(),
+      query: chat_default_cathie_wood_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_options_data_label(),
+      query: chat_default_options_data_query(),
+      type: "ETF",
+    },
+    {
+      label: chat_default_undervalued_label(),
+      query: chat_default_undervalued_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_gamestop_label(),
+      query: chat_default_gamestop_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_spy_bullish_label(),
+      query: chat_default_spy_bullish_query(),
+      type: "ETF",
+    },
+    {
+      label: chat_default_nvidia_flow_label(),
+      query: chat_default_nvidia_flow_query(),
+      type: "Options",
+    },
+    {
+      label: chat_default_googl_flow_label(),
+      query: chat_default_googl_flow_query(),
+      type: "Stocks",
+    },
+  ];
+}
 
 
 

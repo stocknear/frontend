@@ -1204,7 +1204,7 @@
                   >
                     <a
                       href="/pricing"
-                      class="group flex flex-row items-center w-full -mt-2"
+                      class="group flex flex-row items-center w-full -mt-8"
                     >
                       <div class="flex flex-row items-center mr-auto">
                         <div

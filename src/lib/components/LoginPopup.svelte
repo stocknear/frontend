@@ -8,6 +8,33 @@
   import { screenWidth } from "$lib/store";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
+  import {
+    login_popup_sign_in_title,
+    login_popup_welcome_back,
+    login_popup_email_label,
+    login_popup_password_label,
+    login_popup_forgot_password,
+    login_popup_button,
+    login_popup_signing_in,
+    login_popup_or_login_using,
+    login_popup_no_account,
+    login_popup_sign_up_link,
+    login_popup_success,
+    login_popup_invalid_credentials,
+    register_popup_title,
+    register_popup_subtitle,
+    register_popup_confirm_password_label,
+    register_popup_button,
+    register_popup_signing_up,
+    register_popup_or_register_using,
+    register_popup_terms_prefix,
+    register_popup_terms_link,
+    register_popup_privacy_middle,
+    register_popup_privacy_link,
+    register_popup_has_account,
+    register_popup_sign_in_link,
+    register_popup_success,
+  } from "$lib/paraglide/messages";
 
   export let form;
 
@@ -22,13 +49,13 @@
         case "success":
         case "redirect":
           isClicked = true;
-          toast.success("Login successfully!", {
+          toast.success(login_popup_success(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "failure":
-          toast.error("Invalid credentials", {
+          toast.error(login_popup_invalid_credentials(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -66,13 +93,13 @@
         case "success":
         case "redirect":
           isClicked = true;
-          toast.success("Registration successfully!", {
+          toast.success(register_popup_success(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
           break;
         case "failure":
-          toast.error("Invalid credentials", {
+          toast.error(login_popup_invalid_credentials(), {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           });
           await update();
@@ -175,12 +202,12 @@ const output = await response.json();
           <h2
             class="text-center text-2xl sm:text-3xl pt-8 sm:pt-4 font-semibold tracking-tight"
           >
-            Sign In
+            {login_popup_sign_in_title()}
           </h2>
         </div>
 
         <span class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5">
-          Welcome back!
+          {login_popup_welcome_back()}
         </span>
 
         <div class="relative">
@@ -195,21 +222,21 @@ const output = await response.json();
             <Input
               type="email"
               id="email"
-              label="Email"
+              label={login_popup_email_label()}
               value={form?.data?.email ?? ""}
               errors={form?.errors?.email}
             />
             <Input
               type="password"
               id="password"
-              label="Password"
+              label={login_popup_password_label()}
               errors={form?.errors?.password}
             />
             <div class="text-start w-full max-w-lg">
               <a
                 href="/reset-password"
                 class="text-start text-sm text-gray-500 dark:text-zinc-400 cursor-pointer sm:hover:text-gray-900 dark:sm:hover:text-white transition"
-                >Forgot Password?</a
+                >{login_popup_forgot_password()}</a
               >
             </div>
             <div class="w-full max-w-lg pt-5 m-auto pb-5">
@@ -220,11 +247,11 @@ const output = await response.json();
                 aria-busy={loading || isClicked}
               >
                 {#if !loading && !isClicked}
-                  <span>Login</span>
+                  <span>{login_popup_button()}</span>
                 {:else}
                   <span class="flex items-center justify-center gap-2">
                     <span class="loading loading-infinity"></span>
-                    <span>Signing in</span>
+                    <span>{login_popup_signing_in()}</span>
                   </span>
                 {/if}
               </button>
@@ -233,7 +260,7 @@ const output = await response.json();
 
             <div class="divider text-gray-800 dark:text-zinc-300 py-6">
               <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-                >Or login using</span
+                >{login_popup_or_login_using()}</span
               >
             </div>
 
@@ -241,11 +268,11 @@ const output = await response.json();
             <p
               class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
             >
-              You don't have an account?
+              {login_popup_no_account()}
               <label
                 on:click={() => (displaySection = "register")}
                 class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
-                >Sign up</label
+                >{login_popup_sign_up_link()}</label
               >
             </p>
         </div>
@@ -256,12 +283,12 @@ const output = await response.json();
           <h2
             class="text-center text-2xl sm:text-3xl pt-8 sm:pt-4 font-semibold tracking-tight"
           >
-            Getting Started
+            {register_popup_title()}
           </h2>
         </div>
 
         <span class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5">
-          Create an account to get started
+          {register_popup_subtitle()}
         </span>
 
         <div class="relative">
@@ -278,7 +305,7 @@ const output = await response.json();
             <Input
               type="email"
               id="email"
-              label="Email"
+              label={login_popup_email_label()}
               value={form?.data?.email}
               errors={form?.errors?.email}
               disabled={loading}
@@ -287,7 +314,7 @@ const output = await response.json();
             <Input
               type="password"
               id="password"
-              label="Password"
+              label={login_popup_password_label()}
               errors={form?.errors?.password}
               disabled={loading}
             />
@@ -295,7 +322,7 @@ const output = await response.json();
             <Input
               type="password"
               id="passwordConfirm"
-              label="Confirm Password"
+              label={register_popup_confirm_password_label()}
               errors={form?.errors?.passwordConfirm}
               disabled={loading}
             />
@@ -308,11 +335,11 @@ const output = await response.json();
                 aria-busy={loading || isClicked}
               >
                 {#if !loading && !isClicked}
-                  <span>Register</span>
+                  <span>{register_popup_button()}</span>
                 {:else}
                   <span class="flex items-center justify-center gap-2">
                     <span class="loading loading-infinity"></span>
-                    <span>Signing up</span>
+                    <span>{register_popup_signing_up()}</span>
                   </span>
                 {/if}
               </button>
@@ -321,7 +348,7 @@ const output = await response.json();
 
             <div class="divider text-gray-800 dark:text-zinc-300 py-6">
               <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-                >Or register using</span
+                >{register_popup_or_register_using()}</span
               >
             </div>
 
@@ -329,28 +356,28 @@ const output = await response.json();
             <p
               class="pb-1 text-xs text-center text-gray-800 dark:text-zinc-300"
             >
-              By registering you agree to Stocknear's
+              {register_popup_terms_prefix()}
               <a
                 href="/terms-of-use"
                 class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
-                >Terms of Use</a
+                >{register_popup_terms_link()}</a
               >
-              and acknowledge that you've read our
+              {register_popup_privacy_middle()}
               <a
                 href="/privacy-policy"
                 class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
-                >Privacy Policy</a
+                >{register_popup_privacy_link()}</a
               >.
             </p>
 
             <p
               class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
             >
-              You already have an account?
+              {register_popup_has_account()}
               <label
                 on:click={() => (displaySection = "login")}
                 class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
-                >Sign in</label
+                >{register_popup_sign_in_link()}</label
               >
             </p>
         </div>

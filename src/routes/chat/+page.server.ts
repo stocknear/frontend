@@ -2,7 +2,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
-  import { defaultChats } from "$lib/utils";
+  import { getDefaultChats } from "$lib/utils";
 
 
 export const load = async ({ locals }) => {
@@ -32,7 +32,7 @@ export const load = async ({ locals }) => {
 
   return {
     getAllChats: await getAllChats(),
-        randomChats: defaultChats
+        randomChats: getDefaultChats()
     ?.sort(() => 0.5 - Math.random())
     ?.slice(0, 4)
     
