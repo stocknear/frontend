@@ -5,7 +5,6 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { sectorList } from "$lib/utils";
-  import avatar from "$lib/images/trump-avatar.jpeg";
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -49,6 +48,10 @@
   let postUrl = "#";
   let postTitle = "n/a";
   let postSentiment = "n/a";
+  let postMedia: string[] = [];
+  let postReplies = 0;
+  let postReblogs = 0;
+  let postFavourites = 0;
 
   const updatedSectorList = ["S&P500", ...sectorList];
 
@@ -145,6 +148,26 @@
       : value;
   };
 
+  const formatEngagement = (num: number) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+    return num.toString();
+  };
+
+  const formatPostDate = (isoString?: string | null) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    if (Number.isNaN(date.getTime())) return "";
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/New_York",
+    }).format(date);
+  };
+
   const slugify = (value: string) =>
     value
       .toLowerCase()
@@ -157,7 +180,7 @@
 
   const scheduleSorted = sortByDateDesc(scheduleEntries);
   const ordersSorted = sortByDateDesc(executiveOrderEntries);
-  const postsSorted = sortByDateDesc(truthSocialEntries);
+  const postsSorted = sortByDateDesc(truthSocialEntries, "created_at");
 
   const latestScheduleEntry = scheduleSorted[0] ?? null;
   const latestOrder = ordersSorted[0] ?? null;
@@ -165,7 +188,7 @@
 
   const latestScheduleDate = parseDate(latestScheduleEntry?.date);
   const latestOrderDate = parseDate(latestOrder?.date);
-  const latestPostDate = parseDate(latestPost?.date);
+  const latestPostDate = parseDate(latestPost?.created_at);
   const latestScheduleDateISO = latestScheduleDate?.toISOString() ?? null;
   const latestOrderDateISO = latestOrderDate?.toISOString() ?? null;
   const latestPostDateISO = latestPostDate?.toISOString() ?? null;
@@ -181,7 +204,7 @@
     return date && now.getTime() - date.getTime() <= 2 * MS_IN_DAY;
   }).length;
   const postsLast7Days = postsSorted.filter((post) => {
-    const date = parseDate(post?.date);
+    const date = parseDate(post?.created_at);
     return date && now.getTime() - date.getTime() <= 7 * MS_IN_DAY;
   }).length;
 
@@ -891,8 +914,8 @@
                               class="w-10 h-10 rounded-full shrink-0"
                             >
                               <img
-                                class="rounded-full"
-                                src={avatar}
+                                class="rounded-full border border-red-800 dark:border-red-400"
+                                src="/img/potus.png"
                                 alt="Trump Image"
                                 loading="lazy"
                               />
@@ -1031,34 +1054,48 @@
                           class="w-10 h-10 rounded-full shrink-0"
                         >
                           <img
-                            class="rounded-full"
-                            src={avatar}
+                            class="rounded-full border border-red-800 dark:border-red-400"
+                            src="/img/potus.png"
                             alt="Trump Image"
                             loading="lazy"
                           />
                         </a>
 
                         <div class="flex flex-col items-start w-full">
-                          <h3 class="font-semibold">
-                            <a
-                              href="https://truthsocial.com/@realDonaldTrump"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="hover:text-violet-600 dark:hover:text-violet-400"
+                          <div
+                            class="flex flex-row items-center gap-2 flex-wrap"
+                          >
+                            <h3 class="font-semibold">
+                              <a
+                                href="https://truthsocial.com/@realDonaldTrump"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                Donald J. Trump
+                              </a>
+                            </h3>
+                            <span
+                              class="text-sm text-gray-500 dark:text-zinc-400"
                             >
-                              Donald J. Trump
-                            </a>
-                          </h3>
-                          <h4 class="text-sm">
-                            <a
-                              href="https://truthsocial.com/@realDonaldTrump"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="hover:text-violet-600 dark:hover:text-violet-400"
+                              <a
+                                href="https://truthsocial.com/@realDonaldTrump"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                @realDonaldTrump
+                              </a>
+                            </span>
+                            <span class="text-gray-400 dark:text-zinc-500"
+                              >·</span
                             >
-                              @realDonaldTrump
-                            </a>
-                          </h4>
+                            <span
+                              class="text-sm text-gray-500 dark:text-zinc-400"
+                            >
+                              {formatPostDate(item?.created_at)}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
@@ -1068,20 +1105,140 @@
                           : item?.content}
                       </p>
 
-                      <div
-                        class="flex flex-row items-center mt-6 w-full border-b border-gray-300 dark:border-zinc-700 pb-2"
-                      >
-                        <span class="text-sm text-gray-800 dark:text-zinc-300"
-                          >{item?.date}</span
+                      <!-- Media display -->
+                      {#if item?.media && item.media.length > 0}
+                        <div
+                          class="mt-3 grid gap-2 {item.media.length === 1
+                            ? 'grid-cols-1'
+                            : 'grid-cols-2'}"
                         >
+                          {#each item.media as mediaUrl, mediaIndex}
+                            {#if mediaUrl.includes(".mp4") || mediaUrl.includes(".webm")}
+                              <video
+                                src={mediaUrl}
+                                controls
+                                class="w-full rounded-lg border border-gray-200 dark:border-zinc-700"
+                                preload="metadata"
+                              >
+                                <track kind="captions" />
+                              </video>
+                            {:else}
+                              <a
+                                href={mediaUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <img
+                                  src={mediaUrl}
+                                  alt="Post media {mediaIndex + 1}"
+                                  class="w-full h-auto max-h-80 object-cover rounded-lg border border-gray-200 dark:border-zinc-700 hover:opacity-90 transition"
+                                  loading="lazy"
+                                />
+                              </a>
+                            {/if}
+                          {/each}
+                        </div>
+                      {/if}
+
+                      <!-- Engagement stats -->
+                      <div
+                        class="flex flex-row items-center gap-4 mt-3 text-sm text-gray-500 dark:text-zinc-400"
+                      >
+                        <span class="flex items-center gap-1" title="Replies">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                            />
+                          </svg>
+                          {formatEngagement(item?.replies_count || 0)}
+                        </span>
+                        <span class="flex items-center gap-1" title="Reblogs">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                            />
+                          </svg>
+                          {formatEngagement(item?.reblogs_count || 0)}
+                        </span>
+                        <span class="flex items-center gap-1" title="Likes">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                            />
+                          </svg>
+                          {formatEngagement(item?.favourites_count || 0)}
+                        </span>
+                      </div>
+
+                      <div
+                        class="flex flex-row items-center justify-end mt-4 w-full border-b border-gray-300 dark:border-zinc-700 pb-2"
+                      >
+                        <button
+                          on:click={() =>
+                            window.open(
+                              item?.url,
+                              "_blank",
+                              "noopener,noreferrer",
+                            )}
+                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold mr-2"
+                        >
+                          {potus_tracker_open_link()}
+                          <svg
+                            class="size-4 inline-block ml-1"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+                              id="SVGRepo_tracerCarrier"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></g><g id="SVGRepo_iconCarrier">
+                              <path
+                                d="M14 12C14 14.7614 11.7614 17 9 17H7C4.23858 17 2 14.7614 2 12C2 9.23858 4.23858 7 7 7H7.5M10 12C10 9.23858 12.2386 7 15 7H17C19.7614 7 22 9.23858 22 12C22 14.7614 19.7614 17 17 17H16.5"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                              ></path>
+                            </g></svg
+                          >
+                        </button>
 
                         <label
                           for="socialPostModal"
                           on:click={() => {
                             postContent = item?.content;
-                            postDate = item?.date;
+                            postDate = item?.created_at;
+                            postUrl = item?.url;
+                            postMedia = item?.media || [];
+                            postReplies = item?.replies_count || 0;
+                            postReblogs = item?.reblogs_count || 0;
+                            postFavourites = item?.favourites_count || 0;
                           }}
-                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
+                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                         >
                           {potus_tracker_read_more()}
                         </label>
@@ -1173,8 +1330,8 @@
     <div class="flex items-start space-x-3">
       <span class="w-10 h-10 rounded-full shrink-0">
         <img
-          class="rounded-full"
-          src={avatar}
+          class="rounded-full border border-red-800 dark:border-red-400"
+          src="/img/potus.png"
           alt="Trump Image"
           loading="lazy"
         />
@@ -1220,12 +1377,10 @@
         class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_close()}</label
       >
-      <a
-        href={postUrl}
-        rel="noopener noreferrer"
-        target="_blank"
+      <button
+        on:click={() => window.open(postUrl, "_blank", "noopener,noreferrer")}
         class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
-        tabindex="0">{potus_tracker_read_source()}</a
+        tabindex="0">{potus_tracker_read_source()}</button
       >
     </div>
   </div>
@@ -1238,7 +1393,6 @@
 
   <div
     class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
-    style="opacity: 1; transform: none;"
   >
     <div class="flex items-start space-x-3">
       <a
@@ -1248,8 +1402,8 @@
         class="w-10 h-10 rounded-full shrink-0"
       >
         <img
-          class="rounded-full"
-          src={avatar}
+          class="rounded-full border border-red-800 dark:border-red-400"
+          src="/img/potus.png"
           alt="Trump Image"
           loading="lazy"
         />
@@ -1283,9 +1437,94 @@
       {postContent}
     </p>
 
-    <div class="border-b border-gray-300 dark:border-zinc-700">
-      <span class="mb-4 text-sm text-gray-800 dark:text-zinc-300"
-        >{postDate}</span
+    <!-- Media display in modal -->
+    {#if postMedia && postMedia.length > 0}
+      <div
+        class="mb-4 grid gap-2 {postMedia.length === 1
+          ? 'grid-cols-1'
+          : 'grid-cols-2'}"
+      >
+        {#each postMedia as mediaUrl, mediaIndex}
+          {#if mediaUrl.includes(".mp4") || mediaUrl.includes(".webm")}
+            <video
+              src={mediaUrl}
+              controls
+              class="w-full rounded-lg border border-gray-200 dark:border-zinc-700"
+              preload="metadata"
+            >
+              <track kind="captions" />
+            </video>
+          {:else}
+            <a href={mediaUrl} target="_blank" rel="noopener noreferrer">
+              <img
+                src={mediaUrl}
+                alt="Post media {mediaIndex + 1}"
+                class="w-full h-auto max-h-96 object-cover rounded-lg border border-gray-200 dark:border-zinc-700 hover:opacity-90 transition"
+                loading="lazy"
+              />
+            </a>
+          {/if}
+        {/each}
+      </div>
+    {/if}
+
+    <!-- Engagement stats in modal -->
+    <div
+      class="flex flex-row items-center gap-4 mb-4 text-sm text-gray-500 dark:text-zinc-400"
+    >
+      <span class="flex items-center gap-1" title="Replies">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+          />
+        </svg>
+        {formatEngagement(postReplies)}
+      </span>
+      <span class="flex items-center gap-1" title="Reblogs">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        </svg>
+        {formatEngagement(postReblogs)}
+      </span>
+      <span class="flex items-center gap-1" title="Likes">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          />
+        </svg>
+        {formatEngagement(postFavourites)}
+      </span>
+    </div>
+
+    <div class="border-b border-gray-300 dark:border-zinc-700 pb-2">
+      <span class="text-sm text-gray-500 dark:text-zinc-400"
+        >{formatPostDate(postDate)}</span
       >
     </div>
 
@@ -1294,6 +1533,11 @@
         for="socialPostModal"
         class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_close()}</label
+      >
+      <button
+        on:click={() => window.open(postUrl, "_blank", "noopener,noreferrer")}
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        tabindex="0">{potus_tracker_read_source()}</button
       >
     </div>
   </div>
