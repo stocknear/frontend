@@ -69,5 +69,14 @@
   "analysts_column_success_rate": "Erfolgsquote",
   "analysts_column_avg_return": "Ø Rendite",
   "analysts_column_total_ratings": "Gesamte Ratings",
-  "analysts_column_last_rating": "Letztes Rating"
+  "analysts_column_last_rating": "Letztes Rating",
+
+  "analysts_detail_column_symbol": "Symbol",
+  "analysts_detail_column_name": "Name",
+  "analysts_detail_column_action": "Aktion",
+  "analysts_detail_column_price_target": "Kursziel",
+  "analysts_detail_column_current": "Aktuell",
+  "analysts_detail_column_upside": "% Upside",
+  "analysts_detail_column_ratings": "Ratings",
+  "analysts_detail_column_updated": "Letztes Rating"
 }

@@ -31,6 +31,12 @@
     list_search_indicators_placeholder,
     list_search_placeholder,
     list_toast_unlock_pro,
+    common_tab_general,
+    common_tab_performance,
+    common_tab_financials,
+    common_tab_analysts,
+    common_tab_dividends,
+    common_tab_indicators,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -2652,7 +2658,7 @@
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
-        General
+        {common_tab_general()}
       </button>
     </li>
     <li>
@@ -2663,7 +2669,7 @@
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
-        Performance
+        {common_tab_performance()}
       </button>
     </li>
     <li>
@@ -2674,7 +2680,7 @@
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
-        Financials
+        {common_tab_financials()}
       </button>
     </li>
     <li>
@@ -2685,7 +2691,7 @@
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
-        Analysts
+        {common_tab_analysts()}
       </button>
     </li>
     <li>
@@ -2696,7 +2702,7 @@
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
-        Dividends
+        {common_tab_dividends()}
       </button>
     </li>
     <li>
@@ -2707,7 +2713,7 @@
           ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
-        Indicators
+        {common_tab_indicators()}
         {#if indicatorsTabRules && indicatorsTabRules.length > defaultList.length}
           <div
             class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"

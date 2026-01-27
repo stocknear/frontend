@@ -69,5 +69,14 @@
   "analysts_column_success_rate": "Success Rate",
   "analysts_column_avg_return": "Avg. Return",
   "analysts_column_total_ratings": "Total Ratings",
-  "analysts_column_last_rating": "Last Rating"
+  "analysts_column_last_rating": "Last Rating",
+
+  "analysts_detail_column_symbol": "Symbol",
+  "analysts_detail_column_name": "Name",
+  "analysts_detail_column_action": "Action",
+  "analysts_detail_column_price_target": "Price Target",
+  "analysts_detail_column_current": "Current",
+  "analysts_detail_column_upside": "% Upside",
+  "analysts_detail_column_ratings": "Ratings",
+  "analysts_detail_column_updated": "Updated"
 }

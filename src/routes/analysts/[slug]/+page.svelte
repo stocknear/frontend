@@ -37,6 +37,14 @@
   analysts_pagination_previous,
   analysts_pagination_rows,
   analysts_search_placeholder,
+  analysts_detail_column_symbol,
+  analysts_detail_column_name,
+  analysts_detail_column_action,
+  analysts_detail_column_price_target,
+  analysts_detail_column_current,
+  analysts_detail_column_upside,
+  analysts_detail_column_ratings,
+  analysts_detail_column_updated,
 } from "$lib/paraglide/messages";
 
   export let data;
@@ -234,17 +242,20 @@
   }
   $: charNumber = $screenWidth < 640 ? 20 : 40;
 
-  const defaultColumnsBase = [
-    { key: "ticker", label: "Symbol", align: "left" },
-    { key: "name", label: "Name", align: "left" },
-    { key: "rating_current", label: "Action", align: "left" },
-    { key: "adjusted_pt_current", label: "Price Target", align: "right" },
-    { key: "price", label: "Current", align: "right" },
-    { key: "upside", label: "% Upside", align: "right" },
-    { key: "ratings", label: "Ratings", align: "right" },
-    { key: "date", label: "Updated", align: "right" },
-  ];
+  function getDefaultColumnsBase() {
+    return [
+      { key: "ticker", label: analysts_detail_column_symbol(), align: "left" },
+      { key: "name", label: analysts_detail_column_name(), align: "left" },
+      { key: "rating_current", label: analysts_detail_column_action(), align: "left" },
+      { key: "adjusted_pt_current", label: analysts_detail_column_price_target(), align: "right" },
+      { key: "price", label: analysts_detail_column_current(), align: "right" },
+      { key: "upside", label: analysts_detail_column_upside(), align: "right" },
+      { key: "ratings", label: analysts_detail_column_ratings(), align: "right" },
+      { key: "date", label: analysts_detail_column_updated(), align: "right" },
+    ];
+  }
 
+  let defaultColumnsBase = getDefaultColumnsBase();
   let columns = [...defaultColumnsBase];
 
   // Column reordering state and functions
@@ -340,6 +351,7 @@
     customColumnOrder = [];
     lastAppliedColumnKeys = "";
     // Reset with chart column if on desktop
+    defaultColumnsBase = getDefaultColumnsBase();
     columns = $screenWidth > 1024
       ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
       : [...defaultColumnsBase];

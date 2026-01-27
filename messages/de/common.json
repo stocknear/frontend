@@ -34,5 +34,12 @@
   "common_period_6_months": "6 Monate",
   "common_period_1_year": "1 Jahr",
   "common_period_5_years": "5 Jahre",
-  "common_period_max": "Max"
+  "common_period_max": "Max",
+
+  "common_tab_general": "Übersicht",
+  "common_tab_performance": "Performance",
+  "common_tab_financials": "Finanzen",
+  "common_tab_analysts": "Analysten",
+  "common_tab_dividends": "Dividenden",
+  "common_tab_indicators": "Indikatoren"
 }

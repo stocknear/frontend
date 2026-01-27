@@ -10,35 +10,36 @@
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  potus_tracker_breadcrumb_current,
-  potus_tracker_breadcrumb_home,
-  potus_tracker_close,
-  potus_tracker_donald_trump,
-  potus_tracker_executive_actions,
-  potus_tracker_infobox_declined,
-  potus_tracker_infobox_grown,
-  potus_tracker_new,
-  potus_tracker_official_schedule,
-  potus_tracker_open_link,
-  potus_tracker_read_more,
-  potus_tracker_read_source,
-  potus_tracker_select_sector,
-  potus_tracker_seo_description,
-  potus_tracker_seo_keywords,
-  potus_tracker_seo_title,
-  potus_tracker_sidebar_pro,
-  potus_tracker_sidebar_pro_desc,
-  potus_tracker_sidebar_screener,
-  potus_tracker_sidebar_screener_desc,
-  potus_tracker_sidebar_watchlist,
-  potus_tracker_sidebar_watchlist_desc,
-  potus_tracker_tab_executive_orders,
-  potus_tracker_tab_schedule,
-  potus_tracker_tab_truth_social,
-  potus_tracker_title,
-  potus_tracker_title_label,
-  potus_tracker_truth_social_posts,
-} from "$lib/paraglide/messages";
+    potus_tracker_breadcrumb_current,
+    potus_tracker_breadcrumb_home,
+    potus_tracker_close,
+    potus_tracker_donald_trump,
+    potus_tracker_executive_actions,
+    potus_tracker_infobox_declined,
+    potus_tracker_infobox_grown,
+    potus_tracker_new,
+    potus_tracker_official_schedule,
+    potus_tracker_open_link,
+    potus_tracker_read_more,
+    potus_tracker_read_source,
+    potus_tracker_select_sector,
+    potus_tracker_seo_description,
+    potus_tracker_seo_keywords,
+    potus_tracker_seo_title,
+    market_news_upgrade_description,
+    market_news_upgrade_label,
+    market_news_pro_subscription_title,
+    potus_tracker_sidebar_screener,
+    potus_tracker_sidebar_screener_desc,
+    potus_tracker_sidebar_watchlist,
+    potus_tracker_sidebar_watchlist_desc,
+    potus_tracker_tab_executive_orders,
+    potus_tracker_tab_schedule,
+    potus_tracker_tab_truth_social,
+    potus_tracker_title,
+    potus_tracker_title_label,
+    potus_tracker_truth_social_posts,
+  } from "$lib/paraglide/messages";
   //import html2canvas from "html2canvas-pro";
 
   export let data;
@@ -632,7 +633,9 @@
         >{potus_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{potus_tracker_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {potus_tracker_breadcrumb_current()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
@@ -903,7 +906,8 @@
                                 class="text-sm text-gray-800 dark:text-zinc-300"
                               >
                                 <div>
-                                  {potus_tracker_title_label()} {item?.title}
+                                  {potus_tracker_title_label()}
+                                  {item?.title}
                                   <!-- Sentiment badge -->
                                   <div
                                     class={`mt-2 px-3 py-1 rounded-full text-xs sm:text-sm w-fit border
@@ -947,7 +951,8 @@
                               target="_blank"
                               class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                             >
-                              {potus_tracker_open_link()} <svg
+                              {potus_tracker_open_link()}
+                              <svg
                                 class="size-5 inline-block"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -1091,24 +1096,22 @@
           <div class="order-4 shrink-0 lg:float-right lg:w-[336px]">
             {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
               <div
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4 sm:mt-0"
               >
-                <a
-                  href="/pricing"
-                  class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-                >
-                  <div
-                    class="w-full flex justify-between items-center p-3 mt-3"
-                  >
-                    <h2 class="text-start text-base font-semibold sm:ml-3">
-                      {potus_tracker_sidebar_pro()}
-                    </h2>
-                  </div>
+                <a href="/pricing" class="group flex flex-col gap-2">
                   <span
-                    class="p-3 sm:ml-3 sm:mr-3 -mt-4 text-sm text-gray-800 dark:text-zinc-300"
+                    class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
-                    {potus_tracker_sidebar_pro_desc()}
+                    {market_news_upgrade_label()}
                   </span>
+                  <h2
+                    class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
+                  >
+                    {market_news_pro_subscription_title()}
+                  </h2>
+                  <p class="text-sm text-gray-600 dark:text-zinc-300">
+                    {market_news_upgrade_description()}
+                  </p>
                 </a>
               </div>
             {/if}
