@@ -41,5 +41,13 @@
   "hedge_funds_slug_main_sectors": "Hauptsektoren:",
   "hedge_funds_slug_top_industries": "Top Branchen:",
   "hedge_funds_slug_filing_date": "Filing-Datum:",
-  "hedge_funds_slug_no_data": "Die Daten des Hedge Funds sind derzeit nicht verfügbar."
+  "hedge_funds_slug_no_data": "Die Daten des Hedge Funds sind derzeit nicht verfügbar.",
+
+  "hedge_funds_column_rank": "Rang",
+  "hedge_funds_column_name": "Name",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Holdings",
+  "hedge_funds_column_turnover": "Turnover",
+  "hedge_funds_column_3year_perf": "3-Jahres Perf",
+  "hedge_funds_column_win_rate": "Win Rate"
 }

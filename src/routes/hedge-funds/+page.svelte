@@ -30,6 +30,13 @@
   hedge_funds_seo_title,
   hedge_funds_structured_description,
   hedge_funds_structured_name,
+  hedge_funds_column_rank,
+  hedge_funds_column_name,
+  hedge_funds_column_aum,
+  hedge_funds_column_holdings,
+  hedge_funds_column_turnover,
+  hedge_funds_column_3year_perf,
+  hedge_funds_column_win_rate,
 } from "$lib/paraglide/messages";
 
   export let data;
@@ -55,17 +62,19 @@
   let downloadCache: { signature: string; data: any[] } | null = null;
   let downloadPromise: Promise<any[]> | null = null;
 
-  const defaultColumns = [
-    { key: "rank", label: "Rank", align: "left" },
-    { key: "name", label: "Name", align: "left" },
-    { key: "marketValue", label: "AUM", align: "right" },
-    { key: "numberOfStocks", label: "Holdings", align: "right" },
-    { key: "turnover", label: "Turnover", align: "right" },
-    { key: "performancePercentage3Year", label: "3-Year Perf", align: "right" },
-    { key: "winRate", label: "Win Rate", align: "right" },
-  ];
+  function getDefaultColumns() {
+    return [
+      { key: "rank", label: hedge_funds_column_rank(), align: "left" },
+      { key: "name", label: hedge_funds_column_name(), align: "left" },
+      { key: "marketValue", label: hedge_funds_column_aum(), align: "right" },
+      { key: "numberOfStocks", label: hedge_funds_column_holdings(), align: "right" },
+      { key: "turnover", label: hedge_funds_column_turnover(), align: "right" },
+      { key: "performancePercentage3Year", label: hedge_funds_column_3year_perf(), align: "right" },
+      { key: "winRate", label: hedge_funds_column_win_rate(), align: "right" },
+    ];
+  }
 
-  let columns = [...defaultColumns];
+  let columns = getDefaultColumns();
 
   // Column reordering state
   let customColumnOrder: string[] = [];
@@ -135,14 +144,14 @@
         // Ignore storage errors
       }
     }
-    columns = [...defaultColumns];
+    columns = getDefaultColumns();
   }
 
   // Load saved column order on initialization
   function initColumnOrder(): void {
     customColumnOrder = loadColumnOrder();
     if (customColumnOrder.length > 0) {
-      columns = applyColumnOrder([...defaultColumns]);
+      columns = applyColumnOrder(getDefaultColumns());
       lastAppliedColumnKeys = columns.map((col) => col.key).join("|");
     }
   }

@@ -30,6 +30,13 @@
   insider_tracker_seo_title,
   insider_tracker_stocks,
   insider_tracker_title,
+  insider_tracker_table_symbol,
+  insider_tracker_table_name,
+  insider_tracker_table_member,
+  insider_tracker_table_market_cap,
+  insider_tracker_table_shares,
+  insider_tracker_table_value,
+  insider_tracker_table_type,
 } from "$lib/paraglide/messages";
 
   export let data;
@@ -46,15 +53,18 @@
   let lastAppliedColumnKeys = "";
 
   // Default columns (without chart - chart is conditionally added)
-  const defaultColumns = [
-    { key: "symbol", label: "Symbol", align: "left" },
-    { key: "name", label: "Name", align: "left" },
-    { key: "reportingName", label: "Member", align: "left" },
-    { key: "marketCap", label: "Market Cap", align: "right" },
-    { key: "shares", label: "Shares", align: "right" },
-    { key: "value", label: "Market Value", align: "right" },
-    { key: "transactionType", label: "Type", align: "right" },
-  ];
+  function getDefaultColumns() {
+    return [
+      { key: "symbol", label: insider_tracker_table_symbol(), align: "left" },
+      { key: "name", label: insider_tracker_table_name(), align: "left" },
+      { key: "reportingName", label: insider_tracker_table_member(), align: "left" },
+      { key: "marketCap", label: insider_tracker_table_market_cap(), align: "right" },
+      { key: "shares", label: insider_tracker_table_shares(), align: "right" },
+      { key: "value", label: insider_tracker_table_value(), align: "right" },
+      { key: "transactionType", label: insider_tracker_table_type(), align: "right" },
+    ];
+  }
+  let defaultColumns = getDefaultColumns();
 
   function processTickerData(data) {
     const symbolMap = new Map();
@@ -410,6 +420,7 @@
 
   function resetColumnOrder() {
     customColumnOrder = [];
+    defaultColumns = getDefaultColumns();
     if (typeof localStorage !== "undefined") {
       try {
         localStorage.removeItem(getColumnOrderStorageKey());
