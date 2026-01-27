@@ -27,7 +27,7 @@
   "analysts_detail_out_of_analysts": "Von {count} Analysten",
   "analysts_detail_total_ratings": "Gesamte Ratings",
   "analysts_detail_success_rate": "Erfolgsquote",
-  "analysts_detail_average_return": "Durchschnittliche Rendite",
+  "analysts_detail_average_return": "Ø Rendite",
   "analysts_detail_main_sectors": "Hauptsektoren:",
   "analysts_detail_top_industries": "Top Branchen:",
   "analysts_detail_count": "{count} Aktien",
@@ -49,7 +49,7 @@
   "analysts_info_subtitle": "So bewerten wir Analysten-Performance auf einen Blick.",
   "analysts_info_success_rate_title": "Erfolgsquote",
   "analysts_info_success_rate_desc": "Der Prozentsatz profitabler Ratings im letzten Jahr.",
-  "analysts_info_avg_return_title": "Durchschnittliche Rendite",
+  "analysts_info_avg_return_title": "Ø Rendite",
   "analysts_info_avg_return_desc": "Die durchschnittliche Einjahresrendite nach jedem Rating.",
   "analysts_info_rating_count_title": "Rating-Anzahl",
   "analysts_info_rating_count_desc": "Analysten mit mehr bewerteten Ideen haben höheres Gewicht.",
@@ -62,5 +62,12 @@
   "analysts_top_stocks_breadcrumb": "Top Analysten-Aktien",
   "analysts_top_stocks_title": "Top Strong Buy Aktien",
   "analysts_top_stocks_infobox": "Strong Buy Aktien von Top-bewerteten Analysten mit einem Sterne-Rating von 4 oder höher, bekannt für ihre außergewöhnliche Genauigkeit und Renditen. Aktien werden nach dem Volumen der Analysten-Ratings gerankt.",
-  "analysts_top_stocks_count": "Top {count} Aktien"
+  "analysts_top_stocks_count": "Top {count} Aktien",
+
+  "analysts_column_rank": "Rang",
+  "analysts_column_analyst": "Analyst",
+  "analysts_column_success_rate": "Erfolgsquote",
+  "analysts_column_avg_return": "Ø Rendite",
+  "analysts_column_total_ratings": "Gesamte Ratings",
+  "analysts_column_last_rating": "Letztes Rating"
 }

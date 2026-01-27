@@ -28,6 +28,12 @@
   analysts_seo_description,
   analysts_seo_keywords,
   analysts_seo_title,
+  analysts_column_rank,
+  analysts_column_analyst,
+  analysts_column_success_rate,
+  analysts_column_avg_return,
+  analysts_column_total_ratings,
+  analysts_column_last_rating,
 } from "$lib/paraglide/messages";
 
   export let data;
@@ -178,15 +184,18 @@
     updatePaginatedData();
   }
 
-  const defaultColumns = [
-    { key: "rank", label: "Rank", align: "left" },
-    { key: "name", label: "Analyst", align: "left" },
-    { key: "successRate", label: "Success Rate", align: "right" },
-    { key: "avgReturn", label: "Avg. Return", align: "right" },
-    { key: "totalRatings", label: "Total Ratings", align: "right" },
-    { key: "lastRating", label: "Last Rating", align: "right" },
-  ];
+  function getDefaultColumns() {
+    return [
+      { key: "rank", label: analysts_column_rank(), align: "left" },
+      { key: "name", label: analysts_column_analyst(), align: "left" },
+      { key: "successRate", label: analysts_column_success_rate(), align: "right" },
+      { key: "avgReturn", label: analysts_column_avg_return(), align: "right" },
+      { key: "totalRatings", label: analysts_column_total_ratings(), align: "right" },
+      { key: "lastRating", label: analysts_column_last_rating(), align: "right" },
+    ];
+  }
 
+  let defaultColumns = getDefaultColumns();
   let columns = [...defaultColumns];
 
   // Column reordering state and functions
@@ -280,6 +289,7 @@
     }
     customColumnOrder = [];
     lastAppliedColumnKeys = "";
+    defaultColumns = getDefaultColumns();
     columns = [...defaultColumns];
   }
 

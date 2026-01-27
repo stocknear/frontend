@@ -62,5 +62,12 @@
   "analysts_top_stocks_breadcrumb": "Top Analyst Stocks",
   "analysts_top_stocks_title": "Top Strong Buy Stocks",
   "analysts_top_stocks_infobox": "Strong Buy stocks by top-rated analysts with a star rating of 4 or above, known for their exceptional accuracy and returns. Stocks are ranked based on the volume of analyst ratings.",
-  "analysts_top_stocks_count": "Top {count} Stocks"
+  "analysts_top_stocks_count": "Top {count} Stocks",
+
+  "analysts_column_rank": "Rank",
+  "analysts_column_analyst": "Analyst",
+  "analysts_column_success_rate": "Success Rate",
+  "analysts_column_avg_return": "Avg. Return",
+  "analysts_column_total_ratings": "Total Ratings",
+  "analysts_column_last_rating": "Last Rating"
 }
