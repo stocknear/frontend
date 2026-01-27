@@ -3,33 +3,33 @@
   import { de, enUS } from "date-fns/locale";
   import { getLocale } from "$lib/paraglide/runtime.js";
   import {
-  economic_back_to_top,
-  economic_breadcrumb_calendar,
-  economic_breadcrumb_home,
-  economic_count_events,
-  economic_empty_day,
-  economic_filter_country,
-  economic_filter_importance,
-  economic_filter_no_country,
-  economic_filter_reset,
-  economic_filter_search,
-  economic_filters_label,
-  economic_main_name,
-  economic_pagination_next,
-  economic_pagination_page_of,
-  economic_pagination_previous,
-  economic_pagination_rows,
-  economic_search_placeholder,
-  economic_seo_description,
-  economic_seo_keywords,
-  economic_seo_title,
-  economic_source_label,
-  economic_source_provider,
-  economic_source_text,
-  economic_source_times,
-  economic_structured_description,
-  economic_structured_name,
-} from "$lib/paraglide/messages";
+    economic_back_to_top,
+    economic_breadcrumb_calendar,
+    economic_breadcrumb_home,
+    economic_count_events,
+    economic_empty_day,
+    economic_filter_country,
+    economic_filter_importance,
+    economic_filter_no_country,
+    economic_filter_reset,
+    economic_filter_search,
+    economic_filters_label,
+    economic_main_name,
+    economic_pagination_next,
+    economic_pagination_page_of,
+    economic_pagination_previous,
+    economic_pagination_rows,
+    economic_search_placeholder,
+    economic_seo_description,
+    economic_seo_keywords,
+    economic_seo_title,
+    economic_source_label,
+    economic_source_provider,
+    economic_source_text,
+    economic_source_times,
+    economic_structured_description,
+    economic_structured_name,
+  } from "$lib/paraglide/messages";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber, listOfRelevantCountries } from "$lib/utils";
 
@@ -115,7 +115,9 @@
   }
 
   // Format days for header labels
-  $: formattedWeekday = daysOfWeek.map((day) => format(day.date, "EEE, MMM d", { locale: getDateLocale() }));
+  $: formattedWeekday = daysOfWeek.map((day) =>
+    format(day.date, "EEE, MMM d", { locale: getDateLocale() }),
+  );
 
   // Recalculate weekday data when the economicCalendar or days change – but only when not sorting
   $: if (!sortMode) {
@@ -339,9 +341,8 @@
 
       // Initialize table search worker
       if (!tableSearchWorker) {
-        const SearchWorker = await import(
-          "$lib/workers/tableSearchWorker?worker"
-        );
+        const SearchWorker =
+          await import("$lib/workers/tableSearchWorker?worker");
         tableSearchWorker = new SearchWorker.default();
         tableSearchWorker.onmessage = handleTableSearchMessage;
       }
@@ -716,7 +717,9 @@
         >{economic_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{economic_breadcrumb_calendar()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {economic_breadcrumb_calendar()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -737,95 +740,111 @@
           <div class="flex justify-center w-full m-auto h-full overflow-hidden">
             <!-- Content area -->
             <div class="relative flex flex-col flex-1 overflow-hidden">
-              <!-- Header Dates -->
+              <!-- Header Dates - Desktop: grid with all days, Mobile: only selected day -->
               <div
-                class="w-full flex flex-row justify-center m-auto items-center"
+                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
               >
-                <label
-                  on:click={() => changeWeek("previous")}
-                  class="{previousMax
-                    ? 'opacity-80'
-                    : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
-                >
-                  <svg
-                    class="w-6 h-6 m-auto rotate-180"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path fill="currentColor" d={arrowIcon} />
-                  </svg>
-                </label>
                 {#each displayWeekData as day, index (formattedWeekday[index])}
                   <div
-                    class="w-full {index === selectedWeekday
-                      ? ''
-                      : 'hidden sm:block'}"
+                    on:click={() => toggleDate(index)}
+                    class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
+                    selectedWeekday
+                      ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
+                      : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
                   >
-                    <label
-                      on:click={() => toggleDate(index)}
-                      class="m-auto w-full cursor-pointer h-16 {index ===
-                      selectedWeekday
-                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                        : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                    <span class="text-[1rem]">{formattedWeekday[index]}</span>
+                    <span class="text-sm"
+                      >{economic_count_events({ count: day?.length })}</span
                     >
-                      <div
-                        class="flex flex-row justify-center items-center w-full"
+                    {#if index === 0}
+                      <button
+                        on:click|stopPropagation={() => changeWeek("previous")}
+                        class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        aria-label="Previous week"
+                        disabled={previousMax}
                       >
-                        <label
-                          on:click={() => clickWeekday("previous", index)}
-                          class="sm:hidden ml-auto"
+                        <svg
+                          class="h-5 w-5 rotate-180"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            class="w-8 h-8 inline-block rotate-180"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                          >
-                            <path fill="currentColor" d={arrowIcon} />
-                          </svg>
-                        </label>
-                        <div
-                          class="flex flex-col items-center truncate m-auto p-1"
+                          <path fill="currentColor" d={arrowIcon} />
+                        </svg>
+                      </button>
+                    {/if}
+                    {#if index === 4}
+                      <button
+                        on:click|stopPropagation={() => changeWeek("next")}
+                        class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        aria-label="Next week"
+                        disabled={nextMax}
+                      >
+                        <svg
+                          class="h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
                         >
-                          <span class="text-md">{formattedWeekday[index]}</span>
-                          <span class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"
-                            >{economic_count_events({ count: day?.length })}</span
-                          >
-                        </div>
-                        <label
-                          on:click={() => clickWeekday("next", index)}
-                          class="sm:hidden mr-auto"
-                        >
-                          <svg
-                            class="w-8 h-8 inline-block"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                          >
-                            <path fill="currentColor" d={arrowIcon} />
-                          </svg>
-                        </label>
-                      </div>
-                    </label>
+                          <path fill="currentColor" d={arrowIcon} />
+                        </svg>
+                      </button>
+                    {/if}
                   </div>
                 {/each}
-                <label
-                  on:click={() => changeWeek("next")}
-                  class="{nextMax
-                    ? 'opacity-80'
-                    : ''} hidden sm:flex {navigationButtonClasses} {borderClasses}"
-                >
-                  <svg
-                    class="w-6 h-6 m-auto"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path fill="currentColor" d={arrowIcon} />
-                  </svg>
-                </label>
+              </div>
+
+              <!-- Mobile Header - Only selected day with inline navigation -->
+              <div class="sm:hidden w-full">
+                {#each displayWeekData as day, index (formattedWeekday[index])}
+                  {#if index === selectedWeekday}
+                    <div
+                      class="w-full h-16 rounded-full flex items-center justify-center bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold border border-gray-300 shadow dark:border-zinc-700"
+                    >
+                      <label
+                        on:click={() => clickWeekday("previous", index)}
+                        class="{previousMax && index === 0
+                          ? 'opacity-20'
+                          : ''} ml-auto cursor-pointer"
+                      >
+                        <svg
+                          class="w-6 h-6 inline-block rotate-180"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path fill="currentColor" d={arrowIcon} />
+                        </svg>
+                      </label>
+                      <div
+                        class="flex flex-col items-center truncate m-auto p-1"
+                      >
+                        <span class="text-[1rem]"
+                          >{formattedWeekday[index]}</span
+                        >
+                        <span class="text-sm m-auto pt-1 pb-1"
+                          >{economic_count_events({ count: day?.length })}</span
+                        >
+                      </div>
+                      <label
+                        on:click={() => clickWeekday("next", index)}
+                        class="{nextMax && index === 4
+                          ? 'opacity-20'
+                          : ''} mr-auto cursor-pointer"
+                      >
+                        <svg
+                          class="w-6 h-6 inline-block"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path fill="currentColor" d={arrowIcon} />
+                        </svg>
+                      </label>
+                    </div>
+                  {/if}
+                {/each}
               </div>
 
               <!-- Dropdown Filters -->
               <div
-                class="flex flex-row items-center w-full sm:w-fit m-auto sm:m-0 pt-6 pb-3"
+                class="flex flex-row items-center w-full sm:w-fit m-auto sm:m-0 pb-3"
               >
                 <div
                   class="grid grid-cols-2 sm:grid-cols-3 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-3 w-full mt-3"
@@ -836,7 +855,8 @@
                         builders={[builder]}
                         class={dropdownButtonClasses}
                       >
-                        <span class="truncate">{economic_filter_country()}</span>
+                        <span class="truncate">{economic_filter_country()}</span
+                        >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -925,7 +945,9 @@
                         builders={[builder]}
                         class={dropdownButtonClasses}
                       >
-                        <span class="truncate">{economic_filter_importance()}</span>
+                        <span class="truncate"
+                          >{economic_filter_importance()}</span
+                        >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -1018,18 +1040,20 @@
               </div>
 
               <!-- Events Table -->
-              <div class="z-0 mb-40">
+              <div class="z-0 mb-20">
                 {#each displayWeekData as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
                       <div
-                        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5"
+                        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                       >
                         <div class="flex flex-row items-center gap-3">
                           <h2
                             class="font-semibold text-xl text-gray-900 dark:text-white"
                           >
-                            {formattedWeekday[index]?.split(", ")[1]} · {economic_count_events({ count: day?.length })}
+                            {formattedWeekday[index]?.split(", ")[1]} · {economic_count_events(
+                              { count: day?.length },
+                            )}
                           </h2>
                           {#if filterList.length !== 0}
                             <div
@@ -1116,7 +1140,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-2xl w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1313,7 +1337,8 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">{economic_pagination_previous()}</span
+                              <span class="hidden sm:inline"
+                                >{economic_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1322,7 +1347,10 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {economic_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
+                              {economic_pagination_page_of({
+                                current: dailyCurrentPage,
+                                total: dailyTotalPages,
+                              })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1333,7 +1361,9 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{economic_pagination_rows({ count: dailyRowsPerPage })}</span
+                                    >{economic_pagination_rows({
+                                      count: dailyRowsPerPage,
+                                    })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1368,7 +1398,11 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{economic_pagination_rows({ count: item })}</span>
+                                        <span class="text-sm"
+                                          >{economic_pagination_rows({
+                                            count: item,
+                                          })}</span
+                                        >
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1384,7 +1418,9 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">{economic_pagination_next()}</span>
+                              <span class="hidden sm:inline"
+                                >{economic_pagination_next()}</span
+                              >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1407,7 +1443,8 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {economic_back_to_top()} <svg
+                            {economic_back_to_top()}
+                            <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1431,14 +1468,16 @@
                 <div
                   class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 p-3 mt-6"
                 >
-                  <strong>{economic_source_label()}</strong> {economic_source_text()}
+                  <strong>{economic_source_label()}</strong>
+                  {economic_source_text()}
                   <a
                     href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                     target="_blank"
                     rel="noopener"
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >{economic_source_provider()}</a
-                  > {economic_source_times()}
+                  >
+                  {economic_source_times()}
                 </div>
               </div>
             </div>
