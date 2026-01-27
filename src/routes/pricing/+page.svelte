@@ -1087,7 +1087,7 @@
           </span>
           -->
           <span class="text-4xl font-semibold">
-            {mode ? "€9" : "€15"}
+            {mode ? "$10" : "$15"}
           </span>
           <span class="text-sm">{pricing_per_month()}</span>
         </div>
@@ -1615,7 +1615,7 @@
           </span>
           -->
           <span class="text-4xl font-semibold">
-            {mode ? "€29" : "€40"}
+            {mode ? "$30" : "$45"}
           </span>
           <span class="text-sm text-gray-500 dark:text-zinc-400"
             >{pricing_per_month()}</span
