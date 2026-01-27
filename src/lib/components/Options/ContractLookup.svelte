@@ -341,7 +341,7 @@
           animation: false,
         },
       ];
-    } else {
+    } else if (selectGraphType === "IV") {
       // IV with candlestick
       series = [
         {
@@ -370,6 +370,46 @@
           color: $mode === "light" ? "black" : "white",
           yAxis: 0,
           animation: false,
+          marker: { enabled: false },
+        },
+      ];
+    } else if (["Delta", "Gamma", "Theta", "Vega"].includes(selectGraphType)) {
+      // Greeks with candlestick
+      const greekKey = selectGraphType.toLowerCase();
+      const greekColor = {
+        delta: "#06988A",
+        gamma: "#3B82F6",
+        theta: "#F59E0B",
+        vega: "#8B5CF6",
+      };
+      series = [
+        {
+          name: "Option Price",
+          type: "candlestick",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.open ?? item?.mark,
+            item?.high ??
+              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ??
+              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.close ?? item?.mark,
+          ]),
+          ...candlestickColors,
+          yAxis: 2,
+          animation: false,
+        },
+        {
+          name: selectGraphType,
+          type: "spline",
+          data: filteredData?.map((item) => [
+            new Date(item.date).getTime(),
+            item?.[greekKey] ?? null,
+          ]),
+          color: greekColor[greekKey],
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
           marker: { enabled: false },
         },
       ];
@@ -1293,51 +1333,80 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div class="w-fit ml-auto flex flex-row items-center gap-x-3">
-                    <div class="">
-                      <div class="inline-flex">
-                        <div
-                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
+                    <div class="relative inline-block text-left">
+                      <DropdownMenu.Root>
+                        <DropdownMenu.Trigger asChild let:builder>
+                          <Button
+                            builders={[builder]}
+                            class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          >
+                            <span class="truncate text-xs sm:text-sm"
+                              >{selectGraphType}</span
+                            >
+                            <svg
+                              class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width:40px"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </Button>
+                        </DropdownMenu.Trigger>
+                        <DropdownMenu.Content
+                          side="bottom"
+                          align="end"
+                          sideOffset={10}
+                          alignOffset={0}
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                         >
-                          {#each ["Price", "Vol/OI", "IV"] as item, i}
-                            {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
-                              <button
-                                on:click={() => goto("/pricing")}
-                                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectGraphType ===
-                                item
-                                  ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                  : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                              >
-                                <span
-                                  class="relative text-sm block font-semibold"
+                          <DropdownMenu.Label
+                            class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                          >
+                            Chart Type
+                          </DropdownMenu.Label>
+                          <DropdownMenu.Separator />
+                          <DropdownMenu.Group>
+                            {#each ["Price", "Vol/OI", "IV", "Delta", "Gamma", "Theta", "Vega"] as item, i}
+                              {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
+                                <DropdownMenu.Item
+                                  on:click={() => goto("/pricing")}
+                                  class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                                >
+                                  <div class="flex flex-row items-center gap-x-2">
+                                    <span>{item}</span>
+                                    <svg
+                                      class="size-4"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      style="max-width: 40px;"
+                                    >
+                                      <path
+                                        fill-rule="evenodd"
+                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                        clip-rule="evenodd"
+                                      >
+                                      </path>
+                                    </svg>
+                                  </div>
+                                </DropdownMenu.Item>
+                              {:else}
+                                <DropdownMenu.Item
+                                  on:click={() => (selectGraphType = item)}
+                                  class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                                 >
                                   {item}
-                                  <svg
-                                    class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    ><path
-                                      fill="currentColor"
-                                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                    /></svg
-                                  >
-                                </span>
-                              </button>
-                            {:else}
-                              <button
-                                on:click={() => {
-                                  selectGraphType = item;
-                                }}
-                                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectGraphType ===
-                                item
-                                  ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                  : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                              >
-                                {item}
-                              </button>
-                            {/if}
-                          {/each}
-                        </div>
-                      </div>
+                                </DropdownMenu.Item>
+                              {/if}
+                            {/each}
+                          </DropdownMenu.Group>
+                        </DropdownMenu.Content>
+                      </DropdownMenu.Root>
                     </div>
                     <div class="relative inline-block text-left">
                       <DropdownMenu.Root>
