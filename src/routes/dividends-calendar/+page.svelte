@@ -44,6 +44,10 @@
   dividends_seo_description,
   dividends_seo_keywords,
   dividends_seo_title,
+  dividends_tab_daily,
+  dividends_tab_weekly,
+  dividends_tab_details,
+  dividends_tab_compact,
 } from "$lib/paraglide/messages";
 
   export let data;
@@ -106,10 +110,10 @@
   // Tab label translation helper
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "Daily": m.dividends_tab_daily,
-      "Weekly": m.dividends_tab_weekly,
-      "Details": m.dividends_tab_details,
-      "Compact": m.dividends_tab_compact,
+      "Daily": dividends_tab_daily,
+      "Weekly": dividends_tab_weekly,
+      "Details": dividends_tab_details,
+      "Compact": dividends_tab_compact,
     };
     return tabLabels[tab]?.() ?? tab;
   }

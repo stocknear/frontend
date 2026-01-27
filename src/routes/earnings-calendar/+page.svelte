@@ -45,6 +45,11 @@
   earnings_seo_description,
   earnings_seo_keywords,
   earnings_seo_title,
+  earnings_tab_daily,
+  earnings_tab_weekly,
+  earnings_tab_details,
+  earnings_tab_compact,
+  earnings_time_any,
   earnings_time_after_close,
   earnings_time_before_open,
   earnings_time_of_day,
@@ -86,10 +91,10 @@
   // Tab label translation helper
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      Daily: m.earnings_tab_daily,
-      Weekly: m.earnings_tab_weekly,
-      Details: m.earnings_tab_details,
-      Compact: m.earnings_tab_compact,
+      Daily: earnings_tab_daily,
+      Weekly: earnings_tab_weekly,
+      Details: earnings_tab_details,
+      Compact: earnings_tab_compact,
     };
     return tabLabels[tab]?.() ?? tab;
   }
@@ -97,9 +102,9 @@
   // Time option label translation helper
   function getTimeLabel(value: string): string {
     const timeLabels: Record<string, () => string> = {
-      anytime: m.earnings_time_any,
-      bmo: m.earnings_time_before_open,
-      amc: m.earnings_time_after_close,
+      anytime: earnings_time_any,
+      bmo: earnings_time_before_open,
+      amc: earnings_time_after_close,
     };
     return timeLabels[value]?.() ?? value;
   }
