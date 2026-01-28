@@ -1134,11 +1134,12 @@
                             </div>
                           {/each}
                         {:else}
-                          <span
-                            class="text-sm text-gray-600 dark:text-zinc-300"
-                          >
-                            {watchlist_no_news()}
-                          </span>
+                          <br />
+                          <div class="mt-3 sm:mt-0">
+                            <Infobox
+                              text={watchlist_no_news()}
+                            />
+                          </div>
                         {/if}
                       {:else if groupedEarnings?.length > 0}
                         {#each displayList as [date, titleGroups]}

@@ -18,6 +18,7 @@
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import Infobox from "$lib/components/Infobox.svelte";
   import {
   price_alert_breadcrumb_home,
   price_alert_breadcrumb_price_alert,
@@ -693,10 +694,11 @@
                       </div>
                     {/each}
                   {:else}
-                    <div
-                      class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300"
-                    >
-                      {price_alert_no_news()}
+                    <br />
+                    <div class="mt-3 sm:mt-0">
+                      <Infobox
+                        text={price_alert_no_news()}
+                      />
                     </div>
                   {/if}
                 {:else if groupedEarnings?.length > 0}
@@ -775,10 +777,11 @@
                     </div>
                   {/each}
                 {:else}
-                  <div
-                    class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300"
-                  >
-                    {price_alert_no_earnings()}
+                  <br />
+                  <div class="mt-3 sm:mt-0">
+                    <Infobox
+                      text={price_alert_no_earnings()}
+                    />
                   </div>
                 {/if}
               </div>
