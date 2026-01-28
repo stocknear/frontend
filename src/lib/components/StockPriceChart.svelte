@@ -61,11 +61,45 @@
 
   // Range selector state
   let isSelecting = false;
-  let selectionStart: { index: number; price: number; x: number; y: number } | null = null;
-  let selectionEnd: { index: number; price: number; x: number; y: number } | null = null;
+  let selectionStart: { index: number; price: number; x: number; y: number; timestamp: number } | null = null;
+  let selectionEnd: { index: number; price: number; x: number; y: number; timestamp: number } | null = null;
   let startPointerId: number | null = null;
   let startChartX: number | null = null;
   const DRAG_THRESHOLD_PX = 6;
+
+  // Format timestamp for range selector label based on display range
+  const formatRangeTimestamp = (timestampMs: number): string => {
+    const date = new Date(timestampMs);
+
+    if (displayRange === "1D") {
+      // For 1D: show time only (e.g., "10:30 AM")
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+
+    if (["1W", "1M"].includes(displayRange)) {
+      // For 1W, 1M: show date with time (e.g., "Jan 15, 10:30 AM")
+      return date.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+      });
+    }
+
+    // For 6M, YTD, 1Y, MAX: show date only (e.g., "Jan 15, 2024")
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  };
 
   // Session boundaries for 1D
   let sessionStart: number | null = null;
@@ -541,17 +575,6 @@
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
 
-  const formatRangeTimestamp = (timestampMs: number): string => {
-    const date = new Date(timestampMs);
-    if (displayRange === "1D") {
-      return date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: false });
-    }
-    if (["1W", "1M"].includes(displayRange)) {
-      return date.toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" });
-    }
-    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
-  };
-
   $: selectionDelta = selectionStart && selectionEnd
     ? selectionEnd.price - selectionStart.price
     : 0;
@@ -561,6 +584,15 @@
     : 0;
 
   $: selectionColor = selectionDelta >= 0 ? "#00FC50" : "#FF2F1F";
+
+  // Format the time/date range for the label
+  $: selectionTimeRange = (() => {
+    if (!selectionStart || !selectionEnd) return "";
+    const t1 = Math.min(selectionStart.timestamp, selectionEnd.timestamp);
+    const t2 = Math.max(selectionStart.timestamp, selectionEnd.timestamp);
+    if (t1 === t2) return formatRangeTimestamp(t1);
+    return `${formatRangeTimestamp(t1)} – ${formatRangeTimestamp(t2)}`;
+  })();
 
   $: selectionRect = (() => {
     if (!selectionStart || !selectionEnd || !chartContainer) return null;
@@ -603,8 +635,8 @@
 
     startPointerId = evt.pointerId;
     startChartX = data.x;
-    selectionStart = { index: data.index, price: data.price, x: data.x, y: data.y };
-    selectionEnd = { index: data.index, price: data.price, x: data.x, y: data.y };
+    selectionStart = { index: data.index, price: data.price, x: data.x, y: data.y, timestamp: data.timestamp };
+    selectionEnd = { index: data.index, price: data.price, x: data.x, y: data.y, timestamp: data.timestamp };
 
     try {
       (evt.target as HTMLElement)?.setPointerCapture(evt.pointerId);
@@ -627,7 +659,7 @@
     }
 
     if (isSelecting) {
-      selectionEnd = { index: data.index, price: data.price, x: data.x, y: data.y };
+      selectionEnd = { index: data.index, price: data.price, x: data.x, y: data.y, timestamp: data.timestamp };
       evt.preventDefault();
     }
   };
@@ -851,16 +883,22 @@
 
       <!-- Label -->
       <div
-        class="absolute bg-black border border-gray-700 rounded px-2 py-1 text-sm whitespace-nowrap"
+        class="absolute bg-black border border-gray-700 rounded px-2 py-1.5 text-sm"
         style="
           left: {(selectionStart.x + selectionEnd.x) / 2}px;
-          top: 26px;
+          top: 20px;
           transform: translateX(-50%);
-          color: {selectionColor};
         "
       >
-        {selectionDelta > 0 ? '+' : ''}{selectionDelta.toFixed(2)} ({selectionPercent.toFixed(2)}%)
-        {selectionDelta > 0 ? '↑' : selectionDelta < 0 ? '↓' : ''}
+        <div class="whitespace-nowrap" style="color: {selectionColor};">
+          {selectionDelta > 0 ? '+' : ''}{selectionDelta.toFixed(2)} ({selectionPercent.toFixed(2)}%)
+          {selectionDelta > 0 ? '↑' : selectionDelta < 0 ? '↓' : ''}
+        </div>
+        {#if selectionTimeRange}
+          <div class="text-xs text-gray-400 whitespace-nowrap mt-0.5">
+            {selectionTimeRange}
+          </div>
+        {/if}
       </div>
     </div>
   {/if}
