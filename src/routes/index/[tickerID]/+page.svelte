@@ -521,7 +521,6 @@
   onDestroy(async () => {
     $priceIncrease = null;
     $globalForm = [];
-    shouldUpdatePriceChart.set(false);
     disconnectOneDayPriceWebSocket();
   });
 
@@ -544,7 +543,6 @@
   $: {
     if ($indexTicker) {
       // add a check to see if running on client-side
-      shouldUpdatePriceChart.set(false);
       oneDayPrice = [];
       oneWeekPrice = [];
       oneMonthPrice = [];
@@ -552,7 +550,6 @@
       oneYearPrice = [];
       maxPrice = [];
       output = null;
-      config = null;
 
       initializePrice();
     }
@@ -662,9 +659,16 @@
                 </div>
               </div>
 
-              {#if output !== null && config !== null && dataMapping[displayData]?.length !== 0}
-                <div use:highcharts={config}></div>
-              {:else if !isLoadingChart && (output === null || config === null || dataMapping[displayData]?.length === 0)}
+              {#if currentChartData?.length > 0}
+                <StockPriceChart
+                  priceData={currentChartData}
+                  displayRange={displayData}
+                  previousClose={data?.getStockQuote?.previousClose}
+                  isNegative={chartIsNegative}
+                  isLoading={isLoadingChart}
+                  showVolume={false}
+                />
+              {:else if !isLoadingChart}
                 <div
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
@@ -673,19 +677,14 @@
                   </p>
                 </div>
               {:else}
-                <div
-                  class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
-                >
-                  <div class="relative">
-                    <label
-                      class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    >
-                      <span
-                        class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
-                      ></span>
-                    </label>
-                  </div>
-                </div>
+                <StockPriceChart
+                  priceData={[]}
+                  displayRange={displayData}
+                  previousClose={null}
+                  isNegative={false}
+                  isLoading={true}
+                  showVolume={false}
+                />
               {/if}
             </div>
 
@@ -940,34 +939,3 @@
   </div>
 </section>
 
-<!--End-Indicator-Modal-->
-
-<style lang="scss">
-  canvas {
-    width: 100%;
-    height: 100%;
-    max-width: 800px;
-    max-height: 450px;
-  }
-
-  .pulse {
-    position: relative;
-    animation: pulse-animation 1s forwards cubic-bezier(0.5, 0, 0.5, 1);
-  }
-
-  @keyframes pulse-animation {
-    0% {
-      transform: scale(0.9);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(0.9);
-      opacity: 0;
-    }
-  }
-
-  :root {
-    --date-picker-background: #09090b;
-    --date-picker-foreground: #f7f7f7;
-  }
-</style>

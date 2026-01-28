@@ -87,6 +87,7 @@
   export let previousClose: number | null = null;
   export let isNegative: boolean = false;
   export let isLoading: boolean = false;
+  export let showVolume: boolean = true;
 
   // ============================================================================
   // STATE
@@ -614,33 +615,35 @@
     chart.setRightMinVisibleBarCount(0);
     chart.setSymbol({ ticker: "STOCK", pricePrecision: 2, volumePrecision: 0 });
 
-    chart.createIndicator({ name: "VOL", calcParams: [] }, false, {
-      id: "volume_pane",
-      height: 80,
-      gap: { top: 0.02, bottom: 0 },
-      axis: {
-        show: false,
-        createRange: ({ chart: c, defaultRange }) => {
-          const visibleRange = c.getVisibleRange();
-          const dataList = c.getDataList();
-          if (!dataList?.length) return defaultRange;
+    if (showVolume) {
+      chart.createIndicator({ name: "VOL", calcParams: [] }, false, {
+        id: "volume_pane",
+        height: 80,
+        gap: { top: 0.02, bottom: 0 },
+        axis: {
+          show: false,
+          createRange: ({ chart: c, defaultRange }) => {
+            const visibleRange = c.getVisibleRange();
+            const dataList = c.getDataList();
+            if (!dataList?.length) return defaultRange;
 
-          const volumes: number[] = [];
-          for (let i = visibleRange.from; i < visibleRange.to; i++) {
-            const v = dataList[i]?.volume;
-            if (typeof v === "number" && v > 0) volumes.push(v);
-          }
-          if (!volumes.length) return defaultRange;
+            const volumes: number[] = [];
+            for (let i = visibleRange.from; i < visibleRange.to; i++) {
+              const v = dataList[i]?.volume;
+              if (typeof v === "number" && v > 0) volumes.push(v);
+            }
+            if (!volumes.length) return defaultRange;
 
-          volumes.sort((a, b) => a - b);
-          const p95 = volumes[Math.min(Math.floor(volumes.length * 0.95), volumes.length - 1)];
-          const actualMax = volumes[volumes.length - 1];
-          const max = actualMax > p95 * 3 ? p95 * 1.5 : actualMax * 1.05;
+            volumes.sort((a, b) => a - b);
+            const p95 = volumes[Math.min(Math.floor(volumes.length * 0.95), volumes.length - 1)];
+            const actualMax = volumes[volumes.length - 1];
+            const max = actualMax > p95 * 3 ? p95 * 1.5 : actualMax * 1.05;
 
-          return { from: 0, to: max, range: max, realFrom: 0, realTo: max, realRange: max, displayFrom: 0, displayTo: max, displayRange: max };
+            return { from: 0, to: max, range: max, realFrom: 0, realTo: max, realRange: max, displayFrom: 0, displayTo: max, displayRange: max };
+          },
         },
-      },
-    });
+      });
+    }
 
     chart.setPaneOptions({ id: "candle_pane", gap: { top: 0.02, bottom: 0.02 } });
 
