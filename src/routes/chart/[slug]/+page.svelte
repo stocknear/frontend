@@ -1073,6 +1073,12 @@
       intradayIntervals.map((interval) => [interval, createIntradayState()]),
     ) as Record<IntradayInterval, IntradayHistoryState>;
   let intradayHistoryTicker = "";
+
+  // Chart loading state - shows spinner when loading historical data
+  $: isChartLoading = minuteBarsLoading ||
+    (intradayIntervals.includes(activeRange as IntradayInterval) &&
+     intradayHistory[activeRange as IntradayInterval]?.isLoading);
+
   const intradayHistoryChunkDays = 5;
   // 1min and 5min: max 30 days, others (15min, 30min, 1hour): max 90 days
   const intradayHistoryLimitDaysMap: Record<IntradayInterval, number> = {
@@ -7676,6 +7682,13 @@
 
       <div class="relative flex-1 bg-[#0b0b0b]">
         <div class="absolute inset-0 z-[1] touch-manipulation" bind:this={chartContainer}></div>
+
+        <!-- Loading Spinner Overlay -->
+        {#if isChartLoading}
+          <div class="bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]">
+            <span class="loading loading-spinner loading-md text-white"></span>
+          </div>
+        {/if}
 
         <!-- Watermark -->
         <div
