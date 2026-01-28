@@ -461,18 +461,115 @@
 
   // Store current bars for updates
   let currentBars: KLineData[] = [];
+  let currentBarCount = 0;
+
+  // KlineCharts has a hard-coded minimum bar space of 1px (BarSpaceLimitConstants.MIN = 1)
+  // This means we cannot fit more bars than pixels. To show all data without scrolling,
+  // we must downsample when data exceeds available width.
+  const KLINE_MIN_BAR_SPACE = 1;
+
+  // Downsample bars using LTTB (Largest-Triangle-Three-Buckets) algorithm
+  // This preserves visual shape better than simple sampling
+  const downsampleBars = (bars: KLineData[], targetCount: number): KLineData[] => {
+    if (bars.length <= targetCount || targetCount < 3) return bars;
+
+    const result: KLineData[] = [];
+    const bucketSize = (bars.length - 2) / (targetCount - 2);
+
+    // Always keep first point
+    result.push(bars[0]);
+
+    for (let i = 0; i < targetCount - 2; i++) {
+      const bucketStart = Math.floor((i + 0) * bucketSize) + 1;
+      const bucketEnd = Math.floor((i + 1) * bucketSize) + 1;
+      const nextBucketStart = Math.floor((i + 1) * bucketSize) + 1;
+      const nextBucketEnd = Math.floor((i + 2) * bucketSize) + 1;
+
+      // Average of next bucket (for triangle calculation)
+      let avgX = 0, avgY = 0, count = 0;
+      for (let j = nextBucketStart; j < nextBucketEnd && j < bars.length - 1; j++) {
+        avgX += j;
+        avgY += bars[j].close;
+        count++;
+      }
+      if (count > 0) {
+        avgX /= count;
+        avgY /= count;
+      }
+
+      // Find point in current bucket with largest triangle area
+      const prevX = result.length - 1;
+      const prevY = result[result.length - 1].close;
+      let maxArea = -1;
+      let maxIndex = bucketStart;
+
+      for (let j = bucketStart; j < bucketEnd && j < bars.length - 1; j++) {
+        // Triangle area formula (simplified, no division by 2 needed for comparison)
+        const area = Math.abs(
+          (prevX - avgX) * (bars[j].close - prevY) -
+          (prevX - j) * (avgY - prevY)
+        );
+        if (area > maxArea) {
+          maxArea = area;
+          maxIndex = j;
+        }
+      }
+
+      result.push(bars[maxIndex]);
+    }
+
+    // Always keep last point
+    result.push(bars[bars.length - 1]);
+
+    return result;
+  };
+
+  // Update bar space to fit all data without scrolling, starting from left edge
+  const updateBarSpace = () => {
+    if (!chart || !chartContainer || currentBarCount <= 0) return;
+
+    // Get the actual main pane width (excludes y-axis)
+    const paneWidth = chart.getSize("candle_pane", "main")?.width;
+    const containerWidth = chartContainer.clientWidth;
+    const chartWidth = chart.getSize()?.width;
+    const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
+
+    if (!width || width <= 0) return;
+
+    // Calculate bar space to fit all bars exactly in the available width
+    const barSpace = Math.max(KLINE_MIN_BAR_SPACE, width / currentBarCount);
+
+    // Set the bar space
+    chart.setBarSpace(barSpace);
+
+    // Reset offsets
+    chart.setMaxOffsetRightDistance(0);
+    chart.setOffsetRightDistance(0);
+
+    // Get current visible range
+    const visibleRange = chart.getVisibleRange();
+
+    // Calculate how far we need to scroll to get first bar at left edge
+    // visibleRange.from is the index of the first visible bar
+    // If from > 0, we need to scroll to show earlier bars
+    // If from < 0, we've scrolled too far left (empty space at left)
+    if (visibleRange.from !== 0) {
+      const actualBarSpace = chart.getBarSpace()?.bar ?? barSpace;
+      // Scroll by the distance needed to make from = 0
+      // Negative distance scrolls left (shows earlier data), positive scrolls right
+      const scrollDistance = visibleRange.from * actualBarSpace;
+      chart.scrollByDistance(scrollDistance);
+    }
+  };
 
   const updateChartData = (rawData: any[]) => {
-    if (!chart) return;
+    if (!chart || !chartContainer) return;
 
-    console.log("[StockPriceChart] Raw data sample:", rawData?.slice(0, 2));
-    const bars = buildBars(rawData);
-    console.log("[StockPriceChart] Parsed bars sample:", bars?.slice(0, 2));
-    console.log("[StockPriceChart] Total bars:", bars?.length);
-
-    currentBars = bars;
+    let bars = buildBars(rawData);
 
     if (!bars.length) {
+      currentBars = [];
+      currentBarCount = 0;
       chart.setDataLoader({
         getBars: async ({ type, callback }) => {
           callback([], { backward: false, forward: false });
@@ -480,6 +577,22 @@
       });
       return;
     }
+
+    // Calculate available width to determine if we need to downsample
+    const paneWidth = chart.getSize("candle_pane", "main")?.width;
+    const containerWidth = chartContainer.clientWidth;
+    const chartWidth = chart.getSize()?.width;
+    const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
+
+    // Downsample if we have more bars than pixels (KlineCharts min bar space is 1px)
+    // Leave some margin (use 90% of width) to ensure all data fits comfortably
+    const maxBars = Math.max(100, Math.floor((width || 800) * 0.95));
+    if (bars.length > maxBars) {
+      bars = downsampleBars(bars, maxBars);
+    }
+
+    currentBars = bars;
+    currentBarCount = bars.length;
 
     const intervalMs = computeIntervalMs(bars);
     const periodType = intervalMs >= 86400000 ? "day" : intervalMs >= 3600000 ? "hour" : "minute";
@@ -491,25 +604,21 @@
     // Use setDataLoader - KlineCharts will automatically call the callback with type: "init"
     chart.setDataLoader({
       getBars: async ({ type, callback }) => {
-        console.log("[StockPriceChart] DataLoader getBars called, type:", type);
         if (type === "init") {
           callback(currentBars, { backward: false, forward: false });
+          // Use requestAnimationFrame to wait for the chart to render
+          // Then apply bar space and positioning
+          requestAnimationFrame(() => {
+            updateBarSpace();
+            // Second call after a delay ensures positioning sticks after initial render
+            requestAnimationFrame(() => {
+              updateBarSpace();
+            });
+          });
           return;
         }
         callback([], { backward: false, forward: false });
       },
-    });
-
-    // Calculate bar space to fit all data after a short delay
-    requestAnimationFrame(() => {
-      if (!chart || !chartContainer) return;
-      const chartWidth = chart.getSize()?.width ?? chartContainer.clientWidth;
-      const yAxisWidth = 60;
-      const availableWidth = chartWidth - yAxisWidth;
-      const barSpace = Math.max(1, availableWidth / bars.length);
-      console.log("[StockPriceChart] Setting bar space:", barSpace, "for", bars.length, "bars");
-      chart.setBarSpace(barSpace);
-      chart.setOffsetRightDistance(0);
     });
   };
 
@@ -606,7 +715,7 @@
     const x1 = Math.min(selectionStart.x, selectionEnd.x);
     const x2 = Math.max(selectionStart.x, selectionEnd.x);
     const width = x2 - x1;
-    const height = chartContainer.clientHeight * 0.78; // Price pane height
+    const height = chartContainer.clientHeight - 80; // Price pane height (total minus volume pane)
     return { x: x1, y: 0, width, height };
   })();
 
@@ -704,6 +813,8 @@
     chart.setZoomEnabled(false);
     chart.setScrollEnabled(false);
     chart.setOffsetRightDistance(0);
+    chart.setLeftMinVisibleBarCount(0);
+    chart.setRightMinVisibleBarCount(0);
 
     // Set symbol info (required for proper chart initialization)
     chart.setSymbol({
@@ -713,7 +824,68 @@
     });
 
     // Create volume pane with no MA lines (calcParams: [] disables MA calculations)
-    chart.createIndicator({ name: "VOL", calcParams: [] }, false, { id: "volume_pane", height: 60 });
+    // Use custom createRange for proper volume scaling like TradingView
+    chart.createIndicator({ name: "VOL", calcParams: [] }, false, {
+      id: "volume_pane",
+      height: 80,
+      gap: { top: 0.02, bottom: 0 },
+      axis: {
+        show: false,
+        createRange: ({ chart: c, defaultRange }) => {
+          const visibleRange = c.getVisibleRange();
+          const dataList = c.getDataList();
+
+          if (!dataList || dataList.length === 0) {
+            return defaultRange;
+          }
+
+          // Collect volumes from visible bars
+          const volumes: number[] = [];
+          for (let i = visibleRange.from; i < visibleRange.to; i++) {
+            const data = dataList[i];
+            if (data && typeof data.volume === "number" && data.volume > 0) {
+              volumes.push(data.volume);
+            }
+          }
+
+          if (volumes.length === 0) {
+            return defaultRange;
+          }
+
+          // Sort volumes to calculate percentile
+          volumes.sort((a, b) => a - b);
+
+          // Use 95th percentile as max to handle outliers/spikes gracefully
+          const percentileIndex = Math.floor(volumes.length * 0.95);
+          const percentileMax = volumes[Math.min(percentileIndex, volumes.length - 1)];
+          const actualMax = volumes[volumes.length - 1];
+
+          // If the spike is more than 3x the 95th percentile, cap at 1.5x the 95th percentile
+          // Otherwise use actual max with small padding
+          let max: number;
+          if (actualMax > percentileMax * 3) {
+            max = percentileMax * 1.5;
+          } else {
+            max = actualMax * 1.05;
+          }
+
+          const min = 0;
+          const range = max - min;
+
+          return {
+            from: min,
+            to: max,
+            range,
+            realFrom: min,
+            realTo: max,
+            realRange: range,
+            displayFrom: min,
+            displayTo: max,
+            displayRange: range,
+          };
+        },
+      },
+    });
 
     // Set pane options
     chart.setPaneOptions({
@@ -753,7 +925,8 @@
       resizeRaf = requestAnimationFrame(() => {
         resizeRaf = null;
         chart?.resize();
-        updateChartData(priceData);
+        // Re-calculate bar space after resize
+        updateBarSpace();
       });
     });
     resizeObserver.observe(chartContainer);
