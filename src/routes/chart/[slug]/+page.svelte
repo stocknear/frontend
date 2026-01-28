@@ -489,6 +489,11 @@
 
   $: isSubscribed = data?.user?.tier === "Pro";
 
+  // Responsive breakpoint helpers
+  $: isMobile = $screenWidth > 0 && $screenWidth < 640;
+  $: isTablet = $screenWidth >= 640 && $screenWidth < 1024;
+  $: isDesktop = $screenWidth >= 1024;
+
   // Save event toggle states to localStorage
   const saveEventSettings = () => {
     const currentSettings = loadChartSettings() || {
@@ -5951,7 +5956,7 @@
     const changeColor = isUp ? "#22ab94" : "#f23645";
 
     // Check if small screen (below sm breakpoint = 640px)
-    const isSmallScreen = $screenWidth < 640;
+    const isSmallScreen = isMobile;
 
     // For line chart types, show value and volume
     const isLineChart = ["line_step", "area", "hlc_area"].includes(chartType);
@@ -6831,7 +6836,7 @@
 />
 
 <main
-  class="h-[calc(100vh-56px)] w-full bg-[#09090b] text-neutral-200 overflow-hidden"
+  class="h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-[#09090b] text-neutral-200 overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
@@ -6850,6 +6855,8 @@
               : "/pwa-512x512.png"}
             alt={`${ticker || "Stocknear"} logo`}
             class="shrink-0 w-5 h-5 rounded-full"
+            loading="lazy"
+            decoding="async"
           />
           <span class="font-semibold text-neutral-100">{ticker}</span>
           <span class="text-neutral-500">·</span>
@@ -6875,10 +6882,10 @@
       </div>
 
       <!-- Second Row: Tools -->
-      <div class="flex items-center px-1 py-0.5 gap-0.5 overflow-x-auto">
-        <!-- Toolbar Toggle -->
+      <div class="flex items-center px-1 py-0.5 gap-1 sm:gap-0.5 overflow-x-auto scrollbar-none">
+        <!-- Toolbar Toggle (hidden on mobile since drawing toolbar is desktop-only) -->
         <button
-          class="cursor-pointer flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+          class="hidden sm:flex cursor-pointer items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
@@ -6897,11 +6904,11 @@
               <button
                 use:builder.action
                 {...builder}
-                class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+                class="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition min-h-[44px]"
               >
-                <Timer class="h-4 w-4" />
+                <Timer class="h-5 w-5" />
                 <span>{activeRange}</span>
-                <ChevronDown class="h-3 w-3" />
+                <ChevronDown class="h-4 w-4" />
               </button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content
@@ -6944,8 +6951,8 @@
           {/each}
         </div>
 
-        <!-- Separator -->
-        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <!-- Separator (hidden on mobile) -->
+        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
         <!-- Chart Type Dropdown -->
         <DropdownMenu.Root>
@@ -6953,13 +6960,13 @@
             <button
               use:builder.action
               {...builder}
-              class="cursor-pointer flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+              class="cursor-pointer flex items-center gap-1.5 px-3 py-2.5 sm:px-2 sm:py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition min-h-[44px] sm:min-h-0"
             >
               <svelte:component
                 this={currentChartType?.icon}
-                class="h-4 w-4 flex-shrink-0"
+                class="h-5 w-5 sm:h-4 sm:w-4 flex-shrink-0"
               />
-              <ChevronDown class="h-3 w-3" />
+              <ChevronDown class="h-4 w-4 sm:h-3 sm:w-3" />
             </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
@@ -6985,19 +6992,19 @@
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
-        <!-- Separator -->
-        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <!-- Separator (hidden on mobile) -->
+        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
         <!-- Indicators Button -->
         <label
           for="indicatorModal"
           on:click={openIndicatorModal}
-          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+          class="flex items-center gap-1.5 px-3 py-2.5 sm:px-2 sm:py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition min-h-[44px] sm:min-h-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 28 28"
-            class="h-4 w-4"
+            class="h-5 w-5 sm:h-4 sm:w-4"
             fill="none"
           >
             <path
@@ -7010,11 +7017,11 @@
               d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"
             />
           </svg>
-          <span>Indicators</span>
+          <span class="hidden sm:inline">Indicators</span>
         </label>
 
-        <!-- Separator -->
-        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <!-- Separator (hidden on mobile) -->
+        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
         <!-- Events Dropdown -->
         <DropdownMenu.Root>
@@ -7022,20 +7029,20 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+              class="flex items-center gap-1.5 px-3 py-2.5 sm:px-2 sm:py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition min-h-[44px] sm:min-h-0"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 28 28"
-                class="h-4 w-4"
+                class="h-5 w-5 sm:h-4 sm:w-4"
                 fill="currentColor"
               >
                 <path
                   d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z"
                 />
               </svg>
-              <span>Events</span>
-              <ChevronDown class="size-3" />
+              <span class="hidden sm:inline">Events</span>
+              <ChevronDown class="size-4 sm:size-3" />
             </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
@@ -7703,7 +7710,7 @@
       {/if}
 
       <div class="relative flex-1 bg-[#0b0b0b]">
-        <div class="absolute inset-0 z-[1]" bind:this={chartContainer}></div>
+        <div class="absolute inset-0 z-[1] touch-manipulation" bind:this={chartContainer}></div>
 
         <!-- Watermark -->
         <div
@@ -7714,6 +7721,8 @@
             src="/pwa-192x192.png"
             alt="Stocknear"
             class="size-9 rounded-full opacity-60"
+            loading="lazy"
+            decoding="async"
           />
           <span class="text-white/60 text-base font-semibold text-md"
             >Stocknear</span
@@ -7803,11 +7812,14 @@
         <!-- Earnings popup -->
         {#if selectedEarnings}
           <div
-            class="absolute z-[20] pointer-events-auto"
-            style="left: {earningsPopupPosition.x}px; top: {earningsPopupPosition.y}px; transform: translate(-50%, -100%)"
+            class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+            style="--popup-x: {earningsPopupPosition.x}px; --popup-y: {earningsPopupPosition.y}px;"
+            style:left={!isMobile ? `${earningsPopupPosition.x}px` : undefined}
+            style:top={!isMobile ? `${earningsPopupPosition.y}px` : undefined}
+            style:transform={!isMobile ? 'translate(-50%, -100%)' : undefined}
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px]"
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
@@ -8079,11 +8091,13 @@
         <!-- Dividend popup -->
         {#if selectedDividend}
           <div
-            class="absolute z-[20] pointer-events-auto"
-            style="left: {dividendPopupPosition.x}px; top: {dividendPopupPosition.y}px; transform: translate(-50%, -100%)"
+            class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+            style:left={!isMobile ? `${dividendPopupPosition.x}px` : undefined}
+            style:top={!isMobile ? `${dividendPopupPosition.y}px` : undefined}
+            style:transform={!isMobile ? 'translate(-50%, -100%)' : undefined}
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px]"
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
@@ -8226,11 +8240,13 @@
         <!-- News popup -->
         {#if selectedNews}
           <div
-            class="absolute z-[20] pointer-events-auto"
-            style="left: {newsPopupPosition.x}px; top: {newsPopupPosition.y}px; transform: translate(-50%, -100%)"
+            class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+            style:left={!isMobile ? `${newsPopupPosition.x}px` : undefined}
+            style:top={!isMobile ? `${newsPopupPosition.y}px` : undefined}
+            style:transform={!isMobile ? 'translate(-50%, -100%)' : undefined}
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-4 min-w-[300px] max-w-[380px]"
+              class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
             >
               <!-- Header -->
               <div class="flex items-center justify-between gap-2 mb-3">
@@ -9214,18 +9230,459 @@
       </div>
     </div>
   </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0b0b0b] border-t border-neutral-800 safe-area-pb">
+    <div class="flex items-center justify-around px-2 py-1">
+      <!-- Timeframe -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <button
+            use:builder.action
+            {...builder}
+            class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
+          >
+            <Timer class="h-5 w-5" />
+            <span class="text-[10px] font-medium">{activeRange}</span>
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="top"
+          align="center"
+          sideOffset={8}
+          class="w-32 rounded-xl border border-neutral-700 bg-neutral-900/95 p-1 text-neutral-200"
+        >
+          <DropdownMenu.Group>
+            {#each timeframes as frame}
+              <DropdownMenu.Item
+                class={`px-3 py-2 text-sm rounded cursor-pointer transition ${
+                  activeRange === frame
+                    ? "text-violet-400 bg-neutral-800"
+                    : "hover:bg-neutral-800"
+                }`}
+                on:click={() => setRange(frame)}
+              >
+                {frame}
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- Chart Type -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <button
+            use:builder.action
+            {...builder}
+            class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
+          >
+            <svelte:component this={currentChartType?.icon} class="h-5 w-5" />
+            <span class="text-[10px] font-medium">Chart</span>
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="top"
+          align="center"
+          sideOffset={8}
+          class="w-40 rounded-xl border border-neutral-700 bg-neutral-900/95 p-1 text-neutral-200"
+        >
+          <DropdownMenu.Group>
+            {#each chartTypeOptions as option}
+              <DropdownMenu.Item
+                class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
+                  chartType === option.id
+                    ? "text-violet-400 bg-neutral-800"
+                    : "hover:bg-neutral-800"
+                }`}
+                on:click={() => setChartType(option.id)}
+              >
+                <svelte:component this={option.icon} class="h-4 w-4" />
+                {option.label}
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- Indicators -->
+      <label
+        for="indicatorModal"
+        on:click={openIndicatorModal}
+        class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 cursor-pointer transition min-w-[60px]"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-5 w-5" fill="none">
+          <path stroke="currentColor" d="M6 12l4.8-4.8a1 1 0 0 1 1.4 0l2.7 2.7a1 1 0 0 0 1.3.1L23 5" />
+          <path fill="currentColor" fill-rule="evenodd" d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z" />
+        </svg>
+        <span class="text-[10px] font-medium">Indicators</span>
+      </label>
+
+      <!-- Events -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <button
+            use:builder.action
+            {...builder}
+            class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-5 w-5" fill="currentColor">
+              <path d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z" />
+            </svg>
+            <span class="text-[10px] font-medium">Events</span>
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="top"
+          align="center"
+          sideOffset={8}
+          class="w-auto min-w-44 rounded-xl border border-neutral-700 bg-neutral-900/95 p-1 text-neutral-200"
+        >
+          <DropdownMenu.Group>
+            <DropdownMenu.Item
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              on:click={(e) => e.preventDefault()}
+            >
+              <span>Earnings</span>
+              <div class="relative ml-4 flex items-center">
+                {#if isSubscribed}
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    checked={showEarnings}
+                    on:change={() => {
+                      showEarnings = !showEarnings;
+                      saveEventSettings();
+                      if (showEarnings && !isNonIntradayRange(activeRange)) {
+                        setRange("1D");
+                        setTimeout(() => setRange("1D"), 150);
+                      } else {
+                        updateAllOverlays();
+                      }
+                    }}
+                  />
+                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                {:else}
+                  <button type="button" on:click|stopPropagation={() => goto("/pricing")} class="text-neutral-500 hover:text-neutral-300 transition">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z" /></svg>
+                  </button>
+                {/if}
+              </div>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              on:click={(e) => e.preventDefault()}
+            >
+              <span>Dividends</span>
+              <div class="relative ml-4 flex items-center">
+                {#if isSubscribed}
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    checked={showDividends}
+                    on:change={() => {
+                      showDividends = !showDividends;
+                      saveEventSettings();
+                      if (showDividends && !isNonIntradayRange(activeRange)) {
+                        setRange("1D");
+                        setTimeout(() => setRange("1D"), 150);
+                      } else {
+                        updateAllOverlays();
+                      }
+                    }}
+                  />
+                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                {:else}
+                  <button type="button" on:click|stopPropagation={() => goto("/pricing")} class="text-neutral-500 hover:text-neutral-300 transition">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z" /></svg>
+                  </button>
+                {/if}
+              </div>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              on:click={(e) => e.preventDefault()}
+            >
+              <span>News Flow</span>
+              <div class="relative ml-4 flex items-center">
+                {#if isSubscribed}
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    checked={showNewsFlow}
+                    on:change={() => {
+                      showNewsFlow = !showNewsFlow;
+                      saveEventSettings();
+                      if (showNewsFlow && !isNonIntradayRange(activeRange)) {
+                        setRange("1D");
+                        setTimeout(() => setRange("1D"), 150);
+                      } else {
+                        updateAllOverlays();
+                      }
+                    }}
+                  />
+                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                {:else}
+                  <button type="button" on:click|stopPropagation={() => goto("/pricing")} class="text-neutral-500 hover:text-neutral-300 transition">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z" /></svg>
+                  </button>
+                {/if}
+              </div>
+            </DropdownMenu.Item>
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- Zoom -->
+      <div class="flex flex-col items-center gap-0.5 px-2 py-2 min-w-[60px]">
+        <div class="flex items-center gap-1">
+          <button
+            class="p-1.5 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+            on:click={() => zoomChart(1.2)}
+            title="Zoom in"
+          >
+            <ZoomIn class="h-4 w-4" />
+          </button>
+          <button
+            class="p-1.5 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+            on:click={() => zoomChart(0.9)}
+            title="Zoom out"
+          >
+            <ZoomOut class="h-4 w-4" />
+          </button>
+        </div>
+        <span class="text-[10px] font-medium text-neutral-400">Zoom</span>
+      </div>
+    </div>
+  </div>
 </main>
+
+<!-- Mobile Bottom Navigation Bar -->
+{#if isMobile}
+  <div class="fixed bottom-0 left-0 right-0 z-[30] sm:hidden bg-[#09090b] border-t border-neutral-800 h-[60px]">
+    <div class="flex items-center justify-around h-full px-2">
+      <!-- Timeframe -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <button
+            use:builder.action
+            {...builder}
+            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
+          >
+            <Timer class="h-5 w-5" />
+            <span class="text-[10px] font-medium">{activeRange}</span>
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="top"
+          align="center"
+          sideOffset={8}
+          class="w-28 rounded-xl border border-neutral-700 bg-neutral-950 p-1"
+        >
+          <DropdownMenu.Group>
+            {#each timeframes as frame}
+              <DropdownMenu.Item
+                class={`px-3 py-2 text-sm rounded cursor-pointer transition ${
+                  activeRange === frame
+                    ? "text-violet-400 bg-neutral-800"
+                    : "text-neutral-300 hover:bg-neutral-800"
+                }`}
+                on:click={() => setRange(frame)}
+              >
+                {frame}
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- Chart Type -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <button
+            use:builder.action
+            {...builder}
+            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
+          >
+            <svelte:component
+              this={currentChartType?.icon}
+              class="h-5 w-5"
+            />
+            <span class="text-[10px] font-medium">Chart</span>
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="top"
+          align="center"
+          sideOffset={8}
+          class="w-36 rounded-xl border border-neutral-700 bg-neutral-950 p-1"
+        >
+          <DropdownMenu.Group>
+            {#each chartTypeOptions as option}
+              <DropdownMenu.Item
+                class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
+                  chartType === option.type
+                    ? "text-violet-400 bg-neutral-800"
+                    : "text-neutral-300 hover:bg-neutral-800"
+                }`}
+                on:click={() => setChartType(option.type)}
+              >
+                <svelte:component this={option.icon} class="h-4 w-4" />
+                {option.label}
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- Indicators -->
+      <label
+        for="indicatorModal"
+        class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition cursor-pointer"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18" />
+          <path d="m19 9-5 5-4-4-3 3" />
+        </svg>
+        <span class="text-[10px] font-medium">Indicators</span>
+      </label>
+
+      <!-- Events -->
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <button
+            use:builder.action
+            {...builder}
+            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+            <span class="text-[10px] font-medium">Events</span>
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="top"
+          align="center"
+          sideOffset={8}
+          class="w-44 rounded-xl border border-neutral-700 bg-neutral-950 p-1"
+        >
+          <DropdownMenu.Group>
+            <DropdownMenu.Item
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              on:click={(e) => e.preventDefault()}
+            >
+              <span class="text-neutral-300">Earnings</span>
+              <div class="relative ml-4 flex items-center">
+                <input
+                  type="checkbox"
+                  class="sr-only peer"
+                  checked={showEarnings}
+                  on:change={() => {
+                    showEarnings = !showEarnings;
+                    saveEventSettings();
+                    if (showEarnings && !isNonIntradayRange(activeRange)) {
+                      setRange("1D");
+                      setTimeout(() => setRange("1D"), 150);
+                    } else {
+                      updateAllOverlays();
+                    }
+                  }}
+                />
+                <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+              </div>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              on:click={(e) => e.preventDefault()}
+            >
+              <span class="text-neutral-300">Dividends</span>
+              <div class="relative ml-4 flex items-center">
+                <input
+                  type="checkbox"
+                  class="sr-only peer"
+                  checked={showDividends}
+                  on:change={() => {
+                    showDividends = !showDividends;
+                    saveEventSettings();
+                    if (showDividends && !isNonIntradayRange(activeRange)) {
+                      setRange("1D");
+                      setTimeout(() => setRange("1D"), 150);
+                    } else {
+                      updateAllOverlays();
+                    }
+                  }}
+                />
+                <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+              </div>
+            </DropdownMenu.Item>
+            {#if isSubscribed}
+              <DropdownMenu.Item
+                class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+                on:click={(e) => e.preventDefault()}
+              >
+                <span class="text-neutral-300">News Flow</span>
+                <div class="relative ml-4 flex items-center">
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    checked={showNewsFlow}
+                    on:change={() => {
+                      showNewsFlow = !showNewsFlow;
+                      saveEventSettings();
+                      if (showNewsFlow && !isNonIntradayRange(activeRange)) {
+                        setRange("1D");
+                        setTimeout(() => setRange("1D"), 150);
+                      } else {
+                        updateAllOverlays();
+                      }
+                    }}
+                  />
+                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                </div>
+              </DropdownMenu.Item>
+            {/if}
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <!-- Zoom -->
+      <div class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px]">
+        <div class="flex items-center gap-1">
+          <button
+            class="p-1 text-neutral-400 hover:text-neutral-200 transition"
+            on:click={() => zoomChart(1.2)}
+            title="Zoom in"
+          >
+            <ZoomIn class="h-4 w-4" />
+          </button>
+          <button
+            class="p-1 text-neutral-400 hover:text-neutral-200 transition"
+            on:click={() => zoomChart(0.9)}
+            title="Zoom out"
+          >
+            <ZoomOut class="h-4 w-4" />
+          </button>
+        </div>
+        <span class="text-[10px] font-medium text-neutral-400">Zoom</span>
+      </div>
+    </div>
+  </div>
+{/if}
 
 <input type="checkbox" id="indicatorModal" class="modal-toggle" />
 
-<dialog class="modal p-2 lg:p-0">
+<dialog class="modal modal-bottom sm:modal-middle p-0 sm:p-2 lg:p-0">
   <label
     for="indicatorModal"
     on:click={closeIndicatorModal}
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box relative bg-[#1f1f1f] text-neutral-100 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-neutral-800 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden shadow-2xl"
+    class="modal-box relative bg-[#1f1f1f] text-neutral-100 z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl border border-neutral-800 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden shadow-2xl"
   >
     <div class="relative flex flex-col w-full h-full">
       <div
