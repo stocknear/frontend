@@ -286,9 +286,20 @@
     const crosshairText = isLight ? "#f9fafb" : "#111827";
     const chartFont = "Inter, system-ui, sans-serif";
     const lineColor = negative ? downColor : upColor;
-    const fillStart = negative
-      ? (isLight ? "rgba(220, 38, 38, 0.15)" : "rgba(248, 113, 113, 0.12)")
-      : (isLight ? "rgba(22, 101, 52, 0.15)" : "rgba(34, 197, 94, 0.12)");
+    // Multi-stop gradient for smooth fade effect (0 = bottom, 1 = top near line)
+    const areaGradient = negative
+      ? [
+          { offset: 0, color: "rgba(0, 0, 0, 0)" },
+          { offset: 0.4, color: isLight ? "rgba(220, 38, 38, 0.05)" : "rgba(248, 113, 113, 0.04)" },
+          { offset: 0.7, color: isLight ? "rgba(220, 38, 38, 0.12)" : "rgba(248, 113, 113, 0.10)" },
+          { offset: 1, color: isLight ? "rgba(220, 38, 38, 0.25)" : "rgba(248, 113, 113, 0.20)" },
+        ]
+      : [
+          { offset: 0, color: "rgba(0, 0, 0, 0)" },
+          { offset: 0.4, color: isLight ? "rgba(22, 163, 74, 0.05)" : "rgba(34, 197, 94, 0.04)" },
+          { offset: 0.7, color: isLight ? "rgba(22, 163, 74, 0.12)" : "rgba(34, 197, 94, 0.10)" },
+          { offset: 1, color: isLight ? "rgba(22, 163, 74, 0.25)" : "rgba(34, 197, 94, 0.20)" },
+        ];
 
     chart.setStyles({
       grid: {
@@ -361,7 +372,7 @@
           lineColor,
           smooth: false,
           value: "close",
-          backgroundColor: [{ offset: 0, color: fillStart }, { offset: 1, color: "rgba(0,0,0,0)" }],
+          backgroundColor: areaGradient,
           point: { show: false },
         },
         priceMark: {
