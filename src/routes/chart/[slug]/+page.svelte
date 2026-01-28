@@ -9218,9 +9218,8 @@
 
 <input type="checkbox" id="indicatorModal" class="modal-toggle" />
 
-<dialog id="indicatorModal" class="modal p-2 lg:p-0">
+<dialog class="modal p-2 lg:p-0">
   <label
-    id="indicatorModal"
     for="indicatorModal"
     on:click={closeIndicatorModal}
     class="cursor-pointer modal-backdrop"
