@@ -5,70 +5,70 @@
   import { abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import {
-  stock_detail_options_call_oi,
-  stock_detail_options_call_volume,
-  stock_detail_options_chain_desc,
-  stock_detail_options_chain_statistics,
-  stock_detail_options_col_call_oi,
-  stock_detail_options_col_call_vol,
-  stock_detail_options_col_expiration,
-  stock_detail_options_col_iv,
-  stock_detail_options_col_max_pain,
-  stock_detail_options_col_pc_oi,
-  stock_detail_options_col_pc_vol,
-  stock_detail_options_col_put_oi,
-  stock_detail_options_col_put_vol,
-  stock_detail_options_historical_volatility,
-  stock_detail_options_implied_volatility,
-  stock_detail_options_info_call_oi,
-  stock_detail_options_info_call_vol,
-  stock_detail_options_info_historical_vol,
-  stock_detail_options_info_iv_30d,
-  stock_detail_options_info_iv_high,
-  stock_detail_options_info_iv_low,
-  stock_detail_options_info_iv_rank,
-  stock_detail_options_info_oi_avg,
-  stock_detail_options_info_oi_pc_ratio,
-  stock_detail_options_info_oi_today,
-  stock_detail_options_info_oi_vs_avg,
-  stock_detail_options_info_put_oi,
-  stock_detail_options_info_put_vol,
-  stock_detail_options_info_vol_avg,
-  stock_detail_options_info_vol_pc_ratio,
-  stock_detail_options_info_vol_today,
-  stock_detail_options_info_vol_vs_avg,
-  stock_detail_options_iv_30d,
-  stock_detail_options_iv_30d_label,
-  stock_detail_options_iv_high,
-  stock_detail_options_iv_low,
-  stock_detail_options_iv_rank,
-  stock_detail_options_oi_avg_30d,
-  stock_detail_options_oi_heading,
-  stock_detail_options_open_interest,
-  stock_detail_options_opra_content,
-  stock_detail_options_opra_title,
-  stock_detail_options_overview_and_iv_rank,
-  stock_detail_options_overview_as_of,
-  stock_detail_options_overview_contracts_pc_ratio,
-  stock_detail_options_overview_contracts_which_is,
-  stock_detail_options_overview_have_iv,
-  stock_detail_options_overview_indicating,
-  stock_detail_options_overview_intro,
-  stock_detail_options_overview_of_avg_volume,
-  stock_detail_options_overview_sentiment_market,
-  stock_detail_options_overview_title,
-  stock_detail_options_overview_volume_is,
-  stock_detail_options_put_call_ratio,
-  stock_detail_options_put_oi,
-  stock_detail_options_put_volume,
-  stock_detail_options_today_oi,
-  stock_detail_options_today_volume,
-  stock_detail_options_today_vs_oi_avg,
-  stock_detail_options_today_vs_vol_avg,
-  stock_detail_options_volume,
-  stock_detail_options_volume_avg_30d,
-  stock_detail_options_volume_heading,
-} from "$lib/paraglide/messages";
+    stock_detail_options_call_oi,
+    stock_detail_options_call_volume,
+    stock_detail_options_chain_desc,
+    stock_detail_options_chain_statistics,
+    stock_detail_options_col_call_oi,
+    stock_detail_options_col_call_vol,
+    stock_detail_options_col_expiration,
+    stock_detail_options_col_iv,
+    stock_detail_options_col_max_pain,
+    stock_detail_options_col_pc_oi,
+    stock_detail_options_col_pc_vol,
+    stock_detail_options_col_put_oi,
+    stock_detail_options_col_put_vol,
+    stock_detail_options_historical_volatility,
+    stock_detail_options_implied_volatility,
+    stock_detail_options_info_call_oi,
+    stock_detail_options_info_call_vol,
+    stock_detail_options_info_historical_vol,
+    stock_detail_options_info_iv_30d,
+    stock_detail_options_info_iv_high,
+    stock_detail_options_info_iv_low,
+    stock_detail_options_info_iv_rank,
+    stock_detail_options_info_oi_avg,
+    stock_detail_options_info_oi_pc_ratio,
+    stock_detail_options_info_oi_today,
+    stock_detail_options_info_oi_vs_avg,
+    stock_detail_options_info_put_oi,
+    stock_detail_options_info_put_vol,
+    stock_detail_options_info_vol_avg,
+    stock_detail_options_info_vol_pc_ratio,
+    stock_detail_options_info_vol_today,
+    stock_detail_options_info_vol_vs_avg,
+    stock_detail_options_iv_30d,
+    stock_detail_options_iv_30d_label,
+    stock_detail_options_iv_high,
+    stock_detail_options_iv_low,
+    stock_detail_options_iv_rank,
+    stock_detail_options_oi_avg_30d,
+    stock_detail_options_oi_heading,
+    stock_detail_options_open_interest,
+    stock_detail_options_opra_content,
+    stock_detail_options_opra_title,
+    stock_detail_options_overview_and_iv_rank,
+    stock_detail_options_overview_as_of,
+    stock_detail_options_overview_contracts_pc_ratio,
+    stock_detail_options_overview_contracts_which_is,
+    stock_detail_options_overview_have_iv,
+    stock_detail_options_overview_indicating,
+    stock_detail_options_overview_intro,
+    stock_detail_options_overview_of_avg_volume,
+    stock_detail_options_overview_sentiment_market,
+    stock_detail_options_overview_title,
+    stock_detail_options_overview_volume_is,
+    stock_detail_options_put_call_ratio,
+    stock_detail_options_put_oi,
+    stock_detail_options_put_volume,
+    stock_detail_options_today_oi,
+    stock_detail_options_today_volume,
+    stock_detail_options_today_vs_oi_avg,
+    stock_detail_options_today_vs_vol_avg,
+    stock_detail_options_volume,
+    stock_detail_options_volume_avg_30d,
+    stock_detail_options_volume_heading,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let ticker;
@@ -1030,6 +1030,43 @@
               {/if}
             </div>
 
+            <div class="flex flex-col">
+              <div
+                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+              >
+                <span>Expected Move</span>
+                <InfoModal
+                  id="expected-move-info"
+                  content="The expected price movement over the next 30 days based on implied volatility. Calculated as: Stock Price × IV × √(30/365). This represents the one standard deviation move that the market expects."
+                />
+              </div>
+
+              {#if isSubscribed}
+                <span class="font-semibold text-sm sm:text-[1rem]">
+                  {#if ivData?.expectedMove30d}
+                    ± {ivData.expectedMove30d.amount?.toFixed(2)} ({ivData.expectedMove30d.percent?.toFixed(
+                      2,
+                    )}%)
+                  {:else}
+                    n/a
+                  {/if}
+                </span>
+              {:else}
+                <a href="/pricing" class={lockLinkClass}>
+                  <svg
+                    class="w-4 h-4 mb-1 inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </a>
+              {/if}
+            </div>
+
             <div class="flex flex-col whitespace-nowrap">
               <div
                 class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
@@ -1572,15 +1609,32 @@
                     class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
                     <tr>
-                      <td class="text-start">{stock_detail_options_col_expiration()}</td>
-                      <td class="text-end">{stock_detail_options_col_call_vol()}</td>
-                      <td class="text-end">{stock_detail_options_col_put_vol()}</td>
-                      <td class="text-end">{stock_detail_options_col_pc_vol()}</td>
-                      <td class="text-end">{stock_detail_options_col_call_oi()}</td>
-                      <td class="text-end">{stock_detail_options_col_put_oi()}</td>
-                      <td class="text-end">{stock_detail_options_col_pc_oi()}</td>
+                      <td class="text-start"
+                        >{stock_detail_options_col_expiration()}</td
+                      >
+                      <td class="text-end"
+                        >{stock_detail_options_col_call_vol()}</td
+                      >
+                      <td class="text-end"
+                        >{stock_detail_options_col_put_vol()}</td
+                      >
+                      <td class="text-end"
+                        >{stock_detail_options_col_pc_vol()}</td
+                      >
+                      <td class="text-end"
+                        >{stock_detail_options_col_call_oi()}</td
+                      >
+                      <td class="text-end"
+                        >{stock_detail_options_col_put_oi()}</td
+                      >
+                      <td class="text-end"
+                        >{stock_detail_options_col_pc_oi()}</td
+                      >
                       <td class="text-end">{stock_detail_options_col_iv()}</td>
-                      <td class="text-end">{stock_detail_options_col_max_pain()}</td>
+                      <td class="text-end">Exp. Move</td>
+                      <td class="text-end"
+                        >{stock_detail_options_col_max_pain()}</td
+                      >
                     </tr>
                   </thead>
                   <tbody>
@@ -1616,6 +1670,16 @@
 
                         <td class="text-sm text-end">
                           {item?.avgIV ? item?.avgIV + "%" : "n/a"}
+                        </td>
+
+                        <td class="text-sm text-end whitespace-nowrap">
+                          {#if item?.expectedMove}
+                            ± {item.expectedMove.amount?.toFixed(2)} ({item.expectedMove.percent?.toFixed(
+                              2,
+                            )}%)
+                          {:else}
+                            n/a
+                          {/if}
                         </td>
 
                         <td class="text-sm text-end">
