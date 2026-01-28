@@ -1,7 +1,13 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import { mode } from "mode-watcher";
-  import { init, dispose, registerOverlay, type KLineData } from "klinecharts";
+  import {
+    init,
+    dispose,
+    registerOverlay,
+    registerXAxis,
+    type KLineData,
+  } from "klinecharts";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
 
@@ -46,6 +52,57 @@
     prevCloseOverlayRegistered = true;
   };
 
+  // Custom x-axis for 1D with responsive labels
+  let oneDayXAxisRegistered = false;
+  const ONE_DAY_X_AXIS_NAME = "oneDayXAxis";
+  const SESSION_START_MIN = 9 * 60 + 30; // 9:30 AM
+  const SESSION_END_MIN = 16 * 60; // 4:00 PM
+  const SESSION_RANGE_MIN = SESSION_END_MIN - SESSION_START_MIN;
+
+  // Responsive axis labels - more labels on larger screens
+  let axisLabels: { label: string; minutes: number }[] = [];
+  $: axisLabels =
+    $screenWidth > 640
+      ? [
+          { label: "10 AM", minutes: 10 * 60 },
+          { label: "11 AM", minutes: 11 * 60 },
+          { label: "12 PM", minutes: 12 * 60 },
+          { label: "1 PM", minutes: 13 * 60 },
+          { label: "2 PM", minutes: 14 * 60 },
+          { label: "3 PM", minutes: 15 * 60 },
+          { label: "4 PM", minutes: 16 * 60 },
+        ]
+      : [
+          { label: "10 AM", minutes: 10 * 60 },
+          { label: "1 PM", minutes: 13 * 60 },
+          { label: "4 PM", minutes: 16 * 60 },
+        ];
+
+  const ensureOneDayXAxis = () => {
+    if (oneDayXAxisRegistered) return;
+    registerXAxis({
+      name: ONE_DAY_X_AXIS_NAME,
+      createTicks: ({ bounding }) => {
+        const width = Math.max(bounding.width, 0);
+
+        if (width <= 0) return [];
+        const leftPad = 6;
+        const rightPad = 20;
+        const usableWidth = Math.max(width - leftPad - rightPad, 1);
+        return axisLabels.map((tick) => {
+          const ratio = (tick.minutes - SESSION_START_MIN) / SESSION_RANGE_MIN;
+          const coord = leftPad + usableWidth * ratio;
+          return {
+            coord,
+            value: tick.minutes,
+            text: tick.label,
+          };
+        });
+      },
+    });
+    oneDayXAxisRegistered = true;
+  };
+
   // Props
   export let priceData: any[] = [];
   export let displayRange: string = "1D";
@@ -62,8 +119,20 @@
 
   // Range selector state
   let isSelecting = false;
-  let selectionStart: { index: number; price: number; x: number; y: number; timestamp: number } | null = null;
-  let selectionEnd: { index: number; price: number; x: number; y: number; timestamp: number } | null = null;
+  let selectionStart: {
+    index: number;
+    price: number;
+    x: number;
+    y: number;
+    timestamp: number;
+  } | null = null;
+  let selectionEnd: {
+    index: number;
+    price: number;
+    x: number;
+    y: number;
+    timestamp: number;
+  } | null = null;
   let startPointerId: number | null = null;
   let startChartX: number | null = null;
   const DRAG_THRESHOLD_PX = 6;
@@ -113,20 +182,6 @@
   let sessionIntervalMs = 60 * 1000; // Interval between bars (default 1 min)
   let missingRightBars = 0; // Bars missing on the right (session not complete)
 
-  // Crosshair tooltip state
-  let tooltipVisible = false;
-  let tooltipData: {
-    timestamp: number;
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    volume: number;
-    change: number;
-    changePercent: number;
-  } | null = null;
-  let tooltipX = 0;
-
   // Previous close line elements
   let prevCloseLineY: number | null = null;
   let prevCloseOverlayId: string | null = null;
@@ -141,7 +196,8 @@
     }
 
     // Only show for 1D range with valid previousClose
-    const effectivePrevClose = displayRange === "1D" ? previousClose : getFirstBarClose();
+    const effectivePrevClose =
+      displayRange === "1D" ? previousClose : getFirstBarClose();
     if (effectivePrevClose === null || effectivePrevClose === undefined) return;
 
     const lineColor = $mode === "light" ? "#64748b" : "#e2e8f0";
@@ -168,7 +224,12 @@
   };
 
   const toNumber = (value: unknown): number | null => {
-    const n = typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+    const n =
+      typeof value === "number"
+        ? value
+        : typeof value === "string"
+          ? Number(value)
+          : NaN;
     return Number.isFinite(n) ? n : null;
   };
 
@@ -192,7 +253,9 @@
         timeZone: NY_TIMEZONE,
         timeZoneName: "longOffset",
       });
-      const tzPart = formatter.formatToParts(asUtc).find(p => p.type === "timeZoneName")?.value || "GMT-05:00";
+      const tzPart =
+        formatter.formatToParts(asUtc).find((p) => p.type === "timeZoneName")
+          ?.value || "GMT-05:00";
       const match = tzPart.match(/GMT([+-])(\d{2}):(\d{2})/);
 
       let offsetMs = -5 * 60 * 60 * 1000; // Default EST (UTC-5)
@@ -211,7 +274,11 @@
   };
 
   // Build a timestamp for a specific time in New York timezone on the same day as baseTimestamp
-  const buildSessionTimestamp = (baseTimestamp: number, hours: number, minutes: number): number => {
+  const buildSessionTimestamp = (
+    baseTimestamp: number,
+    hours: number,
+    minutes: number,
+  ): number => {
     // Get the date in NY timezone
     const baseDate = new Date(baseTimestamp);
     const dateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -231,7 +298,9 @@
       timeZone: NY_TIMEZONE,
       timeZoneName: "longOffset",
     });
-    const tzPart = tzFormatter.formatToParts(asUtc).find(p => p.type === "timeZoneName")?.value || "GMT-05:00";
+    const tzPart =
+      tzFormatter.formatToParts(asUtc).find((p) => p.type === "timeZoneName")
+        ?.value || "GMT-05:00";
     const match = tzPart.match(/GMT([+-])(\d{2}):(\d{2})/);
 
     let offsetMs = -5 * 60 * 60 * 1000;
@@ -273,7 +342,7 @@
       sessionEnd = buildSessionTimestamp(baseTimestamp, 16, 0);
 
       const sessionBars = parsed.filter(
-        (bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!
+        (bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!,
       );
       return sessionBars.length > 0 ? sessionBars : parsed;
     }
@@ -308,8 +377,12 @@
 
     const lineColor = negative ? downColor : upColor;
     const fillColorStart = negative
-      ? isLight ? "rgba(220, 38, 38, 0.16)" : "rgba(248, 113, 113, 0.14)"
-      : isLight ? "rgba(22, 101, 52, 0.16)" : "rgba(34, 197, 94, 0.14)";
+      ? isLight
+        ? "rgba(220, 38, 38, 0.16)"
+        : "rgba(248, 113, 113, 0.14)"
+      : isLight
+        ? "rgba(22, 101, 52, 0.16)"
+        : "rgba(34, 197, 94, 0.14)";
     const fillColorEnd = "rgba(0, 0, 0, 0)";
 
     chart.setStyles({
@@ -360,23 +433,22 @@
           show: true,
           line: {
             show: true,
-            style: "dashed",
-            dashedValue: [4, 4],
+            style: "solid",
             size: 1,
-            color: crosshairColor,
+            color: isLight ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)",
           },
           text: {
             show: true,
             color: isLight ? "#ffffff" : "#000000",
-            size: 10,
+            size: 11,
             family: chartFont,
-            weight: 500,
-            borderRadius: 2,
+            weight: 600,
+            borderRadius: 3,
             borderSize: 0,
-            paddingLeft: 4,
-            paddingRight: 4,
-            paddingTop: 2,
-            paddingBottom: 2,
+            paddingLeft: 6,
+            paddingRight: 6,
+            paddingTop: 3,
+            paddingBottom: 3,
             backgroundColor: crosshairColor,
           },
         },
@@ -384,23 +456,22 @@
           show: true,
           line: {
             show: true,
-            style: "dashed",
-            dashedValue: [4, 4],
+            style: "solid",
             size: 1,
-            color: crosshairColor,
+            color: isLight ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)",
           },
           text: {
             show: true,
             color: isLight ? "#ffffff" : "#000000",
-            size: 10,
+            size: 11,
             family: chartFont,
-            weight: 500,
-            borderRadius: 2,
+            weight: 600,
+            borderRadius: 3,
             borderSize: 0,
-            paddingLeft: 4,
-            paddingRight: 4,
-            paddingTop: 2,
-            paddingBottom: 2,
+            paddingLeft: 6,
+            paddingRight: 6,
+            paddingTop: 3,
+            paddingBottom: 3,
             backgroundColor: crosshairColor,
           },
         },
@@ -471,8 +542,12 @@
             borderStyle: "solid",
             borderSize: 0,
             borderDashedValue: [2, 2],
-            upColor: isLight ? "rgba(22, 163, 74, 0.35)" : "rgba(34, 197, 94, 0.35)",
-            downColor: isLight ? "rgba(239, 68, 68, 0.35)" : "rgba(248, 113, 113, 0.35)",
+            upColor: isLight
+              ? "rgba(22, 163, 74, 0.35)"
+              : "rgba(34, 197, 94, 0.35)",
+            downColor: isLight
+              ? "rgba(239, 68, 68, 0.35)"
+              : "rgba(248, 113, 113, 0.35)",
             noChangeColor: "rgba(148, 163, 184, 0.35)",
           },
         ],
@@ -510,7 +585,10 @@
 
   // Downsample bars using LTTB (Largest-Triangle-Three-Buckets) algorithm
   // This preserves visual shape better than simple sampling
-  const downsampleBars = (bars: KLineData[], targetCount: number): KLineData[] => {
+  const downsampleBars = (
+    bars: KLineData[],
+    targetCount: number,
+  ): KLineData[] => {
     if (bars.length <= targetCount || targetCount < 3) return bars;
 
     const result: KLineData[] = [];
@@ -526,8 +604,14 @@
       const nextBucketEnd = Math.floor((i + 2) * bucketSize) + 1;
 
       // Average of next bucket (for triangle calculation)
-      let avgX = 0, avgY = 0, count = 0;
-      for (let j = nextBucketStart; j < nextBucketEnd && j < bars.length - 1; j++) {
+      let avgX = 0,
+        avgY = 0,
+        count = 0;
+      for (
+        let j = nextBucketStart;
+        j < nextBucketEnd && j < bars.length - 1;
+        j++
+      ) {
         avgX += j;
         avgY += bars[j].close;
         count++;
@@ -547,7 +631,7 @@
         // Triangle area formula (simplified, no division by 2 needed for comparison)
         const area = Math.abs(
           (prevX - avgX) * (bars[j].close - prevY) -
-          (prevX - j) * (avgY - prevY)
+            (prevX - j) * (avgY - prevY),
         );
         if (area > maxArea) {
           maxArea = area;
@@ -579,9 +663,10 @@
 
     // For 1D, use session bar count to ensure full 9:30 AM - 4:00 PM range is shown
     // For other ranges, use the actual bar count
-    const targetBarCount = displayRange === "1D" && sessionBarCount > 0
-      ? sessionBarCount
-      : currentBarCount;
+    const targetBarCount =
+      displayRange === "1D" && sessionBarCount > 0
+        ? sessionBarCount
+        : currentBarCount;
 
     // Calculate bar space - simple approach like MiniPlot
     const desired = width / targetBarCount;
@@ -593,9 +678,10 @@
     // For 1D with incomplete session, set right offset for missing bars
     // This creates empty space on the right for the remaining session time
     const actualBarSpace = chart.getBarSpace()?.bar ?? barSpace;
-    const rightOffset = displayRange === "1D" && missingRightBars > 0
-      ? missingRightBars * actualBarSpace
-      : 0;
+    const rightOffset =
+      displayRange === "1D" && missingRightBars > 0
+        ? missingRightBars * actualBarSpace
+        : 0;
 
     chart.setMaxOffsetRightDistance(rightOffset + 10);
     chart.setOffsetRightDistance(rightOffset);
@@ -636,13 +722,15 @@
     // and how many bars are missing on the right
     if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
       // Calculate total bars for full session
-      const fullSessionBarCount = Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
+      const fullSessionBarCount =
+        Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
 
       // Calculate missing bars on the right (if data doesn't reach 4 PM)
       const lastTimestamp = bars[bars.length - 1].timestamp;
-      const rawMissingRightBars = lastTimestamp < sessionEnd
-        ? Math.round((sessionEnd - lastTimestamp) / intervalMs)
-        : 0;
+      const rawMissingRightBars =
+        lastTimestamp < sessionEnd
+          ? Math.round((sessionEnd - lastTimestamp) / intervalMs)
+          : 0;
 
       // On narrow screens, we need to downsample 1D data to fit
       // The session bar count (data + missing) must fit in available width
@@ -672,8 +760,18 @@
     currentBars = bars;
     currentBarCount = bars.length;
 
-    const periodType = intervalMs >= 86400000 ? "day" : intervalMs >= 3600000 ? "hour" : "minute";
-    const periodSpan = periodType === "day" ? 1 : periodType === "hour" ? Math.round(intervalMs / 3600000) : Math.round(intervalMs / 60000);
+    const periodType =
+      intervalMs >= 86400000
+        ? "day"
+        : intervalMs >= 3600000
+          ? "hour"
+          : "minute";
+    const periodSpan =
+      periodType === "day"
+        ? 1
+        : periodType === "hour"
+          ? Math.round(intervalMs / 3600000)
+          : Math.round(intervalMs / 60000);
 
     // Set period BEFORE setting data loader
     chart.setPeriod({ type: periodType, span: periodSpan });
@@ -762,9 +860,13 @@
   // Range selector helpers
   const hexToRgba = (hex: string, alpha: number): string => {
     const normalized = hex.replace("#", "");
-    const expanded = normalized.length === 3
-      ? normalized.split("").map((c) => c + c).join("")
-      : normalized;
+    const expanded =
+      normalized.length === 3
+        ? normalized
+            .split("")
+            .map((c) => c + c)
+            .join("")
+        : normalized;
     if (expanded.length !== 6) return `rgba(0, 0, 0, ${alpha})`;
     const r = parseInt(expanded.slice(0, 2), 16);
     const g = parseInt(expanded.slice(2, 4), 16);
@@ -772,13 +874,16 @@
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
 
-  $: selectionDelta = selectionStart && selectionEnd
-    ? selectionEnd.price - selectionStart.price
-    : 0;
+  $: selectionDelta =
+    selectionStart && selectionEnd
+      ? selectionEnd.price - selectionStart.price
+      : 0;
 
-  $: selectionPercent = selectionStart && selectionEnd && selectionStart.price !== 0
-    ? ((selectionEnd.price - selectionStart.price) / selectionStart.price) * 100
-    : 0;
+  $: selectionPercent =
+    selectionStart && selectionEnd && selectionStart.price !== 0
+      ? ((selectionEnd.price - selectionStart.price) / selectionStart.price) *
+        100
+      : 0;
 
   $: selectionColor = selectionDelta >= 0 ? "#00FC50" : "#FF2F1F";
 
@@ -801,14 +906,26 @@
   })();
 
   // Event handlers for range selection
-  const getDataFromPoint = (clientX: number, clientY: number): { index: number; price: number; x: number; y: number; timestamp: number } | null => {
+  const getDataFromPoint = (
+    clientX: number,
+    clientY: number,
+  ): {
+    index: number;
+    price: number;
+    x: number;
+    y: number;
+    timestamp: number;
+  } | null => {
     if (!chart || !chartContainer) return null;
 
     const rect = chartContainer.getBoundingClientRect();
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
-    const dataIndex = chart.convertFromPixel({ x, y }, { paneId: "candle_pane", absolute: false });
+    const dataIndex = chart.convertFromPixel(
+      { x, y },
+      { paneId: "candle_pane", absolute: false },
+    );
     if (!dataIndex || dataIndex.dataIndex === undefined) return null;
 
     const dataList = chart.getDataList();
@@ -832,8 +949,20 @@
 
     startPointerId = evt.pointerId;
     startChartX = data.x;
-    selectionStart = { index: data.index, price: data.price, x: data.x, y: data.y, timestamp: data.timestamp };
-    selectionEnd = { index: data.index, price: data.price, x: data.x, y: data.y, timestamp: data.timestamp };
+    selectionStart = {
+      index: data.index,
+      price: data.price,
+      x: data.x,
+      y: data.y,
+      timestamp: data.timestamp,
+    };
+    selectionEnd = {
+      index: data.index,
+      price: data.price,
+      x: data.x,
+      y: data.y,
+      timestamp: data.timestamp,
+    };
 
     try {
       (evt.target as HTMLElement)?.setPointerCapture(evt.pointerId);
@@ -847,7 +976,11 @@
     if (!data) return;
 
     // Check if we've exceeded drag threshold
-    if (!isSelecting && startChartX !== null && Math.abs(data.x - startChartX) > DRAG_THRESHOLD_PX) {
+    if (
+      !isSelecting &&
+      startChartX !== null &&
+      Math.abs(data.x - startChartX) > DRAG_THRESHOLD_PX
+    ) {
       isSelecting = true;
       if (chart) {
         chart.setZoomEnabled(false);
@@ -856,7 +989,13 @@
     }
 
     if (isSelecting) {
-      selectionEnd = { index: data.index, price: data.price, x: data.x, y: data.y, timestamp: data.timestamp };
+      selectionEnd = {
+        index: data.index,
+        price: data.price,
+        x: data.x,
+        y: data.y,
+        timestamp: data.timestamp,
+      };
       evt.preventDefault();
     }
   };
@@ -938,7 +1077,8 @@
 
           // Use 95th percentile as max to handle outliers/spikes gracefully
           const percentileIndex = Math.floor(volumes.length * 0.95);
-          const percentileMax = volumes[Math.min(percentileIndex, volumes.length - 1)];
+          const percentileMax =
+            volumes[Math.min(percentileIndex, volumes.length - 1)];
           const actualMax = volumes[volumes.length - 1];
 
           // If the spike is more than 3x the 95th percentile, cap at 1.5x the 95th percentile
@@ -974,6 +1114,18 @@
       gap: { top: 0.02, bottom: 0.02 },
     });
 
+    // Register custom x-axis for 1D and set it up
+    ensureOneDayXAxis();
+    if (displayRange === "1D") {
+      chart.setPaneOptions({
+        id: "x_axis_pane",
+        axis: {
+          name: ONE_DAY_X_AXIS_NAME,
+          scrollZoomEnabled: false,
+        },
+      });
+    }
+
     chart.setFormatter({
       formatDate: ({ timestamp }) => formatXAxisLabel(timestamp),
     });
@@ -987,54 +1139,14 @@
     if (priceData?.length > 0) {
       updateChartData(priceData);
     } else {
-      console.log("[StockPriceChart] No initial data, waiting for reactive update");
+      console.log(
+        "[StockPriceChart] No initial data, waiting for reactive update",
+      );
     }
 
     // Add previous close line after data is loaded
     requestAnimationFrame(() => {
       updatePrevCloseLine();
-    });
-
-    // Subscribe to crosshair changes for tooltip
-    chart.subscribeAction("onCrosshairChange", (data: any) => {
-      // Hide tooltip during range selection
-      if (isSelecting) {
-        tooltipVisible = false;
-        tooltipData = null;
-        return;
-      }
-
-      const kLineData = data?.kLineData;
-      if (!kLineData || !chartContainer) {
-        tooltipVisible = false;
-        tooltipData = null;
-        return;
-      }
-
-      // Get first bar for calculating change
-      const dataList = chart?.getDataList() || [];
-      const firstBar = dataList[0];
-      const prevClose = displayRange === "1D" && previousClose !== null
-        ? previousClose
-        : firstBar?.close ?? kLineData.close;
-
-      const change = kLineData.close - prevClose;
-      const changePercent = prevClose !== 0 ? (change / prevClose) * 100 : 0;
-
-      tooltipData = {
-        timestamp: kLineData.timestamp,
-        open: kLineData.open,
-        high: kLineData.high,
-        low: kLineData.low,
-        close: kLineData.close,
-        volume: kLineData.volume ?? 0,
-        change,
-        changePercent,
-      };
-
-      // Get x position for tooltip positioning
-      tooltipX = data?.x ?? 0;
-      tooltipVisible = true;
     });
 
     // Set up resize observer - like MiniPlot.svelte approach
@@ -1076,7 +1188,6 @@
     resizeObserver?.disconnect();
     resizeObserver = null;
     if (chart) {
-      chart.unsubscribeAction("onCrosshairChange");
       dispose(chart);
       chart = null;
     }
@@ -1104,13 +1215,39 @@
       updatePrevCloseLine();
     });
   }
+
+  // Switch x-axis based on displayRange
+  $: if (chart && displayRange) {
+    if (displayRange === "1D") {
+      chart.setPaneOptions({
+        id: "x_axis_pane",
+        axis: {
+          name: ONE_DAY_X_AXIS_NAME,
+          scrollZoomEnabled: false,
+        },
+      });
+    } else {
+      // Use default x-axis for other ranges
+      chart.setPaneOptions({
+        id: "x_axis_pane",
+        axis: {
+          name: "default",
+          scrollZoomEnabled: false,
+        },
+      });
+    }
+  }
 </script>
 
 <div class="relative w-full h-[320px]">
   {#if isLoading}
     <div class="absolute inset-0 flex items-center justify-center z-10">
-      <div class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex items-center justify-center shadow-sm">
-        <span class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"></span>
+      <div
+        class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex items-center justify-center shadow-sm"
+      >
+        <span
+          class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+        ></span>
       </div>
     </div>
   {/if}
@@ -1123,36 +1260,9 @@
     on:pointermove={onPointerMove}
     on:pointerup={onPointerUp}
     on:pointercancel={onPointerCancel}
-    on:pointerleave={() => { tooltipVisible = false; tooltipData = null; }}
     role="img"
     aria-label="Stock price chart"
   ></div>
-
-  <!-- Crosshair tooltip -->
-  {#if tooltipVisible && tooltipData && !isSelecting}
-    {@const isUp = tooltipData.change >= 0}
-    {@const formattedTime = formatTooltipTime(tooltipData.timestamp)}
-    {@const formattedPrice = tooltipData.close.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-    {@const formattedChange = `${isUp ? '+' : ''}${tooltipData.change.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-    {@const formattedPercent = `${isUp ? '+' : ''}${tooltipData.changePercent.toFixed(2)}%`}
-    {@const formattedVolume = tooltipData.volume > 0 ? abbreviateNumber(tooltipData.volume) : null}
-    <div
-      class="absolute top-2 left-2 pointer-events-none z-20 bg-white/95 dark:bg-zinc-900/95 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg px-3 py-2 text-xs"
-    >
-      <div class="text-gray-500 dark:text-zinc-400 mb-1 font-medium">{formattedTime}</div>
-      <div class="flex items-baseline gap-2">
-        <span class="text-base font-semibold text-gray-900 dark:text-white tabular-nums">${formattedPrice}</span>
-        <span class="font-medium tabular-nums {isUp ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}">
-          {formattedChange} ({formattedPercent})
-        </span>
-      </div>
-      {#if formattedVolume}
-        <div class="text-gray-500 dark:text-zinc-400 mt-1">
-          Vol: <span class="text-gray-700 dark:text-zinc-300 font-medium tabular-nums">{formattedVolume}</span>
-        </div>
-      {/if}
-    </div>
-  {/if}
 
   <!-- Range selection overlay -->
   {#if isSelecting && selectionRect && selectionStart && selectionEnd}
@@ -1165,7 +1275,10 @@
           top: {selectionRect.y}px;
           width: {selectionRect.width}px;
           height: {selectionRect.height}px;
-          background-color: {hexToRgba(selectionColor, $mode === 'light' ? 0.12 : 0.16)};
+          background-color: {hexToRgba(
+          selectionColor,
+          $mode === 'light' ? 0.12 : 0.16,
+        )};
         "
       ></div>
 
@@ -1178,8 +1291,12 @@
           height: {selectionRect.height}px;
           background: repeating-linear-gradient(
             to bottom,
-            {$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 0px,
-            {$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 3px,
+            {$mode === 'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 0px,
+            {$mode === 'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 3px,
             transparent 3px,
             transparent 6px
           );
@@ -1195,8 +1312,12 @@
           height: {selectionRect.height}px;
           background: repeating-linear-gradient(
             to bottom,
-            {$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 0px,
-            {$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 3px,
+            {$mode === 'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 0px,
+            {$mode === 'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 3px,
             transparent 3px,
             transparent 6px
           );
@@ -1235,8 +1356,10 @@
         "
       >
         <div class="whitespace-nowrap" style="color: {selectionColor};">
-          {selectionDelta > 0 ? '+' : ''}{selectionDelta.toFixed(2)} ({selectionPercent.toFixed(2)}%)
-          {selectionDelta > 0 ? '↑' : selectionDelta < 0 ? '↓' : ''}
+          {selectionDelta > 0 ? "+" : ""}{selectionDelta.toFixed(2)} ({selectionPercent.toFixed(
+            2,
+          )}%)
+          {selectionDelta > 0 ? "↑" : selectionDelta < 0 ? "↓" : ""}
         </div>
         {#if selectionTimeRange}
           <div class="text-xs text-gray-400 whitespace-nowrap mt-0.5">
@@ -1246,5 +1369,4 @@
       </div>
     </div>
   {/if}
-
 </div>

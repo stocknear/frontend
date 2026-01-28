@@ -11,7 +11,7 @@
   import MarketNews from "$lib/components/Dashboard/MarketNews.svelte";
   import AnalystReport from "$lib/components/Dashboard/AnalystReport.svelte";
   //import AIAgent from "$lib/components/Dashboard/AIAgent.svelte";
-  import MiniPlot from "$lib/components/MiniPlot.svelte";
+  import MiniPlot from "$lib/components/Plot/MiniPlot.svelte";
   import {
     home_hero_subtitle,
     home_hero_title,

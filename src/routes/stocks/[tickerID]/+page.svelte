@@ -1,5 +1,5 @@
 <script lang="ts">
-  import StockPriceChart from "$lib/components/StockPriceChart.svelte";
+  import StockPriceChart from "$lib/components/Plot/StockPriceChart.svelte";
   import { mode } from "mode-watcher";
 
   import {
@@ -26,32 +26,32 @@
   import Sidecard from "$lib/components/Sidecard.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
   import {
-  stock_detail_52w_range,
-  stock_detail_analyst,
-  stock_detail_ask,
-  stock_detail_avg_volume_20d,
-  stock_detail_beta,
-  stock_detail_bid,
-  stock_detail_days_range,
-  stock_detail_dividends,
-  stock_detail_eps_ttm,
-  stock_detail_ex_dividend_date,
-  stock_detail_forward_pe,
-  stock_detail_market_cap,
-  stock_detail_net_income_ttm,
-  stock_detail_no_data,
-  stock_detail_open,
-  stock_detail_pb_ttm,
-  stock_detail_pe_ratio_ttm,
-  stock_detail_prev_close,
-  stock_detail_price_target,
-  stock_detail_ps_ttm,
-  stock_detail_revenue_ttm,
-  stock_detail_total_assets_ttm,
-  stock_detail_total_equity_ttm,
-  stock_detail_total_liabilities_ttm,
-  stock_detail_volume,
-} from "$lib/paraglide/messages";
+    stock_detail_52w_range,
+    stock_detail_analyst,
+    stock_detail_ask,
+    stock_detail_avg_volume_20d,
+    stock_detail_beta,
+    stock_detail_bid,
+    stock_detail_days_range,
+    stock_detail_dividends,
+    stock_detail_eps_ttm,
+    stock_detail_ex_dividend_date,
+    stock_detail_forward_pe,
+    stock_detail_market_cap,
+    stock_detail_net_income_ttm,
+    stock_detail_no_data,
+    stock_detail_open,
+    stock_detail_pb_ttm,
+    stock_detail_pe_ratio_ttm,
+    stock_detail_prev_close,
+    stock_detail_price_target,
+    stock_detail_ps_ttm,
+    stock_detail_revenue_ttm,
+    stock_detail_total_assets_ttm,
+    stock_detail_total_equity_ttm,
+    stock_detail_total_liabilities_ttm,
+    stock_detail_volume,
+  } from "$lib/paraglide/messages";
 
   import {
     convertTimestamp,
@@ -75,23 +75,35 @@
   // Get current chart data based on selected range
   $: currentChartData = (() => {
     switch (displayData) {
-      case "1D": return oneDayPrice;
-      case "1W": return oneWeekPrice;
-      case "1M": return oneMonthPrice;
-      case "6M": return sixMonthPrice;
-      case "YTD": return ytdPrice;
-      case "1Y": return oneYearPrice;
-      case "MAX": return maxPrice;
-      default: return oneDayPrice;
+      case "1D":
+        return oneDayPrice;
+      case "1W":
+        return oneWeekPrice;
+      case "1M":
+        return oneMonthPrice;
+      case "6M":
+        return sixMonthPrice;
+      case "YTD":
+        return ytdPrice;
+      case "1Y":
+        return oneYearPrice;
+      case "MAX":
+        return maxPrice;
+      default:
+        return oneDayPrice;
     }
   })();
 
   // Determine if chart should show negative colors
-  $: chartIsNegative = displayData === "1D"
-    ? data?.getStockQuote?.changesPercentage < 0
-    : currentChartData?.length > 1
-      ? (currentChartData?.at(-1)?.close / currentChartData?.at(0)?.close - 1) * 100 < 0
-      : false;
+  $: chartIsNegative =
+    displayData === "1D"
+      ? data?.getStockQuote?.changesPercentage < 0
+      : currentChartData?.length > 1
+        ? (currentChartData?.at(-1)?.close / currentChartData?.at(0)?.close -
+            1) *
+            100 <
+          0
+        : false;
 
   const toNum = (v: unknown): number | null => {
     const n =
