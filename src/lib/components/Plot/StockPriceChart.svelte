@@ -118,6 +118,7 @@
   let lastAppliedNegative: boolean | null = null;
   let lastDisplayRange: string | null = null;
   let pendingStyleTimeout: ReturnType<typeof setTimeout> | null = null;
+  let dataUpdateRaf: number | null = null;
 
   // ============================================================================
   // AXIS LABELS (reactive to screen width)
@@ -280,7 +281,10 @@
 
     const upColor = isLight ? "#16a34a" : "#22c55e";
     const downColor = isLight ? "#dc2626" : "#ef4444";
-    const gridColor = isLight ? "#e5e7eb" : "#1e293b";
+    const gridColor = isLight
+      ? "rgba(148, 163, 184, 0.35)"
+      : "rgba(148, 163, 184, 0.25)";
+    const separatorColor = isLight ? "#e5e7eb" : "#1e293b";
     const axisText = isLight ? "#6b7280" : "#9ca3af";
     const crosshairLine = isLight ? "#374151" : "#d1d5db";
     const crosshairBg = isLight ? "#111827" : "#f9fafb";
@@ -305,7 +309,13 @@
     chart.setStyles({
       grid: {
         show: true,
-        horizontal: { show: true, size: 1, color: gridColor, style: "dashed", dashedValue: [3, 3] },
+        horizontal: {
+          show: true,
+          style: "dashed",
+          size: 1,
+          color: gridColor,
+          dashedValue: [3, 3],
+        },
         vertical: { show: false },
       },
       xAxis: {
@@ -400,7 +410,7 @@
         tooltip: { showRule: "none" },
         lastValueMark: { show: false },
       },
-      separator: { size: 1, color: gridColor, fill: false, activeBackgroundColor: "transparent" },
+      separator: { size: 1, color: separatorColor, fill: false, activeBackgroundColor: "transparent" },
     });
 
     lastAppliedMode = isLight ? "light" : "dark";
@@ -642,10 +652,15 @@
             return { from: 0, to: max, range: max, realFrom: 0, realTo: max, realRange: max, displayFrom: 0, displayTo: max, displayRange: max };
           },
         },
+        styles: {
+          grid: {
+            show: false,
+          },
+        },
       });
     }
 
-    chart.setPaneOptions({ id: "candle_pane", gap: { top: 0.02, bottom: 0.02 } });
+    chart.setPaneOptions({ id: "candle_pane", gap: { top: 0.02, bottom: 0.02 }, axis: { scrollZoomEnabled: false } });
 
     if (displayRange === "1D") {
       chart.setPaneOptions({ id: "x_axis_pane", axis: { name: ONE_DAY_X_AXIS_NAME, scrollZoomEnabled: false } });
@@ -682,6 +697,7 @@
   onDestroy(() => {
     if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
     if (styleRaf !== null) cancelAnimationFrame(styleRaf);
+    if (dataUpdateRaf !== null) cancelAnimationFrame(dataUpdateRaf);
     if (pendingStyleTimeout !== null) clearTimeout(pendingStyleTimeout);
     resizeObserver?.disconnect();
     if (chart) { dispose(chart); chart = null; }
@@ -721,20 +737,32 @@
     }, 50);
   };
 
+  // Debounced data update to handle rapid range switching
+  const scheduleDataUpdate = () => {
+    if (dataUpdateRaf !== null) cancelAnimationFrame(dataUpdateRaf);
+    dataUpdateRaf = requestAnimationFrame(() => {
+      dataUpdateRaf = null;
+      if (!chart || !priceData?.length) return;
+      updateChartData(priceData);
+      scheduleDelayedStyleUpdate();
+    });
+  };
+
   // React to priceData changes
   $: if (chart && priceData) {
-    updateChartData(priceData);
-    scheduleDelayedStyleUpdate();
+    scheduleDataUpdate();
   }
 
   // React to displayRange changes
   $: if (chart && displayRange && displayRange !== lastDisplayRange) {
     lastDisplayRange = displayRange;
+    // Update x-axis type
     chart.setPaneOptions({
       id: "x_axis_pane",
       axis: { name: displayRange === "1D" ? ONE_DAY_X_AXIS_NAME : "default", scrollZoomEnabled: false },
     });
-    scheduleDelayedStyleUpdate();
+    // Re-process data with new range (handles cached priceData with same reference)
+    scheduleDataUpdate();
   }
 
   // React to previousClose changes

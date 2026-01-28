@@ -7064,6 +7064,13 @@
                         on:change={() => {
                           showEarnings = !showEarnings;
                           saveEventSettings();
+                          if (showEarnings && !isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            // Re-apply range after chart settles to ensure correct state
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         }}
                       />
                       <div
@@ -7109,6 +7116,13 @@
                         on:change={() => {
                           showDividends = !showDividends;
                           saveEventSettings();
+                          if (showDividends && !isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            // Re-apply range after chart settles to ensure correct state
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         }}
                       />
                       <div
@@ -7154,6 +7168,13 @@
                         on:change={() => {
                           showNewsFlow = !showNewsFlow;
                           saveEventSettings();
+                          if (showNewsFlow && !isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            // Re-apply range after chart settles to ensure correct state
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         }}
                       />
                       <div
@@ -7682,7 +7703,7 @@
       {/if}
 
       <div class="relative flex-1 bg-[#0b0b0b]">
-        <div class="absolute inset-0" bind:this={chartContainer}></div>
+        <div class="absolute inset-0 z-[1]" bind:this={chartContainer}></div>
 
         <!-- Watermark -->
         <div
@@ -7782,7 +7803,7 @@
         <!-- Earnings popup -->
         {#if selectedEarnings}
           <div
-            class="absolute z-[7] pointer-events-auto"
+            class="absolute z-[20] pointer-events-auto"
             style="left: {earningsPopupPosition.x}px; top: {earningsPopupPosition.y}px; transform: translate(-50%, -100%)"
           >
             <div
@@ -8058,7 +8079,7 @@
         <!-- Dividend popup -->
         {#if selectedDividend}
           <div
-            class="absolute z-[7] pointer-events-auto"
+            class="absolute z-[20] pointer-events-auto"
             style="left: {dividendPopupPosition.x}px; top: {dividendPopupPosition.y}px; transform: translate(-50%, -100%)"
           >
             <div
@@ -8205,7 +8226,7 @@
         <!-- News popup -->
         {#if selectedNews}
           <div
-            class="absolute z-[7] pointer-events-auto"
+            class="absolute z-[20] pointer-events-auto"
             style="left: {newsPopupPosition.x}px; top: {newsPopupPosition.y}px; transform: translate(-50%, -100%)"
           >
             <div
