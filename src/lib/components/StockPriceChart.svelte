@@ -67,16 +67,20 @@
   let startChartX: number | null = null;
   const DRAG_THRESHOLD_PX = 6;
 
+  // New York timezone for US market hours (used throughout for 1D)
+  const NY_TIMEZONE = "America/New_York";
+
   // Format timestamp for range selector label based on display range
   const formatRangeTimestamp = (timestampMs: number): string => {
     const date = new Date(timestampMs);
 
     if (displayRange === "1D") {
-      // For 1D: show time only (e.g., "10:30 AM")
+      // For 1D: show time only in NY timezone (e.g., "10:30 AM")
       return date.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
+        timeZone: NY_TIMEZONE,
       });
     }
 
@@ -101,9 +105,12 @@
     });
   };
 
-  // Session boundaries for 1D
+  // Session boundaries for 1D (9:30 AM - 4:00 PM)
   let sessionStart: number | null = null;
   let sessionEnd: number | null = null;
+  let sessionBarCount = 0; // Total bars in full session
+  let sessionIntervalMs = 60 * 1000; // Interval between bars (default 1 min)
+  let missingRightBars = 0; // Bars missing on the right (session not complete)
 
   // Tooltip state
   let tooltipVisible = false;
@@ -156,53 +163,76 @@
   };
 
   const parseTimestamp = (value: unknown): number | null => {
+    // Numeric timestamps - use as-is
     if (typeof value === "number" && Number.isFinite(value)) {
       if (value > 1e12) return Math.floor(value);
       if (value > 1e9) return Math.floor(value * 1000);
       return null;
     }
+
+    // String timestamps in format "YYYY-MM-DD HH:MM:SS" - these are NY time
     if (typeof value === "string") {
-      // Handle date strings - append Z for UTC if not present
-      let dateStr = value;
-      // Check if it has timezone info (Z, +HH:MM, or -HH:MM at the end)
-      const hasTimezone = /[Z]$|[+-]\d{2}:\d{2}$|[+-]\d{4}$/.test(dateStr);
-      if (!hasTimezone) {
-        // Replace space with T for ISO format if needed
-        dateStr = dateStr.replace(" ", "T");
-        dateStr = dateStr + "Z";
+      // Parse the string as UTC first, then adjust for NY timezone
+      const normalized = value.trim().replace(" ", "T");
+      const asUtc = new Date(normalized + "Z");
+      if (isNaN(asUtc.getTime())) return null;
+
+      // Get NY timezone offset at this time (handles DST automatically)
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: NY_TIMEZONE,
+        timeZoneName: "longOffset",
+      });
+      const tzPart = formatter.formatToParts(asUtc).find(p => p.type === "timeZoneName")?.value || "GMT-05:00";
+      const match = tzPart.match(/GMT([+-])(\d{2}):(\d{2})/);
+
+      let offsetMs = -5 * 60 * 60 * 1000; // Default EST (UTC-5)
+      if (match) {
+        const sign = match[1] === "-" ? -1 : 1;
+        const hours = parseInt(match[2]);
+        const mins = parseInt(match[3]);
+        offsetMs = sign * (hours * 60 + mins) * 60 * 1000;
       }
-      const date = new Date(dateStr);
-      if (!isNaN(date.getTime())) {
-        return date.getTime();
-      }
-      // Try original value as fallback
-      const fallbackDate = new Date(value);
-      if (!isNaN(fallbackDate.getTime())) {
-        return fallbackDate.getTime();
-      }
+
+      // Convert NY time to UTC: string says "09:30" NY, we need UTC timestamp
+      // If NY is UTC-5, then 09:30 NY = 14:30 UTC
+      return asUtc.getTime() - offsetMs;
     }
     return null;
   };
 
+  // Build a timestamp for a specific time in New York timezone on the same day as baseTimestamp
   const buildSessionTimestamp = (baseTimestamp: number, hours: number, minutes: number): number => {
+    // Get the date in NY timezone
     const baseDate = new Date(baseTimestamp);
-    const localDate = new Date(
-      baseDate.getFullYear(),
-      baseDate.getMonth(),
-      baseDate.getDate(),
-      hours,
-      minutes,
-      0,
-      0
-    );
-    return Date.UTC(
-      localDate.getUTCFullYear(),
-      localDate.getUTCMonth(),
-      localDate.getUTCDate(),
-      localDate.getUTCHours(),
-      localDate.getUTCMinutes(),
-      localDate.getUTCSeconds()
-    );
+    const dateFormatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone: NY_TIMEZONE,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const dateStr = dateFormatter.format(baseDate); // "YYYY-MM-DD"
+
+    // Create the target time string and parse it as NY time
+    const timeStr = `${dateStr}T${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00Z`;
+    const asUtc = new Date(timeStr);
+
+    // Get NY offset and convert
+    const tzFormatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: NY_TIMEZONE,
+      timeZoneName: "longOffset",
+    });
+    const tzPart = tzFormatter.formatToParts(asUtc).find(p => p.type === "timeZoneName")?.value || "GMT-05:00";
+    const match = tzPart.match(/GMT([+-])(\d{2}):(\d{2})/);
+
+    let offsetMs = -5 * 60 * 60 * 1000;
+    if (match) {
+      const sign = match[1] === "-" ? -1 : 1;
+      const h = parseInt(match[2]);
+      const m = parseInt(match[3]);
+      offsetMs = sign * (h * 60 + m) * 60 * 1000;
+    }
+
+    return asUtc.getTime() - offsetMs;
   };
 
   const buildBars = (rawData: any[]): KLineData[] => {
@@ -536,27 +566,33 @@
 
     if (!width || width <= 0) return;
 
-    // Calculate bar space to fit all bars exactly in the available width
-    const barSpace = Math.max(KLINE_MIN_BAR_SPACE, width / currentBarCount);
+    // For 1D, use session bar count to ensure full 9:30 AM - 4:00 PM range is shown
+    // For other ranges, use the actual bar count
+    const targetBarCount = displayRange === "1D" && sessionBarCount > 0
+      ? sessionBarCount
+      : currentBarCount;
+
+    // Calculate bar space to fit all bars (including missing ones for 1D) in the available width
+    const barSpace = Math.max(KLINE_MIN_BAR_SPACE, width / targetBarCount);
 
     // Set the bar space
     chart.setBarSpace(barSpace);
 
-    // Reset offsets
-    chart.setMaxOffsetRightDistance(0);
-    chart.setOffsetRightDistance(0);
+    // For 1D with incomplete session, set right offset for missing bars
+    // This creates empty space on the right for the remaining session time
+    const actualBarSpace = chart.getBarSpace()?.bar ?? barSpace;
+    const rightOffset = displayRange === "1D" && missingRightBars > 0
+      ? missingRightBars * actualBarSpace
+      : 0;
 
-    // Get current visible range
+    chart.setMaxOffsetRightDistance(rightOffset + 10); // Allow a bit more than needed
+    chart.setOffsetRightDistance(rightOffset);
+
+    // Get current visible range and scroll to position first bar at left edge
     const visibleRange = chart.getVisibleRange();
 
-    // Calculate how far we need to scroll to get first bar at left edge
-    // visibleRange.from is the index of the first visible bar
-    // If from > 0, we need to scroll to show earlier bars
-    // If from < 0, we've scrolled too far left (empty space at left)
     if (visibleRange.from !== 0) {
-      const actualBarSpace = chart.getBarSpace()?.bar ?? barSpace;
       // Scroll by the distance needed to make from = 0
-      // Negative distance scrolls left (shows earlier data), positive scrolls right
       const scrollDistance = visibleRange.from * actualBarSpace;
       chart.scrollByDistance(scrollDistance);
     }
@@ -570,6 +606,8 @@
     if (!bars.length) {
       currentBars = [];
       currentBarCount = 0;
+      sessionBarCount = 0;
+      missingRightBars = 0;
       chart.setDataLoader({
         getBars: async ({ type, callback }) => {
           callback([], { backward: false, forward: false });
@@ -578,23 +616,46 @@
       return;
     }
 
+    // Calculate interval from the data
+    const intervalMs = computeIntervalMs(bars);
+    sessionIntervalMs = intervalMs;
+
+    // For 1D, calculate full session bar count (9:30 AM - 4:00 PM = 390 minutes)
+    // and how many bars are missing on the right
+    if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
+      // Calculate total bars for full session
+      sessionBarCount = Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
+
+      // Calculate missing bars on the right (if data doesn't reach 4 PM)
+      const lastTimestamp = bars[bars.length - 1].timestamp;
+      if (lastTimestamp < sessionEnd) {
+        missingRightBars = Math.round((sessionEnd - lastTimestamp) / intervalMs);
+      } else {
+        missingRightBars = 0;
+      }
+    } else {
+      sessionBarCount = 0;
+      missingRightBars = 0;
+    }
+
     // Calculate available width to determine if we need to downsample
     const paneWidth = chart.getSize("candle_pane", "main")?.width;
     const containerWidth = chartContainer.clientWidth;
     const chartWidth = chart.getSize()?.width;
     const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
 
-    // Downsample if we have more bars than pixels (KlineCharts min bar space is 1px)
-    // Leave some margin (use 90% of width) to ensure all data fits comfortably
-    const maxBars = Math.max(100, Math.floor((width || 800) * 0.95));
-    if (bars.length > maxBars) {
-      bars = downsampleBars(bars, maxBars);
+    // For 1D, don't downsample since we want to show the full session
+    // For other ranges, downsample if we have more bars than pixels
+    if (displayRange !== "1D") {
+      const maxBars = Math.max(100, Math.floor((width || 800) * 0.95));
+      if (bars.length > maxBars) {
+        bars = downsampleBars(bars, maxBars);
+      }
     }
 
     currentBars = bars;
     currentBarCount = bars.length;
 
-    const intervalMs = computeIntervalMs(bars);
     const periodType = intervalMs >= 86400000 ? "day" : intervalMs >= 3600000 ? "hour" : "minute";
     const periodSpan = periodType === "day" ? 1 : periodType === "hour" ? Math.round(intervalMs / 3600000) : Math.round(intervalMs / 60000);
 
@@ -626,10 +687,12 @@
     const date = new Date(timestamp);
 
     if (displayRange === "1D") {
+      // Use NY timezone for 1D chart x-axis labels
       return date.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
+        timeZone: NY_TIMEZONE,
       });
     }
 
@@ -652,10 +715,12 @@
     const date = new Date(timestamp);
 
     if (displayRange === "1D") {
+      // Use NY timezone for 1D chart tooltip times
       return date.toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
+        timeZone: NY_TIMEZONE,
       });
     }
 
