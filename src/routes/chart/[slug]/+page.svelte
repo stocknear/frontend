@@ -6896,46 +6896,7 @@
           {/if}
         </button>
 
-        <!-- Time Intervals - Dropdown for mobile, inline buttons for sm+ -->
-        <!-- Mobile Dropdown -->
-        <div class="sm:hidden">
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild let:builder>
-              <button
-                use:builder.action
-                {...builder}
-                class="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition min-h-[44px]"
-              >
-                <Timer class="h-5 w-5" />
-                <span>{activeRange}</span>
-                <ChevronDown class="h-4 w-4" />
-              </button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content
-              side="bottom"
-              align="start"
-              sideOffset={4}
-              class="w-24 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
-            >
-              <DropdownMenu.Group>
-                {#each timeframes as frame}
-                  <DropdownMenu.Item
-                    class={`px-2 py-1.5 text-sm rounded cursor-pointer transition ${
-                      activeRange === frame
-                        ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                    }`}
-                    on:click={() => setRange(frame)}
-                  >
-                    {frame}
-                  </DropdownMenu.Item>
-                {/each}
-              </DropdownMenu.Group>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        </div>
-
-        <!-- Desktop Inline Buttons -->
+        <!-- Time Intervals - Desktop only (mobile uses bottom nav) -->
         <div class="hidden sm:flex items-center">
           {#each timeframes as frame}
             <button
@@ -6954,57 +6915,59 @@
         <!-- Separator (hidden on mobile) -->
         <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
-        <!-- Chart Type Dropdown -->
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild let:builder>
-            <button
-              use:builder.action
-              {...builder}
-              class="cursor-pointer flex items-center gap-1.5 px-3 py-2.5 sm:px-2 sm:py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition min-h-[44px] sm:min-h-0"
+        <!-- Chart Type Dropdown (desktop only, mobile uses bottom nav) -->
+        <div class="hidden sm:block">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <button
+                use:builder.action
+                {...builder}
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+              >
+                <svelte:component
+                  this={currentChartType?.icon}
+                  class="h-4 w-4 flex-shrink-0"
+                />
+                <ChevronDown class="h-3 w-3" />
+              </button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content
+              side="bottom"
+              align="start"
+              sideOffset={4}
+              class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
             >
-              <svelte:component
-                this={currentChartType?.icon}
-                class="h-5 w-5 sm:h-4 sm:w-4 flex-shrink-0"
-              />
-              <ChevronDown class="h-4 w-4 sm:h-3 sm:w-3" />
-            </button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content
-            side="bottom"
-            align="start"
-            sideOffset={4}
-            class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
-          >
-            <DropdownMenu.Group>
-              {#each chartTypeOptions as option}
-                <DropdownMenu.Item
-                  class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer transition ${
-                    chartType === option.id
-                      ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                      : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                  }`}
-                  on:click={() => setChartType(option.id)}
-                >
-                  {option.label}
-                </DropdownMenu.Item>
-              {/each}
-            </DropdownMenu.Group>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+              <DropdownMenu.Group>
+                {#each chartTypeOptions as option}
+                  <DropdownMenu.Item
+                    class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                      chartType === option.id
+                        ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                    }`}
+                    on:click={() => setChartType(option.id)}
+                  >
+                    {option.label}
+                  </DropdownMenu.Item>
+                {/each}
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
 
-        <!-- Separator (hidden on mobile) -->
+        <!-- Separator -->
         <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
-        <!-- Indicators Button -->
+        <!-- Indicators Button (desktop only, mobile uses bottom nav) -->
         <label
           for="indicatorModal"
           on:click={openIndicatorModal}
-          class="flex items-center gap-1.5 px-3 py-2.5 sm:px-2 sm:py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition min-h-[44px] sm:min-h-0"
+          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 28 28"
-            class="h-5 w-5 sm:h-4 sm:w-4"
+            class="h-4 w-4"
             fill="none"
           >
             <path
@@ -7017,34 +6980,35 @@
               d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"
             />
           </svg>
-          <span class="hidden sm:inline">Indicators</span>
+          <span>Indicators</span>
         </label>
 
-        <!-- Separator (hidden on mobile) -->
+        <!-- Separator -->
         <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
-        <!-- Events Dropdown -->
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild let:builder>
-            <button
-              use:builder.action
-              {...builder}
-              class="flex items-center gap-1.5 px-3 py-2.5 sm:px-2 sm:py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition min-h-[44px] sm:min-h-0"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 28 28"
-                class="h-5 w-5 sm:h-4 sm:w-4"
-                fill="currentColor"
+        <!-- Events Dropdown (desktop only, mobile uses bottom nav) -->
+        <div class="hidden sm:block">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <button
+                use:builder.action
+                {...builder}
+                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
               >
-                <path
-                  d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z"
-                />
-              </svg>
-              <span class="hidden sm:inline">Events</span>
-              <ChevronDown class="size-4 sm:size-3" />
-            </button>
-          </DropdownMenu.Trigger>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 28 28"
+                  class="h-4 w-4"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z"
+                  />
+                </svg>
+                <span>Events</span>
+                <ChevronDown class="size-3" />
+              </button>
+            </DropdownMenu.Trigger>
           <DropdownMenu.Content
             side="bottom"
             align="start"
@@ -7210,10 +7174,11 @@
               </DropdownMenu.Item>
             </DropdownMenu.Group>
           </DropdownMenu.Content>
-        </DropdownMenu.Root>
+          </DropdownMenu.Root>
+        </div>
 
         <!-- Separator -->
-        <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
 
         <!-- Strategy Dropdown -->
         <DropdownMenu.Root>
@@ -9649,29 +9614,108 @@
         </DropdownMenu.Content>
       </DropdownMenu.Root>
 
-      <!-- Zoom -->
-      <div class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px]">
-        <div class="flex items-center gap-1">
-          <button
-            class="p-1 text-neutral-400 hover:text-neutral-200 transition"
-            on:click={() => zoomChart(1.2)}
-            title="Zoom in"
-          >
-            <ZoomIn class="h-4 w-4" />
-          </button>
-          <button
-            class="p-1 text-neutral-400 hover:text-neutral-200 transition"
-            on:click={() => zoomChart(0.9)}
-            title="Zoom out"
-          >
-            <ZoomOut class="h-4 w-4" />
-          </button>
-        </div>
-        <span class="text-[10px] font-medium text-neutral-400">Zoom</span>
-      </div>
+      <!-- Drawing Tools -->
+      <label
+        for="mobileToolsModal"
+        class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition cursor-pointer"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 19l7-7 3 3-7 7-3-3z" />
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+          <path d="M2 2l7.586 7.586" />
+          <circle cx="11" cy="11" r="2" />
+        </svg>
+        <span class="text-[10px] font-medium">Tools</span>
+      </label>
     </div>
   </div>
 {/if}
+
+<!-- Mobile Drawing Tools Modal -->
+<input type="checkbox" id="mobileToolsModal" class="modal-toggle" />
+<dialog id="mobileToolsModal" class="modal modal-bottom">
+  <label for="mobileToolsModal" class="cursor-pointer modal-backdrop bg-black/30"></label>
+  <div class="modal-box rounded-t-2xl border-t border-neutral-700 bg-[#0a0a0a] p-0 w-full max-h-[70vh]">
+    <!-- Handle bar -->
+    <div class="flex justify-center py-2">
+      <div class="w-10 h-1 bg-neutral-700 rounded-full"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-4 pb-3 border-b border-neutral-800">
+      <h3 class="text-base font-semibold text-neutral-100">Drawing Tools</h3>
+      <div class="flex items-center gap-2">
+        <!-- Lock/Unlock -->
+        <button
+          class={`p-2 rounded-lg transition ${drawingsLocked ? 'text-amber-400 bg-amber-400/10' : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'}`}
+          on:click={toggleDrawingsLock}
+          title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
+        >
+          <svg class="h-5 w-5" viewBox="0 0 22 22" fill="currentColor">
+            <path d={drawingsLocked ? toolIcons.lock : toolIcons.unlock} />
+          </svg>
+        </button>
+        <!-- Show/Hide -->
+        <button
+          class={`p-2 rounded-lg transition ${!drawingsVisible ? 'text-neutral-500' : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'}`}
+          on:click={toggleDrawingsVisibility}
+          title={drawingsVisible ? "Hide drawings" : "Show drawings"}
+        >
+          <svg class="h-5 w-5" viewBox="0 0 22 22" fill="currentColor">
+            <path d={drawingsVisible ? toolIcons.visible : toolIcons.invisible} />
+          </svg>
+        </button>
+        <!-- Delete All -->
+        <button
+          class="p-2 rounded-lg text-neutral-400 hover:text-rose-400 hover:bg-rose-400/10 transition"
+          on:click={() => { chart?.removeOverlay(); overlayIds = []; }}
+          title="Delete all drawings"
+        >
+          <Trash2 class="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="p-4 space-y-4 overflow-y-auto max-h-[50vh]">
+      {#each toolGroups as group}
+        <div>
+          <h4 class="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-2">{group.label}</h4>
+          <div class="grid grid-cols-2 gap-2">
+            {#each group.options as option}
+              <label
+                for="mobileToolsModal"
+                class={`flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${
+                  selectedToolByGroup[group.id] === option.id
+                    ? 'border-violet-500 bg-violet-500/10 text-violet-300'
+                    : 'border-neutral-800 bg-neutral-900/50 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-800/50'
+                } ${drawingsLocked ? 'opacity-50 pointer-events-none' : ''}`}
+                on:click={() => activateDrawingTool(group.id, option.id, option.overlay)}
+              >
+                <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 22 22" fill="currentColor">
+                  <path d={toolIcons[option.icon] || toolIcons.horizontalStraightLine} />
+                </svg>
+                <span class="text-sm truncate">{option.label}</span>
+              </label>
+            {/each}
+          </div>
+        </div>
+      {/each}
+    </div>
+
+    <!-- Cursor Mode Button -->
+    <div class="p-4 pt-0">
+      <label
+        for="mobileToolsModal"
+        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-neutral-700 bg-neutral-800/50 text-neutral-200 hover:bg-neutral-800 transition cursor-pointer"
+        on:click={() => { activeTool = null; chart?.removeOverlay(); }}
+      >
+        <MousePointer2 class="h-5 w-5" />
+        <span class="text-sm font-medium">Cursor Mode</span>
+      </label>
+    </div>
+  </div>
+</dialog>
 
 <input type="checkbox" id="indicatorModal" class="modal-toggle" />
 
