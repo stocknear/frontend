@@ -58,6 +58,7 @@
   let chart: ReturnType<typeof init> | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let resizeRaf: number | null = null;
+  let lastContainerWidth = 0;
 
   // Range selector state
   let isSelecting = false;
@@ -112,10 +113,19 @@
   let sessionIntervalMs = 60 * 1000; // Interval between bars (default 1 min)
   let missingRightBars = 0; // Bars missing on the right (session not complete)
 
-  // Tooltip state
+  // Crosshair tooltip state
   let tooltipVisible = false;
-  let tooltipData: { price: number; volume: number; time: string } | null = null;
-  let tooltipPosition = { x: 0, y: 0 };
+  let tooltipData: {
+    timestamp: number;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume: number;
+    change: number;
+    changePercent: number;
+  } | null = null;
+  let tooltipX = 0;
 
   // Previous close line elements
   let prevCloseLineY: number | null = null;
@@ -554,7 +564,8 @@
     return result;
   };
 
-  // Update bar space to fit all data without scrolling, starting from left edge
+  // Update bar space to fit all data without scrolling
+  // Follows MiniPlot.svelte approach for simplicity and mobile responsiveness
   const updateBarSpace = () => {
     if (!chart || !chartContainer || currentBarCount <= 0) return;
 
@@ -572,8 +583,9 @@
       ? sessionBarCount
       : currentBarCount;
 
-    // Calculate bar space to fit all bars (including missing ones for 1D) in the available width
-    const barSpace = Math.max(KLINE_MIN_BAR_SPACE, width / targetBarCount);
+    // Calculate bar space - simple approach like MiniPlot
+    const desired = width / targetBarCount;
+    const barSpace = Math.max(KLINE_MIN_BAR_SPACE, desired);
 
     // Set the bar space
     chart.setBarSpace(barSpace);
@@ -585,17 +597,8 @@
       ? missingRightBars * actualBarSpace
       : 0;
 
-    chart.setMaxOffsetRightDistance(rightOffset + 10); // Allow a bit more than needed
+    chart.setMaxOffsetRightDistance(rightOffset + 10);
     chart.setOffsetRightDistance(rightOffset);
-
-    // Get current visible range and scroll to position first bar at left edge
-    const visibleRange = chart.getVisibleRange();
-
-    if (visibleRange.from !== 0) {
-      // Scroll by the distance needed to make from = 0
-      const scrollDistance = visibleRange.from * actualBarSpace;
-      chart.scrollByDistance(scrollDistance);
-    }
   };
 
   const updateChartData = (rawData: any[]) => {
@@ -620,34 +623,47 @@
     const intervalMs = computeIntervalMs(bars);
     sessionIntervalMs = intervalMs;
 
-    // For 1D, calculate full session bar count (9:30 AM - 4:00 PM = 390 minutes)
-    // and how many bars are missing on the right
-    if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
-      // Calculate total bars for full session
-      sessionBarCount = Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
-
-      // Calculate missing bars on the right (if data doesn't reach 4 PM)
-      const lastTimestamp = bars[bars.length - 1].timestamp;
-      if (lastTimestamp < sessionEnd) {
-        missingRightBars = Math.round((sessionEnd - lastTimestamp) / intervalMs);
-      } else {
-        missingRightBars = 0;
-      }
-    } else {
-      sessionBarCount = 0;
-      missingRightBars = 0;
-    }
-
     // Calculate available width to determine if we need to downsample
     const paneWidth = chart.getSize("candle_pane", "main")?.width;
     const containerWidth = chartContainer.clientWidth;
     const chartWidth = chart.getSize()?.width;
     const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
 
-    // For 1D, don't downsample since we want to show the full session
-    // For other ranges, downsample if we have more bars than pixels
-    if (displayRange !== "1D") {
-      const maxBars = Math.max(100, Math.floor((width || 800) * 0.95));
+    // Maximum bars that can fit at minimum 1px bar space
+    const maxBars = Math.max(100, Math.floor(width || 800));
+
+    // For 1D, calculate full session bar count (9:30 AM - 4:00 PM = 390 minutes)
+    // and how many bars are missing on the right
+    if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
+      // Calculate total bars for full session
+      const fullSessionBarCount = Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
+
+      // Calculate missing bars on the right (if data doesn't reach 4 PM)
+      const lastTimestamp = bars[bars.length - 1].timestamp;
+      const rawMissingRightBars = lastTimestamp < sessionEnd
+        ? Math.round((sessionEnd - lastTimestamp) / intervalMs)
+        : 0;
+
+      // On narrow screens, we need to downsample 1D data to fit
+      // The session bar count (data + missing) must fit in available width
+      if (fullSessionBarCount > maxBars) {
+        // Downsample proportionally
+        const ratio = maxBars / fullSessionBarCount;
+        const targetDataBars = Math.max(2, Math.floor(bars.length * ratio));
+        bars = downsampleBars(bars, targetDataBars);
+
+        // Adjust session metrics proportionally
+        sessionBarCount = maxBars;
+        missingRightBars = Math.round(rawMissingRightBars * ratio);
+      } else {
+        sessionBarCount = fullSessionBarCount;
+        missingRightBars = rawMissingRightBars;
+      }
+    } else {
+      sessionBarCount = 0;
+      missingRightBars = 0;
+
+      // For other ranges, downsample if we have more bars than pixels
       if (bars.length > maxBars) {
         bars = downsampleBars(bars, maxBars);
       }
@@ -979,10 +995,60 @@
       updatePrevCloseLine();
     });
 
-    // Set up resize observer
+    // Subscribe to crosshair changes for tooltip
+    chart.subscribeAction("onCrosshairChange", (data: any) => {
+      // Hide tooltip during range selection
+      if (isSelecting) {
+        tooltipVisible = false;
+        tooltipData = null;
+        return;
+      }
+
+      const kLineData = data?.kLineData;
+      if (!kLineData || !chartContainer) {
+        tooltipVisible = false;
+        tooltipData = null;
+        return;
+      }
+
+      // Get first bar for calculating change
+      const dataList = chart?.getDataList() || [];
+      const firstBar = dataList[0];
+      const prevClose = displayRange === "1D" && previousClose !== null
+        ? previousClose
+        : firstBar?.close ?? kLineData.close;
+
+      const change = kLineData.close - prevClose;
+      const changePercent = prevClose !== 0 ? (change / prevClose) * 100 : 0;
+
+      tooltipData = {
+        timestamp: kLineData.timestamp,
+        open: kLineData.open,
+        high: kLineData.high,
+        low: kLineData.low,
+        close: kLineData.close,
+        volume: kLineData.volume ?? 0,
+        change,
+        changePercent,
+      };
+
+      // Get x position for tooltip positioning
+      tooltipX = data?.x ?? 0;
+      tooltipVisible = true;
+    });
+
+    // Set up resize observer - like MiniPlot.svelte approach
     resizeObserver = new ResizeObserver((entries) => {
       const entry = entries[0];
       if (!entry) return;
+
+      const { width } = entry.contentRect;
+
+      // Skip if width hasn't changed significantly
+      if (Math.abs(width - lastContainerWidth) < 1) return;
+
+      const widthChanged = Math.round(width) !== Math.round(lastContainerWidth);
+      lastContainerWidth = width;
 
       if (resizeRaf !== null) {
         cancelAnimationFrame(resizeRaf);
@@ -990,8 +1056,13 @@
       resizeRaf = requestAnimationFrame(() => {
         resizeRaf = null;
         chart?.resize();
-        // Re-calculate bar space after resize
-        updateBarSpace();
+
+        // If width changed significantly, recalculate data (may need to downsample differently)
+        if (widthChanged && priceData?.length > 0) {
+          updateChartData(priceData);
+        } else {
+          updateBarSpace();
+        }
       });
     });
     resizeObserver.observe(chartContainer);
@@ -1005,6 +1076,7 @@
     resizeObserver?.disconnect();
     resizeObserver = null;
     if (chart) {
+      chart.unsubscribeAction("onCrosshairChange");
       dispose(chart);
       chart = null;
     }
@@ -1051,9 +1123,36 @@
     on:pointermove={onPointerMove}
     on:pointerup={onPointerUp}
     on:pointercancel={onPointerCancel}
+    on:pointerleave={() => { tooltipVisible = false; tooltipData = null; }}
     role="img"
     aria-label="Stock price chart"
   ></div>
+
+  <!-- Crosshair tooltip -->
+  {#if tooltipVisible && tooltipData && !isSelecting}
+    {@const isUp = tooltipData.change >= 0}
+    {@const formattedTime = formatTooltipTime(tooltipData.timestamp)}
+    {@const formattedPrice = tooltipData.close.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+    {@const formattedChange = `${isUp ? '+' : ''}${tooltipData.change.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+    {@const formattedPercent = `${isUp ? '+' : ''}${tooltipData.changePercent.toFixed(2)}%`}
+    {@const formattedVolume = tooltipData.volume > 0 ? abbreviateNumber(tooltipData.volume) : null}
+    <div
+      class="absolute top-2 left-2 pointer-events-none z-20 bg-white/95 dark:bg-zinc-900/95 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg px-3 py-2 text-xs"
+    >
+      <div class="text-gray-500 dark:text-zinc-400 mb-1 font-medium">{formattedTime}</div>
+      <div class="flex items-baseline gap-2">
+        <span class="text-base font-semibold text-gray-900 dark:text-white tabular-nums">${formattedPrice}</span>
+        <span class="font-medium tabular-nums {isUp ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}">
+          {formattedChange} ({formattedPercent})
+        </span>
+      </div>
+      {#if formattedVolume}
+        <div class="text-gray-500 dark:text-zinc-400 mt-1">
+          Vol: <span class="text-gray-700 dark:text-zinc-300 font-medium tabular-nums">{formattedVolume}</span>
+        </div>
+      {/if}
+    </div>
+  {/if}
 
   <!-- Range selection overlay -->
   {#if isSelecting && selectionRect && selectionStart && selectionEnd}
