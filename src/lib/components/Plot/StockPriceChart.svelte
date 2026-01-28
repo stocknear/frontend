@@ -435,7 +435,7 @@
             style: "dashed",
             dashedValue: [4, 4],
             size: 1,
-            color: isLight ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)",
+            color: isLight ? "rgba(0, 0, 0, 0.65)" : "rgba(255, 255, 255, 0.65)",
           },
           text: {
             show: true,
@@ -458,7 +458,7 @@
             style: "dashed",
             dashedValue: [4, 4],
             size: 1,
-            color: isLight ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)",
+            color: isLight ? "rgba(0, 0, 0, 0.65)" : "rgba(255, 255, 255, 0.65)",
           },
           text: {
             show: true,
@@ -1201,8 +1201,12 @@
 
   $: if (chart && priceData) {
     updateChartData(priceData);
+    // Reapply styles after data loads to ensure crosshair is properly configured
     requestAnimationFrame(() => {
+      applyStyles($mode === "light", isNegative);
       updatePrevCloseLine();
+      // Force redraw to ensure crosshair renders correctly
+      chart?.resize();
     });
   }
 
@@ -1216,7 +1220,7 @@
     });
   }
 
-  // Switch x-axis based on displayRange
+  // Switch x-axis based on displayRange and reapply styles
   $: if (chart && displayRange) {
     if (displayRange === "1D") {
       chart.setPaneOptions({
@@ -1236,6 +1240,12 @@
         },
       });
     }
+    // Reapply styles after displayRange changes to ensure crosshair works
+    requestAnimationFrame(() => {
+      applyStyles($mode === "light", isNegative);
+      // Force redraw to ensure crosshair renders correctly
+      chart?.resize();
+    });
   }
 </script>
 
@@ -1370,3 +1380,4 @@
     </div>
   {/if}
 </div>
+
