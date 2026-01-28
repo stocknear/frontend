@@ -483,7 +483,7 @@
     isLoadingChart = true;
 
     try {
-      oneDayPrice = [...data?.getOneDayPrice] ?? [];
+      oneDayPrice = data?.getOneDayPrice ? [...data.getOneDayPrice] : [];
 
       output = [...oneDayPrice];
 
