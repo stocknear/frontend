@@ -436,6 +436,13 @@
             noChangeColor: "rgba(148, 163, 184, 0.35)",
           },
         ],
+        lines: [
+          { show: false },
+          { show: false },
+          { show: false },
+          { show: false },
+          { show: false },
+        ],
         tooltip: {
           showRule: "none",
         },
@@ -705,8 +712,8 @@
       volumePrecision: 0,
     });
 
-    // Create volume pane
-    chart.createIndicator("VOL", false, { id: "volume_pane", height: 60 });
+    // Create volume pane with no MA lines (calcParams: [] disables MA calculations)
+    chart.createIndicator({ name: "VOL", calcParams: [] }, false, { id: "volume_pane", height: 60 });
 
     // Set pane options
     chart.setPaneOptions({
