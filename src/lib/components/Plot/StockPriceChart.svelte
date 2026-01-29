@@ -143,7 +143,21 @@
       return value > 1e12 ? Math.floor(value) : value > 1e9 ? Math.floor(value * 1000) : null;
     }
     if (typeof value === "string") {
-      const asUtc = new Date(value.trim().replace(" ", "T") + "Z");
+      const raw = value.trim();
+      if (!raw) return null;
+
+      // Handle date-only strings (YYYY-MM-DD) explicitly for Safari compatibility.
+      const dateOnlyMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})Z?$/);
+      if (dateOnlyMatch) {
+        const year = Number(dateOnlyMatch[1]);
+        const month = Number(dateOnlyMatch[2]) - 1;
+        const day = Number(dateOnlyMatch[3]);
+        const asUtc = new Date(Date.UTC(year, month, day, 0, 0, 0));
+        return asUtc.getTime() - getNyOffset(asUtc);
+      }
+
+      const normalized = raw.includes("T") ? raw : raw.replace(" ", "T");
+      const asUtc = new Date(`${normalized}Z`);
       if (isNaN(asUtc.getTime())) return null;
       return asUtc.getTime() - getNyOffset(asUtc);
     }
