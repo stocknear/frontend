@@ -19,7 +19,6 @@
   const SESSION_RANGE_MIN = SESSION_END_MIN - SESSION_START_MIN;
   const KLINE_MIN_BAR_SPACE = 1;
   const DRAG_THRESHOLD_PX = 6;
-  const PREV_CLOSE_OVERLAY_NAME = "prevCloseLine";
   const ONE_DAY_X_AXIS_NAME = "oneDayXAxis";
 
   // Cache formatters to avoid repeated instantiation
@@ -48,36 +47,7 @@
   // ============================================================================
   // STATIC REGISTRATIONS (done once globally)
   // ============================================================================
-  let prevCloseOverlayRegistered = false;
   let oneDayXAxisRegistered = false;
-
-  const ensurePrevCloseOverlay = () => {
-    if (prevCloseOverlayRegistered) return;
-    registerOverlay({
-      name: PREV_CLOSE_OVERLAY_NAME,
-      totalStep: 0,
-      needDefaultPointFigure: false,
-      needDefaultXAxisFigure: false,
-      needDefaultYAxisFigure: false,
-      createPointFigures: ({ overlay, bounding, yAxis }) => {
-        const price = overlay.extendData?.price;
-        if (price == null) return [];
-        const y = yAxis?.convertToPixel(price);
-        if (y == null) return [];
-        return [{
-          type: "line",
-          attrs: { coordinates: [{ x: 0, y }, { x: bounding.width, y }] },
-          styles: {
-            style: "dashed",
-            dashedValue: [4, 4],
-            size: 0.8,
-            color: overlay.extendData?.color ?? "#64748b",
-          },
-        }];
-      },
-    });
-    prevCloseOverlayRegistered = true;
-  };
 
   // ============================================================================
   // PROPS
@@ -98,7 +68,6 @@
   let resizeRaf: number | null = null;
   let styleRaf: number | null = null;
   let lastContainerWidth = 0;
-  let prevCloseOverlayId: string | null = null;
   let currentBars: KLineData[] = [];
   let currentBarCount = 0;
   let sessionStart: number | null = null;
@@ -433,26 +402,6 @@
     chart.setOffsetRightDistance(rightOffset);
   };
 
-  const updatePrevCloseLine = () => {
-    if (!chart) return;
-
-    if (prevCloseOverlayId) {
-      chart.removeOverlay(prevCloseOverlayId);
-      prevCloseOverlayId = null;
-    }
-
-    const effectiveClose = displayRange === "1D" ? previousClose : (chart.getDataList()?.[0]?.close ?? null);
-    if (effectiveClose == null) return;
-
-    const overlayId = chart.createOverlay({
-      name: PREV_CLOSE_OVERLAY_NAME,
-      lock: true,
-      visible: true,
-      extendData: { price: effectiveClose, color: $mode === "light" ? "#64748b" : "#e2e8f0" },
-    });
-    if (overlayId) prevCloseOverlayId = overlayId;
-  };
-
   const updateChartData = (rawData: any[]) => {
     if (!chart || !chartContainer) return;
 
@@ -715,7 +664,6 @@
       if (lastAppliedMode !== (isLight ? "light" : "dark") || lastAppliedNegative !== isNegative) {
         applyStyles(isLight, isNegative);
       }
-      updatePrevCloseLine();
     });
   };
 
@@ -732,7 +680,6 @@
       pendingStyleTimeout = null;
       if (chart) {
         applyStyles($mode === "light", isNegative);
-        updatePrevCloseLine();
       }
     }, 50);
   };
@@ -765,10 +712,6 @@
     scheduleDataUpdate();
   }
 
-  // React to previousClose changes
-  $: if (chart && previousClose !== undefined) {
-    requestAnimationFrame(updatePrevCloseLine);
-  }
 </script>
 
 <div class="relative w-full h-[320px]">
