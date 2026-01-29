@@ -4,7 +4,6 @@
   import {
     init,
     dispose,
-    registerOverlay,
     registerXAxis,
     type KLineData,
   } from "klinecharts";
@@ -561,7 +560,6 @@
   onMount(() => {
     if (!chartContainer) return;
 
-    ensurePrevCloseOverlay();
     ensureOneDayXAxis();
 
     chart = init(chartContainer);
@@ -578,9 +576,11 @@
       chart.createIndicator({ name: "VOL", calcParams: [] }, false, {
         id: "volume_pane",
         height: 80,
+        dragEnabled: false,
         gap: { top: 0.02, bottom: 0 },
         axis: {
           show: false,
+          scrollZoomEnabled: false,
           createRange: ({ chart: c, defaultRange }) => {
             const visibleRange = c.getVisibleRange();
             const dataList = c.getDataList();
