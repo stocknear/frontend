@@ -371,8 +371,8 @@
   // Table sorting
   $: columns = [
     { key: "expiration", label: "Expiration", align: "left" },
-    { key: "expectedMoveAmount", label: "Expected Move ($)", align: "right" },
-    { key: "expectedMovePercent", label: "Expected Move (%)", align: "right" },
+    { key: "expectedMoveAmount", label: "Expected Move", align: "right" },
+    { key: "expectedMovePercent", label: "% Change Move", align: "right" },
     { key: "lowerPrice", label: "Lower Price", align: "right" },
     { key: "upperPrice", label: "Upper Price", align: "right" },
     { key: "impliedVolatility", label: "Implied Volatility", align: "right" },
@@ -612,7 +612,7 @@
               </td>
               <td class="text-sm text-end whitespace-nowrap">
                 {#if item.expectedMoveAmount}
-                  ±${item.expectedMoveAmount?.toFixed(2)}
+                  ±{item.expectedMoveAmount?.toFixed(2)}
                 {:else}
                   <span class="text-gray-400">-</span>
                 {/if}
@@ -626,14 +626,32 @@
               </td>
               <td class="text-sm text-end whitespace-nowrap">
                 {#if item.lowerPrice}
-                  ${item.lowerPrice?.toFixed(2)}
+                  {item.lowerPrice?.toFixed(2)}
+                  {@const lowerPct =
+                    ((item.lowerPrice - stockPrice) / stockPrice) * 100}
+                  <span
+                    class="ml-1 {lowerPct >= 0
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : 'text-rose-600 dark:text-rose-400'}"
+                  >
+                    ({lowerPct >= 0 ? "+" : ""}{lowerPct?.toFixed(2)}%)
+                  </span>
                 {:else}
                   <span class="text-gray-400">-</span>
                 {/if}
               </td>
               <td class="text-sm text-end whitespace-nowrap">
                 {#if item.upperPrice}
-                  ${item.upperPrice?.toFixed(2)}
+                  {item.upperPrice?.toFixed(2)}
+                  {@const upperPct =
+                    ((item.upperPrice - stockPrice) / stockPrice) * 100}
+                  <span
+                    class="ml-1 {upperPct >= 0
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : 'text-rose-600 dark:text-rose-400'}"
+                  >
+                    ({upperPct >= 0 ? "+" : ""}{upperPct?.toFixed(2)}%)
+                  </span>
                 {:else}
                   <span class="text-gray-400">-</span>
                 {/if}
