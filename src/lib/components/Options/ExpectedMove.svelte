@@ -145,16 +145,21 @@
     // Build upper and lower price projection lines
     const upperData: [number, number][] = [[today, stockPrice]];
     const lowerData: [number, number][] = [[today, stockPrice]];
+    const areaRangeData: [number, number, number][] = [
+      [today, stockPrice, stockPrice],
+    ];
 
     for (const exp of rawData) {
       if (!exp.upperPrice || !exp.lowerPrice) continue;
       const expDate = new Date(exp.expiration).getTime();
       upperData.push([expDate, exp.upperPrice]);
       lowerData.push([expDate, exp.lowerPrice]);
+      areaRangeData.push([expDate, exp.lowerPrice, exp.upperPrice]);
     }
 
     upperData.sort((a, b) => a[0] - b[0]);
     lowerData.sort((a, b) => a[0] - b[0]);
+    areaRangeData.sort((a, b) => a[0] - b[0]);
 
     const allPrices = [
       ...priceData.map((p) => p[1]),
@@ -234,64 +239,78 @@
         opposite: true,
         min: minPrice,
         max: maxPrice,
-        plotLines: [
-          {
-            value: stockPrice,
-            color: "#3b82f6",
-            dashStyle: "Dash",
-            width: 2,
-            zIndex: 5,
-            label: {
-              text: `Current: $${stockPrice?.toFixed(2)}`,
-              align: "left",
-              style: { color: "#3b82f6", fontSize: "11px" },
-            },
-          },
-        ],
       },
       tooltip: {
-        shared: false,
+        shared: true,
         useHTML: true,
+        animation: false,
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
-        style: { color: "#fff", fontSize: "14px", padding: "10px" },
         borderRadius: 4,
+        style: { color: "#fff", fontSize: "16px", padding: "10px" },
         formatter: function (this: any): string {
-          const point = this.point;
-          const series = this.series;
-          const dateStr = new Date(point.x).toLocaleDateString("en-US", {
+          const points = this.points;
+          if (!points || points.length === 0) return "";
+
+          const dateStr = new Date(points[0].x).toLocaleDateString("en-US", {
             month: "short",
             day: "2-digit",
             year: "numeric",
           });
 
-          if (series.name === `${ticker} Price`) {
-            return `<b>${dateStr}</b><br/>Price: <b>$${point.y?.toFixed(2)}</b>`;
-          }
-
           const expData = rawData.find(
-            (e) => new Date(e.expiration).getTime() === point.x
+            (e) => new Date(e.expiration).getTime() === points[0].x,
           );
 
+          // Header with date and days
+          let content = `<span class="text-white text-xs font-[501]">${dateStr}</span>`;
           if (expData) {
-            return `
-              <div>
-                <b>${dateStr} (${expData.daysToExpiry}d)</b><br/>
-                Expected Move: <b>±$${expData.expectedMoveAmount?.toFixed(2)} (${expData.expectedMovePercent?.toFixed(2)}%)</b><br/>
-                IV: <b>${expData.impliedVolatility?.toFixed(2)}%</b><br/>
-                <span style="color: #22c55e;">Upper: $${expData.upperPrice?.toFixed(2)}</span><br/>
-                <span style="color: #ef4444;">Lower: $${expData.lowerPrice?.toFixed(2)}</span>
-              </div>
-            `;
+            content += ` <span class="text-zinc-400 font-normal text-xs">(${expData.daysToExpiry}d)</span>`;
           }
-          return `<b>${dateStr}</b><br/>$${point.y?.toFixed(2)}`;
+          content += `<br/>`;
+
+          if (expData) {
+            // Expected Move
+            content += `<span class="text-white  text-xs">Expected Move:</span> `;
+            content += `<span class="text-white font-normal text-xs">±$${expData.expectedMoveAmount?.toFixed(2)} (${expData.expectedMovePercent?.toFixed(2)}%)</span><br/>`;
+            // Implied Volatility
+            content += `<span class="text-white  text-xs">Implied Volatility:</span> `;
+            content += `<span class="text-white font-normal text-xs">${expData.impliedVolatility?.toFixed(2)}%</span><br/>`;
+            // Upper Price (green)
+            content += `<span class="text-green-500  text-xs">Upper Price:</span> `;
+            content += `<span class="text-green-500 font-normal text-xs">$${expData.upperPrice?.toFixed(2)}</span><br/>`;
+            // Lower Price (red)
+            content += `<span class="text-red-500  text-xs">Lower Price:</span> `;
+            content += `<span class="text-red-500 font-normal text-xs">$${expData.lowerPrice?.toFixed(2)}</span>`;
+          } else {
+            // For historical data points (no expiration data)
+            points.forEach((point: any) => {
+              if (point.series.name === "Expected Range") return;
+              if (
+                point.series.name.includes("Price") &&
+                !point.series.name.includes("Upper") &&
+                !point.series.name.includes("Lower")
+              ) {
+                content += `<span class="text-white font-semibold text-sm">${point.series.name}:</span> `;
+                content += `<span class="text-white font-normal text-sm">$${point.y?.toFixed(2)}</span><br/>`;
+              }
+            });
+          }
+
+          return content;
         },
       },
       plotOptions: {
-        animation: false,
+        series: {
+          animation: false,
+        },
         line: {
+          animation: false,
           marker: { enabled: false },
+        },
+        arearange: {
+          animation: false,
         },
       },
       series: [
@@ -301,15 +320,26 @@
           type: "line",
           color: "#3b82f6",
           lineWidth: 2,
+          zIndex: 3,
+        },
+        {
+          name: "Expected Range",
+          data: areaRangeData,
+          type: "arearange",
+          color: "rgba(139, 92, 246, 0.15)",
+          fillOpacity: 0.3,
+          lineWidth: 0,
+          marker: { enabled: false },
           zIndex: 1,
+          showInLegend: false,
         },
         {
           name: "Upper Price",
           data: upperData,
           type: "line",
           color: "#22c55e",
-          lineWidth: 2,
-          dashStyle: "Dot",
+          lineWidth: 1.5,
+          dashStyle: "ShortDot",
           marker: { enabled: true, radius: 2.5, symbol: "circle" },
           zIndex: 2,
         },
@@ -318,8 +348,8 @@
           data: lowerData,
           type: "line",
           color: "#ef4444",
-          lineWidth: 2,
-          dashStyle: "Dot",
+          lineWidth: 1.5,
+          dashStyle: "ShortDot",
           marker: { enabled: true, radius: 2.5, symbol: "circle" },
           zIndex: 2,
         },
@@ -355,7 +385,8 @@
 
     const orderCycle = ["none", "asc", "desc"];
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
-    sortOrders[key].order = orderCycle[(currentOrderIndex + 1) % orderCycle.length];
+    sortOrders[key].order =
+      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
 
     if (sortOrders[key].order === "none") {
       sortedData = [...rawData];
@@ -411,13 +442,25 @@
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
     {#if selectedExpiration}
-      The expected move for <span class="font-semibold">{ticker}</span> options expiring on
-      <span class="font-semibold text-blue-600 dark:text-blue-400">{formatDate(selectedExpiration.expiration)}</span>
-      ({selectedExpiration.daysToExpiry} {selectedExpiration.daysToExpiry === 1 ? "day" : "days"})
-      is <span class="font-semibold text-violet-600 dark:text-violet-400">±${selectedExpiration.expectedMoveAmount?.toFixed(2)} ({selectedExpiration.expectedMovePercent?.toFixed(2)}%)</span>,
-      with a price range of
-      <span class="font-semibold text-red-500">${selectedExpiration.lowerPrice?.toFixed(2)}</span> -
-      <span class="font-semibold text-green-500">${selectedExpiration.upperPrice?.toFixed(2)}</span>.
+      The expected move for <span class="font-semibold">{ticker}</span> options
+      expiring on
+      <span class="font-semibold"
+        >{formatDate(selectedExpiration.expiration)}</span
+      >
+      ({selectedExpiration.daysToExpiry}
+      {selectedExpiration.daysToExpiry === 1 ? "day" : "days"}) is
+      <span class="font-semibold"
+        >±${selectedExpiration.expectedMoveAmount?.toFixed(2)} ({selectedExpiration.expectedMovePercent?.toFixed(
+          2,
+        )}%)</span
+      >, with a price range of
+      <span class="font-semibold"
+        >${selectedExpiration.lowerPrice?.toFixed(2)}</span
+      >
+      -
+      <span class="font-semibold"
+        >${selectedExpiration.upperPrice?.toFixed(2)}</span
+      >.
     {:else}
       Select an expiration date to view the expected move.
     {/if}
@@ -431,7 +474,9 @@
           class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
         >
           <span class="truncate text-sm">
-            Expiration | {selectedExpiration ? `${selectedExpiration.expiration} (${selectedExpiration.daysToExpiry}d)` : "Select"}
+            Expiration | {selectedExpiration
+              ? `${selectedExpiration.expiration} (${selectedExpiration.daysToExpiry}d)`
+              : "Select"}
           </span>
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -461,11 +506,13 @@
                 on:click={() => selectExpiration(item)}
                 class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {formatDate(item.expiration)} ({item.daysToExpiry}d) ({getExpiryTypeLabel(item.expiryType)})
+                {formatDate(item.expiration)} ({item.daysToExpiry}d) ({getExpiryTypeLabel(
+                  item.expiryType,
+                )})
               </DropdownMenu.Item>
             {:else}
               <DropdownMenu.Item
-                on:click={() => window.location.href = "/pricing"}
+                on:click={() => (window.location.href = "/pricing")}
                 class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {formatDate(item.expiration)} ({item.daysToExpiry}d)
@@ -514,7 +561,7 @@
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
       >
         <div class="ml-auto">
-          <DownloadData {data} rawData={rawData} title={`${ticker}_expected_move`} />
+          <DownloadData {data} {rawData} title={`${ticker}_expected_move`} />
         </div>
       </div>
     </div>
@@ -539,7 +586,10 @@
               <td class="text-sm text-start whitespace-nowrap">
                 {formatDate(item.expiration)}
                 <span class="text-xs text-gray-500">
-                  ({item.daysToExpiry} {item.daysToExpiry === 1 ? "day" : "days"}) ({getExpiryTypeLabel(item.expiryType)})
+                  ({item.daysToExpiry}
+                  {item.daysToExpiry === 1 ? "day" : "days"}) ({getExpiryTypeLabel(
+                    item.expiryType,
+                  )})
                 </span>
               </td>
               <td class="text-sm text-end whitespace-nowrap">
@@ -619,7 +669,9 @@
               builders={[builder]}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
             >
-              <span class="truncate text-[0.85rem] sm:text-sm">{rowsPerPage} Rows</span>
+              <span class="truncate text-[0.85rem] sm:text-sm"
+                >{rowsPerPage} Rows</span
+              >
               <svg
                 class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
                 viewBox="0 0 20 20"
