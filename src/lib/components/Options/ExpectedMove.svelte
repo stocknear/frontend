@@ -3,6 +3,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
@@ -11,6 +12,8 @@
 
   export let data;
   export let ticker: string = "";
+
+  let isSubscribed = ["Pro", "Plus"].includes(data?.user?.tier);
 
   let config = null;
 
@@ -56,6 +59,14 @@
   // Pagination functions
   function updatePaginatedData() {
     const dataSource = sortedData?.length > 0 ? sortedData : rawData;
+
+    // For non-subscribed users, only show first 6 items
+    if (!isSubscribed) {
+      displayList = dataSource?.slice(0, 6) || [];
+      totalPages = 1;
+      return;
+    }
+
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
     displayList = dataSource?.slice(startIndex, endIndex) || [];
@@ -596,9 +607,9 @@
           <TableHeader {columns} {sortOrders} {sortData} />
         </thead>
         <tbody>
-          {#each displayList as item}
+          {#each displayList as item, index}
             <tr
-              class="transition-colors cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800/50"
+              class="transition-colors cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800/50 {index === displayList.length - 1 && !isSubscribed ? 'opacity-[0.15]' : ''}"
               on:click={() => selectExpiration(item)}
             >
               <td class="text-sm text-start whitespace-nowrap">
@@ -670,7 +681,7 @@
     </div>
   </div>
 
-  {#if displayList?.length > 0 && totalPages > 0}
+  {#if displayList?.length > 0 && totalPages > 0 && isSubscribed}
     <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
       <div class="flex items-center gap-2">
         <Button
@@ -787,4 +798,6 @@
       </button>
     </div>
   {/if}
+
+  <UpgradeToPro {data} display={true} />
 </div>
