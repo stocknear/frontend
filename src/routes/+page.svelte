@@ -177,28 +177,22 @@
     <div
       class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
     >
-      <!--
-      {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-        <div class="flex justify-center mb-5 whitespace-nowrap">
-          <div class=" flex justify-center lg:mb-3">
-            <a href="/pricing"
-              ><div
-                class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
-              >
-                <div class="text-lg sm:text-xl font-semibold">
-                  Lifetime Access Available
-                </div>
-                <div
-                  class="-mt-2 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
-                >
-                  New
-                </div>
-              </div></a
+      <div class="flex justify-center mb-5 whitespace-nowrap">
+        <div class=" flex justify-center lg:mb-3">
+          <a href="/stocks/TSLA/options/expected-move"
+            ><div
+              class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
             >
-          </div>
+              <div class="text-lg sm:text-xl font-semibold">Expected Move</div>
+              <div
+                class="-mt-2 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
+              >
+                New
+              </div>
+            </div></a
+          >
         </div>
-      {/if}
-      -->
+      </div>
 
       <div class="mx-auto max-w-3xl text-center">
         <h1

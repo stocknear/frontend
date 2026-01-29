@@ -9,6 +9,32 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
+  import {
+    stock_detail_options_expected_move_title,
+    stock_detail_options_expected_move_description,
+    stock_detail_options_expected_move_description_select,
+    stock_detail_options_expected_move_date_expiration,
+    stock_detail_options_expected_move_table_title,
+    stock_detail_options_expected_move_col_expiration,
+    stock_detail_options_expected_move_col_expected_move,
+    stock_detail_options_expected_move_col_percent_change,
+    stock_detail_options_expected_move_col_lower_price,
+    stock_detail_options_expected_move_col_upper_price,
+    stock_detail_options_expected_move_col_implied_volatility,
+    stock_detail_options_expected_move_price,
+    stock_detail_options_expected_move_upper,
+    stock_detail_options_expected_move_lower,
+    stock_detail_options_expected_move_range,
+    stock_detail_options_expected_move_tooltip_expected,
+    stock_detail_options_expected_move_tooltip_iv,
+    stock_detail_options_common_day,
+    stock_detail_options_common_days,
+    stock_detail_options_common_previous,
+    stock_detail_options_common_next,
+    stock_detail_options_common_page_of,
+    stock_detail_options_common_rows,
+    stock_detail_options_common_back_to_top,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let ticker: string = "";
@@ -135,7 +161,10 @@
 
   function formatDteLabel(daysToExpiry: number): string {
     if (daysToExpiry == null) return "";
-    const dayLabel = daysToExpiry === 1 ? "day" : "days";
+    const dayLabel =
+      daysToExpiry === 1
+        ? stock_detail_options_common_day()
+        : stock_detail_options_common_days();
     return `(${daysToExpiry} ${dayLabel})`;
   }
 
@@ -187,6 +216,11 @@
     const minPrice = Math.min(...allPrices) * 0.95;
     const maxPrice = Math.max(...allPrices) * 1.05;
 
+    const dayLabel =
+      selectedExpiration.daysToExpiry === 1
+        ? stock_detail_options_common_day()
+        : stock_detail_options_common_days();
+
     const options = {
       credits: { enabled: false },
       chart: {
@@ -207,7 +241,7 @@
         },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} Expected Move Chart</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} ${stock_detail_options_expected_move_title()}</h3>`,
         useHTML: true,
         style: { color: textColor },
       },
@@ -239,7 +273,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `${formatDate(selectedExpiration.expiration)} (${selectedExpiration.daysToExpiry} ${selectedExpiration.daysToExpiry === 1 ? "day" : "days"}) (${getExpiryTypeLabel(selectedExpiration.expiryType)})`,
+              text: `${formatDate(selectedExpiration.expiration)} (${selectedExpiration.daysToExpiry} ${dayLabel}) (${getExpiryTypeLabel(selectedExpiration.expiryType)})`,
               style: {
                 color: isDarkMode ? "#fff" : "#000",
               },
@@ -292,21 +326,21 @@
 
           if (expData) {
             // Expected Move
-            content += `<span class="text-white  text-xs">Expected Move:</span> `;
+            content += `<span class="text-white text-xs">${stock_detail_options_expected_move_tooltip_expected()}:</span> `;
             content += `<span class="text-white font-normal text-xs">±$${expData.expectedMoveAmount?.toFixed(2)} (${expData.expectedMovePercent?.toFixed(2)}%)</span><br/>`;
             // Implied Volatility
-            content += `<span class="text-white  text-xs">Implied Volatility:</span> `;
+            content += `<span class="text-white text-xs">${stock_detail_options_expected_move_tooltip_iv()}:</span> `;
             content += `<span class="text-white font-normal text-xs">${expData.impliedVolatility?.toFixed(2)}%</span><br/>`;
             // Upper Price (green)
-            content += `<span class="text-green-500  text-xs">Upper Price:</span> `;
+            content += `<span class="text-green-500 text-xs">${stock_detail_options_expected_move_upper()}:</span> `;
             content += `<span class="text-green-500 font-normal text-xs">$${expData.upperPrice?.toFixed(2)}</span><br/>`;
             // Lower Price (red)
-            content += `<span class="text-red-500  text-xs">Lower Price:</span> `;
+            content += `<span class="text-red-500 text-xs">${stock_detail_options_expected_move_lower()}:</span> `;
             content += `<span class="text-red-500 font-normal text-xs">$${expData.lowerPrice?.toFixed(2)}</span>`;
           } else {
             // For historical data points (no expiration data)
             points.forEach((point: any) => {
-              if (point.series.name === "Expected Range") return;
+              if (point.series.name === stock_detail_options_expected_move_range()) return;
               if (
                 point.series.name.includes("Price") &&
                 !point.series.name.includes("Upper") &&
@@ -335,7 +369,7 @@
       },
       series: [
         {
-          name: `${ticker} Price`,
+          name: stock_detail_options_expected_move_price({ ticker }),
           data: priceData,
           type: "line",
           color: "#3b82f6",
@@ -343,7 +377,7 @@
           zIndex: 3,
         },
         {
-          name: "Expected Range",
+          name: stock_detail_options_expected_move_range(),
           data: areaRangeData,
           type: "arearange",
           color: "rgba(139, 92, 246, 0.15)",
@@ -354,7 +388,7 @@
           showInLegend: false,
         },
         {
-          name: "Upper Price",
+          name: stock_detail_options_expected_move_upper(),
           data: upperData,
           type: "line",
           color: "#22c55e",
@@ -364,7 +398,7 @@
           zIndex: 2,
         },
         {
-          name: "Lower Price",
+          name: stock_detail_options_expected_move_lower(),
           data: lowerData,
           type: "line",
           color: "#ef4444",
@@ -381,12 +415,12 @@
 
   // Table sorting
   $: columns = [
-    { key: "expiration", label: "Expiration", align: "left" },
-    { key: "expectedMoveAmount", label: "Expected Move", align: "right" },
-    { key: "expectedMovePercent", label: "% Change Move", align: "right" },
-    { key: "lowerPrice", label: "Lower Price", align: "right" },
-    { key: "upperPrice", label: "Upper Price", align: "right" },
-    { key: "impliedVolatility", label: "Implied Volatility", align: "right" },
+    { key: "expiration", label: stock_detail_options_expected_move_col_expiration(), align: "left" },
+    { key: "expectedMoveAmount", label: stock_detail_options_expected_move_col_expected_move(), align: "right" },
+    { key: "expectedMovePercent", label: stock_detail_options_expected_move_col_percent_change(), align: "right" },
+    { key: "lowerPrice", label: stock_detail_options_expected_move_col_lower_price(), align: "right" },
+    { key: "upperPrice", label: stock_detail_options_expected_move_col_upper_price(), align: "right" },
+    { key: "impliedVolatility", label: stock_detail_options_expected_move_col_implied_volatility(), align: "right" },
   ];
 
   $: sortOrders = {
@@ -457,32 +491,25 @@
   <h2
     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
   >
-    Expected Move
+    {stock_detail_options_expected_move_title()}
   </h2>
 
   <p class="mt-3 mb-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
     {#if selectedExpiration}
-      The expected move for <span class="font-semibold">{ticker}</span> options
-      expiring on
-      <span class="font-semibold"
-        >{formatDate(selectedExpiration.expiration)}</span
-      >
-      ({selectedExpiration.daysToExpiry}
-      {selectedExpiration.daysToExpiry === 1 ? "day" : "days"}) is
-      <span class="font-semibold"
-        >±${selectedExpiration.expectedMoveAmount?.toFixed(2)} ({selectedExpiration.expectedMovePercent?.toFixed(
-          2,
-        )}%)</span
-      >, with a price range of
-      <span class="font-semibold"
-        >${selectedExpiration.lowerPrice?.toFixed(2)}</span
-      >
-      -
-      <span class="font-semibold"
-        >${selectedExpiration.upperPrice?.toFixed(2)}</span
-      >.
+      {@const dayLabel =
+        selectedExpiration.daysToExpiry === 1
+          ? stock_detail_options_common_day()
+          : stock_detail_options_common_days()}
+      {stock_detail_options_expected_move_description({
+        ticker,
+        date: formatDate(selectedExpiration.expiration),
+        days: `${selectedExpiration.daysToExpiry} ${dayLabel}`,
+        move: `±$${selectedExpiration.expectedMoveAmount?.toFixed(2)} (${selectedExpiration.expectedMovePercent?.toFixed(2)}%)`,
+        lower: `$${selectedExpiration.lowerPrice?.toFixed(2)}`,
+        upper: `$${selectedExpiration.upperPrice?.toFixed(2)}`,
+      })}
     {:else}
-      Select an expiration date to view the expected move.
+      {stock_detail_options_expected_move_description_select()}
     {/if}
   </p>
 
@@ -494,7 +521,7 @@
           class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="text-sm">
-            Expiration | {selectedExpiration
+            {stock_detail_options_expected_move_date_expiration()} | {selectedExpiration
               ? formatDate(selectedExpiration.expiration)
               : "Select"}
           </span>
@@ -584,7 +611,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
-        Expected Move by Expiry
+        {stock_detail_options_expected_move_table_title()}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -608,6 +635,10 @@
         </thead>
         <tbody>
           {#each displayList as item, index}
+            {@const itemDayLabel =
+              item.daysToExpiry === 1
+                ? stock_detail_options_common_day()
+                : stock_detail_options_common_days()}
             <tr
               class="transition-colors cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800/50 {index === displayList.length - 1 && !isSubscribed ? 'opacity-[0.15]' : ''}"
               on:click={() => selectExpiration(item)}
@@ -616,9 +647,7 @@
                 {formatDate(item.expiration)}
                 <span class="text-xs text-gray-500">
                   ({item.daysToExpiry}
-                  {item.daysToExpiry === 1 ? "day" : "days"}) ({getExpiryTypeLabel(
-                    item.expiryType,
-                  )})
+                  {itemDayLabel}) ({getExpiryTypeLabel(item.expiryType)})
                 </span>
               </td>
               <td class="text-sm text-end whitespace-nowrap">
@@ -701,13 +730,13 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          <span class="hidden sm:inline">Previous</span>
+          <span class="hidden sm:inline">{stock_detail_options_common_previous()}</span>
         </Button>
       </div>
 
       <div class="flex flex-row items-center gap-4">
         <span class="text-sm text-gray-600 dark:text-zinc-300">
-          Page {currentPage} of {totalPages}
+          {stock_detail_options_common_page_of({ current: currentPage, total: totalPages })}
         </span>
 
         <DropdownMenu.Root>
@@ -717,7 +746,7 @@
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
-                >{rowsPerPage} Rows</span
+                >{stock_detail_options_common_rows({ count: rowsPerPage })}</span
               >
               <svg
                 class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -746,7 +775,7 @@
                   on:click={() => changeRowsPerPage(item)}
                   class="hover:text-violet-600 dark:hover:text-violet-400 transition cursor-pointer"
                 >
-                  <span class="text-sm">{item} Rows</span>
+                  <span class="text-sm">{stock_detail_options_common_rows({ count: item })}</span>
                 </DropdownMenu.Item>
               {/each}
             </DropdownMenu.Group>
@@ -760,7 +789,7 @@
           disabled={currentPage === totalPages}
           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          <span class="hidden sm:inline">Next</span>
+          <span class="hidden sm:inline">{stock_detail_options_common_next()}</span>
           <svg
             class="h-5 w-5 inline-block shrink-0 -rotate-90"
             viewBox="0 0 20 20"
@@ -782,7 +811,7 @@
         on:click={scrollToTop}
         class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
       >
-        Back to Top
+        {stock_detail_options_common_back_to_top()}
         <svg
           class="h-5 w-5 inline-block shrink-0 rotate-180"
           viewBox="0 0 20 20"

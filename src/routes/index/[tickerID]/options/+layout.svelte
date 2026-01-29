@@ -4,6 +4,7 @@
   import {
     stock_detail_options_nav_contract_lookup,
     stock_detail_options_nav_dex,
+    stock_detail_options_nav_expected_move,
     stock_detail_options_nav_gex,
     stock_detail_options_nav_greeks,
     stock_detail_options_nav_hottest_contracts,
@@ -26,6 +27,7 @@
       "contract-lookup": "/options/contract-lookup",
       //volatility: "/options/volatility",
       greeks: "/options/greeks",
+      "expected-move": "/options/expected-move",
       gex: "/options/gex/strike",
       dex: "/options/dex/strike",
       oi: "/options/oi",
@@ -51,6 +53,7 @@
         "contract-lookup": "contract-lookup",
         //volatility: "volatility",
         greeks: "greeks",
+        "expected-move": "expected-move",
         gex: "gex",
         dex: "dex",
         oi: "oi",
@@ -142,6 +145,16 @@
                   : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_greeks()}
+              </a>
+              <a
+                href={`/index/${$indexTicker}/options/expected-move`}
+                on:click={() => changeSubSection("expected-move")}
+                class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
+                'expected-move'
+                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                  : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+              >
+                {stock_detail_options_nav_expected_move()}
               </a>
               <!--
               <a
