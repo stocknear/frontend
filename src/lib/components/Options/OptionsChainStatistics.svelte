@@ -112,6 +112,9 @@
       credits: {
         enabled: false,
       },
+      tooltip: {
+        enabled: false,
+      },
       chart: {
         type: "gauge",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
@@ -272,6 +275,7 @@
 
     const optionsOI = {
       credits: { enabled: false },
+      tooltip: { enabled: false },
 
       chart: {
         type: "gauge",
@@ -364,6 +368,9 @@
       credits: {
         enabled: false,
       },
+      tooltip: {
+        enabled: false,
+      },
       chart: {
         type: "gauge",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
@@ -376,9 +383,8 @@
         text: `<h3 class="">${stock_detail_options_put_call_ratio()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
-          // Using inline CSS for margin-top and margin-bottom
         },
-        useHTML: true, // Enable HTML to apply custom class styling
+        useHTML: true,
       },
 
       pane: {
@@ -386,18 +392,16 @@
         endAngle: 90,
         background: [
           {
-            // Outer circle (black line)
             outerRadius: "101%",
             innerRadius: "100%",
             backgroundColor: "#000",
             borderWidth: 0,
             shape: "arc",
           },
-          null, // keep existing null if needed
+          null,
         ],
       },
 
-      // the value axis
       yAxis: {
         min: 0,
         max: 2,
@@ -499,6 +503,7 @@
 
     const optionsVolume = {
       credits: { enabled: false },
+      tooltip: { enabled: false },
 
       chart: {
         type: "gauge",
@@ -591,21 +596,23 @@
       credits: {
         enabled: false,
       },
+      tooltip: {
+        enabled: false,
+      },
       chart: {
         type: "gauge",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
         height: 280,
-        animation: false, // Disable initial animation
+        animation: false,
       },
 
       title: {
         text: `<h3 class="">${stock_detail_options_put_call_ratio()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
-          // Using inline CSS for margin-top and margin-bottom
         },
-        useHTML: true, // Enable HTML to apply custom class styling
+        useHTML: true,
       },
 
       pane: {
@@ -613,18 +620,16 @@
         endAngle: 90,
         background: [
           {
-            // Outer circle (black line)
             outerRadius: "101%",
             innerRadius: "100%",
             backgroundColor: "#000",
             borderWidth: 0,
             shape: "arc",
           },
-          null, // keep existing null if needed
+          null,
         ],
       },
 
-      // the value axis
       yAxis: {
         min: 0,
         max: 2,
