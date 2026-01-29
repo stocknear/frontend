@@ -224,17 +224,14 @@
         plotLines: [
           {
             value: new Date(selectedExpiration.expiration).getTime(),
-            color: textColor,
+            color: isDarkMode ? "#fff" : "#000",
             dashStyle: "Dash",
             width: 1.5,
             label: {
               text: `${formatDate(selectedExpiration.expiration)} (${selectedExpiration.daysToExpiry} ${selectedExpiration.daysToExpiry === 1 ? "day" : "days"}) (${getExpiryTypeLabel(selectedExpiration.expiryType)})`,
-              rotation: 270,
-              align: "center",
-              verticalAlign: "middle",
-              style: { color: textColor, fontSize: "10px" },
-              y: 0,
-              x: 0,
+              style: {
+                color: isDarkMode ? "#fff" : "#000",
+              },
             },
             zIndex: 5,
           },
