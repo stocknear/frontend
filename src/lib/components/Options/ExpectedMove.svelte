@@ -573,7 +573,7 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
-        {ticker} Expected Move by Expiry
+        Expected Move by Expiry
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -624,14 +624,14 @@
                   <span class="text-gray-400">-</span>
                 {/if}
               </td>
-              <td class="text-sm text-end whitespace-nowrap text-red-500">
+              <td class="text-sm text-end whitespace-nowrap">
                 {#if item.lowerPrice}
                   ${item.lowerPrice?.toFixed(2)}
                 {:else}
                   <span class="text-gray-400">-</span>
                 {/if}
               </td>
-              <td class="text-sm text-end whitespace-nowrap text-green-500">
+              <td class="text-sm text-end whitespace-nowrap">
                 {#if item.upperPrice}
                   ${item.upperPrice?.toFixed(2)}
                 {:else}
