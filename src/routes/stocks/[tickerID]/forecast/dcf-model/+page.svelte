@@ -572,13 +572,33 @@
   }
 
   // Recompute charts when data or settings change
+  // Include all input variables in the reactive dependency tracking
   $: {
+    // Reference all input variables to make this block reactive to their changes
+    metricGrowthRate;
+    sharesGrowthRate;
+    dividendGrowthRate;
+    priceRatioAvg;
+    dilutedShares;
+    forwardDividend;
+    discountRate;
+    yearsToProject;
+    latestMetric;
+
     if (Object?.keys(valuationData || {})?.length > 0) {
       calculateDCF();
     }
   }
 
   $: {
+    // Reference all input variables to make this block reactive to their changes
+    metricGrowthRate;
+    sharesGrowthRate;
+    dividendGrowthRate;
+    priceRatioAvg;
+    dilutedShares;
+    forwardDividend;
+
     if (
       $mode &&
       typeof window !== "undefined" &&
