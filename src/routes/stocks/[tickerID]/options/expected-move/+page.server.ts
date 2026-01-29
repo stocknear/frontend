@@ -4,7 +4,6 @@ import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
 export const load = async ({ locals, params }) => {
   const { apiKey, apiURL, user } = locals;
-  const isPro = user?.tier === "Pro";
 
   const getData = async () => {
     const postData = {
@@ -22,23 +21,7 @@ export const load = async ({ locals, params }) => {
 
     let output = await response.json();
 
-    // For non-Pro users, limit data to first expiration only
-    if (!isPro && output?.expirations?.length > 0) {
-      output = {
-        ...output,
-        expirations: output.expirations.map((item: any, index: number) => {
-          if (index === 0) {
-            return item; // First expiration keeps all data
-          }
-          // Other expirations only keep minimal info for dropdown
-          return {
-            expiration: item?.expiration,
-            daysToExpiry: item?.daysToExpiry,
-            expiryType: item?.expiryType
-          };
-        }),
-      };
-    }
+  
 
     return output;
   };
