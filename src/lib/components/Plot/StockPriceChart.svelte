@@ -388,8 +388,8 @@
   const updateBarSpace = () => {
     if (!chart || !chartContainer || currentBarCount <= 0) return;
 
-    const width = chart.getSize("candle_pane", "main")?.width || chartContainer?.clientWidth || 0;
-    if (width <= 0) return;
+    // Use consistent fallback with updateChartData (300 for mobile)
+    const width = chart.getSize("candle_pane", "main")?.width || chartContainer?.clientWidth || 300;
 
     const targetCount = displayRange === "1D" && sessionBarCount > 0 ? sessionBarCount : currentBarCount;
     const barSpace = Math.max(KLINE_MIN_BAR_SPACE, width / targetCount);
@@ -448,15 +448,31 @@
 
     chart.setPeriod({ type: periodType, span: periodSpan });
 
+    // Capture bars in closure to avoid race conditions when updateChartData is called rapidly
+    const barsToLoad = bars;
+    const barCount = bars.length;
+
     // Use setDataLoader - klinecharts will call getBars with type "init"
     chart.setDataLoader({
       getBars: async ({ type, callback }) => {
         if (type === "init") {
-          callback(currentBars, { backward: false, forward: false });
-          // Single RAF for post-data updates
+          callback(barsToLoad, { backward: false, forward: false });
+          // Multiple passes to ensure bar space is set correctly on mobile
           requestAnimationFrame(() => {
-            updateBarSpace();
-            requestAnimationFrame(updateBarSpace); // Second pass ensures positioning
+            if (currentBarCount === barCount) {
+              updateBarSpace();
+              requestAnimationFrame(() => {
+                if (currentBarCount === barCount) {
+                  updateBarSpace();
+                  // Third pass with small delay for slower mobile devices
+                  setTimeout(() => {
+                    if (currentBarCount === barCount) {
+                      updateBarSpace();
+                    }
+                  }, 16);
+                }
+              });
+            }
           });
         } else {
           callback([], { backward: false, forward: false });
@@ -695,8 +711,13 @@
     });
   };
 
+  // Track the last displayRange we processed data for
+  let lastProcessedDisplayRange: string | null = null;
+
   // React to priceData changes
   $: if (chart && priceData) {
+    // Always update when priceData changes
+    lastProcessedDisplayRange = displayRange;
     scheduleDataUpdate();
   }
 
@@ -708,8 +729,17 @@
       id: "x_axis_pane",
       axis: { name: displayRange === "1D" ? ONE_DAY_X_AXIS_NAME : "default", scrollZoomEnabled: false },
     });
-    // Re-process data with new range (handles cached priceData with same reference)
-    scheduleDataUpdate();
+    // Only trigger data update if priceData hasn't changed yet (handles cached data with same reference)
+    // If priceData will change, let the priceData reactive handle the update to avoid race conditions
+    if (lastProcessedDisplayRange !== displayRange && priceData?.length > 0) {
+      // Small delay to allow priceData reactive to fire first if data is changing
+      setTimeout(() => {
+        if (lastProcessedDisplayRange !== displayRange && priceData?.length > 0) {
+          lastProcessedDisplayRange = displayRange;
+          scheduleDataUpdate();
+        }
+      }, 10);
+    }
   }
 
 </script>
