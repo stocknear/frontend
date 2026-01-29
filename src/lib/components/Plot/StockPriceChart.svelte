@@ -388,7 +388,7 @@
   const updateBarSpace = () => {
     if (!chart || !chartContainer || currentBarCount <= 0) return;
 
-    const width = chart.getSize("candle_pane", "main")?.width ?? chartContainer.clientWidth ?? 0;
+    const width = chart.getSize("candle_pane", "main")?.width || chartContainer?.clientWidth || 0;
     if (width <= 0) return;
 
     const targetCount = displayRange === "1D" && sessionBarCount > 0 ? sessionBarCount : currentBarCount;
@@ -417,7 +417,7 @@
     }
 
     const intervalMs = computeIntervalMs(bars);
-    const width = chart.getSize("candle_pane", "main")?.width ?? chartContainer.clientWidth ?? 800;
+    const width = chart.getSize("candle_pane", "main")?.width || chartContainer?.clientWidth || 300;
     const maxBars = Math.max(100, Math.floor(width));
 
     if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
