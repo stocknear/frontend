@@ -6,6 +6,7 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
   export let data;
@@ -39,7 +40,7 @@
       sortedData = [...rawData];
 
       if (rawData.length > 0 && !selectedExpiration) {
-        selectedExpiration = rawData[rawData.length - 1];
+        selectedExpiration = rawData[0];
       }
 
       loadRowsPerPage();
@@ -119,6 +120,12 @@
 
   function getExpiryTypeLabel(type: string): string {
     return type || "";
+  }
+
+  function formatDteLabel(daysToExpiry: number): string {
+    if (daysToExpiry == null) return "";
+    const dayLabel = daysToExpiry === 1 ? "day" : "days";
+    return `(${daysToExpiry} ${dayLabel})`;
   }
 
   function selectExpiration(exp: any) {
@@ -216,13 +223,18 @@
         },
         plotLines: [
           {
-            value: today,
+            value: new Date(selectedExpiration.expiration).getTime(),
             color: textColor,
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: "Today",
+              text: `${formatDate(selectedExpiration.expiration)} (${selectedExpiration.daysToExpiry} ${selectedExpiration.daysToExpiry === 1 ? "day" : "days"}) (${getExpiryTypeLabel(selectedExpiration.expiryType)})`,
+              rotation: 270,
+              align: "center",
+              verticalAlign: "middle",
               style: { color: textColor, fontSize: "10px" },
+              y: 0,
+              x: 0,
             },
             zIndex: 5,
           },
@@ -466,22 +478,23 @@
     {/if}
   </p>
 
-  <div class="mt-7 flex flex-wrap items-center justify-between gap-3">
+  <div class="mt-4 mb-4 flex flex-wrap items-center justify-between gap-3">
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button
           builders={[builder]}
-          class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+          class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          <span class="truncate text-sm">
+          <span class="text-sm">
             Expiration | {selectedExpiration
-              ? `${selectedExpiration.expiration} (${selectedExpiration.daysToExpiry}d)`
+              ? formatDate(selectedExpiration.expiration)
               : "Select"}
           </span>
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
             viewBox="0 0 20 20"
             fill="currentColor"
+            style="max-width:40px"
             aria-hidden="true"
           >
             <path
@@ -495,31 +508,39 @@
 
       <DropdownMenu.Content
         side="bottom"
-        align="start"
+        align="end"
         sideOffset={10}
-        class="min-w-56 w-auto max-w-64 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+        alignOffset={0}
+        class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
       >
         <DropdownMenu.Group class="pb-2">
           {#each rawData as item, index}
             {#if data?.user?.tier === "Pro" || index === 0}
               <DropdownMenu.Item
                 on:click={() => selectExpiration(item)}
-                class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                class="{selectedExpiration?.expiration === item.expiration
+                  ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                  : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {formatDate(item.expiration)} ({item.daysToExpiry}d) ({getExpiryTypeLabel(
-                  item.expiryType,
-                )})
+                <span>{formatDate(item.expiration)}</span>
+                <span class="ml-2 text-xs text-gray-500 dark:text-zinc-400">
+                  {formatDteLabel(item.daysToExpiry)}
+                </span>
               </DropdownMenu.Item>
             {:else}
               <DropdownMenu.Item
-                on:click={() => (window.location.href = "/pricing")}
+                on:click={() => goto("/pricing")}
                 class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
-                {formatDate(item.expiration)} ({item.daysToExpiry}d)
+                <span>{formatDate(item.expiration)}</span>
+                <span class="ml-2 text-xs text-gray-500 dark:text-zinc-400">
+                  {formatDteLabel(item.daysToExpiry)}
+                </span>
                 <svg
                   class="ml-1 size-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
+                  style="max-width: 40px;"
                 >
                   <path
                     fill-rule="evenodd"
