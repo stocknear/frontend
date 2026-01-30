@@ -189,7 +189,7 @@
     });
   }
 
-  // Load Meta Pixel (Facebook)
+  /*
   function loadMetaPixel() {
     if (window.fbq) return;
 
@@ -229,7 +229,7 @@
     window.fbq("track", "PageView");
   }
 
-  // Load Google Ads gtag.js
+
   function loadGoogleAds() {
     if (
       window.gtag &&
@@ -249,6 +249,7 @@
     window.gtag("js", new Date());
     window.gtag("config", "AW-11328922950");
   }
+    */
 
   // Load all marketing scripts (only if consent given)
   function loadMarketingScripts() {
@@ -256,8 +257,8 @@
 
     initDataLayer();
     loadGTMScript();
-    loadMetaPixel();
-    loadGoogleAds();
+    //loadMetaPixel();
+    //loadGoogleAds();
     marketingScriptsLoaded = true;
   }
 
@@ -274,7 +275,6 @@
       loadMarketingScripts();
     }
   }
-  let cacheInterval: number;
 
   onMount(async () => {
     checkMarketHour();
@@ -306,9 +306,12 @@
       // Delay these tasks to ensure they don't block main thread
       setTimeout(async () => {
         // Only load marketing scripts if user has consented
+        /*
         if (data?.cookieConsent?.marketing) {
           loadMarketingScripts();
         }
+          */
+        loadMarketingScripts();
 
         // Only load worker if user is logged in
         if (data?.user?.id) {
