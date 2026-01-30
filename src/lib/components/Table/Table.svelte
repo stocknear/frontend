@@ -1053,6 +1053,11 @@
         newData.years = item.years;
       }
 
+      // Preserve 'note' field for watchlist functionality
+      if ("note" in item) {
+        newData.note = item.note;
+      }
+
       return newData;
     });
 

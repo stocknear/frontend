@@ -207,7 +207,30 @@
 
     const output = await response?.json();
 
-    // Calculate sinceAdded (% return since entry) for each item
+    // Parse ticker data - handle both string (JSON) and array formats
+    let tickerData = displayWatchList?.ticker || [];
+    if (typeof tickerData === "string") {
+      try {
+        tickerData = JSON.parse(tickerData);
+      } catch {
+        tickerData = [];
+      }
+    }
+
+    // Create a lookup map for notes from displayWatchList.ticker
+    // Handle both old format (array of strings) and new format (array of objects)
+    const tickerNotes = new Map(
+      Array.isArray(tickerData)
+        ? tickerData.map((t) => {
+            if (typeof t === "string") {
+              return [t, ""];
+            }
+            return [t.symbol, t.note || ""];
+          })
+        : []
+    );
+
+    // Calculate sinceAdded (% return since entry) for each item and merge notes
     watchList = output?.data?.map((item) => {
       const currentPrice = parseFloat(item?.price) || 0;
       const entryPrice = parseFloat(item?.addedPrice) || 0;
@@ -218,7 +241,10 @@
         sinceAdded = Math.round(sinceAdded * 100) / 100; // Round to 2 decimal places
       }
 
-      return { ...item, sinceAdded };
+      // Merge note from watchlist ticker data
+      const note = tickerNotes.get(item?.symbol) || "";
+
+      return { ...item, sinceAdded, note };
     });
     originalData = watchList;
 
@@ -730,6 +756,22 @@
       if (!response.ok) {
         throw new Error("Failed to save note");
       }
+
+      // Get the updated watchlist data from the response
+      const updatedWatchlist = await response.json();
+
+      // Update allList with the new ticker data (which includes the updated note)
+      allList = allList?.map((item) => {
+        if (item?.id === displayWatchList?.id) {
+          return { ...item, ticker: updatedWatchlist.ticker };
+        }
+        return item;
+      });
+
+      // Refresh displayWatchList from the updated list
+      displayWatchList = allList?.find(
+        (item) => item?.id === displayWatchList?.id
+      );
 
       // Close modal and reset state for better UX
       isNoteModalOpen = false;
@@ -1480,93 +1522,118 @@
 
 <dialog id="noteModal" class="modal modal-bottom sm:modal-middle">
   <label
-    class="cursor-pointer modal-backdrop"
+    class="cursor-pointer modal-backdrop bg-black/50"
     on:click={closeNoteModal}
   ></label>
 
   <div
-    class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 shadow dark:border-zinc-700"
+    class="modal-box w-full max-w-md bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-xl"
   >
-    <div class="mb-5">
-      <!-- Header -->
-      <h3 class="font-bold text-2xl mb-1">
-        {#if isNewNote}
-          Add Note
-        {:else if isEditingNote}
-          Edit Note
-        {:else}
-          Note
-        {/if}
-      </h3>
-      <p class="text-sm text-gray-500 dark:text-zinc-400">
-        {editingNoteSymbol}
-      </p>
+    <!-- Header with icon and symbol badge -->
+    <div class="flex items-start justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-500/20">
+          <svg class="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg text-gray-900 dark:text-zinc-100">
+            {#if isNewNote}
+              Add Note
+            {:else if isEditingNote}
+              Edit Note
+            {:else}
+              Your Note
+            {/if}
+          </h3>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300">
+              {editingNoteSymbol}
+            </span>
+            {#if !isNewNote && !isEditingNote}
+              <span class="text-xs text-gray-400 dark:text-zinc-500">
+                {originalNoteText.length} chars
+              </span>
+            {/if}
+          </div>
+        </div>
+      </div>
+      <button
+        on:click={closeNoteModal}
+        class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:text-zinc-500 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
 
     {#if !isNewNote && !isEditingNote}
-      <!-- Preview Mode: Show existing note -->
-      <div class="mb-5">
-        <div class="p-4 bg-gray-50 dark:bg-zinc-900 rounded-xl border border-gray-200 dark:border-zinc-700">
-          <p class="text-gray-900 dark:text-zinc-100 whitespace-pre-wrap">{originalNoteText}</p>
+      <!-- Preview Mode -->
+      <div class="mb-6">
+        <div class="relative">
+          <!-- Quote decoration -->
+          <svg class="absolute -top-2 -left-1 w-8 h-8 text-violet-200 dark:text-violet-500/20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+          </svg>
+          <div class="pl-6 py-3">
+            <p class="text-gray-700 dark:text-zinc-200 whitespace-pre-wrap leading-relaxed">{originalNoteText}</p>
+          </div>
         </div>
       </div>
 
       <!-- Edit Button -->
       <button
         on:click={() => { isEditingNote = true; setTimeout(() => noteTextarea?.focus(), 100); }}
-        class="cursor-pointer py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
+        class="group cursor-pointer w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900 text-gray-700 dark:text-zinc-300 font-medium text-sm transition-all hover:border-violet-300 dark:hover:border-violet-500/50 hover:bg-violet-50 dark:hover:bg-violet-500/10 hover:text-violet-700 dark:hover:text-violet-400 flex items-center justify-center gap-2"
       >
+        <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
         Edit Note
       </button>
     {:else}
-      <!-- Edit Mode: Show textarea -->
+      <!-- Edit Mode -->
       <div class="space-y-4">
-        <!-- Textarea -->
-        <div>
+        <!-- Textarea with integrated character count -->
+        <div class="relative">
           <textarea
             bind:this={noteTextarea}
             bind:value={editingNoteText}
             placeholder={isNewNote
-              ? "Why did you add this stock to your watchlist?"
+              ? "Write your investment thesis, target price, or key reasons for watching this stock..."
               : "Update your note..."}
             rows="5"
             maxlength="350"
-            class="w-full px-4 py-3 border rounded-xl bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:border-transparent resize-none transition-colors {isOverLimit
-              ? 'border-red-400 dark:border-red-500 focus:ring-red-400'
-              : 'border-gray-300 dark:border-zinc-700 focus:ring-violet-500 dark:focus:ring-violet-400'}"
+            class="w-full px-4 py-3 pb-8 border rounded-xl bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:bg-white dark:focus:bg-zinc-900 resize-none transition-all {isOverLimit
+              ? 'border-red-300 dark:border-red-500/50 focus:ring-red-500/30'
+              : 'border-gray-200 dark:border-zinc-700 focus:ring-violet-500/30 focus:border-violet-400 dark:focus:border-violet-500'}"
           ></textarea>
+
+          <!-- Character count badge inside textarea -->
+          <div class="absolute bottom-3 right-3 flex items-center gap-2">
+            {#if isOverLimit}
+              <span class="text-xs font-medium text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">
+                -{charCount - NOTE_CHAR_LIMIT} over
+              </span>
+            {:else if charCount > NOTE_CHAR_LIMIT * 0.8}
+              <span class="text-xs font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full">
+                {NOTE_CHAR_LIMIT - charCount} left
+              </span>
+            {:else if charCount > 0}
+              <span class="text-xs text-gray-400 dark:text-zinc-500">
+                {charCount}/{NOTE_CHAR_LIMIT}
+              </span>
+            {/if}
+          </div>
         </div>
 
-        <!-- Character count with progress bar -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <span class="text-xs text-gray-400 dark:text-zinc-500">
-              {#if isOverLimit}
-                <span class="text-red-500 dark:text-red-400">
-                  {charCount - NOTE_CHAR_LIMIT} characters over limit
-                </span>
-              {:else if charCount > NOTE_CHAR_LIMIT * 0.8}
-                <span class="text-amber-500 dark:text-amber-400">
-                  {NOTE_CHAR_LIMIT - charCount} characters remaining
-                </span>
-              {:else}
-                &nbsp;
-              {/if}
-            </span>
-            <span
-              class="text-xs font-medium {isOverLimit
-                ? 'text-red-500 dark:text-red-400'
-                : charCount > NOTE_CHAR_LIMIT * 0.8
-                  ? 'text-amber-500 dark:text-amber-400'
-                  : 'text-gray-500 dark:text-zinc-400'}"
-            >
-              {charCount}/{NOTE_CHAR_LIMIT}
-            </span>
-          </div>
-          <!-- Progress bar -->
-          <div class="h-1 w-full bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
+        <!-- Progress bar (subtle) -->
+        {#if charCount > 0}
+          <div class="h-0.5 w-full bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden -mt-2">
             <div
-              class="h-full transition-all duration-200 rounded-full {isOverLimit
+              class="h-full transition-all duration-300 rounded-full {isOverLimit
                 ? 'bg-red-500'
                 : charCount > NOTE_CHAR_LIMIT * 0.8
                   ? 'bg-amber-500'
@@ -1574,28 +1641,33 @@
               style="width: {Math.min((charCount / NOTE_CHAR_LIMIT) * 100, 100)}%"
             ></div>
           </div>
-        </div>
+        {/if}
 
-        <!-- Buttons -->
-        <div class="space-y-2">
+        <!-- Buttons - side by side -->
+        <div class="flex items-center gap-3 pt-2">
+          <button
+            on:click={closeNoteModal}
+            class="flex-1 cursor-pointer py-2.5 px-4 rounded-xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 font-medium text-sm transition-colors hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-200"
+          >
+            Cancel
+          </button>
           <button
             on:click={saveNote}
             disabled={isSavingNote || isOverLimit || !hasChanges}
-            class="cursor-pointer py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex-1 cursor-pointer py-2.5 px-4 rounded-xl bg-violet-600 dark:bg-violet-500 text-white font-medium text-sm transition-all hover:bg-violet-700 dark:hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-violet-600 dark:disabled:hover:bg-violet-500 flex items-center justify-center gap-2"
           >
             {#if isSavingNote}
+              <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
               Saving...
-            {:else if isNewNote}
-              Add Note
             {:else}
-              Update Note
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {isNewNote ? "Add Note" : "Save Changes"}
             {/if}
-          </button>
-          <button
-            on:click={closeNoteModal}
-            class="cursor-pointer py-3 w-full rounded-full border border-gray-300 dark:border-zinc-600 text-gray-700 dark:text-zinc-300 font-semibold text-md transition hover:bg-gray-100 dark:hover:bg-zinc-800"
-          >
-            {watchlist_cancel()}
           </button>
         </div>
       </div>
