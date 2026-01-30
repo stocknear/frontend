@@ -76,6 +76,8 @@
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
   export let data;
 
   $: valuationData = data?.getData || {};
@@ -1155,59 +1157,120 @@
               </div>
 
               <div class="space-y-6">
+                <!-- Metric Dropdown -->
                 <div>
-                  <label
-                    for="metric"
-                    class="flex items-center text-sm font-medium mb-2"
-                  >
+                  <label class="flex items-center text-sm font-medium mb-2">
                     {stock_detail_forecast_dcf_metric()}
                     <InfoModal
                       id="metric"
                       content={stock_detail_forecast_dcf_metric_info()}
                     />
                   </label>
-                  <select
-                    id="metric"
-                    bind:value={selectedMetric}
-                    on:change={() => onMetricChange()}
-                    class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 cursor-pointer text-gray-700 dark:text-zinc-200"
-                  >
-                    <option value="freeCashFlow"
-                      >{stock_detail_forecast_dcf_fcf()}</option
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        builders={[builder]}
+                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                      >
+                        <span class="truncate text-sm">{metricLabel}</span>
+                        <svg
+                          class="-mr-1 ml-2 h-5 w-5 inline-block"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content
+                      side="bottom"
+                      align="start"
+                      sideOffset={10}
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
-                    <option value="operatingIncome"
-                      >{stock_detail_forecast_dcf_operating_income()}</option
-                    >
-                    <option value="operatingCashFlow"
-                      >{stock_detail_forecast_dcf_ocf()}</option
-                    >
-                    <option value="bookValue"
-                      >{stock_detail_forecast_dcf_book_value()}</option
-                    >
-                  </select>
+                      <DropdownMenu.Group>
+                        <DropdownMenu.Item
+                          on:click={() => { selectedMetric = "freeCashFlow"; onMetricChange(); }}
+                          class="{selectedMetric === 'freeCashFlow' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                        >
+                          {stock_detail_forecast_dcf_fcf()}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          on:click={() => { selectedMetric = "operatingIncome"; onMetricChange(); }}
+                          class="{selectedMetric === 'operatingIncome' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                        >
+                          {stock_detail_forecast_dcf_operating_income()}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          on:click={() => { selectedMetric = "operatingCashFlow"; onMetricChange(); }}
+                          class="{selectedMetric === 'operatingCashFlow' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                        >
+                          {stock_detail_forecast_dcf_ocf()}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          on:click={() => { selectedMetric = "bookValue"; onMetricChange(); }}
+                          class="{selectedMetric === 'bookValue' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                        >
+                          {stock_detail_forecast_dcf_book_value()}
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Group>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
                 </div>
 
+                <!-- Years Dropdown -->
                 <div>
-                  <label
-                    for="years"
-                    class="flex items-center text-sm font-medium mb-2"
-                  >
+                  <label class="flex items-center text-sm font-medium mb-2">
                     {stock_detail_forecast_dcf_years_to_project()}
                     <InfoModal
                       id="years"
                       content={stock_detail_forecast_dcf_years_info()}
                     />
                   </label>
-                  <select
-                    id="years"
-                    bind:value={yearsToProject}
-                    on:change={() => (userHasModifiedInputs = true)}
-                    class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 cursor-pointer text-gray-700 dark:text-zinc-200"
-                  >
-                    <option value={3}>3</option>
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                  </select>
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        builders={[builder]}
+                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                      >
+                        <span class="truncate text-sm">{yearsToProject} Years</span>
+                        <svg
+                          class="-mr-1 ml-2 h-5 w-5 inline-block"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content
+                      side="bottom"
+                      align="start"
+                      sideOffset={10}
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    >
+                      <DropdownMenu.Group>
+                        {#each [3, 5, 10] as year}
+                          <DropdownMenu.Item
+                            on:click={() => { yearsToProject = year; userHasModifiedInputs = true; }}
+                            class="{yearsToProject === year ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                          >
+                            {year} Years
+                          </DropdownMenu.Item>
+                        {/each}
+                      </DropdownMenu.Group>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
                 </div>
 
                 <div>

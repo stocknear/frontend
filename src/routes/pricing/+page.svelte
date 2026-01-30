@@ -70,8 +70,6 @@
     pricing_faq_q3_answer,
     pricing_faq_q4_title,
     pricing_faq_q4_answer,
-    pricing_faq_q5_title,
-    pricing_faq_q5_answer,
     pricing_faq_q6_title,
     pricing_faq_q6_answer,
     pricing_faq_q7_title,
@@ -80,6 +78,10 @@
     pricing_faq_q8_answer,
     pricing_faq_q9_title,
     pricing_faq_q9_answer,
+    pricing_faq_q10_title,
+    pricing_faq_q10_answer,
+    pricing_faq_q11_title,
+    pricing_faq_q11_answer,
     pricing_upgrade_modal_title,
     pricing_upgrade_modal_content,
     pricing_upgrade_modal_button,
@@ -1931,6 +1933,7 @@
               </details>
             </li>
             -->
+            <!-- 1. Understanding the Service -->
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -1948,6 +1951,7 @@
                 </div>
               </details>
             </li>
+
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -1966,6 +1970,7 @@
                 </div>
               </details>
             </li>
+
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -1985,6 +1990,7 @@
               </details>
             </li>
 
+            <!-- 2. Getting Started -->
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -2004,70 +2010,7 @@
               </details>
             </li>
 
-            <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
-            >
-              <details class="collapse collapse-arrow">
-                <summary
-                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
-                >
-                  {pricing_faq_q5_title()}
-                </summary>
-                <div class="collapse-content">
-                  <p
-                    class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
-                  >
-                    {pricing_faq_q5_answer()}
-                    <a
-                      href={`mailto:${emailAddress}`}
-                      class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition"
-                    >
-                      {emailAddress}
-                    </a>
-                  </p>
-                </div>
-              </details>
-            </li>
-
-            <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
-            >
-              <details class="collapse collapse-arrow">
-                <summary
-                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
-                >
-                  {pricing_faq_q6_title()}
-                </summary>
-                <div class="collapse-content">
-                  <p
-                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
-                  >
-                    {pricing_faq_q6_answer()}
-                  </p>
-                </div>
-              </details>
-            </li>
-            <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
-            >
-              <details class="collapse collapse-arrow">
-                <summary
-                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
-                >
-                  {pricing_faq_q7_title()}
-                </summary>
-                <div class="collapse-content">
-                  <p
-                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
-                  >
-                    {@html pricing_faq_q7_answer({
-                      email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
-                    })}
-                  </p>
-                </div>
-              </details>
-            </li>
-
+            <!-- 3. Payment & Pricing -->
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -2094,6 +2037,65 @@
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
+                  {pricing_faq_q6_title()}
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    {pricing_faq_q6_answer()}
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <!-- 4. Plan Management -->
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
+                  {pricing_faq_q10_title()}
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    {pricing_faq_q10_answer()}
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
+                  {pricing_faq_q11_title()}
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    {pricing_faq_q11_answer()}
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <!-- 5. Cancellation & Refunds -->
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
                   {pricing_faq_q9_title()}
                 </summary>
                 <div class="collapse-content">
@@ -2101,6 +2103,27 @@
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     {pricing_faq_q9_answer()}
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
+                  {pricing_faq_q7_title()}
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    {@html pricing_faq_q7_answer({
+                      email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
+                    })}
                   </p>
                 </div>
               </details>
