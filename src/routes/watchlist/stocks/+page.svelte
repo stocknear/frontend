@@ -90,6 +90,7 @@
   let deleteTickerList = [];
 
   let watchList: any[] = [];
+  let tableKey = 0; // Counter to force Table re-render when needed
   type ColType = "decimal" | "int" | "float" | "percentSign";
   type Col = {
     name: string;
@@ -220,6 +221,9 @@
       return { ...item, sinceAdded };
     });
     originalData = watchList;
+
+    // Force Table re-render to sync internal state
+    tableKey++;
 
     news = output?.news;
     earnings = output?.earnings;
@@ -674,6 +678,7 @@
   let editingNoteText = "";
   let originalNoteText = ""; // Track original text to detect changes
   let isSavingNote = false;
+  let isEditingNote = false; // false = preview mode, true = edit mode
 
   const NOTE_CHAR_LIMIT = 300;
 
@@ -689,9 +694,12 @@
     editingNoteSymbol = symbol;
     editingNoteText = currentNote || "";
     originalNoteText = currentNote || "";
+    isEditingNote = !currentNote; // If no note exists, go directly to edit mode
     isNoteModalOpen = true;
-    // Auto-focus textarea after modal opens
-    setTimeout(() => noteTextarea?.focus(), 100);
+    // Auto-focus textarea only when in edit mode (new note)
+    if (!currentNote) {
+      setTimeout(() => noteTextarea?.focus(), 100);
+    }
   }
 
   async function saveNote() {
@@ -723,8 +731,9 @@
         throw new Error("Failed to save note");
       }
 
-      // Close modal first for better UX
+      // Close modal and reset state for better UX
       isNoteModalOpen = false;
+      isEditingNote = false;
 
       toast.success(wasNewNote ? "Note created" : "Note updated", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -746,6 +755,7 @@
     editingNoteSymbol = "";
     editingNoteText = "";
     originalNoteText = "";
+    isEditingNote = false;
   }
 </script>
 
@@ -1141,7 +1151,7 @@
               </div>
             {:else}
               <!--Start Table of Watchlist-->
-              {#key watchList}
+              {#key tableKey}
                 {#if watchList?.length > 0}
                   <div class="w-full">
                     <Table
@@ -1470,121 +1480,126 @@
 
 <dialog id="noteModal" class="modal modal-bottom sm:modal-middle">
   <label
-    for="noteModal"
     class="cursor-pointer modal-backdrop"
     on:click={closeNoteModal}
   ></label>
 
   <div
-    class="modal-box relative bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 rounded-xl max-w-lg"
+    class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 shadow dark:border-zinc-700"
   >
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-      <div>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
-          {isNewNote ? "Add Note" : "Edit Note"}
-        </h3>
-        <p class="text-sm text-gray-500 dark:text-zinc-400">
-          {editingNoteSymbol}
-        </p>
-      </div>
-      <button
-        on:click={closeNoteModal}
-        class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
-      >
-        <svg
-          class="w-5 h-5 text-gray-500 dark:text-zinc-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Textarea -->
-    <div class="mb-2">
-      <textarea
-        bind:this={noteTextarea}
-        bind:value={editingNoteText}
-        placeholder={isNewNote
-          ? "Why did you add this stock to your watchlist?"
-          : "Update your note..."}
-        rows="5"
-        maxlength="350"
-        class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:border-transparent resize-none transition-colors {isOverLimit
-          ? 'border-red-400 dark:border-red-500 focus:ring-red-400'
-          : 'border-gray-300 dark:border-zinc-700 focus:ring-violet-500 dark:focus:ring-violet-400'}"
-      ></textarea>
-    </div>
-
-    <!-- Character count with progress bar -->
-    <div class="mb-4">
-      <div class="flex justify-between items-center mb-1">
-        <span class="text-xs text-gray-400 dark:text-zinc-500">
-          {#if isOverLimit}
-            <span class="text-red-500 dark:text-red-400">
-              {charCount - NOTE_CHAR_LIMIT} characters over limit
-            </span>
-          {:else if charCount > NOTE_CHAR_LIMIT * 0.8}
-            <span class="text-amber-500 dark:text-amber-400">
-              {NOTE_CHAR_LIMIT - charCount} characters remaining
-            </span>
-          {:else}
-            &nbsp;
-          {/if}
-        </span>
-        <span
-          class="text-xs font-medium {isOverLimit
-            ? 'text-red-500 dark:text-red-400'
-            : charCount > NOTE_CHAR_LIMIT * 0.8
-              ? 'text-amber-500 dark:text-amber-400'
-              : 'text-gray-500 dark:text-zinc-400'}"
-        >
-          {charCount}/{NOTE_CHAR_LIMIT}
-        </span>
-      </div>
-      <!-- Progress bar -->
-      <div class="h-1 w-full bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
-        <div
-          class="h-full transition-all duration-200 rounded-full {isOverLimit
-            ? 'bg-red-500'
-            : charCount > NOTE_CHAR_LIMIT * 0.8
-              ? 'bg-amber-500'
-              : 'bg-violet-500'}"
-          style="width: {Math.min((charCount / NOTE_CHAR_LIMIT) * 100, 100)}%"
-        ></div>
-      </div>
-    </div>
-
-    <!-- Buttons -->
-    <div class="flex justify-end gap-3">
-      <button
-        on:click={closeNoteModal}
-        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
-      >
-        {watchlist_cancel()}
-      </button>
-      <button
-        on:click={saveNote}
-        disabled={isSavingNote || isOverLimit || !hasChanges}
-        class="px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {#if isSavingNote}
-          Saving...
-        {:else if isNewNote}
+    <div class="mb-5">
+      <!-- Header -->
+      <h3 class="font-bold text-2xl mb-1">
+        {#if isNewNote}
           Add Note
+        {:else if isEditingNote}
+          Edit Note
         {:else}
-          Update Note
+          Note
         {/if}
-      </button>
+      </h3>
+      <p class="text-sm text-gray-500 dark:text-zinc-400">
+        {editingNoteSymbol}
+      </p>
     </div>
+
+    {#if !isNewNote && !isEditingNote}
+      <!-- Preview Mode: Show existing note -->
+      <div class="mb-5">
+        <div class="p-4 bg-gray-50 dark:bg-zinc-900 rounded-xl border border-gray-200 dark:border-zinc-700">
+          <p class="text-gray-900 dark:text-zinc-100 whitespace-pre-wrap">{originalNoteText}</p>
+        </div>
+      </div>
+
+      <!-- Edit Button -->
+      <button
+        on:click={() => { isEditingNote = true; setTimeout(() => noteTextarea?.focus(), 100); }}
+        class="cursor-pointer py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
+      >
+        Edit Note
+      </button>
+    {:else}
+      <!-- Edit Mode: Show textarea -->
+      <div class="space-y-4">
+        <!-- Textarea -->
+        <div>
+          <textarea
+            bind:this={noteTextarea}
+            bind:value={editingNoteText}
+            placeholder={isNewNote
+              ? "Why did you add this stock to your watchlist?"
+              : "Update your note..."}
+            rows="5"
+            maxlength="350"
+            class="w-full px-4 py-3 border rounded-xl bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:border-transparent resize-none transition-colors {isOverLimit
+              ? 'border-red-400 dark:border-red-500 focus:ring-red-400'
+              : 'border-gray-300 dark:border-zinc-700 focus:ring-violet-500 dark:focus:ring-violet-400'}"
+          ></textarea>
+        </div>
+
+        <!-- Character count with progress bar -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-xs text-gray-400 dark:text-zinc-500">
+              {#if isOverLimit}
+                <span class="text-red-500 dark:text-red-400">
+                  {charCount - NOTE_CHAR_LIMIT} characters over limit
+                </span>
+              {:else if charCount > NOTE_CHAR_LIMIT * 0.8}
+                <span class="text-amber-500 dark:text-amber-400">
+                  {NOTE_CHAR_LIMIT - charCount} characters remaining
+                </span>
+              {:else}
+                &nbsp;
+              {/if}
+            </span>
+            <span
+              class="text-xs font-medium {isOverLimit
+                ? 'text-red-500 dark:text-red-400'
+                : charCount > NOTE_CHAR_LIMIT * 0.8
+                  ? 'text-amber-500 dark:text-amber-400'
+                  : 'text-gray-500 dark:text-zinc-400'}"
+            >
+              {charCount}/{NOTE_CHAR_LIMIT}
+            </span>
+          </div>
+          <!-- Progress bar -->
+          <div class="h-1 w-full bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
+            <div
+              class="h-full transition-all duration-200 rounded-full {isOverLimit
+                ? 'bg-red-500'
+                : charCount > NOTE_CHAR_LIMIT * 0.8
+                  ? 'bg-amber-500'
+                  : 'bg-violet-500'}"
+              style="width: {Math.min((charCount / NOTE_CHAR_LIMIT) * 100, 100)}%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="space-y-2">
+          <button
+            on:click={saveNote}
+            disabled={isSavingNote || isOverLimit || !hasChanges}
+            class="cursor-pointer py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {#if isSavingNote}
+              Saving...
+            {:else if isNewNote}
+              Add Note
+            {:else}
+              Update Note
+            {/if}
+          </button>
+          <button
+            on:click={closeNoteModal}
+            class="cursor-pointer py-3 w-full rounded-full border border-gray-300 dark:border-zinc-600 text-gray-700 dark:text-zinc-300 font-semibold text-md transition hover:bg-gray-100 dark:hover:bg-zinc-800"
+          >
+            {watchlist_cancel()}
+          </button>
+        </div>
+      </div>
+    {/if}
   </div>
 </dialog>
 
