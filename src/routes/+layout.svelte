@@ -56,6 +56,8 @@
   import Gem from "lucide-svelte/icons/gem";
   import Plus from "lucide-svelte/icons/plus";
   import Screener from "lucide-svelte/icons/microscope";
+  import PieChart from "lucide-svelte/icons/chart-pie";
+  import Star from "lucide-svelte/icons/star";
   import {
     layout_all_politicians,
     layout_analyst,
@@ -1920,7 +1922,11 @@
           <div class="w-full">
             <main
               class={`w-full ${
-                isChartRoute ? "overflow-hidden p-0" : "overflow-y-auto sm:p-4"
+                isChartRoute
+                  ? "overflow-hidden p-0"
+                  : $page.url.pathname.startsWith("/chat")
+                    ? "overflow-y-auto sm:p-4"
+                    : "overflow-y-auto pb-16 sm:pb-0 sm:p-4"
               }`}
             >
               <slot />
@@ -1958,6 +1964,59 @@
   {#await import("$lib/components/Feedback.svelte") then { default: Comp }}
     <svelte:component this={Comp} {data} />
   {/await}
+{/if}
+
+<!-- Mobile Bottom Navigation Bar -->
+{#if !isChartRoute && !$page.url.pathname.startsWith("/chat")}
+  <nav
+    class="fixed bottom-0 left-0 right-0 z-40 sm:hidden border-t border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
+  >
+    <div class="grid grid-cols-4 h-14">
+      <a
+        href="/"
+        class="flex flex-col items-center justify-center gap-0.5 transition-colors {$page
+          .url.pathname === '/'
+          ? 'text-violet-600 dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+      >
+        <Home class="h-5 w-5" />
+        <span class="text-[10px] font-medium">{layout_home()}</span>
+      </a>
+      <a
+        href="/portfolio"
+        class="flex flex-col items-center justify-center gap-0.5 transition-colors {$page.url.pathname.startsWith(
+          '/portfolio',
+        )
+          ? 'text-violet-600 dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+      >
+        <PieChart class="h-5 w-5" />
+        <span class="text-[10px] font-medium">{layout_portfolio()}</span>
+      </a>
+      <a
+        href="/watchlist/stocks"
+        class="flex flex-col items-center justify-center gap-0.5 transition-colors {$page.url.pathname.startsWith(
+          '/watchlist',
+        )
+          ? 'text-violet-600 dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+      >
+        <Star class="h-5 w-5" />
+        <span class="text-[10px] font-medium">{layout_watchlist()}</span>
+      </a>
+      <a
+        href="/stock-screener"
+        class="flex flex-col items-center justify-center gap-0.5 transition-colors {$page.url.pathname.startsWith(
+          '/stock-screener',
+        ) || $page.url.pathname.startsWith('/options-screener')
+          ? 'text-violet-600 dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+      >
+        <Screener class="h-5 w-5" />
+        <span class="text-[10px] font-medium">{layout_screener()}</span>
+      </a>
+    </div>
+  </nav>
 {/if}
 
 <!-- Cookie Consent Banner -->

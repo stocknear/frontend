@@ -25,6 +25,11 @@
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import {
+    common_tab_general,
+    common_tab_performance,
+    common_tab_financials,
+    common_tab_analysts,
+    common_tab_dividends,
     stock_screener_add_filters,
     stock_screener_back_to_top,
     stock_screener_breadcrumb_home,
@@ -3406,13 +3411,11 @@ const handleKeyDown = (event) => {
 <!-- Removed scroll handler, using pagination instead -->
 
 <section
-  class="w-full overflow-hidden min-h-screen pb-40 px-5 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+  class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
     ? 'max-w-full'
     : 'max-w-3xl sm:max-w-(--breakpoint-xl)'}"
 >
-  <BreadCrumb
-    containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
-  >
+  <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
     <li>
       <a
         href="/"
@@ -4379,19 +4382,21 @@ const handleKeyDown = (event) => {
           </button>
         {/if}
       </div>
-      <nav class="w-full flex flex-row items-center order-2 lg:order-0">
+      <nav
+        class="w-full flex flex-row items-center mt-2 sm:mt-0 order-2 lg:order-0"
+      >
         <ul
           class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
         >
           <li>
             <button
               on:click={() => (displayTableTab = "general")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
               'general'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              General
+              {common_tab_general()}
             </button>
           </li>
           <li>
@@ -4422,7 +4427,7 @@ const handleKeyDown = (event) => {
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Performance
+              {common_tab_performance()}
             </button>
           </li>
           <li>
@@ -4435,7 +4440,7 @@ const handleKeyDown = (event) => {
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Analysts
+              {common_tab_analysts()}
             </button>
           </li>
           <li>
@@ -4448,7 +4453,7 @@ const handleKeyDown = (event) => {
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Dividends
+              {common_tab_dividends()}
             </button>
           </li>
           <li>
@@ -4461,7 +4466,7 @@ const handleKeyDown = (event) => {
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Financials
+              {common_tab_financials()}
             </button>
           </li>
         </ul>
