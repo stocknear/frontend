@@ -23,6 +23,7 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import Infobox from "$lib/components/Infobox.svelte";
+  import Pencil from "lucide-svelte/icons/pencil";
   import {
     list_add_label,
     list_clear,
@@ -174,6 +175,7 @@
   export let deleteTickerList = [];
   export let onToggleDeleteTicker = null;
   export let onPortfolioUpdate = null; // Callback for portfolio data changes
+  export let onNoteClick: ((symbol: string, note: string) => void) | null = null; // Callback for note editing (watchlist)
 
   let originalData = [...rawData]; // Unaltered copy of raw data
   let initialRawData = [...rawData]; // Store the truly initial data
@@ -743,6 +745,8 @@
     { name: "Market Cap", rule: "marketCap", type: "int" },
     { name: "Price", rule: "price", type: "float" },
     { name: "% Change", rule: "changesPercentage", type: "percentSign" },
+    { name: "Added Price", rule: "addedPrice", type: "float" },
+    { name: "% Since Added", rule: "sinceAdded", type: "percentSign" },
     ...PREMARKET_SESSION_COLUMNS,
     ...AFTERMARKET_SESSION_COLUMNS,
     { name: "EPS", rule: "eps", type: "float" },
@@ -2834,10 +2838,26 @@
                       </label>
                     </div>
                   {:else}
-                    <HoverStockChart
-                      symbol={item[column.key]}
-                      assetType={item?.type || item?.assetType}
-                    />
+                    <div class="flex items-center gap-1.5">
+                      <HoverStockChart
+                        symbol={item[column.key]}
+                        assetType={item?.type || item?.assetType}
+                      />
+                      {#if onNoteClick}
+                        <button
+                          on:click|stopPropagation={() =>
+                            onNoteClick(item[column.key], item?.note || "")}
+                          class="p-0.5 rounded hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+                          title={item?.note ? "Edit note" : "Add note"}
+                        >
+                          <Pencil
+                            class="h-3.5 w-3.5 {item?.note
+                              ? 'text-violet-500 dark:text-violet-400'
+                              : 'text-gray-400 dark:text-zinc-500'}"
+                          />
+                        </button>
+                      {/if}
+                    </div>
                   {/if}
                 {:else if column.key === "name"}
                   {#if item[column.key]?.length > charNumber}

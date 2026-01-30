@@ -11,59 +11,59 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import {
-  watchlist_add_stock_placeholder,
-  watchlist_breadcrumb_home,
-  watchlist_breadcrumb_watchlist,
-  watchlist_cancel,
-  watchlist_count_stocks,
-  watchlist_create_watchlist,
-  watchlist_earnings_after_close,
-  watchlist_earnings_analysts_estimate,
-  watchlist_earnings_and,
-  watchlist_earnings_before_open,
-  watchlist_earnings_during_market,
-  watchlist_earnings_in_eps,
-  watchlist_earnings_in_revenue,
-  watchlist_earnings_will_report,
-  watchlist_earnings_yoy,
-  watchlist_edit_watchlist,
-  watchlist_empty_description,
-  watchlist_empty_title,
-  watchlist_exit_full_width,
-  watchlist_expand_full_width,
-  watchlist_full_width,
-  watchlist_get_started,
-  watchlist_main_title,
-  watchlist_modal_create_button,
-  watchlist_modal_delete_button,
-  watchlist_modal_delete_confirm,
-  watchlist_modal_delete_title,
-  watchlist_modal_list_name,
-  watchlist_modal_new_title,
-  watchlist_new_watchlist,
-  watchlist_no_earnings,
-  watchlist_no_news,
-  watchlist_no_results,
-  watchlist_normal_width,
-  watchlist_seo_description,
-  watchlist_seo_keywords,
-  watchlist_seo_title,
-  watchlist_structured_description,
-  watchlist_structured_name,
-  watchlist_toast_already_in_list,
-  watchlist_toast_created,
-  watchlist_toast_creating,
-  watchlist_toast_deleted,
-  watchlist_toast_error,
-  watchlist_toast_error_generic,
-  watchlist_toast_select_symbols,
-  watchlist_toast_title_empty,
-  watchlist_toast_title_long,
-  watchlist_toast_updated,
-  watchlist_toast_updating,
-  watchlist_tab_news,
-  watchlist_tab_earnings,
-} from "$lib/paraglide/messages";
+    watchlist_add_stock_placeholder,
+    watchlist_breadcrumb_home,
+    watchlist_breadcrumb_watchlist,
+    watchlist_cancel,
+    watchlist_count_stocks,
+    watchlist_create_watchlist,
+    watchlist_earnings_after_close,
+    watchlist_earnings_analysts_estimate,
+    watchlist_earnings_and,
+    watchlist_earnings_before_open,
+    watchlist_earnings_during_market,
+    watchlist_earnings_in_eps,
+    watchlist_earnings_in_revenue,
+    watchlist_earnings_will_report,
+    watchlist_earnings_yoy,
+    watchlist_edit_watchlist,
+    watchlist_empty_description,
+    watchlist_empty_title,
+    watchlist_exit_full_width,
+    watchlist_expand_full_width,
+    watchlist_full_width,
+    watchlist_get_started,
+    watchlist_main_title,
+    watchlist_modal_create_button,
+    watchlist_modal_delete_button,
+    watchlist_modal_delete_confirm,
+    watchlist_modal_delete_title,
+    watchlist_modal_list_name,
+    watchlist_modal_new_title,
+    watchlist_new_watchlist,
+    watchlist_no_earnings,
+    watchlist_no_news,
+    watchlist_no_results,
+    watchlist_normal_width,
+    watchlist_seo_description,
+    watchlist_seo_keywords,
+    watchlist_seo_title,
+    watchlist_structured_description,
+    watchlist_structured_name,
+    watchlist_toast_already_in_list,
+    watchlist_toast_created,
+    watchlist_toast_creating,
+    watchlist_toast_deleted,
+    watchlist_toast_error,
+    watchlist_toast_error_generic,
+    watchlist_toast_select_symbols,
+    watchlist_toast_title_empty,
+    watchlist_toast_title_long,
+    watchlist_toast_updated,
+    watchlist_toast_updating,
+    watchlist_tab_news,
+    watchlist_tab_earnings,
+  } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   import { onMount } from "svelte";
@@ -101,7 +101,9 @@
   const BASE: Col[] = [
     { name: "Volume", rule: "volume", type: "decimal" },
     { name: "Market Cap", rule: "marketCap", type: "int" },
+    { name: "Added Price", rule: "addedPrice", type: "float" },
     { name: "Price", rule: "price", type: "float" },
+    { name: "% Since Added", rule: "sinceAdded", type: "percentSign" },
     { name: "% Change", rule: "changesPercentage", type: "percentSign" },
   ];
 
@@ -154,7 +156,7 @@
 
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "News": watchlist_tab_news,
+      News: watchlist_tab_news,
       "Earnings Release": watchlist_tab_earnings,
     };
     return tabLabels[tab]?.() ?? tab;
@@ -164,11 +166,13 @@
     const date = new Date(dateString);
     const isGerman = getLocale() === "de";
     if (isGerman) {
-      return date.toLocaleTimeString("de-DE", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }) + " Uhr";
+      return (
+        date.toLocaleTimeString("de-DE", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }) + " Uhr"
+      );
     }
     return date.toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -202,8 +206,20 @@
 
     const output = await response?.json();
 
-    watchList = output?.data;
-    originalData = output?.data;
+    // Calculate sinceAdded (% return since entry) for each item
+    watchList = output?.data?.map((item) => {
+      const currentPrice = parseFloat(item?.price) || 0;
+      const entryPrice = parseFloat(item?.addedPrice) || 0;
+
+      let sinceAdded = null;
+      if (entryPrice > 0 && currentPrice > 0) {
+        sinceAdded = ((currentPrice - entryPrice) / entryPrice) * 100;
+        sinceAdded = Math.round(sinceAdded * 100) / 100; // Round to 2 decimal places
+      }
+
+      return { ...item, sinceAdded };
+    });
+    originalData = watchList;
 
     news = output?.news;
     earnings = output?.earnings;
@@ -439,55 +455,83 @@
     displayList = rawTabData?.slice(0, 3);
   }
 
+  let isAddingTicker = false;
+
   async function handleAddTicker(event, ticker) {
+    // Prevent multiple simultaneous calls
+    if (isAddingTicker) return;
+
     // Check if the ticker is already in the watchlist.
     if (watchList?.some((item) => item?.symbol === ticker)) {
       toast.error(watchlist_toast_already_in_list(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       inputValue = "";
+      searchBarData = [];
       return;
     }
+
+    isAddingTicker = true;
+
+    // Clear input and search results immediately to prevent toggle
+    inputValue = "";
+    searchBarData = [];
 
     // Exit edit mode.
     editMode = false;
 
-    // Prepare the data to send to the API.
-    const postData = {
-      ticker: ticker,
-      watchListId: displayWatchList?.id,
-    };
-
-    // Create a promise for the fetch request.
-    const promise = fetch("/api/update-watchlist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    }).then(async (response) => {
-      const output = await response.json();
-      // If the response is not OK, throw an error with the message from the API.
-      if (!response.ok) {
-        throw new Error(output.error || "Failed to update watchlist");
-      }
-      return output;
-    });
-
-    // Use toast.promise to display notifications based on the promise's state.
-    toast?.promise(promise, {
-      loading: watchlist_toast_updating(),
-      success: watchlist_toast_updated(),
-      error: (err) => err.message || watchlist_toast_error(),
-      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-    });
-
     try {
+      // Fetch the current price for the ticker
+      let addedPrice = null;
+      try {
+        const quoteResponse = await fetch("/api/stock-quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ticker }),
+        });
+        if (quoteResponse.ok) {
+          const quoteData = await quoteResponse.json();
+          addedPrice = quoteData?.price ?? null;
+        }
+      } catch (e) {
+        console.log("Could not fetch price for ticker:", ticker);
+      }
+
+      // Prepare the data to send to the API.
+      const postData = {
+        ticker: ticker,
+        watchListId: displayWatchList?.id,
+        price: addedPrice,
+      };
+
+      // Create a promise for the fetch request.
+      const promise = fetch("/api/update-watchlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      }).then(async (response) => {
+        const output = await response.json();
+        // If the response is not OK, throw an error with the message from the API.
+        if (!response.ok) {
+          throw new Error(output.error || "Failed to update watchlist");
+        }
+        return output;
+      });
+
+      // Use toast.promise to display notifications based on the promise's state.
+      toast?.promise(promise, {
+        loading: watchlist_toast_updating(),
+        success: watchlist_toast_updated(),
+        error: (err) => err.message || watchlist_toast_error(),
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+
       // Await the promise, which returns the updated watchlist data.
       const updatedData = await promise;
 
       // Update the local allList with the updated watchlist.
-      // (Assuming updatedData.ticker contains the new ticker list.)
       allList = allList?.map((item) => {
         if (item?.id === displayWatchList?.id) {
           return { ...item, ticker: updatedData.ticker };
@@ -502,12 +546,11 @@
 
       // Refresh the watchlist data (UI or state refresh).
       await getWatchlistData();
-
-      // Reset the input value.
-      inputValue = "";
     } catch (error) {
       console.error("Error updating watchlist:", error);
       // Note: The error toast is already displayed by toast.promise.
+    } finally {
+      isAddingTicker = false;
     }
   }
 
@@ -641,6 +684,81 @@
       searchBarData = await response?.json();
     }, 50); // delay
   }
+
+  // Note Modal State
+  let isNoteModalOpen = false;
+  let editingNoteSymbol = "";
+  let editingNoteText = "";
+  let isSavingNote = false;
+
+  const NOTE_WORD_LIMIT = 300;
+
+  function countWords(text: string): number {
+    return text.trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function handleNoteClick(symbol: string, currentNote: string) {
+    editingNoteSymbol = symbol;
+    editingNoteText = currentNote || "";
+    isNoteModalOpen = true;
+  }
+
+  async function saveNote() {
+    const wordCount = countWords(editingNoteText);
+    if (wordCount > NOTE_WORD_LIMIT) {
+      toast.error(`Note cannot exceed ${NOTE_WORD_LIMIT} words`, {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
+    isSavingNote = true;
+
+    try {
+      const response = await fetch("/api/update-watchlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mode: "note",
+          watchListId: displayWatchList?.id,
+          symbol: editingNoteSymbol,
+          note: editingNoteText.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save note");
+      }
+
+      // Update local state
+      watchList = watchList.map((item) => {
+        if (item.symbol === editingNoteSymbol) {
+          return { ...item, note: editingNoteText.trim() };
+        }
+        return item;
+      });
+
+      toast.success("Note saved", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+
+      isNoteModalOpen = false;
+    } catch (error) {
+      toast.error("Failed to save note. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    } finally {
+      isSavingNote = false;
+    }
+  }
+
+  function closeNoteModal() {
+    isNoteModalOpen = false;
+    editingNoteSymbol = "";
+    editingNoteText = "";
+  }
 </script>
 
 <SEO
@@ -698,7 +816,9 @@
         >{watchlist_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{watchlist_breadcrumb_watchlist()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {watchlist_breadcrumb_watchlist()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -982,7 +1102,9 @@
                         </svg>
                       {/if}
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{isFullWidth ? watchlist_normal_width() : watchlist_full_width()}</span
+                        >{isFullWidth
+                          ? watchlist_normal_width()
+                          : watchlist_full_width()}</span
                       >
                     </button>
                   </div>
@@ -1037,13 +1159,17 @@
                     <Table
                       {data}
                       rawData={watchList}
-                      title={watchlist_count_stocks({ count: watchList?.length })}
+                      title={watchlist_count_stocks({
+                        count: watchList?.length,
+                      })}
                       excludedRules={new Set([
                         "volume",
                         "price",
                         "changesPercentage",
                         "marketCap",
                         "eps",
+                        "addedPrice",
+                        "sinceAdded",
                       ])}
                       {defaultList}
                       {editMode}
@@ -1051,6 +1177,7 @@
                       bulkDownload={true}
                       onToggleDeleteTicker={handleFilter}
                       includePrePostData={true}
+                      onNoteClick={handleNoteClick}
                     />
 
                     <div
@@ -1115,7 +1242,9 @@
                                       class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
                                     >
                                       <div class=" lg:hidden">
-                                        {formatTimeLocale(items[0].publishedDate)}
+                                        {formatTimeLocale(
+                                          items[0].publishedDate,
+                                        )}
                                       </div>
                                       <div class="flex flex-wrap gap-x-2">
                                         {#each symbols as symbol}
@@ -1136,9 +1265,7 @@
                         {:else}
                           <br />
                           <div class="mt-3 sm:mt-0">
-                            <Infobox
-                              text={watchlist_no_news()}
-                            />
+                            <Infobox text={watchlist_no_news()} />
                           </div>
                         {/if}
                       {:else if groupedEarnings?.length > 0}
@@ -1179,13 +1306,16 @@
                                         {watchlist_earnings_during_market()}
                                       {/if}
                                     {/if}
-                                    {watchlist_earnings_analysts_estimate()} {abbreviateNumber(
-                                      item?.revenueEst,
-                                    )} {watchlist_earnings_in_revenue()} ({(
+                                    {watchlist_earnings_analysts_estimate()}
+                                    {abbreviateNumber(item?.revenueEst)}
+                                    {watchlist_earnings_in_revenue()} ({(
                                       (item?.revenueEst / item?.revenuePrior -
                                         1) *
                                       100
-                                    )?.toFixed(2)}% {watchlist_earnings_yoy()}) {watchlist_earnings_and()} {item?.epsEst} {watchlist_earnings_in_eps()} {#if item?.epsPrior !== 0}
+                                    )?.toFixed(2)}% {watchlist_earnings_yoy()}) {watchlist_earnings_and()}
+                                    {item?.epsEst}
+                                    {watchlist_earnings_in_eps()}
+                                    {#if item?.epsPrior !== 0}
                                       ({(
                                         (item?.epsEst / item?.epsPrior - 1) *
                                         100
@@ -1208,9 +1338,7 @@
                       {:else}
                         <br />
                         <div class="mt-3 sm:mt-0">
-                          <Infobox
-                            text={watchlist_no_earnings()}
-                          />
+                          <Infobox text={watchlist_no_earnings()} />
                         </div>
                       {/if}
                     </div>
@@ -1345,6 +1473,95 @@
 <!--End Delete Strategy Modal-->
 
 <!--End Delete Strategy Modal-->
+
+<!--Start Note Modal-->
+<input
+  type="checkbox"
+  id="noteModal"
+  class="modal-toggle"
+  bind:checked={isNoteModalOpen}
+/>
+
+<dialog id="noteModal" class="modal modal-bottom sm:modal-middle">
+  <label
+    for="noteModal"
+    class="cursor-pointer modal-backdrop"
+    on:click={closeNoteModal}
+  ></label>
+
+  <div
+    class="modal-box relative bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 rounded-xl max-w-lg"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
+        Note for {editingNoteSymbol}
+      </h3>
+      <button
+        on:click={closeNoteModal}
+        class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+      >
+        <svg
+          class="w-5 h-5 text-gray-500 dark:text-zinc-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Textarea -->
+    <div class="mb-3">
+      <textarea
+        bind:value={editingNoteText}
+        placeholder="Why did you add this to your watchlist?"
+        rows="6"
+        class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 focus:border-transparent resize-none"
+      ></textarea>
+    </div>
+
+    <!-- Word count -->
+    <div class="flex justify-end mb-4">
+      <span
+        class="text-sm {countWords(editingNoteText) > NOTE_WORD_LIMIT
+          ? 'text-red-500 dark:text-red-400'
+          : 'text-gray-500 dark:text-zinc-400'}"
+      >
+        {countWords(editingNoteText)} / {NOTE_WORD_LIMIT} words
+      </span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-end gap-3">
+      <button
+        on:click={closeNoteModal}
+        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+      >
+        {watchlist_cancel()}
+      </button>
+      <button
+        on:click={saveNote}
+        disabled={isSavingNote}
+        class="px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {#if isSavingNote}
+          Saving...
+        {:else}
+          Save
+        {/if}
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<!--End Note Modal-->
 
 <style>
   @keyframes pulse {

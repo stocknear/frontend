@@ -23,7 +23,23 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   // If the user is Pro or doesn't have a watchlist yet, attempt to create one.
   try {
-    output = await pb.collection("watchlist").create(data);
+    // Ensure ticker is in new object format if provided
+    const createData = { ...data };
+    if (createData.ticker && Array.isArray(createData.ticker)) {
+      // Convert string array to object array if needed
+      if (createData.ticker.length > 0 && typeof createData.ticker[0] === "string") {
+        createData.ticker = createData.ticker.map((symbol: string) => ({
+          symbol,
+          note: "",
+          addedPrice: null,
+        }));
+      }
+    } else {
+      // Initialize with empty array in new format
+      createData.ticker = [];
+    }
+
+    output = await pb.collection("watchlist").create(createData);
   } catch (err) {
     // Optionally, log the error or adjust the error message as needed.
     output = { error: "Failed to create watchlist" };

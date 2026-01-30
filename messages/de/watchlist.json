@@ -61,5 +61,16 @@
   "watchlist_earnings_in_revenue": "an Revenue",
   "watchlist_earnings_yoy": "ggü. Vj.",
   "watchlist_earnings_and": "und",
-  "watchlist_earnings_in_eps": "an Earnings per Share"
+  "watchlist_earnings_in_eps": "an Earnings per Share",
+
+  "watchlist_note_title": "Notiz für {symbol}",
+  "watchlist_note_placeholder": "Warum hast du diese Aktie zu deiner Watchlist hinzugefügt?",
+  "watchlist_note_save": "Speichern",
+  "watchlist_note_saved": "Notiz gespeichert",
+  "watchlist_note_word_limit": "{count} / {max} Wörter",
+  "watchlist_note_exceeded": "Notiz darf nicht mehr als {max} Wörter enthalten",
+  "watchlist_added_price": "Hinzugefügter Preis",
+
+  "watchlist_column_entry_price": "Einstiegspreis",
+  "watchlist_column_since_added": "% Hinzugefügt"
 }

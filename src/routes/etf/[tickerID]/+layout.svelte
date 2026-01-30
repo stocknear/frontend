@@ -108,6 +108,7 @@
             watchListId: "default",
             ticker: $etfTicker,
             title: "My Watchlist",
+            price: data?.getStockQuote?.price ?? null,
           }),
         });
 
@@ -171,11 +172,15 @@
           idx === watchlistIndex ? { ...item, ticker: updatedTickers } : item,
         );
 
-        // Send API request
+        // Send API request with price when adding (not removing)
         const response = await fetch("/api/update-watchlist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ watchListId, ticker: $etfTicker }),
+          body: JSON.stringify({
+            watchListId,
+            ticker: $etfTicker,
+            price: existingTickerIndex === -1 ? (data?.getStockQuote?.price ?? null) : undefined,
+          }),
         });
 
         const output = await response.json();
@@ -189,7 +194,11 @@
         const response = await fetch("/api/update-watchlist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ watchListId, ticker: $etfTicker }),
+          body: JSON.stringify({
+            watchListId,
+            ticker: $etfTicker,
+            price: data?.getStockQuote?.price ?? null,
+          }),
         });
 
         const output = await response.json();

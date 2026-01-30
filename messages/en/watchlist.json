@@ -61,5 +61,16 @@
   "watchlist_earnings_in_revenue": "in revenue",
   "watchlist_earnings_yoy": "YoY",
   "watchlist_earnings_and": "and",
-  "watchlist_earnings_in_eps": "in earnings per share"
+  "watchlist_earnings_in_eps": "in earnings per share",
+
+  "watchlist_note_title": "Note for {symbol}",
+  "watchlist_note_placeholder": "Why did you add this to your watchlist?",
+  "watchlist_note_save": "Save",
+  "watchlist_note_saved": "Note saved",
+  "watchlist_note_word_limit": "{count} / {max} words",
+  "watchlist_note_exceeded": "Note cannot exceed {max} words",
+  "watchlist_added_price": "Added Price",
+
+  "watchlist_column_entry_price": "Entry Price",
+  "watchlist_column_since_added": "% Since Added"
 }

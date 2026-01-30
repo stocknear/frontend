@@ -98,6 +98,7 @@
             watchListId: "default",
             ticker: $indexTicker,
             title: "My Watchlist",
+            price: data?.getStockQuote?.price ?? null,
           }),
         });
 
@@ -165,7 +166,11 @@
         const response = await fetch("/api/update-watchlist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ watchListId, ticker: $indexTicker }),
+          body: JSON.stringify({
+            watchListId,
+            ticker: $indexTicker,
+            price: existingTickerIndex === -1 ? (data?.getStockQuote?.price ?? null) : undefined,
+          }),
         });
 
         const output = await response.json();
@@ -179,7 +184,11 @@
         const response = await fetch("/api/update-watchlist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ watchListId, ticker: $indexTicker }),
+          body: JSON.stringify({
+            watchListId,
+            ticker: $indexTicker,
+            price: data?.getStockQuote?.price ?? null,
+          }),
         });
 
         const output = await response.json();
