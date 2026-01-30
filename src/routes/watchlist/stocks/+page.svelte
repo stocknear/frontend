@@ -672,30 +672,38 @@
   let isNoteModalOpen = false;
   let editingNoteSymbol = "";
   let editingNoteText = "";
+  let originalNoteText = ""; // Track original text to detect changes
   let isSavingNote = false;
 
-  const NOTE_WORD_LIMIT = 300;
+  const NOTE_CHAR_LIMIT = 300;
 
-  function countWords(text: string): number {
-    return text.trim().split(/\s+/).filter(Boolean).length;
-  }
+  // Check if this is a new note or editing existing
+  $: isNewNote = originalNoteText === "";
+  $: hasChanges = editingNoteText.trim() !== originalNoteText;
+  $: charCount = editingNoteText.length;
+  $: isOverLimit = charCount > NOTE_CHAR_LIMIT;
+
+  let noteTextarea: HTMLTextAreaElement;
 
   function handleNoteClick(symbol: string, currentNote: string) {
     editingNoteSymbol = symbol;
     editingNoteText = currentNote || "";
+    originalNoteText = currentNote || "";
     isNoteModalOpen = true;
+    // Auto-focus textarea after modal opens
+    setTimeout(() => noteTextarea?.focus(), 100);
   }
 
   async function saveNote() {
-    const wordCount = countWords(editingNoteText);
-    if (wordCount > NOTE_WORD_LIMIT) {
-      toast.error(`Note cannot exceed ${NOTE_WORD_LIMIT} words`, {
+    if (isOverLimit) {
+      toast.error(`Note cannot exceed ${NOTE_CHAR_LIMIT} characters`, {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
     }
 
     isSavingNote = true;
+    const wasNewNote = isNewNote;
 
     try {
       const response = await fetch("/api/update-watchlist", {
@@ -715,19 +723,15 @@
         throw new Error("Failed to save note");
       }
 
-      // Update local state
-      watchList = watchList.map((item) => {
-        if (item.symbol === editingNoteSymbol) {
-          return { ...item, note: editingNoteText.trim() };
-        }
-        return item;
-      });
+      // Close modal first for better UX
+      isNoteModalOpen = false;
 
-      toast.success("Note saved", {
+      toast.success(wasNewNote ? "Note created" : "Note updated", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
 
-      isNoteModalOpen = false;
+      // Refresh watchlist data to sync Table component
+      await getWatchlistData();
     } catch (error) {
       toast.error("Failed to save note. Please try again.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -741,6 +745,7 @@
     isNoteModalOpen = false;
     editingNoteSymbol = "";
     editingNoteText = "";
+    originalNoteText = "";
   }
 </script>
 
@@ -1455,8 +1460,6 @@
 
 <!--End Delete Strategy Modal-->
 
-<!--End Delete Strategy Modal-->
-
 <!--Start Note Modal-->
 <input
   type="checkbox"
@@ -1477,9 +1480,14 @@
   >
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
-        Note for {editingNoteSymbol}
-      </h3>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
+          {isNewNote ? "Add Note" : "Edit Note"}
+        </h3>
+        <p class="text-sm text-gray-500 dark:text-zinc-400">
+          {editingNoteSymbol}
+        </p>
+      </div>
       <button
         on:click={closeNoteModal}
         class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
@@ -1501,24 +1509,58 @@
     </div>
 
     <!-- Textarea -->
-    <div class="mb-3">
+    <div class="mb-2">
       <textarea
+        bind:this={noteTextarea}
         bind:value={editingNoteText}
-        placeholder="Why did you add this to your watchlist?"
-        rows="6"
-        class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 focus:border-transparent resize-none"
+        placeholder={isNewNote
+          ? "Why did you add this stock to your watchlist?"
+          : "Update your note..."}
+        rows="5"
+        maxlength="350"
+        class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:border-transparent resize-none transition-colors {isOverLimit
+          ? 'border-red-400 dark:border-red-500 focus:ring-red-400'
+          : 'border-gray-300 dark:border-zinc-700 focus:ring-violet-500 dark:focus:ring-violet-400'}"
       ></textarea>
     </div>
 
-    <!-- Word count -->
-    <div class="flex justify-end mb-4">
-      <span
-        class="text-sm {countWords(editingNoteText) > NOTE_WORD_LIMIT
-          ? 'text-red-500 dark:text-red-400'
-          : 'text-gray-500 dark:text-zinc-400'}"
-      >
-        {countWords(editingNoteText)} / {NOTE_WORD_LIMIT} words
-      </span>
+    <!-- Character count with progress bar -->
+    <div class="mb-4">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-xs text-gray-400 dark:text-zinc-500">
+          {#if isOverLimit}
+            <span class="text-red-500 dark:text-red-400">
+              {charCount - NOTE_CHAR_LIMIT} characters over limit
+            </span>
+          {:else if charCount > NOTE_CHAR_LIMIT * 0.8}
+            <span class="text-amber-500 dark:text-amber-400">
+              {NOTE_CHAR_LIMIT - charCount} characters remaining
+            </span>
+          {:else}
+            &nbsp;
+          {/if}
+        </span>
+        <span
+          class="text-xs font-medium {isOverLimit
+            ? 'text-red-500 dark:text-red-400'
+            : charCount > NOTE_CHAR_LIMIT * 0.8
+              ? 'text-amber-500 dark:text-amber-400'
+              : 'text-gray-500 dark:text-zinc-400'}"
+        >
+          {charCount}/{NOTE_CHAR_LIMIT}
+        </span>
+      </div>
+      <!-- Progress bar -->
+      <div class="h-1 w-full bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
+        <div
+          class="h-full transition-all duration-200 rounded-full {isOverLimit
+            ? 'bg-red-500'
+            : charCount > NOTE_CHAR_LIMIT * 0.8
+              ? 'bg-amber-500'
+              : 'bg-violet-500'}"
+          style="width: {Math.min((charCount / NOTE_CHAR_LIMIT) * 100, 100)}%"
+        ></div>
+      </div>
     </div>
 
     <!-- Buttons -->
@@ -1531,13 +1573,15 @@
       </button>
       <button
         on:click={saveNote}
-        disabled={isSavingNote}
+        disabled={isSavingNote || isOverLimit || !hasChanges}
         class="px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {#if isSavingNote}
           Saving...
+        {:else if isNewNote}
+          Add Note
         {:else}
-          Save
+          Update Note
         {/if}
       </button>
     </div>
