@@ -5,60 +5,74 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import {
-  stock_detail_forecast_dcf_avg_ratio,
-  stock_detail_forecast_dcf_book_value,
-  stock_detail_forecast_dcf_breakdown_title,
-  stock_detail_forecast_dcf_close,
-  stock_detail_forecast_dcf_current_price,
-  stock_detail_forecast_dcf_discount_hint,
-  stock_detail_forecast_dcf_discount_info,
-  stock_detail_forecast_dcf_discount_rate,
-  stock_detail_forecast_dcf_dividend_growth,
-  stock_detail_forecast_dcf_dividend_info,
-  stock_detail_forecast_dcf_dividends_paid,
-  stock_detail_forecast_dcf_fair_value,
-  stock_detail_forecast_dcf_fcf,
-  stock_detail_forecast_dcf_growth_info,
-  stock_detail_forecast_dcf_growth_rate,
-  stock_detail_forecast_dcf_historical_growth,
-  stock_detail_forecast_dcf_historical_projected,
-  stock_detail_forecast_dcf_historical_shares,
-  stock_detail_forecast_dcf_inputs,
-  stock_detail_forecast_dcf_metric,
-  stock_detail_forecast_dcf_metric_info,
-  stock_detail_forecast_dcf_no_data,
-  stock_detail_forecast_dcf_ocf,
-  stock_detail_forecast_dcf_operating_income,
-  stock_detail_forecast_dcf_price_ratio,
-  stock_detail_forecast_dcf_price_ratio_info,
-  stock_detail_forecast_dcf_projected_value,
-  stock_detail_forecast_dcf_seo_description,
-  stock_detail_forecast_dcf_seo_title,
-  stock_detail_forecast_dcf_shares_growth,
-  stock_detail_forecast_dcf_shares_info,
-  stock_detail_forecast_dcf_show_steps,
-  stock_detail_forecast_dcf_step1_project,
-  stock_detail_forecast_dcf_step1_recent,
-  stock_detail_forecast_dcf_step1_result,
-  stock_detail_forecast_dcf_step1_title,
-  stock_detail_forecast_dcf_step2_project,
-  stock_detail_forecast_dcf_step2_recent,
-  stock_detail_forecast_dcf_step2_result,
-  stock_detail_forecast_dcf_step2_title,
-  stock_detail_forecast_dcf_step3_formula,
-  stock_detail_forecast_dcf_step3_title,
-  stock_detail_forecast_dcf_step4_forward,
-  stock_detail_forecast_dcf_step4_project,
-  stock_detail_forecast_dcf_step4_result,
-  stock_detail_forecast_dcf_step4_title,
-  stock_detail_forecast_dcf_step5_projected,
-  stock_detail_forecast_dcf_step5_result,
-  stock_detail_forecast_dcf_step5_title,
-  stock_detail_forecast_dcf_step5_total,
-  stock_detail_forecast_dcf_title,
-  stock_detail_forecast_dcf_years_info,
-  stock_detail_forecast_dcf_years_to_project,
-} from "$lib/paraglide/messages";
+    stock_detail_forecast_dcf_avg_ratio,
+    stock_detail_forecast_dcf_book_value,
+    stock_detail_forecast_dcf_breakdown_title,
+    stock_detail_forecast_dcf_close,
+    stock_detail_forecast_dcf_current_price,
+    stock_detail_forecast_dcf_discount_hint,
+    stock_detail_forecast_dcf_discount_info,
+    stock_detail_forecast_dcf_discount_rate,
+    stock_detail_forecast_dcf_dividend_growth,
+    stock_detail_forecast_dcf_dividend_info,
+    stock_detail_forecast_dcf_dividends_paid,
+    stock_detail_forecast_dcf_fair_value,
+    stock_detail_forecast_dcf_fcf,
+    stock_detail_forecast_dcf_growth_info,
+    stock_detail_forecast_dcf_growth_rate,
+    stock_detail_forecast_dcf_historical_growth,
+    stock_detail_forecast_dcf_historical_projected,
+    stock_detail_forecast_dcf_historical_shares,
+    stock_detail_forecast_dcf_inputs,
+    stock_detail_forecast_dcf_metric,
+    stock_detail_forecast_dcf_metric_info,
+    stock_detail_forecast_dcf_no_data,
+    stock_detail_forecast_dcf_ocf,
+    stock_detail_forecast_dcf_operating_income,
+    stock_detail_forecast_dcf_price_ratio,
+    stock_detail_forecast_dcf_price_ratio_info,
+    stock_detail_forecast_dcf_projected_value,
+    stock_detail_forecast_dcf_seo_description,
+    stock_detail_forecast_dcf_seo_title,
+    stock_detail_forecast_dcf_shares_growth,
+    stock_detail_forecast_dcf_shares_info,
+    stock_detail_forecast_dcf_show_steps,
+    stock_detail_forecast_dcf_step1_project,
+    stock_detail_forecast_dcf_step1_recent,
+    stock_detail_forecast_dcf_step1_result,
+    stock_detail_forecast_dcf_step1_title,
+    stock_detail_forecast_dcf_step2_project,
+    stock_detail_forecast_dcf_step2_recent,
+    stock_detail_forecast_dcf_step2_result,
+    stock_detail_forecast_dcf_step2_title,
+    stock_detail_forecast_dcf_step3_formula,
+    stock_detail_forecast_dcf_step3_title,
+    stock_detail_forecast_dcf_step4_forward,
+    stock_detail_forecast_dcf_step4_project,
+    stock_detail_forecast_dcf_step4_result,
+    stock_detail_forecast_dcf_step4_title,
+    stock_detail_forecast_dcf_step5_projected,
+    stock_detail_forecast_dcf_step5_result,
+    stock_detail_forecast_dcf_step5_title,
+    stock_detail_forecast_dcf_step5_total,
+    stock_detail_forecast_dcf_title,
+    stock_detail_forecast_dcf_years_info,
+    stock_detail_forecast_dcf_years_to_project,
+    stock_detail_forecast_dcf_margin_of_safety,
+    stock_detail_forecast_dcf_margin_of_safety_info,
+    stock_detail_forecast_dcf_buy_below,
+    stock_detail_forecast_dcf_sensitivity,
+    stock_detail_forecast_dcf_sensitivity_info,
+    stock_detail_forecast_dcf_implied_growth,
+    stock_detail_forecast_dcf_implied_growth_info,
+    stock_detail_forecast_dcf_market_expects,
+    stock_detail_forecast_dcf_valuation_status,
+    stock_detail_forecast_dcf_undervalued,
+    stock_detail_forecast_dcf_overvalued,
+    stock_detail_forecast_dcf_fair,
+    stock_detail_forecast_dcf_growth_warning,
+    stock_detail_forecast_dcf_negative_warning,
+  } from "$lib/paraglide/messages";
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
@@ -71,6 +85,11 @@
   let configMetricChart = null;
 
   let userHasModifiedInputs = false;
+
+  // Sensitivity analysis grid values
+  const sensitivityGrowthRates = [-5, 0, 5, 10, 15, 20];
+  const sensitivityDiscountRates = [8, 10, 12, 14];
+  let sensitivityMatrix: number[][] = [];
 
   // Metric toggle (default Free Cash Flow)
   let selectedMetric:
@@ -175,6 +194,28 @@
   let upsidePresentValue = 0;
   let currentPrice = data?.getStockQuote?.price || 0;
 
+  // Margin of Safety calculations
+  let marginOfSafety = 0;
+  let buyPriceConservative = 0; // 30% margin
+  let buyPriceModerate = 0; // 20% margin
+  let buyPriceAggressive = 0; // 10% margin
+
+  // Implied growth rate (reverse DCF)
+  let impliedGrowthRate = 0;
+
+  // Valuation status
+  $: valuationStatus = (() => {
+    if (!presentValue || presentValue <= 0 || !currentPrice) return "neutral";
+    const diff = ((presentValue - currentPrice) / currentPrice) * 100;
+    if (diff > 15) return "undervalued";
+    if (diff < -15) return "overvalued";
+    return "fair";
+  })();
+
+  // Warning flags for unusual inputs
+  $: showGrowthWarning = metricGrowthRate > 20;
+  $: showNegativeWarning = latestMetric < 0;
+
   // Metric labels
   $: metricLabel =
     selectedMetric === "freeCashFlow"
@@ -261,6 +302,95 @@
     upsidePresentValue = currentPrice
       ? (((presentValue - currentPrice) / currentPrice) * 100)?.toFixed(2)
       : "0.00";
+
+    // Margin of Safety calculations
+    if (presentValue && presentValue > 0) {
+      marginOfSafety = currentPrice
+        ? Math.round(((presentValue - currentPrice) / presentValue) * 100)
+        : 0;
+      buyPriceConservative = Math.round(presentValue * 0.7); // 30% margin
+      buyPriceModerate = Math.round(presentValue * 0.8); // 20% margin
+      buyPriceAggressive = Math.round(presentValue * 0.9); // 10% margin
+    }
+
+    // Calculate implied growth rate (reverse DCF)
+    impliedGrowthRate = calculateImpliedGrowthRate();
+
+    // Calculate sensitivity matrix
+    calculateSensitivityMatrix();
+  }
+
+  // Reverse DCF: Find growth rate that produces current price
+  function calculateImpliedGrowthRate(): number {
+    if (!currentPrice || !latestMetric || !dilutedShares || latestMetric <= 0) {
+      return 0;
+    }
+
+    let low = -30;
+    let high = 50;
+    const tolerance = 0.1;
+    const maxIterations = 50;
+
+    for (let i = 0; i < maxIterations; i++) {
+      const mid = (low + high) / 2;
+      const impliedValue = calculateFairValueWithGrowth(mid);
+
+      if (Math.abs(impliedValue - currentPrice) < tolerance) {
+        return Math.round(mid * 100) / 100;
+      }
+
+      if (impliedValue > currentPrice) {
+        high = mid;
+      } else {
+        low = mid;
+      }
+    }
+
+    return Math.round(((low + high) / 2) * 100) / 100;
+  }
+
+  // Helper: Calculate fair value with a specific growth rate
+  function calculateFairValueWithGrowth(growth: number): number {
+    const projectedMetric =
+      latestMetric * Math.pow(1 + growth / 100, yearsToProject);
+    const projectedShares =
+      dilutedShares * Math.pow(1 + sharesGrowthRate / 100, yearsToProject);
+    const perShareMetric =
+      projectedShares > 0 ? projectedMetric / projectedShares : 0;
+    const projectedPrice = perShareMetric * (priceRatioAvg || 0);
+    const projectedDividends =
+      forwardDividend *
+      yearsToProject *
+      Math.pow(1 + dividendGrowthRate / 100, yearsToProject / 2);
+    const futureValue = projectedPrice + projectedDividends;
+    return futureValue / Math.pow(1 + discountRate / 100, yearsToProject);
+  }
+
+  // Calculate sensitivity analysis matrix
+  function calculateSensitivityMatrix() {
+    sensitivityMatrix = [];
+    for (const growth of sensitivityGrowthRates) {
+      const row: number[] = [];
+      for (const discount of sensitivityDiscountRates) {
+        const projectedMetric =
+          latestMetric * Math.pow(1 + growth / 100, yearsToProject);
+        const projectedShares =
+          dilutedShares * Math.pow(1 + sharesGrowthRate / 100, yearsToProject);
+        const perShareMetric =
+          projectedShares > 0 ? projectedMetric / projectedShares : 0;
+        const projectedPrice = perShareMetric * (priceRatioAvg || 0);
+        const projectedDividends =
+          forwardDividend *
+          yearsToProject *
+          Math.pow(1 + dividendGrowthRate / 100, yearsToProject / 2);
+        const futureValue = projectedPrice + projectedDividends;
+        const fairValue = Math.round(
+          futureValue / Math.pow(1 + discount / 100, yearsToProject),
+        );
+        row.push(fairValue > 0 ? fairValue : 0);
+      }
+      sensitivityMatrix.push(row);
+    }
   }
 
   // Plot Historical Price Chart (with ratio series for selected metric)
@@ -619,8 +749,14 @@
 </script>
 
 <SEO
-  title={stock_detail_forecast_dcf_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_forecast_dcf_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_forecast_dcf_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_forecast_dcf_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
 />
 
 <section class="w-full overflow-hidden min-h-screen">
@@ -637,6 +773,57 @@
               </h1>
             </div>
 
+            <!-- Warning Banners -->
+            {#if showNegativeWarning}
+              <div
+                class="mt-4 flex items-start gap-3 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200"
+              >
+                <div
+                  class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                </div>
+                <span>{stock_detail_forecast_dcf_negative_warning()}</span>
+              </div>
+            {/if}
+
+            {#if showGrowthWarning}
+              <div
+                class="mt-4 flex items-start gap-3 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200"
+              >
+                <div
+                  class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                </div>
+                <span>{stock_detail_forecast_dcf_growth_warning()}</span>
+              </div>
+            {/if}
+
             <div
               class="mt-5 mb-6 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-4 sm:gap-6"
             >
@@ -645,16 +832,7 @@
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center"
                 >
-                  {currentPrice}
-                </div>
-              </div>
-
-              <div>
-                {stock_detail_forecast_dcf_dividends_paid()}
-                <div
-                  class="mt-0.5 text-lg font-bold bp:text-xl sm:mt-1.5 sm:text-2xl"
-                >
-                  {totalDividends ? totalDividends?.toFixed(2) : "n/a"}
+                  ${currentPrice}
                 </div>
               </div>
 
@@ -663,7 +841,9 @@
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center"
                 >
-                  {presentValue && presentValue > 0 ? presentValue : "n/a"}
+                  {presentValue && presentValue > 0
+                    ? "$" + presentValue
+                    : "n/a"}
                   <span
                     class="ml-2 px-2 py-1 rounded-full font-medium text-sm {upsidePresentValue >=
                       0 && presentValue > 0
@@ -678,26 +858,115 @@
               </div>
 
               <div>
-                {stock_detail_forecast_dcf_projected_value({ years: yearsToProject })}
+                <span class="flex items-center">
+                  {stock_detail_forecast_dcf_margin_of_safety()}
+                  <InfoModal
+                    id="marginOfSafety"
+                    content={stock_detail_forecast_dcf_margin_of_safety_info()}
+                  />
+                </span>
+                <div
+                  class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center {marginOfSafety >
+                  0
+                    ? 'text-emerald-600 dark:text-emerald-400'
+                    : marginOfSafety < 0
+                      ? 'text-rose-600 dark:text-rose-400'
+                      : ''}"
+                >
+                  {presentValue && presentValue > 0
+                    ? (marginOfSafety > 0 ? "+" : "") + marginOfSafety + "%"
+                    : "n/a"}
+                </div>
+              </div>
+
+              <div>
+                <span class="flex items-center">
+                  {stock_detail_forecast_dcf_implied_growth()}
+                  <InfoModal
+                    id="impliedGrowth"
+                    content={stock_detail_forecast_dcf_implied_growth_info()}
+                  />
+                </span>
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center"
                 >
-                  {totalFutureValue && totalFutureValue > 0
-                    ? totalFutureValue
+                  {impliedGrowthRate
+                    ? (impliedGrowthRate > 0 ? "+" : "") +
+                      impliedGrowthRate +
+                      "%"
                     : "n/a"}
-                  <span
-                    class="ml-2 px-2 py-1 rounded-full font-medium text-sm {upsideTotalFutureValue >=
-                      0 && totalFutureValue > 0
-                      ? "before:content-['+'] bg-green-200 text-green-800 dark:bg-green-900/20 dark:text-[#00FC50]"
-                      : upsideTotalFutureValue < 0 && totalFutureValue > 0
-                        ? 'bg-red-200 text-red-800 dark:bg-red-900/20 dark:text-[#FF2F1F]'
-                        : 'hidden'}"
-                  >
-                    {upsideTotalFutureValue}%
-                  </span>
                 </div>
+                <p class="text-xs text-gray-500 dark:text-zinc-400 mt-1">
+                  {stock_detail_forecast_dcf_market_expects()}
+                </p>
               </div>
             </div>
+
+            <!-- Valuation Status Banner -->
+            {#if presentValue && presentValue > 0}
+              <div
+                class="mb-6 p-4 rounded-xl border {valuationStatus ===
+                'undervalued'
+                  ? 'border-emerald-300 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-950/30'
+                  : valuationStatus === 'overvalued'
+                    ? 'border-rose-300 dark:border-rose-700 bg-rose-50/80 dark:bg-rose-950/30'
+                    : 'border-gray-300 dark:border-zinc-700 bg-gray-50/80 dark:bg-zinc-950/30'}"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span
+                      class="text-sm font-medium text-gray-600 dark:text-zinc-400"
+                      >{stock_detail_forecast_dcf_valuation_status()}</span
+                    >
+                    <div
+                      class="text-lg font-bold {valuationStatus ===
+                      'undervalued'
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : valuationStatus === 'overvalued'
+                          ? 'text-rose-600 dark:text-rose-400'
+                          : 'text-gray-700 dark:text-zinc-200'}"
+                    >
+                      {valuationStatus === "undervalued"
+                        ? stock_detail_forecast_dcf_undervalued()
+                        : valuationStatus === "overvalued"
+                          ? stock_detail_forecast_dcf_overvalued()
+                          : stock_detail_forecast_dcf_fair()}
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-sm text-gray-600 dark:text-zinc-400"
+                      >{stock_detail_forecast_dcf_buy_below()}</span
+                    >
+                    <div class="flex gap-3 mt-1">
+                      <div class="text-center">
+                        <div class="text-xs text-gray-500 dark:text-zinc-500">
+                          30%
+                        </div>
+                        <div class="font-semibold text-sm">
+                          ${buyPriceConservative}
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-xs text-gray-500 dark:text-zinc-500">
+                          20%
+                        </div>
+                        <div class="font-semibold text-sm">
+                          ${buyPriceModerate}
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-xs text-gray-500 dark:text-zinc-500">
+                          10%
+                        </div>
+                        <div class="font-semibold text-sm">
+                          ${buyPriceAggressive}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {/if}
 
             <div class="flex items-center justify-between mb-4">
               <label
@@ -723,7 +992,9 @@
 
             {#if valuationData?.[historyKey]?.length > 0}
               <h2 class="text-xl sm:text-2xl font-bold text-start mr-auto mb-4">
-                {stock_detail_forecast_dcf_historical_projected({ metric: metricLabel })}
+                {stock_detail_forecast_dcf_historical_projected({
+                  metric: metricLabel,
+                })}
               </h2>
 
               <div class="mb-8">
@@ -737,6 +1008,140 @@
                 </div>
               </div>
             {/if}
+
+            <!-- Sensitivity Analysis Table -->
+            {#if sensitivityMatrix.length > 0 && presentValue > 0}
+              <div class="mb-8">
+                <h2
+                  class="text-xl sm:text-2xl font-bold text-start mr-auto mb-2 flex items-center"
+                >
+                  {stock_detail_forecast_dcf_sensitivity()}
+                  <div class="font-normal">
+                    <InfoModal
+                      id="sensitivity"
+                      content={stock_detail_forecast_dcf_sensitivity_info()}
+                    />
+                  </div>
+                </h2>
+                <p class="text-sm text-gray-500 dark:text-zinc-400 mb-4">
+                  Fair values at different growth and discount rate combinations
+                </p>
+
+                <div class="overflow-x-auto">
+                  <div
+                    class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+                  >
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr
+                          class="border-b border-gray-300 dark:border-zinc-700"
+                        >
+                          <th
+                            class="p-3 text-left font-semibold text-gray-600 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-900/50"
+                          >
+                            Growth / Discount
+                          </th>
+                          {#each sensitivityDiscountRates as discount}
+                            <th
+                              class="p-3 text-center font-semibold text-gray-600 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-900/50 {discount ===
+                              discountRate
+                                ? 'bg-violet-100 dark:bg-violet-900/30'
+                                : ''}"
+                            >
+                              {discount}%
+                            </th>
+                          {/each}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {#each sensitivityMatrix as row, rowIndex}
+                          <tr
+                            class="border-b border-gray-200 dark:border-zinc-800 last:border-b-0 transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                          >
+                            <td
+                              class="p-3 font-medium text-gray-700 dark:text-zinc-300 {sensitivityGrowthRates[
+                                rowIndex
+                              ] === Math.round(metricGrowthRate)
+                                ? 'bg-violet-100 dark:bg-violet-900/30'
+                                : ''}"
+                            >
+                              {sensitivityGrowthRates[rowIndex] > 0
+                                ? "+"
+                                : ""}{sensitivityGrowthRates[rowIndex]}%
+                            </td>
+                            {#each row as value, colIndex}
+                              {@const isCurrentCell =
+                                sensitivityGrowthRates[rowIndex] ===
+                                  Math.round(metricGrowthRate) &&
+                                sensitivityDiscountRates[colIndex] ===
+                                  discountRate}
+                              {@const isUndervalued =
+                                value > currentPrice * 1.1}
+                              {@const isOvervalued = value < currentPrice * 0.9}
+                              <td
+                                class="p-3 text-center font-medium transition-colors
+                                {isCurrentCell
+                                  ? 'bg-violet-200 dark:bg-violet-800/50 ring-2 ring-violet-500 ring-inset'
+                                  : ''}
+                                {!isCurrentCell && isUndervalued
+                                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20'
+                                  : ''}
+                                {!isCurrentCell && isOvervalued
+                                  ? 'text-rose-600 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-900/20'
+                                  : ''}
+                                {!isCurrentCell &&
+                                !isUndervalued &&
+                                !isOvervalued
+                                  ? 'text-gray-700 dark:text-zinc-300'
+                                  : ''}
+                              "
+                              >
+                                ${value}
+                              </td>
+                            {/each}
+                          </tr>
+                        {/each}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div
+                  class="flex flex-wrap gap-4 mt-3 text-xs text-gray-500 dark:text-zinc-400"
+                >
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-3 h-3 rounded-full bg-emerald-100 dark:bg-emerald-900/40 border border-emerald-300 dark:border-emerald-700"
+                    ></span>
+                    <span>Undervalued</span>
+                    <InfoModal
+                      id="sensitivityUndervalued"
+                      content="Green cells indicate scenarios where the fair value is more than 10% above the current price, suggesting the stock may be undervalued under those assumptions."
+                    />
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-3 h-3 rounded-full bg-rose-100 dark:bg-rose-900/40 border border-rose-300 dark:border-rose-700"
+                    ></span>
+                    <span>Overvalued</span>
+                    <InfoModal
+                      id="sensitivityOvervalued"
+                      content="Red cells indicate scenarios where the fair value is more than 10% below the current price, suggesting the stock may be overvalued under those assumptions."
+                    />
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-3 h-3 rounded-full bg-violet-200 dark:bg-violet-800/50 border border-violet-400 dark:border-violet-600"
+                    ></span>
+                    <span>Current</span>
+                    <InfoModal
+                      id="sensitivityCurrent"
+                      content="The highlighted cell shows the fair value based on your current growth rate and discount rate assumptions."
+                    />
+                  </div>
+                </div>
+              </div>
+            {/if}
           </main>
 
           <aside class="inline-block relative w-full lg:w-1/4 mt-3">
@@ -744,7 +1149,9 @@
               class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-gray-700 dark:text-zinc-200"
             >
               <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">{stock_detail_forecast_dcf_inputs()}</h2>
+                <h2 class="text-xl font-bold">
+                  {stock_detail_forecast_dcf_inputs()}
+                </h2>
               </div>
 
               <div class="space-y-6">
@@ -765,12 +1172,18 @@
                     on:change={() => onMetricChange()}
                     class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 cursor-pointer text-gray-700 dark:text-zinc-200"
                   >
-                    <option value="freeCashFlow">{stock_detail_forecast_dcf_fcf()}</option>
-                    <option value="operatingIncome">{stock_detail_forecast_dcf_operating_income()}</option>
+                    <option value="freeCashFlow"
+                      >{stock_detail_forecast_dcf_fcf()}</option
+                    >
+                    <option value="operatingIncome"
+                      >{stock_detail_forecast_dcf_operating_income()}</option
+                    >
                     <option value="operatingCashFlow"
                       >{stock_detail_forecast_dcf_ocf()}</option
                     >
-                    <option value="bookValue">{stock_detail_forecast_dcf_book_value()}</option>
+                    <option value="bookValue"
+                      >{stock_detail_forecast_dcf_book_value()}</option
+                    >
                   </select>
                 </div>
 
@@ -802,7 +1215,9 @@
                     for="metric-growth"
                     class="flex items-center text-sm font-medium mb-2"
                   >
-                    {stock_detail_forecast_dcf_growth_rate({ metric: metricLabel })}
+                    {stock_detail_forecast_dcf_growth_rate({
+                      metric: metricLabel,
+                    })}
                     <InfoModal
                       id="metricGrowthRate"
                       content={stock_detail_forecast_dcf_growth_info()}
@@ -823,10 +1238,13 @@
                     />
                   </div>
                   <p class="mt-2 text-xs">
-                    {stock_detail_forecast_dcf_historical_growth({ metric: metricLabel, value: selectedMetric ===
-                    "freeCashFlow"
-                      ? valuationData?.freeCashFlowGrowth || 0
-                      : valuationData?.operatingIncomeGrowth || 0 })}
+                    {stock_detail_forecast_dcf_historical_growth({
+                      metric: metricLabel,
+                      value:
+                        selectedMetric === "freeCashFlow"
+                          ? valuationData?.freeCashFlowGrowth || 0
+                          : valuationData?.operatingIncomeGrowth || 0,
+                    })}
                   </p>
                 </div>
 
@@ -856,7 +1274,9 @@
                     />
                   </div>
                   <p class="mt-2 text-xs">
-                    {stock_detail_forecast_dcf_historical_shares({ value: valuationData?.sharesGrowth || 0 })}
+                    {stock_detail_forecast_dcf_historical_shares({
+                      value: valuationData?.sharesGrowth || 0,
+                    })}
                   </p>
                 </div>
 
@@ -907,7 +1327,10 @@
                     class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-gray-700 dark:text-zinc-200"
                   />
                   <p class="mt-2 text-xs">
-                    {stock_detail_forecast_dcf_avg_ratio({ metric: metricShortLabel, value: valuationData?.[ratioAvgKey] ?? 0 })}
+                    {stock_detail_forecast_dcf_avg_ratio({
+                      metric: metricShortLabel,
+                      value: valuationData?.[ratioAvgKey] ?? 0,
+                    })}
                   </p>
                 </div>
 
@@ -972,15 +1395,34 @@
       </h3>
       <div class="space-y-6 text-start">
         <div>
-          <h3 class="font-semibold mb-2">{stock_detail_forecast_dcf_step1_title({ metric: metricLabel })}</h3>
+          <h3 class="font-semibold mb-2">
+            {stock_detail_forecast_dcf_step1_title({ metric: metricLabel })}
+          </h3>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step1_recent({ metric: metricLabel, value: abbreviateNumber(latestMetric), date: new Date(latestDate)?.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })}
+            {stock_detail_forecast_dcf_step1_recent({
+              metric: metricLabel,
+              value: abbreviateNumber(latestMetric),
+              date: new Date(latestDate)?.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              }),
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step1_project({ years: yearsToProject, rate: metricGrowthRate })}
+            {stock_detail_forecast_dcf_step1_project({
+              years: yearsToProject,
+              rate: metricGrowthRate,
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step1_result({ start: abbreviateNumber(latestMetric), rate: metricGrowthRate, years: yearsToProject, metric: metricLabel, result: abbreviateNumber(futureMetric ?? 0) })}
+            {stock_detail_forecast_dcf_step1_result({
+              start: abbreviateNumber(latestMetric),
+              rate: metricGrowthRate,
+              years: yearsToProject,
+              metric: metricLabel,
+              result: abbreviateNumber(futureMetric ?? 0),
+            })}
           </p>
         </div>
 
@@ -989,20 +1431,32 @@
             {stock_detail_forecast_dcf_step2_title()}
           </h3>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step2_recent({ value: abbreviateNumber(dilutedShares) })}
+            {stock_detail_forecast_dcf_step2_recent({
+              value: abbreviateNumber(dilutedShares),
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step2_project({ years: yearsToProject, rate: sharesGrowthRate })}
+            {stock_detail_forecast_dcf_step2_project({
+              years: yearsToProject,
+              rate: sharesGrowthRate,
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step2_result({ value: abbreviateNumber(futureShares ?? 0) })}
+            {stock_detail_forecast_dcf_step2_result({
+              value: abbreviateNumber(futureShares ?? 0),
+            })}
           </p>
         </div>
 
         <div>
-          <h3 class="font-semibold mb-2">{stock_detail_forecast_dcf_step3_title()}</h3>
+          <h3 class="font-semibold mb-2">
+            {stock_detail_forecast_dcf_step3_title()}
+          </h3>
           <p class="text-sm mb-3">
-            {stock_detail_forecast_dcf_step3_formula({ ratio: priceRatioAvg, metric: metricLabel })}
+            {stock_detail_forecast_dcf_step3_formula({
+              ratio: priceRatioAvg,
+              metric: metricLabel,
+            })}
           </p>
           <p class="text-sm">
             ({abbreviateNumber(futureMetric ?? 0)} ÷ {abbreviateNumber(
@@ -1021,13 +1475,23 @@
             {stock_detail_forecast_dcf_step4_title()}
           </h3>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step4_forward({ value: forwardDividend })}
+            {stock_detail_forecast_dcf_step4_forward({
+              value: forwardDividend,
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step4_project({ years: yearsToProject, rate: dividendGrowthRate ? dividendGrowthRate?.toFixed(2) + "%" : "n/a" })}
+            {stock_detail_forecast_dcf_step4_project({
+              years: yearsToProject,
+              rate: dividendGrowthRate
+                ? dividendGrowthRate?.toFixed(2) + "%"
+                : "n/a",
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step4_result({ years: yearsToProject, value: totalDividends })}
+            {stock_detail_forecast_dcf_step4_result({
+              years: yearsToProject,
+              value: totalDividends,
+            })}
           </p>
         </div>
 
@@ -1036,13 +1500,28 @@
             {stock_detail_forecast_dcf_step5_title()}
           </h3>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step5_projected({ value: futureStockPrice && futureStockPrice > 0 ? "$" + futureStockPrice : "n/a" })}
+            {stock_detail_forecast_dcf_step5_projected({
+              value:
+                futureStockPrice && futureStockPrice > 0
+                  ? "$" + futureStockPrice
+                  : "n/a",
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step5_total({ value: totalFutureValue && totalFutureValue > 0 ? "$" + totalFutureValue : "n/a" })}
+            {stock_detail_forecast_dcf_step5_total({
+              value:
+                totalFutureValue && totalFutureValue > 0
+                  ? "$" + totalFutureValue
+                  : "n/a",
+            })}
           </p>
           <p class="text-sm">
-            {stock_detail_forecast_dcf_step5_result({ rate: discountRate, years: yearsToProject, value: presentValue && presentValue > 0 ? "$" + presentValue : "n/a" })}
+            {stock_detail_forecast_dcf_step5_result({
+              rate: discountRate,
+              years: yearsToProject,
+              value:
+                presentValue && presentValue > 0 ? "$" + presentValue : "n/a",
+            })}
           </p>
         </div>
       </div>
