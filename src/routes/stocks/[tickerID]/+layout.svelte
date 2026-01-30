@@ -28,26 +28,26 @@
   import TickerHeader from "$lib/components/TickerHeader.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
   import {
-  stock_detail_add_to_watchlist,
-  stock_detail_companies,
-  stock_detail_company,
-  stock_detail_nav_dividends,
-  stock_detail_nav_financials,
-  stock_detail_nav_forecast,
-  stock_detail_nav_history,
-  stock_detail_nav_insider,
-  stock_detail_nav_metrics,
-  stock_detail_nav_options,
-  stock_detail_nav_overview,
-  stock_detail_nav_profile,
-  stock_detail_nav_statistics,
-  stock_detail_nav_unusual_orders,
-  stock_detail_price_alert,
-  stock_detail_ticker_add_failed,
-  stock_detail_ticker_added,
-  stock_detail_upgrade_watchlist,
-  stock_detail_watchlist,
-} from "$lib/paraglide/messages";
+    stock_detail_add_to_watchlist,
+    stock_detail_companies,
+    stock_detail_company,
+    stock_detail_nav_dividends,
+    stock_detail_nav_financials,
+    stock_detail_nav_forecast,
+    stock_detail_nav_history,
+    stock_detail_nav_insider,
+    stock_detail_nav_metrics,
+    stock_detail_nav_options,
+    stock_detail_nav_overview,
+    stock_detail_nav_profile,
+    stock_detail_nav_statistics,
+    stock_detail_nav_unusual_orders,
+    stock_detail_price_alert,
+    stock_detail_ticker_add_failed,
+    stock_detail_ticker_added,
+    stock_detail_upgrade_watchlist,
+    stock_detail_watchlist,
+  } from "$lib/paraglide/messages";
 
   export let data;
   let prePostData = data?.getPrePostQuote || {};
@@ -586,7 +586,8 @@
                                 d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                               ></path></svg
                             >
-                            <span class="text-sm md:text-sm">{stock_detail_watchlist()}</span
+                            <span class="text-sm md:text-sm"
+                              >{stock_detail_watchlist()}</span
                             ></button
                           >
                           <label
@@ -610,7 +611,8 @@
                                 /></g
                               ></svg
                             >
-                            <span class="text-sm md:text-sm">{stock_detail_price_alert()}</span
+                            <span class="text-sm md:text-sm"
+                              >{stock_detail_price_alert()}</span
                             ></label
                           >
                           <StockPriceExport
@@ -686,18 +688,17 @@
                           >{stock_detail_nav_metrics()}</a
                         >
 
-                        {#if Object?.keys(data?.getAnalystSummary ?? {})?.length > 0}
-                          <a
-                            href={`/stocks/${$stockTicker}/forecast`}
-                            on:click={() => changeSection("forecast")}
-                            class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
-                            'forecast'
-                              ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 '
-                              : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-                          >
-                            {stock_detail_nav_forecast()}
-                          </a>
-                        {/if}
+                        <a
+                          href={`/stocks/${$stockTicker}/forecast`}
+                          on:click={() => changeSection("forecast")}
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
+                          'forecast'
+                            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 '
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                        >
+                          {stock_detail_nav_forecast()}
+                        </a>
+
                         <a
                           href={`/stocks/${$stockTicker}/unusual-orders`}
                           on:click={() => changeSection("unusual-orders")}
@@ -849,7 +850,9 @@
                   class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300"
                 >
                   {item?.ticker?.length}
-                  {item?.ticker?.length !== 1 ? stock_detail_companies() : stock_detail_company()}
+                  {item?.ticker?.length !== 1
+                    ? stock_detail_companies()
+                    : stock_detail_company()}
                 </span>
               </div>
 
