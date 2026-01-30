@@ -175,7 +175,8 @@
   export let deleteTickerList = [];
   export let onToggleDeleteTicker = null;
   export let onPortfolioUpdate = null; // Callback for portfolio data changes
-  export let onNoteClick: ((symbol: string, note: string) => void) | null = null; // Callback for note editing (watchlist)
+  export let onNoteClick: ((symbol: string, note: string) => void) | null =
+    null; // Callback for note editing (watchlist)
 
   let originalData = [...rawData]; // Unaltered copy of raw data
   let initialRawData = [...rawData]; // Store the truly initial data
@@ -1889,25 +1890,22 @@
       allRows = sortIndicatorCheckMarks(allRows);
 
       if (!downloadWorker) {
-        const DownloadWorker = await import(
-          "$lib/workers/downloadWorker?worker"
-        );
+        const DownloadWorker =
+          await import("$lib/workers/downloadWorker?worker");
         downloadWorker = new DownloadWorker.default();
         downloadWorker.onmessage = handleDownloadMessage;
       }
 
       if (!searchWorker) {
-        const SearchWorker = await import(
-          "$lib/workers/tableSearchWorker?worker"
-        );
+        const SearchWorker =
+          await import("$lib/workers/tableSearchWorker?worker");
         searchWorker = new SearchWorker.default();
         searchWorker.onmessage = handleSearchMessage;
       }
 
       if (!portfolioWorker) {
-        const PortfolioWorker = await import(
-          "$lib/workers/portfolioWorker?worker"
-        );
+        const PortfolioWorker =
+          await import("$lib/workers/portfolioWorker?worker");
         portfolioWorker = new PortfolioWorker.default();
         portfolioWorker.onmessage = handlePortfolioMessage;
       }
@@ -2847,11 +2845,11 @@
                         <button
                           on:click|stopPropagation={() =>
                             onNoteClick(item[column.key], item?.note || "")}
-                          class="p-0.5 rounded hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+                          class="cursor-pointer ml-auto transition-colors"
                           title={item?.note ? "Edit note" : "Add note"}
                         >
                           <Pencil
-                            class="h-3.5 w-3.5 {item?.note
+                            class="h-3.5 w-3.5  {item?.note
                               ? 'text-violet-500 dark:text-violet-400'
                               : 'text-gray-400 dark:text-zinc-500'}"
                           />

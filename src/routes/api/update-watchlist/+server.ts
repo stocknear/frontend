@@ -8,6 +8,32 @@ type WatchlistTicker = {
   addedPrice: number | null;
 };
 
+// Helper to fetch the current price for a ticker from the backend
+async function fetchTickerPrice(
+  apiURL: string,
+  apiKey: string,
+  ticker: string
+): Promise<number | null> {
+  try {
+    const response = await fetch(`${apiURL}/stock-quote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": apiKey,
+      },
+      body: JSON.stringify({ ticker }),
+    });
+    if (response.ok) {
+      console.log('quote api called')
+      const data = await response.json();
+      return data?.price ?? null;
+    }
+  } catch (e) {
+    console.error("Could not fetch price for ticker:", ticker, e);
+  }
+  return null;
+}
+
 // Helper to check if ticker list is in new object format
 function isNewFormat(tickers: unknown[]): tickers is WatchlistTicker[] {
   return tickers.length > 0 && typeof tickers[0] === "object" && tickers[0] !== null && "symbol" in tickers[0];
@@ -33,7 +59,7 @@ function findTickerIndex(tickers: WatchlistTicker[], symbol: string): number {
 }
 
 export const POST = (async ({ request, locals }) => {
-  const { user, pb } = locals;
+  const { user, pb, apiURL, apiKey } = locals;
   const data = await request.json();
 
   const watchListId = data?.watchListId;
@@ -156,10 +182,12 @@ export const POST = (async ({ request, locals }) => {
               { status: 403 }
             );
           }
+          // Fetch price server-side if not provided
+          const tickerPrice = addedPrice ?? await fetchTickerPrice(apiURL, apiKey, symbol);
           currentTickers.push({
             symbol,
             note: "",
-            addedPrice: addedPrice,
+            addedPrice: tickerPrice,
           });
         }
 
@@ -188,11 +216,14 @@ export const POST = (async ({ request, locals }) => {
         tickersArray = convertToNewFormat(tickerInput);
       }
     } else {
+      // Single ticker - fetch price server-side if not provided
+      const symbol = tickerInput as string;
+      const tickerPrice = addedPrice ?? await fetchTickerPrice(apiURL, apiKey, symbol);
       tickersArray = [
         {
-          symbol: tickerInput as string,
+          symbol,
           note: "",
-          addedPrice: addedPrice,
+          addedPrice: tickerPrice,
         },
       ];
     }

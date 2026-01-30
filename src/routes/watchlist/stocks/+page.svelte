@@ -481,27 +481,10 @@
     editMode = false;
 
     try {
-      // Fetch the current price for the ticker
-      let addedPrice = null;
-      try {
-        const quoteResponse = await fetch("/api/stock-quote", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ticker }),
-        });
-        if (quoteResponse.ok) {
-          const quoteData = await quoteResponse.json();
-          addedPrice = quoteData?.price ?? null;
-        }
-      } catch (e) {
-        console.log("Could not fetch price for ticker:", ticker);
-      }
-
-      // Prepare the data to send to the API.
+      // Prepare the data to send to the API (price is fetched server-side)
       const postData = {
         ticker: ticker,
         watchListId: displayWatchList?.id,
-        price: addedPrice,
       };
 
       // Create a promise for the fetch request.
