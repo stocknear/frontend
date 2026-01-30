@@ -164,6 +164,28 @@
   let showCookieConsentAfterDelay = false;
   let cookieConsentDelayTimer: ReturnType<typeof setTimeout> | undefined =
     undefined;
+  let marketingScriptTimer: ReturnType<typeof setTimeout> | undefined =
+    undefined;
+
+  // GTM loading delay in milliseconds (3 seconds for better PageSpeed scores)
+  const GTM_LOAD_DELAY = 3000;
+
+  // Add preconnect hints dynamically when we're about to load GTM
+  function addPreconnectHints() {
+    const domains = [
+      "https://www.googletagmanager.com",
+      "https://www.google-analytics.com",
+    ];
+
+    domains.forEach((href) => {
+      if (!document.querySelector(`link[href="${href}"][rel="preconnect"]`)) {
+        const link = document.createElement("link");
+        link.rel = "preconnect";
+        link.href = href;
+        document.head.appendChild(link);
+      }
+    });
+  }
 
   // Initialize GTM dataLayer
   function initDataLayer() {
@@ -178,6 +200,9 @@
   function loadGTMScript() {
     if (document.querySelector('script[src*="googletagmanager.com/gtm.js"]'))
       return;
+
+    // Add preconnect hints just before loading GTM
+    addPreconnectHints();
 
     const GTM_ID = "GTM-NZBJ9W63";
     const script = document.createElement("script");
@@ -302,9 +327,43 @@
     // Use optimized service worker registration
     registerServiceWorker();
 
+    // User interaction events that trigger early GTM loading
+    const interactionEvents = ["scroll", "click", "touchstart", "keydown"];
+
+    // Handler for user interaction - loads GTM immediately on engagement
+    const handleUserInteraction = () => {
+      // Remove all interaction listeners once triggered
+      interactionEvents.forEach((event) => {
+        window.removeEventListener(event, handleUserInteraction, {
+          capture: true,
+        });
+      });
+
+      // Clear the delayed timer if it exists
+      if (marketingScriptTimer) {
+        clearTimeout(marketingScriptTimer);
+        marketingScriptTimer = undefined;
+      }
+
+      // Load marketing scripts immediately on user interaction
+      if (!marketingScriptsLoaded) {
+        loadMarketingScripts();
+      }
+    };
+
+    // Add interaction listeners (passive for scroll/touch to not block)
+    interactionEvents.forEach((event) => {
+      window.addEventListener(event, handleUserInteraction, {
+        capture: true,
+        passive: true,
+        once: true,
+      });
+    });
+
     deferFunction(() => {
-      // Delay these tasks to ensure they don't block main thread
-      setTimeout(async () => {
+      // Delay GTM loading to 3 seconds after page load for better PageSpeed scores
+      // If user interacts before this, GTM loads immediately via interaction handler
+      marketingScriptTimer = setTimeout(async () => {
         // Only load marketing scripts if user has consented
         /*
         if (data?.cookieConsent?.marketing) {
@@ -317,12 +376,20 @@
         if (data?.user?.id) {
           await loadWorker();
         }
-      }, 1000);
+      }, GTM_LOAD_DELAY);
     });
 
     // Cleanup function
     return () => {
       if (cookieConsentDelayTimer) clearTimeout(cookieConsentDelayTimer);
+      if (marketingScriptTimer) clearTimeout(marketingScriptTimer);
+
+      // Remove interaction listeners on cleanup
+      interactionEvents.forEach((event) => {
+        window.removeEventListener(event, handleUserInteraction, {
+          capture: true,
+        });
+      });
 
       // Clean up worker on unmount
       if (syncWorker) {

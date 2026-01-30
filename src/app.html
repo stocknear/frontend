@@ -41,11 +41,7 @@
     <link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
     <link rel="manifest" href="%sveltekit.assets%/manifest.json" />
     
-    <!-- Preconnect to external domains for performance (loaded conditionally based on consent) -->
-    <link rel="preconnect" href="https://www.google-analytics.com" />
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <!-- Preconnect hints for GTM/Analytics are added dynamically in +layout.svelte when scripts load -->
 
     <!-- Marketing/Analytics scripts loaded conditionally in +layout.svelte based on cookie consent -->
 
@@ -91,12 +87,6 @@
     data-sveltekit-preload-data="hover"
     class="overflow-x-hidden font-sans"
   >
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-
     <div>%sveltekit.body%</div>
   </body>
 </html>
