@@ -42,6 +42,8 @@
   import Trash2 from "lucide-svelte/icons/trash-2";
   import IndentDecrease from "lucide-svelte/icons/indent-decrease";
   import IndentIncrease from "lucide-svelte/icons/indent-increase";
+  import DatabaseZap from "lucide-svelte/icons/database-zap";
+  import AlarmClockPlus from "lucide-svelte/icons/alarm-clock-plus";
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -6905,20 +6907,42 @@
           {/if}
         </button>
 
-        <!-- Time Intervals - Desktop only (mobile uses bottom nav) -->
-        <div class="hidden sm:flex items-center">
-          {#each timeframes as frame}
-            <button
-              class={`cursor-pointer px-2 py-1 text-sm font-medium rounded transition ${
-                activeRange === frame
-                  ? "text-white bg-violet-600"
-                  : "text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
-              }`}
-              on:click={() => setRange(frame)}
+        <!-- Time Intervals Dropdown - Desktop only (mobile uses bottom nav) -->
+        <div class="hidden sm:block">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <button
+                use:builder.action
+                {...builder}
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+              >
+                <AlarmClockPlus class="h-4 w-4 flex-shrink-0" />
+                <span>{activeRange}</span>
+                <ChevronDown class="h-3 w-3" />
+              </button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content
+              side="bottom"
+              align="start"
+              sideOffset={4}
+              class="w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
             >
-              {frame}
-            </button>
-          {/each}
+              <DropdownMenu.Group>
+                {#each timeframes as frame}
+                  <DropdownMenu.Item
+                    class={`flex items-center px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                      activeRange === frame
+                        ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                    }`}
+                    on:click={() => setRange(frame)}
+                  >
+                    {frame}
+                  </DropdownMenu.Item>
+                {/each}
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
         </div>
 
         <!-- Separator (hidden on mobile) -->
@@ -7206,16 +7230,7 @@
               {...builder}
               class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 28 28"
-                class="h-4 w-4"
-                fill="currentColor"
-              >
-                <path
-                  d="M14 4l8 4v8c0 4.4-3.4 8.5-8 10-4.6-1.5-8-5.6-8-10V8l8-4zm0 2.2L8 9.3v6.7c0 3.3 2.5 6.5 6 7.8 3.5-1.3 6-4.5 6-7.8V9.3l-6-3.1z"
-                />
-              </svg>
+              <DatabaseZap class="h-4 w-4 flex-shrink-0" />
               <span class="truncate max-w-24">
                 {selectedStrategyTitle?.length > 0
                   ? selectedStrategyTitle
@@ -9793,10 +9808,7 @@
         <!-- Delete All -->
         <button
           class="p-2 rounded-lg text-gray-600 dark:text-zinc-400 hover:text-rose-400 hover:bg-rose-400/10 transition"
-          on:click={() => {
-            chart?.removeOverlay();
-            overlayIds = [];
-          }}
+          on:click={removeAllDrawings}
           title="Delete all drawings"
         >
           <Trash2 class="h-5 w-5" />
@@ -9973,8 +9985,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Selected'
-              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Selected")}
           >
             <svg
@@ -9995,8 +10007,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Favorites'
-              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Favorites")}
           >
             <svg
@@ -10018,8 +10030,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Technicals'
-              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Technicals")}
           >
             <svg
@@ -10043,8 +10055,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Fundamentals'
-              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Fundamentals")}
           >
             <svg
@@ -10068,8 +10080,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Options'
-              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Options")}
           >
             <svg
@@ -10091,8 +10103,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Statistics'
-              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Statistics")}
           >
             <svg
@@ -10122,7 +10134,7 @@
                 class="cursor-pointer px-3 py-1.5 rounded-full text-sm border transition {indicatorModalSection ===
                 section
                   ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-white'}"
+                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                 on:click={() => (indicatorModalSection = section)}
               >
                 {section}
@@ -10395,7 +10407,7 @@
                     class="cursor-pointer px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
                       ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
+                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                     on:click={() => (fundamentalsTab = tab.id)}
                   >
                     {tab.label}
@@ -10461,7 +10473,7 @@
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
+                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
@@ -10523,7 +10535,7 @@
               {#if selectedIndicators.length > 0}
                 <button
                   type="button"
-                  class="flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white transition cursor-pointer"
+                  class="flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white transition cursor-pointer"
                   on:click={clearIndicators}
                 >
                   <svg
@@ -10604,7 +10616,7 @@
                                 indicator.id,
                               ) === option.id
                                 ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
+                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                               on:click|stopPropagation={() =>
                                 setFinancialIndicatorPeriod(
                                   indicator.id,
@@ -10677,7 +10689,7 @@
                                 indicator.id,
                               ) === option.id
                                 ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
+                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                               on:click|stopPropagation={() =>
                                 setFinancialIndicatorPeriod(
                                   indicator.id,
@@ -10706,7 +10718,7 @@
                     class="px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
                       ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
+                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                     on:click={() => (fundamentalsTab = tab.id)}
                   >
                     {tab.label}
@@ -10772,7 +10784,7 @@
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
+                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
