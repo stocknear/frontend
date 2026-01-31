@@ -7301,14 +7301,14 @@
           >
         </button>
 
-        <!-- Back to Stock Button -->
+        <!-- Back to Asset Button -->
         <a
-          href="/stocks/{ticker}"
+          href="/{assetType}/{ticker}"
           class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
-          title="Back to {ticker} stock page"
+          title="Back to {ticker}"
         >
           <ArrowLeft class="h-4 w-4 flex-shrink-0" />
-          <span class="hidden sm:inline">Stock</span>
+          <span class="hidden sm:inline">{assetType === 'etf' ? 'ETF' : assetType === 'index' ? 'Index' : 'Stock'}</span>
         </a>
 
         <!-- Separator -->
