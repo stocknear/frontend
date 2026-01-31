@@ -22,7 +22,7 @@
   class="modal modal-bottom sm:modal-middle rounded-none sm:rounded"
 >
   <div
-    class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-200 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
+    class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-300 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
     640
       ? 'min-h-screen'
       : ''}"

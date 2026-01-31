@@ -170,10 +170,7 @@
   />
 
   <dialog {id} class="modal p-3 sm:p-0 text-muted dark:text-white">
-    <label
-      for={id}
-      class="cursor-pointer modal-backdrop bg-black/30"
-    ></label>
+    <label for={id} class="cursor-pointer modal-backdrop bg-black/30"></label>
 
     <!-- Mobile modal content -->
     <div
@@ -184,7 +181,9 @@
       />
       <div class="mb-4 mt-3 text-left w-full">
         {#if title}
-          <h3 class="font-semibold text-lg sm:text-xl mb-3 text-gray-900 dark:text-zinc-100">
+          <h3
+            class="font-semibold text-lg sm:text-xl mb-3 text-gray-900 dark:text-zinc-100"
+          >
             {title}
           </h3>
         {/if}
@@ -196,7 +195,9 @@
           {/if}
         </div>
         {#if equation}
-          <div class="mt-4 pt-4 border-t border-gray-200 dark:border-zinc-800 text-sm">
+          <div
+            class="mt-4 pt-4 border-t border-gray-300 dark:border-zinc-700 text-sm"
+          >
             {@html equation}
           </div>
         {/if}

@@ -888,7 +888,7 @@
                           bind:value={searchQuery}
                           on:input={handleInput}
                           autocomplete="off"
-                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-200 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 bg-transparent"
+                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 bg-transparent"
                           placeholder={economic_filter_search()}
                         />
                         {#if searchQuery?.length > 0}

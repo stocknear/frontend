@@ -1075,9 +1075,10 @@
   let intradayHistoryTicker = "";
 
   // Chart loading state - shows spinner when loading historical data
-  $: isChartLoading = minuteBarsLoading ||
+  $: isChartLoading =
+    minuteBarsLoading ||
     (intradayIntervals.includes(activeRange as IntradayInterval) &&
-     intradayHistory[activeRange as IntradayInterval]?.isLoading);
+      intradayHistory[activeRange as IntradayInterval]?.isLoading);
 
   const intradayHistoryChunkDays = 5;
   // 1min and 5min: max 30 days, others (15min, 30min, 1hour): max 90 days
@@ -6847,11 +6848,11 @@
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
     <div
-      class="flex flex-col border-b border-gray-200 dark:border-[#262626] bg-[#09090b]"
+      class="flex flex-col border-b border-gray-300 dark:border-[#262626] bg-[#09090b]"
     >
       <!-- First Row: Ticker Info + OHLC -->
       <div
-        class="flex items-center px-2 py-1 gap-1 text-sm border-b border-gray-200 dark:border-[#262626]"
+        class="flex items-center px-2 py-1 gap-1 text-sm border-b border-gray-300 dark:border-[#262626]"
       >
         <!-- Ticker Symbol -->
         <button class="flex items-center gap-1.5 px-2 py-1">
@@ -6888,7 +6889,9 @@
       </div>
 
       <!-- Second Row: Tools -->
-      <div class="flex items-center px-1 py-0.5 gap-1 sm:gap-0.5 overflow-x-auto scrollbar-none">
+      <div
+        class="flex items-center px-1 py-0.5 gap-1 sm:gap-0.5 overflow-x-auto scrollbar-none"
+      >
         <!-- Toolbar Toggle (hidden on mobile since drawing toolbar is desktop-only) -->
         <button
           class="hidden sm:flex cursor-pointer items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
@@ -7015,171 +7018,180 @@
                 <ChevronDown class="size-3" />
               </button>
             </DropdownMenu.Trigger>
-          <DropdownMenu.Content
-            side="bottom"
-            align="start"
-            sideOffset={4}
-            class="w-auto min-w-40 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
-          >
-            <DropdownMenu.Group>
-              <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
-                on:click={(e) => e.preventDefault()}
-              >
-                <label
-                  class="inline-flex justify-between w-full items-center cursor-pointer"
-                  on:click|stopPropagation
-                  on:pointerdown|stopPropagation
+            <DropdownMenu.Content
+              side="bottom"
+              align="start"
+              sideOffset={4}
+              class="w-auto min-w-40 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
+            >
+              <DropdownMenu.Group>
+                <DropdownMenu.Item
+                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                  on:click={(e) => e.preventDefault()}
                 >
-                  <span>Earnings</span>
-                  <div class="relative ml-4 flex items-center">
-                    {#if isSubscribed}
-                      <input
-                        type="checkbox"
-                        class="sr-only peer"
-                        checked={showEarnings}
-                        on:change={() => {
-                          showEarnings = !showEarnings;
-                          saveEventSettings();
-                          if (showEarnings && !isNonIntradayRange(activeRange)) {
-                            setRange("1D");
-                            // Re-apply range after chart settles to ensure correct state
-                            setTimeout(() => setRange("1D"), 150);
-                          } else {
-                            updateAllOverlays();
-                          }
-                        }}
-                      />
-                      <div
-                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                      ></div>
-                    {:else}
-                      <button
-                        type="button"
-                        on:click|stopPropagation={() => goto("/pricing")}
-                        class="text-neutral-500 hover:text-neutral-300 transition"
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
+                  <label
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                    on:click|stopPropagation
+                    on:pointerdown|stopPropagation
+                  >
+                    <span>Earnings</span>
+                    <div class="relative ml-4 flex items-center">
+                      {#if isSubscribed}
+                        <input
+                          type="checkbox"
+                          class="sr-only peer"
+                          checked={showEarnings}
+                          on:change={() => {
+                            showEarnings = !showEarnings;
+                            saveEventSettings();
+                            if (
+                              showEarnings &&
+                              !isNonIntradayRange(activeRange)
+                            ) {
+                              setRange("1D");
+                              // Re-apply range after chart settles to ensure correct state
+                              setTimeout(() => setRange("1D"), 150);
+                            } else {
+                              updateAllOverlays();
+                            }
+                          }}
+                        />
+                        <div
+                          class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                        ></div>
+                      {:else}
+                        <button
+                          type="button"
+                          on:click|stopPropagation={() => goto("/pricing")}
+                          class="text-neutral-500 hover:text-neutral-300 transition"
                         >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
-                        </svg>
-                      </button>
-                    {/if}
-                  </div>
-                </label>
-              </DropdownMenu.Item>
-              <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
-                on:click={(e) => e.preventDefault()}
-              >
-                <label
-                  class="inline-flex justify-between w-full items-center cursor-pointer"
-                  on:click|stopPropagation
-                  on:pointerdown|stopPropagation
+                          <svg
+                            class="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                            />
+                          </svg>
+                        </button>
+                      {/if}
+                    </div>
+                  </label>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                  on:click={(e) => e.preventDefault()}
                 >
-                  <span>Dividends</span>
-                  <div class="relative ml-4 flex items-center">
-                    {#if isSubscribed}
-                      <input
-                        type="checkbox"
-                        class="sr-only peer"
-                        checked={showDividends}
-                        on:change={() => {
-                          showDividends = !showDividends;
-                          saveEventSettings();
-                          if (showDividends && !isNonIntradayRange(activeRange)) {
-                            setRange("1D");
-                            // Re-apply range after chart settles to ensure correct state
-                            setTimeout(() => setRange("1D"), 150);
-                          } else {
-                            updateAllOverlays();
-                          }
-                        }}
-                      />
-                      <div
-                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                      ></div>
-                    {:else}
-                      <button
-                        type="button"
-                        on:click|stopPropagation={() => goto("/pricing")}
-                        class="text-neutral-500 hover:text-neutral-300 transition"
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
+                  <label
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                    on:click|stopPropagation
+                    on:pointerdown|stopPropagation
+                  >
+                    <span>Dividends</span>
+                    <div class="relative ml-4 flex items-center">
+                      {#if isSubscribed}
+                        <input
+                          type="checkbox"
+                          class="sr-only peer"
+                          checked={showDividends}
+                          on:change={() => {
+                            showDividends = !showDividends;
+                            saveEventSettings();
+                            if (
+                              showDividends &&
+                              !isNonIntradayRange(activeRange)
+                            ) {
+                              setRange("1D");
+                              // Re-apply range after chart settles to ensure correct state
+                              setTimeout(() => setRange("1D"), 150);
+                            } else {
+                              updateAllOverlays();
+                            }
+                          }}
+                        />
+                        <div
+                          class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                        ></div>
+                      {:else}
+                        <button
+                          type="button"
+                          on:click|stopPropagation={() => goto("/pricing")}
+                          class="text-neutral-500 hover:text-neutral-300 transition"
                         >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
-                        </svg>
-                      </button>
-                    {/if}
-                  </div>
-                </label>
-              </DropdownMenu.Item>
-              <DropdownMenu.Item
-                class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
-                on:click={(e) => e.preventDefault()}
-              >
-                <label
-                  class="inline-flex justify-between w-full items-center cursor-pointer"
-                  on:click|stopPropagation
-                  on:pointerdown|stopPropagation
+                          <svg
+                            class="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                            />
+                          </svg>
+                        </button>
+                      {/if}
+                    </div>
+                  </label>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                  on:click={(e) => e.preventDefault()}
                 >
-                  <span>News Flow</span>
-                  <div class="relative ml-4 flex items-center">
-                    {#if isSubscribed}
-                      <input
-                        type="checkbox"
-                        class="sr-only peer"
-                        checked={showNewsFlow}
-                        on:change={() => {
-                          showNewsFlow = !showNewsFlow;
-                          saveEventSettings();
-                          if (showNewsFlow && !isNonIntradayRange(activeRange)) {
-                            setRange("1D");
-                            // Re-apply range after chart settles to ensure correct state
-                            setTimeout(() => setRange("1D"), 150);
-                          } else {
-                            updateAllOverlays();
-                          }
-                        }}
-                      />
-                      <div
-                        class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                      ></div>
-                    {:else}
-                      <button
-                        type="button"
-                        on:click|stopPropagation={() => goto("/pricing")}
-                        class="text-neutral-500 hover:text-neutral-300 transition"
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
+                  <label
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                    on:click|stopPropagation
+                    on:pointerdown|stopPropagation
+                  >
+                    <span>News Flow</span>
+                    <div class="relative ml-4 flex items-center">
+                      {#if isSubscribed}
+                        <input
+                          type="checkbox"
+                          class="sr-only peer"
+                          checked={showNewsFlow}
+                          on:change={() => {
+                            showNewsFlow = !showNewsFlow;
+                            saveEventSettings();
+                            if (
+                              showNewsFlow &&
+                              !isNonIntradayRange(activeRange)
+                            ) {
+                              setRange("1D");
+                              // Re-apply range after chart settles to ensure correct state
+                              setTimeout(() => setRange("1D"), 150);
+                            } else {
+                              updateAllOverlays();
+                            }
+                          }}
+                        />
+                        <div
+                          class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                        ></div>
+                      {:else}
+                        <button
+                          type="button"
+                          on:click|stopPropagation={() => goto("/pricing")}
+                          class="text-neutral-500 hover:text-neutral-300 transition"
                         >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
-                        </svg>
-                      </button>
-                    {/if}
-                  </div>
-                </label>
-              </DropdownMenu.Item>
-            </DropdownMenu.Group>
-          </DropdownMenu.Content>
+                          <svg
+                            class="w-4 h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                            />
+                          </svg>
+                        </button>
+                      {/if}
+                    </div>
+                  </label>
+                </DropdownMenu.Item>
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
           </DropdownMenu.Root>
         </div>
 
@@ -7368,7 +7380,7 @@
       <!-- KlineCharts Pro Style Drawing Toolbar -->
       {#if toolbarExpanded}
         <div
-          class="hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-200 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
+          class="hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-300 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
         >
           <!-- Cursor Tool -->
           <button
@@ -7681,11 +7693,16 @@
       {/if}
 
       <div class="relative flex-1 bg-[#0b0b0b]">
-        <div class="absolute inset-0 z-[1] touch-manipulation" bind:this={chartContainer}></div>
+        <div
+          class="absolute inset-0 z-[1] touch-manipulation"
+          bind:this={chartContainer}
+        ></div>
 
         <!-- Loading Spinner Overlay -->
         {#if isChartLoading}
-          <div class="bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]">
+          <div
+            class="bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
+          >
             <span class="loading loading-spinner loading-md text-white"></span>
           </div>
         {/if}
@@ -7794,7 +7811,7 @@
             style="--popup-x: {earningsPopupPosition.x}px; --popup-y: {earningsPopupPosition.y}px;"
             style:left={!isMobile ? `${earningsPopupPosition.x}px` : undefined}
             style:top={!isMobile ? `${earningsPopupPosition.y}px` : undefined}
-            style:transform={!isMobile ? 'translate(-50%, -100%)' : undefined}
+            style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
           >
             <div
               class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
@@ -8072,7 +8089,7 @@
             class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
             style:left={!isMobile ? `${dividendPopupPosition.x}px` : undefined}
             style:top={!isMobile ? `${dividendPopupPosition.y}px` : undefined}
-            style:transform={!isMobile ? 'translate(-50%, -100%)' : undefined}
+            style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
           >
             <div
               class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
@@ -8221,7 +8238,7 @@
             class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
             style:left={!isMobile ? `${newsPopupPosition.x}px` : undefined}
             style:top={!isMobile ? `${newsPopupPosition.y}px` : undefined}
-            style:transform={!isMobile ? 'translate(-50%, -100%)' : undefined}
+            style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
           >
             <div
               class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
@@ -9210,7 +9227,9 @@
   </div>
 
   <!-- Mobile Bottom Navigation Bar -->
-  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0b0b0b] border-t border-neutral-800 safe-area-pb">
+  <div
+    class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0b0b0b] border-t border-neutral-800 safe-area-pb"
+  >
     <div class="flex items-center justify-around px-2 py-1">
       <!-- Timeframe -->
       <DropdownMenu.Root>
@@ -9289,9 +9308,21 @@
         on:click={openIndicatorModal}
         class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 cursor-pointer transition min-w-[60px]"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-5 w-5" fill="none">
-          <path stroke="currentColor" d="M6 12l4.8-4.8a1 1 0 0 1 1.4 0l2.7 2.7a1 1 0 0 0 1.3.1L23 5" />
-          <path fill="currentColor" fill-rule="evenodd" d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 28 28"
+          class="h-5 w-5"
+          fill="none"
+        >
+          <path
+            stroke="currentColor"
+            d="M6 12l4.8-4.8a1 1 0 0 1 1.4 0l2.7 2.7a1 1 0 0 0 1.3.1L23 5"
+          />
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"
+          />
         </svg>
         <span class="text-[10px] font-medium">Indicators</span>
       </label>
@@ -9304,8 +9335,15 @@
             {...builder}
             class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="h-5 w-5" fill="currentColor">
-              <path d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 28 28"
+              class="h-5 w-5"
+              fill="currentColor"
+            >
+              <path
+                d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z"
+              />
             </svg>
             <span class="text-[10px] font-medium">Events</span>
           </button>
@@ -9339,10 +9377,24 @@
                       }
                     }}
                   />
-                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                  <div
+                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  ></div>
                 {:else}
-                  <button type="button" on:click|stopPropagation={() => goto("/pricing")} class="text-neutral-500 hover:text-neutral-300 transition">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z" /></svg>
+                  <button
+                    type="button"
+                    on:click|stopPropagation={() => goto("/pricing")}
+                    class="text-neutral-500 hover:text-neutral-300 transition"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                      /></svg
+                    >
                   </button>
                 {/if}
               </div>
@@ -9369,10 +9421,24 @@
                       }
                     }}
                   />
-                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                  <div
+                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  ></div>
                 {:else}
-                  <button type="button" on:click|stopPropagation={() => goto("/pricing")} class="text-neutral-500 hover:text-neutral-300 transition">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z" /></svg>
+                  <button
+                    type="button"
+                    on:click|stopPropagation={() => goto("/pricing")}
+                    class="text-neutral-500 hover:text-neutral-300 transition"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                      /></svg
+                    >
                   </button>
                 {/if}
               </div>
@@ -9399,10 +9465,24 @@
                       }
                     }}
                   />
-                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                  <div
+                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  ></div>
                 {:else}
-                  <button type="button" on:click|stopPropagation={() => goto("/pricing")} class="text-neutral-500 hover:text-neutral-300 transition">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z" /></svg>
+                  <button
+                    type="button"
+                    on:click|stopPropagation={() => goto("/pricing")}
+                    class="text-neutral-500 hover:text-neutral-300 transition"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                      /></svg
+                    >
                   </button>
                 {/if}
               </div>
@@ -9437,7 +9517,9 @@
 
 <!-- Mobile Bottom Navigation Bar -->
 {#if isMobile}
-  <div class="fixed bottom-0 left-0 right-0 z-[30] sm:hidden bg-[#09090b] border-t border-neutral-800 h-[60px]">
+  <div
+    class="fixed bottom-0 left-0 right-0 z-[30] sm:hidden bg-[#09090b] border-t border-neutral-800 h-[60px]"
+  >
     <div class="flex items-center justify-around h-full px-2">
       <!-- Timeframe -->
       <DropdownMenu.Root>
@@ -9482,10 +9564,7 @@
             {...builder}
             class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
           >
-            <svelte:component
-              this={currentChartType?.icon}
-              class="h-5 w-5"
-            />
+            <svelte:component this={currentChartType?.icon} class="h-5 w-5" />
             <span class="text-[10px] font-medium">Chart</span>
           </button>
         </DropdownMenu.Trigger>
@@ -9518,7 +9597,13 @@
         for="indicatorModal"
         class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition cursor-pointer"
       >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="M3 3v18h18" />
           <path d="m19 9-5 5-4-4-3 3" />
         </svg>
@@ -9533,7 +9618,13 @@
             {...builder}
             class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
           >
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <rect x="3" y="4" width="18" height="18" rx="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
               <line x1="8" y1="2" x2="8" y2="6" />
@@ -9570,7 +9661,9 @@
                     }
                   }}
                 />
-                <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                <div
+                  class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                ></div>
               </div>
             </DropdownMenu.Item>
             <DropdownMenu.Item
@@ -9594,7 +9687,9 @@
                     }
                   }}
                 />
-                <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                <div
+                  class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                ></div>
               </div>
             </DropdownMenu.Item>
             {#if isSubscribed}
@@ -9619,7 +9714,9 @@
                       }
                     }}
                   />
-                  <div class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                  <div
+                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  ></div>
                 </div>
               </DropdownMenu.Item>
             {/if}
@@ -9632,7 +9729,13 @@
         for="mobileToolsModal"
         class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition cursor-pointer"
       >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="M12 19l7-7 3 3-7 7-3-3z" />
           <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
           <path d="M2 2l7.586 7.586" />
@@ -9647,20 +9750,27 @@
 <!-- Mobile Drawing Tools Modal -->
 <input type="checkbox" id="mobileToolsModal" class="modal-toggle" />
 <dialog id="mobileToolsModal" class="modal modal-bottom">
-  <label for="mobileToolsModal" class="cursor-pointer modal-backdrop bg-black/30"></label>
-  <div class="modal-box rounded-t-2xl border-t border-neutral-700 bg-[#0a0a0a] p-0 w-full max-h-[70vh]">
+  <label
+    for="mobileToolsModal"
+    class="cursor-pointer modal-backdrop bg-black/30"
+  ></label>
+  <div
+    class="modal-box rounded-t-2xl border-t border-neutral-700 bg-[#0a0a0a] p-0 w-full max-h-[70vh]"
+  >
     <!-- Handle bar -->
     <div class="flex justify-center py-2">
       <div class="w-10 h-1 bg-neutral-700 rounded-full"></div>
     </div>
 
     <!-- Header -->
-    <div class="flex items-center justify-between px-4 pb-3 border-b border-neutral-800">
+    <div
+      class="flex items-center justify-between px-4 pb-3 border-b border-neutral-800"
+    >
       <h3 class="text-base font-semibold text-neutral-100">Drawing Tools</h3>
       <div class="flex items-center gap-2">
         <!-- Lock/Unlock -->
         <button
-          class={`p-2 rounded-lg transition ${drawingsLocked ? 'text-amber-400 bg-amber-400/10' : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'}`}
+          class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"}`}
           on:click={toggleDrawingsLock}
           title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
         >
@@ -9670,18 +9780,23 @@
         </button>
         <!-- Show/Hide -->
         <button
-          class={`p-2 rounded-lg transition ${!drawingsVisible ? 'text-neutral-500' : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'}`}
+          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-neutral-500" : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"}`}
           on:click={toggleDrawingsVisibility}
           title={drawingsVisible ? "Hide drawings" : "Show drawings"}
         >
           <svg class="h-5 w-5" viewBox="0 0 22 22" fill="currentColor">
-            <path d={drawingsVisible ? toolIcons.visible : toolIcons.invisible} />
+            <path
+              d={drawingsVisible ? toolIcons.visible : toolIcons.invisible}
+            />
           </svg>
         </button>
         <!-- Delete All -->
         <button
           class="p-2 rounded-lg text-neutral-400 hover:text-rose-400 hover:bg-rose-400/10 transition"
-          on:click={() => { chart?.removeOverlay(); overlayIds = []; }}
+          on:click={() => {
+            chart?.removeOverlay();
+            overlayIds = [];
+          }}
           title="Delete all drawings"
         >
           <Trash2 class="h-5 w-5" />
@@ -9693,20 +9808,32 @@
     <div class="p-4 space-y-4 overflow-y-auto max-h-[50vh]">
       {#each toolGroups as group}
         <div>
-          <h4 class="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-2">{group.label}</h4>
+          <h4
+            class="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-2"
+          >
+            {group.label}
+          </h4>
           <div class="grid grid-cols-2 gap-2">
             {#each group.options as option}
               <label
                 for="mobileToolsModal"
                 class={`flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${
                   selectedToolByGroup[group.id] === option.id
-                    ? 'border-violet-500 bg-violet-500/10 text-violet-300'
-                    : 'border-neutral-800 bg-neutral-900/50 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-800/50'
-                } ${drawingsLocked ? 'opacity-50 pointer-events-none' : ''}`}
-                on:click={() => activateDrawingTool(group.id, option.id, option.overlay)}
+                    ? "border-violet-500 bg-violet-500/10 text-violet-300"
+                    : "border-neutral-800 bg-neutral-900/50 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-800/50"
+                } ${drawingsLocked ? "opacity-50 pointer-events-none" : ""}`}
+                on:click={() =>
+                  activateDrawingTool(group.id, option.id, option.overlay)}
               >
-                <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 22 22" fill="currentColor">
-                  <path d={toolIcons[option.icon] || toolIcons.horizontalStraightLine} />
+                <svg
+                  class="h-5 w-5 flex-shrink-0"
+                  viewBox="0 0 22 22"
+                  fill="currentColor"
+                >
+                  <path
+                    d={toolIcons[option.icon] ||
+                      toolIcons.horizontalStraightLine}
+                  />
                 </svg>
                 <span class="text-sm truncate">{option.label}</span>
               </label>
@@ -9721,7 +9848,10 @@
       <label
         for="mobileToolsModal"
         class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-neutral-700 bg-neutral-800/50 text-neutral-200 hover:bg-neutral-800 transition cursor-pointer"
-        on:click={() => { activeTool = null; chart?.removeOverlay(); }}
+        on:click={() => {
+          activeTool = null;
+          chart?.removeOverlay();
+        }}
       >
         <MousePointer2 class="h-5 w-5" />
         <span class="text-sm font-medium">Cursor Mode</span>

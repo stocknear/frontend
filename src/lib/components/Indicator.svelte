@@ -138,9 +138,8 @@
 
       // Initialize the download worker if not already done
       if (!downloadWorker) {
-        const DownloadWorker = await import(
-          "$lib/workers/downloadWorker?worker"
-        );
+        const DownloadWorker =
+          await import("$lib/workers/downloadWorker?worker");
         downloadWorker = new DownloadWorker.default();
         downloadWorker.onmessage = handleDownloadMessage;
         console.log("initialize");
@@ -188,7 +187,7 @@
           on:input={handleInput}
           autocomplete="off"
           autofocus=""
-          class="text-sm w-full border-0 bg-default focus:border-gray-200 focus:ring-0 text-white placeholder:text-gray-300 pr-8"
+          class="text-sm w-full border-0 bg-default focus:border-gray-300 focus:ring-0 text-white placeholder:text-gray-300 pr-8"
           type="text"
           placeholder=""
         />

@@ -5,37 +5,37 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import {
-  stock_detail_ai_analyzing,
-  stock_detail_ai_analyzing_data,
-  stock_detail_ai_cagr,
-  stock_detail_ai_consistency,
-  stock_detail_ai_copy,
-  stock_detail_ai_disclaimer,
-  stock_detail_ai_efficiency,
-  stock_detail_ai_executive_summary,
-  stock_detail_ai_extracting_insights,
-  stock_detail_ai_financial_analysis,
-  stock_detail_ai_insufficient_credits,
-  stock_detail_ai_investor_takeaway,
-  stock_detail_ai_key_strengths,
-  stock_detail_ai_margins,
-  stock_detail_ai_overall_health,
-  stock_detail_ai_period_annual,
-  stock_detail_ai_period_quarterly,
-  stock_detail_ai_period_ttm,
-  stock_detail_ai_red_flags,
-  stock_detail_ai_show_summary,
-  stock_detail_ai_statement_balance,
-  stock_detail_ai_statement_cashflow,
-  stock_detail_ai_statement_income,
-  stock_detail_ai_statement_ratios,
-  stock_detail_ai_subscription_required,
-  stock_detail_ai_summarize,
-  stock_detail_ai_summary_copied,
-  stock_detail_ai_summary_downloaded,
-  stock_detail_ai_trend,
-  stock_detail_financials_download,
-} from "$lib/paraglide/messages";
+    stock_detail_ai_analyzing,
+    stock_detail_ai_analyzing_data,
+    stock_detail_ai_cagr,
+    stock_detail_ai_consistency,
+    stock_detail_ai_copy,
+    stock_detail_ai_disclaimer,
+    stock_detail_ai_efficiency,
+    stock_detail_ai_executive_summary,
+    stock_detail_ai_extracting_insights,
+    stock_detail_ai_financial_analysis,
+    stock_detail_ai_insufficient_credits,
+    stock_detail_ai_investor_takeaway,
+    stock_detail_ai_key_strengths,
+    stock_detail_ai_margins,
+    stock_detail_ai_overall_health,
+    stock_detail_ai_period_annual,
+    stock_detail_ai_period_quarterly,
+    stock_detail_ai_period_ttm,
+    stock_detail_ai_red_flags,
+    stock_detail_ai_show_summary,
+    stock_detail_ai_statement_balance,
+    stock_detail_ai_statement_cashflow,
+    stock_detail_ai_statement_income,
+    stock_detail_ai_statement_ratios,
+    stock_detail_ai_subscription_required,
+    stock_detail_ai_summarize,
+    stock_detail_ai_summary_copied,
+    stock_detail_ai_summary_downloaded,
+    stock_detail_ai_trend,
+    stock_detail_financials_download,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
@@ -141,7 +141,9 @@
     }
 
     if (data?.user?.credits < 3) {
-      errorMessage = stock_detail_ai_insufficient_credits({ credits: data?.user?.credits });
+      errorMessage = stock_detail_ai_insufficient_credits({
+        credits: data?.user?.credits,
+      });
       showModal = true;
       return;
     }
@@ -454,7 +456,9 @@ ${summaryData.investorTakeaway}
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
       />
     </svg>
-    {hasCachedSummary ? stock_detail_ai_show_summary() : stock_detail_ai_summarize()}
+    {hasCachedSummary
+      ? stock_detail_ai_show_summary()
+      : stock_detail_ai_summarize()}
   {/if}
 </Button>
 
@@ -470,7 +474,7 @@ ${summaryData.investorTakeaway}
     >
       <!-- Modal Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-[#09090B] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-200 dark:border-zinc-700"
+        class="sticky top-0 z-10 bg-white dark:bg-[#09090B] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-300 dark:border-zinc-700"
       >
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
@@ -546,7 +550,9 @@ ${summaryData.investorTakeaway}
               {stock_detail_ai_analyzing_data()}
             </p>
             <p class="text-xs text-gray-500 dark:text-zinc-400">
-              {stock_detail_ai_extracting_insights({ statement: getStatementLabel(statementType).toLowerCase() })}
+              {stock_detail_ai_extracting_insights({
+                statement: getStatementLabel(statementType).toLowerCase(),
+              })}
             </p>
           </div>
         {:else if errorMessage}
@@ -583,7 +589,8 @@ ${summaryData.investorTakeaway}
                   <span
                     class="text-xs font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-wider"
                   >
-                    {summaryData.yearsAnalyzed} {stock_detail_ai_overall_health()}
+                    {summaryData.yearsAnalyzed}
+                    {stock_detail_ai_overall_health()}
                   </span>
                 </div>
                 <div

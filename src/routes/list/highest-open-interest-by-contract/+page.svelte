@@ -267,9 +267,8 @@
     loadRowsPerPage();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -520,7 +519,7 @@
     >
       <main class="w-full">
         <div
-          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
         >
           <div
             class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -774,9 +773,9 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                        <span class="text-sm"
-                          >{list_rows_label({ rows: item })}</span
-                        >
+                            <span class="text-sm"
+                              >{list_rows_label({ rows: item })}</span
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -792,9 +791,7 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline"
-                    >{list_pagination_next()}</span
-                  >
+                  <span class="hidden sm:inline">{list_pagination_next()}</span>
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"

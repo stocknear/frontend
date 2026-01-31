@@ -1,4 +1,5 @@
 import { checkMarketHourSSR} from "$lib/utils";
+import { fetchWatchlist } from "$lib/server/watchlist";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -19,8 +20,8 @@ const REMOVE_PATTERNS = {
 };
 
 // Constants
-const CACHE_DURATION = 30 * 1000; // 5 minutes
-const REQUEST_TIMEOUT = 2000; // 5 seconds
+const CACHE_DURATION = 30 * 1000;
+const REQUEST_TIMEOUT = 2000;
 const ENDPOINTS = Object.freeze([
   "/index-profile",
   "/etf-holdings",
@@ -142,57 +143,6 @@ const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
     } else {
       console.error(`Error fetching ${endpoint}:`, error);
     }
-    return [];
-  }
-};
-
-// Type for ticker data (can be string or object)
-type TickerData = string | { symbol: string; note?: string; addedPrice?: number | null };
-
-// Extract just the symbols from ticker array (strips notes to save bandwidth)
-function extractSymbolsOnly(tickers: unknown): string[] {
-  if (!tickers) return [];
-
-  let tickerArray: TickerData[];
-
-  // Handle string format (JSON stored in DB)
-  if (typeof tickers === "string") {
-    try {
-      tickerArray = JSON.parse(tickers);
-    } catch {
-      return [];
-    }
-  } else if (Array.isArray(tickers)) {
-    tickerArray = tickers;
-  } else {
-    return [];
-  }
-
-  if (!Array.isArray(tickerArray)) return [];
-
-  // Extract just the symbol strings
-  return tickerArray.map((t) =>
-    typeof t === "string" ? t : (t?.symbol || "")
-  ).filter(Boolean);
-}
-
-// Optimized watchlist fetching - strips notes to save bandwidth
-// For index detail page, we only need: id, title, and list of symbols
-const fetchWatchlist = async (pb, userId) => {
-  if (!userId) return [];
-  try {
-    const watchlists = await pb.collection("watchlist").getFullList({
-      filter: `user="${userId}"`,
-      fields: "id,title,ticker", // Only fetch needed fields
-    });
-
-    // Transform to lightweight format (symbols only, no notes)
-    return watchlists.map((wl) => ({
-      id: wl.id,
-      title: wl.title,
-      ticker: extractSymbolsOnly(wl.ticker),
-    }));
-  } catch {
     return [];
   }
 };

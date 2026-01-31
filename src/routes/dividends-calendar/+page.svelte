@@ -22,33 +22,33 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import {
-  dividends_back_to_top,
-  dividends_breadcrumb_calendar,
-  dividends_breadcrumb_home,
-  dividends_count,
-  dividends_empty_day,
-  dividends_empty_none,
-  dividends_empty_scheduled,
-  dividends_expanded_amount,
-  dividends_expanded_dividend,
-  dividends_expanded_ex_date,
-  dividends_expanded_market_cap,
-  dividends_expanded_payment_date,
-  dividends_expanded_revenue,
-  dividends_main_name,
-  dividends_pagination_next,
-  dividends_pagination_page_of,
-  dividends_pagination_previous,
-  dividends_pagination_rows,
-  dividends_search_placeholder,
-  dividends_seo_description,
-  dividends_seo_keywords,
-  dividends_seo_title,
-  dividends_tab_daily,
-  dividends_tab_weekly,
-  dividends_tab_details,
-  dividends_tab_compact,
-} from "$lib/paraglide/messages";
+    dividends_back_to_top,
+    dividends_breadcrumb_calendar,
+    dividends_breadcrumb_home,
+    dividends_count,
+    dividends_empty_day,
+    dividends_empty_none,
+    dividends_empty_scheduled,
+    dividends_expanded_amount,
+    dividends_expanded_dividend,
+    dividends_expanded_ex_date,
+    dividends_expanded_market_cap,
+    dividends_expanded_payment_date,
+    dividends_expanded_revenue,
+    dividends_main_name,
+    dividends_pagination_next,
+    dividends_pagination_page_of,
+    dividends_pagination_previous,
+    dividends_pagination_rows,
+    dividends_search_placeholder,
+    dividends_seo_description,
+    dividends_seo_keywords,
+    dividends_seo_title,
+    dividends_tab_daily,
+    dividends_tab_weekly,
+    dividends_tab_details,
+    dividends_tab_compact,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -110,10 +110,10 @@
   // Tab label translation helper
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "Daily": dividends_tab_daily,
-      "Weekly": dividends_tab_weekly,
-      "Details": dividends_tab_details,
-      "Compact": dividends_tab_compact,
+      Daily: dividends_tab_daily,
+      Weekly: dividends_tab_weekly,
+      Details: dividends_tab_details,
+      Compact: dividends_tab_compact,
     };
     return tabLabels[tab]?.() ?? tab;
   }
@@ -387,9 +387,8 @@
     updateDailyPagination();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -635,7 +634,9 @@
         >{dividends_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{dividends_breadcrumb_calendar()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {dividends_breadcrumb_calendar()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -691,14 +692,17 @@
                     {#each weekday as day, index}
                       <div
                         on:click={() => toggleDate(index)}
-                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index === selectedWeekday
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
+                        selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
                           : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{dividends_count({ count: day?.length })}</span>
+                        <span class="text-sm"
+                          >{dividends_count({ count: day?.length })}</span
+                        >
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -840,7 +844,9 @@
                         <h2
                           class="font-semibold text-xl text-gray-900 dark:text-white"
                         >
-                          {formattedWeekday[index]?.split(", ")[1]} · {dividends_count({ count: day?.length })}
+                          {formattedWeekday[index]?.split(", ")[1]} · {dividends_count(
+                            { count: day?.length },
+                          )}
                         </h2>
 
                         <div
@@ -1039,7 +1045,8 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">{dividends_pagination_previous()}</span
+                              <span class="hidden sm:inline"
+                                >{dividends_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -1048,7 +1055,10 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {dividends_pagination_page_of({ current: dailyCurrentPage, total: dailyTotalPages })}
+                              {dividends_pagination_page_of({
+                                current: dailyCurrentPage,
+                                total: dailyTotalPages,
+                              })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -1059,7 +1069,9 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{dividends_pagination_rows({ count: dailyRowsPerPage })}</span
+                                    >{dividends_pagination_rows({
+                                      count: dailyRowsPerPage,
+                                    })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1094,7 +1106,11 @@
                                           changeDailyRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{dividends_pagination_rows({ count: item })}</span>
+                                        <span class="text-sm"
+                                          >{dividends_pagination_rows({
+                                            count: item,
+                                          })}</span
+                                        >
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -1110,7 +1126,9 @@
                               disabled={dailyCurrentPage === dailyTotalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">{dividends_pagination_next()}</span>
+                              <span class="hidden sm:inline"
+                                >{dividends_pagination_next()}</span
+                              >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -1133,7 +1151,8 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {dividends_back_to_top()} <svg
+                            {dividends_back_to_top()}
+                            <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -1170,7 +1189,9 @@
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
                         >
-                        <span class="text-sm">{dividends_count({ count: day?.length })}</span>
+                        <span class="text-sm"
+                          >{dividends_count({ count: day?.length })}</span
+                        >
                         {#if index === 0}
                           <button
                             on:click|stopPropagation={() =>
@@ -1209,7 +1230,7 @@
                   </div>
 
                   <div
-                    class="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-0 border-l border-r border-gray-200/70 dark:border-zinc-800/80 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80"
+                    class="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-0 border-l border-r border-gray-300/70 dark:border-zinc-700/80 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80"
                   >
                     {#each weekday as day, dayIndex}
                       <div class="min-w-0 px-1 py-1">
@@ -1516,7 +1537,9 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{dividends_expanded_dividend()}</td>
+                                      <td class="py-1.5 text-sm"
+                                        >{dividends_expanded_dividend()}</td
+                                      >
                                       <td class="text-right font-semibold">
                                         ${item?.adjDividend?.toFixed(4) ||
                                           "n/a"}
@@ -1525,7 +1548,9 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{dividends_expanded_revenue()}</td>
+                                      <td class="py-1.5 text-sm"
+                                        >{dividends_expanded_revenue()}</td
+                                      >
                                       <td class="text-right font-semibold">
                                         {item?.revenue
                                           ? `$${abbreviateNumber(item?.revenue, false, true)}`
@@ -1535,7 +1560,9 @@
                                     <tr
                                       class="border-b border-gray-300 dark:border-zinc-700"
                                     >
-                                      <td class="py-1.5 text-sm">{dividends_expanded_ex_date()}</td>
+                                      <td class="py-1.5 text-sm"
+                                        >{dividends_expanded_ex_date()}</td
+                                      >
                                       <td class="text-right font-semibold">
                                         {item?.exDividendDate
                                           ? new Date(
@@ -1549,7 +1576,8 @@
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td class="pb-0.5 pt-1.5">{dividends_expanded_payment_date()}</td
+                                      <td class="pb-0.5 pt-1.5"
+                                        >{dividends_expanded_payment_date()}</td
                                       >
                                       <td class="text-right font-semibold">
                                         {item?.paymentDate

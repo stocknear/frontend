@@ -446,7 +446,7 @@
 <div class="flex flex-col h-full max-h-[80vh]">
   <!-- Header -->
   <div
-    class="flex items-start justify-between pb-4 border-b border-gray-200 dark:border-zinc-700"
+    class="flex items-start justify-between pb-4 border-b border-gray-300 dark:border-zinc-700"
   >
     <div class="flex items-center gap-3">
       <div>
@@ -488,7 +488,7 @@
   <!-- Toolbar (only in edit mode) -->
   {#if !isPreviewMode}
     <div
-      class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-gray-200 dark:border-zinc-700 overflow-x-hidden"
+      class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-gray-300 dark:border-zinc-700 overflow-x-hidden"
     >
       <div class="flex items-center gap-0.5">
         <button
@@ -622,11 +622,11 @@
 
   <!-- Footer -->
   <div
-    class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-zinc-700"
+    class="flex items-center justify-end gap-3 pt-4 border-t border-gray-300 dark:border-zinc-700"
   >
     <button
       on:click={onCancel}
-      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
     >
       Cancel
     </button>

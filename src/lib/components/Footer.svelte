@@ -354,7 +354,7 @@
 
     <!-- Bottom bar -->
     <div
-      class="-mb-8 pb-6 mt-10 border-t border-gray-200 pt-8 dark:border-zinc-700 md:flex md:items-center md:justify-between"
+      class="-mb-8 pb-6 mt-10 border-t border-gray-300 pt-8 dark:border-zinc-700 md:flex md:items-center md:justify-between"
     >
       <div class="flex space-x-6 md:order-1">
         <a

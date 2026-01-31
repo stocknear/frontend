@@ -28,60 +28,60 @@
   import Copy from "lucide-svelte/icons/copy";
   import Zap from "lucide-svelte/icons/zap";
   import {
-  options_flow_add_filters,
-  options_flow_call_flow,
-  options_flow_filters_count,
-  options_flow_full_width,
-  options_flow_hide_filter_area,
-  options_flow_live_flow,
-  options_flow_main_title,
-  options_flow_market_closed,
-  options_flow_modal_delete_cancel,
-  options_flow_modal_delete_confirm,
-  options_flow_modal_delete_message,
-  options_flow_modal_delete_title,
-  options_flow_modal_new_create,
-  options_flow_modal_new_name_label,
-  options_flow_modal_new_title,
-  options_flow_new_filter,
-  options_flow_no_data_filters,
-  options_flow_no_filters_found,
-  options_flow_no_trades_query,
-  options_flow_normal_width,
-  options_flow_nothing_found,
-  options_flow_paused,
-  options_flow_pick_date,
-  options_flow_popular_filters,
-  options_flow_popular_strategies,
-  options_flow_put_flow,
-  options_flow_put_to_call,
-  options_flow_realtime_data,
-  options_flow_realtime_data_content,
-  options_flow_realtime_data_title,
-  options_flow_reset_all,
-  options_flow_save,
-  options_flow_save_as_new,
-  options_flow_saved_filters,
-  options_flow_search_filters,
-  options_flow_search_input_placeholder,
-  options_flow_search_placeholder,
-  options_flow_select_filter,
-  options_flow_select_filters_title,
-  options_flow_select_popular,
-  options_flow_seo_description,
-  options_flow_seo_keywords,
-  options_flow_seo_title,
-  options_flow_show_filter_area,
-  options_flow_strategy_bearish_sweeps,
-  options_flow_strategy_bullish_sweeps,
-  options_flow_strategy_etf_index_flow,
-  options_flow_strategy_high_premium_blocks,
-  options_flow_strategy_repeated_flow,
-  options_flow_strategy_unusual_size_oi,
-  options_flow_strategy_zero_dte_flow,
-  options_flow_structured_description,
-  options_flow_structured_name,
-} from "$lib/paraglide/messages";
+    options_flow_add_filters,
+    options_flow_call_flow,
+    options_flow_filters_count,
+    options_flow_full_width,
+    options_flow_hide_filter_area,
+    options_flow_live_flow,
+    options_flow_main_title,
+    options_flow_market_closed,
+    options_flow_modal_delete_cancel,
+    options_flow_modal_delete_confirm,
+    options_flow_modal_delete_message,
+    options_flow_modal_delete_title,
+    options_flow_modal_new_create,
+    options_flow_modal_new_name_label,
+    options_flow_modal_new_title,
+    options_flow_new_filter,
+    options_flow_no_data_filters,
+    options_flow_no_filters_found,
+    options_flow_no_trades_query,
+    options_flow_normal_width,
+    options_flow_nothing_found,
+    options_flow_paused,
+    options_flow_pick_date,
+    options_flow_popular_filters,
+    options_flow_popular_strategies,
+    options_flow_put_flow,
+    options_flow_put_to_call,
+    options_flow_realtime_data,
+    options_flow_realtime_data_content,
+    options_flow_realtime_data_title,
+    options_flow_reset_all,
+    options_flow_save,
+    options_flow_save_as_new,
+    options_flow_saved_filters,
+    options_flow_search_filters,
+    options_flow_search_input_placeholder,
+    options_flow_search_placeholder,
+    options_flow_select_filter,
+    options_flow_select_filters_title,
+    options_flow_select_popular,
+    options_flow_seo_description,
+    options_flow_seo_keywords,
+    options_flow_seo_title,
+    options_flow_show_filter_area,
+    options_flow_strategy_bearish_sweeps,
+    options_flow_strategy_bullish_sweeps,
+    options_flow_strategy_etf_index_flow,
+    options_flow_strategy_high_premium_blocks,
+    options_flow_strategy_repeated_flow,
+    options_flow_strategy_unusual_size_oi,
+    options_flow_strategy_zero_dte_flow,
+    options_flow_structured_description,
+    options_flow_structured_name,
+  } from "$lib/paraglide/messages";
 
   import { page } from "$app/stores";
 
@@ -2266,7 +2266,7 @@
                 />
 
                 <div
-                  class="relative w-11 h-6 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all {$isOpen &&
+                  class="relative w-11 h-6 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all {$isOpen &&
                   modeStatus
                     ? 'bg-emerald-500'
                     : 'bg-gray-200/80 dark:bg-zinc-800'}"
@@ -2330,7 +2330,9 @@
             <button
               on:click={() => (showFilters = !showFilters)}
               class="flex cursor-pointer items-center text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
-              title={showFilters ? options_flow_hide_filter_area() : options_flow_show_filter_area()}
+              title={showFilters
+                ? options_flow_hide_filter_area()
+                : options_flow_show_filter_area()}
             >
               <svg
                 class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
@@ -3316,7 +3318,7 @@
             <!-- Table toolbar: Find, Download, Reset Column Order -->
 
             <div
-              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
             >
               <div
                 class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"

@@ -10,46 +10,46 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import {
-  notifications_alerts_count,
-  notifications_back_to_top,
-  notifications_breadcrumb_home,
-  notifications_breadcrumb_notifications,
-  notifications_channel_earnings_surprise,
-  notifications_channel_top_analyst,
-  notifications_channel_wiim,
-  notifications_customize,
-  notifications_delete_error,
-  notifications_empty,
-  notifications_main_title,
-  notifications_mark_all_read,
-  notifications_marking,
-  notifications_modal_cancel,
-  notifications_modal_delete_button,
-  notifications_modal_delete_confirm,
-  notifications_modal_delete_title,
-  notifications_modal_deleting,
-  notifications_no_channels,
-  notifications_pagination_next,
-  notifications_pagination_page_of,
-  notifications_pagination_previous,
-  notifications_pagination_rows,
-  notifications_seo_description,
-  notifications_seo_title,
-  notifications_settings,
-  notifications_sidebar_portfolio,
-  notifications_sidebar_portfolio_description,
-  notifications_sidebar_watchlist,
-  notifications_sidebar_watchlist_description,
-  notifications_type_breaking_news,
-  notifications_type_earnings_release,
-  notifications_type_earnings_surprise_new,
-  notifications_type_is_condition,
-  notifications_type_price_alert_triggered,
-  notifications_type_price_is,
-  notifications_type_top_analyst_new,
-  notifications_type_top_analyst_rating,
-  notifications_type_wiim_new_data,
-} from "$lib/paraglide/messages";
+    notifications_alerts_count,
+    notifications_back_to_top,
+    notifications_breadcrumb_home,
+    notifications_breadcrumb_notifications,
+    notifications_channel_earnings_surprise,
+    notifications_channel_top_analyst,
+    notifications_channel_wiim,
+    notifications_customize,
+    notifications_delete_error,
+    notifications_empty,
+    notifications_main_title,
+    notifications_mark_all_read,
+    notifications_marking,
+    notifications_modal_cancel,
+    notifications_modal_delete_button,
+    notifications_modal_delete_confirm,
+    notifications_modal_delete_title,
+    notifications_modal_deleting,
+    notifications_no_channels,
+    notifications_pagination_next,
+    notifications_pagination_page_of,
+    notifications_pagination_previous,
+    notifications_pagination_rows,
+    notifications_seo_description,
+    notifications_seo_title,
+    notifications_settings,
+    notifications_sidebar_portfolio,
+    notifications_sidebar_portfolio_description,
+    notifications_sidebar_watchlist,
+    notifications_sidebar_watchlist_description,
+    notifications_type_breaking_news,
+    notifications_type_earnings_release,
+    notifications_type_earnings_surprise_new,
+    notifications_type_is_condition,
+    notifications_type_price_alert_triggered,
+    notifications_type_price_is,
+    notifications_type_top_analyst_new,
+    notifications_type_top_analyst_rating,
+    notifications_type_wiim_new_data,
+  } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
@@ -127,7 +127,10 @@
       wiim: () => notifications_channel_wiim(),
       topAnalyst: () => notifications_channel_top_analyst(),
     };
-    return labelGetters[key]?.() ?? key.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
+    return (
+      labelGetters[key]?.() ??
+      key.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase())
+    );
   }
 
   const formatChannelLabel = (key: string) => getChannelLabel(key);
@@ -684,7 +687,10 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    items={[{ label: notifications_breadcrumb_home(), href: "/" }, { label: notifications_breadcrumb_notifications() }]}
+    items={[
+      { label: notifications_breadcrumb_home(), href: "/" },
+      { label: notifications_breadcrumb_notifications() },
+    ]}
   />
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -702,12 +708,16 @@
           </div>
 
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:py-2 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:py-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
           >
             <h2
               class="text-start w-full mb-2 sm:mb-0 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {notifications_alerts_count({ count: totalItems?.toLocaleString(getLocale() === "de" ? "de-DE" : "en-US") })}
+              {notifications_alerts_count({
+                count: totalItems?.toLocaleString(
+                  getLocale() === "de" ? "de-DE" : "en-US",
+                ),
+              })}
             </h2>
             <div
               class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none py-1 sm:py-0 w-full"
@@ -722,7 +732,9 @@
                   aria-disabled={markAllDisabled}
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{updateInFlight ? notifications_marking() : notifications_mark_all_read()}</span
+                    >{updateInFlight
+                      ? notifications_marking()
+                      : notifications_mark_all_read()}</span
                   >
                 </Button>
               </div>
@@ -794,7 +806,7 @@
                                     )}
                                 />
                                 <div
-                                  class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                                  class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                                   class:opacity-50={channelUpdating[option.key]}
                                 ></div>
                               </div></label
@@ -874,7 +886,8 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {notifications_type_price_alert_triggered()} <HoverStockChart
+                                {notifications_type_price_alert_triggered()}
+                                <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
                                   assetType={item?.liveResults?.assetType}
                                 />
@@ -882,10 +895,13 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {notifications_type_price_is()} <span class="font-semibold"
+                                {notifications_type_price_is()}
+                                <span class="font-semibold"
                                   >{item?.liveResults?.currentPrice}</span
                                 >
-                                {notifications_type_is_condition({ condition: item?.liveResults?.condition })}
+                                {notifications_type_is_condition({
+                                  condition: item?.liveResults?.condition,
+                                })}
                                 <span class="font-semibold"
                                   >{item?.liveResults?.targetPrice}</span
                                 >
@@ -996,7 +1012,13 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
                               >
-                                {notifications_type_top_analyst_rating({ analyst: item?.liveResults?.analyst, rating: item?.liveResults?.rating_current, price: "$" + item?.liveResults?.adjusted_pt_current })}
+                                {notifications_type_top_analyst_rating({
+                                  analyst: item?.liveResults?.analyst,
+                                  rating: item?.liveResults?.rating_current,
+                                  price:
+                                    "$" +
+                                    item?.liveResults?.adjusted_pt_current,
+                                })}
                               </div>
                             </div>
                           </div>
@@ -1087,13 +1109,18 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">{notifications_pagination_previous()}</span>
+                  <span class="hidden sm:inline"
+                    >{notifications_pagination_previous()}</span
+                  >
                 </Button>
               </div>
 
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  {notifications_pagination_page_of({ current: currentPage, total: totalPages })}
+                  {notifications_pagination_page_of({
+                    current: currentPage,
+                    total: totalPages,
+                  })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -1103,7 +1130,9 @@
                       class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{notifications_pagination_rows({ count: selectedRowsPerPage })}</span
+                        >{notifications_pagination_rows({
+                          count: selectedRowsPerPage,
+                        })}</span
                       >
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1137,7 +1166,11 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{notifications_pagination_rows({ count: item })}</span>
+                            <span class="text-sm"
+                              >{notifications_pagination_rows({
+                                count: item,
+                              })}</span
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1152,7 +1185,9 @@
                   disabled={currentPage === totalPages}
                   class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">{notifications_pagination_next()}</span>
+                  <span class="hidden sm:inline"
+                    >{notifications_pagination_next()}</span
+                  >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -1207,7 +1242,9 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">{notifications_sidebar_watchlist()}</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  {notifications_sidebar_watchlist()}
+                </h2>
               </div>
               <span
                 class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
@@ -1251,7 +1288,9 @@
   <div
     class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/90 text-gray-700 dark:text-zinc-200"
   >
-    <h3 class="text-lg font-medium mb-2">{notifications_modal_delete_title()}</h3>
+    <h3 class="text-lg font-medium mb-2">
+      {notifications_modal_delete_title()}
+    </h3>
     <p class="text-sm mb-4">
       {notifications_modal_delete_confirm()}
     </p>
@@ -1296,7 +1335,9 @@
             y2="17"
           ></line></svg
         ><span class="whitespace-nowrap"
-          >{deleteInFlight ? notifications_modal_deleting() : notifications_modal_delete_button()}</span
+          >{deleteInFlight
+            ? notifications_modal_deleting()
+            : notifications_modal_delete_button()}</span
         >
       </button>
     </div>

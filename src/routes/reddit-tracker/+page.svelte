@@ -11,18 +11,18 @@
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  reddit_tracker_breadcrumb_current,
-  reddit_tracker_breadcrumb_home,
-  reddit_tracker_seo_description,
-  reddit_tracker_seo_keywords,
-  reddit_tracker_seo_title,
-  reddit_tracker_stocks_count,
-  reddit_tracker_subreddit_label,
-  reddit_tracker_tab_3months,
-  reddit_tracker_tab_month,
-  reddit_tracker_tab_week,
-  reddit_tracker_title,
-} from "$lib/paraglide/messages";
+    reddit_tracker_breadcrumb_current,
+    reddit_tracker_breadcrumb_home,
+    reddit_tracker_seo_description,
+    reddit_tracker_seo_keywords,
+    reddit_tracker_seo_title,
+    reddit_tracker_stocks_count,
+    reddit_tracker_subreddit_label,
+    reddit_tracker_tab_3months,
+    reddit_tracker_tab_month,
+    reddit_tracker_tab_week,
+    reddit_tracker_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -227,8 +227,12 @@
 </script>
 
 <SEO
-  title={reddit_tracker_seo_title({ subreddit: getSubredditDisplay(currentSubreddit) })}
-  description={reddit_tracker_seo_description({ subreddit: getSubredditDisplay(currentSubreddit) })}
+  title={reddit_tracker_seo_title({
+    subreddit: getSubredditDisplay(currentSubreddit),
+  })}
+  description={reddit_tracker_seo_description({
+    subreddit: getSubredditDisplay(currentSubreddit),
+  })}
   keywords={reddit_tracker_seo_keywords({ subreddit: currentSubreddit })}
   structuredData={{
     "@context": "https://schema.org",
@@ -276,7 +280,9 @@
         >{reddit_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{reddit_tracker_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {reddit_tracker_breadcrumb_current()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -309,7 +315,7 @@
                   class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   i
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item?.title}
                 </button>
@@ -380,7 +386,9 @@
                 {excludedRules}
                 {defaultList}
                 {specificRows}
-                title={reddit_tracker_stocks_count({ count: rawData?.length?.toLocaleString("en-US") })}
+                title={reddit_tracker_stocks_count({
+                  count: rawData?.length?.toLocaleString("en-US"),
+                })}
               />
             {/key}
           {/if}

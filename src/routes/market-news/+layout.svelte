@@ -1,14 +1,14 @@
 <script lang="ts">
   import {
-  market_news_breadcrumb_home,
-  market_news_breadcrumb_market_news,
-  market_news_tab_all_stocks,
-  market_news_tab_markets,
-  market_news_tab_press_releases,
-  market_news_title_all_stocks,
-  market_news_title_markets,
-  market_news_title_press_releases,
-} from "$lib/paraglide/messages";
+    market_news_breadcrumb_home,
+    market_news_breadcrumb_market_news,
+    market_news_tab_all_stocks,
+    market_news_tab_markets,
+    market_news_tab_press_releases,
+    market_news_title_all_stocks,
+    market_news_title_markets,
+    market_news_title_press_releases,
+  } from "$lib/paraglide/messages";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
@@ -54,7 +54,9 @@
         >{market_news_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{market_news_breadcrumb_market_news()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {market_news_breadcrumb_market_news()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -87,7 +89,7 @@
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   index
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item.title}
                 </a>

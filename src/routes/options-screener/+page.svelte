@@ -4,57 +4,57 @@
   import { clearCache, screenWidth } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
   import {
-  options_screener_add_filters,
-  options_screener_back_to_top,
-  options_screener_breadcrumb_home,
-  options_screener_breadcrumb_options_screener,
-  options_screener_contracts_count,
-  options_screener_expire_on,
-  options_screener_filters_count,
-  options_screener_full_width,
-  options_screener_main_title,
-  options_screener_modal_delete_cancel,
-  options_screener_modal_delete_confirm,
-  options_screener_modal_delete_message,
-  options_screener_modal_delete_title,
-  options_screener_modal_new_create,
-  options_screener_modal_new_name_label,
-  options_screener_modal_new_title,
-  options_screener_new_screen,
-  options_screener_no_contracts,
-  options_screener_no_contracts_query,
-  options_screener_normal_width,
-  options_screener_nothing_found,
-  options_screener_pagination_next,
-  options_screener_pagination_page_of,
-  options_screener_pagination_previous,
-  options_screener_popular_screens,
-  options_screener_popular_strategies,
-  options_screener_reset_all,
-  options_screener_rows_label,
-  options_screener_save,
-  options_screener_save_as_new,
-  options_screener_saved_screens,
-  options_screener_search_filters,
-  options_screener_search_input_placeholder,
-  options_screener_search_placeholder,
-  options_screener_select_filters_title,
-  options_screener_select_popular,
-  options_screener_select_screen,
-  options_screener_seo_description,
-  options_screener_seo_keywords,
-  options_screener_seo_title,
-  options_screener_strategy_high_iv_rank,
-  options_screener_strategy_high_premium_flow,
-  options_screener_strategy_itm_calls,
-  options_screener_strategy_otm_puts,
-  options_screener_strategy_volume_surge,
-  options_screener_structured_description,
-  options_screener_structured_name,
-  options_screener_tab_filters,
-  options_screener_tab_general,
-  options_screener_tab_greeks,
-} from "$lib/paraglide/messages";
+    options_screener_add_filters,
+    options_screener_back_to_top,
+    options_screener_breadcrumb_home,
+    options_screener_breadcrumb_options_screener,
+    options_screener_contracts_count,
+    options_screener_expire_on,
+    options_screener_filters_count,
+    options_screener_full_width,
+    options_screener_main_title,
+    options_screener_modal_delete_cancel,
+    options_screener_modal_delete_confirm,
+    options_screener_modal_delete_message,
+    options_screener_modal_delete_title,
+    options_screener_modal_new_create,
+    options_screener_modal_new_name_label,
+    options_screener_modal_new_title,
+    options_screener_new_screen,
+    options_screener_no_contracts,
+    options_screener_no_contracts_query,
+    options_screener_normal_width,
+    options_screener_nothing_found,
+    options_screener_pagination_next,
+    options_screener_pagination_page_of,
+    options_screener_pagination_previous,
+    options_screener_popular_screens,
+    options_screener_popular_strategies,
+    options_screener_reset_all,
+    options_screener_rows_label,
+    options_screener_save,
+    options_screener_save_as_new,
+    options_screener_saved_screens,
+    options_screener_search_filters,
+    options_screener_search_input_placeholder,
+    options_screener_search_placeholder,
+    options_screener_select_filters_title,
+    options_screener_select_popular,
+    options_screener_select_screen,
+    options_screener_seo_description,
+    options_screener_seo_keywords,
+    options_screener_seo_title,
+    options_screener_strategy_high_iv_rank,
+    options_screener_strategy_high_premium_flow,
+    options_screener_strategy_itm_calls,
+    options_screener_strategy_otm_puts,
+    options_screener_strategy_volume_surge,
+    options_screener_structured_description,
+    options_screener_structured_name,
+    options_screener_tab_filters,
+    options_screener_tab_general,
+    options_screener_tab_greeks,
+  } from "$lib/paraglide/messages";
 
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -2651,7 +2651,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
               'general'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {options_screener_tab_general()}
             </button>
@@ -2662,7 +2662,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
               'filters'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               <span>{options_screener_tab_filters()}</span>
               {#if ruleOfList?.length > 0}
@@ -2680,7 +2680,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
               'greeks'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               <span>{options_screener_tab_greeks()}</span>
             </button>

@@ -1,28 +1,28 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
   import {
-  affiliate_cta_button,
-  affiliate_cta_section_title,
-  affiliate_description,
-  affiliate_q1_answer,
-  affiliate_q1_title,
-  affiliate_q2_answer,
-  affiliate_q2_title,
-  affiliate_q3_answer,
-  affiliate_q3_title,
-  affiliate_q4_answer,
-  affiliate_q4_title,
-  affiliate_q5_answer,
-  affiliate_q5_title,
-  affiliate_q6_answer,
-  affiliate_q6_title,
-  affiliate_q7_answer,
-  affiliate_q7_title,
-  affiliate_seo_description,
-  affiliate_seo_title,
-  affiliate_subtitle,
-  affiliate_title,
-} from "$lib/paraglide/messages";
+    affiliate_cta_button,
+    affiliate_cta_section_title,
+    affiliate_description,
+    affiliate_q1_answer,
+    affiliate_q1_title,
+    affiliate_q2_answer,
+    affiliate_q2_title,
+    affiliate_q3_answer,
+    affiliate_q3_title,
+    affiliate_q4_answer,
+    affiliate_q4_title,
+    affiliate_q5_answer,
+    affiliate_q5_title,
+    affiliate_q6_answer,
+    affiliate_q6_title,
+    affiliate_q7_answer,
+    affiliate_q7_title,
+    affiliate_seo_description,
+    affiliate_seo_title,
+    affiliate_subtitle,
+    affiliate_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
 </script>
@@ -90,14 +90,11 @@
 </svelte:head>
 -->
 
-<SEO
-  title={affiliate_seo_title()}
-  description={affiliate_seo_description()}
-/>
+<SEO title={affiliate_seo_title()} description={affiliate_seo_description()} />
 
 <main class="text-muted dark:text-white w-full">
   <section
-    class="border-b border-gray-200 dark:border-none shadow dark:border-zinc-700 sm:rounded w-full bg-gray-100 dark:bg-gray-500/20"
+    class="border-b border-gray-300 dark:border-none shadow dark:border-zinc-700 sm:rounded w-full bg-gray-100 dark:bg-gray-500/20"
   >
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-2 md:px-8">
       <div class="text-center">
@@ -166,7 +163,9 @@
                 ></path>
               </svg>
             </div>
-            <p class="ml-16 text-lg font-semibold leading-6">{affiliate_q1_title()}</p>
+            <p class="ml-16 text-lg font-semibold leading-6">
+              {affiliate_q1_title()}
+            </p>
           </dt>
           <dd class="ml-16 mt-2">
             {affiliate_q1_answer()}
@@ -419,7 +418,7 @@
   </section>
 
   <section
-    class="border-t border-gray-200 shadow dark:border-zinc-700 bg-gray-100 sm:rounded dark:bg-gray-500/20"
+    class="border-t border-gray-300 shadow dark:border-zinc-700 bg-gray-100 sm:rounded dark:bg-gray-500/20"
   >
     <div
       class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-28 rounded mt-10 mb-10"

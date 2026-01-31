@@ -22,22 +22,14 @@
 
   import { onDestroy, afterUpdate } from "svelte";
   import { page } from "$app/stores";
-  import { toast } from "svelte-sonner";
-  import { mode } from "mode-watcher";
 
   import { convertTimestamp } from "$lib/utils";
   import TickerHeader from "$lib/components/TickerHeader.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
+  import WatchlistButton from "$lib/components/WatchlistButton.svelte";
 
   import {
-    index_detail_watchlist,
     index_detail_price_alert,
-    index_detail_add_to_watchlist,
-    index_detail_ticker_added,
-    index_detail_ticker_add_failed,
-    index_detail_upgrade_watchlist,
-    index_detail_companies,
-    index_detail_company,
     index_detail_nav_overview,
     index_detail_nav_options,
     index_detail_nav_history,
@@ -59,11 +51,6 @@
   let isScrolled = false;
   let y;
 
-  let userWatchList = data?.getUserWatchlist ?? [];
-  //let userPortfolio = data?.getUserPortfolio ?? [];
-  //let holdingShares = 0;
-  //let availableCash = 0;
-
   let displaySection = "";
   let displayLegend = {};
 
@@ -79,134 +66,6 @@
       displaySection = state;
     } else {
       displaySection = "overview";
-    }
-  }
-
-  async function handleWatchlistButtonClick() {
-    if (!data?.user) {
-      // User not logged in, let the label handle opening login modal
-      return;
-    }
-
-    if (!userWatchList || userWatchList?.length === 0) {
-      // No watchlists exist, create one and add ticker
-      try {
-        const response = await fetch("/api/update-watchlist", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            watchListId: "default",
-            ticker: $indexTicker,
-            title: "My Watchlist",
-            price: data?.getStockQuote?.price ?? null,
-          }),
-        });
-
-        const output = await response.json();
-        userWatchList = [output];
-
-        toast.success(index_detail_ticker_added(), {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
-      } catch (error) {
-        console.error("Error creating watchlist:", error);
-        toast.error(index_detail_ticker_add_failed(), {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
-      }
-    } else {
-      // Watchlists exist, open modal
-      const modal = document.getElementById(
-        "addWatchListModal",
-      ) as HTMLInputElement;
-      if (modal) {
-        modal.checked = true;
-      }
-    }
-  }
-
-  // Helper to check if ticker exists in watchlist (handles both string and object formats)
-  function tickerExistsInWatchlist(
-    tickers: (string | { symbol: string })[],
-    symbol: string,
-  ): boolean {
-    if (!tickers || !Array.isArray(tickers)) return false;
-    return tickers.some((t) =>
-      typeof t === "string" ? t === symbol : t?.symbol === symbol,
-    );
-  }
-
-  // Prevent concurrent toggle operations
-  let isTogglingWatchlist = false;
-
-  async function toggleUserWatchlist(watchListId: string) {
-    // Prevent rapid clicking
-    if (isTogglingWatchlist) return;
-    isTogglingWatchlist = true;
-
-    try {
-      // Find the index of the watchlist
-      const watchlistIndex = userWatchList?.findIndex(
-        (item) => item?.id === watchListId,
-      );
-
-      if (watchlistIndex !== -1 && watchlistIndex !== undefined) {
-        const watchlist = userWatchList[watchlistIndex];
-        const tickerExists = tickerExistsInWatchlist(
-          watchlist?.ticker,
-          $indexTicker,
-        );
-
-        // Check tier limits before adding
-        if (!tickerExists) {
-          const currentCount = watchlist?.ticker?.length || 0;
-          if (
-            !["Pro", "Plus"]?.includes(data?.user?.tier) &&
-            currentCount >= 5
-          ) {
-            toast.error(index_detail_upgrade_watchlist(), {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            });
-            return;
-          }
-        }
-
-        // Send API request - let the server handle the toggle
-        const response = await fetch("/api/update-watchlist", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            watchListId,
-            ticker: $indexTicker,
-            price: !tickerExists ? (data?.getStockQuote?.price ?? null) : undefined,
-          }),
-        });
-
-        const output = await response.json();
-
-        // Update userWatchList based on API response (single source of truth)
-        userWatchList = userWatchList.map((item) =>
-          item.id === watchListId ? output : item,
-        );
-      } else {
-        // If watchlist doesn't exist, create a new entry
-        const response = await fetch("/api/update-watchlist", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            watchListId,
-            ticker: $indexTicker,
-            price: data?.getStockQuote?.price ?? null,
-          }),
-        });
-
-        const output = await response.json();
-        userWatchList = [...userWatchList, output];
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    } finally {
-      isTogglingWatchlist = false;
     }
   }
 
@@ -548,34 +407,11 @@
                         <div
                           class="-mb-1 mt-6 flex sm:ml-auto w-full ml-auto gap-2 sm:right-5 sm:top-6 sm:mb-0 sm:mt-0 sm:w-auto lg:right-8"
                         >
-                          <button
-                            on:click={() => {
-                              if (data?.user) {
-                                handleWatchlistButtonClick();
-                              } else {
-                                const modal =
-                                  document.getElementById("userLogin");
-                                if (modal) modal.checked = true;
-                              }
-                            }}
-                            class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm lg:px-3 flex-1 md:flex-initial"
-                            ><svg
-                              class="size-5 flex-shrink-0"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              style="max-width:40px"
-                              aria-hidden="true"
-                              ><path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                              ></path></svg
-                            >
-                            <span class="text-sm md:text-sm">{index_detail_watchlist()}</span
-                            ></button
-                          >
+                          <WatchlistButton
+                            ticker={$indexTicker}
+                            assetType="index"
+                            price={data?.getStockQuote?.price}
+                          />
                           <label
                             on:click={() => ($openPriceAlert = true)}
                             for={data?.user ? "priceAlertModal" : "userLogin"}
@@ -597,7 +433,8 @@
                                 /></g
                               ></svg
                             >
-                            <span class="text-sm md:text-sm">{index_detail_price_alert()}</span
+                            <span class="text-sm md:text-sm"
+                              >{index_detail_price_alert()}</span
                             ></label
                           >
                           <StockPriceExport
@@ -639,7 +476,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_overview()}
                         </a>
@@ -650,7 +487,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_options()}
                         </a>
@@ -661,7 +498,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_history()}
                         </a>
@@ -701,111 +538,6 @@
   />
 {/await}
 
-<!--Start Add Watchlist Modal-->
-<input type="checkbox" id="addWatchListModal" class="modal-toggle" />
-
-<dialog id="addWatchListModal" class="modal p-3 sm:p-0">
-  <label
-    id="addWatchListModal"
-    for="addWatchListModal"
-    class="cursor-pointer modal-backdrop"
-  ></label>
-
-  <div
-    class="modal-box max-h-96 rounded-2xl w-full bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800 text-gray-700 dark:text-zinc-200"
-  >
-    <div
-      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800"
-    >
-      <h3
-        class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white"
-      >
-        {index_detail_add_to_watchlist()}
-      </h3>
-      <label
-        for="addWatchListModal"
-        class="cursor-pointer absolute right-5 top-2 text-sm sm:text-[1.5rem]"
-      >
-        ✕
-      </label>
-    </div>
-
-    <div class="">
-      <div class="flex flex-col items-center w-full max-w-3xl">
-        {#each userWatchList as item}
-          <label
-            on:click|stopPropagation={() => toggleUserWatchlist(item?.id)}
-            class="cursor-pointer w-full flex flex-row justify-start items-center mb-5"
-          >
-            <div
-              class="flex flex-row items-center w-full border p-3 rounded-2xl {tickerExistsInWatchlist(
-                item?.ticker,
-                $indexTicker,
-              )
-                ? 'border-gray-200/70 dark:border-zinc-700/80 bg-gray-50/60 dark:bg-zinc-900/50'
-                : 'border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40'}"
-            >
-              <div class="flex flex-col items-center w-full">
-                <span class="ml-1 mr-auto text-gray-700 dark:text-zinc-200">
-                  {item?.title}
-                </span>
-                <span
-                  class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300"
-                >
-                  {item?.ticker?.length}
-                  {item?.ticker?.length !== 1 ? index_detail_companies() : index_detail_company()}
-                </span>
-              </div>
-
-              <div
-                class="rounded-full w-8 h-8 relative border border-gray-300 dark:border-zinc-700"
-              >
-                {#if tickerExistsInWatchlist(item?.ticker, $indexTicker)}
-                  <svg
-                    class="w-full h-full rounded-full text-gray-700 dark:text-zinc-200"
-                    viewBox="0 0 48 48"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    fill="#09090B000"
-                    ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
-                      id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></g><g id="SVGRepo_iconCarrier">
-                      <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                      <title>ic_fluent_checkmark_circle_48_filled</title>
-                      <desc>Created with Sketch.</desc>
-                      <g
-                        stroke="none"
-                        stroke-width="1"
-                        fill="none"
-                        fill-rule="evenodd"
-                      >
-                        <g
-                          id="ic_fluent_checkmark_circle_48_filled"
-                          fill="currentColor"
-                          fill-rule="nonzero"
-                        >
-                          <path
-                            d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z"
-                          >
-                          </path>
-                        </g>
-                      </g>
-                    </g></svg
-                  >
-                {/if}
-              </div>
-            </div>
-          </label>
-        {/each}
-      </div>
-    </div>
-  </div>
-</dialog>
-
-<!--End Add Watchlist Modal-->
 
 <style lang="scss">
   .scrollbar {

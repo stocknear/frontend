@@ -1366,7 +1366,7 @@
           {#if !isChartRoute}
             <div class="hidden 3xl:block 3xl:w-[300px]">
               <aside
-                class="fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-200 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
+                class="fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-300 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
               >
                 <nav
                   class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
@@ -1884,79 +1884,79 @@
 <!-- Bottom Navigation Bar -->
 {#if !isChartRoute}
   <nav
-    class="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
-           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:bg-gray-900 sm:dark:bg-zinc-900/90 sm:backdrop-blur-xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
+    class="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
+           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
            {navbarHidden ? 'translate-y-full sm:translate-y-[calc(100%+2rem)]' : 'translate-y-0'}"
   >
     <div class="grid grid-cols-5 h-14 sm:flex sm:h-auto sm:px-2 sm:py-2 sm:gap-1">
       <a
         href="/"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
                {$page.url.pathname === '/'
-          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-white dark:text-violet-400'
+          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
         <Home class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_home()}</span>
         {#if $page.url.pathname === '/'}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
+          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/portfolio"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
                {$page.url.pathname.startsWith('/portfolio')
-          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-white dark:text-violet-400'
+          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
         <PieChart class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_portfolio()}</span>
         {#if $page.url.pathname.startsWith('/portfolio')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
+          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/watchlist/stocks"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
                {$page.url.pathname.startsWith('/watchlist')
-          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-white dark:text-violet-400'
+          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
         <Star class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_watchlist()}</span>
         {#if $page.url.pathname.startsWith('/watchlist')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
+          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/price-alert"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
                {$page.url.pathname.startsWith('/price-alert')
-          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-white dark:text-violet-400'
+          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
         <Bell class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_price_alert()}</span>
         {#if $page.url.pathname.startsWith('/price-alert')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
+          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/chat"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
                {$page.url.pathname.startsWith('/chat')
-          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-white dark:text-violet-400'
+          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
         <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">Chat</span>
         {#if $page.url.pathname.startsWith('/chat')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
+          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
         {/if}
       </a>
     </div>

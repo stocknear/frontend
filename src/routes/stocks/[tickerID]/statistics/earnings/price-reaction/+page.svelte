@@ -4,30 +4,30 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import {
-  stock_detail_no_data,
-  stock_detail_stats_above_average,
-  stock_detail_stats_avg_price_impact,
-  stock_detail_stats_below_average,
-  stock_detail_stats_eps_beats_estimate,
-  stock_detail_stats_high_impact,
-  stock_detail_stats_low_impact,
-  stock_detail_stats_negative_trend,
-  stock_detail_stats_next_day,
-  stock_detail_stats_positive_trend,
-  stock_detail_stats_price_reaction_info,
-  stock_detail_stats_price_reaction_seo_description,
-  stock_detail_stats_price_reaction_seo_keywords,
-  stock_detail_stats_price_reaction_seo_title,
-  stock_detail_stats_price_reaction_structured_desc,
-  stock_detail_stats_price_reaction_structured_name,
-  stock_detail_stats_price_reaction_title,
-  stock_detail_stats_quarters,
-  stock_detail_stats_range,
-  stock_detail_stats_release,
-  stock_detail_stats_report_date,
-  stock_detail_stats_revenue_beats_estimate,
-  stock_detail_stats_volatility_impact,
-} from "$lib/paraglide/messages";
+    stock_detail_no_data,
+    stock_detail_stats_above_average,
+    stock_detail_stats_avg_price_impact,
+    stock_detail_stats_below_average,
+    stock_detail_stats_eps_beats_estimate,
+    stock_detail_stats_high_impact,
+    stock_detail_stats_low_impact,
+    stock_detail_stats_negative_trend,
+    stock_detail_stats_next_day,
+    stock_detail_stats_positive_trend,
+    stock_detail_stats_price_reaction_info,
+    stock_detail_stats_price_reaction_seo_description,
+    stock_detail_stats_price_reaction_seo_keywords,
+    stock_detail_stats_price_reaction_seo_title,
+    stock_detail_stats_price_reaction_structured_desc,
+    stock_detail_stats_price_reaction_structured_name,
+    stock_detail_stats_price_reaction_title,
+    stock_detail_stats_quarters,
+    stock_detail_stats_range,
+    stock_detail_stats_release,
+    stock_detail_stats_report_date,
+    stock_detail_stats_revenue_beats_estimate,
+    stock_detail_stats_volatility_impact,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -92,16 +92,30 @@
 </script>
 
 <SEO
-  title={stock_detail_stats_price_reaction_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_stats_price_reaction_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_stats_price_reaction_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_price_reaction_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_stats_price_reaction_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_stats_price_reaction_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/price-reaction`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataAnalysis"],
-    name: stock_detail_stats_price_reaction_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_stats_price_reaction_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_price_reaction_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_stats_price_reaction_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/price-reaction`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -147,9 +161,7 @@
           </div>
 
           <div class="mb-5 mt-5 w-full">
-            <Infobox
-              text={stock_detail_stats_price_reaction_info()}
-            />
+            <Infobox text={stock_detail_stats_price_reaction_info()} />
           </div>
 
           {#if rawData?.length > 0}
@@ -306,14 +318,22 @@
                   {/if}
                   <div class="flex flex-col ml-2">
                     {#if isSubscribed}
-                      <span class="text-sm">{stock_detail_stats_next_day()}</span>
+                      <span class="text-sm"
+                        >{stock_detail_stats_next_day()}</span
+                      >
                       <span class="text-xs font-semibold">
-                        {metrics?.avgPriceImpact >= 0 ? stock_detail_stats_positive_trend() : stock_detail_stats_negative_trend()}
+                        {metrics?.avgPriceImpact >= 0
+                          ? stock_detail_stats_positive_trend()
+                          : stock_detail_stats_negative_trend()}
                       </span>
                     {:else}
-                      <span class="text-sm">{stock_detail_stats_next_day()}</span>
+                      <span class="text-sm"
+                        >{stock_detail_stats_next_day()}</span
+                      >
                       <span class="text-xs font-semibold">
-                        {metrics?.avgPriceImpact >= 0 ? stock_detail_stats_positive_trend() : stock_detail_stats_negative_trend()}
+                        {metrics?.avgPriceImpact >= 0
+                          ? stock_detail_stats_positive_trend()
+                          : stock_detail_stats_negative_trend()}
                       </span>
                     {/if}
                   </div>
@@ -550,7 +570,9 @@
 
                           <!-- Time -->
                           <div class="flex items-center justify-end">
-                            <div class="font-semibold mr-1">{stock_detail_stats_release()}:</div>
+                            <div class="font-semibold mr-1">
+                              {stock_detail_stats_release()}:
+                            </div>
 
                             <div class="font-semibold mr-1.5">
                               {checkTime(item?.time) ?? "-"}
@@ -635,7 +657,7 @@
                             : "-"}
                         </div></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200 px-3.5 py-0.5 px-1 text-center border-l border-r border-gray-300 dark:border-zinc-700"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 px-3.5 py-0.5 px-1 text-center border-l border-r border-gray-300 dark:border-zinc-700"
                         ><div
                           class="text-center w-full whitespace-nowrap rounded text-sm {item?.low_change_percent &&
                           item?.low_change_percent >= 0

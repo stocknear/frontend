@@ -341,7 +341,7 @@
                 on:click={() => (timePeriod = item)}
                 class="px-2 py-0.5 sm:py-1 text-xs {timePeriod === item
                   ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                  : 'text-gray-600 dark:text-zinc-400 bg-white/90 dark:bg-zinc-900/90 border border-gray-200/70 dark:border-zinc-700/70'} transition-colors rounded-full cursor-pointer"
+                  : 'text-gray-600 dark:text-zinc-400 bg-white/90 dark:bg-zinc-900/90 border border-gray-300/70 dark:border-zinc-700/70'} transition-colors rounded-full cursor-pointer"
               >
                 {item}
               </label>
@@ -351,7 +351,7 @@
                 class="px-2 py-0.5 sm:py-1 text-xs flex items-center {timePeriod ===
                 item
                   ? 'bg-white text-gray-500'
-                  : 'text-gray-400 dark:text-zinc-500 bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-200/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                  : 'text-gray-400 dark:text-zinc-500 bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-300/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {item}
                 <svg
@@ -369,13 +369,13 @@
         </div>
       </div>
       <div
-        class="border border-gray-200/70 dark:border-zinc-800/80 rounded-lg w-full"
+        class="border border-gray-300/70 dark:border-zinc-700/80 rounded-lg w-full"
         use:highcharts={config}
       ></div>
     {:else}
       <div class="h-[220px] sm:h-[350px]">
         <div
-          class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-200/70 dark:border-zinc-800/80 p-4 sm:p-6 text-center"
+          class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300/70 dark:border-zinc-700/80 p-4 sm:p-6 text-center"
         >
           <div class="text-gray-500 dark:text-zinc-500 text-sm sm:text-base">
             No chart data available for {symbol}

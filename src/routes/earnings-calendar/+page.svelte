@@ -24,36 +24,36 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import {
-  earnings_back_to_top,
-  earnings_breadcrumb_calendar,
-  earnings_breadcrumb_home,
-  earnings_count,
-  earnings_empty,
-  earnings_empty_scheduled,
-  earnings_expanded_eps_est,
-  earnings_expanded_eps_estimate,
-  earnings_expanded_market_cap,
-  earnings_expanded_reports,
-  earnings_expanded_revenue_est,
-  earnings_expanded_revenue_estimate,
-  earnings_main_name,
-  earnings_pagination_next,
-  earnings_pagination_page_of,
-  earnings_pagination_previous,
-  earnings_pagination_rows,
-  earnings_search_placeholder,
-  earnings_seo_description,
-  earnings_seo_keywords,
-  earnings_seo_title,
-  earnings_tab_daily,
-  earnings_tab_weekly,
-  earnings_tab_details,
-  earnings_tab_compact,
-  earnings_time_any,
-  earnings_time_after_close,
-  earnings_time_before_open,
-  earnings_time_of_day,
-} from "$lib/paraglide/messages";
+    earnings_back_to_top,
+    earnings_breadcrumb_calendar,
+    earnings_breadcrumb_home,
+    earnings_count,
+    earnings_empty,
+    earnings_empty_scheduled,
+    earnings_expanded_eps_est,
+    earnings_expanded_eps_estimate,
+    earnings_expanded_market_cap,
+    earnings_expanded_reports,
+    earnings_expanded_revenue_est,
+    earnings_expanded_revenue_estimate,
+    earnings_main_name,
+    earnings_pagination_next,
+    earnings_pagination_page_of,
+    earnings_pagination_previous,
+    earnings_pagination_rows,
+    earnings_search_placeholder,
+    earnings_seo_description,
+    earnings_seo_keywords,
+    earnings_seo_title,
+    earnings_tab_daily,
+    earnings_tab_weekly,
+    earnings_tab_details,
+    earnings_tab_compact,
+    earnings_time_any,
+    earnings_time_after_close,
+    earnings_time_before_open,
+    earnings_time_of_day,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -478,9 +478,8 @@
     updateDailyPagination();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -1461,7 +1460,7 @@
                   </div>
 
                   <div
-                    class="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-0 border-l border-r border-gray-200/70 dark:border-zinc-800/80 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80"
+                    class="mt-3 grid grid-cols-1 sm:grid-cols-5 gap-0 border-l border-r border-gray-300/70 dark:border-zinc-700/80 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80"
                   >
                     {#each weekday as day, dayIndex}
                       <div class="min-w-0 px-1 py-1">

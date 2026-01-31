@@ -1058,7 +1058,7 @@
                       <tbody>
                         {#each sensitivityMatrix as row, rowIndex}
                           <tr
-                            class="border-b border-gray-200 dark:border-zinc-800 last:border-b-0 transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                            class="border-b border-gray-300 dark:border-zinc-700 last:border-b-0 transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                           >
                             <td
                               class="p-3 font-medium text-gray-700 dark:text-zinc-300 {sensitivityGrowthRates[
@@ -1195,26 +1195,46 @@
                     >
                       <DropdownMenu.Group>
                         <DropdownMenu.Item
-                          on:click={() => { selectedMetric = "freeCashFlow"; onMetricChange(); }}
-                          class="{selectedMetric === 'freeCashFlow' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                          on:click={() => {
+                            selectedMetric = "freeCashFlow";
+                            onMetricChange();
+                          }}
+                          class="{selectedMetric === 'freeCashFlow'
+                            ? 'text-gray-900 dark:text-white font-medium'
+                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_fcf()}
                         </DropdownMenu.Item>
                         <DropdownMenu.Item
-                          on:click={() => { selectedMetric = "operatingIncome"; onMetricChange(); }}
-                          class="{selectedMetric === 'operatingIncome' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                          on:click={() => {
+                            selectedMetric = "operatingIncome";
+                            onMetricChange();
+                          }}
+                          class="{selectedMetric === 'operatingIncome'
+                            ? 'text-gray-900 dark:text-white font-medium'
+                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_operating_income()}
                         </DropdownMenu.Item>
                         <DropdownMenu.Item
-                          on:click={() => { selectedMetric = "operatingCashFlow"; onMetricChange(); }}
-                          class="{selectedMetric === 'operatingCashFlow' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                          on:click={() => {
+                            selectedMetric = "operatingCashFlow";
+                            onMetricChange();
+                          }}
+                          class="{selectedMetric === 'operatingCashFlow'
+                            ? 'text-gray-900 dark:text-white font-medium'
+                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_ocf()}
                         </DropdownMenu.Item>
                         <DropdownMenu.Item
-                          on:click={() => { selectedMetric = "bookValue"; onMetricChange(); }}
-                          class="{selectedMetric === 'bookValue' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                          on:click={() => {
+                            selectedMetric = "bookValue";
+                            onMetricChange();
+                          }}
+                          class="{selectedMetric === 'bookValue'
+                            ? 'text-gray-900 dark:text-white font-medium'
+                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_book_value()}
                         </DropdownMenu.Item>
@@ -1238,7 +1258,9 @@
                         builders={[builder]}
                         class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
-                        <span class="truncate text-sm">{yearsToProject} Years</span>
+                        <span class="truncate text-sm"
+                          >{yearsToProject} Years</span
+                        >
                         <svg
                           class="-mr-1 ml-2 h-5 w-5 inline-block"
                           viewBox="0 0 20 20"
@@ -1262,8 +1284,13 @@
                       <DropdownMenu.Group>
                         {#each [3, 5, 10] as year}
                           <DropdownMenu.Item
-                            on:click={() => { yearsToProject = year; userHasModifiedInputs = true; }}
-                            class="{yearsToProject === year ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            on:click={() => {
+                              yearsToProject = year;
+                              userHasModifiedInputs = true;
+                            }}
+                            class="{yearsToProject === year
+                              ? 'text-gray-900 dark:text-white font-medium'
+                              : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {year} Years
                           </DropdownMenu.Item>

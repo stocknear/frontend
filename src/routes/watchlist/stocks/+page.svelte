@@ -99,7 +99,10 @@
   const noteCache = new Map<string, { note: string; timestamp: number }>();
   const noteFetchPromises = new Map<string, Promise<string>>(); // Prevent duplicate fetches
 
-  function getNoteFromCache(watchlistId: string, symbol: string): string | null {
+  function getNoteFromCache(
+    watchlistId: string,
+    symbol: string,
+  ): string | null {
     const key = `${watchlistId}:${symbol}`;
     const cached = noteCache.get(key);
     if (cached) {
@@ -111,7 +114,11 @@
     return null;
   }
 
-  function setNoteInCache(watchlistId: string, symbol: string, note: string): void {
+  function setNoteInCache(
+    watchlistId: string,
+    symbol: string,
+    note: string,
+  ): void {
     const key = `${watchlistId}:${symbol}`;
     // Evict oldest if at capacity
     if (noteCache.size >= NOTE_CACHE_MAX_SIZE) {
@@ -127,7 +134,10 @@
   }
 
   // Fetch note from server (with deduplication)
-  async function fetchNote(watchlistId: string, symbol: string): Promise<string> {
+  async function fetchNote(
+    watchlistId: string,
+    symbol: string,
+  ): Promise<string> {
     const key = `${watchlistId}:${symbol}`;
 
     // Check if already fetching
@@ -333,7 +343,8 @@
               return [t, false];
             }
             // Support both hasNote (new format) and note (legacy format)
-            const hasNote = t.hasNote ?? Boolean(t.note && t.note.trim?.().length > 0);
+            const hasNote =
+              t.hasNote ?? Boolean(t.note && t.note.trim?.().length > 0);
             return [t.symbol, hasNote];
           })
         : [],
@@ -826,8 +837,8 @@
   $: isNewNote = originalNoteText === "";
 
   async function handleNoteClick(symbol: string, hasNote: boolean = false) {
-    // Security: Validate symbol format (alphanumeric, dots, hyphens only, max 20 chars)
-    if (!symbol || !/^[A-Za-z0-9.\-]{1,20}$/.test(symbol)) {
+    // Security: Validate symbol format (alphanumeric, dots, hyphens, ^ for index tickers, max 20 chars)
+    if (!symbol || !/^[\^A-Za-z0-9.\-]{1,20}$/.test(symbol)) {
       console.error("Invalid symbol format");
       return;
     }
@@ -1407,7 +1418,7 @@
                             >
                               {#each titleGroups as { title, items, symbols }, index}
                                 <div
-                                  class="flex border-gray-200 {index > 0
+                                  class="flex border-gray-300 {index > 0
                                     ? 'border-t'
                                     : ''} dark:border-zinc-700 text-sm"
                                 >
@@ -1669,20 +1680,18 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-2xl bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-xl p-6"
+    class="modal-box w-full overflow-hidden max-w-3xl bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 dark:border-zinc-700 shadow-xl p-6"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}
         <!-- Loading state while editor or note loads -->
-        <div class="flex flex-col items-center justify-center py-12 gap-4">
-          <svg class="w-8 h-8 animate-spin text-violet-500" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <span class="text-sm text-gray-500 dark:text-zinc-400">
-            {isLoadingNote ? "Loading note..." : "Loading editor..."}
-          </span>
-        </div>
+        <label
+          class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        >
+          <span
+            class="loading loading-spinner loading-md text-white dark:text-white"
+          ></span>
+        </label>
       {:else}
         <svelte:component
           this={MarkdownNoteEditor}
@@ -1698,4 +1707,3 @@
 </dialog>
 
 <!--End Note Modal-->
-

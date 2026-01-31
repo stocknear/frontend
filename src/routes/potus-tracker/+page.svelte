@@ -778,7 +778,7 @@
                     class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                     i
                       ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                      : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                      : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                   >
                     {item.title}
                   </button>
@@ -939,7 +939,7 @@
                     ? "border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                     : item?.sentiment === "Bearish"
                       ? "border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
-                      : "border-gray-200 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
+                      : "border-gray-300 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
                 }`}
                                   >
                                     {item?.sentiment}
@@ -1117,7 +1117,7 @@
                               <video
                                 src={mediaUrl}
                                 controls
-                                class="w-full rounded-lg border border-gray-200 dark:border-zinc-700"
+                                class="w-full rounded-lg border border-gray-300 dark:border-zinc-700"
                                 preload="metadata"
                               >
                                 <track kind="captions" />
@@ -1131,7 +1131,7 @@
                                 <img
                                   src={mediaUrl}
                                   alt="Post media {mediaIndex + 1}"
-                                  class="w-full h-auto max-h-80 object-cover rounded-lg border border-gray-200 dark:border-zinc-700 hover:opacity-90 transition"
+                                  class="w-full h-auto max-h-80 object-cover rounded-lg border border-gray-300 dark:border-zinc-700 hover:opacity-90 transition"
                                   loading="lazy"
                                 />
                               </a>
@@ -1349,7 +1349,7 @@
                     ? "border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                     : postSentiment === "Bearish"
                       ? "border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
-                      : "border-gray-200 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
+                      : "border-gray-300 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
                 }`}
         >
           {postSentiment}
@@ -1449,7 +1449,7 @@
             <video
               src={mediaUrl}
               controls
-              class="w-full rounded-lg border border-gray-200 dark:border-zinc-700"
+              class="w-full rounded-lg border border-gray-300 dark:border-zinc-700"
               preload="metadata"
             >
               <track kind="captions" />
@@ -1459,7 +1459,7 @@
               <img
                 src={mediaUrl}
                 alt="Post media {mediaIndex + 1}"
-                class="w-full h-auto max-h-96 object-cover rounded-lg border border-gray-200 dark:border-zinc-700 hover:opacity-90 transition"
+                class="w-full h-auto max-h-96 object-cover rounded-lg border border-gray-300 dark:border-zinc-700 hover:opacity-90 transition"
                 loading="lazy"
               />
             </a>

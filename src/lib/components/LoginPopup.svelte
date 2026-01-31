@@ -152,7 +152,9 @@ const output = await response.json();
 
   let displaySection = "login";
 
-  $: returnUrl = browser ? encodeURIComponent($page.url.pathname + $page.url.search) : '';
+  $: returnUrl = browser
+    ? encodeURIComponent($page.url.pathname + $page.url.search)
+    : "";
 </script>
 
 <input type="checkbox" id="userLogin" class="modal-toggle" />
@@ -169,7 +171,7 @@ const output = await response.json();
   ></label>
 
   <div
-    class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-200 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
+    class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-300 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
     640
       ? 'min-h-screen'
       : ''}"
@@ -258,23 +260,26 @@ const output = await response.json();
             </div>
           </form>
 
-            <div class="divider text-gray-800 dark:text-zinc-300 py-6">
-              <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-                >{login_popup_or_login_using()}</span
-              >
-            </div>
-
-            <OAuthButtons {returnUrl} on:click={() => (oauthLoading = !oauthLoading)} />
-            <p
-              class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
+          <div class="divider text-gray-800 dark:text-zinc-300 py-6">
+            <span class="text-[11px] uppercase tracking-[0.3em] z-10"
+              >{login_popup_or_login_using()}</span
             >
-              {login_popup_no_account()}
-              <label
-                on:click={() => (displaySection = "register")}
-                class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
-                >{login_popup_sign_up_link()}</label
-              >
-            </p>
+          </div>
+
+          <OAuthButtons
+            {returnUrl}
+            on:click={() => (oauthLoading = !oauthLoading)}
+          />
+          <p
+            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
+          >
+            {login_popup_no_account()}
+            <label
+              on:click={() => (displaySection = "register")}
+              class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
+              >{login_popup_sign_up_link()}</label
+            >
+          </p>
         </div>
       </div>
     {:else if displaySection === "register"}
@@ -346,40 +351,41 @@ const output = await response.json();
             </div>
           </form>
 
-            <div class="divider text-gray-800 dark:text-zinc-300 py-6">
-              <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-                >{register_popup_or_register_using()}</span
-              >
-            </div>
-
-            <OAuthButtons {returnUrl} on:click={() => (oauthLoading = !oauthLoading)} />
-            <p
-              class="pb-1 text-xs text-center text-gray-800 dark:text-zinc-300"
+          <div class="divider text-gray-800 dark:text-zinc-300 py-6">
+            <span class="text-[11px] uppercase tracking-[0.3em] z-10"
+              >{register_popup_or_register_using()}</span
             >
-              {register_popup_terms_prefix()}
-              <a
-                href="/terms-of-use"
-                class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
-                >{register_popup_terms_link()}</a
-              >
-              {register_popup_privacy_middle()}
-              <a
-                href="/privacy-policy"
-                class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
-                >{register_popup_privacy_link()}</a
-              >.
-            </p>
+          </div>
 
-            <p
-              class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
+          <OAuthButtons
+            {returnUrl}
+            on:click={() => (oauthLoading = !oauthLoading)}
+          />
+          <p class="pb-1 text-xs text-center text-gray-800 dark:text-zinc-300">
+            {register_popup_terms_prefix()}
+            <a
+              href="/terms-of-use"
+              class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
+              >{register_popup_terms_link()}</a
             >
-              {register_popup_has_account()}
-              <label
-                on:click={() => (displaySection = "login")}
-                class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
-                >{register_popup_sign_in_link()}</label
-              >
-            </p>
+            {register_popup_privacy_middle()}
+            <a
+              href="/privacy-policy"
+              class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
+              >{register_popup_privacy_link()}</a
+            >.
+          </p>
+
+          <p
+            class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
+          >
+            {register_popup_has_account()}
+            <label
+              on:click={() => (displaySection = "login")}
+              class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
+              >{register_popup_sign_in_link()}</label
+            >
+          </p>
         </div>
       </div>
     {/if}

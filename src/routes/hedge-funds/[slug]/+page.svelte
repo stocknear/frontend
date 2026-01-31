@@ -5,25 +5,25 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  hedge_funds_breadcrumb_hedge_fund,
-  hedge_funds_breadcrumb_hedge_funds,
-  hedge_funds_breadcrumb_home,
-  hedge_funds_slug_avg_holding_period,
-  hedge_funds_slug_cik_number,
-  hedge_funds_slug_filing_date,
-  hedge_funds_slug_main_sectors,
-  hedge_funds_slug_market_value,
-  hedge_funds_slug_months,
-  hedge_funds_slug_no_data,
-  hedge_funds_slug_performance_3year,
-  hedge_funds_slug_seo_description,
-  hedge_funds_slug_seo_keywords,
-  hedge_funds_slug_seo_title,
-  hedge_funds_slug_structured_description,
-  hedge_funds_slug_structured_name,
-  hedge_funds_slug_top_industries,
-  hedge_funds_slug_win_rate,
-} from "$lib/paraglide/messages";
+    hedge_funds_breadcrumb_hedge_fund,
+    hedge_funds_breadcrumb_hedge_funds,
+    hedge_funds_breadcrumb_home,
+    hedge_funds_slug_avg_holding_period,
+    hedge_funds_slug_cik_number,
+    hedge_funds_slug_filing_date,
+    hedge_funds_slug_main_sectors,
+    hedge_funds_slug_market_value,
+    hedge_funds_slug_months,
+    hedge_funds_slug_no_data,
+    hedge_funds_slug_performance_3year,
+    hedge_funds_slug_seo_description,
+    hedge_funds_slug_seo_keywords,
+    hedge_funds_slug_seo_title,
+    hedge_funds_slug_structured_description,
+    hedge_funds_slug_structured_name,
+    hedge_funds_slug_top_industries,
+    hedge_funds_slug_win_rate,
+  } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime";
 
   export let data;
@@ -206,7 +206,7 @@
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
                     class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
@@ -222,7 +222,7 @@
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
                     class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
@@ -259,7 +259,7 @@
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
                     class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"

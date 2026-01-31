@@ -6,25 +6,25 @@
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  politicians_back_to_top,
-  politicians_breadcrumb_home,
-  politicians_breadcrumb_politicians,
-  politicians_count_members,
-  politicians_empty_filter,
-  politicians_empty_search,
-  politicians_filter_party,
-  politicians_main_title,
-  politicians_pagination_next,
-  politicians_pagination_page_of,
-  politicians_pagination_previous,
-  politicians_pagination_rows,
-  politicians_search_placeholder,
-  politicians_seo_description,
-  politicians_seo_keywords,
-  politicians_seo_title,
-  politicians_structured_description,
-  politicians_structured_name,
-} from "$lib/paraglide/messages";
+    politicians_back_to_top,
+    politicians_breadcrumb_home,
+    politicians_breadcrumb_politicians,
+    politicians_count_members,
+    politicians_empty_filter,
+    politicians_empty_search,
+    politicians_filter_party,
+    politicians_main_title,
+    politicians_pagination_next,
+    politicians_pagination_page_of,
+    politicians_pagination_previous,
+    politicians_pagination_rows,
+    politicians_search_placeholder,
+    politicians_seo_description,
+    politicians_seo_keywords,
+    politicians_seo_title,
+    politicians_structured_description,
+    politicians_structured_name,
+  } from "$lib/paraglide/messages";
 
   import { onMount } from "svelte";
   import { page } from "$app/stores";
@@ -201,9 +201,8 @@
     }
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -612,7 +611,9 @@
         >{politicians_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{politicians_breadcrumb_politicians()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {politicians_breadcrumb_politicians()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -627,7 +628,7 @@
             {politicians_main_title()}
           </h1>
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-gray-600 dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-200 sm:dark:border-zinc-700"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-gray-600 dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
           >
             <div
               class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -635,7 +636,9 @@
               <h2
                 class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
-                {politicians_count_members({ count: originalData?.length?.toLocaleString("en-US") })}
+                {politicians_count_members({
+                  count: originalData?.length?.toLocaleString("en-US"),
+                })}
               </h2>
             </div>
 
@@ -884,12 +887,16 @@
                                 {:else if Number(item?.avgReturn) >= 0}
                                   <span
                                     class="font-medium text-emerald-600 dark:text-emerald-400"
-                                    >+{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                    >+{Number(item?.avgReturn)?.toFixed(
+                                      2,
+                                    )}%</span
                                   >
                                 {:else}
                                   <span
                                     class="font-medium text-rose-600 dark:text-rose-400"
-                                    >{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                    >{Number(item?.avgReturn)?.toFixed(
+                                      2,
+                                    )}%</span
                                   >
                                 {/if}
                               {:else}
@@ -937,9 +944,7 @@
             {:else if displayList?.length === 0 && inputValue?.length > 0}
               <Infobox text={politicians_empty_search({ query: inputValue })} />
             {:else}
-              <Infobox
-                text={politicians_empty_filter()}
-              />
+              <Infobox text={politicians_empty_filter()} />
             {/if}
 
             <!-- Pagination controls -->
@@ -967,14 +972,19 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{politicians_pagination_previous()}</span></Button
+                    <span class="hidden sm:inline"
+                      >{politicians_pagination_previous()}</span
+                    ></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    {politicians_pagination_page_of({ current: currentPage, total: totalPages })}
+                    {politicians_pagination_page_of({
+                      current: currentPage,
+                      total: totalPages,
+                    })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -984,7 +994,9 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{politicians_pagination_rows({ count: rowsPerPage })}</span
+                          >{politicians_pagination_rows({
+                            count: rowsPerPage,
+                          })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1019,7 +1031,11 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{politicians_pagination_rows({ count: item })}</span>
+                              <span class="text-sm"
+                                >{politicians_pagination_rows({
+                                  count: item,
+                                })}</span
+                              >
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1035,7 +1051,9 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{politicians_pagination_next()}</span>
+                    <span class="hidden sm:inline"
+                      >{politicians_pagination_next()}</span
+                    >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1059,7 +1077,8 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  {politicians_back_to_top()} <svg
+                  {politicians_back_to_top()}
+                  <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"

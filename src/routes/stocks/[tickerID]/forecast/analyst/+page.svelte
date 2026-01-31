@@ -12,34 +12,34 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import {
-  stock_detail_forecast_analyst_all,
-  stock_detail_forecast_analyst_col_action,
-  stock_detail_forecast_analyst_col_analyst,
-  stock_detail_forecast_analyst_col_date,
-  stock_detail_forecast_analyst_col_firm,
-  stock_detail_forecast_analyst_col_price_target,
-  stock_detail_forecast_analyst_col_rating,
-  stock_detail_forecast_analyst_col_upside,
-  stock_detail_forecast_analyst_consensus,
-  stock_detail_forecast_analyst_history,
-  stock_detail_forecast_analyst_next,
-  stock_detail_forecast_analyst_no_top,
-  stock_detail_forecast_analyst_page,
-  stock_detail_forecast_analyst_previous,
-  stock_detail_forecast_analyst_price_target,
-  stock_detail_forecast_analyst_rows,
-  stock_detail_forecast_analyst_seo_description,
-  stock_detail_forecast_analyst_seo_keywords,
-  stock_detail_forecast_analyst_seo_title,
-  stock_detail_forecast_analyst_structured_desc,
-  stock_detail_forecast_analyst_structured_name,
-  stock_detail_forecast_analyst_title,
-  stock_detail_forecast_analyst_top,
-  stock_detail_forecast_analyst_top_info,
-  stock_detail_forecast_analyst_total,
-  stock_detail_forecast_analyst_upside,
-  stock_detail_forecast_new,
-} from "$lib/paraglide/messages";
+    stock_detail_forecast_analyst_all,
+    stock_detail_forecast_analyst_col_action,
+    stock_detail_forecast_analyst_col_analyst,
+    stock_detail_forecast_analyst_col_date,
+    stock_detail_forecast_analyst_col_firm,
+    stock_detail_forecast_analyst_col_price_target,
+    stock_detail_forecast_analyst_col_rating,
+    stock_detail_forecast_analyst_col_upside,
+    stock_detail_forecast_analyst_consensus,
+    stock_detail_forecast_analyst_history,
+    stock_detail_forecast_analyst_next,
+    stock_detail_forecast_analyst_no_top,
+    stock_detail_forecast_analyst_page,
+    stock_detail_forecast_analyst_previous,
+    stock_detail_forecast_analyst_price_target,
+    stock_detail_forecast_analyst_rows,
+    stock_detail_forecast_analyst_seo_description,
+    stock_detail_forecast_analyst_seo_keywords,
+    stock_detail_forecast_analyst_seo_title,
+    stock_detail_forecast_analyst_structured_desc,
+    stock_detail_forecast_analyst_structured_name,
+    stock_detail_forecast_analyst_title,
+    stock_detail_forecast_analyst_top,
+    stock_detail_forecast_analyst_top_info,
+    stock_detail_forecast_analyst_total,
+    stock_detail_forecast_analyst_upside,
+    stock_detail_forecast_new,
+  } from "$lib/paraglide/messages";
 
   import { removeCompanyStrings } from "$lib/utils";
   export let data;
@@ -61,7 +61,10 @@
   let totalPages = 1;
   let pagePathName = $page?.url?.pathname;
 
-  $: tabs = [stock_detail_forecast_analyst_all(), stock_detail_forecast_analyst_top()];
+  $: tabs = [
+    stock_detail_forecast_analyst_all(),
+    stock_detail_forecast_analyst_top(),
+  ];
 
   // Static column config for sort initialization (labels are reactive separately)
   const columnConfig = [
@@ -79,7 +82,10 @@
     { ...columnConfig[1], label: stock_detail_forecast_analyst_col_firm() },
     { ...columnConfig[2], label: stock_detail_forecast_analyst_col_rating() },
     { ...columnConfig[3], label: stock_detail_forecast_analyst_col_action() },
-    { ...columnConfig[4], label: stock_detail_forecast_analyst_col_price_target() },
+    {
+      ...columnConfig[4],
+      label: stock_detail_forecast_analyst_col_price_target(),
+    },
     { ...columnConfig[5], label: stock_detail_forecast_analyst_col_upside() },
     { ...columnConfig[6], label: stock_detail_forecast_analyst_col_date() },
   ];
@@ -468,16 +474,30 @@
 </script>
 
 <SEO
-  title={stock_detail_forecast_analyst_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_forecast_analyst_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_forecast_analyst_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_forecast_analyst_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_forecast_analyst_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_forecast_analyst_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/forecast/analyst`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Review"],
-    name: stock_detail_forecast_analyst_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_forecast_analyst_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_forecast_analyst_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_forecast_analyst_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/forecast/analyst`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -532,7 +552,7 @@
                 
                           {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-white/80 border-gray-200 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
+                              : 'bg-white/80 border-gray-300 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item}
@@ -638,16 +658,16 @@
 
         {#if rawData?.length !== 0}
           {#if activeIdx === 1}
-            <Infobox
-              text={stock_detail_forecast_analyst_top_info()}
-            />
+            <Infobox text={stock_detail_forecast_analyst_top_info()} />
           {/if}
 
           <div
             class="mt-10 mb-2 items-center justify-between py-0 md:mt-8 md:flex md:py-2"
           >
             <div class="flex justify-between md:block">
-              <h3 class="text-xl sm:text-2xl font-bold">{stock_detail_forecast_analyst_history()}</h3>
+              <h3 class="text-xl sm:text-2xl font-bold">
+                {stock_detail_forecast_analyst_history()}
+              </h3>
             </div>
           </div>
 
@@ -868,13 +888,18 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline">{stock_detail_forecast_analyst_previous()}</span>
+                  <span class="hidden sm:inline"
+                    >{stock_detail_forecast_analyst_previous()}</span
+                  >
                 </Button>
               </div>
 
               <div class="flex flex-row items-center gap-4">
                 <span class="text-sm text-gray-600 dark:text-zinc-300">
-                  {stock_detail_forecast_analyst_page({ current: currentPage, total: totalPages })}
+                  {stock_detail_forecast_analyst_page({
+                    current: currentPage,
+                    total: totalPages,
+                  })}
                 </span>
 
                 <DropdownMenu.Root>
@@ -884,7 +909,9 @@
                       class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm">
-                        {stock_detail_forecast_analyst_rows({ count: rowsPerPage })}
+                        {stock_detail_forecast_analyst_rows({
+                          count: rowsPerPage,
+                        })}
                       </span>
                       <svg
                         class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -918,7 +945,11 @@
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm">{stock_detail_forecast_analyst_rows({ count: item })}</span>
+                            <span class="text-sm"
+                              >{stock_detail_forecast_analyst_rows({
+                                count: item,
+                              })}</span
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -933,7 +964,9 @@
                   disabled={currentPage === totalPages}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="hidden sm:inline">{stock_detail_forecast_analyst_next()}</span>
+                  <span class="hidden sm:inline"
+                    >{stock_detail_forecast_analyst_next()}</span
+                  >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 -rotate-90"
                     viewBox="0 0 20 20"
@@ -953,7 +986,9 @@
           {/if}
         {:else if activeIdx === 1}
           <Infobox
-            text={stock_detail_forecast_analyst_no_top({ company: removeCompanyStrings($displayCompanyName) })}
+            text={stock_detail_forecast_analyst_no_top({
+              company: removeCompanyStrings($displayCompanyName),
+            })}
           />
         {/if}
 

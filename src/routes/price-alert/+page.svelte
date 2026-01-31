@@ -20,39 +20,39 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import {
-  price_alert_breadcrumb_home,
-  price_alert_breadcrumb_price_alert,
-  price_alert_cancel,
-  price_alert_earnings_after_close,
-  price_alert_earnings_analysts_estimate,
-  price_alert_earnings_and,
-  price_alert_earnings_before_open,
-  price_alert_earnings_during_market,
-  price_alert_earnings_in_eps,
-  price_alert_earnings_in_revenue,
-  price_alert_earnings_will_report_monday,
-  price_alert_earnings_will_report_today,
-  price_alert_earnings_will_report_tomorrow,
-  price_alert_earnings_yoy,
-  price_alert_edit_alert,
-  price_alert_empty_description,
-  price_alert_empty_title,
-  price_alert_get_started,
-  price_alert_main_title,
-  price_alert_no_earnings,
-  price_alert_no_news,
-  price_alert_no_results,
-  price_alert_search_placeholder,
-  price_alert_seo_description,
-  price_alert_seo_keywords,
-  price_alert_seo_title,
-  price_alert_structured_description,
-  price_alert_structured_name,
-  price_alert_tab_earnings,
-  price_alert_tab_news,
-  price_alert_toast_deleted,
-  price_alert_toast_select_symbols,
-} from "$lib/paraglide/messages";
+    price_alert_breadcrumb_home,
+    price_alert_breadcrumb_price_alert,
+    price_alert_cancel,
+    price_alert_earnings_after_close,
+    price_alert_earnings_analysts_estimate,
+    price_alert_earnings_and,
+    price_alert_earnings_before_open,
+    price_alert_earnings_during_market,
+    price_alert_earnings_in_eps,
+    price_alert_earnings_in_revenue,
+    price_alert_earnings_will_report_monday,
+    price_alert_earnings_will_report_today,
+    price_alert_earnings_will_report_tomorrow,
+    price_alert_earnings_yoy,
+    price_alert_edit_alert,
+    price_alert_empty_description,
+    price_alert_empty_title,
+    price_alert_get_started,
+    price_alert_main_title,
+    price_alert_no_earnings,
+    price_alert_no_news,
+    price_alert_no_results,
+    price_alert_search_placeholder,
+    price_alert_seo_description,
+    price_alert_seo_keywords,
+    price_alert_seo_title,
+    price_alert_structured_description,
+    price_alert_structured_name,
+    price_alert_tab_earnings,
+    price_alert_tab_news,
+    price_alert_toast_deleted,
+    price_alert_toast_select_symbols,
+  } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
@@ -98,7 +98,7 @@
   // Tab translation helper
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
-      "News": () => price_alert_tab_news(),
+      News: () => price_alert_tab_news(),
       "Earnings Release": () => price_alert_tab_earnings(),
     };
     return tabLabels[tab]?.() ?? tab;
@@ -109,11 +109,13 @@
     const date = new Date(dateStr);
     const locale = getLocale();
     if (locale === "de") {
-      return date.toLocaleTimeString("de-DE", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }) + " Uhr";
+      return (
+        date.toLocaleTimeString("de-DE", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }) + " Uhr"
+      );
     }
     return date.toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -359,7 +361,9 @@
         >{price_alert_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{price_alert_breadcrumb_price_alert()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {price_alert_breadcrumb_price_alert()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -422,7 +426,9 @@
                         {price_alert_edit_alert()}
                       </span>
                     {:else}
-                      <span class="ml-1 text-sm sm:text-[1rem]"> {price_alert_cancel()} </span>
+                      <span class="ml-1 text-sm sm:text-[1rem]">
+                        {price_alert_cancel()}
+                      </span>
                     {/if}
                   </label>
                 </div>
@@ -658,7 +664,7 @@
                       >
                         {#each titleGroups as { title, items, symbols }, index}
                           <div
-                            class="flex border-gray-200 {index > 0
+                            class="flex border-gray-300 {index > 0
                               ? 'border-t'
                               : ''} dark:border-zinc-700 text-sm"
                           >
@@ -696,9 +702,7 @@
                   {:else}
                     <br />
                     <div class="mt-3 sm:mt-0">
-                      <Infobox
-                        text={price_alert_no_news()}
-                      />
+                      <Infobox text={price_alert_no_news()} />
                     </div>
                   {/if}
                 {:else if groupedEarnings?.length > 0}
@@ -751,12 +755,15 @@
                                   {price_alert_earnings_during_market()}
                                 {/if}
                               {/if}
-                              {price_alert_earnings_analysts_estimate()} {abbreviateNumber(
-                                item?.revenueEst,
-                              )} {price_alert_earnings_in_revenue()} ({(
+                              {price_alert_earnings_analysts_estimate()}
+                              {abbreviateNumber(item?.revenueEst)}
+                              {price_alert_earnings_in_revenue()} ({(
                                 (item?.revenueEst / item?.revenuePrior - 1) *
                                 100
-                              )?.toFixed(2)}% {price_alert_earnings_yoy()}) {price_alert_earnings_and()} {item?.epsEst} {price_alert_earnings_in_eps()} {#if item?.epsPrior !== 0}
+                              )?.toFixed(2)}% {price_alert_earnings_yoy()}) {price_alert_earnings_and()}
+                              {item?.epsEst}
+                              {price_alert_earnings_in_eps()}
+                              {#if item?.epsPrior !== 0}
                                 ({(
                                   (item?.epsEst / item?.epsPrior - 1) *
                                   100
@@ -779,9 +786,7 @@
                 {:else}
                   <br />
                   <div class="mt-3 sm:mt-0">
-                    <Infobox
-                      text={price_alert_no_earnings()}
-                    />
+                    <Infobox text={price_alert_no_earnings()} />
                   </div>
                 {/if}
               </div>

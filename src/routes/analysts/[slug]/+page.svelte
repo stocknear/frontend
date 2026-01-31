@@ -13,39 +13,39 @@
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  analysts_back_to_top,
-  analysts_breadcrumb_analysts,
-  analysts_breadcrumb_home,
-  analysts_detail_average_return,
-  analysts_detail_count,
-  analysts_detail_empty,
-  analysts_detail_main_sectors,
-  analysts_detail_no_data,
-  analysts_detail_out_of_analysts,
-  analysts_detail_rating,
-  analysts_detail_ratings,
-  analysts_detail_seo_description,
-  analysts_detail_seo_keywords,
-  analysts_detail_seo_title,
-  analysts_detail_stock_analyst_at,
-  analysts_detail_success_rate,
-  analysts_detail_top_industries,
-  analysts_detail_total_ratings,
-  analysts_detail_view_chart,
-  analysts_pagination_next,
-  analysts_pagination_page_of,
-  analysts_pagination_previous,
-  analysts_pagination_rows,
-  analysts_search_placeholder,
-  analysts_detail_column_symbol,
-  analysts_detail_column_name,
-  analysts_detail_column_action,
-  analysts_detail_column_price_target,
-  analysts_detail_column_current,
-  analysts_detail_column_upside,
-  analysts_detail_column_ratings,
-  analysts_detail_column_updated,
-} from "$lib/paraglide/messages";
+    analysts_back_to_top,
+    analysts_breadcrumb_analysts,
+    analysts_breadcrumb_home,
+    analysts_detail_average_return,
+    analysts_detail_count,
+    analysts_detail_empty,
+    analysts_detail_main_sectors,
+    analysts_detail_no_data,
+    analysts_detail_out_of_analysts,
+    analysts_detail_rating,
+    analysts_detail_ratings,
+    analysts_detail_seo_description,
+    analysts_detail_seo_keywords,
+    analysts_detail_seo_title,
+    analysts_detail_stock_analyst_at,
+    analysts_detail_success_rate,
+    analysts_detail_top_industries,
+    analysts_detail_total_ratings,
+    analysts_detail_view_chart,
+    analysts_pagination_next,
+    analysts_pagination_page_of,
+    analysts_pagination_previous,
+    analysts_pagination_rows,
+    analysts_search_placeholder,
+    analysts_detail_column_symbol,
+    analysts_detail_column_name,
+    analysts_detail_column_action,
+    analysts_detail_column_price_target,
+    analysts_detail_column_current,
+    analysts_detail_column_upside,
+    analysts_detail_column_ratings,
+    analysts_detail_column_updated,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -223,9 +223,8 @@
     updatePaginatedData();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -246,11 +245,23 @@
     return [
       { key: "ticker", label: analysts_detail_column_symbol(), align: "left" },
       { key: "name", label: analysts_detail_column_name(), align: "left" },
-      { key: "rating_current", label: analysts_detail_column_action(), align: "left" },
-      { key: "adjusted_pt_current", label: analysts_detail_column_price_target(), align: "right" },
+      {
+        key: "rating_current",
+        label: analysts_detail_column_action(),
+        align: "left",
+      },
+      {
+        key: "adjusted_pt_current",
+        label: analysts_detail_column_price_target(),
+        align: "right",
+      },
       { key: "price", label: analysts_detail_column_current(), align: "right" },
       { key: "upside", label: analysts_detail_column_upside(), align: "right" },
-      { key: "ratings", label: analysts_detail_column_ratings(), align: "right" },
+      {
+        key: "ratings",
+        label: analysts_detail_column_ratings(),
+        align: "right",
+      },
       { key: "date", label: analysts_detail_column_updated(), align: "right" },
     ];
   }
@@ -337,7 +348,9 @@
     newColumns.splice(toIndex, 0, movedColumn);
 
     // Don't include chart column in saved order
-    customColumnOrder = newColumns.filter(col => col.key !== "chart").map((col) => col.key);
+    customColumnOrder = newColumns
+      .filter((col) => col.key !== "chart")
+      .map((col) => col.key);
     saveColumnOrder(customColumnOrder);
     lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
     columns = newColumns;
@@ -352,16 +365,18 @@
     lastAppliedColumnKeys = "";
     // Reset with chart column if on desktop
     defaultColumnsBase = getDefaultColumnsBase();
-    columns = $screenWidth > 1024
-      ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
-      : [...defaultColumnsBase];
+    columns =
+      $screenWidth > 1024
+        ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
+        : [...defaultColumnsBase];
   }
 
   // Update columns when screen width changes
   $: {
-    const baseColumns = $screenWidth > 1024
-      ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
-      : [...defaultColumnsBase];
+    const baseColumns =
+      $screenWidth > 1024
+        ? [{ key: "chart", label: "", align: "right" }, ...defaultColumnsBase]
+        : [...defaultColumnsBase];
 
     if (customColumnOrder.length > 0) {
       columns = applyColumnOrder(baseColumns);
@@ -491,9 +506,21 @@
 </script>
 
 <SEO
-  title={analysts_detail_seo_title({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a" })}
-  description={analysts_detail_seo_description({ analystName: analystName ?? "n/a", companyName: companyName ?? "n/a", successRate: successRate ?? "n/a", avgReturn: avgReturn ?? "n/a", totalRatings: totalRatings ?? 0 })}
-  keywords={analysts_detail_seo_keywords({ analystName: analystName?.toLowerCase() ?? "", companyName: companyName?.toLowerCase() ?? "" })}
+  title={analysts_detail_seo_title({
+    analystName: analystName ?? "n/a",
+    companyName: companyName ?? "n/a",
+  })}
+  description={analysts_detail_seo_description({
+    analystName: analystName ?? "n/a",
+    companyName: companyName ?? "n/a",
+    successRate: successRate ?? "n/a",
+    avgReturn: avgReturn ?? "n/a",
+    totalRatings: totalRatings ?? 0,
+  })}
+  keywords={analysts_detail_seo_keywords({
+    analystName: analystName?.toLowerCase() ?? "",
+    companyName: companyName?.toLowerCase() ?? "",
+  })}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "Person",
@@ -579,7 +606,9 @@
                   <p
                     class="mb-0.5 text-sm font-medium text-gray-800 dark:text-zinc-300"
                   >
-                    {analysts_detail_stock_analyst_at({ companyName: companyName ?? "n/a" })}
+                    {analysts_detail_stock_analyst_at({
+                      companyName: companyName ?? "n/a",
+                    })}
                   </p>
                   <div class="inline-flex items-center">
                     <div class="flex flex-row items-center">
@@ -629,11 +658,13 @@
                   <div
                     class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
-                    {analysts_detail_out_of_analysts({ count: numOfAnalysts ?? "n/a" })}
+                    {analysts_detail_out_of_analysts({
+                      count: numOfAnalysts ?? "n/a",
+                    })}
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
                     class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
@@ -647,7 +678,7 @@
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
                     class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
@@ -688,7 +719,7 @@
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
                     class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
@@ -791,7 +822,9 @@
                 <h2
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
-                  {analysts_detail_count({ count: rawData?.length?.toLocaleString("en-US") })}
+                  {analysts_detail_count({
+                    count: rawData?.length?.toLocaleString("en-US"),
+                  })}
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -977,7 +1010,8 @@
                         class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
                         <span
-                          >{item?.ratings} {item?.ratings > 1
+                          >{item?.ratings}
+                          {item?.ratings > 1
                             ? analysts_detail_ratings()
                             : analysts_detail_rating()}</span
                         >
@@ -1181,12 +1215,15 @@
                                 <td
                                   class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                                 >
-                                  {new Date(item?.date).toLocaleString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                    year: "numeric",
-                                    daySuffix: "2-digit",
-                                  })}
+                                  {new Date(item?.date).toLocaleString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                      daySuffix: "2-digit",
+                                    },
+                                  )}
                                 </td>
                               {/if}
                             {/each}
@@ -1254,14 +1291,19 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{analysts_pagination_previous()}</span></Button
+                    <span class="hidden sm:inline"
+                      >{analysts_pagination_previous()}</span
+                    ></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    {analysts_pagination_page_of({ current: currentPage, total: totalPages })}
+                    {analysts_pagination_page_of({
+                      current: currentPage,
+                      total: totalPages,
+                    })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -1271,7 +1313,9 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{analysts_pagination_rows({ count: rowsPerPage })}</span
+                          >{analysts_pagination_rows({
+                            count: rowsPerPage,
+                          })}</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -1306,7 +1350,11 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{analysts_pagination_rows({ count: item })}</span>
+                              <span class="text-sm"
+                                >{analysts_pagination_rows({
+                                  count: item,
+                                })}</span
+                              >
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1322,7 +1370,9 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{analysts_pagination_next()}</span>
+                    <span class="hidden sm:inline"
+                      >{analysts_pagination_next()}</span
+                    >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -1346,7 +1396,8 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  {analysts_back_to_top()} <svg
+                  {analysts_back_to_top()}
+                  <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -1367,9 +1418,7 @@
               </div>
             {:else}
               <div class="pt-5">
-                <Infobox
-                  text={analysts_detail_no_data()}
-                />
+                <Infobox text={analysts_detail_no_data()} />
               </div>
             {/if}
           </div>
