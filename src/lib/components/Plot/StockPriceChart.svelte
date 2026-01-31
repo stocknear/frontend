@@ -249,8 +249,49 @@
       const baseTs = parsed[0].timestamp;
       sessionStart = buildSessionTimestamp(baseTs, 9, 30);
       sessionEnd = buildSessionTimestamp(baseTs, 16, 0);
-      const filtered = parsed.filter((bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!);
-      return filtered.length > 0 ? filtered : parsed;
+
+      const sessionBars = parsed.filter(
+        (bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!
+      );
+      if (!sessionBars.length) return parsed;
+
+      // Fill gaps with synthetic bars to align bar indices with time positions
+      const filledBars: KLineData[] = [];
+      const ONE_MINUTE_MS = 60000;
+      let barIndex = 0;
+
+      for (let ts = sessionStart; ts <= sessionEnd; ts += ONE_MINUTE_MS) {
+        // Find bar at this timestamp (within 30 second tolerance)
+        while (
+          barIndex < sessionBars.length &&
+          sessionBars[barIndex].timestamp < ts - 30000
+        ) {
+          barIndex++;
+        }
+
+        if (
+          barIndex < sessionBars.length &&
+          Math.abs(sessionBars[barIndex].timestamp - ts) < 30000
+        ) {
+          // Use actual bar, normalize timestamp to exact minute
+          filledBars.push({ ...sessionBars[barIndex], timestamp: ts });
+          barIndex++;
+        } else if (filledBars.length > 0) {
+          // Create synthetic bar using previous close (forward-fill)
+          const prev = filledBars[filledBars.length - 1];
+          filledBars.push({
+            timestamp: ts,
+            open: prev.close,
+            high: prev.close,
+            low: prev.close,
+            close: prev.close,
+            volume: 0,
+          });
+        }
+        // Skip if no previous bar exists (gap at start of session)
+      }
+
+      return filledBars;
     }
 
     sessionStart = null;
