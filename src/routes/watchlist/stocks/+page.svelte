@@ -228,7 +228,7 @@
             }
             return [t.symbol, t.note || ""];
           })
-        : []
+        : [],
     );
 
     // Calculate sinceAdded (% return since entry) for each item and merge notes
@@ -665,11 +665,6 @@
     };
   });
 
-  function handleWatchlistModal() {
-    const closePopup = document.getElementById("addWatchlist");
-    closePopup?.dispatchEvent(new MouseEvent("click"));
-  }
-
   $: {
     if (switchWatchlist && typeof window !== "undefined") {
       isLoaded = false;
@@ -749,7 +744,7 @@
 
       // Refresh displayWatchList from the updated list
       displayWatchList = allList?.find(
-        (item) => item?.id === displayWatchList?.id
+        (item) => item?.id === displayWatchList?.id,
       );
 
       // Close modal and reset state
@@ -828,7 +823,7 @@
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-gray-800 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{watchlist_breadcrumb_home()}</a
       >
     </li>
@@ -899,7 +894,7 @@
                           >
                             <label
                               for="addWatchlist"
-                              class="flex flex-row items-center cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="h-4 w-4 mr-1"
@@ -928,13 +923,13 @@
                             on:click={() => changeWatchList(item)}
                             class="text-sm cursor-pointer {item?.id ===
                             displayWatchList?.id
-                              ? 'text-gray-900 dark:text-white font-semibold'
-                              : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                              ? 'text-violet-800 dark:text-violet-400 '
+                              : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
                           >
                             {item?.title} ({item?.ticker?.length})
                             <label
                               for="deleteWatchlist"
-                              class="ml-auto inline-block cursor-pointer hover:text-rose-600 dark:hover:text-rose-400 transition"
+                              class="ml-auto inline-block cursor-pointer sm:hover:text-rose-600 dark:sm:hover:text-rose-400 transition"
                               on:click|capture={handleDeleteModal}
                             >
                               <svg
@@ -985,7 +980,7 @@
                       {#if inputValue?.length > 0}
                         {#each searchBarData as item}
                           <Combobox.Item
-                            class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
+                            class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
                             value={item?.symbol}
                             label={item?.name}
                             on:click={(e) => handleAddTicker(e, item?.symbol)}
@@ -1052,7 +1047,7 @@
                     {/if}
                     <label
                       on:click={handleEditMode}
-                      class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                      class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1082,7 +1077,7 @@
                       title={isFullWidth
                         ? watchlist_exit_full_width()
                         : watchlist_expand_full_width()}
-                      class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                      class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                         ? 'border-violet-400 dark:border-violet-500'
                         : ''}"
                     >
@@ -1454,7 +1449,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlist"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0">{watchlist_cancel()}</label
       ><label
         for="deleteWatchlist"
