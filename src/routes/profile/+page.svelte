@@ -799,6 +799,41 @@
               </ul>
             </div>
           </div>
+
+          <div
+            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+          >
+            <h2
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
+            >
+              Sign Out
+            </h2>
+            <p class="text-sm text-gray-800 dark:text-zinc-300 mb-4">
+              Sign out of your account on this device.
+            </p>
+            <form action="/logout" method="POST">
+              <button
+                type="submit"
+                class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full transition inline-flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 transform scale-x-[-1]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+                  ></path><polyline points="16 17 21 12 16 7"
+                  ></polyline><line x1="21" x2="9" y1="12" y2="12"
+                  ></line></svg
+                >
+                Sign Out
+              </button>
+            </form>
+          </div>
         </main>
       </div>
     </div>
