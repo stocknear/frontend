@@ -336,7 +336,7 @@
 
   <!-- Toolbar (only in edit mode) -->
   {#if !isPreviewMode}
-    <div class="flex items-center gap-1 py-2 px-1 border-b border-gray-200 dark:border-zinc-700 overflow-x-auto">
+    <div class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-gray-200 dark:border-zinc-700 overflow-x-hidden">
       <div class="flex items-center gap-0.5">
         <button
           on:click={toggleBold}
@@ -425,9 +425,7 @@
         </button>
       </div>
 
-      <div class="flex-1"></div>
-
-      <div class="flex items-center gap-0.5">
+      <div class="flex items-center gap-0.5 ml-auto">
         <button
           on:click={execUndo}
           class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
@@ -447,7 +445,7 @@
   {/if}
 
   <!-- Editor / Preview Area -->
-  <div class="flex-1 overflow-y-auto min-h-[200px] max-h-[400px]">
+  <div class="flex-1 overflow-y-auto overflow-x-hidden min-h-[200px] max-h-[400px]">
     {#if isPreviewMode}
       <!-- Preview Mode -->
       <div class="prose prose-sm dark:prose-invert max-w-none p-4 markdown-preview">
@@ -505,6 +503,9 @@
     padding: 1rem;
     font-size: 0.9375rem;
     line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   :global(.prosemirror-editor .ProseMirror p) {
@@ -571,11 +572,14 @@
     color: #e5e7eb;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
-    overflow-x: auto;
+    overflow-x: hidden;
     margin: 0.75rem 0;
     font-family: ui-monospace, monospace;
     font-size: 0.875rem;
     line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
   }
 
   :global(.prosemirror-editor .ProseMirror ul) {
@@ -638,6 +642,9 @@
   .markdown-preview {
     font-size: 0.9375rem;
     line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .markdown-preview :global(h1) {
@@ -688,8 +695,11 @@
     color: #e5e7eb;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
-    overflow-x: auto;
+    overflow-x: hidden;
     margin: 0.75rem 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
   }
 
   .markdown-preview :global(pre code) {
