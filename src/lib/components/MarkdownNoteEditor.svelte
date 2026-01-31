@@ -61,6 +61,65 @@
     return converter;
   }
 
+  // Security: Sanitize HTML to prevent XSS attacks
+  function sanitizeHtml(html: string): string {
+    // Guard for SSR - DOMParser only available in browser
+    if (typeof window === "undefined" || typeof DOMParser === "undefined") {
+      return ""; // Return empty in SSR context
+    }
+
+    // Create a temporary element to parse the HTML
+    const doc = new DOMParser().parseFromString(html, "text/html");
+
+    // Remove dangerous elements
+    const dangerousTags = ["script", "iframe", "object", "embed", "form", "input", "button", "textarea", "select", "style"];
+    dangerousTags.forEach((tag) => {
+      doc.querySelectorAll(tag).forEach((el) => el.remove());
+    });
+
+    // Remove dangerous attributes from all elements
+    const dangerousAttrs = ["onerror", "onload", "onclick", "onmouseover", "onmouseout", "onkeydown", "onkeyup", "onkeypress", "onfocus", "onblur", "onchange", "onsubmit", "onreset", "onselect", "oninput", "onanimationend", "ontransitionend"];
+    doc.querySelectorAll("*").forEach((el) => {
+      // Remove event handlers
+      dangerousAttrs.forEach((attr) => el.removeAttribute(attr));
+
+      // Remove javascript: URLs from href/src
+      const href = el.getAttribute("href");
+      if (href && (href.toLowerCase().startsWith("javascript:") || href.toLowerCase().startsWith("data:"))) {
+        el.removeAttribute("href");
+      }
+      const src = el.getAttribute("src");
+      if (src && (src.toLowerCase().startsWith("javascript:") || src.toLowerCase().startsWith("data:"))) {
+        el.removeAttribute("src");
+      }
+
+      // Ensure external links have security attributes
+      if (el.tagName === "A" && el.getAttribute("href")?.startsWith("http")) {
+        el.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+
+    return doc.body.innerHTML;
+  }
+
+  // Security: Validate URL to prevent javascript: protocol XSS
+  function isValidUrl(url: string): boolean {
+    if (!url) return false;
+    const trimmed = url.trim().toLowerCase();
+    // Only allow http, https, mailto, and relative URLs
+    if (trimmed.startsWith("javascript:") || trimmed.startsWith("data:") || trimmed.startsWith("vbscript:")) {
+      return false;
+    }
+    // Allow http, https, mailto, tel, and relative URLs
+    return trimmed.startsWith("http://") ||
+           trimmed.startsWith("https://") ||
+           trimmed.startsWith("mailto:") ||
+           trimmed.startsWith("tel:") ||
+           trimmed.startsWith("/") ||
+           trimmed.startsWith("#") ||
+           !trimmed.includes(":");
+  }
+
   // Placeholder plugin
   function placeholderPlugin(placeholder: string) {
     return new Plugin({
@@ -246,6 +305,12 @@
     const url = prompt("Enter URL:");
     if (!url || !editorView) return;
 
+    // Security: Validate URL to prevent XSS
+    if (!isValidUrl(url)) {
+      alert("Invalid URL. Please use http://, https://, or mailto: links.");
+      return;
+    }
+
     const { state, dispatch } = editorView;
     const { from, to, empty } = state.selection;
 
@@ -295,7 +360,8 @@
   });
 
   // Render markdown to HTML for preview (only computed when in preview mode)
-  $: previewHtml = isPreviewMode ? getConverter().makeHtml(currentMarkdown || "") : "";
+  // Security: Sanitize HTML output to prevent XSS attacks
+  $: previewHtml = isPreviewMode ? sanitizeHtml(getConverter().makeHtml(currentMarkdown || "")) : "";
 </script>
 
 <div class="flex flex-col h-full max-h-[80vh]">

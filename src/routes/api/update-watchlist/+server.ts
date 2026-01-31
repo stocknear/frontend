@@ -8,6 +8,29 @@ type WatchlistTicker = {
   addedPrice: number | null;
 };
 
+// Security: Constants for validation
+const MAX_NOTE_LENGTH = 50000; // 50KB max note size
+const MAX_SYMBOL_LENGTH = 20;
+const SYMBOL_REGEX = /^[A-Za-z0-9.\-]{1,20}$/;
+const WATCHLIST_ID_REGEX = /^[a-zA-Z0-9]{15}$/; // PocketBase ID format
+
+// Security: Validate symbol format
+function isValidSymbol(symbol: unknown): symbol is string {
+  return typeof symbol === "string" && SYMBOL_REGEX.test(symbol);
+}
+
+// Security: Validate watchlist ID format
+function isValidWatchlistId(id: unknown): id is string {
+  return typeof id === "string" && WATCHLIST_ID_REGEX.test(id);
+}
+
+// Security: Sanitize and validate note content
+function sanitizeNote(note: unknown): string {
+  if (typeof note !== "string") return "";
+  // Truncate to max length
+  return note.slice(0, MAX_NOTE_LENGTH);
+}
+
 // Helper to fetch the current price for a ticker from the backend
 async function fetchTickerPrice(
   apiURL: string,
@@ -24,12 +47,11 @@ async function fetchTickerPrice(
       body: JSON.stringify({ ticker }),
     });
     if (response.ok) {
-      console.log('quote api called')
       const data = await response.json();
       return data?.price ?? null;
     }
-  } catch (e) {
-    console.error("Could not fetch price for ticker:", ticker, e);
+  } catch {
+    // Silently fail - price fetch is not critical
   }
   return null;
 }
@@ -60,17 +82,50 @@ function findTickerIndex(tickers: WatchlistTicker[], symbol: string): number {
 
 export const POST = (async ({ request, locals }) => {
   const { user, pb, apiURL, apiKey } = locals;
-  const data = await request.json();
+
+  // Security: Check authentication
+  if (!user?.id) {
+    return new Response(
+      JSON.stringify({ error: "Authentication required" }),
+      { status: 401 }
+    );
+  }
+
+  let data;
+  try {
+    data = await request.json();
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "Invalid request body" }),
+      { status: 400 }
+    );
+  }
 
   const watchListId = data?.watchListId;
   const mode = data?.mode; // 'add', 'delete', 'note', or undefined (legacy toggle)
   let output;
+
+  // Security: Validate watchListId format
+  if (!isValidWatchlistId(watchListId)) {
+    return new Response(
+      JSON.stringify({ error: "Invalid watchlist ID" }),
+      { status: 400 }
+    );
+  }
 
   const isSubscribed = user?.tier === "Pro" || user?.tier === "Plus";
   const tickerLimit = user?.tier === "Pro" ? 300 : user?.tier === "Plus" ? 100 : 5;
 
   try {
     const watchList = await pb.collection("watchlist").getOne(watchListId);
+
+    // Security: Verify user owns this watchlist (authorization check)
+    if (watchList.user !== user.id) {
+      return new Response(
+        JSON.stringify({ error: "Access denied" }),
+        { status: 403 }
+      );
+    }
 
     // Parse current tickers
     let rawTickers = watchList?.ticker;
@@ -92,7 +147,17 @@ export const POST = (async ({ request, locals }) => {
     if (mode === "note") {
       // Update note for a specific ticker
       const symbol = data?.symbol;
-      const note = data?.note ?? "";
+
+      // Security: Validate symbol format
+      if (!isValidSymbol(symbol)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid symbol format" }),
+          { status: 400 }
+        );
+      }
+
+      // Security: Sanitize and limit note size
+      const note = sanitizeNote(data?.note);
 
       const index = findTickerIndex(currentTickers, symbol);
       if (index !== -1) {
@@ -110,14 +175,41 @@ export const POST = (async ({ request, locals }) => {
       // Delete mode: tickerInput is the new array (already filtered)
       const tickerInput = data?.ticker || [];
 
+      // Security: Validate tickerInput is an array
+      if (!Array.isArray(tickerInput)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid ticker data" }),
+          { status: 400 }
+        );
+      }
+
       // If input is array of strings, convert to objects preserving existing metadata
       let newTickers: WatchlistTicker[];
       if (tickerInput.length > 0 && typeof tickerInput[0] === "string") {
+        // Security: Validate each symbol in the array
+        for (const sym of tickerInput) {
+          if (!isValidSymbol(sym)) {
+            return new Response(
+              JSON.stringify({ error: "Invalid symbol format in array" }),
+              { status: 400 }
+            );
+          }
+        }
         // Input is symbols to keep - preserve existing metadata
         const symbolsToKeep = new Set(tickerInput as string[]);
         newTickers = currentTickers.filter((t) => symbolsToKeep.has(t.symbol));
       } else if (isNewFormat(tickerInput)) {
-        // Input is already in new format
+        // Security: Validate symbols in new format
+        for (const t of tickerInput) {
+          if (!isValidSymbol(t.symbol)) {
+            return new Response(
+              JSON.stringify({ error: "Invalid symbol format in array" }),
+              { status: 400 }
+            );
+          }
+          // Sanitize notes in the array
+          t.note = sanitizeNote(t.note);
+        }
         newTickers = tickerInput;
       } else {
         newTickers = convertToNewFormat(tickerInput);
@@ -136,6 +228,15 @@ export const POST = (async ({ request, locals }) => {
         let newTickers: WatchlistTicker[];
 
         if (tickerInput.length > 0 && typeof tickerInput[0] === "string") {
+          // Security: Validate each symbol
+          for (const sym of tickerInput) {
+            if (!isValidSymbol(sym)) {
+              return new Response(
+                JSON.stringify({ error: "Invalid symbol format in array" }),
+                { status: 400 }
+              );
+            }
+          }
           // Array of symbols - create new objects with price
           newTickers = (tickerInput as string[]).map((symbol) => ({
             symbol,
@@ -143,6 +244,17 @@ export const POST = (async ({ request, locals }) => {
             addedPrice: addedPrice,
           }));
         } else if (isNewFormat(tickerInput)) {
+          // Security: Validate symbols in new format
+          for (const t of tickerInput) {
+            if (!isValidSymbol(t.symbol)) {
+              return new Response(
+                JSON.stringify({ error: "Invalid symbol format in array" }),
+                { status: 400 }
+              );
+            }
+            // Sanitize notes
+            t.note = sanitizeNote(t.note);
+          }
           newTickers = tickerInput;
         } else {
           newTickers = convertToNewFormat(tickerInput);
@@ -164,7 +276,16 @@ export const POST = (async ({ request, locals }) => {
         });
       } else {
         // Single ticker toggle
-        const symbol = tickerInput as string;
+        const symbol = tickerInput;
+
+        // Security: Validate single symbol
+        if (!isValidSymbol(symbol)) {
+          return new Response(
+            JSON.stringify({ error: "Invalid symbol format" }),
+            { status: 400 }
+          );
+        }
+
         const existingIndex = findTickerIndex(currentTickers, symbol);
 
         if (existingIndex !== -1) {
@@ -205,19 +326,48 @@ export const POST = (async ({ request, locals }) => {
 
     if (Array.isArray(tickerInput)) {
       if (tickerInput.length > 0 && typeof tickerInput[0] === "string") {
+        // Security: Validate each symbol
+        for (const sym of tickerInput) {
+          if (!isValidSymbol(sym)) {
+            return new Response(
+              JSON.stringify({ error: "Invalid symbol format in array" }),
+              { status: 400 }
+            );
+          }
+        }
         tickersArray = (tickerInput as string[]).map((symbol) => ({
           symbol,
           note: "",
           addedPrice: addedPrice,
         }));
       } else if (isNewFormat(tickerInput)) {
+        // Security: Validate symbols in new format
+        for (const t of tickerInput) {
+          if (!isValidSymbol(t.symbol)) {
+            return new Response(
+              JSON.stringify({ error: "Invalid symbol format in array" }),
+              { status: 400 }
+            );
+          }
+          // Sanitize notes
+          t.note = sanitizeNote(t.note);
+        }
         tickersArray = tickerInput;
       } else {
         tickersArray = convertToNewFormat(tickerInput);
       }
     } else {
       // Single ticker - fetch price server-side if not provided
-      const symbol = tickerInput as string;
+      const symbol = tickerInput;
+
+      // Security: Validate single symbol
+      if (!isValidSymbol(symbol)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid symbol format" }),
+          { status: 400 }
+        );
+      }
+
       const tickerPrice = addedPrice ?? await fetchTickerPrice(apiURL, apiKey, symbol);
       tickersArray = [
         {

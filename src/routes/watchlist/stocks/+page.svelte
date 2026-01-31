@@ -731,6 +731,12 @@
   $: isNewNote = originalNoteText === "";
 
   async function handleNoteClick(symbol: string, currentNote: string) {
+    // Security: Validate symbol format (alphanumeric, dots, hyphens only, max 20 chars)
+    if (!symbol || !/^[A-Za-z0-9.\-]{1,20}$/.test(symbol)) {
+      console.error("Invalid symbol format");
+      return;
+    }
+
     editingNoteSymbol = symbol;
     editingNoteText = currentNote || "";
     originalNoteText = currentNote || "";

@@ -63,7 +63,7 @@ export async function load({ locals }) {
   const { apiKey, apiURL, locale} = locals;
 
  
-  const cacheKey = `dashboard:${apiKey}:${locale}`;
+  const cacheKey = `dashboard:${locale}`;
 
   // Check cache
   let dashboardData = dashboardCache.get(cacheKey);
@@ -112,8 +112,9 @@ export const actions = {
             await locals.pb.collection('users')
                 .authWithPassword(formData.email, formData.password);
         } catch (err: any) {
-            console.log('Error: ', err);
-            throw error(err.status || 500, err.message || 'Login failed');
+            // Security: Log error server-side but return generic message to client
+            console.error('Login error:', err?.status);
+            throw error(401, 'Invalid email or password');
         }
 
         // Get return URL from query or cookie
@@ -155,8 +156,11 @@ export const actions = {
             await locals.pb.collection('users')
                 .authWithPassword(formData.email, formData.password);
         } catch (err: any) {
-            console.log('Error: ', err);
-            throw error(err.status || 500, err.message || 'Registration failed');
+            // Security: Log error server-side but return generic message to client
+            console.error('Registration error:', err?.status);
+            // Check for common registration errors to provide helpful feedback
+            const isEmailTaken = err?.data?.data?.email?.code === 'validation_not_unique';
+            throw error(400, isEmailTaken ? 'This email is already registered' : 'Registration failed. Please try again.');
         }
 
         // Get return URL from query or cookie
