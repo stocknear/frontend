@@ -2,12 +2,37 @@
   import { onMount, onDestroy } from "svelte";
   import { EditorState } from "prosemirror-state";
   import { EditorView } from "prosemirror-view";
-  import { schema, defaultMarkdownParser, defaultMarkdownSerializer } from "prosemirror-markdown";
+  import {
+    schema,
+    defaultMarkdownParser,
+    defaultMarkdownSerializer,
+  } from "prosemirror-markdown";
   import { keymap } from "prosemirror-keymap";
   import { history, undo, redo } from "prosemirror-history";
-  import { baseKeymap, toggleMark, setBlockType, wrapIn, lift, chainCommands, exitCode, createParagraphNear, liftEmptyBlock, splitBlock } from "prosemirror-commands";
-  import { inputRules, wrappingInputRule, textblockTypeInputRule, InputRule } from "prosemirror-inputrules";
-  import { splitListItem, liftListItem, sinkListItem, wrapInList } from "prosemirror-schema-list";
+  import {
+    baseKeymap,
+    toggleMark,
+    setBlockType,
+    wrapIn,
+    lift,
+    chainCommands,
+    exitCode,
+    createParagraphNear,
+    liftEmptyBlock,
+    splitBlock,
+  } from "prosemirror-commands";
+  import {
+    inputRules,
+    wrappingInputRule,
+    textblockTypeInputRule,
+    InputRule,
+  } from "prosemirror-inputrules";
+  import {
+    splitListItem,
+    liftListItem,
+    sinkListItem,
+    wrapInList,
+  } from "prosemirror-schema-list";
   import { Plugin } from "prosemirror-state";
   import { Decoration, DecorationSet } from "prosemirror-view";
   import showdown from "showdown";
@@ -29,7 +54,6 @@
   import Eye from "lucide-svelte/icons/eye";
   import Pencil from "lucide-svelte/icons/pencil";
   import X from "lucide-svelte/icons/x";
-  import FileText from "lucide-svelte/icons/file-text";
 
   // Props
   export let value: string = "";
@@ -72,24 +96,61 @@
     const doc = new DOMParser().parseFromString(html, "text/html");
 
     // Remove dangerous elements
-    const dangerousTags = ["script", "iframe", "object", "embed", "form", "input", "button", "textarea", "select", "style"];
+    const dangerousTags = [
+      "script",
+      "iframe",
+      "object",
+      "embed",
+      "form",
+      "input",
+      "button",
+      "textarea",
+      "select",
+      "style",
+    ];
     dangerousTags.forEach((tag) => {
       doc.querySelectorAll(tag).forEach((el) => el.remove());
     });
 
     // Remove dangerous attributes from all elements
-    const dangerousAttrs = ["onerror", "onload", "onclick", "onmouseover", "onmouseout", "onkeydown", "onkeyup", "onkeypress", "onfocus", "onblur", "onchange", "onsubmit", "onreset", "onselect", "oninput", "onanimationend", "ontransitionend"];
+    const dangerousAttrs = [
+      "onerror",
+      "onload",
+      "onclick",
+      "onmouseover",
+      "onmouseout",
+      "onkeydown",
+      "onkeyup",
+      "onkeypress",
+      "onfocus",
+      "onblur",
+      "onchange",
+      "onsubmit",
+      "onreset",
+      "onselect",
+      "oninput",
+      "onanimationend",
+      "ontransitionend",
+    ];
     doc.querySelectorAll("*").forEach((el) => {
       // Remove event handlers
       dangerousAttrs.forEach((attr) => el.removeAttribute(attr));
 
       // Remove javascript: URLs from href/src
       const href = el.getAttribute("href");
-      if (href && (href.toLowerCase().startsWith("javascript:") || href.toLowerCase().startsWith("data:"))) {
+      if (
+        href &&
+        (href.toLowerCase().startsWith("javascript:") ||
+          href.toLowerCase().startsWith("data:"))
+      ) {
         el.removeAttribute("href");
       }
       const src = el.getAttribute("src");
-      if (src && (src.toLowerCase().startsWith("javascript:") || src.toLowerCase().startsWith("data:"))) {
+      if (
+        src &&
+        (src.toLowerCase().startsWith("javascript:") ||
+          src.toLowerCase().startsWith("data:"))
+      ) {
         el.removeAttribute("src");
       }
 
@@ -107,17 +168,23 @@
     if (!url) return false;
     const trimmed = url.trim().toLowerCase();
     // Only allow http, https, mailto, and relative URLs
-    if (trimmed.startsWith("javascript:") || trimmed.startsWith("data:") || trimmed.startsWith("vbscript:")) {
+    if (
+      trimmed.startsWith("javascript:") ||
+      trimmed.startsWith("data:") ||
+      trimmed.startsWith("vbscript:")
+    ) {
       return false;
     }
     // Allow http, https, mailto, tel, and relative URLs
-    return trimmed.startsWith("http://") ||
-           trimmed.startsWith("https://") ||
-           trimmed.startsWith("mailto:") ||
-           trimmed.startsWith("tel:") ||
-           trimmed.startsWith("/") ||
-           trimmed.startsWith("#") ||
-           !trimmed.includes(":");
+    return (
+      trimmed.startsWith("http://") ||
+      trimmed.startsWith("https://") ||
+      trimmed.startsWith("mailto:") ||
+      trimmed.startsWith("tel:") ||
+      trimmed.startsWith("/") ||
+      trimmed.startsWith("#") ||
+      !trimmed.includes(":")
+    );
   }
 
   // Placeholder plugin
@@ -126,7 +193,11 @@
       props: {
         decorations(state) {
           const doc = state.doc;
-          if (doc.childCount === 1 && doc.firstChild?.isTextblock && doc.firstChild.content.size === 0) {
+          if (
+            doc.childCount === 1 &&
+            doc.firstChild?.isTextblock &&
+            doc.firstChild.content.size === 0
+          ) {
             const decoration = Decoration.node(0, doc.firstChild.nodeSize, {
               class: "placeholder",
               "data-placeholder": placeholder,
@@ -150,19 +221,33 @@
     rules.push(wrappingInputRule(/^\s*([-+*])\s$/, schema.nodes.bullet_list));
 
     // Ordered list: 1. at start of line
-    rules.push(wrappingInputRule(/^(\d+)\.\s$/, schema.nodes.ordered_list, (match) => ({ order: parseInt(match[1], 10) })));
+    rules.push(
+      wrappingInputRule(/^(\d+)\.\s$/, schema.nodes.ordered_list, (match) => ({
+        order: parseInt(match[1], 10),
+      })),
+    );
 
     // Code block: ``` at start of line
     rules.push(textblockTypeInputRule(/^```$/, schema.nodes.code_block));
 
     // Headings: # ## ### at start of line
-    rules.push(textblockTypeInputRule(/^(#{1,6})\s$/, schema.nodes.heading, (match) => ({ level: match[1].length })));
+    rules.push(
+      textblockTypeInputRule(/^(#{1,6})\s$/, schema.nodes.heading, (match) => ({
+        level: match[1].length,
+      })),
+    );
 
     // Horizontal rule: --- or ***
-    rules.push(new InputRule(/^(?:---|___|\*\*\*)\s$/, (state, match, start, end) => {
-      const tr = state.tr.replaceWith(start - 1, end, schema.nodes.horizontal_rule.create());
-      return tr;
-    }));
+    rules.push(
+      new InputRule(/^(?:---|___|\*\*\*)\s$/, (state, match, start, end) => {
+        const tr = state.tr.replaceWith(
+          start - 1,
+          end,
+          schema.nodes.horizontal_rule.create(),
+        );
+        return tr;
+      }),
+    );
 
     return inputRules({ rules });
   }
@@ -188,22 +273,24 @@
             handleSave();
             return true;
           },
-          "Escape": () => {
+          Escape: () => {
             onCancel();
             return true;
           },
           // List handling - Enter splits list items, Tab indents, Shift-Tab outdents
-          "Enter": chainCommands(
+          Enter: chainCommands(
             splitListItem(schema.nodes.list_item),
             createParagraphNear,
             liftEmptyBlock,
-            splitBlock
+            splitBlock,
           ),
-          "Tab": sinkListItem(schema.nodes.list_item),
+          Tab: sinkListItem(schema.nodes.list_item),
           "Shift-Tab": liftListItem(schema.nodes.list_item),
         }),
         keymap(baseKeymap),
-        placeholderPlugin("Write your investment thesis, target price, or key reasons for watching this stock..."),
+        placeholderPlugin(
+          "Write your investment thesis, target price, or key reasons for watching this stock...",
+        ),
       ],
     });
   }
@@ -253,7 +340,9 @@
   }
 
   // Toolbar commands
-  function execCommand(command: (state: EditorState, dispatch?: any) => boolean) {
+  function execCommand(
+    command: (state: EditorState, dispatch?: any) => boolean,
+  ) {
     if (!editorView) return;
     command(editorView.state, editorView.dispatch);
     editorView.focus();
@@ -307,7 +396,9 @@
       dispatch(state.tr.replaceSelectionWith(textNode));
     } else {
       // Selection exists, wrap it with link
-      dispatch(state.tr.addMark(from, to, schema.marks.link.create({ href: url })));
+      dispatch(
+        state.tr.addMark(from, to, schema.marks.link.create({ href: url })),
+      );
     }
     editorView.focus();
   }
@@ -347,22 +438,25 @@
 
   // Render markdown to HTML for preview (only computed when in preview mode)
   // Security: Sanitize HTML output to prevent XSS attacks
-  $: previewHtml = isPreviewMode ? sanitizeHtml(getConverter().makeHtml(currentMarkdown || "")) : "";
+  $: previewHtml = isPreviewMode
+    ? sanitizeHtml(getConverter().makeHtml(currentMarkdown || ""))
+    : "";
 </script>
 
 <div class="flex flex-col h-full max-h-[80vh]">
   <!-- Header -->
-  <div class="flex items-start justify-between pb-4 border-b border-gray-200 dark:border-zinc-700">
+  <div
+    class="flex items-start justify-between pb-4 border-b border-gray-200 dark:border-zinc-700"
+  >
     <div class="flex items-center gap-3">
-      <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-500/20">
-        <FileText class="w-5 h-5 text-violet-600 dark:text-violet-400" />
-      </div>
       <div>
         <h3 class="font-semibold text-lg text-gray-900 dark:text-zinc-100">
           {isNewNote ? "New Note" : "Edit Note"}
         </h3>
         <div class="flex items-center gap-2 mt-0.5">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300">
+          <span
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300"
+          >
             {symbol}
           </span>
         </div>
@@ -372,9 +466,7 @@
       <!-- Preview/Edit Toggle -->
       <button
         on:click={togglePreview}
-        class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors {isPreviewMode
-          ? 'bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300'
-          : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-zinc-700'}"
+        class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-2xl transition-colors bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-zinc-700"
       >
         {#if isPreviewMode}
           <Pencil class="w-4 h-4" />
@@ -386,7 +478,7 @@
       </button>
       <button
         on:click={onCancel}
-        class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:text-zinc-500 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+        class="cursor-pointer p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
       >
         <X class="w-5 h-5" />
       </button>
@@ -395,7 +487,9 @@
 
   <!-- Toolbar (only in edit mode) -->
   {#if !isPreviewMode}
-    <div class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-gray-200 dark:border-zinc-700 overflow-x-hidden">
+    <div
+      class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-gray-200 dark:border-zinc-700 overflow-x-hidden"
+    >
       <div class="flex items-center gap-0.5">
         <button
           on:click={toggleBold}
@@ -504,42 +598,58 @@
   {/if}
 
   <!-- Editor / Preview Area -->
-  <div class="flex-1 overflow-y-auto overflow-x-hidden min-h-[200px] max-h-[400px]">
+  <div
+    class="flex-1 overflow-y-auto overflow-x-hidden min-h-[200px] max-h-[400px]"
+  >
     {#if isPreviewMode}
       <!-- Preview Mode -->
-      <div class="prose prose-sm dark:prose-invert max-w-none p-4 markdown-preview">
+      <div
+        class="prose prose-sm dark:prose-invert max-w-none p-4 markdown-preview"
+      >
         {#if previewHtml}
           {@html previewHtml}
         {:else}
-          <p class="text-gray-400 dark:text-zinc-500 italic">No content yet...</p>
+          <p class="text-gray-400 dark:text-zinc-500 italic">
+            No content yet...
+          </p>
         {/if}
       </div>
     {:else}
       <!-- Edit Mode -->
-      <div
-        bind:this={editorDiv}
-        class="prosemirror-editor"
-      ></div>
+      <div bind:this={editorDiv} class="prosemirror-editor"></div>
     {/if}
   </div>
 
   <!-- Footer -->
-  <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-zinc-700">
+  <div
+    class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-zinc-700"
+  >
     <button
       on:click={onCancel}
-      class="px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
     >
       Cancel
     </button>
     <button
       on:click={handleSave}
       disabled={isSaving || (!hasChanges && !isNewNote)}
-      class="px-4 py-2 text-sm font-medium rounded-lg bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
     >
       {#if isSaving}
         <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
         </svg>
         Saving...
       {:else}
