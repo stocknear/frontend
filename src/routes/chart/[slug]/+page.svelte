@@ -1381,7 +1381,7 @@
     `ml-2 shrink-0 transition cursor-pointer ${
       isFavorite
         ? "opacity-100 text-amber-400"
-        : "opacity-0 group-hover:opacity-100 text-neutral-500 hover:text-amber-400"
+        : "opacity-0 group-hover:opacity-100 text-gray-500 dark:text-zinc-400 hover:text-amber-400"
     }`;
   let favoriteIndicators: typeof indicatorItems = [];
   // In Favorites tab, sort alphabetically
@@ -5800,7 +5800,7 @@
       ctx.scale(2, 2);
 
       // Fill background
-      ctx.fillStyle = "#0b0b0b";
+      ctx.fillStyle = $mode === "dark" ? "#0b0b0b" : "#ffffff";
       ctx.fillRect(0, 0, width, height);
 
       // Draw each canvas layer onto the composite canvas
@@ -6843,16 +6843,16 @@
 />
 
 <main
-  class="h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-[#09090b] text-neutral-200 overflow-hidden"
+  class="h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
     <div
-      class="flex flex-col border-b border-gray-300 dark:border-[#262626] bg-[#09090b]"
+      class="flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-950"
     >
       <!-- First Row: Ticker Info + OHLC -->
       <div
-        class="flex items-center px-2 py-1 gap-1 text-sm border-b border-gray-300 dark:border-[#262626]"
+        class="flex items-center px-2 py-1 gap-1 text-sm border-b border-gray-300 dark:border-zinc-800"
       >
         <!-- Ticker Symbol -->
         <button class="flex items-center gap-1.5 px-2 py-1">
@@ -6865,17 +6865,17 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="font-semibold text-neutral-100">{ticker}</span>
-          <span class="text-neutral-500">·</span>
-          <span class="text-neutral-400">{activeRange}</span>
-          <span class="text-neutral-500">·</span>
-          <span class="text-neutral-400"
+          <span class="font-semibold text-gray-900 dark:text-white">{ticker}</span>
+          <span class="text-gray-500 dark:text-zinc-500">·</span>
+          <span class="text-gray-600 dark:text-zinc-400">{activeRange}</span>
+          <span class="text-gray-500 dark:text-zinc-500">·</span>
+          <span class="text-gray-600 dark:text-zinc-400"
             >{data?.getStockQuote?.exchange?.toUpperCase() || ""}</span
           >
         </button>
 
         <!-- Separator -->
-        <div class="w-px h-5 bg-neutral-700 mx-1"></div>
+        <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-1"></div>
 
         <!-- Price -->
         <div class="flex items-center gap-2 text-xs">
@@ -6894,7 +6894,7 @@
       >
         <!-- Toolbar Toggle (hidden on mobile since drawing toolbar is desktop-only) -->
         <button
-          class="hidden sm:flex cursor-pointer items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+          class="hidden sm:flex cursor-pointer items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
@@ -6912,7 +6912,7 @@
               class={`cursor-pointer px-2 py-1 text-sm font-medium rounded transition ${
                 activeRange === frame
                   ? "text-white bg-violet-600"
-                  : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"
+                  : "text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
               }`}
               on:click={() => setRange(frame)}
             >
@@ -6922,7 +6922,7 @@
         </div>
 
         <!-- Separator (hidden on mobile) -->
-        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <div class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
 
         <!-- Chart Type Dropdown (desktop only, mobile uses bottom nav) -->
         <div class="hidden sm:block">
@@ -6931,7 +6931,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
               >
                 <svelte:component
                   this={currentChartType?.icon}
@@ -6965,13 +6965,13 @@
         </div>
 
         <!-- Separator -->
-        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <div class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
 
         <!-- Indicators Button (desktop only, mobile uses bottom nav) -->
         <label
           for="indicatorModal"
           on:click={openIndicatorModal}
-          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -6993,7 +6993,7 @@
         </label>
 
         <!-- Separator -->
-        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <div class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
 
         <!-- Events Dropdown (desktop only, mobile uses bottom nav) -->
         <div class="hidden sm:block">
@@ -7002,7 +7002,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -7063,7 +7063,7 @@
                         <button
                           type="button"
                           on:click|stopPropagation={() => goto("/pricing")}
-                          class="text-neutral-500 hover:text-neutral-300 transition"
+                          class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                         >
                           <svg
                             class="w-4 h-4"
@@ -7118,7 +7118,7 @@
                         <button
                           type="button"
                           on:click|stopPropagation={() => goto("/pricing")}
-                          class="text-neutral-500 hover:text-neutral-300 transition"
+                          class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                         >
                           <svg
                             class="w-4 h-4"
@@ -7173,7 +7173,7 @@
                         <button
                           type="button"
                           on:click|stopPropagation={() => goto("/pricing")}
-                          class="text-neutral-500 hover:text-neutral-300 transition"
+                          class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                         >
                           <svg
                             class="w-4 h-4"
@@ -7196,7 +7196,7 @@
         </div>
 
         <!-- Separator -->
-        <div class="hidden sm:block w-px h-5 bg-neutral-700 mx-0.5"></div>
+        <div class="hidden sm:block w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5"></div>
 
         <!-- Strategy Dropdown -->
         <DropdownMenu.Root>
@@ -7204,7 +7204,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -7310,11 +7310,11 @@
         </DropdownMenu.Root>
         {#if isSubscribed}
           <!-- Separator -->
-          <div class="w-px h-5 bg-neutral-700 mx-0.5"></div>
+          <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
 
           <button
             on:click={() => handleSave(true)}
-            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition"
+            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -7332,7 +7332,7 @@
           {#if strategyList?.length > 0}
             <label
               for="addChartStrategy"
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -7351,7 +7351,7 @@
           {#if ruleOfList?.length > 0}
             <button
               on:click={clearIndicators}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 class="h-4 w-4"
@@ -7380,14 +7380,14 @@
       <!-- KlineCharts Pro Style Drawing Toolbar -->
       {#if toolbarExpanded}
         <div
-          class="hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-300 dark:border-[#262626] bg-[#0b0b0b] py-2 overflow-visible transition-all duration-200"
+          class="hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-2 overflow-visible transition-all duration-200"
         >
           <!-- Cursor Tool -->
           <button
             class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
               activeTool === "cursor"
-                ? "bg-neutral-800 text-white"
-                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
             }`}
             on:click={() => {
               activeTool = "cursor";
@@ -7406,10 +7406,10 @@
                 <button
                   class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                     drawingsLocked
-                      ? "cursor-not-allowed opacity-40 text-neutral-500"
+                      ? "cursor-not-allowed opacity-40 text-gray-500 dark:text-zinc-500"
                       : group.options.some((o) => o.id === activeTool)
-                        ? "cursor-pointer bg-neutral-800 text-white"
-                        : "cursor-pointer text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                        ? "cursor-pointer bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                        : "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
                   }`}
                   on:click={() => {
                     if (drawingsLocked) return;
@@ -7468,7 +7468,7 @@
                       <DropdownMenu.Item
                         class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
                           selectedToolByGroup[group.id] === option.id
-                            ? "bg-neutral-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-medium"
+                            ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium"
                             : "text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
                         }`}
                         on:click={() => {
@@ -7496,7 +7496,7 @@
           {/each}
 
           <!-- Separator -->
-          <div class="w-5 h-px bg-neutral-700 my-2"></div>
+          <div class="w-5 h-px bg-gray-300 dark:bg-zinc-700 my-2"></div>
 
           <!-- Magnet Mode -->
           <DropdownMenu.Root bind:open={dropdownStates.magnet}>
@@ -7504,8 +7504,8 @@
               <button
                 class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                   drawingMode !== "normal"
-                    ? "bg-neutral-800 text-white"
-                    : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                    ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                    : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-gray-700 dark:text-zinc-200"
                 }`}
                 on:click={() => {
                   if (drawingMode === "normal") {
@@ -7555,7 +7555,7 @@
                   <DropdownMenu.Item
                     class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
                       drawingMode === "weak_magnet"
-                        ? "bg-neutral-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-medium"
+                        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium"
                         : "text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
                     }`}
                     on:click={() => {
@@ -7577,7 +7577,7 @@
                   <DropdownMenu.Item
                     class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
                       drawingMode === "strong_magnet"
-                        ? "bg-neutral-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-medium"
+                        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium"
                         : "text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
                     }`}
                     on:click={() => {
@@ -7605,8 +7605,8 @@
           <button
             class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               !drawingsVisible
-                ? "bg-neutral-800 text-rose-400"
-                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                ? "bg-gray-100 dark:bg-zinc-800 text-rose-400"
+                : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-gray-700 dark:text-zinc-200"
             }`}
             on:click={toggleDrawingsVisibility}
             title={drawingsVisible ? "Hide drawings" : "Show drawings"}
@@ -7622,8 +7622,8 @@
           <button
             class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
               drawingsLocked
-                ? "bg-neutral-800 text-amber-400"
-                : "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200"
+                ? "bg-gray-100 dark:bg-zinc-800 text-amber-500 dark:text-amber-400"
+                : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
             }`}
             on:click={toggleDrawingsLock}
             title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
@@ -7634,18 +7634,18 @@
           </button>
 
           <!-- Separator -->
-          <div class="w-5 h-px bg-neutral-700 my-2"></div>
+          <div class="w-5 h-px bg-gray-300 dark:bg-zinc-700 my-2"></div>
 
           <!-- Zoom Tools -->
           <button
-            class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+            class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
             on:click={() => zoomChart(1.2)}
             title="Zoom in"
           >
             <ZoomIn class="size-5" />
           </button>
           <button
-            class=" cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200 mt-1"
+            class=" cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400 mt-1"
             on:click={() => zoomChart(0.9)}
             title="Zoom out"
           >
@@ -7656,7 +7656,7 @@
           <div class="mt-auto flex flex-col items-center pb-2">
             <!-- Screenshot -->
             <button
-              class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-neutral-200"
+              class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
               on:click={downloadChart}
               title="Screenshot"
             >
@@ -7680,7 +7680,7 @@
 
             <!-- Remove All -->
             <button
-              class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-neutral-400 transition-all duration-200 hover:bg-neutral-800 hover:text-rose-500 mt-1"
+              class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-rose-500 mt-1"
               on:click={removeAllDrawings}
               title="Remove all drawings"
             >
@@ -7692,7 +7692,7 @@
         </div>
       {/if}
 
-      <div class="relative flex-1 bg-[#0b0b0b]">
+      <div class="relative flex-1 bg-white dark:bg-zinc-950">
         <div
           class="absolute inset-0 z-[1] touch-manipulation"
           bind:this={chartContainer}
@@ -7701,9 +7701,9 @@
         <!-- Loading Spinner Overlay -->
         {#if isChartLoading}
           <div
-            class="bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
+            class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
           >
-            <span class="loading loading-spinner loading-md text-white"></span>
+            <span class="loading loading-spinner loading-md text-gray-900 dark:text-white"></span>
           </div>
         {/if}
 
@@ -7719,7 +7719,7 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="text-white/60 text-base font-semibold text-md"
+          <span class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
             >Stocknear</span
           >
         </div>
@@ -7814,17 +7814,17 @@
             style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
-                <h3 class="text-white font-semibold">
+                <h3 class="text-gray-900 dark:text-white font-semibold">
                   {selectedEarningsIsFuture
                     ? "Upcoming Earnings"
                     : "Earnings & Revenue"}
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
                   on:click={closeEarningsPopup}
                   aria-label="Close"
                 >
@@ -7845,9 +7845,9 @@
               </div>
 
               <!-- Date info -->
-              <div class="text-sm text-neutral-300 mb-3 space-y-1">
+              <div class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1">
                 <div class="flex justify-between">
-                  <span class="text-neutral-500">Date</span>
+                  <span class="text-gray-500 dark:text-zinc-400">Date</span>
                   <span class="flex items-center gap-1">
                     {DateTime.fromISO(selectedEarnings.date, { zone }).toFormat(
                       "EEE d MMM ''yy",
@@ -7879,7 +7879,7 @@
                 </div>
                 {#if selectedEarnings.period && selectedEarnings.period_year}
                   <div class="flex justify-between">
-                    <span class="text-neutral-500">Period Ending</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Period Ending</span>
                     <span
                       >{selectedEarnings.period}
                       '{String(selectedEarnings.period_year).slice(-2)}</span
@@ -7889,13 +7889,13 @@
               </div>
 
               <!-- Earnings section -->
-              <div class="border-t border-neutral-700 pt-3 mb-3">
-                <div class="text-xs text-neutral-500 uppercase mb-2">
+              <div class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3">
+                <div class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2">
                   {selectedEarningsIsFuture ? "EPS Estimate" : "Earnings"}
                 </div>
                 <div class="text-sm space-y-1">
                   {#if !selectedEarningsIsFuture}
-                    <div class="flex justify-between text-neutral-300">
+                    <div class="flex justify-between text-gray-700 dark:text-zinc-300">
                       <span>Reported</span>
                       <span
                         >{formatEarningsValue(
@@ -7904,7 +7904,7 @@
                       >
                     </div>
                   {/if}
-                  <div class="flex justify-between text-neutral-300">
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
                     <span>Estimate</span>
                     <span
                       >{formatEarningsValue(
@@ -7943,7 +7943,7 @@
                     )}
                     {#if yoy}
                       <div class="flex justify-between">
-                        <span class="text-neutral-400">YoY Change</span>
+                        <span class="text-gray-600 dark:text-zinc-400">YoY Change</span>
                         <span
                           class={yoy.positive
                             ? "text-emerald-800 dark:text-emerald-400"
@@ -7958,13 +7958,13 @@
               </div>
 
               <!-- Revenue section -->
-              <div class="border-t border-neutral-700 pt-3 mb-3">
-                <div class="text-xs text-neutral-500 uppercase mb-2">
+              <div class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3">
+                <div class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2">
                   {selectedEarningsIsFuture ? "Revenue Estimate" : "Revenue"}
                 </div>
                 <div class="text-sm space-y-1">
                   {#if !selectedEarningsIsFuture}
-                    <div class="flex justify-between text-neutral-300">
+                    <div class="flex justify-between text-gray-700 dark:text-zinc-300">
                       <span>Reported</span>
                       <span
                         >{formatRevenueValue(
@@ -7973,7 +7973,7 @@
                       >
                     </div>
                   {/if}
-                  <div class="flex justify-between text-neutral-300">
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
                     <span>Estimate</span>
                     <span
                       >{formatRevenueValue(
@@ -8012,7 +8012,7 @@
                     )}
                     {#if yoy}
                       <div class="flex justify-between">
-                        <span class="text-neutral-400">YoY Change</span>
+                        <span class="text-gray-600 dark:text-zinc-400">YoY Change</span>
                         <span
                           class={yoy.positive
                             ? "text-emerald-800 dark:text-emerald-400"
@@ -8029,7 +8029,7 @@
               <!-- Link to more details -->
               <a
                 href="/stocks/{ticker}/statistics/earnings"
-                class="block w-full text-center py-2 px-4 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-medium rounded-lg transition"
               >
                 More {ticker} financials
               </a>
@@ -8092,13 +8092,13 @@
             style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
-                <h3 class="text-white font-semibold">Dividend</h3>
+                <h3 class="text-gray-900 dark:text-white font-semibold">Dividend</h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
                   on:click={closeDividendPopup}
                   aria-label="Close"
                 >
@@ -8119,10 +8119,10 @@
               </div>
 
               <!-- Dividend info -->
-              <div class="text-sm text-neutral-300 mb-3 space-y-1">
+              <div class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1">
                 <div class="flex justify-between">
-                  <span class="text-neutral-500">Ex-Dividend Date</span>
-                  <span class="text-white">
+                  <span class="text-gray-500 dark:text-zinc-400">Ex-Dividend Date</span>
+                  <span class="text-gray-900 dark:text-white">
                     {new Date(selectedDividend.date).toLocaleDateString(
                       "en-US",
                       { month: "short", day: "numeric", year: "numeric" },
@@ -8130,14 +8130,14 @@
                   </span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-neutral-500">Amount</span>
+                  <span class="text-gray-500 dark:text-zinc-400">Amount</span>
                   <span class="text-blue-400 font-semibold">
                     ${selectedDividend.adjDividend?.toFixed(4)}
                   </span>
                 </div>
                 {#if selectedDividend.declarationDate}
                   <div class="flex justify-between">
-                    <span class="text-neutral-500">Declaration Date</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Declaration Date</span>
                     <span>
                       {new Date(
                         selectedDividend.declarationDate,
@@ -8151,7 +8151,7 @@
                 {/if}
                 {#if selectedDividend.recordDate}
                   <div class="flex justify-between">
-                    <span class="text-neutral-500">Record Date</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Record Date</span>
                     <span>
                       {new Date(selectedDividend.recordDate).toLocaleDateString(
                         "en-US",
@@ -8162,7 +8162,7 @@
                 {/if}
                 {#if selectedDividend.paymentDate}
                   <div class="flex justify-between">
-                    <span class="text-neutral-500">Payment Date</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Payment Date</span>
                     <span>
                       {new Date(
                         selectedDividend.paymentDate,
@@ -8179,7 +8179,7 @@
               <!-- Link to more details -->
               <a
                 href="/stocks/{ticker}/dividends"
-                class="block w-full text-center py-2 px-4 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-medium rounded-lg transition"
               >
                 More {ticker} dividends
               </a>
@@ -8241,11 +8241,11 @@
             style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
             >
               <!-- Header -->
               <div class="flex items-center justify-between gap-2 mb-3">
-                <h3 class="text-white font-semibold">Why Price Moved</h3>
+                <h3 class="text-gray-900 dark:text-white font-semibold">Why Price Moved</h3>
                 <span
                   class={`text-sm font-semibold ${
                     typeof selectedNews.changesPercentage === "number"
@@ -8253,16 +8253,16 @@
                         ? "text-emerald-400"
                         : selectedNews.changesPercentage < 0
                           ? "text-red-400"
-                          : "text-neutral-400"
+                          : "text-gray-600 dark:text-zinc-400"
                       : selectedNews.changesPercentage === "-" ||
                           selectedNews.changesPercentage === null
-                        ? "text-neutral-400"
+                        ? "text-gray-600 dark:text-zinc-400"
                         : parseFloat(String(selectedNews.changesPercentage)) > 0
                           ? "text-emerald-400"
                           : parseFloat(String(selectedNews.changesPercentage)) <
                               0
                             ? "text-red-400"
-                            : "text-neutral-400"
+                            : "text-gray-600 dark:text-zinc-400"
                   }`}
                 >
                   {#if typeof selectedNews.changesPercentage === "number"}
@@ -8280,7 +8280,7 @@
               </div>
 
               <!-- Date -->
-              <div class="text-xs text-neutral-500 mb-2">
+              <div class="text-xs text-gray-500 dark:text-zinc-400 mb-2">
                 {new Date(selectedNews.date).toLocaleDateString("en-US", {
                   weekday: "short",
                   month: "short",
@@ -8290,7 +8290,7 @@
               </div>
 
               <!-- News Text -->
-              <p class="text-neutral-200 text-sm leading-relaxed">
+              <p class="text-gray-700 dark:text-zinc-200 text-sm leading-relaxed">
                 {selectedNews.text}
               </p>
             </div>
@@ -8337,7 +8337,7 @@
                     aria-label="GEX label at ${level.strike}"
                   >
                     <span
-                      class={`px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border ${
+                      class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
                         level.isPositive
                           ? "text-emerald-200 border-emerald-500/30"
                           : "text-rose-200 border-rose-500/30"
@@ -8390,7 +8390,7 @@
                     aria-label="DEX label at ${level.strike}"
                   >
                     <span
-                      class={`px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border ${
+                      class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
                         level.isPositive
                           ? "text-sky-200 border-sky-500/30"
                           : "text-orange-200 border-orange-500/30"
@@ -8423,7 +8423,7 @@
             style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -8438,12 +8438,12 @@
                       : '#f97316'}"
                 ></div>
                 <h3
-                  class="text-white font-semibold text-sm sm:text-base truncate"
+                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
                 >
                   {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                   on:click={closeGexDexPopup}
                   aria-label="Close"
                 >
@@ -8465,12 +8465,12 @@
 
               <!-- Strike info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Strike</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Strike</span>
                   <span class="font-medium">${level?.strike.toFixed(2)}</span>
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500"
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400"
                     >Net {isGex ? "Gamma" : "Delta"}</span
                   >
                   <span
@@ -8481,14 +8481,14 @@
                     {formatSignedExposure(level?.value ?? 0)}
                   </span>
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Call</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Call</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
                     >{formatExposureValue(level?.callValue ?? 0)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Put</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Put</span>
                   <span class="text-rose-600 dark:text-rose-400"
                     >{formatExposureValue(level?.putValue ?? 0)}</span
                   >
@@ -8497,7 +8497,7 @@
 
               <!-- Explanation -->
               <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
               >
                 {#if isGex}
                   {#if level?.isPositive}
@@ -8527,7 +8527,7 @@
                 href="/{assetType}/{ticker}/options/{isGex
                   ? 'gex'
                   : 'dex'}/strike"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
               </a>
@@ -8565,7 +8565,7 @@
                   aria-label="Max pain label at ${level.price}"
                 >
                   <span
-                    class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] text-amber-200 border border-amber-500/30"
+                    class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-amber-200 border border-amber-500/30"
                   >
                     MP {formatExpiration(level.expiration)}
                     {#if level.dte !== null}
@@ -8607,7 +8607,7 @@
                   aria-label="Analyst target label {level.label} at ${level.price}"
                 >
                   <span
-                    class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border"
+                    class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border"
                     style="color: {level.color}; border-color: {level.color}55;"
                   >
                     PT {level.label}
@@ -8640,7 +8640,7 @@
             style="left: {maxPainPopupPosition.x}px; top: {maxPainPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -8649,12 +8649,12 @@
                   style="background: #f59e0b"
                 ></div>
                 <h3
-                  class="text-white font-semibold text-sm sm:text-base truncate"
+                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
                 >
                   Max Pain
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                   on:click={closeMaxPainPopup}
                   aria-label="Close"
                 >
@@ -8676,32 +8676,32 @@
 
               <!-- Max pain info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Expiration</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Expiration</span>
                   <span class="font-medium"
                     >{formatExpiration(selectedMaxPainLevel.expiration)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">DTE</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">DTE</span>
                   <span class="font-medium"
                     >{selectedMaxPainLevel.dte !== null
                       ? `${selectedMaxPainLevel.dte}d`
                       : "N/A"}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Max Pain</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Max Pain</span>
                   <span class="font-medium text-amber-200"
                     >{formatPrice(selectedMaxPainLevel.price)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Spot</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Spot</span>
                   <span class="font-medium">{formatPrice(refPrice)}</span>
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Distance</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Distance</span>
                   <span
                     class="font-medium {diff !== null && diff >= 0
                       ? 'text-emerald-400'
@@ -8714,7 +8714,7 @@
 
               <!-- Explanation -->
               <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
               >
                 <p>
                   Max pain is the strike where option buyers lose the most.
@@ -8725,7 +8725,7 @@
               <!-- Link to more details -->
               <a
                 href="/{assetType}/{ticker}/options/max-pain"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View All Max Pain
               </a>
@@ -8768,7 +8768,7 @@
             style="left: {analystTargetPopupPosition.x}px; top: {analystTargetPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -8777,12 +8777,12 @@
                   style="background: #22c55e"
                 ></div>
                 <h3
-                  class="text-white font-semibold text-sm sm:text-base truncate"
+                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
                 >
                   Analyst Targets
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                   on:click={closeAnalystTargetPopup}
                   aria-label="Close"
                 >
@@ -8804,8 +8804,8 @@
 
               <!-- Targets info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Spot</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Spot</span>
                   <span class="font-medium">{formatPrice(refPrice)}</span>
                 </div>
                 {#each targetRows as row (row.key)}
@@ -8815,8 +8815,8 @@
                     refPrice !== null && diff !== null
                       ? (diff / refPrice) * 100
                       : null}
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">{row.key}</span>
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <span class="text-gray-500 dark:text-zinc-400">{row.key}</span>
                     <span class="font-medium" style="color: {row.color}">
                       {formatPrice(row.value)}
                       <span
@@ -8830,16 +8830,16 @@
                   </div>
                 {/each}
                 {#if analystTargetSummary.numAnalysts !== null}
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">Analysts</span>
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <span class="text-gray-500 dark:text-zinc-400">Analysts</span>
                     <span class="font-medium">
                       {formatCount(analystTargetSummary.numAnalysts)}
                     </span>
                   </div>
                 {/if}
                 {#if analystTargetSummary.consensus}
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">Consensus</span>
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <span class="text-gray-500 dark:text-zinc-400">Consensus</span>
                     <span class="font-medium">
                       {analystTargetSummary.consensus}
                     </span>
@@ -8849,7 +8849,7 @@
 
               <!-- Explanation -->
               <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
               >
                 <p>
                   Targets are 12-month analyst estimates. Use them as reference
@@ -8860,7 +8860,7 @@
               <!-- Link to more details -->
               <a
                 href="/stocks/{ticker}/forecast"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View forecast
               </a>
@@ -8899,7 +8899,7 @@
                     aria-label="OI label at ${level.strike}"
                   >
                     <span
-                      class="px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] text-purple-200 border border-purple-500/30"
+                      class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-purple-200 border border-purple-500/30"
                     >
                       OI {formatPrice(level.strike)}
                       {formatCount(level.totalOi)}
@@ -8924,7 +8924,7 @@
             style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -8933,12 +8933,12 @@
                   style="background: #a855f7"
                 ></div>
                 <h3
-                  class="text-white font-semibold text-sm sm:text-base truncate"
+                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
                 >
                   Open Interest (OI)
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                   on:click={closeOiPopup}
                   aria-label="Close"
                 >
@@ -8960,46 +8960,46 @@
 
               <!-- Strike info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Strike</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Strike</span>
                   <span class="font-medium"
                     >{formatPrice(selectedOiLevel.strike)}</span
                   >
                 </div>
                 {#if selectedOiLevel.expiration}
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">Expiration</span>
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <span class="text-gray-500 dark:text-zinc-400">Expiration</span>
                     <span class="font-medium"
                       >{formatExpiration(selectedOiLevel.expiration)}</span
                     >
                   </div>
                 {/if}
                 {#if selectedOiLevel.dte !== null}
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">DTE</span>
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <span class="text-gray-500 dark:text-zinc-400">DTE</span>
                     <span class="font-medium">{selectedOiLevel.dte}d</span>
                   </div>
                 {/if}
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Total OI</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Total OI</span>
                   <span class="font-medium text-purple-400">
                     {formatCount(selectedOiLevel.totalOi)}
                   </span>
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Call OI</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Call OI</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
                     >{formatCount(selectedOiLevel.callOi)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Put OI</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Put OI</span>
                   <span class="text-rose-600 dark:text-rose-400"
                     >{formatCount(selectedOiLevel.putOi)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">P/C Ratio</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">P/C Ratio</span>
                   <span
                     class="font-medium {selectedOiLevel.callOi > 0 &&
                     selectedOiLevel.putOi / selectedOiLevel.callOi > 1
@@ -9017,7 +9017,7 @@
 
               <!-- Explanation -->
               <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
               >
                 <p>
                   High OI here indicates significant positioning. May act as
@@ -9028,7 +9028,7 @@
               <!-- Link to more details -->
               <a
                 href="/{assetType}/{ticker}/options/oi"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all levels
               </a>
@@ -9072,7 +9072,7 @@
                     aria-label="Hottest contract label at ${level.strike}"
                   >
                     <span
-                      class={`px-1.5 py-0.5 rounded bg-neutral-900/80 text-[10px] border ${
+                      class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
                         level.optionType === "C"
                           ? "text-emerald-200 border-emerald-500/30"
                           : "text-rose-200 border-rose-500/30"
@@ -9102,7 +9102,7 @@
             style="left: {hottestPopupPosition.x}px; top: {hottestPopupPosition.y}px;"
           >
             <div
-              class="bg-[#1a1a1a] border border-neutral-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -9113,13 +9113,13 @@
                     : '#f43f5e'}"
                 ></div>
                 <h3
-                  class="text-white font-semibold text-sm sm:text-base truncate"
+                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
                 >
                   {selectedHottestLevel.optionType === "C" ? "Call" : "Put"}
                   {formatPrice(selectedHottestLevel.strike)}
                 </h3>
                 <button
-                  class="cursor-pointer ml-auto text-neutral-400 hover:text-white transition flex-shrink-0"
+                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                   on:click={closeHottestPopup}
                   aria-label="Close"
                 >
@@ -9141,32 +9141,32 @@
 
               <!-- Contract info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Expiration</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Expiration</span>
                   <span class="font-medium"
                     >{formatExpiration(selectedHottestLevel.expiration)}</span
                   >
                 </div>
                 {#if selectedHottestLevel.dte !== null}
-                  <div class="flex justify-between text-neutral-300">
-                    <span class="text-neutral-500">DTE</span>
+                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <span class="text-gray-500 dark:text-zinc-400">DTE</span>
                     <span class="font-medium">{selectedHottestLevel.dte}d</span>
                   </div>
                 {/if}
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Volume</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Volume</span>
                   <span class="font-medium text-amber-400">
                     {formatCount(selectedHottestLevel.volume)}
                   </span>
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Open Interest</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Open Interest</span>
                   <span class="text-purple-400"
                     >{formatCount(selectedHottestLevel.openInterest)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Last Price</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Last Price</span>
                   <span
                     class={selectedHottestLevel.optionType === "C"
                       ? "text-emerald-800 dark:text-emerald-400"
@@ -9174,14 +9174,14 @@
                     >{formatPrice(selectedHottestLevel.last)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">IV</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">IV</span>
                   <span class="font-medium"
                     >{formatIvPercent(selectedHottestLevel.iv)}</span
                   >
                 </div>
-                <div class="flex justify-between text-neutral-300">
-                  <span class="text-neutral-500">Premium</span>
+                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <span class="text-gray-500 dark:text-zinc-400">Premium</span>
                   <span class="font-medium"
                     >${formatCount(selectedHottestLevel.premium)}</span
                   >
@@ -9190,7 +9190,7 @@
 
               <!-- Explanation -->
               <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700 text-[10px] sm:text-xs text-neutral-400 leading-relaxed"
+                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
               >
                 <p>
                   High volume contract. Large trades here may signal
@@ -9201,7 +9201,7 @@
               <!-- Link to more details -->
               <a
                 href="/{assetType}/{ticker}/options/hottest-contracts/volume"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
               >
                 View all contracts
               </a>
@@ -9228,7 +9228,7 @@
 
   <!-- Mobile Bottom Navigation Bar -->
   <div
-    class="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
+    class="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
   >
     <div class="flex items-center justify-around px-2 py-1">
       <!-- Timeframe -->
@@ -9237,7 +9237,7 @@
           <button
             use:builder.action
             {...builder}
-            class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
+            class="flex flex-col items-center gap-0.5 px-3 py-2 text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition min-w-[60px]"
           >
             <Timer class="h-5 w-5" />
             <span class="text-[10px] font-medium">{activeRange}</span>
@@ -9247,15 +9247,15 @@
           side="top"
           align="center"
           sideOffset={8}
-          class="w-32 rounded-xl border border-neutral-700 bg-neutral-900/95 p-1 text-neutral-200"
+          class="w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
         >
           <DropdownMenu.Group>
             {#each timeframes as frame}
               <DropdownMenu.Item
                 class={`px-3 py-2 text-sm rounded cursor-pointer transition ${
                   activeRange === frame
-                    ? "text-violet-400 bg-neutral-800"
-                    : "hover:bg-neutral-800"
+                    ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                    : "hover:bg-gray-100/60 dark:hover:bg-zinc-800"
                 }`}
                 on:click={() => setRange(frame)}
               >
@@ -9272,7 +9272,7 @@
           <button
             use:builder.action
             {...builder}
-            class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
+            class="flex flex-col items-center gap-0.5 px-3 py-2 text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition min-w-[60px]"
           >
             <svelte:component this={currentChartType?.icon} class="h-5 w-5" />
             <span class="text-[10px] font-medium">Chart</span>
@@ -9282,15 +9282,15 @@
           side="top"
           align="center"
           sideOffset={8}
-          class="w-40 rounded-xl border border-neutral-700 bg-neutral-900/95 p-1 text-neutral-200"
+          class="w-40 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
         >
           <DropdownMenu.Group>
             {#each chartTypeOptions as option}
               <DropdownMenu.Item
                 class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
                   chartType === option.id
-                    ? "text-violet-400 bg-neutral-800"
-                    : "hover:bg-neutral-800"
+                    ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                    : "hover:bg-gray-100/60 dark:hover:bg-zinc-800"
                 }`}
                 on:click={() => setChartType(option.id)}
               >
@@ -9306,7 +9306,7 @@
       <label
         for="indicatorModal"
         on:click={openIndicatorModal}
-        class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 cursor-pointer transition min-w-[60px]"
+        class="flex flex-col items-center gap-0.5 px-3 py-2 text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 cursor-pointer transition min-w-[60px]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -9333,7 +9333,7 @@
           <button
             use:builder.action
             {...builder}
-            class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-400 hover:text-neutral-200 transition min-w-[60px]"
+            class="flex flex-col items-center gap-0.5 px-3 py-2 text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition min-w-[60px]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -9352,11 +9352,11 @@
           side="top"
           align="center"
           sideOffset={8}
-          class="w-auto min-w-44 rounded-xl border border-neutral-700 bg-neutral-900/95 p-1 text-neutral-200"
+          class="w-auto min-w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200"
         >
           <DropdownMenu.Group>
             <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
               <span>Earnings</span>
@@ -9378,13 +9378,13 @@
                     }}
                   />
                   <div
-                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                   ></div>
                 {:else}
                   <button
                     type="button"
                     on:click|stopPropagation={() => goto("/pricing")}
-                    class="text-neutral-500 hover:text-neutral-300 transition"
+                    class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                   >
                     <svg
                       class="w-4 h-4"
@@ -9400,7 +9400,7 @@
               </div>
             </DropdownMenu.Item>
             <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
               <span>Dividends</span>
@@ -9422,13 +9422,13 @@
                     }}
                   />
                   <div
-                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                   ></div>
                 {:else}
                   <button
                     type="button"
                     on:click|stopPropagation={() => goto("/pricing")}
-                    class="text-neutral-500 hover:text-neutral-300 transition"
+                    class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                   >
                     <svg
                       class="w-4 h-4"
@@ -9444,7 +9444,7 @@
               </div>
             </DropdownMenu.Item>
             <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
               <span>News Flow</span>
@@ -9466,13 +9466,13 @@
                     }}
                   />
                   <div
-                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                   ></div>
                 {:else}
                   <button
                     type="button"
                     on:click|stopPropagation={() => goto("/pricing")}
-                    class="text-neutral-500 hover:text-neutral-300 transition"
+                    class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                   >
                     <svg
                       class="w-4 h-4"
@@ -9495,21 +9495,21 @@
       <div class="flex flex-col items-center gap-0.5 px-2 py-2 min-w-[60px]">
         <div class="flex items-center gap-1">
           <button
-            class="p-1.5 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+            class="p-1.5 text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
             on:click={() => zoomChart(1.2)}
             title="Zoom in"
           >
             <ZoomIn class="h-4 w-4" />
           </button>
           <button
-            class="p-1.5 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded transition"
+            class="p-1.5 text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
             on:click={() => zoomChart(0.9)}
             title="Zoom out"
           >
             <ZoomOut class="h-4 w-4" />
           </button>
         </div>
-        <span class="text-[10px] font-medium text-neutral-400">Zoom</span>
+        <span class="text-[10px] font-medium text-gray-600 dark:text-zinc-400">Zoom</span>
       </div>
     </div>
   </div>
@@ -9518,7 +9518,7 @@
 <!-- Mobile Bottom Navigation Bar -->
 {#if isMobile}
   <div
-    class="fixed bottom-0 left-0 right-0 z-40 sm:hidden border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
+    class="fixed bottom-0 left-0 right-0 z-40 sm:hidden border-t border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
   >
     <div class="flex items-center justify-around h-14 px-2">
       <!-- Timeframe -->
@@ -9527,7 +9527,7 @@
           <button
             use:builder.action
             {...builder}
-            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
+            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
           >
             <Timer class="h-5 w-5" />
             <span class="text-[10px] font-medium">{activeRange}</span>
@@ -9537,15 +9537,15 @@
           side="top"
           align="center"
           sideOffset={8}
-          class="w-28 rounded-xl border border-neutral-700 bg-neutral-950 p-1"
+          class="w-28 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-1"
         >
           <DropdownMenu.Group>
             {#each timeframes as frame}
               <DropdownMenu.Item
                 class={`px-3 py-2 text-sm rounded cursor-pointer transition ${
                   activeRange === frame
-                    ? "text-violet-400 bg-neutral-800"
-                    : "text-neutral-300 hover:bg-neutral-800"
+                    ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                    : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
                 }`}
                 on:click={() => setRange(frame)}
               >
@@ -9562,7 +9562,7 @@
           <button
             use:builder.action
             {...builder}
-            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
+            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
           >
             <svelte:component this={currentChartType?.icon} class="h-5 w-5" />
             <span class="text-[10px] font-medium">Chart</span>
@@ -9572,15 +9572,15 @@
           side="top"
           align="center"
           sideOffset={8}
-          class="w-36 rounded-xl border border-neutral-700 bg-neutral-950 p-1"
+          class="w-36 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-1"
         >
           <DropdownMenu.Group>
             {#each chartTypeOptions as option}
               <DropdownMenu.Item
                 class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
                   chartType === option.type
-                    ? "text-violet-400 bg-neutral-800"
-                    : "text-neutral-300 hover:bg-neutral-800"
+                    ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
+                    : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
                 }`}
                 on:click={() => setChartType(option.type)}
               >
@@ -9595,7 +9595,7 @@
       <!-- Indicators -->
       <label
         for="indicatorModal"
-        class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition cursor-pointer"
+        class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition cursor-pointer"
       >
         <svg
           class="h-5 w-5"
@@ -9616,7 +9616,7 @@
           <button
             use:builder.action
             {...builder}
-            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition"
+            class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
           >
             <svg
               class="h-5 w-5"
@@ -9637,14 +9637,14 @@
           side="top"
           align="center"
           sideOffset={8}
-          class="w-44 rounded-xl border border-neutral-700 bg-neutral-950 p-1"
+          class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-1"
         >
           <DropdownMenu.Group>
             <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
-              <span class="text-neutral-300">Earnings</span>
+              <span class="text-gray-700 dark:text-zinc-300">Earnings</span>
               <div class="relative ml-4 flex items-center">
                 <input
                   type="checkbox"
@@ -9662,15 +9662,15 @@
                   }}
                 />
                 <div
-                  class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                 ></div>
               </div>
             </DropdownMenu.Item>
             <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
-              <span class="text-neutral-300">Dividends</span>
+              <span class="text-gray-700 dark:text-zinc-300">Dividends</span>
               <div class="relative ml-4 flex items-center">
                 <input
                   type="checkbox"
@@ -9688,16 +9688,16 @@
                   }}
                 />
                 <div
-                  class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                 ></div>
               </div>
             </DropdownMenu.Item>
             {#if isSubscribed}
               <DropdownMenu.Item
-                class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-neutral-800 cursor-pointer"
+                class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
                 on:click={(e) => e.preventDefault()}
               >
-                <span class="text-neutral-300">News Flow</span>
+                <span class="text-gray-700 dark:text-zinc-300">News Flow</span>
                 <div class="relative ml-4 flex items-center">
                   <input
                     type="checkbox"
@@ -9715,7 +9715,7 @@
                     }}
                   />
                   <div
-                    class="w-9 h-5 bg-neutral-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                   ></div>
                 </div>
               </DropdownMenu.Item>
@@ -9727,7 +9727,7 @@
       <!-- Drawing Tools -->
       <label
         for="mobileToolsModal"
-        class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-neutral-400 hover:text-neutral-200 transition cursor-pointer"
+        class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition cursor-pointer"
       >
         <svg
           class="h-5 w-5"
@@ -9755,22 +9755,22 @@
     class="cursor-pointer modal-backdrop bg-black/30"
   ></label>
   <div
-    class="modal-box rounded-t-2xl border-t border-neutral-700 bg-[#0a0a0a] p-0 w-full max-h-[70vh]"
+    class="modal-box rounded-t-2xl border-t border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-0 w-full max-h-[70vh]"
   >
     <!-- Handle bar -->
     <div class="flex justify-center py-2">
-      <div class="w-10 h-1 bg-neutral-700 rounded-full"></div>
+      <div class="w-10 h-1 bg-gray-200 dark:bg-zinc-700 rounded-full"></div>
     </div>
 
     <!-- Header -->
     <div
-      class="flex items-center justify-between px-4 pb-3 border-b border-neutral-800"
+      class="flex items-center justify-between px-4 pb-3 border-b border-gray-300 dark:border-zinc-700"
     >
-      <h3 class="text-base font-semibold text-neutral-100">Drawing Tools</h3>
+      <h3 class="text-base font-semibold text-gray-900 dark:text-white">Drawing Tools</h3>
       <div class="flex items-center gap-2">
         <!-- Lock/Unlock -->
         <button
-          class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"}`}
+          class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={toggleDrawingsLock}
           title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
         >
@@ -9780,7 +9780,7 @@
         </button>
         <!-- Show/Hide -->
         <button
-          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-neutral-500" : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800"}`}
+          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-gray-500 dark:text-zinc-400" : "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={toggleDrawingsVisibility}
           title={drawingsVisible ? "Hide drawings" : "Show drawings"}
         >
@@ -9792,7 +9792,7 @@
         </button>
         <!-- Delete All -->
         <button
-          class="p-2 rounded-lg text-neutral-400 hover:text-rose-400 hover:bg-rose-400/10 transition"
+          class="p-2 rounded-lg text-gray-600 dark:text-zinc-400 hover:text-rose-400 hover:bg-rose-400/10 transition"
           on:click={() => {
             chart?.removeOverlay();
             overlayIds = [];
@@ -9809,7 +9809,7 @@
       {#each toolGroups as group}
         <div>
           <h4
-            class="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-2"
+            class="text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-2"
           >
             {group.label}
           </h4>
@@ -9820,7 +9820,7 @@
                 class={`flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${
                   selectedToolByGroup[group.id] === option.id
                     ? "border-violet-500 bg-violet-500/10 text-violet-300"
-                    : "border-neutral-800 bg-neutral-900/50 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-800/50"
+                    : "border-gray-300 dark:border-zinc-700 bg-gray-100/50 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-300 hover:border-gray-300 dark:border-zinc-700 hover:bg-gray-100/60 dark:hover:bg-zinc-800/50"
                 } ${drawingsLocked ? "opacity-50 pointer-events-none" : ""}`}
                 on:click={() =>
                   activateDrawingTool(group.id, option.id, option.overlay)}
@@ -9847,7 +9847,7 @@
     <div class="p-4 pt-0">
       <label
         for="mobileToolsModal"
-        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-neutral-700 bg-neutral-800/50 text-neutral-200 hover:bg-neutral-800 transition cursor-pointer"
+        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800/50 text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 transition cursor-pointer"
         on:click={() => {
           activeTool = null;
           chart?.removeOverlay();
@@ -9869,19 +9869,19 @@
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box relative bg-[#1f1f1f] text-neutral-100 z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl border border-neutral-800 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden shadow-2xl"
+    class="modal-box relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl border border-gray-300 dark:border-zinc-700 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden shadow-2xl"
   >
     <div class="relative flex flex-col w-full h-full">
       <div
-        class="sticky top-0 z-40 bg-[#1f1f1f] pb-6 pt-5 border-b border-neutral-800"
+        class="sticky top-0 z-40 bg-white dark:bg-zinc-900 pb-6 pt-5 border-b border-gray-300 dark:border-zinc-700"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class="text-[1rem] sm:text-xl font-semibold text-neutral-100">
+          <h2 class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
             Indicators
           </h2>
           <label
             for="indicatorModal"
-            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem] text-neutral-300 hover:text-white transition"
+            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem] text-gray-700 dark:text-zinc-300 hover:text-white transition"
             on:click={closeIndicatorModal}
             aria-label="Close indicators modal"
           >
@@ -9907,7 +9907,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-neutral-500"
+                class="w-4 h-4 text-gray-500 dark:text-zinc-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -9931,7 +9931,7 @@
             >
               <button
                 on:click={() => (indicatorSearchTerm = "")}
-                class="cursor-pointer text-neutral-500 hover:text-neutral-200 transition"
+                class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
                 tabindex="0"
                 aria-label="Clear search"
               >
@@ -9954,7 +9954,7 @@
             <input
               autocomplete="off"
               id="indicator-search"
-              class="focus:outline-none placeholder:text-neutral-500 block w-full p-2.5 ps-10 text-sm border border-neutral-700 rounded-lg bg-[#262626]"
+              class="focus:outline-none placeholder:text-gray-500 dark:text-zinc-400 block w-full p-2.5 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-lg bg-gray-100 dark:bg-zinc-800"
               placeholder="Search"
               bind:value={indicatorSearchTerm}
             />
@@ -9964,17 +9964,17 @@
 
       <div class="flex flex-1 gap-6 pt-6 overflow-hidden min-h-0">
         <aside
-          class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-neutral-800"
+          class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-gray-300 dark:border-zinc-700"
         >
-          <div class="text-[11px] uppercase tracking-wide text-neutral-500">
+          <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">
             Personal
           </div>
           <button
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Selected'
-              ? 'bg-neutral-800 text-white'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Selected")}
           >
             <svg
@@ -9995,8 +9995,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Favorites'
-              ? 'bg-neutral-800 text-white'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Favorites")}
           >
             <svg
@@ -10010,7 +10010,7 @@
           </button>
 
           <div
-            class="mt-3 text-[11px] uppercase tracking-wide text-neutral-500"
+            class="mt-3 text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
           >
             Built-in
           </div>
@@ -10018,8 +10018,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Technicals'
-              ? 'bg-neutral-800 text-white'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Technicals")}
           >
             <svg
@@ -10043,8 +10043,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Fundamentals'
-              ? 'bg-neutral-800 text-white'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Fundamentals")}
           >
             <svg
@@ -10068,8 +10068,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Options'
-              ? 'bg-neutral-800 text-white'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Options")}
           >
             <svg
@@ -10091,8 +10091,8 @@
             type="button"
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Statistics'
-              ? 'bg-neutral-800 text-white'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/60'}"
+              ? 'bg-gray-100 dark:bg-zinc-800 text-white'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Statistics")}
           >
             <svg
@@ -10121,8 +10121,8 @@
                 type="button"
                 class="cursor-pointer px-3 py-1.5 rounded-full text-sm border transition {indicatorModalSection ===
                 section
-                  ? 'border-neutral-500 text-white bg-neutral-800'
-                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-white'}"
+                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-white'}"
                 on:click={() => (indicatorModalSection = section)}
               >
                 {section}
@@ -10132,26 +10132,26 @@
 
           {#if filteredIndicators.length === 0}
             <div
-              class="mt-5 font-semibold text-[1rem] sm:text-lg text-neutral-200"
+              class="mt-5 font-semibold text-[1rem] sm:text-lg text-gray-700 dark:text-zinc-200"
             >
               Nothing found
             </div>
           {:else if isSearchActive}
             {#if technicalGroups.length}
-              <div class="text-xs uppercase tracking-wide text-neutral-500">
+              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
                 Technicals
               </div>
               {#each technicalGroups as [category, indicators]}
                 <div class="mt-4">
                   <div
-                    class="text-[11px] uppercase tracking-wide text-neutral-500/80"
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400/80"
                   >
                     {category}
                   </div>
                   <div class="mt-2 space-y-1">
                     {#each indicators as indicator}
                       <div
-                        class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                        class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                       >
                         <button
                           type="button"
@@ -10177,7 +10177,7 @@
                           id={indicator.id}
                           type="checkbox"
                           checked={Boolean(indicatorState[indicator.id])}
-                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
@@ -10200,14 +10200,14 @@
 
             {#if optionsIndicators.length > 0}
               <div
-                class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
+                class="mt-6 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Options
               </div>
               <div class="mt-2 space-y-1">
                 {#each optionsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -10234,7 +10234,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -10270,7 +10270,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -10292,14 +10292,14 @@
 
             {#if statisticsIndicators.length > 0}
               <div
-                class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
+                class="mt-6 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Statistics
               </div>
               <div class="mt-2 space-y-1">
                 {#each statisticsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -10326,7 +10326,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -10362,7 +10362,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -10384,7 +10384,7 @@
 
             {#if groupedIndicators["Fundamentals"]}
               <div
-                class="mt-6 text-xs uppercase tracking-wide text-neutral-500"
+                class="mt-6 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Fundamentals
               </div>
@@ -10394,8 +10394,8 @@
                     type="button"
                     class="cursor-pointer px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
-                      ? 'border-neutral-500 text-white bg-neutral-800'
-                      : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                      ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
                     on:click={() => (fundamentalsTab = tab.id)}
                   >
                     {tab.label}
@@ -10403,14 +10403,14 @@
                 {/each}
               </div>
               {#if fundamentalsIndicators.length === 0}
-                <div class="mt-4 text-sm text-neutral-500">
+                <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
                   No indicators available for this section yet.
                 </div>
               {/if}
               <div class="mt-4 space-y-1">
                 {#each fundamentalsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -10437,7 +10437,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -10460,8 +10460,8 @@
                                 class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
-                                  ? 'border-neutral-500 text-white bg-neutral-800'
-                                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
@@ -10496,7 +10496,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -10517,13 +10517,13 @@
             {/if}
           {:else if indicatorModalSection === "Selected"}
             <div class="flex items-center justify-between">
-              <div class="text-xs uppercase tracking-wide text-neutral-500">
+              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
                 Selected Indicators
               </div>
               {#if selectedIndicators.length > 0}
                 <button
                   type="button"
-                  class="flex items-center gap-1 px-2 py-1 text-xs rounded border border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100 transition cursor-pointer"
+                  class="flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white transition cursor-pointer"
                   on:click={clearIndicators}
                 >
                   <svg
@@ -10547,14 +10547,14 @@
               {/if}
             </div>
             {#if selectedIndicators.length === 0}
-              <div class="mt-4 text-sm text-neutral-500">
+              <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
                 No indicators selected.
               </div>
             {:else}
               <div class="mt-4 space-y-1">
                 {#each selectedIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     <button
                       type="button"
@@ -10580,7 +10580,7 @@
                       id={`selected-${indicator.id}`}
                       type="checkbox"
                       checked={Boolean(indicatorState[indicator.id])}
-                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                     />
                     <label
                       for={`selected-${indicator.id}`}
@@ -10603,8 +10603,8 @@
                               class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                 indicator.id,
                               ) === option.id
-                                ? 'border-neutral-500 text-white bg-neutral-800'
-                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
                               on:click|stopPropagation={() =>
                                 setFinancialIndicatorPeriod(
                                   indicator.id,
@@ -10622,16 +10622,16 @@
               </div>
             {/if}
           {:else if indicatorModalSection === "Favorites"}
-            <div class="text-xs uppercase tracking-wide text-neutral-500">
+            <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
               My Indicators
             </div>
             {#if favoriteIndicators.length === 0}
-              <div class="mt-4 text-sm text-neutral-500">No favorites yet.</div>
+              <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">No favorites yet.</div>
             {:else}
               <div class="mt-4 space-y-1">
                 {#each favoriteIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     <button
                       type="button"
@@ -10653,7 +10653,7 @@
                       id={`favorite-${indicator.id}`}
                       type="checkbox"
                       checked={Boolean(indicatorState[indicator.id])}
-                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                      class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                     />
                     <label
                       for={`favorite-${indicator.id}`}
@@ -10676,8 +10676,8 @@
                               class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                 indicator.id,
                               ) === option.id
-                                ? 'border-neutral-500 text-white bg-neutral-800'
-                                : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
                               on:click|stopPropagation={() =>
                                 setFinancialIndicatorPeriod(
                                   indicator.id,
@@ -10696,7 +10696,7 @@
             {/if}
           {:else if indicatorModalSection === "Fundamentals"}
             {#if groupedIndicators["Fundamentals"]}
-              <div class="text-xs uppercase tracking-wide text-neutral-500">
+              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
                 Fundamentals
               </div>
               <div class="mt-2 flex flex-wrap gap-2">
@@ -10705,8 +10705,8 @@
                     type="button"
                     class="px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
-                      ? 'border-neutral-500 text-white bg-neutral-800'
-                      : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                      ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
                     on:click={() => (fundamentalsTab = tab.id)}
                   >
                     {tab.label}
@@ -10714,14 +10714,14 @@
                 {/each}
               </div>
               {#if fundamentalsIndicators.length === 0}
-                <div class="mt-4 text-sm text-neutral-500">
+                <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
                   No indicators available for this section yet.
                 </div>
               {/if}
               <div class="mt-4 space-y-1">
                 {#each fundamentalsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -10748,7 +10748,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -10771,8 +10771,8 @@
                                 class="px-2 py-0.5 text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
-                                  ? 'border-neutral-500 text-white bg-neutral-800'
-                                  : 'border-neutral-700 text-neutral-400 hover:border-neutral-500 hover:text-neutral-100'}"
+                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:border-violet-400 hover:text-gray-900 dark:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
@@ -10807,7 +10807,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -10828,13 +10828,13 @@
             {/if}
           {:else if indicatorModalSection === "Options"}
             {#if optionsIndicators.length > 0}
-              <div class="text-xs uppercase tracking-wide text-neutral-500">
+              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
                 Options
               </div>
               <div class="mt-2 space-y-1">
                 {#each optionsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -10861,7 +10861,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -10897,7 +10897,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -10918,13 +10918,13 @@
             {/if}
           {:else if indicatorModalSection === "Statistics"}
             {#if statisticsIndicators.length > 0}
-              <div class="text-xs uppercase tracking-wide text-neutral-500">
+              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
                 Statistics
               </div>
               <div class="mt-2 space-y-1">
                 {#each statisticsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -10951,7 +10951,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -10987,7 +10987,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-neutral-400 hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -11007,20 +11007,20 @@
               </div>
             {/if}
           {:else if technicalGroups.length}
-            <div class="text-xs uppercase tracking-wide text-neutral-500">
+            <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
               Technicals
             </div>
             {#each technicalGroups as [category, indicators]}
               <div class="mt-4">
                 <div
-                  class="text-[11px] uppercase tracking-wide text-neutral-500/80"
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400/80"
                 >
                   {category}
                 </div>
                 <div class="mt-2 space-y-1">
                   {#each indicators as indicator}
                     <div
-                      class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-neutral-800/60"
+                      class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                     >
                       <button
                         type="button"
@@ -11046,7 +11046,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-neutral-700 bg-neutral-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
