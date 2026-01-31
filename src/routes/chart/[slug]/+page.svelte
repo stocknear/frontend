@@ -9893,7 +9893,7 @@
           </h2>
           <label
             for="indicatorModal"
-            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem] text-gray-700 dark:text-zinc-300 hover:text-white transition"
+            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
             on:click={closeIndicatorModal}
             aria-label="Close indicators modal"
           >
