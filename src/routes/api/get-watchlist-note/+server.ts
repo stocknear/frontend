@@ -4,12 +4,7 @@ import type { RequestHandler } from "./$types";
 const SYMBOL_REGEX = /^[A-Za-z0-9.\-]{1,20}$/;
 const WATCHLIST_ID_REGEX = /^[a-zA-Z0-9]{15}$/; // PocketBase ID format
 
-// Type for the watchlist ticker format
-type WatchlistTicker = {
-  symbol: string;
-  note: string;
-  addedPrice: number | null;
-};
+
 
 // Security: Validate symbol format
 function isValidSymbol(symbol: unknown): symbol is string {
