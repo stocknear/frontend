@@ -11,7 +11,8 @@ type WatchlistTicker = {
 // Security: Constants for validation
 const MAX_NOTE_LENGTH = 50000; // 50KB max note size
 const MAX_SYMBOL_LENGTH = 20;
-const SYMBOL_REGEX = /^[A-Za-z0-9.\-]{1,20}$/;
+// Allow alphanumeric, dots, hyphens, and ^ for index tickers (e.g., ^SPX, ^DJI)
+const SYMBOL_REGEX = /^[\^A-Za-z0-9.\-]{1,20}$/;
 const WATCHLIST_ID_REGEX = /^[a-zA-Z0-9]{15}$/; // PocketBase ID format
 
 // Security: Validate symbol format
@@ -20,8 +21,10 @@ function isValidSymbol(symbol: unknown): symbol is string {
 }
 
 // Security: Validate watchlist ID format
+// Allow "default" as a special case for creating new watchlists
 function isValidWatchlistId(id: unknown): id is string {
-  return typeof id === "string" && WATCHLIST_ID_REGEX.test(id);
+  if (typeof id !== "string") return false;
+  return id === "default" || WATCHLIST_ID_REGEX.test(id);
 }
 
 // Security: Sanitize and validate note content

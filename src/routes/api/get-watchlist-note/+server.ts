@@ -1,7 +1,8 @@
 import type { RequestHandler } from "./$types";
 
 // Security: Constants for validation
-const SYMBOL_REGEX = /^[A-Za-z0-9.\-]{1,20}$/;
+// Allow alphanumeric, dots, hyphens, and ^ for index tickers (e.g., ^SPX, ^DJI)
+const SYMBOL_REGEX = /^[\^A-Za-z0-9.\-]{1,20}$/;
 const WATCHLIST_ID_REGEX = /^[a-zA-Z0-9]{15}$/; // PocketBase ID format
 
 
