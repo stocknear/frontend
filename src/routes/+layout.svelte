@@ -1861,77 +1861,77 @@
 {#if !isChartRoute}
   <nav
     class="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur pb-[env(safe-area-inset-bottom)]
-           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:bg-white/80 sm:dark:bg-zinc-900/80 sm:backdrop-blur-xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.08)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] sm:ring-1 sm:ring-black/[0.04] sm:dark:ring-white/[0.06]"
+           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:bg-gray-900 sm:dark:bg-zinc-900/90 sm:backdrop-blur-xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
   >
     <div class="grid grid-cols-5 h-14 sm:flex sm:h-auto sm:px-2 sm:py-2 sm:gap-1">
       <a
         href="/"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-gray-100/80 sm:dark:hover:bg-zinc-800/60
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
                {$page.url.pathname === '/'
-          ? 'text-violet-600 dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
       >
         <Home class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_home()}</span>
         {#if $page.url.pathname === '/'}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 dark:bg-violet-400"></span>
+          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/portfolio"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-gray-100/80 sm:dark:hover:bg-zinc-800/60
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
                {$page.url.pathname.startsWith('/portfolio')
-          ? 'text-violet-600 dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
       >
         <PieChart class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_portfolio()}</span>
         {#if $page.url.pathname.startsWith('/portfolio')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 dark:bg-violet-400"></span>
+          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/watchlist/stocks"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-gray-100/80 sm:dark:hover:bg-zinc-800/60
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
                {$page.url.pathname.startsWith('/watchlist')
-          ? 'text-violet-600 dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
       >
         <Star class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_watchlist()}</span>
         {#if $page.url.pathname.startsWith('/watchlist')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 dark:bg-violet-400"></span>
+          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/price-alert"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-gray-100/80 sm:dark:hover:bg-zinc-800/60
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
                {$page.url.pathname.startsWith('/price-alert')
-          ? 'text-violet-600 dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
       >
         <Bell class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_price_alert()}</span>
         {#if $page.url.pathname.startsWith('/price-alert')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 dark:bg-violet-400"></span>
+          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
         {/if}
       </a>
       <a
         href="/chat"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-gray-100/80 sm:dark:hover:bg-zinc-800/60
+               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl sm:hover:bg-white/10 sm:dark:hover:bg-white/10
                {$page.url.pathname.startsWith('/chat')
-          ? 'text-violet-600 dark:text-violet-400'
-          : 'text-gray-500 dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
+          ? 'text-violet-600 dark:text-violet-400 sm:text-white sm:dark:text-violet-400'
+          : 'text-gray-500 dark:text-zinc-400 sm:text-zinc-400 sm:dark:text-zinc-400 active:text-violet-600 dark:active:text-violet-400'}"
       >
         <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
         <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">Chat</span>
         {#if $page.url.pathname.startsWith('/chat')}
-          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 dark:bg-violet-400"></span>
+          <span class="hidden sm:block absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-500 sm:bg-white sm:dark:bg-violet-400"></span>
         {/if}
       </a>
     </div>
