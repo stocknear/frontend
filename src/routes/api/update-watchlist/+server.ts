@@ -398,5 +398,25 @@ export const POST = (async ({ request, locals }) => {
     );
   }
 
-  return new Response(JSON.stringify(output));
+  // Transform response to strip notes for efficient payload
+  // Client will fetch notes on-demand via /api/get-watchlist-note
+  let responseTicker = output?.ticker;
+  if (typeof responseTicker === "string") {
+    try {
+      responseTicker = JSON.parse(responseTicker);
+    } catch {
+      responseTicker = [];
+    }
+  }
+
+  const lightTicker = (responseTicker || []).map((t: WatchlistTicker) => ({
+    symbol: t.symbol,
+    addedPrice: t.addedPrice,
+    hasNote: Boolean(t.note && t.note.length > 0),
+  }));
+
+  return new Response(JSON.stringify({
+    ...output,
+    ticker: lightTicker,
+  }));
 }) satisfies RequestHandler;

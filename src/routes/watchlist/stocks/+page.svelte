@@ -91,6 +91,99 @@
     }
   }
 
+  // ============================================
+  // Note Caching System for Performance
+  // ============================================
+  // LRU Cache to store fetched notes (max 100 entries to limit memory)
+  const NOTE_CACHE_MAX_SIZE = 100;
+  const noteCache = new Map<string, { note: string; timestamp: number }>();
+  const noteFetchPromises = new Map<string, Promise<string>>(); // Prevent duplicate fetches
+
+  function getNoteFromCache(watchlistId: string, symbol: string): string | null {
+    const key = `${watchlistId}:${symbol}`;
+    const cached = noteCache.get(key);
+    if (cached) {
+      // Move to end (most recently used)
+      noteCache.delete(key);
+      noteCache.set(key, cached);
+      return cached.note;
+    }
+    return null;
+  }
+
+  function setNoteInCache(watchlistId: string, symbol: string, note: string): void {
+    const key = `${watchlistId}:${symbol}`;
+    // Evict oldest if at capacity
+    if (noteCache.size >= NOTE_CACHE_MAX_SIZE) {
+      const oldestKey = noteCache.keys().next().value;
+      if (oldestKey) noteCache.delete(oldestKey);
+    }
+    noteCache.set(key, { note, timestamp: Date.now() });
+  }
+
+  function invalidateNoteCache(watchlistId: string, symbol: string): void {
+    const key = `${watchlistId}:${symbol}`;
+    noteCache.delete(key);
+  }
+
+  // Fetch note from server (with deduplication)
+  async function fetchNote(watchlistId: string, symbol: string): Promise<string> {
+    const key = `${watchlistId}:${symbol}`;
+
+    // Check if already fetching
+    const existingPromise = noteFetchPromises.get(key);
+    if (existingPromise) {
+      return existingPromise;
+    }
+
+    // Check cache first
+    const cached = getNoteFromCache(watchlistId, symbol);
+    if (cached !== null) {
+      return cached;
+    }
+
+    // Fetch from server
+    const fetchPromise = (async () => {
+      try {
+        const response = await fetch("/api/get-watchlist-note", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ watchListId: watchlistId, symbol }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch note");
+        }
+
+        const data = await response.json();
+        const note = data.note || "";
+
+        // Cache the result
+        setNoteInCache(watchlistId, symbol, note);
+        return note;
+      } finally {
+        // Clean up fetch promise
+        noteFetchPromises.delete(key);
+      }
+    })();
+
+    noteFetchPromises.set(key, fetchPromise);
+    return fetchPromise;
+  }
+
+  // Prefetch note on hover (non-blocking)
+  function prefetchNote(watchlistId: string, symbol: string): void {
+    const key = `${watchlistId}:${symbol}`;
+    // Only prefetch if not already cached or fetching
+    if (!noteCache.has(key) && !noteFetchPromises.has(key)) {
+      fetchNote(watchlistId, symbol).catch(() => {
+        // Silently fail prefetch - user will see error if they actually click
+      });
+    }
+  }
+
+  let isLoadingNote = false;
+
   export let data;
   let timeoutId;
   let searchBarData = [];
@@ -231,20 +324,22 @@
       }
     }
 
-    // Create a lookup map for notes from displayWatchList.ticker
-    // Handle both old format (array of strings) and new format (array of objects)
-    const tickerNotes = new Map(
+    // Create a lookup map for hasNote flags from displayWatchList.ticker
+    // Handle both old format (array of strings) and new format (array of objects with hasNote)
+    const tickerHasNote = new Map(
       Array.isArray(tickerData)
         ? tickerData.map((t) => {
             if (typeof t === "string") {
-              return [t, ""];
+              return [t, false];
             }
-            return [t.symbol, t.note || ""];
+            // Support both hasNote (new format) and note (legacy format)
+            const hasNote = t.hasNote ?? Boolean(t.note && t.note.trim?.().length > 0);
+            return [t.symbol, hasNote];
           })
         : [],
     );
 
-    // Calculate sinceAdded (% return since entry) for each item and merge notes
+    // Calculate sinceAdded (% return since entry) for each item and merge hasNote flag
     watchList = output?.data?.map((item) => {
       const currentPrice = parseFloat(item?.price) || 0;
       const entryPrice = parseFloat(item?.addedPrice) || 0;
@@ -255,10 +350,10 @@
         sinceAdded = Math.round(sinceAdded * 100) / 100; // Round to 2 decimal places
       }
 
-      // Merge note from watchlist ticker data
-      const note = tickerNotes.get(item?.symbol) || "";
+      // Merge hasNote flag from watchlist ticker data
+      const hasNote = tickerHasNote.get(item?.symbol) || false;
 
-      return { ...item, sinceAdded, note };
+      return { ...item, sinceAdded, hasNote };
     });
     originalData = watchList;
 
@@ -730,26 +825,58 @@
   // Check if this is a new note
   $: isNewNote = originalNoteText === "";
 
-  async function handleNoteClick(symbol: string, currentNote: string) {
+  async function handleNoteClick(symbol: string, hasNote: boolean = false) {
     // Security: Validate symbol format (alphanumeric, dots, hyphens only, max 20 chars)
     if (!symbol || !/^[A-Za-z0-9.\-]{1,20}$/.test(symbol)) {
       console.error("Invalid symbol format");
       return;
     }
 
-    editingNoteSymbol = symbol;
-    editingNoteText = currentNote || "";
-    originalNoteText = currentNote || "";
-    isNoteModalOpen = true;
-
-    // Load editor component on first use
-    if (!MarkdownNoteEditor) {
-      await loadMarkdownEditor();
+    const watchlistId = displayWatchList?.id;
+    if (!watchlistId) {
+      console.error("No watchlist selected");
+      return;
     }
+
+    editingNoteSymbol = symbol;
+    isNoteModalOpen = true;
+    isLoadingNote = true;
+
+    try {
+      // Load editor component and fetch note in parallel
+      const [, note] = await Promise.all([
+        MarkdownNoteEditor ? Promise.resolve() : loadMarkdownEditor(),
+        hasNote ? fetchNote(watchlistId, symbol) : Promise.resolve(""),
+      ]);
+
+      editingNoteText = note;
+      originalNoteText = note;
+    } catch (error) {
+      console.error("Failed to load note:", error);
+      editingNoteText = "";
+      originalNoteText = "";
+      toast.error("Failed to load note. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    } finally {
+      isLoadingNote = false;
+    }
+  }
+
+  // Handler for prefetching notes on hover
+  function handleNoteHover(symbol: string, hasNote: boolean = false) {
+    if (!hasNote || !displayWatchList?.id) return;
+    prefetchNote(displayWatchList.id, symbol);
   }
 
   async function saveNote(markdown: string) {
     const wasNewNote = isNewNote;
+    const watchlistId = displayWatchList?.id;
+
+    if (!watchlistId) {
+      toast.error("No watchlist selected");
+      return;
+    }
 
     try {
       const response = await fetch("/api/update-watchlist", {
@@ -759,7 +886,7 @@
         },
         body: JSON.stringify({
           mode: "note",
-          watchListId: displayWatchList?.id,
+          watchListId: watchlistId,
           symbol: editingNoteSymbol,
           note: markdown,
         }),
@@ -769,21 +896,26 @@
         throw new Error("Failed to save note");
       }
 
-      // Get the updated watchlist data from the response
-      const updatedWatchlist = await response.json();
+      // Update the note cache with the saved content
+      setNoteInCache(watchlistId, editingNoteSymbol, markdown);
 
-      // Update allList with the new ticker data (which includes the updated note)
+      // Update hasNote flag in local data (without storing the full note)
+      const hasNote = markdown.length > 0;
       allList = allList?.map((item) => {
-        if (item?.id === displayWatchList?.id) {
-          return { ...item, ticker: updatedWatchlist.ticker };
+        if (item?.id === watchlistId) {
+          const updatedTicker = item.ticker?.map((t: any) => {
+            if (t.symbol === editingNoteSymbol) {
+              return { ...t, hasNote };
+            }
+            return t;
+          });
+          return { ...item, ticker: updatedTicker };
         }
         return item;
       });
 
       // Refresh displayWatchList from the updated list
-      displayWatchList = allList?.find(
-        (item) => item?.id === displayWatchList?.id,
-      );
+      displayWatchList = allList?.find((item) => item?.id === watchlistId);
 
       // Close modal and reset state
       isNoteModalOpen = false;
@@ -792,7 +924,7 @@
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
 
-      // Refresh watchlist data to sync Table component
+      // Refresh watchlist data to sync Table component (gets fresh hasNote flags)
       await getWatchlistData();
     } catch (error) {
       toast.error("Failed to save note. Please try again.", {
@@ -1227,6 +1359,7 @@
                       onToggleDeleteTicker={handleFilter}
                       includePrePostData={true}
                       onNoteClick={handleNoteClick}
+                      onNoteHover={handleNoteHover}
                     />
 
                     <div
@@ -1539,14 +1672,16 @@
     class="modal-box w-full max-w-2xl bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-xl p-6"
   >
     {#if isNoteModalOpen}
-      {#if isLoadingEditor || !MarkdownNoteEditor}
-        <!-- Loading state while editor loads -->
+      {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}
+        <!-- Loading state while editor or note loads -->
         <div class="flex flex-col items-center justify-center py-12 gap-4">
           <svg class="w-8 h-8 animate-spin text-violet-500" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <span class="text-sm text-gray-500 dark:text-zinc-400">Loading editor...</span>
+          <span class="text-sm text-gray-500 dark:text-zinc-400">
+            {isLoadingNote ? "Loading note..." : "Loading editor..."}
+          </span>
         </div>
       {:else}
         <svelte:component

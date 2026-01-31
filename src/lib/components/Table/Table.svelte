@@ -175,8 +175,10 @@
   export let deleteTickerList = [];
   export let onToggleDeleteTicker = null;
   export let onPortfolioUpdate = null; // Callback for portfolio data changes
-  export let onNoteClick: ((symbol: string, note: string) => void) | null =
+  export let onNoteClick: ((symbol: string, hasNote: boolean) => void) | null =
     null; // Callback for note editing (watchlist)
+  export let onNoteHover: ((symbol: string, hasNote: boolean) => void) | null =
+    null; // Callback for prefetching note on hover
 
   let originalData = [...rawData]; // Unaltered copy of raw data
   let initialRawData = [...rawData]; // Store the truly initial data
@@ -1053,9 +1055,9 @@
         newData.years = item.years;
       }
 
-      // Preserve 'note' field for watchlist functionality
-      if ("note" in item) {
-        newData.note = item.note;
+      // Preserve 'hasNote' field for watchlist functionality
+      if ("hasNote" in item) {
+        newData.hasNote = item.hasNote;
       }
 
       return newData;
@@ -2849,12 +2851,14 @@
                       {#if onNoteClick}
                         <button
                           on:click|stopPropagation={() =>
-                            onNoteClick(item[column.key], item?.note || "")}
+                            onNoteClick(item[column.key], item?.hasNote || false)}
+                          on:mouseenter={() =>
+                            onNoteHover?.(item[column.key], item?.hasNote || false)}
                           class="cursor-pointer ml-auto transition-colors"
-                          title={item?.note ? "Edit note" : "Add note"}
+                          title={item?.hasNote ? "Edit note" : "Add note"}
                         >
                           <Pencil
-                            class="h-3.5 w-3.5  {item?.note
+                            class="h-3.5 w-3.5  {item?.hasNote
                               ? 'text-violet-500 dark:text-violet-400'
                               : 'text-gray-400 dark:text-zinc-500'}"
                           />
