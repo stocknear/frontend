@@ -26,7 +26,6 @@
   import TickerHeader from "$lib/components/TickerHeader.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
   import WatchlistButton from "$lib/components/WatchlistButton.svelte";
-  import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import {
     stock_detail_nav_dividends,
     stock_detail_nav_financials,
@@ -480,7 +479,14 @@
                               href="/chart/{$stockTicker}"
                               class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
-                              <ChartCandlestick class="size-4 flex-shrink-0" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="size-4 flex-shrink-0"
+                                viewBox="0 0 18 18"
+                                fill="currentColor"
+                              >
+                                <path d="M17 8.2 9 16 1 8.2 3.667 3h10.666zM2.226 8 9 14.602 15.773 8l-2.05-4H4.277zM7 7h1v2H7v1H6V9H5V7h1V5h1zm5-1h1v2h-1v2h-1V8h-1V6h1V5h1z" />
+                              </svg>
                               <span>Pro Chart</span>
                             </a>
                           </div>
@@ -522,7 +528,14 @@
                               class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm"
                               title="Pro Chart"
                             >
-                              <ChartCandlestick class="size-5 flex-shrink-0" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="size-5 flex-shrink-0"
+                                viewBox="0 0 18 18"
+                                fill="currentColor"
+                              >
+                                <path d="M17 8.2 9 16 1 8.2 3.667 3h10.666zM2.226 8 9 14.602 15.773 8l-2.05-4H4.277zM7 7h1v2H7v1H6V9H5V7h1V5h1zm5-1h1v2h-1v2h-1V8h-1V6h1V5h1z" />
+                              </svg>
                               <span class="text-sm">Pro Chart</span>
                             </a>
                             <StockPriceExport
