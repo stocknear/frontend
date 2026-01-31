@@ -3,7 +3,7 @@
   import { browser } from "$app/environment";
   import { afterUpdate, onDestroy, onMount } from "svelte";
   import { init, dispose, registerOverlay } from "klinecharts";
-  import type { KLineData } from "klinecharts";
+  import type { KLineData, Chart } from "klinecharts";
   import { DateTime } from "luxon";
   import { mode } from "mode-watcher";
   import { toast } from "svelte-sonner";
@@ -54,6 +54,15 @@
   const zone = "America/New_York";
   const PRICE_DECIMALS = 2;
   type FinancialIndicatorPeriod = "annual" | "quarterly" | "ttm";
+
+  // Chart theme colors
+  const CHART_COLORS = {
+    UP: "#22ab94", // Green for price increase
+    DOWN: "#f23645", // Red for price decrease
+    POSITIVE: "#10B981", // Green for positive values (earnings beat, etc.)
+    NEGATIVE: "#B91C1C", // Red for negative values (earnings miss, etc.)
+    NEUTRAL: "#9ca3af", // Gray for neutral values
+  } as const;
 
   // Throttle utility for performance optimization
   function throttle<T extends (...args: any[]) => void>(
@@ -121,6 +130,243 @@
   // 1 Year in milliseconds for localStorage cache duration
   const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
+  // Valid chart types for validation
+  const VALID_CHART_TYPES = [
+    "bars",
+    "candles",
+    "hollow_candles",
+    "heikin_ashi",
+    "line_step",
+    "area",
+    "hlc_area",
+    "high_low",
+  ] as const;
+
+  // Valid drawing modes
+  const VALID_DRAWING_MODES = [
+    "normal",
+    "weak_magnet",
+    "strong_magnet",
+  ] as const;
+
+  // Valid tool groups for toolbar
+  const VALID_TOOL_GROUPS = [
+    "lines",
+    "channels",
+    "shapes",
+    "fibonacci",
+    "waves",
+  ] as const;
+
+  // Ticker validation regex (1-5 uppercase letters, optionally with dots for BRK.A style)
+  const TICKER_REGEX = /^[A-Z]{1,5}(\.[A-Z]{1,2})?$/;
+
+  // Validate ticker format
+  const isValidTicker = (ticker: string): boolean => {
+    return typeof ticker === "string" && TICKER_REGEX.test(ticker);
+  };
+
+  // Sanitize chart settings from localStorage
+  const sanitizeChartSettings = (parsed: unknown): ChartSettings | null => {
+    if (!parsed || typeof parsed !== "object") return null;
+
+    const settings = parsed as Record<string, unknown>;
+
+    // Validate chartType
+    const chartType =
+      typeof settings.chartType === "string" &&
+      VALID_CHART_TYPES.includes(settings.chartType as any)
+        ? settings.chartType
+        : "candles";
+
+    // Validate activeRange
+    const activeRange =
+      typeof settings.activeRange === "string" &&
+      timeframes.includes(settings.activeRange)
+        ? settings.activeRange
+        : "1D";
+
+    // Validate booleans
+    const showEarnings =
+      typeof settings.showEarnings === "boolean"
+        ? settings.showEarnings
+        : undefined;
+    const showDividends =
+      typeof settings.showDividends === "boolean"
+        ? settings.showDividends
+        : undefined;
+    const showNewsFlow =
+      typeof settings.showNewsFlow === "boolean"
+        ? settings.showNewsFlow
+        : undefined;
+    const showShortInterest =
+      typeof settings.showShortInterest === "boolean"
+        ? settings.showShortInterest
+        : undefined;
+    const drawingsLocked =
+      typeof settings.drawingsLocked === "boolean"
+        ? settings.drawingsLocked
+        : undefined;
+    const drawingsVisible =
+      typeof settings.drawingsVisible === "boolean"
+        ? settings.drawingsVisible
+        : undefined;
+
+    // Validate drawingMode
+    const drawingMode =
+      typeof settings.drawingMode === "string" &&
+      VALID_DRAWING_MODES.includes(settings.drawingMode as any)
+        ? (settings.drawingMode as "normal" | "weak_magnet" | "strong_magnet")
+        : undefined;
+
+    // Validate selectedToolByGroup
+    let selectedToolByGroup: Record<string, string> | undefined;
+    if (
+      settings.selectedToolByGroup &&
+      typeof settings.selectedToolByGroup === "object"
+    ) {
+      const toolGroup = settings.selectedToolByGroup as Record<string, unknown>;
+      selectedToolByGroup = {};
+      for (const key of VALID_TOOL_GROUPS) {
+        if (typeof toolGroup[key] === "string") {
+          selectedToolByGroup[key] = toolGroup[key] as string;
+        }
+      }
+    }
+
+    // Validate savedAt timestamp
+    const savedAt =
+      typeof settings.savedAt === "number" && settings.savedAt > 0
+        ? settings.savedAt
+        : undefined;
+
+    // Validate financial indicator periods
+    const validPeriods = ["annual", "quarterly", "ttm"];
+    const financialIndicatorPeriod =
+      typeof settings.financialIndicatorPeriod === "string" &&
+      validPeriods.includes(settings.financialIndicatorPeriod)
+        ? (settings.financialIndicatorPeriod as FinancialIndicatorPeriod)
+        : undefined;
+    const revenueIndicatorPeriod =
+      typeof settings.revenueIndicatorPeriod === "string" &&
+      validPeriods.includes(settings.revenueIndicatorPeriod)
+        ? (settings.revenueIndicatorPeriod as FinancialIndicatorPeriod)
+        : undefined;
+    const epsIndicatorPeriod =
+      typeof settings.epsIndicatorPeriod === "string" &&
+      validPeriods.includes(settings.epsIndicatorPeriod)
+        ? (settings.epsIndicatorPeriod as FinancialIndicatorPeriod)
+        : undefined;
+
+    // Validate statementIndicatorPeriods
+    let statementIndicatorPeriods:
+      | Record<string, FinancialIndicatorPeriod>
+      | undefined;
+    if (
+      settings.statementIndicatorPeriods &&
+      typeof settings.statementIndicatorPeriods === "object"
+    ) {
+      const periods = settings.statementIndicatorPeriods as Record<
+        string,
+        unknown
+      >;
+      statementIndicatorPeriods = {};
+      for (const [key, value] of Object.entries(periods)) {
+        if (typeof value === "string" && validPeriods.includes(value)) {
+          statementIndicatorPeriods[key] = value as FinancialIndicatorPeriod;
+        }
+      }
+    }
+
+    return {
+      chartType,
+      activeRange,
+      showEarnings,
+      showDividends,
+      showNewsFlow,
+      showShortInterest,
+      drawingsLocked,
+      drawingsVisible,
+      drawingMode,
+      selectedToolByGroup,
+      savedAt,
+      financialIndicatorPeriod,
+      revenueIndicatorPeriod,
+      epsIndicatorPeriod,
+      statementIndicatorPeriods,
+    };
+  };
+
+  // Overlay data interface for type safety
+  interface ChartOverlayData {
+    name: string;
+    points?: Array<{ timestamp: number; value: number }>;
+    extendData?: unknown;
+    styles?: Record<string, unknown>;
+  }
+
+  // Sanitize overlay data from localStorage
+  const sanitizeOverlays = (parsed: unknown): ChartOverlayData[] => {
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed
+      .filter((item): item is Record<string, unknown> => {
+        return item && typeof item === "object" && typeof item.name === "string";
+      })
+      .map((item) => ({
+        name: String(item.name),
+        points: Array.isArray(item.points)
+          ? item.points.filter(
+              (p: unknown) =>
+                p &&
+                typeof p === "object" &&
+                typeof (p as any).timestamp === "number" &&
+                typeof (p as any).value === "number",
+            )
+          : undefined,
+        extendData: item.extendData,
+        styles:
+          item.styles && typeof item.styles === "object"
+            ? (item.styles as Record<string, unknown>)
+            : undefined,
+      }));
+  };
+
+  // WebSocket tick message interface for type safety
+  interface WsTickMessage {
+    type: "Q" | "T";
+    s?: string; // symbol
+    t?: number | string; // timestamp (various formats)
+    time?: string; // alternative timestamp format
+    lp?: number; // last price
+    ap?: number; // ask price
+    bp?: number; // bid price
+    ls?: number; // last size (volume)
+  }
+
+  // Validate WebSocket message
+  const isValidWsMessage = (item: unknown): item is WsTickMessage => {
+    if (!item || typeof item !== "object") return false;
+    const msg = item as Record<string, unknown>;
+    // Must have valid type and at least one price field
+    if (msg.type !== "Q" && msg.type !== "T") return false;
+    const hasPrice =
+      typeof msg.lp === "number" ||
+      typeof msg.ap === "number" ||
+      typeof msg.bp === "number";
+    return hasPrice;
+  };
+
+  // Validate WebSocket URL
+  const isValidWsUrl = (url: string): boolean => {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "wss:" || parsed.protocol === "ws:";
+    } catch {
+      return false;
+    }
+  };
+
   const loadChartSettings = (tickerSymbol?: string): ChartSettings | null => {
     const symbol = tickerSymbol || data?.ticker;
     if (!symbol) return null;
@@ -128,7 +374,11 @@
     try {
       const saved = localStorage?.getItem(key);
       if (saved) {
-        const settings = JSON.parse(saved) as ChartSettings;
+        const parsed = JSON.parse(saved);
+        // Sanitize and validate the parsed data
+        const settings = sanitizeChartSettings(parsed);
+        if (!settings) return null;
+
         // Check if data is older than 1 year
         if (settings.savedAt) {
           const now = Date.now();
@@ -140,8 +390,8 @@
         }
         return settings;
       }
-    } catch (e) {
-      console.log("Failed loading chart settings:", e);
+    } catch {
+      // Silent fail - corrupted localStorage data
     }
     return null;
   };
@@ -160,34 +410,39 @@
         savedAt: Date.now(),
       };
       localStorage?.setItem(key, JSON.stringify(settingsWithTimestamp));
-    } catch (e) {
-      console.log("Failed saving chart settings:", e);
+    } catch {
+      // Silent fail - localStorage full or unavailable
     }
   };
 
-  const loadChartOverlays = (tickerSymbol?: string): any[] => {
+  const loadChartOverlays = (tickerSymbol?: string): ChartOverlayData[] => {
     const symbol = tickerSymbol || data?.ticker;
     if (!symbol) return [];
     const key = getChartOverlaysKey(symbol);
     try {
       const saved = localStorage?.getItem(key);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Sanitize and validate the parsed data
+        return sanitizeOverlays(parsed);
       }
-    } catch (e) {
-      console.log("Failed loading chart overlays:", e);
+    } catch {
+      // Silent fail - corrupted localStorage data
     }
     return [];
   };
 
-  const saveChartOverlays = (overlays: any[], tickerSymbol?: string) => {
+  const saveChartOverlays = (
+    overlays: ChartOverlayData[],
+    tickerSymbol?: string,
+  ) => {
     const symbol = tickerSymbol || data?.ticker;
     if (!symbol) return;
     const key = getChartOverlaysKey(symbol);
     try {
       localStorage?.setItem(key, JSON.stringify(overlays));
-    } catch (e) {
-      console.log("Failed saving chart overlays:", e);
+    } catch {
+      // Silent fail - localStorage full or unavailable
     }
   };
 
@@ -271,6 +526,47 @@
   let selectedNews: NewsData | null = null;
   let newsPopupPosition = { x: 0, y: 0 };
 
+  // Financial statement data interface
+  interface FinancialStatementRow {
+    date?: string;
+    calendarYear?: string;
+    period?: string;
+    symbol?: string;
+    revenue?: number;
+    netIncome?: number;
+    eps?: number;
+    [key: string]: unknown; // Allow additional properties
+  }
+
+  // FTD data interface
+  interface FtdDataPoint {
+    date: string;
+    failsToDeliver?: number;
+    price?: number;
+    timestamp?: number;
+  }
+
+  // Revenue data interface
+  interface RevenueDataPoint {
+    date?: string;
+    revenue?: number;
+    timestamp?: number;
+  }
+
+  // Market cap data interface
+  interface MarketCapDataPoint {
+    date?: string;
+    marketCap?: number;
+    timestamp?: number;
+  }
+
+  // Statement data bundle type
+  interface StatementDataBundle {
+    annual: FinancialStatementRow[];
+    quarter: FinancialStatementRow[];
+    ttm: FinancialStatementRow[];
+  }
+
   // Short Interest marker types and state
   interface ShortInterestData {
     recordDate: string;
@@ -298,44 +594,28 @@
   let shortInterestPopupPosition = { x: 0, y: 0 };
 
   // New indicator data storage
-  let ftdData: any[] = [];
+  let ftdData: FtdDataPoint[] = [];
   let ftdLoading = false;
   let maxPainData: MaxPainDataPoint[] = [];
   let maxPainLoading = false;
   let analystTargetLoading = false;
   let revenueIndicatorPeriod: FinancialIndicatorPeriod = "ttm";
   let statementIndicatorPeriods: Record<string, FinancialIndicatorPeriod> = {};
-  let incomeStatementData: {
-    annual: any[];
-    quarter: any[];
-    ttm: any[];
-  } | null = null;
+  let incomeStatementData: StatementDataBundle | null = null;
   let incomeStatementLoading = false;
   let incomeStatementTicker = "";
-  let balanceSheetData: {
-    annual: any[];
-    quarter: any[];
-    ttm: any[];
-  } | null = null;
+  let balanceSheetData: StatementDataBundle | null = null;
   let balanceSheetLoading = false;
   let balanceSheetTicker = "";
-  let cashFlowStatementData: {
-    annual: any[];
-    quarter: any[];
-    ttm: any[];
-  } | null = null;
+  let cashFlowStatementData: StatementDataBundle | null = null;
   let cashFlowStatementLoading = false;
   let cashFlowStatementTicker = "";
-  let ratiosStatementData: {
-    annual: any[];
-    quarter: any[];
-    ttm: any[];
-  } | null = null;
+  let ratiosStatementData: StatementDataBundle | null = null;
   let ratiosStatementLoading = false;
   let ratiosStatementTicker = "";
-  let revenueData: any[] = [];
+  let revenueData: RevenueDataPoint[] = [];
   let revenueLoading = false;
-  let marketCapData: any[] = [];
+  let marketCapData: MarketCapDataPoint[] = [];
   let marketCapLoading = false;
 
   // Cached timestamp maps for performance (avoid re-computing on every scroll/zoom)
@@ -385,6 +665,9 @@
   const EXPOSURE_LEVEL_LIMIT = 12;
   const EXPOSURE_LABEL_LIMIT = 6;
   const EXPOSURE_SPOT_WINDOW = 0.15;
+
+  // Visibility padding for markers (pixels outside visible area to still render)
+  const MARKER_VISIBILITY_PADDING = 20;
 
   // Open Interest (OI) types and state
   interface OiStrikeData {
@@ -527,11 +810,24 @@
   };
 
   let chartContainer: HTMLDivElement | null = null;
-  let chart: any = null;
+  let chart: Chart | null = null;
   let hoverBar: KLineData | null = null;
-  let currentBars = [];
-  let barIndexByTimestamp = new Map<number, number>();
+  let currentBars: KLineData[] = [];
   let activeRange = "1D";
+
+  // Memoized bar index lookup - only recreates Map when currentBars changes
+  let _cachedBars: KLineData[] | null = null;
+  let _barIndexMap = new Map<number, number>();
+  const getBarIndexByTimestamp = (timestamp: number): number | undefined => {
+    // Rebuild map only if currentBars reference changed
+    if (_cachedBars !== currentBars) {
+      _cachedBars = currentBars;
+      _barIndexMap = new Map(
+        currentBars.map((bar, index) => [bar.timestamp, index]),
+      );
+    }
+    return _barIndexMap.get(timestamp);
+  };
   type ChartTypeId =
     | "bars"
     | "candles"
@@ -609,9 +905,10 @@
   };
   const getMinuteTimestamp = (timestampMs: number) =>
     Math.floor(timestampMs / 60000) * 60000;
-  const resolveTickPrice = (tick): number | null =>
+  const resolveTickPrice = (tick: WsTickMessage): number | null =>
     toNumber(tick?.lp) ?? toNumber(tick?.ap) ?? toNumber(tick?.bp);
-  const resolveTickVolume = (tick): number => toNumber(tick?.ls) ?? 0;
+  const resolveTickVolume = (tick: WsTickMessage): number =>
+    toNumber(tick?.ls) ?? 0;
   const normalizeAssetType = (value: unknown): string => {
     if (typeof value !== "string") return "";
     let type = value.toLowerCase().trim();
@@ -1052,6 +1349,14 @@
   let previousTicker = "";
   let isComponentDestroyed = false;
   let latestRealtimePrice: number | null = null;
+
+  // WebSocket handler references for proper cleanup
+  let wsOpenHandler: (() => void) | null = null;
+  let wsMessageHandler: ((event: MessageEvent) => void) | null = null;
+  let wsCloseHandler: (() => void) | null = null;
+
+  // Timeout for WebSocket operations
+  const WS_CLOSE_TIMEOUT_MS = 3000;
 
   let ticker = "";
   let dailyBars: KLineData[] = [];
@@ -2133,7 +2438,8 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
+            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         markers.push({
           earnings,
@@ -2154,7 +2460,8 @@
         const pixel = chart.convertToPixel({ timestamp });
 
         if (pixel && typeof pixel.x === "number") {
-          const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+          const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
+            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
           markers.push({
             earnings: nextEarnings,
             timestamp,
@@ -2234,7 +2541,8 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
+            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         markers.push({
           dividend,
@@ -2312,7 +2620,8 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
+            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         markers.push({
           news,
@@ -2391,11 +2700,12 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -20 && pixel.x <= chartWidth + 20;
+        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
+            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         // Find the price bar closest to this timestamp to get the y position
         let priceY = chartHeight / 2; // Default to middle if no price found
-        const barIndex = barIndexByTimestamp.get(timestamp);
+        const barIndex = getBarIndexByTimestamp(timestamp);
         if (barIndex !== undefined && currentBars[barIndex]) {
           const bar = currentBars[barIndex];
           const pricePixel = chart.convertToPixel({ value: bar.close });
@@ -2473,8 +2783,8 @@
     }
     // Handle numeric values
     if (typeof changesPercentage === "number") {
-      if (changesPercentage > 0) return "#10B981"; // green
-      if (changesPercentage < 0) return "#B91C1C"; // red
+      if (changesPercentage > 0) return CHART_COLORS.POSITIVE;
+      if (changesPercentage < 0) return CHART_COLORS.NEGATIVE;
       return "#9ca3af"; // zero
     }
     // Handle string values
@@ -2484,8 +2794,8 @@
     }
     const numValue = parseFloat(strValue);
     if (isNaN(numValue)) return "#9ca3af";
-    if (numValue > 0) return "#10B981"; // green (same as earnings beat)
-    if (numValue < 0) return "#B91C1C"; // red (same as earnings miss)
+    if (numValue > 0) return CHART_COLORS.POSITIVE;
+    if (numValue < 0) return CHART_COLORS.NEGATIVE;
     return "#9ca3af"; // neutral
   };
 
@@ -2518,8 +2828,8 @@
 
       const result = await response.json();
 
-      const resolveLatestSnapshot = (payload: any): GexDexStrikeData[] => {
-        if (Array.isArray(payload)) return payload;
+      const resolveLatestSnapshot = (payload: unknown): GexDexStrikeData[] => {
+        if (Array.isArray(payload)) return payload as GexDexStrikeData[];
         if (!payload || typeof payload !== "object") return [];
 
         const entries = Object.entries(payload).filter(([, value]) =>
@@ -2709,7 +3019,8 @@
           y: pixel.y,
           visible:
             chartHeight > 0
-              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              ? pixel.y >= -MARKER_VISIBILITY_PADDING &&
+                pixel.y <= chartHeight + MARKER_VISIBILITY_PADDING
               : true,
           isPositive: netValue >= 0,
           intensity: Math.sqrt(absValue / maxAbsValue),
@@ -2820,25 +3131,29 @@
     return { x, y };
   };
 
+  // Clear all level popups (GEX, DEX, OI, Hottest, MaxPain, AnalystTarget)
+  const clearAllLevelPopups = () => {
+    selectedGexLevel = null;
+    selectedDexLevel = null;
+    selectedOiLevel = null;
+    selectedHottestLevel = null;
+    selectedMaxPainLevel = null;
+    selectedAnalystTargetLevel = null;
+  };
+
   // Handle GEX level click
   const handleGexLevelClick = (level: GexDexLevel, event: MouseEvent) => {
     event.stopPropagation();
+    clearAllLevelPopups();
     selectedGexLevel = level;
-    selectedDexLevel = null;
-    selectedOiLevel = null;
-    selectedMaxPainLevel = null;
-    selectedAnalystTargetLevel = null;
     gexDexPopupPosition = calculatePopupPosition(event);
   };
 
   // Handle DEX level click
   const handleDexLevelClick = (level: GexDexLevel, event: MouseEvent) => {
     event.stopPropagation();
+    clearAllLevelPopups();
     selectedDexLevel = level;
-    selectedGexLevel = null;
-    selectedOiLevel = null;
-    selectedMaxPainLevel = null;
-    selectedAnalystTargetLevel = null;
     gexDexPopupPosition = calculatePopupPosition(event);
   };
 
@@ -3019,7 +3334,8 @@
           y: pixel.y,
           visible:
             chartHeight > 0
-              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              ? pixel.y >= -MARKER_VISIBILITY_PADDING &&
+                pixel.y <= chartHeight + MARKER_VISIBILITY_PADDING
               : true,
           intensity: Math.sqrt((item.total_oi || 0) / maxTotalOi),
           showLabel: labelStrikes.has(item.strike),
@@ -3033,11 +3349,8 @@
   // Handle OI level click
   const handleOiLevelClick = (level: OiLevel, event: MouseEvent) => {
     event.stopPropagation();
+    clearAllLevelPopups();
     selectedOiLevel = level;
-    selectedGexLevel = null;
-    selectedDexLevel = null;
-    selectedMaxPainLevel = null;
-    selectedAnalystTargetLevel = null;
     oiPopupPosition = calculatePopupPosition(event);
   };
 
@@ -3418,15 +3731,16 @@
   };
 
   const resolveStatementPeriodData = (
-    data: { annual: any[]; quarter: any[]; ttm: any[] } | null,
+    data: StatementDataBundle | null,
     period: FinancialIndicatorPeriod,
-  ): { period: FinancialIndicatorPeriod; rows: any[] } => {
+  ): { period: FinancialIndicatorPeriod; rows: FinancialStatementRow[] } => {
     if (!data) return { period, rows: [] };
-    const periodMap: Record<FinancialIndicatorPeriod, any[]> = {
-      annual: Array.isArray(data.annual) ? data.annual : [],
-      quarterly: Array.isArray(data.quarter) ? data.quarter : [],
-      ttm: Array.isArray(data.ttm) ? data.ttm : [],
-    };
+    const periodMap: Record<FinancialIndicatorPeriod, FinancialStatementRow[]> =
+      {
+        annual: Array.isArray(data.annual) ? data.annual : [],
+        quarterly: Array.isArray(data.quarter) ? data.quarter : [],
+        ttm: Array.isArray(data.ttm) ? data.ttm : [],
+      };
 
     const preferred = periodMap[period] ?? [];
     if (preferred.length) {
@@ -3448,7 +3762,7 @@
     return { period, rows: [] };
   };
 
-  const getStatementYear = (item: any): number | null => {
+  const getStatementYear = (item: FinancialStatementRow): number | null => {
     const yearValue = toNumber(item?.fiscalYear ?? item?.calendarYear);
     if (yearValue !== null) return Math.trunc(yearValue);
     const dateStr =
@@ -4107,7 +4421,8 @@
           y: pixel.y,
           visible:
             chartHeight > 0
-              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              ? pixel.y >= -MARKER_VISIBILITY_PADDING &&
+                pixel.y <= chartHeight + MARKER_VISIBILITY_PADDING
               : true,
           intensity: Math.sqrt((item.volume || 0) / maxVolume),
           showLabel: labelKeys.has(key),
@@ -4160,7 +4475,8 @@
           labelY,
           visible:
             chartHeight > 0
-              ? pixel.y >= -20 && pixel.y <= chartHeight + 20
+              ? pixel.y >= -MARKER_VISIBILITY_PADDING &&
+                pixel.y <= chartHeight + MARKER_VISIBILITY_PADDING
               : true,
           isPrimary,
           intensity,
@@ -4231,12 +4547,8 @@
   // Handle Hottest Contracts level click
   const handleHottestLevelClick = (level: HottestLevel, event: MouseEvent) => {
     event.stopPropagation();
+    clearAllLevelPopups();
     selectedHottestLevel = level;
-    selectedGexLevel = null;
-    selectedDexLevel = null;
-    selectedOiLevel = null;
-    selectedMaxPainLevel = null;
-    selectedAnalystTargetLevel = null;
     hottestPopupPosition = calculatePopupPosition(event);
   };
 
@@ -4248,12 +4560,8 @@
   // Handle Max Pain level click
   const handleMaxPainLevelClick = (level: MaxPainLevel, event: MouseEvent) => {
     event.stopPropagation();
+    clearAllLevelPopups();
     selectedMaxPainLevel = level;
-    selectedGexLevel = null;
-    selectedDexLevel = null;
-    selectedOiLevel = null;
-    selectedHottestLevel = null;
-    selectedAnalystTargetLevel = null;
     maxPainPopupPosition = calculatePopupPosition(event, 260, 220);
   };
 
@@ -4267,12 +4575,8 @@
     event: MouseEvent,
   ) => {
     event.stopPropagation();
+    clearAllLevelPopups();
     selectedAnalystTargetLevel = level;
-    selectedGexLevel = null;
-    selectedDexLevel = null;
-    selectedOiLevel = null;
-    selectedHottestLevel = null;
-    selectedMaxPainLevel = null;
     analystTargetPopupPosition = calculatePopupPosition(event, 260, 280);
   };
 
@@ -4475,7 +4779,10 @@
   const buildHlcAreaBars = (bars: KLineData[]) =>
     bars.map((bar) => ({
       ...bar,
-      hlc3: (bar.high + bar.low + bar.close) / 3,
+      // For HLC Area, we use the HLC3 value as the 'close' for area rendering
+      // while preserving original OHLC in separate fields for tooltip display
+      close: (bar.high + bar.low + bar.close) / 3,
+      originalClose: bar.close,
     }));
 
   const transformBarsForType = (bars: KLineData[], type: ChartTypeId) => {
@@ -4749,11 +5056,8 @@
     return updatedIndex;
   };
 
-  const updateRealtimeBars = (tick) => {
-    if (!tick) {
-      return;
-    }
-    const symbol = typeof tick?.s === "string" ? tick.s.toUpperCase() : "";
+  const updateRealtimeBars = (tick: WsTickMessage) => {
+    const symbol = typeof tick.s === "string" ? tick.s.toUpperCase() : "";
     if (symbol && ticker && symbol !== ticker.toUpperCase()) {
       return;
     }
@@ -4824,20 +5128,27 @@
     });
   };
 
-  function sendMessage(message) {
+  function sendMessage(message: string[]) {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON?.stringify(message));
-    } else {
-      console.error("WebSocket is not open. Unable to send message.");
+      socket.send(JSON.stringify(message));
     }
   }
 
   // WebSocket batching state for performance
-  let pendingWsUpdate: any = null;
+  let pendingWsUpdate: WsTickMessage | null = null;
   let wsUpdateScheduled = false;
 
   async function websocketRealtimeData() {
     if (!data?.wsURL || !ticker || typeof window === "undefined") return;
+
+    // Validate ticker format before connecting
+    const upperTicker = ticker.toUpperCase();
+    if (!isValidTicker(upperTicker)) return;
+
+    // Validate WebSocket URL
+    const wsUrl = data.wsURL + "/price-data";
+    if (!isValidWsUrl(wsUrl)) return;
+
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
@@ -4847,21 +5158,22 @@
     }
 
     try {
-      socket = new WebSocket(data?.wsURL + "/price-data");
+      socket = new WebSocket(wsUrl);
 
-      socket.addEventListener("open", () => {
-        const tickerList = [ticker?.toUpperCase()] || [];
-        sendMessage(tickerList);
-      });
+      // Store handler references for cleanup
+      wsOpenHandler = () => {
+        sendMessage([upperTicker]);
+      };
 
-      socket.addEventListener("message", (event) => {
+      wsMessageHandler = (event: MessageEvent) => {
         try {
           const parsed = JSON.parse(event.data);
           const items = Array.isArray(parsed) ? parsed : [parsed];
 
           // Queue only the latest valid update (skip stale intermediate data)
           for (const item of items) {
-            if (item && (item.type === "Q" || item.type === "T")) {
+            // Validate message structure before processing
+            if (isValidWsMessage(item)) {
               pendingWsUpdate = item;
             }
           }
@@ -4877,26 +5189,38 @@
               wsUpdateScheduled = false;
             });
           }
-        } catch (error) {
-          console.log(error);
+        } catch {
+          // Invalid JSON - ignore malformed messages
         }
-      });
+      };
 
-      socket.addEventListener("close", () => {
-        // Don't set socket = null here - let disconnectWebSocket() handle that
-        // This allows afterUpdate to properly detect closed state for reconnection
-        console.log("Chart WebSocket connection closed");
-      });
-    } catch (error) {
-      console.error("WebSocket connection error:", error);
+      wsCloseHandler = () => {
+        // Handler kept minimal - cleanup happens in disconnectWebSocket
+      };
+
+      socket.addEventListener("open", wsOpenHandler);
+      socket.addEventListener("message", wsMessageHandler);
+      socket.addEventListener("close", wsCloseHandler);
+    } catch {
+      // WebSocket connection failed - will retry on next trigger
     }
   }
 
   function disconnectWebSocket() {
     if (socket) {
+      // Remove event listeners before closing
+      if (wsOpenHandler) socket.removeEventListener("open", wsOpenHandler);
+      if (wsMessageHandler)
+        socket.removeEventListener("message", wsMessageHandler);
+      if (wsCloseHandler) socket.removeEventListener("close", wsCloseHandler);
+
       socket.close();
       socket = null;
     }
+    // Clear handler references
+    wsOpenHandler = null;
+    wsMessageHandler = null;
+    wsCloseHandler = null;
   }
 
   const getIndicatorParams = (key: string) =>
@@ -5062,8 +5386,8 @@
     const axisLineColor = isDark ? "#252a38" : "#e1e5ec";
     const axisText = isDark ? "#9aa3b2" : "#6b7280";
     const priceText = isDark ? "#a1a9b8" : "#64748b";
-    const upColor = "#22ab94";
-    const downColor = "#f23645";
+    const upColor = CHART_COLORS.UP;
+    const downColor = CHART_COLORS.DOWN;
     const crosshairLine = isDark ? "#3a4252" : "#cbd5e1";
     const crosshairText = isDark ? "#e2e8f0" : "#111827";
     const crosshairBg = isDark ? "#0f141d" : "#f8fafc";
@@ -5305,7 +5629,7 @@
           lineColor: blueLine,
           lineSize: 2,
           smooth: true,
-          value: "hlc3",
+          value: "close", // Uses modified close field containing HLC3 value
           backgroundColor: softArea,
         };
         break;
@@ -5965,9 +6289,9 @@
   const buildCandleTooltipLegends = (data: CandleTooltipData) => {
     const current = data?.current;
     const isUp = current && current.close >= current.open;
-    const valueColor = isUp ? "#22ab94" : "#f23645";
-    const titleColor = "#9ca3af";
-    const volumeColor = "#9ca3af";
+    const valueColor = isUp ? CHART_COLORS.UP : CHART_COLORS.DOWN;
+    const titleColor = CHART_COLORS.NEUTRAL;
+    const volumeColor = CHART_COLORS.NEUTRAL;
 
     // Calculate change and percentage
     let changeText = "";
@@ -5977,7 +6301,7 @@
       const sign = change >= 0 ? "+" : "";
       changeText = `${sign}${change.toFixed(2)} (${sign}${changePercent.toFixed(2)}%)`;
     }
-    const changeColor = isUp ? "#22ab94" : "#f23645";
+    const changeColor = isUp ? CHART_COLORS.UP : CHART_COLORS.DOWN;
 
     // Check if small screen (below sm breakpoint = 640px)
     const isSmallScreen = isMobile;
@@ -5985,9 +6309,10 @@
     // For line chart types, show value and volume
     const isLineChart = ["line_step", "area", "hlc_area"].includes(chartType);
     if (isLineChart) {
+      const valueLabel = chartType === "hlc_area" ? "HLC3: " : "Value: ";
       return [
         {
-          title: { text: "Value: ", color: titleColor },
+          title: { text: valueLabel, color: titleColor },
           value: { text: "{close}", color: valueColor },
         },
         {
@@ -6351,7 +6676,8 @@
       const isInitialLoad = previousTicker === "";
       previousTicker = ticker;
 
-      // Reload chart settings and overlays for the new ticker
+      // Reload toolbar settings and overlays for the new ticker
+      // Note: chartType and activeRange are loaded in the reactive block before applyRange
       if (!isInitialLoad && ticker) {
         // Clear existing overlays from the chart
         if (chart) {
@@ -6372,24 +6698,9 @@
         drawingMode = "normal";
         activeTool = "cursor";
 
-        // Load settings for the new ticker
+        // Load toolbar settings for the new ticker
         const savedSettings = loadChartSettings();
         if (savedSettings) {
-          if (
-            savedSettings.chartType &&
-            chartTypeOptions.some((opt) => opt.id === savedSettings.chartType)
-          ) {
-            chartType = savedSettings.chartType as ChartTypeId;
-            currentChartType = chartTypeOptions.find(
-              (opt) => opt.id === chartType,
-            );
-          }
-          if (
-            savedSettings.activeRange &&
-            timeframes.includes(savedSettings.activeRange)
-          ) {
-            activeRange = savedSettings.activeRange;
-          }
           if (data?.user?.tier === "Pro") {
             showEarnings = savedSettings.showEarnings ?? true;
             showDividends = savedSettings.showDividends ?? true;
@@ -6432,16 +6743,16 @@
       }
 
       // Handle WebSocket reconnection on ticker change
-      if (typeof socket !== "undefined" && socket !== null) {
-        socket.close();
-        await new Promise((resolve) => {
-          socket?.addEventListener("close", resolve);
-        });
+      if (socket) {
+        // Disconnect current socket with proper cleanup
+        disconnectWebSocket();
 
-        // Reconnect if socket closed and component not destroyed
-        if (socket?.readyState === WebSocket?.CLOSED && !isComponentDestroyed) {
+        // Wait a brief moment before reconnecting
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        // Reconnect if component not destroyed
+        if (!isComponentDestroyed) {
           await websocketRealtimeData();
-          console.log("Chart WebSocket reconnecting for new ticker");
         }
 
         // Reset realtime price for new ticker
@@ -6507,6 +6818,7 @@
 
   $: {
     ticker = data?.ticker ?? "";
+
     dailyBars = normalizeDaily(data?.historical ?? []);
     intradayBars = normalizeIntraday(data?.intraday ?? []);
     latestRealtimePrice = null; // Reset on ticker change
@@ -6561,7 +6873,11 @@
     incomeStatementTicker = "";
     revenueData = [];
     clearRevenueData();
-    clearStatementMetricData(STATEMENT_INDICATOR_INDEX["eps"]);
+    // Clear ALL statement metric indicators (not just eps)
+    for (const indicator of STATEMENT_INDICATORS) {
+      clearStatementMetricData(STATEMENT_INDICATOR_INDEX[indicator.id]);
+    }
+
     // If indicator was enabled, refetch for new ticker
     if (indicatorState?.short_interest) {
       fetchShortInterestData();
@@ -6572,9 +6888,14 @@
     if (indicatorState?.revenue) {
       fetchIncomeStatementData();
     }
-    if (indicatorState?.eps) {
-      ensureStatementMetricData("eps");
+
+    // Refetch ALL enabled statement metric indicators (not just eps)
+    for (const indicator of STATEMENT_INDICATORS) {
+      if (indicatorState?.[indicator.id]) {
+        ensureStatementMetricData(indicator.id);
+      }
     }
+
     if (indicatorState?.max_pain) {
       fetchMaxPainData();
     }
@@ -6685,9 +7006,7 @@
     syncIndicators();
   }
 
-  $: barIndexByTimestamp = new Map(
-    currentBars.map((bar, index) => [bar.timestamp, index]),
-  );
+  // barIndexByTimestamp is now a memoized function: getBarIndexByTimestamp()
 
   $: if (strategyList?.length) {
     const activeStrategy =
