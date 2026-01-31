@@ -59,10 +59,10 @@
                   r="16"
                   fill="none"
                   class="stroke-current {score >= 7
-                    ? 'text-emerald-600 dark:text-emerald-400'
+                    ? 'text-emerald-800 dark:text-emerald-400'
                     : score >= 4
                       ? 'text-blue-800 dark:text-[#fff]'
-                      : 'text-rose-600 dark:text-rose-400'}"
+                      : 'text-rose-800 dark:text-rose-400'}"
                   stroke-width="3"
                   stroke-dasharray="100.48"
                   stroke-dashoffset={100.48 -

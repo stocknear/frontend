@@ -9,39 +9,39 @@
     removeCompanyStrings,
   } from "$lib/utils";
   import {
-  stock_detail_about,
-  stock_detail_analyst_consensus,
-  stock_detail_analyst_forecast,
-  stock_detail_analyst_forecast_text,
-  stock_detail_buy,
-  stock_detail_downside,
-  stock_detail_earnings,
-  stock_detail_employees,
-  stock_detail_financial_decrease,
-  stock_detail_financial_increase,
-  stock_detail_financial_numbers_in,
-  stock_detail_financial_performance,
-  stock_detail_financial_statements,
-  stock_detail_financial_text_part1,
-  stock_detail_financial_text_part2,
-  stock_detail_full_company_profile,
-  stock_detail_fy,
-  stock_detail_hold,
-  stock_detail_industry,
-  stock_detail_ipo_date,
-  stock_detail_price_target_label,
-  stock_detail_read_more,
-  stock_detail_revenue,
-  stock_detail_sector,
-  stock_detail_sell,
-  stock_detail_stock_exchange,
-  stock_detail_stock_forecasts,
-  stock_detail_strong_buy,
-  stock_detail_strong_sell,
-  stock_detail_ticker_symbol,
-  stock_detail_upside,
-  stock_detail_website,
-} from "$lib/paraglide/messages";
+    stock_detail_about,
+    stock_detail_analyst_consensus,
+    stock_detail_analyst_forecast,
+    stock_detail_analyst_forecast_text,
+    stock_detail_buy,
+    stock_detail_downside,
+    stock_detail_earnings,
+    stock_detail_employees,
+    stock_detail_financial_decrease,
+    stock_detail_financial_increase,
+    stock_detail_financial_numbers_in,
+    stock_detail_financial_performance,
+    stock_detail_financial_statements,
+    stock_detail_financial_text_part1,
+    stock_detail_financial_text_part2,
+    stock_detail_full_company_profile,
+    stock_detail_fy,
+    stock_detail_hold,
+    stock_detail_industry,
+    stock_detail_ipo_date,
+    stock_detail_price_target_label,
+    stock_detail_read_more,
+    stock_detail_revenue,
+    stock_detail_sector,
+    stock_detail_sell,
+    stock_detail_stock_exchange,
+    stock_detail_stock_forecasts,
+    stock_detail_strong_buy,
+    stock_detail_strong_sell,
+    stock_detail_ticker_symbol,
+    stock_detail_upside,
+    stock_detail_website,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let priceTargetUpside = 0;
@@ -113,9 +113,9 @@
         animation: false,
       },
       title: {
-        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}">$${priceTarget}</span></div>
+        text: `<div class="text-gray-800 dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-800 dark:text-emerald-400" : "text-rose-800 dark:text-rose-400"}">$${priceTarget}</span></div>
         <div class="text-gray-800 dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? stock_detail_upside() : stock_detail_downside()})</div>
-        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-600 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-600 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
+        <div class="text-gray-800 dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-800 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-800 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -278,7 +278,8 @@
         formatter: function () {
           // Format the x value to display time in a custom format
           const dateStr = this.points?.[0]?.key;
-          const year = typeof dateStr === "string" ? dateStr.slice(0, 4) : dateStr;
+          const year =
+            typeof dateStr === "string" ? dateStr.slice(0, 4) : dateStr;
           let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${stock_detail_fy({ year })}</span><br>`;
 
           // Loop through each point in the shared tooltip
@@ -503,19 +504,33 @@
           {stock_detail_financial_text_part1({
             year: financialPerformance?.history?.at(-1)?.date?.slice(0, 4),
             company: removeCompanyStrings($displayCompanyName),
-            revenue: abbreviateNumber(financialPerformance?.history?.at(-1)?.revenue),
-            direction: financialPerformance?.changePercentageRevenue >= 0
-              ? stock_detail_financial_increase()
-              : stock_detail_financial_decrease(),
-            changePercent: financialPerformance?.changePercentageRevenue?.toLocaleString("en-US"),
-            prevRevenue: abbreviateNumber(financialPerformance?.history?.at(-2)?.revenue),
+            revenue: abbreviateNumber(
+              financialPerformance?.history?.at(-1)?.revenue,
+            ),
+            direction:
+              financialPerformance?.changePercentageRevenue >= 0
+                ? stock_detail_financial_increase()
+                : stock_detail_financial_decrease(),
+            changePercent:
+              financialPerformance?.changePercentageRevenue?.toLocaleString(
+                "en-US",
+              ),
+            prevRevenue: abbreviateNumber(
+              financialPerformance?.history?.at(-2)?.revenue,
+            ),
           })}
           {stock_detail_financial_text_part2({
-            earnings: abbreviateNumber(financialPerformance?.history?.at(-1)?.netIncome),
-            direction: financialPerformance?.changePercentageNetIncome >= 0
-              ? stock_detail_financial_increase()
-              : stock_detail_financial_decrease(),
-            changePercent: financialPerformance?.changePercentageNetIncome?.toLocaleString("en-US"),
+            earnings: abbreviateNumber(
+              financialPerformance?.history?.at(-1)?.netIncome,
+            ),
+            direction:
+              financialPerformance?.changePercentageNetIncome >= 0
+                ? stock_detail_financial_increase()
+                : stock_detail_financial_decrease(),
+            changePercent:
+              financialPerformance?.changePercentageNetIncome?.toLocaleString(
+                "en-US",
+              ),
           })}
         </p>
 
@@ -562,7 +577,10 @@
             ticker: $stockTicker,
             rating: consensusRating,
             priceTarget: priceTarget,
-            direction: priceTargetUpside > 0 ? stock_detail_upside() : stock_detail_downside(),
+            direction:
+              priceTargetUpside > 0
+                ? stock_detail_upside()
+                : stock_detail_downside(),
             upside: Math.abs(priceTargetUpside),
           })}
         </p>

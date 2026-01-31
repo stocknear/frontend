@@ -47,7 +47,7 @@
           >{`${blogData?.data?.positiveRevenueSurprises}/${blogData?.data?.totalReports}`}
           quarters</span
         >
-        <span class="text-xs text-rose-600 dark:text-rose-400">
+        <span class="text-xs text-rose-800 dark:text-rose-400">
           {blogData?.data?.positiveRevenueSurprises >
           blogData?.data?.totalReports / 2
             ? "Above Average"

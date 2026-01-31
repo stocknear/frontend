@@ -49,9 +49,21 @@
   let chartType: ChartType = "column";
 
   $: chartTypes = [
-    { type: "column" as ChartType, label: stock_detail_exchange_chart_type_column(), icon: BarChartIcon },
-    { type: "spline" as ChartType, label: stock_detail_exchange_chart_type_line(), icon: LineChartIcon },
-    { type: "scatter" as ChartType, label: stock_detail_exchange_chart_type_scatter(), icon: ScatterChartIcon },
+    {
+      type: "column" as ChartType,
+      label: stock_detail_exchange_chart_type_column(),
+      icon: BarChartIcon,
+    },
+    {
+      type: "spline" as ChartType,
+      label: stock_detail_exchange_chart_type_line(),
+      icon: LineChartIcon,
+    },
+    {
+      type: "scatter" as ChartType,
+      label: stock_detail_exchange_chart_type_scatter(),
+      icon: ScatterChartIcon,
+    },
   ];
 
   function changeChartType(type: ChartType) {
@@ -207,7 +219,9 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: stock_detail_price_levels_current_price({ price: currentPrice }),
+              text: stock_detail_price_levels_current_price({
+                price: currentPrice,
+              }),
               style: {
                 color: $mode === "light" ? "#000" : "#fff",
                 fontSize: "10px",
@@ -364,7 +378,12 @@
               <span
                 class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
               >
-                {stock_detail_price_levels_strength({ pct: typeof keySupport.strength === "number" ? keySupport.strength.toFixed(1) : keySupport.strength })}
+                {stock_detail_price_levels_strength({
+                  pct:
+                    typeof keySupport.strength === "number"
+                      ? keySupport.strength.toFixed(1)
+                      : keySupport.strength,
+                })}
               </span>
             {/if}
           </div>
@@ -390,7 +409,7 @@
           {:else if keySupport}
             <div class="flex items-baseline">
               <span
-                class="text-xl font-semibold tabular-nums text-emerald-600 dark:text-emerald-400"
+                class="text-xl font-semibold tabular-nums text-emerald-800 dark:text-emerald-400"
               >
                 ${keySupport.price?.toFixed(2)}
               </span>
@@ -412,7 +431,12 @@
               <span
                 class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
               >
-                {stock_detail_price_levels_strength({ pct: typeof keyResistance.strength === "number" ? keyResistance.strength.toFixed(1) : keyResistance.strength })}
+                {stock_detail_price_levels_strength({
+                  pct:
+                    typeof keyResistance.strength === "number"
+                      ? keyResistance.strength.toFixed(1)
+                      : keyResistance.strength,
+                })}
               </span>
             {/if}
           </div>
@@ -470,7 +494,9 @@
               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
             />
           </svg>
-          <span class="text-sm font-medium">{stock_detail_price_levels_upgrade_unlock()}</span>
+          <span class="text-sm font-medium"
+            >{stock_detail_price_levels_upgrade_unlock()}</span
+          >
         </a>
       </div>
     {:else}

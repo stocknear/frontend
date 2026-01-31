@@ -870,9 +870,9 @@
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center {marginOfSafety >
                   0
-                    ? 'text-emerald-600 dark:text-emerald-400'
+                    ? 'text-emerald-800 dark:text-emerald-400'
                     : marginOfSafety < 0
-                      ? 'text-rose-600 dark:text-rose-400'
+                      ? 'text-rose-800 dark:text-rose-400'
                       : ''}"
                 >
                   {presentValue && presentValue > 0
@@ -923,9 +923,9 @@
                     <div
                       class="text-lg font-bold {valuationStatus ===
                       'undervalued'
-                        ? 'text-emerald-600 dark:text-emerald-400'
+                        ? 'text-emerald-800 dark:text-emerald-400'
                         : valuationStatus === 'overvalued'
-                          ? 'text-rose-600 dark:text-rose-400'
+                          ? 'text-rose-800 dark:text-rose-400'
                           : 'text-gray-700 dark:text-zinc-200'}"
                     >
                       {valuationStatus === "undervalued"
@@ -1086,10 +1086,10 @@
                                   ? 'bg-violet-200 dark:bg-violet-800/50 ring-2 ring-violet-500 ring-inset'
                                   : ''}
                                 {!isCurrentCell && isUndervalued
-                                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20'
+                                  ? 'text-emerald-800 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20'
                                   : ''}
                                 {!isCurrentCell && isOvervalued
-                                  ? 'text-rose-600 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-900/20'
+                                  ? 'text-rose-800 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-900/20'
                                   : ''}
                                 {!isCurrentCell &&
                                 !isUndervalued &&

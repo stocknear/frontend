@@ -230,8 +230,8 @@
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.winRate >= 0
-                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"}
+                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                          : "text-rose-800 dark:text-rose-400"}
                         >{hedgeFundStats?.winRate?.toFixed(2)}%</span
                       >
                     {:else}
@@ -267,8 +267,8 @@
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.performancePercentage3Year >= 0
-                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"}
+                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                          : "text-rose-800 dark:text-rose-400"}
                         >{hedgeFundStats?.performancePercentage3Year?.toFixed(
                           2,
                         )}%</span

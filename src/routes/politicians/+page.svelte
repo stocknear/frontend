@@ -856,7 +856,7 @@
                                   <span class="">n/a</span>
                                 {:else}
                                   <span
-                                    class="font-medium text-emerald-600 dark:text-emerald-400"
+                                    class="font-medium text-emerald-800 dark:text-emerald-400"
                                     >+{Number(item?.successRate)?.toFixed(
                                       2,
                                     )}%</span
@@ -886,14 +886,14 @@
                                   <span class="">n/a</span>
                                 {:else if Number(item?.avgReturn) >= 0}
                                   <span
-                                    class="font-medium text-emerald-600 dark:text-emerald-400"
+                                    class="font-medium text-emerald-800 dark:text-emerald-400"
                                     >+{Number(item?.avgReturn)?.toFixed(
                                       2,
                                     )}%</span
                                   >
                                 {:else}
                                   <span
-                                    class="font-medium text-rose-600 dark:text-rose-400"
+                                    class="font-medium text-rose-800 dark:text-rose-400"
                                     >{Number(item?.avgReturn)?.toFixed(
                                       2,
                                     )}%</span

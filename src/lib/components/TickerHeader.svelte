@@ -1,12 +1,12 @@
 <script lang="ts">
   import NumberFlow, { continuous } from "@number-flow/svelte";
   import {
-  stock_detail_after_hours,
-  stock_detail_at_close,
-  stock_detail_market_open,
-  stock_detail_pre_market,
-  stock_detail_real_time_price,
-} from "$lib/paraglide/messages";
+    stock_detail_after_hours,
+    stock_detail_at_close,
+    stock_detail_market_open,
+    stock_detail_pre_market,
+    stock_detail_real_time_price,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -80,9 +80,9 @@
           >
             <span
               class={displayLegend?.change >= 0
-                ? "text-emerald-600 dark:text-emerald-400"
+                ? "text-emerald-800 dark:text-emerald-400"
                 : displayLegend?.change < 0
-                  ? "text-rose-600 dark:text-rose-400"
+                  ? "text-rose-800 dark:text-rose-400"
                   : ""}
             >
               {#if displayLegend?.change !== undefined && displayLegend?.change !== null}
@@ -107,9 +107,9 @@
             </span>
             <span
               class={displayLegend?.changesPercentage >= 0
-                ? "text-emerald-600 dark:text-emerald-400"
+                ? "text-emerald-800 dark:text-emerald-400"
                 : displayLegend?.changesPercentage < 0
-                  ? "text-rose-600 dark:text-rose-400"
+                  ? "text-rose-800 dark:text-rose-400"
                   : ""}
             >
               ({#if displayLegend?.changesPercentage !== undefined && displayLegend?.changesPercentage !== null}<NumberFlow
@@ -140,7 +140,8 @@
               <span
                 class="{Object?.keys(prePostData)?.length !== 0
                   ? 'block sm:inline'
-                  : 'inline'} mb-0.5 sm:mb-0">- {stock_detail_market_open()}</span
+                  : 'inline'} mb-0.5 sm:mb-0"
+                >- {stock_detail_market_open()}</span
               >
             {/if}
           </div>
@@ -165,8 +166,8 @@
             <div
               class="mt-1.5 block sm:mt-0 sm:inline text-lg {prePostData?.changesPercentage >=
               0
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : 'text-rose-600 dark:text-rose-400'}"
+                ? 'text-emerald-800 dark:text-emerald-400'
+                : 'text-rose-800 dark:text-rose-400'}"
             >
               <NumberFlow
                 value={prePostData?.changesPercentage || 0}

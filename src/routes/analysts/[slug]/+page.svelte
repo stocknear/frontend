@@ -686,9 +686,9 @@
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={successRate >= 0 && successRate !== undefined
-                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                           : successRate < 0 && successRate !== undefined
-                            ? "text-rose-600 dark:text-rose-400"
+                            ? "text-rose-800 dark:text-rose-400"
                             : ""}
                         >{successRate !== undefined
                           ? successRate?.toFixed(2) + "%"
@@ -727,9 +727,9 @@
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={avgReturn >= 0 && avgReturn !== undefined
-                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                           : avgReturn < 0 && avgReturn !== undefined
-                            ? "text-rose-600 dark:text-rose-400"
+                            ? "text-rose-800 dark:text-rose-400"
                             : ""}
                         >{avgReturn !== undefined
                           ? avgReturn?.toFixed(2) + "%"
@@ -989,9 +989,9 @@
                             <span
                               class="font-medium tabular-nums {item?.upside >=
                                 0 && item?.upside !== null
-                                ? 'text-emerald-600 dark:text-emerald-500'
+                                ? 'text-emerald-800 dark:text-emerald-500'
                                 : item?.upside < 0 && item?.upside !== null
-                                  ? 'text-rose-600 dark:text-rose-500'
+                                  ? 'text-rose-800 dark:text-rose-500'
                                   : 'text-gray-500 dark:text-zinc-400'}"
                             >
                               {item?.upside !== null
@@ -1194,9 +1194,9 @@
                                 <td
                                   class="{item?.upside >= 0 &&
                                   item?.upside !== null
-                                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                                    ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                                     : item?.upside < 0 && item?.upside !== null
-                                      ? 'text-rose-600 dark:text-rose-400'
+                                      ? 'text-rose-800 dark:text-rose-400'
                                       : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                                 >
                                   {item?.upside !== null

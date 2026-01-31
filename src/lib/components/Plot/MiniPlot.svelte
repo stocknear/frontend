@@ -575,8 +575,8 @@
         </div>
         <div
             class="text-[10px] sm:text-xs font-semibold tabular-nums {isPositive
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : 'text-rose-600 dark:text-rose-400'}"
+                ? 'text-emerald-800 dark:text-emerald-400'
+                : 'text-rose-800 dark:text-rose-400'}"
         >
             ({isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%)
         </div>
@@ -634,7 +634,7 @@
                         >Bull</span
                     >
                     <span
-                        class="font-semibold text-emerald-600 dark:text-emerald-400 whitespace-nowrap tabular-nums"
+                        class="font-semibold text-emerald-800 dark:text-emerald-400 whitespace-nowrap tabular-nums"
                     >
                         {bullPercentage}%
                         <span class="hidden sm:inline-block"
@@ -659,7 +659,7 @@
                         >Bear</span
                     >
                     <span
-                        class="font-semibold text-rose-600 dark:text-rose-400 whitespace-nowrap sm:-ml-4 tabular-nums"
+                        class="font-semibold text-rose-800 dark:text-rose-400 whitespace-nowrap sm:-ml-4 tabular-nums"
                     >
                         <span class="hidden sm:inline-block"
                             >({abbreviateNumber(bearPrem)})</span

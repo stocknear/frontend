@@ -126,11 +126,11 @@
                     class="border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap"
                   >
                     {#if item?.changesPercentage >= 0}
-                      <span class="text-emerald-600 dark:text-emerald-400"
+                      <span class="text-emerald-800 dark:text-emerald-400"
                         >+{item?.changesPercentage?.toFixed(2)}%</span
                       >
                     {:else}
-                      <span class="text-rose-600 dark:text-rose-400"
+                      <span class="text-rose-800 dark:text-rose-400"
                         >{item?.changesPercentage?.toFixed(2)}%
                       </span>
                     {/if}

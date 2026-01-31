@@ -646,9 +646,9 @@
             <div
               class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl {changesPercentage &&
               changesPercentage > 0
-                ? "before:content-['+'] after:content-['%'] text-emerald-600 dark:text-emerald-400"
+                ? "before:content-['+'] after:content-['%'] text-emerald-800 dark:text-emerald-400"
                 : changesPercentage && changesPercentage < 0
-                  ? "after:content-['%'] text-rose-600 dark:text-rose-400"
+                  ? "after:content-['%'] text-rose-800 dark:text-rose-400"
                   : ''}"
             >
               {changesPercentage ?? "n/a"}
@@ -768,13 +768,13 @@
                             class={["Bullish", "Buy", "Strong Buy"]?.includes(
                               item[column.key],
                             )
-                              ? "text-emerald-600 dark:text-emerald-400"
+                              ? "text-emerald-800 dark:text-emerald-400"
                               : ["Neutral", "Hold"]?.includes(item[column.key])
                                 ? "text-[#E57C34] dark:text-yellow-500"
                                 : ["Bearish", "Sell", "Strong Sell"]?.includes(
                                       item[column.key],
                                     )
-                                  ? "text-rose-600 dark:text-rose-400"
+                                  ? "text-rose-800 dark:text-rose-400"
                                   : ""}
                           >
                             {item?.rating_current}
@@ -830,9 +830,9 @@
                                 100 || 0}
                             <span
                               class="text-sm whitespace-nowrap {upsideValue >= 0
-                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                                 : upsideValue < 0
-                                  ? 'text-rose-600 dark:text-rose-400'
+                                  ? 'text-rose-800 dark:text-rose-400'
                                   : ''}"
                             >
                               {upsideValue?.toFixed(2)}%

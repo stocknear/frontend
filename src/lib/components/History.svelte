@@ -752,10 +752,10 @@
                           <td
                             class="text-sm sm:text-[1rem] {item?.changesPercentage >=
                               0 && item?.changesPercentage !== null
-                              ? "text-emerald-600 dark:text-emerald-400 before:content-['+'] "
+                              ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
                               : item?.changesPercentage < 0 &&
                                   item?.changesPercentage !== null
-                                ? 'text-rose-600 dark:text-rose-400'
+                                ? 'text-rose-800 dark:text-rose-400'
                                 : ''} text-end"
                           >
                             {item?.changesPercentage !== null

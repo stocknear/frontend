@@ -277,9 +277,8 @@
     loadRowsPerPage();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -562,11 +561,11 @@
                         class="text-end text-[0.85rem] sm:text-sm tabular-nums"
                       >
                         {#if item?.changesPercentage >= 0}
-                          <span class="text-emerald-600 dark:text-emerald-400"
+                          <span class="text-emerald-800 dark:text-emerald-400"
                             >+{item.changesPercentage?.toFixed(2)}%</span
                           >
                         {:else}
-                          <span class="text-rose-600 dark:text-rose-400"
+                          <span class="text-rose-800 dark:text-rose-400"
                             >{item.changesPercentage?.toFixed(2)}%</span
                           >
                         {/if}

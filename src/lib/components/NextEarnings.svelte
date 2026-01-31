@@ -2,22 +2,22 @@
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
   import {
-  stock_detail_after_market_closes,
-  stock_detail_analysts_project_revenue,
-  stock_detail_and_eps_of,
-  stock_detail_before_market_opens,
-  stock_detail_decrease,
-  stock_detail_during_market_hours,
-  stock_detail_earnings_scheduled,
-  stock_detail_increase,
-  stock_detail_making_a,
-  stock_detail_next_earnings_release,
-  stock_detail_reflecting_a,
-  stock_detail_upgrade,
-  stock_detail_yoy,
-  stock_detail_yoy_growth,
-  stock_detail_yoy_shrinking,
-} from "$lib/paraglide/messages";
+    stock_detail_after_market_closes,
+    stock_detail_analysts_project_revenue,
+    stock_detail_and_eps_of,
+    stock_detail_before_market_opens,
+    stock_detail_decrease,
+    stock_detail_during_market_hours,
+    stock_detail_earnings_scheduled,
+    stock_detail_increase,
+    stock_detail_making_a,
+    stock_detail_next_earnings_release,
+    stock_detail_reflecting_a,
+    stock_detail_upgrade,
+    stock_detail_yoy,
+    stock_detail_yoy_growth,
+    stock_detail_yoy_shrinking,
+  } from "$lib/paraglide/messages";
   export let data;
   export let hideTitle = false;
 
@@ -109,7 +109,8 @@
           <a
             class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
             href="/pricing"
-            >{stock_detail_upgrade()} <svg
+            >{stock_detail_upgrade()}
+            <svg
               class="w-4 h-4 mb-1 inline-block"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -125,15 +126,16 @@
           >, {stock_detail_reflecting_a()}
           <span
             class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
-              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
               : revenueRatio < 0 && revenueRatio !== 'Infinity'
-                ? 'text-rose-600 dark:text-rose-400'
+                ? 'text-rose-800 dark:text-rose-400'
                 : 'text-gray-500 dark:text-zinc-400'} font-semibold"
             >{revenueRatio !== "Infinity"
               ? abbreviateNumber(revenueRatio) + "%"
               : "n/a"}</span
           >
-          {stock_detail_yoy()} {revenueRatio > 0
+          {stock_detail_yoy()}
+          {revenueRatio > 0
             ? stock_detail_yoy_growth()
             : revenueRatio < 0
               ? stock_detail_yoy_shrinking()
@@ -143,11 +145,16 @@
             <span class="font-bold">{rawData?.epsEst}</span>, {stock_detail_making_a()}
             <span
               class="{epsRatio > 0
-                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                : 'text-rose-600 dark:text-rose-400'} font-semibold"
+                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                : 'text-rose-800 dark:text-rose-400'} font-semibold"
               >{epsRatio}%</span
             >
-            {epsRatio > 0 ? stock_detail_increase() : epsRatio < 0 ? stock_detail_decrease() : ""} {stock_detail_yoy()}.
+            {epsRatio > 0
+              ? stock_detail_increase()
+              : epsRatio < 0
+                ? stock_detail_decrease()
+                : ""}
+            {stock_detail_yoy()}.
           {:else}
             {stock_detail_and_eps_of()}
             <span class="font-semibold">{rawData?.epsEst}</span>.

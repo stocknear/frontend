@@ -210,24 +210,22 @@
 <!-- Watchlist Button -->
 <button
   on:click={handleWatchlistButtonClick}
-  class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm lg:px-3 flex-1 md:flex-initial"
+  class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all whitespace-nowrap text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-white/80 sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:px-3 sm:py-2 sm:text-sm sm:font-normal"
+  title={msg.watchlist()}
 >
   <svg
-    class="size-5 flex-shrink-0"
+    class="size-4 sm:size-5 flex-shrink-0"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
-    style="max-width:40px"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
     aria-hidden="true"
   >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
-  <span class="text-sm md:text-sm">{msg.watchlist()}</span>
+  <span class="text-xs sm:text-sm">{msg.watchlist()}</span>
 </button>
 
 <!-- Watchlist Modal -->

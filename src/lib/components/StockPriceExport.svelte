@@ -8,33 +8,33 @@
   import { browser } from "$app/environment";
   import DownloadIcon from "lucide-svelte/icons/download";
   import {
-  stock_detail_balance,
-  stock_detail_close,
-  stock_detail_download_started,
-  stock_detail_end_date,
-  stock_detail_estimated_cost,
-  stock_detail_export_credits_error,
-  stock_detail_export_date_error,
-  stock_detail_export_date_range_error,
-  stock_detail_export_generating,
-  stock_detail_export_intraday_desc,
-  stock_detail_export_intraday_title,
-  stock_detail_export_price,
-  stock_detail_export_sign_in_error,
-  stock_detail_export_upgrade_error,
-  stock_detail_interval,
-  stock_detail_interval_15min,
-  stock_detail_interval_1hour,
-  stock_detail_interval_1min,
-  stock_detail_interval_30min,
-  stock_detail_interval_5min,
-  stock_detail_plus_pro_only,
-  stock_detail_preparing,
-  stock_detail_sign_in,
-  stock_detail_start_date,
-  stock_detail_start_export,
-  stock_detail_to_use_credits,
-} from "$lib/paraglide/messages";
+    stock_detail_balance,
+    stock_detail_close,
+    stock_detail_download_started,
+    stock_detail_end_date,
+    stock_detail_estimated_cost,
+    stock_detail_export_credits_error,
+    stock_detail_export_date_error,
+    stock_detail_export_date_range_error,
+    stock_detail_export_generating,
+    stock_detail_export_intraday_desc,
+    stock_detail_export_intraday_title,
+    stock_detail_export_price,
+    stock_detail_export_sign_in_error,
+    stock_detail_export_upgrade_error,
+    stock_detail_interval,
+    stock_detail_interval_15min,
+    stock_detail_interval_1hour,
+    stock_detail_interval_1min,
+    stock_detail_interval_30min,
+    stock_detail_interval_5min,
+    stock_detail_plus_pro_only,
+    stock_detail_preparing,
+    stock_detail_sign_in,
+    stock_detail_start_date,
+    stock_detail_start_export,
+    stock_detail_to_use_credits,
+  } from "$lib/paraglide/messages";
 
   export let ticker: string;
   export let user: any;
@@ -102,7 +102,9 @@
     }
 
     if (availableCredits < creditCost) {
-      errorMessage = stock_detail_export_credits_error({ balance: availableCredits.toString() });
+      errorMessage = stock_detail_export_credits_error({
+        balance: availableCredits.toString(),
+      });
       return;
     }
 
@@ -253,7 +255,11 @@
 
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
       <div>
-        {stock_detail_estimated_cost({ cost: creditCost.toString(), min: creditBounds.min.toString(), max: creditBounds.max.toString() })}
+        {stock_detail_estimated_cost({
+          cost: creditCost.toString(),
+          min: creditBounds.min.toString(),
+          max: creditBounds.max.toString(),
+        })}
       </div>
       {#if user}
         <div>
@@ -286,7 +292,7 @@
       </div>
     {/if}
     {#if errorMessage}
-      <div class="mt-3 text-sm text-rose-600 dark:text-rose-400">
+      <div class="mt-3 text-sm text-rose-800 dark:text-rose-400">
         {errorMessage}
       </div>
     {/if}

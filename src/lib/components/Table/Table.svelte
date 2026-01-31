@@ -2900,7 +2900,7 @@
                       >+{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="text-rose-600 dark:text-rose-400"
+                    <span class="text-rose-800 dark:text-rose-400"
                       >{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {/if}
@@ -2938,7 +2938,7 @@
                       >+{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="text-rose-600 dark:text-rose-400"
+                    <span class="text-rose-800 dark:text-rose-400"
                       >{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
                     >
                   {:else}
@@ -2955,7 +2955,7 @@
                         : ["Bearish", "Sell", "Strong Sell"]?.includes(
                               item[column.key],
                             )
-                          ? "text-rose-600 dark:text-rose-400"
+                          ? "text-rose-800 dark:text-rose-400"
                           : ""}
                   >
                     {item[column.key]}

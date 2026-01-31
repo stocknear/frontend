@@ -5,35 +5,35 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import {
-  stock_detail_employees_change_1y,
-  stock_detail_employees_chart_title,
-  stock_detail_employees_col_change,
-  stock_detail_employees_col_date,
-  stock_detail_employees_col_employees,
-  stock_detail_employees_col_growth,
-  stock_detail_employees_decreased,
-  stock_detail_employees_growth_1y,
-  stock_detail_employees_history,
-  stock_detail_employees_increased,
-  stock_detail_employees_info_has_data,
-  stock_detail_employees_info_no_data,
-  stock_detail_employees_info_old_data,
-  stock_detail_employees_label,
-  stock_detail_employees_market_cap,
-  stock_detail_employees_no_history,
-  stock_detail_employees_profits_per,
-  stock_detail_employees_revenue_per,
-  stock_detail_employees_seo_description,
-  stock_detail_employees_seo_keywords,
-  stock_detail_employees_seo_title,
-  stock_detail_employees_structured_desc,
-  stock_detail_employees_structured_name,
-  stock_detail_employees_title,
-  stock_detail_next,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-} from "$lib/paraglide/messages";
+    stock_detail_employees_change_1y,
+    stock_detail_employees_chart_title,
+    stock_detail_employees_col_change,
+    stock_detail_employees_col_date,
+    stock_detail_employees_col_employees,
+    stock_detail_employees_col_growth,
+    stock_detail_employees_decreased,
+    stock_detail_employees_growth_1y,
+    stock_detail_employees_history,
+    stock_detail_employees_increased,
+    stock_detail_employees_info_has_data,
+    stock_detail_employees_info_no_data,
+    stock_detail_employees_info_old_data,
+    stock_detail_employees_label,
+    stock_detail_employees_market_cap,
+    stock_detail_employees_no_history,
+    stock_detail_employees_profits_per,
+    stock_detail_employees_revenue_per,
+    stock_detail_employees_seo_description,
+    stock_detail_employees_seo_keywords,
+    stock_detail_employees_seo_title,
+    stock_detail_employees_structured_desc,
+    stock_detail_employees_structured_name,
+    stock_detail_employees_title,
+    stock_detail_next,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+  } from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
 
@@ -456,8 +456,8 @@
           : stock_detail_employees_decreased();
       const growthRateClass =
         changeRate >= 0 && changeRate !== null
-          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-          : "text-rose-600 dark:text-rose-400";
+          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+          : "text-rose-800 dark:text-rose-400";
 
       return `<span>${stock_detail_employees_info_has_data({
         company: $displayCompanyName,
@@ -748,11 +748,11 @@
                       </td>
                       <td class="text-end text-sm whitespace-nowrap text-end">
                         {#if typeof row?.growth === "number" && row.growth > 0}
-                          <span class="text-emerald-600 dark:text-emerald-400">
+                          <span class="text-emerald-800 dark:text-emerald-400">
                             +{row.growth.toFixed(2)}%
                           </span>
                         {:else if typeof row?.growth === "number" && row.growth < 0}
-                          <span class="text-rose-600 dark:text-rose-400">
+                          <span class="text-rose-800 dark:text-rose-400">
                             {row.growth.toFixed(2)}%
                           </span>
                         {:else if row?.growth === 0}
@@ -789,8 +789,7 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline"
-                    >{stock_detail_previous()}</span
+                  <span class="hidden sm:inline">{stock_detail_previous()}</span
                   >
                 </Button>
               </div>

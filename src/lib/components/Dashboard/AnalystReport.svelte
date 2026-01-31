@@ -61,8 +61,8 @@
       })}
       <strong
         class={analystReport?.highPriceChange > 0
-          ? "text-emerald-600 dark:text-emerald-400"
-          : "text-rose-600 dark:text-rose-400"}
+          ? "text-emerald-800 dark:text-emerald-400"
+          : "text-rose-800 dark:text-rose-400"}
         >{Math.abs(analystReport?.highPriceChange ?? 0)}%</strong
       >
       {dashboard_analyst_report_change_suffix()}
@@ -120,29 +120,29 @@
           </td>
           <td
             class={analystReport?.lowPriceChange > 0
-              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
-              : "text-rose-600 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
+              : "text-rose-800 dark:text-rose-400 font-semibold"}
           >
             {analystReport?.lowPriceChange ?? "0"}%
           </td>
           <td
             class={analystReport?.avgPriceChange > 0
-              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
-              : "text-rose-600 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
+              : "text-rose-800 dark:text-rose-400 font-semibold"}
           >
             {analystReport?.avgPriceChange ?? "0"}%
           </td>
           <td
             class={analystReport?.medianPriceChange > 0
-              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
-              : "text-rose-600 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
+              : "text-rose-800 dark:text-rose-400 font-semibold"}
           >
             {analystReport?.medianPriceChange ?? "0"}%
           </td>
           <td
             class={analystReport?.highPriceChange > 0
-              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
-              : "text-rose-600 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
+              : "text-rose-800 dark:text-rose-400 font-semibold"}
           >
             {analystReport?.highPriceChange ?? "0"}%
           </td>

@@ -657,11 +657,11 @@
                         class={performanceSuccessRate >= 0 &&
                         performanceSuccessRate !== undefined &&
                         performanceSuccessRate !== null
-                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                           : performanceSuccessRate < 0 &&
                               performanceSuccessRate !== undefined &&
                               performanceSuccessRate !== null
-                            ? "text-rose-600 dark:text-rose-400"
+                            ? "text-rose-800 dark:text-rose-400"
                             : ""}
                         >{performanceSuccessRate !== undefined &&
                         performanceSuccessRate !== null
@@ -703,11 +703,11 @@
                         class={performanceAvgReturn >= 0 &&
                         performanceAvgReturn !== undefined &&
                         performanceAvgReturn !== null
-                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                           : performanceAvgReturn < 0 &&
                               performanceAvgReturn !== undefined &&
                               performanceAvgReturn !== null
-                            ? "text-rose-600 dark:text-rose-400"
+                            ? "text-rose-800 dark:text-rose-400"
                             : ""}
                         >{performanceAvgReturn !== undefined &&
                         performanceAvgReturn !== null
@@ -989,12 +989,12 @@
                           <div class="flex items-center gap-1.5 text-[13px]">
                             {#if item?.type === "Bought"}
                               <span
-                                class="font-medium text-emerald-600 dark:text-emerald-500"
+                                class="font-medium text-emerald-800 dark:text-emerald-500"
                                 >Bought</span
                               >
                             {:else if item?.type === "Sold"}
                               <span
-                                class="font-medium text-rose-600 dark:text-rose-500"
+                                class="font-medium text-rose-800 dark:text-rose-500"
                                 >Sold</span
                               >
                             {:else if item?.type === "Exchange"}
@@ -1172,12 +1172,12 @@
                                 <span class="">
                                   {#if item?.type === "Bought"}
                                     <span
-                                      class="text-emerald-600 dark:text-emerald-400"
+                                      class="text-emerald-800 dark:text-emerald-400"
                                       >Buy</span
                                     >
                                   {:else if item?.type === "Sold"}
                                     <span
-                                      class="text-rose-600 dark:text-rose-400"
+                                      class="text-rose-800 dark:text-rose-400"
                                       >Sell</span
                                     >
                                   {:else if item?.type === "Exchange"}

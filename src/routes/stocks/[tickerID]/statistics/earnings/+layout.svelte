@@ -191,10 +191,10 @@
                                                     <td
                                                         class="text-right cursor-normal text-sm px-2 {item?.earningsEPSGrowthEst >
                                                         0
-                                                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                                                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                                                             : item?.earningsEPSGrowthEst <
                                                                 0
-                                                              ? 'text-rose-600 dark:text-rose-400'
+                                                              ? 'text-rose-800 dark:text-rose-400'
                                                               : ''}"
                                                         >{item?.earningsEPSGrowthEst
                                                             ? item?.earningsEPSGrowthEst?.toFixed(

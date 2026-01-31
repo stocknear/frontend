@@ -82,15 +82,15 @@
             <td class="py-3 text-left">
               {#if item?.put_call === "Calls"}
                 <span
-                  class="text-emerald-600 dark:text-emerald-400 font-semibold"
+                  class="text-emerald-800 dark:text-emerald-400 font-semibold"
                   >{dashboard_options_flow_calls()}</span
                 >
               {:else if item?.put_call === "Puts"}
-                <span class="text-rose-600 dark:text-rose-400 font-semibold"
+                <span class="text-rose-800 dark:text-rose-400 font-semibold"
                   >{dashboard_options_flow_puts()}
                 </span>
               {:else}
-                <span class="text-rose-600 dark:text-rose-400 font-semibold"
+                <span class="text-rose-800 dark:text-rose-400 font-semibold"
                   >{item?.put_call}
                 </span>
               {/if}

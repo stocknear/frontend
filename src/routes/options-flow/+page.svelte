@@ -2276,7 +2276,7 @@
               <div class=" ml-3 flex flex-col items-start">
                 <span
                   class="text-xs sm:text-sm sm:text-lg {$isOpen && modeStatus
-                    ? 'text-emerald-600 dark:text-emerald-400'
+                    ? 'text-emerald-800 dark:text-emerald-400'
                     : 'text-gray-500 dark:text-zinc-400'}"
                 >
                   {options_flow_live_flow()}
@@ -2548,7 +2548,7 @@
               {#if ruleOfList?.length !== 0}
                 <label
                   on:click={handleResetAll}
-                  class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
+                  class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
                 >
                   <svg
                     class="h-4 w-4"
@@ -2600,7 +2600,7 @@
                   <div class="flex items-center">
                     <button
                       on:click={() => handleDeleteRule(row?.rule)}
-                      class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
+                      class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
                       title="Remove filter"
                     >
                       <svg
@@ -2933,7 +2933,7 @@
                             >Bullish</span
                           >
                           <span
-                            class="font-semibold text-emerald-600 dark:text-emerald-400"
+                            class="font-semibold text-emerald-800 dark:text-emerald-400"
                             >{formatPremium(displayBullishPremium || 0)}</span
                           >
                         </div>
@@ -2945,7 +2945,7 @@
                             >Bearish</span
                           >
                           <span
-                            class="font-semibold text-rose-600 dark:text-rose-400"
+                            class="font-semibold text-rose-800 dark:text-rose-400"
                             >{formatPremium(displayBearishPremium || 0)}</span
                           >
                         </div>
@@ -3116,7 +3116,7 @@
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
-                          class="text-sm font-semibold text-emerald-600 dark:text-emerald-400"
+                          class="text-sm font-semibold text-emerald-800 dark:text-emerald-400"
                         >
                           {formatPremium(displayCallPremium || 0)}
                         </span>
@@ -3220,7 +3220,7 @@
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
-                          class="text-sm font-semibold text-rose-600 dark:text-rose-400"
+                          class="text-sm font-semibold text-rose-800 dark:text-rose-400"
                         >
                           {formatPremium(displayPutPremium || 0)}
                         </span>

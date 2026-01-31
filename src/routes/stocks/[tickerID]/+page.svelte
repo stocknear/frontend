@@ -743,8 +743,8 @@
                   {#if displayLegend?.graphChange}
                     <span
                       class={displayLegend?.graphChange >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : "text-rose-600 dark:text-rose-400"}
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : "text-rose-800 dark:text-rose-400"}
                     >
                       {displayLegend?.graphChange ??
                         data?.getStockQuote?.changesPercentage?.toFixed(2)}%

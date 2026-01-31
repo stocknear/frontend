@@ -12,68 +12,68 @@
   import { toast } from "svelte-sonner";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  options_calculator_add_option_leg,
-  options_calculator_breadcrumb_current,
-  options_calculator_breadcrumb_home,
-  options_calculator_breakeven_info,
-  options_calculator_breakeven_price,
-  options_calculator_cost_of_trade,
-  options_calculator_cost_of_trade_info,
-  options_calculator_current_price,
-  options_calculator_custom_strategy,
-  options_calculator_delta,
-  options_calculator_delta_info,
-  options_calculator_ev,
-  options_calculator_ev_info,
-  options_calculator_expected_return,
-  options_calculator_expected_return_info,
-  options_calculator_gamma,
-  options_calculator_gamma_info,
-  options_calculator_greeks,
-  options_calculator_max_loss,
-  options_calculator_max_loss_info,
-  options_calculator_max_profit,
-  options_calculator_max_profit_info,
-  options_calculator_no_results,
-  options_calculator_option_leg,
-  options_calculator_per_day,
-  options_calculator_pop,
-  options_calculator_pop_info,
-  options_calculator_pop_max_loss,
-  options_calculator_pop_max_loss_info,
-  options_calculator_pop_max_profit,
-  options_calculator_pop_max_profit_info,
-  options_calculator_probability_analysis,
-  options_calculator_profit_loss_chart,
-  options_calculator_reward_risk,
-  options_calculator_reward_risk_info,
-  options_calculator_risk_reward,
-  options_calculator_save_strategy,
-  options_calculator_search_placeholder,
-  options_calculator_seo_description,
-  options_calculator_seo_keywords,
-  options_calculator_seo_title,
-  options_calculator_start_searching,
-  options_calculator_stock,
-  options_calculator_table_action,
-  options_calculator_table_expiration,
-  options_calculator_table_price,
-  options_calculator_table_quantity,
-  options_calculator_table_strike,
-  options_calculator_table_symbol,
-  options_calculator_table_type,
-  options_calculator_theta,
-  options_calculator_theta_info,
-  options_calculator_title,
-  options_calculator_toast_max_legs,
-  options_calculator_toast_one_leg_required,
-  options_calculator_toast_saved,
-  options_calculator_toast_upgrade_pro,
-  options_calculator_trade_details,
-  options_calculator_trade_information,
-  options_calculator_vega,
-  options_calculator_vega_info,
-} from "$lib/paraglide/messages";
+    options_calculator_add_option_leg,
+    options_calculator_breadcrumb_current,
+    options_calculator_breadcrumb_home,
+    options_calculator_breakeven_info,
+    options_calculator_breakeven_price,
+    options_calculator_cost_of_trade,
+    options_calculator_cost_of_trade_info,
+    options_calculator_current_price,
+    options_calculator_custom_strategy,
+    options_calculator_delta,
+    options_calculator_delta_info,
+    options_calculator_ev,
+    options_calculator_ev_info,
+    options_calculator_expected_return,
+    options_calculator_expected_return_info,
+    options_calculator_gamma,
+    options_calculator_gamma_info,
+    options_calculator_greeks,
+    options_calculator_max_loss,
+    options_calculator_max_loss_info,
+    options_calculator_max_profit,
+    options_calculator_max_profit_info,
+    options_calculator_no_results,
+    options_calculator_option_leg,
+    options_calculator_per_day,
+    options_calculator_pop,
+    options_calculator_pop_info,
+    options_calculator_pop_max_loss,
+    options_calculator_pop_max_loss_info,
+    options_calculator_pop_max_profit,
+    options_calculator_pop_max_profit_info,
+    options_calculator_probability_analysis,
+    options_calculator_profit_loss_chart,
+    options_calculator_reward_risk,
+    options_calculator_reward_risk_info,
+    options_calculator_risk_reward,
+    options_calculator_save_strategy,
+    options_calculator_search_placeholder,
+    options_calculator_seo_description,
+    options_calculator_seo_keywords,
+    options_calculator_seo_title,
+    options_calculator_start_searching,
+    options_calculator_stock,
+    options_calculator_table_action,
+    options_calculator_table_expiration,
+    options_calculator_table_price,
+    options_calculator_table_quantity,
+    options_calculator_table_strike,
+    options_calculator_table_symbol,
+    options_calculator_table_type,
+    options_calculator_theta,
+    options_calculator_theta_info,
+    options_calculator_title,
+    options_calculator_toast_max_legs,
+    options_calculator_toast_one_leg_required,
+    options_calculator_toast_saved,
+    options_calculator_toast_upgrade_pro,
+    options_calculator_trade_details,
+    options_calculator_trade_information,
+    options_calculator_vega,
+    options_calculator_vega_info,
+  } from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -932,7 +932,9 @@
         >{options_calculator_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{options_calculator_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {options_calculator_breadcrumb_current()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full flex h-full overflow-hidden">
@@ -1069,7 +1071,9 @@
                         builders={[builder]}
                         class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        <span class="truncate">{options_calculator_custom_strategy()}</span>
+                        <span class="truncate"
+                          >{options_calculator_custom_strategy()}</span
+                        >
                         <svg
                           class="-mr-1 ml-3 h-5 w-5 xs:ml-2 inline-block"
                           viewBox="0 0 20 20"
@@ -1375,8 +1379,8 @@
                     </div>
                     <div
                       class="{item?.action === 'Buy'
-                        ? 'text-emerald-600 dark:text-emerald-400'
-                        : 'text-rose-600 dark:text-rose-400'} font-semibold"
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : 'text-rose-800 dark:text-rose-400'} font-semibold"
                     >
                       {item?.action?.toUpperCase()} +{item?.quantity}
                       {selectedTicker}
@@ -1396,7 +1400,8 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 mb-6">
                   <div>
                     <div class="text-gray-800 dark:text-zinc-300 text-sm">
-                      {selectedTicker} {options_calculator_current_price()}
+                      {selectedTicker}
+                      {options_calculator_current_price()}
                     </div>
                     <div class="flex items-baseline">
                       <span
@@ -1412,7 +1417,8 @@
                     <div
                       class="flex items-center text-gray-800 dark:text-zinc-300 text-sm"
                     >
-                      {selectedTicker} {options_calculator_breakeven_price()}
+                      {selectedTicker}
+                      {options_calculator_breakeven_price()}
                       <InfoModal
                         title={options_calculator_breakeven_price()}
                         id="breakevenModal"
@@ -1473,7 +1479,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-emerald-600 dark:text-emerald-400"
+                      class="text-lg font-semibold text-emerald-800 dark:text-emerald-400"
                     >
                       {metrics?.maxProfit}
                     </div>
@@ -1491,7 +1497,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-rose-600 dark:text-rose-400"
+                      class="text-lg font-semibold text-rose-800 dark:text-rose-400"
                     >
                       {metrics?.maxLoss}
                     </div>
@@ -1520,8 +1526,8 @@
                     </div>
                     <div
                       class="text-lg font-semibold {probabilities?.pop >= 0.5
-                        ? 'text-emerald-600 dark:text-emerald-400'
-                        : 'text-rose-600 dark:text-rose-400'}"
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : 'text-rose-800 dark:text-rose-400'}"
                     >
                       {(probabilities?.pop * 100)?.toFixed(1)}%
                     </div>
@@ -1539,7 +1545,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-emerald-600 dark:text-emerald-400"
+                      class="text-lg font-semibold text-emerald-800 dark:text-emerald-400"
                     >
                       {(probabilities?.popMaxProfit * 100)?.toFixed(1)}%
                     </div>
@@ -1557,7 +1563,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-rose-600 dark:text-rose-400"
+                      class="text-lg font-semibold text-rose-800 dark:text-rose-400"
                     >
                       {(probabilities?.popMaxLoss * 100)?.toFixed(1)}%
                     </div>
@@ -1589,8 +1595,8 @@
                       <div
                         class="text-lg font-semibold {riskRewardMetrics?.expectedValue >=
                         0
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : 'text-rose-600 dark:text-rose-400'}"
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'}"
                       >
                         {riskRewardMetrics?.expectedValue >= 0
                           ? ""
@@ -1636,8 +1642,8 @@
                       <div
                         class="text-lg font-semibold {riskRewardMetrics?.expectedReturn !==
                           null && riskRewardMetrics?.expectedReturn >= 0
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : 'text-rose-600 dark:text-rose-400'}"
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'}"
                       >
                         {riskRewardMetrics?.expectedReturn !== null
                           ? `${riskRewardMetrics?.expectedReturn >= 0 ? "" : ""}${riskRewardMetrics?.expectedReturn?.toFixed(1)}%`
@@ -1799,12 +1805,14 @@
                     {#if isPro}
                       <div
                         class="text-lg font-semibold {positionGreeks?.theta >= 0
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : 'text-rose-600 dark:text-rose-400'}"
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'}"
                       >
                         {positionGreeks?.theta >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.theta?.toFixed(2),
-                        )?.toLocaleString("en-US")}{options_calculator_per_day()}
+                        )?.toLocaleString(
+                          "en-US",
+                        )}{options_calculator_per_day()}
                       </div>
                     {:else}
                       <a href="/pricing" class="flex mt-2">

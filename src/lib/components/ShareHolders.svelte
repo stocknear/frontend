@@ -15,42 +15,42 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import {
-  stock_detail_back_to_top,
-  stock_detail_next,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-  stock_detail_shareholders_additional,
-  stock_detail_shareholders_call_flow,
-  stock_detail_shareholders_col_filing,
-  stock_detail_shareholders_col_institute,
-  stock_detail_shareholders_col_ownership,
-  stock_detail_shareholders_col_portfolio,
-  stock_detail_shareholders_col_shares,
-  stock_detail_shareholders_col_shares_change,
-  stock_detail_shareholders_col_value,
-  stock_detail_shareholders_declined,
-  stock_detail_shareholders_decrease,
-  stock_detail_shareholders_description,
-  stock_detail_shareholders_dropping,
-  stock_detail_shareholders_expanded,
-  stock_detail_shareholders_find,
-  stock_detail_shareholders_grew,
-  stock_detail_shareholders_increase,
-  stock_detail_shareholders_increasing,
-  stock_detail_shareholders_options_activity,
-  stock_detail_shareholders_options_bearish,
-  stock_detail_shareholders_options_bullish,
-  stock_detail_shareholders_options_holding,
-  stock_detail_shareholders_options_neutral,
-  stock_detail_shareholders_others,
-  stock_detail_shareholders_ownership,
-  stock_detail_shareholders_put_call,
-  stock_detail_shareholders_put_flow,
-  stock_detail_shareholders_reduced,
-  stock_detail_shareholders_reduction,
-  stock_detail_shareholders_top_shareholders,
-} from "$lib/paraglide/messages";
+    stock_detail_back_to_top,
+    stock_detail_next,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+    stock_detail_shareholders_additional,
+    stock_detail_shareholders_call_flow,
+    stock_detail_shareholders_col_filing,
+    stock_detail_shareholders_col_institute,
+    stock_detail_shareholders_col_ownership,
+    stock_detail_shareholders_col_portfolio,
+    stock_detail_shareholders_col_shares,
+    stock_detail_shareholders_col_shares_change,
+    stock_detail_shareholders_col_value,
+    stock_detail_shareholders_declined,
+    stock_detail_shareholders_decrease,
+    stock_detail_shareholders_description,
+    stock_detail_shareholders_dropping,
+    stock_detail_shareholders_expanded,
+    stock_detail_shareholders_find,
+    stock_detail_shareholders_grew,
+    stock_detail_shareholders_increase,
+    stock_detail_shareholders_increasing,
+    stock_detail_shareholders_options_activity,
+    stock_detail_shareholders_options_bearish,
+    stock_detail_shareholders_options_bullish,
+    stock_detail_shareholders_options_holding,
+    stock_detail_shareholders_options_neutral,
+    stock_detail_shareholders_others,
+    stock_detail_shareholders_ownership,
+    stock_detail_shareholders_put_call,
+    stock_detail_shareholders_put_flow,
+    stock_detail_shareholders_reduced,
+    stock_detail_shareholders_reduction,
+    stock_detail_shareholders_top_shareholders,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -786,13 +786,13 @@
 
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item?.changeInSharesNumberPercentage >= 0}
-                        <span class="text-emerald-600 dark:text-emerald-400"
+                        <span class="text-emerald-800 dark:text-emerald-400"
                           >+{abbreviateNumber(
                             item?.changeInSharesNumberPercentage?.toFixed(2),
                           )}%</span
                         >
                       {:else if item?.changeInSharesNumberPercentage < 0}
-                        <span class="text-rose-600 dark:text-rose-400"
+                        <span class="text-rose-800 dark:text-rose-400"
                           >{abbreviateNumber(
                             item?.changeInSharesNumberPercentage?.toFixed(2),
                           )}%</span

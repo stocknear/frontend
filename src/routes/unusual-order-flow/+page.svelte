@@ -1928,7 +1928,7 @@
             <div class=" ml-3 flex flex-col items-start">
               <span
                 class="text-xs sm:text-sm sm:text-lg {$isOpen && modeStatus
-                  ? 'text-emerald-600 dark:text-emerald-400'
+                  ? 'text-emerald-800 dark:text-emerald-400'
                   : 'text-gray-500 dark:text-zinc-400'}"
               >
                 Live Flow

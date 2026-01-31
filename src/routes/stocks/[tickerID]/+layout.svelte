@@ -26,6 +26,7 @@
   import TickerHeader from "$lib/components/TickerHeader.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
   import WatchlistButton from "$lib/components/WatchlistButton.svelte";
+  import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import {
     stock_detail_nav_dividends,
     stock_detail_nav_financials,
@@ -440,43 +441,96 @@
                         <!--Start Watchlist-->
 
                         <div
-                          class="-mb-1 mt-6 flex sm:ml-auto w-full ml-auto gap-2 sm:right-5 sm:top-6 sm:mb-0 sm:mt-0 sm:w-auto lg:right-8"
+                          class="-mb-1 mt-6 flex justify-end sm:ml-auto w-full ml-auto sm:gap-2 sm:right-5 sm:top-6 sm:mb-0 sm:mt-0 sm:w-auto lg:right-8"
                         >
-                          <WatchlistButton
-                            ticker={$stockTicker}
-                            assetType="stock"
-                            price={data?.getStockQuote?.price}
-                          />
-                          <label
-                            on:click={() => ($openPriceAlert = true)}
-                            for={data?.user ? "priceAlertModal" : "userLogin"}
-                            class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm lg:px-3 flex-1 md:flex-initial"
-                            ><svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="size-5 flex-shrink-0"
-                              viewBox="0 0 24 24"
-                              ><g
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="1.5"
-                                ><path
-                                  d="M3 5.231L6.15 3M21 5.231L17.85 3"
-                                /><circle cx="12" cy="13" r="8" /><path
-                                  d="M9.5 13h5M12 10.5v5"
-                                /></g
-                              ></svg
+                          <!-- Mobile: Unified button group -->
+                          <div class="flex items-center w-full shadow rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 sm:hidden">
+                            <WatchlistButton
+                              ticker={$stockTicker}
+                              assetType="stock"
+                              price={data?.getStockQuote?.price}
+                            />
+                            <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700"></div>
+                            <label
+                              on:click={() => ($openPriceAlert = true)}
+                              for={data?.user ? "priceAlertModal" : "userLogin"}
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
-                            <span class="text-sm md:text-sm"
-                              >{stock_detail_price_alert()}</span
-                            ></label
-                          >
-                          <StockPriceExport
-                            ticker={$stockTicker}
-                            user={data?.user}
-                            className="hidden sm:block sm:flex-1 md:flex-initial"
-                          />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="size-4 flex-shrink-0"
+                                viewBox="0 0 24 24"
+                              >
+                                <g
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="1.5"
+                                >
+                                  <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+                                  <circle cx="12" cy="13" r="8" />
+                                  <path d="M9.5 13h5M12 10.5v5" />
+                                </g>
+                              </svg>
+                              <span>Price Alert</span>
+                            </label>
+                            <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700"></div>
+                            <a
+                              href="/chart/{$stockTicker}"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                            >
+                              <ChartCandlestick class="size-4 flex-shrink-0" />
+                              <span>Pro Chart</span>
+                            </a>
+                          </div>
+
+                          <!-- Desktop: Individual buttons -->
+                          <div class="hidden sm:flex sm:gap-2">
+                            <WatchlistButton
+                              ticker={$stockTicker}
+                              assetType="stock"
+                              price={data?.getStockQuote?.price}
+                            />
+                            <label
+                              on:click={() => ($openPriceAlert = true)}
+                              for={data?.user ? "priceAlertModal" : "userLogin"}
+                              class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm"
+                              title={stock_detail_price_alert()}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="size-5 flex-shrink-0"
+                                viewBox="0 0 24 24"
+                              >
+                                <g
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="1.5"
+                                >
+                                  <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+                                  <circle cx="12" cy="13" r="8" />
+                                  <path d="M9.5 13h5M12 10.5v5" />
+                                </g>
+                              </svg>
+                              <span class="text-sm">{stock_detail_price_alert()}</span>
+                            </label>
+                            <a
+                              href="/chart/{$stockTicker}"
+                              class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm"
+                              title="Pro Chart"
+                            >
+                              <ChartCandlestick class="size-5 flex-shrink-0" />
+                              <span class="text-sm">Pro Chart</span>
+                            </a>
+                            <StockPriceExport
+                              ticker={$stockTicker}
+                              user={data?.user}
+                              className="sm:flex-1 md:flex-initial"
+                            />
+                          </div>
                         </div>
 
                         <!--End Watchlist-->

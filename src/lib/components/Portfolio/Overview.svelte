@@ -1,34 +1,34 @@
 <script lang="ts">
     import {
-  portfolio_overview_assets,
-  portfolio_overview_best_strength,
-  portfolio_overview_beta,
-  portfolio_overview_biggest_risk,
-  portfolio_overview_empty_perf,
-  portfolio_overview_est_dividends,
-  portfolio_overview_health_empty,
-  portfolio_overview_health_fundamentals,
-  portfolio_overview_health_growth,
-  portfolio_overview_health_moat,
-  portfolio_overview_health_trend,
-  portfolio_overview_health_volatility,
-  portfolio_overview_loading_health,
-  portfolio_overview_out_of_100,
-  portfolio_overview_overall,
-  portfolio_overview_per_year,
-  portfolio_overview_perf_title,
-  portfolio_overview_portfolio,
-  portfolio_overview_sp500,
-  portfolio_overview_status,
-  portfolio_overview_status_bad,
-  portfolio_overview_status_excellent,
-  portfolio_overview_status_healthy,
-  portfolio_overview_status_needs_attention,
-  portfolio_overview_status_neutral,
-  portfolio_overview_total_value,
-  portfolio_overview_unrealized_returns,
-  portfolio_overview_yield,
-} from "$lib/paraglide/messages";
+        portfolio_overview_assets,
+        portfolio_overview_best_strength,
+        portfolio_overview_beta,
+        portfolio_overview_biggest_risk,
+        portfolio_overview_empty_perf,
+        portfolio_overview_est_dividends,
+        portfolio_overview_health_empty,
+        portfolio_overview_health_fundamentals,
+        portfolio_overview_health_growth,
+        portfolio_overview_health_moat,
+        portfolio_overview_health_trend,
+        portfolio_overview_health_volatility,
+        portfolio_overview_loading_health,
+        portfolio_overview_out_of_100,
+        portfolio_overview_overall,
+        portfolio_overview_per_year,
+        portfolio_overview_perf_title,
+        portfolio_overview_portfolio,
+        portfolio_overview_sp500,
+        portfolio_overview_status,
+        portfolio_overview_status_bad,
+        portfolio_overview_status_excellent,
+        portfolio_overview_status_healthy,
+        portfolio_overview_status_needs_attention,
+        portfolio_overview_status_neutral,
+        portfolio_overview_total_value,
+        portfolio_overview_unrealized_returns,
+        portfolio_overview_yield,
+    } from "$lib/paraglide/messages";
     import highcharts from "$lib/highcharts";
     import { screenWidth } from "$lib/store.ts";
     import { mode } from "mode-watcher";
@@ -123,7 +123,7 @@
             portfolio_overview_health_trend(),
             portfolio_overview_health_growth(),
             portfolio_overview_health_fundamentals(),
-            portfolio_overview_health_volatility()
+            portfolio_overview_health_volatility(),
         ],
         values: [50, 50, 50, 50, 50], // Default values
     };
@@ -323,7 +323,8 @@
     })();
 
     $: overallHealthStatus = (() => {
-        if (!healthScores?.values?.length) return portfolio_overview_status_healthy();
+        if (!healthScores?.values?.length)
+            return portfolio_overview_status_healthy();
         const avgScore =
             healthScores.values.reduce((a, b) => a + b, 0) /
             healthScores.values.length;
@@ -336,14 +337,14 @@
 
     $: healthStatusColor = (() => {
         if (overallHealthStatus === portfolio_overview_status_excellent())
-            return "text-emerald-600 dark:text-emerald-400";
+            return "text-emerald-800 dark:text-emerald-400";
         if (overallHealthStatus === portfolio_overview_status_healthy())
-            return "text-emerald-600 dark:text-emerald-400";
+            return "text-emerald-800 dark:text-emerald-400";
         if (overallHealthStatus === portfolio_overview_status_neutral())
             return "text-yellow-800 dark:text-yellow-400";
         if (overallHealthStatus === portfolio_overview_status_bad())
-            return "text-rose-600 dark:text-rose-400";
-        return "text-rose-600 dark:text-rose-400";
+            return "text-rose-800 dark:text-rose-400";
+        return "text-rose-800 dark:text-rose-400";
     })();
 
     // --- Charts (reactive configs) ---
@@ -718,7 +719,8 @@
                                                 </span>
                                                 • {portfolioData?.length?.toLocaleString(
                                                     "en-US",
-                                                )} {portfolio_overview_assets()}
+                                                )}
+                                                {portfolio_overview_assets()}
                                             </p>
                                         </div>
                                     </li>
@@ -729,8 +731,8 @@
                                             <p
                                                 class="m-0 text-xl font-semibold tracking-tight {unrealizedReturns >=
                                                 0
-                                                    ? 'text-emerald-600 dark:text-emerald-400'
-                                                    : 'text-rose-600 dark:text-rose-400'}"
+                                                    ? 'text-emerald-800 dark:text-emerald-400'
+                                                    : 'text-rose-800 dark:text-rose-400'}"
                                                 data-testid="roi-value"
                                             >
                                                 {formatCurrency(
@@ -751,8 +753,8 @@
                                                     aria-label="Return percentage"
                                                     class={unrealizedReturns >=
                                                     0
-                                                        ? "text-emerald-600 dark:text-emerald-400"
-                                                        : "text-rose-600 dark:text-rose-400"}
+                                                        ? "text-emerald-800 dark:text-emerald-400"
+                                                        : "text-rose-800 dark:text-rose-400"}
                                                     >{unrealizedReturns >= 0
                                                         ? "+"
                                                         : ""}{unrealizedReturnsPercentage}%</span
@@ -844,7 +846,8 @@
                 >
                     {#if portfolioData.length > 0}
                         <h3 class="text-[1rem] font-semibold">
-                            {portfolio_overview_status()} <span class={healthStatusColor}
+                            {portfolio_overview_status()}
+                            <span class={healthStatusColor}
                                 >{overallHealthStatus}</span
                             >
                         </h3>
@@ -853,9 +856,8 @@
                         {#if portfolioData.length === 0 || bestStrength === biggestRisk}
                             {portfolio_overview_health_empty()}
                         {:else}
-                            {portfolio_overview_best_strength()} <span class=" font-semibold"
-                                >{bestStrength}</span
-                            >
+                            {portfolio_overview_best_strength()}
+                            <span class=" font-semibold">{bestStrength}</span>
                             {portfolio_overview_biggest_risk()}
                             <span class="font-semibold">{biggestRisk}</span>.
                         {/if}
@@ -867,7 +869,9 @@
                             <div
                                 class=" flex items-center justify-center text-gray-500 dark:text-gray-400"
                             >
-                                <p class="text-sm">{portfolio_overview_loading_health()}</p>
+                                <p class="text-sm">
+                                    {portfolio_overview_loading_health()}
+                                </p>
                             </div>
                         {/if}
                     </div>

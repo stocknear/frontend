@@ -1223,8 +1223,8 @@
                           {item?.change ? item?.change?.toFixed(2) : "n/a"}
                           <span
                             class="ml-2 {item?.changesPercentage >= 0
-                              ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
-                              : 'text-rose-600 dark:text-rose-400'}"
+                              ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
+                              : 'text-rose-800 dark:text-rose-400'}"
                           >
                             ({item?.changesPercentage
                               ? item?.changesPercentage?.toFixed(2) + "%"

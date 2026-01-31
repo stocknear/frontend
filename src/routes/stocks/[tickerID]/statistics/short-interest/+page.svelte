@@ -10,28 +10,28 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import {
-  stock_detail_next,
-  stock_detail_no_data,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-  stock_detail_stats_change_mom,
-  stock_detail_stats_days_to_cover,
-  stock_detail_stats_decreased,
-  stock_detail_stats_history,
-  stock_detail_stats_increased,
-  stock_detail_stats_nav_short_interest,
-  stock_detail_stats_short_interest_infobox,
-  stock_detail_stats_short_interest_seo_description,
-  stock_detail_stats_short_interest_seo_keywords,
-  stock_detail_stats_short_interest_seo_title,
-  stock_detail_stats_short_interest_structured_desc,
-  stock_detail_stats_short_interest_structured_name,
-  stock_detail_stats_short_percent_floating,
-  stock_detail_stats_short_percent_outstanding,
-  stock_detail_stats_short_prior_month,
-  stock_detail_stats_unchanged,
-} from "$lib/paraglide/messages";
+    stock_detail_next,
+    stock_detail_no_data,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+    stock_detail_stats_change_mom,
+    stock_detail_stats_days_to_cover,
+    stock_detail_stats_decreased,
+    stock_detail_stats_history,
+    stock_detail_stats_increased,
+    stock_detail_stats_nav_short_interest,
+    stock_detail_stats_short_interest_infobox,
+    stock_detail_stats_short_interest_seo_description,
+    stock_detail_stats_short_interest_seo_keywords,
+    stock_detail_stats_short_interest_seo_title,
+    stock_detail_stats_short_interest_structured_desc,
+    stock_detail_stats_short_interest_structured_name,
+    stock_detail_stats_short_percent_floating,
+    stock_detail_stats_short_percent_outstanding,
+    stock_detail_stats_short_prior_month,
+    stock_detail_stats_unchanged,
+  } from "$lib/paraglide/messages";
 
   //import * as XLSX from 'xlsx';
 
@@ -286,16 +286,30 @@
 </script>
 
 <SEO
-  title={stock_detail_stats_short_interest_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_stats_short_interest_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_stats_short_interest_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_short_interest_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_stats_short_interest_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_stats_short_interest_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: stock_detail_stats_short_interest_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_stats_short_interest_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_short_interest_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_stats_short_interest_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -348,12 +362,15 @@
                 text={stock_detail_stats_short_interest_infobox({
                   company: removeCompanyStrings($displayCompanyName),
                   shortInterest: abbreviateNumber(data?.getData?.sharesShort),
-                  changeDirection: (latestEntry?.percentChangeMoMo ?? 0) > 0
-                    ? stock_detail_stats_increased()
-                    : (latestEntry?.percentChangeMoMo ?? 0) < 0
-                      ? stock_detail_stats_decreased()
-                      : stock_detail_stats_unchanged(),
-                  changePercent: abbreviateNumber(latestEntry?.percentChangeMoMo?.toFixed(2))
+                  changeDirection:
+                    (latestEntry?.percentChangeMoMo ?? 0) > 0
+                      ? stock_detail_stats_increased()
+                      : (latestEntry?.percentChangeMoMo ?? 0) < 0
+                        ? stock_detail_stats_decreased()
+                        : stock_detail_stats_unchanged(),
+                  changePercent: abbreviateNumber(
+                    latestEntry?.percentChangeMoMo?.toFixed(2),
+                  ),
                 })}
               />
 
@@ -399,9 +416,9 @@
                   <div
                     class="mt-1 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold {latestEntry?.percentChangeMoMo >
                     0
-                      ? "text-emerald-600 dark:text-emerald-400 before:content-['+'] "
+                      ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
                       : latestEntry?.percentChangeMoMo < 0
-                        ? 'text-rose-600 dark:text-rose-400'
+                        ? 'text-rose-800 dark:text-rose-400'
                         : 'text-gray-900 dark:text-white'}"
                   >
                     {latestEntry?.percentChangeMoMo
@@ -514,8 +531,8 @@
                             <span
                               class={item?.percentChangeMoMo &&
                               item?.percentChangeMoMo >= 0
-                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                                : "text-rose-600 dark:text-rose-400"}
+                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                                : "text-rose-800 dark:text-rose-400"}
                             >
                               {item?.percentChangeMoMo
                                 ? item?.percentChangeMoMo + "%"
@@ -563,12 +580,17 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
+                    <span class="hidden sm:inline"
+                      >{stock_detail_previous()}</span
+                    >
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_page_of({
+                        current: currentPage,
+                        total: totalPages,
+                      })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -612,7 +634,9 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{stock_detail_rows({ count: item })}</span>
+                                <span class="text-sm"
+                                  >{stock_detail_rows({ count: item })}</span
+                                >
                               </label>
                             </DropdownMenu.Item>
                           {/each}

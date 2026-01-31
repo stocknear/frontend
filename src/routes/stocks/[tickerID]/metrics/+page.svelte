@@ -14,20 +14,20 @@
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
   import {
-  stock_detail_metrics_bar_chart,
-  stock_detail_metrics_close,
-  stock_detail_metrics_growth,
-  stock_detail_metrics_line_chart,
-  stock_detail_metrics_no_data,
-  stock_detail_metrics_peaked_at,
-  stock_detail_metrics_period_ending,
-  stock_detail_metrics_quarterly,
-  stock_detail_metrics_seo_description,
-  stock_detail_metrics_seo_title,
-  stock_detail_metrics_source,
-  stock_detail_metrics_ttm,
-  stock_detail_metrics_upgrade,
-} from "$lib/paraglide/messages";
+    stock_detail_metrics_bar_chart,
+    stock_detail_metrics_close,
+    stock_detail_metrics_growth,
+    stock_detail_metrics_line_chart,
+    stock_detail_metrics_no_data,
+    stock_detail_metrics_peaked_at,
+    stock_detail_metrics_period_ending,
+    stock_detail_metrics_quarterly,
+    stock_detail_metrics_seo_description,
+    stock_detail_metrics_seo_title,
+    stock_detail_metrics_source,
+    stock_detail_metrics_ttm,
+    stock_detail_metrics_upgrade,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -118,7 +118,9 @@
       lowestValueDate = dateList[lowestValueIndex] || null;
     }
 
-    const label = isGrowth ? `${row.name} ${stock_detail_metrics_growth()}` : row.name;
+    const label = isGrowth
+      ? `${row.name} ${stock_detail_metrics_growth()}`
+      : row.name;
 
     const options = {
       chart: {
@@ -214,7 +216,9 @@
   function handleChart(row: any, isGrowth: boolean) {
     currentRow = row;
     currentIsGrowth = isGrowth;
-    modalLabel = isGrowth ? `${row.name} ${stock_detail_metrics_growth()}` : row.name;
+    modalLabel = isGrowth
+      ? `${row.name} ${stock_detail_metrics_growth()}`
+      : row.name;
     config = plotData(row, isGrowth);
   }
 
@@ -404,9 +408,9 @@
               growth = (growthNum > 0 ? "+" : "") + growthNum.toFixed(2) + "%";
               growthClass =
                 growthNum > 0
-                  ? "text-emerald-600 dark:text-emerald-400"
+                  ? "text-emerald-800 dark:text-emerald-400"
                   : growthNum < 0
-                    ? "text-rose-600 dark:text-rose-400"
+                    ? "text-rose-800 dark:text-rose-400"
                     : "";
             }
           }
@@ -526,8 +530,14 @@
 </script>
 
 <SEO
-  title={stock_detail_metrics_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_metrics_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_metrics_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_metrics_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
 />
 
 <section class="overflow-hidden min-h-screen w-full">
@@ -774,11 +784,16 @@
           <div
             class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 -mt-5"
           >
-            <strong>Source:</strong> {@html stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
+            <strong>Source:</strong>
+            {@html stock_detail_metrics_source({
+              link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>`,
+            })}
           </div>
         {:else}
           <Infobox
-            text={stock_detail_metrics_no_data({ company: removeCompanyStrings($displayCompanyName) })}
+            text={stock_detail_metrics_no_data({
+              company: removeCompanyStrings($displayCompanyName),
+            })}
           />
         {/if}
       </div>
@@ -801,10 +816,14 @@
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {stock_detail_metrics_line_chart()} </span>
+            <span class="ml-1 mr-auto text-sm">
+              {stock_detail_metrics_line_chart()}
+            </span>
           {:else}
             <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {stock_detail_metrics_bar_chart()} </span>
+            <span class="ml-1 mr-auto text-sm">
+              {stock_detail_metrics_bar_chart()}
+            </span>
           {/if}</Button
         >
       </div>
@@ -817,10 +836,14 @@
     <p class="text-sm mb-6 mt-5">
       {stock_detail_metrics_peaked_at({
         label: modalLabel,
-        highest: currentIsGrowth ? highestValue?.toFixed(2) + "%" : abbreviateNumber(highestValue?.toFixed(2)),
+        highest: currentIsGrowth
+          ? highestValue?.toFixed(2) + "%"
+          : abbreviateNumber(highestValue?.toFixed(2)),
         highestDate: highestValueDate,
-        lowest: currentIsGrowth ? lowestValue?.toFixed(2) + "%" : abbreviateNumber(lowestValue?.toFixed(2)),
-        lowestDate: lowestValueDate
+        lowest: currentIsGrowth
+          ? lowestValue?.toFixed(2) + "%"
+          : abbreviateNumber(lowestValue?.toFixed(2)),
+        lowestDate: lowestValueDate,
       })}
     </p>
 

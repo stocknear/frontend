@@ -155,9 +155,8 @@
     updatePaginatedData();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -503,40 +502,40 @@
                   {:else if column.key === "profitMargin"}
                     <td
                       class=" {item?.profitMargin >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : 'text-rose-600 dark:text-rose-400'}   text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : 'text-rose-800 dark:text-rose-400'}   text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
                     >
                       {abbreviateNumber(item?.profitMargin)}%
                     </td>
                   {:else if column.key === "avgChange1D"}
                     <td
                       class="{item?.avgChange1D >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1D?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "avgChange1W"}
                     <td
                       class="{item?.avgChange1W >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1W?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "avgChange1M"}
                     <td
                       class="{item?.avgChange1M >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1M?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "avgChange1Y"}
                     <td
                       class="{item?.avgChange1Y >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : 'text-rose-600 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1Y?.toFixed(2) ?? "n/a"}%
                     </td>
@@ -633,7 +632,9 @@
                     on:click={() => changeRowsPerPage(item)}
                     class="inline-flex justify-between w-full items-center cursor-pointer"
                   >
-                    <span class="text-sm">{industry_rows_label({ rows: item })}</span>
+                    <span class="text-sm"
+                      >{industry_rows_label({ rows: item })}</span
+                    >
                   </label>
                 </DropdownMenu.Item>
               {/each}

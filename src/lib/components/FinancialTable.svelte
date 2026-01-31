@@ -3,14 +3,14 @@
   import { stockTicker, getCache, setCache } from "$lib/store";
   import { goto } from "$app/navigation";
   import {
-  stock_detail_close,
-  stock_detail_financials_bar_chart,
-  stock_detail_financials_error_loading,
-  stock_detail_financials_growth_yoy,
-  stock_detail_financials_line_chart,
-  stock_detail_financials_loading,
-  stock_detail_financials_peaked_at,
-} from "$lib/paraglide/messages";
+    stock_detail_close,
+    stock_detail_financials_bar_chart,
+    stock_detail_financials_error_loading,
+    stock_detail_financials_growth_yoy,
+    stock_detail_financials_line_chart,
+    stock_detail_financials_loading,
+    stock_detail_financials_peaked_at,
+  } from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
   import { onMount } from "svelte";
@@ -367,9 +367,9 @@
       return "";
     }
     return numericValue > 0
-      ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+      ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
       : numericValue < 0
-        ? "text-rose-600 dark:text-rose-400"
+        ? "text-rose-800 dark:text-rose-400"
         : "text-gray-600 dark:text-zinc-300";
   };
 
@@ -1035,10 +1035,14 @@
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {stock_detail_financials_line_chart()} </span>
+            <span class="ml-1 mr-auto text-sm">
+              {stock_detail_financials_line_chart()}
+            </span>
           {:else}
             <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> {stock_detail_financials_bar_chart()} </span>
+            <span class="ml-1 mr-auto text-sm">
+              {stock_detail_financials_bar_chart()}
+            </span>
           {/if}</Button
         >
       </div>
@@ -1051,7 +1055,7 @@
         highest: formatModalMetricValue(highestValue),
         highDate: highestValueDate,
         lowest: formatModalMetricValue(lowestValue),
-        lowDate: lowestValueDate
+        lowDate: lowestValueDate,
       })}
     </p>
 

@@ -615,13 +615,13 @@
                           class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                         >
                           {#if item?.changesPercentage >= 0}
-                            <span class="text-emerald-600 dark:text-emerald-400"
+                            <span class="text-emerald-800 dark:text-emerald-400"
                               >+{item?.changesPercentage >= 1000
                                 ? abbreviateNumber(item?.changesPercentage)
                                 : item?.changesPercentage?.toFixed(2)}%</span
                             >
                           {:else if item?.changesPercentage < 0}
-                            <span class="text-rose-600 dark:text-rose-400"
+                            <span class="text-rose-800 dark:text-rose-400"
                               >{item?.changesPercentage <= -1000
                                 ? abbreviateNumber(item?.changesPercentage)
                                 : item?.changesPercentage?.toFixed(2)}%

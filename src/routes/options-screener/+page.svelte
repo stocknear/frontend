@@ -2152,7 +2152,7 @@
             {#if ruleOfList?.length !== 0}
               <label
                 on:click={handleResetAll}
-                class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
+                class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
               >
                 <svg
                   class="h-4 w-4"
@@ -2205,7 +2205,7 @@
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -2746,8 +2746,8 @@
                       <td
                         class=" text-sm sm:text-[0.95rem] text-end
                       {item?.optionType === 'Call'
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : 'text-rose-600 dark:text-rose-400'} "
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'} "
                       >
                         {item?.optionType}
                       </td>
@@ -2768,13 +2768,13 @@
                     {:else if column.key === "moneynessPercentage"}
                       <td class=" text-end text-sm sm:text-[0.95rem]">
                         {#if item?.moneynessPercentage >= 0}
-                          <span class="text-emerald-600 dark:text-emerald-400"
+                          <span class="text-emerald-800 dark:text-emerald-400"
                             >+{item?.moneynessPercentage >= 1000
                               ? abbreviateNumber(item?.moneynessPercentage)
                               : item?.moneynessPercentage?.toFixed(2)}%</span
                           >
                         {:else}
-                          <span class="text-rose-600 dark:text-rose-400"
+                          <span class="text-rose-800 dark:text-rose-400"
                             >{item?.moneynessPercentage <= -1000
                               ? abbreviateNumber(item?.moneynessPercentage)
                               : item?.moneynessPercentage?.toFixed(2)}%
@@ -2794,13 +2794,13 @@
                     {:else if column.key === "changesPercentageOI"}
                       <td class=" text-end text-sm sm:text-[0.95rem]">
                         {#if item?.changesPercentageOI > 0}
-                          <span class="text-emerald-600 dark:text-emerald-400"
+                          <span class="text-emerald-800 dark:text-emerald-400"
                             >+{item?.changesPercentageOI >= 1000
                               ? abbreviateNumber(item?.changesPercentageOI)
                               : item?.changesPercentageOI?.toFixed(1)}%</span
                           >
                         {:else if item?.changesPercentageOI < 0}
-                          <span class="text-rose-600 dark:text-rose-400"
+                          <span class="text-rose-800 dark:text-rose-400"
                             >{item?.changesPercentageOI <= -1000
                               ? abbreviateNumber(item?.changesPercentageOI)
                               : item?.changesPercentageOI?.toFixed(1)}%
@@ -2873,8 +2873,8 @@
                       <td
                         class=" text-sm sm:text-[0.95rem] text-end
                     {item?.optionType === 'Call'
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : 'text-rose-600 dark:text-rose-400'} "
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'} "
                       >
                         {item?.optionType}
                       </td>
@@ -2888,9 +2888,9 @@
                         {#if rule?.varType === "percentSign"}
                           <span
                             class={item[column.key] > 0
-                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                               : item[column.key] < 0
-                                ? "text-rose-600 dark:text-rose-400"
+                                ? "text-rose-800 dark:text-rose-400"
                                 : ""}
                           >
                             {abbreviateNumber(item[column.key])}%
@@ -2963,8 +2963,8 @@
                       <td
                         class=" text-sm sm:text-[0.95rem] text-end
                     {item?.optionType === 'Call'
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : 'text-rose-600 dark:text-rose-400'} "
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'} "
                       >
                         {item?.optionType}
                       </td>

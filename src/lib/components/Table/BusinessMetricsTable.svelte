@@ -143,9 +143,9 @@
               growth = (growthNum > 0 ? "+" : "") + growthNum.toFixed(2) + "%";
               growthClass =
                 growthNum > 0
-                  ? "text-emerald-600 dark:text-emerald-400"
+                  ? "text-emerald-800 dark:text-emerald-400"
                   : growthNum < 0
-                    ? "text-rose-600 dark:text-rose-400"
+                    ? "text-rose-800 dark:text-rose-400"
                     : "";
             }
           }

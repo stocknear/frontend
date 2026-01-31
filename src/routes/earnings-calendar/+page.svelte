@@ -1173,8 +1173,8 @@
                                             )}
                                           <span
                                             class="ml-1 {revenueChange >= 0
-                                              ? 'text-emerald-600 dark:text-emerald-400'
-                                              : 'text-rose-600 dark:text-rose-400'}"
+                                              ? 'text-emerald-800 dark:text-emerald-400'
+                                              : 'text-rose-800 dark:text-rose-400'}"
                                           >
                                             {revenueChange >= 0
                                               ? "+"
@@ -1203,8 +1203,8 @@
                                             )}
                                           <span
                                             class="ml-1 {epsChange >= 0
-                                              ? 'text-emerald-600 dark:text-emerald-400'
-                                              : 'text-rose-600 dark:text-rose-400'}"
+                                              ? 'text-emerald-800 dark:text-emerald-400'
+                                              : 'text-rose-800 dark:text-rose-400'}"
                                           >
                                             {epsChange >= 0
                                               ? "+"
@@ -1604,8 +1604,8 @@
                                                     )}
                                                   <span
                                                     class={revenueChange >= 0
-                                                      ? "text-emerald-600 dark:text-emerald-400"
-                                                      : "text-rose-600 dark:text-rose-400"}
+                                                      ? "text-emerald-800 dark:text-emerald-400"
+                                                      : "text-rose-800 dark:text-rose-400"}
                                                   >
                                                     {revenueChange >= 0
                                                       ? "+"
@@ -1637,7 +1637,7 @@
                                               {#if item?.epsEst !== null && item?.epsPrior !== null && item?.epsPrior !== 0}
                                                 {#if item?.epsEst / item?.epsPrior - 1 >= 0}
                                                   <span
-                                                    class="text-emerald-600 dark:text-emerald-400"
+                                                    class="text-emerald-800 dark:text-emerald-400"
                                                   >
                                                     +{(
                                                       (item?.epsEst /
@@ -1648,7 +1648,7 @@
                                                   </span>
                                                 {:else}
                                                   <span
-                                                    class="text-rose-600 dark:text-rose-400"
+                                                    class="text-rose-800 dark:text-rose-400"
                                                   >
                                                     {(
                                                       (item?.epsEst /
@@ -1901,7 +1901,7 @@
                                             <span></span>
                                           {:else if item?.revenueEst / item?.revenuePrior - 1 >= 0}
                                             <span
-                                              class="text-emerald-600 dark:text-emerald-400"
+                                              class="text-emerald-800 dark:text-emerald-400"
                                             >
                                               +{(
                                                 (item?.revenueEst /
@@ -1912,7 +1912,7 @@
                                             </span>
                                           {:else}
                                             <span
-                                              class="text-rose-600 dark:text-rose-400"
+                                              class="text-rose-800 dark:text-rose-400"
                                             >
                                               {(
                                                 (item?.revenueEst /
@@ -1938,7 +1938,7 @@
                                         {#if item?.epsEst !== null && item?.epsPrior !== null && item?.epsPrior !== 0}
                                           {#if item?.epsEst / item?.epsPrior - 1 >= 0}
                                             <span
-                                              class="text-emerald-600 dark:text-emerald-400"
+                                              class="text-emerald-800 dark:text-emerald-400"
                                             >
                                               +{(
                                                 (item?.epsEst / item?.epsPrior -
@@ -1948,7 +1948,7 @@
                                             </span>
                                           {:else}
                                             <span
-                                              class="text-rose-600 dark:text-rose-400"
+                                              class="text-rose-800 dark:text-rose-400"
                                             >
                                               {(
                                                 (item?.epsEst / item?.epsPrior -

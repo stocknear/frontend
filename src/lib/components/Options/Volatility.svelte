@@ -597,13 +597,13 @@
 
               <td class=" text-sm sm:text-[1rem] text-end">
                 {#if item?.changesPercentage >= 0 && item?.changesPercentage !== null}
-                  <span class="text-emerald-600 dark:text-emerald-400"
+                  <span class="text-emerald-800 dark:text-emerald-400"
                     >+{item?.changesPercentage >= 1000
                       ? abbreviateNumber(item?.changesPercentage)
                       : item?.changesPercentage?.toFixed(2)}%</span
                   >
                 {:else if item?.changesPercentage < 0 && item?.changesPercentage !== null}
-                  <span class="text-rose-600 dark:text-rose-400"
+                  <span class="text-rose-800 dark:text-rose-400"
                     >{item?.changesPercentage <= -1000
                       ? abbreviateNumber(item?.changesPercentage)
                       : item?.changesPercentage?.toFixed(2)}%
@@ -623,13 +623,13 @@
 
               <td class=" text-sm sm:text-[1rem] text-end">
                 {#if item?.changesPercentageOI >= 0 && item?.changesPercentageOI !== null}
-                  <span class="text-emerald-600 dark:text-emerald-400"
+                  <span class="text-emerald-800 dark:text-emerald-400"
                     >+{item?.changesPercentageOI >= 1000
                       ? abbreviateNumber(item?.changesPercentageOI)
                       : item?.changesPercentageOI?.toFixed(2)}%</span
                   >
                 {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== null}
-                  <span class="text-rose-600 dark:text-rose-400"
+                  <span class="text-rose-800 dark:text-rose-400"
                     >{item?.changesPercentageOI <= -1000
                       ? abbreviateNumber(item?.changesPercentageOI)
                       : item?.changesPercentageOI?.toFixed(2)}%

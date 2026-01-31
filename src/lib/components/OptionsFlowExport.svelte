@@ -13,7 +13,9 @@
   const getExportFilename = (): string => {
     if (selectedDate) {
       // Historical data - use the selected date
-      const date = selectedDate.toDate ? selectedDate.toDate() : new Date(selectedDate);
+      const date = selectedDate.toDate
+        ? selectedDate.toDate()
+        : new Date(selectedDate);
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
@@ -254,7 +256,7 @@
       </div>
     {/if}
     {#if errorMessage}
-      <div class="mt-3 text-sm text-rose-600 dark:text-rose-400">
+      <div class="mt-3 text-sm text-rose-800 dark:text-rose-400">
         {errorMessage}
       </div>
     {/if}

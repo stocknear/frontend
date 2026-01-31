@@ -839,9 +839,9 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
+                            ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                         >
                           {item?.growth}%
@@ -890,9 +890,9 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
+                            ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                         >
                           {item?.growth}%
@@ -941,9 +941,9 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
+                            ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                         >
                           {item?.growth}%
@@ -992,9 +992,9 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
+                            ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                         >
                           {item?.growth}%

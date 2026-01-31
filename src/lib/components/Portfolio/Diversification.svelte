@@ -1,26 +1,26 @@
 <script lang="ts">
     import {
-  portfolio_diversification_col_industry,
-  portfolio_diversification_col_portfolio,
-  portfolio_diversification_col_sector,
-  portfolio_diversification_col_ticker,
-  portfolio_diversification_concentration,
-  portfolio_diversification_empty_description,
-  portfolio_diversification_empty_title,
-  portfolio_diversification_hhi_info,
-  portfolio_diversification_hhi_score,
-  portfolio_diversification_highly_concentrated,
-  portfolio_diversification_largest_info,
-  portfolio_diversification_largest_position,
-  portfolio_diversification_loading,
-  portfolio_diversification_moderately_concentrated,
-  portfolio_diversification_sectors_industries,
-  portfolio_diversification_sectors_info,
-  portfolio_diversification_title,
-  portfolio_diversification_top5,
-  portfolio_diversification_top5_info,
-  portfolio_diversification_well_diversified,
-} from "$lib/paraglide/messages";
+        portfolio_diversification_col_industry,
+        portfolio_diversification_col_portfolio,
+        portfolio_diversification_col_sector,
+        portfolio_diversification_col_ticker,
+        portfolio_diversification_concentration,
+        portfolio_diversification_empty_description,
+        portfolio_diversification_empty_title,
+        portfolio_diversification_hhi_info,
+        portfolio_diversification_hhi_score,
+        portfolio_diversification_highly_concentrated,
+        portfolio_diversification_largest_info,
+        portfolio_diversification_largest_position,
+        portfolio_diversification_loading,
+        portfolio_diversification_moderately_concentrated,
+        portfolio_diversification_sectors_industries,
+        portfolio_diversification_sectors_info,
+        portfolio_diversification_title,
+        portfolio_diversification_top5,
+        portfolio_diversification_top5_info,
+        portfolio_diversification_well_diversified,
+    } from "$lib/paraglide/messages";
     import highcharts from "$lib/highcharts";
     import { onMount } from "svelte";
     import { mode } from "mode-watcher";
@@ -104,14 +104,16 @@
     }
 
     function getScoreColor(score: string) {
-        if (score === "good") return "text-emerald-600 dark:text-emerald-400";
+        if (score === "good") return "text-emerald-800 dark:text-emerald-400";
         if (score === "moderate") return "text-yellow-800 dark:text-yellow-400";
-        return "text-rose-600 dark:text-rose-400";
+        return "text-rose-800 dark:text-rose-400";
     }
 
     function getScoreLabel(score: string) {
-        if (score === "good") return portfolio_diversification_well_diversified();
-        if (score === "moderate") return portfolio_diversification_moderately_concentrated();
+        if (score === "good")
+            return portfolio_diversification_well_diversified();
+        if (score === "moderate")
+            return portfolio_diversification_moderately_concentrated();
         return portfolio_diversification_highly_concentrated();
     }
 
@@ -373,7 +375,8 @@
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
                 >
-                    <span>{portfolio_diversification_sectors_industries()}</span>
+                    <span>{portfolio_diversification_sectors_industries()}</span
+                    >
                     <InfoModal
                         id="sectors"
                         content={portfolio_diversification_sectors_info()}
@@ -454,7 +457,9 @@
     >
         <div class="text-left">{portfolio_diversification_col_portfolio()}</div>
         <div class="text-center">{portfolio_diversification_col_sector()}</div>
-        <div class="text-center">{portfolio_diversification_col_industry()}</div>
+        <div class="text-center">
+            {portfolio_diversification_col_industry()}
+        </div>
         <div class="text-right">{portfolio_diversification_col_ticker()}</div>
     </div>
 

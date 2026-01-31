@@ -77,9 +77,9 @@
                     r="16"
                     fill="none"
                     class="stroke-current {oneYearResult > 5
-                      ? 'text-emerald-600 dark:text-emerald-400'
+                      ? 'text-emerald-800 dark:text-emerald-400'
                       : oneYearResult < 5
-                        ? 'text-rose-600 dark:text-rose-400'
+                        ? 'text-rose-800 dark:text-rose-400'
                         : 'text-white'} text-opacity-[0.7]"
                     stroke-width="3.5"
                     stroke-dasharray="100"
@@ -114,9 +114,9 @@
                         r="16"
                         fill="none"
                         class="stroke-current {oneMonthResult > 5
-                          ? 'text-emerald-600 dark:text-emerald-400'
+                          ? 'text-emerald-800 dark:text-emerald-400'
                           : oneMonthResult < 5
-                            ? 'text-rose-600 dark:text-rose-400'
+                            ? 'text-rose-800 dark:text-rose-400'
                             : 'text-white'} "
                         stroke-width="4"
                         stroke-dasharray="100"
@@ -161,8 +161,8 @@
                     ? "positively"
                     : oneMonthResult < 5
                       ? "negatively"
-                      : "neutral"} at {oneMonthResult} and with a yearly average
-                  of {oneYearResult}.
+                      : "neutral"} at {oneMonthResult} and with a yearly average of
+                  {oneYearResult}.
                 </span>
               {:else}
                 <span class="text-gray-200 text-sm mt-1">

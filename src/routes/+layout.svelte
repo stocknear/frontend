@@ -98,8 +98,6 @@
     layout_potus_tracker,
     layout_reddit_tracker,
     layout_screener,
-    layout_settings_label,
-    layout_start_new_chat,
     layout_start_trial,
     layout_stock_lists,
     layout_stock_screener,
@@ -1886,9 +1884,13 @@
   <nav
     class="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
            sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
-           {navbarHidden ? 'translate-y-full sm:translate-y-[calc(100%+2rem)]' : 'translate-y-0'}"
+           {navbarHidden
+      ? 'translate-y-full sm:translate-y-[calc(100%+2rem)]'
+      : 'translate-y-0'}"
   >
-    <div class="grid grid-cols-5 h-14 sm:flex sm:h-auto sm:px-2 sm:py-2 sm:gap-1">
+    <div
+      class="grid grid-cols-5 h-14 sm:flex sm:h-auto sm:px-2 sm:py-2 sm:gap-1"
+    >
       <a
         href="/"
         class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
@@ -1897,10 +1899,17 @@
           ? 'text-white dark:text-violet-400'
           : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
-        <Home class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
-        <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_home()}</span>
-        {#if $page.url.pathname === '/'}
-          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
+        <Home
+          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
+        />
+        <span
+          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          >{layout_home()}</span
+        >
+        {#if $page.url.pathname === "/"}
+          <span
+            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
+          ></span>
         {/if}
       </a>
       <a
@@ -1911,10 +1920,17 @@
           ? 'text-white dark:text-violet-400'
           : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
-        <PieChart class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
-        <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_portfolio()}</span>
-        {#if $page.url.pathname.startsWith('/portfolio')}
-          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
+        <PieChart
+          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
+        />
+        <span
+          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          >{layout_portfolio()}</span
+        >
+        {#if $page.url.pathname.startsWith("/portfolio")}
+          <span
+            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
+          ></span>
         {/if}
       </a>
       <a
@@ -1925,10 +1941,17 @@
           ? 'text-white dark:text-violet-400'
           : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
-        <Star class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
-        <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_watchlist()}</span>
-        {#if $page.url.pathname.startsWith('/watchlist')}
-          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
+        <Star
+          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
+        />
+        <span
+          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          >{layout_watchlist()}</span
+        >
+        {#if $page.url.pathname.startsWith("/watchlist")}
+          <span
+            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
+          ></span>
         {/if}
       </a>
       <a
@@ -1939,10 +1962,17 @@
           ? 'text-white dark:text-violet-400'
           : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
-        <Bell class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
-        <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">{layout_price_alert()}</span>
-        {#if $page.url.pathname.startsWith('/price-alert')}
-          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
+        <Bell
+          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
+        />
+        <span
+          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          >{layout_price_alert()}</span
+        >
+        {#if $page.url.pathname.startsWith("/price-alert")}
+          <span
+            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
+          ></span>
         {/if}
       </a>
       <a
@@ -1953,10 +1983,17 @@
           ? 'text-white dark:text-violet-400'
           : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
-        <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110" />
-        <span class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight">Chat</span>
-        {#if $page.url.pathname.startsWith('/chat')}
-          <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"></span>
+        <Sparkles
+          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
+        />
+        <span
+          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          >Chat</span
+        >
+        {#if $page.url.pathname.startsWith("/chat")}
+          <span
+            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
+          ></span>
         {/if}
       </a>
     </div>

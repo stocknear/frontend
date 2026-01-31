@@ -9,29 +9,29 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import {
-  stock_detail_back_to_top,
-  stock_detail_employees,
-  stock_detail_market_cap,
-  stock_detail_next,
-  stock_detail_no_data,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-  stock_detail_stats_history,
-  stock_detail_stats_nav_revenue,
-  stock_detail_stats_price_sales_ratio,
-  stock_detail_stats_revenue_chart,
-  stock_detail_stats_revenue_growth,
-  stock_detail_stats_revenue_infobox,
-  stock_detail_stats_revenue_per_employee,
-  stock_detail_stats_revenue_seo_description,
-  stock_detail_stats_revenue_seo_keywords,
-  stock_detail_stats_revenue_seo_title,
-  stock_detail_stats_revenue_structured_desc,
-  stock_detail_stats_revenue_structured_name,
-  stock_detail_stats_revenue_ttm,
-  stock_detail_stats_sources,
-} from "$lib/paraglide/messages";
+    stock_detail_back_to_top,
+    stock_detail_employees,
+    stock_detail_market_cap,
+    stock_detail_next,
+    stock_detail_no_data,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+    stock_detail_stats_history,
+    stock_detail_stats_nav_revenue,
+    stock_detail_stats_price_sales_ratio,
+    stock_detail_stats_revenue_chart,
+    stock_detail_stats_revenue_growth,
+    stock_detail_stats_revenue_infobox,
+    stock_detail_stats_revenue_per_employee,
+    stock_detail_stats_revenue_seo_description,
+    stock_detail_stats_revenue_seo_keywords,
+    stock_detail_stats_revenue_seo_title,
+    stock_detail_stats_revenue_structured_desc,
+    stock_detail_stats_revenue_structured_name,
+    stock_detail_stats_revenue_ttm,
+    stock_detail_stats_sources,
+  } from "$lib/paraglide/messages";
 
   import highcharts from "$lib/highcharts.ts";
 
@@ -699,16 +699,30 @@
 </script>
 
 <SEO
-  title={stock_detail_stats_revenue_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_stats_revenue_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_stats_revenue_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_revenue_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_stats_revenue_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_stats_revenue_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/revenue`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: stock_detail_stats_revenue_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_stats_revenue_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_revenue_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_stats_revenue_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/revenue`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -748,7 +762,9 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">{stock_detail_stats_nav_revenue()}</h1>
+            <h1 class="text-xl sm:text-2xl font-bold">
+              {stock_detail_stats_nav_revenue()}
+            </h1>
           </div>
 
           {#if Object?.keys(data?.getHistoricalRevenue)?.length > 0}
@@ -756,10 +772,14 @@
               <Infobox
                 text={stock_detail_stats_revenue_infobox({
                   company: removeCompanyStrings($displayCompanyName),
-                  annualRevenue: abbreviateNumber(rawData?.annual?.at(0)?.revenue),
+                  annualRevenue: abbreviateNumber(
+                    rawData?.annual?.at(0)?.revenue,
+                  ),
                   growthPercent: rawData?.growthRevenue,
                   quarterDate: formatDate(rawData?.quarter?.at(0)?.date),
-                  quarterRevenue: abbreviateNumber(rawData?.quarter?.at(0)?.revenue)
+                  quarterRevenue: abbreviateNumber(
+                    rawData?.quarter?.at(0)?.revenue,
+                  ),
                 })}
               />
 
@@ -853,7 +873,9 @@
               <div
                 class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
-                <h2 class="text-xl sm:text-2xl font-bold">{stock_detail_stats_revenue_chart()}</h2>
+                <h2 class="text-xl sm:text-2xl font-bold">
+                  {stock_detail_stats_revenue_chart()}
+                </h2>
                 <div class="ml-auto">
                   <div class="inline-flex mt-2 sm:mt-0">
                     <div
@@ -941,7 +963,9 @@
               <div
                 class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
-                <h3 class="text-xl sm:text-2xl font-bold">{stock_detail_stats_history()}</h3>
+                <h3 class="text-xl sm:text-2xl font-bold">
+                  {stock_detail_stats_history()}
+                </h3>
 
                 <div class="inline-flex ml-auto">
                   <div
@@ -996,12 +1020,12 @@
                               n/a
                             {:else if item.changePercentageYoY > 0}
                               <span
-                                class="text-emerald-600 dark:text-emerald-400"
+                                class="text-emerald-800 dark:text-emerald-400"
                               >
                                 +{item.changePercentageYoY.toFixed(2)}%
                               </span>
                             {:else}
-                              <span class="text-rose-600 dark:text-rose-400">
+                              <span class="text-rose-800 dark:text-rose-400">
                                 -{Math.abs(item.changePercentageYoY).toFixed(
                                   2,
                                 )}%
@@ -1015,12 +1039,12 @@
                             n/a
                           {:else if item.changePercentage > 0}
                             <span
-                              class="text-emerald-600 dark:text-emerald-400"
+                              class="text-emerald-800 dark:text-emerald-400"
                             >
                               +{item.changePercentage.toFixed(2)}%
                             </span>
                           {:else}
-                            <span class="text-rose-600 dark:text-rose-400">
+                            <span class="text-rose-800 dark:text-rose-400">
                               -{Math.abs(item.changePercentage).toFixed(2)}%
                             </span>
                           {/if}
@@ -1052,12 +1076,17 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
+                    <span class="hidden sm:inline"
+                      >{stock_detail_previous()}</span
+                    >
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_page_of({
+                        current: currentPage,
+                        total: totalPages,
+                      })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -1101,7 +1130,9 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{stock_detail_rows({ count: item })}</span>
+                                <span class="text-sm"
+                                  >{stock_detail_rows({ count: item })}</span
+                                >
                               </label>
                             </DropdownMenu.Item>
                           {/each}
@@ -1137,7 +1168,8 @@
                     on:click={scrollToTop}
                     class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
-                    {stock_detail_back_to_top()} <svg
+                    {stock_detail_back_to_top()}
+                    <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-180"
                       viewBox="0 0 20 20"
                       fill="currentColor"

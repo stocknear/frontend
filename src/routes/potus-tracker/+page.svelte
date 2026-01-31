@@ -684,7 +684,7 @@
           <div class=" lg:float-left lg:w-[calc(100%-336px-40px)]">
             <div class="mt-5 mb-5">
               <Infobox
-                text={`${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? potus_tracker_infobox_grown({ sector: selectedSector }) : potus_tracker_infobox_declined({ sector: selectedSector })} <span class="${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? "text-emerald-600 dark:text-emerald-400 before:content-['+']" : "text-rose-600 dark:text-rose-400"}">
+                text={`${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? potus_tracker_infobox_grown({ sector: selectedSector }) : potus_tracker_infobox_declined({ sector: selectedSector })} <span class="${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? "text-emerald-800 dark:text-emerald-400 before:content-['+']" : "text-rose-800 dark:text-rose-400"}">
   ${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] ?? "n/a"}%</span>.`}
               />
             </div>
@@ -807,8 +807,8 @@
                             <span class="inline-block">S&P500</span>
                             <span
                               class="{items?.at(0)?.changesPercentage > 0
-                                ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
-                                : 'text-rose-600 dark:text-rose-400'} "
+                                ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
+                                : 'text-rose-800 dark:text-rose-400'} "
                               >{items.length > 0
                                 ? items?.at(0)?.changesPercentage
                                 : "n/a"}%</span

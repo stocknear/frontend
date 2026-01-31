@@ -36,6 +36,7 @@
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
   import ArrowRight from "lucide-svelte/icons/arrow-right";
+  import ArrowLeft from "lucide-svelte/icons/arrow-left";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
   import Timer from "lucide-svelte/icons/timer";
@@ -311,7 +312,9 @@
 
     return parsed
       .filter((item): item is Record<string, unknown> => {
-        return item && typeof item === "object" && typeof item.name === "string";
+        return (
+          item && typeof item === "object" && typeof item.name === "string"
+        );
       })
       .map((item) => ({
         name: String(item.name),
@@ -2438,8 +2441,9 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
-            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
+        const visible =
+          pixel.x >= -MARKER_VISIBILITY_PADDING &&
+          pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         markers.push({
           earnings,
@@ -2460,7 +2464,8 @@
         const pixel = chart.convertToPixel({ timestamp });
 
         if (pixel && typeof pixel.x === "number") {
-          const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
+          const visible =
+            pixel.x >= -MARKER_VISIBILITY_PADDING &&
             pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
           markers.push({
             earnings: nextEarnings,
@@ -2541,8 +2546,9 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
-            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
+        const visible =
+          pixel.x >= -MARKER_VISIBILITY_PADDING &&
+          pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         markers.push({
           dividend,
@@ -2620,8 +2626,9 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
-            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
+        const visible =
+          pixel.x >= -MARKER_VISIBILITY_PADDING &&
+          pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         markers.push({
           news,
@@ -2700,8 +2707,9 @@
 
       if (pixel && typeof pixel.x === "number") {
         // Check if marker is within visible chart area (with some padding)
-        const visible = pixel.x >= -MARKER_VISIBILITY_PADDING &&
-            pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
+        const visible =
+          pixel.x >= -MARKER_VISIBILITY_PADDING &&
+          pixel.x <= chartWidth + MARKER_VISIBILITY_PADDING;
 
         // Find the price bar closest to this timestamp to get the y position
         let priceY = chartHeight / 2; // Default to middle if no price found
@@ -7282,7 +7290,9 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="font-semibold text-gray-900 dark:text-white">{ticker}</span>
+          <span class="font-semibold text-gray-900 dark:text-white"
+            >{ticker}</span
+          >
           <span class="text-gray-500 dark:text-zinc-500">·</span>
           <span class="text-gray-600 dark:text-zinc-400">{activeRange}</span>
           <span class="text-gray-500 dark:text-zinc-500">·</span>
@@ -7290,6 +7300,16 @@
             >{data?.getStockQuote?.exchange?.toUpperCase() || ""}</span
           >
         </button>
+
+        <!-- Back to Stock Button -->
+        <a
+          href="/stocks/{ticker}"
+          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+          title="Back to {ticker} stock page"
+        >
+          <ArrowLeft class="h-4 w-4 flex-shrink-0" />
+          <span class="hidden sm:inline">Stock</span>
+        </a>
 
         <!-- Separator -->
         <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-1"></div>
@@ -7361,7 +7381,9 @@
         </div>
 
         <!-- Separator (hidden on mobile) -->
-        <div class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
+        <div
+          class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"
+        ></div>
 
         <!-- Chart Type Dropdown (desktop only, mobile uses bottom nav) -->
         <div class="hidden sm:block">
@@ -7404,7 +7426,9 @@
         </div>
 
         <!-- Separator -->
-        <div class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
+        <div
+          class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"
+        ></div>
 
         <!-- Indicators Button (desktop only, mobile uses bottom nav) -->
         <label
@@ -7432,7 +7456,9 @@
         </label>
 
         <!-- Separator -->
-        <div class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"></div>
+        <div
+          class="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-0.5"
+        ></div>
 
         <!-- Events Dropdown (desktop only, mobile uses bottom nav) -->
         <div class="hidden sm:block">
@@ -7635,7 +7661,9 @@
         </div>
 
         <!-- Separator -->
-        <div class="hidden sm:block w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5"></div>
+        <div
+          class="hidden sm:block w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5"
+        ></div>
 
         <!-- Strategy Dropdown -->
         <DropdownMenu.Root>
@@ -8133,7 +8161,9 @@
           <div
             class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
           >
-            <span class="loading loading-spinner loading-md text-gray-900 dark:text-white"></span>
+            <span
+              class="loading loading-spinner loading-md text-gray-900 dark:text-white"
+            ></span>
           </div>
         {/if}
 
@@ -8149,7 +8179,8 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
+          <span
+            class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
             >Stocknear</span
           >
         </div>
@@ -8275,7 +8306,9 @@
               </div>
 
               <!-- Date info -->
-              <div class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1">
+              <div
+                class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
+              >
                 <div class="flex justify-between">
                   <span class="text-gray-500 dark:text-zinc-400">Date</span>
                   <span class="flex items-center gap-1">
@@ -8309,7 +8342,9 @@
                 </div>
                 {#if selectedEarnings.period && selectedEarnings.period_year}
                   <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400">Period Ending</span>
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Period Ending</span
+                    >
                     <span
                       >{selectedEarnings.period}
                       '{String(selectedEarnings.period_year).slice(-2)}</span
@@ -8319,13 +8354,19 @@
               </div>
 
               <!-- Earnings section -->
-              <div class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3">
-                <div class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2">
+              <div
+                class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
+              >
+                <div
+                  class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2"
+                >
                   {selectedEarningsIsFuture ? "EPS Estimate" : "Earnings"}
                 </div>
                 <div class="text-sm space-y-1">
                   {#if !selectedEarningsIsFuture}
-                    <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <div
+                      class="flex justify-between text-gray-700 dark:text-zinc-300"
+                    >
                       <span>Reported</span>
                       <span
                         >{formatEarningsValue(
@@ -8334,7 +8375,9 @@
                       >
                     </div>
                   {/if}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
                     <span>Estimate</span>
                     <span
                       >{formatEarningsValue(
@@ -8351,12 +8394,12 @@
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"}>Surprise</span
+                          : "text-rose-800 dark:text-rose-400"}>Surprise</span
                       >
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"}
+                          : "text-rose-800 dark:text-rose-400"}
                       >
                         {surprise?.positive ? "+" : ""}{surprise?.value.toFixed(
                           2,
@@ -8373,11 +8416,13 @@
                     )}
                     {#if yoy}
                       <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-zinc-400">YoY Change</span>
+                        <span class="text-gray-600 dark:text-zinc-400"
+                          >YoY Change</span
+                        >
                         <span
                           class={yoy.positive
                             ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-rose-600 dark:text-rose-400"}
+                            : "text-rose-800 dark:text-rose-400"}
                         >
                           {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
                         </span>
@@ -8388,13 +8433,19 @@
               </div>
 
               <!-- Revenue section -->
-              <div class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3">
-                <div class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2">
+              <div
+                class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
+              >
+                <div
+                  class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2"
+                >
                   {selectedEarningsIsFuture ? "Revenue Estimate" : "Revenue"}
                 </div>
                 <div class="text-sm space-y-1">
                   {#if !selectedEarningsIsFuture}
-                    <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                    <div
+                      class="flex justify-between text-gray-700 dark:text-zinc-300"
+                    >
                       <span>Reported</span>
                       <span
                         >{formatRevenueValue(
@@ -8403,7 +8454,9 @@
                       >
                     </div>
                   {/if}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
                     <span>Estimate</span>
                     <span
                       >{formatRevenueValue(
@@ -8420,12 +8473,12 @@
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"}>Surprise</span
+                          : "text-rose-800 dark:text-rose-400"}>Surprise</span
                       >
                       <span
                         class={surprise?.positive
                           ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"}
+                          : "text-rose-800 dark:text-rose-400"}
                       >
                         {surprise?.positive ? "+" : ""}{abbreviateNumber(
                           surprise?.value ?? 0,
@@ -8442,11 +8495,13 @@
                     )}
                     {#if yoy}
                       <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-zinc-400">YoY Change</span>
+                        <span class="text-gray-600 dark:text-zinc-400"
+                          >YoY Change</span
+                        >
                         <span
                           class={yoy.positive
                             ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-rose-600 dark:text-rose-400"}
+                            : "text-rose-800 dark:text-rose-400"}
                         >
                           {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
                         </span>
@@ -8526,7 +8581,9 @@
             >
               <!-- Header -->
               <div class="flex items-center gap-2 mb-3">
-                <h3 class="text-gray-900 dark:text-white font-semibold">Dividend</h3>
+                <h3 class="text-gray-900 dark:text-white font-semibold">
+                  Dividend
+                </h3>
                 <button
                   class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
                   on:click={closeDividendPopup}
@@ -8549,9 +8606,13 @@
               </div>
 
               <!-- Dividend info -->
-              <div class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1">
+              <div
+                class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
+              >
                 <div class="flex justify-between">
-                  <span class="text-gray-500 dark:text-zinc-400">Ex-Dividend Date</span>
+                  <span class="text-gray-500 dark:text-zinc-400"
+                    >Ex-Dividend Date</span
+                  >
                   <span class="text-gray-900 dark:text-white">
                     {new Date(selectedDividend.date).toLocaleDateString(
                       "en-US",
@@ -8567,7 +8628,9 @@
                 </div>
                 {#if selectedDividend.declarationDate}
                   <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400">Declaration Date</span>
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Declaration Date</span
+                    >
                     <span>
                       {new Date(
                         selectedDividend.declarationDate,
@@ -8581,7 +8644,9 @@
                 {/if}
                 {#if selectedDividend.recordDate}
                   <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400">Record Date</span>
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Record Date</span
+                    >
                     <span>
                       {new Date(selectedDividend.recordDate).toLocaleDateString(
                         "en-US",
@@ -8592,7 +8657,9 @@
                 {/if}
                 {#if selectedDividend.paymentDate}
                   <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400">Payment Date</span>
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Payment Date</span
+                    >
                     <span>
                       {new Date(
                         selectedDividend.paymentDate,
@@ -8675,7 +8742,9 @@
             >
               <!-- Header -->
               <div class="flex items-center justify-between gap-2 mb-3">
-                <h3 class="text-gray-900 dark:text-white font-semibold">Why Price Moved</h3>
+                <h3 class="text-gray-900 dark:text-white font-semibold">
+                  Why Price Moved
+                </h3>
                 <span
                   class={`text-sm font-semibold ${
                     typeof selectedNews.changesPercentage === "number"
@@ -8720,7 +8789,9 @@
               </div>
 
               <!-- News Text -->
-              <p class="text-gray-700 dark:text-zinc-200 text-sm leading-relaxed">
+              <p
+                class="text-gray-700 dark:text-zinc-200 text-sm leading-relaxed"
+              >
                 {selectedNews.text}
               </p>
             </div>
@@ -8895,31 +8966,39 @@
 
               <!-- Strike info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Strike</span>
                   <span class="font-medium">${level?.strike.toFixed(2)}</span>
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400"
                     >Net {isGex ? "Gamma" : "Delta"}</span
                   >
                   <span
                     class="font-medium {level?.isPositive
                       ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-600 dark:text-rose-400'}"
+                      : 'text-rose-800 dark:text-rose-400'}"
                   >
                     {formatSignedExposure(level?.value ?? 0)}
                   </span>
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Call</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
                     >{formatExposureValue(level?.callValue ?? 0)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Put</span>
-                  <span class="text-rose-600 dark:text-rose-400"
+                  <span class="text-rose-800 dark:text-rose-400"
                     >{formatExposureValue(level?.putValue ?? 0)}</span
                   >
                 </div>
@@ -9106,13 +9185,19 @@
 
               <!-- Max pain info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                  <span class="text-gray-500 dark:text-zinc-400">Expiration</span>
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
+                  <span class="text-gray-500 dark:text-zinc-400"
+                    >Expiration</span
+                  >
                   <span class="font-medium"
                     >{formatExpiration(selectedMaxPainLevel.expiration)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">DTE</span>
                   <span class="font-medium"
                     >{selectedMaxPainLevel.dte !== null
@@ -9120,17 +9205,23 @@
                       : "N/A"}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Max Pain</span>
                   <span class="font-medium text-amber-200"
                     >{formatPrice(selectedMaxPainLevel.price)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Spot</span>
                   <span class="font-medium">{formatPrice(refPrice)}</span>
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Distance</span>
                   <span
                     class="font-medium {diff !== null && diff >= 0
@@ -9234,7 +9325,9 @@
 
               <!-- Targets info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Spot</span>
                   <span class="font-medium">{formatPrice(refPrice)}</span>
                 </div>
@@ -9245,8 +9338,12 @@
                     refPrice !== null && diff !== null
                       ? (diff / refPrice) * 100
                       : null}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                    <span class="text-gray-500 dark:text-zinc-400">{row.key}</span>
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >{row.key}</span
+                    >
                     <span class="font-medium" style="color: {row.color}">
                       {formatPrice(row.value)}
                       <span
@@ -9260,16 +9357,24 @@
                   </div>
                 {/each}
                 {#if analystTargetSummary.numAnalysts !== null}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                    <span class="text-gray-500 dark:text-zinc-400">Analysts</span>
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Analysts</span
+                    >
                     <span class="font-medium">
                       {formatCount(analystTargetSummary.numAnalysts)}
                     </span>
                   </div>
                 {/if}
                 {#if analystTargetSummary.consensus}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                    <span class="text-gray-500 dark:text-zinc-400">Consensus</span>
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Consensus</span
+                    >
                     <span class="font-medium">
                       {analystTargetSummary.consensus}
                     </span>
@@ -9390,50 +9495,67 @@
 
               <!-- Strike info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Strike</span>
                   <span class="font-medium"
                     >{formatPrice(selectedOiLevel.strike)}</span
                   >
                 </div>
                 {#if selectedOiLevel.expiration}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                    <span class="text-gray-500 dark:text-zinc-400">Expiration</span>
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Expiration</span
+                    >
                     <span class="font-medium"
                       >{formatExpiration(selectedOiLevel.expiration)}</span
                     >
                   </div>
                 {/if}
                 {#if selectedOiLevel.dte !== null}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
                     <span class="text-gray-500 dark:text-zinc-400">DTE</span>
                     <span class="font-medium">{selectedOiLevel.dte}d</span>
                   </div>
                 {/if}
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Total OI</span>
                   <span class="font-medium text-purple-400">
                     {formatCount(selectedOiLevel.totalOi)}
                   </span>
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Call OI</span>
                   <span class="text-emerald-800 dark:text-emerald-400"
                     >{formatCount(selectedOiLevel.callOi)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Put OI</span>
-                  <span class="text-rose-600 dark:text-rose-400"
+                  <span class="text-rose-800 dark:text-rose-400"
                     >{formatCount(selectedOiLevel.putOi)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                  <span class="text-gray-500 dark:text-zinc-400">P/C Ratio</span>
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
+                  <span class="text-gray-500 dark:text-zinc-400">P/C Ratio</span
+                  >
                   <span
                     class="font-medium {selectedOiLevel.callOi > 0 &&
                     selectedOiLevel.putOi / selectedOiLevel.callOi > 1
-                      ? 'text-rose-600 dark:text-rose-400'
+                      ? 'text-rose-800 dark:text-rose-400'
                       : 'text-emerald-800 dark:text-emerald-400'}"
                   >
                     {selectedOiLevel.callOi > 0
@@ -9571,46 +9693,66 @@
 
               <!-- Contract info -->
               <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                  <span class="text-gray-500 dark:text-zinc-400">Expiration</span>
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
+                  <span class="text-gray-500 dark:text-zinc-400"
+                    >Expiration</span
+                  >
                   <span class="font-medium"
                     >{formatExpiration(selectedHottestLevel.expiration)}</span
                   >
                 </div>
                 {#if selectedHottestLevel.dte !== null}
-                  <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                  <div
+                    class="flex justify-between text-gray-700 dark:text-zinc-300"
+                  >
                     <span class="text-gray-500 dark:text-zinc-400">DTE</span>
                     <span class="font-medium">{selectedHottestLevel.dte}d</span>
                   </div>
                 {/if}
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Volume</span>
                   <span class="font-medium text-amber-400">
                     {formatCount(selectedHottestLevel.volume)}
                   </span>
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                  <span class="text-gray-500 dark:text-zinc-400">Open Interest</span>
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
+                  <span class="text-gray-500 dark:text-zinc-400"
+                    >Open Interest</span
+                  >
                   <span class="text-purple-400"
                     >{formatCount(selectedHottestLevel.openInterest)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
-                  <span class="text-gray-500 dark:text-zinc-400">Last Price</span>
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
+                  <span class="text-gray-500 dark:text-zinc-400"
+                    >Last Price</span
+                  >
                   <span
                     class={selectedHottestLevel.optionType === "C"
                       ? "text-emerald-800 dark:text-emerald-400"
-                      : "text-rose-600 dark:text-rose-400"}
+                      : "text-rose-800 dark:text-rose-400"}
                     >{formatPrice(selectedHottestLevel.last)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">IV</span>
                   <span class="font-medium"
                     >{formatIvPercent(selectedHottestLevel.iv)}</span
                   >
                 </div>
-                <div class="flex justify-between text-gray-700 dark:text-zinc-300">
+                <div
+                  class="flex justify-between text-gray-700 dark:text-zinc-300"
+                >
                   <span class="text-gray-500 dark:text-zinc-400">Premium</span>
                   <span class="font-medium"
                     >${formatCount(selectedHottestLevel.premium)}</span
@@ -9939,7 +10081,9 @@
             <ZoomOut class="h-4 w-4" />
           </button>
         </div>
-        <span class="text-[10px] font-medium text-gray-600 dark:text-zinc-400">Zoom</span>
+        <span class="text-[10px] font-medium text-gray-600 dark:text-zinc-400"
+          >Zoom</span
+        >
       </div>
     </div>
   </div>
@@ -10196,7 +10340,9 @@
     <div
       class="flex items-center justify-between px-4 pb-3 border-b border-gray-300 dark:border-zinc-700"
     >
-      <h3 class="text-base font-semibold text-gray-900 dark:text-white">Drawing Tools</h3>
+      <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+        Drawing Tools
+      </h3>
       <div class="flex items-center gap-2">
         <!-- Lock/Unlock -->
         <button
@@ -10303,7 +10449,9 @@
         class="sticky top-0 z-40 bg-white dark:bg-zinc-900 pb-6 pt-5 border-b border-gray-300 dark:border-zinc-700"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
+          <h2
+            class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+          >
             Indicators
           </h2>
           <label
@@ -10393,7 +10541,9 @@
         <aside
           class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-gray-300 dark:border-zinc-700"
         >
-          <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+          <div
+            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+          >
             Personal
           </div>
           <button
@@ -10565,7 +10715,9 @@
             </div>
           {:else if isSearchActive}
             {#if technicalGroups.length}
-              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <div
+                class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Technicals
               </div>
               {#each technicalGroups as [category, indicators]}
@@ -10709,7 +10861,9 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]"
+                          >{indicator.label}</span
+                        >
                       </button>
                     {/if}
                   </div>
@@ -10801,7 +10955,9 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]"
+                          >{indicator.label}</span
+                        >
                       </button>
                     {/if}
                   </div>
@@ -10881,7 +11037,9 @@
                         />
                       </div>
                       {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0">
+                        <div
+                          class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
+                        >
                           {#key `${periodKey}-${indicator.id}`}
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
@@ -10937,7 +11095,9 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]"
+                          >{indicator.label}</span
+                        >
                       </button>
                     {/if}
                   </div>
@@ -10946,7 +11106,9 @@
             {/if}
           {:else if indicatorModalSection === "Selected"}
             <div class="flex items-center justify-between">
-              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <div
+                class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Selected Indicators
               </div>
               {#if selectedIndicators.length > 0}
@@ -11026,7 +11188,9 @@
                       />
                     </div>
                     {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                      <div class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0">
+                      <div
+                        class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
+                      >
                         {#key `${periodKey}-${indicator.id}`}
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
                             <button
@@ -11053,11 +11217,15 @@
               </div>
             {/if}
           {:else if indicatorModalSection === "Favorites"}
-            <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+            <div
+              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+            >
               My Indicators
             </div>
             {#if favoriteIndicators.length === 0}
-              <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">No favorites yet.</div>
+              <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
+                No favorites yet.
+              </div>
             {:else}
               <div class="mt-4 space-y-2 sm:space-y-1">
                 {#each favoriteIndicators as indicator}
@@ -11101,7 +11269,9 @@
                       />
                     </div>
                     {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                      <div class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0">
+                      <div
+                        class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
+                      >
                         {#key `${periodKey}-${indicator.id}`}
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
                             <button
@@ -11129,7 +11299,9 @@
             {/if}
           {:else if indicatorModalSection === "Fundamentals"}
             {#if groupedIndicators["Fundamentals"]}
-              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <div
+                class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Fundamentals
               </div>
               <div class="mt-2 flex flex-wrap gap-2">
@@ -11198,7 +11370,9 @@
                         />
                       </div>
                       {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0">
+                        <div
+                          class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
+                        >
                           {#key `${periodKey}-${indicator.id}`}
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
@@ -11254,7 +11428,9 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]"
+                          >{indicator.label}</span
+                        >
                       </button>
                     {/if}
                   </div>
@@ -11263,7 +11439,9 @@
             {/if}
           {:else if indicatorModalSection === "Options"}
             {#if optionsIndicators.length > 0}
-              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <div
+                class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Options
               </div>
               <div class="mt-2 space-y-1">
@@ -11344,7 +11522,9 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]"
+                          >{indicator.label}</span
+                        >
                       </button>
                     {/if}
                   </div>
@@ -11353,7 +11533,9 @@
             {/if}
           {:else if indicatorModalSection === "Statistics"}
             {#if statisticsIndicators.length > 0}
-              <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <div
+                class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Statistics
               </div>
               <div class="mt-2 space-y-1">
@@ -11434,7 +11616,9 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]"
+                          >{indicator.label}</span
+                        >
                       </button>
                     {/if}
                   </div>
@@ -11442,7 +11626,9 @@
               </div>
             {/if}
           {:else if technicalGroups.length}
-            <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+            <div
+              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+            >
               Technicals
             </div>
             {#each technicalGroups as [category, indicators]}

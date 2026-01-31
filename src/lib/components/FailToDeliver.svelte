@@ -604,9 +604,9 @@
 
                 <td
                   class=" text-sm sm:text-[1rem] {item?.ftdChange > 0
-                    ? "text-emerald-600 dark:text-emerald-400 before:content-['+'] "
+                    ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
                     : item?.ftdChange < 0
-                      ? 'text-rose-600 dark:text-rose-400'
+                      ? 'text-rose-800 dark:text-rose-400'
                       : ''} text-right whitespace-nowrap"
                 >
                   {typeof item?.ftdChange === "number"
@@ -616,9 +616,9 @@
 
                 <td
                   class=" text-sm sm:text-[1rem] {item?.ftdChangePercentage > 0
-                    ? "text-emerald-600 dark:text-emerald-400 before:content-['+'] "
+                    ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
                     : item?.ftdChangePercentage < 0
-                      ? 'text-rose-600 dark:text-rose-400'
+                      ? 'text-rose-800 dark:text-rose-400'
                       : ''} text-right whitespace-nowrap"
                 >
                   {typeof item?.ftdChangePercentage === "number"

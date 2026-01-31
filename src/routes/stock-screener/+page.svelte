@@ -3841,7 +3841,7 @@ const handleKeyDown = (event) => {
           {#if ruleOfList?.length !== 0}
             <label
               on:click={handleResetAll}
-              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
             >
               <svg
                 class="h-4 w-4"
@@ -3893,7 +3893,7 @@ const handleKeyDown = (event) => {
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -4527,13 +4527,13 @@ const handleKeyDown = (event) => {
                     {:else if column.key === "changesPercentage"}
                       <td class=" text-end text-sm sm:text-[0.95rem]">
                         {#if item?.changesPercentage >= 0}
-                          <span class="text-emerald-600 dark:text-emerald-400"
+                          <span class="text-emerald-800 dark:text-emerald-400"
                             >+{item?.changesPercentage >= 1000
                               ? abbreviateNumber(item?.changesPercentage)
                               : item?.changesPercentage?.toFixed(2)}%</span
                           >
                         {:else}
-                          <span class="text-rose-600 dark:text-rose-400"
+                          <span class="text-rose-800 dark:text-rose-400"
                             >{item?.changesPercentage <= -1000
                               ? abbreviateNumber(item?.changesPercentage)
                               : item?.changesPercentage?.toFixed(2)}%
@@ -4620,8 +4620,8 @@ const handleKeyDown = (event) => {
                         {:else if row?.varType && row?.varType === "percentSign"}
                           <span
                             class={item[column.key] >= 0
-                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                              : "text-rose-600 dark:text-rose-400"}
+                              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                              : "text-rose-800 dark:text-rose-400"}
                           >
                             {abbreviateNumber(item[column.key])}%
                           </span>
@@ -4630,11 +4630,11 @@ const handleKeyDown = (event) => {
                         {:else if ["score", "analystRating", "topAnalystRating"]?.includes(column.key)}
                           {#if ["Strong Buy", "Buy"].includes(item[column.key])}
                             <span
-                              class=" text-emerald-600 dark:text-emerald-400"
+                              class=" text-emerald-800 dark:text-emerald-400"
                               >{item[column.key]}</span
                             >
                           {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
-                            <span class=" text-rose-600 dark:text-rose-400"
+                            <span class=" text-rose-800 dark:text-rose-400"
                               >{item[column.key]}</span
                             >
                           {:else if item[column.key] === "Hold"}
@@ -4701,13 +4701,13 @@ const handleKeyDown = (event) => {
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if item[column.key] > 0}
-                          <span class="text-emerald-600 dark:text-emerald-400"
+                          <span class="text-emerald-800 dark:text-emerald-400"
                             >+{abbreviateNumber(
                               item[column.key]?.toFixed(2),
                             )}%</span
                           >
                         {:else if item[column.key] < 0}
-                          <span class="text-rose-600 dark:text-rose-400"
+                          <span class="text-rose-800 dark:text-rose-400"
                             >{abbreviateNumber(
                               item[column.key]?.toFixed(2),
                             )}%</span
@@ -4779,11 +4779,11 @@ const handleKeyDown = (event) => {
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if item[column.key] > 0}
-                          <span class="text-emerald-600 dark:text-emerald-400"
+                          <span class="text-emerald-800 dark:text-emerald-400"
                             >+{item[column.key]?.toFixed(2)}%</span
                           >
                         {:else if item[column.key] < 0}
-                          <span class="text-rose-600 dark:text-rose-400"
+                          <span class="text-rose-800 dark:text-rose-400"
                             >{item[column.key]?.toFixed(2)}%</span
                           >
                         {:else}
@@ -4795,11 +4795,11 @@ const handleKeyDown = (event) => {
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if ["Strong Buy", "Buy"].includes(item[column.key])}
-                          <span class=" text-emerald-600 dark:text-emerald-400"
+                          <span class=" text-emerald-800 dark:text-emerald-400"
                             >{item[column.key]}</span
                           >
                         {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
-                          <span class=" text-rose-600 dark:text-rose-400"
+                          <span class=" text-rose-800 dark:text-rose-400"
                             >{item[column.key]}</span
                           >
                         {:else if item[column.key] === "Hold"}

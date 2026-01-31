@@ -1110,7 +1110,7 @@
                             {item?.title} ({item?.ticker?.length})
                             <label
                               for="deleteWatchlist"
-                              class="ml-auto inline-block cursor-pointer sm:hover:text-rose-600 dark:sm:hover:text-rose-400 transition"
+                              class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
                               on:click|capture={handleDeleteModal}
                             >
                               <svg
@@ -1210,7 +1210,7 @@
                     {#if editMode}
                       <label
                         on:click={handleDeleteTickers}
-                        class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
+                        class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                       >
                         <svg
                           class="inline-block w-5 h-5"

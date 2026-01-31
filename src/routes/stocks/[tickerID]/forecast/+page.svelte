@@ -543,7 +543,7 @@
 
     const labelBackground = $mode === "light" ? "#fff" : "#0b0b0f";
     const labelBorder = $mode === "light" ? "#d1d5db" : "#3f3f46";
-    const labelBaseClass = `text-left ${labelFontClass} font-semibold leading-tight`;
+    const labelBaseClass = `text-left ${labelFontClass}  leading-tight`;
     const makeLabelFormatter = (label, labelClass) =>
       function () {
         const points = this.series?.points || [];
@@ -682,7 +682,10 @@
             crop: false,
             overflow: "allow",
             allowOverlap: true,
-            formatter: makeLabelFormatter("High", "text-[#0B7D59]"),
+            formatter: makeLabelFormatter(
+              "High",
+              "text-emerald-800 dark:text-emerald-400",
+            ),
           },
         },
         {
@@ -743,7 +746,10 @@
             crop: false,
             overflow: "allow",
             allowOverlap: true,
-            formatter: makeLabelFormatter("Low", "text-[#D9220E]"),
+            formatter: makeLabelFormatter(
+              "Low",
+              "text-rose-800 dark:text-rose-400",
+            ),
           },
         },
       ],
@@ -1120,33 +1126,33 @@
                         >
                         <td
                           class={lowChange > 0
-                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                             : lowChange < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                           >{lowChange !== 0 ? lowChange + "%" : "n/a"}</td
                         >
                         <td
                           class={avgChange > 0
-                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                             : avgChange < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                           >{avgChange !== 0 ? avgChange + "%" : "n/a"}</td
                         >
                         <td
                           class={medianChange > 0
-                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                             : medianChange < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                           >{medianChange !== 0 ? medianChange + "%" : "n/a"}</td
                         >
                         <td
                           class={highChange > 0
-                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                             : highChange < 0
-                              ? "text-rose-600 dark:text-rose-400"
+                              ? "text-rose-800 dark:text-rose-400"
                               : ""}
                           >{highChange !== 0 ? highChange + "%" : "n/a"}</td
                         ></tr

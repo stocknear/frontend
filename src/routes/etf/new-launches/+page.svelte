@@ -9,21 +9,21 @@
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  etf_breadcrumb_home,
-  etf_breadcrumb_new_launches,
-  etf_new_launches_count,
-  etf_new_launches_empty,
-  etf_new_launches_infobox,
-  etf_new_launches_main_name,
-  etf_new_launches_seo_description,
-  etf_new_launches_seo_keywords,
-  etf_new_launches_seo_title,
-  etf_new_launches_structured_description,
-  etf_new_launches_structured_item_description,
-  etf_new_launches_structured_item_name,
-  etf_new_launches_structured_name,
-  etf_search_placeholder,
-} from "$lib/paraglide/messages";
+    etf_breadcrumb_home,
+    etf_breadcrumb_new_launches,
+    etf_new_launches_count,
+    etf_new_launches_empty,
+    etf_new_launches_infobox,
+    etf_new_launches_main_name,
+    etf_new_launches_seo_description,
+    etf_new_launches_seo_keywords,
+    etf_new_launches_seo_title,
+    etf_new_launches_structured_description,
+    etf_new_launches_structured_item_description,
+    etf_new_launches_structured_item_name,
+    etf_new_launches_structured_name,
+    etf_search_placeholder,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -145,9 +145,8 @@
     initColumnOrder();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -345,7 +344,9 @@
 
 <SEO
   title={etf_new_launches_seo_title()}
-  description={etf_new_launches_seo_description({ count: String(originalData?.length || 100) })}
+  description={etf_new_launches_seo_description({
+    count: String(originalData?.length || 100),
+  })}
   keywords={etf_new_launches_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
@@ -382,7 +383,9 @@
       >
     </li>
     <li>
-      <a class="text-gray-800 dark:text-zinc-300">{etf_breadcrumb_new_launches()}</a>
+      <a class="text-gray-800 dark:text-zinc-300"
+        >{etf_breadcrumb_new_launches()}</a
+      >
     </li>
   </BreadCrumb>
 
@@ -409,7 +412,9 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {etf_new_launches_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
+                {etf_new_launches_count({
+                  count: originalData?.length?.toLocaleString("en-US") || "0",
+                })}
               </h2>
               <div
                 class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -551,13 +556,13 @@
                               >
                                 {#if item?.changesPercentage >= 0}
                                   <span
-                                    class="text-emerald-600 dark:text-emerald-400"
+                                    class="text-emerald-800 dark:text-emerald-400"
                                     >+{item?.changesPercentage?.toFixed(
                                       2,
                                     )}%</span
                                   >
                                 {:else}
-                                  <span class="text-rose-600 dark:text-rose-400"
+                                  <span class="text-rose-800 dark:text-rose-400"
                                     >{item?.changesPercentage?.toFixed(
                                       2,
                                     )}%</span

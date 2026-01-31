@@ -645,8 +645,8 @@
                   {#if displayLegend?.graphChange}
                     <span
                       class={displayLegend?.graphChange >= 0
-                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-                        : "text-rose-600 dark:text-rose-400"}
+                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                        : "text-rose-800 dark:text-rose-400"}
                     >
                       {displayLegend?.graphChange ??
                         data?.getStockQuote?.changesPercentage?.toFixed(2)}%
@@ -727,7 +727,8 @@
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getStockQuote?.priceAvg50 ?? index_detail_na()}</td
+                      >{data?.getStockQuote?.priceAvg50 ??
+                        index_detail_na()}</td
                     ></tr
                   >
                   <tr
@@ -738,7 +739,8 @@
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getStockQuote?.priceAvg200 ?? index_detail_na()}</td
+                      >{data?.getStockQuote?.priceAvg200 ??
+                        index_detail_na()}</td
                     ></tr
                   >
 
@@ -938,4 +940,3 @@
     </div>
   </div>
 </section>
-

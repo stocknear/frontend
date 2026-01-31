@@ -389,7 +389,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
+                      class="border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -599,11 +599,11 @@
                           class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
                           {#if item?.changesPercentage >= 0}
-                            <span class="text-emerald-600 dark:text-emerald-400"
+                            <span class="text-emerald-800 dark:text-emerald-400"
                               >+{item?.changesPercentage?.toFixed(2)}%</span
                             >
                           {:else}
-                            <span class="text-rose-600 dark:text-rose-400"
+                            <span class="text-rose-800 dark:text-rose-400"
                               >{item?.changesPercentage?.toFixed(2)}%
                             </span>
                           {/if}

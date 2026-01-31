@@ -2,18 +2,18 @@
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import {
-  stock_detail_earnings_surprise,
-  stock_detail_eps_of,
-  stock_detail_exceeds_estimates_by,
-  stock_detail_misses_estimates_by,
-  stock_detail_new,
-  stock_detail_quarterly_earnings_released,
-  stock_detail_revenue_of,
-  stock_detail_with,
-  stock_detail_yoy,
-  stock_detail_yoy_decline,
-  stock_detail_yoy_growth,
-} from "$lib/paraglide/messages";
+    stock_detail_earnings_surprise,
+    stock_detail_eps_of,
+    stock_detail_exceeds_estimates_by,
+    stock_detail_misses_estimates_by,
+    stock_detail_new,
+    stock_detail_quarterly_earnings_released,
+    stock_detail_revenue_of,
+    stock_detail_with,
+    stock_detail_yoy,
+    stock_detail_yoy_decline,
+    stock_detail_yoy_growth,
+  } from "$lib/paraglide/messages";
   export let data;
 
   let rawData = {};
@@ -102,38 +102,46 @@
         class="ml-[20px] sm:ml-[30px]"
         style="line-height: 22px; margin-top:10px; margin-bottom: 10px; list-style-type: disc;"
       >
-        {stock_detail_revenue_of()} <span class=""
-          >{abbreviateNumber(rawData?.revenue, true)}</span
-        >
-        {rawData?.revenueSurprise > 0 ? stock_detail_exceeds_estimates_by() : stock_detail_misses_estimates_by()} {abbreviateNumber(
-          Math.abs(rawData?.revenueSurprise),
-          true,
-        )}, {stock_detail_with()}
+        {stock_detail_revenue_of()}
+        <span class="">{abbreviateNumber(rawData?.revenue, true)}</span>
+        {rawData?.revenueSurprise > 0
+          ? stock_detail_exceeds_estimates_by()
+          : stock_detail_misses_estimates_by()}
+        {abbreviateNumber(Math.abs(rawData?.revenueSurprise), true)}, {stock_detail_with()}
         <span
           class=" {revenueRatio > 0
-            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-            : 'text-rose-600 dark:text-rose-400'}">{revenueRatio}%</span
+            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+            : 'text-rose-800 dark:text-rose-400'}">{revenueRatio}%</span
         >
-        {stock_detail_yoy()} {revenueRatio < 0 ? stock_detail_yoy_decline() : stock_detail_yoy_growth()}.
+        {stock_detail_yoy()}
+        {revenueRatio < 0
+          ? stock_detail_yoy_decline()
+          : stock_detail_yoy_growth()}.
       </li>
       <li
         class="ml-[20px] sm:ml-[30px]"
         style="line-height: 22px; margin-top: 0px; margin-bottom: 0px; list-style-type: disc;"
       >
         {stock_detail_eps_of()} <span class="">{rawData?.eps}</span>
-        {rawData?.epsSurprise > 0 ? stock_detail_exceeds_estimates_by() : stock_detail_misses_estimates_by()} {rawData?.epsSurprise?.toFixed(
-          2,
-        )}, {stock_detail_with()}
+        {rawData?.epsSurprise > 0
+          ? stock_detail_exceeds_estimates_by()
+          : stock_detail_misses_estimates_by()}
+        {rawData?.epsSurprise?.toFixed(2)}, {stock_detail_with()}
         <span
           class=" {epsRatio === null
             ? ''
             : epsRatio > 0
-              ? 'text-emerald-600 dark:text-emerald-400'
-              : 'text-rose-600 dark:text-rose-400'}"
+              ? 'text-emerald-800 dark:text-emerald-400'
+              : 'text-rose-800 dark:text-rose-400'}"
         >
           {epsRatio === null ? "n/a" : `${epsRatio}%`}
         </span>
-        {stock_detail_yoy()} {epsRatio === null ? "" : epsRatio < 0 ? stock_detail_yoy_decline() : stock_detail_yoy_growth()}.
+        {stock_detail_yoy()}
+        {epsRatio === null
+          ? ""
+          : epsRatio < 0
+            ? stock_detail_yoy_decline()
+            : stock_detail_yoy_growth()}.
       </li>
     </div>
   </div>

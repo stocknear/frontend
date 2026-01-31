@@ -12,31 +12,31 @@
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  politicians_back_to_top,
-  politicians_breadcrumb_flow,
-  politicians_breadcrumb_home,
-  politicians_flow_count_trades,
-  politicians_flow_description_active_party,
-  politicians_flow_description_buys,
-  politicians_flow_description_intro,
-  politicians_flow_description_sells,
-  politicians_flow_description_sentiment,
-  politicians_flow_description_transactions,
-  politicians_flow_description_versus,
-  politicians_flow_description_with,
-  politicians_flow_empty_search,
-  politicians_flow_sentiment_bearish,
-  politicians_flow_sentiment_bullish,
-  politicians_flow_sentiment_neutral,
-  politicians_flow_seo_description,
-  politicians_flow_seo_title,
-  politicians_flow_title,
-  politicians_pagination_next,
-  politicians_pagination_page_of,
-  politicians_pagination_previous,
-  politicians_pagination_rows,
-  politicians_search_placeholder,
-} from "$lib/paraglide/messages";
+    politicians_back_to_top,
+    politicians_breadcrumb_flow,
+    politicians_breadcrumb_home,
+    politicians_flow_count_trades,
+    politicians_flow_description_active_party,
+    politicians_flow_description_buys,
+    politicians_flow_description_intro,
+    politicians_flow_description_sells,
+    politicians_flow_description_sentiment,
+    politicians_flow_description_transactions,
+    politicians_flow_description_versus,
+    politicians_flow_description_with,
+    politicians_flow_empty_search,
+    politicians_flow_sentiment_bearish,
+    politicians_flow_sentiment_bullish,
+    politicians_flow_sentiment_neutral,
+    politicians_flow_seo_description,
+    politicians_flow_seo_title,
+    politicians_flow_title,
+    politicians_pagination_next,
+    politicians_pagination_page_of,
+    politicians_pagination_previous,
+    politicians_pagination_rows,
+    politicians_search_placeholder,
+  } from "$lib/paraglide/messages";
 
   import SEO from "$lib/components/SEO.svelte";
 
@@ -169,9 +169,8 @@
     updatePaginatedData();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -450,7 +449,9 @@
         >{politicians_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{politicians_breadcrumb_flow()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {politicians_breadcrumb_flow()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -482,7 +483,9 @@
                     ?.length || 0;
                 const total = buys + sells;
                 return total > 0
-                  ? politicians_flow_description_buys({ percent: ((buys / total) * 100).toFixed(1) })
+                  ? politicians_flow_description_buys({
+                      percent: ((buys / total) * 100).toFixed(1),
+                    })
                   : "n/a";
               })()}</strong
             >
@@ -497,7 +500,9 @@
                     ?.length || 0;
                 const total = buys + sells;
                 return total > 0
-                  ? politicians_flow_description_sells({ percent: ((sells / total) * 100).toFixed(1) })
+                  ? politicians_flow_description_sells({
+                      percent: ((sells / total) * 100).toFixed(1),
+                    })
                   : "n/a";
               })()}</strong
             >
@@ -564,7 +569,10 @@
                         <h2
                           class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                         >
-                          {politicians_flow_count_trades({ count: originalData?.length?.toLocaleString("en-US") })}
+                          {politicians_flow_count_trades({
+                            count:
+                              originalData?.length?.toLocaleString("en-US"),
+                          })}
                         </h2>
                         <div
                           class="mt-1 w-full flex flex-row items-center pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
@@ -768,12 +776,12 @@
                                       >
                                         {#if item?.type === "Bought"}
                                           <span
-                                            class="text-emerald-600 dark:text-emerald-400"
+                                            class="text-emerald-800 dark:text-emerald-400"
                                             >Bought</span
                                           >
                                         {:else if item?.type === "Sold"}
                                           <span
-                                            class="text-rose-600 dark:text-rose-400"
+                                            class="text-rose-800 dark:text-rose-400"
                                             >Sold</span
                                           >
                                         {/if}
@@ -786,7 +794,9 @@
                           </table>
                         {:else}
                           <Infobox
-                            text={politicians_flow_empty_search({ query: inputValue })}
+                            text={politicians_flow_empty_search({
+                              query: inputValue,
+                            })}
                           />
                         {/if}
                       </div>
@@ -816,7 +826,8 @@
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              <span class="hidden sm:inline">{politicians_pagination_previous()}</span
+                              <span class="hidden sm:inline"
+                                >{politicians_pagination_previous()}</span
                               ></Button
                             >
                           </div>
@@ -826,7 +837,10 @@
                             <span
                               class="text-sm text-gray-600 dark:text-zinc-300"
                             >
-                              {politicians_pagination_page_of({ current: currentPage, total: totalPages })}
+                              {politicians_pagination_page_of({
+                                current: currentPage,
+                                total: totalPages,
+                              })}
                             </span>
 
                             <DropdownMenu.Root>
@@ -837,7 +851,9 @@
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
-                                    >{politicians_pagination_rows({ count: rowsPerPage })}</span
+                                    >{politicians_pagination_rows({
+                                      count: rowsPerPage,
+                                    })}</span
                                   >
                                   <svg
                                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -872,7 +888,11 @@
                                         on:click={() => changeRowsPerPage(item)}
                                         class="inline-flex justify-between w-full items-center cursor-pointer"
                                       >
-                                        <span class="text-sm">{politicians_pagination_rows({ count: item })}</span>
+                                        <span class="text-sm"
+                                          >{politicians_pagination_rows({
+                                            count: item,
+                                          })}</span
+                                        >
                                       </label>
                                     </DropdownMenu.Item>
                                   {/each}
@@ -888,7 +908,9 @@
                               disabled={currentPage === totalPages}
                               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <span class="hidden sm:inline">{politicians_pagination_next()}</span>
+                              <span class="hidden sm:inline"
+                                >{politicians_pagination_next()}</span
+                              >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                                 viewBox="0 0 20 20"
@@ -912,7 +934,8 @@
                             on:click={scrollToTop}
                             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
-                            {politicians_back_to_top()} <svg
+                            {politicians_back_to_top()}
+                            <svg
                               class="h-5 w-5 inline-block shrink-0 rotate-180"
                               viewBox="0 0 20 20"
                               fill="currentColor"

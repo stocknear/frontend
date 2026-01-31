@@ -14,39 +14,39 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import {
-  stock_detail_next,
-  stock_detail_no_data,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-  stock_detail_stats_10_years,
-  stock_detail_stats_1_month,
-  stock_detail_stats_1_year,
-  stock_detail_stats_1_year_change,
-  stock_detail_stats_3_years,
-  stock_detail_stats_5_years,
-  stock_detail_stats_6_months,
-  stock_detail_stats_annual,
-  stock_detail_stats_category,
-  stock_detail_stats_decreased,
-  stock_detail_stats_history,
-  stock_detail_stats_increased,
-  stock_detail_stats_market_cap_chart,
-  stock_detail_stats_market_cap_infobox,
-  stock_detail_stats_market_cap_seo_description,
-  stock_detail_stats_market_cap_seo_keywords,
-  stock_detail_stats_market_cap_seo_title,
-  stock_detail_stats_market_cap_structured_desc,
-  stock_detail_stats_market_cap_structured_name,
-  stock_detail_stats_market_capitalization,
-  stock_detail_stats_max,
-  stock_detail_stats_nav_market_cap,
-  stock_detail_stats_negative_trend,
-  stock_detail_stats_positive_trend,
-  stock_detail_stats_quarterly,
-  stock_detail_stats_select_time_frame,
-  stock_detail_stats_unchanged,
-} from "$lib/paraglide/messages";
+    stock_detail_next,
+    stock_detail_no_data,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+    stock_detail_stats_10_years,
+    stock_detail_stats_1_month,
+    stock_detail_stats_1_year,
+    stock_detail_stats_1_year_change,
+    stock_detail_stats_3_years,
+    stock_detail_stats_5_years,
+    stock_detail_stats_6_months,
+    stock_detail_stats_annual,
+    stock_detail_stats_category,
+    stock_detail_stats_decreased,
+    stock_detail_stats_history,
+    stock_detail_stats_increased,
+    stock_detail_stats_market_cap_chart,
+    stock_detail_stats_market_cap_infobox,
+    stock_detail_stats_market_cap_seo_description,
+    stock_detail_stats_market_cap_seo_keywords,
+    stock_detail_stats_market_cap_seo_title,
+    stock_detail_stats_market_cap_structured_desc,
+    stock_detail_stats_market_cap_structured_name,
+    stock_detail_stats_market_capitalization,
+    stock_detail_stats_max,
+    stock_detail_stats_nav_market_cap,
+    stock_detail_stats_negative_trend,
+    stock_detail_stats_positive_trend,
+    stock_detail_stats_quarterly,
+    stock_detail_stats_select_time_frame,
+    stock_detail_stats_unchanged,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -691,16 +691,30 @@
 </script>
 
 <SEO
-  title={stock_detail_stats_market_cap_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_stats_market_cap_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_stats_market_cap_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_market_cap_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_stats_market_cap_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_stats_market_cap_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: stock_detail_stats_market_cap_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_stats_market_cap_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_market_cap_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_stats_market_cap_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -740,7 +754,9 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">{stock_detail_stats_market_capitalization()}</h1>
+            <h1 class="text-xl sm:text-2xl font-bold">
+              {stock_detail_stats_market_capitalization()}
+            </h1>
           </div>
 
           {#if rawData?.length !== 0}
@@ -755,12 +771,15 @@
                     year: "numeric",
                     timeZone: "UTC",
                   }),
-                  changeDirection: changePercentageYearAgo > 0
-                    ? stock_detail_stats_increased()
-                    : changePercentageYearAgo < 0
-                      ? stock_detail_stats_decreased()
-                      : stock_detail_stats_unchanged(),
-                  changePercent: abbreviateNumber(changePercentageYearAgo?.toFixed(2))
+                  changeDirection:
+                    changePercentageYearAgo > 0
+                      ? stock_detail_stats_increased()
+                      : changePercentageYearAgo < 0
+                        ? stock_detail_stats_decreased()
+                        : stock_detail_stats_unchanged(),
+                  changePercent: abbreviateNumber(
+                    changePercentageYearAgo?.toFixed(2),
+                  ),
                 })}
               />
 
@@ -821,10 +840,10 @@
                         <span
                           class="text-sm {changePercentageYearAgo >= 0 &&
                           changePercentageYearAgo !== null
-                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
                             : changePercentageYearAgo < 0 &&
                                 changePercentageYearAgo !== null
-                              ? 'text-rose-600 dark:text-rose-400'
+                              ? 'text-rose-800 dark:text-rose-400'
                               : ''}"
                         >
                           {changePercentageYearAgo >= 0
@@ -972,7 +991,9 @@
                                 ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                 : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                             >
-                              {i === 0 ? stock_detail_stats_annual() : stock_detail_stats_quarterly()}
+                              {i === 0
+                                ? stock_detail_stats_annual()
+                                : stock_detail_stats_quarterly()}
                             </button>
                           {/each}
                         </div>
@@ -1009,8 +1030,8 @@
                           {#if item?.changesPercentage}
                             <span
                               class={item?.changesPercentage >= 0
-                                ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
-                                : "text-rose-600 dark:text-rose-400"}
+                                ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
+                                : "text-rose-800 dark:text-rose-400"}
                             >
                               {item?.changesPercentage
                                 ? item?.changesPercentage + "%"
@@ -1047,12 +1068,17 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
+                    <span class="hidden sm:inline"
+                      >{stock_detail_previous()}</span
+                    >
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
+                      {stock_detail_page_of({
+                        current: currentPage,
+                        total: totalPages,
+                      })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -1096,7 +1122,9 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{stock_detail_rows({ count: item })}</span>
+                                <span class="text-sm"
+                                  >{stock_detail_rows({ count: item })}</span
+                                >
                               </label>
                             </DropdownMenu.Item>
                           {/each}
