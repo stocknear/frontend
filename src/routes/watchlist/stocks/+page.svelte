@@ -76,7 +76,20 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import MarkdownNoteEditor from "$lib/components/MarkdownNoteEditor.svelte";
+  // Lazy load MarkdownNoteEditor for better performance
+  let MarkdownNoteEditor: any = null;
+  let isLoadingEditor = false;
+
+  async function loadMarkdownEditor() {
+    if (MarkdownNoteEditor) return; // Already loaded
+    isLoadingEditor = true;
+    try {
+      const module = await import("$lib/components/MarkdownNoteEditor.svelte");
+      MarkdownNoteEditor = module.default;
+    } finally {
+      isLoadingEditor = false;
+    }
+  }
 
   export let data;
   let timeoutId;
@@ -659,6 +672,20 @@
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("scroll", handleScrollStocks);
 
+    // Preload markdown editor during idle time for faster note opening
+    const preloadEditor = () => {
+      if (!MarkdownNoteEditor && !isLoadingEditor) {
+        loadMarkdownEditor();
+      }
+    };
+
+    // Use requestIdleCallback if available, otherwise setTimeout
+    if (typeof requestIdleCallback !== "undefined") {
+      requestIdleCallback(preloadEditor, { timeout: 3000 });
+    } else {
+      setTimeout(preloadEditor, 2000);
+    }
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("scroll", handleScrollStocks);
@@ -703,11 +730,16 @@
   // Check if this is a new note
   $: isNewNote = originalNoteText === "";
 
-  function handleNoteClick(symbol: string, currentNote: string) {
+  async function handleNoteClick(symbol: string, currentNote: string) {
     editingNoteSymbol = symbol;
     editingNoteText = currentNote || "";
     originalNoteText = currentNote || "";
     isNoteModalOpen = true;
+
+    // Load editor component on first use
+    if (!MarkdownNoteEditor) {
+      await loadMarkdownEditor();
+    }
   }
 
   async function saveNote(markdown: string) {
@@ -1501,13 +1533,25 @@
     class="modal-box w-full max-w-2xl bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-xl p-6"
   >
     {#if isNoteModalOpen}
-      <MarkdownNoteEditor
-        value={editingNoteText}
-        symbol={editingNoteSymbol}
-        {isNewNote}
-        onSave={saveNote}
-        onCancel={closeNoteModal}
-      />
+      {#if isLoadingEditor || !MarkdownNoteEditor}
+        <!-- Loading state while editor loads -->
+        <div class="flex flex-col items-center justify-center py-12 gap-4">
+          <svg class="w-8 h-8 animate-spin text-violet-500" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-sm text-gray-500 dark:text-zinc-400">Loading editor...</span>
+        </div>
+      {:else}
+        <svelte:component
+          this={MarkdownNoteEditor}
+          value={editingNoteText}
+          symbol={editingNoteSymbol}
+          {isNewNote}
+          onSave={saveNote}
+          onCancel={closeNoteModal}
+        />
+      {/if}
     {/if}
   </div>
 </dialog>

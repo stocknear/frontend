@@ -45,14 +45,21 @@
   let isSaving = false;
   let currentMarkdown = value;
 
-  // Markdown converter for preview
-  const converter = new showdown.Converter({
-    tables: true,
-    strikethrough: true,
-    tasklists: true,
-    simpleLineBreaks: true,
-    openLinksInNewWindow: true,
-  });
+  // Lazy-loaded markdown converter for preview (only created when needed)
+  let converter: ReturnType<typeof showdown.Converter> | null = null;
+
+  function getConverter() {
+    if (!converter) {
+      converter = new showdown.Converter({
+        tables: true,
+        strikethrough: true,
+        tasklists: true,
+        simpleLineBreaks: true,
+        openLinksInNewWindow: true,
+      });
+    }
+    return converter;
+  }
 
   // Placeholder plugin
   function placeholderPlugin(placeholder: string) {
@@ -287,8 +294,8 @@
     destroyEditor();
   });
 
-  // Render markdown to HTML for preview
-  $: previewHtml = converter.makeHtml(currentMarkdown || "");
+  // Render markdown to HTML for preview (only computed when in preview mode)
+  $: previewHtml = isPreviewMode ? getConverter().makeHtml(currentMarkdown || "") : "";
 </script>
 
 <div class="flex flex-col h-full max-h-[80vh]">
