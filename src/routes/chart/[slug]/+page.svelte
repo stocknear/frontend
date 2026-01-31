@@ -10193,7 +10193,7 @@
                         />
                         <label
                           for={indicator.id}
-                          class="cursor-pointer text-[1rem] ml-2"
+                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                         >
                           {indicator.label}
                         </label>
@@ -10250,7 +10250,7 @@
                       />
                       <label
                         for={indicator.id}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
@@ -10294,7 +10294,7 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
                       </button>
                     {/if}
                   </div>
@@ -10342,7 +10342,7 @@
                       />
                       <label
                         for={indicator.id}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
@@ -10386,7 +10386,7 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
                       </button>
                     {/if}
                   </div>
@@ -10454,7 +10454,7 @@
                         />
                         <label
                           for={indicator.id}
-                          class="cursor-pointer text-[1rem] ml-2"
+                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                         >
                           {indicator.label}
                         </label>
@@ -10522,7 +10522,7 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
                       </button>
                     {/if}
                   </div>
@@ -10599,7 +10599,7 @@
                       />
                       <label
                         for={`selected-${indicator.id}`}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
@@ -10674,7 +10674,7 @@
                       />
                       <label
                         for={`favorite-${indicator.id}`}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
@@ -10771,7 +10771,7 @@
                         />
                         <label
                           for={indicator.id}
-                          class="cursor-pointer text-[1rem] ml-2"
+                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                         >
                           {indicator.label}
                         </label>
@@ -10839,7 +10839,7 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
                       </button>
                     {/if}
                   </div>
@@ -10885,7 +10885,7 @@
                       />
                       <label
                         for={indicator.id}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
@@ -10929,7 +10929,7 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
                       </button>
                     {/if}
                   </div>
@@ -10975,7 +10975,7 @@
                       />
                       <label
                         for={indicator.id}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
@@ -11019,7 +11019,7 @@
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                           />
                         </svg>
-                        <span class="text-[1rem]">{indicator.label}</span>
+                        <span class="text-sm sm:text-[1rem]">{indicator.label}</span>
                       </button>
                     {/if}
                   </div>
@@ -11070,7 +11070,7 @@
                       />
                       <label
                         for={indicator.id}
-                        class="cursor-pointer text-[1rem] ml-2"
+                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
                         {indicator.label}
                       </label>
