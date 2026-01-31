@@ -94,8 +94,11 @@
   ];
 
   // localStorage keys for chart settings (not saved to pocketbase)
-  const CHART_EVENTS_KEY = "chart-events";
-  const CHART_OVERLAYS_KEY = "chart-overlays";
+  // Keys are per-ticker to save settings separately for each ticker
+  const getChartEventsKey = (tickerSymbol: string) =>
+    `chart-events-${tickerSymbol}`;
+  const getChartOverlaysKey = (tickerSymbol: string) =>
+    `chart-overlays-${tickerSymbol}`;
 
   interface ChartSettings {
     chartType: string;
@@ -118,9 +121,12 @@
   // 1 Year in milliseconds for localStorage cache duration
   const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
-  const loadChartSettings = (): ChartSettings | null => {
+  const loadChartSettings = (tickerSymbol?: string): ChartSettings | null => {
+    const symbol = tickerSymbol || data?.ticker;
+    if (!symbol) return null;
+    const key = getChartEventsKey(symbol);
     try {
-      const saved = localStorage?.getItem(CHART_EVENTS_KEY);
+      const saved = localStorage?.getItem(key);
       if (saved) {
         const settings = JSON.parse(saved) as ChartSettings;
         // Check if data is older than 1 year
@@ -128,7 +134,7 @@
           const now = Date.now();
           if (now - settings.savedAt > ONE_YEAR_MS) {
             // Data expired, clear it
-            localStorage?.removeItem(CHART_EVENTS_KEY);
+            localStorage?.removeItem(key);
             return null;
           }
         }
@@ -140,25 +146,31 @@
     return null;
   };
 
-  const saveChartSettings = (settings: ChartSettings) => {
+  const saveChartSettings = (
+    settings: ChartSettings,
+    tickerSymbol?: string,
+  ) => {
+    const symbol = tickerSymbol || data?.ticker;
+    if (!symbol) return;
+    const key = getChartEventsKey(symbol);
     try {
       // Add timestamp for 1Y cache expiration
       const settingsWithTimestamp = {
         ...settings,
         savedAt: Date.now(),
       };
-      localStorage?.setItem(
-        CHART_EVENTS_KEY,
-        JSON.stringify(settingsWithTimestamp),
-      );
+      localStorage?.setItem(key, JSON.stringify(settingsWithTimestamp));
     } catch (e) {
       console.log("Failed saving chart settings:", e);
     }
   };
 
-  const loadChartOverlays = (): any[] => {
+  const loadChartOverlays = (tickerSymbol?: string): any[] => {
+    const symbol = tickerSymbol || data?.ticker;
+    if (!symbol) return [];
+    const key = getChartOverlaysKey(symbol);
     try {
-      const saved = localStorage?.getItem(CHART_OVERLAYS_KEY);
+      const saved = localStorage?.getItem(key);
       if (saved) {
         return JSON.parse(saved);
       }
@@ -168,9 +180,12 @@
     return [];
   };
 
-  const saveChartOverlays = (overlays: any[]) => {
+  const saveChartOverlays = (overlays: any[], tickerSymbol?: string) => {
+    const symbol = tickerSymbol || data?.ticker;
+    if (!symbol) return;
+    const key = getChartOverlaysKey(symbol);
     try {
-      localStorage?.setItem(CHART_OVERLAYS_KEY, JSON.stringify(overlays));
+      localStorage?.setItem(key, JSON.stringify(overlays));
     } catch (e) {
       console.log("Failed saving chart overlays:", e);
     }
@@ -6333,7 +6348,88 @@
 
   afterUpdate(async () => {
     if (previousTicker !== ticker) {
+      const isInitialLoad = previousTicker === "";
       previousTicker = ticker;
+
+      // Reload chart settings and overlays for the new ticker
+      if (!isInitialLoad && ticker) {
+        // Clear existing overlays from the chart
+        if (chart) {
+          chart.removeOverlay();
+          overlayIds = [];
+        }
+
+        // Reset toolbar state to defaults
+        selectedToolByGroup = {
+          lines: "horizontalStraightLine",
+          channels: "priceChannelLine",
+          shapes: "circle",
+          fibonacci: "fibonacciLine",
+          waves: "xabcd",
+        };
+        drawingsLocked = false;
+        drawingsVisible = true;
+        drawingMode = "normal";
+        activeTool = "cursor";
+
+        // Load settings for the new ticker
+        const savedSettings = loadChartSettings();
+        if (savedSettings) {
+          if (
+            savedSettings.chartType &&
+            chartTypeOptions.some((opt) => opt.id === savedSettings.chartType)
+          ) {
+            chartType = savedSettings.chartType as ChartTypeId;
+            currentChartType = chartTypeOptions.find(
+              (opt) => opt.id === chartType,
+            );
+          }
+          if (
+            savedSettings.activeRange &&
+            timeframes.includes(savedSettings.activeRange)
+          ) {
+            activeRange = savedSettings.activeRange;
+          }
+          if (data?.user?.tier === "Pro") {
+            showEarnings = savedSettings.showEarnings ?? true;
+            showDividends = savedSettings.showDividends ?? true;
+            showNewsFlow = savedSettings.showNewsFlow ?? true;
+            showShortInterest = savedSettings.showShortInterest ?? false;
+          }
+          if (savedSettings.selectedToolByGroup) {
+            selectedToolByGroup = {
+              ...selectedToolByGroup,
+              ...savedSettings.selectedToolByGroup,
+            };
+          }
+          if (savedSettings.drawingMode) {
+            drawingMode = savedSettings.drawingMode;
+          }
+          if (typeof savedSettings.drawingsLocked === "boolean") {
+            drawingsLocked = savedSettings.drawingsLocked;
+          }
+          if (typeof savedSettings.drawingsVisible === "boolean") {
+            drawingsVisible = savedSettings.drawingsVisible;
+          }
+        }
+
+        // Load overlays for the new ticker
+        const savedOverlays = loadChartOverlays();
+        if (chart && savedOverlays?.length > 0) {
+          savedOverlays.forEach((overlay) => {
+            try {
+              chart.createOverlay({
+                ...overlay,
+                lock: drawingsLocked,
+                visible: drawingsVisible,
+                onDrawEnd: handleOverlayDrawEnd,
+              });
+            } catch (e) {
+              console.log("Failed to restore overlay:", e);
+            }
+          });
+        }
+      }
 
       // Handle WebSocket reconnection on ticker change
       if (typeof socket !== "undefined" && socket !== null) {
@@ -7742,7 +7838,7 @@
         <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[15]">
-            {#each earningsMarkers as marker (marker.timestamp)}
+            {#each earningsMarkers as marker, i (`${marker.timestamp}-${i}`)}
               {#if marker?.visible}
                 <button
                   class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
@@ -8062,7 +8158,7 @@
         <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[15]">
-            {#each dividendMarkers as marker (marker.timestamp)}
+            {#each dividendMarkers as marker, i (`${marker.timestamp}-${i}`)}
               {#if marker?.visible}
                 <button
                   class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
@@ -8212,7 +8308,7 @@
         <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
         {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
           <div class="absolute inset-0 pointer-events-none z-[15]">
-            {#each newsMarkers as marker (marker.news.date)}
+            {#each newsMarkers as marker, i (`${marker.news.date}-${i}`)}
               {#if marker?.visible}
                 <button
                   class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"

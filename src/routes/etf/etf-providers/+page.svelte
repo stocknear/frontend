@@ -8,18 +8,18 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { page } from "$app/stores";
   import {
-  etf_providers_count,
-  etf_providers_empty,
-  etf_providers_infobox,
-  etf_providers_seo_description,
-  etf_providers_seo_keywords,
-  etf_providers_seo_title,
-  etf_providers_structured_description,
-  etf_providers_structured_item_description,
-  etf_providers_structured_item_name,
-  etf_providers_structured_name,
-  etf_search_placeholder,
-} from "$lib/paraglide/messages";
+    etf_providers_count,
+    etf_providers_empty,
+    etf_providers_infobox,
+    etf_providers_seo_description,
+    etf_providers_seo_keywords,
+    etf_providers_seo_title,
+    etf_providers_structured_description,
+    etf_providers_structured_item_description,
+    etf_providers_structured_item_name,
+    etf_providers_structured_name,
+    etf_search_placeholder,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -145,9 +145,8 @@
     initColumnOrder();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -372,7 +371,9 @@
       <h2
         class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
       >
-        {etf_providers_count({ count: originalData?.length?.toLocaleString("en-US") || "0" })}
+        {etf_providers_count({
+          count: originalData?.length?.toLocaleString("en-US") || "0",
+        })}
       </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -401,7 +402,7 @@
             bind:value={inputValue}
             on:input={search}
             placeholder={etf_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
