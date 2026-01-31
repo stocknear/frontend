@@ -76,6 +76,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import MarkdownNoteEditor from "$lib/components/MarkdownNoteEditor.svelte";
 
   export let data;
   let timeoutId;
@@ -703,40 +704,18 @@
   let editingNoteSymbol = "";
   let editingNoteText = "";
   let originalNoteText = ""; // Track original text to detect changes
-  let isSavingNote = false;
-  let isEditingNote = false; // false = preview mode, true = edit mode
 
-  const NOTE_CHAR_LIMIT = 300;
-
-  // Check if this is a new note or editing existing
+  // Check if this is a new note
   $: isNewNote = originalNoteText === "";
-  $: hasChanges = editingNoteText.trim() !== originalNoteText;
-  $: charCount = editingNoteText.length;
-  $: isOverLimit = charCount > NOTE_CHAR_LIMIT;
-
-  let noteTextarea: HTMLTextAreaElement;
 
   function handleNoteClick(symbol: string, currentNote: string) {
     editingNoteSymbol = symbol;
     editingNoteText = currentNote || "";
     originalNoteText = currentNote || "";
-    isEditingNote = !currentNote; // If no note exists, go directly to edit mode
     isNoteModalOpen = true;
-    // Auto-focus textarea only when in edit mode (new note)
-    if (!currentNote) {
-      setTimeout(() => noteTextarea?.focus(), 100);
-    }
   }
 
-  async function saveNote() {
-    if (isOverLimit) {
-      toast.error(`Note cannot exceed ${NOTE_CHAR_LIMIT} characters`, {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
-      return;
-    }
-
-    isSavingNote = true;
+  async function saveNote(markdown: string) {
     const wasNewNote = isNewNote;
 
     try {
@@ -749,7 +728,7 @@
           mode: "note",
           watchListId: displayWatchList?.id,
           symbol: editingNoteSymbol,
-          note: editingNoteText.trim(),
+          note: markdown,
         }),
       });
 
@@ -773,9 +752,8 @@
         (item) => item?.id === displayWatchList?.id
       );
 
-      // Close modal and reset state for better UX
+      // Close modal and reset state
       isNoteModalOpen = false;
-      isEditingNote = false;
 
       toast.success(wasNewNote ? "Note created" : "Note updated", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -787,8 +765,7 @@
       toast.error("Failed to save note. Please try again.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
-    } finally {
-      isSavingNote = false;
+      throw error; // Re-throw to let the editor know the save failed
     }
   }
 
@@ -797,7 +774,6 @@
     editingNoteSymbol = "";
     editingNoteText = "";
     originalNoteText = "";
-    isEditingNote = false;
   }
 </script>
 
@@ -1527,150 +1503,16 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-md bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-xl"
+    class="modal-box w-full max-w-2xl bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-xl p-6"
   >
-    <!-- Header with icon and symbol badge -->
-    <div class="flex items-start justify-between mb-6">
-      <div class="flex items-center gap-3">
-        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-500/20">
-          <svg class="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-        </div>
-        <div>
-          <h3 class="font-semibold text-lg text-gray-900 dark:text-zinc-100">
-            {#if isNewNote}
-              Add Note
-            {:else if isEditingNote}
-              Edit Note
-            {:else}
-              Your Note
-            {/if}
-          </h3>
-          <div class="flex items-center gap-2 mt-0.5">
-            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300">
-              {editingNoteSymbol}
-            </span>
-            {#if !isNewNote && !isEditingNote}
-              <span class="text-xs text-gray-400 dark:text-zinc-500">
-                {originalNoteText.length} chars
-              </span>
-            {/if}
-          </div>
-        </div>
-      </div>
-      <button
-        on:click={closeNoteModal}
-        class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:text-zinc-500 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-
-    {#if !isNewNote && !isEditingNote}
-      <!-- Preview Mode -->
-      <div class="mb-6">
-        <div class="relative">
-          <!-- Quote decoration -->
-          <svg class="absolute -top-2 -left-1 w-8 h-8 text-violet-200 dark:text-violet-500/20" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-          </svg>
-          <div class="pl-6 py-3">
-            <p class="text-gray-700 dark:text-zinc-200 whitespace-pre-wrap leading-relaxed">{originalNoteText}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Edit Button -->
-      <button
-        on:click={() => { isEditingNote = true; setTimeout(() => noteTextarea?.focus(), 100); }}
-        class="group cursor-pointer w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900 text-gray-700 dark:text-zinc-300 font-medium text-sm transition-all hover:border-violet-300 dark:hover:border-violet-500/50 hover:bg-violet-50 dark:hover:bg-violet-500/10 hover:text-violet-700 dark:hover:text-violet-400 flex items-center justify-center gap-2"
-      >
-        <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-        </svg>
-        Edit Note
-      </button>
-    {:else}
-      <!-- Edit Mode -->
-      <div class="space-y-4">
-        <!-- Textarea with integrated character count -->
-        <div class="relative">
-          <textarea
-            bind:this={noteTextarea}
-            bind:value={editingNoteText}
-            placeholder={isNewNote
-              ? "Write your investment thesis, target price, or key reasons for watching this stock..."
-              : "Update your note..."}
-            rows="5"
-            maxlength="350"
-            class="w-full px-4 py-3 pb-8 border rounded-xl bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:bg-white dark:focus:bg-zinc-900 resize-none transition-all {isOverLimit
-              ? 'border-red-300 dark:border-red-500/50 focus:ring-red-500/30'
-              : 'border-gray-200 dark:border-zinc-700 focus:ring-violet-500/30 focus:border-violet-400 dark:focus:border-violet-500'}"
-          ></textarea>
-
-          <!-- Character count badge inside textarea -->
-          <div class="absolute bottom-3 right-3 flex items-center gap-2">
-            {#if isOverLimit}
-              <span class="text-xs font-medium text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">
-                -{charCount - NOTE_CHAR_LIMIT} over
-              </span>
-            {:else if charCount > NOTE_CHAR_LIMIT * 0.8}
-              <span class="text-xs font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full">
-                {NOTE_CHAR_LIMIT - charCount} left
-              </span>
-            {:else if charCount > 0}
-              <span class="text-xs text-gray-400 dark:text-zinc-500">
-                {charCount}/{NOTE_CHAR_LIMIT}
-              </span>
-            {/if}
-          </div>
-        </div>
-
-        <!-- Progress bar (subtle) -->
-        {#if charCount > 0}
-          <div class="h-0.5 w-full bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden -mt-2">
-            <div
-              class="h-full transition-all duration-300 rounded-full {isOverLimit
-                ? 'bg-red-500'
-                : charCount > NOTE_CHAR_LIMIT * 0.8
-                  ? 'bg-amber-500'
-                  : 'bg-violet-500'}"
-              style="width: {Math.min((charCount / NOTE_CHAR_LIMIT) * 100, 100)}%"
-            ></div>
-          </div>
-        {/if}
-
-        <!-- Buttons - side by side -->
-        <div class="flex items-center gap-3 pt-2">
-          <button
-            on:click={closeNoteModal}
-            class="flex-1 cursor-pointer py-2.5 px-4 rounded-xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 font-medium text-sm transition-colors hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-200"
-          >
-            Cancel
-          </button>
-          <button
-            on:click={saveNote}
-            disabled={isSavingNote || isOverLimit || !hasChanges}
-            class="flex-1 cursor-pointer py-2.5 px-4 rounded-xl bg-violet-600 dark:bg-violet-500 text-white font-medium text-sm transition-all hover:bg-violet-700 dark:hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-violet-600 dark:disabled:hover:bg-violet-500 flex items-center justify-center gap-2"
-          >
-            {#if isSavingNote}
-              <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Saving...
-            {:else}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-              {isNewNote ? "Add Note" : "Save Changes"}
-            {/if}
-          </button>
-        </div>
-      </div>
+    {#if isNoteModalOpen}
+      <MarkdownNoteEditor
+        value={editingNoteText}
+        symbol={editingNoteSymbol}
+        {isNewNote}
+        onSave={saveNote}
+        onCancel={closeNoteModal}
+      />
     {/if}
   </div>
 </dialog>
