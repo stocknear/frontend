@@ -275,10 +275,6 @@
     execCommand(setBlockType(schema.nodes.heading, { level }));
   }
 
-  function setParagraph() {
-    execCommand(setBlockType(schema.nodes.paragraph));
-  }
-
   function toggleBlockquote() {
     execCommand(wrapIn(schema.nodes.blockquote));
   }
@@ -289,16 +285,6 @@
 
   function toggleOrderedList() {
     execCommand(wrapInList(schema.nodes.ordered_list));
-  }
-
-  function insertCodeBlock() {
-    if (!editorView) return;
-    const { state, dispatch } = editorView;
-    const { $from } = state.selection;
-    const index = $from.index();
-    if (!$from.parent.canReplaceWith(index, index, schema.nodes.code_block)) return;
-    dispatch(state.tr.replaceSelectionWith(schema.nodes.code_block.create()));
-    editorView.focus();
   }
 
   function insertLink() {
