@@ -124,6 +124,30 @@
   let hasUnreadElement = false;
   let notificationList = [];
 
+  // Bottom navbar scroll hide/show
+  let navbarHidden = false;
+  let lastScrollY = 0;
+  const scrollThreshold = 10;
+
+  function handleScroll() {
+    if (!browser) return;
+
+    const currentScrollY = window.scrollY;
+    const scrollDiff = currentScrollY - lastScrollY;
+
+    // Only trigger if scroll amount exceeds threshold
+    if (Math.abs(scrollDiff) < scrollThreshold) return;
+
+    // Hide when scrolling down, show when scrolling up
+    if (scrollDiff > 0 && currentScrollY > 100) {
+      navbarHidden = true;
+    } else if (scrollDiff < 0) {
+      navbarHidden = false;
+    }
+
+    lastScrollY = currentScrollY;
+  }
+
   //Define web workers:
   let syncWorker: Worker | undefined = undefined;
   // Handling messages from the worker
@@ -505,7 +529,7 @@
   }
 </script>
 
-<svelte:window bind:innerWidth={$screenWidth} />
+<svelte:window bind:innerWidth={$screenWidth} on:scroll={handleScroll} />
 
 <ModeWatcher defaultMode={data?.themeMode} />
 
@@ -1860,8 +1884,9 @@
 <!-- Bottom Navigation Bar -->
 {#if !isChartRoute}
   <nav
-    class="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur pb-[env(safe-area-inset-bottom)]
-           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:bg-gray-900 sm:dark:bg-zinc-900/90 sm:backdrop-blur-xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+    class="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
+           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:bg-gray-900 sm:dark:bg-zinc-900/90 sm:backdrop-blur-xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
+           {navbarHidden ? 'translate-y-full sm:translate-y-[calc(100%+2rem)]' : 'translate-y-0'}"
   >
     <div class="grid grid-cols-5 h-14 sm:flex sm:h-auto sm:px-2 sm:py-2 sm:gap-1">
       <a
