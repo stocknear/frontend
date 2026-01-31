@@ -9228,7 +9228,7 @@
 
   <!-- Mobile Bottom Navigation Bar -->
   <div
-    class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0b0b0b] border-t border-neutral-800 safe-area-pb"
+    class="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
   >
     <div class="flex items-center justify-around px-2 py-1">
       <!-- Timeframe -->
@@ -9518,9 +9518,9 @@
 <!-- Mobile Bottom Navigation Bar -->
 {#if isMobile}
   <div
-    class="fixed bottom-0 left-0 right-0 z-[30] sm:hidden bg-[#09090b] border-t border-neutral-800 h-[60px]"
+    class="fixed bottom-0 left-0 right-0 z-40 sm:hidden border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
   >
-    <div class="flex items-center justify-around h-full px-2">
+    <div class="flex items-center justify-around h-14 px-2">
       <!-- Timeframe -->
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild let:builder>
