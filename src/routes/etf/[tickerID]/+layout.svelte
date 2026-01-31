@@ -135,7 +135,25 @@
     }
   }
 
+  // Helper to check if ticker exists in watchlist (handles both string and object formats)
+  function tickerExistsInWatchlist(
+    tickers: (string | { symbol: string })[],
+    symbol: string,
+  ): boolean {
+    if (!tickers || !Array.isArray(tickers)) return false;
+    return tickers.some((t) =>
+      typeof t === "string" ? t === symbol : t?.symbol === symbol,
+    );
+  }
+
+  // Prevent concurrent toggle operations
+  let isTogglingWatchlist = false;
+
   async function toggleUserWatchlist(watchListId: string) {
+    // Prevent rapid clicking
+    if (isTogglingWatchlist) return;
+    isTogglingWatchlist = true;
+
     try {
       // Find the index of the watchlist
       const watchlistIndex = userWatchList?.findIndex(
@@ -144,21 +162,17 @@
 
       if (watchlistIndex !== -1 && watchlistIndex !== undefined) {
         const watchlist = userWatchList[watchlistIndex];
-        const existingTickerIndex = watchlist?.ticker?.indexOf($etfTicker);
+        const tickerExists = tickerExistsInWatchlist(
+          watchlist?.ticker,
+          $etfTicker,
+        );
 
-        let updatedTickers = [...(watchlist?.ticker || [])]; // Ensure we don't mutate directly
-
-        if (existingTickerIndex !== -1) {
-          // Remove the ticker if it exists
-          updatedTickers.splice(existingTickerIndex, 1);
-        } else {
-          // Add the ticker if it doesn't exist
-          updatedTickers.push($etfTicker);
-
-          // Check tier limits
+        // Check tier limits before adding
+        if (!tickerExists) {
+          const currentCount = watchlist?.ticker?.length || 0;
           if (
             !["Pro", "Plus"]?.includes(data?.user?.tier) &&
-            updatedTickers.length > 5
+            currentCount >= 5
           ) {
             toast.error(etf_detail_upgrade_watchlist(), {
               style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -167,25 +181,20 @@
           }
         }
 
-        // Update the local state immutably
-        userWatchList = userWatchList.map((item, idx) =>
-          idx === watchlistIndex ? { ...item, ticker: updatedTickers } : item,
-        );
-
-        // Send API request with price when adding (not removing)
+        // Send API request - let the server handle the toggle
         const response = await fetch("/api/update-watchlist", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             watchListId,
             ticker: $etfTicker,
-            price: existingTickerIndex === -1 ? (data?.getStockQuote?.price ?? null) : undefined,
+            price: !tickerExists ? (data?.getStockQuote?.price ?? null) : undefined,
           }),
         });
 
         const output = await response.json();
 
-        // Update userWatchList based on API response
+        // Update userWatchList based on API response (single source of truth)
         userWatchList = userWatchList.map((item) =>
           item.id === watchListId ? output : item,
         );
@@ -206,6 +215,8 @@
       }
     } catch (error) {
       console.error("An error occurred:", error);
+    } finally {
+      isTogglingWatchlist = false;
     }
   }
 
@@ -768,7 +779,8 @@
             class="cursor-pointer w-full flex flex-row justify-start items-center mb-5"
           >
             <div
-              class="flex flex-row items-center w-full border p-3 rounded-2xl {item?.ticker?.includes(
+              class="flex flex-row items-center w-full border p-3 rounded-2xl {tickerExistsInWatchlist(
+                item?.ticker,
                 $etfTicker,
               )
                 ? 'border-gray-200/70 dark:border-zinc-700/80 bg-gray-50/60 dark:bg-zinc-900/50'
@@ -789,7 +801,7 @@
               <div
                 class="rounded-full w-8 h-8 relative border border-gray-300 dark:border-zinc-700"
               >
-                {#if item?.ticker?.includes($etfTicker)}
+                {#if tickerExistsInWatchlist(item?.ticker, $etfTicker)}
                   <svg
                     class="w-full h-full rounded-full text-gray-700 dark:text-zinc-200"
                     viewBox="0 0 48 48"
