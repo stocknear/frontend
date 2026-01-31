@@ -5,8 +5,9 @@
   import { schema, defaultMarkdownParser, defaultMarkdownSerializer } from "prosemirror-markdown";
   import { keymap } from "prosemirror-keymap";
   import { history, undo, redo } from "prosemirror-history";
-  import { baseKeymap, toggleMark, setBlockType, wrapIn, lift, chainCommands, exitCode } from "prosemirror-commands";
+  import { baseKeymap, toggleMark, setBlockType, wrapIn, lift, chainCommands, exitCode, createParagraphNear, liftEmptyBlock, splitBlock } from "prosemirror-commands";
   import { inputRules, wrappingInputRule, textblockTypeInputRule, InputRule } from "prosemirror-inputrules";
+  import { splitListItem, liftListItem, sinkListItem, wrapInList } from "prosemirror-schema-list";
   import { Plugin } from "prosemirror-state";
   import { Decoration, DecorationSet } from "prosemirror-view";
   import showdown from "showdown";
@@ -83,7 +84,7 @@
     rules.push(wrappingInputRule(/^\s*([-+*])\s$/, schema.nodes.bullet_list));
 
     // Ordered list: 1. at start of line
-    rules.push(wrappingInputRule(/^(\d+)\.\s$/, schema.nodes.ordered_list));
+    rules.push(wrappingInputRule(/^(\d+)\.\s$/, schema.nodes.ordered_list, (match) => ({ order: parseInt(match[1], 10) })));
 
     // Code block: ``` at start of line
     rules.push(textblockTypeInputRule(/^```$/, schema.nodes.code_block));
@@ -125,6 +126,15 @@
             onCancel();
             return true;
           },
+          // List handling - Enter splits list items, Tab indents, Shift-Tab outdents
+          "Enter": chainCommands(
+            splitListItem(schema.nodes.list_item),
+            createParagraphNear,
+            liftEmptyBlock,
+            splitBlock
+          ),
+          "Tab": sinkListItem(schema.nodes.list_item),
+          "Shift-Tab": liftListItem(schema.nodes.list_item),
         }),
         keymap(baseKeymap),
         placeholderPlugin("Write your investment thesis, target price, or key reasons for watching this stock..."),
@@ -208,11 +218,11 @@
   }
 
   function toggleBulletList() {
-    execCommand(wrapIn(schema.nodes.bullet_list));
+    execCommand(wrapInList(schema.nodes.bullet_list));
   }
 
   function toggleOrderedList() {
-    execCommand(wrapIn(schema.nodes.ordered_list));
+    execCommand(wrapInList(schema.nodes.ordered_list));
   }
 
   function insertCodeBlock() {

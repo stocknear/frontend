@@ -101,6 +101,7 @@
     "prosemirror-markdown": "^1.13.3",
     "prosemirror-model": "^1.25.1",
     "prosemirror-schema-basic": "^1.2.4",
+    "prosemirror-schema-list": "^1.5.1",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.39.3",
     "turndown": "^7.2.1",
