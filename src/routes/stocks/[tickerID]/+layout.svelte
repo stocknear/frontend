@@ -501,7 +501,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-500 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title={stock_detail_price_alert()}
                             >
                               <svg
@@ -521,11 +521,11 @@
                                   <path d="M9.5 13h5M12 10.5v5" />
                                 </g>
                               </svg>
-                              <span class="text-sm">{stock_detail_price_alert()}</span>
+                              <span class="text-sm overflow-hidden max-w-0 group-hover:max-w-28 group-hover:ml-1.5 transition-all duration-500 ease-out">{stock_detail_price_alert()}</span>
                             </label>
                             <a
                               href="/chart/{$stockTicker}"
-                              class="shadow inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-500 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title="Pro Chart"
                             >
                               <svg
@@ -536,7 +536,7 @@
                               >
                                 <path d="M17 8.2 9 16 1 8.2 3.667 3h10.666zM2.226 8 9 14.602 15.773 8l-2.05-4H4.277zM7 7h1v2H7v1H6V9H5V7h1V5h1zm5-1h1v2h-1v2h-1V8h-1V6h1V5h1z" />
                               </svg>
-                              <span class="text-sm">Pro Chart</span>
+                              <span class="text-sm overflow-hidden max-w-0 group-hover:max-w-24 group-hover:ml-1.5 transition-all duration-500 ease-out">Pro Chart</span>
                             </a>
                             <StockPriceExport
                               ticker={$stockTicker}

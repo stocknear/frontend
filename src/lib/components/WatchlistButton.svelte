@@ -210,7 +210,7 @@
 <!-- Watchlist Button -->
 <button
   on:click={handleWatchlistButtonClick}
-  class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all whitespace-nowrap text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-white/80 sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:px-3 sm:py-2 sm:text-sm sm:font-normal"
+  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-500 ease-out whitespace-nowrap text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-white/80 sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
   title={msg.watchlist()}
 >
   <svg
@@ -225,7 +225,7 @@
   >
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
-  <span class="text-xs sm:text-sm">{msg.watchlist()}</span>
+  <span class="text-xs sm:text-sm sm:overflow-hidden sm:max-w-0 sm:group-hover:max-w-24 sm:group-hover:ml-1.5 transition-all duration-500 ease-out">{msg.watchlist()}</span>
 </button>
 
 <!-- Watchlist Modal -->

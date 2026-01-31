@@ -181,10 +181,10 @@
 <div class={`flex items-center ${className}`}>
   <Button
     on:click={openModal}
-    class="shadow transition-all  duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center px-2.5 py-1 rounded-full text-xs sm:text-sm"
+    class="group shadow transition-all duration-500 ease-out border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
   >
-    <DownloadIcon class="size-4 mr-1" />
-    {stock_detail_export_price()}
+    <DownloadIcon class="size-5 flex-shrink-0" />
+    <span class="overflow-hidden max-w-0 group-hover:max-w-32 group-hover:ml-1.5 transition-all duration-500 ease-out">{stock_detail_export_price()}</span>
   </Button>
 </div>
 
