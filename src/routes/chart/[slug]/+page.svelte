@@ -5952,6 +5952,7 @@
   }
 
   let LoginPopup;
+  let strategyMenuOpen = false;
 
   const openLoginModal = () => {
     const loginTrigger = document.getElementById("userLogin");
@@ -7725,7 +7726,7 @@
         ></div>
 
         <!-- Strategy Dropdown -->
-        <DropdownMenu.Root>
+        <DropdownMenu.Root bind:open={strategyMenuOpen}>
           <DropdownMenu.Trigger asChild let:builder>
             <button
               use:builder.action
@@ -7750,6 +7751,7 @@
             {#if isSubscribed}
               <label
                 for={!data?.user ? "userLogin" : "addChartStrategy"}
+                on:click={() => (strategyMenuOpen = false)}
                 class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-violet-600 dark:text-violet-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
               >
                 <svg
@@ -7767,7 +7769,10 @@
               </label>
             {:else}
               <button
-                on:click={() => goto("/pricing")}
+                on:click={() => {
+                  strategyMenuOpen = false;
+                  goto("/pricing");
+                }}
                 class="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer text-gray-500 dark:text-zinc-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
               >
                 <svg
