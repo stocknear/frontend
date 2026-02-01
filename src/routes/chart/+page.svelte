@@ -415,41 +415,20 @@
     </dialog>
 
     <!-- Features -->
-    <div class="mt-12 sm:mt-16 max-w-3xl mx-auto">
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">25+</div>
-          <div class="text-xs sm:text-sm text-zinc-400">Technical Indicators</div>
-          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">RSI, MACD, Bollinger & more</div>
-        </div>
-        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">20+</div>
-          <div class="text-xs sm:text-sm text-zinc-400">Drawing Tools</div>
-          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">Lines, Fibonacci, Patterns</div>
-        </div>
-        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">5+</div>
-          <div class="text-xs sm:text-sm text-zinc-400">Options Flow</div>
-          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">GEX, DEX, OI, Max Pain</div>
-        </div>
-        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">10+</div>
-          <div class="text-xs sm:text-sm text-zinc-400">Fundamentals</div>
-          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">Revenue, EPS, Ratios</div>
-        </div>
-        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">10+</div>
-          <div class="text-xs sm:text-sm text-zinc-400">Timeframes</div>
-          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">1min to Monthly</div>
-        </div>
-        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-          <div class="flex items-center justify-center gap-1 mb-1">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span class="text-2xl sm:text-3xl font-bold text-white">Live</span>
-          </div>
-          <div class="text-xs sm:text-sm text-zinc-400">Real-time Data</div>
-          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">Streaming quotes</div>
-        </div>
+    <div class="mt-12 sm:mt-16 flex justify-center">
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-zinc-500">
+        <span>Technicals</span>
+        <span class="hidden sm:inline text-zinc-700">·</span>
+        <span>Drawing Tools</span>
+        <span class="hidden sm:inline text-zinc-700">·</span>
+        <span>Options Flow</span>
+        <span class="hidden sm:inline text-zinc-700">·</span>
+        <span>Fundamentals</span>
+        <span class="hidden sm:inline text-zinc-700">·</span>
+        <span class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+          Real-time
+        </span>
       </div>
     </div>
   </div>
