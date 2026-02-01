@@ -353,6 +353,91 @@ const calcStoch = (
   return results;
 };
 
+const calcStochRsi = (values: Float64Array, params: number[]) => {
+  const rsiPeriod = clampPeriod(params?.[0], 14);
+  const stochPeriod = clampPeriod(params?.[1], 14);
+  const smoothK = clampPeriod(params?.[2], 3);
+  const smoothD = clampPeriod(params?.[3], 3);
+  const length = values.length;
+  const results = createEmptyResults(length);
+
+  const rsiResults = calcRsi(values, [rsiPeriod]);
+  const rsiValues = new Float64Array(length);
+  rsiValues.fill(Number.NaN);
+
+  for (let i = 0; i < length; i += 1) {
+    const rsi = rsiResults[i]?.rsi;
+    if (Number.isFinite(rsi)) {
+      rsiValues[i] = rsi as number;
+    }
+  }
+
+  const maxDeque: number[] = [];
+  const minDeque: number[] = [];
+  const kQueue: number[] = [];
+  const dQueue: number[] = [];
+  let kSum = 0;
+  let dSum = 0;
+  const firstIndex = rsiPeriod + stochPeriod - 1;
+
+  for (let i = 0; i < length; i += 1) {
+    const rsi = rsiValues[i];
+    if (!Number.isFinite(rsi)) continue;
+
+    while (
+      maxDeque.length &&
+      rsi >= rsiValues[maxDeque[maxDeque.length - 1]]
+    ) {
+      maxDeque.pop();
+    }
+    maxDeque.push(i);
+
+    while (
+      minDeque.length &&
+      rsi <= rsiValues[minDeque[minDeque.length - 1]]
+    ) {
+      minDeque.pop();
+    }
+    minDeque.push(i);
+
+    const windowStart = i - stochPeriod + 1;
+    while (maxDeque.length && maxDeque[0] < windowStart) {
+      maxDeque.shift();
+    }
+    while (minDeque.length && minDeque[0] < windowStart) {
+      minDeque.shift();
+    }
+
+    if (i < firstIndex) continue;
+
+    const max = rsiValues[maxDeque[0]];
+    const min = rsiValues[minDeque[0]];
+    const range = max - min;
+    const stoch = range === 0 ? 0 : ((rsi - min) / range) * 100;
+
+    kQueue.push(stoch);
+    kSum += stoch;
+    if (kQueue.length > smoothK) {
+      kSum -= kQueue.shift() as number;
+    }
+
+    if (kQueue.length === smoothK) {
+      const k = kSum / smoothK;
+      results[i].k = k;
+      dQueue.push(k);
+      dSum += k;
+      if (dQueue.length > smoothD) {
+        dSum -= dQueue.shift() as number;
+      }
+      if (dQueue.length === smoothD) {
+        results[i].d = dSum / smoothD;
+      }
+    }
+  }
+
+  return results;
+};
+
 const calcStochCrossover = (
   high: Float64Array,
   low: Float64Array,
@@ -875,6 +960,8 @@ const computeIndicator = (indicator: string, params: number[]) => {
       return calcAtr(dataset.high, dataset.low, dataset.close, params);
     case "stoch":
       return calcStoch(dataset.high, dataset.low, dataset.close, params);
+    case "stoch_rsi":
+      return calcStochRsi(dataset.close, params);
     case "stoch_crossover":
       return calcStochCrossover(dataset.high, dataset.low, dataset.close, params);
     case "obv":

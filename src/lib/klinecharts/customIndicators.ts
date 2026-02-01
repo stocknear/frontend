@@ -364,6 +364,22 @@ function createStochIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   });
 }
 
+function createStochRsiIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return createWorkerIndicator("stoch_rsi", {
+    name: "SN_STOCH_RSI",
+    shortName: "STOCH RSI",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    maxValue: 100,
+    calcParams: [14, 14, 3, 3],
+    figures: [
+      { key: "k", title: "%K: ", type: "line" },
+      { key: "d", title: "%D: ", type: "line" },
+    ],
+  });
+}
+
 function createStochCrossoverIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   return createWorkerIndicator("stoch_crossover", {
     name: "SN_STOCH_X",
@@ -1829,6 +1845,7 @@ export function registerCustomIndicators() {
   registerIndicator(createMacdIndicator());
   registerIndicator(createAtrIndicator());
   registerIndicator(createStochIndicator());
+  registerIndicator(createStochRsiIndicator());
   registerIndicator(createStochCrossoverIndicator());
   registerIndicator(createObvIndicator());
   registerIndicator(createCciIndicator());

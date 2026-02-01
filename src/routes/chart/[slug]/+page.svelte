@@ -1085,6 +1085,15 @@
       height: 150,
     },
     {
+      id: "stoch_rsi",
+      label: "Stochastic RSI",
+      indicatorName: "SN_STOCH_RSI",
+      category: "Momentum",
+      defaultParams: [14, 14, 3, 3],
+      pane: "panel",
+      height: 150,
+    },
+    {
       id: "stoch_crossover",
       label: "Stochastic Crossover",
       indicatorName: "SN_STOCH_X",
