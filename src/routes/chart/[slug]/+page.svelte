@@ -33,7 +33,6 @@
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
-  import ArrowRight from "lucide-svelte/icons/arrow-right";
   import ArrowLeft from "lucide-svelte/icons/arrow-left";
   import ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
   import ChartLine from "lucide-svelte/icons/chart-line";
