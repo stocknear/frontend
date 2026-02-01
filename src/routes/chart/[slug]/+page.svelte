@@ -46,7 +46,6 @@
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import UpgradeToProChart from "$lib/components/UpgradeToProChart.svelte";
 
   export let data;
   export let form;
@@ -1432,23 +1431,6 @@
     return map[interval] ?? 30;
   };
 
-  // Get base limit (for modal display)
-  const getIntradayBaseLimitDays = (interval: IntradayInterval) =>
-    intradayHistoryBaseLimitDaysMap[interval] ?? 30;
-
-  // Get pro limit (for modal display)
-  const getIntradayProLimitDays = (interval: IntradayInterval) =>
-    intradayHistoryProLimitDaysMap[interval] ?? 90;
-
-  // Track which interval triggered the upgrade modal
-  let upgradeModalInterval: IntradayInterval = "1min";
-
-  // Function to open the upgrade modal
-  const showUpgradeModal = (interval: IntradayInterval) => {
-    upgradeModalInterval = interval;
-    const clicked = document.getElementById("upgradeToProChartModal");
-    clicked?.dispatchEvent(new MouseEvent("click"));
-  };
   let pricePrecision = 2;
   let priceFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: pricePrecision,
@@ -2428,40 +2410,28 @@
       const startTimestamp = merged[0]?.timestamp ?? null;
       const withinLimit =
         startTimestamp !== null ? startTimestamp > limitMs : false;
-      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
 
       updateIntradayState(interval, {
         hasMore: Boolean(result.hasMore) && withinLimit,
         isLoading: false,
       });
-
-      // Show upgrade modal if non-Pro user hit the limit
-      if (reachedLimit) {
-        showUpgradeModal(interval);
-      }
 
       return {
         bars: result.bars,
         hasMore: Boolean(result.hasMore) && withinLimit,
       };
     } else {
-      // Empty bars returned - check if non-Pro user hit the limit
+      // Empty bars returned - still enforce retention limits
       const limitMs = getIntradayHistoryLimitMs(interval);
       const existingBars = intradayHistory[interval].bars;
       const startTimestamp = existingBars[0]?.timestamp ?? null;
       const withinLimit =
         startTimestamp !== null ? startTimestamp > limitMs : false;
-      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
 
       updateIntradayState(interval, {
         hasMore: Boolean(result.hasMore) && withinLimit,
         isLoading: false,
       });
-
-      // Show upgrade modal if non-Pro user hit the limit
-      if (reachedLimit) {
-        showUpgradeModal(interval);
-      }
 
       return { bars: [], hasMore: Boolean(result.hasMore) && withinLimit };
     }
@@ -6870,34 +6840,20 @@
       const withinLimit =
         startTimestamp !== null ? startTimestamp > limitMs : false;
 
-      // Check if non-Pro user hit the limit
-      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
-
       // respect both API hasMore + local retention limit
       hasMoreMinuteHistory = Boolean(result.hasMore) && withinLimit;
 
       if (activeRange === "1min") {
         currentBars = transformBarsForType(minuteBars, chartType);
       }
-
-      // Show upgrade modal if non-Pro user hit the limit
-      if (reachedLimit) {
-        showUpgradeModal("1min");
-      }
     } else {
-      // Empty bars returned - check if non-Pro user hit the limit
+      // Empty bars returned - still enforce retention limits
       const limitMs = getIntradayHistoryLimitMs("1min");
       const startTimestamp = minuteBars[0]?.timestamp ?? null;
       const withinLimit =
         startTimestamp !== null ? startTimestamp > limitMs : false;
-      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
 
       hasMoreMinuteHistory = Boolean(result.hasMore) && withinLimit;
-
-      // Show upgrade modal if non-Pro user hit the limit
-      if (reachedLimit) {
-        showUpgradeModal("1min");
-      }
     }
 
     minuteBarsLoading = false;
@@ -11936,8 +11892,3 @@
 {#if LoginPopup}
   <LoginPopup {form} />
 {/if}
-
-<UpgradeToProChart
-  currentDays={getIntradayBaseLimitDays(upgradeModalInterval)}
-  proDays={getIntradayProLimitDays(upgradeModalInterval)}
-/>
