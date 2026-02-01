@@ -7418,16 +7418,16 @@
 />
 
 <main
-  class="h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 overflow-hidden"
+  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0b0b0d] text-gray-700 dark:text-zinc-200 overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
     <div
-      class="flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-950"
+      class="tv-topbar flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d]"
     >
       <!-- First Row: Ticker Info + OHLC -->
       <div
-        class="flex items-center px-2 py-1 gap-1 text-sm border-b border-gray-300 dark:border-zinc-800"
+        class="tv-topbar-row flex items-center px-2 py-0.5 gap-1 text-[11px] border-b border-gray-300 dark:border-zinc-800"
       >
         <!-- Ticker Symbol -->
         <button class="flex items-center gap-1.5 px-2 py-1">
@@ -7485,7 +7485,7 @@
 
       <!-- Second Row: Tools -->
       <div
-        class="flex items-center px-1 py-0.5 gap-1 sm:gap-0.5 overflow-x-auto scrollbar-none"
+        class="tv-toolbar-row flex items-center px-1 py-0.5 gap-1 sm:gap-0.5 overflow-x-auto scrollbar-none text-[11px]"
       >
         <!-- Toolbar Toggle (hidden on mobile since drawing toolbar is desktop-only) -->
         <button
@@ -8055,7 +8055,7 @@
       <!-- KlineCharts Pro Style Drawing Toolbar -->
       {#if toolbarExpanded}
         <div
-          class="hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-2 overflow-visible transition-all duration-200"
+          class="tv-left-rail hidden sm:flex h-full w-[54px] flex-col items-center border-r border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2 overflow-visible transition-all duration-200"
         >
           <!-- Cursor Tool -->
           <button
@@ -10027,7 +10027,7 @@
               : rightSidebarCollapsedSize}
           >
             <div
-              class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-zinc-950"
+              class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0b0b0d]"
             >
               {#if rightSidebarOpen}
                 <ChartRightSidebar
@@ -10036,7 +10036,7 @@
                 />
               {/if}
               <div
-                class="flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-2"
+                class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2"
               >
                 <button
                   class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
@@ -12279,14 +12279,14 @@ Delete Strategy</label
   }
 
   :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter) {
-    width: 8px;
-    background-color: #ffffff !important;
+    width: 6px;
+    background-color: #f1f3f5 !important;
     border-left: 1px solid rgba(203, 213, 225, 0.8);
   }
 
   :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter) {
-    background-color: #09090b !important;
-    border-left-color: rgba(63, 63, 70, 0.8);
+    background-color: #111215 !important;
+    border-left-color: rgba(39, 39, 42, 0.9);
   }
 
   :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before),
@@ -12298,5 +12298,38 @@ Delete Strategy</label
   :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before),
   :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after) {
     background-color: rgba(113, 113, 122, 0.8);
+  }
+
+  :global(.dark .chart-tv .tv-topbar),
+  :global(.dark .chart-tv .tv-topbar-row),
+  :global(.dark .chart-tv .tv-toolbar-row) {
+    background-color: #0b0b0d;
+  }
+
+  :global(.dark .chart-tv .tv-topbar-row),
+  :global(.dark .chart-tv .tv-toolbar-row) {
+    min-height: 32px;
+  }
+
+  :global(.dark .chart-tv .tv-toolbar-row button),
+  :global(.dark .chart-tv .tv-toolbar-row label),
+  :global(.dark .chart-tv .tv-toolbar-row a) {
+    color: #a1a1aa;
+  }
+
+  :global(.dark .chart-tv .tv-toolbar-row button:hover),
+  :global(.dark .chart-tv .tv-toolbar-row label:hover),
+  :global(.dark .chart-tv .tv-toolbar-row a:hover) {
+    color: #e4e4e7;
+  }
+
+  :global(.dark .chart-tv .tv-left-rail),
+  :global(.dark .chart-tv .tv-right-rail) {
+    background-color: #0b0b0d;
+    border-color: rgba(39, 39, 42, 0.9);
+  }
+
+  :global(.dark .chart-tv .tv-right-panel) {
+    background-color: #0b0b0d;
   }
 </style>

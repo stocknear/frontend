@@ -327,9 +327,9 @@
   });
 </script>
 
-<div class="flex h-full flex-1 flex-col bg-white dark:bg-zinc-950">
-  <div class="flex items-center justify-between px-3 py-2 border-b border-gray-200 dark:border-zinc-800">
-    <div class="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-zinc-200">
+<div class="tv-right-panel flex h-full flex-1 flex-col bg-white dark:bg-[#0b0b0d]">
+  <div class="flex items-center justify-between px-3 py-2 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]">
+    <div class="flex items-center gap-2 text-[12px] font-semibold text-gray-800 dark:text-zinc-200">
       {#if activeTab === "alerts"}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -370,7 +370,7 @@
       <div class="flex items-center gap-1">
         <button
           type="button"
-          class="p-1.5 rounded-md text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-800/70 transition"
+          class="p-1.5 rounded-md text-gray-500 dark:text-zinc-400 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-gray-100/70 dark:hover:bg-zinc-800/70 transition"
           on:click={() => goto("/watchlist/stocks")}
           title="Manage watchlists"
           aria-label="Manage watchlists"
@@ -379,7 +379,7 @@
         </button>
         <button
           type="button"
-          class="p-1.5 rounded-md text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-800/70 transition"
+          class="p-1.5 rounded-md text-gray-500 dark:text-zinc-400 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-gray-100/70 dark:hover:bg-zinc-800/70 transition"
           on:click={refreshWatchlist}
           title="Refresh"
           aria-label="Refresh"
@@ -391,13 +391,13 @@
   </div>
 
   {#if activeTab === "watchlist"}
-    <div class="px-3 py-2">
+    <div class="px-3 py-1.5">
       {#if watchlists.length > 0}
         <label class="sr-only" for="watchlist-select">Select watchlist</label>
         <div class="relative">
           <select
             id="watchlist-select"
-            class="w-full appearance-none rounded-md border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+            class="w-full appearance-none rounded-sm border border-gray-200/80 dark:border-zinc-800 bg-white/90 dark:bg-[#0f0f12] px-3 py-1 text-[11px] font-medium text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
             bind:value={activeWatchlistId}
             on:change={handleWatchlistChange}
           >
@@ -447,17 +447,17 @@
           Add tickers to see them here.
         </div>
       {:else}
-        <div class="px-3 py-2 text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-2">
+        <div class="px-3 py-2 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-2">
           <span>Symbol</span>
           <span class="text-right">Last</span>
           <span class="text-right">Chg</span>
           <span class="text-right">Chg%</span>
         </div>
 
-        <div class="space-y-1 pb-4">
+        <div class="pb-4 divide-y divide-gray-200/60 dark:divide-zinc-800/70">
           {#each groupedItems as group}
             {#if group.label}
-              <div class="px-3 pt-3 text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-500">
+              <div class="px-3 pt-3 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-500">
                 {group.label}
               </div>
             {/if}
@@ -465,9 +465,9 @@
               {@const changeValue = getChangeValue(item)}
               <button
                 type="button"
-                class="w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-2 px-3 py-2 rounded-md text-xs transition {isActiveSymbol(item?.symbol)
-                  ? 'bg-violet-100/70 dark:bg-violet-500/10 text-gray-900 dark:text-white'
-                  : 'hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 text-gray-700 dark:text-zinc-200'}"
+                class="w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-2 px-3 py-2 text-[11px] transition {isActiveSymbol(item?.symbol)
+                  ? 'bg-blue-500/10 text-gray-900 dark:text-white'
+                  : 'hover:bg-gray-100/60 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200'}"
                 title={item?.name ?? item?.symbol}
                 on:click={() => navigateToSymbol(item?.symbol)}
               >
