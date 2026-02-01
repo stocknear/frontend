@@ -7752,7 +7752,7 @@
               <label
                 for={!data?.user ? "userLogin" : "addChartStrategy"}
                 on:click={() => (strategyMenuOpen = false)}
-                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-violet-600 dark:text-violet-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >
                 <svg
                   class="h-3.5 w-3.5"
