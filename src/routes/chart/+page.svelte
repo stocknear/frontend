@@ -1,16 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { onMount, onDestroy } from "svelte";
-  import { init, dispose } from "klinecharts";
-  import { DateTime } from "luxon";
   import { Combobox } from "bits-ui";
   import { screenWidth } from "$lib/store";
-  import Search from "lucide-svelte/icons/search";
   import SEO from "$lib/components/SEO.svelte";
-
-  export let data;
-
-  const zone = "America/New_York";
 
   let inputValue = "";
   let searchBarData: any[] = [];
@@ -19,8 +11,6 @@
   let showSuggestions = false;
   let timeoutId: ReturnType<typeof setTimeout>;
   let inputElement: HTMLInputElement;
-  let chartContainer: HTMLDivElement;
-  let chart: any = null;
   let searchBarModalChecked = false;
   let isNavigating = false;
 
@@ -89,127 +79,6 @@
       goToChart(inputValue);
     }
   }
-
-  // Parse intraday timestamp using luxon (same as [slug] page)
-  const parseIntradayTimestamp = (value: string): number | null => {
-    const dt = DateTime.fromFormat(value, "yyyy-MM-dd HH:mm:ss", { zone });
-    return dt.isValid ? dt.toMillis() : null;
-  };
-
-  // Check if timestamp is within market hours (9:30 AM - 4:00 PM ET)
-  const isMarketHours = (timestamp: number): boolean => {
-    const dt = DateTime.fromMillis(timestamp, { zone });
-    const hour = dt.hour;
-    const minute = dt.minute;
-    const timeInMinutes = hour * 60 + minute;
-    const marketOpen = 9 * 60 + 30;
-    const marketClose = 16 * 60;
-    return timeInMinutes >= marketOpen && timeInMinutes <= marketClose;
-  };
-
-  // Transform intraday data to klinecharts format (market hours only)
-  const transformIntradayData = (rawData: any[]) => {
-    if (!Array.isArray(rawData) || rawData.length === 0) return [];
-    return rawData
-      .map((bar) => {
-        const time = typeof bar?.time === "string" ? bar.time : null;
-        if (!time) return null;
-        const timestamp = parseIntradayTimestamp(time);
-        if (!timestamp) return null;
-        if (!isMarketHours(timestamp)) return null;
-        return {
-          timestamp,
-          open: bar.open,
-          high: bar.high,
-          low: bar.low,
-          close: bar.close,
-          volume: bar.volume ?? 0,
-        };
-      })
-      .filter(Boolean);
-  };
-
-  onMount(() => {
-    // Initialize the preview chart
-    if (chartContainer && data?.spyIntraday?.length > 0) {
-      chart = init(chartContainer, { timezone: zone });
-
-      if (chart) {
-        chart.setScrollEnabled(false);
-        chart.setZoomEnabled(false);
-
-        chart.setStyles({
-          grid: {
-            show: true,
-            horizontal: {
-              show: true,
-              size: 1,
-              color: "rgba(255, 255, 255, 0.05)",
-              style: "solid",
-            },
-            vertical: { show: false },
-          },
-          candle: {
-            type: "candle_solid",
-            bar: {
-              upColor: "#10B981",
-              downColor: "#EF4444",
-              noChangeColor: "#6B7280",
-              upBorderColor: "#10B981",
-              downBorderColor: "#EF4444",
-              noChangeBorderColor: "#6B7280",
-              upWickColor: "#10B981",
-              downWickColor: "#EF4444",
-              noChangeWickColor: "#6B7280",
-            },
-            priceMark: { show: false },
-            tooltip: { showRule: "none" },
-          },
-          xAxis: {
-            show: true,
-            axisLine: { show: false },
-            tickLine: { show: false },
-            tickText: {
-              show: true,
-              color: "rgba(255, 255, 255, 0.4)",
-              size: 10,
-            },
-          },
-          yAxis: {
-            show: true,
-            axisLine: { show: false },
-            tickLine: { show: false },
-            tickText: {
-              show: true,
-              color: "rgba(255, 255, 255, 0.4)",
-              size: 10,
-            },
-          },
-          crosshair: { show: false },
-        });
-
-        const chartData = transformIntradayData(data?.spyIntraday);
-
-        chart.setSymbol({ ticker: "SPY" });
-        chart.setPeriod({ span: 1, type: "minute" });
-        chart.setDataLoader({
-          getBars: ({ callback }) => {
-            callback(chartData, { backward: false, forward: false });
-          },
-        });
-
-        // Show the latest candlestick
-        chart.scrollToRealTime();
-      }
-    }
-  });
-
-  onDestroy(() => {
-    if (chart) {
-      dispose(chartContainer);
-      chart = null;
-    }
-  });
 
   $: if (searchBarModalChecked && typeof window !== "undefined") {
     document.body.classList.add("overflow-hidden");
@@ -546,28 +415,8 @@
       </div>
     </dialog>
 
-    <!-- SPY Preview Chart -->
-    <div class="mt-10 sm:mt-12 max-w-4xl mx-auto">
-      <div class="flex items-center justify-between mb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-sm font-medium text-zinc-400">SPY</span>
-          <span class="text-xs text-zinc-500">S&P 500 ETF - Today</span>
-        </div>
-        <button
-          on:click={() => goToChart("SPY")}
-          class="text-xs text-violet-400 hover:text-violet-300 transition"
-        >
-          Open full chart →
-        </button>
-      </div>
-      <div
-        bind:this={chartContainer}
-        class="w-full h-[280px] sm:h-[320px] bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden"
-      ></div>
-    </div>
-
     <!-- Features hint -->
-    <div class="mt-8 sm:mt-10 text-center">
+    <div class="mt-12 sm:mt-16 text-center">
       <div
         class="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm text-zinc-500"
       >
