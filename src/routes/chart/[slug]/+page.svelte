@@ -1,6 +1,5 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { browser } from "$app/environment";
   import { afterUpdate, onDestroy, onMount } from "svelte";
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData, Chart } from "klinecharts";
@@ -28,7 +27,6 @@
     STATEMENT_INDICATOR_TAB_MAP,
   } from "$lib/financials/statementIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
-  import { Button } from "$lib/components/shadcn/button/index.js";
   import Input from "$lib/components/Input.svelte";
   import { isOpen, screenWidth } from "$lib/store";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
@@ -48,6 +46,7 @@
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import UpgradeToProChart from "$lib/components/UpgradeToProChart.svelte";
 
   export let data;
   export let form;
@@ -1406,16 +1405,52 @@
       intradayHistory[activeRange as IntradayInterval]?.isLoading);
 
   const intradayHistoryChunkDays = 5;
-  // 1min and 5min: max 30 days, others (15min, 30min, 1hour): max 90 days
-  const intradayHistoryLimitDaysMap: Record<IntradayInterval, number> = {
+
+  // Base limits for non-Pro users
+  const intradayHistoryBaseLimitDaysMap: Record<IntradayInterval, number> = {
     "1min": 30,
     "5min": 30,
     "15min": 90,
     "30min": 90,
     "1hour": 90,
   };
-  const getIntradayLimitDays = (interval: IntradayInterval) =>
-    intradayHistoryLimitDaysMap[interval] ?? 30;
+
+  // Pro limits (3x for 1min/5min, ~2.67x for others)
+  const intradayHistoryProLimitDaysMap: Record<IntradayInterval, number> = {
+    "1min": 90,
+    "5min": 90,
+    "15min": 240,
+    "30min": 240,
+    "1hour": 240,
+  };
+
+  // Dynamic limit based on subscription status
+  const getIntradayLimitDays = (interval: IntradayInterval) => {
+    const map = isSubscribed
+      ? intradayHistoryProLimitDaysMap
+      : intradayHistoryBaseLimitDaysMap;
+    return map[interval] ?? 30;
+  };
+
+  // Get base limit (for modal display)
+  const getIntradayBaseLimitDays = (interval: IntradayInterval) =>
+    intradayHistoryBaseLimitDaysMap[interval] ?? 30;
+
+  // Get pro limit (for modal display)
+  const getIntradayProLimitDays = (interval: IntradayInterval) =>
+    intradayHistoryProLimitDaysMap[interval] ?? 90;
+
+  // Track which interval triggered the upgrade modal
+  let upgradeModalInterval: IntradayInterval = "1min";
+
+  // Function to open the upgrade modal
+  const showUpgradeModal = (interval: IntradayInterval) => {
+    upgradeModalInterval = interval;
+    const modal = document.getElementById(
+      "upgradeToProModal",
+    ) as HTMLInputElement;
+    if (modal) modal.checked = true;
+  };
   let pricePrecision = 2;
   let priceFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: pricePrecision,
@@ -2389,6 +2424,28 @@
       if (activeRange === interval) {
         currentBars = transformBarsForType(merged, chartType);
       }
+
+      // Check against limit
+      const limitMs = getIntradayHistoryLimitMs(interval);
+      const startTimestamp = merged[0]?.timestamp ?? null;
+      const withinLimit =
+        startTimestamp !== null ? startTimestamp > limitMs : false;
+      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
+
+      updateIntradayState(interval, {
+        hasMore: Boolean(result.hasMore) && withinLimit,
+        isLoading: false,
+      });
+
+      // Show upgrade modal if non-Pro user hit the limit
+      if (reachedLimit) {
+        showUpgradeModal(interval);
+      }
+
+      return {
+        bars: result.bars,
+        hasMore: Boolean(result.hasMore) && withinLimit,
+      };
     }
     updateIntradayState(interval, {
       hasMore: result.hasMore,
@@ -6807,13 +6864,22 @@
 
       const limitMs = getIntradayHistoryLimitMs("1min");
       const startTimestamp = minuteBars[0]?.timestamp ?? null;
+      const withinLimit =
+        startTimestamp !== null ? startTimestamp > limitMs : false;
+
+      // Check if non-Pro user hit the limit
+      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
+
       // respect both API hasMore + local retention limit
-      hasMoreMinuteHistory =
-        Boolean(result.hasMore) &&
-        (startTimestamp !== null ? startTimestamp > limitMs : false);
+      hasMoreMinuteHistory = Boolean(result.hasMore) && withinLimit;
 
       if (activeRange === "1min") {
         currentBars = transformBarsForType(minuteBars, chartType);
+      }
+
+      // Show upgrade modal if non-Pro user hit the limit
+      if (reachedLimit) {
+        showUpgradeModal("1min");
       }
     } else {
       // If API says no more, stop.
@@ -11153,7 +11219,9 @@
                   <div
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                    <div
+                      class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0"
+                    >
                       <div class="flex items-center">
                         <button
                           type="button"
@@ -11195,7 +11263,9 @@
                         />
                       </div>
                       {#if STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                        <div
+                          class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0"
+                        >
                           {#key `${periodKey}-${indicator.id}`}
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
@@ -11238,7 +11308,9 @@
                   <div
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                    <div
+                      class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0"
+                    >
                       <div class="flex items-center">
                         <button
                           type="button"
@@ -11297,7 +11369,9 @@
                         {/if}
                       </div>
                       {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                        <div
+                          class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0"
+                        >
                           {#key `${periodKey}-${indicator.id}`}
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
@@ -11356,7 +11430,9 @@
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
-                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                      <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0"
+                      >
                         <div class="flex items-center">
                           <button
                             type="button"
@@ -11398,7 +11474,9 @@
                           />
                         </div>
                         {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                          <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                          <div
+                            class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0"
+                          >
                             {#key `${periodKey}-${indicator.id}`}
                               {#each FINANCIAL_PERIOD_OPTIONS as option}
                                 <button
@@ -11422,7 +11500,9 @@
                         {/if}
                       </div>
                     {:else}
-                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                      <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0"
+                      >
                         <div class="flex items-center">
                           <button
                             type="button"
@@ -11463,7 +11543,9 @@
                           </button>
                         </div>
                         {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                          <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                          <div
+                            class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0"
+                          >
                             {#key `${periodKey}-${indicator.id}`}
                               {#each FINANCIAL_PERIOD_OPTIONS as option}
                                 <button
@@ -11838,3 +11920,8 @@
 {#if LoginPopup}
   <LoginPopup {form} />
 {/if}
+
+<UpgradeToProChart
+  currentDays={getIntradayBaseLimitDays(upgradeModalInterval)}
+  proDays={getIntradayProLimitDays(upgradeModalInterval)}
+/>

@@ -4,6 +4,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const { apiURL, apiKey } = locals;
 
+
+  
   const postData = {
     ticker: data?.ticker,
     endDate: data?.endDate,

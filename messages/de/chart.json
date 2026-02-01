@@ -1,0 +1,9 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "chart_upgrade_modal_title": "Erweiterte Chart-Historie freischalten",
+  "chart_upgrade_modal_description": "Sie haben das {currentDays}-Tage-Limit fur Intraday-Charts erreicht. Pro-Mitglieder erhalten bis zu {proDays} Tage Historie.",
+  "chart_upgrade_modal_feature_history": "Bis zu {proDays} Tage Intraday-Chart-Historie",
+  "chart_upgrade_modal_feature_indicators": "Alle Premium-Indikatoren freigeschaltet",
+  "chart_upgrade_modal_feature_filters": "Alle Indikator-Filter speichern, erstellen und nutzen",
+  "chart_upgrade_modal_cta": "Auf Pro upgraden"
+}
