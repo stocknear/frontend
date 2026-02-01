@@ -10045,133 +10045,151 @@
               class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
-              <span>Earnings</span>
-              <div class="relative ml-4 flex items-center">
-                {#if isSubscribed}
-                  <input
-                    type="checkbox"
-                    class="sr-only peer"
-                    checked={showEarnings}
-                    on:change={() => {
-                      showEarnings = !showEarnings;
-                      saveEventSettings();
-                      if (showEarnings && !isNonIntradayRange(activeRange)) {
-                        setRange("1D");
-                        setTimeout(() => setRange("1D"), 150);
-                      } else {
-                        updateAllOverlays();
-                      }
-                    }}
-                  />
-                  <div
-                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                  ></div>
-                {:else}
-                  <button
-                    type="button"
-                    on:click|stopPropagation={() => goto("/pricing")}
-                    class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      /></svg
+              <label
+                class="inline-flex justify-between w-full items-center cursor-pointer"
+                on:click|stopPropagation
+                on:pointerdown|stopPropagation
+              >
+                <span>Earnings</span>
+                <div class="relative ml-4 flex items-center">
+                  {#if isSubscribed}
+                    <input
+                      type="checkbox"
+                      class="sr-only peer"
+                      checked={showEarnings}
+                      on:change={() => {
+                        showEarnings = !showEarnings;
+                        saveEventSettings();
+                        if (showEarnings && !isNonIntradayRange(activeRange)) {
+                          setRange("1D");
+                          setTimeout(() => setRange("1D"), 150);
+                        } else {
+                          updateAllOverlays();
+                        }
+                      }}
+                    />
+                    <div
+                      class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    ></div>
+                  {:else}
+                    <button
+                      type="button"
+                      on:click|stopPropagation={() => goto("/pricing")}
+                      class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                     >
-                  </button>
-                {/if}
-              </div>
+                      <svg
+                        class="w-4 h-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        /></svg
+                      >
+                    </button>
+                  {/if}
+                </div>
+              </label>
             </DropdownMenu.Item>
             <DropdownMenu.Item
               class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
-              <span>Dividends</span>
-              <div class="relative ml-4 flex items-center">
-                {#if isSubscribed}
-                  <input
-                    type="checkbox"
-                    class="sr-only peer"
-                    checked={showDividends}
-                    on:change={() => {
-                      showDividends = !showDividends;
-                      saveEventSettings();
-                      if (showDividends && !isNonIntradayRange(activeRange)) {
-                        setRange("1D");
-                        setTimeout(() => setRange("1D"), 150);
-                      } else {
-                        updateAllOverlays();
-                      }
-                    }}
-                  />
-                  <div
-                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                  ></div>
-                {:else}
-                  <button
-                    type="button"
-                    on:click|stopPropagation={() => goto("/pricing")}
-                    class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      /></svg
+              <label
+                class="inline-flex justify-between w-full items-center cursor-pointer"
+                on:click|stopPropagation
+                on:pointerdown|stopPropagation
+              >
+                <span>Dividends</span>
+                <div class="relative ml-4 flex items-center">
+                  {#if isSubscribed}
+                    <input
+                      type="checkbox"
+                      class="sr-only peer"
+                      checked={showDividends}
+                      on:change={() => {
+                        showDividends = !showDividends;
+                        saveEventSettings();
+                        if (showDividends && !isNonIntradayRange(activeRange)) {
+                          setRange("1D");
+                          setTimeout(() => setRange("1D"), 150);
+                        } else {
+                          updateAllOverlays();
+                        }
+                      }}
+                    />
+                    <div
+                      class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    ></div>
+                  {:else}
+                    <button
+                      type="button"
+                      on:click|stopPropagation={() => goto("/pricing")}
+                      class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                     >
-                  </button>
-                {/if}
-              </div>
+                      <svg
+                        class="w-4 h-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        /></svg
+                      >
+                    </button>
+                  {/if}
+                </div>
+              </label>
             </DropdownMenu.Item>
             <DropdownMenu.Item
               class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
-              <span>News Flow</span>
-              <div class="relative ml-4 flex items-center">
-                {#if isSubscribed}
-                  <input
-                    type="checkbox"
-                    class="sr-only peer"
-                    checked={showNewsFlow}
-                    on:change={() => {
-                      showNewsFlow = !showNewsFlow;
-                      saveEventSettings();
-                      if (showNewsFlow && !isNonIntradayRange(activeRange)) {
-                        setRange("1D");
-                        setTimeout(() => setRange("1D"), 150);
-                      } else {
-                        updateAllOverlays();
-                      }
-                    }}
-                  />
-                  <div
-                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                  ></div>
-                {:else}
-                  <button
-                    type="button"
-                    on:click|stopPropagation={() => goto("/pricing")}
-                    class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      /></svg
+              <label
+                class="inline-flex justify-between w-full items-center cursor-pointer"
+                on:click|stopPropagation
+                on:pointerdown|stopPropagation
+              >
+                <span>News Flow</span>
+                <div class="relative ml-4 flex items-center">
+                  {#if isSubscribed}
+                    <input
+                      type="checkbox"
+                      class="sr-only peer"
+                      checked={showNewsFlow}
+                      on:change={() => {
+                        showNewsFlow = !showNewsFlow;
+                        saveEventSettings();
+                        if (showNewsFlow && !isNonIntradayRange(activeRange)) {
+                          setRange("1D");
+                          setTimeout(() => setRange("1D"), 150);
+                        } else {
+                          updateAllOverlays();
+                        }
+                      }}
+                    />
+                    <div
+                      class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    ></div>
+                  {:else}
+                    <button
+                      type="button"
+                      on:click|stopPropagation={() => goto("/pricing")}
+                      class="text-gray-500 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition"
                     >
-                  </button>
-                {/if}
-              </div>
+                      <svg
+                        class="w-4 h-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        /></svg
+                      >
+                    </button>
+                  {/if}
+                </div>
+              </label>
             </DropdownMenu.Item>
           </DropdownMenu.Group>
         </DropdownMenu.Content>
@@ -10332,69 +10350,21 @@
               class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
-              <span class="text-gray-700 dark:text-zinc-300">Earnings</span>
-              <div class="relative ml-4 flex items-center">
-                <input
-                  type="checkbox"
-                  class="sr-only peer"
-                  checked={showEarnings}
-                  on:change={() => {
-                    showEarnings = !showEarnings;
-                    saveEventSettings();
-                    if (showEarnings && !isNonIntradayRange(activeRange)) {
-                      setRange("1D");
-                      setTimeout(() => setRange("1D"), 150);
-                    } else {
-                      updateAllOverlays();
-                    }
-                  }}
-                />
-                <div
-                  class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                ></div>
-              </div>
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
-              on:click={(e) => e.preventDefault()}
-            >
-              <span class="text-gray-700 dark:text-zinc-300">Dividends</span>
-              <div class="relative ml-4 flex items-center">
-                <input
-                  type="checkbox"
-                  class="sr-only peer"
-                  checked={showDividends}
-                  on:change={() => {
-                    showDividends = !showDividends;
-                    saveEventSettings();
-                    if (showDividends && !isNonIntradayRange(activeRange)) {
-                      setRange("1D");
-                      setTimeout(() => setRange("1D"), 150);
-                    } else {
-                      updateAllOverlays();
-                    }
-                  }}
-                />
-                <div
-                  class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                ></div>
-              </div>
-            </DropdownMenu.Item>
-            {#if isSubscribed}
-              <DropdownMenu.Item
-                class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
-                on:click={(e) => e.preventDefault()}
+              <label
+                class="inline-flex justify-between w-full items-center cursor-pointer"
+                on:click|stopPropagation
+                on:pointerdown|stopPropagation
               >
-                <span class="text-gray-700 dark:text-zinc-300">News Flow</span>
+                <span class="text-gray-700 dark:text-zinc-300">Earnings</span>
                 <div class="relative ml-4 flex items-center">
                   <input
                     type="checkbox"
                     class="sr-only peer"
-                    checked={showNewsFlow}
+                    checked={showEarnings}
                     on:change={() => {
-                      showNewsFlow = !showNewsFlow;
+                      showEarnings = !showEarnings;
                       saveEventSettings();
-                      if (showNewsFlow && !isNonIntradayRange(activeRange)) {
+                      if (showEarnings && !isNonIntradayRange(activeRange)) {
                         setRange("1D");
                         setTimeout(() => setRange("1D"), 150);
                       } else {
@@ -10406,6 +10376,72 @@
                     class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                   ></div>
                 </div>
+              </label>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
+              on:click={(e) => e.preventDefault()}
+            >
+              <label
+                class="inline-flex justify-between w-full items-center cursor-pointer"
+                on:click|stopPropagation
+                on:pointerdown|stopPropagation
+              >
+                <span class="text-gray-700 dark:text-zinc-300">Dividends</span>
+                <div class="relative ml-4 flex items-center">
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    checked={showDividends}
+                    on:change={() => {
+                      showDividends = !showDividends;
+                      saveEventSettings();
+                      if (showDividends && !isNonIntradayRange(activeRange)) {
+                        setRange("1D");
+                        setTimeout(() => setRange("1D"), 150);
+                      } else {
+                        updateAllOverlays();
+                      }
+                    }}
+                  />
+                  <div
+                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  ></div>
+                </div>
+              </label>
+            </DropdownMenu.Item>
+            {#if isSubscribed}
+              <DropdownMenu.Item
+                class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
+                on:click={(e) => e.preventDefault()}
+              >
+                <label
+                  class="inline-flex justify-between w-full items-center cursor-pointer"
+                  on:click|stopPropagation
+                  on:pointerdown|stopPropagation
+                >
+                  <span class="text-gray-700 dark:text-zinc-300">News Flow</span>
+                  <div class="relative ml-4 flex items-center">
+                    <input
+                      type="checkbox"
+                      class="sr-only peer"
+                      checked={showNewsFlow}
+                      on:change={() => {
+                        showNewsFlow = !showNewsFlow;
+                        saveEventSettings();
+                        if (showNewsFlow && !isNonIntradayRange(activeRange)) {
+                          setRange("1D");
+                          setTimeout(() => setRange("1D"), 150);
+                        } else {
+                          updateAllOverlays();
+                        }
+                      }}
+                    />
+                    <div
+                      class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    ></div>
+                  </div>
+                </label>
               </DropdownMenu.Item>
             {/if}
           </DropdownMenu.Group>
