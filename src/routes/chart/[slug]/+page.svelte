@@ -1446,10 +1446,8 @@
   // Function to open the upgrade modal
   const showUpgradeModal = (interval: IntradayInterval) => {
     upgradeModalInterval = interval;
-    const modal = document.getElementById(
-      "upgradeToProModal",
-    ) as HTMLInputElement;
-    if (modal) modal.checked = true;
+    const clicked = document.getElementById("upgradeToProChartModal");
+    clicked?.dispatchEvent(new MouseEvent("click"));
   };
   let pricePrecision = 2;
   let priceFormatter = new Intl.NumberFormat("en-US", {
@@ -2446,12 +2444,27 @@
         bars: result.bars,
         hasMore: Boolean(result.hasMore) && withinLimit,
       };
+    } else {
+      // Empty bars returned - check if non-Pro user hit the limit
+      const limitMs = getIntradayHistoryLimitMs(interval);
+      const existingBars = intradayHistory[interval].bars;
+      const startTimestamp = existingBars[0]?.timestamp ?? null;
+      const withinLimit =
+        startTimestamp !== null ? startTimestamp > limitMs : false;
+      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
+
+      updateIntradayState(interval, {
+        hasMore: Boolean(result.hasMore) && withinLimit,
+        isLoading: false,
+      });
+
+      // Show upgrade modal if non-Pro user hit the limit
+      if (reachedLimit) {
+        showUpgradeModal(interval);
+      }
+
+      return { bars: [], hasMore: Boolean(result.hasMore) && withinLimit };
     }
-    updateIntradayState(interval, {
-      hasMore: result.hasMore,
-      isLoading: false,
-    });
-    return result;
   };
 
   // Check if current range is non-intraday (should show earnings)
@@ -5718,7 +5731,7 @@
     }
     // Save to localStorage (preserve existing event settings)
     const currentSettings = loadChartSettings() || {};
-    saveChartSettings({ ...currentSettings, chartType, activeRange });
+    saveChartSettings({ ...currentSettings, activeRange });
   }
 
   function setChartType(type: ChartTypeId) {
@@ -5735,9 +5748,6 @@
       // Update chart data in place without resetting scroll position
       chart.applyNewData(displayBars);
     }
-    // Save to localStorage (preserve existing event settings)
-    const currentSettings = loadChartSettings() || {};
-    saveChartSettings({ ...currentSettings, chartType, activeRange });
   }
 
   function toggleIndicator(name: string) {
@@ -6456,13 +6466,6 @@
     const savedSettings = loadChartSettings();
     if (savedSettings) {
       if (
-        savedSettings.chartType &&
-        chartTypeOptions.some((opt) => opt.id === savedSettings.chartType)
-      ) {
-        chartType = savedSettings.chartType as ChartTypeId;
-        currentChartType = chartTypeOptions.find((opt) => opt.id === chartType);
-      }
-      if (
         savedSettings.activeRange &&
         timeframes.includes(savedSettings.activeRange)
       ) {
@@ -6742,7 +6745,7 @@
       previousTicker = ticker;
 
       // Reload toolbar settings and overlays for the new ticker
-      // Note: chartType and activeRange are loaded in the reactive block before applyRange
+      // Note: activeRange is loaded in the reactive block before applyRange
       if (!isInitialLoad && ticker) {
         // Clear existing overlays from the chart
         if (chart) {
@@ -6882,8 +6885,19 @@
         showUpgradeModal("1min");
       }
     } else {
-      // If API says no more, stop.
-      hasMoreMinuteHistory = Boolean(result.hasMore) && hasMoreMinuteHistory;
+      // Empty bars returned - check if non-Pro user hit the limit
+      const limitMs = getIntradayHistoryLimitMs("1min");
+      const startTimestamp = minuteBars[0]?.timestamp ?? null;
+      const withinLimit =
+        startTimestamp !== null ? startTimestamp > limitMs : false;
+      const reachedLimit = !withinLimit && !isSubscribed && result.hasMore;
+
+      hasMoreMinuteHistory = Boolean(result.hasMore) && withinLimit;
+
+      // Show upgrade modal if non-Pro user hit the limit
+      if (reachedLimit) {
+        showUpgradeModal("1min");
+      }
     }
 
     minuteBarsLoading = false;
@@ -7356,13 +7370,15 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="font-semibold text-gray-900 dark:text-white"
+          <span class="font-semibold text-gray-900 dark:text-white text-sm"
             >{ticker}</span
           >
           <span class="text-gray-500 dark:text-zinc-500">·</span>
-          <span class="text-gray-600 dark:text-zinc-400">{activeRange}</span>
-          <span class="text-gray-500 dark:text-zinc-500">·</span>
-          <span class="text-gray-600 dark:text-zinc-400"
+          <span class="text-gray-600 dark:text-zinc-400 text-sm"
+            >{activeRange}</span
+          >
+          <span class="text-gray-500 dark:text-zinc-500 text-sm">·</span>
+          <span class="text-gray-600 dark:text-zinc-400 text-sm"
             >{data?.getStockQuote?.exchange?.toUpperCase() || ""}</span
           >
         </button>
@@ -7387,7 +7403,7 @@
         <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700 mx-1"></div>
 
         <!-- Price -->
-        <div class="flex items-center gap-2 text-xs">
+        <div class="flex items-center gap-2 text-xs whitespace-nowrap">
           <span class={`font-medium ${changeClass}`}
             >{formatPrice(lastClose)}</span
           >
@@ -10224,11 +10240,11 @@
             {#each chartTypeOptions as option}
               <DropdownMenu.Item
                 class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
-                  chartType === option.type
+                  chartType === option.id
                     ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
                     : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
                 }`}
-                on:click={() => setChartType(option.type)}
+                on:click={() => setChartType(option.id)}
               >
                 <svelte:component this={option.icon} class="h-4 w-4" />
                 {option.label}

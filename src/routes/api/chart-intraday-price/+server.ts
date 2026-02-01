@@ -10,6 +10,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     ticker: data?.ticker,
     endDate: data?.endDate,
     interval: data?.interval,
+    userTier: locals.user?.tier ?? null,
   };
 
   const response = await fetch(apiURL + "/chart-intraday-price", {

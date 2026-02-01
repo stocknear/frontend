@@ -13,23 +13,23 @@
   export let proDays: number = 90;
 </script>
 
-<input type="checkbox" id="upgradeToProModal" class="modal-toggle" />
+<input type="checkbox" id="upgradeToProChartModal" class="modal-toggle" />
 
 <dialog
-  id="upgradeToProModal"
   class="modal modal-bottom sm:modal-middle"
   aria-labelledby="upgrade-modal-title"
   aria-modal="true"
   role="dialog"
 >
-  <label for="upgradeToProModal" class="cursor-pointer modal-backdrop"></label>
+  <label for="upgradeToProChartModal" class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box relative m-auto w-full max-w-lg bg-white dark:bg-zinc-950 text-center rounded-2xl border border-gray-300 dark:border-zinc-800 shadow"
   >
     <!-- Close Button -->
     <label
-      for="upgradeToProModal"
+      for="upgradeToProChartModal"
       class="cursor-pointer absolute right-3 top-3 text-gray-400 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
     >
       <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
@@ -112,7 +112,7 @@
 
       <!-- CTA Button -->
       <label
-        for="upgradeToProModal"
+        for="upgradeToProChartModal"
         on:click={() => goto("/pricing")}
         class="inline-flex items-center justify-center cursor-pointer py-2.5 px-6 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition rounded-full font-semibold text-sm sm:text-base"
       >
