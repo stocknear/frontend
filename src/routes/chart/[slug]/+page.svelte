@@ -7308,7 +7308,13 @@
           title="Back to {ticker}"
         >
           <ArrowLeft class="h-4 w-4 flex-shrink-0" />
-          <span class="hidden sm:inline">{assetType === 'etf' ? 'ETF' : assetType === 'index' ? 'Index' : 'Stock'}</span>
+          <span class="hidden sm:inline"
+            >{assetType === "etf"
+              ? "ETF"
+              : assetType === "index"
+                ? "Index"
+                : "Stock"}</span
+          >
         </a>
 
         <!-- Separator -->
@@ -10529,7 +10535,7 @@
             <input
               autocomplete="off"
               id="indicator-search"
-              class="focus:outline-none placeholder:text-gray-500 dark:text-zinc-400 block w-full p-2.5 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-lg bg-gray-100 dark:bg-zinc-800"
+              class="focus:outline-none placeholder:text-gray-500 dark:text-zinc-400 block w-full p-2.5 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-gray-100 dark:bg-zinc-800"
               placeholder="Search"
               bind:value={indicatorSearchTerm}
             />
@@ -11036,7 +11042,7 @@
                           parameter={indicator.infoKey || indicator.id}
                         />
                       </div>
-                      {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                      {#if STATEMENT_INDICATOR_BY_ID[indicator.id]}
                         <div
                           class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
                         >
@@ -11044,7 +11050,7 @@
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
                                 type="button"
-                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                class="cursor-pointer px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
@@ -11114,7 +11120,7 @@
               {#if selectedIndicators.length > 0}
                 <button
                   type="button"
-                  class="flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white transition cursor-pointer"
+                  class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white transition cursor-pointer"
                   on:click={clearIndicators}
                 >
                   <svg
@@ -11187,9 +11193,9 @@
                         parameter={indicator.infoKey || indicator.id}
                       />
                     </div>
-                    {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                    {#if STATEMENT_INDICATOR_BY_ID[indicator.id]}
                       <div
-                        class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
+                        class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right pl-9 sm:pl-0"
                       >
                         {#key `${periodKey}-${indicator.id}`}
                           {#each FINANCIAL_PERIOD_OPTIONS as option}
