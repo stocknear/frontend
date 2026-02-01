@@ -101,8 +101,8 @@
 </script>
 
 <SEO
-  title="Pro Chart - Professional Stock Charts with 50+ Indicators"
-  description="Analyze stocks with professional charts featuring 50+ technical indicators, drawing tools, earnings markers, and real-time data. Start charting any stock, ETF, or index."
+  title="Pro Chart - Advanced Stock Charting"
+  description="Professional charting with technical indicators, options flow, fundamentals overlay, and drawing tools. Real-time data for stocks, ETFs, and indices."
 />
 
 <section
@@ -117,8 +117,7 @@
         Pro Chart
       </h1>
       <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto">
-        Professional charts with 50+ indicators, drawing tools, and earnings
-        markers
+        Advanced charting with technicals, options flow, and fundamentals
       </p>
     </div>
 
@@ -415,66 +414,41 @@
       </div>
     </dialog>
 
-    <!-- Features hint -->
-    <div class="mt-12 sm:mt-16 text-center">
-      <div
-        class="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm text-zinc-500"
-      >
-        <div class="flex items-center gap-2">
-          <svg
-            class="w-4 h-4 text-violet-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>50+ Technical Indicators</span>
+    <!-- Features -->
+    <div class="mt-12 sm:mt-16 max-w-3xl mx-auto">
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">25+</div>
+          <div class="text-xs sm:text-sm text-zinc-400">Technical Indicators</div>
+          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">RSI, MACD, Bollinger & more</div>
         </div>
-        <div class="flex items-center gap-2">
-          <svg
-            class="w-4 h-4 text-violet-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>Drawing Tools</span>
+        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">20+</div>
+          <div class="text-xs sm:text-sm text-zinc-400">Drawing Tools</div>
+          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">Lines, Fibonacci, Patterns</div>
         </div>
-        <div class="flex items-center gap-2">
-          <svg
-            class="w-4 h-4 text-violet-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>Earnings Markers</span>
+        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">5+</div>
+          <div class="text-xs sm:text-sm text-zinc-400">Options Flow</div>
+          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">GEX, DEX, OI, Max Pain</div>
         </div>
-        <div class="flex items-center gap-2">
-          <svg
-            class="w-4 h-4 text-violet-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>Real-time Data</span>
+        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">10+</div>
+          <div class="text-xs sm:text-sm text-zinc-400">Fundamentals</div>
+          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">Revenue, EPS, Ratios</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="text-2xl sm:text-3xl font-bold text-white mb-1">10+</div>
+          <div class="text-xs sm:text-sm text-zinc-400">Timeframes</div>
+          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">1min to Monthly</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="flex items-center justify-center gap-1 mb-1">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span class="text-2xl sm:text-3xl font-bold text-white">Live</span>
+          </div>
+          <div class="text-xs sm:text-sm text-zinc-400">Real-time Data</div>
+          <div class="text-[10px] sm:text-xs text-zinc-500 mt-1">Streaming quotes</div>
         </div>
       </div>
     </div>
