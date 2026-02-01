@@ -1333,21 +1333,71 @@
 
           <div class="shrink-0">
             {#if data?.user}
-              <a
-                href="/profile"
-                aria-label={layout_my_account()}
-                class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 w-10 h-10 flex items-center justify-center transition"
-              >
-                <svg
-                  class="h-[28px] w-[28px] overflow-hidden rounded-full text-gray-500 dark:text-zinc-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  ><path
-                    fill="currentColor"
-                    d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"
-                  /></svg
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    size="icon"
+                    aria-label={layout_my_account()}
+                    class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 w-10 h-10 transition"
+                    builders={[builder]}
+                  >
+                    <svg
+                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-gray-500 dark:text-zinc-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"
+                      /></svg
+                    >
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
-              </a>
+                  <a href="/profile" class="cursor-pointer">
+                    <DropdownMenu.Item
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                    >
+                      {layout_my_account()}
+                    </DropdownMenu.Item>
+                  </a>
+                  <DropdownMenu.Separator
+                    class="my-1 h-px bg-gray-200/70 dark:bg-zinc-800/80"
+                  />
+                  <form class="cursor-pointer" action="/logout" method="POST">
+                    <button
+                      type="submit"
+                      aria-label={layout_logout()}
+                      class="w-full text-start cursor-pointer"
+                    >
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                      >
+                        <svg
+                          class="lucide lucide-log-out mr-2 w-3.5 h-3.5 transform scale-x-[-1]"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+                          ></path><polyline points="16 17 21 12 16 7"
+                          ></polyline><line x1="21" x2="9" y1="12" y2="12"
+                          ></line></svg
+                        >
+                        <span class="text-start">{layout_logout()}</span>
+                      </DropdownMenu.Item>
+                    </button>
+                  </form>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             {:else}
               <a
                 href="/login"
