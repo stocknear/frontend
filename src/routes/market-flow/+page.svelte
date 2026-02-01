@@ -1182,7 +1182,7 @@
   <label for="marketFlowBarsModal" class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box w-full max-w-5xl rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 shadow-none"
+    class="modal-box w-full max-w-5xl relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="flex items-start justify-between gap-4 mb-4">
       <div>
@@ -1197,10 +1197,17 @@
       </div>
       <label
         for="marketFlowBarsModal"
-        class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        aria-label="Close intraday bars modal"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        aria-label="Close modal"
       >
-        ✕
+        <svg
+          class="w-6 h-6 sm:w-7 sm:h-7"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          ><path
+            fill="currentColor"
+            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+          /></svg>
       </label>
     </div>
 

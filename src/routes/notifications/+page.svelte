@@ -844,8 +844,8 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path></svg
-                    >
+                      ></path></svg>
+
                   </label>
                 </div>
               {/if}
@@ -1286,8 +1286,22 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/90 text-gray-700 dark:text-zinc-200"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="deleteNotifications"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <h3 class="text-lg font-medium mb-2">
       {notifications_modal_delete_title()}
     </h3>
@@ -1333,8 +1347,8 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg
-        ><span class="whitespace-nowrap"
+          ></line></svg>
+<span class="whitespace-nowrap"
           >{deleteInFlight
             ? notifications_modal_deleting()
             : notifications_modal_delete_button()}</span

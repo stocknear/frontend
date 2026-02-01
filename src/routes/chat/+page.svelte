@@ -611,8 +611,8 @@
                                   fill="currentColor"
                                   fill-rule="evenodd"
                                   clip-rule="evenodd"
-                                ></path></svg
-                              >
+                                ></path></svg>
+
                               <div class="flex items-center gap-0.5">
                                 <span class="max-w-16 truncate"
                                   ><span class="truncate"></span></span
@@ -716,8 +716,8 @@
                                       stroke-width="2"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
-                                      ><path d="m15 18-6-6 6-6"></path></svg
-                                    ></button
+                                      ><path d="m15 18-6-6 6-6"></path></svg>
+</button
                                   >
                                 </div>
                                 {#each agentCategory as option}
@@ -798,8 +798,8 @@
                                       stroke-width="2"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
-                                      ><path d="m15 18-6-6 6-6"></path></svg
-                                    ></button
+                                      ><path d="m15 18-6-6 6-6"></path></svg>
+</button
                                   >
                                 </div>
                                 {#each agentOptions as option}
@@ -918,8 +918,8 @@
                                   stroke-linejoin="round"
                                   d="M 58.5833,55.4167L 53.8333,55.4167L 53.8333,34.8333L 58.5833,39.5833L 58.5833,55.4167 Z M 49.0833,55.4167L 44.3333,55.4167L 44.3333,44.3333L 49.0833,39.5834L 49.0833,55.4167 Z M 39.5833,55.4167L 34.8333,55.4167L 34.8333,45.9167L 37.2083,36.4167L 39.5833,39.5833L 39.5833,55.4167 Z M 30.0833,55.4167L 25.3333,55.4167L 25.3333,44.3333L 30.0833,49.0833L 30.0833,55.4167 Z M 20.5833,55.4167L 15.8333,55.4167L 15.8333,53.8334L 20.5833,49.0834L 20.5833,55.4167 Z "
                                 ></path></g
-                              ></svg
-                            ><span class="text-sm">{item?.type}</span>
+                              ></svg>
+<span class="text-sm">{item?.type}</span>
                           </div>
                         </div>
                       </div></button
@@ -947,8 +947,8 @@
                 ><path
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
-                ></path></svg
-              > <span class="ml-2">{chat_threads()}</span>
+                ></path></svg>
+ <span class="ml-2">{chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
               {#each historyChat as item}
@@ -990,8 +990,8 @@
                             stroke-width="0"
                             ><path
                               d="M4.8623 15.4287H11.1445C12.1904 15.4287 12.8672 14.793 12.915 13.7402L13.3799 3.88965H14.1318C14.4736 3.88965 14.7402 3.62988 14.7402 3.28809C14.7402 2.95312 14.4736 2.69336 14.1318 2.69336H11.0898V1.66797C11.0898 0.62207 10.4268 0 9.29199 0H6.69434C5.56641 0 4.89648 0.62207 4.89648 1.66797V2.69336H1.86133C1.5332 2.69336 1.25977 2.95312 1.25977 3.28809C1.25977 3.62988 1.5332 3.88965 1.86133 3.88965H2.62012L3.08496 13.7471C3.13281 14.7998 3.80273 15.4287 4.8623 15.4287ZM6.1543 1.72949C6.1543 1.37402 6.40039 1.14844 6.7832 1.14844H9.20312C9.58594 1.14844 9.83203 1.37402 9.83203 1.72949V2.69336H6.1543V1.72949ZM4.99219 14.2188C4.61621 14.2188 4.34277 13.9453 4.32227 13.542L3.86426 3.88965H12.1152L11.6709 13.542C11.6572 13.9453 11.3838 14.2188 10.9941 14.2188H4.99219ZM5.9834 13.1182C6.27051 13.1182 6.45508 12.9336 6.44824 12.667L6.24316 5.50293C6.23633 5.22949 6.04492 5.05176 5.77148 5.05176C5.48438 5.05176 5.2998 5.23633 5.30664 5.50293L5.51172 12.667C5.51855 12.9404 5.70996 13.1182 5.9834 13.1182ZM8 13.1182C8.28711 13.1182 8.47852 12.9336 8.47852 12.667V5.50293C8.47852 5.23633 8.28711 5.05176 8 5.05176C7.71289 5.05176 7.52148 5.23633 7.52148 5.50293V12.667C7.52148 12.9336 7.71289 13.1182 8 13.1182ZM10.0166 13.1182C10.29 13.1182 10.4746 12.9404 10.4814 12.667L10.6934 5.50293C10.7002 5.23633 10.5088 5.05176 10.2285 5.05176C9.95508 5.05176 9.76367 5.22949 9.75684 5.50293L9.54492 12.667C9.53809 12.9336 9.72949 13.1182 10.0166 13.1182Z"
-                            ></path></svg
-                          ></span
+                            ></path></svg>
+</span
                         ></button
                       >
                     </div>
@@ -1017,8 +1017,8 @@
                 ><path
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
-                ></path></svg
-              > <span class="ml-2">{chat_threads()}</span>
+                ></path></svg>
+ <span class="ml-2">{chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
               {chat_no_threads()}
@@ -1059,8 +1059,8 @@
                 ><path
                   fill="currentColor"
                   d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
-                ></path></svg
-              > <span class="ml-2">{chat_threads()}</span>
+                ></path></svg>
+ <span class="ml-2">{chat_threads()}</span>
             </h2>
             <div class="pb-2 last:mb-10 mt-2">
               {chat_no_threads()}
@@ -1078,8 +1078,22 @@
   <label for="deleteThread" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-300 dark:border-zinc-700"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="deleteThread"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <h3 class="text-lg font-medium mb-2">{chat_delete_thread_title()}</h3>
     <p class="text-sm mb-6">
       {chat_delete_thread_confirm()}
@@ -1112,8 +1126,8 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg
-        >{chat_delete()}</label
+          ></line></svg>
+{chat_delete()}</label
       >
     </div>
   </div>

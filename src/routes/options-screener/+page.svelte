@@ -1813,8 +1813,8 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          ></path></svg
-                        >
+                          ></path></svg>
+
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -1971,8 +1971,8 @@
                           fill-rule="evenodd"
                           d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                           clip-rule="evenodd"
-                        ></path></svg
-                      >
+                        ></path></svg>
+
 
                       <label
                         class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
@@ -2088,8 +2088,8 @@
                   ><path
                     fill="currentColor"
                     d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                  /></svg
-                >
+                  /></svg>
+
                 <div>{options_screener_save()}</div>
               </label>
 
@@ -2129,8 +2129,8 @@
                 ><path
                   fill="currentColor"
                   d="M5 5v22h22V9.594l-.281-.313l-4-4L22.406 5zm2 2h3v6h12V7.437l3 3V25h-2v-9H9v9H7zm5 0h4v2h2V7h2v4h-8zm-1 11h10v7H11z"
-                /></svg
-              >
+                /></svg>
+
               <div>Save</div>
             </label>
 
@@ -2167,8 +2167,8 @@
                     ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
                       d="M7.5 6.5h-4v-4"
                     /></g
-                  ></svg
-                >
+                  ></svg>
+
                 <div>{options_screener_reset_all()}</div>
               </label>
             {/if}
@@ -2219,8 +2219,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path></svg
-                    >
+                      ></path></svg>
+
                   {:else}
                     <svg
                       class="w-6 h-6"
@@ -2316,8 +2316,8 @@
                                           fill-rule="evenodd"
                                           d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                           clip-rule="evenodd"
-                                        ></path></svg
-                                      >
+                                        ></path></svg>
+
                                     </Button>
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content>
@@ -2402,8 +2402,8 @@
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      ></path></svg
-                                    ></button
+                                      ></path></svg>
+</button
                                   >
                                   <button
                                     on:click={() =>
@@ -2422,8 +2422,8 @@
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      ></path></svg
-                                    ></button
+                                      ></path></svg>
+</button
                                   >
                                 </div>
                               {/if}
@@ -2551,8 +2551,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg
-                >
+                  /></svg>
+
               </label>
             {/if}
           </div>
@@ -3187,13 +3187,13 @@
   ></label>
 
   <div
-    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-300 dark:border-zinc-700 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
+    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-300 dark:border-zinc-700 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-white dark:bg-zinc-900 pb-6 pt-5 border-gray-300 dark:border-zinc-700 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
@@ -3205,17 +3205,17 @@
           </h2>
           <label
             for="ruleModal"
-            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem]"
+            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+            aria-label="Close modal"
           >
             <svg
-              class="w-6 h-6 sm:w-8 sm:h-8"
+              class="w-6 h-6 sm:w-7 sm:h-7"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               ><path
                 fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-              /></svg
-            >
+              /></svg>
           </label>
         </div>
 
@@ -3267,8 +3267,8 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M6 18L18 6M6 6l12 12"
-                  ></path></svg
-                ></button
+                  ></path></svg>
+</button
               >
             </div>
 
@@ -3333,9 +3333,22 @@
   <label for="addStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="addStrategy"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
@@ -3374,9 +3387,22 @@
   <label for="deleteStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded border
-          bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="deleteStrategy"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       {options_screener_modal_delete_title()}
     </h3>
@@ -3415,8 +3441,8 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg
-        >{options_screener_modal_delete_confirm()}</label
+          ></line></svg>
+{options_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>

@@ -245,22 +245,28 @@
   ></div>
 
   <div
-    class="modal-box max-h-96 rounded-2xl w-full bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800 text-gray-700 dark:text-zinc-200"
+    class="modal-box max-h-96 w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="watchlistModal-{ticker}"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div
       class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800"
     >
       <h3 class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white">
         {msg.addTo()}
       </h3>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <span
-        class="cursor-pointer absolute right-5 top-2 text-sm sm:text-[1.5rem]"
-        on:click={closeModal}
-      >
-        ✕
-      </span>
     </div>
 
     <div class="">

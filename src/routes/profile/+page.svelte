@@ -828,8 +828,8 @@
                   ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
                   ></path><polyline points="16 17 21 12 16 7"
                   ></polyline><line x1="21" x2="9" y1="12" y2="12"
-                  ></line></svg
-                >
+                  ></line></svg>
+
                 Sign Out
               </button>
             </form>
@@ -854,8 +854,22 @@
     method="POST"
     action="?/cancelSubscription"
     use:enhance={submitCancellation}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="cancelSubscriptionModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class=" mb-5 text-center">
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
@@ -912,8 +926,22 @@
     method="POST"
     action="?/reactivateSubscription"
     use:enhance={submitReactivate}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="reactivateSubscriptionModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class=" mb-5 text-center">
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
@@ -976,8 +1004,22 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="changeSubscriptionPlusAnnualModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class=" mb-5 text-center">
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
@@ -1038,8 +1080,22 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="changeSubscriptionProAnnualModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class=" mb-5 text-center">
       <h3
         class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
@@ -1087,28 +1143,28 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box rounded-2xl w-full border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200"
+    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="installModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class="flex flex-row items-center pt-5">
       <h4
         class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
       >
         {profile_install_title()}
       </h4>
-      <label
-        for="installModal"
-        class="inline-block cursor-pointer absolute right-3 top-3 text-[1.3rem] sm:text-[1.8rem]"
-      >
-        <svg
-          class="w-6 h-6 sm:w-8 sm:h-8"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          ><path
-            fill="currentColor"
-            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg
-        >
-      </label>
     </div>
 
     <div class="flex flex-col justify-center items-center text-xl h-full">

@@ -10089,8 +10089,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg
-                      >
+                        /></svg>
+
                     </button>
                   {/if}
                 </div>
@@ -10139,8 +10139,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg
-                      >
+                        /></svg>
+
                     </button>
                   {/if}
                 </div>
@@ -10189,8 +10189,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg
-                      >
+                        /></svg>
+
                     </button>
                   {/if}
                 </div>
@@ -10484,8 +10484,22 @@
     class="cursor-pointer modal-backdrop bg-black/30"
   ></label>
   <div
-    class="modal-box relative rounded-t-2xl sm:rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white p-0 w-full max-h-[70vh] shadow-2xl"
+    class="modal-box p-0 w-full max-h-[70vh] relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="mobileToolsModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close drawing tools"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <!-- Handle bar -->
     <div class="flex justify-center py-2">
       <div class="w-10 h-1 bg-gray-200 dark:bg-zinc-700 rounded-full"></div>
@@ -10529,21 +10543,6 @@
         >
           <Trash2 class="h-5 w-5" />
         </button>
-        <label
-          for="mobileToolsModal"
-          class="inline-flex cursor-pointer rounded-lg p-2 text-gray-600 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800 transition"
-          aria-label="Close drawing tools"
-        >
-          <svg
-            class="h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            ><path
-              fill="currentColor"
-              d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-            /></svg
-          >
-        </label>
       </div>
     </div>
 
@@ -10612,7 +10611,7 @@
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl border border-gray-300 dark:border-zinc-700 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden shadow-2xl"
+    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full h-full">
       <div
@@ -10626,19 +10625,18 @@
           </h2>
           <label
             for="indicatorModal"
-            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
             on:click={closeIndicatorModal}
             aria-label="Close indicators modal"
           >
             <svg
-              class="w-6 h-6 sm:w-8 sm:h-8"
+              class="w-6 h-6 sm:w-7 sm:h-7"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               ><path
                 fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-              /></svg
-            >
+              /></svg>
           </label>
         </div>
 
@@ -10691,8 +10689,8 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M6 18L18 6M6 6l12 12"
-                  ></path></svg
-                >
+                  ></path></svg>
+
               </button>
             </div>
 
@@ -11933,7 +11931,7 @@
   <label for="addChartStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box relative w-full p-6 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="addChartStrategy"
@@ -11947,8 +11945,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg
-      >
+        /></svg>
+
     </label>
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -11986,7 +11984,7 @@
   ></label>
 
   <div
-    class="modal-box relative w-full p-6 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteChartStrategy"
@@ -12000,8 +11998,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg
-      >
+        /></svg>
+
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Strategy
@@ -12038,8 +12036,8 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg
-        >Delete Strategy</label
+          ></line></svg>
+Delete Strategy</label
       >
     </div>
   </div>

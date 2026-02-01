@@ -594,8 +594,8 @@
                       fill-rule="evenodd"
                       d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
                       clip-rule="evenodd"
-                    ></path></svg
-                  >
+                    ></path></svg>
+
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
@@ -845,8 +845,8 @@
                             ><path
                               fill="currentColor"
                               d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                            /></svg
-                          >
+                            /></svg>
+
                         </label>
                       {/if}
                     </div>
@@ -1108,8 +1108,8 @@
                                         fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                         clip-rule="evenodd"
-                                      ></path></svg
-                                    ></button
+                                      ></path></svg>
+</button
                                   ></td
                                 >
                               {:else if column.key === "ticker"}
@@ -1166,8 +1166,8 @@
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
                                           d="M4 12h16m0 0l-6-6m6 6l-6 6"
-                                        /></svg
-                                      >
+                                        /></svg>
+
                                       <span class="font-semibold"
                                         >{Math?.ceil(
                                           item?.adjusted_pt_current,

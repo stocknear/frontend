@@ -612,8 +612,24 @@
         ></label>
 
         <div
-            class="modal-box relative bg-white dark:bg-primary z-20 mx-2 min-h-[30vh] h-[800px] rounded bg-default opacity-100 border border-gray-300 dark:border-gray-600 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto"
+            class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
         >
+            <button
+                on:click={closeIndicatorModal}
+                class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+                aria-label="Close modal"
+            >
+                <svg
+                    class="w-6 h-6 sm:w-7 sm:h-7"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        fill="currentColor"
+                        d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                    />
+                </svg>
+            </button>
             <div class="relative flex flex-col w-full">
                 <!-- Sticky Header -->
                 <div
@@ -625,22 +641,6 @@
                         <h2 class="text-[1rem] sm:text-xl font-semibold">
                             Select Indicator ({totalIndicators} total)
                         </h2>
-                        <button
-                            on:click={closeIndicatorModal}
-                            class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem]"
-                            aria-label="Close"
-                        >
-                            <svg
-                                class="w-6 h-6 sm:w-8 sm:h-8"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    fill="currentColor"
-                                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                                />
-                            </svg>
-                        </button>
                     </div>
 
                     <!-- Search bar -->

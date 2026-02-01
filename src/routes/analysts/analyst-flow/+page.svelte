@@ -511,8 +511,8 @@
                           ><path
                             fill="currentColor"
                             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          /></svg
-                        >
+                          /></svg>
+
                       </label>
                     {/if}
                   </div>
@@ -667,8 +667,8 @@
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
                                       d="M4 12h16m0 0l-6-6m6 6l-6 6"
-                                    /></svg
-                                  >
+                                    /></svg>
+
                                   <span
                                     class="font-semibold text-gray-900 dark:text-white"
                                     >{Math?.ceil(

@@ -206,8 +206,8 @@
                       stroke-linejoin="round"
                       stroke-width="2.5"
                       ><path d="m3 17l6-6l4 4l8-8" /><path d="M17 7h4v4" /></g
-                    ></svg
-                  >
+                    ></svg>
+
                   {signal}
                 </span>
               {:else if signal === "Bearish"}
@@ -219,8 +219,8 @@
                     ><path
                       fill="#ff2f1f"
                       d="M244 136v64a12 12 0 0 1-12 12h-64a12 12 0 0 1 0-24h35l-67-67l-31.51 31.52a12 12 0 0 1-17 0l-72-72a12 12 0 0 1 17-17L96 127l31.51-31.52a12 12 0 0 1 17 0L220 171v-35a12 12 0 0 1 24 0Z"
-                    /></svg
-                  >
+                    /></svg>
+
                   {signal}
                 </span>
               {:else}
@@ -232,8 +232,8 @@
                     ><path
                       fill="#e57c34"
                       d="m22 12l-4-4v3H3v2h15v3l4-4Z"
-                    /></svg
-                  >
+                    /></svg>
+
                   Neutral
                 </span>
               {/if} trend.
@@ -259,8 +259,8 @@
               ><path
                 fill="#fff"
                 d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"
-              /></svg
-            >
+              /></svg>
+
             No Options activity found
           </div>
         </div>

@@ -160,8 +160,8 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  ></path></svg
-                ><span>{learning_center_previous()}</span></a
+                  ></path></svg>
+<span>{learning_center_previous()}</span></a
               >
             {/if}
             {#if currentPage < totalPages}
@@ -180,8 +180,8 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  ></path></svg
-                ></a
+                  ></path></svg>
+</a
               >
             {/if}
           </div>

@@ -329,8 +329,8 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     ></path>
-                  </g></svg
-                >
+                  </g></svg>
+
               </label>
               -->
               </th>
@@ -392,8 +392,8 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                       ></path>
-                    </g></svg
-                  >
+                    </g></svg>
+
                 </label>
                 -->
                 </td>

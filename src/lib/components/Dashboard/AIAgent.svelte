@@ -443,8 +443,8 @@
                         fill="currentColor"
                         fill-rule="evenodd"
                         clip-rule="evenodd"
-                      ></path></svg
-                    >
+                      ></path></svg>
+
                     <div class="flex items-center gap-0.5">
                       <span class="max-w-16 truncate"
                         ><span class="truncate"></span></span
@@ -548,8 +548,8 @@
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            ><path d="m15 18-6-6 6-6"></path></svg
-                          ></button
+                            ><path d="m15 18-6-6 6-6"></path></svg>
+</button
                         >
                       </div>
                       {#each agentCategory as option}
@@ -624,8 +624,8 @@
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            ><path d="m15 18-6-6 6-6"></path></svg
-                          ></button
+                            ><path d="m15 18-6-6 6-6"></path></svg>
+</button
                         >
                       </div>
                       {#each agentOptions as option}
@@ -740,8 +740,8 @@
                       stroke-linejoin="round"
                       d="M 58.5833,55.4167L 53.8333,55.4167L 53.8333,34.8333L 58.5833,39.5833L 58.5833,55.4167 Z M 49.0833,55.4167L 44.3333,55.4167L 44.3333,44.3333L 49.0833,39.5834L 49.0833,55.4167 Z M 39.5833,55.4167L 34.8333,55.4167L 34.8333,45.9167L 37.2083,36.4167L 39.5833,39.5833L 39.5833,55.4167 Z M 30.0833,55.4167L 25.3333,55.4167L 25.3333,44.3333L 30.0833,49.0833L 30.0833,55.4167 Z M 20.5833,55.4167L 15.8333,55.4167L 15.8333,53.8334L 20.5833,49.0834L 20.5833,55.4167 Z "
                     ></path></g
-                  ></svg
-                ><span class="text-sm">{item?.type}</span>
+                  ></svg>
+<span class="text-sm">{item?.type}</span>
               </div>
             </div>
           </div></button

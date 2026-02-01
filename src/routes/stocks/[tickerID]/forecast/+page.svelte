@@ -999,8 +999,8 @@
                                 ><path
                                   fill="currentColor"
                                   d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                /></svg
-                              >
+                                /></svg>
+
                             </span>
                           </button>
                         {:else}
@@ -1205,8 +1205,8 @@
                             ><path
                               fill="currentColor"
                               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg
-                          ></a
+                            /></svg>
+</a
                         >
                       </span>
                     </p>
@@ -1373,8 +1373,8 @@
                           stroke-linejoin="round"
                           stroke-width="2"
                           d="M7 11l5-5m0 0l5 5m-5-5v12"
-                        ></path></svg
-                      >
+                        ></path></svg>
+
                       <span class="sr-only"
                         >{stock_detail_forecast_increased_by()}</span
                       >
@@ -1446,8 +1446,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
-                      ></path></svg
-                    >
+                      ></path></svg>
+
                     <span class="sr-only"
                       >{stock_detail_forecast_increased_by()}</span
                     >
@@ -1507,8 +1507,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
-                      ></path></svg
-                    >
+                      ></path></svg>
+
                     <span class="sr-only"
                       >{stock_detail_forecast_increased_by()}</span
                     >
@@ -1565,8 +1565,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
-                      ></path></svg
-                    >
+                      ></path></svg>
+
                     <span class="sr-only"
                       >{stock_detail_forecast_increased_by()}</span
                     >
@@ -1602,8 +1602,8 @@
                 ><path
                   fill="#fff"
                   d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"
-                /></svg
-              >
+                /></svg>
+
               {stock_detail_forecast_no_forecast_data({
                 company: $displayCompanyName,
               })}

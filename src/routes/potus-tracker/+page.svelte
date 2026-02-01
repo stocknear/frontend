@@ -992,8 +992,8 @@
                                     stroke-width="2"
                                     stroke-linecap="round"
                                   ></path>
-                                </g></svg
-                              >
+                                </g></svg>
+
                             </a>
 
                             <label
@@ -1030,8 +1030,8 @@
                     ><path d="m67.9385 54.0751h-11.5057v9.3631h11.5057z" /><path
                       d="m63.4377 37.8944v-9.4562h-23.4446v34.9084h11.9665v-25.4522z"
                     /><path d="m24 28.4382h11.4878v9.4539h-11.4878z" /></g
-                  ></svg
-                >
+                  ></svg>
+
                 <h3
                   class="ml-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
@@ -1223,8 +1223,8 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                               ></path>
-                            </g></svg
-                          >
+                            </g></svg>
+
                         </button>
 
                         <label
@@ -1325,8 +1325,22 @@
   <label for="executivePostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="executivePostModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class="flex items-start space-x-3">
       <span class="w-10 h-10 rounded-full shrink-0">
         <img
@@ -1392,8 +1406,22 @@
   <label for="socialPostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <label
+      for="socialPostModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg>
+    </label>
     <div class="flex items-start space-x-3">
       <a
         href="https://truthsocial.com/@realDonaldTrump"

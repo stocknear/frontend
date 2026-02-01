@@ -1274,8 +1274,8 @@
                               fill="currentColor"
                               fill-rule="evenodd"
                               clip-rule="evenodd"
-                            ></path></svg
-                          >
+                            ></path></svg>
+
                           <div class="flex items-center gap-0.5">
                             <span class="max-w-16 truncate"
                               ><span class="truncate"></span></span
@@ -1378,8 +1378,8 @@
                                   stroke-width="2"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  ><path d="m15 18-6-6 6-6"></path></svg
-                                ></button
+                                  ><path d="m15 18-6-6 6-6"></path></svg>
+</button
                               >
                             </div>
                             {#each agentCategory as option}
@@ -1456,8 +1456,8 @@
                                   stroke-width="2"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  ><path d="m15 18-6-6 6-6"></path></svg
-                                ></button
+                                  ><path d="m15 18-6-6 6-6"></path></svg>
+</button
                               >
                             </div>
                             {#each agentOptions as option}

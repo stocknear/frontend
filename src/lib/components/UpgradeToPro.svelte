@@ -54,8 +54,8 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path></svg
-              >
+                ></path></svg>
+
             </div>
             {upgrade_to_pro_feature_data_title()}
           </dt>
@@ -83,8 +83,8 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-                ></path></svg
-              >
+                ></path></svg>
+
             </div>
             {upgrade_to_pro_feature_flow_title()}
           </dt>
@@ -118,8 +118,8 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     ></path>
-                  </g></svg
-                >
+                  </g></svg>
+
               </div>
               {upgrade_to_pro_feature_analyst_title()}
             </dt>
@@ -148,8 +148,8 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-                  ></path></svg
-                >
+                  ></path></svg>
+
               </div>
               {upgrade_to_pro_feature_history_title()}
             </dt>
@@ -182,8 +182,8 @@
                     d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"
                   /></g
                 ></g
-              ></svg
-            >
+              ></svg>
+
           </span>
         </a>
       </div>
