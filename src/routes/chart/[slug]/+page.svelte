@@ -7095,7 +7095,9 @@
     change !== null && previousClose ? (change / previousClose) * 100 : null;
 
   $: changeClass =
-    change !== null && change < 0 ? "text-[#f23645]" : "text-[#22ab94]";
+    change !== null && change < 0
+      ? "text-rose-800 dark:text-rose-400"
+      : "text-emerald-800 dark:text-emerald-400";
 
   $: companyName = data?.companyName || ticker;
   // SEO uses same values as UI for consistency
