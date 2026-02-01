@@ -6,6 +6,7 @@
   import { DateTime } from "luxon";
   import { mode, setMode } from "mode-watcher";
   import { toast } from "svelte-sonner";
+  import { Splitpanes, Pane } from "svelte-splitpanes";
   import {
     registerCustomIndicators,
     setShortInterestData,
@@ -45,6 +46,7 @@
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import ChartRightSidebar from "$lib/components/Chart/RightSidebar.svelte";
 
   export let data;
   export let form;
@@ -1673,6 +1675,58 @@
     waves: false,
     magnet: false,
   };
+  type RightSidebarTab = "watchlist" | "alerts";
+  const RIGHT_SIDEBAR_COLLAPSED_SIZE = 5;
+  const RIGHT_SIDEBAR_MIN_SIZE = 18;
+  const RIGHT_SIDEBAR_MAX_SIZE = 35;
+  const RIGHT_SIDEBAR_DEFAULT_SIZE = 24;
+  let rightSidebarOpen = true;
+  let rightSidebarTab: RightSidebarTab = "watchlist";
+  let rightSidebarSize = RIGHT_SIDEBAR_DEFAULT_SIZE;
+  let rightSidebarOpenSize = RIGHT_SIDEBAR_DEFAULT_SIZE;
+
+  const openRightSidebar = (tab?: RightSidebarTab) => {
+    if (tab) {
+      rightSidebarTab = tab;
+    }
+    if (!rightSidebarOpen) {
+      rightSidebarOpen = true;
+    }
+    rightSidebarSize = rightSidebarOpenSize;
+  };
+
+  const closeRightSidebar = () => {
+    if (!rightSidebarOpen) return;
+    if (rightSidebarSize > RIGHT_SIDEBAR_COLLAPSED_SIZE) {
+      rightSidebarOpenSize = rightSidebarSize;
+    }
+    rightSidebarOpen = false;
+    rightSidebarSize = RIGHT_SIDEBAR_COLLAPSED_SIZE;
+  };
+
+  const toggleRightSidebar = (tab?: RightSidebarTab) => {
+    if (tab) {
+      if (rightSidebarOpen && rightSidebarTab === tab) {
+        closeRightSidebar();
+      } else {
+        openRightSidebar(tab);
+      }
+      return;
+    }
+
+    if (rightSidebarOpen) {
+      closeRightSidebar();
+    } else {
+      openRightSidebar();
+    }
+  };
+
+  $: if (
+    rightSidebarOpen &&
+    rightSidebarSize > RIGHT_SIDEBAR_COLLAPSED_SIZE
+  ) {
+    rightSidebarOpenSize = rightSidebarSize;
+  }
 
   const indicatorItems = indicatorDefinitions.map((item) => ({
     id: item.id,
@@ -8278,196 +8332,198 @@
         </div>
       {/if}
 
-      <div class="relative flex-1 bg-white dark:bg-zinc-950">
-        <div
-          class="absolute inset-0 z-[1] touch-manipulation"
-          bind:this={chartContainer}
-        ></div>
-
-        <!-- Loading Spinner Overlay -->
-        {#if isChartLoading}
-          <div
-            class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
-          >
-            <span
-              class="loading loading-spinner loading-md text-gray-900 dark:text-white"
-            ></span>
-          </div>
-        {/if}
-
-        <!-- Watermark -->
-        <div
-          class="absolute left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
-          style="bottom: {watermarkBottom}px"
-        >
-          <img
-            src="/pwa-192x192.png"
-            alt="Stocknear"
-            class="size-9 rounded-full opacity-60"
-            loading="lazy"
-            decoding="async"
-          />
-          <span
-            class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
-            >Stocknear</span
-          >
-        </div>
-
-        <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
-        {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[15]">
-            {#each earningsMarkers as marker, i (`${marker.timestamp}-${i}`)}
-              {#if marker?.visible}
-                <button
-                  class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
-                  on:click={(e) => handleEarningsClick(marker, e)}
-                  aria-label="View earnings details"
-                >
-                  <svg
-                    width="24"
-                    height="30"
-                    viewBox="0 0 18 22"
-                    class="drop-shadow-md"
-                    style={!marker.isFuture &&
-                    hasBeatExpectations(marker.earnings)
-                      ? "transform: rotate(180deg)"
-                      : ""}
-                  >
-                    {#if marker?.isFuture}
-                      <!-- Future earnings: outline style -->
-                      <path
-                        d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                        fill="#1a1a1a"
-                        stroke="#B91C1C"
-                        stroke-width="1.5"
-                      />
-                      <text
-                        x="9"
-                        y="11"
-                        text-anchor="middle"
-                        dominant-baseline="middle"
-                        fill="#B91C1C"
-                        font-size="10"
-                        font-weight="bold"
-                        font-family="system-ui, sans-serif">E</text
-                      >
-                    {:else if hasBeatExpectations(marker?.earnings)}
-                      <!-- Past earnings with positive surprise: green, upside down -->
-                      <path
-                        d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                        fill="#10B981"
-                      />
-                      <text
-                        x="9"
-                        y="14"
-                        text-anchor="middle"
-                        dominant-baseline="middle"
-                        fill="white"
-                        font-size="10"
-                        font-weight="bold"
-                        font-family="system-ui, sans-serif"
-                        transform="rotate(180 9 11)">E</text
-                      >
-                    {:else}
-                      <!-- Past earnings: solid red fill -->
-                      <path
-                        d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                        fill="#B91C1C"
-                      />
-                      <text
-                        x="9"
-                        y="11"
-                        text-anchor="middle"
-                        dominant-baseline="middle"
-                        fill="white"
-                        font-size="10"
-                        font-weight="bold"
-                        font-family="system-ui, sans-serif">E</text
-                      >
-                    {/if}
-                  </svg>
-                </button>
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- Earnings popup -->
-        {#if selectedEarnings}
-          <div
-            class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
-            style="--popup-x: {earningsPopupPosition.x}px; --popup-y: {earningsPopupPosition.y}px;"
-            style:left={!isMobile ? `${earningsPopupPosition.x}px` : undefined}
-            style:top={!isMobile ? `${earningsPopupPosition.y}px` : undefined}
-            style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
-          >
+      <Splitpanes class="chart-splitpanes flex-1 min-h-0">
+        <Pane minSize={50}>
+          <div class="relative flex-1 min-h-0 h-full bg-white dark:bg-zinc-950">
             <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-3">
-                <h3 class="text-gray-900 dark:text-white font-semibold">
-                  {selectedEarningsIsFuture
-                    ? "Upcoming Earnings"
-                    : "Earnings & Revenue"}
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-                  on:click={closeEarningsPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
+              class="absolute inset-0 z-[1] touch-manipulation"
+              bind:this={chartContainer}
+            ></div>
 
-              <!-- Date info -->
+            <!-- Loading Spinner Overlay -->
+            {#if isChartLoading}
               <div
-                class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
+                class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
               >
-                <div class="flex justify-between">
-                  <span class="text-gray-500 dark:text-zinc-400">Date</span>
-                  <span class="flex items-center gap-1">
-                    {DateTime.fromISO(selectedEarnings.date, { zone }).toFormat(
-                      "EEE d MMM ''yy",
-                    )}
-                    {#if isBeforeMarketOpen(selectedEarnings)}
+                <span
+                  class="loading loading-spinner loading-md text-gray-900 dark:text-white"
+                ></span>
+              </div>
+            {/if}
+
+            <!-- Watermark -->
+            <div
+              class="absolute left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
+              style="bottom: {watermarkBottom}px"
+            >
+              <img
+                src="/pwa-192x192.png"
+                alt="Stocknear"
+                class="size-9 rounded-full opacity-60"
+                loading="lazy"
+                decoding="async"
+              />
+              <span
+                class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
+                >Stocknear</span
+              >
+            </div>
+
+            <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
+            {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
+              <div class="absolute inset-0 pointer-events-none z-[15]">
+                {#each earningsMarkers as marker, i (`${marker.timestamp}-${i}`)}
+                  {#if marker?.visible}
+                    <button
+                      class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                      style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
+                      on:click={(e) => handleEarningsClick(marker, e)}
+                      aria-label="View earnings details"
+                    >
                       <svg
-                        class="w-4 h-4 text-yellow-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
+                        width="24"
+                        height="30"
+                        viewBox="0 0 18 22"
+                        class="drop-shadow-md"
+                        style={!marker.isFuture &&
+                        hasBeatExpectations(marker.earnings)
+                          ? "transform: rotate(180deg)"
+                          : ""}
+                      >
+                        {#if marker?.isFuture}
+                          <!-- Future earnings: outline style -->
+                          <path
+                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                            fill="#1a1a1a"
+                            stroke="#B91C1C"
+                            stroke-width="1.5"
+                          />
+                          <text
+                            x="9"
+                            y="11"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            fill="#B91C1C"
+                            font-size="10"
+                            font-weight="bold"
+                            font-family="system-ui, sans-serif">E</text
+                          >
+                        {:else if hasBeatExpectations(marker?.earnings)}
+                          <!-- Past earnings with positive surprise: green, upside down -->
+                          <path
+                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                            fill="#10B981"
+                          />
+                          <text
+                            x="9"
+                            y="14"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            fill="white"
+                            font-size="10"
+                            font-weight="bold"
+                            font-family="system-ui, sans-serif"
+                            transform="rotate(180 9 11)">E</text
+                          >
+                        {:else}
+                          <!-- Past earnings: solid red fill -->
+                          <path
+                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                            fill="#B91C1C"
+                          />
+                          <text
+                            x="9"
+                            y="11"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            fill="white"
+                            font-size="10"
+                            font-weight="bold"
+                            font-family="system-ui, sans-serif">E</text
+                          >
+                        {/if}
+                      </svg>
+                    </button>
+                  {/if}
+                {/each}
+              </div>
+            {/if}
+
+            <!-- Earnings popup -->
+            {#if selectedEarnings}
+              <div
+                class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+                style="--popup-x: {earningsPopupPosition.x}px; --popup-y: {earningsPopupPosition.y}px;"
+                style:left={!isMobile ? `${earningsPopupPosition.x}px` : undefined}
+                style:top={!isMobile ? `${earningsPopupPosition.y}px` : undefined}
+                style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
+              >
+                <div
+                  class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                >
+                  <!-- Header -->
+                  <div class="flex items-center gap-2 mb-3">
+                    <h3 class="text-gray-900 dark:text-white font-semibold">
+                      {selectedEarningsIsFuture
+                        ? "Upcoming Earnings"
+                        : "Earnings & Revenue"}
+                    </h3>
+                    <button
+                      class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+                      on:click={closeEarningsPopup}
+                      aria-label="Close"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
                         <path
-                          fill-rule="evenodd"
-                          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                          clip-rule="evenodd"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
-                    {:else if isAfterMarketClose(selectedEarnings)}
-                      <svg
-                        class="w-4 h-4 text-blue-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-                        />
-                      </svg>
-                    {/if}
-                  </span>
-                </div>
+                    </button>
+                  </div>
+
+                  <!-- Date info -->
+                  <div
+                    class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
+                  >
+                    <div class="flex justify-between">
+                      <span class="text-gray-500 dark:text-zinc-400">Date</span>
+                      <span class="flex items-center gap-1">
+                        {DateTime.fromISO(selectedEarnings.date, { zone }).toFormat(
+                          "EEE d MMM ''yy",
+                        )}
+                        {#if isBeforeMarketOpen(selectedEarnings)}
+                          <svg
+                            class="w-4 h-4 text-yellow-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        {:else if isAfterMarketClose(selectedEarnings)}
+                          <svg
+                            class="w-4 h-4 text-blue-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                            />
+                          </svg>
+                        {/if}
+                      </span>
+                    </div>
                 {#if selectedEarnings.period && selectedEarnings.period_year}
                   <div class="flex justify-between">
                     <span class="text-gray-500 dark:text-zinc-400"
@@ -9923,6 +9979,126 @@
           </div>
         {/if}
       </div>
+        </Pane>
+        {#if isDesktop}
+          <Pane
+            bind:size={rightSidebarSize}
+            minSize={rightSidebarOpen
+              ? RIGHT_SIDEBAR_MIN_SIZE
+              : RIGHT_SIDEBAR_COLLAPSED_SIZE}
+            maxSize={rightSidebarOpen
+              ? RIGHT_SIDEBAR_MAX_SIZE
+              : RIGHT_SIDEBAR_COLLAPSED_SIZE}
+          >
+            <div
+              class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-zinc-950"
+            >
+              {#if rightSidebarOpen}
+                <ChartRightSidebar
+                  currentSymbol={ticker}
+                  activeTab={rightSidebarTab}
+                />
+              {/if}
+              <div
+                class="flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-2"
+              >
+                <button
+                  class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                    rightSidebarOpen && rightSidebarTab === "watchlist"
+                      ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                      : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                  }`}
+                  on:click={() => toggleRightSidebar("watchlist")}
+                  title="Watchlist"
+                  aria-pressed={rightSidebarOpen &&
+                    rightSidebarTab === "watchlist"}
+                >
+                  <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                    />
+                  </svg>
+                </button>
+
+                <button
+                  class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                    rightSidebarOpen && rightSidebarTab === "alerts"
+                      ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                      : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                  }`}
+                  on:click={() => toggleRightSidebar("alerts")}
+                  title="Price alerts"
+                  aria-pressed={rightSidebarOpen &&
+                    rightSidebarTab === "alerts"}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    >
+                      <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+                      <circle cx="12" cy="13" r="8" />
+                      <path d="M9.5 13h5M12 10.5v5" />
+                    </g>
+                  </svg>
+                </button>
+
+                <div class="mt-auto flex flex-col items-center pb-2">
+                  <button
+                    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                    on:click={() => toggleRightSidebar()}
+                    title={rightSidebarOpen
+                      ? "Hide sidebar"
+                      : "Show sidebar"}
+                  >
+                    {#if rightSidebarOpen}
+                      <svg
+                        viewBox="0 0 24 24"
+                        class="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m15 18-6-6 6-6" />
+                      </svg>
+                    {:else}
+                      <svg
+                        viewBox="0 0 24 24"
+                        class="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m9 6 6 6-6 6" />
+                      </svg>
+                    {/if}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Pane>
+        {/if}
+      </Splitpanes>
     </div>
   </div>
 
@@ -12055,3 +12231,35 @@ Delete Strategy</label
 {#if LoginPopup}
   <LoginPopup {form} />
 {/if}
+
+<style>
+  :global(.chart-splitpanes .splitpanes__pane) {
+    background-color: transparent !important;
+  }
+
+  :global(.chart-splitpanes) {
+    background-color: transparent !important;
+  }
+
+  :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter) {
+    width: 8px;
+    background-color: #ffffff !important;
+    border-left: 1px solid rgba(203, 213, 225, 0.8);
+  }
+
+  :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter) {
+    background-color: #09090b !important;
+    border-left-color: rgba(63, 63, 70, 0.8);
+  }
+
+  :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before),
+  :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after) {
+    background-color: rgba(148, 163, 184, 0.8);
+    height: 28px;
+  }
+
+  :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before),
+  :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after) {
+    background-color: rgba(113, 113, 122, 0.8);
+  }
+</style>
