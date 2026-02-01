@@ -11153,71 +11153,71 @@
                   <div
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
-                    <div class="flex items-center w-full">
-                      <button
-                        type="button"
-                        class={getFavoriteStarClass(
-                          indicatorFavorites.includes(indicator.id),
-                        ) + " mr-2"}
-                        aria-label={isIndicatorFavorite(indicator.id)
-                          ? "Remove from favorites"
-                          : "Add to favorites"}
-                        on:click|stopPropagation={(event) =>
-                          toggleIndicatorFavorite(event, indicator.id)}
-                      >
-                        <svg
-                          class="w-5 h-5 sm:w-4 sm:h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 16 16"
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                      <div class="flex items-center">
+                        <button
+                          type="button"
+                          class={getFavoriteStarClass(
+                            indicatorFavorites.includes(indicator.id),
+                          ) + " mr-2"}
+                          aria-label={isIndicatorFavorite(indicator.id)
+                            ? "Remove from favorites"
+                            : "Add to favorites"}
+                          on:click|stopPropagation={(event) =>
+                            toggleIndicatorFavorite(event, indicator.id)}
                         >
-                          <path fill="currentColor" d={indicatorStarPath} />
-                        </svg>
-                      </button>
-                      <input
-                        on:click={() => toggleIndicatorById(indicator.id)}
-                        id={`selected-${indicator.id}`}
-                        type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
-                      />
-                      <label
-                        for={`selected-${indicator.id}`}
-                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
-                      >
-                        {indicator.label}
-                      </label>
-                      <InfoModal
-                        id={`indicator-selected-${indicator.id}`}
-                        title={indicator.label}
-                        callAPI={true}
-                        parameter={indicator.infoKey || indicator.id}
-                      />
-                    </div>
-                    {#if STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                      <div
-                        class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right pl-9 sm:pl-0"
-                      >
-                        {#key `${periodKey}-${indicator.id}`}
-                          {#each FINANCIAL_PERIOD_OPTIONS as option}
-                            <button
-                              type="button"
-                              class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
-                                indicator.id,
-                              ) === option.id
-                                ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
-                              on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(
-                                  indicator.id,
-                                  option.id,
-                                )}
-                            >
-                              {option.label}
-                            </button>
-                          {/each}
-                        {/key}
+                          <svg
+                            class="w-5 h-5 sm:w-4 sm:h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                          >
+                            <path fill="currentColor" d={indicatorStarPath} />
+                          </svg>
+                        </button>
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={`selected-${indicator.id}`}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        />
+                        <label
+                          for={`selected-${indicator.id}`}
+                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-selected-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
                       </div>
-                    {/if}
+                      {#if STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                        <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                          {#key `${periodKey}-${indicator.id}`}
+                            {#each FINANCIAL_PERIOD_OPTIONS as option}
+                              <button
+                                type="button"
+                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                  indicator.id,
+                                ) === option.id
+                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
+                                on:click|stopPropagation={() =>
+                                  setFinancialIndicatorPeriod(
+                                    indicator.id,
+                                    option.id,
+                                  )}
+                              >
+                                {option.label}
+                              </button>
+                            {/each}
+                          {/key}
+                        </div>
+                      {/if}
+                    </div>
                   </div>
                 {/each}
               </div>
@@ -11238,67 +11238,67 @@
                   <div
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
-                    <div class="flex items-center w-full">
-                      <button
-                        type="button"
-                        class="shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300 mr-2 p-1.5 -m-1 rounded-lg active:bg-gray-200 dark:active:bg-zinc-700"
-                        aria-label="Remove from favorites"
-                        on:click|stopPropagation={(event) =>
-                          toggleIndicatorFavorite(event, indicator.id)}
-                      >
-                        <svg
-                          class="w-5 h-5 sm:w-4 sm:h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 16 16"
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                      <div class="flex items-center">
+                        <button
+                          type="button"
+                          class="shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300 mr-2 p-1.5 -m-1 rounded-lg active:bg-gray-200 dark:active:bg-zinc-700"
+                          aria-label="Remove from favorites"
+                          on:click|stopPropagation={(event) =>
+                            toggleIndicatorFavorite(event, indicator.id)}
                         >
-                          <path fill="currentColor" d={indicatorStarPath} />
-                        </svg>
-                      </button>
-                      <input
-                        on:click={() => toggleIndicatorById(indicator.id)}
-                        id={`favorite-${indicator.id}`}
-                        type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
-                        class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
-                      />
-                      <label
-                        for={`favorite-${indicator.id}`}
-                        class="cursor-pointer text-sm sm:text-[1rem] ml-2"
-                      >
-                        {indicator.label}
-                      </label>
-                      <InfoModal
-                        id={`indicator-favorite-${indicator.id}`}
-                        title={indicator.label}
-                        callAPI={true}
-                        parameter={indicator.infoKey || indicator.id}
-                      />
-                    </div>
-                    {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                      <div
-                        class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
-                      >
-                        {#key `${periodKey}-${indicator.id}`}
-                          {#each FINANCIAL_PERIOD_OPTIONS as option}
-                            <button
-                              type="button"
-                              class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
-                                indicator.id,
-                              ) === option.id
-                                ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
-                              on:click|stopPropagation={() =>
-                                setFinancialIndicatorPeriod(
-                                  indicator.id,
-                                  option.id,
-                                )}
-                            >
-                              {option.label}
-                            </button>
-                          {/each}
-                        {/key}
+                          <svg
+                            class="w-5 h-5 sm:w-4 sm:h-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                          >
+                            <path fill="currentColor" d={indicatorStarPath} />
+                          </svg>
+                        </button>
+                        <input
+                          on:click={() => toggleIndicatorById(indicator.id)}
+                          id={`favorite-${indicator.id}`}
+                          type="checkbox"
+                          checked={Boolean(indicatorState[indicator.id])}
+                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        />
+                        <label
+                          for={`favorite-${indicator.id}`}
+                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
+                        >
+                          {indicator.label}
+                        </label>
+                        <InfoModal
+                          id={`indicator-favorite-${indicator.id}`}
+                          title={indicator.label}
+                          callAPI={true}
+                          parameter={indicator.infoKey || indicator.id}
+                        />
                       </div>
-                    {/if}
+                      {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                        <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                          {#key `${periodKey}-${indicator.id}`}
+                            {#each FINANCIAL_PERIOD_OPTIONS as option}
+                              <button
+                                type="button"
+                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                  indicator.id,
+                                ) === option.id
+                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
+                                on:click|stopPropagation={() =>
+                                  setFinancialIndicatorPeriod(
+                                    indicator.id,
+                                    option.id,
+                                  )}
+                              >
+                                {option.label}
+                              </button>
+                            {/each}
+                          {/key}
+                        </div>
+                      {/if}
+                    </div>
                   </div>
                 {/each}
               </div>
@@ -11335,71 +11335,71 @@
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
-                      <div class="flex items-center w-full">
-                        <button
-                          type="button"
-                          class={getFavoriteStarClass(
-                            indicatorFavorites.includes(indicator.id),
-                          ) + " mr-2"}
-                          aria-label={isIndicatorFavorite(indicator.id)
-                            ? "Remove from favorites"
-                            : "Add to favorites"}
-                          on:click|stopPropagation={(event) =>
-                            toggleIndicatorFavorite(event, indicator.id)}
-                        >
-                          <svg
-                            class="w-5 h-5 sm:w-4 sm:h-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
+                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                        <div class="flex items-center">
+                          <button
+                            type="button"
+                            class={getFavoriteStarClass(
+                              indicatorFavorites.includes(indicator.id),
+                            ) + " mr-2"}
+                            aria-label={isIndicatorFavorite(indicator.id)
+                              ? "Remove from favorites"
+                              : "Add to favorites"}
+                            on:click|stopPropagation={(event) =>
+                              toggleIndicatorFavorite(event, indicator.id)}
                           >
-                            <path fill="currentColor" d={indicatorStarPath} />
-                          </svg>
-                        </button>
-                        <input
-                          on:click={() => toggleIndicatorById(indicator.id)}
-                          id={indicator.id}
-                          type="checkbox"
-                          checked={Boolean(indicatorState[indicator.id])}
-                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
-                        />
-                        <label
-                          for={indicator.id}
-                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
-                        >
-                          {indicator.label}
-                        </label>
-                        <InfoModal
-                          id={`indicator-${indicator.id}`}
-                          title={indicator.label}
-                          callAPI={true}
-                          parameter={indicator.infoKey || indicator.id}
-                        />
-                      </div>
-                      {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
-                        <div
-                          class="flex items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 sm:float-right sm:-mt-7 pl-9 sm:pl-0"
-                        >
-                          {#key `${periodKey}-${indicator.id}`}
-                            {#each FINANCIAL_PERIOD_OPTIONS as option}
-                              <button
-                                type="button"
-                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
-                                  indicator.id,
-                                ) === option.id
-                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
-                                on:click|stopPropagation={() =>
-                                  setFinancialIndicatorPeriod(
-                                    indicator.id,
-                                    option.id,
-                                  )}
-                              >
-                                {option.label}
-                              </button>
-                            {/each}
-                          {/key}
+                            <svg
+                              class="w-5 h-5 sm:w-4 sm:h-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 16"
+                            >
+                              <path fill="currentColor" d={indicatorStarPath} />
+                            </svg>
+                          </button>
+                          <input
+                            on:click={() => toggleIndicatorById(indicator.id)}
+                            id={indicator.id}
+                            type="checkbox"
+                            checked={Boolean(indicatorState[indicator.id])}
+                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          />
+                          <label
+                            for={indicator.id}
+                            class="cursor-pointer text-sm sm:text-[1rem] ml-2"
+                          >
+                            {indicator.label}
+                          </label>
+                          <InfoModal
+                            id={`indicator-${indicator.id}`}
+                            title={indicator.label}
+                            callAPI={true}
+                            parameter={indicator.infoKey || indicator.id}
+                          />
                         </div>
-                      {/if}
+                        {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                          <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                            {#key `${periodKey}-${indicator.id}`}
+                              {#each FINANCIAL_PERIOD_OPTIONS as option}
+                                <button
+                                  type="button"
+                                  class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                    indicator.id,
+                                  ) === option.id
+                                    ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                    : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
+                                  on:click|stopPropagation={() =>
+                                    setFinancialIndicatorPeriod(
+                                      indicator.id,
+                                      option.id,
+                                    )}
+                                >
+                                  {option.label}
+                                </button>
+                              {/each}
+                            {/key}
+                          </div>
+                        {/if}
+                      </div>
                     {:else}
                       <button
                         type="button"
