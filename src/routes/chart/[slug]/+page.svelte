@@ -11255,25 +11255,46 @@
                             <path fill="currentColor" d={indicatorStarPath} />
                           </svg>
                         </button>
-                        <input
-                          on:click={() => toggleIndicatorById(indicator.id)}
-                          id={`favorite-${indicator.id}`}
-                          type="checkbox"
-                          checked={Boolean(indicatorState[indicator.id])}
-                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
-                        />
-                        <label
-                          for={`favorite-${indicator.id}`}
-                          class="cursor-pointer text-sm sm:text-[1rem] ml-2"
-                        >
-                          {indicator.label}
-                        </label>
-                        <InfoModal
-                          id={`indicator-favorite-${indicator.id}`}
-                          title={indicator.label}
-                          callAPI={true}
-                          parameter={indicator.infoKey || indicator.id}
-                        />
+                        {#if isSubscribed}
+                          <input
+                            on:click={() => toggleIndicatorById(indicator.id)}
+                            id={`favorite-${indicator.id}`}
+                            type="checkbox"
+                            checked={Boolean(indicatorState[indicator.id])}
+                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          />
+                          <label
+                            for={`favorite-${indicator.id}`}
+                            class="cursor-pointer text-sm sm:text-[1rem] ml-2"
+                          >
+                            {indicator.label}
+                          </label>
+                          <InfoModal
+                            id={`indicator-favorite-${indicator.id}`}
+                            title={indicator.label}
+                            callAPI={true}
+                            parameter={indicator.infoKey || indicator.id}
+                          />
+                        {:else}
+                          <button
+                            on:click={() => goto("/pricing")}
+                            class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                          >
+                            <svg
+                              class="w-4 h-4 mr-1.5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                              />
+                            </svg>
+                            <span class="text-sm sm:text-[1rem]"
+                              >{indicator.label}</span
+                            >
+                          </button>
+                        {/if}
                       </div>
                       {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
                         <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
@@ -11401,43 +11422,70 @@
                         {/if}
                       </div>
                     {:else}
-                      <button
-                        type="button"
-                        class={getFavoriteStarClass(
-                          indicatorFavorites.includes(indicator.id),
-                        ) + " mr-2"}
-                        aria-label={isIndicatorFavorite(indicator.id)
-                          ? "Remove from favorites"
-                          : "Add to favorites"}
-                        on:click|stopPropagation={(event) =>
-                          toggleIndicatorFavorite(event, indicator.id)}
-                      >
-                        <svg
-                          class="w-5 h-5 sm:w-4 sm:h-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 16 16"
-                        >
-                          <path fill="currentColor" d={indicatorStarPath} />
-                        </svg>
-                      </button>
-                      <button
-                        on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                      >
-                        <svg
-                          class="w-4 h-4 mr-1.5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          />
-                        </svg>
-                        <span class="text-sm sm:text-[1rem]"
-                          >{indicator.label}</span
-                        >
-                      </button>
+                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0">
+                        <div class="flex items-center">
+                          <button
+                            type="button"
+                            class={getFavoriteStarClass(
+                              indicatorFavorites.includes(indicator.id),
+                            ) + " mr-2"}
+                            aria-label={isIndicatorFavorite(indicator.id)
+                              ? "Remove from favorites"
+                              : "Add to favorites"}
+                            on:click|stopPropagation={(event) =>
+                              toggleIndicatorFavorite(event, indicator.id)}
+                          >
+                            <svg
+                              class="w-5 h-5 sm:w-4 sm:h-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 16"
+                            >
+                              <path fill="currentColor" d={indicatorStarPath} />
+                            </svg>
+                          </button>
+                          <button
+                            on:click={() => goto("/pricing")}
+                            class="flex items-center cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                          >
+                            <svg
+                              class="w-4 h-4 mr-1.5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                              />
+                            </svg>
+                            <span class="text-sm sm:text-[1rem]"
+                              >{indicator.label}</span
+                            >
+                          </button>
+                        </div>
+                        {#if indicator.id === "revenue" || STATEMENT_INDICATOR_BY_ID[indicator.id]}
+                          <div class="flex items-center gap-1.5 sm:gap-1 pl-9 sm:pl-0">
+                            {#key `${periodKey}-${indicator.id}`}
+                              {#each FINANCIAL_PERIOD_OPTIONS as option}
+                                <button
+                                  type="button"
+                                  class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                    indicator.id,
+                                  ) === option.id
+                                    ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                    : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-600 dark:hover:text-white'}"
+                                  on:click|stopPropagation={() =>
+                                    setFinancialIndicatorPeriod(
+                                      indicator.id,
+                                      option.id,
+                                    )}
+                                >
+                                  {option.label}
+                                </button>
+                              {/each}
+                            {/key}
+                          </div>
+                        {/if}
+                      </div>
                     {/if}
                   </div>
                 {/each}
