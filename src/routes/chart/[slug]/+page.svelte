@@ -11311,7 +11311,7 @@
               </div>
             {:else}
               <div class="mt-4 space-y-2 sm:space-y-1">
-                {#each selectedIndicators as indicator}
+                {#each selectedIndicators as indicator (indicator.id)}
                   <div
                     class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
