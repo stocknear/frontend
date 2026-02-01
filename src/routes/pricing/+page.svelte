@@ -51,6 +51,7 @@
     pricing_feature_discord,
     pricing_feature_everything_plus,
     pricing_feature_options_realtime,
+    pricing_feature_pro_chart_unlimited,
     pricing_get_registered,
     pricing_get_plus,
     pricing_current_plan,
@@ -1044,7 +1045,7 @@
               </g></svg
             >
 
-            <span class="">Unlimited Pro Chart Access</span>
+            <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1604,7 +1605,7 @@
               </g></svg
             >
 
-            <span class="">Unlimited Pro Chart Access</span>
+            <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1901,7 +1902,7 @@
               ></path></svg
             >
 
-            <span class="">Unlimited Pro Chart Access</span>
+            <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
             <svg
