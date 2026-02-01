@@ -217,11 +217,6 @@
 
     // Recalculate data
     updateDataForSelectedDates();
-    dateList = [...dateList];
-  }
-
-  function isDateChecked(dateValue) {
-    return checkedDates.has(dateValue);
   }
 
   function updateDataForSelectedDates() {
@@ -700,7 +695,7 @@
                     on:click={() => handleDateChange(item)}
                     for={item}
                   >
-                    <input type="checkbox" checked={isDateChecked(item)} />
+                    <input type="checkbox" checked={checkedDates.has(item)} />
                     <span class="ml-2">
                       {item === "All"
                         ? stock_detail_options_oi_all_expiries()

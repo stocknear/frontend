@@ -541,13 +541,6 @@
 
   $: selectedDTEsLabel = getDteLabel(selectedDTEsText);
 
-  // Reactive array for checked state to ensure proper reactivity
-  $: checkedDTEsArray = Array.from(checkedDTEs);
-
-  function isDTEChecked(dteValue) {
-    return checkedDTEsArray.includes(dteValue);
-  }
-
   function updateDataForSelectedDTEs() {
     if (selectedDTEs.has("All")) {
       rawData = aggregateDict(data?.getData) || [];
@@ -1111,7 +1104,7 @@
                 >
                   <input
                     type="checkbox"
-                    checked={isDTEChecked(item)}
+                    checked={checkedDTEs.has(item)}
                     on:click|preventDefault|stopPropagation={() =>
                       handleDTEChange(item)}
                   />
