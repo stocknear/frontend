@@ -1676,7 +1676,7 @@
     magnet: false,
   };
   type RightSidebarTab = "watchlist" | "alerts";
-  const RIGHT_SIDEBAR_COLLAPSED_SIZE = 5;
+  const RIGHT_RAIL_WIDTH_PX = 54;
   const RIGHT_SIDEBAR_MIN_SIZE = 18;
   const RIGHT_SIDEBAR_MAX_SIZE = 35;
   const RIGHT_SIDEBAR_DEFAULT_SIZE = 24;
@@ -1684,6 +1684,25 @@
   let rightSidebarTab: RightSidebarTab = "watchlist";
   let rightSidebarSize = RIGHT_SIDEBAR_DEFAULT_SIZE;
   let rightSidebarOpenSize = RIGHT_SIDEBAR_DEFAULT_SIZE;
+  let rightSidebarCollapsedSize = 5;
+  let splitpanesContainer: HTMLDivElement | null = null;
+  let rightSidebarResizeObserver: ResizeObserver | null = null;
+
+  const clampRightSidebarOpenSize = (value: number) =>
+    Math.min(RIGHT_SIDEBAR_MAX_SIZE, Math.max(RIGHT_SIDEBAR_MIN_SIZE, value));
+
+  const updateRightSidebarCollapsedSize = () => {
+    if (!splitpanesContainer) return;
+    const width = splitpanesContainer.getBoundingClientRect().width;
+    if (!width) return;
+    rightSidebarCollapsedSize = Math.max(
+      1,
+      Math.min(100, (RIGHT_RAIL_WIDTH_PX / width) * 100),
+    );
+    if (!rightSidebarOpen) {
+      rightSidebarSize = rightSidebarCollapsedSize;
+    }
+  };
 
   const openRightSidebar = (tab?: RightSidebarTab) => {
     if (tab) {
@@ -1692,16 +1711,16 @@
     if (!rightSidebarOpen) {
       rightSidebarOpen = true;
     }
-    rightSidebarSize = rightSidebarOpenSize;
+    rightSidebarSize = clampRightSidebarOpenSize(rightSidebarOpenSize);
   };
 
   const closeRightSidebar = () => {
     if (!rightSidebarOpen) return;
-    if (rightSidebarSize > RIGHT_SIDEBAR_COLLAPSED_SIZE) {
+    if (rightSidebarSize > rightSidebarCollapsedSize) {
       rightSidebarOpenSize = rightSidebarSize;
     }
     rightSidebarOpen = false;
-    rightSidebarSize = RIGHT_SIDEBAR_COLLAPSED_SIZE;
+    rightSidebarSize = rightSidebarCollapsedSize;
   };
 
   const toggleRightSidebar = (tab?: RightSidebarTab) => {
@@ -1723,9 +1742,13 @@
 
   $: if (
     rightSidebarOpen &&
-    rightSidebarSize > RIGHT_SIDEBAR_COLLAPSED_SIZE
+    rightSidebarSize > rightSidebarCollapsedSize
   ) {
-    rightSidebarOpenSize = rightSidebarSize;
+    rightSidebarOpenSize = clampRightSidebarOpenSize(rightSidebarSize);
+  }
+
+  $: if (!rightSidebarOpen) {
+    rightSidebarSize = rightSidebarCollapsedSize;
   }
 
   const indicatorItems = indicatorDefinitions.map((item) => ({
@@ -6757,6 +6780,16 @@
     const throttledChartResize = throttle(() => chart?.resize(), 100);
     resizeObserver = new ResizeObserver(throttledChartResize);
     resizeObserver.observe(chartRoot);
+
+    if (typeof ResizeObserver !== "undefined") {
+      updateRightSidebarCollapsedSize();
+      rightSidebarResizeObserver = new ResizeObserver(() => {
+        updateRightSidebarCollapsedSize();
+      });
+      if (splitpanesContainer) {
+        rightSidebarResizeObserver.observe(splitpanesContainer);
+      }
+    }
   });
 
   onDestroy(() => {
@@ -6775,6 +6808,8 @@
     chartMain = null;
     resizeObserver?.disconnect();
     resizeObserver = null;
+    rightSidebarResizeObserver?.disconnect();
+    rightSidebarResizeObserver = null;
   });
 
   $: {
@@ -8332,7 +8367,8 @@
         </div>
       {/if}
 
-      <Splitpanes class="chart-splitpanes flex-1 min-h-0">
+      <div class="flex-1 min-h-0" bind:this={splitpanesContainer}>
+        <Splitpanes class="chart-splitpanes h-full w-full">
         <Pane minSize={50}>
           <div class="relative flex-1 min-h-0 h-full bg-white dark:bg-zinc-950">
             <div
@@ -9985,10 +10021,10 @@
             bind:size={rightSidebarSize}
             minSize={rightSidebarOpen
               ? RIGHT_SIDEBAR_MIN_SIZE
-              : RIGHT_SIDEBAR_COLLAPSED_SIZE}
+              : rightSidebarCollapsedSize}
             maxSize={rightSidebarOpen
               ? RIGHT_SIDEBAR_MAX_SIZE
-              : RIGHT_SIDEBAR_COLLAPSED_SIZE}
+              : rightSidebarCollapsedSize}
           >
             <div
               class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-zinc-950"
@@ -10098,7 +10134,8 @@
             </div>
           </Pane>
         {/if}
-      </Splitpanes>
+        </Splitpanes>
+      </div>
     </div>
   </div>
 
