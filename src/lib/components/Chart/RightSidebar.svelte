@@ -686,118 +686,144 @@
         <span>Price alerts</span>
       </div>
     {:else}
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild let:builder>
-          <Button
-            builders={[builder]}
-            class="w-fit transition-all px-1 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
-          >
-            <span class="truncate font-medium">{activeWatchlistTitle}</span>
-            <svg
-              class="-mr-1 ml-1 h-4 w-4 inline-block"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </Button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content
-          side="bottom"
-          align="start"
-          sideOffset={10}
-          alignOffset={0}
-          class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
+      <div class="flex flex-col items-start w-full">
+        <div
+          class="mb-3 flex w-full items-center py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]"
         >
-          <DropdownMenu.Item
-            on:click={() => (isCreateModalOpen = true)}
-            class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
+          <div
+            class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 dark:text-zinc-200"
           >
             <svg
-              class="h-4 w-4 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            <span class="text-sm">New Watchlist</span>
-          </DropdownMenu.Item>
-          <DropdownMenu.Separator />
-          <DropdownMenu.Group>
-            {#each watchlists as list}
-              <DropdownMenu.Item
-                on:click={() => {
-                  activeWatchlistId = list.id;
-                  handleWatchlistChange();
-                }}
-                class="text-sm cursor-pointer {list.id === activeWatchlistId
-                  ? 'text-violet-800 dark:text-violet-400'
-                  : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
-              >
-                {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
-                  ? list.ticker.length
-                  : 0})
-                <label
-                  class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
-                  on:click|stopPropagation={() => openDeleteModal(list)}
-                >
-                  <svg
-                    class="size-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    style="max-width:40px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    ></path>
-                  </svg>
-                </label>
-              </DropdownMenu.Item>
-            {/each}
-          </DropdownMenu.Group>
-          {#if watchlists.length === 0}
-            <div class="px-3 py-2 text-sm text-gray-500 dark:text-zinc-400">
-              No watchlists yet
-            </div>
-          {/if}
-          <DropdownMenu.Separator />
-          <DropdownMenu.Item
-            on:click={() => goto("/watchlist/stocks")}
-            class="flex items-center gap-2 text-xs cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-          >
-            <svg
-              class="size-4"
+              class="size-3.5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
               stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
               />
             </svg>
-            Manage Watchlists
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+
+            <span>Watchlist</span>
+          </div>
+        </div>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="w-fit transition-all px-1 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
+            >
+              <span class="truncate font-medium">{activeWatchlistTitle}</span>
+              <svg
+                class="-mr-1 ml-1 h-4 w-4 inline-block"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="start"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
+          >
+            <DropdownMenu.Item
+              on:click={() => (isCreateModalOpen = true)}
+              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
+            >
+              <svg
+                class="h-4 w-4 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="text-sm">New Watchlist</span>
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              {#each watchlists as list}
+                <DropdownMenu.Item
+                  on:click={() => {
+                    activeWatchlistId = list.id;
+                    handleWatchlistChange();
+                  }}
+                  class="text-sm cursor-pointer {list.id === activeWatchlistId
+                    ? 'text-violet-800 dark:text-violet-400'
+                    : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+                >
+                  {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
+                    ? list.ticker.length
+                    : 0})
+                  <label
+                    class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
+                    on:click|stopPropagation={() => openDeleteModal(list)}
+                  >
+                    <svg
+                      class="size-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      style="max-width:40px"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg>
+                  </label>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+            {#if watchlists.length === 0}
+              <div class="px-3 py-2 text-sm text-gray-500 dark:text-zinc-400">
+                No watchlists yet
+              </div>
+            {/if}
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item
+              on:click={() => goto("/watchlist/stocks")}
+              class="flex items-center gap-2 text-xs cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+            >
+              <svg
+                class="size-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+                />
+              </svg>
+              Manage Watchlists
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
     {/if}
   </div>
 
