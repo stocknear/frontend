@@ -21,6 +21,7 @@
     name?: string;
     price?: number | string | null;
     changesPercentage?: number | string | null;
+    volume?: number | string | null;
     type?: string;
   };
 
@@ -129,23 +130,25 @@
     return numeric === null ? "-" : numberFormatter.format(numeric);
   };
 
-  const formatChange = (value: number | null) => {
-    if (value === null) return "-";
-    const sign = value > 0 ? "+" : "";
-    return `${sign}${numberFormatter.format(value)}`;
-  };
-
   const formatPercent = (value: number | null) => {
     if (value === null) return "-";
     const sign = value > 0 ? "+" : "";
     return `${sign}${percentFormatter.format(value)}%`;
   };
 
-  const getChangeValue = (item: WatchlistItem): number | null => {
-    const price = toNumber(item?.price);
-    const pct = toNumber(item?.changesPercentage);
-    if (price === null || pct === null) return null;
-    return (price * pct) / 100;
+  const formatVolume = (value: unknown): string => {
+    const numeric = toNumber(value);
+    if (numeric === null) return "-";
+    if (numeric >= 1_000_000_000) {
+      return `${(numeric / 1_000_000_000).toFixed(1)}B`;
+    }
+    if (numeric >= 1_000_000) {
+      return `${(numeric / 1_000_000).toFixed(1)}M`;
+    }
+    if (numeric >= 1_000) {
+      return `${(numeric / 1_000).toFixed(1)}K`;
+    }
+    return numeric.toString();
   };
 
   const getChangeClass = (value: number | null) => {
@@ -264,7 +267,7 @@
         },
         body: JSON.stringify({
           watchListId,
-          ruleOfList: ["price", "changesPercentage"],
+          ruleOfList: ["price", "changesPercentage", "volume"],
         }),
         signal,
       });
@@ -927,11 +930,11 @@
           Add tickers to see them here.
         </div>
       {:else}
-        <div class="px-3 py-2 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-2">
+        <div class="px-3 py-2 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2">
           <span>Symbol</span>
-          <span class="text-right">Last</span>
-          <span class="text-right">Chg</span>
+          <span class="text-right">Price</span>
           <span class="text-right">Chg%</span>
+          <span class="text-right">Vol</span>
         </div>
 
         <div class="pb-4">
@@ -958,12 +961,11 @@
             <!-- Group Items -->
             {#if !collapsedGroups.has(group.key)}
               {#each group.items as item}
-                {@const changeValue = getChangeValue(item)}
                 {@const isActive = isActiveSymbol(item?.symbol)}
                 {@const isSelected = deleteTickerList.includes(item?.symbol ?? "")}
                 <button
                   type="button"
-                  class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {editMode && isSelected
+                  class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {editMode && isSelected
                     ? 'bg-rose-50 dark:bg-rose-500/10 text-gray-900 dark:text-white'
                     : isActive
                       ? 'bg-blue-500/10 text-gray-900 dark:text-white'
@@ -1007,21 +1009,21 @@
                     >
                   </span>
 
-                  <!-- Last Price -->
+                  <!-- Price -->
                   <span class="text-right tabular-nums"
                     >{formatPrice(item?.price)}</span
                   >
-
-                  <!-- Change -->
-                  <span class={`text-right tabular-nums ${getChangeClass(changeValue)}`}>
-                    {formatChange(changeValue)}
-                  </span>
 
                   <!-- Change % -->
                   <span
                     class={`text-right tabular-nums ${getChangeClass(toNumber(item?.changesPercentage))}`}
                   >
                     {formatPercent(toNumber(item?.changesPercentage))}
+                  </span>
+
+                  <!-- Volume -->
+                  <span class="text-right tabular-nums text-gray-500 dark:text-zinc-400">
+                    {formatVolume(item?.volume)}
                   </span>
                 </button>
               {/each}
