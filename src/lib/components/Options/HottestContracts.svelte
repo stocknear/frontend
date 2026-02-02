@@ -96,7 +96,12 @@
 
   function computeOTM(strikePrice, optionType) {
     const currentPrice = data?.getStockQuote?.price;
-    let otmPercentage = 0;
+
+    if (!currentPrice || !strikePrice) {
+      return "n/a";
+    }
+
+    let otmPercentage;
 
     if (optionType === "C") {
       otmPercentage = (
@@ -109,7 +114,7 @@
         100
       )?.toFixed(2);
     } else {
-      otmPercentage = "n/a";
+      return "n/a";
     }
 
     return otmPercentage;
