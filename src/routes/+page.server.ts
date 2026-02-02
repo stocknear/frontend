@@ -7,7 +7,7 @@ import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
 
 /// Constants
-const CACHE_DURATION = 60 * 1000; // 60 seconds
+const CACHE_DURATION = 10 * 1000; // 60 seconds
 const REQUEST_TIMEOUT = 5000;
 
 // LRU Cache implementation

@@ -1,9 +1,8 @@
 <script lang="ts">
     import { onDestroy, onMount } from "svelte";
     import { mode } from "mode-watcher";
-    import { init, dispose, registerXAxis, type KLineData } from "klinecharts";
+    import { init, dispose, type KLineData } from "klinecharts";
     import { abbreviateNumber } from "$lib/utils";
-    import { screenWidth } from "$lib/store";
 
     export let plotData = {};
     export let symbol = "";
@@ -30,62 +29,7 @@
     let bullPrem = 0;
     let bearPrem = 0;
     let isPositive = true;
-    let sessionStart: number | null = null;
-    let sessionEnd: number | null = null;
-    let sessionBarCount = 0;
-    let sessionIntervalMs = 60 * 1000;
-    let missingRightBars = 0;
     let currentBarCount = 0;
-    let miniAxisRegistered = false;
-
-    const MINI_X_AXIS_NAME = "mini_x_axis";
-
-    let MINI_AXIS_LABELS = [];
-    $: MINI_AXIS_LABELS =
-        $screenWidth > 640
-            ? [
-                  { label: "10 AM", minutes: 10 * 60 },
-                  { label: "11 AM", minutes: 11 * 60 },
-                  { label: "12 PM", minutes: 12 * 60 },
-                  { label: "1 PM", minutes: 13 * 60 },
-                  { label: "2 PM", minutes: 14 * 60 },
-                  { label: "3 PM", minutes: 15 * 60 },
-                  { label: "4 PM", minutes: 16 * 60 },
-              ]
-            : [
-                  { label: "10 AM", minutes: 10 * 60 },
-                  { label: "1 PM", minutes: 13 * 60 },
-                  { label: "4 PM", minutes: 16 * 60 },
-              ];
-    const MINI_AXIS_START_MIN = 9 * 60 + 30;
-    const MINI_AXIS_END_MIN = 16 * 60;
-    const MINI_AXIS_RANGE_MIN = MINI_AXIS_END_MIN - MINI_AXIS_START_MIN;
-
-    const ensureMiniXAxis = () => {
-        if (miniAxisRegistered) return;
-        registerXAxis({
-            name: MINI_X_AXIS_NAME,
-            createTicks: ({ bounding }) => {
-                const width = Math.max(bounding.width, 0);
-                if (width <= 0) return [];
-                const leftPad = 6;
-                const rightPad = 10;
-                const usableWidth = Math.max(width - leftPad - rightPad, 1);
-                return MINI_AXIS_LABELS?.map((tick) => {
-                    const ratio =
-                        (tick.minutes - MINI_AXIS_START_MIN) /
-                        MINI_AXIS_RANGE_MIN;
-                    const coord = leftPad + usableWidth * ratio;
-                    return {
-                        coord,
-                        value: tick.minutes,
-                        text: tick.label,
-                    };
-                });
-            },
-        });
-        miniAxisRegistered = true;
-    };
 
     $: changesPercentage = plotData?.changesPercentage || 0;
     $: priceData = plotData?.price || [];
@@ -144,41 +88,12 @@
     };
 
     const formatXAxisLabel = (timestamp: number): string => {
-        const isBoundary =
-            (sessionStart !== null && timestamp === sessionStart) ||
-            (sessionEnd !== null && timestamp === sessionEnd);
         const value = new Date(timestamp).toLocaleTimeString("en-US", {
             hour: "numeric",
-            ...(isBoundary ? { minute: "2-digit" } : {}),
+            minute: "2-digit",
             hour12: true,
         });
         return value.replace(/\s/g, "").replace(":00", "");
-    };
-
-    const buildSessionTimestamp = (
-        baseTimestamp: number,
-        hours: number,
-        minutes: number,
-    ): number => {
-        const baseDate = new Date(baseTimestamp);
-        const localDate = new Date(
-            baseDate.getFullYear(),
-            baseDate.getMonth(),
-            baseDate.getDate(),
-            hours,
-            minutes,
-            0,
-            0,
-        );
-        return Date.UTC(
-            localDate.getUTCFullYear(),
-            localDate.getUTCMonth(),
-            localDate.getUTCDate(),
-            localDate.getUTCHours(),
-            localDate.getUTCMinutes(),
-            localDate.getUTCSeconds(),
-            localDate.getUTCMilliseconds(),
-        );
     };
 
     const buildMiniBars = (rawData: any[]): KLineData[] => {
@@ -202,7 +117,7 @@
         if (!parsed.length) return [];
 
         let prevClose: number | null = null;
-        const bars = parsed.map((item) => {
+        return parsed.map((item) => {
             const openValue = item.open ?? prevClose ?? item.close;
             const highValue = item.high ?? Math.max(openValue, item.close);
             const lowValue = item.low ?? Math.min(openValue, item.close);
@@ -216,68 +131,6 @@
                 volume: 0,
             };
         });
-
-        const sessionStartTs = buildSessionTimestamp(bars[0].timestamp, 9, 30);
-        const sessionEndTs = buildSessionTimestamp(bars[0].timestamp, 16, 0);
-        const sessionBars = bars.filter(
-            (bar) =>
-                bar.timestamp >= sessionStartTs && bar.timestamp <= sessionEndTs,
-        );
-        if (!sessionBars.length) {
-            return [...bars];
-        }
-
-        // Fill gaps with synthetic bars only WITHIN actual data range
-        // Don't fill beyond last actual data point (to avoid showing stale data for future times)
-        const filledBars: KLineData[] = [];
-        const ONE_MINUTE_MS = 60000;
-        let barIndex = 0;
-        const lastActualTimestamp = sessionBars[sessionBars.length - 1].timestamp;
-
-        for (let ts = sessionStartTs; ts <= sessionEndTs; ts += ONE_MINUTE_MS) {
-            // Find bar at this timestamp (within 30 second tolerance)
-            while (
-                barIndex < sessionBars.length &&
-                sessionBars[barIndex].timestamp < ts - 30000
-            ) {
-                barIndex++;
-            }
-
-            if (
-                barIndex < sessionBars.length &&
-                Math.abs(sessionBars[barIndex].timestamp - ts) < 30000
-            ) {
-                // Use actual bar, normalize timestamp to exact minute
-                filledBars.push({ ...sessionBars[barIndex], timestamp: ts });
-                barIndex++;
-            } else if (filledBars.length > 0 && ts <= lastActualTimestamp) {
-                // Only fill gaps WITHIN actual data range, not beyond
-                const prev = filledBars[filledBars.length - 1];
-                filledBars.push({
-                    timestamp: ts,
-                    open: prev.close,
-                    high: prev.close,
-                    low: prev.close,
-                    close: prev.close,
-                    volume: 0,
-                });
-            }
-            // Don't create synthetic bars for timestamps beyond last actual data
-        }
-
-        return filledBars;
-    };
-
-    const computeIntervalMs = (bars: KLineData[]): number => {
-        if (bars.length < 2) return 60 * 1000;
-        const diffs: number[] = [];
-        for (let i = 1; i < bars.length; i += 1) {
-            const diff = bars[i].timestamp - bars[i - 1].timestamp;
-            if (diff > 0) diffs.push(diff);
-        }
-        if (!diffs.length) return 60 * 1000;
-        diffs.sort((a, b) => a - b);
-        return diffs[Math.floor(diffs.length / 2)];
     };
 
     const updateBarSpace = () => {
@@ -287,14 +140,9 @@
         const chartWidth = chart.getSize()?.width;
         const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
         if (!width) return;
-        const targetCount =
-            sessionBarCount > 0 ? sessionBarCount : currentBarCount;
-        const desired = width / targetCount;
+        const desired = width / currentBarCount;
         const clamped = Math.max(1, desired);
         chart.setBarSpace(clamped);
-        const barSpace = chart.getBarSpace()?.bar ?? clamped;
-        const offsetRight = Math.max(0, missingRightBars * barSpace);
-        chart.setOffsetRightDistance(offsetRight);
     };
 
     const applyMiniStyles = (isLight: boolean, isNegative: boolean) => {
@@ -349,7 +197,7 @@
                     size: 9,
                     family: chartFont,
                     weight: 500,
-                    marginStart: 1,
+                    marginStart: 3,
                     marginEnd: 1,
                 },
             },
@@ -468,35 +316,17 @@
         if (!chart) return;
         const bars = buildMiniBars(rawData);
         currentBarCount = bars.length;
+
         if (!bars.length) {
-            sessionStart = null;
-            sessionEnd = null;
-            sessionBarCount = 0;
-            missingRightBars = 0;
             chart.setOffsetRightDistance(0);
             chart.setDataLoader({
                 getBars: async ({ type, callback }) => {
-                    if (type === "init") {
-                        callback([], { backward: false, forward: false });
-                        return;
-                    }
                     callback([], { backward: false, forward: false });
                 },
             });
             return;
         }
 
-        const baseTimestamp = bars[0].timestamp;
-        sessionStart = buildSessionTimestamp(baseTimestamp, 9, 30);
-        sessionEnd = buildSessionTimestamp(baseTimestamp, 16, 0);
-        sessionIntervalMs = computeIntervalMs(bars);
-        sessionBarCount =
-            Math.round((sessionEnd - sessionStart) / sessionIntervalMs) + 1;
-        const lastTimestamp = bars[bars.length - 1].timestamp;
-        missingRightBars =
-            lastTimestamp < sessionEnd
-                ? Math.round((sessionEnd - lastTimestamp) / sessionIntervalMs)
-                : 0;
         chart.setSymbol({
             ticker: ticker ? ticker.toUpperCase() : "",
             pricePrecision: 2,
@@ -517,7 +347,6 @@
 
     onMount(() => {
         if (!chartContainer) return;
-        ensureMiniXAxis();
         chart = init(chartContainer);
         if (!chart) return;
         chart.setZoomEnabled(false);
@@ -531,13 +360,6 @@
                 gap: { top: 0.02, bottom: 0.02 },
                 position: "right",
                 inside: true,
-                scrollZoomEnabled: false,
-            },
-        });
-        chart.setPaneOptions({
-            id: "x_axis_pane",
-            axis: {
-                name: MINI_X_AXIS_NAME,
                 scrollZoomEnabled: false,
             },
         });
