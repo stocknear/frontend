@@ -11,7 +11,9 @@
   import * as Popover from "$lib/components/shadcn/popover/index.js";
   import { Combobox } from "bits-ui";
   import { toast } from "svelte-sonner";
-  import { mode } from "mode-watcher";
+  import { mode, setMode } from "mode-watcher";
+  import Sun from "lucide-svelte/icons/sun";
+  import Moon from "lucide-svelte/icons/moon";
 
   export let currentSymbol: string | null = null;
 
@@ -515,6 +517,21 @@
       ? `https://financialmodelingprep.com/image-stock/${symbol.toUpperCase()}.png`
       : "";
 
+  // Theme toggle handler
+  const handleThemeToggle = async () => {
+    const newMode = $mode === "light" ? "dark" : "light";
+    setMode(newMode);
+    try {
+      await fetch("/api/theme-mode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: newMode }),
+      });
+    } catch {
+      // Ignore theme persistence errors
+    }
+  };
+
   onMount(() => {
     loadCollapsedGroups();
     loadWatchlists();
@@ -703,9 +720,22 @@
           >
             <DropdownMenu.Item
               on:click={() => goto("/watchlist/stocks")}
-              class="px-3 py-2 text-xs cursor-pointer text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg"
+              class="px-3 py-2 text-xs cursor-pointer text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-t-lg"
             >
               Manage watchlists
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator class="h-px bg-gray-200 dark:bg-zinc-700" />
+            <DropdownMenu.Item
+              on:click={handleThemeToggle}
+              class="flex items-center gap-2 px-3 py-2 text-xs cursor-pointer text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-b-lg"
+            >
+              {#if $mode === "light"}
+                <Moon class="size-3.5" />
+                <span>Dark mode</span>
+              {:else}
+                <Sun class="size-3.5" />
+                <span>Light mode</span>
+              {/if}
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
