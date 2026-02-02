@@ -4,6 +4,7 @@
   import highcharts from "$lib/highcharts.ts";
   import { abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import {
     stock_detail_options_call_oi,
     stock_detail_options_call_volume,
@@ -81,6 +82,22 @@
 
   let rawData = data?.getOptionsChainStatistics?.table;
   let optionList = rawData?.slice(0, 100);
+
+  // Flatten expectedMove for clean CSV/Excel export
+  $: downloadData =
+    rawData?.map((item) => ({
+      expiration: item?.expiration,
+      callVol: item?.callVol,
+      putVol: item?.putVol,
+      pcVol: item?.pcVol,
+      callOI: item?.callOI,
+      putOI: item?.putOI,
+      pcOI: item?.pcOI,
+      avgIV: item?.avgIV,
+      maxPain: item?.maxPain,
+      expectedMoveAmount: item?.expectedMove?.amount,
+      expectedMovePercent: item?.expectedMove?.percent,
+    })) ?? [];
 
   let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
   const lockLinkClass =
@@ -1153,9 +1170,9 @@
               fill-rule="evenodd"
               d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
               clip-rule="evenodd"
-            ></path></svg>
-</a
-        >
+            ></path></svg
+          >
+        </a>
 
         <div
           class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full m-auto"
@@ -1380,9 +1397,9 @@
               fill-rule="evenodd"
               d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
               clip-rule="evenodd"
-            ></path></svg>
-</a
-        >
+            ></path></svg
+          >
+        </a>
 
         <div
           class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full"
@@ -1593,13 +1610,33 @@
 
         {#if rawData?.length > 0}
           {#if optionList?.length !== 0}
-            <h3
-              class="mb-4 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
-            >
-              {stock_detail_options_chain_statistics()}
-            </h3>
+            <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
+              <div
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+              >
+                <h2
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                >
+                  {stock_detail_options_chain_statistics()}
+                </h2>
 
-            <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
+                <div
+                  class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                >
+                  <div class="ml-auto">
+                    <DownloadData
+                      {data}
+                      rawData={downloadData}
+                      title={`${ticker}_options_chain_statistics`}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p
+              class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed mt-2"
+            >
               {@html stock_detail_options_chain_desc({ ticker })}
             </p>
 
