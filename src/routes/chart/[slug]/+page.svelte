@@ -363,11 +363,19 @@
     return hasPrice;
   };
 
-  // Validate WebSocket URL
+  // Validate WebSocket URL - checks protocol and hostname
+  const ALLOWED_WS_HOSTS = ["stocknear.com", "www.stocknear.com", "localhost"];
   const isValidWsUrl = (url: string): boolean => {
     try {
       const parsed = new URL(url);
-      return parsed.protocol === "wss:" || parsed.protocol === "ws:";
+      if (parsed.protocol !== "wss:" && parsed.protocol !== "ws:") {
+        return false;
+      }
+      // Check hostname against whitelist (allow subdomains)
+      const hostname = parsed.hostname.toLowerCase();
+      return ALLOWED_WS_HOSTS.some(
+        (allowed) => hostname === allowed || hostname.endsWith("." + allowed)
+      );
     } catch {
       return false;
     }
@@ -838,6 +846,31 @@
     }
     return _barIndexMap.get(timestamp);
   };
+
+  // Binary search to find nearest bar by timestamp (O(log n) instead of O(n))
+  const findNearestBar = (timestamp: number): KLineData | null => {
+    if (currentBars.length === 0) return null;
+    if (currentBars.length === 1) return currentBars[0];
+
+    let left = 0;
+    let right = currentBars.length - 1;
+
+    // Binary search for closest timestamp
+    while (left < right - 1) {
+      const mid = Math.floor((left + right) / 2);
+      if (currentBars[mid].timestamp <= timestamp) {
+        left = mid;
+      } else {
+        right = mid;
+      }
+    }
+
+    // Compare left and right to find closest
+    const leftDiff = Math.abs(currentBars[left].timestamp - timestamp);
+    const rightDiff = Math.abs(currentBars[right].timestamp - timestamp);
+    return leftDiff <= rightDiff ? currentBars[left] : currentBars[right];
+  };
+
   type ChartTypeId =
     | "bars"
     | "candles"
@@ -2855,16 +2888,8 @@
             priceY = pricePixel.y;
           }
         } else {
-          // Try to find nearest bar by iterating through bars
-          let closestBar = null;
-          let closestDiff = Infinity;
-          for (const bar of currentBars) {
-            const diff = Math.abs(bar.timestamp - timestamp);
-            if (diff < closestDiff) {
-              closestDiff = diff;
-              closestBar = bar;
-            }
-          }
+          // Use binary search to find nearest bar (O(log n) instead of O(n))
+          const closestBar = findNearestBar(timestamp);
           if (closestBar) {
             const pricePixel = chart.convertToPixel({
               value: closestBar.close,

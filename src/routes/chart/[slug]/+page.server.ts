@@ -1,13 +1,19 @@
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
+// Ticker validation: allows ^SPX, AAPL, BRK.A, BTC-USD formats
+const TICKER_REGEX = /^[\^]?[A-Z0-9][A-Z0-9.\-]{0,19}$/;
+const isValidTicker = (ticker: unknown): ticker is string =>
+  typeof ticker === "string" && ticker.length >= 1 && ticker.length <= 20 && TICKER_REGEX.test(ticker.toUpperCase());
+
 export const load: PageServerLoad = async ({ locals, params }) => {
   const { apiKey, apiURL, wsURL, user, pb } = locals;
-  const ticker = params.slug?.toUpperCase();
 
-  if (!ticker) {
-    throw error(404, "Ticker not found");
+  // Validate ticker format
+  if (!isValidTicker(params.slug)) {
+    throw error(404, "Invalid ticker");
   }
+  const ticker = params.slug.toUpperCase();
 
   const payload = JSON.stringify({ ticker });
   const headers = {
@@ -101,10 +107,14 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
   const getAllStrategies = async () => {
     if (!["Pro"]?.includes(user?.tier)) return [];
+    // Validate user ID format (PocketBase uses 15-char alphanumeric IDs)
+    if (!user?.id || typeof user.id !== "string" || !/^[a-zA-Z0-9]{15}$/.test(user.id)) {
+      return [];
+    }
 
     try {
       const output = await pb.collection("chart").getFullList({
-        filter: `user="${user?.id}"`,
+        filter: `user="${user.id}"`,
       });
       output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
       return output;

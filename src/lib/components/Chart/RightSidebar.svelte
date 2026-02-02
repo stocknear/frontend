@@ -255,7 +255,8 @@
     totalPages = 1;
   }
 
-  // Build groups from paginated items
+  // Build groups from paginated items - runs on each update to reflect price changes
+  // Note: buildGroups is O(n) where n is at most itemsPerPage (20), so this is fast
   $: groupedItems = buildGroups(paginatedItems);
 
   const safeParse = (value: string | null) => {
@@ -704,6 +705,13 @@
     }
   }
 
+  // Efficient array comparison without JSON.stringify or mutation
+  function arraysHaveSameElements(a: string[], b: string[]): boolean {
+    if (a.length !== b.length) return false;
+    const setA = new Set(a);
+    return b.every((item) => setA.has(item));
+  }
+
   function connectWebSocket() {
     if (!wsURL || !$isOpen || paginatedItems.length === 0) return;
     if (
@@ -715,10 +723,7 @@
       const currentSymbols = paginatedItems
         .map((item) => item.symbol)
         .filter(Boolean) as string[];
-      const symbolsChanged =
-        JSON.stringify(currentSymbols.sort()) !==
-        JSON.stringify(lastSubscribedSymbols.sort());
-      if (symbolsChanged && socket.readyState === WebSocket.OPEN) {
+      if (!arraysHaveSameElements(currentSymbols, lastSubscribedSymbols) && socket.readyState === WebSocket.OPEN) {
         lastSubscribedSymbols = currentSymbols;
         sendWsMessage(currentSymbols);
       }
@@ -794,10 +799,7 @@
     const tickerList = paginatedItems
       .map((item) => item.symbol)
       .filter(Boolean) as string[];
-    const symbolsChanged =
-      JSON.stringify(tickerList.sort()) !==
-      JSON.stringify(lastSubscribedSymbols.sort());
-    if (symbolsChanged) {
+    if (!arraysHaveSameElements(tickerList, lastSubscribedSymbols)) {
       lastSubscribedSymbols = tickerList;
       sendWsMessage(tickerList);
     }
@@ -955,7 +957,7 @@
             {/each}
           </DropdownMenu.Group>
           {#if watchlists.length === 0}
-            <div class="px-3 py-2 text-sm text-gray-500 dark:text-zinc-400">
+            <div class="px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
               No watchlists yet
             </div>
           {/if}
@@ -1171,7 +1173,8 @@
               )}
               <button
                 type="button"
-                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200 {item?.symbol?.toUpperCase() === currentSymbol?.toUpperCase()
+                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200 {item?.symbol?.toUpperCase() ===
+                currentSymbol?.toUpperCase()
                   ? 'bg-violet-50/70 dark:bg-violet-950/30 border-l-2 border-l-violet-500 dark:border-l-violet-400'
                   : ''}"
                 title={item?.name ?? item?.symbol}

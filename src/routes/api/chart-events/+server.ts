@@ -1,5 +1,13 @@
 import type { RequestHandler } from "./$types";
 
+// Ticker validation: allows ^SPX, AAPL, BRK.A, BTC-USD formats
+const TICKER_REGEX = /^[\^]?[A-Z0-9][A-Z0-9.\-]{0,19}$/;
+const isValidTicker = (ticker: unknown): ticker is string =>
+  typeof ticker === "string" && ticker.length >= 1 && ticker.length <= 20 && TICKER_REGEX.test(ticker.toUpperCase());
+
+// Valid event types whitelist
+const VALID_EVENT_TYPES = ["earnings", "dividends", "news"];
+
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { apiURL, apiKey, user } = locals;
 
@@ -11,11 +19,23 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
 
   const data = await request.json();
-  const ticker = data?.ticker;
-  const types: string[] = data?.types ?? [];
 
-  if (!ticker || !types.length) {
-    return new Response(JSON.stringify({ error: "Missing ticker or types" }), {
+  // Validate ticker
+  if (!isValidTicker(data?.ticker)) {
+    return new Response(JSON.stringify({ error: "Invalid ticker format" }), {
+      status: 400,
+    });
+  }
+  const ticker = (data.ticker as string).toUpperCase();
+
+  // Validate and filter types to whitelist only
+  const rawTypes = Array.isArray(data?.types) ? data.types : [];
+  const types = rawTypes.filter((t): t is string =>
+    typeof t === "string" && VALID_EVENT_TYPES.includes(t)
+  );
+
+  if (!types.length) {
+    return new Response(JSON.stringify({ error: "No valid event types specified" }), {
       status: 400,
     });
   }

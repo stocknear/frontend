@@ -18,6 +18,11 @@ const INDICATOR_ENDPOINTS: Record<string, string> = {
   "max-pain": "/max-pain",
 };
 
+// Ticker validation: allows ^SPX, AAPL, BRK.A, BTC-USD formats
+const TICKER_REGEX = /^[\^]?[A-Z0-9][A-Z0-9.\-]{0,19}$/;
+const isValidTicker = (ticker: unknown): ticker is string =>
+  typeof ticker === "string" && ticker.length >= 1 && ticker.length <= 20 && TICKER_REGEX.test(ticker.toUpperCase());
+
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const { apiURL, apiKey, user } = locals;
@@ -25,13 +30,21 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const category = data?.category;
   const endpoint = INDICATOR_ENDPOINTS[category];
 
-
   if (!endpoint) {
     return new Response(
-      JSON.stringify({ error: `Unknown indicator category: ${category}` }),
+      JSON.stringify({ error: "Invalid request" }),
       { status: 400 }
     );
   }
+
+  // Validate ticker
+  if (!isValidTicker(data?.ticker)) {
+    return new Response(
+      JSON.stringify({ error: "Invalid ticker format" }),
+      { status: 400 }
+    );
+  }
+  const ticker = (data.ticker as string).toUpperCase();
 
   // Chart indicators require Pro tier
   if (user?.tier !== "Pro") {
@@ -46,49 +59,31 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   if (category === "options-gex" || category === "options-dex") {
     postData = {
-      params: data?.ticker,
+      params: ticker,
       category: "strike",
       type: category === "options-gex" ? "gex" : "dex",
     };
   } else if (category === "options-oi") {
     postData = {
-      params: data?.ticker,
+      params: ticker,
       category: "strike",
     };
   } else if (category === "hottest-contracts") {
-    postData = {
-      ticker: data?.ticker,
-    };
+    postData = { ticker };
   } else if (category === "short-interest") {
-    postData = {
-      ticker: data?.ticker,
-    };
+    postData = { ticker };
   } else if (category === "income-statement") {
-    postData = {
-      ticker: data?.ticker,
-      statement: "income-statement",
-    };
+    postData = { ticker, statement: "income-statement" };
   } else if (category === "balance-sheet") {
-    postData = {
-      ticker: data?.ticker,
-      statement: "balance-sheet-statement",
-    };
+    postData = { ticker, statement: "balance-sheet-statement" };
   } else if (category === "cash-flow") {
-    postData = {
-      ticker: data?.ticker,
-      statement: "cash-flow-statement",
-    };
+    postData = { ticker, statement: "cash-flow-statement" };
   } else if (category === "ratios") {
-    postData = {
-      ticker: data?.ticker,
-      statement: "ratios",
-    };
+    postData = { ticker, statement: "ratios" };
   } else {
     // Default payload for most fundamental indicators
     // revenue, market-cap, analyst-target, ftd, max-pain
-    postData = {
-      ticker: data?.ticker,
-    };
+    postData = { ticker };
   }
 
 
@@ -101,8 +96,20 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     body: JSON.stringify(postData),
   });
 
+  if (!response.ok) {
+    return new Response(
+      JSON.stringify({ error: "Failed to fetch indicator data" }),
+      { status: response.status }
+    );
+  }
 
-  const output = await response.json();
-
-  return new Response(JSON.stringify(output));
+  try {
+    const output = await response.json();
+    return new Response(JSON.stringify(output));
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "Invalid response from server" }),
+      { status: 500 }
+    );
+  }
 };
