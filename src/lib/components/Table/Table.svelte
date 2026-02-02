@@ -2954,23 +2954,11 @@
                   {#if item[column.key] == null}
                     <span>-</span>
                   {:else if item[column.key] > 0}
-                    <span class="tabular-nums transition-colors duration-300 {item?.previous != null
-                      ? item.price > item.previous
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : item.price < item.previous
-                          ? 'text-rose-800 dark:text-rose-400'
-                          : 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-emerald-800 dark:text-emerald-400'}"
+                    <span class="tabular-nums text-emerald-800 dark:text-emerald-400"
                       >+{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="tabular-nums transition-colors duration-300 {item?.previous != null
-                      ? item.price > item.previous
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : item.price < item.previous
-                          ? 'text-rose-800 dark:text-rose-400'
-                          : 'text-rose-800 dark:text-rose-400'
-                      : 'text-rose-800 dark:text-rose-400'}"
+                    <span class="tabular-nums text-rose-800 dark:text-rose-400"
                       >{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else}
