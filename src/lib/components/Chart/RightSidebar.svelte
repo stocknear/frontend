@@ -188,7 +188,10 @@
     if (!items.length) return [];
     const grouped = new Map<string, WatchlistItem[]>();
     items.forEach((item) => {
-      const key = normalizeGroupKey(item?.type);
+      // Symbols starting with "^" are indices (e.g., ^GSPC, ^DJI, ^IXIC)
+      const key = item?.symbol?.startsWith("^")
+        ? "indices"
+        : normalizeGroupKey(item?.type);
       const bucket = grouped.get(key);
       if (bucket) {
         bucket.push(item);
