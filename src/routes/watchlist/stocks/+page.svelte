@@ -592,6 +592,8 @@
         groupedEarnings = [];
         groupedNews = [];
       }
+      // Force Table re-render to sync with updated data
+      tableKey++;
     }
   }
 

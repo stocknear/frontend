@@ -810,7 +810,9 @@
 
   onMount(() => {
     loadCollapsedGroups();
-    loadWatchlists();
+    if (data?.user?.tier === "Pro") {
+      loadWatchlists();
+    }
   });
 
   onDestroy(() => {
