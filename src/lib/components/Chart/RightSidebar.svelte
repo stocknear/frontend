@@ -12,7 +12,9 @@
 
   export let currentSymbol: string | null = null;
   export let wsURL: string | null = null;
-  export let data: { user?: unknown } | null = null;
+  export let data: { user?: { tier?: string } } | null = null;
+
+  $: isPro = data?.user?.tier === "Pro";
 
   type WatchlistSummary = {
     id: string;
@@ -871,6 +873,36 @@
 
   <!-- Watchlist dropdown selector -->
   {#if activeTab === "watchlist"}
+    {#if !isPro}
+      <a
+        href="/pricing"
+        class="flex flex-col items-center justify-center gap-3 px-4 py-8 text-center"
+      >
+        <svg
+          class="w-8 h-8 text-gray-400 dark:text-zinc-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+          />
+        </svg>
+        <div>
+          <p class="text-sm font-semibold text-gray-700 dark:text-zinc-200">
+            Pro Feature
+          </p>
+          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
+            Watchlist is available for Pro members
+          </p>
+        </div>
+        <span
+          class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-violet-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-violet-700 transition"
+        >
+          Upgrade to Pro
+        </span>
+      </a>
+    {:else}
     <div class="px-3 py-0 border-b border-gray-200 dark:border-zinc-800">
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild let:builder>
@@ -902,13 +934,7 @@
           class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
         >
           <DropdownMenu.Item
-            on:click={() => {
-              if (!data?.user) {
-                goto("/register");
-              } else {
-                isCreateModalOpen = true;
-              }
-            }}
+            on:click={() => (isCreateModalOpen = true)}
             class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
           >
             <svg
@@ -1105,6 +1131,7 @@
         </div>
       {/if}
     </div>
+    {/if}
   {/if}
 
   <div class="flex-1 overflow-y-auto">
@@ -1127,6 +1154,8 @@
           Create alert
         </button>
       </div>
+    {:else if !isPro}
+      <!-- Pro gate handled in dropdown section above -->
     {:else if isLoading}
       <div class="px-4 py-6 text-xs text-gray-500 dark:text-zinc-400">
         Loading watchlist...
