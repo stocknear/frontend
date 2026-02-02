@@ -1,19 +1,12 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
   import ChevronRight from "lucide-svelte/icons/chevron-right";
-  import Plus from "lucide-svelte/icons/plus";
-  import RefreshCw from "lucide-svelte/icons/refresh-cw";
-  import Trash2 from "lucide-svelte/icons/trash-2";
-  import Ellipsis from "lucide-svelte/icons/ellipsis";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
-  import * as Popover from "$lib/components/shadcn/popover/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
   import { Combobox } from "bits-ui";
   import { toast } from "svelte-sonner";
-  import { mode, setMode } from "mode-watcher";
-  import Sun from "lucide-svelte/icons/sun";
-  import Moon from "lucide-svelte/icons/moon";
+  import { mode } from "mode-watcher";
 
   export let currentSymbol: string | null = null;
 
@@ -81,19 +74,26 @@
   let searchBarData: Array<{ symbol: string; name: string; type: string }> = [];
   let searchTimeoutId: ReturnType<typeof setTimeout> | null = null;
   let isAddingTicker = false;
-  let showAddStockPopover = false;
+  let touchedInput = false;
 
   // Collapsible groups state
   let collapsedGroups: Set<string> = new Set();
   const COLLAPSED_GROUPS_KEY = "watchlist-collapsed-groups";
 
-  // Delete ticker state
-  let hoveredRowSymbol: string | null = null;
+  // Edit mode state for deleting tickers
+  let editMode = false;
+  let deleteTickerList: string[] = [];
+  let numberOfChecked = 0;
 
   // Create watchlist modal state
   let isCreateModalOpen = false;
   let newWatchlistTitle = "";
   let isCreatingWatchlist = false;
+
+  // Delete watchlist modal state
+  let isDeleteModalOpen = false;
+  let watchlistToDelete: WatchlistSummary | null = null;
+  let isDeletingWatchlist = false;
 
   $: isLoading = isLoadingWatchlists || isLoadingItems;
   $: headerTitle =
@@ -335,11 +335,6 @@
     await loadWatchlistItems(activeWatchlistId);
   };
 
-  const refreshWatchlist = async () => {
-    if (!activeWatchlistId) return;
-    await loadWatchlistItems(activeWatchlistId);
-  };
-
   // Search stocks function
   const searchStocks = async () => {
     if (searchTimeoutId) clearTimeout(searchTimeoutId);
@@ -375,7 +370,6 @@
     isAddingTicker = true;
     searchInputValue = "";
     searchBarData = [];
-    showAddStockPopover = false;
 
     try {
       const promise = fetch("/api/update-watchlist", {
@@ -389,52 +383,102 @@
       });
 
       toast.promise(promise, {
-        loading: "Adding...",
-        success: "Added!",
+        loading: "Updating...",
+        success: "Updated!",
         error: (e: Error) => e.message || "Failed to add ticker",
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
 
-      await promise;
+      const updatedData = await promise;
+
+      // Update the local watchlists array with updated ticker data
+      watchlists = watchlists.map((item) => {
+        if (item.id === activeWatchlistId) {
+          return { ...item, ticker: updatedData.ticker };
+        }
+        return item;
+      });
+
       await loadWatchlistItems(activeWatchlistId);
     } finally {
       isAddingTicker = false;
     }
   };
 
-  // Delete ticker function
-  const handleDeleteTicker = async (symbol: string) => {
+  // Edit mode functions for deleting tickers
+  function handleEditMode() {
+    if (editMode === true) {
+      deleteTickerList = [];
+      numberOfChecked = 0;
+    }
+    editMode = !editMode;
+  }
+
+  function handleFilter(symbol: string) {
+    const filterSet = new Set(deleteTickerList);
+    if (filterSet.has(symbol)) {
+      filterSet.delete(symbol);
+    } else {
+      filterSet.add(symbol);
+    }
+    deleteTickerList = Array.from(filterSet);
+    numberOfChecked = deleteTickerList.length;
+  }
+
+  async function handleDeleteTickers() {
+    if (numberOfChecked === 0) {
+      toast.error("Please select symbols to delete", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
     if (!activeWatchlistId) return;
 
-    const remaining = watchlistItems
-      .filter((i) => i?.symbol !== symbol)
-      .map((i) => i?.symbol);
+    // Update local state immediately
+    watchlistItems = watchlistItems.filter(
+      (item) => !deleteTickerList.includes(item?.symbol ?? "")
+    );
+
+    editMode = false;
+    const postData = {
+      ticker: watchlistItems.map((item) => item?.symbol),
+      watchListId: activeWatchlistId,
+      mode: "delete",
+    };
 
     try {
-      const promise = fetch("/api/update-watchlist", {
+      const response = await fetch("/api/update-watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ticker: remaining,
-          watchListId: activeWatchlistId,
-          mode: "delete",
-        }),
-      }).then(async (res) => {
-        if (!res.ok) throw new Error("Failed to remove ticker");
-        return res.json();
+        body: JSON.stringify(postData),
       });
 
-      toast.promise(promise, {
-        loading: "Removing...",
-        success: "Removed!",
-        error: "Failed to remove ticker",
+      if (!response.ok) {
+        throw new Error("Failed to remove tickers");
+      }
+
+      // Update local watchlists array
+      watchlists = watchlists.map((item) => {
+        if (item.id === activeWatchlistId) {
+          return { ...item, ticker: watchlistItems };
+        }
+        return item;
       });
 
-      await promise;
+      deleteTickerList = [];
+      numberOfChecked = 0;
+
+      // Refresh watchlist items to ensure sync
       await loadWatchlistItems(activeWatchlistId);
     } catch {
-      // Error handled by toast
+      // Reload items on error to restore state
+      await loadWatchlistItems(activeWatchlistId);
+      toast.error("Failed to remove tickers", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
     }
-  };
+  }
 
   // Collapsible groups functions
   const toggleGroupCollapse = (groupKey: string) => {
@@ -469,11 +513,15 @@
   const handleCreateWatchlist = async (event: SubmitEvent) => {
     event.preventDefault();
     if (!newWatchlistTitle.trim()) {
-      toast.error("Please enter a watchlist name");
+      toast.error("Please enter a watchlist name", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
       return;
     }
     if (newWatchlistTitle.length > 100) {
-      toast.error("Watchlist name is too long");
+      toast.error("Watchlist name is too long", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
       return;
     }
 
@@ -483,7 +531,7 @@
       const promise = fetch("/api/create-watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: newWatchlistTitle }),
+        body: JSON.stringify({ title: newWatchlistTitle, ticker: JSON.stringify([]) }),
       }).then(async (res) => {
         const output = await res.json();
         if (!res.ok)
@@ -499,9 +547,15 @@
 
       const output = await promise;
 
-      watchlists = [...watchlists, output];
+      // Add new watchlist with proper structure
+      const newWatchlist: WatchlistSummary = {
+        id: output.id,
+        title: output.title ?? newWatchlistTitle,
+        ticker: [],
+      };
+      watchlists = [...watchlists, newWatchlist];
       activeWatchlistId = output.id;
-      activeWatchlistTitle = output.title;
+      activeWatchlistTitle = newWatchlist.title ?? "Watchlist";
       updateLocalStorageWatchlist(output.id);
       watchlistItems = [];
       isCreateModalOpen = false;
@@ -511,26 +565,70 @@
     }
   };
 
+  // Open delete watchlist modal
+  const openDeleteModal = (watchlist: WatchlistSummary) => {
+    watchlistToDelete = watchlist;
+    isDeleteModalOpen = true;
+  };
+
+  // Delete watchlist function
+  const handleDeleteWatchlist = async () => {
+    if (!watchlistToDelete?.id) return;
+
+    isDeletingWatchlist = true;
+
+    try {
+      const response = await fetch("/api/delete-watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ watchListId: watchlistToDelete.id }),
+      });
+
+      const output = await response.json();
+
+      if (output === "success") {
+        toast.success("Watchlist deleted", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+
+        // Remove deleted watchlist from array
+        watchlists = watchlists.filter((item) => item.id !== watchlistToDelete?.id);
+
+        // If the deleted watchlist was active, switch to the first remaining one
+        if (activeWatchlistId === watchlistToDelete.id) {
+          const fallback = watchlists[0];
+          activeWatchlistId = fallback?.id ?? null;
+          activeWatchlistTitle = fallback?.title ?? "Watchlist";
+          if (activeWatchlistId) {
+            updateLocalStorageWatchlist(activeWatchlistId);
+            await loadWatchlistItems(activeWatchlistId);
+          } else {
+            watchlistItems = [];
+          }
+        }
+
+        isDeleteModalOpen = false;
+        watchlistToDelete = null;
+      } else {
+        toast.error("Failed to delete watchlist", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting watchlist:", error);
+      toast.error("Something went wrong. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    } finally {
+      isDeletingWatchlist = false;
+    }
+  };
+
   // Logo URL helper
   const getLogoUrl = (symbol: string | undefined): string =>
     symbol
       ? `https://financialmodelingprep.com/image-stock/${symbol.toUpperCase()}.png`
       : "";
-
-  // Theme toggle handler
-  const handleThemeToggle = async () => {
-    const newMode = $mode === "light" ? "dark" : "light";
-    setMode(newMode);
-    try {
-      await fetch("/api/theme-mode", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: newMode }),
-      });
-    } catch {
-      // Ignore theme persistence errors
-    }
-  };
 
   onMount(() => {
     loadCollapsedGroups();
@@ -550,9 +648,9 @@
 </script>
 
 <div class="tv-right-panel flex h-full flex-1 flex-col bg-white dark:bg-[#0b0b0d]">
-  <!-- Header with watchlist dropdown and action buttons -->
-  <div class="flex items-center justify-between px-2 py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]">
-    <!-- Left: Watchlist Dropdown or Alerts Title -->
+  <!-- Header with watchlist dropdown -->
+  <div class="flex items-center px-2 py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]">
+    <!-- Watchlist Dropdown or Alerts Title -->
     {#if activeTab === "alerts"}
       <div class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 dark:text-zinc-200">
         <svg
@@ -577,171 +675,225 @@
     {:else}
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild let:builder>
-          <button
-            use:builder.action
-            {...builder}
-            class="flex items-center gap-1 px-1.5 py-1 text-[11px] font-semibold text-gray-800 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60 rounded transition"
+          <Button
+            builders={[builder]}
+            class="min-w-[90px] w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1.5 rounded-full truncate text-xs"
+          >
+            <span class="truncate font-medium">{activeWatchlistTitle}</span>
+            <svg
+              class="-mr-1 ml-1 h-4 w-4 inline-block"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
+          side="bottom"
+          align="start"
+          sideOffset={10}
+          alignOffset={0}
+          class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
+        >
+          <DropdownMenu.Label>
+            <label
+              for="createWatchlistModal"
+              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
+              on:click={() => (isCreateModalOpen = true)}
+            >
+              <svg
+                class="h-4 w-4 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="text-sm">New Watchlist</span>
+            </label>
+          </DropdownMenu.Label>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Group>
+            {#each watchlists as list}
+              <DropdownMenu.Item
+                on:click={() => {
+                  activeWatchlistId = list.id;
+                  handleWatchlistChange();
+                }}
+                class="text-sm cursor-pointer {list.id === activeWatchlistId
+                  ? 'text-violet-800 dark:text-violet-400'
+                  : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+              >
+                {list.title ?? "Watchlist"} ({Array.isArray(list.ticker) ? list.ticker.length : 0})
+                <label
+                  class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
+                  on:click|stopPropagation={() => openDeleteModal(list)}
+                >
+                  <svg
+                    class="size-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="max-width:40px"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    ></path>
+                  </svg>
+                </label>
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+          {#if watchlists.length === 0}
+            <div class="px-3 py-2 text-sm text-gray-500 dark:text-zinc-400">
+              No watchlists yet
+            </div>
+          {/if}
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item
+            on:click={() => goto("/watchlist/stocks")}
+            class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
           >
             <svg
-              class="size-3.5"
+              class="size-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
             >
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
               />
             </svg>
-            <span class="truncate max-w-[80px]">{activeWatchlistTitle}</span>
-            <ChevronDown class="size-3 text-gray-500 dark:text-zinc-400" />
-          </button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content
-          class="w-48 rounded-lg border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg z-50"
-          sideOffset={4}
-        >
-          <!-- Create New Watchlist -->
-          <DropdownMenu.Item
-            on:click={() => (isCreateModalOpen = true)}
-            class="flex items-center gap-2 px-3 py-2 text-xs cursor-pointer text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-t-lg"
-          >
-            <Plus class="size-3" />
-            Create new watchlist
+            Manage Watchlists
           </DropdownMenu.Item>
-          <DropdownMenu.Separator class="h-px bg-gray-200 dark:bg-zinc-700" />
-          <!-- Watchlist List -->
-          {#each watchlists as list}
-            <DropdownMenu.Item
-              on:click={() => {
-                activeWatchlistId = list.id;
-                handleWatchlistChange();
-              }}
-              class="px-3 py-2 text-xs cursor-pointer {list.id === activeWatchlistId
-                ? 'text-violet-600 dark:text-violet-400'
-                : 'text-gray-700 dark:text-zinc-200'} hover:bg-gray-100 dark:hover:bg-zinc-800"
-            >
-              {list.title ?? "Watchlist"}
-            </DropdownMenu.Item>
-          {/each}
-          {#if watchlists.length === 0}
-            <div class="px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
-              No watchlists yet
-            </div>
-          {/if}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     {/if}
-
-    <!-- Right: Action Buttons -->
-    {#if activeTab === "watchlist"}
-      <div class="flex items-center gap-0.5">
-        <!-- Add Stock Button with Popover -->
-        <Popover.Root bind:open={showAddStockPopover}>
-          <Popover.Trigger asChild let:builder>
-            <button
-              use:builder.action
-              {...builder}
-              class="p-1.5 rounded text-gray-500 dark:text-zinc-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60 transition"
-              title="Add stock"
-            >
-              <Plus class="size-4" />
-            </button>
-          </Popover.Trigger>
-          <Popover.Content
-            class="w-64 p-2 rounded-lg border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg z-50"
-            sideOffset={4}
-          >
-            <Combobox.Root items={searchBarData} bind:inputValue={searchInputValue}>
-              <div class="relative">
-                <Combobox.Input
-                  on:input={searchStocks}
-                  class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  placeholder="Search symbol..."
-                />
-              </div>
-              {#if searchBarData.length > 0 || searchInputValue.length > 0}
-                <Combobox.Content
-                  class="mt-2 max-h-48 overflow-y-auto rounded-md border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
-                  sideOffset={0}
-                >
-                  {#if searchBarData.length > 0}
-                    {#each searchBarData as item}
-                      <Combobox.Item
-                        value={item.symbol}
-                        on:click={() => handleAddTicker(item.symbol)}
-                        class="px-3 py-2 text-xs cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 flex justify-between items-center text-gray-900 dark:text-white"
-                      >
-                        <span class="font-semibold">{item.symbol}</span>
-                        <span class="text-gray-500 dark:text-zinc-400 truncate ml-2 text-[10px]"
-                          >{item.name}</span
-                        >
-                      </Combobox.Item>
-                    {/each}
-                  {:else if searchInputValue.length > 0}
-                    <div class="px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
-                      No results found
-                    </div>
-                  {/if}
-                </Combobox.Content>
-              {/if}
-            </Combobox.Root>
-          </Popover.Content>
-        </Popover.Root>
-
-        <!-- Refresh Button -->
-        <button
-          type="button"
-          class="p-1.5 rounded text-gray-500 dark:text-zinc-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60 transition"
-          on:click={refreshWatchlist}
-          title="Refresh"
-        >
-          <RefreshCw class="size-4" />
-        </button>
-
-        <!-- Settings Menu -->
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild let:builder>
-            <button
-              use:builder.action
-              {...builder}
-              class="p-1.5 rounded text-gray-500 dark:text-zinc-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60 transition"
-              title="Options"
-            >
-              <Ellipsis class="size-4" />
-            </button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content
-            class="w-44 rounded-lg border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg z-50"
-            sideOffset={4}
-          >
-            <DropdownMenu.Item
-              on:click={() => goto("/watchlist/stocks")}
-              class="px-3 py-2 text-xs cursor-pointer text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-t-lg"
-            >
-              Manage watchlists
-            </DropdownMenu.Item>
-            <DropdownMenu.Separator class="h-px bg-gray-200 dark:bg-zinc-700" />
-            <DropdownMenu.Item
-              on:click={handleThemeToggle}
-              class="flex items-center gap-2 px-3 py-2 text-xs cursor-pointer text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-b-lg"
-            >
-              {#if $mode === "light"}
-                <Moon class="size-3.5" />
-                <span>Dark mode</span>
-              {:else}
-                <Sun class="size-3.5" />
-                <span>Light mode</span>
-              {/if}
-            </DropdownMenu.Item>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
-      </div>
-    {/if}
   </div>
+
+  <!-- Add stocks search input and Edit button in same row -->
+  {#if activeTab === "watchlist" && activeWatchlistId}
+    <div class="flex items-center gap-2 px-2 py-2 border-b border-gray-200 dark:border-zinc-800">
+      <!-- Add stocks input -->
+      <div class="flex-1">
+        <Combobox.Root
+          items={searchBarData}
+          bind:inputValue={searchInputValue}
+          bind:touchedInput
+        >
+          <div class="relative w-full">
+            <Combobox.Input
+              on:input={searchStocks}
+              class="py-1.5 text-xs border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
+              placeholder="Add stocks..."
+              aria-label="Add stocks"
+            />
+          </div>
+
+          <Combobox.Content
+            class="w-auto z-50 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden"
+            sideOffset={8}
+          >
+            {#if searchInputValue?.length > 0}
+              {#each searchBarData as item}
+                <Combobox.Item
+                  class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
+                  value={item?.symbol}
+                  label={item?.name}
+                  on:click={() => handleAddTicker(item?.symbol)}
+                >
+                  <div class="flex flex-col items-start">
+                    <span class="text-xs text-gray-700 dark:text-zinc-200">{item?.symbol}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-zinc-400">{item?.name}</span>
+                  </div>
+                </Combobox.Item>
+              {:else}
+                <span class="block px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
+                  No results found
+                </span>
+              {/each}
+            {:else}
+              <Combobox.Item
+                class="cursor-pointer flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden"
+              >
+                <span class="text-xs text-gray-500 dark:text-zinc-400">
+                  No results found
+                </span>
+              </Combobox.Item>
+            {/if}
+          </Combobox.Content>
+        </Combobox.Root>
+      </div>
+
+      <!-- Edit/Delete buttons -->
+      {#if watchlistItems.length > 0}
+        <div class="flex items-center gap-1 flex-shrink-0">
+          {#if editMode}
+            <label
+              on:click={handleDeleteTickers}
+              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+            >
+              <svg
+                class="inline-block w-3.5 h-3.5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
+                />
+              </svg>
+              <span class="ml-1 text-xs">{numberOfChecked}</span>
+            </label>
+          {/if}
+          <label
+            on:click={handleEditMode}
+            class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+          >
+            <svg
+              class="inline-block w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1024 1024"
+            >
+              <path
+                fill="currentColor"
+                d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
+              />
+              <path
+                fill="currentColor"
+                d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
+              />
+            </svg>
+            <span class="ml-1 text-xs">
+              {#if !editMode}
+                Edit
+              {:else}
+                Cancel
+              {/if}
+            </span>
+          </label>
+        </div>
+      {/if}
+    </div>
+  {/if}
 
   <div class="flex-1 overflow-y-auto">
     {#if activeTab === "alerts"}
@@ -808,32 +960,48 @@
               {#each group.items as item}
                 {@const changeValue = getChangeValue(item)}
                 {@const isActive = isActiveSymbol(item?.symbol)}
+                {@const isSelected = deleteTickerList.includes(item?.symbol ?? "")}
                 <button
                   type="button"
-                  class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {isActive
-                    ? 'bg-blue-500/10 text-gray-900 dark:text-white'
-                    : 'hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200'}"
+                  class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {editMode && isSelected
+                    ? 'bg-rose-50 dark:bg-rose-500/10 text-gray-900 dark:text-white'
+                    : isActive
+                      ? 'bg-blue-500/10 text-gray-900 dark:text-white'
+                      : 'hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200'}"
                   title={item?.name ?? item?.symbol}
-                  on:click={() => navigateToSymbol(item?.symbol)}
-                  on:mouseenter={() => (hoveredRowSymbol = item?.symbol ?? null)}
-                  on:mouseleave={() => (hoveredRowSymbol = null)}
+                  on:click={() => {
+                    if (editMode) {
+                      handleFilter(item?.symbol ?? "");
+                    } else {
+                      navigateToSymbol(item?.symbol);
+                    }
+                  }}
                 >
-                  <!-- Symbol with Logo and Status Dot -->
+                  <!-- Symbol with Logo and Status Dot (or Checkbox in edit mode) -->
                   <span class="flex items-center gap-1.5 truncate">
-                    <img
-                      src={getLogoUrl(item?.symbol)}
-                      alt=""
-                      class="size-4 rounded-full object-cover flex-shrink-0"
-                      style="clip-path: circle(50%);"
-                      loading="lazy"
-                      on:error={(e) => {
-                        const target = e.target;
-                        if (target instanceof HTMLImageElement) {
-                          target.style.display = "none";
-                        }
-                      }}
-                    />
-                    <span class="text-emerald-500 text-[6px]">●</span>
+                    {#if editMode}
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        on:click|stopPropagation={() => handleFilter(item?.symbol ?? "")}
+                        class="size-3.5 rounded border-gray-300 dark:border-zinc-600 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                      />
+                    {:else}
+                      <img
+                        src={getLogoUrl(item?.symbol)}
+                        alt=""
+                        class="size-4 rounded-full object-cover flex-shrink-0"
+                        style="clip-path: circle(50%);"
+                        loading="lazy"
+                        on:error={(e) => {
+                          const target = e.target;
+                          if (target instanceof HTMLImageElement) {
+                            target.style.display = "none";
+                          }
+                        }}
+                      />
+                      <span class="text-emerald-500 text-[6px]">●</span>
+                    {/if}
                     <span class="font-semibold truncate"
                       >{item?.symbol ?? "-"}</span
                     >
@@ -855,19 +1023,6 @@
                   >
                     {formatPercent(toNumber(item?.changesPercentage))}
                   </span>
-
-                  <!-- Delete Button (appears on hover) -->
-                  {#if hoveredRowSymbol === item?.symbol}
-                    <button
-                      type="button"
-                      class="absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition opacity-0 group-hover:opacity-100"
-                      on:click|stopPropagation={() =>
-                        handleDeleteTicker(item?.symbol ?? "")}
-                      title="Remove from watchlist"
-                    >
-                      <Trash2 class="size-3" />
-                    </button>
-                  {/if}
                 </button>
               {/each}
             {/if}
@@ -887,17 +1042,18 @@
 />
 
 <dialog id="createWatchlistModal" class="modal modal-bottom sm:modal-middle">
-  <label for="createWatchlistModal" class="cursor-pointer modal-backdrop" aria-label="Close"></label>
+  <label for="createWatchlistModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full max-w-md relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="createWatchlistModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
     >
       <svg
-        class="w-6 h-6"
+        class="w-6 h-6 sm:w-7 sm:h-7"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -908,31 +1064,107 @@
       </svg>
     </label>
 
-    <h3 class="font-bold text-xl mb-5">Create New Watchlist</h3>
+    <div class="mb-5">
+      <h3 class="font-bold text-2xl mb-5">New Watchlist</h3>
 
-    <form on:submit={handleCreateWatchlist} class="space-y-4">
-      <div>
-        <label for="watchlistTitle" class="block text-sm font-medium mb-1">
-          Watchlist Name
-        </label>
-        <input
-          id="watchlistTitle"
-          type="text"
-          bind:value={newWatchlistTitle}
-          class="w-full px-4 py-3 border border-gray-300 dark:border-zinc-700 rounded-full bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="My Watchlist"
-          required
-          maxlength="100"
-        />
-      </div>
+      <form on:submit={handleCreateWatchlist} class="space-y-2 w-full m-auto">
+        <div class="form-control w-full max-w-2xl mb-2 text-gray-700 dark:text-white">
+          <label for="watchlistTitle" class="label pb-1">
+            <span class="text-gray-700 dark:text-white">List Name</span>
+          </label>
+          <div class="relative">
+            <input
+              id="watchlistTitle"
+              type="text"
+              name="title"
+              bind:value={newWatchlistTitle}
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              required
+              autocomplete="off"
+            />
+          </div>
+        </div>
 
-      <button
-        type="submit"
-        disabled={isCreatingWatchlist}
-        class="w-full py-3 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition disabled:opacity-60"
+        <button
+          type="submit"
+          disabled={isCreatingWatchlist}
+          class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 disabled:opacity-60"
+        >
+          {isCreatingWatchlist ? "Creating..." : "Create Watchlist"}
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<!-- Delete Watchlist Modal -->
+<input
+  type="checkbox"
+  id="deleteWatchlistModal"
+  class="modal-toggle"
+  bind:checked={isDeleteModalOpen}
+/>
+
+<dialog id="deleteWatchlistModal" class="modal modal-middle p-3 sm:p-0">
+  <label for="deleteWatchlistModal" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+  >
+    <label
+      for="deleteWatchlistModal"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
       >
-        {isCreatingWatchlist ? "Creating..." : "Create Watchlist"}
+        <path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        />
+      </svg>
+    </label>
+
+    <h3 class="text-lg font-medium mb-2">Delete Watchlist</h3>
+    <p class="text-sm mb-6">
+      Are you sure you want to delete "{watchlistToDelete?.title ?? 'this watchlist'}"? This action cannot be undone.
+    </p>
+
+    <div class="flex justify-end space-x-3">
+      <label
+        for="deleteWatchlistModal"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+        tabindex="0"
+      >
+        Cancel
+      </label>
+      <button
+        type="button"
+        on:click={handleDeleteWatchlist}
+        disabled={isDeletingWatchlist}
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 disabled:opacity-60"
+        tabindex="0"
+      >
+        <svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4 mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+        {isDeletingWatchlist ? "Deleting..." : "Delete"}
       </button>
-    </form>
+    </div>
   </div>
 </dialog>
