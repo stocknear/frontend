@@ -774,17 +774,29 @@
   }
 
   // Reactive: Connect/disconnect WebSocket based on market status
-  $: if ($isOpen && wsURL && paginatedItems.length > 0 && activeTab === "watchlist") {
+  $: if (
+    $isOpen &&
+    wsURL &&
+    paginatedItems.length > 0 &&
+    activeTab === "watchlist"
+  ) {
     connectWebSocket();
   } else if (!$isOpen || activeTab !== "watchlist") {
     disconnectWebSocket();
   }
 
   // Update WebSocket subscription when page changes
-  $: if (socket && socket.readyState === WebSocket.OPEN && paginatedItems.length > 0) {
-    const tickerList = paginatedItems.map((item) => item.symbol).filter(Boolean) as string[];
+  $: if (
+    socket &&
+    socket.readyState === WebSocket.OPEN &&
+    paginatedItems.length > 0
+  ) {
+    const tickerList = paginatedItems
+      .map((item) => item.symbol)
+      .filter(Boolean) as string[];
     const symbolsChanged =
-      JSON.stringify(tickerList.sort()) !== JSON.stringify(lastSubscribedSymbols.sort());
+      JSON.stringify(tickerList.sort()) !==
+      JSON.stringify(lastSubscribedSymbols.sort());
     if (symbolsChanged) {
       lastSubscribedSymbols = tickerList;
       sendWsMessage(tickerList);
@@ -903,7 +915,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="text-sm">New Watchlist</span>
+            <span class="text-xs">New Watchlist</span>
           </DropdownMenu.Item>
           <DropdownMenu.Separator />
           <DropdownMenu.Group>
@@ -913,7 +925,7 @@
                   activeWatchlistId = list.id;
                   handleWatchlistChange();
                 }}
-                class="text-sm cursor-pointer {list.id === activeWatchlistId
+                class="text-xs cursor-pointer {list.id === activeWatchlistId
                   ? 'text-violet-800 dark:text-violet-400'
                   : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
               >
@@ -925,7 +937,7 @@
                   on:click|stopPropagation={() => openDeleteModal(list)}
                 >
                   <svg
-                    class="size-5"
+                    class="size-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -1134,7 +1146,7 @@
           {#if group.label}
             <button
               type="button"
-              class="w-full flex items-center gap-1 px-3 py-1.5 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-500 hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition border-b border-gray-200/60 dark:border-zinc-800/70"
+              class="cursor-pointer w-full flex items-center gap-1 px-3 py-1.5 text-[10px] uppercase tracking-wide text-gray-600 dark:text-zinc-500 hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition border-b border-gray-200/60 dark:border-zinc-800/70"
               on:click={() => toggleGroupCollapse(group.key)}
             >
               <ChevronRight
@@ -1154,13 +1166,14 @@
           <!-- Group Items -->
           {#if !collapsedGroups.has(group.key)}
             {#each group.items as item}
-              {@const isActive = isActiveSymbol(item?.symbol)}
               {@const isSelected = deleteTickerList.includes(
                 item?.symbol ?? "",
               )}
               <button
                 type="button"
-                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200"
+                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200 {item?.symbol?.toUpperCase() === currentSymbol?.toUpperCase()
+                  ? 'bg-violet-50/70 dark:bg-violet-950/30 border-l-2 border-l-violet-500 dark:border-l-violet-400'
+                  : ''}"
                 title={item?.name ?? item?.symbol}
                 on:click={() => {
                   if (editMode) {
@@ -1203,19 +1216,20 @@
 
                 <!-- Price -->
                 <span
-                  class="text-right tabular-nums transition-colors duration-300 {item?.previous != null
+                  class="text-right tabular-nums transition-colors duration-300 {item?.previous !=
+                  null
                     ? toNumber(item?.price) > item.previous
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : toNumber(item?.price) < item.previous
                         ? 'text-rose-600 dark:text-rose-400'
                         : ''
-                    : ''}"
-                  >{formatPrice(item?.price)}</span
+                    : ''}">{formatPrice(item?.price)}</span
                 >
 
                 <!-- Change % -->
                 <span
-                  class="text-right tabular-nums transition-colors duration-300 {item?.previous != null
+                  class="text-right tabular-nums transition-colors duration-300 {item?.previous !=
+                  null
                     ? toNumber(item?.price) > item.previous
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : toNumber(item?.price) < item.previous
