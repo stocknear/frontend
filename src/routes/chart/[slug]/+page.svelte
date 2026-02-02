@@ -41,6 +41,9 @@
   import Trash2 from "lucide-svelte/icons/trash-2";
   import IndentDecrease from "lucide-svelte/icons/indent-decrease";
   import IndentIncrease from "lucide-svelte/icons/indent-increase";
+  import Sun from "lucide-svelte/icons/sun";
+  import Moon from "lucide-svelte/icons/moon";
+
   import DatabaseZap from "lucide-svelte/icons/database-zap";
   import AlarmClockPlus from "lucide-svelte/icons/alarm-clock-plus";
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
@@ -1740,10 +1743,7 @@
     }
   };
 
-  $: if (
-    rightSidebarOpen &&
-    rightSidebarSize > rightSidebarCollapsedSize
-  ) {
+  $: if (rightSidebarOpen && rightSidebarSize > rightSidebarCollapsedSize) {
     rightSidebarOpenSize = clampRightSidebarOpenSize(rightSidebarSize);
   }
 
@@ -8001,34 +8001,10 @@
               {...builder}
               class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
             >
-  {#if $mode === "dark"}
-                <svg
-                  class="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
+              {#if $mode === "dark"}
+                <Moon class="size-4" />
               {:else}
-                <svg
-                  class="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
+                <Sun class="size-4" />
               {/if}
               <span>Theme</span>
               <ChevronDown class="h-3 w-3" />
@@ -8385,1771 +8361,1875 @@
 
       <div class="flex-1 min-h-0" bind:this={splitpanesContainer}>
         <Splitpanes class="chart-splitpanes h-full w-full">
-        <Pane minSize={50}>
-          <div class="relative flex-1 min-h-0 h-full bg-white dark:bg-zinc-950">
+          <Pane minSize={50}>
             <div
-              class="absolute inset-0 z-[1] touch-manipulation"
-              bind:this={chartContainer}
-            ></div>
-
-            <!-- Loading Spinner Overlay -->
-            {#if isChartLoading}
-              <div
-                class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
-              >
-                <span
-                  class="loading loading-spinner loading-md text-gray-900 dark:text-white"
-                ></span>
-              </div>
-            {/if}
-
-            <!-- Watermark -->
-            <div
-              class="absolute left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
-              style="bottom: {watermarkBottom}px"
+              class="relative flex-1 min-h-0 h-full bg-white dark:bg-zinc-950"
             >
-              <img
-                src="/pwa-192x192.png"
-                alt="Stocknear"
-                class="size-9 rounded-full opacity-60"
-                loading="lazy"
-                decoding="async"
-              />
-              <span
-                class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
-                >Stocknear</span
-              >
-            </div>
-
-            <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
-            {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
-              <div class="absolute inset-0 pointer-events-none z-[15]">
-                {#each earningsMarkers as marker, i (`${marker.timestamp}-${i}`)}
-                  {#if marker?.visible}
-                    <button
-                      class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                      style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
-                      on:click={(e) => handleEarningsClick(marker, e)}
-                      aria-label="View earnings details"
-                    >
-                      <svg
-                        width="24"
-                        height="30"
-                        viewBox="0 0 18 22"
-                        class="drop-shadow-md"
-                        style={!marker.isFuture &&
-                        hasBeatExpectations(marker.earnings)
-                          ? "transform: rotate(180deg)"
-                          : ""}
-                      >
-                        {#if marker?.isFuture}
-                          <!-- Future earnings: outline style -->
-                          <path
-                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                            fill="#1a1a1a"
-                            stroke="#B91C1C"
-                            stroke-width="1.5"
-                          />
-                          <text
-                            x="9"
-                            y="11"
-                            text-anchor="middle"
-                            dominant-baseline="middle"
-                            fill="#B91C1C"
-                            font-size="10"
-                            font-weight="bold"
-                            font-family="system-ui, sans-serif">E</text
-                          >
-                        {:else if hasBeatExpectations(marker?.earnings)}
-                          <!-- Past earnings with positive surprise: green, upside down -->
-                          <path
-                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                            fill="#10B981"
-                          />
-                          <text
-                            x="9"
-                            y="14"
-                            text-anchor="middle"
-                            dominant-baseline="middle"
-                            fill="white"
-                            font-size="10"
-                            font-weight="bold"
-                            font-family="system-ui, sans-serif"
-                            transform="rotate(180 9 11)">E</text
-                          >
-                        {:else}
-                          <!-- Past earnings: solid red fill -->
-                          <path
-                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                            fill="#B91C1C"
-                          />
-                          <text
-                            x="9"
-                            y="11"
-                            text-anchor="middle"
-                            dominant-baseline="middle"
-                            fill="white"
-                            font-size="10"
-                            font-weight="bold"
-                            font-family="system-ui, sans-serif">E</text
-                          >
-                        {/if}
-                      </svg>
-                    </button>
-                  {/if}
-                {/each}
-              </div>
-            {/if}
-
-            <!-- Earnings popup -->
-            {#if selectedEarnings}
               <div
-                class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
-                style="--popup-x: {earningsPopupPosition.x}px; --popup-y: {earningsPopupPosition.y}px;"
-                style:left={!isMobile ? `${earningsPopupPosition.x}px` : undefined}
-                style:top={!isMobile ? `${earningsPopupPosition.y}px` : undefined}
-                style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
-              >
+                class="absolute inset-0 z-[1] touch-manipulation"
+                bind:this={chartContainer}
+              ></div>
+
+              <!-- Loading Spinner Overlay -->
+              {#if isChartLoading}
                 <div
-                  class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
-                >
-                  <!-- Header -->
-                  <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-gray-900 dark:text-white font-semibold">
-                      {selectedEarningsIsFuture
-                        ? "Upcoming Earnings"
-                        : "Earnings & Revenue"}
-                    </h3>
-                    <button
-                      class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-                      on:click={closeEarningsPopup}
-                      aria-label="Close"
-                    >
-                      <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <!-- Date info -->
-                  <div
-                    class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
-                  >
-                    <div class="flex justify-between">
-                      <span class="text-gray-500 dark:text-zinc-400">Date</span>
-                      <span class="flex items-center gap-1">
-                        {DateTime.fromISO(selectedEarnings.date, { zone }).toFormat(
-                          "EEE d MMM ''yy",
-                        )}
-                        {#if isBeforeMarketOpen(selectedEarnings)}
-                          <svg
-                            class="w-4 h-4 text-yellow-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        {:else if isAfterMarketClose(selectedEarnings)}
-                          <svg
-                            class="w-4 h-4 text-blue-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-                            />
-                          </svg>
-                        {/if}
-                      </span>
-                    </div>
-                {#if selectedEarnings.period && selectedEarnings.period_year}
-                  <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Period Ending</span
-                    >
-                    <span
-                      >{selectedEarnings.period}
-                      '{String(selectedEarnings.period_year).slice(-2)}</span
-                    >
-                  </div>
-                {/if}
-              </div>
-
-              <!-- Earnings section -->
-              <div
-                class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
-              >
-                <div
-                  class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2"
-                >
-                  {selectedEarningsIsFuture ? "EPS Estimate" : "Earnings"}
-                </div>
-                <div class="text-sm space-y-1">
-                  {#if !selectedEarningsIsFuture}
-                    <div
-                      class="flex justify-between text-gray-700 dark:text-zinc-300"
-                    >
-                      <span>Reported</span>
-                      <span
-                        >{formatEarningsValue(
-                          getEpsValue(selectedEarnings),
-                        )}</span
-                      >
-                    </div>
-                  {/if}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span>Estimate</span>
-                    <span
-                      >{formatEarningsValue(
-                        getEpsEstimate(selectedEarnings),
-                      )}</span
-                    >
-                  </div>
-                  {#if !selectedEarningsIsFuture && calculateSurprise(getEpsValue(selectedEarnings), getEpsEstimate(selectedEarnings))}
-                    {@const surprise = calculateSurprise(
-                      getEpsValue(selectedEarnings),
-                      getEpsEstimate(selectedEarnings),
-                    )}
-                    <div class="flex justify-between">
-                      <span
-                        class={surprise?.positive
-                          ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}>Surprise</span
-                      >
-                      <span
-                        class={surprise?.positive
-                          ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}
-                      >
-                        {surprise?.positive ? "+" : ""}{surprise?.value.toFixed(
-                          2,
-                        )} ({surprise?.positive
-                          ? "+"
-                          : ""}{surprise?.percent.toFixed(2)}%)
-                      </span>
-                    </div>
-                  {/if}
-                  {#if selectedEarningsIsFuture}
-                    {@const yoy = calculateYoYChange(
-                      selectedEarnings?.["epsEst"],
-                      selectedEarnings?.["epsPrior"],
-                    )}
-                    {#if yoy}
-                      <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-zinc-400"
-                          >YoY Change</span
-                        >
-                        <span
-                          class={yoy.positive
-                            ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-rose-800 dark:text-rose-400"}
-                        >
-                          {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
-                        </span>
-                      </div>
-                    {/if}
-                  {/if}
-                </div>
-              </div>
-
-              <!-- Revenue section -->
-              <div
-                class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
-              >
-                <div
-                  class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2"
-                >
-                  {selectedEarningsIsFuture ? "Revenue Estimate" : "Revenue"}
-                </div>
-                <div class="text-sm space-y-1">
-                  {#if !selectedEarningsIsFuture}
-                    <div
-                      class="flex justify-between text-gray-700 dark:text-zinc-300"
-                    >
-                      <span>Reported</span>
-                      <span
-                        >{formatRevenueValue(
-                          getRevenueValue(selectedEarnings),
-                        )}</span
-                      >
-                    </div>
-                  {/if}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span>Estimate</span>
-                    <span
-                      >{formatRevenueValue(
-                        getRevenueEstimate(selectedEarnings),
-                      )}</span
-                    >
-                  </div>
-                  {#if !selectedEarningsIsFuture && calculateSurprise(getRevenueValue(selectedEarnings), getRevenueEstimate(selectedEarnings))}
-                    {@const surprise = calculateSurprise(
-                      getRevenueValue(selectedEarnings),
-                      getRevenueEstimate(selectedEarnings),
-                    )}
-                    <div class="flex justify-between">
-                      <span
-                        class={surprise?.positive
-                          ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}>Surprise</span
-                      >
-                      <span
-                        class={surprise?.positive
-                          ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}
-                      >
-                        {surprise?.positive ? "+" : ""}{abbreviateNumber(
-                          surprise?.value ?? 0,
-                        )} ({surprise?.positive
-                          ? "+"
-                          : ""}{surprise?.percent.toFixed(2)}%)
-                      </span>
-                    </div>
-                  {/if}
-                  {#if selectedEarningsIsFuture}
-                    {@const yoy = calculateYoYChange(
-                      selectedEarnings?.["revenueEst"],
-                      selectedEarnings?.["revenuePrior"],
-                    )}
-                    {#if yoy}
-                      <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-zinc-400"
-                          >YoY Change</span
-                        >
-                        <span
-                          class={yoy.positive
-                            ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-rose-800 dark:text-rose-400"}
-                        >
-                          {yoy.positive ? "+" : ""}{yoy.percent.toFixed(2)}%
-                        </span>
-                      </div>
-                    {/if}
-                  {/if}
-                </div>
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/stocks/{ticker}/statistics/earnings"
-                class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-medium rounded-lg transition"
-              >
-                More {ticker} financials
-              </a>
-            </div>
-          </div>
-
-          <!-- Click outside to close -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default"
-            on:click={closeEarningsPopup}
-            aria-label="Close earnings popup"
-          ></button>
-        {/if}
-
-        <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
-        {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[15]">
-            {#each dividendMarkers as marker, i (`${marker.timestamp}-${i}`)}
-              {#if marker?.visible}
-                <button
-                  class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
-                  on:click={(e) => handleDividendClick(marker, e)}
-                  aria-label="View dividend details"
-                >
-                  <svg
-                    width="24"
-                    height="30"
-                    viewBox="0 0 18 22"
-                    class="drop-shadow-md"
-                  >
-                    <!-- Dividend marker: solid blue fill -->
-                    <path
-                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                      fill="#3B82F6"
-                    />
-                    <text
-                      x="9"
-                      y="11"
-                      text-anchor="middle"
-                      dominant-baseline="middle"
-                      fill="white"
-                      font-size="10"
-                      font-weight="bold"
-                      font-family="system-ui, sans-serif">D</text
-                    >
-                  </svg>
-                </button>
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- Dividend popup -->
-        {#if selectedDividend}
-          <div
-            class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
-            style:left={!isMobile ? `${dividendPopupPosition.x}px` : undefined}
-            style:top={!isMobile ? `${dividendPopupPosition.y}px` : undefined}
-            style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-3">
-                <h3 class="text-gray-900 dark:text-white font-semibold">
-                  Dividend
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-                  on:click={closeDividendPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Dividend info -->
-              <div
-                class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
-              >
-                <div class="flex justify-between">
-                  <span class="text-gray-500 dark:text-zinc-400"
-                    >Ex-Dividend Date</span
-                  >
-                  <span class="text-gray-900 dark:text-white">
-                    {new Date(selectedDividend.date).toLocaleDateString(
-                      "en-US",
-                      { month: "short", day: "numeric", year: "numeric" },
-                    )}
-                  </span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-500 dark:text-zinc-400">Amount</span>
-                  <span class="text-blue-400 font-semibold">
-                    ${selectedDividend.adjDividend?.toFixed(4)}
-                  </span>
-                </div>
-                {#if selectedDividend.declarationDate}
-                  <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Declaration Date</span
-                    >
-                    <span>
-                      {new Date(
-                        selectedDividend.declarationDate,
-                      ).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </div>
-                {/if}
-                {#if selectedDividend.recordDate}
-                  <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Record Date</span
-                    >
-                    <span>
-                      {new Date(selectedDividend.recordDate).toLocaleDateString(
-                        "en-US",
-                        { month: "short", day: "numeric", year: "numeric" },
-                      )}
-                    </span>
-                  </div>
-                {/if}
-                {#if selectedDividend.paymentDate}
-                  <div class="flex justify-between">
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Payment Date</span
-                    >
-                    <span>
-                      {new Date(
-                        selectedDividend.paymentDate,
-                      ).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </div>
-                {/if}
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/stocks/{ticker}/dividends"
-                class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-medium rounded-lg transition"
-              >
-                More {ticker} dividends
-              </a>
-            </div>
-          </div>
-
-          <!-- Click outside to close -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default"
-            on:click={closeDividendPopup}
-            aria-label="Close dividend popup"
-          ></button>
-        {/if}
-
-        <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
-        {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[15]">
-            {#each newsMarkers as marker, i (`${marker.news.date}-${i}`)}
-              {#if marker?.visible}
-                <button
-                  class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
-                  style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
-                  on:click={(e) => handleNewsClick(marker, e)}
-                  aria-label="View news details"
-                >
-                  <svg
-                    width="24"
-                    height="30"
-                    viewBox="0 0 18 22"
-                    class="drop-shadow-md"
-                  >
-                    <path
-                      d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
-                      fill={getNewsMarkerColor(marker.news.changesPercentage)}
-                    />
-                    <text
-                      x="9"
-                      y="11"
-                      text-anchor="middle"
-                      dominant-baseline="middle"
-                      fill="white"
-                      font-size="10"
-                      font-weight="bold"
-                      font-family="system-ui, sans-serif">N</text
-                    >
-                  </svg>
-                </button>
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- News popup -->
-        {#if selectedNews}
-          <div
-            class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
-            style:left={!isMobile ? `${newsPopupPosition.x}px` : undefined}
-            style:top={!isMobile ? `${newsPopupPosition.y}px` : undefined}
-            style:transform={!isMobile ? "translate(-50%, -100%)" : undefined}
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
-            >
-              <!-- Header -->
-              <div class="flex items-center justify-between gap-2 mb-3">
-                <h3 class="text-gray-900 dark:text-white font-semibold">
-                  Why Price Moved
-                </h3>
-                <span
-                  class={`text-sm font-semibold ${
-                    typeof selectedNews.changesPercentage === "number"
-                      ? selectedNews.changesPercentage > 0
-                        ? "text-emerald-400"
-                        : selectedNews.changesPercentage < 0
-                          ? "text-red-400"
-                          : "text-gray-600 dark:text-zinc-400"
-                      : selectedNews.changesPercentage === "-" ||
-                          selectedNews.changesPercentage === null
-                        ? "text-gray-600 dark:text-zinc-400"
-                        : parseFloat(String(selectedNews.changesPercentage)) > 0
-                          ? "text-emerald-400"
-                          : parseFloat(String(selectedNews.changesPercentage)) <
-                              0
-                            ? "text-red-400"
-                            : "text-gray-600 dark:text-zinc-400"
-                  }`}
-                >
-                  {#if typeof selectedNews.changesPercentage === "number"}
-                    {selectedNews.changesPercentage > 0
-                      ? "+"
-                      : ""}{selectedNews.changesPercentage.toFixed(2)}%
-                  {:else if selectedNews.changesPercentage === "-" || selectedNews.changesPercentage === null}
-                    -
-                  {:else}
-                    {parseFloat(String(selectedNews.changesPercentage)) > 0
-                      ? "+"
-                      : ""}{selectedNews.changesPercentage}%
-                  {/if}
-                </span>
-              </div>
-
-              <!-- Date -->
-              <div class="text-xs text-gray-500 dark:text-zinc-400 mb-2">
-                {new Date(selectedNews.date).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </div>
-
-              <!-- News Text -->
-              <p
-                class="text-gray-700 dark:text-zinc-200 text-sm leading-relaxed"
-              >
-                {selectedNews.text}
-              </p>
-            </div>
-          </div>
-
-          <!-- Click outside to close -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default"
-            on:click={closeNewsPopup}
-            aria-label="Close news popup"
-          ></button>
-        {/if}
-
-        <!-- GEX (Gamma Exposure) horizontal levels overlay -->
-        {#if indicatorState.gex && gexLevels.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[4]">
-            {#each gexLevels as level (level.strike)}
-              {#if level.visible}
-                <!-- Horizontal line -->
-                <div
-                  class="absolute left-0 right-0 h-[2px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; background: {level.isPositive
-                    ? 'rgba(34, 197, 94, ' + (0.4 + level.intensity * 0.5) + ')'
-                    : 'rgba(239, 68, 68, ' +
-                      (0.4 + level.intensity * 0.5) +
-                      ')'}; height: {1 + level.intensity * 2}px; opacity: {0.6 +
-                    level.intensity * 0.4}"
-                  on:click={(e) => handleGexLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" && handleGexLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="GEX level at ${level.strike}"
-                ></div>
-                {#if level.showLabel}
-                  <div
-                    class="absolute right-2 pointer-events-auto cursor-pointer"
-                    style="top: {level.y - 10}px;"
-                    on:click={(e) => handleGexLevelClick(level, e)}
-                    on:keypress={(e) =>
-                      e.key === "Enter" && handleGexLevelClick(level, e)}
-                    role="button"
-                    tabindex="0"
-                    aria-label="GEX label at ${level.strike}"
-                  >
-                    <span
-                      class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
-                        level.isPositive
-                          ? "text-emerald-200 border-emerald-500/30"
-                          : "text-rose-200 border-rose-500/30"
-                      }`}
-                    >
-                      GEX {formatPrice(level.strike)}
-                      {level.isPositive ? "+" : "-"}{formatExposureValue(
-                        level.absValue,
-                      )}
-                    </span>
-                  </div>
-                {/if}
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- DEX (Delta Exposure) horizontal levels overlay -->
-        {#if indicatorState.dex && dexLevels.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[4]">
-            {#each dexLevels as level (level.strike)}
-              {#if level.visible}
-                <!-- Horizontal line with dashed style for DEX -->
-                <div
-                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; border-top: {1 +
-                    level.intensity * 2}px dashed {level.isPositive
-                    ? 'rgba(59, 130, 246, ' +
-                      (0.5 + level.intensity * 0.5) +
-                      ')'
-                    : 'rgba(249, 115, 22, ' +
-                      (0.5 + level.intensity * 0.5) +
-                      ')'}; opacity: {0.6 + level.intensity * 0.4}"
-                  on:click={(e) => handleDexLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" && handleDexLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="DEX level at ${level.strike}"
-                ></div>
-                {#if level.showLabel}
-                  <div
-                    class="absolute right-2 pointer-events-auto cursor-pointer"
-                    style="top: {level.y - 10}px;"
-                    on:click={(e) => handleDexLevelClick(level, e)}
-                    on:keypress={(e) =>
-                      e.key === "Enter" && handleDexLevelClick(level, e)}
-                    role="button"
-                    tabindex="0"
-                    aria-label="DEX label at ${level.strike}"
-                  >
-                    <span
-                      class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
-                        level.isPositive
-                          ? "text-sky-200 border-sky-500/30"
-                          : "text-orange-200 border-orange-500/30"
-                      }`}
-                    >
-                      DEX {formatPrice(level.strike)}
-                      {level.isPositive ? "+" : "-"}{formatExposureValue(
-                        level.absValue,
-                      )}
-                    </span>
-                  </div>
-                {/if}
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- GEX/DEX popup -->
-        {#if selectedGexLevel || selectedDexLevel}
-          {@const level = selectedGexLevel || selectedDexLevel}
-          {@const isGex = selectedGexLevel !== null}
-          <!-- Click outside to close (behind popup) -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default bg-transparent"
-            on:click={closeGexDexPopup}
-            aria-label="Close GEX/DEX popup"
-          ></button>
-          <div
-            class="absolute z-[7] pointer-events-auto w-[260px]"
-            style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                <div
-                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                  style="background: {isGex
-                    ? level?.isPositive
-                      ? '#22c55e'
-                      : '#ef4444'
-                    : level?.isPositive
-                      ? '#3b82f6'
-                      : '#f97316'}"
-                ></div>
-                <h3
-                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
-                >
-                  {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
-                  on:click={closeGexDexPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Strike info -->
-              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Strike</span>
-                  <span class="font-medium">${level?.strike.toFixed(2)}</span>
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400"
-                    >Net {isGex ? "Gamma" : "Delta"}</span
-                  >
-                  <span
-                    class="font-medium {level?.isPositive
-                      ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-800 dark:text-rose-400'}"
-                  >
-                    {formatSignedExposure(level?.value ?? 0)}
-                  </span>
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Call</span>
-                  <span class="text-emerald-800 dark:text-emerald-400"
-                    >{formatExposureValue(level?.callValue ?? 0)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Put</span>
-                  <span class="text-rose-800 dark:text-rose-400"
-                    >{formatExposureValue(level?.putValue ?? 0)}</span
-                  >
-                </div>
-              </div>
-
-              <!-- Explanation -->
-              <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
-              >
-                {#if isGex}
-                  {#if level?.isPositive}
-                    <p>
-                      Positive GEX: Price pinned here. MMs sell rallies, buy
-                      dips.
-                    </p>
-                  {:else}
-                    <p>
-                      Negative GEX: Price accelerates. Higher volatility
-                      expected.
-                    </p>
-                  {/if}
-                {:else if level?.isPositive}
-                  <p>
-                    Positive DEX: Dealers long delta. Mean-reverting behavior.
-                  </p>
-                {:else}
-                  <p>
-                    Negative DEX: Dealers short delta. Trend-following behavior.
-                  </p>
-                {/if}
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/{assetType}/{ticker}/options/{isGex
-                  ? 'gex'
-                  : 'dex'}/strike"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
-              >
-                View all levels
-              </a>
-            </div>
-          </div>
-        {/if}
-
-        <!-- Max Pain horizontal levels overlay -->
-        {#if indicatorState.max_pain && maxPainLevels.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[4]">
-            {#each maxPainLevels as level (level.expiration)}
-              {#if level.visible}
-                <div
-                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; border-top: {level.isPrimary
-                    ? 2
-                    : 1}px solid rgba(245, 158, 11, {0.5 +
-                    level.intensity * 0.4}); opacity: {0.65 +
-                    level.intensity * 0.35}"
-                  on:click={(e) => handleMaxPainLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" && handleMaxPainLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="Max pain level at ${level.price}"
-                ></div>
-                <div
-                  class="absolute right-2 pointer-events-auto cursor-pointer"
-                  style="top: {level.labelY}px;"
-                  on:click={(e) => handleMaxPainLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" && handleMaxPainLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="Max pain label at ${level.price}"
+                  class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
                 >
                   <span
-                    class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-amber-200 border border-amber-500/30"
-                  >
-                    MP {formatExpiration(level.expiration)}
-                    {#if level.dte !== null}
-                      ({level.dte}d)
-                    {/if}
-                    {formatPrice(level.price)}
-                  </span>
+                    class="loading loading-spinner loading-md text-gray-900 dark:text-white"
+                  ></span>
                 </div>
               {/if}
-            {/each}
-          </div>
-        {/if}
 
-        <!-- Analyst Target horizontal levels overlay -->
-        {#if indicatorState.analyst_target && analystTargetLevels.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[4]">
-            {#each analystTargetLevels as level (level.key)}
-              {#if level.visible}
-                <div
-                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; border-top: 2px solid {level.color}; opacity: 0.7"
-                  on:click={(e) => handleAnalystTargetLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" &&
-                    handleAnalystTargetLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="Analyst target {level.label} at ${level.price}"
-                ></div>
-                <div
-                  class="absolute right-2 pointer-events-auto cursor-pointer"
-                  style="top: {level.labelY}px;"
-                  on:click={(e) => handleAnalystTargetLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" &&
-                    handleAnalystTargetLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="Analyst target label {level.label} at ${level.price}"
-                >
-                  <span
-                    class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border"
-                    style="color: {level.color}; border-color: {level.color}55;"
-                  >
-                    PT {level.label}
-                    {formatPrice(level.price)}
-                  </span>
-                </div>
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- Max Pain popup -->
-        {#if selectedMaxPainLevel}
-          {@const refPrice = typeof lastClose === "number" ? lastClose : null}
-          {@const diff =
-            refPrice !== null ? selectedMaxPainLevel.price - refPrice : null}
-          {@const diffAbs = diff !== null ? Math.abs(diff) : null}
-          {@const diffLabel =
-            diffAbs !== null
-              ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
-              : "-"}
-          {@const diffPct = refPrice !== null ? (diff / refPrice) * 100 : null}
-          <button
-            class="fixed inset-0 z-[6] cursor-default bg-transparent"
-            on:click={closeMaxPainPopup}
-            aria-label="Close Max Pain popup"
-          ></button>
-          <div
-            class="absolute z-[7] pointer-events-auto w-[260px]"
-            style="left: {maxPainPopupPosition.x}px; top: {maxPainPopupPosition.y}px;"
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                <div
-                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                  style="background: #f59e0b"
-                ></div>
-                <h3
-                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
-                >
-                  Max Pain
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
-                  on:click={closeMaxPainPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Max pain info -->
-              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400"
-                    >Expiration</span
-                  >
-                  <span class="font-medium"
-                    >{formatExpiration(selectedMaxPainLevel.expiration)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">DTE</span>
-                  <span class="font-medium"
-                    >{selectedMaxPainLevel.dte !== null
-                      ? `${selectedMaxPainLevel.dte}d`
-                      : "N/A"}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Max Pain</span>
-                  <span class="font-medium text-amber-200"
-                    >{formatPrice(selectedMaxPainLevel.price)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Spot</span>
-                  <span class="font-medium">{formatPrice(refPrice)}</span>
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Distance</span>
-                  <span
-                    class="font-medium {diff !== null && diff >= 0
-                      ? 'text-emerald-400'
-                      : 'text-rose-400'}"
-                  >
-                    {diffLabel} ({formatPercent(diffPct)})
-                  </span>
-                </div>
-              </div>
-
-              <!-- Explanation -->
+              <!-- Watermark -->
               <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                class="absolute left-3 hidden sm:flex items-center gap-2 pointer-events-none z-10"
+                style="bottom: {watermarkBottom}px"
               >
-                <p>
-                  Max pain is the strike where option buyers lose the most.
-                  Pinning risk increases as DTE shrinks.
-                </p>
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/{assetType}/{ticker}/options/max-pain"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
-              >
-                View All Max Pain
-              </a>
-            </div>
-          </div>
-        {/if}
-
-        <!-- Analyst Target popup -->
-        {#if selectedAnalystTargetLevel && analystTargetSummary}
-          {@const refPrice = typeof lastClose === "number" ? lastClose : null}
-          {@const targetRows = [
-            {
-              key: "High",
-              value: analystTargetSummary.high,
-              color: ANALYST_TARGET_COLORS.high,
-            },
-            {
-              key: "Average",
-              value: analystTargetSummary.average,
-              color: ANALYST_TARGET_COLORS.average,
-            },
-            {
-              key: "Median",
-              value: analystTargetSummary.median,
-              color: ANALYST_TARGET_COLORS.median,
-            },
-            {
-              key: "Low",
-              value: analystTargetSummary.low,
-              color: ANALYST_TARGET_COLORS.low,
-            },
-          ].filter((row) => row.value !== null)}
-          <button
-            class="fixed inset-0 z-[6] cursor-default bg-transparent"
-            on:click={closeAnalystTargetPopup}
-            aria-label="Close Analyst Target popup"
-          ></button>
-          <div
-            class="absolute z-[7] pointer-events-auto w-[260px]"
-            style="left: {analystTargetPopupPosition.x}px; top: {analystTargetPopupPosition.y}px;"
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                <div
-                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                  style="background: #22c55e"
-                ></div>
-                <h3
-                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
-                >
-                  Analyst Targets
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
-                  on:click={closeAnalystTargetPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Targets info -->
-              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Spot</span>
-                  <span class="font-medium">{formatPrice(refPrice)}</span>
-                </div>
-                {#each targetRows as row (row.key)}
-                  {@const diff =
-                    refPrice !== null ? row.value - refPrice : null}
-                  {@const diffPct =
-                    refPrice !== null && diff !== null
-                      ? (diff / refPrice) * 100
-                      : null}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >{row.key}</span
-                    >
-                    <span class="font-medium" style="color: {row.color}">
-                      {formatPrice(row.value)}
-                      <span
-                        class="ml-1 text-[11px] {diff !== null && diff >= 0
-                          ? 'text-emerald-400'
-                          : 'text-rose-400'}"
-                      >
-                        ({formatPercent(diffPct)})
-                      </span>
-                    </span>
-                  </div>
-                {/each}
-                {#if analystTargetSummary.numAnalysts !== null}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Analysts</span
-                    >
-                    <span class="font-medium">
-                      {formatCount(analystTargetSummary.numAnalysts)}
-                    </span>
-                  </div>
-                {/if}
-                {#if analystTargetSummary.consensus}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Consensus</span
-                    >
-                    <span class="font-medium">
-                      {analystTargetSummary.consensus}
-                    </span>
-                  </div>
-                {/if}
-              </div>
-
-              <!-- Explanation -->
-              <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
-              >
-                <p>
-                  Targets are 12-month analyst estimates. Use them as reference
-                  levels, not guarantees.
-                </p>
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/stocks/{ticker}/forecast"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
-              >
-                View forecast
-              </a>
-            </div>
-          </div>
-        {/if}
-
-        <!-- Open Interest (OI) horizontal levels overlay -->
-        {#if indicatorState.oi && oiLevels.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[4]">
-            {#each oiLevels as level (level.strike)}
-              {#if level.visible}
-                <!-- Horizontal line with dotted style for OI -->
-                <div
-                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; border-top: {1 +
-                    level.intensity * 2}px dotted rgba(168, 85, 247, {0.5 +
-                    level.intensity * 0.5}); opacity: {0.6 +
-                    level.intensity * 0.4}"
-                  on:click={(e) => handleOiLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" && handleOiLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="OI level at ${level.strike}"
-                ></div>
-                {#if level.showLabel}
-                  <div
-                    class="absolute right-2 pointer-events-auto cursor-pointer"
-                    style="top: {level.y - 10}px;"
-                    on:click={(e) => handleOiLevelClick(level, e)}
-                    on:keypress={(e) =>
-                      e.key === "Enter" && handleOiLevelClick(level, e)}
-                    role="button"
-                    tabindex="0"
-                    aria-label="OI label at ${level.strike}"
-                  >
-                    <span
-                      class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-purple-200 border border-purple-500/30"
-                    >
-                      OI {formatPrice(level.strike)}
-                      {formatCount(level.totalOi)}
-                    </span>
-                  </div>
-                {/if}
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- OI popup -->
-        {#if selectedOiLevel}
-          <!-- Click outside to close (behind popup) -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default bg-transparent"
-            on:click={closeOiPopup}
-            aria-label="Close OI popup"
-          ></button>
-          <div
-            class="absolute z-[7] pointer-events-auto w-[260px]"
-            style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                <div
-                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                  style="background: #a855f7"
-                ></div>
-                <h3
-                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
-                >
-                  Open Interest (OI)
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
-                  on:click={closeOiPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Strike info -->
-              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Strike</span>
-                  <span class="font-medium"
-                    >{formatPrice(selectedOiLevel.strike)}</span
-                  >
-                </div>
-                {#if selectedOiLevel.expiration}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span class="text-gray-500 dark:text-zinc-400"
-                      >Expiration</span
-                    >
-                    <span class="font-medium"
-                      >{formatExpiration(selectedOiLevel.expiration)}</span
-                    >
-                  </div>
-                {/if}
-                {#if selectedOiLevel.dte !== null}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span class="text-gray-500 dark:text-zinc-400">DTE</span>
-                    <span class="font-medium">{selectedOiLevel.dte}d</span>
-                  </div>
-                {/if}
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Total OI</span>
-                  <span class="font-medium text-purple-400">
-                    {formatCount(selectedOiLevel.totalOi)}
-                  </span>
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Call OI</span>
-                  <span class="text-emerald-800 dark:text-emerald-400"
-                    >{formatCount(selectedOiLevel.callOi)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Put OI</span>
-                  <span class="text-rose-800 dark:text-rose-400"
-                    >{formatCount(selectedOiLevel.putOi)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">P/C Ratio</span
-                  >
-                  <span
-                    class="font-medium {selectedOiLevel.callOi > 0 &&
-                    selectedOiLevel.putOi / selectedOiLevel.callOi > 1
-                      ? 'text-rose-800 dark:text-rose-400'
-                      : 'text-emerald-800 dark:text-emerald-400'}"
-                  >
-                    {selectedOiLevel.callOi > 0
-                      ? (
-                          selectedOiLevel.putOi / selectedOiLevel.callOi
-                        ).toFixed(2)
-                      : "N/A"}
-                  </span>
-                </div>
-              </div>
-
-              <!-- Explanation -->
-              <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
-              >
-                <p>
-                  High OI here indicates significant positioning. May act as
-                  support/resistance.
-                </p>
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/{assetType}/{ticker}/options/oi"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
-              >
-                View all levels
-              </a>
-            </div>
-          </div>
-        {/if}
-
-        <!-- Hottest Contracts horizontal levels overlay -->
-        {#if indicatorState.hottest && hottestLevels.length > 0}
-          <div class="absolute inset-0 pointer-events-none z-[4]">
-            {#each hottestLevels as level (level.strike + level.optionType + level.expiration)}
-              {#if level.visible}
-                <!-- Horizontal line - solid green for calls, solid red for puts -->
-                <div
-                  class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
-                  style="top: {level.y}px; height: {1.5 +
-                    level.intensity * 2}px; background: {level.optionType ===
-                  'C'
-                    ? 'rgba(16, 185, 129, ' +
-                      (0.5 + level.intensity * 0.5) +
-                      ')'
-                    : 'rgba(244, 63, 94, ' +
-                      (0.5 + level.intensity * 0.5) +
-                      ')'}; opacity: {0.6 + level.intensity * 0.4}"
-                  on:click={(e) => handleHottestLevelClick(level, e)}
-                  on:keypress={(e) =>
-                    e.key === "Enter" && handleHottestLevelClick(level, e)}
-                  role="button"
-                  tabindex="0"
-                  aria-label="Hottest contract at ${level.strike}"
-                ></div>
-                {#if level.showLabel}
-                  <div
-                    class="absolute right-2 pointer-events-auto cursor-pointer"
-                    style="top: {level.y - 10}px;"
-                    on:click={(e) => handleHottestLevelClick(level, e)}
-                    on:keypress={(e) =>
-                      e.key === "Enter" && handleHottestLevelClick(level, e)}
-                    role="button"
-                    tabindex="0"
-                    aria-label="Hottest contract label at ${level.strike}"
-                  >
-                    <span
-                      class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
-                        level.optionType === "C"
-                          ? "text-emerald-200 border-emerald-500/30"
-                          : "text-rose-200 border-rose-500/30"
-                      }`}
-                    >
-                      HOT {level.optionType}
-                      {formatExpiration(level.expiration)}
-                      {formatCount(level.volume)}
-                    </span>
-                  </div>
-                {/if}
-              {/if}
-            {/each}
-          </div>
-        {/if}
-
-        <!-- Hottest Contracts popup -->
-        {#if selectedHottestLevel}
-          <!-- Click outside to close (behind popup) -->
-          <button
-            class="fixed inset-0 z-[6] cursor-default bg-transparent"
-            on:click={closeHottestPopup}
-            aria-label="Close Hottest Contracts popup"
-          ></button>
-          <div
-            class="absolute z-[7] pointer-events-auto w-[260px]"
-            style="left: {hottestPopupPosition.x}px; top: {hottestPopupPosition.y}px;"
-          >
-            <div
-              class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
-            >
-              <!-- Header -->
-              <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                <div
-                  class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                  style="background: {selectedHottestLevel.optionType === 'C'
-                    ? '#10b981'
-                    : '#f43f5e'}"
-                ></div>
-                <h3
-                  class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
-                >
-                  {selectedHottestLevel.optionType === "C" ? "Call" : "Put"}
-                  {formatPrice(selectedHottestLevel.strike)}
-                </h3>
-                <button
-                  class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
-                  on:click={closeHottestPopup}
-                  aria-label="Close"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Contract info -->
-              <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400"
-                    >Expiration</span
-                  >
-                  <span class="font-medium"
-                    >{formatExpiration(selectedHottestLevel.expiration)}</span
-                  >
-                </div>
-                {#if selectedHottestLevel.dte !== null}
-                  <div
-                    class="flex justify-between text-gray-700 dark:text-zinc-300"
-                  >
-                    <span class="text-gray-500 dark:text-zinc-400">DTE</span>
-                    <span class="font-medium">{selectedHottestLevel.dte}d</span>
-                  </div>
-                {/if}
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Volume</span>
-                  <span class="font-medium text-amber-400">
-                    {formatCount(selectedHottestLevel.volume)}
-                  </span>
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400"
-                    >Open Interest</span
-                  >
-                  <span class="text-purple-400"
-                    >{formatCount(selectedHottestLevel.openInterest)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400"
-                    >Last Price</span
-                  >
-                  <span
-                    class={selectedHottestLevel.optionType === "C"
-                      ? "text-emerald-800 dark:text-emerald-400"
-                      : "text-rose-800 dark:text-rose-400"}
-                    >{formatPrice(selectedHottestLevel.last)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">IV</span>
-                  <span class="font-medium"
-                    >{formatIvPercent(selectedHottestLevel.iv)}</span
-                  >
-                </div>
-                <div
-                  class="flex justify-between text-gray-700 dark:text-zinc-300"
-                >
-                  <span class="text-gray-500 dark:text-zinc-400">Premium</span>
-                  <span class="font-medium"
-                    >${formatCount(selectedHottestLevel.premium)}</span
-                  >
-                </div>
-              </div>
-
-              <!-- Explanation -->
-              <div
-                class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
-              >
-                <p>
-                  High volume contract. Large trades here may signal
-                  institutional activity or hedging.
-                </p>
-              </div>
-
-              <!-- Link to more details -->
-              <a
-                href="/{assetType}/{ticker}/options/hottest-contracts/volume"
-                class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
-              >
-                View all contracts
-              </a>
-            </div>
-          </div>
-        {/if}
-
-        {#if !currentBars.length}
-          <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
-            <div class="relative">
-              <label
-                class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              >
-                <span
-                  class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
-                ></span>
-              </label>
-            </div>
-          </div>
-        {/if}
-      </div>
-        </Pane>
-        {#if isDesktop}
-          <Pane
-            bind:size={rightSidebarSize}
-            minSize={rightSidebarOpen
-              ? RIGHT_SIDEBAR_MIN_SIZE
-              : rightSidebarCollapsedSize}
-            maxSize={rightSidebarOpen
-              ? RIGHT_SIDEBAR_MAX_SIZE
-              : rightSidebarCollapsedSize}
-          >
-            <div
-              class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0b0b0d]"
-            >
-              {#if rightSidebarOpen}
-                <ChartRightSidebar
-                  currentSymbol={ticker}
-                  activeTab={rightSidebarTab}
+                <img
+                  src="/pwa-192x192.png"
+                  alt="Stocknear"
+                  class="size-9 rounded-full opacity-60"
+                  loading="lazy"
+                  decoding="async"
                 />
-              {/if}
-              <div
-                class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2"
-              >
-                <button
-                  class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
-                    rightSidebarOpen && rightSidebarTab === "watchlist"
-                      ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
-                      : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
-                  }`}
-                  on:click={() => toggleRightSidebar("watchlist")}
-                  title="Watchlist"
-                  aria-pressed={rightSidebarOpen &&
-                    rightSidebarTab === "watchlist"}
+                <span
+                  class="text-gray-500/60 dark:text-white/60 text-base font-semibold text-md"
+                  >Stocknear</span
                 >
-                  <svg
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <polygon
-                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                    />
-                  </svg>
-                </button>
-
-                <button
-                  class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
-                    rightSidebarOpen && rightSidebarTab === "alerts"
-                      ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
-                      : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
-                  }`}
-                  on:click={() => toggleRightSidebar("alerts")}
-                  title="Price alerts"
-                  aria-pressed={rightSidebarOpen &&
-                    rightSidebarTab === "alerts"}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.5"
-                    >
-                      <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
-                      <circle cx="12" cy="13" r="8" />
-                      <path d="M9.5 13h5M12 10.5v5" />
-                    </g>
-                  </svg>
-                </button>
-
-                <div class="mt-auto flex flex-col items-center pb-2">
-                  <button
-                    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
-                    on:click={() => toggleRightSidebar()}
-                    title={rightSidebarOpen
-                      ? "Hide sidebar"
-                      : "Show sidebar"}
-                  >
-                    {#if rightSidebarOpen}
-                      <svg
-                        viewBox="0 0 24 24"
-                        class="h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m15 18-6-6 6-6" />
-                      </svg>
-                    {:else}
-                      <svg
-                        viewBox="0 0 24 24"
-                        class="h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m9 6 6 6-6 6" />
-                      </svg>
-                    {/if}
-                  </button>
-                </div>
               </div>
+
+              <!-- Earnings markers overlay (only for non-intraday ranges when enabled) -->
+              {#if isSubscribed && showEarnings && isNonIntradayRange(activeRange) && earningsMarkers.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[15]">
+                  {#each earningsMarkers as marker, i (`${marker.timestamp}-${i}`)}
+                    {#if marker?.visible}
+                      <button
+                        class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                        style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
+                        on:click={(e) => handleEarningsClick(marker, e)}
+                        aria-label="View earnings details"
+                      >
+                        <svg
+                          width="24"
+                          height="30"
+                          viewBox="0 0 18 22"
+                          class="drop-shadow-md"
+                          style={!marker.isFuture &&
+                          hasBeatExpectations(marker.earnings)
+                            ? "transform: rotate(180deg)"
+                            : ""}
+                        >
+                          {#if marker?.isFuture}
+                            <!-- Future earnings: outline style -->
+                            <path
+                              d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                              fill="#1a1a1a"
+                              stroke="#B91C1C"
+                              stroke-width="1.5"
+                            />
+                            <text
+                              x="9"
+                              y="11"
+                              text-anchor="middle"
+                              dominant-baseline="middle"
+                              fill="#B91C1C"
+                              font-size="10"
+                              font-weight="bold"
+                              font-family="system-ui, sans-serif">E</text
+                            >
+                          {:else if hasBeatExpectations(marker?.earnings)}
+                            <!-- Past earnings with positive surprise: green, upside down -->
+                            <path
+                              d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                              fill="#10B981"
+                            />
+                            <text
+                              x="9"
+                              y="14"
+                              text-anchor="middle"
+                              dominant-baseline="middle"
+                              fill="white"
+                              font-size="10"
+                              font-weight="bold"
+                              font-family="system-ui, sans-serif"
+                              transform="rotate(180 9 11)">E</text
+                            >
+                          {:else}
+                            <!-- Past earnings: solid red fill -->
+                            <path
+                              d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                              fill="#B91C1C"
+                            />
+                            <text
+                              x="9"
+                              y="11"
+                              text-anchor="middle"
+                              dominant-baseline="middle"
+                              fill="white"
+                              font-size="10"
+                              font-weight="bold"
+                              font-family="system-ui, sans-serif">E</text
+                            >
+                          {/if}
+                        </svg>
+                      </button>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- Earnings popup -->
+              {#if selectedEarnings}
+                <div
+                  class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+                  style="--popup-x: {earningsPopupPosition.x}px; --popup-y: {earningsPopupPosition.y}px;"
+                  style:left={!isMobile
+                    ? `${earningsPopupPosition.x}px`
+                    : undefined}
+                  style:top={!isMobile
+                    ? `${earningsPopupPosition.y}px`
+                    : undefined}
+                  style:transform={!isMobile
+                    ? "translate(-50%, -100%)"
+                    : undefined}
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-3">
+                      <h3 class="text-gray-900 dark:text-white font-semibold">
+                        {selectedEarningsIsFuture
+                          ? "Upcoming Earnings"
+                          : "Earnings & Revenue"}
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+                        on:click={closeEarningsPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Date info -->
+                    <div
+                      class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
+                    >
+                      <div class="flex justify-between">
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Date</span
+                        >
+                        <span class="flex items-center gap-1">
+                          {DateTime.fromISO(selectedEarnings.date, {
+                            zone,
+                          }).toFormat("EEE d MMM ''yy")}
+                          {#if isBeforeMarketOpen(selectedEarnings)}
+                            <svg
+                              class="w-4 h-4 text-yellow-400"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          {:else if isAfterMarketClose(selectedEarnings)}
+                            <svg
+                              class="w-4 h-4 text-blue-400"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                              />
+                            </svg>
+                          {/if}
+                        </span>
+                      </div>
+                      {#if selectedEarnings.period && selectedEarnings.period_year}
+                        <div class="flex justify-between">
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Period Ending</span
+                          >
+                          <span
+                            >{selectedEarnings.period}
+                            '{String(selectedEarnings.period_year).slice(
+                              -2,
+                            )}</span
+                          >
+                        </div>
+                      {/if}
+                    </div>
+
+                    <!-- Earnings section -->
+                    <div
+                      class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
+                    >
+                      <div
+                        class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2"
+                      >
+                        {selectedEarningsIsFuture ? "EPS Estimate" : "Earnings"}
+                      </div>
+                      <div class="text-sm space-y-1">
+                        {#if !selectedEarningsIsFuture}
+                          <div
+                            class="flex justify-between text-gray-700 dark:text-zinc-300"
+                          >
+                            <span>Reported</span>
+                            <span
+                              >{formatEarningsValue(
+                                getEpsValue(selectedEarnings),
+                              )}</span
+                            >
+                          </div>
+                        {/if}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span>Estimate</span>
+                          <span
+                            >{formatEarningsValue(
+                              getEpsEstimate(selectedEarnings),
+                            )}</span
+                          >
+                        </div>
+                        {#if !selectedEarningsIsFuture && calculateSurprise(getEpsValue(selectedEarnings), getEpsEstimate(selectedEarnings))}
+                          {@const surprise = calculateSurprise(
+                            getEpsValue(selectedEarnings),
+                            getEpsEstimate(selectedEarnings),
+                          )}
+                          <div class="flex justify-between">
+                            <span
+                              class={surprise?.positive
+                                ? "text-emerald-800 dark:text-emerald-400"
+                                : "text-rose-800 dark:text-rose-400"}
+                              >Surprise</span
+                            >
+                            <span
+                              class={surprise?.positive
+                                ? "text-emerald-800 dark:text-emerald-400"
+                                : "text-rose-800 dark:text-rose-400"}
+                            >
+                              {surprise?.positive
+                                ? "+"
+                                : ""}{surprise?.value.toFixed(2)} ({surprise?.positive
+                                ? "+"
+                                : ""}{surprise?.percent.toFixed(2)}%)
+                            </span>
+                          </div>
+                        {/if}
+                        {#if selectedEarningsIsFuture}
+                          {@const yoy = calculateYoYChange(
+                            selectedEarnings?.["epsEst"],
+                            selectedEarnings?.["epsPrior"],
+                          )}
+                          {#if yoy}
+                            <div class="flex justify-between">
+                              <span class="text-gray-600 dark:text-zinc-400"
+                                >YoY Change</span
+                              >
+                              <span
+                                class={yoy.positive
+                                  ? "text-emerald-800 dark:text-emerald-400"
+                                  : "text-rose-800 dark:text-rose-400"}
+                              >
+                                {yoy.positive ? "+" : ""}{yoy.percent.toFixed(
+                                  2,
+                                )}%
+                              </span>
+                            </div>
+                          {/if}
+                        {/if}
+                      </div>
+                    </div>
+
+                    <!-- Revenue section -->
+                    <div
+                      class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
+                    >
+                      <div
+                        class="text-xs text-gray-500 dark:text-zinc-400 uppercase mb-2"
+                      >
+                        {selectedEarningsIsFuture
+                          ? "Revenue Estimate"
+                          : "Revenue"}
+                      </div>
+                      <div class="text-sm space-y-1">
+                        {#if !selectedEarningsIsFuture}
+                          <div
+                            class="flex justify-between text-gray-700 dark:text-zinc-300"
+                          >
+                            <span>Reported</span>
+                            <span
+                              >{formatRevenueValue(
+                                getRevenueValue(selectedEarnings),
+                              )}</span
+                            >
+                          </div>
+                        {/if}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span>Estimate</span>
+                          <span
+                            >{formatRevenueValue(
+                              getRevenueEstimate(selectedEarnings),
+                            )}</span
+                          >
+                        </div>
+                        {#if !selectedEarningsIsFuture && calculateSurprise(getRevenueValue(selectedEarnings), getRevenueEstimate(selectedEarnings))}
+                          {@const surprise = calculateSurprise(
+                            getRevenueValue(selectedEarnings),
+                            getRevenueEstimate(selectedEarnings),
+                          )}
+                          <div class="flex justify-between">
+                            <span
+                              class={surprise?.positive
+                                ? "text-emerald-800 dark:text-emerald-400"
+                                : "text-rose-800 dark:text-rose-400"}
+                              >Surprise</span
+                            >
+                            <span
+                              class={surprise?.positive
+                                ? "text-emerald-800 dark:text-emerald-400"
+                                : "text-rose-800 dark:text-rose-400"}
+                            >
+                              {surprise?.positive ? "+" : ""}{abbreviateNumber(
+                                surprise?.value ?? 0,
+                              )} ({surprise?.positive
+                                ? "+"
+                                : ""}{surprise?.percent.toFixed(2)}%)
+                            </span>
+                          </div>
+                        {/if}
+                        {#if selectedEarningsIsFuture}
+                          {@const yoy = calculateYoYChange(
+                            selectedEarnings?.["revenueEst"],
+                            selectedEarnings?.["revenuePrior"],
+                          )}
+                          {#if yoy}
+                            <div class="flex justify-between">
+                              <span class="text-gray-600 dark:text-zinc-400"
+                                >YoY Change</span
+                              >
+                              <span
+                                class={yoy.positive
+                                  ? "text-emerald-800 dark:text-emerald-400"
+                                  : "text-rose-800 dark:text-rose-400"}
+                              >
+                                {yoy.positive ? "+" : ""}{yoy.percent.toFixed(
+                                  2,
+                                )}%
+                              </span>
+                            </div>
+                          {/if}
+                        {/if}
+                      </div>
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/stocks/{ticker}/statistics/earnings"
+                      class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-medium rounded-lg transition"
+                    >
+                      More {ticker} financials
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Click outside to close -->
+                <button
+                  class="fixed inset-0 z-[6] cursor-default"
+                  on:click={closeEarningsPopup}
+                  aria-label="Close earnings popup"
+                ></button>
+              {/if}
+
+              <!-- Dividend markers overlay (only for non-intraday ranges when enabled) -->
+              {#if isSubscribed && showDividends && isNonIntradayRange(activeRange) && dividendMarkers.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[15]">
+                  {#each dividendMarkers as marker, i (`${marker.timestamp}-${i}`)}
+                    {#if marker?.visible}
+                      <button
+                        class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                        style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
+                        on:click={(e) => handleDividendClick(marker, e)}
+                        aria-label="View dividend details"
+                      >
+                        <svg
+                          width="24"
+                          height="30"
+                          viewBox="0 0 18 22"
+                          class="drop-shadow-md"
+                        >
+                          <!-- Dividend marker: solid blue fill -->
+                          <path
+                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                            fill="#3B82F6"
+                          />
+                          <text
+                            x="9"
+                            y="11"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            fill="white"
+                            font-size="10"
+                            font-weight="bold"
+                            font-family="system-ui, sans-serif">D</text
+                          >
+                        </svg>
+                      </button>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- Dividend popup -->
+              {#if selectedDividend}
+                <div
+                  class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+                  style:left={!isMobile
+                    ? `${dividendPopupPosition.x}px`
+                    : undefined}
+                  style:top={!isMobile
+                    ? `${dividendPopupPosition.y}px`
+                    : undefined}
+                  style:transform={!isMobile
+                    ? "translate(-50%, -100%)"
+                    : undefined}
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-3">
+                      <h3 class="text-gray-900 dark:text-white font-semibold">
+                        Dividend
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+                        on:click={closeDividendPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Dividend info -->
+                    <div
+                      class="text-sm text-gray-700 dark:text-zinc-300 mb-3 space-y-1"
+                    >
+                      <div class="flex justify-between">
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Ex-Dividend Date</span
+                        >
+                        <span class="text-gray-900 dark:text-white">
+                          {new Date(selectedDividend.date).toLocaleDateString(
+                            "en-US",
+                            { month: "short", day: "numeric", year: "numeric" },
+                          )}
+                        </span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Amount</span
+                        >
+                        <span class="text-blue-400 font-semibold">
+                          ${selectedDividend.adjDividend?.toFixed(4)}
+                        </span>
+                      </div>
+                      {#if selectedDividend.declarationDate}
+                        <div class="flex justify-between">
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Declaration Date</span
+                          >
+                          <span>
+                            {new Date(
+                              selectedDividend.declarationDate,
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      {/if}
+                      {#if selectedDividend.recordDate}
+                        <div class="flex justify-between">
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Record Date</span
+                          >
+                          <span>
+                            {new Date(
+                              selectedDividend.recordDate,
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      {/if}
+                      {#if selectedDividend.paymentDate}
+                        <div class="flex justify-between">
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Payment Date</span
+                          >
+                          <span>
+                            {new Date(
+                              selectedDividend.paymentDate,
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      {/if}
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/stocks/{ticker}/dividends"
+                      class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-medium rounded-lg transition"
+                    >
+                      More {ticker} dividends
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Click outside to close -->
+                <button
+                  class="fixed inset-0 z-[6] cursor-default"
+                  on:click={closeDividendPopup}
+                  aria-label="Close dividend popup"
+                ></button>
+              {/if}
+
+              <!-- News Flow markers overlay (only for non-intraday ranges when enabled) -->
+              {#if isSubscribed && showNewsFlow && isNonIntradayRange(activeRange) && newsMarkers.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[15]">
+                  {#each newsMarkers as marker, i (`${marker.news.date}-${i}`)}
+                    {#if marker?.visible}
+                      <button
+                        class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
+                        style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
+                        on:click={(e) => handleNewsClick(marker, e)}
+                        aria-label="View news details"
+                      >
+                        <svg
+                          width="24"
+                          height="30"
+                          viewBox="0 0 18 22"
+                          class="drop-shadow-md"
+                        >
+                          <path
+                            d="M1 3.5C1 1.84315 2.34315 0.5 4 0.5H14C15.6569 0.5 17 1.84315 17 3.5V13.5C17 14.4 16.6 15.2 15.9 15.8L9 21.5L2.1 15.8C1.4 15.2 1 14.4 1 13.5V3.5Z"
+                            fill={getNewsMarkerColor(
+                              marker.news.changesPercentage,
+                            )}
+                          />
+                          <text
+                            x="9"
+                            y="11"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            fill="white"
+                            font-size="10"
+                            font-weight="bold"
+                            font-family="system-ui, sans-serif">N</text
+                          >
+                        </svg>
+                      </button>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- News popup -->
+              {#if selectedNews}
+                <div
+                  class="fixed sm:absolute z-[20] pointer-events-auto bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto sm:right-auto"
+                  style:left={!isMobile
+                    ? `${newsPopupPosition.x}px`
+                    : undefined}
+                  style:top={!isMobile ? `${newsPopupPosition.y}px` : undefined}
+                  style:transform={!isMobile
+                    ? "translate(-50%, -100%)"
+                    : undefined}
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                      <h3 class="text-gray-900 dark:text-white font-semibold">
+                        Why Price Moved
+                      </h3>
+                      <span
+                        class={`text-sm font-semibold ${
+                          typeof selectedNews.changesPercentage === "number"
+                            ? selectedNews.changesPercentage > 0
+                              ? "text-emerald-400"
+                              : selectedNews.changesPercentage < 0
+                                ? "text-red-400"
+                                : "text-gray-600 dark:text-zinc-400"
+                            : selectedNews.changesPercentage === "-" ||
+                                selectedNews.changesPercentage === null
+                              ? "text-gray-600 dark:text-zinc-400"
+                              : parseFloat(
+                                    String(selectedNews.changesPercentage),
+                                  ) > 0
+                                ? "text-emerald-400"
+                                : parseFloat(
+                                      String(selectedNews.changesPercentage),
+                                    ) < 0
+                                  ? "text-red-400"
+                                  : "text-gray-600 dark:text-zinc-400"
+                        }`}
+                      >
+                        {#if typeof selectedNews.changesPercentage === "number"}
+                          {selectedNews.changesPercentage > 0
+                            ? "+"
+                            : ""}{selectedNews.changesPercentage.toFixed(2)}%
+                        {:else if selectedNews.changesPercentage === "-" || selectedNews.changesPercentage === null}
+                          -
+                        {:else}
+                          {parseFloat(String(selectedNews.changesPercentage)) >
+                          0
+                            ? "+"
+                            : ""}{selectedNews.changesPercentage}%
+                        {/if}
+                      </span>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="text-xs text-gray-500 dark:text-zinc-400 mb-2">
+                      {new Date(selectedNews.date).toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </div>
+
+                    <!-- News Text -->
+                    <p
+                      class="text-gray-700 dark:text-zinc-200 text-sm leading-relaxed"
+                    >
+                      {selectedNews.text}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Click outside to close -->
+                <button
+                  class="fixed inset-0 z-[6] cursor-default"
+                  on:click={closeNewsPopup}
+                  aria-label="Close news popup"
+                ></button>
+              {/if}
+
+              <!-- GEX (Gamma Exposure) horizontal levels overlay -->
+              {#if indicatorState.gex && gexLevels.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[4]">
+                  {#each gexLevels as level (level.strike)}
+                    {#if level.visible}
+                      <!-- Horizontal line -->
+                      <div
+                        class="absolute left-0 right-0 h-[2px] pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                        style="top: {level.y}px; background: {level.isPositive
+                          ? 'rgba(34, 197, 94, ' +
+                            (0.4 + level.intensity * 0.5) +
+                            ')'
+                          : 'rgba(239, 68, 68, ' +
+                            (0.4 + level.intensity * 0.5) +
+                            ')'}; height: {1 +
+                          level.intensity * 2}px; opacity: {0.6 +
+                          level.intensity * 0.4}"
+                        on:click={(e) => handleGexLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" && handleGexLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="GEX level at ${level.strike}"
+                      ></div>
+                      {#if level.showLabel}
+                        <div
+                          class="absolute right-2 pointer-events-auto cursor-pointer"
+                          style="top: {level.y - 10}px;"
+                          on:click={(e) => handleGexLevelClick(level, e)}
+                          on:keypress={(e) =>
+                            e.key === "Enter" && handleGexLevelClick(level, e)}
+                          role="button"
+                          tabindex="0"
+                          aria-label="GEX label at ${level.strike}"
+                        >
+                          <span
+                            class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
+                              level.isPositive
+                                ? "text-emerald-200 border-emerald-500/30"
+                                : "text-rose-200 border-rose-500/30"
+                            }`}
+                          >
+                            GEX {formatPrice(level.strike)}
+                            {level.isPositive ? "+" : "-"}{formatExposureValue(
+                              level.absValue,
+                            )}
+                          </span>
+                        </div>
+                      {/if}
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- DEX (Delta Exposure) horizontal levels overlay -->
+              {#if indicatorState.dex && dexLevels.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[4]">
+                  {#each dexLevels as level (level.strike)}
+                    {#if level.visible}
+                      <!-- Horizontal line with dashed style for DEX -->
+                      <div
+                        class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                        style="top: {level.y}px; border-top: {1 +
+                          level.intensity * 2}px dashed {level.isPositive
+                          ? 'rgba(59, 130, 246, ' +
+                            (0.5 + level.intensity * 0.5) +
+                            ')'
+                          : 'rgba(249, 115, 22, ' +
+                            (0.5 + level.intensity * 0.5) +
+                            ')'}; opacity: {0.6 + level.intensity * 0.4}"
+                        on:click={(e) => handleDexLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" && handleDexLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="DEX level at ${level.strike}"
+                      ></div>
+                      {#if level.showLabel}
+                        <div
+                          class="absolute right-2 pointer-events-auto cursor-pointer"
+                          style="top: {level.y - 10}px;"
+                          on:click={(e) => handleDexLevelClick(level, e)}
+                          on:keypress={(e) =>
+                            e.key === "Enter" && handleDexLevelClick(level, e)}
+                          role="button"
+                          tabindex="0"
+                          aria-label="DEX label at ${level.strike}"
+                        >
+                          <span
+                            class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
+                              level.isPositive
+                                ? "text-sky-200 border-sky-500/30"
+                                : "text-orange-200 border-orange-500/30"
+                            }`}
+                          >
+                            DEX {formatPrice(level.strike)}
+                            {level.isPositive ? "+" : "-"}{formatExposureValue(
+                              level.absValue,
+                            )}
+                          </span>
+                        </div>
+                      {/if}
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- GEX/DEX popup -->
+              {#if selectedGexLevel || selectedDexLevel}
+                {@const level = selectedGexLevel || selectedDexLevel}
+                {@const isGex = selectedGexLevel !== null}
+                <!-- Click outside to close (behind popup) -->
+                <button
+                  class="fixed inset-0 z-[6] cursor-default bg-transparent"
+                  on:click={closeGexDexPopup}
+                  aria-label="Close GEX/DEX popup"
+                ></button>
+                <div
+                  class="absolute z-[7] pointer-events-auto w-[260px]"
+                  style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div
+                        class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                        style="background: {isGex
+                          ? level?.isPositive
+                            ? '#22c55e'
+                            : '#ef4444'
+                          : level?.isPositive
+                            ? '#3b82f6'
+                            : '#f97316'}"
+                      ></div>
+                      <h3
+                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                      >
+                        {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        on:click={closeGexDexPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Strike info -->
+                    <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Strike</span
+                        >
+                        <span class="font-medium"
+                          >${level?.strike.toFixed(2)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Net {isGex ? "Gamma" : "Delta"}</span
+                        >
+                        <span
+                          class="font-medium {level?.isPositive
+                            ? 'text-emerald-800 dark:text-emerald-400'
+                            : 'text-rose-800 dark:text-rose-400'}"
+                        >
+                          {formatSignedExposure(level?.value ?? 0)}
+                        </span>
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Call</span
+                        >
+                        <span class="text-emerald-800 dark:text-emerald-400"
+                          >{formatExposureValue(level?.callValue ?? 0)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400">Put</span
+                        >
+                        <span class="text-rose-800 dark:text-rose-400"
+                          >{formatExposureValue(level?.putValue ?? 0)}</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Explanation -->
+                    <div
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                    >
+                      {#if isGex}
+                        {#if level?.isPositive}
+                          <p>
+                            Positive GEX: Price pinned here. MMs sell rallies,
+                            buy dips.
+                          </p>
+                        {:else}
+                          <p>
+                            Negative GEX: Price accelerates. Higher volatility
+                            expected.
+                          </p>
+                        {/if}
+                      {:else if level?.isPositive}
+                        <p>
+                          Positive DEX: Dealers long delta. Mean-reverting
+                          behavior.
+                        </p>
+                      {:else}
+                        <p>
+                          Negative DEX: Dealers short delta. Trend-following
+                          behavior.
+                        </p>
+                      {/if}
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/{assetType}/{ticker}/options/{isGex
+                        ? 'gex'
+                        : 'dex'}/strike"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                    >
+                      View all levels
+                    </a>
+                  </div>
+                </div>
+              {/if}
+
+              <!-- Max Pain horizontal levels overlay -->
+              {#if indicatorState.max_pain && maxPainLevels.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[4]">
+                  {#each maxPainLevels as level (level.expiration)}
+                    {#if level.visible}
+                      <div
+                        class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                        style="top: {level.y}px; border-top: {level.isPrimary
+                          ? 2
+                          : 1}px solid rgba(245, 158, 11, {0.5 +
+                          level.intensity * 0.4}); opacity: {0.65 +
+                          level.intensity * 0.35}"
+                        on:click={(e) => handleMaxPainLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" &&
+                          handleMaxPainLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="Max pain level at ${level.price}"
+                      ></div>
+                      <div
+                        class="absolute right-2 pointer-events-auto cursor-pointer"
+                        style="top: {level.labelY}px;"
+                        on:click={(e) => handleMaxPainLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" &&
+                          handleMaxPainLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="Max pain label at ${level.price}"
+                      >
+                        <span
+                          class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-amber-200 border border-amber-500/30"
+                        >
+                          MP {formatExpiration(level.expiration)}
+                          {#if level.dte !== null}
+                            ({level.dte}d)
+                          {/if}
+                          {formatPrice(level.price)}
+                        </span>
+                      </div>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- Analyst Target horizontal levels overlay -->
+              {#if indicatorState.analyst_target && analystTargetLevels.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[4]">
+                  {#each analystTargetLevels as level (level.key)}
+                    {#if level.visible}
+                      <div
+                        class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                        style="top: {level.y}px; border-top: 2px solid {level.color}; opacity: 0.7"
+                        on:click={(e) =>
+                          handleAnalystTargetLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" &&
+                          handleAnalystTargetLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="Analyst target {level.label} at ${level.price}"
+                      ></div>
+                      <div
+                        class="absolute right-2 pointer-events-auto cursor-pointer"
+                        style="top: {level.labelY}px;"
+                        on:click={(e) =>
+                          handleAnalystTargetLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" &&
+                          handleAnalystTargetLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="Analyst target label {level.label} at ${level.price}"
+                      >
+                        <span
+                          class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border"
+                          style="color: {level.color}; border-color: {level.color}55;"
+                        >
+                          PT {level.label}
+                          {formatPrice(level.price)}
+                        </span>
+                      </div>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- Max Pain popup -->
+              {#if selectedMaxPainLevel}
+                {@const refPrice =
+                  typeof lastClose === "number" ? lastClose : null}
+                {@const diff =
+                  refPrice !== null
+                    ? selectedMaxPainLevel.price - refPrice
+                    : null}
+                {@const diffAbs = diff !== null ? Math.abs(diff) : null}
+                {@const diffLabel =
+                  diffAbs !== null
+                    ? `${diff >= 0 ? "+" : "-"}${formatPrice(diffAbs)}`
+                    : "-"}
+                {@const diffPct =
+                  refPrice !== null ? (diff / refPrice) * 100 : null}
+                <button
+                  class="fixed inset-0 z-[6] cursor-default bg-transparent"
+                  on:click={closeMaxPainPopup}
+                  aria-label="Close Max Pain popup"
+                ></button>
+                <div
+                  class="absolute z-[7] pointer-events-auto w-[260px]"
+                  style="left: {maxPainPopupPosition.x}px; top: {maxPainPopupPosition.y}px;"
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div
+                        class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                        style="background: #f59e0b"
+                      ></div>
+                      <h3
+                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                      >
+                        Max Pain
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        on:click={closeMaxPainPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Max pain info -->
+                    <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Expiration</span
+                        >
+                        <span class="font-medium"
+                          >{formatExpiration(
+                            selectedMaxPainLevel.expiration,
+                          )}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400">DTE</span
+                        >
+                        <span class="font-medium"
+                          >{selectedMaxPainLevel.dte !== null
+                            ? `${selectedMaxPainLevel.dte}d`
+                            : "N/A"}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Max Pain</span
+                        >
+                        <span class="font-medium text-amber-200"
+                          >{formatPrice(selectedMaxPainLevel.price)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Spot</span
+                        >
+                        <span class="font-medium">{formatPrice(refPrice)}</span>
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Distance</span
+                        >
+                        <span
+                          class="font-medium {diff !== null && diff >= 0
+                            ? 'text-emerald-400'
+                            : 'text-rose-400'}"
+                        >
+                          {diffLabel} ({formatPercent(diffPct)})
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Explanation -->
+                    <div
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                    >
+                      <p>
+                        Max pain is the strike where option buyers lose the
+                        most. Pinning risk increases as DTE shrinks.
+                      </p>
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/{assetType}/{ticker}/options/max-pain"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                    >
+                      View All Max Pain
+                    </a>
+                  </div>
+                </div>
+              {/if}
+
+              <!-- Analyst Target popup -->
+              {#if selectedAnalystTargetLevel && analystTargetSummary}
+                {@const refPrice =
+                  typeof lastClose === "number" ? lastClose : null}
+                {@const targetRows = [
+                  {
+                    key: "High",
+                    value: analystTargetSummary.high,
+                    color: ANALYST_TARGET_COLORS.high,
+                  },
+                  {
+                    key: "Average",
+                    value: analystTargetSummary.average,
+                    color: ANALYST_TARGET_COLORS.average,
+                  },
+                  {
+                    key: "Median",
+                    value: analystTargetSummary.median,
+                    color: ANALYST_TARGET_COLORS.median,
+                  },
+                  {
+                    key: "Low",
+                    value: analystTargetSummary.low,
+                    color: ANALYST_TARGET_COLORS.low,
+                  },
+                ].filter((row) => row.value !== null)}
+                <button
+                  class="fixed inset-0 z-[6] cursor-default bg-transparent"
+                  on:click={closeAnalystTargetPopup}
+                  aria-label="Close Analyst Target popup"
+                ></button>
+                <div
+                  class="absolute z-[7] pointer-events-auto w-[260px]"
+                  style="left: {analystTargetPopupPosition.x}px; top: {analystTargetPopupPosition.y}px;"
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div
+                        class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                        style="background: #22c55e"
+                      ></div>
+                      <h3
+                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                      >
+                        Analyst Targets
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        on:click={closeAnalystTargetPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Targets info -->
+                    <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Spot</span
+                        >
+                        <span class="font-medium">{formatPrice(refPrice)}</span>
+                      </div>
+                      {#each targetRows as row (row.key)}
+                        {@const diff =
+                          refPrice !== null ? row.value - refPrice : null}
+                        {@const diffPct =
+                          refPrice !== null && diff !== null
+                            ? (diff / refPrice) * 100
+                            : null}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >{row.key}</span
+                          >
+                          <span class="font-medium" style="color: {row.color}">
+                            {formatPrice(row.value)}
+                            <span
+                              class="ml-1 text-[11px] {diff !== null &&
+                              diff >= 0
+                                ? 'text-emerald-400'
+                                : 'text-rose-400'}"
+                            >
+                              ({formatPercent(diffPct)})
+                            </span>
+                          </span>
+                        </div>
+                      {/each}
+                      {#if analystTargetSummary.numAnalysts !== null}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Analysts</span
+                          >
+                          <span class="font-medium">
+                            {formatCount(analystTargetSummary.numAnalysts)}
+                          </span>
+                        </div>
+                      {/if}
+                      {#if analystTargetSummary.consensus}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Consensus</span
+                          >
+                          <span class="font-medium">
+                            {analystTargetSummary.consensus}
+                          </span>
+                        </div>
+                      {/if}
+                    </div>
+
+                    <!-- Explanation -->
+                    <div
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                    >
+                      <p>
+                        Targets are 12-month analyst estimates. Use them as
+                        reference levels, not guarantees.
+                      </p>
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/stocks/{ticker}/forecast"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                    >
+                      View forecast
+                    </a>
+                  </div>
+                </div>
+              {/if}
+
+              <!-- Open Interest (OI) horizontal levels overlay -->
+              {#if indicatorState.oi && oiLevels.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[4]">
+                  {#each oiLevels as level (level.strike)}
+                    {#if level.visible}
+                      <!-- Horizontal line with dotted style for OI -->
+                      <div
+                        class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                        style="top: {level.y}px; border-top: {1 +
+                          level.intensity *
+                            2}px dotted rgba(168, 85, 247, {0.5 +
+                          level.intensity * 0.5}); opacity: {0.6 +
+                          level.intensity * 0.4}"
+                        on:click={(e) => handleOiLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" && handleOiLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="OI level at ${level.strike}"
+                      ></div>
+                      {#if level.showLabel}
+                        <div
+                          class="absolute right-2 pointer-events-auto cursor-pointer"
+                          style="top: {level.y - 10}px;"
+                          on:click={(e) => handleOiLevelClick(level, e)}
+                          on:keypress={(e) =>
+                            e.key === "Enter" && handleOiLevelClick(level, e)}
+                          role="button"
+                          tabindex="0"
+                          aria-label="OI label at ${level.strike}"
+                        >
+                          <span
+                            class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-purple-200 border border-purple-500/30"
+                          >
+                            OI {formatPrice(level.strike)}
+                            {formatCount(level.totalOi)}
+                          </span>
+                        </div>
+                      {/if}
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- OI popup -->
+              {#if selectedOiLevel}
+                <!-- Click outside to close (behind popup) -->
+                <button
+                  class="fixed inset-0 z-[6] cursor-default bg-transparent"
+                  on:click={closeOiPopup}
+                  aria-label="Close OI popup"
+                ></button>
+                <div
+                  class="absolute z-[7] pointer-events-auto w-[260px]"
+                  style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div
+                        class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                        style="background: #a855f7"
+                      ></div>
+                      <h3
+                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                      >
+                        Open Interest (OI)
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        on:click={closeOiPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Strike info -->
+                    <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Strike</span
+                        >
+                        <span class="font-medium"
+                          >{formatPrice(selectedOiLevel.strike)}</span
+                        >
+                      </div>
+                      {#if selectedOiLevel.expiration}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >Expiration</span
+                          >
+                          <span class="font-medium"
+                            >{formatExpiration(
+                              selectedOiLevel.expiration,
+                            )}</span
+                          >
+                        </div>
+                      {/if}
+                      {#if selectedOiLevel.dte !== null}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >DTE</span
+                          >
+                          <span class="font-medium">{selectedOiLevel.dte}d</span
+                          >
+                        </div>
+                      {/if}
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Total OI</span
+                        >
+                        <span class="font-medium text-purple-400">
+                          {formatCount(selectedOiLevel.totalOi)}
+                        </span>
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Call OI</span
+                        >
+                        <span class="text-emerald-800 dark:text-emerald-400"
+                          >{formatCount(selectedOiLevel.callOi)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Put OI</span
+                        >
+                        <span class="text-rose-800 dark:text-rose-400"
+                          >{formatCount(selectedOiLevel.putOi)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >P/C Ratio</span
+                        >
+                        <span
+                          class="font-medium {selectedOiLevel.callOi > 0 &&
+                          selectedOiLevel.putOi / selectedOiLevel.callOi > 1
+                            ? 'text-rose-800 dark:text-rose-400'
+                            : 'text-emerald-800 dark:text-emerald-400'}"
+                        >
+                          {selectedOiLevel.callOi > 0
+                            ? (
+                                selectedOiLevel.putOi / selectedOiLevel.callOi
+                              ).toFixed(2)
+                            : "N/A"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Explanation -->
+                    <div
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                    >
+                      <p>
+                        High OI here indicates significant positioning. May act
+                        as support/resistance.
+                      </p>
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/{assetType}/{ticker}/options/oi"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                    >
+                      View all levels
+                    </a>
+                  </div>
+                </div>
+              {/if}
+
+              <!-- Hottest Contracts horizontal levels overlay -->
+              {#if indicatorState.hottest && hottestLevels.length > 0}
+                <div class="absolute inset-0 pointer-events-none z-[4]">
+                  {#each hottestLevels as level (level.strike + level.optionType + level.expiration)}
+                    {#if level.visible}
+                      <!-- Horizontal line - solid green for calls, solid red for puts -->
+                      <div
+                        class="absolute left-0 right-0 pointer-events-auto cursor-pointer transition-opacity hover:opacity-100"
+                        style="top: {level.y}px; height: {1.5 +
+                          level.intensity *
+                            2}px; background: {level.optionType === 'C'
+                          ? 'rgba(16, 185, 129, ' +
+                            (0.5 + level.intensity * 0.5) +
+                            ')'
+                          : 'rgba(244, 63, 94, ' +
+                            (0.5 + level.intensity * 0.5) +
+                            ')'}; opacity: {0.6 + level.intensity * 0.4}"
+                        on:click={(e) => handleHottestLevelClick(level, e)}
+                        on:keypress={(e) =>
+                          e.key === "Enter" &&
+                          handleHottestLevelClick(level, e)}
+                        role="button"
+                        tabindex="0"
+                        aria-label="Hottest contract at ${level.strike}"
+                      ></div>
+                      {#if level.showLabel}
+                        <div
+                          class="absolute right-2 pointer-events-auto cursor-pointer"
+                          style="top: {level.y - 10}px;"
+                          on:click={(e) => handleHottestLevelClick(level, e)}
+                          on:keypress={(e) =>
+                            e.key === "Enter" &&
+                            handleHottestLevelClick(level, e)}
+                          role="button"
+                          tabindex="0"
+                          aria-label="Hottest contract label at ${level.strike}"
+                        >
+                          <span
+                            class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
+                              level.optionType === "C"
+                                ? "text-emerald-200 border-emerald-500/30"
+                                : "text-rose-200 border-rose-500/30"
+                            }`}
+                          >
+                            HOT {level.optionType}
+                            {formatExpiration(level.expiration)}
+                            {formatCount(level.volume)}
+                          </span>
+                        </div>
+                      {/if}
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- Hottest Contracts popup -->
+              {#if selectedHottestLevel}
+                <!-- Click outside to close (behind popup) -->
+                <button
+                  class="fixed inset-0 z-[6] cursor-default bg-transparent"
+                  on:click={closeHottestPopup}
+                  aria-label="Close Hottest Contracts popup"
+                ></button>
+                <div
+                  class="absolute z-[7] pointer-events-auto w-[260px]"
+                  style="left: {hottestPopupPosition.x}px; top: {hottestPopupPosition.y}px;"
+                >
+                  <div
+                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                  >
+                    <!-- Header -->
+                    <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div
+                        class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                        style="background: {selectedHottestLevel.optionType ===
+                        'C'
+                          ? '#10b981'
+                          : '#f43f5e'}"
+                      ></div>
+                      <h3
+                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                      >
+                        {selectedHottestLevel.optionType === "C"
+                          ? "Call"
+                          : "Put"}
+                        {formatPrice(selectedHottestLevel.strike)}
+                      </h3>
+                      <button
+                        class="cursor-pointer ml-auto text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        on:click={closeHottestPopup}
+                        aria-label="Close"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Contract info -->
+                    <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Expiration</span
+                        >
+                        <span class="font-medium"
+                          >{formatExpiration(
+                            selectedHottestLevel.expiration,
+                          )}</span
+                        >
+                      </div>
+                      {#if selectedHottestLevel.dte !== null}
+                        <div
+                          class="flex justify-between text-gray-700 dark:text-zinc-300"
+                        >
+                          <span class="text-gray-500 dark:text-zinc-400"
+                            >DTE</span
+                          >
+                          <span class="font-medium"
+                            >{selectedHottestLevel.dte}d</span
+                          >
+                        </div>
+                      {/if}
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Volume</span
+                        >
+                        <span class="font-medium text-amber-400">
+                          {formatCount(selectedHottestLevel.volume)}
+                        </span>
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Open Interest</span
+                        >
+                        <span class="text-purple-400"
+                          >{formatCount(
+                            selectedHottestLevel.openInterest,
+                          )}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Last Price</span
+                        >
+                        <span
+                          class={selectedHottestLevel.optionType === "C"
+                            ? "text-emerald-800 dark:text-emerald-400"
+                            : "text-rose-800 dark:text-rose-400"}
+                          >{formatPrice(selectedHottestLevel.last)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400">IV</span>
+                        <span class="font-medium"
+                          >{formatIvPercent(selectedHottestLevel.iv)}</span
+                        >
+                      </div>
+                      <div
+                        class="flex justify-between text-gray-700 dark:text-zinc-300"
+                      >
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Premium</span
+                        >
+                        <span class="font-medium"
+                          >${formatCount(selectedHottestLevel.premium)}</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Explanation -->
+                    <div
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                    >
+                      <p>
+                        High volume contract. Large trades here may signal
+                        institutional activity or hedging.
+                      </p>
+                    </div>
+
+                    <!-- Link to more details -->
+                    <a
+                      href="/{assetType}/{ticker}/options/hottest-contracts/volume"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                    >
+                      View all contracts
+                    </a>
+                  </div>
+                </div>
+              {/if}
+
+              {#if !currentBars.length}
+                <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
+                  <div class="relative">
+                    <label
+                      class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    >
+                      <span
+                        class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              {/if}
             </div>
           </Pane>
-        {/if}
+          {#if isDesktop}
+            <Pane
+              bind:size={rightSidebarSize}
+              minSize={rightSidebarOpen
+                ? RIGHT_SIDEBAR_MIN_SIZE
+                : rightSidebarCollapsedSize}
+              maxSize={rightSidebarOpen
+                ? RIGHT_SIDEBAR_MAX_SIZE
+                : rightSidebarCollapsedSize}
+            >
+              <div
+                class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0b0b0d]"
+              >
+                {#if rightSidebarOpen}
+                  <ChartRightSidebar
+                    currentSymbol={ticker}
+                    activeTab={rightSidebarTab}
+                  />
+                {/if}
+                <div
+                  class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2"
+                >
+                  <button
+                    class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                      rightSidebarOpen && rightSidebarTab === "watchlist"
+                        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                    }`}
+                    on:click={() => toggleRightSidebar("watchlist")}
+                    title="Watchlist"
+                    aria-pressed={rightSidebarOpen &&
+                      rightSidebarTab === "watchlist"}
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      />
+                    </svg>
+                  </button>
+
+                  <button
+                    class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                      rightSidebarOpen && rightSidebarTab === "alerts"
+                        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                    }`}
+                    on:click={() => toggleRightSidebar("alerts")}
+                    title="Price alerts"
+                    aria-pressed={rightSidebarOpen &&
+                      rightSidebarTab === "alerts"}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      viewBox="0 0 24 24"
+                    >
+                      <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                      >
+                        <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+                        <circle cx="12" cy="13" r="8" />
+                        <path d="M9.5 13h5M12 10.5v5" />
+                      </g>
+                    </svg>
+                  </button>
+
+                  <div class="mt-auto flex flex-col items-center pb-2">
+                    <button
+                      class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                      on:click={() => toggleRightSidebar()}
+                      title={rightSidebarOpen ? "Hide sidebar" : "Show sidebar"}
+                    >
+                      {#if rightSidebarOpen}
+                        <svg
+                          viewBox="0 0 24 24"
+                          class="h-5 w-5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                      {:else}
+                        <svg
+                          viewBox="0 0 24 24"
+                          class="h-5 w-5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="m9 6 6 6-6 6" />
+                        </svg>
+                      {/if}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Pane>
+          {/if}
         </Splitpanes>
       </div>
     </div>
@@ -10327,8 +10407,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg>
-
+                        /></svg
+                      >
                     </button>
                   {/if}
                 </div>
@@ -10377,8 +10457,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg>
-
+                        /></svg
+                      >
                     </button>
                   {/if}
                 </div>
@@ -10427,8 +10507,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg>
-
+                        /></svg
+                      >
                     </button>
                   {/if}
                 </div>
@@ -10663,7 +10743,8 @@
                   on:click|stopPropagation
                   on:pointerdown|stopPropagation
                 >
-                  <span class="text-gray-700 dark:text-zinc-300">News Flow</span>
+                  <span class="text-gray-700 dark:text-zinc-300">News Flow</span
+                  >
                   <div class="relative ml-4 flex items-center">
                     <input
                       type="checkbox"
@@ -10736,7 +10817,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <!-- Handle bar -->
     <div class="flex justify-center py-2">
@@ -10874,7 +10956,8 @@
               ><path
                 fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-              /></svg>
+              /></svg
+            >
           </label>
         </div>
 
@@ -10927,8 +11010,8 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M6 18L18 6M6 6l12 12"
-                  ></path></svg>
-
+                  ></path></svg
+                >
               </button>
             </div>
 
@@ -12183,8 +12266,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
-
+        /></svg
+      >
     </label>
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -12236,8 +12319,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
-
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Strategy
@@ -12274,8 +12357,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-Delete Strategy</label
+          ></line></svg
+        >
+        Delete Strategy</label
       >
     </div>
   </div>
@@ -12300,19 +12384,29 @@ Delete Strategy</label
     border-left: 1px solid rgba(203, 213, 225, 0.8);
   }
 
-  :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter) {
+  :global(
+    .dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter
+  ) {
     background-color: #111215 !important;
     border-left-color: rgba(39, 39, 42, 0.9);
   }
 
-  :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before),
-  :global(.chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after) {
+  :global(
+    .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before
+  ),
+  :global(
+    .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after
+  ) {
     background-color: rgba(148, 163, 184, 0.8);
     height: 28px;
   }
 
-  :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before),
-  :global(.dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after) {
+  :global(
+    .dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:before
+  ),
+  :global(
+    .dark .chart-splitpanes.splitpanes--vertical > .splitpanes__splitter:after
+  ) {
     background-color: rgba(113, 113, 122, 0.8);
   }
 
