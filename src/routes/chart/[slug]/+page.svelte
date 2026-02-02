@@ -1435,14 +1435,14 @@
     "4hour": 90,
   };
 
-  // Pro limits (3x for 1min/5min, 4x for others)
+  // Pro limits (3x for 1min/5min, 1 year for 15min/30min, 3 years for 1hour/4hour)
   const intradayHistoryProLimitDaysMap: Record<IntradayInterval, number> = {
     "1min": 90,
     "5min": 90,
     "15min": 360,
     "30min": 360,
-    "1hour": 360,
-    "4hour": 360,
+    "1hour": 1095,
+    "4hour": 1095,
   };
 
   // Dynamic limit based on subscription status
@@ -7249,6 +7249,18 @@
     intradayBars.length
   ) {
     resetMinuteBars();
+  }
+
+  // Reset intradayHistory when ticker changes (for 5min, 15min, 30min, 1hour, 4hour)
+  $: if (
+    typeof window !== "undefined" &&
+    ticker &&
+    ticker !== intradayHistoryTicker
+  ) {
+    intradayHistoryTicker = ticker;
+    intradayHistory = Object.fromEntries(
+      intradayIntervals.map((interval) => [interval, createIntradayState()]),
+    ) as Record<IntradayInterval, IntradayHistoryState>;
   }
 
   $: {
