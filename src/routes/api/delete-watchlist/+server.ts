@@ -1,20 +1,43 @@
 import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-    const { pb } = locals;
-  const data = await request.json();
+  const { user, pb } = locals;
 
-      const watchListId = data?.watchListId
-    let output;
+  if (!user?.id) {
+    return new Response(
+      JSON.stringify({ error: "Authentication required" }),
+      { status: 401 }
+    );
+  }
 
-     try {
-        await pb.collection("watchlist").delete(watchListId)
-        output = 'success';
+  let data;
+  try {
+    data = await request.json();
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "Invalid request body" }),
+      { status: 400 }
+    );
+  }
+
+  const watchListId = data?.watchListId;
+  let output;
+
+  try {
+    const watchlist = await pb.collection("watchlist").getOne(watchListId);
+
+    if (watchlist.user !== user.id) {
+      return new Response(
+        JSON.stringify({ error: "Access denied" }),
+        { status: 403 }
+      );
     }
-    catch(e) {
-        //console.log(e)
-        output = 'failure';
-    }
+
+    await pb.collection("watchlist").delete(watchListId);
+    output = "success";
+  } catch (e) {
+    output = "failure";
+  }
 
   return new Response(JSON.stringify(output));
 };

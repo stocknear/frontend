@@ -10049,7 +10049,6 @@
                 <ChartRightSidebar
                   currentSymbol={ticker}
                   activeTab={rightSidebarTab}
-                  userId={data?.user?.id}
                 />
               {/if}
               <div

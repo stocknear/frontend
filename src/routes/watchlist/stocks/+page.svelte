@@ -1612,9 +1612,6 @@
           required={true}
         />
 
-        <input class="hidden" name="user" value={data?.user?.id} />
-        <input class="hidden" name="ticker" value={JSON.stringify([])} />
-
         <button
           type="submit"
           class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"

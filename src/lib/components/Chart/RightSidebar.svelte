@@ -9,7 +9,6 @@
   import { mode } from "mode-watcher";
 
   export let currentSymbol: string | null = null;
-  export let userId: string | null = null;
 
   type WatchlistSummary = {
     id: string;
@@ -530,13 +529,13 @@
     isCreatingWatchlist = true;
 
     try {
+      // Security: Don't send user ID from client - server uses authenticated session
       const promise = fetch("/api/create-watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: newWatchlistTitle,
           ticker: [],
-          user: userId,
         }),
       }).then(async (res) => {
         const output = await res.json();
