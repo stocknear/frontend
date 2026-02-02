@@ -797,12 +797,11 @@
   let selectedAnalystTargetLevel: AnalystTargetLevel | null = null;
   let analystTargetPopupPosition = { x: 0, y: 0 };
 
-  $: isSubscribed = data?.isSubscribed ?? (data?.user?.tier === "Pro");
+  $: isSubscribed = data?.isSubscribed ?? data?.user?.tier === "Pro";
 
   // Responsive breakpoint helpers
   $: isMobile = $screenWidth > 0 && $screenWidth < 640;
-  $: isTablet = $screenWidth >= 640 && $screenWidth < 1024;
-  $: isDesktop = $screenWidth >= 1024;
+  $: isDesktop = $screenWidth >= 840;
 
   // Save event toggle states to localStorage
   const saveEventSettings = () => {
@@ -1685,8 +1684,8 @@
   };
   type RightSidebarTab = "watchlist" | "alerts";
   const RIGHT_RAIL_WIDTH_PX = 54;
-  const RIGHT_SIDEBAR_MIN_SIZE = 18;
-  const RIGHT_SIDEBAR_MAX_SIZE = 35;
+  const RIGHT_SIDEBAR_MIN_SIZE = 10;
+  const RIGHT_SIDEBAR_MAX_SIZE = 340;
   const RIGHT_SIDEBAR_DEFAULT_SIZE = 24;
   let rightSidebarOpen = true;
   let rightSidebarTab: RightSidebarTab = "watchlist";
@@ -10314,6 +10313,7 @@
                   <ChartRightSidebar
                     currentSymbol={ticker}
                     activeTab={rightSidebarTab}
+                    wsURL={data?.wsURL}
                   />
                 {/if}
                 <div

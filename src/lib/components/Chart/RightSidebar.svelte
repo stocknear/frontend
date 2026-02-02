@@ -7,8 +7,11 @@
   import { Combobox } from "bits-ui";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { isOpen } from "$lib/store";
+  import { calculateChange } from "$lib/utils";
 
   export let currentSymbol: string | null = null;
+  export let wsURL: string | null = null;
 
   type WatchlistSummary = {
     id: string;
@@ -23,6 +26,7 @@
     changesPercentage?: number | string | null;
     volume?: number | string | null;
     type?: string;
+    previous?: number | null;
   };
 
   type WatchlistGroup = {
@@ -95,6 +99,10 @@
   let isDeleteModalOpen = false;
   let watchlistToDelete: WatchlistSummary | null = null;
   let isDeletingWatchlist = false;
+
+  // WebSocket state for real-time price updates
+  let socket: WebSocket | null = null;
+  let lastSubscribedSymbols: string[] = [];
 
   $: isLoading = isLoadingWatchlists || isLoadingItems;
   $: headerTitle =
@@ -637,12 +645,95 @@
       ? `https://financialmodelingprep.com/image-stock/${symbol.toUpperCase()}.png`
       : "";
 
+  // WebSocket functions for real-time price updates
+  function sendWsMessage(message: string[]) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify(message));
+    }
+  }
+
+  function connectWebSocket() {
+    if (!wsURL || !$isOpen || watchlistItems.length === 0) return;
+    if (
+      socket &&
+      (socket.readyState === WebSocket.CONNECTING ||
+        socket.readyState === WebSocket.OPEN)
+    ) {
+      // Already connected, just update subscription if needed
+      const currentSymbols = watchlistItems
+        .map((item) => item.symbol)
+        .filter(Boolean) as string[];
+      const symbolsChanged =
+        JSON.stringify(currentSymbols.sort()) !==
+        JSON.stringify(lastSubscribedSymbols.sort());
+      if (symbolsChanged && socket.readyState === WebSocket.OPEN) {
+        lastSubscribedSymbols = currentSymbols;
+        sendWsMessage(currentSymbols);
+      }
+      return;
+    }
+
+    try {
+      socket = new WebSocket(wsURL + "/price-data");
+
+      socket.addEventListener("open", () => {
+        const tickerList = watchlistItems
+          .map((item) => item.symbol)
+          .filter(Boolean) as string[];
+        if (tickerList.length > 0) {
+          lastSubscribedSymbols = tickerList;
+          sendWsMessage(tickerList);
+        }
+      });
+
+      socket.addEventListener("message", (event) => {
+        try {
+          const newList = JSON.parse(event.data);
+          if (Array.isArray(newList) && newList.length > 0) {
+            watchlistItems = calculateChange(watchlistItems, newList);
+            // Clear previous after flash animation
+            setTimeout(() => {
+              watchlistItems = watchlistItems.map((item) => ({
+                ...item,
+                previous: null,
+              }));
+            }, 800);
+          }
+        } catch (e) {
+          console.error("Error parsing WebSocket message:", e);
+        }
+      });
+
+      socket.addEventListener("close", () => {
+        // Connection closed - will reconnect via reactive statement if needed
+      });
+    } catch (error) {
+      console.error("WebSocket connection error:", error);
+    }
+  }
+
+  function disconnectWebSocket() {
+    if (socket) {
+      socket.close();
+      socket = null;
+      lastSubscribedSymbols = [];
+    }
+  }
+
+  // Reactive: Connect/disconnect WebSocket based on market status
+  $: if ($isOpen && wsURL && watchlistItems.length > 0 && activeTab === "watchlist") {
+    connectWebSocket();
+  } else if (!$isOpen || activeTab !== "watchlist") {
+    disconnectWebSocket();
+  }
+
   onMount(() => {
     loadCollapsedGroups();
     loadWatchlists();
   });
 
   onDestroy(() => {
+    disconnectWebSocket();
     if (watchlistsController) {
       watchlistsController.abort();
       watchlistsController = null;
@@ -664,7 +755,7 @@
     {#if activeTab === "alerts"}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="size-3.5"
+        class="size-4"
         viewBox="0 0 24 24"
       >
         <g
@@ -679,7 +770,7 @@
           <path d="M9.5 13h5M12 10.5v5" />
         </g>
       </svg>
-      <span>Price alerts</span>
+      <span class="text-sm">Price alerts</span>
     {:else}
       <svg
         class="size-4"
@@ -1047,13 +1138,26 @@
                 </span>
 
                 <!-- Price -->
-                <span class="text-right tabular-nums"
+                <span
+                  class="text-right tabular-nums transition-colors duration-300 {item?.previous != null
+                    ? toNumber(item?.price) > item.previous
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : toNumber(item?.price) < item.previous
+                        ? 'text-rose-600 dark:text-rose-400'
+                        : ''
+                    : ''}"
                   >{formatPrice(item?.price)}</span
                 >
 
                 <!-- Change % -->
                 <span
-                  class={`text-right tabular-nums ${getChangeClass(toNumber(item?.changesPercentage))}`}
+                  class="text-right tabular-nums transition-colors duration-300 {item?.previous != null
+                    ? toNumber(item?.price) > item.previous
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : toNumber(item?.price) < item.previous
+                        ? 'text-rose-600 dark:text-rose-400'
+                        : getChangeClass(toNumber(item?.changesPercentage))
+                    : getChangeClass(toNumber(item?.changesPercentage))}"
                 >
                   {formatPercent(toNumber(item?.changesPercentage))}
                 </span>
