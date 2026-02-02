@@ -705,28 +705,25 @@
           alignOffset={0}
           class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
         >
-          <DropdownMenu.Label>
-            <label
-              for="createWatchlistModal"
-              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
-              on:click={() => (isCreateModalOpen = true)}
+          <DropdownMenu.Item
+            on:click={() => (isCreateModalOpen = true)}
+            class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
+          >
+            <svg
+              class="h-4 w-4 mr-1"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
             >
-              <svg
-                class="h-4 w-4 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                style="max-width:40px"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span class="text-sm">New Watchlist</span>
-            </label>
-          </DropdownMenu.Label>
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="text-sm">New Watchlist</span>
+          </DropdownMenu.Item>
           <DropdownMenu.Separator />
           <DropdownMenu.Group>
             {#each watchlists as list}
