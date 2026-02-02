@@ -9,6 +9,7 @@
   import { mode } from "mode-watcher";
 
   export let currentSymbol: string | null = null;
+  export let userId: string | null = null;
 
   type WatchlistSummary = {
     id: string;
@@ -58,7 +59,7 @@
 
   let watchlists: WatchlistSummary[] = [];
   let activeWatchlistId: string | null = null;
-  let activeWatchlistTitle = "Watchlist";
+  let activeWatchlistTitle = "Create Watchlist";
   let watchlistItems: WatchlistItem[] = [];
   export let activeTab: SidebarTab = "watchlist";
   let isLoadingWatchlists = false;
@@ -302,14 +303,12 @@
       const output = await response.json();
       watchlists = Array.isArray(output) ? output : [];
 
-      const savedId = safeParse(
-        localStorage?.getItem(WATCHLIST_STORAGE_KEY),
-      );
+      const savedId = safeParse(localStorage?.getItem(WATCHLIST_STORAGE_KEY));
       const selected = watchlists.find((item) => item?.id === savedId);
       const fallback = selected ?? watchlists[0];
 
       activeWatchlistId = fallback?.id ?? null;
-      activeWatchlistTitle = fallback?.title ?? "Watchlist";
+      activeWatchlistTitle = fallback?.title ?? "Create Watchlist";
 
       if (activeWatchlistId) {
         updateLocalStorageWatchlist(activeWatchlistId);
@@ -440,7 +439,7 @@
 
     // Update local state immediately
     watchlistItems = watchlistItems.filter(
-      (item) => !deleteTickerList.includes(item?.symbol ?? "")
+      (item) => !deleteTickerList.includes(item?.symbol ?? ""),
     );
 
     editMode = false;
@@ -534,7 +533,11 @@
       const promise = fetch("/api/create-watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: newWatchlistTitle, ticker: JSON.stringify([]) }),
+        body: JSON.stringify({
+          title: newWatchlistTitle,
+          ticker: [],
+          user: userId,
+        }),
       }).then(async (res) => {
         const output = await res.json();
         if (!res.ok)
@@ -595,7 +598,9 @@
         });
 
         // Remove deleted watchlist from array
-        watchlists = watchlists.filter((item) => item.id !== watchlistToDelete?.id);
+        watchlists = watchlists.filter(
+          (item) => item.id !== watchlistToDelete?.id,
+        );
 
         // If the deleted watchlist was active, switch to the first remaining one
         if (activeWatchlistId === watchlistToDelete.id) {
@@ -650,12 +655,18 @@
   });
 </script>
 
-<div class="tv-right-panel flex h-full flex-1 flex-col bg-white dark:bg-[#0b0b0d]">
+<div
+  class="tv-right-panel flex h-full flex-1 flex-col bg-white dark:bg-[#0b0b0d]"
+>
   <!-- Header with watchlist dropdown -->
-  <div class="flex items-center px-2 py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]">
+  <div
+    class="flex items-center px-2 py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]"
+  >
     <!-- Watchlist Dropdown or Alerts Title -->
     {#if activeTab === "alerts"}
-      <div class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 dark:text-zinc-200">
+      <div
+        class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 dark:text-zinc-200"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="size-3.5"
@@ -736,7 +747,9 @@
                   ? 'text-violet-800 dark:text-violet-400'
                   : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
               >
-                {list.title ?? "Watchlist"} ({Array.isArray(list.ticker) ? list.ticker.length : 0})
+                {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
+                  ? list.ticker.length
+                  : 0})
                 <label
                   class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
                   on:click|stopPropagation={() => openDeleteModal(list)}
@@ -767,7 +780,7 @@
           <DropdownMenu.Separator />
           <DropdownMenu.Item
             on:click={() => goto("/watchlist/stocks")}
-            class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+            class="flex items-center gap-2 text-xs cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
           >
             <svg
               class="size-4"
@@ -791,7 +804,9 @@
 
   <!-- Add stocks search input and Edit button in same row -->
   {#if activeTab === "watchlist" && activeWatchlistId}
-    <div class="flex items-center gap-2 px-2 py-2 border-b border-gray-200 dark:border-zinc-800">
+    <div
+      class="flex items-center gap-2 px-2 py-2 border-b border-gray-200 dark:border-zinc-800"
+    >
       <!-- Add stocks input -->
       <div class="flex-1">
         <Combobox.Root
@@ -821,12 +836,18 @@
                   on:click={() => handleAddTicker(item?.symbol)}
                 >
                   <div class="flex flex-col items-start">
-                    <span class="text-xs text-gray-700 dark:text-zinc-200">{item?.symbol}</span>
-                    <span class="text-[10px] text-gray-500 dark:text-zinc-400">{item?.name}</span>
+                    <span class="text-xs text-gray-700 dark:text-zinc-200"
+                      >{item?.symbol}</span
+                    >
+                    <span class="text-[10px] text-gray-500 dark:text-zinc-400"
+                      >{item?.name}</span
+                    >
                   </div>
                 </Combobox.Item>
               {:else}
-                <span class="block px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
+                <span
+                  class="block px-3 py-2 text-xs text-gray-500 dark:text-zinc-400"
+                >
                   No results found
                 </span>
               {/each}
@@ -898,7 +919,9 @@
   <div class="flex-1 overflow-y-auto">
     {#if activeTab === "alerts"}
       <div class="px-4 py-6 text-sm text-gray-500 dark:text-zinc-400">
-        <div class="flex items-center gap-2 text-gray-700 dark:text-zinc-200 font-semibold">
+        <div
+          class="flex items-center gap-2 text-gray-700 dark:text-zinc-200 font-semibold"
+        >
           Price alerts
         </div>
         <p class="mt-2 text-xs leading-relaxed">
@@ -913,121 +936,129 @@
           Create alert
         </button>
       </div>
+    {:else if isLoading}
+      <div class="px-4 py-6 text-sm text-gray-500 dark:text-zinc-400">
+        Loading watchlist...
+      </div>
+    {:else if errorMessage}
+      <div class="px-4 py-6 text-sm text-rose-600 dark:text-rose-400">
+        {errorMessage}
+      </div>
+    {:else if watchlistItems.length === 0}
+      <div class="px-4 py-6 text-sm text-gray-500 dark:text-zinc-400">
+        Add tickers to see them here.
+      </div>
     {:else}
-      {#if isLoading}
-        <div class="px-4 py-6 text-sm text-gray-500 dark:text-zinc-400">
-          Loading watchlist...
-        </div>
-      {:else if errorMessage}
-        <div class="px-4 py-6 text-sm text-rose-600 dark:text-rose-400">
-          {errorMessage}
-        </div>
-      {:else if watchlistItems.length === 0}
-        <div class="px-4 py-6 text-sm text-gray-500 dark:text-zinc-400">
-          Add tickers to see them here.
-        </div>
-      {:else}
-        <div class="px-3 py-2 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2">
-          <span>Symbol</span>
-          <span class="text-right">Price</span>
-          <span class="text-right">Chg%</span>
-          <span class="text-right">Vol</span>
-        </div>
+      <div
+        class="px-3 py-2 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2"
+      >
+        <span>Symbol</span>
+        <span class="text-right">Price</span>
+        <span class="text-right">Chg%</span>
+        <span class="text-right">Vol</span>
+      </div>
 
-        <div class="pb-4">
-          {#each groupedItems as group}
-            <!-- Group Header (Collapsible) -->
-            {#if group.label}
+      <div class="pb-4">
+        {#each groupedItems as group}
+          <!-- Group Header (Collapsible) -->
+          {#if group.label}
+            <button
+              type="button"
+              class="w-full flex items-center gap-1 px-3 py-1.5 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-500 hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition border-b border-gray-200/60 dark:border-zinc-800/70"
+              on:click={() => toggleGroupCollapse(group.key)}
+            >
+              <ChevronRight
+                class="size-3 transition-transform {collapsedGroups.has(
+                  group.key,
+                )
+                  ? ''
+                  : 'rotate-90'}"
+              />
+              <span>{group.label}</span>
+              <span class="ml-auto text-[9px] text-gray-400 dark:text-zinc-600"
+                >({group.items.length})</span
+              >
+            </button>
+          {/if}
+
+          <!-- Group Items -->
+          {#if !collapsedGroups.has(group.key)}
+            {#each group.items as item}
+              {@const isActive = isActiveSymbol(item?.symbol)}
+              {@const isSelected = deleteTickerList.includes(
+                item?.symbol ?? "",
+              )}
               <button
                 type="button"
-                class="w-full flex items-center gap-1 px-3 py-1.5 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-500 hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition border-b border-gray-200/60 dark:border-zinc-800/70"
-                on:click={() => toggleGroupCollapse(group.key)}
+                class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {editMode &&
+                isSelected
+                  ? 'bg-rose-50 dark:bg-rose-500/10 text-gray-900 dark:text-white'
+                  : isActive
+                    ? 'bg-blue-500/10 text-gray-900 dark:text-white'
+                    : 'hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200'}"
+                title={item?.name ?? item?.symbol}
+                on:click={() => {
+                  if (editMode) {
+                    handleFilter(item?.symbol ?? "");
+                  } else {
+                    navigateToSymbol(item?.symbol);
+                  }
+                }}
               >
-                <ChevronRight
-                  class="size-3 transition-transform {collapsedGroups.has(group.key)
-                    ? ''
-                    : 'rotate-90'}"
-                />
-                <span>{group.label}</span>
-                <span class="ml-auto text-[9px] text-gray-400 dark:text-zinc-600"
-                  >({group.items.length})</span
+                <!-- Symbol with Logo and Status Dot (or Checkbox in edit mode) -->
+                <span class="flex items-center gap-1.5 truncate">
+                  {#if editMode}
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      on:click|stopPropagation={() =>
+                        handleFilter(item?.symbol ?? "")}
+                      class="size-3.5 rounded border-gray-300 dark:border-zinc-600 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                    />
+                  {:else}
+                    <img
+                      src={getLogoUrl(item?.symbol)}
+                      alt=""
+                      class="size-4 rounded-full object-cover flex-shrink-0"
+                      style="clip-path: circle(50%);"
+                      loading="lazy"
+                      on:error={(e) => {
+                        const target = e.target;
+                        if (target instanceof HTMLImageElement) {
+                          target.style.display = "none";
+                        }
+                      }}
+                    />
+                    <span class="text-emerald-500 text-[6px]">●</span>
+                  {/if}
+                  <span class="font-semibold truncate"
+                    >{item?.symbol ?? "-"}</span
+                  >
+                </span>
+
+                <!-- Price -->
+                <span class="text-right tabular-nums"
+                  >{formatPrice(item?.price)}</span
                 >
+
+                <!-- Change % -->
+                <span
+                  class={`text-right tabular-nums ${getChangeClass(toNumber(item?.changesPercentage))}`}
+                >
+                  {formatPercent(toNumber(item?.changesPercentage))}
+                </span>
+
+                <!-- Volume -->
+                <span
+                  class="text-right tabular-nums text-gray-500 dark:text-zinc-400"
+                >
+                  {formatVolume(item?.volume)}
+                </span>
               </button>
-            {/if}
-
-            <!-- Group Items -->
-            {#if !collapsedGroups.has(group.key)}
-              {#each group.items as item}
-                {@const isActive = isActiveSymbol(item?.symbol)}
-                {@const isSelected = deleteTickerList.includes(item?.symbol ?? "")}
-                <button
-                  type="button"
-                  class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {editMode && isSelected
-                    ? 'bg-rose-50 dark:bg-rose-500/10 text-gray-900 dark:text-white'
-                    : isActive
-                      ? 'bg-blue-500/10 text-gray-900 dark:text-white'
-                      : 'hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200'}"
-                  title={item?.name ?? item?.symbol}
-                  on:click={() => {
-                    if (editMode) {
-                      handleFilter(item?.symbol ?? "");
-                    } else {
-                      navigateToSymbol(item?.symbol);
-                    }
-                  }}
-                >
-                  <!-- Symbol with Logo and Status Dot (or Checkbox in edit mode) -->
-                  <span class="flex items-center gap-1.5 truncate">
-                    {#if editMode}
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        on:click|stopPropagation={() => handleFilter(item?.symbol ?? "")}
-                        class="size-3.5 rounded border-gray-300 dark:border-zinc-600 text-violet-600 focus:ring-violet-500 cursor-pointer"
-                      />
-                    {:else}
-                      <img
-                        src={getLogoUrl(item?.symbol)}
-                        alt=""
-                        class="size-4 rounded-full object-cover flex-shrink-0"
-                        style="clip-path: circle(50%);"
-                        loading="lazy"
-                        on:error={(e) => {
-                          const target = e.target;
-                          if (target instanceof HTMLImageElement) {
-                            target.style.display = "none";
-                          }
-                        }}
-                      />
-                      <span class="text-emerald-500 text-[6px]">●</span>
-                    {/if}
-                    <span class="font-semibold truncate"
-                      >{item?.symbol ?? "-"}</span
-                    >
-                  </span>
-
-                  <!-- Price -->
-                  <span class="text-right tabular-nums"
-                    >{formatPrice(item?.price)}</span
-                  >
-
-                  <!-- Change % -->
-                  <span
-                    class={`text-right tabular-nums ${getChangeClass(toNumber(item?.changesPercentage))}`}
-                  >
-                    {formatPercent(toNumber(item?.changesPercentage))}
-                  </span>
-
-                  <!-- Volume -->
-                  <span class="text-right tabular-nums text-gray-500 dark:text-zinc-400">
-                    {formatVolume(item?.volume)}
-                  </span>
-                </button>
-              {/each}
-            {/if}
-          {/each}
-        </div>
-      {/if}
+            {/each}
+          {/if}
+        {/each}
+      </div>
     {/if}
   </div>
 </div>
@@ -1041,7 +1072,8 @@
 />
 
 <dialog id="createWatchlistModal" class="modal modal-bottom sm:modal-middle">
-  <label for="createWatchlistModal" class="cursor-pointer modal-backdrop"></label>
+  <label for="createWatchlistModal" class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -1067,7 +1099,9 @@
       <h3 class="font-bold text-2xl mb-5">New Watchlist</h3>
 
       <form on:submit={handleCreateWatchlist} class="space-y-2 w-full m-auto">
-        <div class="form-control w-full max-w-2xl mb-2 text-gray-700 dark:text-white">
+        <div
+          class="form-control w-full max-w-2xl mb-2 text-gray-700 dark:text-white"
+        >
           <label for="watchlistTitle" class="label pb-1">
             <span class="text-gray-700 dark:text-white">List Name</span>
           </label>
@@ -1105,7 +1139,8 @@
 />
 
 <dialog id="deleteWatchlistModal" class="modal modal-middle p-3 sm:p-0">
-  <label for="deleteWatchlistModal" class="cursor-pointer modal-backdrop"></label>
+  <label for="deleteWatchlistModal" class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -1129,7 +1164,8 @@
 
     <h3 class="text-lg font-medium mb-2">Delete Watchlist</h3>
     <p class="text-sm mb-6">
-      Are you sure you want to delete "{watchlistToDelete?.title ?? 'this watchlist'}"? This action cannot be undone.
+      Are you sure you want to delete "{watchlistToDelete?.title ??
+        "this watchlist"}"? This action cannot be undone.
     </p>
 
     <div class="flex justify-end space-x-3">
@@ -1158,7 +1194,9 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <polyline points="3 6 5 6 21 6"></polyline>
-          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          ></path>
           <line x1="10" y1="11" x2="10" y2="17"></line>
           <line x1="14" y1="11" x2="14" y2="17"></line>
         </svg>
