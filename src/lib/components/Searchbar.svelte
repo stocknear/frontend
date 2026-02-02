@@ -26,6 +26,15 @@
 
   $: inputValue = "";
   let nextPage = false;
+
+  // Clear search input (delayed to run after Combobox internal handler)
+  const clearSearchInput = () => {
+    setTimeout(() => {
+      inputValue = "";
+      searchBarData = [];
+      touchedInput = false;
+    }, 0);
+  };
   let searchOpen = false;
   let searchBarModalChecked = false; // Initialize it to false
   let inputElement;
@@ -81,7 +90,7 @@
     if (prevRoot === "chart") {
       const newPath = `/chart/${upperSymbol}`;
       await goto(newPath, { replaceState: true });
-      inputValue = "";
+      clearSearchInput();
       isNavigatingWithSpinner = false;
 
       // Update search history for chart navigation
@@ -183,7 +192,7 @@
     // Navigate and wait for completion
     await goto(newPath, { replaceState: true });
 
-    inputValue = "";
+    clearSearchInput();
     isNavigatingWithSpinner = false; // Hide spinner after navigation
 
     // Find the item in searchBarData, searchHistory, or popularList
