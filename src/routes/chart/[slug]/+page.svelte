@@ -374,7 +374,7 @@
       // Check hostname against whitelist (allow subdomains)
       const hostname = parsed.hostname.toLowerCase();
       return ALLOWED_WS_HOSTS.some(
-        (allowed) => hostname === allowed || hostname.endsWith("." + allowed)
+        (allowed) => hostname === allowed || hostname.endsWith("." + allowed),
       );
     } catch {
       return false;
@@ -1413,7 +1413,13 @@
   let ticker = "";
   let dailyBars: KLineData[] = [];
   let intradayBars: KLineData[] = [];
-  type IntradayInterval = "1min" | "5min" | "15min" | "30min" | "1hour" | "4hour";
+  type IntradayInterval =
+    | "1min"
+    | "5min"
+    | "15min"
+    | "30min"
+    | "1hour"
+    | "4hour";
   const intradayIntervals: IntradayInterval[] = [
     "1min",
     "5min",
@@ -1724,8 +1730,9 @@
   const RIGHT_RAIL_WIDTH_PX = 54;
   const RIGHT_SIDEBAR_MIN_SIZE = 10;
   const RIGHT_SIDEBAR_MAX_SIZE = 340;
-  const RIGHT_SIDEBAR_DEFAULT_SIZE = 24;
-  let rightSidebarOpen = true;
+  const RIGHT_SIDEBAR_DEFAULT_SIZE = 15;
+  const RIGHT_SIDEBAR_STORAGE_KEY = "chart-right-sidebar-state";
+  let rightSidebarOpen = false;
   let rightSidebarTab: RightSidebarTab = "watchlist";
   let rightSidebarSize = RIGHT_SIDEBAR_DEFAULT_SIZE;
   let rightSidebarOpenSize = RIGHT_SIDEBAR_DEFAULT_SIZE;
@@ -1735,6 +1742,40 @@
 
   const clampRightSidebarOpenSize = (value: number) =>
     Math.min(RIGHT_SIDEBAR_MAX_SIZE, Math.max(RIGHT_SIDEBAR_MIN_SIZE, value));
+
+  const saveRightSidebarState = () => {
+    try {
+      localStorage.setItem(
+        RIGHT_SIDEBAR_STORAGE_KEY,
+        JSON.stringify({
+          open: rightSidebarOpen,
+          tab: rightSidebarTab,
+        }),
+      );
+    } catch {
+      // Ignore localStorage errors
+    }
+  };
+
+  const loadRightSidebarState = () => {
+    try {
+      const saved = localStorage.getItem(RIGHT_SIDEBAR_STORAGE_KEY);
+      if (saved) {
+        const state = JSON.parse(saved);
+        if (typeof state.open === "boolean") {
+          rightSidebarOpen = state.open;
+          if (rightSidebarOpen) {
+            rightSidebarSize = clampRightSidebarOpenSize(rightSidebarOpenSize);
+          }
+        }
+        if (state.tab === "watchlist" || state.tab === "alerts") {
+          rightSidebarTab = state.tab;
+        }
+      }
+    } catch {
+      // Ignore localStorage errors, use defaults
+    }
+  };
 
   const updateRightSidebarCollapsedSize = () => {
     if (!splitpanesContainer) return;
@@ -1757,6 +1798,7 @@
       rightSidebarOpen = true;
     }
     rightSidebarSize = clampRightSidebarOpenSize(rightSidebarOpenSize);
+    saveRightSidebarState();
   };
 
   const closeRightSidebar = () => {
@@ -1766,6 +1808,7 @@
     }
     rightSidebarOpen = false;
     rightSidebarSize = rightSidebarCollapsedSize;
+    saveRightSidebarState();
   };
 
   const toggleRightSidebar = (tab?: RightSidebarTab) => {
@@ -6736,6 +6779,7 @@
 
   onMount(async () => {
     loadIndicatorFavorites();
+    loadRightSidebarState();
     // Load chart settings from localStorage
     const savedSettings = loadChartSettings();
     if (savedSettings) {
