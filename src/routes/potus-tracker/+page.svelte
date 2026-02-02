@@ -151,7 +151,7 @@
   const formatEngagement = (num: number) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
     if (num >= 1000) return (num / 1000).toFixed(1) + "K";
-    return num.toString();
+    return num?.toString();
   };
 
   const formatPostDate = (isoString?: string | null) => {
@@ -992,8 +992,8 @@
                                     stroke-width="2"
                                     stroke-linecap="round"
                                   ></path>
-                                </g></svg>
-
+                                </g></svg
+                              >
                             </a>
 
                             <label
@@ -1030,7 +1030,8 @@
                     ><path d="m67.9385 54.0751h-11.5057v9.3631h11.5057z" /><path
                       d="m63.4377 37.8944v-9.4562h-23.4446v34.9084h11.9665v-25.4522z"
                     /><path d="m24 28.4382h11.4878v9.4539h-11.4878z" /></g
-                  ></svg>
+                  ></svg
+                >
 
                 <h3
                   class="ml-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -1141,58 +1142,60 @@
                       {/if}
 
                       <!-- Engagement stats -->
-                      <div
-                        class="flex flex-row items-center gap-4 mt-3 text-sm text-gray-500 dark:text-zinc-400"
-                      >
-                        <span class="flex items-center gap-1" title="Replies">
-                          <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                            />
-                          </svg>
-                          {formatEngagement(item?.replies_count || 0)}
-                        </span>
-                        <span class="flex items-center gap-1" title="Reblogs">
-                          <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                            />
-                          </svg>
-                          {formatEngagement(item?.reblogs_count || 0)}
-                        </span>
-                        <span class="flex items-center gap-1" title="Likes">
-                          <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                            />
-                          </svg>
-                          {formatEngagement(item?.favourites_count || 0)}
-                        </span>
-                      </div>
+                      {#if item?.replies_count > 0 && item?.reblogs_count > 0 && item?.favourites_count > 0}
+                        <div
+                          class="flex flex-row items-center gap-4 mt-3 text-sm text-gray-500 dark:text-zinc-400"
+                        >
+                          <span class="flex items-center gap-1" title="Replies">
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                              />
+                            </svg>
+                            {formatEngagement(item?.replies_count || 0)}
+                          </span>
+                          <span class="flex items-center gap-1" title="Reblogs">
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                              />
+                            </svg>
+                            {formatEngagement(item?.reblogs_count || 0)}
+                          </span>
+                          <span class="flex items-center gap-1" title="Likes">
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                              />
+                            </svg>
+                            {formatEngagement(item?.favourites_count || 0)}
+                          </span>
+                        </div>
+                      {/if}
 
                       <div
                         class="flex flex-row items-center justify-end mt-4 w-full border-b border-gray-300 dark:border-zinc-700 pb-2"
@@ -1223,8 +1226,8 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                               ></path>
-                            </g></svg>
-
+                            </g></svg
+                          >
                         </button>
 
                         <label
@@ -1339,7 +1342,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="flex items-start space-x-3">
       <span class="w-10 h-10 rounded-full shrink-0">
@@ -1420,7 +1424,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="flex items-start space-x-3">
       <a
