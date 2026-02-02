@@ -256,9 +256,11 @@
       if (!sessionBars.length) return parsed;
 
       // Fill gaps with synthetic bars to align bar indices with time positions
+      // Only fill gaps WITHIN actual data range, not beyond (to avoid showing stale data for future times)
       const filledBars: KLineData[] = [];
       const ONE_MINUTE_MS = 60000;
       let barIndex = 0;
+      const lastActualTimestamp = sessionBars[sessionBars.length - 1].timestamp;
 
       for (let ts = sessionStart; ts <= sessionEnd; ts += ONE_MINUTE_MS) {
         // Find bar at this timestamp (within 30 second tolerance)
@@ -276,8 +278,8 @@
           // Use actual bar, normalize timestamp to exact minute
           filledBars.push({ ...sessionBars[barIndex], timestamp: ts });
           barIndex++;
-        } else if (filledBars.length > 0) {
-          // Create synthetic bar using previous close (forward-fill)
+        } else if (filledBars.length > 0 && ts <= lastActualTimestamp) {
+          // Only forward-fill gaps WITHIN actual data range, not beyond
           const prev = filledBars[filledBars.length - 1];
           filledBars.push({
             timestamp: ts,
@@ -288,7 +290,7 @@
             volume: 0,
           });
         }
-        // Skip if no previous bar exists (gap at start of session)
+        // Skip if no previous bar exists (gap at start) or timestamp is beyond actual data
       }
 
       return filledBars;
