@@ -100,6 +100,7 @@
     "15min",
     "30min",
     "1hour",
+    "4hour",
     "1D",
     "1W",
     "1M",
@@ -1379,13 +1380,14 @@
   let ticker = "";
   let dailyBars: KLineData[] = [];
   let intradayBars: KLineData[] = [];
-  type IntradayInterval = "1min" | "5min" | "15min" | "30min" | "1hour";
+  type IntradayInterval = "1min" | "5min" | "15min" | "30min" | "1hour" | "4hour";
   const intradayIntervals: IntradayInterval[] = [
     "1min",
     "5min",
     "15min",
     "30min",
     "1hour",
+    "4hour",
   ];
   const intradaySpanMap: Record<IntradayInterval, number> = {
     "1min": 1,
@@ -1393,6 +1395,7 @@
     "15min": 15,
     "30min": 30,
     "1hour": 60,
+    "4hour": 240,
   };
   type IntradayHistoryState = {
     bars: KLineData[];
@@ -1429,6 +1432,7 @@
     "15min": 90,
     "30min": 90,
     "1hour": 90,
+    "4hour": 90,
   };
 
   // Pro limits (3x for 1min/5min, ~2.67x for others)
@@ -1438,6 +1442,7 @@
     "15min": 240,
     "30min": 240,
     "1hour": 240,
+    "4hour": 240,
   };
 
   // Dynamic limit based on subscription status

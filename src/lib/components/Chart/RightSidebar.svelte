@@ -104,6 +104,12 @@
   let socket: WebSocket | null = null;
   let lastSubscribedSymbols: string[] = [];
 
+  // Pagination state
+  let currentPage = 1;
+  let itemsPerPage = 20;
+  let totalPages = 1;
+  let paginatedItems: WatchlistItem[] = [];
+
   $: isLoading = isLoadingWatchlists || isLoadingItems;
   $: headerTitle =
     activeTab === "alerts" ? "Price alerts" : activeWatchlistTitle;
@@ -212,7 +218,42 @@
     return groups;
   };
 
-  $: groupedItems = buildGroups(watchlistItems);
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    paginatedItems = watchlistItems.slice(startIndex, endIndex);
+    totalPages = Math.max(1, Math.ceil(watchlistItems.length / itemsPerPage));
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) {
+      currentPage++;
+      updatePaginatedData();
+    }
+  }
+
+  function prevPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      updatePaginatedData();
+    }
+  }
+
+  // Update pagination when watchlistItems changes
+  $: if (watchlistItems.length > 0) {
+    const maxPage = Math.ceil(watchlistItems.length / itemsPerPage);
+    if (currentPage > maxPage) {
+      currentPage = 1;
+    }
+    updatePaginatedData();
+  } else {
+    paginatedItems = [];
+    totalPages = 1;
+  }
+
+  // Build groups from paginated items
+  $: groupedItems = buildGroups(paginatedItems);
 
   const safeParse = (value: string | null) => {
     if (!value) return null;
@@ -266,6 +307,7 @@
     const signal = resetItemsController();
     isLoadingItems = true;
     errorMessage = "";
+    currentPage = 1; // Reset pagination when loading new watchlist
 
     try {
       const response = await fetch("/api/get-watchlist", {
@@ -653,14 +695,14 @@
   }
 
   function connectWebSocket() {
-    if (!wsURL || !$isOpen || watchlistItems.length === 0) return;
+    if (!wsURL || !$isOpen || paginatedItems.length === 0) return;
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
         socket.readyState === WebSocket.OPEN)
     ) {
       // Already connected, just update subscription if needed
-      const currentSymbols = watchlistItems
+      const currentSymbols = paginatedItems
         .map((item) => item.symbol)
         .filter(Boolean) as string[];
       const symbolsChanged =
@@ -677,7 +719,8 @@
       socket = new WebSocket(wsURL + "/price-data");
 
       socket.addEventListener("open", () => {
-        const tickerList = watchlistItems
+        // Only subscribe to paginated (visible) items
+        const tickerList = paginatedItems
           .map((item) => item.symbol)
           .filter(Boolean) as string[];
         if (tickerList.length > 0) {
@@ -721,10 +764,21 @@
   }
 
   // Reactive: Connect/disconnect WebSocket based on market status
-  $: if ($isOpen && wsURL && watchlistItems.length > 0 && activeTab === "watchlist") {
+  $: if ($isOpen && wsURL && paginatedItems.length > 0 && activeTab === "watchlist") {
     connectWebSocket();
   } else if (!$isOpen || activeTab !== "watchlist") {
     disconnectWebSocket();
+  }
+
+  // Update WebSocket subscription when page changes
+  $: if (socket && socket.readyState === WebSocket.OPEN && paginatedItems.length > 0) {
+    const tickerList = paginatedItems.map((item) => item.symbol).filter(Boolean) as string[];
+    const symbolsChanged =
+      JSON.stringify(tickerList.sort()) !== JSON.stringify(lastSubscribedSymbols.sort());
+    if (symbolsChanged) {
+      lastSubscribedSymbols = tickerList;
+      sendWsMessage(tickerList);
+    }
   }
 
   onMount(() => {
@@ -1173,6 +1227,50 @@
           {/if}
         {/each}
       </div>
+
+      <!-- Pagination Controls -->
+      {#if totalPages > 1}
+        <div
+          class="flex items-center justify-between px-3 py-2 border-t border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d] sticky bottom-0"
+        >
+          <!-- Previous button -->
+          <button
+            type="button"
+            on:click={prevPage}
+            disabled={currentPage === 1}
+            class="p-1 rounded transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-zinc-800"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+
+          <!-- Page info -->
+          <span class="text-[10px] text-gray-500 dark:text-zinc-400">
+            {currentPage} / {totalPages}
+          </span>
+
+          <!-- Next button -->
+          <button
+            type="button"
+            on:click={nextPage}
+            disabled={currentPage === totalPages}
+            class="p-1 rounded transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-zinc-800"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+      {/if}
     {/if}
   </div>
 </div>
