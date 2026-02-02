@@ -1779,6 +1779,39 @@
     waves: false,
     magnet: false,
   };
+
+  // Selected overlay state for contextual toolbar
+  let selectedOverlay: {
+    id: string;
+    name: string;
+    lock: boolean;
+    styles: Record<string, any>;
+  } | null = null;
+
+  // Toolbar position and visibility
+  let toolbarPosition = { x: 0, y: 0 };
+  let showDrawingToolbar = false;
+  let showColorPicker = false;
+  let showThicknessPicker = false;
+  let showStylePicker = false;
+
+  // Color palette for drawings
+  const DRAWING_COLORS = [
+    "#FF0000",
+    "#F97316",
+    "#FACC15",
+    "#22C55E",
+    "#10B981",
+    "#3B82F6",
+    "#8B5CF6",
+    "#EC4899",
+    "#FFFFFF",
+    "#6B7280",
+  ];
+
+  // Thickness options
+  const LINE_THICKNESSES = [1, 2, 3, 4, 5];
+
   type RightSidebarTab = "watchlist" | "alerts";
   const RIGHT_RAIL_WIDTH_PX = 54;
   const RIGHT_SIDEBAR_MIN_SIZE = 10;
@@ -2013,6 +2046,9 @@
         }
         handleOverlayDrawEnd(event);
       },
+      onSelected: handleOverlaySelected,
+      onDeselected: handleOverlayDeselected,
+      onClick: handleOverlayClick,
     });
   }
 
@@ -2048,6 +2084,150 @@
       overlayIds = [];
     }
     activeTool = "cursor";
+  }
+
+  // Handle overlay selection - show toolbar
+  function handleOverlaySelected(event: any) {
+    const overlay = event?.overlay;
+    if (!overlay) return;
+
+    selectedOverlay = {
+      id: overlay.id,
+      name: overlay.name,
+      lock: overlay.lock || false,
+      styles: overlay.styles || {},
+    };
+    showDrawingToolbar = true;
+  }
+
+  // Handle overlay deselection - hide toolbar
+  function handleOverlayDeselected() {
+    selectedOverlay = null;
+    showDrawingToolbar = false;
+    closeAllPickers();
+  }
+
+  // Handle overlay click - position toolbar
+  function handleOverlayClick(event: any) {
+    if (!chartContainer) return;
+    const rect = chartContainer.getBoundingClientRect();
+    const x = (event.x || 0) - rect.left;
+    const y = (event.y || 0) - rect.top - 60;
+
+    const toolbarWidth = 300;
+    toolbarPosition = {
+      x: Math.max(10, Math.min(x - toolbarWidth / 2, rect.width - toolbarWidth - 10)),
+      y: Math.max(10, y < 10 ? (event.y || 0) - rect.top + 20 : y),
+    };
+  }
+
+  function closeAllPickers() {
+    showColorPicker = false;
+    showThicknessPicker = false;
+    showStylePicker = false;
+  }
+
+  // Get current color from selected overlay
+  function getCurrentColor(): string {
+    if (!selectedOverlay?.styles) return "#2962FF";
+    const s = selectedOverlay.styles;
+    return s.line?.color || s.rect?.borderColor || s.circle?.borderColor || "#2962FF";
+  }
+
+  // Get current thickness from selected overlay
+  function getCurrentThickness(): number {
+    if (!selectedOverlay?.styles) return 2;
+    const s = selectedOverlay.styles;
+    return s.line?.size || s.rect?.borderSize || s.circle?.borderSize || 2;
+  }
+
+  // Get current line style from selected overlay
+  function getCurrentLineStyle(): "solid" | "dashed" {
+    return selectedOverlay?.styles?.line?.style || "solid";
+  }
+
+  // Update overlay color
+  function updateOverlayColor(color: string) {
+    if (!chart || !selectedOverlay) return;
+
+    chart.overrideOverlay({
+      id: selectedOverlay.id,
+      styles: {
+        line: { color },
+        point: { color },
+        rect: { color, borderColor: color },
+        circle: { color, borderColor: color },
+        polygon: { color, borderColor: color },
+      },
+    });
+
+    selectedOverlay.styles = {
+      ...selectedOverlay.styles,
+      line: { ...selectedOverlay.styles?.line, color },
+    };
+    handleOverlayDrawEnd();
+    showColorPicker = false;
+  }
+
+  // Update line thickness
+  function updateOverlayThickness(size: number) {
+    if (!chart || !selectedOverlay) return;
+
+    chart.overrideOverlay({
+      id: selectedOverlay.id,
+      styles: {
+        line: { size },
+        rect: { borderSize: size },
+        circle: { borderSize: size },
+      },
+    });
+
+    selectedOverlay.styles = {
+      ...selectedOverlay.styles,
+      line: { ...selectedOverlay.styles?.line, size },
+    };
+    handleOverlayDrawEnd();
+    showThicknessPicker = false;
+  }
+
+  // Update line style
+  function updateOverlayLineStyle(style: "solid" | "dashed") {
+    if (!chart || !selectedOverlay) return;
+
+    chart.overrideOverlay({
+      id: selectedOverlay.id,
+      styles: {
+        line: { style, dashedValue: style === "dashed" ? [4, 4] : [] },
+      },
+    });
+
+    selectedOverlay.styles = {
+      ...selectedOverlay.styles,
+      line: { ...selectedOverlay.styles?.line, style },
+    };
+    handleOverlayDrawEnd();
+    showStylePicker = false;
+  }
+
+  // Toggle lock on selected overlay
+  function toggleSelectedOverlayLock() {
+    if (!chart || !selectedOverlay) return;
+
+    const newLock = !selectedOverlay.lock;
+    chart.overrideOverlay({ id: selectedOverlay.id, lock: newLock });
+    selectedOverlay.lock = newLock;
+    handleOverlayDrawEnd();
+  }
+
+  // Delete selected overlay
+  function deleteSelectedOverlay() {
+    if (!chart || !selectedOverlay) return;
+
+    chart.removeOverlay({ id: selectedOverlay.id });
+    overlayIds = overlayIds.filter((id) => id !== selectedOverlay?.id);
+    selectedOverlay = null;
+    showDrawingToolbar = false;
+    handleOverlayDrawEnd();
   }
 
   let customOverlaysRegistered = false;
@@ -7113,6 +7293,9 @@
           chart.createOverlay({
             ...overlay,
             onDrawEnd: handleOverlayDrawEnd,
+            onSelected: handleOverlaySelected,
+            onDeselected: handleOverlayDeselected,
+            onClick: handleOverlayClick,
           });
         } catch (e) {
           console.log("Failed to restore overlay:", e);
@@ -7231,6 +7414,9 @@
                 lock: drawingsLocked,
                 visible: drawingsVisible,
                 onDrawEnd: handleOverlayDrawEnd,
+                onSelected: handleOverlaySelected,
+                onDeselected: handleOverlayDeselected,
+                onClick: handleOverlayClick,
               });
             } catch (e) {
               console.log("Failed to restore overlay:", e);
@@ -7686,6 +7872,21 @@
     chartTypeOptions.find((item) => item.id === chartType) ??
     chartTypeOptions[0];
 </script>
+
+<svelte:window
+  on:keydown={(e) => {
+    if (e.key === "Escape") {
+      // Close pickers first if any are open
+      if (showColorPicker || showThicknessPicker || showStylePicker) {
+        closeAllPickers();
+      } else if (showDrawingToolbar) {
+        // Then close toolbar
+        selectedOverlay = null;
+        showDrawingToolbar = false;
+      }
+    }
+  }}
+/>
 
 <SEO
   title={`${ticker}${seoPriceText !== "N/A" ? ` ${seoPriceText}` : ""}${seoChangeText ? ` ${seoChangeText}` : ""} `}
@@ -8734,6 +8935,204 @@
                   <span
                     class="loading loading-spinner loading-md text-gray-900 dark:text-white"
                   ></span>
+                </div>
+              {/if}
+
+              <!-- Drawing Settings Toolbar -->
+              {#if showDrawingToolbar && selectedOverlay}
+                <div
+                  class="absolute left-1/2 -translate-x-1/2 top-12 z-[20] pointer-events-auto"
+                >
+                  <div
+                    class="flex items-center gap-1.5 px-2 py-1.5 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-xl"
+                    role="toolbar"
+                  >
+                    <!-- Color Picker -->
+                    <div class="relative">
+                      <button
+                        class="cursor-pointer w-7 h-7 rounded-lg border-2 border-gray-300 dark:border-zinc-600 hover:border-violet-500 transition"
+                        style="background-color: {getCurrentColor()};"
+                        on:click={() => {
+                          showColorPicker = !showColorPicker;
+                          showThicknessPicker = false;
+                          showStylePicker = false;
+                        }}
+                        title="Color"
+                      ></button>
+                      {#if showColorPicker}
+                        <div
+                          class="absolute top-full left-0 mt-2 p-2 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                        >
+                          <div class="grid grid-cols-5 gap-1.5">
+                            {#each DRAWING_COLORS as color}
+                              <button
+                                class="cursor-pointer w-6 h-6 rounded-lg border-2 transition {getCurrentColor() ===
+                                color
+                                  ? 'border-violet-500'
+                                  : 'border-transparent hover:border-gray-400'}"
+                                style="background-color: {color};"
+                                on:click={() => updateOverlayColor(color)}
+                                title={color}
+                              ></button>
+                            {/each}
+                          </div>
+                          <input
+                            type="color"
+                            class="w-full h-7 mt-2 cursor-pointer rounded-lg"
+                            value={getCurrentColor()}
+                            on:change={(e) =>
+                              updateOverlayColor(e.currentTarget.value)}
+                          />
+                        </div>
+                      {/if}
+                    </div>
+
+                    <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700"></div>
+
+                    <!-- Thickness -->
+                    <div class="relative">
+                      <button
+                        class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-gray-700 dark:text-zinc-300"
+                        on:click={() => {
+                          showThicknessPicker = !showThicknessPicker;
+                          showColorPicker = false;
+                          showStylePicker = false;
+                        }}
+                        title="Thickness"
+                      >
+                        <span class="font-medium">{getCurrentThickness()}px</span
+                        >
+                      </button>
+                      {#if showThicknessPicker}
+                        <div
+                          class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                        >
+                          <div class="flex items-center gap-1">
+                            {#each LINE_THICKNESSES as t}
+                              <button
+                                class="cursor-pointer w-8 h-8 rounded-lg transition flex items-center justify-center {getCurrentThickness() ===
+                                t
+                                  ? 'bg-violet-100 dark:bg-violet-900/30'
+                                  : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                                on:click={() => updateOverlayThickness(t)}
+                                title="{t}px"
+                              >
+                                <div
+                                  class="rounded-full"
+                                  style="width: {t * 3}px; height: {t *
+                                    3}px; background-color: {getCurrentColor()};"
+                                ></div>
+                              </button>
+                            {/each}
+                          </div>
+                        </div>
+                      {/if}
+                    </div>
+
+                    <!-- Line Style (for line-based overlays) -->
+                    {#if !["rect", "circle"].includes(selectedOverlay.name)}
+                      <div class="relative">
+                        <button
+                          class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                          on:click={() => {
+                            showStylePicker = !showStylePicker;
+                            showColorPicker = false;
+                            showThicknessPicker = false;
+                          }}
+                          title="Line style"
+                        >
+                          <svg
+                            class="w-5 h-5 text-gray-600 dark:text-zinc-400"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            {#if getCurrentLineStyle() === "dashed"}
+                              <path stroke-dasharray="4 4" d="M3 12h18" />
+                            {:else}
+                              <path d="M3 12h18" />
+                            {/if}
+                          </svg>
+                        </button>
+                        {#if showStylePicker}
+                          <div
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-1 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                          >
+                            <button
+                              class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-lg transition {getCurrentLineStyle() ===
+                              'solid'
+                                ? 'bg-violet-100 dark:bg-violet-900/30'
+                                : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                              on:click={() => updateOverlayLineStyle("solid")}
+                            >
+                              <svg
+                                class="w-5 h-5"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path d="M3 12h18" /></svg
+                              >
+                              <span class="text-sm">Solid</span>
+                            </button>
+                            <button
+                              class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-lg transition {getCurrentLineStyle() ===
+                              'dashed'
+                                ? 'bg-violet-100 dark:bg-violet-900/30'
+                                : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                              on:click={() => updateOverlayLineStyle("dashed")}
+                            >
+                              <svg
+                                class="w-5 h-5"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                  stroke-dasharray="4 4"
+                                  d="M3 12h18"
+                                /></svg
+                              >
+                              <span class="text-sm">Dashed</span>
+                            </button>
+                          </div>
+                        {/if}
+                      </div>
+                    {/if}
+
+                    <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700"></div>
+
+                    <!-- Lock -->
+                    <button
+                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg transition {selectedOverlay.lock
+                        ? 'text-amber-500 bg-amber-100 dark:bg-amber-900/30'
+                        : 'text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                      on:click={toggleSelectedOverlayLock}
+                      title={selectedOverlay.lock ? "Unlock" : "Lock"}
+                    >
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        {#if selectedOverlay.lock}
+                          <path
+                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                          />
+                        {:else}
+                          <path
+                            d="M17 9H9V7c0-1.7 1.3-3 3-3s3 1.3 3 3h2c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3"
+                          />
+                        {/if}
+                      </svg>
+                    </button>
+
+                    <!-- Delete -->
+                    <button
+                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition"
+                      on:click={deleteSelectedOverlay}
+                      title="Delete"
+                    >
+                      <Trash2 class="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               {/if}
 
