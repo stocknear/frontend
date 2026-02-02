@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NumberFlow, { continuous } from "@number-flow/svelte";
+  import { onDestroy } from "svelte";
   import {
     stock_detail_after_hours,
     stock_detail_at_close,
@@ -17,10 +17,99 @@
   export let displayLegend;
   export let isOpen;
 
-  // Optimized timing for smooth, snappy animations
-  const transformTiming = { duration: 400, easing: "ease-out" };
-  const spinTiming = { duration: 400, easing: "ease-out" };
-  const opacityTiming = { duration: 250, easing: "ease-out" };
+  // Animation state for flash effect (like RightSidebar watchlist)
+  let previousPrice: number | null = null;
+  let isFlashing = false;
+  let flashDirection: "up" | "down" | null = null;
+  let animationTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  // Current price value for animation tracking
+  $: currentPriceValue = (() => {
+    if (displayLegend?.close === null || displayLegend?.close === undefined)
+      return null;
+    const n =
+      typeof displayLegend.close === "number"
+        ? displayLegend.close
+        : parseFloat(String(displayLegend?.close));
+    return Number?.isFinite(n) ? n : null;
+  })();
+
+  // Track price changes for animation
+  $: if (
+    currentPriceValue !== null &&
+    previousPrice !== null &&
+    currentPriceValue !== previousPrice
+  ) {
+    flashDirection = currentPriceValue > previousPrice ? "up" : "down";
+    isFlashing = true;
+    if (animationTimeout) clearTimeout(animationTimeout);
+    animationTimeout = setTimeout(() => {
+      isFlashing = false;
+      flashDirection = null;
+      previousPrice = currentPriceValue;
+    }, 800);
+  }
+
+  // Initialize previous values (only once when data first loads)
+  $: if (previousPrice === null && currentPriceValue !== null) {
+    previousPrice = currentPriceValue;
+  }
+
+  // Helper to convert to number
+  const toNumber = (value: unknown): number | null => {
+    if (value === null || value === undefined) return null;
+    const n = typeof value === "number" ? value : parseFloat(String(value));
+    return Number?.isFinite(n) ? n : null;
+  };
+
+  // Helper to get flash class
+  const getFlashClass = () => {
+    if (!isFlashing || !flashDirection) return "";
+    return flashDirection === "up"
+      ? "text-emerald-600 dark:text-emerald-400"
+      : "text-rose-600 dark:text-rose-400";
+  };
+
+  // Format price with 2 decimal places
+  const formatPrice = (value: unknown) => {
+    const n = toNumber(value);
+    if (n === null) return "n/a";
+    return n.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  // Format change with sign
+  const formatChange = (value: unknown) => {
+    const n = toNumber(value);
+    if (n === null) return "n/a";
+    const sign = n >= 0 ? "+" : "";
+    return (
+      sign +
+      n.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
+  };
+
+  // Format percentage
+  const formatPercent = (value: unknown) => {
+    const n = toNumber(value);
+    if (n === null) return "n/a";
+    return (
+      n.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }) + "%"
+    );
+  };
+
+  // Cleanup
+  onDestroy(() => {
+    if (animationTimeout) clearTimeout(animationTimeout);
+  });
 </script>
 
 <div class="flex items-center w-full mt-5 sm:mt-10">
@@ -57,21 +146,11 @@
               ? 'inline'
               : 'block sm:inline'}"
           >
-            {#if displayLegend?.close}
-              <NumberFlow
-                value={parseFloat(displayLegend?.close) || 0}
-                locales="en-US"
-                format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-                {transformTiming}
-                {spinTiming}
-                {opacityTiming}
-                plugins={[continuous]}
-                willChange={true}
-                trend={0}
-              />
-            {:else}
-              n/a
-            {/if}
+            <span
+              class="tabular-nums transition-colors duration-300 {getFlashClass()}"
+            >
+              {formatPrice(displayLegend?.close)}
+            </span>
           </div>
           <div
             class="font-semibold {Object?.keys(prePostData)?.length === 0
@@ -79,54 +158,28 @@
               : 'block sm:inline'} text-xl sm:text-2xl"
           >
             <span
-              class={displayLegend?.change >= 0
-                ? "text-emerald-800 dark:text-emerald-400"
-                : displayLegend?.change < 0
-                  ? "text-rose-800 dark:text-rose-400"
-                  : ""}
+              class="tabular-nums transition-colors duration-300 {isFlashing &&
+              flashDirection
+                ? getFlashClass()
+                : displayLegend?.change >= 0
+                  ? 'text-emerald-800 dark:text-emerald-400'
+                  : displayLegend?.change < 0
+                    ? 'text-rose-800 dark:text-rose-400'
+                    : ''}"
             >
-              {#if displayLegend?.change !== undefined && displayLegend?.change !== null}
-                <NumberFlow
-                  value={parseFloat(displayLegend?.change) || 0}
-                  locales="en-US"
-                  format={{
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                    signDisplay: "always",
-                  }}
-                  {transformTiming}
-                  {spinTiming}
-                  {opacityTiming}
-                  plugins={[continuous]}
-                  willChange={true}
-                  trend={0}
-                />
-              {:else}
-                n/a
-              {/if}
+              {formatChange(displayLegend?.change)}
             </span>
             <span
-              class={displayLegend?.changesPercentage >= 0
-                ? "text-emerald-800 dark:text-emerald-400"
-                : displayLegend?.changesPercentage < 0
-                  ? "text-rose-800 dark:text-rose-400"
-                  : ""}
+              class="tabular-nums transition-colors duration-300 {isFlashing &&
+              flashDirection
+                ? getFlashClass()
+                : displayLegend?.changesPercentage >= 0
+                  ? 'text-emerald-800 dark:text-emerald-400'
+                  : displayLegend?.changesPercentage < 0
+                    ? 'text-rose-800 dark:text-rose-400'
+                    : ''}"
             >
-              ({#if displayLegend?.changesPercentage !== undefined && displayLegend?.changesPercentage !== null}<NumberFlow
-                  value={parseFloat(displayLegend?.changesPercentage) || 0}
-                  locales="en-US"
-                  format={{
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }}
-                  suffix="%"
-                  {transformTiming}
-                  {spinTiming}
-                  {opacityTiming}
-                  plugins={[continuous]}
-                  willChange={true}
-                  trend={0}
-                />{:else}n/a{/if})
+              ({formatPercent(displayLegend?.changesPercentage)})
             </span>
           </div>
           <div class="mt-0.5 text-[0.85rem] sm:text-sm">
@@ -149,42 +202,17 @@
         {#if Object?.keys(prePostData)?.length > 0 && !isOpen}
           <div class="pl-5">
             <div
-              class="block text-2xl sm:text-[1.7rem] font-semibold leading-5 sm:inline"
+              class="block text-2xl sm:text-[1.7rem] font-semibold leading-5 sm:inline tabular-nums"
             >
-              <NumberFlow
-                value={prePostData?.price || 0}
-                locales="en-US"
-                format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-                {transformTiming}
-                {spinTiming}
-                {opacityTiming}
-                plugins={[continuous]}
-                willChange={true}
-                trend={0}
-              />
+              {formatPrice(prePostData?.price)}
             </div>
             <div
-              class="mt-1.5 block sm:mt-0 sm:inline text-lg {prePostData?.changesPercentage >=
+              class="mt-1.5 block sm:mt-0 sm:inline text-lg tabular-nums {prePostData?.changesPercentage >=
               0
                 ? 'text-emerald-800 dark:text-emerald-400'
                 : 'text-rose-800 dark:text-rose-400'}"
             >
-              <NumberFlow
-                value={prePostData?.changesPercentage || 0}
-                locales="en-US"
-                format={{
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  signDisplay: "always",
-                }}
-                suffix="%"
-                {transformTiming}
-                {spinTiming}
-                {opacityTiming}
-                plugins={[continuous]}
-                willChange={true}
-                trend={0}
-              />
+              {formatChange(prePostData?.changesPercentage)}%
             </div>
             <div class="mt-1 text-xs sm:text-[0.8rem] sm:flex">
               <span class="flex items-center">
@@ -200,8 +228,8 @@
                       stroke-linejoin="round"
                       stroke-width="2"
                       d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                    ></path></svg>
-
+                    ></path></svg
+                  >
                 {:else}
                   <svg
                     class="h-4 w-4 inline text-blue-400"
@@ -214,8 +242,8 @@
                       stroke-linejoin="round"
                       stroke-width="2"
                       d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                    ></path></svg>
-
+                    ></path></svg
+                  >
                 {/if}
                 <span
                   class="ml-0.5 whitespace-nowrap font-semibold md:ml-1 mb-0.5 sm:mb-0"
@@ -232,10 +260,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Prevents layout shifts during number transitions */
-  :global(number-flow) {
-    font-variant-numeric: tabular-nums;
-  }
-</style>
