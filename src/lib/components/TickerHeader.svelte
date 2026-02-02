@@ -17,57 +17,11 @@
   export let displayLegend;
   export let isOpen;
 
-  // Animation state for flash effect (like RightSidebar watchlist)
-  let previousPrice: number | null = null;
-  let isFlashing = false;
-  let flashDirection: "up" | "down" | null = null;
-  let animationTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  // Current price value for animation tracking
-  $: currentPriceValue = (() => {
-    if (displayLegend?.close === null || displayLegend?.close === undefined)
-      return null;
-    const n =
-      typeof displayLegend.close === "number"
-        ? displayLegend.close
-        : parseFloat(String(displayLegend?.close));
-    return Number?.isFinite(n) ? n : null;
-  })();
-
-  // Track price changes for animation
-  $: if (
-    currentPriceValue !== null &&
-    previousPrice !== null &&
-    currentPriceValue !== previousPrice
-  ) {
-    flashDirection = currentPriceValue > previousPrice ? "up" : "down";
-    isFlashing = true;
-    if (animationTimeout) clearTimeout(animationTimeout);
-    animationTimeout = setTimeout(() => {
-      isFlashing = false;
-      flashDirection = null;
-      previousPrice = currentPriceValue;
-    }, 800);
-  }
-
-  // Initialize previous values (only once when data first loads)
-  $: if (previousPrice === null && currentPriceValue !== null) {
-    previousPrice = currentPriceValue;
-  }
-
   // Helper to convert to number
   const toNumber = (value: unknown): number | null => {
     if (value === null || value === undefined) return null;
     const n = typeof value === "number" ? value : parseFloat(String(value));
     return Number?.isFinite(n) ? n : null;
-  };
-
-  // Helper to get flash class
-  const getFlashClass = () => {
-    if (!isFlashing || !flashDirection) return "";
-    return flashDirection === "up"
-      ? "text-emerald-800 dark:text-emerald-400"
-      : "text-rose-800 dark:text-rose-400";
   };
 
   // Format price with 2 decimal places
@@ -146,9 +100,7 @@
               ? 'inline'
               : 'block sm:inline'}"
           >
-            <span
-              class="tabular-nums transition-colors duration-300 {getFlashClass()}"
-            >
+            <span class="tabular-nums">
               {formatPrice(displayLegend?.close)}
             </span>
           </div>
@@ -158,26 +110,20 @@
               : 'block sm:inline'} text-xl sm:text-2xl"
           >
             <span
-              class="tabular-nums transition-colors duration-300 {isFlashing &&
-              flashDirection
-                ? getFlashClass()
-                : displayLegend?.change >= 0
-                  ? 'text-emerald-800 dark:text-emerald-400'
-                  : displayLegend?.change < 0
-                    ? 'text-rose-800 dark:text-rose-400'
-                    : ''}"
+              class="tabular-nums {displayLegend?.change >= 0
+                ? 'text-emerald-800 dark:text-emerald-400'
+                : displayLegend?.change < 0
+                  ? 'text-rose-800 dark:text-rose-400'
+                  : ''}"
             >
               {formatChange(displayLegend?.change)}
             </span>
             <span
-              class="tabular-nums transition-colors duration-300 {isFlashing &&
-              flashDirection
-                ? getFlashClass()
-                : displayLegend?.changesPercentage >= 0
-                  ? 'text-emerald-800 dark:text-emerald-400'
-                  : displayLegend?.changesPercentage < 0
-                    ? 'text-rose-800 dark:text-rose-400'
-                    : ''}"
+              class="tabular-nums {displayLegend?.changesPercentage >= 0
+                ? 'text-emerald-800 dark:text-emerald-400'
+                : displayLegend?.changesPercentage < 0
+                  ? 'text-rose-800 dark:text-rose-400'
+                  : ''}"
             >
               ({formatPercent(displayLegend?.changesPercentage)})
             </span>
