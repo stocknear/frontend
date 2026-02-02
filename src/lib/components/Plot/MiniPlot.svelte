@@ -217,17 +217,55 @@
             };
         });
 
-        const sessionStart = buildSessionTimestamp(bars[0].timestamp, 9, 30);
-        const sessionEnd = buildSessionTimestamp(bars[0].timestamp, 16, 0);
+        const sessionStartTs = buildSessionTimestamp(bars[0].timestamp, 9, 30);
+        const sessionEndTs = buildSessionTimestamp(bars[0].timestamp, 16, 0);
         const sessionBars = bars.filter(
             (bar) =>
-                bar.timestamp >= sessionStart && bar.timestamp <= sessionEnd,
+                bar.timestamp >= sessionStartTs && bar.timestamp <= sessionEndTs,
         );
         if (!sessionBars.length) {
             return [...bars];
         }
 
-        return sessionBars;
+        // Fill gaps with synthetic bars only WITHIN actual data range
+        // Don't fill beyond last actual data point (to avoid showing stale data for future times)
+        const filledBars: KLineData[] = [];
+        const ONE_MINUTE_MS = 60000;
+        let barIndex = 0;
+        const lastActualTimestamp = sessionBars[sessionBars.length - 1].timestamp;
+
+        for (let ts = sessionStartTs; ts <= sessionEndTs; ts += ONE_MINUTE_MS) {
+            // Find bar at this timestamp (within 30 second tolerance)
+            while (
+                barIndex < sessionBars.length &&
+                sessionBars[barIndex].timestamp < ts - 30000
+            ) {
+                barIndex++;
+            }
+
+            if (
+                barIndex < sessionBars.length &&
+                Math.abs(sessionBars[barIndex].timestamp - ts) < 30000
+            ) {
+                // Use actual bar, normalize timestamp to exact minute
+                filledBars.push({ ...sessionBars[barIndex], timestamp: ts });
+                barIndex++;
+            } else if (filledBars.length > 0 && ts <= lastActualTimestamp) {
+                // Only fill gaps WITHIN actual data range, not beyond
+                const prev = filledBars[filledBars.length - 1];
+                filledBars.push({
+                    timestamp: ts,
+                    open: prev.close,
+                    high: prev.close,
+                    low: prev.close,
+                    close: prev.close,
+                    volume: 0,
+                });
+            }
+            // Don't create synthetic bars for timestamps beyond last actual data
+        }
+
+        return filledBars;
     };
 
     const computeIntervalMs = (bars: KLineData[]): number => {
