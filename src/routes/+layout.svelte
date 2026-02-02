@@ -126,6 +126,7 @@
   let navbarHidden = false;
   let lastScrollY = 0;
   const scrollThreshold = 10;
+  const routePrefixes = ["/chart", "/chat"];
 
   function handleScroll() {
     if (!browser) return;
@@ -442,7 +443,10 @@
     if ($page.url.pathname) {
       // Force reactive update of login data
       $loginData = data?.user;
-      isChartRoute = $page.url.pathname.startsWith("/chart");
+      const path = $page.url.pathname;
+      isChartRoute = routePrefixes?.some(
+        (p) => path === p || path?.startsWith(p + "/"),
+      );
     }
   }
 
@@ -1348,8 +1352,8 @@
                       ><path
                         fill="currentColor"
                         d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"
-                      /></svg>
-
+                      /></svg
+                    >
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
@@ -1390,7 +1394,8 @@
                           ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
                           ></path><polyline points="16 17 21 12 16 7"
                           ></polyline><line x1="21" x2="9" y1="12" y2="12"
-                          ></line></svg>
+                          ></line></svg
+                        >
 
                         <span class="text-start">{layout_logout()}</span>
                       </DropdownMenu.Item>
