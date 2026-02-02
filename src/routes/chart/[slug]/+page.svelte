@@ -7447,21 +7447,15 @@
 
   $: lastBar = currentBars[currentBars.length - 1] ?? null;
   $: displayBar = hoverBar ?? lastBar;
-  // Use stock quote previousClose for consistent change calculation (same as SEO)
-  $: previousClose =
-    toNumber(data?.getStockQuote?.previousClose) ??
-    toNumber(intradayBars?.at(0)?.open) ??
-    (dailyBars.length > 1 ? dailyBars[dailyBars.length - 2]?.close : null);
-  // When not hovering, prefer latestRealtimePrice for real-time updates; when hovering show hovered bar
-  $: lastClose = hoverBar
-    ? hoverBar.close
-    : (latestRealtimePrice ?? displayBar?.close ?? null);
-  $: change =
-    lastClose !== null && previousClose !== null
-      ? lastClose - previousClose
-      : null;
-  $: changePercent =
-    change !== null && previousClose ? (change / previousClose) * 100 : null;
+  // Use stock quote data for navbar price display, updated by WebSocket
+  $: previousClose = toNumber(data?.getStockQuote?.previousClose) ?? null;
+  $: lastClose = latestRealtimePrice ?? toNumber(data?.getStockQuote?.price) ?? null;
+  $: change = latestRealtimePrice !== null && previousClose !== null
+    ? latestRealtimePrice - previousClose
+    : toNumber(data?.getStockQuote?.change) ?? null;
+  $: changePercent = latestRealtimePrice !== null && previousClose !== null
+    ? ((latestRealtimePrice - previousClose) / previousClose) * 100
+    : toNumber(data?.getStockQuote?.changesPercentage) ?? null;
 
   $: changeClass =
     change !== null && change < 0
