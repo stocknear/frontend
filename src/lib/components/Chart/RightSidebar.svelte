@@ -781,15 +781,16 @@
     }
   }
 
-  // Reactive: Connect/disconnect WebSocket based on market status
+  // Reactive: Connect/disconnect WebSocket based on market status (Pro only)
   $: if (
+    isPro &&
     $isOpen &&
     wsURL &&
     paginatedItems.length > 0 &&
     activeTab === "watchlist"
   ) {
     connectWebSocket();
-  } else if (!$isOpen || activeTab !== "watchlist") {
+  } else if (!$isOpen || activeTab !== "watchlist" || !isPro) {
     disconnectWebSocket();
   }
 
