@@ -72,6 +72,13 @@
     "afterMarketChangesPercentage",
   ]);
 
+  // Rules hidden from dropdown but can still be displayed in table
+  const DROPDOWN_HIDDEN_RULES = new Set([
+    ...SESSION_ONLY_RULES,
+    "addedPrice",
+    "sinceAdded",
+  ]);
+
   const PREMARKET_SESSION_COLUMNS: ColumnRule[] = [
     {
       name: "Premkt Price",
@@ -894,7 +901,7 @@
   let proOnlyItems = new Set<string>();
 
   $: indicatorRows =
-    allRows?.filter((item) => !SESSION_ONLY_RULES.has(item?.rule)) ?? [];
+    allRows?.filter((item) => !DROPDOWN_HIDDEN_RULES.has(item?.rule)) ?? [];
 
   $: proOnlyItems = new Set(
     indicatorRows
@@ -2935,15 +2942,22 @@
                             : 'bg-emerald-500 dark:bg-emerald-400'} pulse-animation"
                         ></span>
                       </span>
-                      <span class="tabular-nums transition-colors duration-300 {item[column?.key] > item.previous
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : 'text-rose-800 dark:text-rose-400'}">{item[column.key] != null
+                      <span
+                        class="tabular-nums transition-colors duration-300 {item[
+                          column?.key
+                        ] > item.previous
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'}"
+                        >{item[column.key] != null
                           ? item[column.key].toFixed(2)
-                          : "-"}</span>
+                          : "-"}</span
+                      >
                     {:else}
-                      <span class="tabular-nums">{item[column.key] != null
-                        ? item[column.key].toFixed(2)
-                        : "-"}</span>
+                      <span class="tabular-nums"
+                        >{item[column.key] != null
+                          ? item[column.key].toFixed(2)
+                          : "-"}</span
+                      >
                     {/if}
                   </div>
                 {:else if column.type === "percent"}
@@ -2954,7 +2968,8 @@
                   {#if item[column.key] == null}
                     <span>-</span>
                   {:else if item[column.key] > 0}
-                    <span class="tabular-nums text-emerald-800 dark:text-emerald-400"
+                    <span
+                      class="tabular-nums text-emerald-800 dark:text-emerald-400"
                       >+{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
@@ -2962,7 +2977,9 @@
                       >{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else}
-                    <span class="tabular-nums">{item[column.key].toFixed(2)}%</span>
+                    <span class="tabular-nums"
+                      >{item[column.key].toFixed(2)}%</span
+                    >
                   {/if}
                 {:else if column.type === "sentiment" || column?.type === "rating"}
                   <div

@@ -312,6 +312,7 @@
         { rule: "marketCap" },
         { rule: "price" },
         { rule: "changesPercentage" },
+        { rule: "addedPrice" },
       ]?.map((item) => item?.rule),
     };
     const response = await fetch("/api/get-watchlist", {
