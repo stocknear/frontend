@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
   import {
     stock_detail_after_hours,
     stock_detail_at_close,
@@ -60,10 +59,6 @@
     );
   };
 
-  // Cleanup
-  onDestroy(() => {
-    if (animationTimeout) clearTimeout(animationTimeout);
-  });
 </script>
 
 <div class="flex items-center w-full mt-5 sm:mt-10">
