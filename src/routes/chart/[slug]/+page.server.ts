@@ -47,38 +47,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }),
   ];
 
-  // Events API calls (only for Pro subscribers)
-  const eventsFetches = isSubscribed
-    ? [
-        fetch(apiURL + "/earnings-statistics", {
-          method: "POST",
-          headers,
-          body: payload,
-        }),
-        fetch(apiURL + "/next-earnings", {
-          method: "POST",
-          headers,
-          body: payload,
-        }),
-        fetch(apiURL + "/stock-dividend", {
-          method: "POST",
-          headers,
-          body: payload,
-        }),
-        fetch(apiURL + "/wiim-full-history", {
-          method: "POST",
-          headers,
-          body: payload,
-        }),
-      ]
-    : [];
-
-  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes, ...eventsRes] =
-    await Promise.all([...baseFetches, ...eventsFetches]);
-
-  const [earningsRes, nextEarningsRes, dividendRes, wiimRes] = isSubscribed
-    ? eventsRes
-    : [null, null, null, null];
+  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes] =
+    await Promise.all(baseFetches);
 
   let historical = [];
   if (historicalRes.ok) {
@@ -129,44 +99,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }
   }
 
-  let historicalEarnings: any[] = [];
-  if (earningsRes?.ok) {
-    try {
-      const earningsPayload = await earningsRes.json();
-      historicalEarnings = earningsPayload?.historicalEarnings ?? [];
-    } catch {
-      historicalEarnings = [];
-    }
-  }
-
-  let nextEarnings: any = null;
-  if (nextEarningsRes?.ok) {
-    try {
-      nextEarnings = await nextEarningsRes.json();
-    } catch {
-      nextEarnings = null;
-    }
-  }
-
-  let historicalDividends: any[] = [];
-  if (dividendRes?.ok) {
-    try {
-      const dividendPayload = await dividendRes.json();
-      historicalDividends = dividendPayload?.history ?? [];
-    } catch {
-      historicalDividends = [];
-    }
-  }
-
-  let getWhyPriceMoved: any[] = [];
-  if (wiimRes?.ok) {
-    try {
-      getWhyPriceMoved = await wiimRes.json();
-    } catch {
-      getWhyPriceMoved = [];
-    }
-  }
-
   const getAllStrategies = async () => {
     if (!["Pro"]?.includes(user?.tier)) return [];
 
@@ -190,9 +122,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     assetType,
     wsURL,
     getAllStrategies: await getAllStrategies(),
-    historicalEarnings,
-    nextEarnings,
-    historicalDividends,
-    getWhyPriceMoved,
+    isSubscribed,
   };
 };

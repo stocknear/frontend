@@ -29,7 +29,7 @@
   } from "$lib/financials/statementIndicators";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import Input from "$lib/components/Input.svelte";
-  import { isOpen, screenWidth } from "$lib/store";
+  import { isOpen, screenWidth, getCache, setCache } from "$lib/store";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
@@ -531,6 +531,11 @@
   let selectedNews: NewsData | null = null;
   let newsPopupPosition = { x: 0, y: 0 };
 
+  // Loading states for lazy-loaded event data
+  let earningsLoading = false;
+  let dividendsLoading = false;
+  let newsFlowLoading = false;
+
   // Financial statement data interface
   interface FinancialStatementRow {
     date?: string;
@@ -792,7 +797,7 @@
   let selectedAnalystTargetLevel: AnalystTargetLevel | null = null;
   let analystTargetPopupPosition = { x: 0, y: 0 };
 
-  $: isSubscribed = data?.user?.tier === "Pro";
+  $: isSubscribed = data?.isSubscribed ?? (data?.user?.tier === "Pro");
 
   // Responsive breakpoint helpers
   $: isMobile = $screenWidth > 0 && $screenWidth < 640;
@@ -3603,6 +3608,176 @@
       shortInterestMarkers = [];
     } finally {
       shortInterestLoading = false;
+    }
+  };
+
+  // Helper function to rebuild earnings timestamp cache
+  const rebuildEarningsTimestampCache = () => {
+    earningsTimestampCache = new Map();
+    for (const earnings of historicalEarnings) {
+      if (earnings.date) {
+        const dt = DateTime.fromISO(earnings.date, { zone });
+        if (dt.isValid)
+          earningsTimestampCache.set(earnings, dt.startOf("day").toMillis());
+      }
+    }
+  };
+
+  // Helper function to rebuild dividends timestamp cache
+  const rebuildDividendsTimestampCache = () => {
+    dividendTimestampCache = new Map();
+    for (const dividend of historicalDividends) {
+      if (dividend.date) {
+        const dt = DateTime.fromISO(dividend.date, { zone });
+        if (dt.isValid)
+          dividendTimestampCache.set(dividend, dt.startOf("day").toMillis());
+      }
+    }
+  };
+
+  // Helper function to rebuild news timestamp cache
+  const rebuildNewsTimestampCache = () => {
+    newsTimestampCache = new Map();
+    for (const news of newsFlowData) {
+      if (news.date) {
+        const dt = DateTime.fromSQL(news.date, { zone });
+        if (dt.isValid)
+          newsTimestampCache.set(news, dt.startOf("day").toMillis());
+      }
+    }
+  };
+
+  // Lazy fetch earnings data with client-side caching
+  const fetchEarningsData = async () => {
+    if (!ticker || earningsLoading) return;
+
+    // Check cache first
+    const cachedEarnings = getCache(ticker, "chartEarnings");
+    const cachedNextEarnings = getCache(ticker, "chartNextEarnings");
+
+    if (cachedEarnings !== undefined) {
+      historicalEarnings = cachedEarnings;
+      nextEarnings = cachedNextEarnings ?? null;
+      rebuildEarningsTimestampCache();
+      updateAllOverlays();
+      return;
+    }
+
+    earningsLoading = true;
+    try {
+      const response = await fetch("/api/chart-events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, types: ["earnings"] }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      historicalEarnings = result?.earnings ?? [];
+      nextEarnings = result?.nextEarnings ?? null;
+
+      // Cache the results
+      setCache(ticker, historicalEarnings, "chartEarnings");
+      setCache(ticker, nextEarnings, "chartNextEarnings");
+
+      rebuildEarningsTimestampCache();
+      updateAllOverlays();
+    } catch (error) {
+      console.error("Failed to fetch earnings data:", error);
+      historicalEarnings = [];
+      nextEarnings = null;
+    } finally {
+      earningsLoading = false;
+    }
+  };
+
+  // Lazy fetch dividends data with client-side caching
+  const fetchDividendsData = async () => {
+    if (!ticker || dividendsLoading) return;
+
+    // Check cache first
+    const cachedDividends = getCache(ticker, "chartDividends");
+
+    if (cachedDividends !== undefined) {
+      historicalDividends = cachedDividends;
+      rebuildDividendsTimestampCache();
+      updateAllOverlays();
+      return;
+    }
+
+    dividendsLoading = true;
+    try {
+      const response = await fetch("/api/chart-events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, types: ["dividends"] }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      historicalDividends = result?.dividends ?? [];
+
+      // Cache the results
+      setCache(ticker, historicalDividends, "chartDividends");
+
+      rebuildDividendsTimestampCache();
+      updateAllOverlays();
+    } catch (error) {
+      console.error("Failed to fetch dividends data:", error);
+      historicalDividends = [];
+    } finally {
+      dividendsLoading = false;
+    }
+  };
+
+  // Lazy fetch news flow data with client-side caching
+  const fetchNewsFlowData = async () => {
+    if (!ticker || newsFlowLoading) return;
+
+    // Check cache first
+    const cachedNews = getCache(ticker, "chartNewsFlow");
+
+    if (cachedNews !== undefined) {
+      newsFlowData = cachedNews;
+      rebuildNewsTimestampCache();
+      updateAllOverlays();
+      return;
+    }
+
+    newsFlowLoading = true;
+    try {
+      const response = await fetch("/api/chart-events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticker, types: ["news"] }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      newsFlowData = result?.news ?? [];
+
+      // Cache the results
+      setCache(ticker, newsFlowData, "chartNewsFlow");
+
+      rebuildNewsTimestampCache();
+      updateAllOverlays();
+    } catch (error) {
+      console.error("Failed to fetch news flow data:", error);
+      newsFlowData = [];
+    } finally {
+      newsFlowLoading = false;
     }
   };
 
@@ -6541,12 +6716,17 @@
       ) {
         activeRange = savedSettings.activeRange;
       }
-      // Load event toggle states for Pro users
-      if (data?.user?.tier === "Pro") {
-        showEarnings = savedSettings.showEarnings ?? true;
-        showDividends = savedSettings.showDividends ?? true;
-        showNewsFlow = savedSettings.showNewsFlow ?? true;
+      // Load event toggle states for Pro users (lazy load enabled events)
+      if (isSubscribed) {
+        showEarnings = savedSettings.showEarnings ?? false;
+        showDividends = savedSettings.showDividends ?? false;
+        showNewsFlow = savedSettings.showNewsFlow ?? false;
         showShortInterest = savedSettings.showShortInterest ?? false;
+
+        // Lazy load enabled events
+        if (showEarnings) fetchEarningsData();
+        if (showDividends) fetchDividendsData();
+        if (showNewsFlow) fetchNewsFlowData();
       }
       // Load toolbar selection state
       if (savedSettings.selectedToolByGroup) {
@@ -6594,11 +6774,11 @@
           eps: savedEpsPeriod,
         };
       }
-    } else if (data?.user?.tier === "Pro") {
-      // Default to true for Pro users if no settings saved
-      showEarnings = true;
-      showDividends = true;
-      showNewsFlow = true;
+    } else if (isSubscribed) {
+      // Default to false for Pro users if no settings saved (lazy load on demand)
+      showEarnings = false;
+      showDividends = false;
+      showNewsFlow = false;
     }
 
     if (!data?.user) {
@@ -6978,38 +7158,18 @@
     dailyBars = normalizeDaily(data?.historical ?? []);
     intradayBars = normalizeIntraday(data?.intraday ?? []);
     latestRealtimePrice = null; // Reset on ticker change
-    historicalEarnings = data?.historicalEarnings ?? [];
-    nextEarnings = data?.nextEarnings ?? null;
-    historicalDividends = data?.historicalDividends ?? [];
-    newsFlowData = data?.getWhyPriceMoved ?? [];
 
-    // Pre-compute and cache timestamps for markers (avoids recalculation on scroll/zoom)
+    // Reset event data when ticker changes (lazy loaded on demand)
+    historicalEarnings = [];
+    nextEarnings = null;
     earningsTimestampCache = new Map();
-    for (const earnings of historicalEarnings) {
-      if (earnings.date) {
-        const dt = DateTime.fromISO(earnings.date, { zone });
-        if (dt.isValid)
-          earningsTimestampCache.set(earnings, dt.startOf("day").toMillis());
-      }
-    }
-
+    earningsMarkers = [];
+    historicalDividends = [];
     dividendTimestampCache = new Map();
-    for (const dividend of historicalDividends) {
-      if (dividend.date) {
-        const dt = DateTime.fromISO(dividend.date, { zone });
-        if (dt.isValid)
-          dividendTimestampCache.set(dividend, dt.startOf("day").toMillis());
-      }
-    }
-
+    dividendMarkers = [];
+    newsFlowData = [];
     newsTimestampCache = new Map();
-    for (const news of newsFlowData) {
-      if (news.date) {
-        const dt = DateTime.fromSQL(news.date, { zone });
-        if (dt.isValid)
-          newsTimestampCache.set(news, dt.startOf("day").toMillis());
-      }
-    }
+    newsMarkers = [];
 
     // Reset short interest state when ticker changes
     historicalShortInterest = [];
@@ -7054,6 +7214,17 @@
 
     if (indicatorState?.max_pain) {
       fetchMaxPainData();
+    }
+
+    // Refetch enabled events for new ticker
+    if (showEarnings) {
+      fetchEarningsData();
+    }
+    if (showDividends) {
+      fetchDividendsData();
+    }
+    if (showNewsFlow) {
+      fetchNewsFlowData();
     }
   }
 
@@ -7667,13 +7838,17 @@
                           on:change={() => {
                             showEarnings = !showEarnings;
                             saveEventSettings();
-                            if (
-                              showEarnings &&
-                              !isNonIntradayRange(activeRange)
-                            ) {
-                              setRange("1D");
-                              // Re-apply range after chart settles to ensure correct state
-                              setTimeout(() => setRange("1D"), 150);
+                            if (showEarnings) {
+                              // Lazy load earnings data if not already loaded
+                              if (historicalEarnings.length === 0) {
+                                fetchEarningsData();
+                              }
+                              if (!isNonIntradayRange(activeRange)) {
+                                setRange("1D");
+                                setTimeout(() => setRange("1D"), 150);
+                              } else {
+                                updateAllOverlays();
+                              }
                             } else {
                               updateAllOverlays();
                             }
@@ -7722,13 +7897,17 @@
                           on:change={() => {
                             showDividends = !showDividends;
                             saveEventSettings();
-                            if (
-                              showDividends &&
-                              !isNonIntradayRange(activeRange)
-                            ) {
-                              setRange("1D");
-                              // Re-apply range after chart settles to ensure correct state
-                              setTimeout(() => setRange("1D"), 150);
+                            if (showDividends) {
+                              // Lazy load dividends data if not already loaded
+                              if (historicalDividends.length === 0) {
+                                fetchDividendsData();
+                              }
+                              if (!isNonIntradayRange(activeRange)) {
+                                setRange("1D");
+                                setTimeout(() => setRange("1D"), 150);
+                              } else {
+                                updateAllOverlays();
+                              }
                             } else {
                               updateAllOverlays();
                             }
@@ -7777,13 +7956,17 @@
                           on:change={() => {
                             showNewsFlow = !showNewsFlow;
                             saveEventSettings();
-                            if (
-                              showNewsFlow &&
-                              !isNonIntradayRange(activeRange)
-                            ) {
-                              setRange("1D");
-                              // Re-apply range after chart settles to ensure correct state
-                              setTimeout(() => setRange("1D"), 150);
+                            if (showNewsFlow) {
+                              // Lazy load news flow data if not already loaded
+                              if (newsFlowData.length === 0) {
+                                fetchNewsFlowData();
+                              }
+                              if (!isNonIntradayRange(activeRange)) {
+                                setRange("1D");
+                                setTimeout(() => setRange("1D"), 150);
+                              } else {
+                                updateAllOverlays();
+                              }
                             } else {
                               updateAllOverlays();
                             }
@@ -8018,7 +8201,7 @@
           >
             <DropdownMenu.Group>
               <DropdownMenu.Item
-                class={`flex items-center px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
                   $mode === "light"
                     ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
                     : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
@@ -8028,7 +8211,7 @@
                 Light
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                class={`flex items-center px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
                   $mode === "dark"
                     ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
                     : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
@@ -10383,9 +10566,16 @@
                       on:change={() => {
                         showEarnings = !showEarnings;
                         saveEventSettings();
-                        if (showEarnings && !isNonIntradayRange(activeRange)) {
-                          setRange("1D");
-                          setTimeout(() => setRange("1D"), 150);
+                        if (showEarnings) {
+                          if (historicalEarnings.length === 0) {
+                            fetchEarningsData();
+                          }
+                          if (!isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         } else {
                           updateAllOverlays();
                         }
@@ -10433,9 +10623,16 @@
                       on:change={() => {
                         showDividends = !showDividends;
                         saveEventSettings();
-                        if (showDividends && !isNonIntradayRange(activeRange)) {
-                          setRange("1D");
-                          setTimeout(() => setRange("1D"), 150);
+                        if (showDividends) {
+                          if (historicalDividends.length === 0) {
+                            fetchDividendsData();
+                          }
+                          if (!isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         } else {
                           updateAllOverlays();
                         }
@@ -10483,9 +10680,16 @@
                       on:change={() => {
                         showNewsFlow = !showNewsFlow;
                         saveEventSettings();
-                        if (showNewsFlow && !isNonIntradayRange(activeRange)) {
-                          setRange("1D");
-                          setTimeout(() => setRange("1D"), 150);
+                        if (showNewsFlow) {
+                          if (newsFlowData.length === 0) {
+                            fetchNewsFlowData();
+                          }
+                          if (!isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         } else {
                           updateAllOverlays();
                         }
@@ -10687,9 +10891,16 @@
                     on:change={() => {
                       showEarnings = !showEarnings;
                       saveEventSettings();
-                      if (showEarnings && !isNonIntradayRange(activeRange)) {
-                        setRange("1D");
-                        setTimeout(() => setRange("1D"), 150);
+                      if (showEarnings) {
+                        if (historicalEarnings.length === 0) {
+                          fetchEarningsData();
+                        }
+                        if (!isNonIntradayRange(activeRange)) {
+                          setRange("1D");
+                          setTimeout(() => setRange("1D"), 150);
+                        } else {
+                          updateAllOverlays();
+                        }
                       } else {
                         updateAllOverlays();
                       }
@@ -10719,9 +10930,16 @@
                     on:change={() => {
                       showDividends = !showDividends;
                       saveEventSettings();
-                      if (showDividends && !isNonIntradayRange(activeRange)) {
-                        setRange("1D");
-                        setTimeout(() => setRange("1D"), 150);
+                      if (showDividends) {
+                        if (historicalDividends.length === 0) {
+                          fetchDividendsData();
+                        }
+                        if (!isNonIntradayRange(activeRange)) {
+                          setRange("1D");
+                          setTimeout(() => setRange("1D"), 150);
+                        } else {
+                          updateAllOverlays();
+                        }
                       } else {
                         updateAllOverlays();
                       }
@@ -10753,9 +10971,16 @@
                       on:change={() => {
                         showNewsFlow = !showNewsFlow;
                         saveEventSettings();
-                        if (showNewsFlow && !isNonIntradayRange(activeRange)) {
-                          setRange("1D");
-                          setTimeout(() => setRange("1D"), 150);
+                        if (showNewsFlow) {
+                          if (newsFlowData.length === 0) {
+                            fetchNewsFlowData();
+                          }
+                          if (!isNonIntradayRange(activeRange)) {
+                            setRange("1D");
+                            setTimeout(() => setRange("1D"), 150);
+                          } else {
+                            updateAllOverlays();
+                          }
                         } else {
                           updateAllOverlays();
                         }

@@ -682,7 +682,7 @@
       <span>Price alerts</span>
     {:else}
       <svg
-        class="size-3.5"
+        class="size-4"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -695,18 +695,18 @@
           points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
         />
       </svg>
-      <span>Watchlist</span>
+      <span class="text-sm">Watchlist</span>
     {/if}
   </div>
 
   <!-- Watchlist dropdown selector -->
   {#if activeTab === "watchlist"}
-    <div class="px-3 py-2 border-b border-gray-200 dark:border-zinc-800">
+    <div class="px-3 py-0 border-b border-gray-200 dark:border-zinc-800">
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild let:builder>
           <Button
             builders={[builder]}
-            class="w-fit transition-all px-1 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
+            class="w-fit transition-all px-1 py-0 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
           >
             <span class="truncate font-medium">{activeWatchlistTitle}</span>
             <svg
@@ -1005,12 +1005,7 @@
               )}
               <button
                 type="button"
-                class="group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 {editMode &&
-                isSelected
-                  ? 'bg-rose-50 dark:bg-rose-500/10 text-gray-900 dark:text-white'
-                  : isActive
-                    ? 'bg-blue-500/10 text-gray-900 dark:text-white'
-                    : 'hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200'}"
+                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200"
                 title={item?.name ?? item?.symbol}
                 on:click={() => {
                   if (editMode) {
@@ -1045,7 +1040,8 @@
                       }}
                     />
                   {/if}
-                  <span class="font-semibold truncate"
+                  <span
+                    class=" truncate sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >{item?.symbol ?? "-"}</span
                   >
                 </span>
