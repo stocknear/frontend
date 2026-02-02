@@ -690,7 +690,7 @@
         <DropdownMenu.Trigger asChild let:builder>
           <Button
             builders={[builder]}
-            class="min-w-[90px] w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 py-1.5 rounded-full truncate text-xs"
+            class="w-fit transition-all px-1 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
           >
             <span class="truncate font-medium">{activeWatchlistTitle}</span>
             <svg
