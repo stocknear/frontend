@@ -2,7 +2,15 @@ import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey } = locals;
+  const { apiURL, apiKey, user } = locals;
+
+  // Security: Check authentication
+  if (!user?.id) {
+    return new Response(
+      JSON.stringify({ error: "Authentication required" }),
+      { status: 401 }
+    );
+  }
 
   const postData = { listId: data?.portfolioId, ruleOfList: data?.ruleOfList };
   const response = await fetch(apiURL + "/get-portfolio", {

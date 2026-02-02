@@ -3,6 +3,15 @@ import { serialize } from "object-to-formdata";
 
 export const POST = (async ({ request, locals }) => {
   const { user, pb } = locals;
+
+  // Security: Check authentication
+  if (!user?.id) {
+    return new Response(
+      JSON.stringify({ error: "Authentication required" }),
+      { status: 401 }
+    );
+  }
+
   const data = await request.json();
 
   // `tickerInput` can be a string (single ticker) or an array (list of ticker objects)
@@ -17,6 +26,15 @@ export const POST = (async ({ request, locals }) => {
 
   try {
     const portfolio = await pb.collection("portfolio").getOne(portfolioId);
+
+    // Security: Verify user owns this watchlist (authorization check)
+    if (portfolio?.user !== user.id) {
+      return new Response(
+        JSON.stringify({ error: "Access denied" }),
+        { status: 403 }
+      );
+    }
+
     // Ensure current tickers are in an array of objects with {symbol, shares, avgPrice}
     let currentTickers = portfolio?.ticker || [];
     if (typeof currentTickers === "string") {

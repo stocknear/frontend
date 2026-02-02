@@ -1010,8 +1010,8 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              ></path></svg>
-
+                              ></path></svg
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -1103,7 +1103,8 @@
                         ><path
                           fill="currentColor"
                           d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
-                        /></svg>
+                        /></svg
+                      >
 
                       <span class="ml-1 text-sm">
                         {numberOfChecked}
@@ -1124,7 +1125,8 @@
                       /><path
                         fill="currentColor"
                         d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-                      /></svg>
+                      /></svg
+                    >
 
                     {#if !editMode}
                       <span class="ml-1 text-[0.85rem] sm:text-sm">
@@ -1176,8 +1178,8 @@
                             d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"
                           /></g
                         ></g
-                      ></svg>
-
+                      ></svg
+                    >
                   </span>
                 </a>
               {/if}
@@ -1478,7 +1480,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="mb-5">
       <h3 class="font-bold text-2xl mb-5">{portfolio_modal_new_title()}</h3>
@@ -1530,7 +1533,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2">{portfolio_modal_delete_title()}</h3>
     <p class="text-sm mb-6">
@@ -1564,8 +1568,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-{portfolio_modal_delete_button()}</label
+          ></line></svg
+        >
+        {portfolio_modal_delete_button()}</label
       >
     </div>
   </div>
