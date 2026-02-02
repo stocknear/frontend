@@ -657,61 +657,52 @@
 <div
   class="tv-right-panel flex h-full flex-1 flex-col bg-white dark:bg-[#0b0b0d]"
 >
-  <!-- Header with watchlist dropdown -->
+  <!-- Header title row -->
   <div
-    class="flex items-center px-2 py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]"
+    class="flex items-center gap-1.5 px-3 py-1.5 border-b border-gray-200 dark:border-zinc-800 text-[11px] font-semibold text-gray-800 dark:text-zinc-200"
   >
-    <!-- Watchlist Dropdown or Alerts Title -->
     {#if activeTab === "alerts"}
-      <div
-        class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 dark:text-zinc-200"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="size-3.5"
+        viewBox="0 0 24 24"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="size-3.5"
-          viewBox="0 0 24 24"
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
         >
-          <g
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-          >
-            <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
-            <circle cx="12" cy="13" r="8" />
-            <path d="M9.5 13h5M12 10.5v5" />
-          </g>
-        </svg>
-        <span>Price alerts</span>
-      </div>
+          <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+          <circle cx="12" cy="13" r="8" />
+          <path d="M9.5 13h5M12 10.5v5" />
+        </g>
+      </svg>
+      <span>Price alerts</span>
     {:else}
-      <div class="flex flex-col items-start w-full">
-        <div
-          class="mb-3 flex w-full items-center py-1.5 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d]"
-        >
-          <div
-            class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 dark:text-zinc-200"
-          >
-            <svg
-              class="size-3.5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-              />
-            </svg>
+      <svg
+        class="size-3.5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        />
+      </svg>
+      <span>Watchlist</span>
+    {/if}
+  </div>
 
-            <span>Watchlist</span>
-          </div>
-        </div>
-        <DropdownMenu.Root>
+  <!-- Watchlist dropdown selector -->
+  {#if activeTab === "watchlist"}
+    <div class="px-3 py-2 border-b border-gray-200 dark:border-zinc-800">
+      <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
@@ -823,14 +814,13 @@
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
-      </div>
-    {/if}
-  </div>
+    </div>
+  {/if}
 
   <!-- Add stocks search input and Edit button in same row -->
   {#if activeTab === "watchlist" && activeWatchlistId}
     <div
-      class="flex items-center gap-2 px-2 py-2 border-b border-gray-200 dark:border-zinc-800"
+      class="flex items-center gap-2 px-3 py-2 border-b border-gray-200 dark:border-zinc-800"
     >
       <!-- Add stocks input -->
       <div class="flex-1">
