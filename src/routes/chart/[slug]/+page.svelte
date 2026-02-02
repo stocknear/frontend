@@ -10397,6 +10397,7 @@
                     currentSymbol={ticker}
                     activeTab={rightSidebarTab}
                     wsURL={data?.wsURL}
+                    {data}
                   />
                 {/if}
                 <div

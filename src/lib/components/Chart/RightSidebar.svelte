@@ -12,6 +12,7 @@
 
   export let currentSymbol: string | null = null;
   export let wsURL: string | null = null;
+  export let data: { user?: unknown } | null = null;
 
   type WatchlistSummary = {
     id: string;
@@ -901,7 +902,13 @@
           class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
         >
           <DropdownMenu.Item
-            on:click={() => (isCreateModalOpen = true)}
+            on:click={() => {
+              if (!data?.user) {
+                goto("/register");
+              } else {
+                isCreateModalOpen = true;
+              }
+            }}
             class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
           >
             <svg
