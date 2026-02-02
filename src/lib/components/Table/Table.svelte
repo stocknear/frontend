@@ -234,6 +234,7 @@
 
   const inlineEditableColumns = new Set(["avgPrice", "shares"]);
   let activeInlineCells = new Set<string>();
+  let editingValues = new Map<string, string>();
 
   function formatEditableValue(value: unknown, key: string): string {
     if (value === null || value === undefined) {
@@ -378,6 +379,9 @@
     columnKey: string,
   ): Promise<void> {
     const key = getInlineCellKey(row, rowIndex, columnKey);
+    // Initialize with current display value so it persists across re-renders
+    const displayValue = formatEditableValue(row?.[columnKey], columnKey);
+    editingValues.set(key, displayValue);
     const next = new Set(activeInlineCells);
     next.add(key);
     activeInlineCells = next;
@@ -395,6 +399,8 @@
     columnKey: string,
   ): void {
     const key = getInlineCellKey(row, rowIndex, columnKey);
+    // Clear the editing value when done
+    editingValues.delete(key);
     if (activeInlineCells.has(key)) {
       const next = new Set(activeInlineCells);
       next.delete(key);
@@ -610,7 +616,13 @@
     event: Event,
     row: DataRow | undefined,
     key: string,
-  ): void {}
+  ): void {
+    const inputElement = event.target as HTMLInputElement;
+    const cellKey = getInlineCellKey(row, undefined, key);
+    editingValues.set(cellKey, inputElement.value);
+    // Trigger reactivity so input keeps the typed value
+    editingValues = new Map(editingValues);
+  }
 
   function validateAndApplyEditableValue(
     row: DataRow | undefined,
@@ -619,7 +631,9 @@
   ): void {
     if (!inputElement || !row) return;
 
-    const rawValue = inputElement.value;
+    // Use the stored editing value (persists across re-renders) or fall back to input value
+    const cellKey = getInlineCellKey(row, undefined, key);
+    const rawValue = editingValues.get(cellKey) ?? inputElement.value;
     const trimmed = rawValue.trim();
 
     if (trimmed.length === 0) {
@@ -2777,7 +2791,7 @@
                     <input
                       type="text"
                       placeholder=""
-                      value={displayValue}
+                      value={editingValues.get(cellKey) ?? displayValue}
                       on:input={(event) =>
                         handleEditableInput(event, item, column.key)}
                       on:keydown={(event) =>
