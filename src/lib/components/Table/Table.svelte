@@ -2906,7 +2906,7 @@
                   {/if}
                 {:else if column.key === "price"}
                   <div class="relative flex items-center justify-end">
-                    {#if item?.previous !== null && item?.previous !== undefined && Math.abs(item?.previous - item[column?.key]) >= 0.01}
+                    {#if item?.previous != null && Math.abs(item.previous - item[column?.key]) >= 0.01}
                       <span
                         class="absolute h-1 w-1 {item[column?.key] < 10
                           ? 'right-[35px] sm:right-[40px]'
@@ -2915,34 +2915,52 @@
                             : 'right-[45px] sm:right-[55px]'} bottom-0 -top-0.5 sm:-top-1"
                       >
                         <span
-                          class="inline-flex rounded-full h-1 w-1 {item?.previous >
+                          class="inline-flex rounded-full h-1 w-1 {item.previous >
                           item[column?.key]
                             ? 'bg-red-600 dark:bg-[#FF2F1F]'
                             : 'bg-emerald-500 dark:bg-emerald-400'} pulse-animation"
                         ></span>
                       </span>
+                      <span class="tabular-nums transition-colors duration-300 {item[column?.key] > item.previous
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : 'text-rose-800 dark:text-rose-400'}">{item[column.key] != null
+                          ? item[column.key].toFixed(2)
+                          : "-"}</span>
+                    {:else}
+                      <span class="tabular-nums">{item[column.key] != null
+                        ? item[column.key].toFixed(2)
+                        : "-"}</span>
                     {/if}
-                    {item[column.key] !== null
-                      ? item[column.key]?.toFixed(2)
-                      : "-"}
                   </div>
                 {:else if column.type === "percent"}
                   {item[column.key] > 0.01
                     ? item[column.key]?.toFixed(2) + "%"
                     : "< 0.01%"}
                 {:else if column.type === "percentSign"}
-                  {#if item[column.key] === null || item[column.key] === undefined}
+                  {#if item[column.key] == null}
                     <span>-</span>
                   {:else if item[column.key] > 0}
-                    <span class="text-emerald-800 dark:text-emerald-400"
-                      >+{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
+                    <span class="tabular-nums transition-colors duration-300 {item?.previous != null
+                      ? item.price > item.previous
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : item.price < item.previous
+                          ? 'text-rose-800 dark:text-rose-400'
+                          : 'text-emerald-800 dark:text-emerald-400'
+                      : 'text-emerald-800 dark:text-emerald-400'}"
+                      >+{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="text-rose-800 dark:text-rose-400"
-                      >{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
+                    <span class="tabular-nums transition-colors duration-300 {item?.previous != null
+                      ? item.price > item.previous
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : item.price < item.previous
+                          ? 'text-rose-800 dark:text-rose-400'
+                          : 'text-rose-800 dark:text-rose-400'
+                      : 'text-rose-800 dark:text-rose-400'}"
+                      >{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else}
-                    <span>{item[column.key]?.toFixed(2)}%</span>
+                    <span class="tabular-nums">{item[column.key].toFixed(2)}%</span>
                   {/if}
                 {:else if column.type === "sentiment" || column?.type === "rating"}
                   <div

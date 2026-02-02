@@ -843,6 +843,12 @@ export const calculateChange = (oldList = [], newList = []) => {
 
       item.previous = price;
       item.price = np;
+
+      // Recalculate sinceAdded if addedPrice exists (for watchlist)
+      const addedPrice = parseNum(item.addedPrice);
+      if (addedPrice > 0 && np > 0) {
+        item.sinceAdded = Math.round(((np - addedPrice) / addedPrice) * 10000) / 100;
+      }
     }
 
     // Volume update (increment by newItem.ls if finite and > 0)
