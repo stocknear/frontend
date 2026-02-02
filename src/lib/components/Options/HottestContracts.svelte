@@ -460,59 +460,61 @@
           {title}
         </h2>
 
-        <p
-          class="mt-4 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
-        >
-          {@html type === "oi"
-            ? stock_detail_options_hottest_intro_oi({
-                count: Math.max(
-                  ...rawData?.map((item) => item?.open_interest || 0),
-                )?.toLocaleString("en-US"),
-                strike: rawData?.find(
-                  (item) =>
-                    item?.open_interest ===
-                    Math.max(...rawData?.map((i) => i?.open_interest || 0)),
-                )?.strike_price,
-                optionType:
-                  rawData?.find(
+        {#if rawData?.length > 0}
+          <p
+            class="mt-4 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
+          >
+            {@html type === "oi"
+              ? stock_detail_options_hottest_intro_oi({
+                  count: Math.max(
+                    ...rawData?.map((item) => item?.open_interest || 0),
+                  )?.toLocaleString("en-US"),
+                  strike: rawData?.find(
                     (item) =>
                       item?.open_interest ===
                       Math.max(...rawData?.map((i) => i?.open_interest || 0)),
-                  )?.option_type === "C"
-                    ? stock_detail_options_hottest_option_call()
-                    : stock_detail_options_hottest_option_put(),
-                avgIv: (
-                  rawData
-                    ?.filter((item) => item?.iv)
-                    ?.reduce((sum, item) => sum + parseFloat(item.iv), 0) /
-                    rawData?.filter((item) => item?.iv)?.length || 0
-                )?.toFixed(2),
-              })
-            : stock_detail_options_hottest_intro_volume({
-                count: Math.max(
-                  ...rawData?.map((item) => item?.volume || 0),
-                )?.toLocaleString("en-US"),
-                strike: rawData?.find(
-                  (item) =>
-                    item?.volume ===
-                    Math.max(...rawData?.map((i) => i?.volume || 0)),
-                )?.strike_price,
-                optionType:
-                  rawData?.find(
+                  )?.strike_price,
+                  optionType:
+                    rawData?.find(
+                      (item) =>
+                        item?.open_interest ===
+                        Math.max(...rawData?.map((i) => i?.open_interest || 0)),
+                    )?.option_type === "C"
+                      ? stock_detail_options_hottest_option_call()
+                      : stock_detail_options_hottest_option_put(),
+                  avgIv: (
+                    rawData
+                      ?.filter((item) => item?.iv)
+                      ?.reduce((sum, item) => sum + parseFloat(item.iv), 0) /
+                      rawData?.filter((item) => item?.iv)?.length || 0
+                  )?.toFixed(2),
+                })
+              : stock_detail_options_hottest_intro_volume({
+                  count: Math.max(
+                    ...rawData?.map((item) => item?.volume || 0),
+                  )?.toLocaleString("en-US"),
+                  strike: rawData?.find(
                     (item) =>
                       item?.volume ===
                       Math.max(...rawData?.map((i) => i?.volume || 0)),
-                  )?.option_type === "C"
-                    ? stock_detail_options_hottest_option_call()
-                    : stock_detail_options_hottest_option_put(),
-                avgIv: (
-                  rawData
-                    ?.filter((item) => item?.iv)
-                    ?.reduce((sum, item) => sum + parseFloat(item.iv), 0) /
-                    rawData?.filter((item) => item?.iv)?.length || 0
-                )?.toFixed(2),
-              })}
-        </p>
+                  )?.strike_price,
+                  optionType:
+                    rawData?.find(
+                      (item) =>
+                        item?.volume ===
+                        Math.max(...rawData?.map((i) => i?.volume || 0)),
+                    )?.option_type === "C"
+                      ? stock_detail_options_hottest_option_call()
+                      : stock_detail_options_hottest_option_put(),
+                  avgIv: (
+                    rawData
+                      ?.filter((item) => item?.iv)
+                      ?.reduce((sum, item) => sum + parseFloat(item.iv), 0) /
+                      rawData?.filter((item) => item?.iv)?.length || 0
+                  )?.toFixed(2),
+                })}
+          </p>
+        {/if}
 
         {#if config}
           <div
