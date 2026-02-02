@@ -1435,14 +1435,14 @@
     "4hour": 90,
   };
 
-  // Pro limits (3x for 1min/5min, ~2.67x for others)
+  // Pro limits (3x for 1min/5min, 4x for others)
   const intradayHistoryProLimitDaysMap: Record<IntradayInterval, number> = {
     "1min": 90,
     "5min": 90,
-    "15min": 240,
-    "30min": 240,
-    "1hour": 240,
-    "4hour": 240,
+    "15min": 360,
+    "30min": 360,
+    "1hour": 360,
+    "4hour": 360,
   };
 
   // Dynamic limit based on subscription status

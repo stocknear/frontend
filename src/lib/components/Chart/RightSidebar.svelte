@@ -406,6 +406,15 @@
     }, 50);
   };
 
+  // Clear search input (delayed to run after Combobox internal handler)
+  const clearSearchInput = () => {
+    setTimeout(() => {
+      searchInputValue = "";
+      searchBarData = [];
+      touchedInput = false;
+    }, 0);
+  };
+
   // Add ticker function
   const handleAddTicker = async (ticker: string) => {
     if (isAddingTicker || !activeWatchlistId) return;
@@ -413,14 +422,12 @@
       toast.error("Already in watchlist", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
-      searchInputValue = "";
-      searchBarData = [];
+      clearSearchInput();
       return;
     }
 
     isAddingTicker = true;
-    searchInputValue = "";
-    searchBarData = [];
+    clearSearchInput();
 
     try {
       const promise = fetch("/api/update-watchlist", {

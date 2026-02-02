@@ -616,16 +616,14 @@
       toast.error(watchlist_toast_already_in_list(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
-      inputValue = "";
-      searchBarData = [];
+      clearSearchInput();
       return;
     }
 
     isAddingTicker = true;
 
-    // Clear input and search results immediately to prevent toggle
-    inputValue = "";
-    searchBarData = [];
+    // Clear input and search results (delayed to run after Combobox handler)
+    clearSearchInput();
 
     // Exit edit mode.
     editMode = false;
@@ -809,6 +807,15 @@
 
   let inputValue = "";
   let touchedInput = false;
+
+  // Clear search input (delayed to run after Combobox internal handler)
+  const clearSearchInput = () => {
+    setTimeout(() => {
+      inputValue = "";
+      searchBarData = [];
+      touchedInput = false;
+    }, 0);
+  };
 
   async function search() {
     clearTimeout(timeoutId); // Clear any existing timeout
