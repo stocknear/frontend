@@ -28,50 +28,61 @@
   // Convert markdown to HTML, handling both markdown and existing HTML content
   function renderContent(content) {
     if (!content) return "";
-    
+
     let html;
     // If content already contains HTML tags, return as-is
-    if (/<[a-z][\s\S]*>/i.test(content) && !content.startsWith("#") && !content.startsWith("-") && !content.startsWith("*")) {
+    if (
+      /<[a-z][\s\S]*>/i.test(content) &&
+      !content.startsWith("#") &&
+      !content.startsWith("-") &&
+      !content.startsWith("*")
+    ) {
       html = content;
     } else {
       // Otherwise, convert markdown to HTML
       html = converter.makeHtml(content);
     }
-    
+
     // Process images to apply saved widths from title attribute
     // Title format: "width:XXX|original title"
     if (typeof window !== "undefined" && typeof DOMParser !== "undefined") {
       const doc = new DOMParser().parseFromString(html, "text/html");
-      doc.querySelectorAll('img').forEach((img) => {
-        const title = img.getAttribute('title') || '';
+      doc.querySelectorAll("img").forEach((img) => {
+        const title = img.getAttribute("title") || "";
         const widthMatch = title.match(/^width:(\d+)\|?/);
         if (widthMatch) {
           img.style.width = `${widthMatch[1]}px`;
-          img.style.height = 'auto';
+          img.style.height = "auto";
           // Clean up title for display
-          const cleanTitle = title.replace(/^width:\d+\|?/, '');
+          const cleanTitle = title.replace(/^width:\d+\|?/, "");
           if (cleanTitle) {
-            img.setAttribute('title', cleanTitle);
+            img.setAttribute("title", cleanTitle);
           } else {
-            img.removeAttribute('title');
+            img.removeAttribute("title");
           }
         }
       });
       return doc.body.innerHTML;
     }
-    
+
     return html;
   }
 
   // Get tag colors
   function getTagColor(tag) {
     const colors = {
-      "Stocks": "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
-      "ETF": "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300",
-      "Options": "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
-      "Sentiment": "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
+      Stocks:
+        "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
+      ETF: "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300",
+      Options:
+        "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
+      Sentiment:
+        "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
     };
-    return colors[tag] || "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300";
+    return (
+      colors[tag] ||
+      "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300"
+    );
   }
 
   // Format date nicely
@@ -153,7 +164,9 @@
 
 <div class="min-h-screen bg-white dark:bg-[#09090B]">
   <!-- Top Bar -->
-  <div class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800">
+  <div
+    class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800"
+  >
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-14">
         <!-- Left: Back -->
@@ -162,7 +175,6 @@
           class="flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
         >
           <ArrowLeft class="w-5 h-5" />
-          <span class="text-sm font-medium hidden sm:inline">Learning Center</span>
         </a>
 
         <!-- Right: Admin Edit -->
@@ -194,7 +206,9 @@
     {/if}
 
     <!-- Title -->
-    <h1 class="text-4xl sm:text-5xl font-serif font-light text-gray-900 dark:text-white mb-4 leading-tight">
+    <h1
+      class="text-4xl sm:text-5xl font-serif font-light text-gray-900 dark:text-white mb-4 leading-tight"
+    >
       {article?.title}
     </h1>
 
@@ -209,7 +223,11 @@
     {#if article?.tags && article.tags.length > 0}
       <div class="flex flex-wrap items-center gap-2 mb-6">
         {#each article.tags as tag}
-          <span class="px-3 py-1 rounded-full text-sm font-medium {getTagColor(tag)}">
+          <span
+            class="px-3 py-1 rounded-full text-sm font-medium {getTagColor(
+              tag,
+            )}"
+          >
             {tag}
           </span>
         {/each}
@@ -217,7 +235,9 @@
     {/if}
 
     <!-- Meta Info -->
-    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-zinc-500 mb-8">
+    <div
+      class="flex items-center gap-4 text-sm text-gray-500 dark:text-zinc-500 mb-8"
+    >
       <div class="flex items-center gap-1.5">
         <Calendar class="w-4 h-4" />
         <span>{formatDate(article?.updated)}</span>
@@ -233,7 +253,7 @@
     <div class="article-content">
       {@html renderedDescription?.replace(
         "__VIDEO_SRC__",
-        getImageURL(article?.collectionId, article?.id, article?.video)
+        getImageURL(article?.collectionId, article?.id, article?.video),
       )}
     </div>
 
@@ -249,7 +269,7 @@
         <ArrowLeft class="w-4 h-4" />
         <span class="text-sm font-medium">Back to Learning Center</span>
       </a>
-      
+
       {#if isAdmin && article?.id}
         <a
           href="/learning-center/editor/{article.id}"

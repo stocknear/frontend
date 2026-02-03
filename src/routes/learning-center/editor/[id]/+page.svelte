@@ -81,7 +81,11 @@
   // Cover image state
   let coverFile: File | null = null;
   let coverPreview = data.article?.cover
-    ? getImageURL(data.article.collectionId, data.article.id, data.article.cover)
+    ? getImageURL(
+        data.article.collectionId,
+        data.article.id,
+        data.article.cover,
+      )
     : "";
   let removeCover = false;
   let showCoverUpload = false;
@@ -127,24 +131,24 @@
     dangerousTags.forEach((tag) => {
       doc.querySelectorAll(tag).forEach((el) => el.remove());
     });
-    
+
     // Apply saved widths from title attributes to images
-    doc.querySelectorAll('img').forEach((img) => {
-      const title = img.getAttribute('title') || '';
+    doc.querySelectorAll("img").forEach((img) => {
+      const title = img.getAttribute("title") || "";
       const widthMatch = title.match(/^width:(\d+)\|?/);
       if (widthMatch) {
         img.style.width = `${widthMatch[1]}px`;
-        img.style.height = 'auto';
+        img.style.height = "auto";
         // Clean up title for display
-        const cleanTitle = title.replace(/^width:\d+\|?/, '');
+        const cleanTitle = title.replace(/^width:\d+\|?/, "");
         if (cleanTitle) {
-          img.setAttribute('title', cleanTitle);
+          img.setAttribute("title", cleanTitle);
         } else {
-          img.removeAttribute('title');
+          img.removeAttribute("title");
         }
       }
     });
-    
+
     return doc.body.innerHTML;
   }
 
@@ -253,14 +257,14 @@
         const newState = editorView.state.apply(transaction);
         editorView.updateState(newState);
         description = defaultMarkdownSerializer.serialize(newState.doc);
-        
+
         // Re-apply image widths after DOM updates
         if (transaction.docChanged) {
           setTimeout(() => setupImageResizeHandlers(), 50);
         }
       },
     });
-    
+
     // Initial setup for existing images
     setTimeout(() => setupImageResizeHandlers(), 100);
 
@@ -270,7 +274,7 @@
           editorView.destroy();
           editorView = null;
         }
-      }
+      },
     };
   }
 
@@ -283,7 +287,9 @@
   }
 
   // Toolbar commands
-  function execCommand(command: (state: EditorState, dispatch?: any) => boolean) {
+  function execCommand(
+    command: (state: EditorState, dispatch?: any) => boolean,
+  ) {
     if (!editorView) return;
     command(editorView.state, editorView.dispatch);
     editorView.focus();
@@ -358,12 +364,15 @@
   // Insert image into editor at cursor position
   function insertImageAtCursor(imageUrl: string, altText: string = "image") {
     if (!editorView) return;
-    
+
     const { state, dispatch } = editorView;
-    
+
     // Try to insert as image node first
     if (schema.nodes.image) {
-      const imageNode = schema.nodes.image.create({ src: imageUrl, alt: altText });
+      const imageNode = schema.nodes.image.create({
+        src: imageUrl,
+        alt: altText,
+      });
       const paragraph = schema.nodes.paragraph.create(null, imageNode);
       dispatch(state.tr.replaceSelectionWith(paragraph));
     } else {
@@ -372,9 +381,9 @@
       const textNode = schema.text(imageMarkdown);
       dispatch(state.tr.replaceSelectionWith(textNode));
     }
-    
+
     editorView.focus();
-    
+
     // Add resize handlers to newly inserted images after a short delay
     setTimeout(() => setupImageResizeHandlers(), 100);
   }
@@ -382,21 +391,21 @@
   // Setup resize handlers for all images in the editor
   function setupImageResizeHandlers() {
     if (!editorDiv) return;
-    
-    const images = editorDiv.querySelectorAll('.ProseMirror img');
+
+    const images = editorDiv.querySelectorAll(".ProseMirror img");
     images.forEach((img) => {
       const imgEl = img as HTMLImageElement;
-      
+
       // Make image resizable via CSS
-      imgEl.style.cursor = 'default';
-      imgEl.classList.add('resizable-image');
-      
+      imgEl.style.cursor = "default";
+      imgEl.classList.add("resizable-image");
+
       // Apply saved width from title attribute
-      const title = imgEl.getAttribute('title') || '';
+      const title = imgEl.getAttribute("title") || "";
       const widthMatch = title.match(/^width:(\d+)\|?/);
       if (widthMatch) {
         imgEl.style.width = `${widthMatch[1]}px`;
-        imgEl.style.height = 'auto';
+        imgEl.style.height = "auto";
       }
     });
   }
@@ -404,32 +413,35 @@
   // Handle mouse down on image for resize
   function handleEditorMouseDown(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    
-    if (target.tagName === 'IMG') {
+
+    if (target.tagName === "IMG") {
       const img = target as HTMLImageElement;
-      
+
       // Add resizable class if not present
-      if (!img.classList.contains('resizable-image')) {
-        img.classList.add('resizable-image');
+      if (!img.classList.contains("resizable-image")) {
+        img.classList.add("resizable-image");
       }
-      
+
       event.preventDefault();
       resizingImage = img;
       resizeStartX = event.clientX;
       resizeStartWidth = img.offsetWidth || img.naturalWidth;
-      document.body.style.cursor = 'ew-resize';
-      document.body.style.userSelect = 'none';
+      document.body.style.cursor = "ew-resize";
+      document.body.style.userSelect = "none";
     }
   }
 
   // Handle mouse move for resize
   function handleMouseMove(event: MouseEvent) {
     if (!resizingImage) return;
-    
+
     const diff = event.clientX - resizeStartX;
-    const newWidth = Math.max(100, Math.min(resizeStartWidth + diff, editorDiv?.offsetWidth || 800));
+    const newWidth = Math.max(
+      100,
+      Math.min(resizeStartWidth + diff, editorDiv?.offsetWidth || 800),
+    );
     resizingImage.style.width = `${newWidth}px`;
-    resizingImage.style.height = 'auto';
+    resizingImage.style.height = "auto";
   }
 
   // Handle mouse up to stop resize
@@ -437,38 +449,38 @@
     if (resizingImage && editorView) {
       const img = resizingImage;
       const newWidth = img.offsetWidth;
-      
+
       // Find the image node in ProseMirror and update its title with width info
       const { state } = editorView;
       let imagePos: number | null = null;
-      
+
       state.doc.descendants((node, pos) => {
-        if (node.type.name === 'image' && node.attrs.src === img.src) {
+        if (node.type.name === "image" && node.attrs.src === img.src) {
           imagePos = pos;
           return false;
         }
         return true;
       });
-      
+
       if (imagePos !== null) {
         // Store width in title attribute as "width:XXX|original title"
-        const currentTitle = state.doc.nodeAt(imagePos)?.attrs.title || '';
-        const titleWithoutWidth = currentTitle.replace(/^width:\d+\|?/, '');
+        const currentTitle = state.doc.nodeAt(imagePos)?.attrs.title || "";
+        const titleWithoutWidth = currentTitle.replace(/^width:\d+\|?/, "");
         const newTitle = `width:${newWidth}|${titleWithoutWidth}`;
-        
+
         const tr = state.tr.setNodeMarkup(imagePos, undefined, {
           ...state.doc.nodeAt(imagePos)?.attrs,
           title: newTitle,
         });
         editorView.dispatch(tr);
-        
+
         // Update description
         description = defaultMarkdownSerializer.serialize(editorView.state.doc);
       }
-      
+
       resizingImage = null;
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
     }
   }
 
@@ -478,11 +490,13 @@
     if (!input.files || !input.files[0]) return;
 
     const file = input.files[0];
-    
+
     // Validate file type
     const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      toast.error("Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.");
+      toast.error(
+        "Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.",
+      );
       return;
     }
 
@@ -509,9 +523,9 @@
 
       const text = await response.text();
       console.log("Upload response:", text);
-      
+
       let result;
-      
+
       try {
         result = JSON.parse(text);
       } catch {
@@ -519,23 +533,27 @@
         toast.error("Invalid response from server");
         return;
       }
-      
+
       console.log("Parsed result:", result);
-      
+
       // SvelteKit action response format uses "devalue" serialization
       // Format: { type: "success", status: 200, data: "[{schema}, ...values]" }
       let data = result.data;
       let url: string | null = null;
       let error: string | null = null;
       let articleId: string | null = null;
-      
+
       // SvelteKit serializes the data as a JSON string using devalue format
       if (typeof data === "string") {
         try {
           const parsed = JSON.parse(data);
           // Devalue format: [{key: index, ...}, value1, value2, ...]
           // e.g., [{"success":1,"url":2,"articleId":3}, true, "http://...", "articleId"]
-          if (Array.isArray(parsed) && parsed.length > 0 && typeof parsed[0] === 'object') {
+          if (
+            Array.isArray(parsed) &&
+            parsed.length > 0 &&
+            typeof parsed[0] === "object"
+          ) {
             const schema = parsed[0];
             // Extract values using the schema indices
             if (schema.url !== undefined) {
@@ -552,15 +570,19 @@
           // data is not JSON string, use as is
         }
       }
-      
+
       if (url) {
         insertImageAtCursor(url, file.name.replace(/\.[^/.]+$/, ""));
         toast.success("Image uploaded");
-        
+
         // If a new article was created during image upload, update the URL
         if (articleId && !currentArticleId) {
           currentArticleId = articleId;
-          window.history.replaceState({}, "", `/learning-center/editor/${currentArticleId}`);
+          window.history.replaceState(
+            {},
+            "",
+            `/learning-center/editor/${currentArticleId}`,
+          );
         }
       } else if (error) {
         console.error("Upload failed:", error);
@@ -582,14 +604,17 @@
   // Handle image drop in editor
   async function handleImageDrop(event: DragEvent) {
     if (!event.dataTransfer?.files?.length) return;
-    
+
     const file = event.dataTransfer.files[0];
     if (!file.type.startsWith("image/")) return;
 
     event.preventDefault();
-    
+
     // Create a fake event for reuse
-    const fakeInput = { files: [file], value: "" } as unknown as HTMLInputElement;
+    const fakeInput = {
+      files: [file],
+      value: "",
+    } as unknown as HTMLInputElement;
     const fakeEvent = { target: fakeInput } as unknown as Event;
     await handleInlineImageUpload(fakeEvent);
   }
@@ -681,29 +706,33 @@
 </script>
 
 <svelte:head>
-  <title>{data.isNew ? "New Article" : "Edit Article"} - Learning Center Editor</title>
+  <title
+    >{data.isNew ? "New Article" : "Edit Article"} - Learning Center Editor</title
+  >
 </svelte:head>
 
 <div class="min-h-screen bg-white dark:bg-[#09090B]">
   <!-- Top Toolbar -->
-  <div class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800">
+  <div
+    class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800"
+  >
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-14">
         <!-- Left: Back + Undo/Redo -->
         <div class="flex items-center gap-1">
           <a
-            href="/learning-center/editor"
-            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            href="/learning-center"
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
           >
             <ArrowLeft class="w-5 h-5" />
           </a>
-          
+
           <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
-          
+
           <button
             type="button"
             on:click={execUndo}
-            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
             title="Undo"
           >
             <Undo2 class="w-4 h-4" />
@@ -711,7 +740,7 @@
           <button
             type="button"
             on:click={execRedo}
-            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
             title="Redo"
           >
             <Redo2 class="w-4 h-4" />
@@ -723,14 +752,17 @@
           <div class="relative style-dropdown">
             <button
               type="button"
-              on:click|stopPropagation={() => (showStyleDropdown = !showStyleDropdown)}
-              class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              on:click|stopPropagation={() =>
+                (showStyleDropdown = !showStyleDropdown)}
+              class="flex items-center gap-1 px-3 py-1.5 rounded-2xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
             >
               Style
               <ChevronDown class="w-3 h-3" />
             </button>
             {#if showStyleDropdown}
-              <div class="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-zinc-900 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 py-1 z-50">
+              <div
+                class="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg border border-gray-200 dark:border-zinc-700 py-1 z-50"
+              >
                 <button
                   type="button"
                   on:click={() => setParagraph()}
@@ -766,43 +798,97 @@
           <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
 
           <!-- Formatting -->
-          <button type="button" on:click={toggleBold} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Bold">
+          <button
+            type="button"
+            on:click={toggleBold}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Bold"
+          >
             <Bold class="w-4 h-4" />
           </button>
-          <button type="button" on:click={toggleItalic} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Italic">
+          <button
+            type="button"
+            on:click={toggleItalic}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Italic"
+          >
             <Italic class="w-4 h-4" />
           </button>
-          <button type="button" on:click={toggleCode} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Code">
+          <button
+            type="button"
+            on:click={toggleCode}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Code"
+          >
             <Code class="w-4 h-4" />
           </button>
 
           <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
 
           <!-- Media & Links -->
-          <button type="button" on:click={insertLink} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Link">
+          <button
+            type="button"
+            on:click={insertLink}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Link"
+          >
             <Link class="w-4 h-4" />
           </button>
-          <button type="button" on:click={openImageUpload} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {isUploadingImage ? 'opacity-50' : ''}" title="Insert Image" disabled={isUploadingImage}>
+          <button
+            type="button"
+            on:click={openImageUpload}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {isUploadingImage
+              ? 'opacity-50'
+              : ''}"
+            title="Insert Image"
+            disabled={isUploadingImage}
+          >
             {#if isUploadingImage}
               <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
               </svg>
             {:else}
               <ImageIcon class="w-4 h-4" />
             {/if}
           </button>
-          <button type="button" on:click={toggleBlockquote} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Quote">
+          <button
+            type="button"
+            on:click={toggleBlockquote}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Quote"
+          >
             <Quote class="w-4 h-4" />
           </button>
 
           <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
 
           <!-- Lists -->
-          <button type="button" on:click={toggleBulletList} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Bullet List">
+          <button
+            type="button"
+            on:click={toggleBulletList}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Bullet List"
+          >
             <List class="w-4 h-4" />
           </button>
-          <button type="button" on:click={toggleOrderedList} class="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition" title="Numbered List">
+          <button
+            type="button"
+            on:click={toggleOrderedList}
+            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            title="Numbered List"
+          >
             <ListOrdered class="w-4 h-4" />
           </button>
         </div>
@@ -812,7 +898,9 @@
           <button
             type="button"
             on:click={() => (showPreview = !showPreview)}
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showPreview ? 'bg-gray-100 dark:bg-zinc-800' : ''}"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showPreview
+              ? 'bg-gray-100 dark:bg-zinc-800'
+              : ''}"
           >
             <Eye class="w-4 h-4" />
             <span class="hidden sm:inline">Preview</span>
@@ -821,7 +909,9 @@
           <button
             type="button"
             on:click={() => (showSettingsPanel = !showSettingsPanel)}
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showSettingsPanel ? 'bg-gray-100 dark:bg-zinc-800' : ''}"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showSettingsPanel
+              ? 'bg-gray-100 dark:bg-zinc-800'
+              : ''}"
           >
             <Settings class="w-4 h-4" />
             <span class="hidden sm:inline">Settings</span>
@@ -840,7 +930,10 @@
         method="POST"
         action="?/saveArticle"
         enctype="multipart/form-data"
-        on:keydown={(e) => e.key === "Enter" && e.target instanceof HTMLInputElement && e.preventDefault()}
+        on:keydown={(e) =>
+          e.key === "Enter" &&
+          e.target instanceof HTMLInputElement &&
+          e.preventDefault()}
         use:enhance={() => {
           isSaving = true;
           return async ({ result, update }) => {
@@ -851,7 +944,11 @@
               if (result.data?.articleId && !currentArticleId) {
                 currentArticleId = result.data.articleId;
                 // Update URL without full navigation
-                window.history.replaceState({}, "", `/learning-center/editor/${currentArticleId}`);
+                window.history.replaceState(
+                  {},
+                  "",
+                  `/learning-center/editor/${currentArticleId}`,
+                );
               }
               // Stay on page - just invalidate data
               await invalidateAll();
@@ -868,17 +965,26 @@
             <img
               src={coverPreview}
               alt="Cover"
-              class="w-full h-64 object-cover rounded-lg"
+              class="w-full h-64 object-cover rounded-2xl"
             />
-            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition rounded-lg flex items-center justify-center gap-3">
-              <label class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-white text-sm cursor-pointer transition">
+            <div
+              class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition rounded-2xl flex items-center justify-center gap-3"
+            >
+              <label
+                class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-2xl text-white text-sm cursor-pointer transition"
+              >
                 Change
-                <input type="file" accept="image/*" on:change={handleCoverSelect} class="hidden" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  on:change={handleCoverSelect}
+                  class="hidden"
+                />
               </label>
               <button
                 type="button"
                 on:click={handleRemoveCover}
-                class="px-4 py-2 bg-white/20 hover:bg-red-500/50 rounded-lg text-white text-sm transition"
+                class="px-4 py-2 bg-white/20 hover:bg-red-500/50 rounded-2xl text-white text-sm transition"
               >
                 Remove
               </button>
@@ -914,13 +1020,15 @@
               type="button"
               on:click={() => {
                 if (tags.includes(tag)) {
-                  tags = tags.filter(t => t !== tag);
+                  tags = tags.filter((t) => t !== tag);
                 } else if (tags.length < 3) {
                   tags = [...tags, tag];
                 }
               }}
-              class="px-3 py-1.5 rounded-full text-sm transition {tags.includes(tag) 
-                ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700' 
+              class="cursor-pointer px-3 py-1.5 rounded-full text-sm transition {tags.includes(
+                tag,
+              )
+                ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700'
                 : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 border border-transparent hover:border-gray-300 dark:hover:border-zinc-600'}"
             >
               {tag}
@@ -939,18 +1047,22 @@
 
         <!-- Content Editor -->
         {#if showPreview}
-          <div class="prose prose-lg dark:prose-invert max-w-none min-h-[400px]">
+          <div
+            class="prose prose-lg dark:prose-invert max-w-none min-h-[400px]"
+          >
             {#if previewHtml}
               {@html previewHtml}
             {:else}
-              <p class="text-gray-300 dark:text-zinc-600 italic">No content yet...</p>
+              <p class="text-gray-300 dark:text-zinc-600 italic">
+                No content yet...
+              </p>
             {/if}
           </div>
         {:else}
           {#key showPreview}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div 
-              bind:this={editorDiv} 
+            <div
+              bind:this={editorDiv}
               class="minimal-editor"
               use:initEditorAction
               on:mousedown={handleEditorMouseDown}
@@ -960,7 +1072,11 @@
 
         <!-- Hidden content input -->
         <input type="hidden" name="description" value={description} />
-        <input type="hidden" name="removeCover" value={removeCover.toString()} />
+        <input
+          type="hidden"
+          name="removeCover"
+          value={removeCover.toString()}
+        />
 
         <!-- Floating Save Button -->
         <div class="fixed bottom-8 right-8 flex items-center gap-3">
@@ -971,8 +1087,19 @@
           >
             {#if isSaving}
               <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
               Saving...
             {:else}
@@ -986,7 +1113,9 @@
 
     <!-- Settings Panel (Slide-in) -->
     {#if showSettingsPanel}
-      <div class="w-80 border-l border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50 min-h-[calc(100vh-3.5rem)] p-6">
+      <div
+        class="w-80 border-l border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50 min-h-[calc(100vh-3.5rem)] p-6"
+      >
         <div class="flex items-center justify-between mb-6">
           <h3 class="font-semibold text-gray-900 dark:text-white">Settings</h3>
           <button
@@ -1001,12 +1130,18 @@
         <div class="space-y-6">
           <!-- Cover Image -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2">
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2"
+            >
               Cover Image
             </label>
             {#if coverPreview && !removeCover}
               <div class="relative">
-                <img src={coverPreview} alt="Cover" class="w-full h-32 object-cover rounded-lg" />
+                <img
+                  src={coverPreview}
+                  alt="Cover"
+                  class="w-full h-32 object-cover rounded-2xl"
+                />
                 <button
                   type="button"
                   on:click={handleRemoveCover}
@@ -1017,44 +1152,23 @@
               </div>
             {:else}
               <label
-                class="flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-lg cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition"
+                class="flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-2xl cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition"
                 on:dragover|preventDefault
                 on:drop={handleCoverDrop}
               >
                 <Upload class="w-6 h-6 text-gray-400 mb-2" />
-                <span class="text-sm text-gray-500 dark:text-zinc-400">Upload cover</span>
-                <input type="file" name="cover" accept="image/*" on:change={handleCoverSelect} class="hidden" />
+                <span class="text-sm text-gray-500 dark:text-zinc-400"
+                  >Upload cover</span
+                >
+                <input
+                  type="file"
+                  name="cover"
+                  accept="image/*"
+                  on:change={handleCoverSelect}
+                  class="hidden"
+                />
               </label>
             {/if}
-          </div>
-
-          <!-- Tags Selection -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2">
-              Tags
-            </label>
-            <div class="flex flex-wrap gap-2">
-              {#each availableTags as tag}
-                <button
-                  type="button"
-                  on:click={() => {
-                    if (tags.includes(tag)) {
-                      tags = tags.filter(t => t !== tag);
-                    } else if (tags.length < 3) {
-                      tags = [...tags, tag];
-                    }
-                  }}
-                  class="px-3 py-1.5 rounded-full text-sm transition {tags.includes(tag) 
-                    ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700' 
-                    : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 border border-transparent hover:border-gray-300 dark:hover:border-zinc-600'}"
-                >
-                  {tag}
-                </button>
-              {/each}
-            </div>
-            <p class="text-xs text-gray-400 dark:text-zinc-500 mt-2">
-              {tags.length}/3 selected
-            </p>
           </div>
         </div>
       </div>
@@ -1069,33 +1183,44 @@
       on:click={() => (showImageUploadModal = false)}
       class="absolute inset-0 bg-black/50"
     ></button>
-    <div class="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-2xl">
+    <div
+      class="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-2xl"
+    >
       <button
         on:click={() => (showImageUploadModal = false)}
         class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
       >
         <X class="w-5 h-5" />
       </button>
-      
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Insert Image</h3>
-      
+
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        Insert Image
+      </h3>
+
       <label
         class="flex flex-col items-center justify-center h-48 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl cursor-pointer hover:border-violet-500 dark:hover:border-violet-500 transition"
         on:dragover|preventDefault
-        on:drop={(e) => { showImageUploadModal = false; handleImageDrop(e); }}
+        on:drop={(e) => {
+          showImageUploadModal = false;
+          handleImageDrop(e);
+        }}
       >
         <Upload class="w-10 h-10 text-gray-400 mb-3" />
-        <span class="text-gray-600 dark:text-zinc-400">Drag & drop or click to upload</span>
-        <span class="text-sm text-gray-400 dark:text-zinc-500 mt-1">PNG, JPG, GIF, WebP up to 5MB</span>
-        <input 
+        <span class="text-gray-600 dark:text-zinc-400"
+          >Drag & drop or click to upload</span
+        >
+        <span class="text-sm text-gray-400 dark:text-zinc-500 mt-1"
+          >PNG, JPG, GIF, WebP up to 5MB</span
+        >
+        <input
           bind:this={imageFileInput}
-          type="file" 
-          accept="image/jpeg,image/png,image/gif,image/webp" 
-          on:change={handleInlineImageUpload} 
-          class="hidden" 
+          type="file"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          on:change={handleInlineImageUpload}
+          class="hidden"
         />
       </label>
-      
+
       <p class="text-xs text-gray-400 dark:text-zinc-500 mt-3 text-center">
         Image will be inserted at cursor position
       </p>
@@ -1236,7 +1361,9 @@
     border-radius: 0.5rem;
     margin: 1.5rem 0;
     display: block;
-    transition: box-shadow 0.15s ease, transform 0.1s ease;
+    transition:
+      box-shadow 0.15s ease,
+      transform 0.1s ease;
   }
 
   :global(.minimal-editor .ProseMirror img.resizable-image) {
