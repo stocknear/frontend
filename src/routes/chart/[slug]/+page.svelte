@@ -2519,6 +2519,212 @@
       },
     });
 
+    // Price Channel with fill between lines (20% opacity)
+    registerOverlay({
+      name: "priceChannelLine",
+      totalStep: 3,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates, bounding, overlay }) => {
+        if (coordinates.length < 2) return [];
+
+        const figures: any[] = [];
+        const [p1, p2] = coordinates;
+
+        // Get line color for fill (with 20% opacity)
+        const lineColor = overlay?.styles?.line?.color || "#2962FF";
+        const fillColor = overlay?.styles?.polygon?.color || hexToRgba(lineColor, 0.2);
+
+        // Calculate the direction vector
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+
+        // Extend the line to chart boundaries
+        const extendLine = (
+          startX: number,
+          startY: number,
+          dirX: number,
+          dirY: number,
+        ) => {
+          if (Math.abs(dirX) < 0.001) {
+            return [
+              { x: startX, y: 0 },
+              { x: startX, y: bounding.height },
+            ];
+          }
+          const slope = dirY / dirX;
+          const y0 = startY - slope * startX;
+          const yEnd = startY + slope * (bounding.width - startX);
+          return [
+            { x: 0, y: y0 },
+            { x: bounding.width, y: yEnd },
+          ];
+        };
+
+        // Main line (first line of channel)
+        const mainLine = extendLine(p1.x, p1.y, dx, dy);
+        figures.push({
+          type: "line",
+          attrs: { coordinates: mainLine },
+        });
+
+        // If we have a third point, draw the parallel line and fill
+        if (coordinates.length >= 3) {
+          const p3 = coordinates[2];
+
+          const lineLen = Math.sqrt(dx * dx + dy * dy);
+          if (lineLen > 0) {
+            // Vector from p1 to p3
+            const v1x = p3.x - p1.x;
+            const v1y = p3.y - p1.y;
+
+            // Calculate the perpendicular offset
+            const offset = (v1x * dy - v1y * dx) / lineLen;
+
+            // Unit perpendicular vector
+            const perpX = -dy / lineLen;
+            const perpY = dx / lineLen;
+
+            // Parallel line points
+            const parallel1 = {
+              x: p1.x + perpX * offset,
+              y: p1.y + perpY * offset,
+            };
+
+            // Extended parallel line
+            const parallelLine = extendLine(parallel1.x, parallel1.y, dx, dy);
+
+            // Draw parallel line
+            figures.push({
+              type: "line",
+              attrs: { coordinates: parallelLine },
+            });
+
+            // Fill polygon between the two lines
+            figures.push({
+              type: "polygon",
+              attrs: {
+                coordinates: [
+                  mainLine[0],
+                  mainLine[1],
+                  parallelLine[1],
+                  parallelLine[0],
+                ],
+              },
+              styles: { color: fillColor },
+              ignoreEvent: true,
+            });
+          }
+        }
+
+        return figures;
+      },
+    });
+
+    // Parallel Straight Line (Parallel Channel) with fill (20% opacity)
+    registerOverlay({
+      name: "parallelStraightLine",
+      totalStep: 3,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates, bounding, overlay }) => {
+        if (coordinates.length < 2) return [];
+
+        const figures: any[] = [];
+        const [p1, p2] = coordinates;
+
+        // Get line color for fill (with 20% opacity)
+        const lineColor = overlay?.styles?.line?.color || "#2962FF";
+        const fillColor = overlay?.styles?.polygon?.color || hexToRgba(lineColor, 0.2);
+
+        // Calculate the direction vector
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+
+        // Extend the line to chart boundaries
+        const extendLine = (
+          startX: number,
+          startY: number,
+          dirX: number,
+          dirY: number,
+        ) => {
+          if (Math.abs(dirX) < 0.001) {
+            return [
+              { x: startX, y: 0 },
+              { x: startX, y: bounding.height },
+            ];
+          }
+          const slope = dirY / dirX;
+          const y0 = startY - slope * startX;
+          const yEnd = startY + slope * (bounding.width - startX);
+          return [
+            { x: 0, y: y0 },
+            { x: bounding.width, y: yEnd },
+          ];
+        };
+
+        // Main line
+        const mainLine = extendLine(p1.x, p1.y, dx, dy);
+        figures.push({
+          type: "line",
+          attrs: { coordinates: mainLine },
+        });
+
+        // If we have a third point, draw the parallel line and fill
+        if (coordinates.length >= 3) {
+          const p3 = coordinates[2];
+
+          const lineLen = Math.sqrt(dx * dx + dy * dy);
+          if (lineLen > 0) {
+            // Vector from p1 to p3
+            const v1x = p3.x - p1.x;
+            const v1y = p3.y - p1.y;
+
+            // Calculate the perpendicular offset
+            const offset = (v1x * dy - v1y * dx) / lineLen;
+
+            // Unit perpendicular vector
+            const perpX = -dy / lineLen;
+            const perpY = dx / lineLen;
+
+            // Parallel line points
+            const parallel1 = {
+              x: p1.x + perpX * offset,
+              y: p1.y + perpY * offset,
+            };
+
+            // Extended parallel line
+            const parallelLine = extendLine(parallel1.x, parallel1.y, dx, dy);
+
+            // Draw parallel line
+            figures.push({
+              type: "line",
+              attrs: { coordinates: parallelLine },
+            });
+
+            // Fill polygon between the two lines
+            figures.push({
+              type: "polygon",
+              attrs: {
+                coordinates: [
+                  mainLine[0],
+                  mainLine[1],
+                  parallelLine[1],
+                  parallelLine[0],
+                ],
+              },
+              styles: { color: fillColor },
+              ignoreEvent: true,
+            });
+          }
+        }
+
+        return figures;
+      },
+    });
+
     customOverlaysRegistered = true;
   };
 
