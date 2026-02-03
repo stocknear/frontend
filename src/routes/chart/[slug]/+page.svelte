@@ -8675,7 +8675,7 @@
       return;
     }
     
-    // ===== TIMEFRAME QUICK SWITCH =====
+    // ===== TIMEFRAME QUICK SWITCH (1-9 in order) =====
     // 1 - 1min
     if (e.key === "1") {
       e.preventDefault();
@@ -8683,57 +8683,57 @@
       return;
     }
     
-    // 5 - 5min
-    if (e.key === "5") {
+    // 2 - 5min
+    if (e.key === "2") {
       e.preventDefault();
       setRange("5min");
       return;
     }
     
-    // 3 - 15min (1+5=15 mnemonic or just quick access)
+    // 3 - 15min
     if (e.key === "3") {
       e.preventDefault();
       setRange("15min");
       return;
     }
     
-    // 0 - 30min
-    if (e.key === "0") {
+    // 4 - 30min
+    if (e.key === "4") {
       e.preventDefault();
       setRange("30min");
       return;
     }
     
-    // H - 1hour
-    if ((e.key === "h" || e.key === "H") && !e.ctrlKey && !e.metaKey) {
+    // 5 - 1hour
+    if (e.key === "5") {
       e.preventDefault();
       setRange("1hour");
       return;
     }
     
-    // 4 - 4hour
-    if (e.key === "4") {
+    // 6 - 4hour
+    if (e.key === "6") {
       e.preventDefault();
       setRange("4hour");
       return;
     }
     
-    // D - Daily
-    if ((e.key === "d" || e.key === "D") && !e.ctrlKey && !e.metaKey) {
+    // 7 - Daily
+    if (e.key === "7") {
       e.preventDefault();
       setRange("1D");
       return;
     }
     
-    // W - Weekly
-    if ((e.key === "w" || e.key === "W") && !e.ctrlKey && !e.metaKey) {
+    // 8 - Weekly
+    if (e.key === "8") {
       e.preventDefault();
       setRange("1W");
       return;
     }
     
-    // M - Monthly
-    if ((e.key === "m" || e.key === "M") && !e.ctrlKey && !e.metaKey) {
+    // 9 - Monthly
+    if (e.key === "9") {
       e.preventDefault();
       setRange("1M");
       return;
@@ -13400,7 +13400,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
               <span class="text-sm text-gray-700 dark:text-zinc-300">5 min</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">5</kbd>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">2</kbd>
             </div>
             <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
               <span class="text-sm text-gray-700 dark:text-zinc-300">15 min</span>
@@ -13408,27 +13408,27 @@
             </div>
             <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
               <span class="text-sm text-gray-700 dark:text-zinc-300">30 min</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">0</kbd>
-            </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">1 hour</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">H</kbd>
-            </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">4 hour</span>
               <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">4</kbd>
             </div>
             <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">1 hour</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">5</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">4 hour</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">6</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
               <span class="text-sm text-gray-700 dark:text-zinc-300">Daily</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">D</kbd>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">7</kbd>
             </div>
             <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
               <span class="text-sm text-gray-700 dark:text-zinc-300">Weekly</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">W</kbd>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">8</kbd>
             </div>
             <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
               <span class="text-sm text-gray-700 dark:text-zinc-300">Monthly</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">M</kbd>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">9</kbd>
             </div>
           </div>
         </div>
