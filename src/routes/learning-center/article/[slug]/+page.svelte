@@ -33,6 +33,11 @@
   let relatedArticles = data?.getRelatedArticles || [];
   $: isAdmin = data?.user?.admin === true;
 
+  // Build back URL based on article category
+  $: backUrl = article?.category && article.category !== "all" 
+    ? `/learning-center?category=${encodeURIComponent(article.category)}`
+    : "/learning-center";
+
   // Markdown to HTML converter
   const converter = new showdown.Converter({
     tables: true,
@@ -340,7 +345,7 @@
       <div class="flex items-center justify-between h-14">
         <!-- Left: Back -->
         <a
-          href="/learning-center"
+          href={backUrl}
           class="flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
         >
           <ArrowLeft class="w-5 h-5" />
