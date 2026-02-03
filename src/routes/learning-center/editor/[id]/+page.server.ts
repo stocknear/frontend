@@ -1,8 +1,19 @@
 import { fail, redirect } from "@sveltejs/kit";
 
+// Helper to check admin access
+function requireAdmin(locals: any) {
+  const user = locals.user;
+  if (!user || user.admin !== true) {
+    return fail(403, { error: "Unauthorized: Admin access required" });
+  }
+  return null;
+}
+
 export const load = async ({ locals, params }) => {
   const { pb } = locals;
   const { id } = params;
+
+  // Note: Admin check is handled by +layout.server.ts
 
   // Get article if editing (not "new")
   const getArticle = async () => {
@@ -28,6 +39,10 @@ export const load = async ({ locals, params }) => {
 export const actions = {
   // Save article (create or update)
   saveArticle: async ({ request, locals, params }) => {
+    // Check admin access
+    const authError = requireAdmin(locals);
+    if (authError) return authError;
+
     const { pb } = locals;
     const { id } = params;
     const formData = await request.formData();
@@ -102,6 +117,10 @@ export const actions = {
 
   // Upload image for content (inline images)
   uploadImage: async ({ request, locals, params }) => {
+    // Check admin access
+    const authError = requireAdmin(locals);
+    if (authError) return authError;
+
     const { pb } = locals;
     const { id } = params;
     const formData = await request.formData();
