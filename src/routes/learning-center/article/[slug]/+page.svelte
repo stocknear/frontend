@@ -43,6 +43,17 @@
     headerLevelStart: 2,
   });
 
+  // Transform PocketBase image URLs to use getImageURL for proper environment handling
+  function transformPocketBaseUrls(html) {
+    // Match PocketBase URLs: http://localhost:8090/api/files/collectionId/recordId/fileName
+    // or any domain with /api/files/ pattern
+    const pbUrlPattern = /(?:https?:\/\/[^\/]+)?\/api\/files\/([^\/]+)\/([^\/]+)\/([^\s"'?]+)/g;
+    
+    return html.replace(pbUrlPattern, (match, collectionId, recordId, fileName) => {
+      return getImageURL(collectionId, recordId, fileName);
+    });
+  }
+
   // Convert markdown to HTML, handling both markdown and existing HTML content
   function renderContent(content) {
     if (!content) return "";
@@ -56,10 +67,22 @@
       !content.startsWith("*")
     ) {
       html = content;
+      // Also convert any markdown images that might be mixed in with HTML
+      // Pattern: ![alt text](url) or ![alt text](url "title")
+      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (match, alt, src, title) => {
+        const titleAttr = title ? ` title="${title}"` : '';
+        return `<img src="${src}" alt="${alt}"${titleAttr} />`;
+      });
     } else {
       // Otherwise, convert markdown to HTML
       html = converter.makeHtml(content);
     }
+    
+    // Remove [IMAGE: ...] placeholder text (used in content templates)
+    html = html.replace(/\[IMAGE:[^\]]*\]/g, '');
+    
+    // Transform all PocketBase URLs to use proper environment URL
+    html = transformPocketBaseUrls(html);
 
     // Process images to apply saved widths from title attribute
     // Title format: "width:XXX|original title"
