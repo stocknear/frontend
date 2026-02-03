@@ -755,7 +755,7 @@
                 type="button"
                 on:click|stopPropagation={() =>
                   (showStyleDropdown = !showStyleDropdown)}
-                class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl text-xs sm:text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                class="cursor-pointer flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl text-xs sm:text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
               >
                 Style
                 <ChevronDown class="w-3 h-3" />
@@ -767,28 +767,28 @@
                   <button
                     type="button"
                     on:click={() => setParagraph()}
-                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    class="cursor-pointer w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
                   >
                     Paragraph
                   </button>
                   <button
                     type="button"
                     on:click={() => setHeading(1)}
-                    class="w-full px-3 py-2 text-left text-lg font-bold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    class="cursor-pointer w-full px-3 py-2 text-left text-lg font-bold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
                   >
                     Heading 1
                   </button>
                   <button
                     type="button"
                     on:click={() => setHeading(2)}
-                    class="w-full px-3 py-2 text-left text-base font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    class="cursor-pointer w-full px-3 py-2 text-left text-base font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
                   >
                     Heading 2
                   </button>
                   <button
                     type="button"
                     on:click={() => setHeading(3)}
-                    class="w-full px-3 py-2 text-left text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    class="cursor-pointer w-full px-3 py-2 text-left text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
                   >
                     Heading 3
                   </button>
@@ -986,7 +986,7 @@
               <button
                 type="button"
                 on:click={handleRemoveCover}
-                class="px-4 py-2 bg-white/20 hover:bg-red-500/50 rounded-2xl text-white text-sm transition"
+                class="cursor-pointer px-4 py-2 bg-white/20 hover:bg-red-500/50 rounded-2xl text-white text-sm transition"
               >
                 Remove
               </button>
@@ -1085,7 +1085,7 @@
           <button
             type="submit"
             disabled={isSaving}
-            class="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium shadow-lg hover:shadow-xl transition disabled:opacity-50 text-sm sm:text-base"
+            class="cursor-pointer flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium shadow-lg hover:shadow-xl transition disabled:opacity-50 text-sm sm:text-base"
           >
             {#if isSaving}
               <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -1119,7 +1119,7 @@
       <div class="sm:hidden fixed inset-0 z-50">
         <button
           on:click={() => (showSettingsPanel = false)}
-          class="absolute inset-0 bg-black/50"
+          class="cursor-pointer absolute inset-0 bg-black/50"
         ></button>
         <div
           class="absolute right-0 top-0 bottom-0 w-full max-w-xs bg-white dark:bg-zinc-900 p-6 shadow-xl"
@@ -1129,7 +1129,7 @@
             <button
               type="button"
               on:click={() => (showSettingsPanel = false)}
-              class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
+              class="cursor-pointer p-1 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
             >
               <X class="w-5 h-5" />
             </button>
@@ -1153,7 +1153,7 @@
                   <button
                     type="button"
                     on:click={handleRemoveCover}
-                    class="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full text-white"
+                    class="cursor-pointer absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full text-white"
                   >
                     <X class="w-4 h-4" />
                   </button>
@@ -1191,7 +1191,7 @@
           <button
             type="button"
             on:click={() => (showSettingsPanel = false)}
-            class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
+            class="cursor-pointer p-1 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
           >
             <X class="w-5 h-5" />
           </button>
@@ -1215,7 +1215,7 @@
                 <button
                   type="button"
                   on:click={handleRemoveCover}
-                  class="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full text-white"
+                  class="cursor-pointer absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full text-white"
                 >
                   <X class="w-4 h-4" />
                 </button>
@@ -1251,14 +1251,14 @@
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <button
       on:click={() => (showImageUploadModal = false)}
-      class="absolute inset-0 bg-black/50"
+      class="cursor-pointer absolute inset-0 bg-black/50"
     ></button>
     <div
       class="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-2xl"
     >
       <button
         on:click={() => (showImageUploadModal = false)}
-        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
+        class="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
       >
         <X class="w-5 h-5" />
       </button>
