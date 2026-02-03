@@ -14,30 +14,30 @@
 
   import SEO from "$lib/components/SEO.svelte";
   import {
-  insider_tracker_back_to_top,
-  insider_tracker_breadcrumb_current,
-  insider_tracker_breadcrumb_home,
-  insider_tracker_infobox,
-  insider_tracker_next,
-  insider_tracker_no_results,
-  insider_tracker_page_of,
-  insider_tracker_previous,
-  insider_tracker_reset_columns,
-  insider_tracker_rows,
-  insider_tracker_search_placeholder,
-  insider_tracker_seo_description,
-  insider_tracker_seo_keywords,
-  insider_tracker_seo_title,
-  insider_tracker_stocks,
-  insider_tracker_title,
-  insider_tracker_table_symbol,
-  insider_tracker_table_name,
-  insider_tracker_table_member,
-  insider_tracker_table_market_cap,
-  insider_tracker_table_shares,
-  insider_tracker_table_value,
-  insider_tracker_table_type,
-} from "$lib/paraglide/messages";
+    insider_tracker_back_to_top,
+    insider_tracker_breadcrumb_current,
+    insider_tracker_breadcrumb_home,
+    insider_tracker_infobox,
+    insider_tracker_next,
+    insider_tracker_no_results,
+    insider_tracker_page_of,
+    insider_tracker_previous,
+    insider_tracker_reset_columns,
+    insider_tracker_rows,
+    insider_tracker_search_placeholder,
+    insider_tracker_seo_description,
+    insider_tracker_seo_keywords,
+    insider_tracker_seo_title,
+    insider_tracker_stocks,
+    insider_tracker_title,
+    insider_tracker_table_symbol,
+    insider_tracker_table_name,
+    insider_tracker_table_member,
+    insider_tracker_table_market_cap,
+    insider_tracker_table_shares,
+    insider_tracker_table_value,
+    insider_tracker_table_type,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -57,11 +57,23 @@
     return [
       { key: "symbol", label: insider_tracker_table_symbol(), align: "left" },
       { key: "name", label: insider_tracker_table_name(), align: "left" },
-      { key: "reportingName", label: insider_tracker_table_member(), align: "left" },
-      { key: "marketCap", label: insider_tracker_table_market_cap(), align: "right" },
+      {
+        key: "reportingName",
+        label: insider_tracker_table_member(),
+        align: "left",
+      },
+      {
+        key: "marketCap",
+        label: insider_tracker_table_market_cap(),
+        align: "right",
+      },
       { key: "shares", label: insider_tracker_table_shares(), align: "right" },
       { key: "value", label: insider_tracker_table_value(), align: "right" },
-      { key: "transactionType", label: insider_tracker_table_type(), align: "right" },
+      {
+        key: "transactionType",
+        label: insider_tracker_table_type(),
+        align: "right",
+      },
     ];
   }
   let defaultColumns = getDefaultColumns();
@@ -215,9 +227,8 @@
     updatePaginatedData();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -491,7 +502,9 @@
         >{insider_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{insider_tracker_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {insider_tracker_breadcrumb_current()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -508,9 +521,7 @@
             </h1>
           </div>
 
-          <Infobox
-            text={insider_tracker_infobox()}
-          />
+          <Infobox text={insider_tracker_infobox()} />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
@@ -519,7 +530,8 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {originalData?.length?.toLocaleString("en-US")} {insider_tracker_stocks()}
+                {originalData?.length?.toLocaleString("en-US")}
+                {insider_tracker_stocks()}
               </h2>
               <div
                 class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
@@ -540,8 +552,8 @@
                           ><path
                             fill="currentColor"
                             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          /></svg>
-
+                          /></svg
+                        >
                       </label>
                     {/if}
                   </div>
@@ -654,7 +666,8 @@
                               class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
                             >
                               {item?.reportingName?.length > charNumber
-                                ? item?.reportingName?.slice(0, charNumber) + "..."
+                                ? item?.reportingName?.slice(0, charNumber) +
+                                  "..."
                                 : item?.reportingName}
                             </td>
                           {:else if column.key === "marketCap"}
@@ -685,7 +698,7 @@
                         {/each}
                         <!--
                       <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        class="text-end text-sm whitespace-nowrap"
                       >
                         {item?.transactionDate
                           ? new Date(item?.transactionDate).toLocaleDateString(
@@ -701,7 +714,7 @@
                       </td>
 
                       <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        class="text-end text-sm whitespace-nowrap"
                       >
                         {item?.filingDate
                           ? new Date(item?.filingDate).toLocaleDateString(
@@ -761,7 +774,9 @@
               </div>
             {:else}
               <div class="w-full flex items-center justify-start text-start">
-                <Infobox text={insider_tracker_no_results({ query: inputValue })} />
+                <Infobox
+                  text={insider_tracker_no_results({ query: inputValue })}
+                />
               </div>
             {/if}
 
@@ -790,14 +805,19 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{insider_tracker_previous()}</span></Button
+                    <span class="hidden sm:inline"
+                      >{insider_tracker_previous()}</span
+                    ></Button
                   >
                 </div>
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-gray-600 dark:text-zinc-300">
-                    {insider_tracker_page_of({ current: currentPage, total: totalPages })}
+                    {insider_tracker_page_of({
+                      current: currentPage,
+                      total: totalPages,
+                    })}
                   </span>
 
                   <DropdownMenu.Root>
@@ -842,7 +862,9 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">{item} {insider_tracker_rows()}</span>
+                              <span class="text-sm"
+                                >{item} {insider_tracker_rows()}</span
+                              >
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -858,7 +880,9 @@
                     disabled={currentPage === totalPages}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="hidden sm:inline">{insider_tracker_next()}</span>
+                    <span class="hidden sm:inline"
+                      >{insider_tracker_next()}</span
+                    >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 -rotate-90"
                       viewBox="0 0 20 20"
@@ -882,7 +906,8 @@
                   on:click={scrollToTop}
                   class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
-                  {insider_tracker_back_to_top()} <svg
+                  {insider_tracker_back_to_top()}
+                  <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"

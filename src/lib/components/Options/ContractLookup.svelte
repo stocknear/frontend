@@ -1413,7 +1413,7 @@
                       >Last</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{rawDataHistory?.at(0)?.close ?? "n/a"}</td
                     ></tr
                   >
@@ -1425,7 +1425,7 @@
                       >Bid</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{(rawDataHistory?.at(0)?.close_bid ||
                         rawDataHistory?.at(0)?.bid) ??
                         "n/a"}</td
@@ -1439,7 +1439,7 @@
                       >Mid</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{rawDataHistory?.at(0)?.mark?.toFixed(2) ?? "n/a"}</td
                     ></tr
                   >
@@ -1451,7 +1451,7 @@
                       >Ask</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{(rawDataHistory?.at(0)?.close_ask ||
                         rawDataHistory?.at(0)?.ask) ??
                         "n/a"}</td
@@ -1465,7 +1465,7 @@
                       >Open
                     </td>
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{(rawDataHistory?.at(0)?.open ||
                         rawDataHistory?.at(1)?.close) ??
                         "n/a"}</td
@@ -1478,7 +1478,7 @@
                       >Volume
                     </td>
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{rawDataHistory
                         ?.at(0)
                         ?.volume?.toLocaleString("en-US") ?? "n/a"}</td
@@ -1491,7 +1491,7 @@
                       >Open Interest
                     </td>
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{rawDataHistory
                         ?.at(0)
                         ?.open_interest?.toLocaleString("en-US") ?? "n/a"}</td
@@ -1508,7 +1508,7 @@
                       >Implied Volatility (IV)</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
                       {rawDataHistory?.at(0)?.implied_volatility >= 0
                         ? (
@@ -1525,7 +1525,7 @@
                       >Delta</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{rawDataHistory?.at(0)?.delta?.toFixed(3) ?? "n/a"}</td
                     ></tr
                   >
@@ -1537,7 +1537,7 @@
                       >Gamma</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                       >{rawDataHistory?.at(0)?.gamma?.toFixed(3) ?? "n/a"}</td
                     ></tr
                   >
@@ -1549,7 +1549,7 @@
                       >Theta</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
                       {rawDataHistory?.at(0)?.theta?.toFixed(3) ?? "n/a"}
                     </td></tr
@@ -1561,7 +1561,7 @@
                       >Vega</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
                       {rawDataHistory?.at(0)?.vega?.toFixed(3) ?? "n/a"}
                     </td></tr
@@ -1818,25 +1818,23 @@
                     <tbody>
                       {#each displayList as item, index}
                         <tr class="transition-colors">
-                          <td
-                            class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
-                          >
+                          <td class="text-sm text-start whitespace-nowrap">
                             {formatDate(item?.date)}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {item?.volume !== null
                               ? item?.volume?.toLocaleString("en-US")
                               : 0}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {item?.open_interest &&
                             item?.open_interest !== undefined
                               ? item?.open_interest?.toLocaleString("en-US")
                               : "n/a"}
                           </td>
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {#if item?.changeOI > 0 && item?.changeOI !== null}
                               <span
                                 class="text-emerald-800 dark:text-emerald-400"
@@ -1855,7 +1853,7 @@
                             {/if}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {#if item?.changesPercentageOI > 0 && item?.changesPercentageOI !== undefined}
                               <span
                                 class="text-emerald-800 dark:text-emerald-400"
@@ -1872,28 +1870,28 @@
                             {/if}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {item?.close ?? "n/a"}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {item?.mark ?? "n/a"}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {item?.implied_volatility
                               ? (item?.implied_volatility * 100)?.toFixed(2) +
                                 "%"
                               : "n/a"}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {abbreviateNumber(item?.total_premium)}
                           </td>
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {abbreviateNumber(item?.gex?.toFixed(2))}
                           </td>
-                          <td class="text-sm sm:text-[1rem] text-end">
+                          <td class="text-sm text-end">
                             {abbreviateNumber(item?.dex?.toFixed(2))}
                           </td>
                         </tr>
@@ -2100,7 +2098,8 @@
           ><path
             fill="currentColor"
             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg>
+          /></svg
+        >
       </label>
       <div class=" mb-5 text-center">
         <h3

@@ -137,10 +137,10 @@
     <tbody class="">
       {#each blogData as item}
         <tr class=" dark:sm:hover:bg-[#245073]/10">
-          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-start text-sm whitespace-nowrap">
             {item?.label}
           </td>
-          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-end text-sm whitespace-nowrap">
             {item?.value + "%"}
           </td>
 
@@ -203,7 +203,7 @@
     <tbody class="">
       {#each dividendList as item}
         <tr class=" dark:sm:hover:bg-[#245073]/10">
-          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-start text-sm whitespace-nowrap">
             {new Date(item?.date)?.toLocaleString("en-US", {
               month: "short",
               day: "numeric",
@@ -211,10 +211,10 @@
               daySuffix: "2-digit",
             })}
           </td>
-          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-end text-sm whitespace-nowrap">
             ${item?.adjDividend?.toFixed(3)}
           </td>
-          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-end text-sm whitespace-nowrap">
             {item?.declarationDate?.length !== 0
               ? new Date(item?.declarationDate)?.toLocaleString("en-US", {
                   month: "short",
@@ -224,7 +224,7 @@
                 })
               : "n/a"}
           </td>
-          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-end text-sm whitespace-nowrap">
             {item?.recordDate?.length !== 0
               ? new Date(item?.recordDate)?.toLocaleString("en-US", {
                   month: "short",
@@ -234,7 +234,7 @@
                 })
               : "n/a"}
           </td>
-          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-end text-sm whitespace-nowrap">
             {item?.paymentDate?.length !== 0
               ? new Date(item?.paymentDate)?.toLocaleString("en-US", {
                   month: "short",

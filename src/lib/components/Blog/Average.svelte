@@ -31,16 +31,16 @@
       {#each blogData?.data as item}
         {#if ["evToFreeCashFlow", "evToEBIT", "evToEBITDA", "priceToEarningsRatio", "priceToFreeCashFlowRatio", "priceToSalesRatio"]?.includes(item?.key)}
           <tr class=" dark:sm:hover:bg-[#245073]/10">
-            <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-start text-sm whitespace-nowrap">
               {item?.label}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {item?.industryAvg}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {item?.value}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {item?.upside + "%"}
             </td>
           </tr>
@@ -78,16 +78,16 @@
       {#each blogData?.data as item}
         {#if ["cagr5YearRevenue", "cagr5YearEPS", "revenuePerShare", "revenuePerEmployee"]?.includes(item?.key)}
           <tr class=" dark:sm:hover:bg-[#245073]/10">
-            <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-start text-sm whitespace-nowrap">
               {item?.label}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {abbreviateNumber(item?.industryAvg)}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {abbreviateNumber(item?.value)}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {item?.upside + "%"}
             </td>
           </tr>
@@ -125,16 +125,16 @@
       {#each blogData?.data as item}
         {#if ["grossProfitMargin", "netProfitMargin", "operatingProfitMargin", "altmanZScore"]?.includes(item?.key)}
           <tr class=" dark:sm:hover:bg-[#245073]/10">
-            <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-start text-sm whitespace-nowrap">
               {item?.label}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {abbreviateNumber(item?.industryAvg)}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {abbreviateNumber(item?.value)}
             </td>
-            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+            <td class="text-end text-sm whitespace-nowrap">
               {item?.upside + "%"}
             </td>
           </tr>

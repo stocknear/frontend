@@ -69,14 +69,46 @@
   }
 
   $: columns = [
-    { key: "rank", label: stock_detail_hottest_trades_col_rank(), align: "left" },
-    { key: "date", label: stock_detail_hottest_trades_col_time(), align: "left" },
-    { key: "price", label: stock_detail_hottest_trades_col_price(), align: "right" },
-    { key: "size", label: stock_detail_hottest_trades_col_size(), align: "right" },
-    { key: "sizeVolRatio", label: stock_detail_hottest_trades_col_size_vol(), align: "right" },
-    { key: "sizeAvgVolRatio", label: stock_detail_hottest_trades_col_size_avg_vol(), align: "right" },
-    { key: "premium", label: stock_detail_hottest_trades_col_avg_paid(), align: "right" },
-    { key: "transactionType", label: stock_detail_hottest_trades_col_type(), align: "right" },
+    {
+      key: "rank",
+      label: stock_detail_hottest_trades_col_rank(),
+      align: "left",
+    },
+    {
+      key: "date",
+      label: stock_detail_hottest_trades_col_time(),
+      align: "left",
+    },
+    {
+      key: "price",
+      label: stock_detail_hottest_trades_col_price(),
+      align: "right",
+    },
+    {
+      key: "size",
+      label: stock_detail_hottest_trades_col_size(),
+      align: "right",
+    },
+    {
+      key: "sizeVolRatio",
+      label: stock_detail_hottest_trades_col_size_vol(),
+      align: "right",
+    },
+    {
+      key: "sizeAvgVolRatio",
+      label: stock_detail_hottest_trades_col_size_avg_vol(),
+      align: "right",
+    },
+    {
+      key: "premium",
+      label: stock_detail_hottest_trades_col_avg_paid(),
+      align: "right",
+    },
+    {
+      key: "transactionType",
+      label: stock_detail_hottest_trades_col_type(),
+      align: "right",
+    },
   ];
   $: sortOrders = {
     rank: { order: "none", type: "number" },
@@ -194,36 +226,39 @@
                     showFullHistory = true;
                 }}
               >
-                <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-start text-sm whitespace-nowrap">
                   {item?.rank}
                 </td>
 
-                <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-start text-sm whitespace-nowrap">
                   {formatToNewYorkTime(item?.date)}
                 </td>
 
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.price}
                 </td>
 
-                <td class="text-sm sm:text-[1rem] text-end">
+                <td class="text-sm text-end">
                   {item?.size?.toLocaleString("en-US")}
                 </td>
 
-                <td class="text-sm sm:text-[1rem] text-end">
+                <td class="text-sm text-end">
                   {item?.sizeVolRatio?.toFixed(2)}%
                 </td>
-                <td class="text-sm sm:text-[1rem] text-end">
+                <td class="text-sm text-end">
                   {item?.sizeAvgVolRatio?.toFixed(2)}%
                 </td>
 
-                <td class="text-sm sm:text-[1rem] text-end">
+                <td class="text-sm text-end">
                   {abbreviateNumber(item?.premium)}
                 </td>
                 <td class="text-sm sm:text-[1rem] text-end whitespace-nowrap">
                   {item?.transactionType
                     ?.replace("B", stock_detail_hottest_trades_type_block())
-                    ?.replace("DP", stock_detail_hottest_trades_type_dark_pool())}
+                    ?.replace(
+                      "DP",
+                      stock_detail_hottest_trades_type_dark_pool(),
+                    )}
                 </td>
               </tr>
             {/each}

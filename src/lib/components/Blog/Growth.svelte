@@ -13,10 +13,10 @@
     <tbody class="">
       {#each blogData?.data as item}
         <tr class=" dark:sm:hover:bg-[#245073]/10">
-          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-start text-sm whitespace-nowrap">
             {item?.label}
           </td>
-          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+          <td class="text-end text-sm whitespace-nowrap">
             {item?.value + "%"}
           </td>
 

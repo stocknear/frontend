@@ -646,21 +646,15 @@
                   })}
                 </td>
 
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {item?.longVolume?.toLocaleString("en-US")}
                 </td>
 
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {item?.shortVolume?.toLocaleString("en-US")}
                 </td>
 
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {item?.longShortRatio
                     ? item?.longShortRatio?.toFixed(2)
                     : "n/a"}

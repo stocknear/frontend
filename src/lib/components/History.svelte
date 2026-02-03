@@ -642,8 +642,8 @@
                                   ><path
                                     fill="currentColor"
                                     d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                  /></svg>
-
+                                  /></svg
+                                >
                               </DropdownMenu.Item>
                             {/each}
                           {:else}
@@ -693,9 +693,7 @@
                     <tbody>
                       {#each stockList as item, index}
                         <tr class="dark:sm:hover:bg-[#245073]/10">
-                          <td
-                            class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-start text-sm whitespace-nowrap">
                             {#if timePeriod === "Weekly"}
                               {stock_detail_history_week_of({
                                 date: new Date(item?.time).toLocaleString(
@@ -717,33 +715,23 @@
                               })}
                             {/if}
                           </td>
-                          <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-end text-sm whitespace-nowrap">
                             {item?.open?.toFixed(2)}
                           </td>
 
-                          <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-end text-sm whitespace-nowrap">
                             {item?.high?.toFixed(2)}
                           </td>
 
-                          <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-end text-sm whitespace-nowrap">
                             {item?.low?.toFixed(2)}
                           </td>
 
-                          <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-end text-sm whitespace-nowrap">
                             {item?.close?.toFixed(2)}
                           </td>
 
-                          <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-end text-sm whitespace-nowrap">
                             {item?.adjClose !== undefined
                               ? item?.adjClose?.toFixed(2)
                               : "n/a"}
@@ -762,9 +750,7 @@
                               ? item?.changesPercentage + "%"
                               : "n/a"}
                           </td>
-                          <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                          >
+                          <td class="text-end text-sm whitespace-nowrap">
                             {item?.volume?.toLocaleString("en-US")}
                           </td>
                         </tr>
