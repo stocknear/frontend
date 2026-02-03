@@ -24,6 +24,11 @@
   let showShareDropdown = false;
   let linkCopied = false;
 
+  // Lightbox state
+  let lightboxOpen = false;
+  let lightboxImageSrc = "";
+  let lightboxImageAlt = "";
+
   let article = data?.getArticle;
   let relatedArticles = data?.getRelatedArticles || [];
   $: isAdmin = data?.user?.admin === true;
@@ -198,15 +203,56 @@
     }
   }
 
+  // Lightbox functions
+  function openLightbox(src, alt) {
+    lightboxImageSrc = src;
+    lightboxImageAlt = alt || "Article image";
+    lightboxOpen = true;
+    // Prevent body scroll when lightbox is open
+    if (browser) {
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  function closeLightbox() {
+    lightboxOpen = false;
+    lightboxImageSrc = "";
+    lightboxImageAlt = "";
+    // Restore body scroll
+    if (browser) {
+      document.body.style.overflow = "";
+    }
+  }
+
+  // Handle escape key to close lightbox
+  function handleKeydown(event) {
+    if (event.key === "Escape" && lightboxOpen) {
+      closeLightbox();
+    }
+  }
+
+  // Handle clicks on images in article content
+  function handleArticleClick(event) {
+    const target = event.target;
+    if (target.tagName === "IMG" && target.closest(".article-content")) {
+      event.preventDefault();
+      openLightbox(target.src, target.alt);
+    }
+  }
+
   onMount(() => {
     if (browser) {
       document.addEventListener("click", handleClickOutside);
+      document.addEventListener("keydown", handleKeydown);
     }
   });
 
   onDestroy(() => {
     if (browser) {
       document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleKeydown);
+      // Ensure scroll is restored if component unmounts while lightbox open
+      document.body.style.overflow = "";
     }
   });
 </script>
@@ -435,7 +481,8 @@
     <div class="w-12 h-px bg-gray-200 dark:bg-zinc-700 mb-10"></div>
 
     <!-- Content -->
-    <div class="article-content">
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div class="article-content" on:click={handleArticleClick}>
       {@html renderedDescription?.replace(
         "__VIDEO_SRC__",
         getImageURL(article?.collectionId, article?.id, article?.video),
@@ -607,6 +654,47 @@
   {/if}
 </div>
 
+<!-- Image Lightbox Modal -->
+{#if lightboxOpen}
+  <div
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+    on:click={closeLightbox}
+    on:keydown={(e) => e.key === "Escape" && closeLightbox()}
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+  >
+    <!-- Close Button -->
+    <button
+      type="button"
+      on:click|stopPropagation={closeLightbox}
+      class="cursor-pointer absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white transition"
+      aria-label="Close lightbox"
+    >
+      <X class="w-6 h-6" />
+    </button>
+
+    <!-- Image Container -->
+    <div
+      class="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center"
+      on:click|stopPropagation
+      on:keydown|stopPropagation
+      role="presentation"
+    >
+      <img
+        src={lightboxImageSrc}
+        alt={lightboxImageAlt}
+        class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+      />
+    </div>
+
+    <!-- Click anywhere hint -->
+    <p class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+      Click anywhere or press ESC to close
+    </p>
+  </div>
+{/if}
+
 <style>
   /* Article Content Styles - Matching Editor */
   .article-content {
@@ -735,6 +823,13 @@
     border-radius: 0.5rem;
     margin: 1.5rem 0;
     display: block;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .article-content :global(img:hover) {
+    opacity: 0.9;
+    transform: scale(1.01);
   }
 
   .article-content :global(table) {
