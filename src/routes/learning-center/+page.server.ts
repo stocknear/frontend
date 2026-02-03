@@ -16,6 +16,7 @@ export const load = async ({ locals, url }) => {
       Concepts: [],
       Strategies: [],
       Features: [],
+      Terms: [],
     };
 
     for (const tutorial of allTutorials) {

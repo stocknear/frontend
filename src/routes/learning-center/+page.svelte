@@ -47,6 +47,11 @@
       name: "Features",
       description: "How to use Stocknear",
     },
+    {
+      id: "Terms",
+      name: "Terms",
+      description: "Financial terms and definitions",
+    },
   ];
 
   function formatDate(dateString: string) {
@@ -404,8 +409,80 @@
         </div>
       </div>
     {/if}
+
+    <!-- Terms Section - Compact list style -->
+    {#if tutorialsByCategory?.Terms?.length > 0}
+      <div class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Terms
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">
+              Financial terms and definitions
+            </p>
+          </div>
+          {#if tutorialsByCategory.Terms.length > 6}
+            <button
+              type="button"
+              on:click={() => setCategory("Terms")}
+              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >
+              View all {tutorialsByCategory.Terms.length}
+            </button>
+          {/if}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {#each tutorialsByCategory.Terms.slice(0, 6).sort((a, b) => a.title.localeCompare(b.title)) as item}
+            <a
+              href="/learning-center/article/{convertToSlug(item?.title)}"
+              class="group flex items-center gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+            >
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition truncate">
+                  {item?.title}
+                </h3>
+              </div>
+              <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+  {:else if activeCategory === "Terms"}
+    <!-- Terms Filtered View - Alphabetical list -->
+    {#if displayTutorials?.length > 0}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {#each [...displayTutorials].sort((a, b) => a.title.localeCompare(b.title)) as item}
+          <a
+            href="/learning-center/article/{convertToSlug(item?.title)}"
+            class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+          >
+            <div class="flex-1 min-w-0">
+              <h3 class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition">
+                {item?.title}
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-1 mt-1">
+                {item?.abstract}
+              </p>
+            </div>
+            <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        {/each}
+      </div>
+    {:else}
+      <div class="text-center py-12">
+        <p class="text-gray-500 dark:text-zinc-400">
+          No terms available yet.
+        </p>
+      </div>
+    {/if}
   {:else}
-    <!-- Filtered Category View -->
+    <!-- Filtered Category View (non-Terms) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {#if displayTutorials?.length > 0}
         {#each displayTutorials as item}
@@ -469,6 +546,12 @@
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .line-clamp-2 {
     display: -webkit-box;
