@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  // import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
   import {
     pricing_seo_title,
     pricing_seo_description,
@@ -311,8 +311,10 @@
       </div>
     </div>
 
-    <!--<Discount />-->
-
+    {#if !["Pro","Plus"]?.includes(data?.user?.tier)}
+    <Discount />
+    {/if}
+    
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
     >
@@ -369,8 +371,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="mr-2">{pricing_feature_credits_10()}</span>
+              ></path></svg
+            >
+            <span class="mr-2">{pricing_feature_credits_10()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -384,8 +387,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_watchlist_1()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_watchlist_1()}</span>
           </li>
 
           <li class="flex items-start">
@@ -400,8 +404,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_portfolio_1()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_portfolio_1()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -415,8 +420,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_alerts_3()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_alerts_3()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -430,8 +436,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_notification()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_notification()}</span>
           </li>
 
           <li class="flex items-start">
@@ -490,8 +497,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_hedgefund()}</span>
           </li>
@@ -551,8 +558,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_congress()}</span>
           </li>
@@ -612,8 +619,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_history()}</span>
           </li>
@@ -674,8 +681,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_screener()}</span>
           </li>
@@ -735,8 +742,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_download()}</span>
           </li>
@@ -796,8 +803,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_no_ads()}</span>
           </li>
@@ -858,8 +865,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_options_historical()}</span>
           </li>
@@ -920,8 +927,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_options_flow()}</span>
           </li>
@@ -981,8 +988,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
@@ -1042,8 +1049,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
@@ -1103,8 +1110,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_discord()}</span>
           </li>
@@ -1127,9 +1134,9 @@
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M9 5l7 7-7 7"
-                ></path></svg>
-</label
-            >
+                ></path></svg
+              >
+            </label>
           {/if}
         </div>
       </div>
@@ -1144,14 +1151,18 @@
         </div>
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <!--
-          <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
-            {mode ? "$10" : "$15"}
-          </span>
-          -->
-          <span class="text-4xl font-semibold">
-            {mode ? "$10" : "$15"}
-          </span>
+          {#if mode && !['Pro','Plus']?.includes(data?.user?.tier)}
+            <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">
+              $10
+            </span>
+            <span class="text-4xl font-semibold">
+              $5
+            </span>
+          {:else}
+            <span class="text-4xl font-semibold">
+              {mode ? "$10" : "$15"}
+            </span>
+          {/if}
           <span class="text-sm">{pricing_per_month()}</span>
         </div>
         <p
@@ -1159,15 +1170,18 @@
             ? 'hidden'
             : ''}"
         >
-          <!--
-          <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
-            Billed annually (€120)
-          </span>
-      -->
-          <span
-            class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
-            >{pricing_billed_annually_plus()}</span
-          >
+          {#if !['Pro','Plus']?.includes(data?.user?.tier)}
+            <span
+              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+            >
+              Billed Annually (<span class="line-through mx-1">$120</span> $60)
+            </span>
+          {:else}
+            <span
+              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              >{pricing_billed_annually_plus()}</span
+            >
+          {/if}
         </p>
         <!--
         <div class="mt-4 flex justify-center">
@@ -1192,8 +1206,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="mr-2">{pricing_feature_credits_150()}</span>
+              ></path></svg
+            >
+            <span class="mr-2">{pricing_feature_credits_150()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1207,8 +1222,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_watchlist_unlimited()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_watchlist_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1222,8 +1238,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_portfolio_unlimited()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_portfolio_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1237,8 +1254,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_alerts_unlimited()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_alerts_unlimited()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1252,8 +1270,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_screener_unlimited()}</span>
           </li>
@@ -1270,8 +1288,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_download_unlimited()}</span>
           </li>
@@ -1288,8 +1306,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_notification()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_notification()}</span>
           </li>
 
           <li class="flex items-start">
@@ -1304,8 +1323,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_hedgefund()}</span>
           </li>
@@ -1321,8 +1340,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_congress()}</span>
           </li>
@@ -1338,8 +1357,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_history()}</span>
           </li>
@@ -1356,8 +1375,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_no_ads()}</span>
           </li>
@@ -1418,8 +1437,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_options_historical()}</span>
           </li>
@@ -1480,8 +1499,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_options_flow()}</span>
           </li>
@@ -1541,8 +1560,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
@@ -1602,8 +1621,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
@@ -1663,8 +1682,8 @@
                   </g> <g id="clipboard"> </g> <g id="clipboard-paste"> </g>
                   <g id="clipboard-copy"> </g> <g id="Layer1"> </g>
                 </g>
-              </g></svg>
-
+              </g></svg
+            >
 
             <span class="">{pricing_feature_discord()}</span>
           </li>
@@ -1715,9 +1734,9 @@
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M9 5l7 7-7 7"
-                ></path></svg>
-</label
-            >
+                ></path></svg
+              >
+            </label>
           {/if}
         </div>
       </div>
@@ -1733,14 +1752,18 @@
           {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <!--
-          <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
-            {mode ? "$30" : "$45"}
-          </span>
-          -->
-          <span class="text-4xl font-semibold">
-            {mode ? "$30" : "$45"}
-          </span>
+          {#if mode && !['Pro','Plus']?.includes(data?.user?.tier)}
+            <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">
+              $30
+            </span>
+            <span class="text-4xl font-semibold">
+              $15
+            </span>
+          {:else}
+            <span class="text-4xl font-semibold">
+              {mode ? "$30" : "$45"}
+            </span>
+          {/if}
           <span class="text-sm text-gray-500 dark:text-zinc-400"
             >{pricing_per_month()}</span
           >
@@ -1750,16 +1773,19 @@
             ? 'hidden'
             : ''}"
         >
-          <!--
-          <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
-            Billed annually ($360)
-          </span>
-          -->
-          <span
-            class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
-          >
-            {pricing_billed_annually_pro()}</span
-          >
+          {#if !['Pro','Plus']?.includes(data?.user?.tier)}
+            <span
+              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+            >
+              Billed Annually (<span class="line-through mx-1">$360</span> $180)
+            </span>
+          {:else}
+            <span
+              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+            >
+              {pricing_billed_annually_pro()}</span
+            >
+          {/if}
         </p>
         <!--
         <div class="mt-4 flex justify-center">
@@ -1784,8 +1810,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="mr-2">{pricing_feature_credits_1000()}</span>
+              ></path></svg
+            >
+            <span class="mr-2">{pricing_feature_credits_1000()}</span>
           </li>
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
             <svg
@@ -1799,24 +1826,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_everything_plus()}</span>
-          </li>
-
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_watchlist_pro()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_everything_plus()}</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
@@ -1831,8 +1843,9 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-<span class="">{pricing_feature_portfolio_pro()}</span>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_watchlist_pro()}</span>
           </li>
 
           <li class="flex items-start text-gray-700 dark:text-zinc-200">
@@ -1847,8 +1860,25 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
+              ></path></svg
+            >
+            <span class="">{pricing_feature_portfolio_pro()}</span>
+          </li>
 
+          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_options_realtime()}</span>
           </li>
@@ -1865,8 +1895,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_options_flow()}</span>
           </li>
@@ -1882,8 +1912,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
@@ -1899,8 +1929,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
@@ -1916,8 +1946,8 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
-              ></path></svg>
-
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_discord()}</span>
           </li>
@@ -1969,9 +1999,9 @@
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M9 5l7 7-7 7"
-                ></path></svg>
-</label
-            >
+                ></path></svg
+              >
+            </label>
           {:else}
             <label
               for={!data?.user ? "userLogin" : ""}
@@ -1990,9 +2020,9 @@
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M9 5l7 7-7 7"
-                ></path></svg>
-</label
-            >
+                ></path></svg
+              >
+            </label>
           {/if}
         </div>
       </div>
@@ -2297,7 +2327,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
@@ -2316,8 +2347,8 @@
           ><path
             fill="currentColor"
             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg>
-
+          /></svg
+        >
       </label>
     </div>
 
