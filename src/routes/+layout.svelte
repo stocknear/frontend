@@ -1937,7 +1937,7 @@
 <!-- Bottom Navigation Bar -->
 {#if !isChartRoute}
   <nav
-    class="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-gray-900 dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
+    class="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-black dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
            sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
            {navbarHidden
       ? 'translate-y-full sm:translate-y-[calc(100%+2rem)]'

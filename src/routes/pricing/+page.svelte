@@ -82,6 +82,8 @@
     pricing_faq_q10_answer,
     pricing_faq_q11_title,
     pricing_faq_q11_answer,
+    pricing_faq_q12_title,
+    pricing_faq_q12_answer,
     pricing_upgrade_modal_title,
     pricing_upgrade_modal_content,
     pricing_upgrade_modal_button,
@@ -2075,28 +2077,6 @@
 
           <!-- Faqs -->
           <ul class="mx-auto space-y-3">
-            <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
-            >
-              <details class="collapse collapse-arrow">
-                <summary
-                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
-                >
-                  Does the discount apply forever?
-                </summary>
-                <div class="collapse-content">
-                  <p
-                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
-                  >
-                    Yes — your discount is locked in for as long as your
-                    subscription stays active. If you cancel or your
-                    subscription lapses, the discount ends and re-subscribing
-                    will be at the regular price.
-                  </p>
-                </div>
-              </details>
-            </li>
-
             <!-- 1. Understanding the Service -->
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
@@ -2288,6 +2268,25 @@
                     {@html pricing_faq_q7_answer({
                       email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
                     })}
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
+                  {pricing_faq_q12_title()}
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    {pricing_faq_q12_answer()}
                   </p>
                 </div>
               </details>

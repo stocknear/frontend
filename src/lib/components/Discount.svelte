@@ -1,4 +1,11 @@
 <script lang="ts">
+  import {
+    pricing_discount_off,
+    pricing_discount_plans,
+    pricing_discount_copied,
+    pricing_discount_click_to_copy,
+  } from "$lib/paraglide/messages.js";
+
   let copied = false;
 
   async function copyPromoCode() {
@@ -20,14 +27,16 @@
         >
           50%
         </span>
-        <span class="text-lg sm:text-xl font-medium text-gray-700 dark:text-zinc-400">
-          off
+        <span
+          class="text-lg sm:text-xl font-medium text-gray-700 dark:text-zinc-400"
+        >
+          {pricing_discount_off()}
         </span>
       </div>
 
       <!-- Description -->
       <p class="text-center text-sm text-gray-700 dark:text-zinc-400">
-        Pro & Plus Annual Plans
+        {pricing_discount_plans()}
       </p>
 
       <!-- Promo code button -->
@@ -36,7 +45,9 @@
         type="button"
         class="cursor-pointer inline-flex items-center gap-2.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2 text-sm transition hover:border-violet-400 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950/30"
       >
-        <span class="font-mono text-sm font-semibold text-gray-900 dark:text-white tracking-wider">
+        <span
+          class="font-mono text-sm font-semibold text-gray-900 dark:text-white tracking-wider"
+        >
           SAVE50
         </span>
         <span class="text-gray-500 dark:text-zinc-500">
@@ -74,9 +85,9 @@
 
       <p class="text-xs text-gray-500 dark:text-zinc-500">
         {#if copied}
-          Copied!
+          {pricing_discount_copied()}
         {:else}
-          Click to copy code
+          {pricing_discount_click_to_copy()}
         {/if}
       </p>
     </div>
