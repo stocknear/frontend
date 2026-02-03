@@ -6,6 +6,7 @@
   import ZoomOut from "lucide-svelte/icons/zoom-out";
   import Undo2 from "lucide-svelte/icons/undo-2";
   import Redo2 from "lucide-svelte/icons/redo-2";
+  import Keyboard from "lucide-svelte/icons/keyboard";
   import {
     toolGroups,
     toolIcons,
@@ -34,6 +35,7 @@
     removeAllDrawings: void;
     undo: void;
     redo: void;
+    showKeyboardShortcuts: void;
   }>();
 </script>
 
@@ -344,6 +346,15 @@
         d="M13.5 18a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zm0 1a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z"
       />
     </svg>
+  </button>
+
+  <!-- Keyboard Shortcuts Help -->
+  <button
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400 mt-1"
+    on:click={() => dispatch("showKeyboardShortcuts")}
+    title="Keyboard shortcuts (?)"
+  >
+    <Keyboard class="size-5" />
   </button>
 
   <!-- Remove All -->

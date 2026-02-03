@@ -1602,6 +1602,7 @@
   let showColorPicker = false;
   let showThicknessPicker = false;
   let showStylePicker = false;
+  let showKeyboardShortcutsModal = false;
 
   // Reactive current color for the selected overlay
   $: currentOverlayColor = (() => {
@@ -8534,27 +8535,215 @@
 
 <svelte:window
   on:keydown={(e) => {
+    // Skip shortcuts when typing in input fields, textareas, or contenteditable elements
+    const target = e.target as HTMLElement;
+    const isTyping = 
+      target.tagName === "INPUT" || 
+      target.tagName === "TEXTAREA" || 
+      target.isContentEditable ||
+      target.closest("[contenteditable]");
+    
+    // ===== MODIFIER KEY SHORTCUTS (work even when typing) =====
+    
     // Undo: Ctrl+Z (or Cmd+Z on Mac)
     if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
       e.preventDefault();
       undoDrawing();
       return;
     }
+    
     // Redo: Ctrl+Shift+Z or Ctrl+Y (or Cmd+Shift+Z / Cmd+Y on Mac)
     if ((e.ctrlKey || e.metaKey) && (e.key === "Z" || (e.shiftKey && e.key === "z") || e.key === "y")) {
       e.preventDefault();
       redoDrawing();
       return;
     }
+    
+    // ===== NON-MODIFIER SHORTCUTS (skip when typing) =====
+    if (isTyping) return;
+    
+    // Escape: Close pickers/toolbar or switch to cursor mode
     if (e.key === "Escape") {
-      // Close pickers first if any are open
       if (showColorPicker || showThicknessPicker || showStylePicker) {
         closeAllPickers();
       } else if (showDrawingToolbar) {
-        // Then close toolbar
         selectedOverlay = null;
         showDrawingToolbar = false;
+      } else if (activeTool !== "cursor") {
+        // Exit drawing mode, switch to cursor
+        handleSetCursorMode();
       }
+      return;
+    }
+    
+    // Delete/Backspace: Remove selected drawing
+    if (e.key === "Delete" || e.key === "Backspace") {
+      if (selectedOverlay) {
+        e.preventDefault();
+        deleteSelectedOverlay();
+      }
+      return;
+    }
+    
+    // ===== DRAWING TOOL SHORTCUTS =====
+    // L - Horizontal Line
+    if (e.key === "l" || e.key === "L") {
+      e.preventDefault();
+      activateDrawingTool("lines", "horizontalStraightLine", "horizontalStraightLine");
+      return;
+    }
+    
+    // T - Trend Line (diagonal straight line)
+    if (e.key === "t" || e.key === "T") {
+      e.preventDefault();
+      activateDrawingTool("lines", "straightLine", "straightLine");
+      return;
+    }
+    
+    // R - Rectangle
+    if (e.key === "r" || e.key === "R") {
+      e.preventDefault();
+      activateDrawingTool("shapes", "rect", "rect");
+      return;
+    }
+    
+    // F - Fibonacci Retracement
+    if (e.key === "f" || e.key === "F") {
+      e.preventDefault();
+      activateDrawingTool("fibonacci", "fibonacciLine", "fibonacciLine");
+      return;
+    }
+    
+    // C - Circle
+    if (e.key === "c" || e.key === "C") {
+      e.preventDefault();
+      activateDrawingTool("shapes", "circle", "circle");
+      return;
+    }
+    
+    // V - Vertical Line
+    if (e.key === "v" || e.key === "V") {
+      e.preventDefault();
+      activateDrawingTool("lines", "verticalStraightLine", "verticalStraightLine");
+      return;
+    }
+    
+    // P - Price Line
+    if (e.key === "p" || e.key === "P") {
+      e.preventDefault();
+      activateDrawingTool("lines", "priceLine", "priceLine");
+      return;
+    }
+    
+    // ===== ZOOM SHORTCUTS =====
+    // + or = : Zoom in
+    if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      zoomChart(1.2);
+      return;
+    }
+    
+    // - : Zoom out
+    if (e.key === "-") {
+      e.preventDefault();
+      zoomChart(0.9);
+      return;
+    }
+    
+    // ===== PAN SHORTCUTS =====
+    // ArrowLeft: Pan left (scroll to older data)
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      if (chart) {
+        const dataList = chart.getDataList();
+        const visibleRange = chart.getVisibleRange();
+        // Pan by ~10% of visible range
+        const panBars = Math.max(1, Math.floor((visibleRange.to - visibleRange.from) * 0.1));
+        chart.scrollByDistance(-panBars * 10); // Negative = scroll left (older)
+      }
+      return;
+    }
+    
+    // ArrowRight: Pan right (scroll to newer data)
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      if (chart) {
+        const visibleRange = chart.getVisibleRange();
+        const panBars = Math.max(1, Math.floor((visibleRange.to - visibleRange.from) * 0.1));
+        chart.scrollByDistance(panBars * 10); // Positive = scroll right (newer)
+      }
+      return;
+    }
+    
+    // ===== TIMEFRAME QUICK SWITCH =====
+    // 1 - 1min
+    if (e.key === "1") {
+      e.preventDefault();
+      setRange("1min");
+      return;
+    }
+    
+    // 5 - 5min
+    if (e.key === "5") {
+      e.preventDefault();
+      setRange("5min");
+      return;
+    }
+    
+    // 3 - 15min (1+5=15 mnemonic or just quick access)
+    if (e.key === "3") {
+      e.preventDefault();
+      setRange("15min");
+      return;
+    }
+    
+    // 0 - 30min
+    if (e.key === "0") {
+      e.preventDefault();
+      setRange("30min");
+      return;
+    }
+    
+    // H - 1hour
+    if ((e.key === "h" || e.key === "H") && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      setRange("1hour");
+      return;
+    }
+    
+    // 4 - 4hour
+    if (e.key === "4") {
+      e.preventDefault();
+      setRange("4hour");
+      return;
+    }
+    
+    // D - Daily
+    if ((e.key === "d" || e.key === "D") && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      setRange("1D");
+      return;
+    }
+    
+    // W - Weekly
+    if ((e.key === "w" || e.key === "W") && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      setRange("1W");
+      return;
+    }
+    
+    // M - Monthly
+    if ((e.key === "m" || e.key === "M") && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      setRange("1M");
+      return;
+    }
+    
+    // ? - Show keyboard shortcuts help
+    if (e.key === "?" || (e.shiftKey && e.key === "/")) {
+      e.preventDefault();
+      showKeyboardShortcutsModal = !showKeyboardShortcutsModal;
+      return;
     }
   }}
 />
@@ -9302,6 +9491,7 @@
           on:removeAllDrawings={removeAllDrawings}
           on:undo={undoDrawing}
           on:redo={redoDrawing}
+          on:showKeyboardShortcuts={() => showKeyboardShortcutsModal = true}
         />
       {/if}
 
@@ -13080,6 +13270,178 @@
 
 {#if LoginPopup}
   <LoginPopup {form} />
+{/if}
+
+<!-- Keyboard Shortcuts Modal -->
+{#if showKeyboardShortcutsModal}
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+    on:click|self={() => showKeyboardShortcutsModal = false}
+    on:keydown={(e) => e.key === "Escape" && (showKeyboardShortcutsModal = false)}
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+  >
+    <div
+      class="w-full max-w-2xl max-h-[85vh] overflow-y-auto mx-4 p-6 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-2xl"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+          Keyboard Shortcuts
+        </h2>
+        <button
+          class="p-2 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
+          on:click={() => showKeyboardShortcutsModal = false}
+          aria-label="Close keyboard shortcuts"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Shortcuts Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Drawing Tools -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+            Drawing Tools
+          </h3>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Horizontal Line</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">L</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Vertical Line</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">V</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Trend Line</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">T</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Rectangle</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">R</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Circle</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">C</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Fibonacci Retracement</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">F</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Price Line</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">P</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Exit Drawing Mode</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Esc</kbd>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+            Actions
+          </h3>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Undo</span>
+              <div class="flex gap-1">
+                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Ctrl</kbd>
+                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Z</kbd>
+              </div>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Redo</span>
+              <div class="flex gap-1">
+                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Ctrl</kbd>
+                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Shift</kbd>
+                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Z</kbd>
+              </div>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Delete Selected Drawing</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Delete</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Zoom In</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">+</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Zoom Out</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">-</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Pan Left</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">&larr;</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Pan Right</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">&rarr;</kbd>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeframes -->
+        <div class="md:col-span-2">
+          <h3 class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+            Timeframe Quick Switch
+          </h3>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">1 min</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">1</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">5 min</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">5</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">15 min</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">3</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">30 min</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">0</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">1 hour</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">H</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">4 hour</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">4</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Daily</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">D</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Weekly</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">W</kbd>
+            </div>
+            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Monthly</span>
+              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">M</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-6 pt-4 border-t border-gray-200 dark:border-zinc-700">
+        <p class="text-xs text-gray-500 dark:text-zinc-500 text-center">
+          Press <kbd class="px-1.5 py-0.5 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded">?</kbd> anytime to show this help
+        </p>
+      </div>
+    </div>
+  </div>
 {/if}
 
 <style>
