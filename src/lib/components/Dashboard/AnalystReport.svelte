@@ -68,35 +68,31 @@
       {dashboard_analyst_report_change_suffix()}
     </div>
 
-    <table class="w-full text-right text-sm sm:text-base mt-5">
-      <thead>
+    <table class="w-full text-right text-sm mt-5">
+      <thead class="">
         <tr
           class="border-b border-gray-300 dark:border-zinc-700 text-gray-800 dark:text-zinc-300"
         >
-          <th
-            class="py-2 text-left font-semibold uppercase tracking-widest text-xs"
-          >
+          <th class="py-2 text-left uppercase tracking-widest text-xs">
             {dashboard_analyst_report_table_target()}
           </th>
-          <th class="font-semibold uppercase tracking-widest text-xs">
+          <th class=" uppercase tracking-widest text-xs">
             {dashboard_analyst_report_table_low()}
           </th>
-          <th class="font-semibold uppercase tracking-widest text-xs">
+          <th class=" uppercase tracking-widest text-xs">
             {dashboard_analyst_report_table_avg()}
           </th>
-          <th class="font-semibold uppercase tracking-widest text-xs">
+          <th class=" uppercase tracking-widest text-xs">
             {dashboard_analyst_report_table_median()}
           </th>
-          <th class="font-semibold uppercase tracking-widest text-xs">
+          <th class=" uppercase tracking-widest text-xs">
             {dashboard_analyst_report_table_high()}
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-sm">
         <tr class="border-b border-gray-300 dark:border-zinc-700">
-          <td
-            class="py-2 text-left font-semibold text-gray-700 dark:text-zinc-200"
-          >
+          <td class="py-2 text-left text-gray-700 dark:text-zinc-200">
             {dashboard_analyst_report_row_price()}
           </td>
           <td class="text-gray-600 dark:text-zinc-300"
@@ -113,36 +109,34 @@
           >
         </tr>
         <tr>
-          <td
-            class="py-2 text-left font-semibold text-gray-700 dark:text-zinc-200"
-          >
+          <td class="py-2 text-left text-gray-700 dark:text-zinc-200">
             {dashboard_analyst_report_row_change()}
           </td>
           <td
             class={analystReport?.lowPriceChange > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
-              : "text-rose-800 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 "
+              : "text-rose-800 dark:text-rose-400 "}
           >
             {analystReport?.lowPriceChange ?? "0"}%
           </td>
           <td
             class={analystReport?.avgPriceChange > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
-              : "text-rose-800 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 "
+              : "text-rose-800 dark:text-rose-400 "}
           >
             {analystReport?.avgPriceChange ?? "0"}%
           </td>
           <td
             class={analystReport?.medianPriceChange > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
-              : "text-rose-800 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 "
+              : "text-rose-800 dark:text-rose-400 "}
           >
             {analystReport?.medianPriceChange ?? "0"}%
           </td>
           <td
             class={analystReport?.highPriceChange > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 font-semibold"
-              : "text-rose-800 dark:text-rose-400 font-semibold"}
+              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400 "
+              : "text-rose-800 dark:text-rose-400 "}
           >
             {analystReport?.highPriceChange ?? "0"}%
           </td>
