@@ -127,6 +127,24 @@
     dangerousTags.forEach((tag) => {
       doc.querySelectorAll(tag).forEach((el) => el.remove());
     });
+    
+    // Apply saved widths from title attributes to images
+    doc.querySelectorAll('img').forEach((img) => {
+      const title = img.getAttribute('title') || '';
+      const widthMatch = title.match(/^width:(\d+)\|?/);
+      if (widthMatch) {
+        img.style.width = `${widthMatch[1]}px`;
+        img.style.height = 'auto';
+        // Clean up title for display
+        const cleanTitle = title.replace(/^width:\d+\|?/, '');
+        if (cleanTitle) {
+          img.setAttribute('title', cleanTitle);
+        } else {
+          img.removeAttribute('title');
+        }
+      }
+    });
+    
     return doc.body.innerHTML;
   }
 
@@ -235,8 +253,16 @@
         const newState = editorView.state.apply(transaction);
         editorView.updateState(newState);
         description = defaultMarkdownSerializer.serialize(newState.doc);
+        
+        // Re-apply image widths after DOM updates
+        if (transaction.docChanged) {
+          setTimeout(() => setupImageResizeHandlers(), 50);
+        }
       },
     });
+    
+    // Initial setup for existing images
+    setTimeout(() => setupImageResizeHandlers(), 100);
 
     return {
       destroy() {
@@ -361,12 +387,17 @@
     images.forEach((img) => {
       const imgEl = img as HTMLImageElement;
       
-      // Skip if already has resize wrapper
-      if (imgEl.parentElement?.classList.contains('image-resize-wrapper')) return;
-      
       // Make image resizable via CSS
       imgEl.style.cursor = 'default';
       imgEl.classList.add('resizable-image');
+      
+      // Apply saved width from title attribute
+      const title = imgEl.getAttribute('title') || '';
+      const widthMatch = title.match(/^width:(\d+)\|?/);
+      if (widthMatch) {
+        imgEl.style.width = `${widthMatch[1]}px`;
+        imgEl.style.height = 'auto';
+      }
     });
   }
 
@@ -403,9 +434,38 @@
 
   // Handle mouse up to stop resize
   function handleMouseUp() {
-    if (resizingImage) {
-      // Update the markdown with the new size
-      // Since ProseMirror markdown doesn't support width, we use inline style
+    if (resizingImage && editorView) {
+      const img = resizingImage;
+      const newWidth = img.offsetWidth;
+      
+      // Find the image node in ProseMirror and update its title with width info
+      const { state } = editorView;
+      let imagePos: number | null = null;
+      
+      state.doc.descendants((node, pos) => {
+        if (node.type.name === 'image' && node.attrs.src === img.src) {
+          imagePos = pos;
+          return false;
+        }
+        return true;
+      });
+      
+      if (imagePos !== null) {
+        // Store width in title attribute as "width:XXX|original title"
+        const currentTitle = state.doc.nodeAt(imagePos)?.attrs.title || '';
+        const titleWithoutWidth = currentTitle.replace(/^width:\d+\|?/, '');
+        const newTitle = `width:${newWidth}|${titleWithoutWidth}`;
+        
+        const tr = state.tr.setNodeMarkup(imagePos, undefined, {
+          ...state.doc.nodeAt(imagePos)?.attrs,
+          title: newTitle,
+        });
+        editorView.dispatch(tr);
+        
+        // Update description
+        description = defaultMarkdownSerializer.serialize(editorView.state.doc);
+      }
+      
       resizingImage = null;
       document.body.style.cursor = '';
       document.body.style.userSelect = '';

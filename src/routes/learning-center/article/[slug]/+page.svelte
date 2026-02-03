@@ -2,18 +2,18 @@
   import { getImageURL } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import {
-  blog_alt_wallpaper,
-  blog_last_updated,
-} from "$lib/paraglide/messages";
+    blog_alt_wallpaper,
+    blog_last_updated,
+  } from "$lib/paraglide/messages";
   import showdown from "showdown";
-  // import ArticleBreadcrumbStructuredData from "$lib/components/ArticleBreadcrumbStructuredData.svelte";
+  import Pencil from "lucide-svelte/icons/pencil";
+  import ArrowLeft from "lucide-svelte/icons/arrow-left";
+  import Calendar from "lucide-svelte/icons/calendar";
 
   export let data;
 
   let article = data?.getArticle;
-  let discordURL = import.meta.env.VITE_DISCORD_URL;
-
-  let faqs = [];
+  $: isAdmin = data?.user?.admin === true;
 
   // Markdown to HTML converter
   const converter = new showdown.Converter({
@@ -28,22 +28,77 @@
   // Convert markdown to HTML, handling both markdown and existing HTML content
   function renderContent(content) {
     if (!content) return "";
+    
+    let html;
     // If content already contains HTML tags, return as-is
     if (/<[a-z][\s\S]*>/i.test(content) && !content.startsWith("#") && !content.startsWith("-") && !content.startsWith("*")) {
-      return content;
+      html = content;
+    } else {
+      // Otherwise, convert markdown to HTML
+      html = converter.makeHtml(content);
     }
-    // Otherwise, convert markdown to HTML
-    return converter.makeHtml(content);
+    
+    // Process images to apply saved widths from title attribute
+    // Title format: "width:XXX|original title"
+    if (typeof window !== "undefined" && typeof DOMParser !== "undefined") {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      doc.querySelectorAll('img').forEach((img) => {
+        const title = img.getAttribute('title') || '';
+        const widthMatch = title.match(/^width:(\d+)\|?/);
+        if (widthMatch) {
+          img.style.width = `${widthMatch[1]}px`;
+          img.style.height = 'auto';
+          // Clean up title for display
+          const cleanTitle = title.replace(/^width:\d+\|?/, '');
+          if (cleanTitle) {
+            img.setAttribute('title', cleanTitle);
+          } else {
+            img.removeAttribute('title');
+          }
+        }
+      });
+      return doc.body.innerHTML;
+    }
+    
+    return html;
+  }
+
+  // Get tag colors
+  function getTagColor(tag) {
+    const colors = {
+      "Stocks": "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
+      "ETF": "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300",
+      "Options": "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
+      "Sentiment": "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
+    };
+    return colors[tag] || "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300";
+  }
+
+  // Format date nicely
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+
+  // Calculate reading time
+  function getReadingTime(content) {
+    if (!content) return 1;
+    const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
+    return Math.max(1, Math.ceil(words / 200));
   }
 
   $: {
     if (data?.getParams) {
       article = data?.getArticle;
-      faqs = data?.getFAQ;
     }
   }
 
   $: renderedDescription = renderContent(article?.description);
+  $: readingTime = getReadingTime(article?.description);
 </script>
 
 <SEO
@@ -96,154 +151,193 @@
   }}
 />
 
-<!--
-<ArticleBreadcrumbStructuredData
-  title={article?.title}
-  datePublished={article.created}
-  dateModified={article?.updated}
-  url={`learning-center/article/${data?.getParams}`}
-  image={article?.cover
-    ? getImageURL(article?.collectionId, article?.id, article?.cover)
-    : ""}
-/>
+<div class="min-h-screen bg-white dark:bg-[#09090B]">
+  <!-- Top Bar -->
+  <div class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-14">
+        <!-- Left: Back -->
+        <a
+          href="/learning-center"
+          class="flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+        >
+          <ArrowLeft class="w-5 h-5" />
+          <span class="text-sm font-medium hidden sm:inline">Learning Center</span>
+        </a>
 
--->
-
-<section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
->
-  <div class="w-full overflow-hidden m-auto mt-5">
-    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
-      <main id="main" class="mt-2 w-full">
-        {#if article?.cover}
-          <img
-            src={getImageURL(
-              article?.collectionId,
-              article?.id,
-              article?.cover,
-            )}
-            class="h-[200px] w-full object-cover lg:h-[350px] rounded-2xl border border-gray-300 dark:border-zinc-700"
-            loading="lazy"
-            alt={blog_alt_wallpaper()}
-          />
-        {/if}
-        <div class="lg:flex">
-          <article
-            class="z-5 relative mx-1 {article?.cover
-              ? '-mt-10 lg:-mt-16'
-              : 'mt-5'} rounded-2xl bg-white/80 dark:bg-zinc-950/60 p-3 xs:p-4 lg:ml-3 lg:p-5 xl:mx-4 border border-gray-300 dark:border-zinc-700 shadow-none"
+        <!-- Right: Admin Edit -->
+        {#if isAdmin && article?.id}
+          <a
+            href="/learning-center/editor/{article.id}"
+            class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-300 text-sm font-medium transition"
           >
-            <header
-              class="pb-3 border-b border-gray-300 dark:border-zinc-700 w-full sm:min-w-[850px] sm:max-w-[850px]"
-            >
-              <h1
-                class="mb-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
-              >
-                {article?.title}
-              </h1>
-              <div class="">
-                <div
-                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                >
-                  {blog_last_updated()} {new Date(article?.updated)?.toLocaleString(
-                    "en-US",
-                    {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                      daySuffix: "2-digit",
-                    },
-                  )}
-                </div>
-              </div>
-            </header>
-
-            <div
-              class="text-base mt-4 text-gray-600 dark:text-zinc-300 leading-relaxed"
-            >
-              <div class="content prose prose-lg dark:prose-invert max-w-4xl">
-                {@html renderedDescription?.replace(
-                  "__VIDEO_SRC__",
-                  getImageURL(
-                    article?.collectionId,
-                    article?.id,
-                    article?.video,
-                  ),
-                )}
-              </div>
-            </div>
-          </article>
-        </div>
-      </main>
+            <Pencil class="w-4 h-4" />
+            Edit
+          </a>
+        {/if}
+      </div>
     </div>
   </div>
-</section>
+
+  <!-- Main Content -->
+  <article class="max-w-3xl mx-auto px-6 py-12">
+    <!-- Cover Image -->
+    {#if article?.cover}
+      <div class="mb-10 -mx-6 sm:mx-0">
+        <img
+          src={getImageURL(article?.collectionId, article?.id, article?.cover)}
+          alt={article?.title}
+          class="w-full h-64 sm:h-80 object-cover sm:rounded-xl"
+          loading="lazy"
+        />
+      </div>
+    {/if}
+
+    <!-- Title -->
+    <h1 class="text-4xl sm:text-5xl font-serif font-light text-gray-900 dark:text-white mb-4 leading-tight">
+      {article?.title}
+    </h1>
+
+    <!-- Subtitle/Abstract -->
+    {#if article?.abstract}
+      <p class="text-xl text-gray-500 dark:text-zinc-400 mb-6 leading-relaxed">
+        {article?.abstract}
+      </p>
+    {/if}
+
+    <!-- Tags -->
+    {#if article?.tags && article.tags.length > 0}
+      <div class="flex flex-wrap items-center gap-2 mb-6">
+        {#each article.tags as tag}
+          <span class="px-3 py-1 rounded-full text-sm font-medium {getTagColor(tag)}">
+            {tag}
+          </span>
+        {/each}
+      </div>
+    {/if}
+
+    <!-- Meta Info -->
+    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-zinc-500 mb-8">
+      <div class="flex items-center gap-1.5">
+        <Calendar class="w-4 h-4" />
+        <span>{formatDate(article?.updated)}</span>
+      </div>
+      <span class="text-gray-300 dark:text-zinc-700">·</span>
+      <span>{readingTime} min read</span>
+    </div>
+
+    <!-- Divider -->
+    <div class="w-12 h-px bg-gray-200 dark:bg-zinc-700 mb-10"></div>
+
+    <!-- Content -->
+    <div class="article-content">
+      {@html renderedDescription?.replace(
+        "__VIDEO_SRC__",
+        getImageURL(article?.collectionId, article?.id, article?.video)
+      )}
+    </div>
+
+    <!-- Bottom Divider -->
+    <div class="w-full h-px bg-gray-200 dark:bg-zinc-800 my-12"></div>
+
+    <!-- Footer -->
+    <div class="flex items-center justify-between">
+      <a
+        href="/learning-center"
+        class="flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+      >
+        <ArrowLeft class="w-4 h-4" />
+        <span class="text-sm font-medium">Back to Learning Center</span>
+      </a>
+      
+      {#if isAdmin && article?.id}
+        <a
+          href="/learning-center/editor/{article.id}"
+          class="flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >
+          <Pencil class="w-4 h-4" />
+          <span class="text-sm font-medium">Edit Article</span>
+        </a>
+      {/if}
+    </div>
+  </article>
+</div>
 
 <style>
-  /* Prose/Markdown Content Styles */
-  .content :global(h1) {
+  /* Article Content Styles - Matching Editor */
+  .article-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #374151;
+  }
+
+  :global(.dark) .article-content {
+    color: #d4d4d8;
+  }
+
+  .article-content :global(p) {
+    margin: 0.75rem 0;
+  }
+
+  .article-content :global(h1) {
     font-size: 2rem;
     font-weight: 700;
     margin: 2rem 0 1rem;
     color: #111827;
   }
 
-  :global(.dark) .content :global(h1) {
+  :global(.dark) .article-content :global(h1) {
     color: #ffffff;
   }
 
-  .content :global(h2) {
+  .article-content :global(h2) {
     font-size: 1.5rem;
     font-weight: 600;
     margin: 1.75rem 0 0.75rem;
     color: #111827;
   }
 
-  :global(.dark) .content :global(h2) {
+  :global(.dark) .article-content :global(h2) {
     color: #ffffff;
   }
 
-  .content :global(h3) {
+  .article-content :global(h3) {
     font-size: 1.25rem;
     font-weight: 600;
     margin: 1.5rem 0 0.5rem;
     color: #111827;
   }
 
-  :global(.dark) .content :global(h3) {
+  :global(.dark) .article-content :global(h3) {
     color: #ffffff;
   }
 
-  .content :global(p) {
-    margin: 1rem 0;
-    line-height: 1.75;
-  }
-
-  .content :global(blockquote) {
-    border-left: 4px solid #8b5cf6;
+  .article-content :global(blockquote) {
+    border-left: 3px solid #d1d5db;
     padding-left: 1rem;
     margin: 1.5rem 0;
     color: #6b7280;
     font-style: italic;
   }
 
-  :global(.dark) .content :global(blockquote) {
+  :global(.dark) .article-content :global(blockquote) {
+    border-left-color: #52525b;
     color: #a1a1aa;
   }
 
-  .content :global(code) {
+  .article-content :global(code) {
     background: #f3f4f6;
-    padding: 0.2rem 0.4rem;
+    padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
     font-family: ui-monospace, monospace;
     font-size: 0.9em;
   }
 
-  :global(.dark) .content :global(code) {
+  :global(.dark) .article-content :global(code) {
     background: #27272a;
   }
 
-  .content :global(pre) {
+  .article-content :global(pre) {
     background: #1f2937;
     color: #e5e7eb;
     padding: 1rem;
@@ -253,87 +347,99 @@
     font-size: 0.9rem;
   }
 
-  .content :global(pre code) {
+  .article-content :global(pre code) {
     background: transparent;
     padding: 0;
   }
 
-  .content :global(ul) {
+  .article-content :global(ul) {
     list-style-type: disc;
     padding-left: 1.5rem;
-    margin: 1rem 0;
+    margin: 0.75rem 0;
   }
 
-  .content :global(ol) {
+  .article-content :global(ol) {
     list-style-type: decimal;
     padding-left: 1.5rem;
-    margin: 1rem 0;
+    margin: 0.75rem 0;
   }
 
-  .content :global(li) {
-    margin: 0.5rem 0;
-    line-height: 1.75;
+  .article-content :global(li) {
+    margin: 0.375rem 0;
   }
 
-  .content :global(a) {
-    color: #8b5cf6;
+  .article-content :global(a) {
+    color: #2563eb;
     text-decoration: underline;
   }
 
-  .content :global(a:hover) {
-    color: #7c3aed;
+  :global(.dark) .article-content :global(a) {
+    color: #60a5fa;
   }
 
-  .content :global(img) {
+  .article-content :global(a:hover) {
+    color: #1d4ed8;
+  }
+
+  :global(.dark) .article-content :global(a:hover) {
+    color: #93c5fd;
+  }
+
+  .article-content :global(img) {
     max-width: 100%;
     height: auto;
     border-radius: 0.5rem;
     margin: 1.5rem 0;
+    display: block;
   }
 
-  .content :global(table) {
+  .article-content :global(table) {
     width: 100%;
     border-collapse: collapse;
     margin: 1.5rem 0;
   }
 
-  .content :global(th),
-  .content :global(td) {
+  .article-content :global(th),
+  .article-content :global(td) {
     border: 1px solid #e5e7eb;
     padding: 0.75rem;
     text-align: left;
   }
 
-  :global(.dark) .content :global(th),
-  :global(.dark) .content :global(td) {
+  :global(.dark) .article-content :global(th),
+  :global(.dark) .article-content :global(td) {
     border-color: #3f3f46;
   }
 
-  .content :global(th) {
+  .article-content :global(th) {
     background: #f9fafb;
     font-weight: 600;
   }
 
-  :global(.dark) .content :global(th) {
+  :global(.dark) .article-content :global(th) {
     background: #27272a;
   }
 
-  .content :global(hr) {
+  .article-content :global(hr) {
     border: none;
     border-top: 1px solid #e5e7eb;
     margin: 2rem 0;
   }
 
-  :global(.dark) .content :global(hr) {
+  :global(.dark) .article-content :global(hr) {
     border-top-color: #3f3f46;
   }
 
-  .content :global(strong) {
+  .article-content :global(strong) {
     font-weight: 600;
+    color: #111827;
   }
 
-  .content :global(em) {
+  :global(.dark) .article-content :global(strong) {
+    color: #ffffff;
+  }
+
+  .article-content :global(em) {
     font-style: italic;
   }
 </style>
-
