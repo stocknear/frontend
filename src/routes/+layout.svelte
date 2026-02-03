@@ -126,7 +126,7 @@
   let navbarHidden = false;
   let lastScrollY = 0;
   const scrollThreshold = 10;
-  const routePrefixes = ["/chart", "/chat"];
+  const routePrefixes = ["/chart", "/chat", "/learning-center/editor"];
 
   function handleScroll() {
     if (!browser) return;
