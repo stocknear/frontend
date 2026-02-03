@@ -2530,6 +2530,195 @@
       },
     });
 
+    // Helper function to get linear slope and intercept (same as klinecharts)
+    const getLinearSlopeIntercept = (
+      coordinate1: { x: number; y: number },
+      coordinate2: { x: number; y: number },
+    ): [number, number] => {
+      const k =
+        (coordinate2.y - coordinate1.y) / (coordinate2.x - coordinate1.x);
+      const b = coordinate1.y - k * coordinate1.x;
+      return [k, b];
+    };
+
+    // Helper to convert hex to rgba
+    const toRgba = (hex: string, opacity: number): string => {
+      if (!hex || !hex.startsWith("#")) return `rgba(41, 98, 255, ${opacity})`;
+      const cleanHex = hex.replace("#", "");
+      const r = parseInt(cleanHex.substring(0, 2), 16);
+      const g = parseInt(cleanHex.substring(2, 4), 16);
+      const b = parseInt(cleanHex.substring(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    };
+
+    // Price Channel with fill between lines (replicates klinecharts + adds fill)
+    registerOverlay({
+      name: "priceChannelLine",
+      totalStep: 4,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates, bounding, overlay }) => {
+        const figures: any[] = [];
+        const lines: any[] = [];
+
+        if (coordinates.length > 1) {
+          const startX = 0;
+          const endX = bounding.width;
+
+          if (coordinates[0].x === coordinates[1].x) {
+            // Vertical lines
+            const startY = 0;
+            const endY = bounding.height;
+            lines.push({
+              coordinates: [
+                { x: coordinates[0].x, y: startY },
+                { x: coordinates[0].x, y: endY },
+              ],
+            });
+            if (coordinates.length > 2) {
+              lines.push({
+                coordinates: [
+                  { x: coordinates[2].x, y: startY },
+                  { x: coordinates[2].x, y: endY },
+                ],
+              });
+              // Extended line for price channel
+              const distance = coordinates[0].x - coordinates[2].x;
+              lines.push({
+                coordinates: [
+                  { x: coordinates[0].x + distance, y: startY },
+                  { x: coordinates[0].x + distance, y: endY },
+                ],
+              });
+            }
+          } else {
+            // Non-vertical lines
+            const [k, b] = getLinearSlopeIntercept(
+              coordinates[0],
+              coordinates[1],
+            );
+            const line1Start = { x: startX, y: startX * k + b };
+            const line1End = { x: endX, y: endX * k + b };
+            lines.push({ coordinates: [line1Start, line1End] });
+
+            if (coordinates.length > 2) {
+              const b1 = coordinates[2].y - k * coordinates[2].x;
+              const line2Start = { x: startX, y: startX * k + b1 };
+              const line2End = { x: endX, y: endX * k + b1 };
+              lines.push({ coordinates: [line2Start, line2End] });
+
+              // Extended line for price channel
+              const distance = b - b1;
+              const b2 = b + distance;
+              lines.push({
+                coordinates: [
+                  { x: startX, y: startX * k + b2 },
+                  { x: endX, y: endX * k + b2 },
+                ],
+              });
+
+              // Add fill polygon between first two lines
+              const lineColor = overlay?.styles?.line?.color || "#2962FF";
+              const fillColor =
+                overlay?.styles?.polygon?.color || toRgba(lineColor, 0.2);
+              figures.push({
+                type: "polygon",
+                attrs: {
+                  coordinates: [line1Start, line1End, line2End, line2Start],
+                },
+                styles: { color: fillColor },
+                ignoreEvent: true,
+              });
+            }
+          }
+        }
+
+        // Add the lines figure
+        figures.push({
+          type: "line",
+          attrs: lines,
+        });
+
+        return figures;
+      },
+    });
+
+    // Parallel Straight Line with fill (replicates klinecharts + adds fill)
+    registerOverlay({
+      name: "parallelStraightLine",
+      totalStep: 4,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ coordinates, bounding, overlay }) => {
+        const figures: any[] = [];
+        const lines: any[] = [];
+
+        if (coordinates.length > 1) {
+          const startX = 0;
+          const endX = bounding.width;
+
+          if (coordinates[0].x === coordinates[1].x) {
+            // Vertical lines
+            const startY = 0;
+            const endY = bounding.height;
+            lines.push({
+              coordinates: [
+                { x: coordinates[0].x, y: startY },
+                { x: coordinates[0].x, y: endY },
+              ],
+            });
+            if (coordinates.length > 2) {
+              lines.push({
+                coordinates: [
+                  { x: coordinates[2].x, y: startY },
+                  { x: coordinates[2].x, y: endY },
+                ],
+              });
+            }
+          } else {
+            // Non-vertical lines
+            const [k, b] = getLinearSlopeIntercept(
+              coordinates[0],
+              coordinates[1],
+            );
+            const line1Start = { x: startX, y: startX * k + b };
+            const line1End = { x: endX, y: endX * k + b };
+            lines.push({ coordinates: [line1Start, line1End] });
+
+            if (coordinates.length > 2) {
+              const b1 = coordinates[2].y - k * coordinates[2].x;
+              const line2Start = { x: startX, y: startX * k + b1 };
+              const line2End = { x: endX, y: endX * k + b1 };
+              lines.push({ coordinates: [line2Start, line2End] });
+
+              // Add fill polygon between the two lines
+              const lineColor = overlay?.styles?.line?.color || "#2962FF";
+              const fillColor =
+                overlay?.styles?.polygon?.color || toRgba(lineColor, 0.2);
+              figures.push({
+                type: "polygon",
+                attrs: {
+                  coordinates: [line1Start, line1End, line2End, line2Start],
+                },
+                styles: { color: fillColor },
+                ignoreEvent: true,
+              });
+            }
+          }
+        }
+
+        // Add the lines figure
+        figures.push({
+          type: "line",
+          attrs: lines,
+        });
+
+        return figures;
+      },
+    });
+
     customOverlaysRegistered = true;
   };
 
