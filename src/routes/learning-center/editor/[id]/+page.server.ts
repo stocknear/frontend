@@ -71,6 +71,24 @@ export const actions = {
         // Create new article
         article = await pb.collection("tutorials").create(articleData);
       } else {
+        // Get current article to check for unused images
+        const currentArticle = await pb.collection("tutorials").getOne(id);
+        const currentImages: string[] = currentArticle.images || [];
+        
+        // Extract image filenames that are still referenced in the description
+        // Images are referenced by their filename in the URL
+        const usedImages = currentImages.filter((imageName: string) => {
+          return description.includes(imageName);
+        });
+        
+        // Find images to delete (in storage but not in description)
+        const imagesToDelete = currentImages.filter((img: string) => !usedImages.includes(img));
+        
+        // Update images array to only include used images
+        if (imagesToDelete.length > 0) {
+          articleData.images = usedImages;
+        }
+        
         // Update existing article
         article = await pb.collection("tutorials").update(id, articleData);
       }
