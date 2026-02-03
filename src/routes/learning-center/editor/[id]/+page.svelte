@@ -712,193 +712,195 @@
 </svelte:head>
 
 <div class="min-h-screen bg-white dark:bg-[#09090B]">
-  <!-- Top Toolbar -->
+  <!-- Top Toolbar (acts as navbar in editor mode) -->
   <div
-    class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800"
+    class="sticky top-0 z-50 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800"
   >
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-14">
-        <!-- Left: Back + Undo/Redo -->
-        <div class="flex items-center gap-1">
-          <a
-            href="/learning-center"
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-          >
-            <ArrowLeft class="w-5 h-5" />
-          </a>
+    <div class="w-full px-2 sm:px-4">
+      <div class="flex items-center justify-between h-12 sm:h-14 gap-2">
+        <!-- Left: Back button (always visible) -->
+        <a
+          href="/learning-center"
+          class="shrink-0 cursor-pointer p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+        >
+          <ArrowLeft class="w-5 h-5" />
+        </a>
 
-          <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
-
-          <button
-            type="button"
-            on:click={execUndo}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Undo"
-          >
-            <Undo2 class="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            on:click={execRedo}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Redo"
-          >
-            <Redo2 class="w-4 h-4" />
-          </button>
-
-          <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
-
-          <!-- Style Dropdown -->
-          <div class="relative style-dropdown">
+        <!-- Middle: Scrollable toolbar -->
+        <div class="flex-1 overflow-x-auto scrollbar-hide">
+          <div class="flex items-center gap-0.5 sm:gap-1 min-w-max px-1">
+            <!-- Undo/Redo -->
             <button
               type="button"
-              on:click|stopPropagation={() =>
-                (showStyleDropdown = !showStyleDropdown)}
-              class="flex items-center gap-1 px-3 py-1.5 rounded-2xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              on:click={execUndo}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              title="Undo"
             >
-              Style
-              <ChevronDown class="w-3 h-3" />
+              <Undo2 class="w-4 h-4" />
             </button>
-            {#if showStyleDropdown}
-              <div
-                class="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg border border-gray-200 dark:border-zinc-700 py-1 z-50"
+            <button
+              type="button"
+              on:click={execRedo}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              title="Redo"
+            >
+              <Redo2 class="w-4 h-4" />
+            </button>
+
+            <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5 sm:mx-1 shrink-0"></div>
+
+            <!-- Style Dropdown -->
+            <div class="relative style-dropdown shrink-0">
+              <button
+                type="button"
+                on:click|stopPropagation={() =>
+                  (showStyleDropdown = !showStyleDropdown)}
+                class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl text-xs sm:text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
               >
-                <button
-                  type="button"
-                  on:click={() => setParagraph()}
-                  class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                Style
+                <ChevronDown class="w-3 h-3" />
+              </button>
+              {#if showStyleDropdown}
+                <div
+                  class="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-700 py-1 z-50"
                 >
-                  Paragraph
-                </button>
-                <button
-                  type="button"
-                  on:click={() => setHeading(1)}
-                  class="w-full px-3 py-2 text-left text-lg font-bold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
-                >
-                  Heading 1
-                </button>
-                <button
-                  type="button"
-                  on:click={() => setHeading(2)}
-                  class="w-full px-3 py-2 text-left text-base font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
-                >
-                  Heading 2
-                </button>
-                <button
-                  type="button"
-                  on:click={() => setHeading(3)}
-                  class="w-full px-3 py-2 text-left text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
-                >
-                  Heading 3
-                </button>
-              </div>
-            {/if}
+                  <button
+                    type="button"
+                    on:click={() => setParagraph()}
+                    class="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                  >
+                    Paragraph
+                  </button>
+                  <button
+                    type="button"
+                    on:click={() => setHeading(1)}
+                    class="w-full px-3 py-2 text-left text-lg font-bold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                  >
+                    Heading 1
+                  </button>
+                  <button
+                    type="button"
+                    on:click={() => setHeading(2)}
+                    class="w-full px-3 py-2 text-left text-base font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                  >
+                    Heading 2
+                  </button>
+                  <button
+                    type="button"
+                    on:click={() => setHeading(3)}
+                    class="w-full px-3 py-2 text-left text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800"
+                  >
+                    Heading 3
+                  </button>
+                </div>
+              {/if}
+            </div>
+
+            <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5 sm:mx-1 shrink-0"></div>
+
+            <!-- Formatting -->
+            <button
+              type="button"
+              on:click={toggleBold}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              title="Bold"
+            >
+              <Bold class="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              on:click={toggleItalic}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              title="Italic"
+            >
+              <Italic class="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              on:click={toggleCode}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition hidden sm:block"
+              title="Code"
+            >
+              <Code class="w-4 h-4" />
+            </button>
+
+            <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5 sm:mx-1 shrink-0"></div>
+
+            <!-- Media & Links -->
+            <button
+              type="button"
+              on:click={insertLink}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              title="Link"
+            >
+              <Link class="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              on:click={openImageUpload}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {isUploadingImage
+                ? 'opacity-50'
+                : ''}"
+              title="Insert Image"
+              disabled={isUploadingImage}
+            >
+              {#if isUploadingImage}
+                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
+              {:else}
+                <ImageIcon class="w-4 h-4" />
+              {/if}
+            </button>
+            <button
+              type="button"
+              on:click={toggleBlockquote}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition hidden sm:block"
+              title="Quote"
+            >
+              <Quote class="w-4 h-4" />
+            </button>
+
+            <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-0.5 sm:mx-1 shrink-0 hidden sm:block"></div>
+
+            <!-- Lists -->
+            <button
+              type="button"
+              on:click={toggleBulletList}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition hidden sm:block"
+              title="Bullet List"
+            >
+              <List class="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              on:click={toggleOrderedList}
+              class="cursor-pointer p-1.5 sm:p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition hidden sm:block"
+              title="Numbered List"
+            >
+              <ListOrdered class="w-4 h-4" />
+            </button>
           </div>
-
-          <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
-
-          <!-- Formatting -->
-          <button
-            type="button"
-            on:click={toggleBold}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Bold"
-          >
-            <Bold class="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            on:click={toggleItalic}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Italic"
-          >
-            <Italic class="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            on:click={toggleCode}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Code"
-          >
-            <Code class="w-4 h-4" />
-          </button>
-
-          <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
-
-          <!-- Media & Links -->
-          <button
-            type="button"
-            on:click={insertLink}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Link"
-          >
-            <Link class="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            on:click={openImageUpload}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {isUploadingImage
-              ? 'opacity-50'
-              : ''}"
-            title="Insert Image"
-            disabled={isUploadingImage}
-          >
-            {#if isUploadingImage}
-              <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                ></path>
-              </svg>
-            {:else}
-              <ImageIcon class="w-4 h-4" />
-            {/if}
-          </button>
-          <button
-            type="button"
-            on:click={toggleBlockquote}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Quote"
-          >
-            <Quote class="w-4 h-4" />
-          </button>
-
-          <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700 mx-1"></div>
-
-          <!-- Lists -->
-          <button
-            type="button"
-            on:click={toggleBulletList}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Bullet List"
-          >
-            <List class="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            on:click={toggleOrderedList}
-            class="cursor-pointer p-2 rounded-2xl text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            title="Numbered List"
-          >
-            <ListOrdered class="w-4 h-4" />
-          </button>
         </div>
 
-        <!-- Right: Actions -->
-        <div class="flex items-center gap-2">
+        <!-- Right: Actions (always visible) -->
+        <div class="flex items-center gap-1 sm:gap-2 shrink-0">
           <button
             type="button"
             on:click={() => (showPreview = !showPreview)}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showPreview
+            class="cursor-pointer flex items-center gap-1 p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showPreview
               ? 'bg-gray-100 dark:bg-zinc-800'
               : ''}"
           >
@@ -909,7 +911,7 @@
           <button
             type="button"
             on:click={() => (showSettingsPanel = !showSettingsPanel)}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showSettingsPanel
+            class="cursor-pointer flex items-center gap-1 p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-sm text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition {showSettingsPanel
               ? 'bg-gray-100 dark:bg-zinc-800'
               : ''}"
           >
@@ -957,7 +959,7 @@
             }
           };
         }}
-        class="max-w-3xl mx-auto px-6 py-12"
+        class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-12"
       >
         <!-- Cover Image Area -->
         {#if coverPreview && !removeCover}
@@ -1000,7 +1002,7 @@
           placeholder="Title"
           required
           on:keydown={(e) => e.key === "Enter" && e.preventDefault()}
-          class="w-full text-4xl sm:text-5xl font-serif font-light text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-zinc-600 bg-transparent border-none outline-none mb-4"
+          class="w-full text-2xl sm:text-4xl md:text-5xl font-serif font-light text-gray-900 dark:text-white placeholder:text-gray-300 dark:placeholder:text-zinc-600 bg-transparent border-none outline-none mb-3 sm:mb-4"
         />
 
         <!-- Subtitle -->
@@ -1010,7 +1012,7 @@
           bind:value={subtitle}
           placeholder="Add a subtitle..."
           on:keydown={(e) => e.key === "Enter" && e.preventDefault()}
-          class="w-full text-xl text-gray-500 dark:text-zinc-400 placeholder:text-gray-300 dark:placeholder:text-zinc-600 bg-transparent border-none outline-none mb-6"
+          class="w-full text-base sm:text-xl text-gray-500 dark:text-zinc-400 placeholder:text-gray-300 dark:placeholder:text-zinc-600 bg-transparent border-none outline-none mb-4 sm:mb-6"
         />
 
         <!-- Tags -->
@@ -1079,11 +1081,11 @@
         />
 
         <!-- Floating Save Button -->
-        <div class="fixed bottom-8 right-8 flex items-center gap-3">
+        <div class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 flex items-center gap-3 pb-[env(safe-area-inset-bottom)]">
           <button
             type="submit"
             disabled={isSaving}
-            class="flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium shadow-lg hover:shadow-xl transition disabled:opacity-50"
+            class="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium shadow-lg hover:shadow-xl transition disabled:opacity-50 text-sm sm:text-base"
           >
             {#if isSaving}
               <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -1113,8 +1115,76 @@
 
     <!-- Settings Panel (Slide-in) -->
     {#if showSettingsPanel}
+      <!-- Mobile: Full-screen overlay -->
+      <div class="sm:hidden fixed inset-0 z-50">
+        <button
+          on:click={() => (showSettingsPanel = false)}
+          class="absolute inset-0 bg-black/50"
+        ></button>
+        <div
+          class="absolute right-0 top-0 bottom-0 w-full max-w-xs bg-white dark:bg-zinc-900 p-6 shadow-xl"
+        >
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-semibold text-gray-900 dark:text-white">Settings</h3>
+            <button
+              type="button"
+              on:click={() => (showSettingsPanel = false)}
+              class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300"
+            >
+              <X class="w-5 h-5" />
+            </button>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Cover Image -->
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2"
+              >
+                Cover Image
+              </label>
+              {#if coverPreview && !removeCover}
+                <div class="relative">
+                  <img
+                    src={coverPreview}
+                    alt="Cover"
+                    class="w-full h-32 object-cover rounded-xl"
+                  />
+                  <button
+                    type="button"
+                    on:click={handleRemoveCover}
+                    class="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full text-white"
+                  >
+                    <X class="w-4 h-4" />
+                  </button>
+                </div>
+              {:else}
+                <label
+                  class="flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition"
+                  on:dragover|preventDefault
+                  on:drop={handleCoverDrop}
+                >
+                  <Upload class="w-6 h-6 text-gray-400 mb-2" />
+                  <span class="text-sm text-gray-500 dark:text-zinc-400"
+                    >Upload cover</span
+                  >
+                  <input
+                    type="file"
+                    name="cover"
+                    accept="image/*"
+                    on:change={handleCoverSelect}
+                    class="hidden"
+                  />
+                </label>
+              {/if}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop: Side panel -->
       <div
-        class="w-80 border-l border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50 min-h-[calc(100vh-3.5rem)] p-6"
+        class="hidden sm:block w-80 border-l border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50 min-h-[calc(100vh-3.5rem)] p-6"
       >
         <div class="flex items-center justify-between mb-6">
           <h3 class="font-semibold text-gray-900 dark:text-white">Settings</h3>
@@ -1140,7 +1210,7 @@
                 <img
                   src={coverPreview}
                   alt="Cover"
-                  class="w-full h-32 object-cover rounded-2xl"
+                  class="w-full h-32 object-cover rounded-xl"
                 />
                 <button
                   type="button"
@@ -1152,7 +1222,7 @@
               </div>
             {:else}
               <label
-                class="flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-2xl cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition"
+                class="flex flex-col items-center justify-center h-32 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition"
                 on:dragover|preventDefault
                 on:drop={handleCoverDrop}
               >
@@ -1229,6 +1299,15 @@
 {/if}
 
 <style>
+  /* Hide scrollbar for toolbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Minimal Editor Styles */
   :global(.minimal-editor) {
     min-height: 400px;

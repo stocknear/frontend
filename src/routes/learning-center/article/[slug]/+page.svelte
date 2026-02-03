@@ -165,7 +165,7 @@
 <div class="min-h-screen bg-white dark:bg-[#09090B]">
   <!-- Top Bar -->
   <div
-    class="sticky top-0 z-40 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800"
+    class="sticky top-0 bg-white/95 dark:bg-[#09090B]/95 backdrop-blur-sm border-b border-gray-200 dark:border-zinc-800"
   >
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-14">
