@@ -5,6 +5,8 @@
   import Timer from "lucide-svelte/icons/timer";
   import Trash2 from "lucide-svelte/icons/trash-2";
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
+  import Undo2 from "lucide-svelte/icons/undo-2";
+  import Redo2 from "lucide-svelte/icons/redo-2";
   import {
     TIMEFRAMES,
     toolGroups,
@@ -26,6 +28,8 @@
   export let drawingsVisible: boolean;
   export let selectedToolByGroup: Record<string, string>;
   export let activeTool: string | null;
+  export let canUndo: boolean = false;
+  export let canRedo: boolean = false;
 
   const dispatch = createEventDispatcher<{
     setRange: { range: string };
@@ -38,6 +42,8 @@
     removeAllDrawings: void;
     activateDrawingTool: { groupId: string; toolId: string; overlay: string };
     setCursorMode: void;
+    undo: void;
+    redo: void;
   }>();
 
   const timeframes = [...TIMEFRAMES];
@@ -323,6 +329,24 @@
               d={drawingsVisible ? toolIcons.visible : toolIcons.invisible}
             />
           </svg>
+        </button>
+        <!-- Undo -->
+        <button
+          class={`p-2 rounded-lg transition ${canUndo ? "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
+          on:click={() => canUndo && dispatch("undo")}
+          disabled={!canUndo}
+          title="Undo"
+        >
+          <Undo2 class="h-5 w-5" />
+        </button>
+        <!-- Redo -->
+        <button
+          class={`p-2 rounded-lg transition ${canRedo ? "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
+          on:click={() => canRedo && dispatch("redo")}
+          disabled={!canRedo}
+          title="Redo"
+        >
+          <Redo2 class="h-5 w-5" />
         </button>
         <!-- Delete All -->
         <button

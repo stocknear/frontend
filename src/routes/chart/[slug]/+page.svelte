@@ -1818,6 +1818,414 @@
   // Track overlay IDs for lock/visibility control
   let overlayIds: string[] = [];
 
+  // ===== Undo/Redo History System for Drawings =====
+  // History entry types for different drawing operations
+  type DrawingHistoryAction =
+    | "create" // Drawing was created
+    | "delete" // Drawing was deleted
+    | "delete_all" // All drawings were deleted
+    | "modify" // Drawing was modified (color, thickness, style, position)
+    | "lock_toggle" // Lock state was toggled
+    | "visibility_toggle"; // Visibility was toggled
+
+  interface DrawingHistoryEntry {
+    action: DrawingHistoryAction;
+    timestamp: number;
+    // For create/delete/modify: single overlay data
+    overlay?: {
+      id: string;
+      name: string;
+      points?: Array<{ timestamp: number; value: number }>;
+      extendData?: unknown;
+      styles?: Record<string, unknown>;
+      lock?: boolean;
+      visible?: boolean;
+    };
+    // For delete_all: array of all overlays that were deleted
+    overlays?: Array<{
+      id?: string;
+      name: string;
+      points?: Array<{ timestamp: number; value: number }>;
+      extendData?: unknown;
+      styles?: Record<string, unknown>;
+      lock?: boolean;
+      visible?: boolean;
+    }>;
+    // For modify: previous state before modification
+    previousState?: {
+      styles?: Record<string, unknown>;
+      lock?: boolean;
+      visible?: boolean;
+      points?: Array<{ timestamp: number; value: number }>;
+    };
+    // For lock_toggle/visibility_toggle: global state
+    previousGlobalState?: {
+      locked?: boolean;
+      visible?: boolean;
+      overlayStates?: Array<{ id: string; lock?: boolean; visible?: boolean }>;
+    };
+  }
+
+  // History stacks
+  const MAX_HISTORY_SIZE = 50;
+  let undoStack: DrawingHistoryEntry[] = [];
+  let redoStack: DrawingHistoryEntry[] = [];
+
+  // Reactive state for UI
+  $: canUndo = undoStack.length > 0;
+  $: canRedo = redoStack.length > 0;
+
+  // Push a new entry to the undo stack
+  function pushDrawingHistory(entry: DrawingHistoryEntry) {
+    undoStack = [...undoStack, entry].slice(-MAX_HISTORY_SIZE);
+    // Clear redo stack when a new action is performed
+    redoStack = [];
+  }
+
+  // Get current overlay data for saving to history
+  function getOverlayData(overlayId: string): DrawingHistoryEntry["overlay"] | null {
+    if (!chart) return null;
+    const allOverlays = chart.getOverlays();
+    if (!allOverlays || !Array.isArray(allOverlays)) return null;
+    
+    const overlay = allOverlays.find((o: any) => o.id === overlayId);
+    if (!overlay) return null;
+    
+    return {
+      id: overlay.id,
+      name: overlay.name,
+      points: overlay.points ? [...overlay.points] : undefined,
+      extendData: overlay.extendData,
+      styles: overlay.styles ? { ...overlay.styles } : undefined,
+      lock: overlay.lock,
+      visible: overlay.visible,
+    };
+  }
+
+  // Get all overlays data for saving to history
+  function getAllOverlaysData(): DrawingHistoryEntry["overlays"] {
+    if (!chart) return [];
+    const allOverlays = chart.getOverlays();
+    if (!allOverlays || !Array.isArray(allOverlays)) return [];
+    
+    return allOverlays.map((overlay: any) => ({
+      id: overlay.id,
+      name: overlay.name,
+      points: overlay.points ? [...overlay.points] : undefined,
+      extendData: overlay.extendData,
+      styles: overlay.styles ? { ...overlay.styles } : undefined,
+      lock: overlay.lock,
+      visible: overlay.visible,
+    }));
+  }
+
+  // Undo the last drawing action
+  function undoDrawing() {
+    if (undoStack.length === 0 || !chart) return;
+    
+    const entry = undoStack[undoStack.length - 1];
+    undoStack = undoStack.slice(0, -1);
+    
+    // Create redo entry before undoing
+    let redoEntry: DrawingHistoryEntry | null = null;
+    
+    switch (entry.action) {
+      case "create":
+        // Undo create = delete the overlay
+        if (entry.overlay?.id) {
+          const currentData = getOverlayData(entry.overlay.id);
+          if (currentData) {
+            redoEntry = {
+              action: "create",
+              timestamp: Date.now(),
+              overlay: currentData,
+            };
+          }
+          chart.removeOverlay({ id: entry.overlay.id });
+          overlayIds = overlayIds.filter(id => id !== entry.overlay?.id);
+        }
+        break;
+        
+      case "delete":
+        // Undo delete = recreate the overlay
+        if (entry.overlay) {
+          redoEntry = {
+            action: "delete",
+            timestamp: Date.now(),
+            overlay: { ...entry.overlay },
+          };
+          const newId = recreateOverlay(entry.overlay);
+          if (newId) {
+            overlayIds = [...overlayIds, newId];
+          }
+        }
+        break;
+        
+      case "delete_all":
+        // Undo delete_all = recreate all overlays
+        if (entry.overlays && entry.overlays.length > 0) {
+          redoEntry = {
+            action: "delete_all",
+            timestamp: Date.now(),
+            overlays: getAllOverlaysData(),
+          };
+          entry.overlays.forEach(overlay => {
+            const newId = recreateOverlay(overlay);
+            if (newId) {
+              overlayIds = [...overlayIds, newId];
+            }
+          });
+        }
+        break;
+        
+      case "modify":
+        // Undo modify = restore previous state
+        if (entry.overlay?.id && entry.previousState) {
+          const currentData = getOverlayData(entry.overlay.id);
+          redoEntry = {
+            action: "modify",
+            timestamp: Date.now(),
+            overlay: { id: entry.overlay.id, name: entry.overlay.name },
+            previousState: currentData ? {
+              styles: currentData.styles,
+              lock: currentData.lock,
+              visible: currentData.visible,
+              points: currentData.points,
+            } : undefined,
+          };
+          chart.overrideOverlay({
+            id: entry.overlay.id,
+            styles: entry.previousState.styles,
+            lock: entry.previousState.lock,
+            visible: entry.previousState.visible,
+          });
+        }
+        break;
+        
+      case "lock_toggle":
+        // Undo lock toggle = restore previous lock states
+        if (entry.previousGlobalState) {
+          const currentStates = getAllOverlaysData().map(o => ({
+            id: o.id!,
+            lock: o.lock,
+          }));
+          redoEntry = {
+            action: "lock_toggle",
+            timestamp: Date.now(),
+            previousGlobalState: {
+              locked: drawingsLocked,
+              overlayStates: currentStates,
+            },
+          };
+          drawingsLocked = entry.previousGlobalState.locked ?? false;
+          entry.previousGlobalState.overlayStates?.forEach(state => {
+            if (state.id) {
+              chart.overrideOverlay({ id: state.id, lock: state.lock });
+            }
+          });
+        }
+        break;
+        
+      case "visibility_toggle":
+        // Undo visibility toggle = restore previous visibility states
+        if (entry.previousGlobalState) {
+          const currentStates = getAllOverlaysData().map(o => ({
+            id: o.id!,
+            visible: o.visible,
+          }));
+          redoEntry = {
+            action: "visibility_toggle",
+            timestamp: Date.now(),
+            previousGlobalState: {
+              visible: drawingsVisible,
+              overlayStates: currentStates,
+            },
+          };
+          drawingsVisible = entry.previousGlobalState.visible ?? true;
+          entry.previousGlobalState.overlayStates?.forEach(state => {
+            if (state.id) {
+              chart.overrideOverlay({ id: state.id, visible: state.visible });
+            }
+          });
+        }
+        break;
+    }
+    
+    if (redoEntry) {
+      redoStack = [...redoStack, redoEntry];
+    }
+    
+    // Save overlays after undo
+    handleOverlayDrawEnd();
+  }
+
+  // Redo the last undone action
+  function redoDrawing() {
+    if (redoStack.length === 0 || !chart) return;
+    
+    const entry = redoStack[redoStack.length - 1];
+    redoStack = redoStack.slice(0, -1);
+    
+    // Create undo entry before redoing
+    let undoEntry: DrawingHistoryEntry | null = null;
+    
+    switch (entry.action) {
+      case "create":
+        // Redo create = recreate the overlay
+        if (entry.overlay) {
+          undoEntry = {
+            action: "create",
+            timestamp: Date.now(),
+            overlay: { ...entry.overlay },
+          };
+          const newId = recreateOverlay(entry.overlay);
+          if (newId) {
+            overlayIds = [...overlayIds, newId];
+            // Update the undoEntry with the new ID
+            undoEntry.overlay = { ...entry.overlay, id: newId };
+          }
+        }
+        break;
+        
+      case "delete":
+        // Redo delete = delete the overlay again
+        if (entry.overlay?.id) {
+          const currentData = getOverlayData(entry.overlay.id);
+          if (currentData) {
+            undoEntry = {
+              action: "delete",
+              timestamp: Date.now(),
+              overlay: currentData,
+            };
+          }
+          chart.removeOverlay({ id: entry.overlay.id });
+          overlayIds = overlayIds.filter(id => id !== entry.overlay?.id);
+        }
+        break;
+        
+      case "delete_all":
+        // Redo delete_all = delete all overlays again
+        undoEntry = {
+          action: "delete_all",
+          timestamp: Date.now(),
+          overlays: getAllOverlaysData(),
+        };
+        chart.removeOverlay();
+        overlayIds = [];
+        break;
+        
+      case "modify":
+        // Redo modify = apply the modification again
+        if (entry.overlay?.id && entry.previousState) {
+          const currentData = getOverlayData(entry.overlay.id);
+          undoEntry = {
+            action: "modify",
+            timestamp: Date.now(),
+            overlay: { id: entry.overlay.id, name: entry.overlay.name },
+            previousState: currentData ? {
+              styles: currentData.styles,
+              lock: currentData.lock,
+              visible: currentData.visible,
+              points: currentData.points,
+            } : undefined,
+          };
+          chart.overrideOverlay({
+            id: entry.overlay.id,
+            styles: entry.previousState.styles,
+            lock: entry.previousState.lock,
+            visible: entry.previousState.visible,
+          });
+        }
+        break;
+        
+      case "lock_toggle":
+        // Redo lock toggle
+        if (entry.previousGlobalState) {
+          const currentStates = getAllOverlaysData().map(o => ({
+            id: o.id!,
+            lock: o.lock,
+          }));
+          undoEntry = {
+            action: "lock_toggle",
+            timestamp: Date.now(),
+            previousGlobalState: {
+              locked: drawingsLocked,
+              overlayStates: currentStates,
+            },
+          };
+          drawingsLocked = entry.previousGlobalState.locked ?? false;
+          entry.previousGlobalState.overlayStates?.forEach(state => {
+            if (state.id) {
+              chart.overrideOverlay({ id: state.id, lock: state.lock });
+            }
+          });
+        }
+        break;
+        
+      case "visibility_toggle":
+        // Redo visibility toggle
+        if (entry.previousGlobalState) {
+          const currentStates = getAllOverlaysData().map(o => ({
+            id: o.id!,
+            visible: o.visible,
+          }));
+          undoEntry = {
+            action: "visibility_toggle",
+            timestamp: Date.now(),
+            previousGlobalState: {
+              visible: drawingsVisible,
+              overlayStates: currentStates,
+            },
+          };
+          drawingsVisible = entry.previousGlobalState.visible ?? true;
+          entry.previousGlobalState.overlayStates?.forEach(state => {
+            if (state.id) {
+              chart.overrideOverlay({ id: state.id, visible: state.visible });
+            }
+          });
+        }
+        break;
+    }
+    
+    if (undoEntry) {
+      undoStack = [...undoStack, undoEntry];
+    }
+    
+    // Save overlays after redo
+    handleOverlayDrawEnd();
+  }
+
+  // Recreate an overlay from saved data
+  function recreateOverlay(overlayData: DrawingHistoryEntry["overlay"]): string | null {
+    if (!chart || !overlayData) return null;
+    
+    try {
+      const newId = chart.createOverlay({
+        name: overlayData.name,
+        points: overlayData.points,
+        extendData: overlayData.extendData,
+        styles: overlayData.styles,
+        lock: overlayData.lock ?? drawingsLocked,
+        visible: overlayData.visible ?? drawingsVisible,
+        onDrawEnd: handleOverlayDrawEnd,
+        onSelected: handleOverlaySelected,
+        onDeselected: handleOverlayDeselected,
+        onClick: handleOverlayClick,
+      });
+      return newId ?? null;
+    } catch (e) {
+      console.error("Failed to recreate overlay:", e);
+      return null;
+    }
+  }
+
+  // Clear history (called when ticker changes)
+  function clearDrawingHistory() {
+    undoStack = [];
+    redoStack = [];
+  }
+  // ===== End Undo/Redo History System =====
+
   // Functions for new toolbar
   function activateDrawingTool(
     groupId: string,
@@ -1854,9 +2262,18 @@
       visible: drawingsVisible,
       mode: overlayMode,
       onDrawEnd: (event: any) => {
-        // Track the overlay ID
+        // Track the overlay ID and record history
         if (event?.overlay?.id) {
           overlayIds = [...overlayIds, event.overlay.id];
+          // Record the creation in history for undo
+          const overlayData = getOverlayData(event.overlay.id);
+          if (overlayData) {
+            pushDrawingHistory({
+              action: "create",
+              timestamp: Date.now(),
+              overlay: overlayData,
+            });
+          }
         }
         handleOverlayDrawEnd(event);
       },
@@ -1867,6 +2284,20 @@
   }
 
   function toggleDrawingsLock() {
+    // Record current state before toggling for undo
+    const currentStates = getAllOverlaysData().map(o => ({
+      id: o.id!,
+      lock: o.lock,
+    }));
+    pushDrawingHistory({
+      action: "lock_toggle",
+      timestamp: Date.now(),
+      previousGlobalState: {
+        locked: drawingsLocked,
+        overlayStates: currentStates,
+      },
+    });
+
     drawingsLocked = !drawingsLocked;
     // Update ALL overlays from the chart
     if (chart) {
@@ -1885,6 +2316,20 @@
   }
 
   function toggleDrawingsVisibility() {
+    // Record current state before toggling for undo
+    const currentStates = getAllOverlaysData().map(o => ({
+      id: o.id!,
+      visible: o.visible,
+    }));
+    pushDrawingHistory({
+      action: "visibility_toggle",
+      timestamp: Date.now(),
+      previousGlobalState: {
+        visible: drawingsVisible,
+        overlayStates: currentStates,
+      },
+    });
+
     drawingsVisible = !drawingsVisible;
     if (chart) {
       // Get ALL overlays from the chart and update their visibility
@@ -1904,6 +2349,15 @@
 
   function removeAllDrawings() {
     if (chart) {
+      // Record all overlays before deleting for undo
+      const allOverlays = getAllOverlaysData();
+      if (allOverlays.length > 0) {
+        pushDrawingHistory({
+          action: "delete_all",
+          timestamp: Date.now(),
+          overlays: allOverlays,
+        });
+      }
       chart.removeOverlay();
       saveChartOverlays([]);
       overlayIds = [];
@@ -2081,6 +2535,19 @@
   function updateOverlayColor(color: string) {
     if (!chart || !selectedOverlay) return;
 
+    // Record current state before modifying for undo
+    const currentData = getOverlayData(selectedOverlay.id);
+    if (currentData) {
+      pushDrawingHistory({
+        action: "modify",
+        timestamp: Date.now(),
+        overlay: { id: selectedOverlay.id, name: selectedOverlay.name },
+        previousState: {
+          styles: currentData.styles,
+        },
+      });
+    }
+
     // For shapes (rect, circle, polygon), use semi-transparent fill with solid border
     const fillColor = hexToRgba(color, 0.2);
 
@@ -2121,6 +2588,19 @@
   function updateOverlayThickness(size: number) {
     if (!chart || !selectedOverlay) return;
 
+    // Record current state before modifying for undo
+    const currentData = getOverlayData(selectedOverlay.id);
+    if (currentData) {
+      pushDrawingHistory({
+        action: "modify",
+        timestamp: Date.now(),
+        overlay: { id: selectedOverlay.id, name: selectedOverlay.name },
+        previousState: {
+          styles: currentData.styles,
+        },
+      });
+    }
+
     chart.overrideOverlay({
       id: selectedOverlay.id,
       styles: {
@@ -2146,6 +2626,19 @@
   function updateOverlayLineStyle(style: "solid" | "dashed") {
     if (!chart || !selectedOverlay) return;
 
+    // Record current state before modifying for undo
+    const currentData = getOverlayData(selectedOverlay.id);
+    if (currentData) {
+      pushDrawingHistory({
+        action: "modify",
+        timestamp: Date.now(),
+        overlay: { id: selectedOverlay.id, name: selectedOverlay.name },
+        previousState: {
+          styles: currentData.styles,
+        },
+      });
+    }
+
     chart.overrideOverlay({
       id: selectedOverlay.id,
       styles: {
@@ -2165,6 +2658,19 @@
   function toggleSelectedOverlayLock() {
     if (!chart || !selectedOverlay) return;
 
+    // Record current state before modifying for undo
+    const currentData = getOverlayData(selectedOverlay.id);
+    if (currentData) {
+      pushDrawingHistory({
+        action: "modify",
+        timestamp: Date.now(),
+        overlay: { id: selectedOverlay.id, name: selectedOverlay.name },
+        previousState: {
+          lock: currentData.lock,
+        },
+      });
+    }
+
     const newLock = !selectedOverlay.lock;
     chart.overrideOverlay({ id: selectedOverlay.id, lock: newLock });
     selectedOverlay.lock = newLock;
@@ -2174,6 +2680,16 @@
   // Delete selected overlay
   function deleteSelectedOverlay() {
     if (!chart || !selectedOverlay) return;
+
+    // Record the overlay data before deleting for undo
+    const overlayData = getOverlayData(selectedOverlay.id);
+    if (overlayData) {
+      pushDrawingHistory({
+        action: "delete",
+        timestamp: Date.now(),
+        overlay: overlayData,
+      });
+    }
 
     chart.removeOverlay({ id: selectedOverlay.id });
     overlayIds = overlayIds.filter((id) => id !== selectedOverlay?.id);
@@ -7671,6 +8187,8 @@
     shortInterestTimestampCache = new Map();
     showShortInterest = false;
     clearShortInterestData();
+    // Clear undo/redo history when ticker changes
+    clearDrawingHistory();
     // Reset max pain state when ticker changes
     maxPainData = [];
     maxPainLevels = [];
@@ -8016,6 +8534,18 @@
 
 <svelte:window
   on:keydown={(e) => {
+    // Undo: Ctrl+Z (or Cmd+Z on Mac)
+    if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+      e.preventDefault();
+      undoDrawing();
+      return;
+    }
+    // Redo: Ctrl+Shift+Z or Ctrl+Y (or Cmd+Shift+Z / Cmd+Y on Mac)
+    if ((e.ctrlKey || e.metaKey) && (e.key === "Z" || (e.shiftKey && e.key === "z") || e.key === "y")) {
+      e.preventDefault();
+      redoDrawing();
+      return;
+    }
     if (e.key === "Escape") {
       // Close pickers first if any are open
       if (showColorPicker || showThicknessPicker || showStylePicker) {
@@ -8758,6 +9288,8 @@
           {drawingsVisible}
           {drawingMode}
           {selectedToolByGroup}
+          {canUndo}
+          {canRedo}
           bind:dropdownStates
           on:setCursorMode={handleSetCursorMode}
           on:activateDrawingTool={handleActivateDrawingTool}
@@ -8768,6 +9300,8 @@
           on:zoomOut={() => zoomChart(0.9)}
           on:downloadChart={downloadChart}
           on:removeAllDrawings={removeAllDrawings}
+          on:undo={undoDrawing}
+          on:redo={redoDrawing}
         />
       {/if}
 
@@ -10869,6 +11403,8 @@
     {drawingsVisible}
     {selectedToolByGroup}
     {activeTool}
+    {canUndo}
+    {canRedo}
     on:setRange={handleSetRange}
     on:setChartType={handleSetChartType}
     on:toggleEarnings={handleToggleEarnings}
@@ -10879,6 +11415,8 @@
     on:removeAllDrawings={removeAllDrawings}
     on:activateDrawingTool={handleActivateDrawingTool}
     on:setCursorMode={handleSetCursorMode}
+    on:undo={undoDrawing}
+    on:redo={redoDrawing}
   />
 {/if}
 

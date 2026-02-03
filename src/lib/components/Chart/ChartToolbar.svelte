@@ -4,6 +4,8 @@
   import MousePointer2 from "lucide-svelte/icons/mouse-pointer-2";
   import ZoomIn from "lucide-svelte/icons/zoom-in";
   import ZoomOut from "lucide-svelte/icons/zoom-out";
+  import Undo2 from "lucide-svelte/icons/undo-2";
+  import Redo2 from "lucide-svelte/icons/redo-2";
   import {
     toolGroups,
     toolIcons,
@@ -17,6 +19,8 @@
   export let drawingMode: DrawingMode;
   export let selectedToolByGroup: Record<string, string>;
   export let dropdownStates: Record<string, boolean>;
+  export let canUndo: boolean = false;
+  export let canRedo: boolean = false;
 
   const dispatch = createEventDispatcher<{
     setCursorMode: void;
@@ -28,6 +32,8 @@
     zoomOut: void;
     downloadChart: void;
     removeAllDrawings: void;
+    undo: void;
+    redo: void;
   }>();
 </script>
 
@@ -266,6 +272,35 @@
     <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
       <path d={drawingsLocked ? toolIcons.lock : toolIcons.unlock} />
     </svg>
+  </button>
+
+  <!-- Separator -->
+  <div class="w-5 h-px bg-gray-300 dark:bg-zinc-700 my-2"></div>
+
+  <!-- Undo/Redo -->
+  <button
+    class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+      canUndo
+        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+        : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
+    }`}
+    on:click={() => canUndo && dispatch("undo")}
+    disabled={!canUndo}
+    title="Undo (Ctrl+Z)"
+  >
+    <Undo2 class="size-5" />
+  </button>
+  <button
+    class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+      canRedo
+        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+        : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
+    }`}
+    on:click={() => canRedo && dispatch("redo")}
+    disabled={!canRedo}
+    title="Redo (Ctrl+Shift+Z)"
+  >
+    <Redo2 class="size-5" />
   </button>
 
   <!-- Separator -->
