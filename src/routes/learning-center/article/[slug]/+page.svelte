@@ -1,10 +1,6 @@
 <script>
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
-  import {
-    blog_alt_wallpaper,
-    blog_last_updated,
-  } from "$lib/paraglide/messages";
   import showdown from "showdown";
   import Pencil from "lucide-svelte/icons/pencil";
   import ArrowLeft from "lucide-svelte/icons/arrow-left";
