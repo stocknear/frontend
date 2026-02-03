@@ -10,7 +10,7 @@
 
 <div class="w-full max-w-lg mx-auto mb-8 mt-4">
   <div
-    class="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-gradient-to-br from-violet-50/50 to-white dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
+    class="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-gradient-to-br from-violet-50 to-gray-50 dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
   >
     <div class="flex flex-col items-center gap-4">
       <!-- Discount badge -->
@@ -20,13 +20,13 @@
         >
           50%
         </span>
-        <span class="text-lg sm:text-xl font-medium text-gray-600 dark:text-zinc-400">
+        <span class="text-lg sm:text-xl font-medium text-gray-700 dark:text-zinc-400">
           off
         </span>
       </div>
 
       <!-- Description -->
-      <p class="text-center text-sm text-gray-600 dark:text-zinc-400">
+      <p class="text-center text-sm text-gray-700 dark:text-zinc-400">
         Pro & Plus Annual Plans
       </p>
 
@@ -34,12 +34,12 @@
       <button
         on:click={copyPromoCode}
         type="button"
-        class="cursor-pointer inline-flex items-center gap-2.5 rounded-full border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2 text-sm transition hover:border-violet-300 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950/30"
+        class="cursor-pointer inline-flex items-center gap-2.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2 text-sm transition hover:border-violet-400 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950/30"
       >
         <span class="font-mono text-sm font-semibold text-gray-900 dark:text-white tracking-wider">
           SAVE50
         </span>
-        <span class="text-gray-400 dark:text-zinc-500">
+        <span class="text-gray-500 dark:text-zinc-500">
           {#if copied}
             <svg
               class="w-4 h-4 text-emerald-500"
@@ -72,7 +72,7 @@
         </span>
       </button>
 
-      <p class="text-xs text-gray-400 dark:text-zinc-500">
+      <p class="text-xs text-gray-500 dark:text-zinc-500">
         {#if copied}
           Copied!
         {:else}

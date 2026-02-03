@@ -311,10 +311,10 @@
       </div>
     </div>
 
-    {#if !["Pro","Plus"]?.includes(data?.user?.tier)}
-    <Discount />
+    {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+      <Discount />
     {/if}
-    
+
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
     >
@@ -1151,13 +1151,11 @@
         </div>
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          {#if mode && !['Pro','Plus']?.includes(data?.user?.tier)}
+          {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">
               $10
             </span>
-            <span class="text-4xl font-semibold">
-              $5
-            </span>
+            <span class="text-4xl font-semibold"> $5 </span>
           {:else}
             <span class="text-4xl font-semibold">
               {mode ? "$10" : "$15"}
@@ -1170,7 +1168,7 @@
             ? 'hidden'
             : ''}"
         >
-          {#if !['Pro','Plus']?.includes(data?.user?.tier)}
+          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span
               class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
@@ -1752,13 +1750,11 @@
           {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          {#if mode && !['Pro','Plus']?.includes(data?.user?.tier)}
+          {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">
               $30
             </span>
-            <span class="text-4xl font-semibold">
-              $15
-            </span>
+            <span class="text-4xl font-semibold"> $15 </span>
           {:else}
             <span class="text-4xl font-semibold">
               {mode ? "$30" : "$45"}
@@ -1773,7 +1769,7 @@
             ? 'hidden'
             : ''}"
         >
-          {#if !['Pro','Plus']?.includes(data?.user?.tier)}
+          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span
               class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
@@ -2079,7 +2075,6 @@
 
           <!-- Faqs -->
           <ul class="mx-auto space-y-3">
-            <!--
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -2093,7 +2088,7 @@
                   <p
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
-                    Yes — your XX% discount is locked in for as long as your
+                    Yes — your discount is locked in for as long as your
                     subscription stays active. If you cancel or your
                     subscription lapses, the discount ends and re-subscribing
                     will be at the regular price.
@@ -2101,7 +2096,7 @@
                 </div>
               </details>
             </li>
-            -->
+
             <!-- 1. Understanding the Service -->
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
