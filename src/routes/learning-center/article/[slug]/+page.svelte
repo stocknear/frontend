@@ -569,28 +569,10 @@
 
               <!-- Content -->
               <div class="flex flex-col flex-1 p-4">
-                <!-- Tags -->
-                {#if related?.tags && related.tags.length > 0}
-                  <div class="flex flex-wrap gap-1.5 mb-2">
-                    {#each related.tags.slice(0, 2) as tag}
-                      <span class="px-2 py-0.5 rounded-full text-xs font-medium {getTagColor(tag)}">
-                        {tag}
-                      </span>
-                    {/each}
-                  </div>
-                {/if}
-
                 <!-- Title -->
-                <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2">
+                <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-3">
                   {related?.title}
                 </h3>
-
-                <!-- Abstract -->
-                {#if related?.abstract}
-                  <p class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3 flex-1">
-                    {related?.abstract}
-                  </p>
-                {/if}
 
                 <!-- Meta -->
                 <div class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto">
