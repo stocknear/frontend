@@ -2131,7 +2131,16 @@
   function getCurrentColor(): string {
     if (!selectedOverlay?.styles) return "#2962FF";
     const s = selectedOverlay.styles;
-    return s.line?.color || s.rect?.borderColor || s.circle?.borderColor || "#2962FF";
+    const name = selectedOverlay.name;
+    // For shapes, prioritize borderColor since fill is semi-transparent
+    if (name === "rect") {
+      return s.rect?.borderColor || "#2962FF";
+    }
+    if (name === "circle") {
+      return s.circle?.borderColor || "#2962FF";
+    }
+    // For lines and other overlays
+    return s.line?.color || s.polygon?.borderColor || "#2962FF";
   }
 
   // Get current thickness from selected overlay
@@ -2146,24 +2155,41 @@
     return selectedOverlay?.styles?.line?.style || "solid";
   }
 
+  // Convert hex color to rgba with specified opacity
+  function hexToRgba(hex: string, opacity: number): string {
+    // Remove # if present
+    const cleanHex = hex.replace("#", "");
+    // Parse hex values
+    const r = parseInt(cleanHex.substring(0, 2), 16);
+    const g = parseInt(cleanHex.substring(2, 4), 16);
+    const b = parseInt(cleanHex.substring(4, 6), 16);
+    // Return rgba string
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+
   // Update overlay color
   function updateOverlayColor(color: string) {
     if (!chart || !selectedOverlay) return;
+
+    // For shapes (rect, circle, polygon), use semi-transparent fill with solid border
+    const fillColor = hexToRgba(color, 0.2);
 
     chart.overrideOverlay({
       id: selectedOverlay.id,
       styles: {
         line: { color },
         point: { color },
-        rect: { color, borderColor: color },
-        circle: { color, borderColor: color },
-        polygon: { color, borderColor: color },
+        rect: { color: fillColor, borderColor: color },
+        circle: { color: fillColor, borderColor: color },
+        polygon: { color: fillColor, borderColor: color },
       },
     });
 
     selectedOverlay.styles = {
       ...selectedOverlay.styles,
       line: { ...selectedOverlay.styles?.line, color },
+      rect: { ...selectedOverlay.styles?.rect, color: fillColor, borderColor: color },
+      circle: { ...selectedOverlay.styles?.circle, color: fillColor, borderColor: color },
     };
     handleOverlayDrawEnd();
     showColorPicker = false;
