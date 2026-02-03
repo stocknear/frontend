@@ -1,5 +1,5 @@
 <script>
-  import { getImageURL } from "$lib/utils";
+  import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import {
     blog_alt_wallpaper,
@@ -13,6 +13,7 @@
   import Link2 from "lucide-svelte/icons/link-2";
   import Check from "lucide-svelte/icons/check";
   import X from "lucide-svelte/icons/x";
+  import Clock from "lucide-svelte/icons/clock";
   import { toast } from "svelte-sonner";
   import { browser } from "$app/environment";
   import { onMount, onDestroy } from "svelte";
@@ -24,6 +25,7 @@
   let linkCopied = false;
 
   let article = data?.getArticle;
+  let relatedArticles = data?.getRelatedArticles || [];
   $: isAdmin = data?.user?.admin === true;
 
   // Markdown to HTML converter
@@ -116,6 +118,7 @@
   $: {
     if (data?.getParams) {
       article = data?.getArticle;
+      relatedArticles = data?.getRelatedArticles || [];
     }
   }
 
@@ -531,6 +534,95 @@
       {/if}
     </div>
   </article>
+
+  <!-- Related Articles Section -->
+  {#if relatedArticles && relatedArticles.length > 0}
+    <div class="max-w-4xl mx-auto px-6 pb-16">
+      <div class="border-t border-gray-200 dark:border-zinc-800 pt-12">
+        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8">
+          Related Articles
+        </h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {#each relatedArticles as related}
+            <a
+              href="/learning-center/article/{convertToSlug(related?.title)}"
+              class="group flex flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
+            >
+              <!-- Cover Image -->
+              {#if related?.cover}
+                <div class="relative h-40 overflow-hidden">
+                  <img
+                    src={getImageURL(related?.collectionId, related?.id, related?.cover)}
+                    alt={related?.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              {:else}
+                <div class="h-40 bg-gradient-to-br from-violet-100 to-violet-50 dark:from-violet-900/20 dark:to-zinc-900 flex items-center justify-center">
+                  <svg class="w-12 h-12 text-violet-300 dark:text-violet-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+              {/if}
+
+              <!-- Content -->
+              <div class="flex flex-col flex-1 p-4">
+                <!-- Tags -->
+                {#if related?.tags && related.tags.length > 0}
+                  <div class="flex flex-wrap gap-1.5 mb-2">
+                    {#each related.tags.slice(0, 2) as tag}
+                      <span class="px-2 py-0.5 rounded-full text-xs font-medium {getTagColor(tag)}">
+                        {tag}
+                      </span>
+                    {/each}
+                  </div>
+                {/if}
+
+                <!-- Title -->
+                <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2">
+                  {related?.title}
+                </h3>
+
+                <!-- Abstract -->
+                {#if related?.abstract}
+                  <p class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3 flex-1">
+                    {related?.abstract}
+                  </p>
+                {/if}
+
+                <!-- Meta -->
+                <div class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto">
+                  <div class="flex items-center gap-1">
+                    <Calendar class="w-3.5 h-3.5" />
+                    <span>{formatDate(related?.created)}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <Clock class="w-3.5 h-3.5" />
+                    <span>{getReadingTime(related?.description)} min</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+
+        <!-- View All Link -->
+        <div class="mt-8 text-center">
+          <a
+            href="/learning-center"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-300 dark:hover:border-violet-700 transition"
+          >
+            View all articles
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -711,5 +803,13 @@
 
   .article-content :global(em) {
     font-style: italic;
+  }
+
+  /* Line clamp utility for related articles */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>
