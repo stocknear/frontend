@@ -79,7 +79,8 @@
     }
     
     // Remove [IMAGE: ...] placeholder text (used in content templates)
-    html = html.replace(/\[IMAGE:[^\]]*\]/g, '');
+    // Also handles escaped brackets \[IMAGE:...\]
+    html = html.replace(/\\?\[IMAGE:[^\]]*\\?\]/g, '');
     
     // Transform all PocketBase URLs to use proper environment URL
     html = transformPocketBaseUrls(html);

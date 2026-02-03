@@ -2,29 +2,81 @@
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
   import {
-  learning_center_alt_tutorial,
-  learning_center_next,
-  learning_center_previous,
-  learning_center_published,
-  learning_center_seo_description,
-  learning_center_seo_keywords,
-  learning_center_seo_title,
-  learning_center_structured_articles,
-  learning_center_structured_articles_description,
-  learning_center_structured_description,
-  learning_center_structured_name,
-  learning_center_title,
-} from "$lib/paraglide/messages";
+    learning_center_seo_description,
+    learning_center_seo_keywords,
+    learning_center_seo_title,
+    learning_center_structured_articles,
+    learning_center_structured_articles_description,
+    learning_center_structured_description,
+    learning_center_structured_name,
+  } from "$lib/paraglide/messages";
+  import Calendar from "lucide-svelte/icons/calendar";
+  import Clock from "lucide-svelte/icons/clock";
 
   export let data;
 
-  const PAGE_SIZE = 6;
-  const TOTAL_POSTS = data?.getTotalLength;
+  $: tutorialsByCategory = data?.tutorialsByCategory;
+  $: allTutorials = data?.allTutorials || [];
+  $: activeCategory = $page.url.searchParams.get("category") || "all";
 
-  $: totalPages = Math.ceil(TOTAL_POSTS / PAGE_SIZE);
-  $: currentPage = parseInt($page.url.searchParams.get("page") ?? "1");
-  $: allBlogPosts = [...data?.getAllBlogPost];
+  // Category metadata
+  const categories = [
+    {
+      id: "all",
+      name: "All",
+    },
+    {
+      id: "Fundamentals",
+      name: "Fundamentals",
+      description: "Start here if you're new to investing",
+    },
+    {
+      id: "Concepts",
+      name: "Concepts",
+      description: "Market indicators and mechanics",
+    },
+    {
+      id: "Strategies",
+      name: "Strategies",
+      description: "Trading approaches and methodologies",
+    },
+    {
+      id: "Features",
+      name: "Features",
+      description: "How to use Stocknear",
+    },
+  ];
+
+  function formatDate(dateString: string) {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+
+  function getReadingTime(content: string) {
+    if (!content) return 1;
+    const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
+    return Math.max(1, Math.ceil(words / 200));
+  }
+
+  function setCategory(categoryId: string) {
+    if (categoryId === "all") {
+      goto("/learning-center");
+    } else {
+      goto(`/learning-center?category=${categoryId}`);
+    }
+  }
+
+  // Get tutorials to display based on active category
+  $: displayTutorials =
+    activeCategory === "all"
+      ? allTutorials
+      : tutorialsByCategory?.[activeCategory] || [];
 </script>
 
 <SEO
@@ -53,140 +105,380 @@
       "@type": "ItemList",
       name: learning_center_structured_articles(),
       description: learning_center_structured_articles_description(),
-      numberOfItems: allBlogPosts?.length || 0,
+      numberOfItems: allTutorials?.length || 0,
     },
   }}
 />
 
-<section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
->
-  <div class="w-full overflow-hidden m-auto mt-5">
-    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
-      <div
-        class="relative flex justify-center items-start overflow-hidden w-full"
-      >
-        <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700 pb-2">
-            <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {learning_center_title()}
-            </h1>
-          </div>
+<section class="w-full max-w-6xl mx-auto min-h-screen pb-20 pt-5 px-4 lg:px-6">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1
+      class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-1"
+    >
+      Learning Center
+    </h1>
+    <p class="text-gray-500 dark:text-zinc-400">
+      Master the stock market, one concept at a time
+    </p>
+  </div>
 
-          <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-y-5 gap-5">
-            {#if allBlogPosts?.length !== 0}
-              {#each allBlogPosts as item}
-                <div
-                  class="flex flex-col overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
-                >
-                  <div class="shrink-0">
-                    <a
-                      href={"/learning-center/article/" +
-                        convertToSlug(item?.title)}
-                      ><img
-                        class="h-56 w-full object-cover border-b border-gray-300 dark:border-zinc-700"
-                        src={getImageURL(
-                          item?.collectionId,
-                          item?.id,
-                          item?.cover,
-                        )}
-                        alt={learning_center_alt_tutorial()}
-                        loading="lazy"
-                      /></a
-                    >
-                  </div>
-                  <div
-                    class="flex flex-1 flex-col justify-between bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-6"
-                  >
-                    <div class="flex-1">
-                      <a
-                        href={"/learning-center/article/" +
-                          convertToSlug(item?.title)}
-                        class="mt-2 block group"
-                        ><h2
-                          class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                        >
-                          {item?.title}
-                        </h2>
-                        <p
-                          class="mt-3 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
-                        >
-                          {item?.abstract.length > 250
-                            ? item?.abstract?.slice(0, 250) + "..."
-                            : item?.abstract}
-                        </p></a
-                      >
-                    </div>
-                    <div class="mt-6 flex items-center">
-                      <div
-                        class="flex items-center text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                      >
-                        {learning_center_published()}
-                        <time
-                          datetime={item?.created}
-                          class="ml-1 text-sm normal-case text-gray-600 dark:text-zinc-300 tabular-nums"
-                        >
-                          {new Date(item?.created)?.toLocaleString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                            daySuffix: "2-digit",
-                          })}
-                        </time>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              {/each}
-            {/if}
-          </div>
-
-          <div class="my-4 flex w-full">
-            {#if currentPage > 1}
-              <a
-                href={`/learning-center/?page=${currentPage - 1}`}
-                class="mr-auto inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-              >
-                <svg
-                  class="w-5 h-5 rotate-180"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  style="max-width:40px"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  ></path></svg>
-<span>{learning_center_previous()}</span></a
-              >
-            {/if}
-            {#if currentPage < totalPages}
-              <a
-                href={`/learning-center/?page=${currentPage + 1}`}
-                class="ml-auto inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                ><span>{learning_center_next()}</span>
-                <svg
-                  class="w-5 h-5 inline-block"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  style="max-width:40px"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  ></path></svg>
-</a
-              >
-            {/if}
-          </div>
-        </main>
-      </div>
+  <!-- Category Tabs -->
+  <div class="mb-8 border-b border-gray-200 dark:border-zinc-800">
+    <div class="flex gap-6 overflow-x-auto pb-px hide-scrollbar">
+      {#each categories as category}
+        <button
+          type="button"
+          on:click={() => setCategory(category.id)}
+          class="cursor-pointer pb-3 text-sm font-medium whitespace-nowrap transition-colors relative
+            {activeCategory === category.id
+            ? 'text-gray-900 dark:text-white'
+            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-300'}"
+        >
+          {category.name}
+          {#if activeCategory === category.id}
+            <div
+              class="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 dark:bg-white"
+            ></div>
+          {/if}
+        </button>
+      {/each}
     </div>
   </div>
+
+  <!-- Active Category Description -->
+  {#if activeCategory !== "all"}
+    {@const activeCat = categories.find((c) => c.id === activeCategory)}
+    {#if activeCat?.description}
+      <p class="mb-6 text-sm text-gray-500 dark:text-zinc-400">
+        {activeCat.description}
+      </p>
+    {/if}
+  {/if}
+
+  <!-- Show categorized sections when "All" is selected -->
+  {#if activeCategory === "all"}
+    <!-- Fundamentals Section -->
+    {#if tutorialsByCategory?.Fundamentals?.length > 0}
+      <div class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Fundamentals
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">
+              Start here if you're new to investing
+            </p>
+          </div>
+          {#if tutorialsByCategory.Fundamentals.length > 3}
+            <button
+              type="button"
+              on:click={() => setCategory("Fundamentals")}
+              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >
+              View all
+            </button>
+          {/if}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {#each tutorialsByCategory.Fundamentals.slice(0, 3) as item}
+            <a
+              href="/learning-center/article/{convertToSlug(item?.title)}"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              {#if item?.cover}
+                <div class="h-40 overflow-hidden">
+                  <img
+                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
+                    alt={item?.title}
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              {:else}
+                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+              {/if}
+              <div class="flex flex-col flex-1 p-4">
+                <h3
+                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                >
+                  {item?.title}
+                </h3>
+                <p
+                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
+                >
+                  {item?.abstract}
+                </p>
+                <div
+                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                >
+                  <span>{getReadingTime(item?.description)} min read</span>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Concepts Section -->
+    {#if tutorialsByCategory?.Concepts?.length > 0}
+      <div class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Concepts
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">
+              Market indicators and mechanics
+            </p>
+          </div>
+          {#if tutorialsByCategory.Concepts.length > 3}
+            <button
+              type="button"
+              on:click={() => setCategory("Concepts")}
+              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >
+              View all
+            </button>
+          {/if}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {#each tutorialsByCategory.Concepts.slice(0, 3) as item}
+            <a
+              href="/learning-center/article/{convertToSlug(item?.title)}"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              {#if item?.cover}
+                <div class="h-40 overflow-hidden">
+                  <img
+                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
+                    alt={item?.title}
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              {:else}
+                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+              {/if}
+              <div class="flex flex-col flex-1 p-4">
+                <h3
+                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                >
+                  {item?.title}
+                </h3>
+                <p
+                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
+                >
+                  {item?.abstract}
+                </p>
+                <div
+                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                >
+                  <span>{getReadingTime(item?.description)} min read</span>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Strategies Section -->
+    {#if tutorialsByCategory?.Strategies?.length > 0}
+      <div class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Strategies
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">
+              Trading approaches and methodologies
+            </p>
+          </div>
+          {#if tutorialsByCategory.Strategies.length > 3}
+            <button
+              type="button"
+              on:click={() => setCategory("Strategies")}
+              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >
+              View all
+            </button>
+          {/if}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {#each tutorialsByCategory.Strategies.slice(0, 3) as item}
+            <a
+              href="/learning-center/article/{convertToSlug(item?.title)}"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              {#if item?.cover}
+                <div class="h-40 overflow-hidden">
+                  <img
+                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
+                    alt={item?.title}
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              {:else}
+                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+              {/if}
+              <div class="flex flex-col flex-1 p-4">
+                <h3
+                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                >
+                  {item?.title}
+                </h3>
+                <p
+                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
+                >
+                  {item?.abstract}
+                </p>
+                <div
+                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                >
+                  <span>{getReadingTime(item?.description)} min read</span>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Features Section -->
+    {#if tutorialsByCategory?.Features?.length > 0}
+      <div class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Features
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">
+              How to use Stocknear
+            </p>
+          </div>
+          {#if tutorialsByCategory.Features.length > 3}
+            <button
+              type="button"
+              on:click={() => setCategory("Features")}
+              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >
+              View all
+            </button>
+          {/if}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {#each tutorialsByCategory.Features.slice(0, 3) as item}
+            <a
+              href="/learning-center/article/{convertToSlug(item?.title)}"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              {#if item?.cover}
+                <div class="h-40 overflow-hidden">
+                  <img
+                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
+                    alt={item?.title}
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              {:else}
+                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+              {/if}
+              <div class="flex flex-col flex-1 p-4">
+                <h3
+                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                >
+                  {item?.title}
+                </h3>
+                <p
+                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
+                >
+                  {item?.abstract}
+                </p>
+                <div
+                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                >
+                  <span>{getReadingTime(item?.description)} min read</span>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+  {:else}
+    <!-- Filtered Category View -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {#if displayTutorials?.length > 0}
+        {#each displayTutorials as item}
+          <a
+            href="/learning-center/article/{convertToSlug(item?.title)}"
+            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+          >
+            {#if item?.cover}
+              <div class="h-40 overflow-hidden">
+                <img
+                  src={getImageURL(item?.collectionId, item?.id, item?.cover)}
+                  alt={item?.title}
+                  class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            {:else}
+              <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+            {/if}
+            <div class="flex flex-col flex-1 p-4">
+              <h3
+                class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+              >
+                {item?.title}
+              </h3>
+              <p
+                class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
+              >
+                {item?.abstract}
+              </p>
+              <div
+                class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+              >
+                <div class="flex items-center gap-1">
+                  <Calendar class="w-3.5 h-3.5" />
+                  <span>{formatDate(item?.created)}</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <Clock class="w-3.5 h-3.5" />
+                  <span>{getReadingTime(item?.description)} min</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {/each}
+      {:else}
+        <div class="col-span-full text-center py-12">
+          <p class="text-gray-500 dark:text-zinc-400">
+            No articles in this category yet.
+          </p>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </section>
+
+<style>
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

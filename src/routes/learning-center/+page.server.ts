@@ -1,28 +1,43 @@
-
-
 export const load = async ({ locals, url }) => {
   const { pb } = locals;
 
-  // Get `page` from query parameters, default to 1
-  const page = parseInt(url.searchParams.get('page')) || 1;
+  // Get category filter from query parameters
+  const categoryFilter = url.searchParams.get('category') || 'all';
 
-  const getAllBlogPost = async () => {
-    const output = await pb.collection("tutorials").getList(page, 6, {
+  const getTutorialsByCategory = async () => {
+    // Get all tutorials
+    const allTutorials = await pb.collection("tutorials").getFullList({
       sort: "-created",
     });
 
-    return output?.items;
+    // Group by category
+    const grouped = {
+      Fundamentals: [],
+      Concepts: [],
+      Strategies: [],
+      Features: [],
+    };
+
+    for (const tutorial of allTutorials) {
+      const cat = tutorial.category || 'Concepts';
+      if (grouped[cat]) {
+        grouped[cat].push(tutorial);
+      }
+    }
+
+    return grouped;
   };
 
-  const getTotalLength = async () => {
-    const output = await pb.collection("tutorials").getFullList( );
-
-    return output?.length;
+  const getAllTutorials = async () => {
+    const output = await pb.collection("tutorials").getFullList({
+      sort: "-created",
+    });
+    return output;
   };
-
 
   return {
-    getAllBlogPost: await getAllBlogPost(),
-    getTotalLength: await getTotalLength(),
+    tutorialsByCategory: await getTutorialsByCategory(),
+    allTutorials: await getAllTutorials(),
+    categoryFilter,
   };
 };
