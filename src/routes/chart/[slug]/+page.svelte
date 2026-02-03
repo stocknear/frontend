@@ -8028,6 +8028,28 @@
       <div
         class="tv-topbar-row flex items-center px-2 py-0.5 gap-1 text-[11px] border-b border-gray-300 dark:border-zinc-800"
       >
+        <!-- Hamburger Menu to Toggle Drawing Tools Sidebar -->
+        <button
+          class="hidden sm:flex cursor-pointer items-center justify-center w-8 h-8 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+          on:click={() => (toolbarExpanded = !toolbarExpanded)}
+          title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-5 h-5"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+
         <!-- Ticker Symbol -->
         <button class="flex items-center gap-1.5 px-2 py-1">
           <img
@@ -8086,19 +8108,6 @@
       <div
         class="tv-toolbar-row flex items-center px-1 py-0.5 gap-1 sm:gap-0.5 overflow-x-auto scrollbar-none text-[11px]"
       >
-        <!-- Toolbar Toggle (hidden on mobile since drawing toolbar is desktop-only) -->
-        <button
-          class="hidden sm:flex cursor-pointer items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
-          on:click={() => (toolbarExpanded = !toolbarExpanded)}
-          title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
-        >
-          {#if toolbarExpanded}
-            <IndentDecrease class="size-5 flex-shrink-0" />
-          {:else}
-            <IndentIncrease class="size-5 flex-shrink-0" />
-          {/if}
-        </button>
-
         <!-- Time Intervals Dropdown - Desktop only (mobile uses bottom nav) -->
         <div class="hidden sm:block">
           <DropdownMenu.Root>
