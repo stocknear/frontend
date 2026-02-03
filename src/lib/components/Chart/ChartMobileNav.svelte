@@ -185,7 +185,7 @@
                   on:change={() => dispatch("toggleEarnings")}
                 />
                 <div
-                  class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                 ></div>
               </div>
             </label>
@@ -208,7 +208,7 @@
                   on:change={() => dispatch("toggleDividends")}
                 />
                 <div
-                  class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                  class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                 ></div>
               </div>
             </label>
@@ -232,7 +232,7 @@
                     on:change={() => dispatch("toggleNewsFlow")}
                   />
                   <div
-                    class="w-9 h-5 bg-gray-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 dark:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                    class="w-9 h-5 bg-gray-200/80 dark:bg-zinc-800 rounded-full peer peer-checked:bg-emerald-500 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                   ></div>
                 </div>
               </label>

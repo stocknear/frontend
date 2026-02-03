@@ -1868,11 +1868,16 @@
 
   function toggleDrawingsLock() {
     drawingsLocked = !drawingsLocked;
-    // Update all tracked overlays
-    if (chart && overlayIds.length > 0) {
-      overlayIds.forEach((id) => {
-        chart.overrideOverlay({ id, lock: drawingsLocked });
-      });
+    // Update ALL overlays from the chart
+    if (chart) {
+      const allOverlays = chart.getOverlays();
+      if (allOverlays && Array.isArray(allOverlays)) {
+        allOverlays.forEach((overlay: any) => {
+          if (overlay?.id) {
+            chart.overrideOverlay({ id: overlay.id, lock: drawingsLocked });
+          }
+        });
+      }
     }
     // Save to localStorage
     const currentSettings = loadChartSettings() || {};
@@ -1881,10 +1886,16 @@
 
   function toggleDrawingsVisibility() {
     drawingsVisible = !drawingsVisible;
-    if (chart && overlayIds.length > 0) {
-      overlayIds.forEach((id) => {
-        chart.overrideOverlay({ id, visible: drawingsVisible });
-      });
+    if (chart) {
+      // Get ALL overlays from the chart and update their visibility
+      const allOverlays = chart.getOverlays();
+      if (allOverlays && Array.isArray(allOverlays)) {
+        allOverlays.forEach((overlay: any) => {
+          if (overlay?.id) {
+            chart.overrideOverlay({ id: overlay.id, visible: drawingsVisible });
+          }
+        });
+      }
     }
     // Save to localStorage
     const currentSettings = loadChartSettings() || {};
@@ -2532,9 +2543,18 @@
         const figures: any[] = [];
         const [p1, p2] = coordinates;
 
+        // Helper to convert hex to rgba
+        const toRgba = (hex: string, opacity: number): string => {
+          const cleanHex = hex.replace("#", "");
+          const r = parseInt(cleanHex.substring(0, 2), 16);
+          const g = parseInt(cleanHex.substring(2, 4), 16);
+          const b = parseInt(cleanHex.substring(4, 6), 16);
+          return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        };
+
         // Get line color for fill (with 20% opacity)
         const lineColor = overlay?.styles?.line?.color || "#2962FF";
-        const fillColor = overlay?.styles?.polygon?.color || hexToRgba(lineColor, 0.2);
+        const fillColor = overlay?.styles?.polygon?.color || toRgba(lineColor, 0.2);
 
         // Calculate the direction vector
         const dx = p2.x - p1.x;
@@ -2635,9 +2655,18 @@
         const figures: any[] = [];
         const [p1, p2] = coordinates;
 
+        // Helper to convert hex to rgba
+        const toRgba = (hex: string, opacity: number): string => {
+          const cleanHex = hex.replace("#", "");
+          const r = parseInt(cleanHex.substring(0, 2), 16);
+          const g = parseInt(cleanHex.substring(2, 4), 16);
+          const b = parseInt(cleanHex.substring(4, 6), 16);
+          return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        };
+
         // Get line color for fill (with 20% opacity)
         const lineColor = overlay?.styles?.line?.color || "#2962FF";
-        const fillColor = overlay?.styles?.polygon?.color || hexToRgba(lineColor, 0.2);
+        const fillColor = overlay?.styles?.polygon?.color || toRgba(lineColor, 0.2);
 
         // Calculate the direction vector
         const dx = p2.x - p1.x;
