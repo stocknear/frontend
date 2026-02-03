@@ -2133,7 +2133,10 @@
 
     const toolbarWidth = 300;
     toolbarPosition = {
-      x: Math.max(10, Math.min(x - toolbarWidth / 2, rect.width - toolbarWidth - 10)),
+      x: Math.max(
+        10,
+        Math.min(x - toolbarWidth / 2, rect.width - toolbarWidth - 10),
+      ),
       y: Math.max(10, y < 10 ? (event.y || 0) - rect.top + 20 : y),
     };
   }
@@ -2208,8 +2211,16 @@
       styles: {
         ...selectedOverlay.styles,
         line: { ...selectedOverlay.styles?.line, color },
-        rect: { ...selectedOverlay.styles?.rect, color: fillColor, borderColor: color },
-        circle: { ...selectedOverlay.styles?.circle, color: fillColor, borderColor: color },
+        rect: {
+          ...selectedOverlay.styles?.rect,
+          color: fillColor,
+          borderColor: color,
+        },
+        circle: {
+          ...selectedOverlay.styles?.circle,
+          color: fillColor,
+          borderColor: color,
+        },
       },
     };
     handleOverlayDrawEnd();
@@ -8030,17 +8041,19 @@
       >
         <!-- Hamburger Menu to Toggle Drawing Tools Sidebar -->
         <button
-          class="hidden sm:flex cursor-pointer items-center justify-center w-8 h-8 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+          class="hidden sm:flex cursor-pointer items-center justify-center w-9 h-9 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
           <svg
             viewBox="0 0 1024 1024"
             fill="currentColor"
-            class="w-5 h-5 transition-transform duration-300 ease-in-out"
+            class="w-6 h-6 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
             style="transform: rotate({toolbarExpanded ? '0' : '180'}deg);"
           >
-            <path d="M192.037 287.953h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32zM832.161 479.169H438.553c-17.673 0-32 14.327-32 32s14.327 32 32 32h393.608c17.673 0 32-14.327 32-32s-14.327-32-32-32zM832.161 735.802H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32zM319.028 351.594l-160 160 160 160z" />
+            <path
+              d="M192.037 287.953h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32zM832.161 479.169H438.553c-17.673 0-32 14.327-32 32s14.327 32 32 32h393.608c17.673 0 32-14.327 32-32s-14.327-32-32-32zM832.161 735.802H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32zM319.028 351.594l-160 160 160 160z"
+            />
           </svg>
         </button>
 
@@ -8721,12 +8734,16 @@
                       <div
                         use:builder.action
                         {...builder}
-                        class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-50 group-hover/item:opacity-100 transition-opacity duration-150 cursor-pointer"
+                        class="absolute -right-1 top-1/2 -translate-y-1/2 w-[16px] h-[24px] flex items-center justify-center opacity-40 group-hover/item:opacity-100 hover:opacity-100 hover:bg-gray-200/50 dark:hover:bg-zinc-700/50 rounded transition-all duration-200 cursor-pointer"
                         on:click|stopPropagation
                       >
                         <svg
                           viewBox="0 0 4 6"
-                          class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${dropdownStates[group.id] ? "rotate-90" : ""}`}
+                          class="w-[6px] h-[9px] fill-black dark:fill-white transition-transform duration-300 ease-out {dropdownStates[
+                            group.id
+                          ]
+                            ? 'rotate-90'
+                            : ''}"
                         >
                           <path
                             d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"
@@ -8810,12 +8827,14 @@
                   <div
                     use:builder.action
                     {...builder}
-                    class="absolute -right-0.5 top-1/2 -translate-y-1/2 w-[8px] h-[12px] flex items-center justify-center opacity-50 group-hover/magnet:opacity-100 transition-opacity duration-150 cursor-pointer"
+                    class="absolute -right-1 top-1/2 -translate-y-1/2 w-[16px] h-[24px] flex items-center justify-center opacity-40 group-hover/magnet:opacity-100 hover:opacity-100 hover:bg-gray-200/50 dark:hover:bg-zinc-700/50 rounded transition-all duration-200 cursor-pointer"
                     on:click|stopPropagation
                   >
                     <svg
                       viewBox="0 0 4 6"
-                      class={`w-[5px] h-[7px] fill-black dark:fill-white transition-transform duration-200 ${dropdownStates.magnet ? "rotate-90" : ""}`}
+                      class="w-[6px] h-[9px] fill-black dark:fill-white transition-transform duration-300 ease-out {dropdownStates.magnet
+                        ? 'rotate-90'
+                        : ''}"
                     >
                       <path
                         d="M1.07298,0.159458C0.827521,-0.0531526,0.429553,-0.0531526,0.184094,0.159458C-0.0613648,0.372068,-0.0613648,0.716778,0.184094,0.929388L2.61275,3.03303L0.260362,5.07061C0.0149035,5.28322,0.0149035,5.62793,0.260362,5.84054C0.505822,6.05315,0.903789,6.05315,1.14925,5.84054L3.81591,3.53075C4.01812,3.3556,4.05374,3.0908,3.92279,2.88406C3.93219,2.73496,3.87113,2.58315,3.73964,2.46925L1.07298,0.159458Z"
@@ -9055,7 +9074,8 @@
                           }}
                           title="Thickness"
                         >
-                          <span class="font-medium">{currentOverlayThickness}px</span
+                          <span class="font-medium"
+                            >{currentOverlayThickness}px</span
                           >
                         </button>
                         {#if showThicknessPicker}
@@ -9127,8 +9147,7 @@
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                stroke-width="2"
-                                ><path d="M3 12h18" /></svg
+                                stroke-width="2"><path d="M3 12h18" /></svg
                               >
                               <span class="text-sm">Solid</span>
                             </button>
@@ -9167,7 +9186,11 @@
                       on:click={toggleSelectedOverlayLock}
                       title={selectedOverlay.lock ? "Unlock" : "Lock"}
                     >
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
                         {#if selectedOverlay.lock}
                           <path
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
