@@ -9,8 +9,19 @@
   import Pencil from "lucide-svelte/icons/pencil";
   import ArrowLeft from "lucide-svelte/icons/arrow-left";
   import Calendar from "lucide-svelte/icons/calendar";
+  import Share2 from "lucide-svelte/icons/share-2";
+  import Link2 from "lucide-svelte/icons/link-2";
+  import Check from "lucide-svelte/icons/check";
+  import X from "lucide-svelte/icons/x";
+  import { toast } from "svelte-sonner";
+  import { browser } from "$app/environment";
+  import { onMount, onDestroy } from "svelte";
 
   export let data;
+
+  // Share dropdown state
+  let showShareDropdown = false;
+  let linkCopied = false;
 
   let article = data?.getArticle;
   $: isAdmin = data?.user?.admin === true;
@@ -110,6 +121,91 @@
 
   $: renderedDescription = renderContent(article?.description);
   $: readingTime = getReadingTime(article?.description);
+
+  // Get the full article URL
+  function getArticleUrl() {
+    if (browser) {
+      return window.location.href;
+    }
+    return `https://stocknear.com/learning-center/article/${data?.getParams}`;
+  }
+
+  // Share functions
+  function shareOnTwitter() {
+    const url = getArticleUrl();
+    const text = article?.title || "Check out this article";
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+      "_blank",
+      "width=550,height=420"
+    );
+    showShareDropdown = false;
+  }
+
+  function shareOnReddit() {
+    const url = getArticleUrl();
+    const title = article?.title || "Check out this article";
+    window.open(
+      `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+      "_blank",
+      "width=550,height=420"
+    );
+    showShareDropdown = false;
+  }
+
+  function shareOnLinkedIn() {
+    const url = getArticleUrl();
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      "_blank",
+      "width=550,height=420"
+    );
+    showShareDropdown = false;
+  }
+
+  function shareOnFacebook() {
+    const url = getArticleUrl();
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      "_blank",
+      "width=550,height=420"
+    );
+    showShareDropdown = false;
+  }
+
+  async function copyLink() {
+    const url = getArticleUrl();
+    try {
+      await navigator.clipboard.writeText(url);
+      linkCopied = true;
+      toast.success("Link copied to clipboard");
+      setTimeout(() => {
+        linkCopied = false;
+        showShareDropdown = false;
+      }, 1500);
+    } catch (err) {
+      toast.error("Failed to copy link");
+    }
+  }
+
+  // Close dropdown on outside click
+  function handleClickOutside(event) {
+    if (!event.target.closest(".share-dropdown")) {
+      showShareDropdown = false;
+    }
+  }
+
+  onMount(() => {
+    if (browser) {
+      document.addEventListener("click", handleClickOutside);
+    }
+  });
+
+  onDestroy(() => {
+    if (browser) {
+      document.removeEventListener("click", handleClickOutside);
+    }
+  });
 </script>
 
 <SEO
@@ -177,16 +273,102 @@
           <ArrowLeft class="w-5 h-5" />
         </a>
 
-        <!-- Right: Admin Edit -->
-        {#if isAdmin && article?.id}
-          <a
-            href="/learning-center/editor/{article.id}"
-            class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-300 text-sm font-medium transition"
-          >
-            <Pencil class="w-4 h-4" />
-            Edit
-          </a>
-        {/if}
+        <!-- Right: Share + Admin Edit -->
+        <div class="flex items-center gap-2">
+          <!-- Share Button -->
+          <div class="relative share-dropdown">
+            <button
+              type="button"
+              on:click|stopPropagation={() => (showShareDropdown = !showShareDropdown)}
+              class="flex items-center gap-2 p-2 sm:px-4 sm:py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-300 text-sm font-medium transition"
+            >
+              <Share2 class="w-4 h-4" />
+              <span class="hidden sm:inline">Share</span>
+            </button>
+
+            {#if showShareDropdown}
+              <div
+                class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-700 py-1 z-50"
+              >
+                <!-- Twitter/X -->
+                <button
+                  type="button"
+                  on:click={shareOnTwitter}
+                  class="w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  <span>Twitter / X</span>
+                </button>
+
+                <!-- Reddit -->
+                <button
+                  type="button"
+                  on:click={shareOnReddit}
+                  class="w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                  </svg>
+                  <span>Reddit</span>
+                </button>
+
+                <!-- LinkedIn -->
+                <button
+                  type="button"
+                  on:click={shareOnLinkedIn}
+                  class="w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  <span>LinkedIn</span>
+                </button>
+
+                <!-- Facebook -->
+                <button
+                  type="button"
+                  on:click={shareOnFacebook}
+                  class="w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span>Facebook</span>
+                </button>
+
+                <div class="border-t border-gray-200 dark:border-zinc-700 my-1"></div>
+
+                <!-- Copy Link -->
+                <button
+                  type="button"
+                  on:click={copyLink}
+                  class="w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  {#if linkCopied}
+                    <Check class="w-4 h-4 text-green-500" />
+                    <span class="text-green-500">Copied!</span>
+                  {:else}
+                    <Link2 class="w-4 h-4" />
+                    <span>Copy link</span>
+                  {/if}
+                </button>
+              </div>
+            {/if}
+          </div>
+
+          <!-- Admin Edit Button -->
+          {#if isAdmin && article?.id}
+            <a
+              href="/learning-center/editor/{article.id}"
+              class="flex items-center gap-2 p-2 sm:px-4 sm:py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-300 text-sm font-medium transition"
+            >
+              <Pencil class="w-4 h-4" />
+              <span class="hidden sm:inline">Edit</span>
+            </a>
+          {/if}
+        </div>
       </div>
     </div>
   </div>
@@ -260,7 +442,75 @@
     <!-- Bottom Divider -->
     <div class="w-full h-px bg-gray-200 dark:bg-zinc-800 my-12"></div>
 
-    <!-- Footer -->
+    <!-- Share Section -->
+    <div class="flex flex-col items-center gap-4 mb-12">
+      <span class="text-sm font-medium text-gray-500 dark:text-zinc-400">Share this article</span>
+      <div class="flex items-center gap-3">
+        <!-- Twitter/X -->
+        <button
+          type="button"
+          on:click={shareOnTwitter}
+          class="p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+          title="Share on Twitter"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </button>
+
+        <!-- Reddit -->
+        <button
+          type="button"
+          on:click={shareOnReddit}
+          class="p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-[#FF4500] transition"
+          title="Share on Reddit"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+          </svg>
+        </button>
+
+        <!-- LinkedIn -->
+        <button
+          type="button"
+          on:click={shareOnLinkedIn}
+          class="p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-[#0A66C2] transition"
+          title="Share on LinkedIn"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </button>
+
+        <!-- Facebook -->
+        <button
+          type="button"
+          on:click={shareOnFacebook}
+          class="p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-[#1877F2] transition"
+          title="Share on Facebook"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </button>
+
+        <!-- Copy Link -->
+        <button
+          type="button"
+          on:click={copyLink}
+          class="p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          title="Copy link"
+        >
+          {#if linkCopied}
+            <Check class="w-5 h-5 text-green-500" />
+          {:else}
+            <Link2 class="w-5 h-5" />
+          {/if}
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer Navigation -->
     <div class="flex items-center justify-between">
       <a
         href="/learning-center"
