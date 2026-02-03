@@ -528,12 +528,12 @@
       </div>
 
       <div
-        class="chart-driver shadow mt-5 border border-gray-300 dark:border-zinc-700 rounded"
+        class="chart-driver shadow mt-5 border border-gray-300 dark:border-zinc-700 rounded-2xl"
         use:highcharts={config}
       ></div>
 
       <div
-        class="mt-5 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-y border-gray-300 dark:border-zinc-700 sm:pt-2 sm:pb-2"
+        class="mt-5 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:pt-2 sm:pb-2"
       >
         <h3 class="history-driver text-xl sm:text-2xl font-bold mb-2 sm:mb-0">
           FTD History
@@ -571,17 +571,15 @@
           <tbody>
             {#each displayList as item}
               <tr class="dark:sm:hover:bg-[#245073]/10">
-                <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class=" text-sm whitespace-nowrap">
                   {formatDisplayDate(item?.date)}
                 </td>
 
-                <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class=" text-sm whitespace-nowrap">
                   {formatDisplayDate(item?.tPlus35Date)}
                 </td>
 
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {typeof item?.price === "number"
                     ? item.price.toLocaleString("en-US", {
                         minimumFractionDigits: 2,
@@ -590,20 +588,16 @@
                     : "n/a"}
                 </td>
 
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {abbreviateNumber(item?.tradeVolume)}
                 </td>
 
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {item?.failToDeliver?.toLocaleString("en-US")}
                 </td>
 
                 <td
-                  class=" text-sm sm:text-[1rem] {item?.ftdChange > 0
+                  class=" text-sm {item?.ftdChange > 0
                     ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
                     : item?.ftdChange < 0
                       ? 'text-rose-800 dark:text-rose-400'
@@ -615,7 +609,7 @@
                 </td>
 
                 <td
-                  class=" text-sm sm:text-[1rem] {item?.ftdChangePercentage > 0
+                  class=" text-sm {item?.ftdChangePercentage > 0
                     ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
                     : item?.ftdChangePercentage < 0
                       ? 'text-rose-800 dark:text-rose-400'
@@ -628,9 +622,7 @@
                       })}%`
                     : "n/a"}
                 </td>
-                <td
-                  class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
-                >
+                <td class=" text-sm text-right whitespace-nowrap">
                   {typeof item?.notionalValue === "number"
                     ? item.notionalValue.toLocaleString("en-US")
                     : "n/a"}
