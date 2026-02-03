@@ -171,8 +171,8 @@
   const getChangeClass = (value: number | null) => {
     if (value === null) return "text-gray-400 dark:text-zinc-500";
     return value >= 0
-      ? "text-emerald-600 dark:text-emerald-400"
-      : "text-rose-600 dark:text-rose-400";
+      ? "text-emerald-800 dark:text-emerald-400"
+      : "text-rose-800 dark:text-rose-400";
   };
 
   const normalizeGroupKey = (type: unknown): string => {
@@ -726,7 +726,10 @@
       const currentSymbols = paginatedItems
         .map((item) => item.symbol)
         .filter(Boolean) as string[];
-      if (!arraysHaveSameElements(currentSymbols, lastSubscribedSymbols) && socket.readyState === WebSocket.OPEN) {
+      if (
+        !arraysHaveSameElements(currentSymbols, lastSubscribedSymbols) &&
+        socket.readyState === WebSocket.OPEN
+      ) {
         lastSubscribedSymbols = currentSymbols;
         sendWsMessage(currentSymbols);
       }
@@ -906,234 +909,234 @@
         </span>
       </a>
     {:else}
-    <div class="px-3 py-0 border-b border-gray-200 dark:border-zinc-800">
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild let:builder>
-          <Button
-            builders={[builder]}
-            class="w-fit transition-all px-1 py-0 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
-          >
-            <span class="truncate font-medium">{activeWatchlistTitle}</span>
-            <svg
-              class="-mr-1 ml-1 h-4 w-4 inline-block"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-              aria-hidden="true"
+      <div class="px-3 py-0 border-b border-gray-200 dark:border-zinc-800">
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="w-fit transition-all px-1 py-0 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
             >
-              <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </Button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content
-          side="bottom"
-          align="start"
-          sideOffset={10}
-          alignOffset={0}
-          class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
-        >
-          <DropdownMenu.Item
-            on:click={() => (isCreateModalOpen = true)}
-            class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
-          >
-            <svg
-              class="h-4 w-4 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            <span class="text-xs">New Watchlist</span>
-          </DropdownMenu.Item>
-          <DropdownMenu.Separator />
-          <DropdownMenu.Group>
-            {#each watchlists as list}
-              <DropdownMenu.Item
-                on:click={() => {
-                  activeWatchlistId = list.id;
-                  handleWatchlistChange();
-                }}
-                class="text-xs cursor-pointer {list.id === activeWatchlistId
-                  ? 'text-violet-800 dark:text-violet-400'
-                  : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+              <span class="truncate font-medium">{activeWatchlistTitle}</span>
+              <svg
+                class="-mr-1 ml-1 h-4 w-4 inline-block"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
               >
-                {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
-                  ? list.ticker.length
-                  : 0})
-                <label
-                  class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
-                  on:click|stopPropagation={() => openDeleteModal(list)}
-                >
-                  <svg
-                    class="size-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    style="max-width:40px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    ></path>
-                  </svg>
-                </label>
-              </DropdownMenu.Item>
-            {/each}
-          </DropdownMenu.Group>
-          {#if watchlists.length === 0}
-            <div class="px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
-              No watchlists yet
-            </div>
-          {/if}
-          <DropdownMenu.Separator />
-          <DropdownMenu.Item
-            on:click={() => goto("/watchlist/stocks")}
-            class="flex items-center gap-2 text-xs cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="start"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
           >
-            <svg
-              class="size-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-              />
-            </svg>
-            Manage Watchlists
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
-    </div>
-  {/if}
-
-  <!-- Add stocks search input and Edit button in same row -->
-  {#if activeTab === "watchlist" && activeWatchlistId}
-    <div
-      class="flex items-center gap-2 px-3 py-2 border-b border-gray-200 dark:border-zinc-800"
-    >
-      <!-- Add stocks input -->
-      <div class="flex-1">
-        <Combobox.Root
-          items={searchBarData}
-          bind:inputValue={searchInputValue}
-          bind:touchedInput
-        >
-          <div class="relative w-full">
-            <Combobox.Input
-              on:input={searchStocks}
-              class="py-1.5 text-xs border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
-              placeholder="Add stocks..."
-              aria-label="Add stocks"
-            />
-          </div>
-
-          <Combobox.Content
-            class="w-auto z-50 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden"
-            sideOffset={8}
-          >
-            {#if searchInputValue?.length > 0}
-              {#each searchBarData as item}
-                <Combobox.Item
-                  class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
-                  value={item?.symbol}
-                  label={item?.name}
-                  on:click={() => handleAddTicker(item?.symbol)}
-                >
-                  <div class="flex flex-col items-start">
-                    <span class="text-xs text-gray-700 dark:text-zinc-200"
-                      >{item?.symbol}</span
-                    >
-                    <span class="text-[10px] text-gray-500 dark:text-zinc-400"
-                      >{item?.name}</span
-                    >
-                  </div>
-                </Combobox.Item>
-              {:else}
-                <span
-                  class="block px-3 py-2 text-xs text-gray-500 dark:text-zinc-400"
-                >
-                  No results found
-                </span>
-              {/each}
-            {:else}
-              <Combobox.Item
-                class="cursor-pointer flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden"
-              >
-                <span class="text-xs text-gray-500 dark:text-zinc-400">
-                  No results found
-                </span>
-              </Combobox.Item>
-            {/if}
-          </Combobox.Content>
-        </Combobox.Root>
-      </div>
-
-      <!-- Edit/Delete buttons -->
-      {#if watchlistItems.length > 0}
-        <div class="flex items-center gap-1 flex-shrink-0">
-          {#if editMode}
-            <label
-              on:click={handleDeleteTickers}
-              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+            <DropdownMenu.Item
+              on:click={() => (isCreateModalOpen = true)}
+              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
             >
               <svg
-                class="inline-block w-3.5 h-3.5"
-                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="text-xs">New Watchlist</span>
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              {#each watchlists as list}
+                <DropdownMenu.Item
+                  on:click={() => {
+                    activeWatchlistId = list.id;
+                    handleWatchlistChange();
+                  }}
+                  class="text-xs cursor-pointer {list.id === activeWatchlistId
+                    ? 'text-violet-800 dark:text-violet-400'
+                    : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+                >
+                  {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
+                    ? list.ticker.length
+                    : 0})
+                  <label
+                    class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
+                    on:click|stopPropagation={() => openDeleteModal(list)}
+                  >
+                    <svg
+                      class="size-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      style="max-width:40px"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg>
+                  </label>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+            {#if watchlists.length === 0}
+              <div class="px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
+                No watchlists yet
+              </div>
+            {/if}
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item
+              on:click={() => goto("/watchlist/stocks")}
+              class="flex items-center gap-2 text-xs cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+            >
+              <svg
+                class="size-4"
+                fill="none"
                 viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+                />
+              </svg>
+              Manage Watchlists
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
+    {/if}
+
+    <!-- Add stocks search input and Edit button in same row -->
+    {#if activeTab === "watchlist" && activeWatchlistId}
+      <div
+        class="flex items-center gap-2 px-3 py-2 border-b border-gray-200 dark:border-zinc-800"
+      >
+        <!-- Add stocks input -->
+        <div class="flex-1">
+          <Combobox.Root
+            items={searchBarData}
+            bind:inputValue={searchInputValue}
+            bind:touchedInput
+          >
+            <div class="relative w-full">
+              <Combobox.Input
+                on:input={searchStocks}
+                class="py-1.5 text-xs border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
+                placeholder="Add stocks..."
+                aria-label="Add stocks"
+              />
+            </div>
+
+            <Combobox.Content
+              class="w-auto z-50 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden"
+              sideOffset={8}
+            >
+              {#if searchInputValue?.length > 0}
+                {#each searchBarData as item}
+                  <Combobox.Item
+                    class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
+                    value={item?.symbol}
+                    label={item?.name}
+                    on:click={() => handleAddTicker(item?.symbol)}
+                  >
+                    <div class="flex flex-col items-start">
+                      <span class="text-xs text-gray-700 dark:text-zinc-200"
+                        >{item?.symbol}</span
+                      >
+                      <span class="text-[10px] text-gray-500 dark:text-zinc-400"
+                        >{item?.name}</span
+                      >
+                    </div>
+                  </Combobox.Item>
+                {:else}
+                  <span
+                    class="block px-3 py-2 text-xs text-gray-500 dark:text-zinc-400"
+                  >
+                    No results found
+                  </span>
+                {/each}
+              {:else}
+                <Combobox.Item
+                  class="cursor-pointer flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden"
+                >
+                  <span class="text-xs text-gray-500 dark:text-zinc-400">
+                    No results found
+                  </span>
+                </Combobox.Item>
+              {/if}
+            </Combobox.Content>
+          </Combobox.Root>
+        </div>
+
+        <!-- Edit/Delete buttons -->
+        {#if watchlistItems.length > 0}
+          <div class="flex items-center gap-1 flex-shrink-0">
+            {#if editMode}
+              <label
+                on:click={handleDeleteTickers}
+                class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+              >
+                <svg
+                  class="inline-block w-3.5 h-3.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
+                  />
+                </svg>
+                <span class="ml-1 text-xs">{numberOfChecked}</span>
+              </label>
+            {/if}
+            <label
+              on:click={handleEditMode}
+              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+            >
+              <svg
+                class="inline-block w-4 h-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1024 1024"
               >
                 <path
                   fill="currentColor"
-                  d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
+                  d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
+                />
+                <path
+                  fill="currentColor"
+                  d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
                 />
               </svg>
-              <span class="ml-1 text-xs">{numberOfChecked}</span>
+              <span class="ml-1 text-xs">
+                {#if !editMode}
+                  Edit
+                {:else}
+                  Cancel
+                {/if}
+              </span>
             </label>
-          {/if}
-          <label
-            on:click={handleEditMode}
-            class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
-          >
-            <svg
-              class="inline-block w-4 h-4"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1024 1024"
-            >
-              <path
-                fill="currentColor"
-                d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
-              />
-              <path
-                fill="currentColor"
-                d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-              />
-            </svg>
-            <span class="ml-1 text-xs">
-              {#if !editMode}
-                Edit
-              {:else}
-                Cancel
-              {/if}
-            </span>
-          </label>
-        </div>
-      {/if}
-    </div>
+          </div>
+        {/if}
+      </div>
     {/if}
   {/if}
 
@@ -1164,7 +1167,7 @@
         Loading watchlist...
       </div>
     {:else if errorMessage}
-      <div class="px-4 py-6 text-sm text-rose-600 dark:text-rose-400">
+      <div class="px-4 py-6 text-sm text-rose-800 dark:text-rose-400">
         {errorMessage}
       </div>
     {:else if watchlistItems.length === 0}
@@ -1261,9 +1264,9 @@
                   class="text-right tabular-nums transition-colors duration-300 {item?.previous !=
                   null
                     ? toNumber(item?.price) > item.previous
-                      ? 'text-emerald-600 dark:text-emerald-400'
+                      ? 'text-emerald-800 dark:text-emerald-400'
                       : toNumber(item?.price) < item.previous
-                        ? 'text-rose-600 dark:text-rose-400'
+                        ? 'text-rose-800 dark:text-rose-400'
                         : ''
                     : ''}">{formatPrice(item?.price)}</span
                 >
@@ -1273,7 +1276,7 @@
                   class="text-right tabular-nums transition-colors duration-300 {item?.previous !=
                   null
                     ? toNumber(item?.price) > item.previous
-                      ? 'text-emerald-600 dark:text-emerald-400'
+                      ? 'text-emerald-800 dark:text-emerald-400'
                       : toNumber(item?.price) < item.previous
                         ? 'text-rose-600 dark:text-rose-400'
                         : getChangeClass(toNumber(item?.changesPercentage))

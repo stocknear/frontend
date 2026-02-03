@@ -60,15 +60,15 @@
             fill-rule="evenodd"
             d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
             clip-rule="evenodd"
-          ></path></svg>
-</a
-      >
+          ></path></svg
+        >
+      </a>
     </div>
     {#if gainersList?.length > 0}
       <div
         class="overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40"
       >
-        <table class="w-full text-sm sm:text-[0.95rem]">
+        <table class="w-full text-sm">
           <thead>
             <tr
               class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
@@ -156,15 +156,15 @@
             fill-rule="evenodd"
             d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
             clip-rule="evenodd"
-          ></path></svg>
-</a
-      >
+          ></path></svg
+        >
+      </a>
     </div>
     {#if losersList?.length > 0}
       <div
         class="overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40"
       >
-        <table class="w-full text-sm sm:text-[0.95rem]">
+        <table class="w-full text-sm">
           <thead>
             <tr
               class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
