@@ -278,11 +278,11 @@
     class="cursor-pointer modal-backdrop bg-black/30"
   ></label>
   <div
-    class="modal-box p-0 w-full max-h-[70vh] relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box p-0 w-full max-h-[70vh] relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col"
   >
     <label
       for="mobileToolsModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition z-10"
       aria-label="Close drawing tools"
     >
       <svg
@@ -296,13 +296,13 @@
       >
     </label>
     <!-- Handle bar -->
-    <div class="flex justify-center py-2">
+    <div class="flex justify-center py-2 flex-shrink-0">
       <div class="w-10 h-1 bg-gray-200 dark:bg-zinc-700 rounded-full"></div>
     </div>
 
     <!-- Header -->
     <div
-      class="flex items-center justify-between px-4 pb-3 border-b border-gray-300 dark:border-zinc-700"
+      class="flex items-center justify-between px-4 pb-3 border-b border-gray-300 dark:border-zinc-700 mt-6 flex-shrink-0"
     >
       <h3 class="text-base font-semibold text-gray-900 dark:text-white">
         Drawing Tools
@@ -359,8 +359,8 @@
       </div>
     </div>
 
-    <!-- Tools Grid -->
-    <div class="p-4 space-y-4 overflow-y-auto max-h-[50vh]">
+    <!-- Tools Grid - Scrollable -->
+    <div class="p-4 space-y-4 overflow-y-auto flex-1 min-h-0">
       {#each toolGroups as group}
         <div>
           <h4
@@ -402,11 +402,13 @@
       {/each}
     </div>
 
-    <!-- Cursor Mode Button -->
-    <div class="p-4 pt-0">
+    <!-- Cursor Mode Button - Sticky Footer -->
+    <div
+      class="p-4 border-t border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex-shrink-0"
+    >
       <label
         for="mobileToolsModal"
-        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800/50 text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 transition cursor-pointer"
+        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800/50 text-gray-700 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-zinc-800 transition cursor-pointer"
         on:click={() => dispatch("setCursorMode")}
       >
         <MousePointer2 class="h-5 w-5" />
