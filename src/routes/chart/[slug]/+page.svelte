@@ -1795,6 +1795,16 @@
   let showThicknessPicker = false;
   let showStylePicker = false;
 
+  // Reactive current color for the selected overlay
+  $: currentOverlayColor = (() => {
+    if (!selectedOverlay?.styles) return "#2962FF";
+    const s = selectedOverlay.styles;
+    const name = selectedOverlay.name;
+    if (name === "rect") return s.rect?.borderColor || "#2962FF";
+    if (name === "circle") return s.circle?.borderColor || "#2962FF";
+    return s.line?.color || s.polygon?.borderColor || "#2962FF";
+  })();
+
   // Color palette for drawings
   const DRAWING_COLORS = [
     "#FF0000",
@@ -2185,11 +2195,15 @@
       },
     });
 
-    selectedOverlay.styles = {
-      ...selectedOverlay.styles,
-      line: { ...selectedOverlay.styles?.line, color },
-      rect: { ...selectedOverlay.styles?.rect, color: fillColor, borderColor: color },
-      circle: { ...selectedOverlay.styles?.circle, color: fillColor, borderColor: color },
+    // Reassign selectedOverlay to trigger Svelte reactivity
+    selectedOverlay = {
+      ...selectedOverlay,
+      styles: {
+        ...selectedOverlay.styles,
+        line: { ...selectedOverlay.styles?.line, color },
+        rect: { ...selectedOverlay.styles?.rect, color: fillColor, borderColor: color },
+        circle: { ...selectedOverlay.styles?.circle, color: fillColor, borderColor: color },
+      },
     };
     handleOverlayDrawEnd();
     showColorPicker = false;
@@ -8977,7 +8991,7 @@
                     <div class="relative">
                       <button
                         class="cursor-pointer w-7 h-7 rounded-lg border-2 border-gray-300 dark:border-zinc-600 hover:border-violet-500 transition"
-                        style="background-color: {getCurrentColor()};"
+                        style="background-color: {currentOverlayColor};"
                         on:click={() => {
                           showColorPicker = !showColorPicker;
                           showThicknessPicker = false;
@@ -8992,7 +9006,7 @@
                           <div class="grid grid-cols-5 gap-1.5">
                             {#each DRAWING_COLORS as color}
                               <button
-                                class="cursor-pointer w-6 h-6 rounded-lg border-2 transition {getCurrentColor() ===
+                                class="cursor-pointer w-6 h-6 rounded-lg border-2 transition {currentOverlayColor ===
                                 color
                                   ? 'border-violet-500'
                                   : 'border-transparent hover:border-gray-400'}"
@@ -9005,7 +9019,7 @@
                           <input
                             type="color"
                             class="w-full h-7 mt-2 cursor-pointer rounded-lg"
-                            value={getCurrentColor()}
+                            value={currentOverlayColor}
                             on:change={(e) =>
                               updateOverlayColor(e.currentTarget.value)}
                           />
