@@ -9027,47 +9027,49 @@
                       {/if}
                     </div>
 
-                    <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700"></div>
+                    <!-- Thickness (for line-based overlays) -->
+                    {#if !["rect", "circle"].includes(selectedOverlay.name)}
+                      <div class="w-px h-5 bg-gray-200 dark:bg-zinc-700"></div>
 
-                    <!-- Thickness -->
-                    <div class="relative">
-                      <button
-                        class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-gray-700 dark:text-zinc-300"
-                        on:click={() => {
-                          showThicknessPicker = !showThicknessPicker;
-                          showColorPicker = false;
-                          showStylePicker = false;
-                        }}
-                        title="Thickness"
-                      >
-                        <span class="font-medium">{getCurrentThickness()}px</span
+                      <div class="relative">
+                        <button
+                          class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-gray-700 dark:text-zinc-300"
+                          on:click={() => {
+                            showThicknessPicker = !showThicknessPicker;
+                            showColorPicker = false;
+                            showStylePicker = false;
+                          }}
+                          title="Thickness"
                         >
-                      </button>
-                      {#if showThicknessPicker}
-                        <div
-                          class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
-                        >
-                          <div class="flex items-center gap-1">
-                            {#each LINE_THICKNESSES as t}
-                              <button
-                                class="cursor-pointer w-8 h-8 rounded-lg transition flex items-center justify-center {getCurrentThickness() ===
-                                t
-                                  ? 'bg-violet-100 dark:bg-violet-900/30'
-                                  : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
-                                on:click={() => updateOverlayThickness(t)}
-                                title="{t}px"
-                              >
-                                <div
-                                  class="rounded-full"
-                                  style="width: {t * 3}px; height: {t *
-                                    3}px; background-color: {getCurrentColor()};"
-                                ></div>
-                              </button>
-                            {/each}
+                          <span class="font-medium">{getCurrentThickness()}px</span
+                          >
+                        </button>
+                        {#if showThicknessPicker}
+                          <div
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                          >
+                            <div class="flex items-center gap-1">
+                              {#each LINE_THICKNESSES as t}
+                                <button
+                                  class="cursor-pointer w-8 h-8 rounded-lg transition flex items-center justify-center {getCurrentThickness() ===
+                                  t
+                                    ? 'bg-violet-100 dark:bg-violet-900/30'
+                                    : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                                  on:click={() => updateOverlayThickness(t)}
+                                  title="{t}px"
+                                >
+                                  <div
+                                    class="rounded-full"
+                                    style="width: {t * 3}px; height: {t *
+                                      3}px; background-color: {currentOverlayColor};"
+                                  ></div>
+                                </button>
+                              {/each}
+                            </div>
                           </div>
-                        </div>
-                      {/if}
-                    </div>
+                        {/if}
+                      </div>
+                    {/if}
 
                     <!-- Line Style (for line-based overlays) -->
                     {#if !["rect", "circle"].includes(selectedOverlay.name)}
