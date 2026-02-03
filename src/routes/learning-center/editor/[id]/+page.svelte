@@ -324,6 +324,11 @@
     execCommand(redo);
   }
 
+  // Image resize state
+  let resizingImage: HTMLImageElement | null = null;
+  let resizeStartX = 0;
+  let resizeStartWidth = 0;
+
   // Insert image into editor at cursor position
   function insertImageAtCursor(imageUrl: string, altText: string = "image") {
     if (!editorView) return;
@@ -343,6 +348,68 @@
     }
     
     editorView.focus();
+    
+    // Add resize handlers to newly inserted images after a short delay
+    setTimeout(() => setupImageResizeHandlers(), 100);
+  }
+
+  // Setup resize handlers for all images in the editor
+  function setupImageResizeHandlers() {
+    if (!editorDiv) return;
+    
+    const images = editorDiv.querySelectorAll('.ProseMirror img');
+    images.forEach((img) => {
+      const imgEl = img as HTMLImageElement;
+      
+      // Skip if already has resize wrapper
+      if (imgEl.parentElement?.classList.contains('image-resize-wrapper')) return;
+      
+      // Make image resizable via CSS
+      imgEl.style.cursor = 'default';
+      imgEl.classList.add('resizable-image');
+    });
+  }
+
+  // Handle mouse down on image for resize
+  function handleEditorMouseDown(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    
+    if (target.tagName === 'IMG') {
+      const img = target as HTMLImageElement;
+      
+      // Add resizable class if not present
+      if (!img.classList.contains('resizable-image')) {
+        img.classList.add('resizable-image');
+      }
+      
+      event.preventDefault();
+      resizingImage = img;
+      resizeStartX = event.clientX;
+      resizeStartWidth = img.offsetWidth || img.naturalWidth;
+      document.body.style.cursor = 'ew-resize';
+      document.body.style.userSelect = 'none';
+    }
+  }
+
+  // Handle mouse move for resize
+  function handleMouseMove(event: MouseEvent) {
+    if (!resizingImage) return;
+    
+    const diff = event.clientX - resizeStartX;
+    const newWidth = Math.max(100, Math.min(resizeStartWidth + diff, editorDiv?.offsetWidth || 800));
+    resizingImage.style.width = `${newWidth}px`;
+    resizingImage.style.height = 'auto';
+  }
+
+  // Handle mouse up to stop resize
+  function handleMouseUp() {
+    if (resizingImage) {
+      // Update the markdown with the new size
+      // Since ProseMirror markdown doesn't support width, we use inline style
+      resizingImage = null;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
   }
 
   // Handle inline image upload
@@ -537,6 +604,8 @@
     document.addEventListener("click", handleClickOutside);
     if (browser) {
       document.addEventListener("keydown", handleKeyboardSave);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     }
   });
 
@@ -545,6 +614,8 @@
     if (typeof document !== "undefined") {
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleKeyboardSave);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     }
   });
 </script>
@@ -817,10 +888,12 @@
           </div>
         {:else}
           {#key showPreview}
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
             <div 
               bind:this={editorDiv} 
               class="minimal-editor"
               use:initEditorAction
+              on:mousedown={handleEditorMouseDown}
             ></div>
           {/key}
         {/if}
@@ -1103,6 +1176,16 @@
     border-radius: 0.5rem;
     margin: 1.5rem 0;
     display: block;
+    transition: box-shadow 0.15s ease, transform 0.1s ease;
+  }
+
+  :global(.minimal-editor .ProseMirror img.resizable-image) {
+    cursor: default;
+  }
+
+  :global(.minimal-editor .ProseMirror img.resizable-image:hover) {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
+    cursor: ew-resize;
   }
 
   :global(.minimal-editor .ProseMirror img.ProseMirror-selectednode) {
