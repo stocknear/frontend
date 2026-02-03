@@ -124,27 +124,22 @@
   </div>
 
   <!-- Category Tabs -->
-  <div class="mb-8 border-b border-gray-200 dark:border-zinc-800">
-    <div class="flex gap-6 overflow-x-auto pb-px hide-scrollbar">
+  <nav class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mb-8">
+    <ul class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base">
       {#each categories as category}
         <button
           type="button"
           on:click={() => setCategory(category.id)}
-          class="cursor-pointer pb-3 text-sm font-medium whitespace-nowrap transition-colors relative
+          class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition
             {activeCategory === category.id
-            ? 'text-gray-900 dark:text-white'
-            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-300'}"
+              ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+              : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
         >
           {category.name}
-          {#if activeCategory === category.id}
-            <div
-              class="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 dark:bg-white"
-            ></div>
-          {/if}
         </button>
       {/each}
-    </div>
-  </div>
+    </ul>
+  </nav>
 
   <!-- Active Category Description -->
   {#if activeCategory !== "all"}
