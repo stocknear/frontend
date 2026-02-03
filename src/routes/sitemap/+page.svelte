@@ -5,7 +5,6 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
     common_home,
-    sitemap_articles_heading,
     sitemap_breadcrumb_aria_label,
     sitemap_financial_terms_heading,
     sitemap_intro,
@@ -25,7 +24,6 @@
     sitemap_tab_ai_agent,
     sitemap_tab_afterhours_stock_gainers,
     sitemap_tab_afterhours_stock_losers,
-    sitemap_tab_blog,
     sitemap_tab_contact_us,
     sitemap_tab_dark_pool_flow,
     sitemap_tab_data_disclaimer,
@@ -236,10 +234,6 @@
       link: "/newsletter",
     },
     {
-      title: sitemap_tab_blog(),
-      link: "/blog",
-    },
-    {
       title: sitemap_tab_data_disclaimer(),
       link: "/data-disclaimer",
     },
@@ -328,31 +322,6 @@
                 <h2
                   class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
                 >
-                  {sitemap_articles_heading()}
-                </h2>
-                <nav aria-label={sitemap_articles_heading()}>
-                  <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
-                  >
-                    {#each data?.getBlogPosts?.slice(0, 15) as item}
-                      {#if ["blog", "pre-earnings"]?.includes(item?.category)}
-                        <li>
-                          <a
-                            href={"/blog/article/" + convertToSlug(item?.title)}
-                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                            title={sitemap_visit_page_title({
-                              title: item?.title,
-                            })}>{item?.title}</a
-                          >
-                        </li>
-                      {/if}
-                    {/each}
-                  </ul>
-                </nav>
-
-                <h2
-                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
-                >
                   {sitemap_learning_center_heading()}
                 </h2>
                 <nav aria-label={sitemap_learning_center_heading()}>
@@ -383,12 +352,10 @@
                   <ul
                     class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
                   >
-                    {#each data?.getBlogPosts
-                      ?.filter((item) => item?.category === "term")
-                      ?.sort( (a, b) => a?.title?.localeCompare(b?.title), ) as item}
+                    {#each data?.getTerms as item}
                       <li>
                         <a
-                          href={"/blog/article/" + convertToSlug(item?.title)}
+                          href={"/learning-center/article/" + convertToSlug(item?.title)}
                           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           title={sitemap_visit_page_title({
                             title: item?.title,

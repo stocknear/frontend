@@ -56,7 +56,7 @@
 
             <div class="px-2">
               <a
-                href="/blog/article/block-trade"
+                href="/learning-center/article/block-trade"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_unusual_orders_full_definition()}
@@ -74,7 +74,7 @@
 
             <div class="px-2">
               <a
-                href="/blog/article/dark-pool"
+                href="/learning-center/article/dark-pool"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_unusual_orders_full_definition()}

@@ -7,7 +7,7 @@
   "sitemap_title": "Sitemap",
   "sitemap_intro": "Explore a comprehensive list of Stocknear's financial tools and resources. Find real-time stock data, market analysis, ETFs, options flow, and more. Use our search bar for quick access to specific stock symbols.",
   "sitemap_pages_heading": "Pages",
-  "sitemap_articles_heading": "Articles",
+
   "sitemap_learning_center_heading": "Learning Center",
   "sitemap_financial_terms_heading": "Financial terms",
   "sitemap_visit_page_title": "Visit {title} page",
@@ -58,7 +58,7 @@
   "sitemap_tab_privacy_policy": "Privacy Policy",
   "sitemap_tab_pricing": "Pricing",
   "sitemap_tab_free_newsletter": "Free Newsletter",
-  "sitemap_tab_blog": "Blog",
+
   "sitemap_tab_data_disclaimer": "Data Disclaimer",
   "sitemap_tab_faq": "FAQ",
   "sitemap_tab_advertise_with_us": "Advertise with Us"

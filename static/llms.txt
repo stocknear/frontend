@@ -125,10 +125,8 @@
 - `/chat/[conversation]` - Chat conversation
 
 ## Educational
-- `/learning-center` - Education hub
-- `/learning-center/article/[topic]` - Educational articles
-- `/blog` - Market blog
-- `/blog/article/[post]` - Blog posts
+- `/learning-center` - Education hub with tutorials, guides, and financial terms
+- `/learning-center/article/[topic]` - Educational articles and term definitions
 
 ## User Account
 - `/login` - Login page

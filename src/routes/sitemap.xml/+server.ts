@@ -35,8 +35,7 @@ const pages = [
   { title: "/reddit-tracker", priority: 0.65, changefreq: "hourly" },
   
   // Educational and tools - Medium priority
-  { title: "/blog", priority: 0.75, changefreq: "daily" },
-  { title: "/learning-center", priority: 0.7, changefreq: "weekly" },
+  { title: "/learning-center", priority: 0.75, changefreq: "weekly" },
   { title: "/options-calculator", priority: 0.65, changefreq: "monthly" },
   // Market movers - high priority, frequent updates
   { title: "/market-mover/gainers", priority: 0.8, changefreq: "hourly" },
@@ -206,7 +205,7 @@ export async function GET({ locals, setHeaders, url }) {
     }
 
     // Fetch all data in parallel for better performance
-    const [stocksResponse, articles, tutorials] = await Promise.all([
+    const [stocksResponse, tutorials] = await Promise.all([
       fetch(`${apiURL}/full-searchbar`, {
         method: "GET",
         headers: {
@@ -214,10 +213,6 @@ export async function GET({ locals, setHeaders, url }) {
           "X-API-KEY": apiKey
         }
       }).then(res => res.json()).catch(() => []),
-      pb.collection("articles").getFullList({ 
-        sort: "-updated",
-        fields: "id,title,slug,created,updated,image,excerpt" 
-      }).catch(() => []),
       pb.collection("tutorials").getFullList({ 
         sort: "-updated",
         fields: "id,title,slug,created,updated,image,description" 
@@ -232,7 +227,7 @@ export async function GET({ locals, setHeaders, url }) {
     })) || [];
 
     // Generate sitemap
-    const body = generateMainSitemap(stocks, articles, tutorials);
+    const body = generateMainSitemap(stocks, tutorials);
     
     return new Response(body, {
       headers: {
@@ -258,8 +253,6 @@ async function handleSpecificSitemap(type, locals) {
   switch(type) {
     case 'stocks':
       return generateStocksSitemap(locals);
-    case 'articles':
-      return generateArticlesSitemap(locals);
     case 'static':
       return generateStaticSitemap();
     default:
@@ -268,7 +261,7 @@ async function handleSpecificSitemap(type, locals) {
 }
 
 // Main sitemap generator
-const generateMainSitemap = (stocks, articles, tutorials) => {
+const generateMainSitemap = (stocks, tutorials) => {
   const currentDate = new Date();
   
   // Limit stocks to prevent sitemap from becoming too large (Google recommends max 50,000 URLs)
@@ -284,21 +277,6 @@ ${pages.map(page => {
       changefreq: page.changefreq,
       priority: page.priority,
       lastmod: currentDate // You might want to track actual last modification
-    });
-  }).join("\n")}
-${articles.map(item => {
-    const loc = `${website}/blog/article/${item?.slug || convertToSlug(item?.title)}`;
-    const images = item?.image ? [{
-      loc: `${website}/images/articles/${item.image}`,
-      title: item.title,
-      caption: item.excerpt || item.title
-    }] : [];
-    
-    return createUrlElement(loc, {
-      lastmod: item.updated || item.created,
-      changefreq: "weekly",
-      priority: 0.7,
-      images
     });
   }).join("\n")}
 ${tutorials.map(item => {
@@ -357,11 +335,6 @@ async function generateStocksSitemap(locals) {
   // This would be accessible at /sitemap-stocks.xml
 }
 
-async function generateArticlesSitemap(locals) {
-  // Implementation for articles-only sitemap
-  // This would be accessible at /sitemap-articles.xml
-}
-
 async function generateStaticSitemap() {
   // Implementation for static pages sitemap
   // This would be accessible at /sitemap-static.xml
@@ -373,5 +346,4 @@ async function generateStaticSitemap() {
 // export const sitemapUrls = [
 //   `${website}/sitemap.xml`,
 //   `${website}/sitemap-stocks.xml`,
-//   `${website}/sitemap-articles.xml`,
 // ];
