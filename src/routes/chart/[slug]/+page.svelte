@@ -1805,6 +1805,13 @@
     return s.line?.color || s.polygon?.borderColor || "#2962FF";
   })();
 
+  // Reactive current thickness for the selected overlay
+  $: currentOverlayThickness = (() => {
+    if (!selectedOverlay?.styles) return 2;
+    const s = selectedOverlay.styles;
+    return s.line?.size || s.rect?.borderSize || s.circle?.borderSize || 2;
+  })();
+
   // Color palette for drawings
   const DRAWING_COLORS = [
     "#FF0000",
@@ -2222,9 +2229,13 @@
       },
     });
 
-    selectedOverlay.styles = {
-      ...selectedOverlay.styles,
-      line: { ...selectedOverlay.styles?.line, size },
+    // Reassign selectedOverlay to trigger Svelte reactivity
+    selectedOverlay = {
+      ...selectedOverlay,
+      styles: {
+        ...selectedOverlay.styles,
+        line: { ...selectedOverlay.styles?.line, size },
+      },
     };
     handleOverlayDrawEnd();
     showThicknessPicker = false;
@@ -9041,7 +9052,7 @@
                           }}
                           title="Thickness"
                         >
-                          <span class="font-medium">{getCurrentThickness()}px</span
+                          <span class="font-medium">{currentOverlayThickness}px</span
                           >
                         </button>
                         {#if showThicknessPicker}
@@ -9051,7 +9062,7 @@
                             <div class="flex items-center gap-1">
                               {#each LINE_THICKNESSES as t}
                                 <button
-                                  class="cursor-pointer w-8 h-8 rounded-lg transition flex items-center justify-center {getCurrentThickness() ===
+                                  class="cursor-pointer w-8 h-8 rounded-lg transition flex items-center justify-center {currentOverlayThickness ===
                                   t
                                     ? 'bg-violet-100 dark:bg-violet-900/30'
                                     : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
