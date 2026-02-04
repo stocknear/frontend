@@ -6988,12 +6988,13 @@
     if (!(name in indicatorState)) return;
     const newState = !indicatorState[name];
 
-    // Auto-switch to 1D for Fundamentals/Statistics indicators on intraday timeframes
+    // Auto-switch to 1D for Fundamentals/Statistics/Options indicators on intraday timeframes
     if (newState) {
       const indicatorDef = indicatorDefinitions.find((ind) => ind.id === name);
       const isRestrictedCategory =
         indicatorDef?.category === "Fundamentals" ||
-        indicatorDef?.category === "Statistics";
+        indicatorDef?.category === "Statistics" ||
+        indicatorDef?.category === "Options";
       const isIntradayRange = !isNonIntradayRange(activeRange);
 
       if (isRestrictedCategory && isIntradayRange) {
