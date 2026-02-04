@@ -816,6 +816,20 @@
   let selectedAnalystTargetLevel: AnalystTargetLevel | null = null;
   let analystTargetPopupPosition = { x: 0, y: 0 };
 
+  // Info Line popup state
+  interface InfoLineData {
+    priceChange: number;
+    priceChangePercent: number;
+    priceTicks: number;
+    numBars: number;
+    timeStr: string;
+    pixelDistance: number;
+    angleDeg: number;
+    x: number;
+    y: number;
+  }
+  let infoLineData: InfoLineData | null = null;
+
   $: isSubscribed = data?.isSubscribed ?? data?.user?.tier === "Pro";
 
   // Responsive breakpoint helpers
@@ -2364,6 +2378,8 @@
       overlayIds = [];
     }
     activeTool = "cursor";
+    // Clear info line popup
+    infoLineData = null;
   }
 
   // Toolbar event handlers
@@ -2467,6 +2483,8 @@
     selectedOverlay = null;
     showDrawingToolbar = false;
     closeAllPickers();
+    // Clear info line popup when deselected
+    infoLineData = null;
   }
 
   // Handle overlay click - position toolbar
@@ -2696,6 +2714,8 @@
     overlayIds = overlayIds.filter((id) => id !== selectedOverlay?.id);
     selectedOverlay = null;
     showDrawingToolbar = false;
+    // Clear info line popup if deleting an info line
+    infoLineData = null;
     handleOverlayDrawEnd();
   }
 
@@ -3231,6 +3251,121 @@
           type: "line",
           attrs: lines,
         });
+
+        return figures;
+      },
+    });
+
+    // Info Line - TradingView style measurement tool
+    registerOverlay({
+      name: "infoLine",
+      totalStep: 3,
+      needDefaultPointFigure: true,
+      needDefaultXAxisFigure: true,
+      needDefaultYAxisFigure: true,
+      createPointFigures: ({ chart: c, overlay, coordinates, bounding }) => {
+        if (coordinates.length < 2) {
+          // Clear info line data when not enough points
+          infoLineData = null;
+          return [];
+        }
+
+        const figures: any[] = [];
+        const [start, end] = coordinates;
+        const points = overlay.points;
+
+        // Draw the main line
+        figures.push({
+          type: "line",
+          attrs: { coordinates: [start, end] },
+        });
+
+        // Calculate measurements if we have valid price points
+        if (points && points.length >= 2 && points[0]?.value != null && points[1]?.value != null) {
+          const startPrice = points[0].value;
+          const endPrice = points[1].value;
+          const startTimestamp = points[0].timestamp;
+          const endTimestamp = points[1].timestamp;
+
+          // Price change calculations
+          const priceChange = endPrice - startPrice;
+          const priceChangePercent = ((priceChange / startPrice) * 100);
+          const priceTicks = Math.round(priceChange * 100); // Assuming 2 decimal places
+
+          // Pixel distance
+          const dx = end.x - start.x;
+          const dy = end.y - start.y;
+          const pixelDistance = Math.round(Math.sqrt(dx * dx + dy * dy));
+
+          // Angle calculation (in degrees)
+          const angleRad = Math.atan2(-dy, dx); // Negative dy because y increases downward
+          const angleDeg = (angleRad * 180) / Math.PI;
+
+          // Calculate bar duration from chart data
+          const dataList = c?.getDataList() || [];
+          let barDuration = 86400000; // Default to 1 day
+          if (dataList.length >= 2) {
+            // Calculate average time between bars
+            const timeDiffs: number[] = [];
+            for (let i = 1; i < Math.min(dataList.length, 10); i++) {
+              const diff = dataList[i].timestamp - dataList[i - 1].timestamp;
+              if (diff > 0) timeDiffs.push(diff);
+            }
+            if (timeDiffs.length > 0) {
+              barDuration = timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length;
+            }
+          }
+
+          // Time/bars calculation
+          const timeDiff = endTimestamp - startTimestamp;
+          const numBars = Math.round(Math.abs(timeDiff) / barDuration);
+          
+          // Format time duration
+          let timeStr = "";
+          const absDiff = Math.abs(timeDiff);
+          if (absDiff < 60000) {
+            timeStr = `${Math.round(absDiff / 1000)}s`;
+          } else if (absDiff < 3600000) {
+            timeStr = `${Math.round(absDiff / 60000)}m`;
+          } else if (absDiff < 86400000) {
+            const hours = Math.floor(absDiff / 3600000);
+            const mins = Math.round((absDiff % 3600000) / 60000);
+            timeStr = mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
+          } else {
+            const days = Math.floor(absDiff / 86400000);
+            const hours = Math.round((absDiff % 86400000) / 3600000);
+            timeStr = hours > 0 ? `${days}d ${hours}h` : `${days}d`;
+          }
+
+          // Calculate popup position
+          const popupWidth = 260;
+          const popupHeight = 90;
+          let popupX = end.x + 20;
+          let popupY = end.y - popupHeight / 2;
+
+          // Adjust position if popup would go off screen
+          if (popupX + popupWidth > bounding.width) {
+            popupX = end.x - popupWidth - 20;
+          }
+          if (popupY < 10) {
+            popupY = 10;
+          } else if (popupY + popupHeight > bounding.height - 10) {
+            popupY = bounding.height - popupHeight - 10;
+          }
+
+          // Update the reactive state for HTML popup
+          infoLineData = {
+            priceChange,
+            priceChangePercent,
+            priceTicks,
+            numBars,
+            timeStr,
+            pixelDistance,
+            angleDeg,
+            x: popupX,
+            y: popupY,
+          };
+        }
 
         return figures;
       },
@@ -11066,6 +11201,41 @@
                     >
                       View forecast
                     </a>
+                  </div>
+                </div>
+              {/if}
+
+              <!-- Info Line Measurement Popup -->
+              {#if infoLineData}
+                <div
+                  class="absolute z-[8] pointer-events-none max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:bottom-20 max-sm:top-auto"
+                  style={!isMobile ? `left: ${infoLineData.x}px; top: ${infoLineData.y}px;` : ''}
+                >
+                  <div
+                    class="bg-[#2a2e39]/95 border border-[#3c4150]/60 rounded-2xl shadow-lg py-1.5 sm:py-2 px-2.5 sm:px-3 min-w-[180px] sm:min-w-[220px]"
+                  >
+                    <!-- Row 1: Price change -->
+                    <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
+                      <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↕</span>
+                      <span class="text-[#d1d4dc]">
+                        {Math.abs(infoLineData.priceChange).toFixed(2)} ({Math.abs(infoLineData.priceChangePercent).toFixed(2)}%), {Math.abs(infoLineData.priceTicks)}
+                      </span>
+                    </div>
+                    <!-- Row 2: Bars and time -->
+                    <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
+                      <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↔</span>
+                      <span class="text-[#d1d4dc]">
+                        <span class="hidden sm:inline">{infoLineData.numBars} bars ({infoLineData.timeStr}), distance: {infoLineData.pixelDistance} px</span>
+                        <span class="sm:hidden">{infoLineData.numBars} bars ({infoLineData.timeStr})</span>
+                      </span>
+                    </div>
+                    <!-- Row 3: Angle -->
+                    <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
+                      <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">∠</span>
+                      <span class="text-[#d1d4dc]">
+                        {infoLineData.angleDeg.toFixed(2)}°
+                      </span>
+                    </div>
                   </div>
                 </div>
               {/if}
