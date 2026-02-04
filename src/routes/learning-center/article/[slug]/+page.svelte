@@ -11,7 +11,7 @@
   import Clock from "lucide-svelte/icons/clock";
   import { toast } from "svelte-sonner";
   import { browser } from "$app/environment";
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
 
   export let data;
 
@@ -152,52 +152,41 @@
   $: renderedDescription = renderContent(article?.description);
   $: readingTime = article?.time || 5;
 
-  // Extract H2 headers for Table of Contents
-  function extractTableOfContents(html) {
-    if (!html || !browser) return [];
+  // Extract H2 headers and add IDs directly to the DOM
+  function setupTableOfContents() {
+    if (!browser) return;
     
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    const headers = doc.querySelectorAll("h2");
+    const articleContent = document.querySelector(".article-content");
+    if (!articleContent) return;
+    
+    const headers = articleContent.querySelectorAll("h2");
     const toc = [];
+    let index = 0;
     
-    headers.forEach((header, index) => {
+    headers.forEach((header) => {
       const text = header.textContent?.trim() || "";
       // Skip FAQ section header
       if (text.toLowerCase() === "frequently asked questions") return;
       
       const id = `section-${index}`;
+      header.id = id;
       toc.push({ id, text });
+      index++;
     });
     
-    return toc;
-  }
-
-  // Add IDs to H2 headers in rendered content
-  function addHeaderIds(html) {
-    if (!html || !browser) return html;
-    
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    const headers = doc.querySelectorAll("h2");
-    let index = 0;
-    
-    headers.forEach((header) => {
-      const text = header.textContent?.trim() || "";
-      if (text.toLowerCase() !== "frequently asked questions") {
-        header.id = `section-${index}`;
-        index++;
-      }
-    });
-    
-    return doc.body.innerHTML;
+    tableOfContents = toc;
+    if (toc.length > 0 && !activeSection) {
+      activeSection = toc[0].id;
+    }
   }
 
   // Scroll to section
   function scrollToSection(id) {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // Account for sticky header
+      const offset = 100; // Account for sticky header
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      const offsetPosition = elementPosition + window.scrollY - offset;
       
       window.scrollTo({
         top: offsetPosition,
@@ -211,7 +200,7 @@
     if (!browser || tableOfContents.length === 0) return;
     
     const sections = tableOfContents.map(item => document.getElementById(item.id)).filter(Boolean);
-    const scrollPosition = window.scrollY + 100;
+    const scrollPosition = window.scrollY + 120;
     
     for (let i = sections.length - 1; i >= 0; i--) {
       const section = sections[i];
@@ -226,11 +215,7 @@
     }
   }
 
-  $: if (renderedDescription && browser) {
-    tableOfContents = extractTableOfContents(renderedDescription);
-  }
-
-  $: processedDescription = browser ? addHeaderIds(renderedDescription) : renderedDescription;
+  $: processedDescription = renderedDescription;
 
   // Get the full article URL
   function getArticleUrl() {
@@ -335,12 +320,20 @@
     }
   }
 
-  onMount(() => {
+  let tocInitialized = false;
+
+  onMount(async () => {
     if (browser) {
       document.addEventListener("keydown", handleKeydown);
       window.addEventListener("scroll", handleScroll);
-      // Initial check for active section
-      setTimeout(handleScroll, 100);
+      
+      // Wait for content to render, then setup TOC
+      await tick();
+      setTimeout(() => {
+        setupTableOfContents();
+        tocInitialized = true;
+        handleScroll();
+      }, 100);
     }
   });
 
