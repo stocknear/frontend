@@ -356,7 +356,7 @@
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
               >
                 <span>{selectedRange}</span>
                 <svg
@@ -378,7 +378,7 @@
               side="bottom"
               align="start"
               sideOffset={8}
-              class="min-w-[100px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+              class="min-w-[100px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
             >
               <DropdownMenu.Group>
                 {#each RANGE_OPTIONS as option}
@@ -398,7 +398,7 @@
           <!-- Chart Mode Toggle -->
           <Button
             on:click={toggleChartMode}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />
