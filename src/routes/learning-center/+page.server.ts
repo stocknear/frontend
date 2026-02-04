@@ -4,10 +4,11 @@ export const load = async ({ locals, url }) => {
   // Get category filter from query parameters
   const categoryFilter = url.searchParams.get('category') || 'all';
 
-  const getTutorialsByCategory = async () => {
-    // Get all tutorials
-    const allTutorials = await pb.collection("tutorials").getFullList({
+  const getTutorials = async () => {
+    // Only fetch fields needed for the listing page (exclude description)
+    const tutorials = await pb.collection("tutorials").getFullList({
       sort: "-created",
+      fields: "id,collectionId,title,abstract,category,tags,cover,created,updated,time",
     });
 
     // Group by category
@@ -19,26 +20,21 @@ export const load = async ({ locals, url }) => {
       Terms: [],
     };
 
-    for (const tutorial of allTutorials) {
+    for (const tutorial of tutorials) {
       const cat = tutorial.category || 'Concepts';
       if (grouped[cat]) {
         grouped[cat].push(tutorial);
       }
     }
 
-    return grouped;
+    return { tutorials, grouped };
   };
 
-  const getAllTutorials = async () => {
-    const output = await pb.collection("tutorials").getFullList({
-      sort: "-created",
-    });
-    return output;
-  };
+  const { tutorials, grouped } = await getTutorials();
 
   return {
-    tutorialsByCategory: await getTutorialsByCategory(),
-    allTutorials: await getAllTutorials(),
+    tutorialsByCategory: grouped,
+    allTutorials: tutorials,
     categoryFilter,
   };
 };

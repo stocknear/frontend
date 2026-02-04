@@ -63,11 +63,7 @@
     });
   }
 
-  function getReadingTime(content: string) {
-    if (!content) return 1;
-    const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
-    return Math.max(1, Math.ceil(words / 200));
-  }
+
 
   function setCategory(categoryId: string) {
     if (categoryId === "all") {
@@ -212,7 +208,7 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{getReadingTime(item?.description)} min read</span>
+                  <span>{item?.time || 5} min read</span>
                 </div>
               </div>
             </a>
@@ -275,7 +271,7 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{getReadingTime(item?.description)} min read</span>
+                  <span>{item?.time || 5} min read</span>
                 </div>
               </div>
             </a>
@@ -338,7 +334,7 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{getReadingTime(item?.description)} min read</span>
+                  <span>{item?.time || 5} min read</span>
                 </div>
               </div>
             </a>
@@ -401,7 +397,7 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{getReadingTime(item?.description)} min read</span>
+                  <span>{item?.time || 5} min read</span>
                 </div>
               </div>
             </a>
@@ -522,7 +518,7 @@
                 </div>
                 <div class="flex items-center gap-1">
                   <Clock class="w-3.5 h-3.5" />
-                  <span>{getReadingTime(item?.description)} min</span>
+                  <span>{item?.time || 5} min</span>
                 </div>
               </div>
             </div>
