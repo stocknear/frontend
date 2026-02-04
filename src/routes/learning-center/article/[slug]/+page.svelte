@@ -31,6 +31,11 @@
   let relatedArticles = data?.getRelatedArticles || [];
   $: isAdmin = data?.user?.admin === true;
 
+  // Build back URL based on article category
+  $: backUrl = article?.category && article.category !== "all"
+    ? `/learning-center?category=${encodeURIComponent(article.category)}`
+    : "/learning-center";
+
   // Markdown to HTML converter
   const converter = new showdown.Converter({
     tables: true,
@@ -486,6 +491,15 @@
 
       <!-- Main Article Content -->
       <article class="lg:col-span-9 xl:col-span-7">
+        <!-- Back Link -->
+        <a
+          href={backUrl}
+          class="inline-flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition mb-6"
+        >
+          <ArrowLeft class="w-4 h-4" />
+          <span class="text-sm font-medium">Back to all posts</span>
+        </a>
+
         <!-- Cover Image -->
         {#if article?.cover}
           <div class="mb-8 rounded-2xl overflow-hidden shadow-md">
@@ -626,16 +640,6 @@
           </div>
         </div>
 
-        <!-- Footer Navigation -->
-        <div class="flex items-center justify-center mt-8">
-          <a
-            href="/learning-center"
-            class="flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >
-            <ArrowLeft class="w-4 h-4" />
-            <span class="text-sm font-medium">Back to Learning Center</span>
-          </a>
-        </div>
       </article>
 
       <!-- Right Sidebar (Desktop Only) -->
