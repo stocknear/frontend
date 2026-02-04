@@ -4,10 +4,10 @@
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { 
     getMetricOverlayConfig, 
     hasMetricOverlays, 
-    getMetricChartColor,
     computeDerivedMetric,
     CHART_COLOR_THEMES,
     getMetricColorTheme
@@ -15,7 +15,6 @@
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
   import X from "lucide-svelte/icons/x";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
 
   export let isOpen: boolean = false;
   export let metricKey: string = "";
@@ -28,11 +27,7 @@
   let chartMode: "bar" | "line" = "bar";
   let selectedRange: string = "All";
   let selectedOverlay: string = "";
-  let rangeMenuOpen: boolean = false;
   let config: any = null;
-  
-  // Chart element ref
-  let rangeDropdownRef: HTMLDivElement | null = null;
 
   // Time range options
   const RANGE_OPTIONS = [
@@ -183,7 +178,7 @@
     return {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090b",
+        backgroundColor: $mode === "light" ? "#fff" : "#18181b", // zinc-900
         height: 400,
         animation: false,
         spacing: [20, 10, 20, 10],
@@ -289,7 +284,6 @@
 
   function handleRangeSelect(range: string) {
     selectedRange = range;
-    rangeMenuOpen = false;
     config = buildChartOptions();
   }
 
@@ -314,16 +308,9 @@
       handleClose();
     }
   }
-
-  // Close range menu on outside click
-  function handleGlobalClick(e: MouseEvent) {
-    if (rangeMenuOpen && rangeDropdownRef && !rangeDropdownRef.contains(e.target as Node)) {
-      rangeMenuOpen = false;
-    }
-  }
 </script>
 
-<svelte:window on:keydown={handleKeydown} on:click={handleGlobalClick} />
+<svelte:window on:keydown={handleKeydown} />
 
 {#if isOpen}
   <!-- Modal Backdrop -->
@@ -362,36 +349,54 @@
 
         <!-- Controls Row -->
         <div class="flex flex-wrap items-center gap-2 mt-4">
-          <!-- Time Range Dropdown -->
-          <div class="relative" bind:this={rangeDropdownRef}>
-            <button
-              type="button"
-              class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-full bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800 transition"
-              on:click|stopPropagation={() => rangeMenuOpen = !rangeMenuOpen}
+          <!-- Time Range Dropdown (shadcn pattern) -->
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                builders={[builder]}
+                class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
+              >
+                <span>{selectedRange}</span>
+                <svg
+                  class="-mr-1 ml-1 h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </Button>
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Content
+              side="bottom"
+              align="start"
+              sideOffset={8}
+              class="min-w-[100px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
             >
-              {selectedRange}
-              <ChevronDown class="w-4 h-4" />
-            </button>
-            
-            {#if rangeMenuOpen}
-              <div class="absolute top-full left-0 mt-1 py-1 min-w-[80px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg z-20">
+              <DropdownMenu.Group>
                 {#each RANGE_OPTIONS as option}
-                  <button
-                    type="button"
-                    class="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-100 dark:hover:bg-zinc-800 transition {selectedRange === option.value ? 'text-violet-600 dark:text-violet-400 font-medium' : 'text-gray-700 dark:text-zinc-300'}"
-                    on:click|stopPropagation={() => handleRangeSelect(option.value)}
+                  <DropdownMenu.Item
+                    on:click={() => handleRangeSelect(option.value)}
+                    class="{selectedRange === option.value
+                      ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
+                      : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
                   >
-                    {option.label}
-                  </button>
+                    <span>{option.label}</span>
+                  </DropdownMenu.Item>
                 {/each}
-              </div>
-            {/if}
-          </div>
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
 
           <!-- Chart Mode Toggle -->
           <Button
             on:click={toggleChartMode}
-            class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-full bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
+            class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />

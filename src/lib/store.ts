@@ -70,7 +70,52 @@ export const showCookieConsent = writable(<boolean>false);
 export const showCookiePreferences = writable(<boolean>false);
 export const shouldUpdatePriceChart = writable(<boolean>false);
 export const selectedTimePeriod =  writable(<string>"");
-export const coolMode = writable(<boolean>false);
+
+// Chart Mode / Table Mode preference with localStorage persistence (30 days)
+// Default is false (table mode), true = chart mode
+function createFinancialViewModeStore() {
+  const STORAGE_KEY = 'financialViewMode';
+  const EXPIRY_DAYS = 30;
+  
+  // Get initial value from localStorage (default: false = table mode)
+  function getStoredValue(): boolean {
+    if (typeof window === 'undefined') return false;
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return false;
+      const { value, expiry } = JSON.parse(stored);
+      if (Date.now() > expiry) {
+        localStorage.removeItem(STORAGE_KEY);
+        return false;
+      }
+      return value === true;
+    } catch {
+      return false;
+    }
+  }
+  
+  const store = writable<boolean>(false);
+  
+  // Initialize from localStorage on client
+  if (typeof window !== 'undefined') {
+    store.set(getStoredValue());
+  }
+  
+  // Subscribe to persist changes
+  store.subscribe((value) => {
+    if (typeof window === 'undefined') return;
+    try {
+      const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ value, expiry }));
+    } catch {
+      // Ignore localStorage errors
+    }
+  });
+  
+  return store;
+}
+
+export const coolMode = createFinancialViewModeStore();
 
 export const timeFrame =writable(<string>"5Y");
 

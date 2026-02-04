@@ -2764,7 +2764,7 @@ export function calculatePeriodCAGRs(
  * Format CAGR value for display with proper sign and percentage
  */
 export function formatCAGRValue(value: number | null): string {
-  if (value === null) return 'N/A';
+  if (value === null) return 'n/a';
   const sign = value >= 0 ? '+' : '';
   return `${sign}${value.toFixed(2)}%`;
 }
