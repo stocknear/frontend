@@ -138,13 +138,6 @@
     });
   }
 
-  // Calculate reading time
-  function getReadingTime(content) {
-    if (!content) return 1;
-    const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
-    return Math.max(1, Math.ceil(words / 200));
-  }
-
   $: {
     if (data?.getParams) {
       article = data?.getArticle;
@@ -153,7 +146,7 @@
   }
 
   $: renderedDescription = renderContent(article?.description);
-  $: readingTime = getReadingTime(article?.description);
+  $: readingTime = article?.time || 5;
 
   // Get the full article URL
   function getArticleUrl() {
