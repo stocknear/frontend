@@ -3,6 +3,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
+  import { browser } from "$app/environment";
   import {
     learning_center_seo_description,
     learning_center_seo_keywords,
@@ -18,6 +19,11 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
 
   export let data;
+
+  // Pagination state
+  let currentPage = 1;
+  let itemsPerPage = 20;
+  let itemsPerPageOptions = [10, 20, 50];
 
   $: tutorialsByCategory = data?.tutorialsByCategory;
   $: allTutorials = data?.allTutorials || [];
@@ -129,6 +135,86 @@
     Features: filterByTag(tutorialsByCategory?.Features || [], activeTag),
     Terms: filterByTag(tutorialsByCategory?.Terms || [], activeTag),
   };
+
+  // Pagination logic - only for filtered category views (not "all")
+  $: totalItems = displayTutorials?.length || 0;
+  $: totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+  // Paginated tutorials for category views
+  $: paginatedTutorials = (() => {
+    if (activeCategory === "all") return displayTutorials;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    // Sort alphabetically for Terms category
+    const sorted = activeCategory === "Terms" 
+      ? [...displayTutorials].sort((a, b) => a.title.localeCompare(b.title))
+      : displayTutorials;
+    return sorted.slice(startIndex, endIndex);
+  })();
+
+  // Track previous values to detect changes
+  let prevCategory = activeCategory;
+  let prevTag = activeTag;
+  
+  // Reset to page 1 when category or tag changes
+  $: {
+    if (activeCategory !== prevCategory || activeTag !== prevTag) {
+      currentPage = 1;
+      prevCategory = activeCategory;
+      prevTag = activeTag;
+    }
+  }
+
+  // Pagination functions
+  function goToPage(pageNum: number) {
+    if (pageNum >= 1 && pageNum <= totalPages) {
+      currentPage = pageNum;
+      scrollToTop();
+    }
+  }
+
+  function changeItemsPerPage(newItemsPerPage: number) {
+    itemsPerPage = newItemsPerPage;
+    currentPage = 1;
+    saveItemsPerPage();
+  }
+
+  function saveItemsPerPage() {
+    if (browser) {
+      try {
+        localStorage.setItem("learning-center_itemsPerPage", String(itemsPerPage));
+      } catch (e) {
+        // localStorage not available
+      }
+    }
+  }
+
+  function loadItemsPerPage() {
+    if (browser) {
+      try {
+        const saved = localStorage.getItem("learning-center_itemsPerPage");
+        if (saved) {
+          const parsed = parseInt(saved, 10);
+          if (itemsPerPageOptions.includes(parsed)) {
+            itemsPerPage = parsed;
+          }
+        }
+      } catch (e) {
+        // localStorage not available
+      }
+    }
+  }
+
+  function scrollToTop() {
+    if (browser) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  // Load saved items per page on mount
+  $: if (browser) {
+    loadItemsPerPage();
+  }
 </script>
 
 <SEO
@@ -568,9 +654,9 @@
     {/if}
   {:else if activeCategory === "Terms"}
     <!-- Terms Filtered View - Alphabetical list -->
-    {#if displayTutorials?.length > 0}
+    {#if paginatedTutorials?.length > 0}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {#each [...displayTutorials].sort((a, b) => a.title.localeCompare(b.title)) as item}
+        {#each paginatedTutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
             class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
@@ -589,6 +675,87 @@
           </a>
         {/each}
       </div>
+
+      <!-- Pagination Controls -->
+      {#if totalPages > 1}
+        <div class="flex flex-row items-center justify-between mt-8">
+          <!-- Previous button -->
+          <Button
+            on:click={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <svg class="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="hidden sm:inline ml-1">Previous</span>
+          </Button>
+
+          <!-- Page info and items per page -->
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-600 dark:text-zinc-300">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                >
+                  <span class="text-sm">{itemsPerPage} Items</span>
+                  <svg class="ml-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Content
+                side="bottom"
+                align="center"
+                sideOffset={10}
+                class="min-w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200"
+              >
+                <DropdownMenu.Group>
+                  {#each itemsPerPageOptions as option}
+                    <DropdownMenu.Item
+                      on:click={() => changeItemsPerPage(option)}
+                      class="{itemsPerPage === option ? 'bg-gray-100/70 dark:bg-zinc-900/60' : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                    >
+                      <span class="text-sm">{option} Items</span>
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </div>
+
+          <!-- Next button -->
+          <Button
+            on:click={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <span class="hidden sm:inline mr-1">Next</span>
+            <svg class="h-5 w-5 -rotate-90" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </Button>
+        </div>
+
+        <!-- Back to Top -->
+        <div class="flex justify-center mt-4">
+          <button
+            on:click={scrollToTop}
+            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+          >
+            Back to Top
+            <svg class="h-5 w-5 inline-block rotate-180" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      {/if}
     {:else}
       <div class="text-center py-12">
         <p class="text-gray-500 dark:text-zinc-400">
@@ -598,9 +765,9 @@
     {/if}
   {:else}
     <!-- Filtered Category View (non-Terms) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {#if displayTutorials?.length > 0}
-        {#each displayTutorials as item}
+    {#if paginatedTutorials?.length > 0}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {#each paginatedTutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
             class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
@@ -643,14 +810,95 @@
             </div>
           </a>
         {/each}
-      {:else}
-        <div class="col-span-full text-center py-12">
-          <p class="text-gray-500 dark:text-zinc-400">
-            No articles in this category yet.
-          </p>
+      </div>
+
+      <!-- Pagination Controls -->
+      {#if totalPages > 1}
+        <div class="flex flex-row items-center justify-between mt-8">
+          <!-- Previous button -->
+          <Button
+            on:click={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <svg class="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="hidden sm:inline ml-1">Previous</span>
+          </Button>
+
+          <!-- Page info and items per page -->
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-600 dark:text-zinc-300">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                >
+                  <span class="text-sm">{itemsPerPage} Items</span>
+                  <svg class="ml-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Content
+                side="bottom"
+                align="center"
+                sideOffset={10}
+                class="min-w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200"
+              >
+                <DropdownMenu.Group>
+                  {#each itemsPerPageOptions as option}
+                    <DropdownMenu.Item
+                      on:click={() => changeItemsPerPage(option)}
+                      class="{itemsPerPage === option ? 'bg-gray-100/70 dark:bg-zinc-900/60' : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                    >
+                      <span class="text-sm">{option} Items</span>
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </div>
+
+          <!-- Next button -->
+          <Button
+            on:click={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <span class="hidden sm:inline mr-1">Next</span>
+            <svg class="h-5 w-5 -rotate-90" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </Button>
+        </div>
+
+        <!-- Back to Top -->
+        <div class="flex justify-center mt-4">
+          <button
+            on:click={scrollToTop}
+            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+          >
+            Back to Top
+            <svg class="h-5 w-5 inline-block rotate-180" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </button>
         </div>
       {/if}
-    </div>
+    {:else}
+      <div class="text-center py-12">
+        <p class="text-gray-500 dark:text-zinc-400">
+          No articles in this category yet.
+        </p>
+      </div>
+    {/if}
   {/if}
 </section>
 
