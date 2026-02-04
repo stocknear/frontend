@@ -207,12 +207,19 @@
   function handleScroll() {
     if (!browser) return;
     
-    // Calculate reading progress based on entire page scroll
-    const scrollY = window.scrollY;
-    const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-    
-    if (documentHeight > 0) {
-      readingProgress = Math.min(100, Math.max(0, (scrollY / documentHeight) * 100));
+    // Calculate reading progress - 100% when reaching related articles section
+    const articleContent = document.querySelector(".article-content");
+    if (articleContent) {
+      const scrollY = window.scrollY;
+      const articleEnd = articleContent.offsetTop + articleContent.offsetHeight;
+      const startPoint = 0;
+      const endPoint = articleEnd - window.innerHeight * 0.5;
+      
+      if (endPoint > startPoint) {
+        readingProgress = Math.min(100, Math.max(0, (scrollY / endPoint) * 100));
+      } else {
+        readingProgress = 100;
+      }
     } else {
       readingProgress = 0;
     }
