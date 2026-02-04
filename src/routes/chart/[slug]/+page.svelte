@@ -1898,14 +1898,16 @@
   }
 
   // Get current overlay data for saving to history
-  function getOverlayData(overlayId: string): DrawingHistoryEntry["overlay"] | null {
+  function getOverlayData(
+    overlayId: string,
+  ): DrawingHistoryEntry["overlay"] | null {
     if (!chart) return null;
     const allOverlays = chart.getOverlays();
     if (!allOverlays || !Array.isArray(allOverlays)) return null;
-    
+
     const overlay = allOverlays.find((o: any) => o.id === overlayId);
     if (!overlay) return null;
-    
+
     return {
       id: overlay.id,
       name: overlay.name,
@@ -1922,7 +1924,7 @@
     if (!chart) return [];
     const allOverlays = chart.getOverlays();
     if (!allOverlays || !Array.isArray(allOverlays)) return [];
-    
+
     return allOverlays.map((overlay: any) => ({
       id: overlay.id,
       name: overlay.name,
@@ -1937,13 +1939,13 @@
   // Undo the last drawing action
   function undoDrawing() {
     if (undoStack.length === 0 || !chart) return;
-    
+
     const entry = undoStack[undoStack.length - 1];
     undoStack = undoStack.slice(0, -1);
-    
+
     // Create redo entry before undoing
     let redoEntry: DrawingHistoryEntry | null = null;
-    
+
     switch (entry.action) {
       case "create":
         // Undo create = delete the overlay
@@ -1957,10 +1959,10 @@
             };
           }
           chart.removeOverlay({ id: entry.overlay.id });
-          overlayIds = overlayIds.filter(id => id !== entry.overlay?.id);
+          overlayIds = overlayIds.filter((id) => id !== entry.overlay?.id);
         }
         break;
-        
+
       case "delete":
         // Undo delete = recreate the overlay
         if (entry.overlay) {
@@ -1975,7 +1977,7 @@
           }
         }
         break;
-        
+
       case "delete_all":
         // Undo delete_all = recreate all overlays
         if (entry.overlays && entry.overlays.length > 0) {
@@ -1984,7 +1986,7 @@
             timestamp: Date.now(),
             overlays: getAllOverlaysData(),
           };
-          entry.overlays.forEach(overlay => {
+          entry.overlays.forEach((overlay) => {
             const newId = recreateOverlay(overlay);
             if (newId) {
               overlayIds = [...overlayIds, newId];
@@ -1992,7 +1994,7 @@
           });
         }
         break;
-        
+
       case "modify":
         // Undo modify = restore previous state
         if (entry.overlay?.id && entry.previousState) {
@@ -2001,12 +2003,14 @@
             action: "modify",
             timestamp: Date.now(),
             overlay: { id: entry.overlay.id, name: entry.overlay.name },
-            previousState: currentData ? {
-              styles: currentData.styles,
-              lock: currentData.lock,
-              visible: currentData.visible,
-              points: currentData.points,
-            } : undefined,
+            previousState: currentData
+              ? {
+                  styles: currentData.styles,
+                  lock: currentData.lock,
+                  visible: currentData.visible,
+                  points: currentData.points,
+                }
+              : undefined,
           };
           chart.overrideOverlay({
             id: entry.overlay.id,
@@ -2016,11 +2020,11 @@
           });
         }
         break;
-        
+
       case "lock_toggle":
         // Undo lock toggle = restore previous lock states
         if (entry.previousGlobalState) {
-          const currentStates = getAllOverlaysData().map(o => ({
+          const currentStates = getAllOverlaysData().map((o) => ({
             id: o.id!,
             lock: o.lock,
           }));
@@ -2033,18 +2037,18 @@
             },
           };
           drawingsLocked = entry.previousGlobalState.locked ?? false;
-          entry.previousGlobalState.overlayStates?.forEach(state => {
+          entry.previousGlobalState.overlayStates?.forEach((state) => {
             if (state.id) {
               chart.overrideOverlay({ id: state.id, lock: state.lock });
             }
           });
         }
         break;
-        
+
       case "visibility_toggle":
         // Undo visibility toggle = restore previous visibility states
         if (entry.previousGlobalState) {
-          const currentStates = getAllOverlaysData().map(o => ({
+          const currentStates = getAllOverlaysData().map((o) => ({
             id: o.id!,
             visible: o.visible,
           }));
@@ -2057,7 +2061,7 @@
             },
           };
           drawingsVisible = entry.previousGlobalState.visible ?? true;
-          entry.previousGlobalState.overlayStates?.forEach(state => {
+          entry.previousGlobalState.overlayStates?.forEach((state) => {
             if (state.id) {
               chart.overrideOverlay({ id: state.id, visible: state.visible });
             }
@@ -2065,11 +2069,11 @@
         }
         break;
     }
-    
+
     if (redoEntry) {
       redoStack = [...redoStack, redoEntry];
     }
-    
+
     // Save overlays after undo
     handleOverlayDrawEnd();
   }
@@ -2077,13 +2081,13 @@
   // Redo the last undone action
   function redoDrawing() {
     if (redoStack.length === 0 || !chart) return;
-    
+
     const entry = redoStack[redoStack.length - 1];
     redoStack = redoStack.slice(0, -1);
-    
+
     // Create undo entry before redoing
     let undoEntry: DrawingHistoryEntry | null = null;
-    
+
     switch (entry.action) {
       case "create":
         // Redo create = recreate the overlay
@@ -2101,7 +2105,7 @@
           }
         }
         break;
-        
+
       case "delete":
         // Redo delete = delete the overlay again
         if (entry.overlay?.id) {
@@ -2114,10 +2118,10 @@
             };
           }
           chart.removeOverlay({ id: entry.overlay.id });
-          overlayIds = overlayIds.filter(id => id !== entry.overlay?.id);
+          overlayIds = overlayIds.filter((id) => id !== entry.overlay?.id);
         }
         break;
-        
+
       case "delete_all":
         // Redo delete_all = delete all overlays again
         undoEntry = {
@@ -2128,7 +2132,7 @@
         chart.removeOverlay();
         overlayIds = [];
         break;
-        
+
       case "modify":
         // Redo modify = apply the modification again
         if (entry.overlay?.id && entry.previousState) {
@@ -2137,12 +2141,14 @@
             action: "modify",
             timestamp: Date.now(),
             overlay: { id: entry.overlay.id, name: entry.overlay.name },
-            previousState: currentData ? {
-              styles: currentData.styles,
-              lock: currentData.lock,
-              visible: currentData.visible,
-              points: currentData.points,
-            } : undefined,
+            previousState: currentData
+              ? {
+                  styles: currentData.styles,
+                  lock: currentData.lock,
+                  visible: currentData.visible,
+                  points: currentData.points,
+                }
+              : undefined,
           };
           chart.overrideOverlay({
             id: entry.overlay.id,
@@ -2152,11 +2158,11 @@
           });
         }
         break;
-        
+
       case "lock_toggle":
         // Redo lock toggle
         if (entry.previousGlobalState) {
-          const currentStates = getAllOverlaysData().map(o => ({
+          const currentStates = getAllOverlaysData().map((o) => ({
             id: o.id!,
             lock: o.lock,
           }));
@@ -2169,18 +2175,18 @@
             },
           };
           drawingsLocked = entry.previousGlobalState.locked ?? false;
-          entry.previousGlobalState.overlayStates?.forEach(state => {
+          entry.previousGlobalState.overlayStates?.forEach((state) => {
             if (state.id) {
               chart.overrideOverlay({ id: state.id, lock: state.lock });
             }
           });
         }
         break;
-        
+
       case "visibility_toggle":
         // Redo visibility toggle
         if (entry.previousGlobalState) {
-          const currentStates = getAllOverlaysData().map(o => ({
+          const currentStates = getAllOverlaysData().map((o) => ({
             id: o.id!,
             visible: o.visible,
           }));
@@ -2193,7 +2199,7 @@
             },
           };
           drawingsVisible = entry.previousGlobalState.visible ?? true;
-          entry.previousGlobalState.overlayStates?.forEach(state => {
+          entry.previousGlobalState.overlayStates?.forEach((state) => {
             if (state.id) {
               chart.overrideOverlay({ id: state.id, visible: state.visible });
             }
@@ -2201,19 +2207,21 @@
         }
         break;
     }
-    
+
     if (undoEntry) {
       undoStack = [...undoStack, undoEntry];
     }
-    
+
     // Save overlays after redo
     handleOverlayDrawEnd();
   }
 
   // Recreate an overlay from saved data
-  function recreateOverlay(overlayData: DrawingHistoryEntry["overlay"]): string | null {
+  function recreateOverlay(
+    overlayData: DrawingHistoryEntry["overlay"],
+  ): string | null {
     if (!chart || !overlayData) return null;
-    
+
     try {
       const newId = chart.createOverlay({
         name: overlayData.name,
@@ -2300,7 +2308,7 @@
 
   function toggleDrawingsLock() {
     // Record current state before toggling for undo
-    const currentStates = getAllOverlaysData().map(o => ({
+    const currentStates = getAllOverlaysData().map((o) => ({
       id: o.id!,
       lock: o.lock,
     }));
@@ -2332,7 +2340,7 @@
 
   function toggleDrawingsVisibility() {
     // Record current state before toggling for undo
-    const currentStates = getAllOverlaysData().map(o => ({
+    const currentStates = getAllOverlaysData().map((o) => ({
       id: o.id!,
       visible: o.visible,
     }));
@@ -2380,9 +2388,6 @@
     activeTool = "cursor";
     // Clear info line popup
     infoLineData = null;
-    // Clear drawing toolbar popup (color, size, etc.)
-    selectedOverlay = null;
-    showDrawingToolbar = false;
   }
 
   // Toolbar event handlers
@@ -3266,6 +3271,23 @@
       needDefaultPointFigure: true,
       needDefaultXAxisFigure: true,
       needDefaultYAxisFigure: true,
+      styles: {
+        line: {
+          color: "#2962FF",
+          size: 1,
+          style: "solid",
+        },
+        point: {
+          color: "#2962FF",
+          borderColor: "#2962FF",
+          borderSize: 1,
+          radius: 4,
+          activeColor: "#2962FF",
+          activeBorderColor: "#2962FF",
+          activeBorderSize: 1,
+          activeRadius: 6,
+        },
+      },
       createPointFigures: ({ chart: c, overlay, coordinates, bounding }) => {
         if (coordinates.length < 2) {
           // Clear info line data when not enough points
@@ -3284,7 +3306,12 @@
         });
 
         // Calculate measurements if we have valid price points
-        if (points && points.length >= 2 && points[0]?.value != null && points[1]?.value != null) {
+        if (
+          points &&
+          points.length >= 2 &&
+          points[0]?.value != null &&
+          points[1]?.value != null
+        ) {
           const startPrice = points[0].value;
           const endPrice = points[1].value;
           const startTimestamp = points[0].timestamp;
@@ -3292,7 +3319,7 @@
 
           // Price change calculations
           const priceChange = endPrice - startPrice;
-          const priceChangePercent = ((priceChange / startPrice) * 100);
+          const priceChangePercent = (priceChange / startPrice) * 100;
           const priceTicks = Math.round(priceChange * 100); // Assuming 2 decimal places
 
           // Pixel distance
@@ -3315,14 +3342,15 @@
               if (diff > 0) timeDiffs.push(diff);
             }
             if (timeDiffs.length > 0) {
-              barDuration = timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length;
+              barDuration =
+                timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length;
             }
           }
 
           // Time/bars calculation
           const timeDiff = endTimestamp - startTimestamp;
           const numBars = Math.round(Math.abs(timeDiff) / barDuration);
-          
+
           // Format time duration
           let timeStr = "";
           const absDiff = Math.abs(timeDiff);
@@ -6808,10 +6836,8 @@
       : "rgba(248, 250, 252, 0.96)";
     const tooltipBorder = isDark ? "rgba(32, 41, 56, 0.9)" : "#e2e8f0";
     const activePaneBg = isDark ? "#0f1117" : "#f8fafc";
-    const chartBg = isDark ? "#0f0f0f" : "#ffffff";
 
     chart.setStyles({
-      background: chartBg,
       grid: {
         show: true,
         horizontal: {
@@ -8009,16 +8035,16 @@
           // Create more dense ticks for y-axis (closer grid lines like TradingView)
           const { from, to } = range;
           const priceRange = to - from;
-          
+
           // Adjust tick density based on screen size
           // Mobile: ~8 ticks, Desktop: ~18 ticks for denser grid
           const targetTicks = isMobile ? 8 : 18;
           const rawStep = priceRange / targetTicks;
-          
+
           // Round to nice numbers (0.05, 0.1, 0.2, 0.25, 0.5, 1, 2, 5, 10, etc.)
           const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
           const normalized = rawStep / magnitude;
-          
+
           let niceStep;
           if (normalized <= 0.1) niceStep = 0.1 * magnitude;
           else if (normalized <= 0.2) niceStep = 0.2 * magnitude;
@@ -8027,23 +8053,23 @@
           else if (normalized <= 1) niceStep = 1 * magnitude;
           else if (normalized <= 2) niceStep = 2 * magnitude;
           else niceStep = 5 * magnitude;
-          
+
           // Generate ticks
           const ticks = [];
           const startTick = Math.ceil(from / niceStep) * niceStep;
-          
+
           for (let price = startTick; price <= to; price += niceStep) {
             // Calculate y coordinate based on bounding and range
             const percent = (price - from) / priceRange;
-            const y = bounding.height - (percent * bounding.height);
-            
+            const y = bounding.height - percent * bounding.height;
+
             ticks.push({
               coord: y,
               value: price,
               text: price.toFixed(2),
             });
           }
-          
+
           return ticks.length > 0 ? ticks : defaultTicks;
         },
       },
@@ -8719,31 +8745,34 @@
   on:keydown={(e) => {
     // Skip shortcuts when typing in input fields, textareas, or contenteditable elements
     const target = e.target as HTMLElement;
-    const isTyping = 
-      target.tagName === "INPUT" || 
-      target.tagName === "TEXTAREA" || 
+    const isTyping =
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
       target.isContentEditable ||
       target.closest("[contenteditable]");
-    
+
     // ===== MODIFIER KEY SHORTCUTS (work even when typing) =====
-    
+
     // Undo: Ctrl+Z (or Cmd+Z on Mac)
     if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
       e.preventDefault();
       undoDrawing();
       return;
     }
-    
+
     // Redo: Ctrl+Shift+Z or Ctrl+Y (or Cmd+Shift+Z / Cmd+Y on Mac)
-    if ((e.ctrlKey || e.metaKey) && (e.key === "Z" || (e.shiftKey && e.key === "z") || e.key === "y")) {
+    if (
+      (e.ctrlKey || e.metaKey) &&
+      (e.key === "Z" || (e.shiftKey && e.key === "z") || e.key === "y")
+    ) {
       e.preventDefault();
       redoDrawing();
       return;
     }
-    
+
     // ===== NON-MODIFIER SHORTCUTS (skip when typing) =====
     if (isTyping) return;
-    
+
     // Escape: Close pickers/toolbar or switch to cursor mode
     if (e.key === "Escape") {
       if (showColorPicker || showThicknessPicker || showStylePicker) {
@@ -8757,7 +8786,7 @@
       }
       return;
     }
-    
+
     // Delete/Backspace: Remove selected drawing
     if (e.key === "Delete" || e.key === "Backspace") {
       if (selectedOverlay) {
@@ -8766,57 +8795,65 @@
       }
       return;
     }
-    
+
     // ===== DRAWING TOOL SHORTCUTS =====
     // L - Horizontal Line
     if (e.key === "l" || e.key === "L") {
       e.preventDefault();
-      activateDrawingTool("lines", "horizontalStraightLine", "horizontalStraightLine");
+      activateDrawingTool(
+        "lines",
+        "horizontalStraightLine",
+        "horizontalStraightLine",
+      );
       return;
     }
-    
+
     // T - Trend Line (diagonal straight line)
     if (e.key === "t" || e.key === "T") {
       e.preventDefault();
       activateDrawingTool("lines", "straightLine", "straightLine");
       return;
     }
-    
+
     // R - Rectangle
     if (e.key === "r" || e.key === "R") {
       e.preventDefault();
       activateDrawingTool("shapes", "rect", "rect");
       return;
     }
-    
+
     // F - Fibonacci Retracement
     if (e.key === "f" || e.key === "F") {
       e.preventDefault();
       activateDrawingTool("fibonacci", "fibonacciLine", "fibonacciLine");
       return;
     }
-    
+
     // C - Circle
     if (e.key === "c" || e.key === "C") {
       e.preventDefault();
       activateDrawingTool("shapes", "circle", "circle");
       return;
     }
-    
+
     // V - Vertical Line
     if (e.key === "v" || e.key === "V") {
       e.preventDefault();
-      activateDrawingTool("lines", "verticalStraightLine", "verticalStraightLine");
+      activateDrawingTool(
+        "lines",
+        "verticalStraightLine",
+        "verticalStraightLine",
+      );
       return;
     }
-    
+
     // P - Price Line
     if (e.key === "p" || e.key === "P") {
       e.preventDefault();
       activateDrawingTool("lines", "priceLine", "priceLine");
       return;
     }
-    
+
     // ===== ZOOM SHORTCUTS =====
     // + or = : Zoom in
     if (e.key === "+" || e.key === "=") {
@@ -8824,14 +8861,14 @@
       zoomChart(1.2);
       return;
     }
-    
+
     // - : Zoom out
     if (e.key === "-") {
       e.preventDefault();
       zoomChart(0.9);
       return;
     }
-    
+
     // ===== PAN SHORTCUTS =====
     // ArrowLeft: Pan left (scroll to older data)
     if (e.key === "ArrowLeft") {
@@ -8840,23 +8877,29 @@
         const dataList = chart.getDataList();
         const visibleRange = chart.getVisibleRange();
         // Pan by ~10% of visible range
-        const panBars = Math.max(1, Math.floor((visibleRange.to - visibleRange.from) * 0.1));
+        const panBars = Math.max(
+          1,
+          Math.floor((visibleRange.to - visibleRange.from) * 0.1),
+        );
         chart.scrollByDistance(-panBars * 10); // Negative = scroll left (older)
       }
       return;
     }
-    
+
     // ArrowRight: Pan right (scroll to newer data)
     if (e.key === "ArrowRight") {
       e.preventDefault();
       if (chart) {
         const visibleRange = chart.getVisibleRange();
-        const panBars = Math.max(1, Math.floor((visibleRange.to - visibleRange.from) * 0.1));
+        const panBars = Math.max(
+          1,
+          Math.floor((visibleRange.to - visibleRange.from) * 0.1),
+        );
         chart.scrollByDistance(panBars * 10); // Positive = scroll right (newer)
       }
       return;
     }
-    
+
     // ===== TIMEFRAME QUICK SWITCH (1-9 in order) =====
     // 1 - 1min
     if (e.key === "1") {
@@ -8864,63 +8907,63 @@
       setRange("1min");
       return;
     }
-    
+
     // 2 - 5min
     if (e.key === "2") {
       e.preventDefault();
       setRange("5min");
       return;
     }
-    
+
     // 3 - 15min
     if (e.key === "3") {
       e.preventDefault();
       setRange("15min");
       return;
     }
-    
+
     // 4 - 30min
     if (e.key === "4") {
       e.preventDefault();
       setRange("30min");
       return;
     }
-    
+
     // 5 - 1hour
     if (e.key === "5") {
       e.preventDefault();
       setRange("1hour");
       return;
     }
-    
+
     // 6 - 4hour
     if (e.key === "6") {
       e.preventDefault();
       setRange("4hour");
       return;
     }
-    
+
     // 7 - Daily
     if (e.key === "7") {
       e.preventDefault();
       setRange("1D");
       return;
     }
-    
+
     // 8 - Weekly
     if (e.key === "8") {
       e.preventDefault();
       setRange("1W");
       return;
     }
-    
+
     // 9 - Monthly
     if (e.key === "9") {
       e.preventDefault();
       setRange("1M");
       return;
     }
-    
+
     // ? - Show keyboard shortcuts help
     if (e.key === "?" || (e.shiftKey && e.key === "/")) {
       e.preventDefault();
@@ -9008,12 +9051,12 @@
 />
 
 <main
-  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0f0f0f] text-gray-700 dark:text-zinc-200 overflow-hidden"
+  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0b0b0d] text-gray-700 dark:text-zinc-200 overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
     <div
-      class="tv-topbar flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0f0f0f]"
+      class="tv-topbar flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d]"
     >
       <!-- First Row: Ticker Info + OHLC -->
       <div
@@ -9673,7 +9716,7 @@
           on:removeAllDrawings={removeAllDrawings}
           on:undo={undoDrawing}
           on:redo={redoDrawing}
-          on:showKeyboardShortcuts={() => showKeyboardShortcutsModal = true}
+          on:showKeyboardShortcuts={() => (showKeyboardShortcutsModal = true)}
         />
       {/if}
 
@@ -11215,29 +11258,57 @@
               {#if infoLineData}
                 <div
                   class="absolute z-[8] pointer-events-none max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:bottom-20 max-sm:top-auto"
-                  style={!isMobile ? `left: ${infoLineData.x}px; top: ${infoLineData.y}px;` : ''}
+                  style={!isMobile
+                    ? `left: ${infoLineData.x}px; top: ${infoLineData.y}px;`
+                    : ""}
                 >
                   <div
                     class="bg-gray-100 dark:bg-[#2a2e39]/95 border border-gray-300 dark:border-[#3c4150]/60 rounded-2xl shadow-lg py-1.5 sm:py-2 px-2.5 sm:px-3 min-w-[180px] sm:min-w-[220px]"
                   >
                     <!-- Row 1: Price change -->
-                    <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
-                      <span class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↕</span>
-                      <span class={infoLineData.priceChange >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}>
-                        {Math.abs(infoLineData.priceChange).toFixed(2)} ({Math.abs(infoLineData.priceChangePercent).toFixed(2)}%), {Math.abs(infoLineData.priceTicks)}
+                    <div
+                      class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1"
+                    >
+                      <span
+                        class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5"
+                        >↕</span
+                      >
+                      <span
+                        class={infoLineData.priceChange >= 0
+                          ? "text-emerald-800 dark:text-emerald-400"
+                          : "text-rose-800 dark:text-rose-400"}
+                      >
+                        {Math.abs(infoLineData.priceChange).toFixed(2)} ({Math.abs(
+                          infoLineData.priceChangePercent,
+                        ).toFixed(2)}%), {Math.abs(infoLineData.priceTicks)}
                       </span>
                     </div>
                     <!-- Row 2: Bars and time -->
-                    <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
-                      <span class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↔</span>
+                    <div
+                      class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1"
+                    >
+                      <span
+                        class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5"
+                        >↔</span
+                      >
                       <span class="text-gray-800 dark:text-[#d1d4dc]">
-                        <span class="hidden sm:inline">{infoLineData.numBars} bars ({infoLineData.timeStr}), distance: {infoLineData.pixelDistance} px</span>
-                        <span class="sm:hidden">{infoLineData.numBars} bars ({infoLineData.timeStr})</span>
+                        <span class="hidden sm:inline"
+                          >{infoLineData.numBars} bars ({infoLineData.timeStr}),
+                          distance: {infoLineData.pixelDistance} px</span
+                        >
+                        <span class="sm:hidden"
+                          >{infoLineData.numBars} bars ({infoLineData.timeStr})</span
+                        >
                       </span>
                     </div>
                     <!-- Row 3: Angle -->
-                    <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
-                      <span class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">∠</span>
+                    <div
+                      class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1"
+                    >
+                      <span
+                        class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5"
+                        >∠</span
+                      >
                       <span class="text-gray-800 dark:text-[#d1d4dc]">
                         {infoLineData.angleDeg.toFixed(2)}°
                       </span>
@@ -11682,7 +11753,7 @@
                 : rightSidebarCollapsedSize}
             >
               <div
-                class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0f0f0f]"
+                class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0b0b0d]"
               >
                 {#if rightSidebarOpen}
                   <ChartRightSidebar
@@ -11693,7 +11764,7 @@
                   />
                 {/if}
                 <div
-                  class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0f0f0f] py-2"
+                  class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2"
                 >
                   <button
                     class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
@@ -13493,8 +13564,9 @@
 {#if showKeyboardShortcutsModal}
   <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-    on:click|self={() => showKeyboardShortcutsModal = false}
-    on:keydown={(e) => e.key === "Escape" && (showKeyboardShortcutsModal = false)}
+    on:click|self={() => (showKeyboardShortcutsModal = false)}
+    on:keydown={(e) =>
+      e.key === "Escape" && (showKeyboardShortcutsModal = false)}
     role="dialog"
     aria-modal="true"
     tabindex="-1"
@@ -13509,11 +13581,13 @@
         </h2>
         <button
           class="p-2 rounded-lg text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
-          on:click={() => showKeyboardShortcutsModal = false}
+          on:click={() => (showKeyboardShortcutsModal = false)}
           aria-label="Close keyboard shortcuts"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" />
+            <path
+              d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+            />
           </svg>
         </button>
       </div>
@@ -13522,130 +13596,276 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Drawing Tools -->
         <div>
-          <h3 class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+          <h3
+            class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3"
+          >
             Drawing Tools
           </h3>
           <div class="space-y-2">
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Horizontal Line</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">L</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Horizontal Line</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >L</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Vertical Line</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">V</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Vertical Line</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >V</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Trend Line</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">T</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Trend Line</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >T</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Rectangle</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">R</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Rectangle</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >R</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Circle</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">C</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Circle</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >C</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Fibonacci Retracement</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">F</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Fibonacci Retracement</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >F</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Price Line</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">P</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Price Line</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >P</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Exit Drawing Mode</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Esc</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Exit Drawing Mode</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >Esc</kbd
+              >
             </div>
           </div>
         </div>
 
         <!-- Actions -->
         <div>
-          <h3 class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+          <h3
+            class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3"
+          >
             Actions
           </h3>
           <div class="space-y-2">
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-gray-700 dark:text-zinc-300">Undo</span>
               <div class="flex gap-1">
-                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Ctrl</kbd>
-                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Z</kbd>
+                <kbd
+                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                  >Ctrl</kbd
+                >
+                <kbd
+                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                  >Z</kbd
+                >
               </div>
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-gray-700 dark:text-zinc-300">Redo</span>
               <div class="flex gap-1">
-                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Ctrl</kbd>
-                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Shift</kbd>
-                <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Z</kbd>
+                <kbd
+                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                  >Ctrl</kbd
+                >
+                <kbd
+                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                  >Shift</kbd
+                >
+                <kbd
+                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                  >Z</kbd
+                >
               </div>
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Delete Selected Drawing</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">Delete</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Delete Selected Drawing</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >Delete</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Zoom In</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">+</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Zoom In</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >+</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Zoom Out</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">-</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Zoom Out</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >-</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Pan Left</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">&larr;</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Pan Left</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >&larr;</kbd
+              >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Pan Right</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">&rarr;</kbd>
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Pan Right</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >&rarr;</kbd
+              >
             </div>
           </div>
         </div>
 
         <!-- Timeframes -->
         <div class="md:col-span-2">
-          <h3 class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+          <h3
+            class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3"
+          >
             Timeframe Quick Switch
           </h3>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">1 min</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">1</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300">1 min</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >1</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">5 min</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">2</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300">5 min</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >2</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">15 min</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">3</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >15 min</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >3</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">30 min</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">4</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >30 min</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >4</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">1 hour</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">5</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >1 hour</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >5</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">4 hour</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">6</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >4 hour</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >6</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Daily</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">7</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300">Daily</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >7</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Weekly</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">8</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Weekly</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >8</kbd
+              >
             </div>
-            <div class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded">
-              <span class="text-sm text-gray-700 dark:text-zinc-300">Monthly</span>
-              <kbd class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300">9</kbd>
+            <div
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+            >
+              <span class="text-sm text-gray-700 dark:text-zinc-300"
+                >Monthly</span
+              >
+              <kbd
+                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-gray-700 dark:text-zinc-300"
+                >9</kbd
+              >
             </div>
           </div>
         </div>
@@ -13654,7 +13874,10 @@
       <!-- Footer -->
       <div class="mt-6 pt-4 border-t border-gray-200 dark:border-zinc-700">
         <p class="text-xs text-gray-500 dark:text-zinc-500 text-center">
-          Press <kbd class="px-1.5 py-0.5 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded">?</kbd> anytime to show this help
+          Press <kbd
+            class="px-1.5 py-0.5 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded"
+            >?</kbd
+          > anytime to show this help
         </p>
       </div>
     </div>
@@ -13705,7 +13928,7 @@
   :global(.dark .chart-tv .tv-topbar),
   :global(.dark .chart-tv .tv-topbar-row),
   :global(.dark .chart-tv .tv-toolbar-row) {
-    background-color: #0f0f0f;
+    background-color: #0b0b0d;
   }
 
   :global(.dark .chart-tv .tv-topbar-row),
@@ -13727,11 +13950,11 @@
 
   :global(.dark .chart-tv .tv-left-rail),
   :global(.dark .chart-tv .tv-right-rail) {
-    background-color: #0f0f0f;
+    background-color: #0b0b0d;
     border-color: rgba(39, 39, 42, 0.9);
   }
 
   :global(.dark .chart-tv .tv-right-panel) {
-    background-color: #0f0f0f;
+    background-color: #0b0b0d;
   }
 </style>
