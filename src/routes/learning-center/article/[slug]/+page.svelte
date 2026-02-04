@@ -20,12 +20,6 @@
   let tableOfContents = [];
   let activeSection = "";
 
-  // Sidebar sticky behavior
-  let leftSidebarEl;
-  let rightSidebarEl;
-  let relatedSectionEl;
-  let sidebarStyle = "top: 5rem;"; // Default sticky position
-
   // Share dropdown state
   let showShareDropdown = false;
   let linkCopied = false;
@@ -220,49 +214,23 @@
     }
   }
 
-  // Track active section on scroll and manage sidebar sticky behavior
+  // Track active section on scroll
   function handleScroll() {
-    if (!browser) return;
+    if (!browser || tableOfContents.length === 0) return;
     
-    // Track active section for TOC
-    if (tableOfContents.length > 0) {
-      const sections = tableOfContents.map(item => document.getElementById(item.id)).filter(Boolean);
-      const scrollPosition = window.scrollY + 100;
-      
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          activeSection = tableOfContents[i].id;
-          break;
-        }
-      }
-      
-      if (scrollPosition < (sections[0]?.offsetTop || 0)) {
-        activeSection = tableOfContents[0]?.id || "";
+    const sections = tableOfContents.map(item => document.getElementById(item.id)).filter(Boolean);
+    const scrollPosition = window.scrollY + 100;
+    
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const section = sections[i];
+      if (section && section.offsetTop <= scrollPosition) {
+        activeSection = tableOfContents[i].id;
+        return;
       }
     }
     
-    // Manage sidebar sticky behavior - stop before related articles
-    if (relatedSectionEl && (leftSidebarEl || rightSidebarEl)) {
-      const relatedRect = relatedSectionEl.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const sidebarHeight = Math.max(
-        leftSidebarEl?.offsetHeight || 0,
-        rightSidebarEl?.offsetHeight || 0
-      );
-      
-      // Calculate when sidebar bottom would hit related section top
-      const buffer = 40; // Extra buffer space
-      const stopPoint = relatedRect.top - sidebarHeight - buffer;
-      
-      if (stopPoint < 80) {
-        // Related section is close, switch to absolute positioning
-        const offset = 80 - stopPoint;
-        sidebarStyle = `top: ${Math.max(80 - offset, -sidebarHeight)}px;`;
-      } else {
-        // Normal sticky behavior
-        sidebarStyle = "top: 5rem;";
-      }
+    if (tableOfContents.length > 0) {
+      activeSection = tableOfContents[0].id;
     }
   }
 
@@ -581,11 +549,11 @@
 
   <!-- Main Content with Sidebar -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="flex gap-8">
+    <div class="flex gap-8 items-start">
       <!-- Left Sidebar - Table of Contents (Desktop Only) -->
       {#if tableOfContents.length > 0}
-        <aside class="hidden xl:block w-64 flex-shrink-0">
-          <div bind:this={leftSidebarEl} class="sticky transition-all duration-150" style={sidebarStyle}>
+        <aside class="hidden xl:block w-64 flex-shrink-0 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <nav class="space-y-6">
             <nav class="space-y-6">
               <!-- Table of Contents -->
               <div>
@@ -667,7 +635,6 @@
                 </div>
               </div>
             </nav>
-          </div>
         </aside>
       {/if}
 
@@ -842,8 +809,7 @@
       </article>
 
       <!-- Right Sidebar - Quick Start (Desktop Only) -->
-      <aside class="hidden xl:block w-56 flex-shrink-0">
-        <div bind:this={rightSidebarEl} class="sticky transition-all duration-150" style={sidebarStyle}>
+      <aside class="hidden xl:block w-56 flex-shrink-0 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
           <nav>
             <h4 class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4">
               Quick Start
@@ -915,18 +881,14 @@
               </li>
             </ul>
           </nav>
-        </div>
       </aside>
     </div>
   </div>
 
-  <!-- Sidebar boundary marker (invisible) -->
-  <div bind:this={relatedSectionEl} class="h-0"></div>
-
   <!-- Related Articles Section -->
   {#if relatedArticles && relatedArticles.length > 0}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-      <div class="xl:mx-72 border-t border-gray-200 dark:border-zinc-800 pt-12">
+      <div class="border-t border-gray-200 dark:border-zinc-800 pt-12">
         <h2
           class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8"
         >
