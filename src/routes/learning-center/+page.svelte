@@ -46,6 +46,11 @@
       name: "All",
     },
     {
+      id: "Features",
+      name: "Features",
+      description: "How to use Stocknear",
+    },
+    {
       id: "Fundamentals",
       name: "Fundamentals",
       description: "Start here if you're new to investing",
@@ -59,11 +64,6 @@
       id: "Strategies",
       name: "Strategies",
       description: "Trading approaches and methodologies",
-    },
-    {
-      id: "Features",
-      name: "Features",
-      description: "How to use Stocknear",
     },
     {
       id: "Terms",
@@ -343,6 +343,69 @@
 
   <!-- Show categorized sections when "All" is selected -->
   {#if activeCategory === "all"}
+    <!-- Features Section -->
+    {#if filteredByCategory?.Features?.length > 0}
+      <div class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Features
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">
+              How to use Stocknear
+            </p>
+          </div>
+          {#if filteredByCategory.Features.length > 3}
+            <button
+              type="button"
+              on:click={() => setCategory("Features")}
+              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >
+              View all
+            </button>
+          {/if}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {#each filteredByCategory.Features.slice(0, 3) as item}
+            <a
+              href="/learning-center/article/{convertToSlug(item?.title)}"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              {#if item?.cover}
+                <div class="h-40 overflow-hidden">
+                  <img
+                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
+                    alt={item?.title}
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              {:else}
+                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+              {/if}
+              <div class="flex flex-col flex-1 p-4">
+                <h3
+                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                >
+                  {item?.title}
+                </h3>
+                <p
+                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
+                >
+                  {item?.abstract}
+                </p>
+                <div
+                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                >
+                  <span>{item?.time || 5} min read</span>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
     <!-- Fundamentals Section -->
     {#if filteredByCategory?.Fundamentals?.length > 0}
       <div class="mb-12">
@@ -493,69 +556,6 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {#each filteredByCategory.Strategies.slice(0, 3) as item}
-            <a
-              href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
-            >
-              {#if item?.cover}
-                <div class="h-40 overflow-hidden">
-                  <img
-                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
-                    alt={item?.title}
-                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </div>
-              {:else}
-                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
-              {/if}
-              <div class="flex flex-col flex-1 p-4">
-                <h3
-                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
-                >
-                  {item?.title}
-                </h3>
-                <p
-                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
-                >
-                  {item?.abstract}
-                </p>
-                <div
-                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
-                >
-                  <span>{item?.time || 5} min read</span>
-                </div>
-              </div>
-            </a>
-          {/each}
-        </div>
-      </div>
-    {/if}
-
-    <!-- Features Section -->
-    {#if filteredByCategory?.Features?.length > 0}
-      <div class="mb-12">
-        <div class="flex items-baseline justify-between mb-4">
-          <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Features
-            </h2>
-            <p class="text-sm text-gray-500 dark:text-zinc-400">
-              How to use Stocknear
-            </p>
-          </div>
-          {#if filteredByCategory.Features.length > 3}
-            <button
-              type="button"
-              on:click={() => setCategory("Features")}
-              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              View all
-            </button>
-          {/if}
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {#each filteredByCategory.Features.slice(0, 3) as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
               class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
