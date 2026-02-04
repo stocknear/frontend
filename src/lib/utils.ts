@@ -2614,3 +2614,167 @@ export const checkMarketHourSSR = () => {
 
   return isOpen;
 };
+
+// ============================================================================
+// CAGR (Compound Annual Growth Rate) Calculation Utilities
+// ============================================================================
+
+/**
+ * Calculate CAGR (Compound Annual Growth Rate) between two values over a period
+ * Formula: ((endValue / startValue) ^ (1 / years) - 1) * 100
+ * 
+ * @param startValue - The starting value
+ * @param endValue - The ending value
+ * @param years - Number of years between start and end
+ * @returns CAGR as a percentage, or null if calculation is invalid
+ */
+export function calculateCAGR(
+  startValue: number,
+  endValue: number,
+  years: number
+): number | null {
+  // Handle edge cases
+  if (!Number.isFinite(startValue) || !Number.isFinite(endValue) || !Number.isFinite(years)) {
+    return null;
+  }
+  if (years <= 0) return null;
+  if (startValue === 0) return null;
+  
+  // Handle negative to positive or vice versa transitions
+  if (startValue < 0 && endValue > 0) {
+    // Can't calculate meaningful CAGR when crossing zero
+    return null;
+  }
+  if (startValue > 0 && endValue < 0) {
+    return null;
+  }
+  
+  // Both negative - use absolute values and preserve sign
+  if (startValue < 0 && endValue < 0) {
+    const absStart = Math.abs(startValue);
+    const absEnd = Math.abs(endValue);
+    const cagr = (Math.pow(absEnd / absStart, 1 / years) - 1) * 100;
+    // If end is more negative (larger absolute), growth is negative
+    return endValue < startValue ? cagr : -cagr;
+  }
+  
+  // Standard calculation for positive values
+  const ratio = endValue / startValue;
+  const cagr = (Math.pow(ratio, 1 / years) - 1) * 100;
+  
+  return Number.isFinite(cagr) ? Number(cagr.toFixed(2)) : null;
+}
+
+/**
+ * Get the value at a specific index from chronologically sorted data
+ * Returns the metric value for CAGR calculation
+ */
+function getMetricValueAtIndex(
+  data: Record<string, any>[],
+  index: number,
+  metricKey: string
+): number | null {
+  if (index < 0 || index >= data.length) return null;
+  const value = data[index]?.[metricKey];
+  if (value === null || value === undefined) return null;
+  const numValue = Number(value);
+  return Number.isFinite(numValue) ? numValue : null;
+}
+
+/**
+ * Get the timestamp or fiscal year from a data entry for sorting
+ */
+function getEntryTimestampForCAGR(entry: Record<string, any>): number {
+  if (entry?.date) {
+    const parsed = Date.parse(entry.date);
+    if (!Number.isNaN(parsed)) return parsed;
+  }
+  if (entry?.fiscalYear) {
+    const year = Number(entry.fiscalYear);
+    if (Number.isFinite(year)) return Date.UTC(year, 0, 1);
+  }
+  return 0;
+}
+
+/**
+ * Sort financial statements chronologically (oldest first)
+ */
+export function sortStatementsChronologicallyForCAGR(
+  data: Record<string, any>[]
+): Record<string, any>[] {
+  return [...data].sort((a, b) => 
+    getEntryTimestampForCAGR(a) - getEntryTimestampForCAGR(b)
+  );
+}
+
+/**
+ * Calculate CAGR values for multiple time periods for a given metric
+ * 
+ * @param data - Array of financial statement data (will be sorted chronologically)
+ * @param metricKey - The key of the metric to calculate CAGR for
+ * @param periodType - 'annual' | 'quarterly' | 'ttm'
+ * @returns Object with CAGR values for 1Y, 2Y, 5Y, 10Y periods
+ */
+export function calculatePeriodCAGRs(
+  data: Record<string, any>[],
+  metricKey: string,
+  periodType: string = 'annual'
+): { '1Y': number | null; '2Y': number | null; '5Y': number | null; '10Y': number | null } {
+  const result = { '1Y': null as number | null, '2Y': null as number | null, '5Y': null as number | null, '10Y': null as number | null };
+  
+  if (!data || data.length < 2) return result;
+  
+  // Sort data chronologically (oldest first)
+  const sortedData = sortStatementsChronologicallyForCAGR(data);
+  
+  // Get the most recent value (last in sorted array)
+  const latestIndex = sortedData.length - 1;
+  const latestValue = getMetricValueAtIndex(sortedData, latestIndex, metricKey);
+  
+  if (latestValue === null) return result;
+  
+  // Determine periods to look back based on periodType
+  // For annual: 1 period = 1 year
+  // For quarterly: 4 periods = 1 year
+  const periodsPerYear = periodType === 'quarterly' || periodType === 'ttm' ? 4 : 1;
+  
+  const periods = [
+    { key: '1Y' as const, years: 1 },
+    { key: '2Y' as const, years: 2 },
+    { key: '5Y' as const, years: 5 },
+    { key: '10Y' as const, years: 10 },
+  ];
+  
+  for (const { key, years } of periods) {
+    const periodsBack = years * periodsPerYear;
+    const startIndex = latestIndex - periodsBack;
+    
+    if (startIndex >= 0) {
+      const startValue = getMetricValueAtIndex(sortedData, startIndex, metricKey);
+      if (startValue !== null) {
+        result[key] = calculateCAGR(startValue, latestValue, years);
+      }
+    }
+  }
+  
+  return result;
+}
+
+/**
+ * Format CAGR value for display with proper sign and percentage
+ */
+export function formatCAGRValue(value: number | null): string {
+  if (value === null) return 'N/A';
+  const sign = value >= 0 ? '+' : '';
+  return `${sign}${value.toFixed(2)}%`;
+}
+
+/**
+ * Get CSS class for CAGR value based on positive/negative
+ */
+export function getCAGRColorClass(value: number | null): string {
+  if (value === null) return 'text-gray-500 dark:text-zinc-400';
+  if (value > 0) return 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30';
+  if (value < 0) return 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30';
+  return 'text-gray-600 dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800';
+}

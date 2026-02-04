@@ -19,10 +19,12 @@
   stock_detail_financials_sec_filings,
   stock_detail_upgrade,
 } from "$lib/paraglide/messages";
-  //import * as XLSX from 'xlsx';
   import FinancialTable from "$lib/components/FinancialTable.svelte";
   import FinancialAISummary from "$lib/components/FinancialAISummary.svelte";
-  //import FinancialChart from "$lib/components/FinancialChart.svelte";
+  import FinancialChartGrid from "$lib/components/FinancialChartGrid.svelte";
+  import FinancialChartModal from "$lib/components/FinancialChartModal.svelte";
+  import LayoutGrid from "lucide-svelte/icons/layout-grid";
+  import Table from "lucide-svelte/icons/table";
 
   import { goto } from "$app/navigation";
 
@@ -69,6 +71,21 @@
   let lockedFiscalYearRange = "";
   let lockedPeriodRange = "";
   let tableFields = fields;
+
+  // Modal state for expanded chart view
+  let isModalOpen = false;
+  let modalMetricKey = "";
+  let modalMetricLabel = "";
+
+  function handleExpandChart(metricKey: string, metricLabel: string) {
+    modalMetricKey = metricKey;
+    modalMetricLabel = metricLabel;
+    isModalOpen = true;
+  }
+
+  function handleCloseModal() {
+    isModalOpen = false;
+  }
 
   const getStatementTimestamp = (statement?: Record<string, any>) => {
     if (!statement) return 0;
@@ -354,40 +371,43 @@
                   {stock_detail_financials_in_currency({ currency: financialData?.at(0)?.reportedCurrency, range: data?.getProfileData?.fiscalYearRange })}
                 </span>
 
-                <div class="flex flex-row items-center justify-end w-full">
-                  <!--
+                <div class="flex flex-row items-center justify-end w-full gap-1">
+                  <!-- Chart Mode / Table Mode Toggle -->
                   <Button
                     on:click={toggleMode}
-                    class="w-full max-w-36 sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {#if $coolMode}
-                      <TableMode class="w-4.5 h-4.5" />
-                      <span class="ml-2 mr-auto text-sm"> Table Mode </span>
+                      <Table class="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                      <span class="ml-1.5 text-sm hidden sm:inline">Table Mode</span>
                     {:else}
-                      <ChartMode class="w-4.5 h-4.5" />
-                      <span class="ml-2 mr-auto text-sm"> Chart Mode </span>
-                    {/if}</Button
-                  >
-                    -->
+                      <LayoutGrid class="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                      <span class="ml-1.5 text-sm hidden sm:inline">Chart Mode</span>
+                    {/if}
+                  </Button>
 
-                  <Button
-                    on:click={() => (switchDate = !switchDate)}
-                    class="mr-1 w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    <svg
-                      class="shrink-0 w-5 h-5 pointer-events-none m-auto"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      style="max-width:40px"
-                      ><path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                      ></path></svg>
-</Button
-                  >
+                  <!-- Sort Order Toggle (only show in table mode) -->
+                  {#if !$coolMode}
+                    <Button
+                      on:click={() => (switchDate = !switchDate)}
+                      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <svg
+                        class="shrink-0 w-5 h-5 pointer-events-none m-auto"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        style="max-width:40px"
+                        ><path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                        ></path></svg>
+                    </Button>
+                  {/if}
+
+                  <!-- Download Button -->
                   <Button
                     on:click={() => exportFundamentalData("csv")}
                     class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
@@ -403,7 +423,6 @@
                         fill="currentColor"
                         d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                       /></svg>
-
                   </Button>
 
                   <!-- AI Financial Summary Button (Inline) -->
@@ -415,105 +434,99 @@
                 </div>
               </div>
 
-              <!--
+              <!-- Chart Mode View -->
               {#if $coolMode}
-                <div class="grid gap-5 xs:gap-6 lg:grid-cols-3 lg:gap-3">
-                  {#each fields as item, i}
-                    <FinancialChart
-                      data={financialData}
-                      {statementConfig}
-                      displayStatement={item?.key}
-                      filterRule={$selectedTimePeriod}
-                      {processedData}
-                      color={["#ff00cc", "#37ff00", "#0c63e7", "#07c8f9"][
-                        i % 4
-                      ]}
-                    />
-                  {/each}
-                </div>
+                <FinancialChartGrid
+                  {processedData}
+                  {statementConfig}
+                  onExpandChart={handleExpandChart}
+                />
               {:else}
-              -->
-              <div
-                class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
-              >
-                <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
+                <!-- Table Mode View -->
+                <div
+                  class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
                 >
-                  <thead
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  <table
+                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
                   >
-                    <tr class="border-b border-gray-300 dark:border-zinc-700">
-                      <td
-                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
-                        >{$selectedTimePeriod !== "annual"
-                          ? stock_detail_financials_fiscal_quarter()
-                          : stock_detail_financials_fiscal_year()}</td
-                      >
-                      {#each financialData as item, index}
-                        {#if $selectedTimePeriod === "annual"}
+                    <thead
+                      class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    >
+                      <tr class="border-b border-gray-300 dark:border-zinc-700">
+                        <td
+                          class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
+                          >{$selectedTimePeriod !== "annual"
+                            ? stock_detail_financials_fiscal_quarter()
+                            : stock_detail_financials_fiscal_year()}</td
+                        >
+                        {#each financialData as item, index}
+                          {#if $selectedTimePeriod === "annual"}
+                            <td
+                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                            >
+                              {"FY" + " " + item?.fiscalYear}
+                            </td>
+                          {:else}
+                            <td
+                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                            >
+                              {item?.period + " " + item?.fiscalYear}
+                            </td>
+                          {/if}
+                        {/each}
+                        {#if hasLockedData}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                            class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
                           >
-                            {"FY" + " " + item?.fiscalYear}
-                          </td>
-                        {:else}
-                          <td
-                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
-                          >
-                            {item?.period + " " + item?.fiscalYear}
+                            {lockedFiscalYearRange || stock_detail_upgrade()}
                           </td>
                         {/if}
-                      {/each}
-                      {#if hasLockedData}
+                      </tr>
+                      <tr class="border-b border-gray-300 dark:border-zinc-700">
                         <td
-                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
+                          class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
+                          >{stock_detail_financials_period_ending()}</td
                         >
-                          {lockedFiscalYearRange || stock_detail_upgrade()}
-                        </td>
-                      {/if}
-                    </tr>
-                    <tr class="border-b border-gray-300 dark:border-zinc-700">
-                      <td
-                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
-                        >{stock_detail_financials_period_ending()}</td
-                      >
-                      {#each financialData as item, index}
-                        <td
-                          class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
-                        >
-                          {new Date(item?.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </td>
-                      {/each}
-                      {#if hasLockedData}
-                        <td
-                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
-                        >
-                          {lockedPeriodRange || stock_detail_upgrade()}
-                        </td>
-                      {/if}
-                    </tr>
-                  </thead>
-                  <tbody
-                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-                  >
-                    <!-- row -->
-                    <FinancialTable
-                      data={tableData}
-                      fields={tableFields}
-                      {enableFavorites}
-                      {favoriteStorageKey}
-                      periodType={$selectedTimePeriod || "annual"}
-                      showUpgradeColumn={hasLockedData}
-                      upgradeHref="/pricing"
-                      upgradeLabel={stock_detail_upgrade()}
-                    />
-                  </tbody>
-                </table>
-              </div>
+                        {#each financialData as item, index}
+                          <td
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                          >
+                            {new Date(item?.date).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </td>
+                        {/each}
+                        {#if hasLockedData}
+                          <td
+                            class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
+                          >
+                            {lockedPeriodRange || stock_detail_upgrade()}
+                          </td>
+                        {/if}
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                    >
+                      <!-- row -->
+                      <FinancialTable
+                        data={tableData}
+                        fields={tableFields}
+                        {enableFavorites}
+                        {favoriteStorageKey}
+                        periodType={$selectedTimePeriod || "annual"}
+                        showUpgradeColumn={hasLockedData}
+                        upgradeHref="/pricing"
+                        upgradeLabel={stock_detail_upgrade()}
+                      />
+                    </tbody>
+                  </table>
+                </div>
+              {/if}
+              
+              <!-- SEC Filings Links -->
               <div
                 class="sm:flex sm:justify-between text-sm text-gray-800 dark:text-zinc-300"
               >
@@ -535,8 +548,7 @@
                         stroke-linejoin="round"
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                       ></path></svg>
-</a
-                  >
+                  </a>
                   ·
                   <a
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
@@ -555,11 +567,9 @@
                         stroke-linejoin="round"
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                       ></path></svg>
-</a
-                  >
+                  </a>
                 </div>
               </div>
-              <!--{/if}-->
             {/if}
           </div>
         </div>
@@ -567,3 +577,13 @@
     </div>
   </div>
 </section>
+
+<!-- Expanded Chart Modal -->
+<FinancialChartModal
+  isOpen={isModalOpen}
+  metricKey={modalMetricKey}
+  metricLabel={modalMetricLabel}
+  data={fullStatement}
+  periodType={$selectedTimePeriod || "annual"}
+  onClose={handleCloseModal}
+/>
