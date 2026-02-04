@@ -30,9 +30,10 @@
   $: isAdmin = data?.user?.admin === true;
 
   // Build back URL based on article category
-  $: backUrl = article?.category && article.category !== "all" 
-    ? `/learning-center?category=${encodeURIComponent(article.category)}`
-    : "/learning-center";
+  $: backUrl =
+    article?.category && article.category !== "all"
+      ? `/learning-center?category=${encodeURIComponent(article.category)}`
+      : "/learning-center";
 
   // Markdown to HTML converter
   const converter = new showdown.Converter({
@@ -48,11 +49,15 @@
   function transformPocketBaseUrls(html) {
     // Match PocketBase URLs: http://localhost:8090/api/files/collectionId/recordId/fileName
     // or any domain with /api/files/ pattern
-    const pbUrlPattern = /(?:https?:\/\/[^\/]+)?\/api\/files\/([^\/]+)\/([^\/]+)\/([^\s"'?]+)/g;
-    
-    return html.replace(pbUrlPattern, (match, collectionId, recordId, fileName) => {
-      return getImageURL(collectionId, recordId, fileName);
-    });
+    const pbUrlPattern =
+      /(?:https?:\/\/[^\/]+)?\/api\/files\/([^\/]+)\/([^\/]+)\/([^\s"'?]+)/g;
+
+    return html.replace(
+      pbUrlPattern,
+      (match, collectionId, recordId, fileName) => {
+        return getImageURL(collectionId, recordId, fileName);
+      },
+    );
   }
 
   // Convert markdown to HTML, handling both markdown and existing HTML content
@@ -70,19 +75,22 @@
       html = content;
       // Also convert any markdown images that might be mixed in with HTML
       // Pattern: ![alt text](url) or ![alt text](url "title")
-      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (match, alt, src, title) => {
-        const titleAttr = title ? ` title="${title}"` : '';
-        return `<img src="${src}" alt="${alt}"${titleAttr} />`;
-      });
+      html = html.replace(
+        /!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g,
+        (match, alt, src, title) => {
+          const titleAttr = title ? ` title="${title}"` : "";
+          return `<img src="${src}" alt="${alt}"${titleAttr} />`;
+        },
+      );
     } else {
       // Otherwise, convert markdown to HTML
       html = converter.makeHtml(content);
     }
-    
+
     // Remove [IMAGE: ...] placeholder text (used in content templates)
     // Also handles escaped brackets \[IMAGE:...\]
-    html = html.replace(/\\?\[IMAGE:[^\]]*\\?\]/g, '');
-    
+    html = html.replace(/\\?\[IMAGE:[^\]]*\\?\]/g, "");
+
     // Transform all PocketBase URLs to use proper environment URL
     html = transformPocketBaseUrls(html);
 
@@ -163,7 +171,7 @@
     window.open(
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
       "_blank",
-      "width=550,height=420"
+      "width=550,height=420",
     );
     showShareDropdown = false;
   }
@@ -174,7 +182,7 @@
     window.open(
       `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
       "_blank",
-      "width=550,height=420"
+      "width=550,height=420",
     );
     showShareDropdown = false;
   }
@@ -184,7 +192,7 @@
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
       "_blank",
-      "width=550,height=420"
+      "width=550,height=420",
     );
     showShareDropdown = false;
   }
@@ -194,7 +202,7 @@
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
       "_blank",
-      "width=550,height=420"
+      "width=550,height=420",
     );
     showShareDropdown = false;
   }
@@ -346,7 +354,8 @@
           <div class="relative share-dropdown">
             <button
               type="button"
-              on:click|stopPropagation={() => (showShareDropdown = !showShareDropdown)}
+              on:click|stopPropagation={() =>
+                (showShareDropdown = !showShareDropdown)}
               class="cursor-pointer flex items-center gap-2 p-2 sm:px-4 sm:py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-300 text-sm font-medium transition"
             >
               <Share2 class="w-4 h-4" />
@@ -364,7 +373,9 @@
                   class="cursor-pointer w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                    />
                   </svg>
                   <span>Twitter / X</span>
                 </button>
@@ -376,7 +387,9 @@
                   class="cursor-pointer w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                    <path
+                      d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"
+                    />
                   </svg>
                   <span>Reddit</span>
                 </button>
@@ -388,7 +401,9 @@
                   class="cursor-pointer w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
                   </svg>
                   <span>LinkedIn</span>
                 </button>
@@ -400,12 +415,16 @@
                   class="cursor-pointer w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                    />
                   </svg>
                   <span>Facebook</span>
                 </button>
 
-                <div class="border-t border-gray-200 dark:border-zinc-700 my-1"></div>
+                <div
+                  class="border-t border-gray-200 dark:border-zinc-700 my-1"
+                ></div>
 
                 <!-- Copy Link -->
                 <button
@@ -512,7 +531,9 @@
 
     <!-- Share Section -->
     <div class="flex flex-col items-center gap-4 mb-12">
-      <span class="text-sm font-medium text-gray-500 dark:text-zinc-400">Share this article</span>
+      <span class="text-sm font-medium text-gray-500 dark:text-zinc-400"
+        >Share this article</span
+      >
       <div class="flex items-center gap-3">
         <!-- Twitter/X -->
         <button
@@ -522,7 +543,9 @@
           title="Share on Twitter"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            />
           </svg>
         </button>
 
@@ -534,7 +557,9 @@
           title="Share on Reddit"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+            <path
+              d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"
+            />
           </svg>
         </button>
 
@@ -546,7 +571,9 @@
           title="Share on LinkedIn"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            <path
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+            />
           </svg>
         </button>
 
@@ -558,7 +585,9 @@
           title="Share on Facebook"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+            />
           </svg>
         </button>
 
@@ -604,10 +633,12 @@
   {#if relatedArticles && relatedArticles.length > 0}
     <div class="max-w-4xl mx-auto px-6 pb-16">
       <div class="border-t border-gray-200 dark:border-zinc-800 pt-12">
-        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8">
+        <h2
+          class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8"
+        >
           Related Articles
         </h2>
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {#each relatedArticles as related}
             <a
@@ -618,16 +649,32 @@
               {#if related?.cover}
                 <div class="relative h-40 overflow-hidden">
                   <img
-                    src={getImageURL(related?.collectionId, related?.id, related?.cover)}
+                    src={getImageURL(
+                      related?.collectionId,
+                      related?.id,
+                      related?.cover,
+                    )}
                     alt={related?.title}
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                   />
                 </div>
               {:else}
-                <div class="h-40 bg-gradient-to-br from-violet-100 to-violet-50 dark:from-violet-900/20 dark:to-zinc-900 flex items-center justify-center">
-                  <svg class="w-12 h-12 text-violet-300 dark:text-violet-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <div
+                  class="h-40 bg-gradient-to-br from-violet-100 to-violet-50 dark:from-violet-900/20 dark:to-zinc-900 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-12 h-12 text-violet-300 dark:text-violet-700"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    />
                   </svg>
                 </div>
               {/if}
@@ -635,19 +682,23 @@
               <!-- Content -->
               <div class="flex flex-col flex-1 p-4">
                 <!-- Title -->
-                <h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-3">
+                <h3
+                  class="font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-3"
+                >
                   {related?.title}
                 </h3>
 
                 <!-- Meta -->
-                <div class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto">
+                <div
+                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                >
                   <div class="flex items-center gap-1">
                     <Calendar class="w-3.5 h-3.5" />
                     <span>{formatDate(related?.created)}</span>
                   </div>
                   <div class="flex items-center gap-1">
                     <Clock class="w-3.5 h-3.5" />
-                    <span>{getReadingTime(related?.description)} min</span>
+                    <span>{related?.time || 5} min</span>
                   </div>
                 </div>
               </div>
@@ -662,8 +713,18 @@
             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-300 dark:hover:border-violet-700 transition"
           >
             View all articles
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+              />
             </svg>
           </a>
         </div>
@@ -707,7 +768,9 @@
     </div>
 
     <!-- Click anywhere hint -->
-    <p class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+    <p
+      class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm"
+    >
       Click anywhere or press ESC to close
     </p>
   </div>
@@ -842,7 +905,9 @@
     margin: 1.5rem 0;
     display: block;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .article-content :global(img:hover) {
