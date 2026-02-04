@@ -10,6 +10,24 @@
   export let data;
 
   const statementConfig = [
+    // Key Summary Metrics (most important at top)
+    {
+      propertyName: "freeCashFlow",
+      label: "Free Cash Flow",
+    },
+    {
+      propertyName: "operatingCashFlow",
+      label: "Operating Cash Flow",
+    },
+    {
+      propertyName: "capitalExpenditure",
+      label: "Capital Expenditures",
+    },
+    {
+      propertyName: "netChangeInCash",
+      label: "Net Change in Cash",
+    },
+    // Operating Activities
     {
       propertyName: "netIncome",
       label: "Net Income",
@@ -19,12 +37,12 @@
       label: "Depreciation & Amortization",
     },
     {
-      propertyName: "deferredIncomeTax",
-      label: "Deferred Income Tax",
-    },
-    {
       propertyName: "stockBasedCompensation",
       label: "Stock-Based Compensation",
+    },
+    {
+      propertyName: "deferredIncomeTax",
+      label: "Deferred Income Tax",
     },
     {
       propertyName: "changeInWorkingCapital",
@@ -54,17 +72,10 @@
       propertyName: "netCashProvidedByOperatingActivities",
       label: "Net Cash from Operating Activities",
     },
-    {
-      propertyName: "operatingCashFlow",
-      label: "Operating Cash Flow",
-    },
+    // Investing Activities
     {
       propertyName: "investmentsInPropertyPlantAndEquipment",
       label: "PP&E Investments",
-    },
-    {
-      propertyName: "capitalExpenditure",
-      label: "Capital Expenditures",
     },
     {
       propertyName: "acquisitionsNet",
@@ -86,6 +97,7 @@
       propertyName: "netCashProvidedByInvestingActivities",
       label: "Net Cash from Investing Activities",
     },
+    // Financing Activities
     {
       propertyName: "netDebtIssuance",
       label: "Net Debt Issuance",
@@ -138,26 +150,20 @@
       propertyName: "netCashProvidedByFinancingActivities",
       label: "Net Cash from Financing Activities",
     },
+    // Cash Position
     {
       propertyName: "effectOfForexChangesOnCash",
       label: "Effect of Forex Changes on Cash",
-    },
-    {
-      propertyName: "netChangeInCash",
-      label: "Net Change in Cash",
-    },
-    {
-      propertyName: "cashAtEndOfPeriod",
-      label: "Cash at End of Period",
     },
     {
       propertyName: "cashAtBeginningOfPeriod",
       label: "Cash at Beginning of Period",
     },
     {
-      propertyName: "freeCashFlow",
-      label: "Free Cash Flow",
+      propertyName: "cashAtEndOfPeriod",
+      label: "Cash at End of Period",
     },
+    // Supplemental
     {
       propertyName: "incomeTaxesPaid",
       label: "Income Taxes Paid",

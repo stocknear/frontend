@@ -10,6 +10,36 @@
   export let data;
 
   const statementConfig = [
+    // Key Summary Metrics (most important at top)
+    {
+      propertyName: "totalAssets",
+      label: "Total Assets",
+    },
+    {
+      propertyName: "totalLiabilities",
+      label: "Total Liabilities",
+    },
+    {
+      propertyName: "totalStockholdersEquity",
+      label: "Shareholders Equity",
+    },
+    {
+      propertyName: "totalDebt",
+      label: "Total Debt",
+    },
+    {
+      propertyName: "netDebt",
+      label: "Net Debt",
+    },
+    {
+      propertyName: "bookValue",
+      label: "Book Value",
+    },
+    {
+      propertyName: "bookValuePerShare",
+      label: "Book Value Per Share",
+    },
+    // Cash & Investments
     {
       propertyName: "cashAndCashEquivalents",
       label: "Cash & Equivalents",
@@ -21,6 +51,19 @@
     {
       propertyName: "cashAndShortTermInvestments",
       label: "Cash & Short-Term Investments",
+    },
+    {
+      propertyName: "longTermInvestments",
+      label: "Long-Term Investments",
+    },
+    {
+      propertyName: "totalInvestments",
+      label: "Total Investments",
+    },
+    // Current Assets
+    {
+      propertyName: "totalCurrentAssets",
+      label: "Total Current Assets",
     },
     {
       propertyName: "netReceivables",
@@ -46,13 +89,18 @@
       propertyName: "otherCurrentAssets",
       label: "Other Current Assets",
     },
+    // Long-Term Assets
     {
-      propertyName: "totalCurrentAssets",
-      label: "Total Current Assets",
+      propertyName: "totalNonCurrentAssets",
+      label: "Total Long-Term Assets",
     },
     {
       propertyName: "propertyPlantEquipmentNet",
       label: "Property-Plant & Equipment",
+    },
+    {
+      propertyName: "goodwillAndIntangibleAssets",
+      label: "Goodwill & Intangibles",
     },
     {
       propertyName: "goodwill",
@@ -63,14 +111,6 @@
       label: "Intangible Assets",
     },
     {
-      propertyName: "goodwillAndIntangibleAssets",
-      label: "Goodwill & Intangibles",
-    },
-    {
-      propertyName: "longTermInvestments",
-      label: "Long-Term Investments",
-    },
-    {
       propertyName: "taxAssets",
       label: "Tax Assets",
     },
@@ -79,16 +119,17 @@
       label: "Other Long-Term Assets",
     },
     {
-      propertyName: "totalNonCurrentAssets",
-      label: "Total Long-Term Assets",
-    },
-    {
       propertyName: "otherAssets",
       label: "Other Assets",
     },
+    // Current Liabilities
     {
-      propertyName: "totalAssets",
-      label: "Total Assets",
+      propertyName: "totalCurrentLiabilities",
+      label: "Total Current Liabilities",
+    },
+    {
+      propertyName: "shortTermDebt",
+      label: "Short-Term Debt",
     },
     {
       propertyName: "totalPayables",
@@ -107,32 +148,33 @@
       label: "Accrued Expenses",
     },
     {
-      propertyName: "shortTermDebt",
-      label: "Short-Term Debt",
-    },
-    {
-      propertyName: "capitalLeaseObligationsCurrent",
-      label: "Current Capital Lease Obligations",
+      propertyName: "deferredRevenue",
+      label: "Deferred Revenue",
     },
     {
       propertyName: "taxPayables",
       label: "Tax Payables",
     },
     {
-      propertyName: "deferredRevenue",
-      label: "Deferred Revenue",
+      propertyName: "capitalLeaseObligationsCurrent",
+      label: "Current Capital Lease Obligations",
     },
     {
       propertyName: "otherCurrentLiabilities",
       label: "Other Current Liabilities",
     },
+    // Long-Term Liabilities
     {
-      propertyName: "totalCurrentLiabilities",
-      label: "Total Current Liabilities",
+      propertyName: "totalNonCurrentLiabilities",
+      label: "Total Long-Term Liabilities",
     },
     {
       propertyName: "longTermDebt",
       label: "Long-Term Debt",
+    },
+    {
+      propertyName: "capitalLeaseObligations",
+      label: "Capital Lease Obligations",
     },
     {
       propertyName: "capitalLeaseObligationsNonCurrent",
@@ -151,20 +193,25 @@
       label: "Other Long-Term Liabilities",
     },
     {
-      propertyName: "totalNonCurrentLiabilities",
-      label: "Total Long-Term Liabilities",
-    },
-    {
       propertyName: "otherLiabilities",
       label: "Other Liabilities",
     },
+    // Equity
     {
-      propertyName: "capitalLeaseObligations",
-      label: "Capital Lease Obligations",
+      propertyName: "totalEquity",
+      label: "Total Equity",
     },
     {
-      propertyName: "totalLiabilities",
-      label: "Total Liabilities",
+      propertyName: "retainedEarnings",
+      label: "Retained Earnings",
+    },
+    {
+      propertyName: "commonStock",
+      label: "Common Stock",
+    },
+    {
+      propertyName: "additionalPaidInCapital",
+      label: "Additional Paid-In Capital",
     },
     {
       propertyName: "treasuryStock",
@@ -175,18 +222,6 @@
       label: "Preferred Stock",
     },
     {
-      propertyName: "commonStock",
-      label: "Common Stock",
-    },
-    {
-      propertyName: "retainedEarnings",
-      label: "Retained Earnings",
-    },
-    {
-      propertyName: "additionalPaidInCapital",
-      label: "Additional Paid-In Capital",
-    },
-    {
       propertyName: "accumulatedOtherComprehensiveIncomeLoss",
       label: "Comprehensive Income",
     },
@@ -195,40 +230,12 @@
       label: "Other Stockholders Equity",
     },
     {
-      propertyName: "totalStockholdersEquity",
-      label: "Shareholders Equity",
-    },
-    {
-      propertyName: "totalEquity",
-      label: "Total Equity",
-    },
-    {
       propertyName: "minorityInterest",
       label: "Minority Interest",
     },
     {
       propertyName: "totalLiabilitiesAndTotalEquity",
       label: "Total Liabilities & Equity",
-    },
-    {
-      propertyName: "totalInvestments",
-      label: "Total Investments",
-    },
-    {
-      propertyName: "totalDebt",
-      label: "Total Debt",
-    },
-    {
-      propertyName: "netDebt",
-      label: "Net Debt",
-    },
-    {
-      propertyName: "bookValue",
-      label: "Book Value",
-    },
-    {
-      propertyName: "bookValuePerShare",
-      label: "Book Value Per Share",
     },
   ];
 </script>

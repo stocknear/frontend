@@ -10,73 +10,14 @@
   export let data;
 
   const statementConfig = [
+    // Key Summary Metrics (most important at top)
     {
       propertyName: "revenue",
       label: "Revenue",
     },
     {
-      propertyName: "costOfRevenue",
-      label: "Cost of Revenue",
-    },
-    {
-      propertyName: "grossProfit",
-      label: "Gross Profit",
-    },
-    {
-      propertyName: "operatingIncome",
-      label: "Operating Income",
-    },
-    {
-      propertyName: "interestIncome",
-      label: "Interest Income",
-    },
-    {
-      propertyName: "incomeBeforeTax",
-      label: "Pretax Income",
-    },
-    {
       propertyName: "netIncome",
       label: "Net Income",
-    },
-    {
-      propertyName: "sellingGeneralAndAdministrativeExpenses",
-      label: "Selling & General & Admin",
-    },
-    {
-      propertyName: "researchAndDevelopmentExpenses",
-      label: "Research & Development",
-    },
-    {
-      propertyName: "otherExpenses",
-      label: "Other Expenses",
-    },
-    {
-      propertyName: "operatingExpenses",
-      label: "Operating Expenses",
-    },
-    {
-      propertyName: "interestExpense",
-      label: "Interest Expense",
-    },
-    {
-      propertyName: "sellingAndMarketingExpenses",
-      label: "Selling & Marketing Expenses",
-    },
-    {
-      propertyName: "costAndExpenses",
-      label: "Cost & Expenses",
-    },
-    {
-      propertyName: "incomeTaxExpense",
-      label: "Income Tax Expense",
-    },
-    {
-      propertyName: "weightedAverageShsOut",
-      label: "Shares Outstanding (Basic)",
-    },
-    {
-      propertyName: "weightedAverageShsOutDil",
-      label: "Shares Outstanding (Diluted)",
     },
     {
       propertyName: "eps",
@@ -91,13 +32,77 @@
       propertyName: "ebitda",
       label: "EBITDA",
     },
+    // Profitability Waterfall
+    {
+      propertyName: "grossProfit",
+      label: "Gross Profit",
+    },
+    {
+      propertyName: "operatingIncome",
+      label: "Operating Income",
+    },
     {
       propertyName: "ebit",
       label: "EBIT",
     },
     {
+      propertyName: "incomeBeforeTax",
+      label: "Pretax Income",
+    },
+    // Costs & Expenses
+    {
+      propertyName: "costOfRevenue",
+      label: "Cost of Revenue",
+    },
+    {
+      propertyName: "operatingExpenses",
+      label: "Operating Expenses",
+    },
+    {
+      propertyName: "researchAndDevelopmentExpenses",
+      label: "Research & Development",
+    },
+    {
+      propertyName: "sellingGeneralAndAdministrativeExpenses",
+      label: "Selling & General & Admin",
+    },
+    {
+      propertyName: "sellingAndMarketingExpenses",
+      label: "Selling & Marketing Expenses",
+    },
+    {
+      propertyName: "costAndExpenses",
+      label: "Cost & Expenses",
+    },
+    {
+      propertyName: "otherExpenses",
+      label: "Other Expenses",
+    },
+    // Interest & Taxes
+    {
+      propertyName: "interestIncome",
+      label: "Interest Income",
+    },
+    {
+      propertyName: "interestExpense",
+      label: "Interest Expense",
+    },
+    {
+      propertyName: "incomeTaxExpense",
+      label: "Income Tax Expense",
+    },
+    // Other Metrics
+    {
       propertyName: "depreciationAndAmortization",
       label: "Depreciation & Amortization",
+    },
+    {
+      propertyName: "weightedAverageShsOut",
+      label: "Shares Outstanding (Basic)",
+    },
+    {
+      propertyName: "weightedAverageShsOutDil",
+      label: "Shares Outstanding (Diluted)",
     },
   ];
 </script>
