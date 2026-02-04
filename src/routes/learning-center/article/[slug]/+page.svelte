@@ -403,7 +403,7 @@
     <div class="lg:grid lg:grid-cols-12 lg:gap-12">
       
       <!-- Left Sidebar (Desktop Only) -->
-      <aside class="hidden lg:block lg:col-span-3 xl:col-span-2">
+      <aside class="hidden lg:block lg:col-span-3">
         <div class="sticky top-28">
           <nav class="space-y-6">
             <!-- Table of Contents -->
@@ -492,7 +492,7 @@
       </aside>
 
       <!-- Main Article Content -->
-      <article class="lg:col-span-9 xl:col-span-8">
+      <article class="lg:col-span-9 xl:col-span-7">
         <!-- Cover Image -->
         {#if article?.cover}
           <div class="mb-8 rounded-2xl overflow-hidden shadow-md">
