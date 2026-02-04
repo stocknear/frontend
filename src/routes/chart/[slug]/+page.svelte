@@ -2380,6 +2380,9 @@
     activeTool = "cursor";
     // Clear info line popup
     infoLineData = null;
+    // Clear drawing toolbar popup (color, size, etc.)
+    selectedOverlay = null;
+    showDrawingToolbar = false;
   }
 
   // Toolbar event handlers
@@ -6805,8 +6808,10 @@
       : "rgba(248, 250, 252, 0.96)";
     const tooltipBorder = isDark ? "rgba(32, 41, 56, 0.9)" : "#e2e8f0";
     const activePaneBg = isDark ? "#0f1117" : "#f8fafc";
+    const chartBg = isDark ? "#0f0f0f" : "#ffffff";
 
     chart.setStyles({
+      background: chartBg,
       grid: {
         show: true,
         horizontal: {
@@ -9003,12 +9008,12 @@
 />
 
 <main
-  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0b0b0d] text-gray-700 dark:text-zinc-200 overflow-hidden"
+  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0f0f0f] text-gray-700 dark:text-zinc-200 overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
     <div
-      class="tv-topbar flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d]"
+      class="tv-topbar flex flex-col border-b border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0f0f0f]"
     >
       <!-- First Row: Ticker Info + OHLC -->
       <div
@@ -11677,7 +11682,7 @@
                 : rightSidebarCollapsedSize}
             >
               <div
-                class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0b0b0d]"
+                class="flex h-full min-h-0 w-full justify-end bg-white dark:bg-[#0f0f0f]"
               >
                 {#if rightSidebarOpen}
                   <ChartRightSidebar
@@ -11688,7 +11693,7 @@
                   />
                 {/if}
                 <div
-                  class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2"
+                  class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0f0f0f] py-2"
                 >
                   <button
                     class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
@@ -13700,7 +13705,7 @@
   :global(.dark .chart-tv .tv-topbar),
   :global(.dark .chart-tv .tv-topbar-row),
   :global(.dark .chart-tv .tv-toolbar-row) {
-    background-color: #0b0b0d;
+    background-color: #0f0f0f;
   }
 
   :global(.dark .chart-tv .tv-topbar-row),
@@ -13722,11 +13727,11 @@
 
   :global(.dark .chart-tv .tv-left-rail),
   :global(.dark .chart-tv .tv-right-rail) {
-    background-color: #0b0b0d;
+    background-color: #0f0f0f;
     border-color: rgba(39, 39, 42, 0.9);
   }
 
   :global(.dark .chart-tv .tv-right-panel) {
-    background-color: #0b0b0d;
+    background-color: #0f0f0f;
   }
 </style>
