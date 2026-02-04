@@ -1896,7 +1896,9 @@
                   ? "p-0"
                   : $page.url.pathname.startsWith("/chat")
                     ? "overflow-y-auto sm:p-4"
-                    : "overflow-y-auto pb-16 sm:pb-0 sm:p-4"
+                    : $page.url.pathname.startsWith("/learning-center/article/")
+                      ? "pb-16 sm:pb-0 sm:p-4"
+                      : "overflow-y-auto pb-16 sm:pb-0 sm:p-4"
               }`}
             >
               <slot />
