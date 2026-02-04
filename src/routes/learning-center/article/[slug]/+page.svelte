@@ -11,7 +11,7 @@
   import Clock from "lucide-svelte/icons/clock";
   import { toast } from "svelte-sonner";
   import { browser } from "$app/environment";
-  import { onMount, onDestroy, tick } from "svelte";
+  import { onMount, onDestroy } from "svelte";
 
   export let data;
 
@@ -149,42 +149,43 @@
     }
   }
 
-  $: renderedDescription = renderContent(article?.description);
   $: readingTime = article?.time || 5;
 
-  // Extract H2 headers and add IDs directly to the DOM
-  function setupTableOfContents() {
-    if (!browser) return;
+  // Extract TOC and add IDs to H2 headers in one pass (works with HTML string)
+  function processContentWithTOC(html) {
+    if (!html) return { html: "", toc: [] };
     
-    const articleContent = document.querySelector(".article-content");
-    if (!articleContent) return;
-    
-    const headers = articleContent.querySelectorAll("h2");
     const toc = [];
     let index = 0;
     
-    headers.forEach((header) => {
-      const text = header.textContent?.trim() || "";
+    // Use regex to find and replace H2 tags, adding IDs
+    const processedHtml = html.replace(/<h2([^>]*)>([^<]*)<\/h2>/gi, (match, attrs, text) => {
+      const trimmedText = text.trim();
       // Skip FAQ section header
-      if (text.toLowerCase() === "frequently asked questions") return;
-      
+      if (trimmedText.toLowerCase() === "frequently asked questions") {
+        return match;
+      }
       const id = `section-${index}`;
-      header.id = id;
-      toc.push({ id, text });
+      toc.push({ id, text: trimmedText });
       index++;
+      return `<h2${attrs} id="${id}">${text}</h2>`;
     });
     
-    tableOfContents = toc;
-    if (toc.length > 0 && !activeSection) {
-      activeSection = toc[0].id;
-    }
+    return { html: processedHtml, toc };
+  }
+
+  $: renderedDescription = renderContent(article?.description);
+  $: ({ html: processedDescription, toc: tableOfContents } = processContentWithTOC(renderedDescription));
+  $: if (tableOfContents.length > 0 && !activeSection) {
+    activeSection = tableOfContents[0].id;
   }
 
   // Scroll to section
   function scrollToSection(id) {
+    if (!browser) return;
     const element = document.getElementById(id);
     if (element) {
-      const offset = 100; // Account for sticky header
+      const offset = 120;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offset;
       
@@ -195,27 +196,28 @@
     }
   }
 
-  // Track active section on scroll
+  // Track active section on scroll (throttled)
+  let scrollTimeout;
   function handleScroll() {
     if (!browser || tableOfContents.length === 0) return;
     
-    const sections = tableOfContents.map(item => document.getElementById(item.id)).filter(Boolean);
-    const scrollPosition = window.scrollY + 120;
-    
-    for (let i = sections.length - 1; i >= 0; i--) {
-      const section = sections[i];
-      if (section && section.offsetTop <= scrollPosition) {
-        activeSection = tableOfContents[i].id;
-        return;
+    if (scrollTimeout) return;
+    scrollTimeout = setTimeout(() => {
+      scrollTimeout = null;
+      
+      const scrollPosition = window.scrollY + 140;
+      
+      for (let i = tableOfContents.length - 1; i >= 0; i--) {
+        const section = document.getElementById(tableOfContents[i].id);
+        if (section && section.offsetTop <= scrollPosition) {
+          activeSection = tableOfContents[i].id;
+          return;
+        }
       }
-    }
-    
-    if (tableOfContents.length > 0) {
-      activeSection = tableOfContents[0].id;
-    }
+      
+      activeSection = tableOfContents[0]?.id || "";
+    }, 50);
   }
-
-  $: processedDescription = renderedDescription;
 
   // Get the full article URL
   function getArticleUrl() {
@@ -320,20 +322,11 @@
     }
   }
 
-  let tocInitialized = false;
-
-  onMount(async () => {
+  onMount(() => {
     if (browser) {
       document.addEventListener("keydown", handleKeydown);
-      window.addEventListener("scroll", handleScroll);
-      
-      // Wait for content to render, then setup TOC
-      await tick();
-      setTimeout(() => {
-        setupTableOfContents();
-        tocInitialized = true;
-        handleScroll();
-      }, 100);
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      handleScroll();
     }
   });
 
