@@ -520,6 +520,7 @@
                         showUpgradeColumn={hasLockedData}
                         upgradeHref="/pricing"
                         upgradeLabel={stock_detail_upgrade()}
+                        onExpandChart={handleExpandChart}
                       />
                     </tbody>
                   </table>
