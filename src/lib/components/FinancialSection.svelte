@@ -277,6 +277,9 @@
   }
 
   $: {
+    // Include switchDate in reactive dependencies so toggling order updates both table and chart views
+    const _switchDateDep = switchDate;
+    
     if ($selectedTimePeriod) {
       if ($selectedTimePeriod === "annual") {
         fullStatement = data?.getData?.annual ?? [];
@@ -315,7 +318,7 @@
         hasLockedData = lockedStatements.length > 0;
       }
 
-      financialData = applyDisplayOrder(visible, switchDate);
+      financialData = applyDisplayOrder(visible, _switchDateDep);
       preprocessFinancialData();
     } else {
       financialData = [];
@@ -375,42 +378,40 @@
                   <!-- Chart Mode / Table Mode Toggle -->
                   <Button
                     on:click={toggleMode}
-                    class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {#if $coolMode}
                       <Table class="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                      <span class="ml-1.5 text-sm hidden sm:inline">Table Mode</span>
+                      <span class="ml-1.5 text-sm">Table Mode</span>
                     {:else}
                       <LayoutGrid class="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                      <span class="ml-1.5 text-sm hidden sm:inline">Chart Mode</span>
+                      <span class="ml-1.5 text-sm">Chart Mode</span>
                     {/if}
                   </Button>
 
-                  <!-- Sort Order Toggle (only show in table mode) -->
-                  {#if !$coolMode}
-                    <Button
-                      on:click={() => (switchDate = !switchDate)}
-                      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      <svg
-                        class="shrink-0 w-5 h-5 pointer-events-none m-auto"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        style="max-width:40px"
-                        ><path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                        ></path></svg>
-                    </Button>
-                  {/if}
+                  <!-- Sort Order Toggle (visible in both modes) -->
+                  <Button
+                    on:click={() => (switchDate = !switchDate)}
+                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    <svg
+                      class="shrink-0 w-5 h-5 pointer-events-none m-auto"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      style="max-width:40px"
+                      ><path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                      ></path></svg>
+                  </Button>
 
                   <!-- Download Button -->
                   <Button
                     on:click={() => exportFundamentalData("csv")}
-                    class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate">{stock_detail_financials_download()}</span>
                     <svg
