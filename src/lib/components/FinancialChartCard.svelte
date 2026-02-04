@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
-  import highcharts from "$lib/highcharts.ts";
+  import { onMount, onDestroy, tick } from "svelte";
   import { abbreviateNumber } from "$lib/utils";
   import { mode } from "mode-watcher";
   import { getMetricColorTheme, CHART_COLOR_THEMES } from "$lib/financials/metricOverlays";
@@ -13,11 +12,18 @@
   export let isMargin: boolean = false;
   export let onExpand: (metricKey: string, metricLabel: string) => void = () => {};
 
-  let config: any = null;
-  let isVisible = false;
-  let hasBeenVisible = false; // Once visible, stay rendered
+  let canvasElement: HTMLCanvasElement;
   let cardElement: HTMLDivElement;
   let observer: IntersectionObserver | null = null;
+  let hasBeenVisible = false;
+  let tooltipVisible = false;
+  let tooltipX = 0;
+  let tooltipY = 0;
+  let tooltipData: { label: string; value: string } | null = null;
+
+  // Chart dimensions
+  const CHART_HEIGHT = 160;
+  const CHART_PADDING = { top: 10, right: 10, bottom: 35, left: 10 };
 
   // Get color based on metric type
   function getChartColor(): string {
@@ -26,94 +32,138 @@
     return $mode === 'light' ? theme.primary : theme.secondary;
   }
 
-  function getChartOptions() {
-    const chartColor = getChartColor();
+  function drawChart() {
+    if (!canvasElement || !valueList?.length) return;
+
+    const ctx = canvasElement.getContext('2d');
+    if (!ctx) return;
+
+    // Get device pixel ratio for sharp rendering
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvasElement.getBoundingClientRect();
     
-    // Calculate step to show ~5-6 labels max to avoid overcrowding
+    // Set canvas size accounting for device pixel ratio
+    canvasElement.width = rect.width * dpr;
+    canvasElement.height = CHART_HEIGHT * dpr;
+    ctx.scale(dpr, dpr);
+
+    const width = rect.width;
+    const height = CHART_HEIGHT;
+    const chartWidth = width - CHART_PADDING.left - CHART_PADDING.right;
+    const chartHeight = height - CHART_PADDING.top - CHART_PADDING.bottom;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // Calculate bar dimensions
+    const barCount = valueList.length;
+    const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
+    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+
+    // Find min/max for scaling (handle negative values)
+    const minValue = Math.min(0, ...valueList);
+    const maxValue = Math.max(0, ...valueList);
+    const valueRange = maxValue - minValue || 1;
+
+    // Calculate zero line position
+    const zeroY = CHART_PADDING.top + chartHeight * (maxValue / valueRange);
+
+    // Get chart color
+    const barColor = getChartColor();
+
+    // Draw bars
+    valueList.forEach((value, index) => {
+      const x = CHART_PADDING.left + index * (barWidth + barGap);
+      const barHeight = Math.abs(value / valueRange) * chartHeight;
+      
+      let y: number;
+      if (value >= 0) {
+        y = zeroY - barHeight;
+      } else {
+        y = zeroY;
+      }
+
+      // Draw bar with rounded top corners
+      ctx.fillStyle = barColor;
+      ctx.beginPath();
+      const radius = Math.min(2, barWidth / 4);
+      
+      if (value >= 0) {
+        // Rounded top for positive bars
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + barWidth - radius, y);
+        ctx.quadraticCurveTo(x + barWidth, y, x + barWidth, y + radius);
+        ctx.lineTo(x + barWidth, y + barHeight);
+        ctx.lineTo(x, y + barHeight);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+      } else {
+        // Rounded bottom for negative bars
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + barWidth, y);
+        ctx.lineTo(x + barWidth, y + barHeight - radius);
+        ctx.quadraticCurveTo(x + barWidth, y + barHeight, x + barWidth - radius, y + barHeight);
+        ctx.lineTo(x + radius, y + barHeight);
+        ctx.quadraticCurveTo(x, y + barHeight, x, y + barHeight - radius);
+        ctx.lineTo(x, y);
+      }
+      ctx.fill();
+    });
+
+    // Draw x-axis labels (show ~5-6 labels)
     const labelStep = Math.max(1, Math.ceil(xList.length / 6));
-    
-    return {
-      chart: {
-        type: "column",
-        backgroundColor: "transparent",
-        height: 200,
-        animation: false,
-        spacing: [10, 5, 25, 5], // Extra bottom spacing for labels
-        style: {
-          overflow: 'visible'
-        }
-      },
-      credits: { enabled: false },
-      legend: { enabled: false },
-      title: { text: null },
-      plotOptions: {
-        column: {
-          borderRadius: 2,
-          pointPadding: 0.1,
-          groupPadding: 0.1,
-        },
-        series: {
-          animation: false,
-          states: {
-            hover: {
-              brightness: 0.1
-            }
-          }
-        },
-      },
-      xAxis: {
-        categories: xList,
-        labels: {
-          enabled: true,
-          step: labelStep,
-          rotation: -45,
-          style: {
-            color: $mode === 'light' ? '#6b7280' : '#a1a1aa',
-            fontSize: '9px',
-          },
-        },
-        lineWidth: 0,
-        tickWidth: 0,
-      },
-      yAxis: {
-        gridLineWidth: 0,
-        labels: {
-          enabled: false
-        },
-        title: { text: null },
-      },
-      tooltip: {
-        shared: true,
-        useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
-        borderColor: "rgba(255, 255, 255, 0.2)",
-        borderWidth: 1,
-        style: {
-          color: "#fff",
-          fontSize: "12px",
-        },
-        borderRadius: 6,
-        formatter: function () {
-          const point = this.points?.[0];
-          if (!point) return '';
-          const formattedValue = abbreviateNumber(point.y);
-          const suffix = isMargin ? '%' : '';
-          return `<div class="px-1 py-0.5">
-            <span class="font-medium">${point.key}</span><br/>
-            <span>${formattedValue}${suffix}</span>
-          </div>`;
-        },
-      },
-      series: [
-        {
-          name: metricLabel,
-          data: valueList,
-          color: chartColor,
-          borderColor: chartColor,
-          borderRadius: 2,
-        },
-      ],
-    };
+    ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
+    ctx.font = '9px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+
+    xList.forEach((label, index) => {
+      if (index % labelStep === 0 || index === xList.length - 1) {
+        const x = CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2;
+        const y = height - 8;
+        
+        // Rotate text
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(-Math.PI / 6); // -30 degrees
+        ctx.fillText(label, 0, 0);
+        ctx.restore();
+      }
+    });
+  }
+
+  function handleMouseMove(event: MouseEvent) {
+    if (!canvasElement || !valueList?.length) return;
+
+    const rect = canvasElement.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const chartWidth = rect.width - CHART_PADDING.left - CHART_PADDING.right;
+    const barCount = valueList.length;
+    const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
+    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+
+    // Find which bar is hovered
+    const relativeX = x - CHART_PADDING.left;
+    const barIndex = Math.floor(relativeX / (barWidth + barGap));
+
+    if (barIndex >= 0 && barIndex < valueList.length) {
+      const value = valueList[barIndex];
+      const label = xList[barIndex] || '';
+      const formattedValue = abbreviateNumber(value);
+      const suffix = isMargin ? '%' : '';
+
+      tooltipData = { label, value: `${formattedValue}${suffix}` };
+      tooltipX = event.clientX - rect.left;
+      tooltipY = event.clientY - rect.top - 40;
+      tooltipVisible = true;
+    } else {
+      tooltipVisible = false;
+    }
+  }
+
+  function handleMouseLeave() {
+    tooltipVisible = false;
   }
 
   function handleExpand() {
@@ -128,20 +178,18 @@
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasBeenVisible) {
-            isVisible = true;
             hasBeenVisible = true;
-            // Build chart config only when visible
-            if (xList?.length > 0 && valueList?.length > 0) {
-              config = getChartOptions();
-            }
-            // Disconnect after first visibility - no need to observe anymore
+            // Draw chart after becoming visible
+            tick().then(() => {
+              drawChart();
+            });
             observer?.disconnect();
           }
         });
       },
       {
         root: null,
-        rootMargin: '100px', // Start loading 100px before entering viewport
+        rootMargin: '50px',
         threshold: 0
       }
     );
@@ -153,14 +201,14 @@
     observer?.disconnect();
   });
 
-  // Update config when mode changes (only if already visible)
-  $: if ($mode && hasBeenVisible && xList?.length > 0 && valueList?.length > 0) {
-    config = getChartOptions();
+  // Redraw when mode changes
+  $: if ($mode && hasBeenVisible && canvasElement) {
+    drawChart();
   }
 
-  // Update config when data changes (only if already visible)
-  $: if (hasBeenVisible && (xList?.length > 0 || valueList?.length > 0)) {
-    config = getChartOptions();
+  // Redraw when data changes
+  $: if (hasBeenVisible && canvasElement && valueList?.length > 0) {
+    drawChart();
   }
 </script>
 
@@ -208,22 +256,35 @@
     </button>
   </div>
 
-  <!-- Chart - Lazy loaded -->
-  <div class="px-2 pb-2">
+  <!-- Chart - Canvas based (lightweight) -->
+  <div class="px-2 pb-2 relative">
     {#if !hasBeenVisible}
       <!-- Placeholder skeleton while not yet visible -->
-      <div class="h-[200px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg">
+      <div class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg">
         <div class="flex flex-col items-center gap-2">
           <div class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
           <div class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
         </div>
       </div>
-    {:else if !config}
-      <div class="h-[200px] flex items-center justify-center">
-        <span class="loading loading-spinner loading-sm text-gray-400"></span>
-      </div>
     {:else}
-      <div class="h-[200px]" use:highcharts={config}></div>
+      <canvas
+        bind:this={canvasElement}
+        class="w-full"
+        style="height: {CHART_HEIGHT}px;"
+        on:mousemove={handleMouseMove}
+        on:mouseleave={handleMouseLeave}
+      ></canvas>
+      
+      <!-- Tooltip -->
+      {#if tooltipVisible && tooltipData}
+        <div 
+          class="absolute pointer-events-none z-10 px-2 py-1 rounded-lg bg-black/90 text-white text-xs whitespace-nowrap"
+          style="left: {tooltipX}px; top: {tooltipY}px; transform: translateX(-50%);"
+        >
+          <div class="font-medium">{tooltipData.label}</div>
+          <div>{tooltipData.value}</div>
+        </div>
+      {/if}
     {/if}
   </div>
 </div>
