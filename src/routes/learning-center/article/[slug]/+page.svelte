@@ -16,6 +16,16 @@
 
   export let data;
 
+  // Table of Contents
+  let tableOfContents = [];
+  let activeSection = "";
+
+  // Sidebar sticky behavior
+  let leftSidebarEl;
+  let rightSidebarEl;
+  let relatedSectionEl;
+  let sidebarStyle = "top: 5rem;"; // Default sticky position
+
   // Share dropdown state
   let showShareDropdown = false;
   let linkCopied = false;
@@ -156,6 +166,112 @@
   $: renderedDescription = renderContent(article?.description);
   $: readingTime = article?.time || 5;
 
+  // Extract H2 headers for Table of Contents
+  function extractTableOfContents(html) {
+    if (!html || !browser) return [];
+    
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const headers = doc.querySelectorAll("h2");
+    const toc = [];
+    
+    headers.forEach((header, index) => {
+      const text = header.textContent?.trim() || "";
+      // Skip FAQ section header
+      if (text.toLowerCase() === "frequently asked questions") return;
+      
+      const id = `section-${index}`;
+      toc.push({ id, text });
+    });
+    
+    return toc;
+  }
+
+  // Add IDs to H2 headers in rendered content
+  function addHeaderIds(html) {
+    if (!html || !browser) return html;
+    
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const headers = doc.querySelectorAll("h2");
+    let index = 0;
+    
+    headers.forEach((header) => {
+      const text = header.textContent?.trim() || "";
+      if (text.toLowerCase() !== "frequently asked questions") {
+        header.id = `section-${index}`;
+        index++;
+      }
+    });
+    
+    return doc.body.innerHTML;
+  }
+
+  // Scroll to section
+  function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80; // Account for sticky header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  }
+
+  // Track active section on scroll and manage sidebar sticky behavior
+  function handleScroll() {
+    if (!browser) return;
+    
+    // Track active section for TOC
+    if (tableOfContents.length > 0) {
+      const sections = tableOfContents.map(item => document.getElementById(item.id)).filter(Boolean);
+      const scrollPosition = window.scrollY + 100;
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          activeSection = tableOfContents[i].id;
+          break;
+        }
+      }
+      
+      if (scrollPosition < (sections[0]?.offsetTop || 0)) {
+        activeSection = tableOfContents[0]?.id || "";
+      }
+    }
+    
+    // Manage sidebar sticky behavior - stop before related articles
+    if (relatedSectionEl && (leftSidebarEl || rightSidebarEl)) {
+      const relatedRect = relatedSectionEl.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const sidebarHeight = Math.max(
+        leftSidebarEl?.offsetHeight || 0,
+        rightSidebarEl?.offsetHeight || 0
+      );
+      
+      // Calculate when sidebar bottom would hit related section top
+      const buffer = 40; // Extra buffer space
+      const stopPoint = relatedRect.top - sidebarHeight - buffer;
+      
+      if (stopPoint < 80) {
+        // Related section is close, switch to absolute positioning
+        const offset = 80 - stopPoint;
+        sidebarStyle = `top: ${Math.max(80 - offset, -sidebarHeight)}px;`;
+      } else {
+        // Normal sticky behavior
+        sidebarStyle = "top: 5rem;";
+      }
+    }
+  }
+
+  $: if (renderedDescription && browser) {
+    tableOfContents = extractTableOfContents(renderedDescription);
+  }
+
+  $: processedDescription = browser ? addHeaderIds(renderedDescription) : renderedDescription;
+
   // Get the full article URL
   function getArticleUrl() {
     if (browser) {
@@ -270,6 +386,9 @@
     if (browser) {
       document.addEventListener("click", handleClickOutside);
       document.addEventListener("keydown", handleKeydown);
+      window.addEventListener("scroll", handleScroll);
+      // Initial check for active section
+      setTimeout(handleScroll, 100);
     }
   });
 
@@ -277,6 +396,7 @@
     if (browser) {
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("scroll", handleScroll);
       // Ensure scroll is restored if component unmounts while lightbox open
       document.body.style.overflow = "";
     }
@@ -459,8 +579,100 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  <article class="max-w-3xl mx-auto px-6 py-12">
+  <!-- Main Content with Sidebar -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex gap-8">
+      <!-- Left Sidebar - Table of Contents (Desktop Only) -->
+      {#if tableOfContents.length > 0}
+        <aside class="hidden xl:block w-64 flex-shrink-0">
+          <div bind:this={leftSidebarEl} class="sticky transition-all duration-150" style={sidebarStyle}>
+            <nav class="space-y-6">
+              <!-- Table of Contents -->
+              <div>
+                <h4 class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4">
+                  Table of Contents
+                </h4>
+                <ul class="space-y-2">
+                  {#each tableOfContents as item}
+                    <li>
+                      <button
+                        type="button"
+                        on:click={() => scrollToSection(item.id)}
+                        class="cursor-pointer block w-full text-left text-sm leading-relaxed transition-colors duration-150 {activeSection === item.id 
+                          ? 'text-violet-600 dark:text-violet-400 font-medium' 
+                          : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                      >
+                        {item.text}
+                      </button>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
+
+              <!-- Share This Post -->
+              <div class="pt-6 border-t border-gray-200 dark:border-zinc-800">
+                <h4 class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4">
+                  Share This Post
+                </h4>
+                <div class="flex items-center gap-2">
+                  <!-- Twitter/X -->
+                  <button
+                    type="button"
+                    on:click={shareOnTwitter}
+                    class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+                    title="Share on Twitter"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                  </button>
+
+                  <!-- Facebook -->
+                  <button
+                    type="button"
+                    on:click={shareOnFacebook}
+                    class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-500 dark:text-zinc-400 hover:text-[#1877F2] transition"
+                    title="Share on Facebook"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </button>
+
+                  <!-- LinkedIn -->
+                  <button
+                    type="button"
+                    on:click={shareOnLinkedIn}
+                    class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-500 dark:text-zinc-400 hover:text-[#0A66C2] transition"
+                    title="Share on LinkedIn"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                  </button>
+
+                  <!-- Copy Link -->
+                  <button
+                    type="button"
+                    on:click={copyLink}
+                    class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    title="Copy link"
+                  >
+                    {#if linkCopied}
+                      <Check class="w-4 h-4 text-green-500" />
+                    {:else}
+                      <Link2 class="w-4 h-4" />
+                    {/if}
+                  </button>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </aside>
+      {/if}
+
+      <!-- Main Article Content -->
+      <article class="flex-1 max-w-3xl mx-auto">
     <!-- Cover Image -->
     {#if article?.cover}
       <div class="mb-10 -mx-6 sm:mx-0">
@@ -520,7 +732,7 @@
     <!-- Content -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="article-content" on:click={handleArticleClick}>
-      {@html renderedDescription?.replace(
+      {@html processedDescription?.replace(
         "__VIDEO_SRC__",
         getImageURL(article?.collectionId, article?.id, article?.video),
       )}
@@ -627,12 +839,94 @@
         </a>
       {/if}
     </div>
-  </article>
+      </article>
+
+      <!-- Right Sidebar - Quick Start (Desktop Only) -->
+      <aside class="hidden xl:block w-56 flex-shrink-0">
+        <div bind:this={rightSidebarEl} class="sticky transition-all duration-150" style={sidebarStyle}>
+          <nav>
+            <h4 class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4">
+              Quick Start
+            </h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="/market-mover/gainers"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Top Gainers
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/market-mover/losers"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Top Losers
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/analysts"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Analysts
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/stock-screener"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Stock Screener
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/options-flow"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Options Flow
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/earnings-calendar"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Earnings Calendar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/dividends-calendar"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  Dividends Calendar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/ipos"
+                  class="block text-sm text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                >
+                  IPO Calendar
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Sidebar boundary marker (invisible) -->
+  <div bind:this={relatedSectionEl} class="h-0"></div>
 
   <!-- Related Articles Section -->
   {#if relatedArticles && relatedArticles.length > 0}
-    <div class="max-w-4xl mx-auto px-6 pb-16">
-      <div class="border-t border-gray-200 dark:border-zinc-800 pt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div class="xl:mx-72 border-t border-gray-200 dark:border-zinc-800 pt-12">
         <h2
           class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8"
         >
