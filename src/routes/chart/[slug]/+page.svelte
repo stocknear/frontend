@@ -6676,17 +6676,17 @@
         show: true,
         horizontal: {
           show: true,
-          style: "solid",
+          style: "dashed",
           size: 1,
           color: gridColor,
-          dashedValue: [2, 2],
+          dashedValue: [3, 3],
         },
         vertical: {
-          show: true,
-          style: "solid",
+          show: false,
+          style: "dashed",
           size: 1,
           color: gridColor,
-          dashedValue: [2, 2],
+          dashedValue: [3, 3],
         },
       },
       candle: {
@@ -7864,6 +7864,46 @@
             displayTo: max,
             displayRange: range,
           };
+        },
+        createTicks: ({ range, bounding, defaultTicks }) => {
+          // Create more dense ticks for y-axis (closer grid lines like TradingView)
+          const { from, to } = range;
+          const priceRange = to - from;
+          
+          // Calculate ideal tick step based on price range
+          // Aim for approximately 15-20 ticks for denser grid
+          const rawStep = priceRange / 18;
+          
+          // Round to nice numbers (0.05, 0.1, 0.2, 0.25, 0.5, 1, 2, 5, 10, etc.)
+          const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+          const normalized = rawStep / magnitude;
+          
+          let niceStep;
+          if (normalized <= 0.1) niceStep = 0.1 * magnitude;
+          else if (normalized <= 0.2) niceStep = 0.2 * magnitude;
+          else if (normalized <= 0.25) niceStep = 0.25 * magnitude;
+          else if (normalized <= 0.5) niceStep = 0.5 * magnitude;
+          else if (normalized <= 1) niceStep = 1 * magnitude;
+          else if (normalized <= 2) niceStep = 2 * magnitude;
+          else niceStep = 5 * magnitude;
+          
+          // Generate ticks
+          const ticks = [];
+          const startTick = Math.ceil(from / niceStep) * niceStep;
+          
+          for (let price = startTick; price <= to; price += niceStep) {
+            // Calculate y coordinate based on bounding and range
+            const percent = (price - from) / priceRange;
+            const y = bounding.height - (percent * bounding.height);
+            
+            ticks.push({
+              coord: y,
+              value: price,
+              text: price.toFixed(2),
+            });
+          }
+          
+          return ticks.length > 0 ? ticks : defaultTicks;
         },
       },
     });
