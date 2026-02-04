@@ -44,8 +44,8 @@ export const load = async ({ locals, params }) => {
       return new Date(b.article.created).getTime() - new Date(a.article.created).getTime();
     });
 
-    // Take top 3 related articles
-    const relatedArticles = scoredArticles.slice(0, 3).map((item) => item.article);
+    // Take top 4 related articles
+    const relatedArticles = scoredArticles.slice(0, 4).map((item) => item.article);
 
     return { article: matchingArticle, relatedArticles };
   };
