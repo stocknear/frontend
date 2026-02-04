@@ -246,8 +246,10 @@
         style: { color: "#fff", fontSize: "13px" },
         borderRadius: 8,
         formatter: function () {
+          // Use point.key to get category name (date), not this.x which returns index
+          const categoryName = this.points?.[0]?.key ?? this.x;
           let html = `<div class="px-1 py-1">
-            <div class="font-semibold mb-1">${this.x}</div>`;
+            <div class="font-semibold mb-1">${categoryName}</div>`;
           this.points?.forEach((point: any) => {
             const formatted = abbreviateNumber(point.y);
             const suffix = isMarginMetric ? "%" : "";
