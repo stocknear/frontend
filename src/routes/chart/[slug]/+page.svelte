@@ -8005,9 +8005,10 @@
           const { from, to } = range;
           const priceRange = to - from;
           
-          // Calculate ideal tick step based on price range
-          // Aim for approximately 15-20 ticks for denser grid
-          const rawStep = priceRange / 18;
+          // Adjust tick density based on screen size
+          // Mobile: ~8 ticks, Desktop: ~18 ticks for denser grid
+          const targetTicks = isMobile ? 8 : 18;
+          const rawStep = priceRange / targetTicks;
           
           // Round to nice numbers (0.05, 0.1, 0.2, 0.25, 0.5, 1, 2, 5, 10, etc.)
           const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
@@ -11212,27 +11213,27 @@
                   style={!isMobile ? `left: ${infoLineData.x}px; top: ${infoLineData.y}px;` : ''}
                 >
                   <div
-                    class="bg-[#2a2e39]/95 border border-[#3c4150]/60 rounded-2xl shadow-lg py-1.5 sm:py-2 px-2.5 sm:px-3 min-w-[180px] sm:min-w-[220px]"
+                    class="bg-gray-100 dark:bg-[#2a2e39]/95 border border-gray-300 dark:border-[#3c4150]/60 rounded-2xl shadow-lg py-1.5 sm:py-2 px-2.5 sm:px-3 min-w-[180px] sm:min-w-[220px]"
                   >
                     <!-- Row 1: Price change -->
                     <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
-                      <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↕</span>
+                      <span class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↕</span>
                       <span class={infoLineData.priceChange >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}>
                         {Math.abs(infoLineData.priceChange).toFixed(2)} ({Math.abs(infoLineData.priceChangePercent).toFixed(2)}%), {Math.abs(infoLineData.priceTicks)}
                       </span>
                     </div>
                     <!-- Row 2: Bars and time -->
                     <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
-                      <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↔</span>
-                      <span class="text-[#d1d4dc]">
+                      <span class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↔</span>
+                      <span class="text-gray-800 dark:text-[#d1d4dc]">
                         <span class="hidden sm:inline">{infoLineData.numBars} bars ({infoLineData.timeStr}), distance: {infoLineData.pixelDistance} px</span>
                         <span class="sm:hidden">{infoLineData.numBars} bars ({infoLineData.timeStr})</span>
                       </span>
                     </div>
                     <!-- Row 3: Angle -->
                     <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
-                      <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">∠</span>
-                      <span class="text-[#d1d4dc]">
+                      <span class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">∠</span>
+                      <span class="text-gray-800 dark:text-[#d1d4dc]">
                         {infoLineData.angleDeg.toFixed(2)}°
                       </span>
                     </div>
