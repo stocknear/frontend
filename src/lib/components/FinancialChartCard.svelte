@@ -191,7 +191,7 @@
     </div>
     <button
       type="button"
-      class="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-2xl hover:bg-gray-100 dark:hover:bg-zinc-800 shrink-0"
+      class="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-2xl hover:bg-gray-100 dark:hover:bg-zinc-800 shrink-0"
       on:click|stopPropagation={handleExpand}
       aria-label="Expand chart"
     >

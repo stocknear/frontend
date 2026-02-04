@@ -339,7 +339,7 @@
           </div>
           <button
             type="button"
-            class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            class="cursor-pointer p-2 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
             on:click={handleClose}
             aria-label="Close modal"
           >
@@ -354,7 +354,7 @@
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
               >
                 <span>{selectedRange}</span>
                 <svg
@@ -396,7 +396,7 @@
           <!-- Chart Mode Toggle -->
           <Button
             on:click={toggleChartMode}
-            class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-950 hover:bg-gray-50 dark:hover:bg-zinc-800"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />
@@ -414,7 +414,7 @@
             {#each overlayConfig.overlays as overlay}
               <button
                 type="button"
-                class="px-3 py-1 text-xs font-medium rounded-full border transition {selectedOverlay === overlay.key
+                class="cursor-pointer px-3 py-1 text-xs font-medium rounded-full border transition {selectedOverlay === overlay.key
                   ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
                   : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800'}"
                 on:click={() => handleOverlaySelect(overlay.key)}
