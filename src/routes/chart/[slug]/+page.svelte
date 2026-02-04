@@ -11217,7 +11217,7 @@
                     <!-- Row 1: Price change -->
                     <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] py-0.5 sm:py-1">
                       <span class="text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5">↕</span>
-                      <span class="text-[#d1d4dc]">
+                      <span class={infoLineData.priceChange >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}>
                         {Math.abs(infoLineData.priceChange).toFixed(2)} ({Math.abs(infoLineData.priceChangePercent).toFixed(2)}%), {Math.abs(infoLineData.priceTicks)}
                       </span>
                     </div>
