@@ -29,13 +29,16 @@
   function getChartOptions() {
     const chartColor = getChartColor();
     
+    // Calculate step to show ~5-6 labels max to avoid overcrowding
+    const labelStep = Math.max(1, Math.ceil(xList.length / 6));
+    
     return {
       chart: {
         type: "column",
         backgroundColor: "transparent",
-        height: 180,
+        height: 200,
         animation: false,
-        spacing: [10, 5, 10, 5],
+        spacing: [10, 5, 25, 5], // Extra bottom spacing for labels
         style: {
           overflow: 'visible'
         }
@@ -61,7 +64,13 @@
       xAxis: {
         categories: xList,
         labels: {
-          enabled: false
+          enabled: true,
+          step: labelStep,
+          rotation: -45,
+          style: {
+            color: $mode === 'light' ? '#6b7280' : '#a1a1aa',
+            fontSize: '9px',
+          },
         },
         lineWidth: 0,
         tickWidth: 0,
@@ -200,21 +209,21 @@
   </div>
 
   <!-- Chart - Lazy loaded -->
-  <div class="px-2 pb-3">
+  <div class="px-2 pb-2">
     {#if !hasBeenVisible}
       <!-- Placeholder skeleton while not yet visible -->
-      <div class="h-[180px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg">
+      <div class="h-[200px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg">
         <div class="flex flex-col items-center gap-2">
           <div class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
           <div class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
         </div>
       </div>
     {:else if !config}
-      <div class="h-[180px] flex items-center justify-center">
+      <div class="h-[200px] flex items-center justify-center">
         <span class="loading loading-spinner loading-sm text-gray-400"></span>
       </div>
     {:else}
-      <div class="h-[180px]" use:highcharts={config}></div>
+      <div class="h-[200px]" use:highcharts={config}></div>
     {/if}
   </div>
 </div>

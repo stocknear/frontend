@@ -374,64 +374,71 @@
                   {stock_detail_financials_in_currency({ currency: financialData?.at(0)?.reportedCurrency, range: data?.getProfileData?.fiscalYearRange })}
                 </span>
 
-                <div class="flex flex-row items-center justify-end w-full gap-1">
-                  <!-- Chart Mode / Table Mode Toggle -->
-                  <Button
-                    on:click={toggleMode}
-                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {#if $coolMode}
-                      <Table class="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                      <span class="ml-1.5 text-sm">Table Mode</span>
-                    {:else}
-                      <LayoutGrid class="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                      <span class="ml-1.5 text-sm">Chart Mode</span>
-                    {/if}
-                  </Button>
+                <div class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2">
+                  <!-- View Controls Group -->
+                  <div class="flex flex-row items-center gap-1 sm:gap-1.5">
+                    <!-- Chart Mode / Table Mode Toggle -->
+                    <Button
+                      on:click={toggleMode}
+                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {#if $coolMode}
+                        <Table class="w-4 h-4" />
+                        <span class="ml-1.5 text-sm">Table Mode</span>
+                      {:else}
+                        <LayoutGrid class="w-4 h-4" />
+                        <span class="ml-1.5 text-sm">Chart Mode</span>
+                      {/if}
+                    </Button>
 
-                  <!-- Sort Order Toggle (visible in both modes) -->
-                  <Button
-                    on:click={() => (switchDate = !switchDate)}
-                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    <svg
-                      class="shrink-0 w-5 h-5 pointer-events-none m-auto"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      style="max-width:40px"
-                      ><path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                      ></path></svg>
-                  </Button>
+                    <!-- Sort Order Toggle -->
+                    <Button
+                      on:click={() => (switchDate = !switchDate)}
+                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      title={switchDate ? "Newest first" : "Oldest first"}
+                    >
+                      <svg
+                        class="shrink-0 w-5 h-5 pointer-events-none"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        style="max-width:40px"
+                        ><path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                        ></path></svg>
+                    </Button>
+                  </div>
 
-                  <!-- Download Button -->
-                  <Button
-                    on:click={() => exportFundamentalData("csv")}
-                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    <span class="truncate">{stock_detail_financials_download()}</span>
-                    <svg
-                      class="{['Pro', 'Plus']?.includes(data?.user?.tier)
-                        ? 'hidden'
-                        : ''} ml-1 -mt-0.5 w-3.5 h-3.5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      /></svg>
-                  </Button>
+                  <!-- Actions Group -->
+                  <div class="flex flex-row items-center gap-1 sm:gap-1.5">
+                    <!-- Download Button -->
+                    <Button
+                      on:click={() => exportFundamentalData("csv")}
+                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <span class="text-sm">{stock_detail_financials_download()}</span>
+                      <svg
+                        class="{['Pro', 'Plus']?.includes(data?.user?.tier)
+                          ? 'hidden'
+                          : ''} ml-1 -mt-0.5 w-3.5 h-3.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        /></svg>
+                    </Button>
 
-                  <!-- AI Financial Summary Button (Inline) -->
-                  <FinancialAISummary
-                    {data}
-                    periodType={$selectedTimePeriod || "annual"}
-                    {statementType}
-                  />
+                    <!-- AI Financial Summary Button -->
+                    <FinancialAISummary
+                      {data}
+                      periodType={$selectedTimePeriod || "annual"}
+                      {statementType}
+                    />
+                  </div>
                 </div>
               </div>
 
