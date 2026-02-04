@@ -18,6 +18,7 @@
   // Table of Contents
   let tableOfContents = [];
   let activeSection = "";
+  let readingProgress = 0;
 
   // Share state
   let linkCopied = false;
@@ -201,10 +202,22 @@
     }
   }
 
-  // Track active section on scroll (throttled)
+  // Track active section and reading progress on scroll (throttled)
   let scrollTimeout;
   function handleScroll() {
-    if (!browser || tableOfContents.length === 0) return;
+    if (!browser) return;
+    
+    // Calculate reading progress based on entire page scroll
+    const scrollY = window.scrollY;
+    const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+    
+    if (documentHeight > 0) {
+      readingProgress = Math.min(100, Math.max(0, (scrollY / documentHeight) * 100));
+    } else {
+      readingProgress = 0;
+    }
+    
+    if (tableOfContents.length === 0) return;
     
     if (scrollTimeout) return;
     scrollTimeout = setTimeout(() => {
@@ -394,6 +407,14 @@
       article?.description?.replace(/<[^>]*>/g, "")?.split(" ")?.length || 0,
   }}
 />
+
+<!-- Reading Progress Bar -->
+<div class="fixed top-0 left-0 w-full h-1 z-50">
+  <div 
+    class="h-full bg-gradient-to-r from-violet-500 to-violet-600 transition-all duration-150 ease-out"
+    style="width: {readingProgress}%"
+  ></div>
+</div>
 
 <div class="min-h-screen bg-white dark:bg-[#09090B]">
   <!-- Main Layout Grid -->
