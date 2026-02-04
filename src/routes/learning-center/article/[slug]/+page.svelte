@@ -404,7 +404,7 @@
       
       <!-- Left Sidebar (Desktop Only) -->
       <aside class="hidden lg:block lg:col-span-3 xl:col-span-2">
-        <div class="sticky top-20">
+        <div class="sticky top-28">
           <nav class="space-y-6">
             <!-- Table of Contents -->
             {#if tableOfContents.length > 0}
@@ -647,7 +647,7 @@
 
       <!-- Right Sidebar (Desktop Only) -->
       <aside class="hidden xl:block xl:col-span-2">
-        <div class="sticky top-20">
+        <div class="sticky top-28">
           <nav>
             <h4 class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4">
               Quick Start
