@@ -109,9 +109,9 @@
     <meta name="twitter:image:alt" content={`${title} - ${siteName}`} />
   {/if}
 
-  <!-- Apple mobile web-app -->
+  <!-- Mobile web-app -->
   <meta name="apple-mobile-web-app-title" content={siteName} />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
   <!-- Structured Data -->

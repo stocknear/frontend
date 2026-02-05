@@ -7,6 +7,7 @@
   import { mode } from "mode-watcher";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import HeatmapChart from "$lib/components/Plot/HeatmapChart.svelte";
+  import { Download } from "lucide-svelte";
   import {
     common_home,
     heatmap_breadcrumb_label,
@@ -32,6 +33,11 @@
 
   export let data;
   let isLoading = false;
+  let heatmapChartRef: HeatmapChart;
+
+  function handleDownload() {
+    heatmapChartRef?.downloadChart();
+  }
 
   // Use SSR data immediately
   let heatmapData: any = data?.getHeatMap?.data ? data.getHeatMap : null;
@@ -179,7 +185,7 @@
             </h1>
           </div>
 
-          <div class="flex flex-row items-center w-fit">
+          <div class="flex flex-row items-center gap-2.5 w-fit">
             <div
               class="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-2 w-full"
             >
@@ -284,6 +290,15 @@
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             </div>
+
+            <button
+              on:click={handleDownload}
+              disabled={isLoading || !heatmapData?.data}
+              class="cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center justify-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+              title="Download heatmap as PNG"
+            >
+              <Download class="h-5 w-5" />
+            </button>
           </div>
 
           <div class="w-full mt-6">
@@ -302,7 +317,7 @@
                 </div>
               </div>
             {:else if heatmapData?.data}
-              <HeatmapChart data={heatmapData} />
+              <HeatmapChart bind:this={heatmapChartRef} data={heatmapData} />
             {:else}
               <div class="flex justify-center items-center h-80">
                 <p class="">{heatmap_no_data()}</p>
