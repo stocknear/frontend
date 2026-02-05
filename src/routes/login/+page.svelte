@@ -24,6 +24,7 @@
     login_toast_verify_email,
     login_toast_success,
     login_toast_invalid,
+    login_toast_auth_failed,
   } from "$lib/paraglide/messages.js";
 
   export let form;
@@ -60,9 +61,15 @@
           await update();
           break;
         case "failure":
-          toast.error(login_toast_invalid(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          if (result.data?.authFailed) {
+            toast.error(login_toast_auth_failed(), {
+              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+            });
+          } else {
+            toast.error(login_toast_invalid(), {
+              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+            });
+          }
           await update();
           break;
         case "error":

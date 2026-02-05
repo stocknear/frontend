@@ -17,5 +17,6 @@
   "login_logout_button": "Abmelden",
   "login_toast_verify_email": "Bitte bestätige zuerst deine E-Mail-Adresse",
   "login_toast_success": "Erfolgreich angemeldet!",
-  "login_toast_invalid": "Ungültige Anmeldedaten"
+  "login_toast_invalid": "Ungültige Anmeldedaten",
+  "login_toast_auth_failed": "Ungültige E-Mail oder Passwort. Bitte versuche es erneut."
 }

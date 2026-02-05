@@ -17,5 +17,6 @@
   "login_logout_button": "Log Out",
   "login_toast_verify_email": "Please verify your email first",
   "login_toast_success": "Login successfully!",
-  "login_toast_invalid": "Invalid credentials"
+  "login_toast_invalid": "Invalid credentials",
+  "login_toast_auth_failed": "Invalid email or password. Please try again."
 }

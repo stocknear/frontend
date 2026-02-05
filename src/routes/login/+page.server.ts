@@ -31,7 +31,14 @@ export const actions = {
 			*/
     } catch (err) {
       console.log("Error: ", err);
-      error(err.status, err.message);
+      // Return user-friendly error for authentication failures
+      if (err.message === "Failed to authenticate.") {
+        return fail(400, {
+          data: formData,
+          authFailed: true,
+        });
+      }
+      error(err.status || 400, err.message);
     }
 
     redirect(301, "/");
