@@ -359,7 +359,8 @@
   "stock_detail_stats_margins_text": "{company}'s gross profit margin was {grossMargin}%, while its operating and net profit margins were {operatingMargin}% and {netMargin}%, respectively.",
   "stock_detail_stats_dividend_text": "{company} pays an annual dividend of ${annualDividend}, which amounts to a dividend yield of {dividendYield}%.",
   "stock_detail_stats_analyst_text": "According to {numAnalysts} stock analysts, the average 12-month price target for {company} is ${priceTarget}. The average analyst rating is \"{rating}\".",
-  "stock_detail_stats_fair_value_text": "There are several formulas that can be used to estimate the fair value of a stock. Discounted cash flow analysis (DCF) returns a fair value estimate of ${dcf}.",
+  "stock_detail_stats_fair_value_text": "There are several formulas that can be used to estimate the fair value of a stock. The Graham Number estimates a fair value of {grahamNumber}, representing a potential upside of {grahamUpside}.",
+  "stock_detail_stats_fair_value_text_fallback": "There are several formulas that can be used to estimate the fair value of a stock, including the Graham Number and Lynch Fair Value methods.",
   "stock_detail_stats_stock_split_text": "The most recent stock split was a {splitType} {splitRatio} split that occurred on {splitDate}.",
 
   "stock_detail_stats_increased": "increased",

@@ -359,7 +359,8 @@
   "stock_detail_stats_margins_text": "Die Bruttogewinnmarge von {company} betrug {grossMargin}%, während die operative und die Nettogewinnmarge {operatingMargin}% bzw. {netMargin}% betrugen.",
   "stock_detail_stats_dividend_text": "{company} zahlt eine jährliche Dividende von ${annualDividend}, was einer Dividendenrendite von {dividendYield}% entspricht.",
   "stock_detail_stats_analyst_text": "Laut {numAnalysts} Aktienanalysten beträgt das durchschnittliche 12-Monats-Kursziel für {company} ${priceTarget}. Die durchschnittliche Analystenbewertung ist \"{rating}\".",
-  "stock_detail_stats_fair_value_text": "Es gibt mehrere Formeln, um den fairen Wert einer Aktie zu schätzen. Die Discounted Cash Flow Analyse (DCF) ergibt einen fairen Wert von ${dcf}.",
+  "stock_detail_stats_fair_value_text": "Es gibt mehrere Formeln, um den fairen Wert einer Aktie zu schätzen. Die Graham-Zahl ergibt einen fairen Wert von {grahamNumber}, was einem potenziellen Aufwärtspotenzial von {grahamUpside} entspricht.",
+  "stock_detail_stats_fair_value_text_fallback": "Es gibt mehrere Formeln, um den fairen Wert einer Aktie zu schätzen, darunter die Graham-Zahl und die Lynch Fair Value Methoden.",
   "stock_detail_stats_stock_split_text": "Der letzte Aktiensplit war ein {splitType} {splitRatio} Split, der am {splitDate} stattfand.",
 
   "stock_detail_stats_increased": "gestiegen",
