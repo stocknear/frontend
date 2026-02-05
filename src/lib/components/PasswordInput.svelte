@@ -4,6 +4,7 @@
     register_password_min_length,
     register_password_has_letter,
     register_password_has_number,
+    register_password_has_special,
     register_passwords_match,
   } from "$lib/paraglide/messages.js";
 
@@ -25,10 +26,11 @@
   $: hasMinLength = inputValue.length >= 8;
   $: hasLetter = /[A-Za-z]/.test(inputValue);
   $: hasNumber = /\d/.test(inputValue);
+  $: hasSpecial = /[@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_]/.test(inputValue);
   $: passwordsMatch = showMatchIndicator && inputValue.length > 0 && inputValue === confirmValue;
   
-  // Overall validity
-  $: isValid = hasMinLength && hasLetter && hasNumber;
+  // Overall validity - now includes special character requirement
+  $: isValid = hasMinLength && hasLetter && hasNumber && hasSpecial;
   $: showChecklist = showRequirements && (isFocused || inputValue.length > 0);
 
   function handleInput(event: Event) {
@@ -136,6 +138,21 @@
         </div>
         <span class="{hasNumber ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-500 dark:text-zinc-400'}">
           {register_password_has_number()}
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs">
+        <div class="w-4 h-4 flex items-center justify-center">
+          {#if hasSpecial}
+            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          {:else}
+            <div class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-zinc-600"></div>
+          {/if}
+        </div>
+        <span class="{hasSpecial ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-500 dark:text-zinc-400'}">
+          {register_password_has_special()}
         </span>
       </div>
 

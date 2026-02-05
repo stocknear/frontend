@@ -29,5 +29,7 @@
   "register_password_min_length": "Mindestens 8 Zeichen",
   "register_password_has_letter": "Enthält einen Buchstaben",
   "register_password_has_number": "Enthält eine Zahl",
-  "register_passwords_match": "Passwörter stimmen überein"
+  "register_password_has_special": "Enthält ein Sonderzeichen",
+  "register_passwords_match": "Passwörter stimmen überein",
+  "register_toast_rate_limited": "Zu viele Registrierungsversuche. Bitte versuche es in {minutes} Minuten erneut."
 }

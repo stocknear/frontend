@@ -1,11 +1,31 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import { registerUserSchema } from "$lib/schemas";
 import { validateData, checkDisposableEmail} from "$lib/utils";
+import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
-
+/**
+ * Sanitize form data to remove sensitive fields before returning to client
+ * SECURITY: Never return passwords in error responses
+ */
+function sanitizeFormData(formData: Record<string, unknown>) {
+  const { password, passwordConfirm, ...safeData } = formData;
+  return safeData;
+}
 
 export const actions = {
   register: async ({ locals, request, fetch }) => {
+    // SECURITY: Rate limiting based on client IP
+    const clientIp = locals.clientIp;
+    const rateLimitResult = checkRateLimit(clientIp, "register", RATE_LIMITS.register);
+    
+    if (!rateLimitResult.allowed) {
+      const minutesRemaining = Math.ceil(rateLimitResult.resetIn / 60000);
+      return fail(429, {
+        rateLimited: true,
+        retryAfter: minutesRemaining,
+      });
+    }
+
     const requestFormData = await request.formData();
     const turnstileToken =
       requestFormData.get("cf-turnstile-response")?.toString() ?? "";
@@ -15,16 +35,19 @@ export const actions = {
       registerUserSchema,
     );
 
+    // SECURITY: Sanitize form data - remove passwords before returning
+    const safeFormData = sanitizeFormData(formData);
+
     if (errors) {
       return fail(400, {
-        data: formData,
+        data: safeFormData,
         errors: errors.fieldErrors,
       });
     }
 
     if (!turnstileToken) {
       return fail(400, {
-        data: formData,
+        data: safeFormData,
         errors: {
           turnstile: ["Please confirm you are not a robot."],
         },
@@ -45,7 +68,7 @@ export const actions = {
 
       if (!response.ok || !turnstileVerification?.success) {
         return fail(400, {
-          data: formData,
+          data: safeFormData,
           errors: {
             turnstile: [
               turnstileVerification?.message ??
@@ -57,7 +80,7 @@ export const actions = {
     } catch (verificationError) {
       console.error("Turnstile verification error:", verificationError);
       return fail(400, {
-        data: formData,
+        data: safeFormData,
         errors: {
           turnstile: [
             "Unable to verify Turnstile response. Please refresh and try again.",
@@ -70,7 +93,7 @@ export const actions = {
 
     if (isEmailDisposable === "true") {
       return fail(400, {
-        data: formData,
+        data: safeFormData,
         disposableEmail: true,
       });
     }
@@ -87,19 +110,22 @@ export const actions = {
 
       await locals.pb.collection("users").requestVerification(formData.email);
     } catch (err) {
-      console.log("Error: ", err);
+      // SECURITY: Don't log full error object, only safe message
+      console.error("Registration error for email:", formData?.email?.substring(0, 3) + "***");
       
       // Check for specific PocketBase errors
       const errorMessage = err?.message || "";
       const errorData = err?.data || {};
       
-      // Email already exists
+      // SECURITY: Use generic error for email exists to prevent enumeration
+      // We combine "email exists" with other registration failures
       if (errorMessage.includes("already in use") || 
           errorMessage.includes("already exists") ||
           errorData?.email?.code === "validation_not_unique") {
+        // Return generic error instead of revealing email exists
         return fail(400, {
-          data: formData,
-          emailExists: true,
+          data: safeFormData,
+          registrationFailed: true,
         });
       }
       
@@ -107,7 +133,7 @@ export const actions = {
       if (errorData?.email?.code === "validation_is_email" ||
           errorMessage.includes("invalid email")) {
         return fail(400, {
-          data: formData,
+          data: safeFormData,
           invalidEmail: true,
         });
       }
@@ -115,14 +141,14 @@ export const actions = {
       // Password validation failed
       if (errorData?.password?.code || errorMessage.includes("password")) {
         return fail(400, {
-          data: formData,
+          data: safeFormData,
           weakPassword: true,
         });
       }
       
       // Generic registration error
       return fail(400, {
-        data: formData,
+        data: safeFormData,
         registrationFailed: true,
       });
     }
@@ -141,7 +167,6 @@ export const actions = {
 			}
 			*/
     } catch (err) {
-      console.log("Error: ", err);
       // User was created but auto-login failed - still redirect to profile
       // This shouldn't happen normally, but handle gracefully
     }

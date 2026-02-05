@@ -7,29 +7,30 @@ export const loginUserSchema = z.object({
   password: z.string({ required_error: "Password is required" }),
 });
 
+// Password requirements:
+// - Minimum 8 characters, maximum 128 characters (prevents DoS via long passwords)
+// - At least one letter (a-z, A-Z)
+// - At least one number (0-9)
+// - At least one special character
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_])[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_]{8,128}$/;
+const passwordErrorMessage = "Password must be 8-128 characters with at least one letter, one number, and one special character.";
+
 export const registerUserSchema = z
   .object({
     email: z
       .string({ required_error: "Email is required" })
-      .email({ message: "Email must be a valid email" }),
+      .email({ message: "Email must be a valid email" })
+      .max(254, { message: "Email is too long" }), // RFC 5321 max length
     password: z
       .string({ required_error: "Password is required" })
-      .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_*]{8,}$/,
-        {
-          message:
-            "Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.",
-        },
-      ),
+      .min(8, { message: "Password must be at least 8 characters" })
+      .max(128, { message: "Password must be at most 128 characters" })
+      .regex(passwordRegex, { message: passwordErrorMessage }),
     passwordConfirm: z
       .string({ required_error: "Confirm Password is required" })
-      .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_*]{8,}$/,
-        {
-          message:
-            "Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.",
-        },
-      ),
+      .min(8, { message: "Password must be at least 8 characters" })
+      .max(128, { message: "Password must be at most 128 characters" })
+      .regex(passwordRegex, { message: passwordErrorMessage }),
   })
   .superRefine(({ passwordConfirm, password }, ctx) => {
     if (passwordConfirm !== password) {

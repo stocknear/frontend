@@ -35,6 +35,7 @@
     register_toast_password_mismatch,
     register_toast_weak_password,
     register_toast_invalid_email,
+    register_toast_rate_limited,
   } from "$lib/paraglide/messages.js";
 
   export let form;
@@ -69,7 +70,10 @@
           break;
         case "failure":
           // Handle specific error types with appropriate messages
-          if (result.data?.emailExists) {
+          if (result.data?.rateLimited) {
+            const minutes = result.data?.retryAfter || 15;
+            toast.error(register_toast_rate_limited({ minutes: String(minutes) }), { style: toastStyle });
+          } else if (result.data?.emailExists) {
             toast.error(register_toast_email_exists(), { style: toastStyle });
           } else if (result.data?.disposableEmail) {
             toast.error(register_toast_disposable_email(), { style: toastStyle });

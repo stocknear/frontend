@@ -29,5 +29,7 @@
   "register_password_min_length": "At least 8 characters",
   "register_password_has_letter": "Contains a letter",
   "register_password_has_number": "Contains a number",
-  "register_passwords_match": "Passwords match"
+  "register_password_has_special": "Contains a special character",
+  "register_passwords_match": "Passwords match",
+  "register_toast_rate_limited": "Too many registration attempts. Please try again in {minutes} minutes."
 }
