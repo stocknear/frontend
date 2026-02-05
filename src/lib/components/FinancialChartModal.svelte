@@ -15,6 +15,7 @@
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
   import X from "lucide-svelte/icons/x";
+  import { goto } from "$app/navigation";
 
   export let isOpen: boolean = false;
   export let metricKey: string = "";
@@ -22,6 +23,10 @@
   export let data: Record<string, any>[] = [];
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
   export let onClose: () => void = () => {};
+  export let userTier: string = "";
+
+  const PREMIUM_TIERS = new Set(["Pro", "Plus"]);
+  $: isPremiumUser = PREMIUM_TIERS.has(userTier);
 
   // State
   let chartMode: "bar" | "line" = "bar";
@@ -443,12 +448,34 @@
       <div class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl">
         <div class="flex flex-wrap items-center gap-2">
           <span class="text-sm font-medium text-gray-700 dark:text-zinc-300 mr-2">CAGR:</span>
-          {#each Object.entries(cagrValues) as [period, value]}
-            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(value)}">
-              <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
-              <span>{formatCAGRValue(value)}</span>
-            </div>
-          {/each}
+          {#if isPremiumUser}
+            {#each Object.entries(cagrValues) as [period, value]}
+              <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(value)}">
+                <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
+                <span>{formatCAGRValue(value)}</span>
+              </div>
+            {/each}
+          {:else}
+            {#each Object.entries(cagrValues) as [period]}
+              <button
+                type="button"
+                on:click={() => goto('/pricing')}
+                class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 transition"
+              >
+                <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
+                <svg
+                  class="w-3.5 h-3.5 text-gray-500 dark:text-zinc-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  />
+                </svg>
+              </button>
+            {/each}
+          {/if}
         </div>
         <p class="text-xs text-gray-500 dark:text-zinc-500 mt-2">
           CAGR (Compound Annual Growth Rate) shows the smoothed annual rate of growth over the specified period.

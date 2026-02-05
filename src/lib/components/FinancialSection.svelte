@@ -595,4 +595,5 @@
   data={fullStatement}
   periodType={$selectedTimePeriod || "annual"}
   onClose={handleCloseModal}
+  userTier={data?.user?.tier}
 />
