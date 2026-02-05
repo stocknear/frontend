@@ -19,6 +19,15 @@
   "register_privacy_link": "Privacy Policy",
   "register_logged_in_as": "Logged in as {email}",
   "register_logout_button": "Log Out",
-  "register_toast_success": "Registration successfully!",
-  "register_toast_invalid": "Invalid credentials"
+  "register_toast_success": "Registration successful! Please check your email to verify your account.",
+  "register_toast_invalid": "Registration failed. Please check your details and try again.",
+  "register_toast_email_exists": "This email is already registered. Please sign in instead.",
+  "register_toast_disposable_email": "Disposable email addresses are not allowed. Please use a permanent email.",
+  "register_toast_password_mismatch": "Passwords do not match. Please try again.",
+  "register_toast_weak_password": "Password is too weak. Use at least 8 characters with letters, numbers, and special characters.",
+  "register_toast_invalid_email": "Please enter a valid email address.",
+  "register_password_min_length": "At least 8 characters",
+  "register_password_has_letter": "Contains a letter",
+  "register_password_has_number": "Contains a number",
+  "register_passwords_match": "Passwords match"
 }

@@ -19,6 +19,15 @@
   "register_privacy_link": "Datenschutzerklärung",
   "register_logged_in_as": "Eingeloggt als {email}",
   "register_logout_button": "Abmelden",
-  "register_toast_success": "Erfolgreich registriert!",
-  "register_toast_invalid": "Ungültige Anmeldedaten"
+  "register_toast_success": "Erfolgreich registriert! Bitte überprüfe deine E-Mails, um dein Konto zu bestätigen.",
+  "register_toast_invalid": "Registrierung fehlgeschlagen. Bitte überprüfe deine Angaben und versuche es erneut.",
+  "register_toast_email_exists": "Diese E-Mail ist bereits registriert. Bitte melde dich stattdessen an.",
+  "register_toast_disposable_email": "Wegwerf-E-Mail-Adressen sind nicht erlaubt. Bitte verwende eine permanente E-Mail.",
+  "register_toast_password_mismatch": "Passwörter stimmen nicht überein. Bitte versuche es erneut.",
+  "register_toast_weak_password": "Passwort ist zu schwach. Verwende mindestens 8 Zeichen mit Buchstaben, Zahlen und Sonderzeichen.",
+  "register_toast_invalid_email": "Bitte gib eine gültige E-Mail-Adresse ein.",
+  "register_password_min_length": "Mindestens 8 Zeichen",
+  "register_password_has_letter": "Enthält einen Buchstaben",
+  "register_password_has_number": "Enthält eine Zahl",
+  "register_passwords_match": "Passwörter stimmen überein"
 }

@@ -69,7 +69,10 @@ export const actions = {
     const isEmailDisposable = await checkDisposableEmail(formData?.email);
 
     if (isEmailDisposable === "true") {
-      error(400, "Disposable Email Addresses not allowed!");
+      return fail(400, {
+        data: formData,
+        disposableEmail: true,
+      });
     }
 
     //let username = generateUsername(formData.name.split(' ').join('')).toLowerCase();
@@ -85,7 +88,43 @@ export const actions = {
       await locals.pb.collection("users").requestVerification(formData.email);
     } catch (err) {
       console.log("Error: ", err);
-      error(err.status, err.message);
+      
+      // Check for specific PocketBase errors
+      const errorMessage = err?.message || "";
+      const errorData = err?.data || {};
+      
+      // Email already exists
+      if (errorMessage.includes("already in use") || 
+          errorMessage.includes("already exists") ||
+          errorData?.email?.code === "validation_not_unique") {
+        return fail(400, {
+          data: formData,
+          emailExists: true,
+        });
+      }
+      
+      // Invalid email format
+      if (errorData?.email?.code === "validation_is_email" ||
+          errorMessage.includes("invalid email")) {
+        return fail(400, {
+          data: formData,
+          invalidEmail: true,
+        });
+      }
+      
+      // Password validation failed
+      if (errorData?.password?.code || errorMessage.includes("password")) {
+        return fail(400, {
+          data: formData,
+          weakPassword: true,
+        });
+      }
+      
+      // Generic registration error
+      return fail(400, {
+        data: formData,
+        registrationFailed: true,
+      });
     }
 
     try {
@@ -103,7 +142,8 @@ export const actions = {
 			*/
     } catch (err) {
       console.log("Error: ", err);
-      error(err.status, err.message);
+      // User was created but auto-login failed - still redirect to profile
+      // This shouldn't happen normally, but handle gracefully
     }
 
     redirect(301, "/profile");

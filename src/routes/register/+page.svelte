@@ -1,6 +1,7 @@
 <script>
   import { enhance } from "$app/forms";
   import Input from "$lib/components/Input.svelte";
+  import PasswordInput from "$lib/components/PasswordInput.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { toast } from "svelte-sonner";
@@ -29,6 +30,11 @@
     register_logout_button,
     register_toast_success,
     register_toast_invalid,
+    register_toast_email_exists,
+    register_toast_disposable_email,
+    register_toast_password_mismatch,
+    register_toast_weak_password,
+    register_toast_invalid_email,
   } from "$lib/paraglide/messages.js";
 
   export let form;
@@ -38,6 +44,10 @@
   let loading = false;
   let oauthLoading = false;
   let showTurnstile = true;
+  
+  // Password state for real-time validation
+  let password = "";
+  let passwordConfirm = "";
 
   const resetTurnstile = async () => {
     showTurnstile = false;
@@ -48,25 +58,44 @@
   const submitRegistration = () => {
     loading = true;
     return async ({ result, update }) => {
+      const toastStyle = `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
+      
       switch (result.type) {
         case "success":
         case "redirect":
           isClicked = true;
-          toast.success(register_toast_success(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.success(register_toast_success(), { style: toastStyle });
           await update();
           break;
         case "failure":
-          toast.error(register_toast_invalid(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          // Handle specific error types with appropriate messages
+          if (result.data?.emailExists) {
+            toast.error(register_toast_email_exists(), { style: toastStyle });
+          } else if (result.data?.disposableEmail) {
+            toast.error(register_toast_disposable_email(), { style: toastStyle });
+          } else if (result.data?.weakPassword) {
+            toast.error(register_toast_weak_password(), { style: toastStyle });
+          } else if (result.data?.invalidEmail) {
+            toast.error(register_toast_invalid_email(), { style: toastStyle });
+          } else if (result.data?.errors?.password || result.data?.errors?.passwordConfirm) {
+            // Check if it's a password mismatch from Zod validation
+            const passwordError = result.data?.errors?.password?.[0] || result.data?.errors?.passwordConfirm?.[0] || "";
+            if (passwordError.toLowerCase().includes("match")) {
+              toast.error(register_toast_password_mismatch(), { style: toastStyle });
+            } else {
+              toast.error(register_toast_weak_password(), { style: toastStyle });
+            }
+          } else if (result.data?.errors?.email) {
+            toast.error(register_toast_invalid_email(), { style: toastStyle });
+          } else if (result.data?.errors?.turnstile) {
+            // Turnstile error is shown inline, no toast needed
+          } else {
+            toast.error(register_toast_invalid(), { style: toastStyle });
+          }
           await update();
           break;
         case "error":
-          toast.error(result.error.message, {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.error(result.error.message, { style: toastStyle });
           break;
         default:
           await update();
@@ -126,21 +155,55 @@
           disabled={loading}
         />
 
-        <Input
-          type="password"
+        <PasswordInput
           id="password"
           label={register_password_label()}
           errors={form?.errors?.password}
           disabled={loading}
+          showRequirements={true}
+          showMatchIndicator={true}
+          confirmValue={passwordConfirm}
+          on:input={(e) => (password = e.detail)}
         />
 
-        <Input
-          type="password"
-          id="passwordConfirm"
-          label={register_confirm_password_label()}
-          errors={form?.errors?.passwordConfirm}
-          disabled={loading}
-        />
+        <div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+          <label for="passwordConfirm" class="label pb-1">
+            <span class="text-muted dark:text-white">{register_confirm_password_label()}</span>
+          </label>
+          <div class="relative">
+            <input
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+              type="password"
+              id="passwordConfirm"
+              name="passwordConfirm"
+              disabled={loading}
+              bind:value={passwordConfirm}
+              autocomplete="off"
+            />
+            
+            {#if passwordConfirm.length > 0}
+              <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                {#if password === passwordConfirm && password.length > 0}
+                  <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                {:else}
+                  <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                {/if}
+              </div>
+            {/if}
+          </div>
+          
+          {#if form?.errors?.passwordConfirm}
+            <label for="passwordConfirm" class="py-0 pt-1 text-xs">
+              <span class="text-red-800 font-semibold dark:font-normal dark:text-error">
+                {form?.errors?.passwordConfirm}
+              </span>
+            </label>
+          {/if}
+        </div>
 
         <div class="w-full max-w-lg pt-5 m-auto pb-5">
           {#if !loading && !isClicked}
