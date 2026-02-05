@@ -960,7 +960,12 @@
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
-                {stock_detail_stats_fair_value_text({ dcf: rawData?.dcf ?? "n/a" })}
+                {stock_detail_stats_fair_value_text({
+                  grahamNumber: rawData?.grahamNumber ? `$${rawData?.grahamNumber}` : "n/a",
+                  grahamUpside: rawData?.grahamUpside !== null && rawData?.grahamUpside !== undefined
+                    ? `${rawData?.grahamUpside}%`
+                    : "n/a",
+                })}
               </p>
               <table
                 class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
