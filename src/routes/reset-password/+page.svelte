@@ -3,6 +3,7 @@
   import { mode } from "mode-watcher";
   import { enhance } from "$app/forms";
   import SEO from "$lib/components/SEO.svelte";
+  import Input from "$lib/components/Input.svelte";
   import {
   reset_password_button,
   reset_password_description,
@@ -15,7 +16,8 @@
   reset_password_title,
 } from "$lib/paraglide/messages";
 
-  let email: string = "";
+  export let form;
+
   let loading = false;
   let isClicked = false;
 
@@ -60,62 +62,67 @@
   description={reset_password_seo_description()}
 />
 
-<div class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto">
-  <div class="relative">
-    <a href="/">
-      <img
-        class="m-auto w-16 sm:w-20 rounded-full pt-4"
-        src="/pwa-192x192.png"
-        alt="Stocknear Logo"
-        loading="lazy"
-      />
-    </a>
-  </div>
-  <h2 class="text-center text-2xl font-bold tracking-tight mt-5 mb-2">
-    {reset_password_title()}
-  </h2>
-  <p class="text-center mt-1 mb-4">
-    {reset_password_description()}
-  </p>
-  <form
-    action="?/reset"
-    method="POST"
-    use:enhance={submitReset}
-    class="flex flex-col items-center space-y-2 w-11/12 sm:w-full pt-2"
-  >
-    <div class="w-full max-w-lg">
-      <label class="text-start w-full label pb-1">
-        <span class="text-muted dark:text-white">{reset_password_email_label()}</span>
-      </label>
-      <input
-        name="email"
-        class="input input-lg input-bordered rounded-2xl border border-gray-300 shadow dark:border-gray-600 focus:outline-none w-full max-w-lg bg-white dark:bg-secondary placeholder-gray-600 dark:placeholder-gray-300 whitespace-normal"
-        type="email"
-        required
-        bind:value={email}
-        autocomplete="off"
-      />
+<div class="text-gray-700 dark:text-zinc-200 relative w-full max-w-3xl mx-auto min-h-screen">
+  <div class="grid grid-cols-1 gap-4">
+    <div class="relative">
+      <a href="/">
+        <img
+          class="m-auto w-16 sm:w-20 rounded-full pt-4"
+          src="/pwa-192x192.png"
+          alt="Stocknear Logo"
+          loading="lazy"
+        />
+      </a>
+
+      <h1
+        class="text-center text-2xl sm:text-3xl pt-5 font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        {reset_password_title()}
+      </h1>
     </div>
-    <div class="w-full max-w-lg">
-      <div class="w-full max-w-lg pt-2 m-auto pb-5">
-        {#if !loading && !isClicked}
-          <button
-            type="submit"
-            class="cursor-pointer py-2.5 bg-black dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto text-white dark:text-black font-semibold text-[1rem]"
-          >
-            <span>{reset_password_button()}</span>
-          </button>
-        {:else}
-          <label
-            class="cursor-not-allowed btn bg-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-2xl m-auto text-white dark:text-black font-semibold text-[1rem]"
-          >
-            <div class="flex flex-row m-auto items-center">
+
+    <span class="text-sm text-gray-500 dark:text-zinc-400 text-center">
+      {reset_password_description()}
+    </span>
+
+    <div class="relative w-full max-w-lg m-auto">
+      <form
+        action="?/reset"
+        method="POST"
+        use:enhance={submitReset}
+        class="flex flex-col items-center space-y-3 pt-4 pl-3 pr-3 sm:pl-0 sm:pr-0 ml-auto mr-auto"
+      >
+        <Input
+          type="email"
+          id="email"
+          label={reset_password_email_label()}
+          value={form?.data?.email ?? ""}
+          errors={form?.errors?.email}
+        />
+
+        <div class="w-full max-w-lg pt-5 m-auto pb-5">
+          {#if !loading && !isClicked}
+            <button
+              type="submit"
+              class="cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
+            >
+              <span>{reset_password_button()}</span>
+            </button>
+          {:else}
+            <button
+              type="submit"
+              disabled
+              class="w-full rounded-full py-2.5 px-4 font-semibold text-[1rem]
+           bg-gray-900 text-white dark:bg-white dark:text-gray-900
+           opacity-60 cursor-not-allowed border border-gray-900/10 dark:border-white/10
+           flex items-center justify-center gap-1.5"
+            >
               <span class="loading loading-infinity"></span>
-              <span class="ml-1.5">{reset_password_loading()}</span>
-            </div>
-          </label>
-        {/if}
-      </div>
+              <span>{reset_password_loading()}</span>
+            </button>
+          {/if}
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
