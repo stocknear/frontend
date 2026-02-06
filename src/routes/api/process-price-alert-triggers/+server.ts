@@ -332,6 +332,7 @@ export const POST = (async ({ request, locals, url }) => {
   );
 
   const triggeredIds: string[] = [];
+  const triggeredSymbols = new Set<string>();
   for (const event of triggeredEvents) {
     const pushHash = buildPushHash(
       user.id,
@@ -343,6 +344,7 @@ export const POST = (async ({ request, locals, url }) => {
     );
 
     triggeredIds.push(event.entryId);
+    triggeredSymbols.add(event.symbol);
     if (existingPushHashes.has(pushHash)) {
       continue;
     }
@@ -376,6 +378,7 @@ export const POST = (async ({ request, locals, url }) => {
       success: true,
       triggeredIds,
       triggeredCount: triggeredIds.length,
+      triggeredSymbols: Array.from(triggeredSymbols).sort(),
       remainingCount: nextActiveEntries.length,
     }),
   );

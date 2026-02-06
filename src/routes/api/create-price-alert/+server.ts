@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 const NOTE_MAX_LENGTH = 500;
 
@@ -103,11 +104,30 @@ function buildMergedAlerts(records: any[]): AlertEntry[] {
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { user, pb } = locals;
+  const { user, pb, clientIp } = locals;
   if (!user?.id) {
     return new Response(JSON.stringify({ error: "Authentication required" }), {
       status: 401,
     });
+  }
+
+  // SECURITY: Rate limit price-alert creation similar to register flow.
+  const rateLimitIdentifier = clientIp || `user:${user.id}`;
+  const rateLimitResult = checkRateLimit(
+    rateLimitIdentifier,
+    "priceAlertCreate",
+    RATE_LIMITS.priceAlertCreate,
+  );
+  if (!rateLimitResult.allowed) {
+    const minutesRemaining = Math.ceil(rateLimitResult.resetIn / 60000);
+    return new Response(
+      JSON.stringify({
+        error: `Rate limit exceeded. Please wait ${minutesRemaining} minute${minutesRemaining === 1 ? "" : "s"} before creating another price alert.`,
+        rateLimited: true,
+        retryAfter: minutesRemaining,
+      }),
+      { status: 429 },
+    );
   }
 
   const data = await request.json();

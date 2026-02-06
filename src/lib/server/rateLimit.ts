@@ -103,6 +103,11 @@ export const RATE_LIMITS = {
     maxRequests: 15,
     windowMs: 15 * 60 * 1000, // 15 minutes
   },
+  // Price alert creation: 15 attempts per 15 minutes per IP
+  priceAlertCreate: {
+    maxRequests: 15,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+  },
   // Login: 10 attempts per 15 minutes per IP
   login: {
     maxRequests: 10,
