@@ -2,22 +2,22 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import {
-  stock_detail_above,
-  stock_detail_alert_created,
-  stock_detail_alert_failed,
-  stock_detail_below,
-  stock_detail_cancel,
-  stock_detail_condition,
-  stock_detail_creating_alert,
-  stock_detail_crossing,
-  stock_detail_price,
-  stock_detail_price_alert_on,
-  stock_detail_regular_trading_hours,
-  stock_detail_save,
-  stock_detail_symbol,
-  stock_detail_target_price_error,
-  stock_detail_value,
-} from "$lib/paraglide/messages";
+    stock_detail_above,
+    stock_detail_alert_created,
+    stock_detail_alert_failed,
+    stock_detail_below,
+    stock_detail_cancel,
+    stock_detail_condition,
+    stock_detail_creating_alert,
+    stock_detail_crossing,
+    stock_detail_price,
+    stock_detail_price_alert_on,
+    stock_detail_regular_trading_hours,
+    stock_detail_save,
+    stock_detail_symbol,
+    stock_detail_target_price_error,
+    stock_detail_value,
+  } from "$lib/paraglide/messages";
 
   import { openPriceAlert, newPriceAlertData } from "$lib/store";
 
@@ -156,7 +156,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="flex flex-col w-full">
       <h2
@@ -290,20 +291,19 @@
               bind:value={note}
               maxlength={NOTE_MAX_LENGTH}
               rows="4"
-              placeholder="Optional: why this alert level matters and what you plan to do when it triggers"
-              class="w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
+              placeholder="Note down why this alert level matters and what you plan to do when it triggers"
+              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
             ></textarea>
             <div
               class="mt-1 flex items-center justify-between text-[11px] text-gray-500 dark:text-zinc-400"
             >
-              <span>Shown when this alert triggers.</span>
               <span class="tabular-nums">{note.length}/{NOTE_MAX_LENGTH}</span>
             </div>
           </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-end gap-4 mt-6 absolute bottom-5 right-5">
+        <div class="flex justify-end gap-4 absolute bottom-3 right-5">
           <label
             for="priceAlertModal"
             class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"

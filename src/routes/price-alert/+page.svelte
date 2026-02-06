@@ -301,18 +301,8 @@
       ? 100
       : Math.max(0, Math.min(100, closenessPct));
 
-    let textClass = "text-rose-700 dark:text-rose-400";
-    let barClass = "bg-rose-500 dark:bg-rose-400";
-    if (reached) {
-      textClass = "text-emerald-700 dark:text-emerald-400";
-      barClass = "bg-emerald-500 dark:bg-emerald-400";
-    } else if (distancePct <= 1) {
-      textClass = "text-sky-700 dark:text-sky-400";
-      barClass = "bg-sky-500 dark:bg-sky-400";
-    } else if (distancePct <= 3) {
-      textClass = "text-amber-700 dark:text-amber-400";
-      barClass = "bg-amber-500 dark:bg-amber-400";
-    }
+    const textClass = "text-emerald-700 dark:text-emerald-400";
+    const barClass = "bg-emerald-500 dark:bg-emerald-400";
 
     const label = reached ? "At target" : `${distancePct.toFixed(2)}% away`;
 
