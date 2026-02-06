@@ -175,7 +175,7 @@ async function sendPushNotificationForAlert(params: {
 export const POST = (async ({ request, locals, url }) => {
   const { user, pb, apiKey } = locals;
 
-  if (!user?.id) {
+  if (!user?.id && !['Pro','Plus']?.includes(user?.tier)) {
     return new Response(JSON.stringify({ error: "Authentication required" }), {
       status: 401,
     });
