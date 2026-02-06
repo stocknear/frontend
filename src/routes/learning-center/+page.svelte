@@ -56,16 +56,6 @@
       description: "Start here if you're new to investing",
     },
     {
-      id: "Concepts",
-      name: "Concepts",
-      description: "Market indicators and mechanics",
-    },
-    {
-      id: "Strategies",
-      name: "Strategies",
-      description: "Trading approaches and methodologies",
-    },
-    {
       id: "Terms",
       name: "Terms",
       description: "Financial terms and definitions",
@@ -80,8 +70,6 @@
       year: "numeric",
     });
   }
-
-
 
   function setCategory(categoryId: string) {
     const params = new URLSearchParams();
@@ -108,7 +96,8 @@
   }
 
   // Get the display name for the selected tag
-  $: selectedTagName = availableTags.find(t => t.id === activeTag)?.name || "All Tags";
+  $: selectedTagName =
+    availableTags.find((t) => t.id === activeTag)?.name || "All Tags";
 
   // Filter tutorials by tag - inline to ensure reactivity
   function filterByTag(tutorials: any[], tag: string) {
@@ -124,12 +113,15 @@
     activeCategory === "all"
       ? allTutorials
       : tutorialsByCategory?.[activeCategory] || [],
-    activeTag
+    activeTag,
   );
 
   // Also filter the categorized tutorials for the "all" view
   $: filteredByCategory = {
-    Fundamentals: filterByTag(tutorialsByCategory?.Fundamentals || [], activeTag),
+    Fundamentals: filterByTag(
+      tutorialsByCategory?.Fundamentals || [],
+      activeTag,
+    ),
     Concepts: filterByTag(tutorialsByCategory?.Concepts || [], activeTag),
     Strategies: filterByTag(tutorialsByCategory?.Strategies || [], activeTag),
     Features: filterByTag(tutorialsByCategory?.Features || [], activeTag),
@@ -139,23 +131,24 @@
   // Pagination logic - only for filtered category views (not "all")
   $: totalItems = displayTutorials?.length || 0;
   $: totalPages = Math.ceil(totalItems / itemsPerPage);
-  
+
   // Paginated tutorials for category views
   $: paginatedTutorials = (() => {
     if (activeCategory === "all") return displayTutorials;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     // Sort alphabetically for Terms category
-    const sorted = activeCategory === "Terms" 
-      ? [...displayTutorials].sort((a, b) => a.title.localeCompare(b.title))
-      : displayTutorials;
+    const sorted =
+      activeCategory === "Terms"
+        ? [...displayTutorials].sort((a, b) => a.title.localeCompare(b.title))
+        : displayTutorials;
     return sorted.slice(startIndex, endIndex);
   })();
 
   // Track previous values to detect changes
   let prevCategory = activeCategory;
   let prevTag = activeTag;
-  
+
   // Reset to page 1 when category or tag changes
   $: {
     if (activeCategory !== prevCategory || activeTag !== prevTag) {
@@ -182,7 +175,10 @@
   function saveItemsPerPage() {
     if (browser) {
       try {
-        localStorage.setItem("learning-center_itemsPerPage", String(itemsPerPage));
+        localStorage.setItem(
+          "learning-center_itemsPerPage",
+          String(itemsPerPage),
+        );
       } catch (e) {
         // localStorage not available
       }
@@ -262,7 +258,9 @@
   </div>
 
   <!-- Category Tabs and Tag Filter -->
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-300 dark:border-zinc-700 pb-4 mb-8">
+  <div
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-300 dark:border-zinc-700 pb-4 mb-8"
+  >
     <!-- Category Tabs -->
     <nav class="overflow-x-auto whitespace-nowrap">
       <ul class="flex flex-row items-center gap-1 text-sm sm:text-base">
@@ -272,8 +270,8 @@
             on:click={() => setCategory(category.id)}
             class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition
               {activeCategory === category.id
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+              ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+              : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
           >
             {category.name}
           </button>
@@ -320,8 +318,16 @@
             >
               <span>{tag.name}</span>
               {#if activeTag === tag.id}
-                <svg class="ml-auto h-4 w-4 text-violet-600 dark:text-violet-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                <svg
+                  class="ml-auto h-4 w-4 text-violet-600 dark:text-violet-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
               {/if}
             </DropdownMenu.Item>
@@ -618,18 +624,30 @@
           {/if}
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {#each filteredByCategory.Terms.slice(0, 6).sort((a, b) => a.title.localeCompare(b.title)) as item}
+          {#each filteredByCategory.Terms.slice(0, 6).sort( (a, b) => a.title.localeCompare(b.title), ) as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
               class="group flex items-center gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
             >
               <div class="flex-1 min-w-0">
-                <h3 class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition truncate">
+                <h3
+                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition truncate"
+                >
                   {item?.title}
                 </h3>
               </div>
-              <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              <svg
+                class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </a>
           {/each}
@@ -662,15 +680,29 @@
             class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
           >
             <div class="flex-1 min-w-0">
-              <h3 class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition">
+              <h3
+                class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+              >
                 {item?.title}
               </h3>
-              <p class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-1 mt-1">
+              <p
+                class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-1 mt-1"
+              >
                 {item?.abstract}
               </p>
             </div>
-            <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            <svg
+              class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </a>
         {/each}
@@ -685,8 +717,16 @@
             disabled={currentPage === 1}
             class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <svg class="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
             <span class="hidden sm:inline ml-1">Previous</span>
           </Button>
@@ -704,8 +744,16 @@
                   class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm">{itemsPerPage} Items</span>
-                  <svg class="ml-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  <svg
+                    class="ml-1 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
                   </svg>
                 </Button>
               </DropdownMenu.Trigger>
@@ -720,7 +768,9 @@
                   {#each itemsPerPageOptions as option}
                     <DropdownMenu.Item
                       on:click={() => changeItemsPerPage(option)}
-                      class="{itemsPerPage === option ? 'bg-gray-100/70 dark:bg-zinc-900/60' : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                      class="{itemsPerPage === option
+                        ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                        : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
                     >
                       <span class="text-sm">{option} Items</span>
                     </DropdownMenu.Item>
@@ -737,8 +787,16 @@
             class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">Next</span>
-            <svg class="h-5 w-5 -rotate-90" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 -rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </Button>
         </div>
@@ -750,17 +808,23 @@
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             Back to Top
-            <svg class="h-5 w-5 inline-block rotate-180" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 inline-block rotate-180"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </button>
         </div>
       {/if}
     {:else}
       <div class="text-center py-12">
-        <p class="text-gray-500 dark:text-zinc-400">
-          No terms available yet.
-        </p>
+        <p class="text-gray-500 dark:text-zinc-400">No terms available yet.</p>
       </div>
     {/if}
   {:else}
@@ -821,8 +885,16 @@
             disabled={currentPage === 1}
             class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <svg class="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
             <span class="hidden sm:inline ml-1">Previous</span>
           </Button>
@@ -840,8 +912,16 @@
                   class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm">{itemsPerPage} Items</span>
-                  <svg class="ml-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  <svg
+                    class="ml-1 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
                   </svg>
                 </Button>
               </DropdownMenu.Trigger>
@@ -856,7 +936,9 @@
                   {#each itemsPerPageOptions as option}
                     <DropdownMenu.Item
                       on:click={() => changeItemsPerPage(option)}
-                      class="{itemsPerPage === option ? 'bg-gray-100/70 dark:bg-zinc-900/60' : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                      class="{itemsPerPage === option
+                        ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                        : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
                     >
                       <span class="text-sm">{option} Items</span>
                     </DropdownMenu.Item>
@@ -873,8 +955,16 @@
             class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">Next</span>
-            <svg class="h-5 w-5 -rotate-90" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 -rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </Button>
         </div>
@@ -886,8 +976,16 @@
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             Back to Top
-            <svg class="h-5 w-5 inline-block rotate-180" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 inline-block rotate-180"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </button>
         </div>

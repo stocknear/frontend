@@ -14,16 +14,14 @@ export const load = async ({ locals, url }) => {
     // Group by category
     const grouped = {
       Fundamentals: [],
-      Concepts: [],
-      Strategies: [],
       Features: [],
       Terms: [],
     };
 
     for (const tutorial of tutorials) {
-      const cat = tutorial.category || 'Concepts';
+      const cat = tutorial?.category || 'Features';
       if (grouped[cat]) {
-        grouped[cat].push(tutorial);
+        grouped[cat]?.push(tutorial);
       }
     }
 
