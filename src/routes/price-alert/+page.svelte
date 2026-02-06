@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { openPriceAlert } from "$lib/store";
+  import { openPriceAlert, newPriceAlertData, screenWidth } from "$lib/store";
   import {
     groupNews,
     groupEarnings,
@@ -7,18 +7,16 @@
     formatTime,
     abbreviateNumber,
   } from "$lib/utils";
-  //import { enhance } from '$app/forms';
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-
-  import { screenWidth, newPriceAlertData } from "$lib/store";
-  import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import { Combobox } from "bits-ui";
+  import Pencil from "lucide-svelte/icons/pencil";
+  import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import PriceAlert from "$lib/components/PriceAlert.svelte";
-  import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import { onMount } from "svelte";
   import {
     price_alert_breadcrumb_home,
     price_alert_breadcrumb_price_alert,
@@ -57,8 +55,105 @@
 
   export let data;
 
+  type PriceAlertItem = {
+    id: string;
+    symbol: string;
+    name?: string;
+    type?: string;
+    targetPrice?: number | null;
+    condition?: string;
+    priceWhenCreated?: number | null;
+    price?: number | null;
+    changesPercentage?: number | null;
+    volume?: number | null;
+    hasNote?: boolean;
+  };
+
+  // Lazy-load markdown editor to keep /price-alert lightweight.
+  let MarkdownNoteEditor: any = null;
+  let isLoadingEditor = false;
+
+  async function loadMarkdownEditor() {
+    if (MarkdownNoteEditor) return;
+    isLoadingEditor = true;
+    try {
+      const module = await import("$lib/components/MarkdownNoteEditor.svelte");
+      MarkdownNoteEditor = module.default;
+    } finally {
+      isLoadingEditor = false;
+    }
+  }
+
+  // Note cache + fetch dedupe (same pattern as /watchlist/stocks).
+  const NOTE_CACHE_MAX_SIZE = 100;
+  const noteCache = new Map<string, { note: string; timestamp: number }>();
+  const noteFetchPromises = new Map<string, Promise<string>>();
+
+  function getNoteFromCache(priceAlertId: string): string | null {
+    const cached = noteCache.get(priceAlertId);
+    if (!cached) return null;
+    noteCache.delete(priceAlertId);
+    noteCache.set(priceAlertId, cached);
+    return cached.note;
+  }
+
+  function setNoteInCache(priceAlertId: string, note: string): void {
+    if (noteCache.size >= NOTE_CACHE_MAX_SIZE) {
+      const oldestKey = noteCache.keys().next().value;
+      if (oldestKey) noteCache.delete(oldestKey);
+    }
+    noteCache.set(priceAlertId, { note, timestamp: Date.now() });
+  }
+
+  function invalidateNoteCache(priceAlertId: string): void {
+    noteCache.delete(priceAlertId);
+  }
+
+  async function fetchNote(priceAlertId: string): Promise<string> {
+    const existingPromise = noteFetchPromises.get(priceAlertId);
+    if (existingPromise) return existingPromise;
+
+    const cached = getNoteFromCache(priceAlertId);
+    if (cached !== null) return cached;
+
+    const fetchPromise = (async () => {
+      try {
+        const response = await fetch("/api/get-price-alert-note", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ priceAlertId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch note");
+        }
+
+        const payload = await response.json();
+        const note = payload?.note || "";
+        setNoteInCache(priceAlertId, note);
+        return note;
+      } finally {
+        noteFetchPromises.delete(priceAlertId);
+      }
+    })();
+
+    noteFetchPromises.set(priceAlertId, fetchPromise);
+    return fetchPromise;
+  }
+
+  function prefetchNote(priceAlertId: string, hasNote: boolean = false): void {
+    if (!hasNote) return;
+    if (!noteCache.has(priceAlertId) && !noteFetchPromises.has(priceAlertId)) {
+      fetchNote(priceAlertId).catch(() => {
+        // Prefetch is best-effort only.
+      });
+    }
+  }
+
   let timeoutId;
   let searchBarData = [];
+  let inputValue = "";
+  let touchedInput = false;
 
   let addTicker = "";
   let addAssetType = "";
@@ -67,35 +162,47 @@
   let displayList = [];
   let editMode = false;
   let numberOfChecked = 0;
-  let priceAlertList = data?.getPriceAlert?.data || [];
-
-  let deletePriceAlertList = [];
+  let priceAlertList: PriceAlertItem[] = data?.getPriceAlert?.data || [];
+  let deletePriceAlertList: string[] = [];
   let news = data?.getPriceAlert?.news || [];
   let earnings = data?.getPriceAlert?.earnings || [];
-
-  news = news?.map((item) => {
-    const match = priceAlertList?.find((w) => w?.symbol === item?.symbol);
-    return match ? { ...item, type: match?.type } : { ...item };
-  });
-  earnings = earnings?.map((item) => {
-    const match = priceAlertList?.find((w) => w?.symbol === item?.symbol);
-    return match ? { ...item, name: match?.name } : { ...item };
-  });
   let groupedNews = [];
   let groupedEarnings = [];
 
-  if (priceAlertList?.length > 0) {
-    groupedEarnings = groupEarnings(earnings);
-    groupedNews = groupNews(news, priceAlertList);
-  } else {
-    groupedEarnings = [];
-    groupedNews = [];
-  }
-  changeTab(0);
+  // Note modal state
+  let isNoteModalOpen = false;
+  let isLoadingNote = false;
+  let editingPriceAlertId = "";
+  let editingNoteSymbol = "";
+  let editingNoteText = "";
+  let originalNoteText = "";
+  $: isNewNote = originalNoteText === "";
 
   const tabs = ["News", "Earnings Release"];
 
-  // Tab translation helper
+  function syncDerivedContent() {
+    news = (news || [])?.map((item) => {
+      const match = priceAlertList?.find((w) => w?.symbol === item?.symbol);
+      return match ? { ...item, type: match?.type } : { ...item };
+    });
+
+    earnings = (earnings || [])?.map((item) => {
+      const match = priceAlertList?.find((w) => w?.symbol === item?.symbol);
+      return match ? { ...item, name: match?.name } : { ...item };
+    });
+
+    if (priceAlertList?.length > 0) {
+      groupedEarnings = groupEarnings(earnings);
+      groupedNews = groupNews(news, priceAlertList);
+    } else {
+      groupedEarnings = [];
+      groupedNews = [];
+    }
+  }
+
+  syncDerivedContent();
+  changeTab(0);
+
   function getTabLabel(tab: string): string {
     const tabLabels: Record<string, () => string> = {
       News: () => price_alert_tab_news(),
@@ -104,7 +211,6 @@
     return tabLabels[tab]?.() ?? tab;
   }
 
-  // Locale-aware time formatting for news
   function formatTimeLocale(dateStr: string): string {
     const date = new Date(dateStr);
     const locale = getLocale();
@@ -124,93 +230,74 @@
     });
   }
 
-  async function handleFilter(priceAlertId) {
+  async function handleFilter(priceAlertId: string) {
     const filterSet = new Set(deletePriceAlertList);
-
-    // Check if the new filter already exists in the list
-    if (filterSet?.has(priceAlertId)) {
-      // If it exists, remove it from the list
-      filterSet?.delete(priceAlertId);
+    if (filterSet.has(priceAlertId)) {
+      filterSet.delete(priceAlertId);
     } else {
-      // If it doesn't exist, add it to the list
-      filterSet?.add(priceAlertId);
+      filterSet.add(priceAlertId);
     }
-    deletePriceAlertList = Array?.from(filterSet);
-    numberOfChecked = deletePriceAlertList?.length;
+    deletePriceAlertList = Array.from(filterSet);
+    numberOfChecked = deletePriceAlertList.length;
   }
 
   async function handleDeleteTickers() {
     if (numberOfChecked === 0) {
-      toast?.error(price_alert_toast_select_symbols(), {
+      toast.error(price_alert_toast_select_symbols(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
-    } else {
-      toast.success(price_alert_toast_deleted(), {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
-
-      const symbolsToDelete = priceAlertList
-        ?.filter((item) => deletePriceAlertList.includes(item.id))
-        .map((item) => item.symbol);
-
-      // Filter out the price alerts
-      priceAlertList = priceAlertList?.filter(
-        (item) => !deletePriceAlertList?.includes(item.id),
-      );
-
-      // Filter news and earnings using the symbolsToDelete
-      news = news?.filter(
-        (newsItem) => !symbolsToDelete.includes(newsItem?.symbol),
-      );
-
-      earnings = earnings?.filter(
-        (earningsItem) => !symbolsToDelete.includes(earningsItem?.symbol),
-      );
-      priceAlertList = [...priceAlertList];
-
-      if (priceAlertList?.length > 0) {
-        groupedNews = [...groupNews(news, priceAlertList)];
-        groupedEarnings = [...groupEarnings(earnings)];
-      } else {
-        groupedEarnings = [];
-        groupedNews = [];
-      }
-
-      const postData = {
-        priceAlertIdList: deletePriceAlertList,
-      };
-
-      deletePriceAlertList = [];
-      numberOfChecked = 0;
-      editMode = !editMode;
-
-      await fetch("/api/delete-price-alert", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      return;
     }
+
+    const idsToDelete = [...deletePriceAlertList];
+    const symbolsToDelete = priceAlertList
+      ?.filter((item) => idsToDelete.includes(item.id))
+      ?.map((item) => item.symbol);
+
+    toast.success(price_alert_toast_deleted(), {
+      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+    });
+
+    idsToDelete.forEach((id) => invalidateNoteCache(id));
+    if (isNoteModalOpen && idsToDelete.includes(editingPriceAlertId)) {
+      closeNoteModal();
+    }
+
+    priceAlertList = priceAlertList?.filter((item) => !idsToDelete.includes(item.id));
+    news = news?.filter((item) => !symbolsToDelete.includes(item?.symbol));
+    earnings = earnings?.filter((item) => !symbolsToDelete.includes(item?.symbol));
+
+    syncDerivedContent();
+    changeTab(activeIdx);
+
+    deletePriceAlertList = [];
+    numberOfChecked = 0;
+    editMode = false;
+
+    await fetch("/api/delete-price-alert", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ priceAlertIdList: idsToDelete }),
+    });
   }
 
   async function handleAddAlert(event, ticker, assetType) {
     addTicker = ticker;
     addAssetType = assetType?.toLowerCase();
-    const postData = {
-      path: "get-quote",
-      ticker: ticker,
-    };
-
     const response = await fetch("/api/ticker-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(postData),
+      body: JSON.stringify({
+        path: "get-quote",
+        ticker,
+      }),
     });
-    const output = await response?.json();
 
+    const output = await response?.json();
     data.getStockQuote = output;
 
     const clicked = document.getElementById("priceAlertModal");
@@ -220,16 +307,14 @@
     $openPriceAlert = true;
 
     inputValue = "";
+    searchBarData = [];
+    touchedInput = false;
     event?.preventDefault();
   }
 
-  function changeTab(i) {
+  function changeTab(i: number) {
     activeIdx = i;
-    if (activeIdx === 0) {
-      rawTabData = groupedNews;
-    } else {
-      rawTabData = groupedEarnings;
-    }
+    rawTabData = activeIdx === 0 ? groupedNews : groupedEarnings;
     displayList = rawTabData?.slice(0, 8);
   }
 
@@ -240,32 +325,97 @@
         "Content-Type": "application/json",
       },
     });
-    let output = await response.json();
-    output.data = output?.data?.sort((a, b) =>
-      a?.symbol?.localeCompare(b?.symbol),
-    );
-    priceAlertList = [...output?.data];
+    const output = await response.json();
 
-    news = output?.news;
-    earnings = output?.earnings;
+    priceAlertList = [...(output?.data || [])];
+    news = output?.news || [];
+    earnings = output?.earnings || [];
+    syncDerivedContent();
+    changeTab(activeIdx);
+  }
 
-    news = news?.map((item) => {
-      const match = priceAlertList?.find((w) => w?.symbol === item?.symbol);
-      return match ? { ...item, type: match?.type } : { ...item };
-    });
+  async function handleNoteClick(item: PriceAlertItem) {
+    if (!item?.id || typeof item.id !== "string") return;
 
-    earnings = earnings?.map((item) => {
-      const match = priceAlertList?.find((w) => w?.symbol === item?.symbol);
-      return match ? { ...item, name: match?.name } : { ...item };
-    });
-    if (priceAlertList?.length > 0) {
-      groupedEarnings = groupEarnings(earnings);
-      groupedNews = groupNews(news, priceAlertList);
-    } else {
-      groupedEarnings = [];
-      groupedNews = [];
+    editingPriceAlertId = item.id;
+    editingNoteSymbol = item.symbol;
+    isNoteModalOpen = true;
+    isLoadingNote = true;
+
+    try {
+      const [, note] = await Promise.all([
+        MarkdownNoteEditor ? Promise.resolve() : loadMarkdownEditor(),
+        item?.hasNote ? fetchNote(item.id) : Promise.resolve(""),
+      ]);
+
+      editingNoteText = note;
+      originalNoteText = note;
+    } catch {
+      editingNoteText = "";
+      originalNoteText = "";
+      toast.error("Failed to load note. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    } finally {
+      isLoadingNote = false;
     }
-    changeTab(0);
+  }
+
+  function handleNoteHover(item: PriceAlertItem) {
+    if (!item?.id) return;
+    prefetchNote(item.id, item?.hasNote || false);
+  }
+
+  async function saveNote(markdown: string) {
+    const wasNewNote = isNewNote;
+    if (!editingPriceAlertId) {
+      toast.error("No price alert selected");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/update-price-alert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mode: "note",
+          priceAlertId: editingPriceAlertId,
+          note: markdown,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save note");
+      }
+
+      const payload = await response.json();
+      setNoteInCache(editingPriceAlertId, markdown);
+
+      const hasNote = Boolean(payload?.hasNote ?? markdown.trim().length > 0);
+      priceAlertList = priceAlertList?.map((item) =>
+        item?.id === editingPriceAlertId ? { ...item, hasNote } : item,
+      );
+
+      isNoteModalOpen = false;
+      toast.success(wasNewNote ? "Note created" : "Note updated", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    } catch (error) {
+      toast.error("Failed to save note. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      throw error;
+    }
+  }
+
+  function closeNoteModal() {
+    isNoteModalOpen = false;
+    editingPriceAlertId = "";
+    editingNoteSymbol = "";
+    editingNoteText = "";
+    originalNoteText = "";
   }
 
   $: charNumber = $screenWidth < 640 ? 15 : 40;
@@ -277,7 +427,7 @@
   }
 
   function handleEditMode() {
-    if (editMode === true) {
+    if (editMode) {
       deletePriceAlertList = [];
       numberOfChecked = 0;
     }
@@ -285,7 +435,7 @@
   }
 
   async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
+    const scrollThreshold = document.body.offsetHeight * 0.8;
     const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
     if (isBottom && displayList?.length !== rawTabData?.length) {
       const nextIndex = displayList?.length;
@@ -294,22 +444,31 @@
     }
   }
 
-  onMount(async () => {
+  onMount(() => {
     window.addEventListener("scroll", handleScroll);
+
+    const preloadEditor = () => {
+      if (!MarkdownNoteEditor && !isLoadingEditor) {
+        loadMarkdownEditor();
+      }
+    };
+
+    if (typeof requestIdleCallback !== "undefined") {
+      requestIdleCallback(preloadEditor, { timeout: 3000 });
+    } else {
+      setTimeout(preloadEditor, 2000);
+    }
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   });
 
-  let inputValue = "";
-  let touchedInput = false;
-
   async function search() {
-    clearTimeout(timeoutId); // Clear any existing timeout
+    clearTimeout(timeoutId);
 
     if (!inputValue.trim()) {
-      // Skip if query is empty or just whitespace
-      searchBarData = []; // Clear previous results
+      searchBarData = [];
       return;
     }
 
@@ -318,7 +477,7 @@
         `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=10`,
       );
       searchBarData = await response?.json();
-    }, 50); // delay
+    }, 50);
   }
 </script>
 
@@ -481,6 +640,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
+                        value=""
                         class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class=" text-sm text-gray-500 dark:text-zinc-400">
@@ -544,28 +704,44 @@
                         class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                       >
                         <td
-                          on:click={() => handleFilter(item?.id)}
-                          class="text-sm sm:text-[0.95rem] whitespace-nowrap text-start flex flex-row items-center"
+                          on:click={() => editMode && handleFilter(item?.id)}
+                          class="text-sm sm:text-[0.95rem] whitespace-nowrap text-start"
                         >
-                          <input
-                            type="checkbox"
-                            checked={deletePriceAlertList?.includes(item?.id) ??
-                              false}
-                            class="{!editMode
-                              ? 'hidden'
-                              : ''} h-[18px] w-[18px] rounded-sm border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 ring-offset-0 mr-3 cursor-pointer"
-                          />
                           {#if editMode}
-                            <label
-                              class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer transition"
-                            >
-                              {item?.symbol}
-                            </label>
+                            <div class="flex flex-row items-center">
+                              <input
+                                type="checkbox"
+                                checked={deletePriceAlertList?.includes(
+                                  item?.id,
+                                ) ?? false}
+                                class="h-[18px] w-[18px] rounded-sm border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 ring-offset-0 mr-3 cursor-pointer"
+                              />
+                              <label
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer transition"
+                              >
+                                {item?.symbol}
+                              </label>
+                            </div>
                           {:else}
-                            <HoverStockChart
-                              symbol={item?.symbol}
-                              assetType={item?.type}
-                            />
+                            <div class="flex items-center gap-1.5">
+                              <HoverStockChart
+                                symbol={item?.symbol}
+                                assetType={item?.type}
+                              />
+                              <button
+                                on:click|stopPropagation={() =>
+                                  handleNoteClick(item)}
+                                on:mouseenter={() => handleNoteHover(item)}
+                                class="cursor-pointer ml-auto transition-colors"
+                                title={item?.hasNote ? "Edit note" : "Add note"}
+                              >
+                                <Pencil
+                                  class="h-3.5 w-3.5 {item?.hasNote
+                                    ? 'text-violet-500 dark:text-violet-400'
+                                    : 'text-gray-400 dark:text-zinc-500'}"
+                                />
+                              </button>
+                            </div>
                           {/if}
                         </td>
 
@@ -838,5 +1014,44 @@
     </div>
   </div>
 </section>
+
+<input
+  type="checkbox"
+  id="priceAlertNoteModal"
+  class="modal-toggle"
+  bind:checked={isNoteModalOpen}
+/>
+
+<dialog id="priceAlertNoteModal" class="modal modal-bottom sm:modal-middle">
+  <label
+    class="cursor-pointer modal-backdrop bg-black/50"
+    on:click={closeNoteModal}
+  ></label>
+
+  <div
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+  >
+    {#if isNoteModalOpen}
+      {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}
+        <label
+          class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        >
+          <span
+            class="loading loading-spinner loading-md text-white dark:text-white"
+          ></span>
+        </label>
+      {:else}
+        <svelte:component
+          this={MarkdownNoteEditor}
+          value={editingNoteText}
+          symbol={editingNoteSymbol}
+          {isNewNote}
+          onSave={saveNote}
+          onCancel={closeNoteModal}
+        />
+      {/if}
+    {/if}
+  </div>
+</dialog>
 
 <PriceAlert {data} ticker={addTicker} assetType={addAssetType} />

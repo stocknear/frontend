@@ -5,7 +5,6 @@
   stock_detail_above,
   stock_detail_alert_created,
   stock_detail_alert_failed,
-  stock_detail_alert_notify_text,
   stock_detail_below,
   stock_detail_cancel,
   stock_detail_condition,
@@ -13,7 +12,6 @@
   stock_detail_crossing,
   stock_detail_price,
   stock_detail_price_alert_on,
-  stock_detail_quick_summary,
   stock_detail_regular_trading_hours,
   stock_detail_save,
   stock_detail_symbol,
@@ -30,6 +28,15 @@
   let currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
   let targetPrice = currentPrice; //(currentPrice * (1 + targetPrice / 100))?.toFixed(2);
   let condition = "above";
+  let note = "";
+  const NOTE_MAX_LENGTH = 500;
+
+  function resetAlertForm() {
+    currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
+    targetPrice = currentPrice;
+    condition = "above";
+    note = "";
+  }
 
   function changeStatement(event) {
     condition = event.target.value;
@@ -44,6 +51,8 @@
       return;
     }
 
+    const sanitizedNote = note.trim();
+
     // Optionally close the modal popup.
     const closePopup = document.getElementById("priceAlertModal");
     closePopup?.dispatchEvent(new MouseEvent("click"));
@@ -57,6 +66,7 @@
       priceWhenCreated: currentPrice,
       condition: condition,
       targetPrice: targetPrice,
+      note: sanitizedNote,
     };
 
     // Create a promise for the POST request.
@@ -85,11 +95,11 @@
 
     // Await the promise and handle the result.
     try {
-      const newPriceAlertData = await promise;
+      const createdPriceAlertData = await promise;
       // Update reactive store or state as needed.
-      $newPriceAlertData = newPriceAlertData;
+      newPriceAlertData.set(createdPriceAlertData);
       // Optionally reset targetPrice or perform further actions.
-      targetPrice = currentPrice;
+      resetAlertForm();
     } catch (error) {
       // The error is already handled by toast.promise, but you can log it here.
       console.error("Error creating price alert:", error);
@@ -113,9 +123,7 @@
   $: {
     if ($openPriceAlert === true) {
       $openPriceAlert = false;
-      currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
-      targetPrice = currentPrice;
-      condition = "above";
+      resetAlertForm();
     }
   }
 </script>
@@ -272,20 +280,27 @@
           </div>
         </div>
 
-        {#if !isNaN(targetPrice) && targetPrice !== undefined && targetPrice !== null}
-          <div class="flex flex-col gap-2 mt-5">
-            <label
-              class="text-sm sm:text-[1rem] font-semibold text-gray-700 dark:text-zinc-200"
-              >{stock_detail_quick_summary()}</label
+        <div class="flex flex-col sm:flex-row items-start sm:items-start">
+          <label
+            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0 sm:mt-2"
+            >Note</label
+          >
+          <div class="w-full sm:w-[80%]">
+            <textarea
+              bind:value={note}
+              maxlength={NOTE_MAX_LENGTH}
+              rows="4"
+              placeholder="Optional: add context for this alert setup"
+              class="w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
+            ></textarea>
+            <div
+              class="mt-1 flex items-center justify-between text-[11px] text-gray-500 dark:text-zinc-400"
             >
-            <p class="text-sm text-gray-800 dark:text-zinc-300">
-              {stock_detail_alert_notify_text({
-                condition: condition === "above" ? stock_detail_above().toLowerCase() : stock_detail_below().toLowerCase(),
-                targetPrice: targetPrice.toString(),
-              })}
-            </p>
+              <span>Shown when this alert triggers.</span>
+              <span class="tabular-nums">{note.length}/{NOTE_MAX_LENGTH}</span>
+            </div>
           </div>
-        {/if}
+        </div>
 
         <!-- Action Buttons -->
         <div class="flex justify-end gap-4 mt-6 absolute bottom-5 right-5">

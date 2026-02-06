@@ -3,7 +3,13 @@ import type { RequestHandler } from "./$types";
 export const GET: RequestHandler = async ({ locals }) => {
   const { apiURL, apiKey, user } = locals;
 
-  const postData = { userId: user?.id};
+  if (!user?.id) {
+    return new Response(
+      JSON.stringify({ data: [], news: [], earnings: [] }),
+    );
+  }
+
+  const postData = { userId: user?.id };
   const response = await fetch(apiURL + "/get-price-alert", {
     method: "POST",
     headers: {
@@ -15,8 +21,12 @@ export const GET: RequestHandler = async ({ locals }) => {
 
   let output = await response.json();
 
-      output.data = output?.data?.sort((a, b) => a?.symbol?.localeCompare(b?.symbol));
-
+  output.data = (output?.data || [])
+    ?.map((item) => ({
+      ...item,
+      hasNote: Boolean(item?.note && String(item.note)?.trim()?.length > 0),
+    }))
+    ?.sort((a, b) => a?.symbol?.localeCompare(b?.symbol));
 
   return new Response(JSON.stringify(output));
 };

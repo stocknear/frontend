@@ -714,14 +714,16 @@
 <!--End Login Modal-->
 
 <!--Start SellTrade Modal-->
-{#await import("$lib/components/PriceAlert.svelte") then { default: Comp }}
-  <svelte:component
-    this={Comp}
-    {data}
-    ticker={$stockTicker}
-    assetType="stock"
-  />
-{/await}
+{#key $stockTicker}
+  {#await import("$lib/components/PriceAlert.svelte") then { default: Comp }}
+    <svelte:component
+      this={Comp}
+      {data}
+      ticker={$stockTicker}
+      assetType="stock"
+    />
+  {/await}
+{/key}
 
 
 <style lang="scss">
