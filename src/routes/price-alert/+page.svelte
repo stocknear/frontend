@@ -183,6 +183,13 @@
   let pendingQuoteUpdates: any[] = [];
   let frameFlushId: number | null = null;
   let lastSubscriptionKey = "";
+  let priceAlertAudio: HTMLAudioElement | null = null;
+  let reachedAlertSyncTimer: ReturnType<typeof setTimeout> | null = null;
+  let reachedAlertSyncInFlight = false;
+  const reachedAlertQueue = new Map<
+    string,
+    { id: string; currentPrice: number }
+  >();
 
   // Note modal state
   let isNoteModalOpen = false;
@@ -353,6 +360,7 @@
     if (!latestBySymbol.size) return;
     const updates = Array.from(latestBySymbol.values());
     priceAlertList = calculateChange([...priceAlertList], updates);
+    enqueueReachedAlertsForServerSync(priceAlertList);
   }
 
   function scheduleRealtimeFlush(): void {
@@ -365,6 +373,102 @@
     if (frameFlushId !== null) {
       cancelAnimationFrame(frameFlushId);
       frameFlushId = null;
+    }
+  }
+
+  function clearReachedAlertSyncState(): void {
+    reachedAlertQueue.clear();
+    if (reachedAlertSyncTimer) {
+      clearTimeout(reachedAlertSyncTimer);
+      reachedAlertSyncTimer = null;
+    }
+    reachedAlertSyncInFlight = false;
+  }
+
+  async function playPriceAlertSound(): Promise<void> {
+    if (!priceAlertAudio) return;
+    try {
+      priceAlertAudio.currentTime = 0;
+      await priceAlertAudio.play();
+    } catch {
+      // Browser may block autoplay if user hasn't interacted yet.
+    }
+  }
+
+  function enqueueReachedAlertsForServerSync(
+    list: PriceAlertItem[] = [],
+  ): void {
+    for (const item of list) {
+      const id = String(item?.id || "").trim();
+      if (!id) continue;
+
+      const stats = getToTargetStats(item);
+      if (!stats.valid || !stats.reached) continue;
+
+      const currentPrice = toFiniteNumber(item?.price);
+      if (currentPrice === null || currentPrice <= 0) continue;
+
+      reachedAlertQueue.set(id, { id, currentPrice });
+    }
+    scheduleReachedAlertSync();
+  }
+
+  function scheduleReachedAlertSync(): void {
+    if (
+      !hasMounted ||
+      !reachedAlertQueue.size ||
+      reachedAlertSyncInFlight ||
+      reachedAlertSyncTimer
+    ) {
+      return;
+    }
+
+    reachedAlertSyncTimer = setTimeout(() => {
+      reachedAlertSyncTimer = null;
+      processReachedAlertsOnServer();
+    }, 250);
+  }
+
+  async function processReachedAlertsOnServer(): Promise<void> {
+    if (!reachedAlertQueue.size || reachedAlertSyncInFlight) return;
+
+    reachedAlertSyncInFlight = true;
+    const alerts = Array.from(reachedAlertQueue.values());
+    reachedAlertQueue.clear();
+
+    try {
+      const response = await fetch("/api/process-price-alert-triggers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ alerts }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to process triggered alerts");
+      }
+
+      const payload = await response.json();
+      const triggeredCount =
+        Number(payload?.triggeredCount) ||
+        Number(payload?.triggeredIds?.length) ||
+        0;
+
+      if (triggeredCount > 0) {
+        void playPriceAlertSound();
+        await getPriceAlertList();
+      }
+    } catch {
+      // Re-queue on transient failure for retry.
+      for (const alert of alerts) {
+        reachedAlertQueue.set(alert.id, alert);
+      }
+    } finally {
+      reachedAlertSyncInFlight = false;
+      if (reachedAlertQueue.size > 0) {
+        scheduleReachedAlertSync();
+      }
     }
   }
 
@@ -562,6 +666,7 @@
     earnings = output?.earnings || [];
     syncDerivedContent();
     changeTab(activeIdx);
+    enqueueReachedAlertsForServerSync(priceAlertList);
   }
 
   async function handleNoteClick(item: PriceAlertItem) {
@@ -680,6 +785,9 @@
     if ($isOpen) {
       connectPriceSocket();
     }
+    enqueueReachedAlertsForServerSync(priceAlertList);
+    priceAlertAudio = new Audio("/audio/notification.wav");
+    priceAlertAudio.preload = "auto";
 
     window.addEventListener("scroll", handleScroll);
 
@@ -697,6 +805,8 @@
 
     return () => {
       cleanupPriceSocket();
+      clearReachedAlertSyncState();
+      priceAlertAudio = null;
       window.removeEventListener("scroll", handleScroll);
     };
   });
@@ -704,6 +814,7 @@
   onDestroy(() => {
     hasMounted = false;
     cleanupPriceSocket();
+    clearReachedAlertSyncState();
   });
 
   $: priceAlertSubscriptionKey = buildSubscriptionKey(priceAlertList);
