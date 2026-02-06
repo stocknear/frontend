@@ -695,36 +695,10 @@
                 {/if}
               </td>
               <td class="text-sm text-end whitespace-nowrap">
-                {#if item.lowerPrice}
-                  {item.lowerPrice?.toFixed(2)}
-                  {@const lowerPct =
-                    ((item.lowerPrice - stockPrice) / stockPrice) * 100}
-                  <span
-                    class="ml-1 {lowerPct >= 0
-                      ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-800 dark:text-rose-400'}"
-                  >
-                    ({lowerPct >= 0 ? "+" : ""}{lowerPct?.toFixed(2)}%)
-                  </span>
-                {:else}
-                  <span class="text-gray-400">-</span>
-                {/if}
+                {item.lowerPrice ? item?.lowerPrice?.toFixed(2) : "-"}
               </td>
               <td class="text-sm text-end whitespace-nowrap">
-                {#if item.upperPrice}
-                  {item.upperPrice?.toFixed(2)}
-                  {@const upperPct =
-                    ((item.upperPrice - stockPrice) / stockPrice) * 100}
-                  <span
-                    class="ml-1 {upperPct >= 0
-                      ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-800 dark:text-rose-400'}"
-                  >
-                    ({upperPct >= 0 ? "+" : ""}{upperPct?.toFixed(2)}%)
-                  </span>
-                {:else}
-                  <span class="text-gray-400">-</span>
-                {/if}
+                {item.upperPrice ? item?.upperPrice?.toFixed(2) : "-"}
               </td>
               <td class="text-sm text-end whitespace-nowrap">
                 {#if item.impliedVolatility}
