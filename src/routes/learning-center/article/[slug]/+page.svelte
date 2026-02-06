@@ -158,6 +158,90 @@
 
   $: readingTime = article?.time || 5;
 
+  // Extract FAQ pairs from article HTML for structured data
+  function extractFAQSchema(html) {
+    if (!html) return null;
+    const parts = html.split(/(<h2[^>]*>)\s*Frequently Asked Questions\s*<\/h2>/i);
+    if (parts.length < 3) return null;
+    const faqHtml = parts.slice(2).join("");
+    const questions = [];
+    // Match h3 followed by one or more p tags as the answer
+    const regex = /<h3[^>]*>([^<]+)<\/h3>\s*((?:<p>[\s\S]*?<\/p>\s*)+)/gi;
+    let match;
+    while ((match = regex.exec(faqHtml)) !== null) {
+      const answerText = match[2].replace(/<[^>]+>/g, "").trim();
+      if (answerText) {
+        questions.push({
+          "@type": "Question",
+          name: match[1].trim(),
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: answerText,
+          },
+        });
+      }
+    }
+    if (questions.length === 0) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: questions,
+    };
+  }
+
+  // Build BreadcrumbList schema
+  function buildBreadcrumbSchema(articleData) {
+    if (!articleData) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://stocknear.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Learning Center",
+          item: "https://stocknear.com/learning-center",
+        },
+        ...(articleData.category
+          ? [
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: articleData.category,
+                item: `https://stocknear.com/learning-center?category=${encodeURIComponent(articleData.category)}`,
+              },
+              {
+                "@type": "ListItem",
+                position: 4,
+                name: articleData.title,
+                item: `https://stocknear.com/learning-center/article/${data?.getParams}`,
+              },
+            ]
+          : [
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: articleData.title,
+                item: `https://stocknear.com/learning-center/article/${data?.getParams}`,
+              },
+            ]),
+      ],
+    };
+  }
+
+  // Format ISO date properly with T separator
+  function toISO(dateStr) {
+    if (!dateStr) return undefined;
+    const d = new Date(dateStr);
+    return isNaN(d.getTime()) ? undefined : d.toISOString();
+  }
+
   // Extract TOC and add IDs to H2 headers in one pass (works with HTML string)
   function processContentWithTOC(html) {
     if (!html) return { html: "", toc: [] };
@@ -376,51 +460,63 @@
 <SEO
   title={article?.title}
   description={article?.abstract}
+  type="article"
+  twitterCard="summary_large_image"
+  article={{
+    publishedTime: toISO(article?.created),
+    modifiedTime: toISO(article?.updated),
+    section: article?.category || "Features",
+    tags: article?.tags || [],
+  }}
   keywords="stock market education, investment tutorial, {article?.title?.toLowerCase()}, learn investing, trading strategy, financial education, investment guide, stock analysis tutorial"
   image={article?.cover
     ? getImageURL(article?.collectionId, article?.id, article?.cover)
     : ""}
-  structuredData={{
-    "@context": "https://schema.org",
-    "@type": "EducationalArticle",
-    headline: article?.title,
-    description: article?.abstract,
-    image: article?.cover
-      ? getImageURL(article?.collectionId, article?.id, article?.cover)
-      : "https://stocknear.com/pwa-512x512.png",
-    author: {
-      "@type": "Organization",
-      name: "Stocknear",
-      url: "https://stocknear.com",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Stocknear",
-      url: "https://stocknear.com",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://stocknear.com/pwa-512x512.png",
+  structuredData={[
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalArticle",
+      headline: article?.title,
+      description: article?.abstract,
+      image: article?.cover
+        ? getImageURL(article?.collectionId, article?.id, article?.cover)
+        : "https://stocknear.com/pwa-512x512.png",
+      author: {
+        "@type": "Organization",
+        name: "Stocknear",
+        url: "https://stocknear.com",
       },
+      publisher: {
+        "@type": "Organization",
+        name: "Stocknear",
+        url: "https://stocknear.com",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://stocknear.com/pwa-512x512.png",
+        },
+      },
+      datePublished: toISO(article?.created),
+      dateModified: toISO(article?.updated),
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://stocknear.com/learning-center/article/${data?.getParams}`,
+      },
+      about: {
+        "@type": "Thing",
+        name: "Stock Market Education",
+      },
+      educationalLevel: "beginner",
+      learningResourceType: "tutorial",
+      audience: {
+        "@type": "EducationalAudience",
+        educationalRole: "student",
+      },
+      wordCount:
+        article?.description?.replace(/<[^>]*>/g, "")?.split(" ")?.length || 0,
     },
-    datePublished: article?.created,
-    dateModified: article?.updated,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://stocknear.com/learning-center/article/${data?.getParams}`,
-    },
-    about: {
-      "@type": "Thing",
-      name: "Stock Market Education",
-    },
-    educationalLevel: "beginner",
-    learningResourceType: "tutorial",
-    audience: {
-      "@type": "EducationalAudience",
-      educationalRole: "student",
-    },
-    wordCount:
-      article?.description?.replace(/<[^>]*>/g, "")?.split(" ")?.length || 0,
-  }}
+    extractFAQSchema(article?.description),
+    buildBreadcrumbSchema(article),
+  ]}
 />
 
 <!-- Reading Progress Bar -->

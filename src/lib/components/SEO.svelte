@@ -9,6 +9,7 @@
   export let structuredData: any = null;
   export let type: string = "website";
   export let article: any = null;
+  export let twitterCard: string = "summary";
 
   const baseURL = "https://stocknear.com";
   const canonical = baseURL + ($page?.url?.pathname || "");
@@ -72,8 +73,6 @@
 
   {#if finalImage}
     <meta property="og:image" content={finalImage} />
-    <meta property="og:image:width" content="256" />
-    <meta property="og:image:height" content="256" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content={`${title} - ${siteName}`} />
   {/if}
@@ -98,7 +97,7 @@
   {/if}
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content={twitterCard} />
   <meta name="twitter:site" content={twitterHandle} />
   <meta name="twitter:creator" content={twitterHandle} />
   <meta name="twitter:title" content={`${title} - ${siteName}`} />
@@ -116,6 +115,14 @@
 
   <!-- Structured Data -->
   {#if structuredData}
-    {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
+    {#if Array.isArray(structuredData)}
+      {#each structuredData as sd}
+        {#if sd}
+          {@html `<script type="application/ld+json">${JSON.stringify(sd)}</script>`}
+        {/if}
+      {/each}
+    {:else}
+      {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
+    {/if}
   {/if}
 </svelte:head>
