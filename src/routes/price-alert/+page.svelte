@@ -1,6 +1,12 @@
 <script lang="ts">
-  import { openPriceAlert, newPriceAlertData, screenWidth } from "$lib/store";
   import {
+    isOpen,
+    openPriceAlert,
+    newPriceAlertData,
+    screenWidth,
+  } from "$lib/store";
+  import {
+    calculateChange,
     groupNews,
     groupEarnings,
     compareTimes,
@@ -16,7 +22,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import {
     price_alert_breadcrumb_home,
     price_alert_breadcrumb_price_alert,
@@ -168,6 +174,15 @@
   let earnings = data?.getPriceAlert?.earnings || [];
   let groupedNews = [];
   let groupedEarnings = [];
+  let hasMounted = false;
+  let priceAlertSubscriptionKey = "";
+
+  // Realtime quote websocket state (same feed as /watchlist/stocks table).
+  let priceSocket: WebSocket | null = null;
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let pendingQuoteUpdates: any[] = [];
+  let frameFlushId: number | null = null;
+  let lastSubscriptionKey = "";
 
   // Note modal state
   let isNoteModalOpen = false;
@@ -303,6 +318,146 @@
       textClass,
       barClass,
     };
+  }
+
+  function collectSymbols(): string[] {
+    const unique = new Set(
+      (priceAlertList || [])
+        .map((item) => String(item?.symbol || "").trim().toUpperCase())
+        .filter(Boolean),
+    );
+    return Array.from(unique);
+  }
+
+  function buildSubscriptionKey(list: PriceAlertItem[] = []): string {
+    const unique = new Set(
+      (list || [])
+        .map((item) => String(item?.symbol || "").trim().toUpperCase())
+        .filter(Boolean),
+    );
+    return Array.from(unique).sort().join(",");
+  }
+
+  function flushRealtimeUpdates(): void {
+    frameFlushId = null;
+    if (!pendingQuoteUpdates.length || !priceAlertList?.length) return;
+
+    // Keep the latest update per symbol to minimize per-frame work.
+    const latestBySymbol = new Map<string, any>();
+    for (const update of pendingQuoteUpdates) {
+      const symbol = String(update?.symbol || "").toUpperCase();
+      if (symbol) latestBySymbol.set(symbol, update);
+    }
+    pendingQuoteUpdates = [];
+
+    if (!latestBySymbol.size) return;
+    const updates = Array.from(latestBySymbol.values());
+    priceAlertList = calculateChange([...priceAlertList], updates);
+  }
+
+  function scheduleRealtimeFlush(): void {
+    if (frameFlushId !== null) return;
+    frameFlushId = requestAnimationFrame(flushRealtimeUpdates);
+  }
+
+  function clearRealtimeBuffers(): void {
+    pendingQuoteUpdates = [];
+    if (frameFlushId !== null) {
+      cancelAnimationFrame(frameFlushId);
+      frameFlushId = null;
+    }
+  }
+
+  function sendPriceSocketMessage(message: unknown): void {
+    if (priceSocket && priceSocket.readyState === WebSocket.OPEN) {
+      priceSocket.send(JSON.stringify(message));
+    }
+  }
+
+  function cleanupPriceSocket(): void {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+
+    clearRealtimeBuffers();
+
+    if (priceSocket) {
+      try {
+        if (
+          priceSocket.readyState === WebSocket.OPEN ||
+          priceSocket.readyState === WebSocket.CONNECTING
+        ) {
+          priceSocket.close();
+        }
+      } catch {
+        // no-op
+      }
+      priceSocket = null;
+    }
+  }
+
+  function connectPriceSocket(): void {
+    const symbols = collectSymbols();
+    if (!hasMounted || !$isOpen || !data?.wsURL || symbols.length === 0) return;
+
+    if (
+      priceSocket &&
+      (priceSocket.readyState === WebSocket.OPEN ||
+        priceSocket.readyState === WebSocket.CONNECTING)
+    ) {
+      return;
+    }
+
+    try {
+      priceSocket = new WebSocket(`${data.wsURL}/price-data`);
+    } catch {
+      priceSocket = null;
+      return;
+    }
+
+    priceSocket.addEventListener("open", () => {
+      sendPriceSocketMessage(symbols);
+    });
+
+    priceSocket.addEventListener("message", (event) => {
+      try {
+        const payload = JSON.parse(event?.data ?? "[]");
+        const updates = Array.isArray(payload) ? payload : [payload];
+        if (!updates.length) return;
+        pendingQuoteUpdates.push(...updates);
+        scheduleRealtimeFlush();
+      } catch {
+        // no-op
+      }
+    });
+
+    priceSocket.addEventListener("close", () => {
+      priceSocket = null;
+      if (!hasMounted || !$isOpen || !collectSymbols().length) return;
+      reconnectTimer = setTimeout(() => {
+        reconnectTimer = null;
+        connectPriceSocket();
+      }, 1500);
+    });
+
+    priceSocket.addEventListener("error", () => {
+      if (priceSocket) {
+        try {
+          priceSocket.close();
+        } catch {
+          // no-op
+        }
+      }
+    });
+  }
+
+  function restartPriceSocketIfNeeded(nextKey: string): void {
+    if (nextKey === lastSubscriptionKey) return;
+
+    lastSubscriptionKey = nextKey;
+    cleanupPriceSocket();
+    connectPriceSocket();
   }
 
   async function handleFilter(priceAlertId: string) {
@@ -520,6 +675,12 @@
   }
 
   onMount(() => {
+    hasMounted = true;
+    lastSubscriptionKey = priceAlertSubscriptionKey;
+    if ($isOpen) {
+      connectPriceSocket();
+    }
+
     window.addEventListener("scroll", handleScroll);
 
     const preloadEditor = () => {
@@ -535,9 +696,26 @@
     }
 
     return () => {
+      cleanupPriceSocket();
       window.removeEventListener("scroll", handleScroll);
     };
   });
+
+  onDestroy(() => {
+    hasMounted = false;
+    cleanupPriceSocket();
+  });
+
+  $: priceAlertSubscriptionKey = buildSubscriptionKey(priceAlertList);
+
+  $: if (hasMounted) {
+    if (!$isOpen) {
+      cleanupPriceSocket();
+    } else {
+      restartPriceSocketIfNeeded(priceAlertSubscriptionKey);
+      connectPriceSocket();
+    }
+  }
 
   async function search() {
     clearTimeout(timeoutId);
