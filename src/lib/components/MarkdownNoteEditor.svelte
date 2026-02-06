@@ -61,6 +61,8 @@
   export let onCancel: () => void;
   export let symbol: string;
   export let isNewNote: boolean = false;
+  export let placeholderText: string =
+    "Write your investment thesis, target price, or key reasons for watching this stock...";
 
   // State
   let isPreviewMode = !isNewNote && value.length > 0;
@@ -288,9 +290,7 @@
           "Shift-Tab": liftListItem(schema.nodes.list_item),
         }),
         keymap(baseKeymap),
-        placeholderPlugin(
-          "Write your investment thesis, target price, or key reasons for watching this stock...",
-        ),
+        placeholderPlugin(placeholderText),
       ],
     });
   }

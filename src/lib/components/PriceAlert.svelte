@@ -290,7 +290,7 @@
               bind:value={note}
               maxlength={NOTE_MAX_LENGTH}
               rows="4"
-              placeholder="Optional: add context for this alert setup"
+              placeholder="Optional: why this alert level matters and what you plan to do when it triggers"
               class="w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
             ></textarea>
             <div

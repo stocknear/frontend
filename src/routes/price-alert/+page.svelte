@@ -230,6 +230,81 @@
     });
   }
 
+  function toFiniteNumber(value: unknown): number | null {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function getToTargetStats(item: PriceAlertItem) {
+    const currentPrice = toFiniteNumber(item?.price);
+    const targetPrice = toFiniteNumber(item?.targetPrice);
+    const condition =
+      String(item?.condition || "").toLowerCase() === "below"
+        ? "below"
+        : "above";
+
+    if (
+      currentPrice === null ||
+      targetPrice === null ||
+      currentPrice <= 0 ||
+      targetPrice <= 0
+    ) {
+      return {
+        valid: false,
+        reached: false,
+        distancePct: null,
+        progressPct: 0,
+        label: "-",
+        textClass: "text-gray-500 dark:text-zinc-400",
+        barClass: "bg-gray-400 dark:bg-zinc-500",
+      };
+    }
+
+    const reached =
+      condition === "above"
+        ? currentPrice >= targetPrice
+        : currentPrice <= targetPrice;
+
+    const rawDistancePct =
+      condition === "above"
+        ? ((targetPrice - currentPrice) / currentPrice) * 100
+        : ((currentPrice - targetPrice) / currentPrice) * 100;
+
+    const distancePct = Math.abs(rawDistancePct);
+    const closenessPct =
+      (Math.min(currentPrice, targetPrice) /
+        Math.max(currentPrice, targetPrice)) *
+      100;
+    const progressPct = reached
+      ? 100
+      : Math.max(0, Math.min(100, closenessPct));
+
+    let textClass = "text-rose-700 dark:text-rose-400";
+    let barClass = "bg-rose-500 dark:bg-rose-400";
+    if (reached) {
+      textClass = "text-emerald-700 dark:text-emerald-400";
+      barClass = "bg-emerald-500 dark:bg-emerald-400";
+    } else if (distancePct <= 1) {
+      textClass = "text-sky-700 dark:text-sky-400";
+      barClass = "bg-sky-500 dark:bg-sky-400";
+    } else if (distancePct <= 3) {
+      textClass = "text-amber-700 dark:text-amber-400";
+      barClass = "bg-amber-500 dark:bg-amber-400";
+    }
+
+    const label = reached ? "At target" : `${distancePct.toFixed(2)}% away`;
+
+    return {
+      valid: true,
+      reached,
+      distancePct,
+      progressPct,
+      label,
+      textClass,
+      barClass,
+    };
+  }
+
   async function handleFilter(priceAlertId: string) {
     const filterSet = new Set(deletePriceAlertList);
     if (filterSet.has(priceAlertId)) {
@@ -683,6 +758,10 @@
                         >Condition</th
                       >
                       <th
+                        class=" font-semibold text-left text-[11px] sm:text-[12px]"
+                        >To Target</th
+                      >
+                      <th
                         class=" font-semibold text-end text-[11px] sm:text-[12px]"
                       >
                         Price</th
@@ -699,6 +778,7 @@
                   </thead>
                   <tbody class="p-3">
                     {#each priceAlertList as item}
+                      {@const toTarget = getToTargetStats(item)}
                       <!-- row -->
                       <tr
                         class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -765,6 +845,32 @@
                           {item?.condition}
                         </td>
 
+                        <td class=" text-sm sm:text-[0.95rem] whitespace-nowrap">
+                          {#if toTarget.valid}
+                            <div class="min-w-[130px]">
+                              <div class="flex items-center justify-between gap-2">
+                                <span class="text-xs font-medium {toTarget.textClass}">
+                                  {toTarget.label}
+                                </span>
+                                <span
+                                  class="text-[11px] text-gray-500 dark:text-zinc-400 tabular-nums"
+                                >
+                                  {toTarget.progressPct.toFixed(0)}%
+                                </span>
+                              </div>
+                              <div
+                                class="mt-1 h-1.5 w-full rounded-full bg-gray-200 dark:bg-zinc-800 overflow-hidden"
+                              >
+                                <div
+                                  class="h-full rounded-full transition-all duration-300 {toTarget.barClass}"
+                                  style={`width: ${toTarget.progressPct}%`}
+                                ></div>
+                              </div>
+                            </div>
+                          {:else}
+                            <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          {/if}
+                        </td>
                         <td
                           class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
@@ -1046,6 +1152,7 @@
           value={editingNoteText}
           symbol={editingNoteSymbol}
           {isNewNote}
+          placeholderText="Add why this price alert matters, your setup, and what action to take when it triggers..."
           onSave={saveNote}
           onCancel={closeNoteModal}
         />
