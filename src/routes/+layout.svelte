@@ -58,7 +58,6 @@
   import Screener from "lucide-svelte/icons/microscope";
   import PieChart from "lucide-svelte/icons/chart-pie";
   import Star from "lucide-svelte/icons/star";
-  import Bell from "lucide-svelte/icons/bell";
   import Sparkles from "lucide-svelte/icons/sparkles";
   import {
     layout_all_politicians,
@@ -2019,9 +2018,23 @@
           ? 'text-white dark:text-violet-400'
           : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
       >
-        <Bell
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
-        />
+          viewBox="0 0 24 24"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          >
+            <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+            <circle cx="12" cy="13" r="8" />
+            <path d="M9.5 13h5M12 10.5v5" />
+          </g>
+        </svg>
         <span
           class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
           >{layout_price_alert()}</span
