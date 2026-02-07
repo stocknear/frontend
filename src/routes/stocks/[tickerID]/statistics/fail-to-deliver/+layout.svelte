@@ -61,7 +61,7 @@
 
             <div class="px-2">
               <a
-                href="/learning-center/article/failtodeliver-shares"
+                href="/learning-center/article/fail-to-deliver-(ftd)-what-undelivered-shares-reveal"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_full_definition()}

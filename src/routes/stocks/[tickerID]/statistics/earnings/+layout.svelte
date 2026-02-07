@@ -137,7 +137,7 @@
 
                             <div class="px-2">
                                 <a
-                                    href="/learning-center/article/leverage-earnings-releases-to-your-advantage"
+                                    href="/learning-center/article/how-to-trade-earnings-reports"
                                     class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
                                 >
                                     {stock_detail_stats_more_information()}
