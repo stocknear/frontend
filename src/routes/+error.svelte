@@ -1,15 +1,21 @@
 <script>
   import { page } from "$app/stores";
+  import SEO from "$lib/components/SEO.svelte";
   import {
   error_back_home,
   error_body_prefix,
   error_body_suffix,
   error_title,
 } from "$lib/paraglide/messages";
-  //import { trackError,trackButtonClick } from '$lib/mixpanel';
 
   const emailAddress = "support@stocknear.com";
 </script>
+
+<SEO
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist or has been moved."
+  noindex={true}
+/>
 
 <section class="min-h-screen pt-6">
   <div class=" mt-10 m-auto overflow-hidden w-full max-w-4xl">

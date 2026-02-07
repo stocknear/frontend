@@ -645,6 +645,7 @@
 <section
   class="text-gray-700 dark:text-zinc-200 min-h-screen pb-40 overflow-hidden w-full"
 >
+  <h1 class="sr-only">{data?.companyName} ({$etfTicker}) ETF Price, Holdings & Analysis</h1>
   <div class="w-full m-auto overflow-hidden">
     <div
       class="md:flex md:justify-between md:divide-x md:divide-gray-200/70 dark:md:divide-zinc-800/80 w-full"
