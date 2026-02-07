@@ -5,8 +5,7 @@ export async function GET({ locals, setHeaders }) {
   try {
     setHeaders({
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, s-maxage=7200', // Longer cache for stocks sitemap
-      'X-Robots-Tag': 'noindex, nofollow'
+      'Cache-Control': 'public, max-age=3600, s-maxage=7200',
     });
 
     // Fetch stock data
