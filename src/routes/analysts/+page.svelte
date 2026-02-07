@@ -1,5 +1,6 @@
 <script lang="ts">
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import Tutorial from "$lib/components/Tutorial.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -478,11 +479,16 @@
       >
         <main class="w-full">
           <div class="border-b border-gray-300 dark:border-zinc-700">
-            <h1
-              class="mb-3 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {analysts_main_name()}
-            </h1>
+            <div class="mb-3 flex flex-row items-center gap-3">
+              <h1
+                class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
+                {analysts_main_name()}
+              </h1>
+              <div class="ml-auto">
+                <Tutorial />
+              </div>
+            </div>
           </div>
 
           <Infobox text={analysts_infobox()} />
@@ -521,8 +527,8 @@
                           ><path
                             fill="currentColor"
                             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          /></svg>
-
+                          /></svg
+                        >
                       </label>
                     {/if}
                   </div>
