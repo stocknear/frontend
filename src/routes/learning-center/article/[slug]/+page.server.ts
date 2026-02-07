@@ -4,62 +4,74 @@ export const load = async ({ locals, params }) => {
   const { pb } = locals;
 
   const getArticleAndRelated = async () => {
-    // Fetch all tutorials sorted by created date
-    const output = await pb.collection("tutorials").getFullList({
+    // Step 1: Lightweight lookup - only fetch id, title, tags, category (no description/cover)
+    const index = await pb.collection("tutorials").getFullList({
       sort: "-created",
+      fields: "id,title,tags,category",
+      requestKey: "article-index",
     });
 
-    // Find the matching article based on params.slug
-    const matchingArticle = output?.find(
+    // Find the matching article by slug
+    const match = index?.find(
       (article) => convertToSlug(article?.title) === params?.slug
     );
 
-    if (!matchingArticle) {
+    if (!match) {
       return { article: null, relatedArticles: [] };
     }
 
-    // Get related articles based on tags and recency
-    const currentTags = matchingArticle.tags || [];
-    
-    // Filter out the current article and score remaining articles
-    const otherArticles = output.filter(
-      (article) => article.id !== matchingArticle.id
-    );
-
-    // Score articles by matching tags
-    const scoredArticles = otherArticles.map((article) => {
-      const articleTags = article.tags || [];
-      const matchingTags = currentTags.filter((tag: string) => 
-        articleTags.includes(tag)
-      ).length;
-      return { article, score: matchingTags };
+    // Step 2: Fetch the full article by ID
+    const article = await pb.collection("tutorials").getOne(match.id, {
+      requestKey: "article-full",
     });
 
-    // Sort by score (matching tags) first, then by created date
-    scoredArticles.sort((a, b) => {
-      if (b.score !== a.score) {
-        return b.score - a.score;
-      }
-      // If same score, sort by created date (newest first)
-      return new Date(b.article.created).getTime() - new Date(a.article.created).getTime();
-    });
+    // Step 3: Fetch related articles - filter by matching tags, exclude current
+    const currentTags = match.tags || [];
+    let relatedArticles: any[] = [];
 
-    // Take top 4 related articles
-    const relatedArticles = scoredArticles.slice(0, 4).map((item) => item.article);
+    if (currentTags.length > 0) {
+      // Try to find articles with matching tags
+      const tagFilters = currentTags.map(
+        (tag: string) => `tags ~ "${tag}"`
+      );
+      const filter = `id != "${match.id}" && (${tagFilters.join(" || ")})`;
 
-    return { article: matchingArticle, relatedArticles };
-  };
+      const related = await pb.collection("tutorials").getList(1, 4, {
+        filter,
+        sort: "-created",
+        fields:
+          "id,collectionId,title,abstract,category,tags,cover,created,updated,time",
+        requestKey: "article-related",
+      });
+      relatedArticles = related.items;
+    }
 
-  const getParams = async () => {
-    return params?.slug;
+    // If we got fewer than 4 related articles, fill with recent ones
+    if (relatedArticles.length < 4) {
+      const existingIds = [match.id, ...relatedArticles.map((a) => a.id)];
+      const excludeFilter = existingIds
+        .map((id) => `id != "${id}"`)
+        .join(" && ");
+      const remaining = 4 - relatedArticles.length;
+
+      const filler = await pb.collection("tutorials").getList(1, remaining, {
+        filter: excludeFilter,
+        sort: "-created",
+        fields:
+          "id,collectionId,title,abstract,category,tags,cover,created,updated,time",
+        requestKey: "article-filler",
+      });
+      relatedArticles = [...relatedArticles, ...filler.items];
+    }
+
+    return { article, relatedArticles };
   };
 
   const { article, relatedArticles } = await getArticleAndRelated();
 
-  // Make sure to return a promise
   return {
     getArticle: article,
     getRelatedArticles: relatedArticles,
-    getParams: await getParams(),
+    getParams: params?.slug,
   };
 };

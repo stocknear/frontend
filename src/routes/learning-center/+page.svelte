@@ -20,15 +20,15 @@
 
   export let data;
 
-  // Pagination state
-  let currentPage = 1;
-  let itemsPerPage = 20;
-  let itemsPerPageOptions = [10, 20, 50];
+  let itemsPerPageOptions = [15, 20, 30];
 
-  $: tutorialsByCategory = data?.tutorialsByCategory;
-  $: allTutorials = data?.allTutorials || [];
-  $: activeCategory = $page.url.searchParams.get("category") || "all";
-  $: activeTag = $page.url.searchParams.get("tag") || "all";
+  $: activeCategory = data?.categoryFilter || "all";
+  $: activeTag = data?.tagFilter || "all";
+
+  // Server-driven pagination data (category view only)
+  $: currentPage = data?.view === "category" ? data?.currentPage ?? 1 : 1;
+  $: totalPages = data?.view === "category" ? data?.totalPages ?? 1 : 1;
+  $: itemsPerPage = data?.view === "category" ? data?.perPage ?? 15 : 15;
 
   // Available tags for filtering
   const availableTags = [
@@ -71,130 +71,53 @@
     });
   }
 
-  function setCategory(categoryId: string) {
+  function buildUrl(overrides: Record<string, string | null> = {}) {
     const params = new URLSearchParams();
-    if (categoryId !== "all") {
-      params.set("category", categoryId);
-    }
-    if (activeTag !== "all") {
-      params.set("tag", activeTag);
-    }
-    const queryString = params.toString();
-    goto(`/learning-center${queryString ? `?${queryString}` : ""}`);
+    const cat = overrides.category !== undefined ? overrides.category : activeCategory;
+    const tag = overrides.tag !== undefined ? overrides.tag : activeTag;
+    const pg = overrides.page !== undefined ? overrides.page : null;
+    const pp = overrides.perPage !== undefined ? overrides.perPage : null;
+
+    if (cat && cat !== "all") params.set("category", cat);
+    if (tag && tag !== "all") params.set("tag", tag);
+    if (pg && pg !== "1") params.set("page", pg);
+    if (pp && pp !== "15") params.set("perPage", pp);
+
+    const qs = params.toString();
+    return `/learning-center${qs ? `?${qs}` : ""}`;
+  }
+
+  function setCategory(categoryId: string) {
+    goto(buildUrl({ category: categoryId, page: null, perPage: null }));
   }
 
   function setTag(tagId: string) {
-    const params = new URLSearchParams();
-    if (activeCategory !== "all") {
-      params.set("category", activeCategory);
-    }
-    if (tagId !== "all") {
-      params.set("tag", tagId);
-    }
-    const queryString = params.toString();
-    goto(`/learning-center${queryString ? `?${queryString}` : ""}`);
+    goto(buildUrl({ tag: tagId, page: "1" }));
   }
 
   // Get the display name for the selected tag
   $: selectedTagName =
     availableTags.find((t) => t.id === activeTag)?.name || "All Tags";
 
-  // Filter tutorials by tag - inline to ensure reactivity
-  function filterByTag(tutorials: any[], tag: string) {
-    if (tag === "all") return tutorials;
-    return tutorials.filter((item) => {
-      const tags = item?.tags || [];
-      return tags.includes(tag);
-    });
-  }
+  // Total count for SEO structured data
+  $: totalCount = data?.view === "all" ? data?.totalCount ?? 0 : data?.totalItems ?? 0;
 
-  // Get tutorials to display based on active category and tag
-  $: displayTutorials = filterByTag(
-    activeCategory === "all"
-      ? allTutorials
-      : tutorialsByCategory?.[activeCategory] || [],
-    activeTag,
-  );
-
-  // Also filter the categorized tutorials for the "all" view
-  $: filteredByCategory = {
-    Fundamentals: filterByTag(
-      tutorialsByCategory?.Fundamentals || [],
-      activeTag,
-    ),
-    Concepts: filterByTag(tutorialsByCategory?.Concepts || [], activeTag),
-    Strategies: filterByTag(tutorialsByCategory?.Strategies || [], activeTag),
-    Features: filterByTag(tutorialsByCategory?.Features || [], activeTag),
-    Terms: filterByTag(tutorialsByCategory?.Terms || [], activeTag),
-  };
-
-  // Pagination logic - only for filtered category views (not "all")
-  $: totalItems = displayTutorials?.length || 0;
-  $: totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  // Paginated tutorials for category views
-  $: paginatedTutorials = (() => {
-    if (activeCategory === "all") return displayTutorials;
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    // Sort alphabetically for Terms category
-    const sorted =
-      activeCategory === "Terms"
-        ? [...displayTutorials].sort((a, b) => a.title.localeCompare(b.title))
-        : displayTutorials;
-    return sorted.slice(startIndex, endIndex);
-  })();
-
-  // Track previous values to detect changes
-  let prevCategory = activeCategory;
-  let prevTag = activeTag;
-
-  // Reset to page 1 when category or tag changes
-  $: {
-    if (activeCategory !== prevCategory || activeTag !== prevTag) {
-      currentPage = 1;
-      prevCategory = activeCategory;
-      prevTag = activeTag;
-    }
-  }
-
-  // Pagination functions
   function goToPage(pageNum: number) {
     if (pageNum >= 1 && pageNum <= totalPages) {
-      currentPage = pageNum;
+      goto(buildUrl({ page: String(pageNum), perPage: String(itemsPerPage) }));
       scrollToTop();
     }
   }
 
   function changeItemsPerPage(newItemsPerPage: number) {
-    itemsPerPage = newItemsPerPage;
-    currentPage = 1;
-    saveItemsPerPage();
+    saveItemsPerPage(newItemsPerPage);
+    goto(buildUrl({ page: "1", perPage: String(newItemsPerPage) }));
   }
 
-  function saveItemsPerPage() {
+  function saveItemsPerPage(value: number) {
     if (browser) {
       try {
-        localStorage.setItem(
-          "learning-center_itemsPerPage",
-          String(itemsPerPage),
-        );
-      } catch (e) {
-        // localStorage not available
-      }
-    }
-  }
-
-  function loadItemsPerPage() {
-    if (browser) {
-      try {
-        const saved = localStorage.getItem("learning-center_itemsPerPage");
-        if (saved) {
-          const parsed = parseInt(saved, 10);
-          if (itemsPerPageOptions.includes(parsed)) {
-            itemsPerPage = parsed;
-          }
-        }
+        localStorage.setItem("learning-center_itemsPerPage", String(value));
       } catch (e) {
         // localStorage not available
       }
@@ -207,9 +130,24 @@
     }
   }
 
-  // Load saved items per page on mount
-  $: if (browser) {
-    loadItemsPerPage();
+  // On first load, apply localStorage perPage preference if no perPage in URL
+  let initialPerPageApplied = false;
+  $: if (browser && !initialPerPageApplied && data?.view === "category") {
+    initialPerPageApplied = true;
+    try {
+      const saved = localStorage.getItem("learning-center_itemsPerPage");
+      if (saved) {
+        const parsed = parseInt(saved, 10);
+        if (
+          itemsPerPageOptions.includes(parsed) &&
+          !$page.url.searchParams.has("perPage")
+        ) {
+          goto(buildUrl({ perPage: String(parsed) }), { replaceState: true });
+        }
+      }
+    } catch (e) {
+      // localStorage not available
+    }
   }
 </script>
 
@@ -239,7 +177,7 @@
       "@type": "ItemList",
       name: learning_center_structured_articles(),
       description: learning_center_structured_articles_description(),
-      numberOfItems: allTutorials?.length || 0,
+      numberOfItems: totalCount,
     },
   }}
 />
@@ -348,9 +286,11 @@
   {/if}
 
   <!-- Show categorized sections when "All" is selected -->
-  {#if activeCategory === "all"}
+  {#if data?.view === "all"}
+    {@const sections = data.categorySections}
+
     <!-- Features Section -->
-    {#if filteredByCategory?.Features?.length > 0}
+    {#if sections?.Features?.items?.length > 0}
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
@@ -361,7 +301,7 @@
               How to use Stocknear
             </p>
           </div>
-          {#if filteredByCategory.Features.length > 3}
+          {#if sections.Features.totalItems > 3}
             <button
               type="button"
               on:click={() => setCategory("Features")}
@@ -372,7 +312,7 @@
           {/if}
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {#each filteredByCategory.Features.slice(0, 3) as item}
+          {#each sections.Features.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
               class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
@@ -413,7 +353,7 @@
     {/if}
 
     <!-- Fundamentals Section -->
-    {#if filteredByCategory?.Fundamentals?.length > 0}
+    {#if sections?.Fundamentals?.items?.length > 0}
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
@@ -424,7 +364,7 @@
               Start here if you're new to investing
             </p>
           </div>
-          {#if filteredByCategory.Fundamentals.length > 3}
+          {#if sections.Fundamentals.totalItems > 3}
             <button
               type="button"
               on:click={() => setCategory("Fundamentals")}
@@ -435,133 +375,7 @@
           {/if}
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {#each filteredByCategory.Fundamentals.slice(0, 3) as item}
-            <a
-              href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
-            >
-              {#if item?.cover}
-                <div class="h-40 overflow-hidden">
-                  <img
-                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
-                    alt={item?.title}
-                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </div>
-              {:else}
-                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
-              {/if}
-              <div class="flex flex-col flex-1 p-4">
-                <h3
-                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
-                >
-                  {item?.title}
-                </h3>
-                <p
-                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
-                >
-                  {item?.abstract}
-                </p>
-                <div
-                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
-                >
-                  <span>{item?.time || 5} min read</span>
-                </div>
-              </div>
-            </a>
-          {/each}
-        </div>
-      </div>
-    {/if}
-
-    <!-- Concepts Section -->
-    {#if filteredByCategory?.Concepts?.length > 0}
-      <div class="mb-12">
-        <div class="flex items-baseline justify-between mb-4">
-          <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Concepts
-            </h2>
-            <p class="text-sm text-gray-500 dark:text-zinc-400">
-              Market indicators and mechanics
-            </p>
-          </div>
-          {#if filteredByCategory.Concepts.length > 3}
-            <button
-              type="button"
-              on:click={() => setCategory("Concepts")}
-              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              View all
-            </button>
-          {/if}
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {#each filteredByCategory.Concepts.slice(0, 3) as item}
-            <a
-              href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
-            >
-              {#if item?.cover}
-                <div class="h-40 overflow-hidden">
-                  <img
-                    src={getImageURL(item?.collectionId, item?.id, item?.cover)}
-                    alt={item?.title}
-                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </div>
-              {:else}
-                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
-              {/if}
-              <div class="flex flex-col flex-1 p-4">
-                <h3
-                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
-                >
-                  {item?.title}
-                </h3>
-                <p
-                  class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3"
-                >
-                  {item?.abstract}
-                </p>
-                <div
-                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
-                >
-                  <span>{item?.time || 5} min read</span>
-                </div>
-              </div>
-            </a>
-          {/each}
-        </div>
-      </div>
-    {/if}
-
-    <!-- Strategies Section -->
-    {#if filteredByCategory?.Strategies?.length > 0}
-      <div class="mb-12">
-        <div class="flex items-baseline justify-between mb-4">
-          <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Strategies
-            </h2>
-            <p class="text-sm text-gray-500 dark:text-zinc-400">
-              Trading approaches and methodologies
-            </p>
-          </div>
-          {#if filteredByCategory.Strategies.length > 3}
-            <button
-              type="button"
-              on:click={() => setCategory("Strategies")}
-              class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              View all
-            </button>
-          {/if}
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {#each filteredByCategory.Strategies.slice(0, 3) as item}
+          {#each sections.Fundamentals.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
               class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
@@ -602,7 +416,7 @@
     {/if}
 
     <!-- Terms Section - Compact list style -->
-    {#if filteredByCategory?.Terms?.length > 0}
+    {#if sections?.Terms?.items?.length > 0}
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
@@ -613,18 +427,18 @@
               Financial terms and definitions
             </p>
           </div>
-          {#if filteredByCategory.Terms.length > 6}
+          {#if sections.Terms.totalItems > 6}
             <button
               type="button"
               on:click={() => setCategory("Terms")}
               class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
             >
-              View all {filteredByCategory.Terms.length}
+              View all {sections.Terms.totalItems}
             </button>
           {/if}
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {#each filteredByCategory.Terms.slice(0, 6).sort( (a, b) => a.title.localeCompare(b.title), ) as item}
+          {#each sections.Terms.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
               class="group flex items-center gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
@@ -656,7 +470,7 @@
     {/if}
 
     <!-- Empty state when tag filter has no results -->
-    {#if activeTag !== "all" && !filteredByCategory.Fundamentals.length && !filteredByCategory.Concepts.length && !filteredByCategory.Strategies.length && !filteredByCategory.Features.length && !filteredByCategory.Terms.length}
+    {#if activeTag !== "all" && !sections?.Fundamentals?.items?.length && !sections?.Features?.items?.length && !sections?.Terms?.items?.length}
       <div class="text-center py-12">
         <p class="text-gray-500 dark:text-zinc-400">
           No articles found with the "{selectedTagName}" tag.
@@ -670,11 +484,11 @@
         </button>
       </div>
     {/if}
-  {:else if activeCategory === "Terms"}
+  {:else if data?.view === "category" && activeCategory === "Terms"}
     <!-- Terms Filtered View - Alphabetical list -->
-    {#if paginatedTutorials?.length > 0}
+    {#if data?.tutorials?.length > 0}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {#each paginatedTutorials as item}
+        {#each data.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
             class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
@@ -827,11 +641,11 @@
         <p class="text-gray-500 dark:text-zinc-400">No terms available yet.</p>
       </div>
     {/if}
-  {:else}
+  {:else if data?.view === "category"}
     <!-- Filtered Category View (non-Terms) -->
-    {#if paginatedTutorials?.length > 0}
+    {#if data?.tutorials?.length > 0}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {#each paginatedTutorials as item}
+        {#each data.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
             class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
