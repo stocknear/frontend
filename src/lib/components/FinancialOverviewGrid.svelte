@@ -9,6 +9,7 @@
     chartType: 'bar' | 'line' | 'grouped' | 'stacked';
     metrics: Array<{ key: string; label: string; color?: string }>;
     isMargin?: boolean;
+    negate?: boolean;
   }> = [];
   export let onExpandChart: (metricKey: string, metricLabel: string) => void = () => {};
 
@@ -46,6 +47,9 @@
         let val = Number(row[m.key]);
         if (Number.isFinite(val) && (config.isMargin || marginKeys.has(m.key))) {
           val = val * 100;
+        }
+        if (Number.isFinite(val) && config.negate) {
+          val = -val;
         }
         return Number.isFinite(val) ? parseFloat(val.toFixed(2)) : 0;
       }),

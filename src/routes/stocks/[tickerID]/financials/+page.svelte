@@ -56,12 +56,14 @@
       key: 'commonDividendsPaid',
       label: 'Dividends Paid',
       chartType: 'bar' as const,
+      negate: true,
       metrics: [{ key: 'commonDividendsPaid', label: 'Dividends' }],
     },
     {
       key: 'returnOfCapital',
       label: 'Return of Capital',
       chartType: 'stacked' as const,
+      negate: true,
       metrics: [
         { key: 'commonStockRepurchased', label: 'Buybacks' },
         { key: 'commonDividendsPaid', label: 'Dividends', color: '#8B5CF6' },
