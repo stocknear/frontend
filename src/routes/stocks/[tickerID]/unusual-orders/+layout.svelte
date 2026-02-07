@@ -49,14 +49,16 @@
           <div
             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_unusual_orders_block_order()}</h3>
+            <h3 class="p-2 pt-4 text-xl font-semibold">
+              {stock_detail_unusual_orders_block_order()}
+            </h3>
             <div class="p-2">
               {stock_detail_unusual_orders_block_order_description()}
             </div>
 
             <div class="px-2">
               <a
-                href="/learning-center/article/block-trade"
+                href="/learning-center/article/block-trade-how-large-institutional-orders-work"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_unusual_orders_full_definition()}
@@ -67,14 +69,16 @@
           <div
             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_unusual_orders_dark_pool_order()}</h3>
+            <h3 class="p-2 pt-4 text-xl font-semibold">
+              {stock_detail_unusual_orders_dark_pool_order()}
+            </h3>
             <div class=" p-2">
               {stock_detail_unusual_orders_dark_pool_description()}
             </div>
 
             <div class="px-2">
               <a
-                href="/learning-center/article/dark-pool"
+                href="/learning-center/article/dark-pool-how-offexchange-trading-works"
                 class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_unusual_orders_full_definition()}
