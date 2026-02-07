@@ -9,8 +9,8 @@
     {
       key: 'stockPrice',
       label: 'Stock Price',
-      chartType: 'bar' as const,
-      metrics: [{ key: 'stockPrice', label: 'Price' }],
+      chartType: 'line' as const,
+      metrics: [{ key: 'stockPrice', label: 'Price', color: '#10B981' }],
     },
     {
       key: 'revenue',
@@ -22,7 +22,7 @@
       key: 'ebitda',
       label: 'EBITDA',
       chartType: 'bar' as const,
-      metrics: [{ key: 'ebitda', label: 'EBITDA' }],
+      metrics: [{ key: 'ebitda', label: 'EBITDA', color: '#60A5FA' }],
     },
     {
       key: 'netIncome',
@@ -47,9 +47,9 @@
       label: 'Cash & Debt',
       chartType: 'grouped' as const,
       metrics: [
-        { key: 'cashAndCashEquivalents', label: 'Cash' },
-        { key: 'longTermDebt', label: 'Long-Term Debt' },
-        { key: 'capitalLeaseObligations', label: 'Lease Obligations' },
+        { key: 'cashAndCashEquivalents', label: 'Cash', color: '#10B981' },
+        { key: 'longTermDebt', label: 'Long-Term Debt', color: '#B91C1C' },
+        { key: 'capitalLeaseObligations', label: 'Lease Obligations', color: '#F87171' },
       ],
     },
     {
@@ -64,7 +64,7 @@
       chartType: 'stacked' as const,
       metrics: [
         { key: 'commonStockRepurchased', label: 'Buybacks' },
-        { key: 'commonDividendsPaid', label: 'Dividends' },
+        { key: 'commonDividendsPaid', label: 'Dividends', color: '#8B5CF6' },
       ],
     },
     {
@@ -88,8 +88,8 @@
     {
       key: 'priceToEarningsRatio',
       label: 'P/E Ratio',
-      chartType: 'bar' as const,
-      metrics: [{ key: 'priceToEarningsRatio', label: 'P/E' }],
+      chartType: 'line' as const,
+      metrics: [{ key: 'priceToEarningsRatio', label: 'P/E', color: '#10B981' }],
     },
     {
       key: 'expenses',

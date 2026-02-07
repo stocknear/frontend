@@ -6,7 +6,7 @@
   export let chartConfig: Array<{
     key: string;
     label: string;
-    chartType: 'bar' | 'grouped' | 'stacked';
+    chartType: 'bar' | 'line' | 'grouped' | 'stacked';
     metrics: Array<{ key: string; label: string; color?: string }>;
     isMargin?: boolean;
   }> = [];

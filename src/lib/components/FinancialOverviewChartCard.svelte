@@ -8,7 +8,7 @@
   export let metricKey: string;
   export let metricLabel: string;
   export let xList: string[] = [];
-  export let chartType: 'bar' | 'grouped' | 'stacked' = 'bar';
+  export let chartType: 'bar' | 'line' | 'grouped' | 'stacked' = 'bar';
   export let seriesData: Array<{ key: string; label: string; values: number[]; color?: string }> = [];
   export let isMargin: boolean = false;
   export let onExpand: (metricKey: string, metricLabel: string) => void = () => {};
@@ -63,7 +63,9 @@
     const barCount = xList.length;
     const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
 
-    if (chartType === 'bar') {
+    if (chartType === 'line') {
+      drawLine(ctx, chartWidth, chartHeight, barCount, barGap);
+    } else if (chartType === 'bar') {
       drawSingleBars(ctx, chartWidth, chartHeight, barCount, barGap);
     } else if (chartType === 'grouped') {
       drawGroupedBars(ctx, chartWidth, chartHeight, barCount, barGap);
@@ -72,6 +74,47 @@
     }
 
     drawXLabels(ctx, chartWidth, height, barCount, barGap);
+  }
+
+  function drawLine(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
+    const values = seriesData[0]?.values || [];
+    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const minValue = Math.min(...values);
+    const maxValue = Math.max(...values);
+    const valueRange = maxValue - minValue || 1;
+    const lineColor = getSeriesColor(0);
+
+    // Draw filled area under the line
+    ctx.beginPath();
+    values.forEach((value, index) => {
+      const x = CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2;
+      const y = CHART_PADDING.top + chartHeight * (1 - (value - minValue) / valueRange);
+      if (index === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    // Close the area path
+    const lastX = CHART_PADDING.left + (values.length - 1) * (barWidth + barGap) + barWidth / 2;
+    const firstX = CHART_PADDING.left + barWidth / 2;
+    const bottomY = CHART_PADDING.top + chartHeight;
+    ctx.lineTo(lastX, bottomY);
+    ctx.lineTo(firstX, bottomY);
+    ctx.closePath();
+    ctx.fillStyle = lineColor + '18'; // ~10% opacity
+    ctx.fill();
+
+    // Draw the line
+    ctx.beginPath();
+    values.forEach((value, index) => {
+      const x = CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2;
+      const y = CHART_PADDING.top + chartHeight * (1 - (value - minValue) / valueRange);
+      if (index === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.stroke();
   }
 
   function drawSingleBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
