@@ -2,157 +2,64 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { getMockFinancialStatement } from "$lib/server/mock";
-
-const FREE_COLUMN_LIMIT = 5;
-const PREMIUM_TIERS = new Set(["Plus", "Pro"]);
-
-const getStatementTimestamp = (statement?: Record<string, any>) => {
-  if (!statement) return 0;
-  const dateValue = statement.date || statement.fiscalDate || statement.fiscalYear;
-  const parsed = Date.parse(dateValue);
-  if (!Number?.isNaN(parsed)) {
-    return parsed;
-  }
-  const fiscalYear = Number(statement?.fiscalYear);
-  if (Number?.isFinite(fiscalYear)) {
-    return Date?.UTC(fiscalYear, 0, 1);
-  }
-  return 0;
-};
-
-const sortStatementsAscending = (statements: any[] = []) =>
-  [...statements].sort(
-    (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
-  );
-
-const partitionStatements = (statements: any[] = [], canViewAll: boolean) => {
-  if (!Array.isArray(statements)) {
-    return { visible: [], locked: [] };
-  }
-  const chronological = sortStatementsAscending(statements);
-  if (canViewAll) {
-    return { visible: chronological, locked: [] };
-  }
-  const startIndex = Math.max(chronological.length - FREE_COLUMN_LIMIT, 0);
-  return {
-    visible: chronological.slice(startIndex),
-    locked: chronological.slice(0, startIndex),
-  };
-};
-
-const getFiscalYearValue = (statement: any) => {
-  const year = Number(statement?.fiscalYear);
-  return Number?.isFinite(year) ? year : null;
-};
-
-const getPeriodEndingYearValue = (statement: any) => {
-  const rawDate = statement?.date || statement?.fiscalDate;
-  const parsed = rawDate ? Date.parse(rawDate) : Number.NaN;
-  if (!Number?.isNaN(parsed)) {
-    return new Date(parsed).getFullYear();
-  }
-  return getFiscalYearValue(statement);
-};
-
-const formatLockedRange = (
-  statements: any[] = [],
-  extractor: (statement: any) => number | null,
-) => {
-  const values = statements
-    .map(extractor)
-    .filter((value): value is number => Number?.isFinite(value));
-  if (!values.length) {
-    return "";
-  }
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  return min === max ? `${min}` : `${min}-${max}`;
-};
-
-const limitStatements = (statements: any[], canViewAll: boolean) =>
-  partitionStatements(statements, canViewAll).visible;
-
-const buildLockInfo = (statements: any[], canViewAll: boolean) => {
-  const { locked } = partitionStatements(statements, canViewAll);
-  return {
-    hasLockedData: locked.length > 0,
-    lockedFiscalYearRange: formatLockedRange(locked, getFiscalYearValue),
-    lockedPeriodRange: formatLockedRange(locked, getPeriodEndingYearValue),
-  };
-};
+import { mergeAllStatements } from "$lib/financials/mergeStatements";
 
 export const load = async ({ locals, params }) => {
   const { apiKey, apiURL, user } = locals;
-  const postData = {
-    ticker: params.tickerID,
-    statement: 'income-statement',
-  };
-  const canViewAllHistory = PREMIUM_TIERS.has(user?.tier);
+  const ticker = params.tickerID;
 
-  const getData = async () => {
-    if (locals.useMockData) {
-      const mockOutput = getMockFinancialStatement(params.tickerID, 'income-statement');
-      return {
-        output: mockOutput,
-        financialLockInfo: {
-          annual: { hasLockedData: false, lockedFiscalYearRange: '', lockedPeriodRange: '' },
-          quarterly: { hasLockedData: false, lockedFiscalYearRange: '', lockedPeriodRange: '' },
-          ttm: { hasLockedData: false, lockedFiscalYearRange: '', lockedPeriodRange: '' },
-        },
-      };
-    }
+  if (locals.useMockData) {
+    const income = getMockFinancialStatement(ticker, 'income-statement');
+    const balance = getMockFinancialStatement(ticker, 'balance-sheet-statement');
+    const cashflow = getMockFinancialStatement(ticker, 'cash-flow-statement');
+    const ratios = getMockFinancialStatement(ticker, 'ratios');
+    const price = getMockFinancialStatement(ticker, 'historical-price');
 
-    // make the POST request to the endpoint
+    const merged = mergeAllStatements(income, balance, cashflow, ratios, price);
+
+    return {
+      getMergedData: merged,
+    };
+  }
+
+  const fetchStatement = async (statement: string) => {
     const response = await fetch(apiURL + "/financial-statement", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
       },
-      body: JSON.stringify(postData),
+      body: JSON.stringify({ ticker, statement }),
     });
-
-    let output = await response.json();
-
-    const financialLockInfo = Array.isArray(output)
-      ? {
-          annual: buildLockInfo(output, canViewAllHistory),
-          quarterly: buildLockInfo(output, canViewAllHistory),
-          ttm: buildLockInfo(output, canViewAllHistory),
-        }
-      : {
-          annual: buildLockInfo(output?.annual, canViewAllHistory),
-          quarterly: buildLockInfo(output?.quarter, canViewAllHistory),
-          ttm: buildLockInfo(output?.ttm, canViewAllHistory),
-        };
-
-    if (!canViewAllHistory) {
-      if (Array.isArray(output)) {
-        output = limitStatements(output, false);
-      } else if (output && typeof output === "object") {
-        output = {
-          ...output,
-          annual: limitStatements(output?.annual, false),
-          quarter: limitStatements(output?.quarter, false),
-          ttm: limitStatements(output?.ttm, false),
-        };
-      }
-    }
-
-    return { output, financialLockInfo };
+    return response.json();
   };
 
+  const fetchPrice = async () => {
+    const response = await fetch(apiURL + "/historical-price", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": apiKey,
+      },
+      body: JSON.stringify({ ticker }),
+    });
+    return response.json();
+  };
 
+  const [income, balance, cashflow, ratios, price] = await Promise.all([
+    fetchStatement('income-statement'),
+    fetchStatement('balance-sheet-statement'),
+    fetchStatement('cash-flow-statement'),
+    fetchStatement('ratios'),
+    fetchPrice().catch(() => ({ annual: [], quarter: [], ttm: [] })),
+  ]);
 
-  // Make sure to return a promise
-  const { output, financialLockInfo } = await getData();
+  const merged = mergeAllStatements(income, balance, cashflow, ratios, price);
 
   return {
-    getData: output,
-    financialLockInfo,
+    getMergedData: merged,
   };
 };
-
 
 
 export const actions = {
@@ -177,15 +84,12 @@ export const actions = {
             throw error(err.status || 500, err.message || 'Login failed');
         }
 
-        // Get return URL from query or cookie
         const returnUrl = url.searchParams.get('returnUrl') ||
                           cookies.get('returnUrl') ||
                           '/';
 
-        // Remove cookie after use
         cookies.delete('returnUrl', { path: '/' });
 
-        // Validate and redirect
         throw redirect(302, validateReturnUrl(returnUrl, url.origin));
     },
 
@@ -220,29 +124,26 @@ export const actions = {
             throw error(err.status || 500, err.message || 'Registration failed');
         }
 
-        // Get return URL from query or cookie
         const returnUrl = url.searchParams.get('returnUrl') ||
                           cookies.get('returnUrl') ||
                           '/profile';
 
-        // Remove cookie
         cookies.delete('returnUrl', { path: '/' });
 
-        // Validate and redirect
         throw redirect(302, validateReturnUrl(returnUrl, url.origin));
     },
 
       oauth2: async ({ url, locals, request, cookies }) => {
-    
+
         const path = url?.href?.replace("/oauth2","")
         const authMethods = (await locals?.pb
           ?.collection("users")
           ?.listAuthMethods())?.oauth2;
-    
-    
+
+
         const data = await request?.formData();
         const providerSelected = data?.get("provider");
-    
+
         if (!authMethods) {
           return {
             authProviderRedirect: "",
@@ -250,21 +151,18 @@ export const actions = {
           };
         }
         const redirectURL = `${url.origin}/oauth`;
-    
+
         const targetItem = authMethods?.providers?.findIndex(
           (item) => item?.name === providerSelected,
         );
-        //console.log("==================")
-        //console.log(authMethods.authProviders)
-        //console.log('target item is: ', targetItem)
-    
+
         const provider = authMethods.providers[targetItem];
         const authProviderRedirect = `${provider.authUrl}${redirectURL}`;
         const state = provider.state;
         const verifier = provider.codeVerifier;
-    
-        
-        
+
+
+
         cookies.set("state", state, {
           httpOnly: true,
           sameSite: "lax",
@@ -272,7 +170,7 @@ export const actions = {
           path: "/",
           maxAge: 60 * 60,
         });
-    
+
         cookies.set("verifier", verifier, {
           httpOnly: true,
           sameSite: "lax",
@@ -280,7 +178,7 @@ export const actions = {
           path: "/",
           maxAge: 60 * 60,
         });
-    
+
         cookies.set("provider", providerSelected, {
           httpOnly: true,
           sameSite: "lax",
@@ -288,7 +186,7 @@ export const actions = {
           path: "/",
           maxAge: 60 * 60,
         });
-    
+
         cookies.set("path", path, {
           httpOnly: true,
           sameSite: "lax",
@@ -296,7 +194,7 @@ export const actions = {
           path: "/",
           maxAge: 60,
         });
-    
+
         redirect(302, authProviderRedirect);
       },
 };

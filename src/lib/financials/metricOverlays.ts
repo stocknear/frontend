@@ -341,6 +341,61 @@ export const RATIOS_OVERLAYS: MetricOverlayConfig[] = [
 ];
 
 /**
+ * Overview Composite Metric Overlays
+ */
+export const OVERVIEW_OVERLAYS: MetricOverlayConfig[] = [
+  {
+    baseMetric: 'stockPrice',
+    label: 'Stock Price',
+    colorTheme: 'default',
+    overlays: [
+      { key: 'stockPrice', label: 'Stock Price', primary: true },
+    ],
+  },
+  {
+    baseMetric: 'cashAndDebt',
+    label: 'Cash & Debt',
+    colorTheme: 'cashflow',
+    overlays: [
+      { key: 'cashAndCashEquivalents', label: 'Cash', primary: true },
+      { key: 'longTermDebt', label: 'Long-Term Debt' },
+      { key: 'capitalLeaseObligations', label: 'Lease Obligations' },
+    ],
+  },
+  {
+    baseMetric: 'returnOfCapital',
+    label: 'Return of Capital',
+    colorTheme: 'pershare',
+    overlays: [
+      { key: 'commonStockRepurchased', label: 'Buybacks', primary: true },
+      { key: 'commonDividendsPaid', label: 'Dividends' },
+    ],
+  },
+  {
+    baseMetric: 'margins',
+    label: 'Margins',
+    colorTheme: 'margin',
+    overlays: [
+      { key: 'returnOnCapitalEmployed', label: 'ROCE', primary: true },
+      { key: 'grossProfitMargin', label: 'Gross Margin' },
+      { key: 'operatingProfitMargin', label: 'Operating Margin' },
+      { key: 'netProfitMargin', label: 'Net Margin' },
+    ],
+  },
+  {
+    baseMetric: 'expenses',
+    label: 'Expenses',
+    colorTheme: 'debt',
+    overlays: [
+      { key: 'capitalExpenditure', label: 'CapEx', primary: true },
+      { key: 'sellingAndMarketingExpenses', label: 'S&M' },
+      { key: 'sellingGeneralAndAdministrativeExpenses', label: 'SG&A' },
+      { key: 'researchAndDevelopmentExpenses', label: 'R&D' },
+    ],
+  },
+];
+
+/**
  * Combined map of all overlays for quick lookup
  */
 export const ALL_METRIC_OVERLAYS: Map<string, MetricOverlayConfig> = new Map([
@@ -348,6 +403,7 @@ export const ALL_METRIC_OVERLAYS: Map<string, MetricOverlayConfig> = new Map([
   ...CASH_FLOW_OVERLAYS,
   ...BALANCE_SHEET_OVERLAYS,
   ...RATIOS_OVERLAYS,
+  ...OVERVIEW_OVERLAYS,
 ].map(config => [config.baseMetric, config]));
 
 /**

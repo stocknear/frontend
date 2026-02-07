@@ -315,6 +315,78 @@ function computeRatiosTTM(quarterRows) {
   return [{ ...latest, period: 'TTM' }];
 }
 
+// Historical price aggregation
+function aggregateHistoricalPrices() {
+  const priceFile = path.join(FIXTURES_DIR, 'historical_price_xom.csv');
+  if (!fs.existsSync(priceFile)) {
+    console.warn('historical_price_xom.csv not found, skipping price data');
+    return { annual: [], quarter: [], ttm: [] };
+  }
+
+  const rows = parseCSV(fs.readFileSync(priceFile, 'utf-8'));
+  // Sort ascending by date
+  rows.sort((a, b) => a.time.localeCompare(b.time));
+
+  // Group by year
+  const byYear = {};
+  for (const row of rows) {
+    const year = row.time.split('-')[0];
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push(row);
+  }
+
+  // Annual: take the last trading day close for each year
+  const annual = [];
+  for (const [year, yearRows] of Object.entries(byYear)) {
+    const last = yearRows[yearRows.length - 1];
+    annual.push({
+      symbol: 'XOM',
+      reportedCurrency: 'USD',
+      date: `${year}-12-31`,
+      fiscalYear: year,
+      period: 'FY',
+      stockPrice: parseFloat(Number(last.close).toFixed(2)),
+    });
+  }
+  annual.sort((a, b) => a.date.localeCompare(b.date));
+
+  // Quarterly: take the last trading day close on or before quarter-end
+  const quarterEnds = ['03-31', '06-30', '09-30', '12-31'];
+  const quarterLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
+  const quarter = [];
+  for (const [year, yearRows] of Object.entries(byYear)) {
+    for (let qi = 0; qi < 4; qi++) {
+      const cutoff = `${year}-${quarterEnds[qi]}`;
+      const qStart = qi === 0 ? `${year}-01-01` : `${year}-${quarterEnds[qi - 1]}`;
+      const eligible = yearRows.filter(r => r.time <= cutoff && r.time >= qStart);
+      if (eligible.length === 0) continue;
+      const last = eligible[eligible.length - 1];
+      quarter.push({
+        symbol: 'XOM',
+        reportedCurrency: 'USD',
+        date: last.time,
+        fiscalYear: year,
+        period: quarterLabels[qi],
+        stockPrice: parseFloat(Number(last.close).toFixed(2)),
+      });
+    }
+  }
+  quarter.sort((a, b) => a.date.localeCompare(b.date));
+
+  // TTM: use the latest available price
+  const latestRow = rows[rows.length - 1];
+  const ttm = [{
+    symbol: 'XOM',
+    reportedCurrency: 'USD',
+    date: latestRow.time,
+    fiscalYear: latestRow.time.split('-')[0],
+    period: 'TTM',
+    stockPrice: parseFloat(Number(latestRow.close).toFixed(2)),
+  }];
+
+  return { annual, quarter, ttm };
+}
+
 // Main
 const output = {};
 
@@ -339,6 +411,9 @@ for (const stmt of STATEMENTS) {
     ttm: ttmRows,
   };
 }
+
+// Add historical price data
+output['historical-price'] = aggregateHistoricalPrices();
 
 fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2));
 

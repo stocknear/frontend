@@ -11,6 +11,16 @@ export function getMockFinancialStatement(ticker: string, statement: string) {
   return data ?? { annual: [], quarter: [], ttm: [] };
 }
 
+export function getMockOverviewData(ticker: string) {
+  return {
+    income: getMockFinancialStatement(ticker, 'income-statement'),
+    balance: getMockFinancialStatement(ticker, 'balance-sheet-statement'),
+    cashflow: getMockFinancialStatement(ticker, 'cash-flow-statement'),
+    ratios: getMockFinancialStatement(ticker, 'ratios'),
+    price: getMockFinancialStatement(ticker, 'historical-price'),
+  };
+}
+
 export function getMockBulkData(ticker: string) {
   return {
     '/stockdeck': {

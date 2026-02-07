@@ -32,6 +32,7 @@
   export let title;
   export let statementType = "income-statement";
   export let statementConfig;
+  export let chartOrder = undefined;
   export let enableFavorites = false;
   export let favoriteStorageKey = "";
 
@@ -447,6 +448,7 @@
                 <FinancialChartGrid
                   {processedData}
                   {statementConfig}
+                  {chartOrder}
                   onExpandChart={handleExpandChart}
                 />
               {:else}

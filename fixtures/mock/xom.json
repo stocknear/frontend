@@ -40956,5 +40956,477 @@
         "ebtPerEbit": 1.3378310844577712
       }
     ]
+  },
+  "historical-price": {
+    "annual": [
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2015-12-31",
+        "fiscalYear": "2015",
+        "period": "FY",
+        "stockPrice": 77.95
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2016-12-31",
+        "fiscalYear": "2016",
+        "period": "FY",
+        "stockPrice": 90.26
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2017-12-31",
+        "fiscalYear": "2017",
+        "period": "FY",
+        "stockPrice": 83.64
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2018-12-31",
+        "fiscalYear": "2018",
+        "period": "FY",
+        "stockPrice": 68.19
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2019-12-31",
+        "fiscalYear": "2019",
+        "period": "FY",
+        "stockPrice": 69.78
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2020-12-31",
+        "fiscalYear": "2020",
+        "period": "FY",
+        "stockPrice": 41.22
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2021-12-31",
+        "fiscalYear": "2021",
+        "period": "FY",
+        "stockPrice": 61.19
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2022-12-31",
+        "fiscalYear": "2022",
+        "period": "FY",
+        "stockPrice": 110.3
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2023-12-31",
+        "fiscalYear": "2023",
+        "period": "FY",
+        "stockPrice": 99.98
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2024-12-31",
+        "fiscalYear": "2024",
+        "period": "FY",
+        "stockPrice": 107.57
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2025-12-31",
+        "fiscalYear": "2025",
+        "period": "FY",
+        "stockPrice": 120.34
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2026-12-31",
+        "fiscalYear": "2026",
+        "period": "FY",
+        "stockPrice": 149.05
+      }
+    ],
+    "quarter": [
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2015-03-31",
+        "fiscalYear": "2015",
+        "period": "Q1",
+        "stockPrice": 85
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2015-06-30",
+        "fiscalYear": "2015",
+        "period": "Q2",
+        "stockPrice": 83.2
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2015-09-30",
+        "fiscalYear": "2015",
+        "period": "Q3",
+        "stockPrice": 74.35
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2015-12-31",
+        "fiscalYear": "2015",
+        "period": "Q4",
+        "stockPrice": 77.95
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2016-03-31",
+        "fiscalYear": "2016",
+        "period": "Q1",
+        "stockPrice": 83.59
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2016-06-30",
+        "fiscalYear": "2016",
+        "period": "Q2",
+        "stockPrice": 93.74
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2016-09-30",
+        "fiscalYear": "2016",
+        "period": "Q3",
+        "stockPrice": 87.28
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2016-12-30",
+        "fiscalYear": "2016",
+        "period": "Q4",
+        "stockPrice": 90.26
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2017-03-31",
+        "fiscalYear": "2017",
+        "period": "Q1",
+        "stockPrice": 82.01
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2017-06-30",
+        "fiscalYear": "2017",
+        "period": "Q2",
+        "stockPrice": 80.73
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2017-09-29",
+        "fiscalYear": "2017",
+        "period": "Q3",
+        "stockPrice": 81.98
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2017-12-29",
+        "fiscalYear": "2017",
+        "period": "Q4",
+        "stockPrice": 83.64
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2018-03-29",
+        "fiscalYear": "2018",
+        "period": "Q1",
+        "stockPrice": 74.61
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2018-06-29",
+        "fiscalYear": "2018",
+        "period": "Q2",
+        "stockPrice": 82.73
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2018-09-28",
+        "fiscalYear": "2018",
+        "period": "Q3",
+        "stockPrice": 85.02
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2018-12-31",
+        "fiscalYear": "2018",
+        "period": "Q4",
+        "stockPrice": 68.19
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2019-03-29",
+        "fiscalYear": "2019",
+        "period": "Q1",
+        "stockPrice": 80.8
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2019-06-28",
+        "fiscalYear": "2019",
+        "period": "Q2",
+        "stockPrice": 76.63
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2019-09-30",
+        "fiscalYear": "2019",
+        "period": "Q3",
+        "stockPrice": 70.61
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2019-12-31",
+        "fiscalYear": "2019",
+        "period": "Q4",
+        "stockPrice": 69.78
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2020-03-31",
+        "fiscalYear": "2020",
+        "period": "Q1",
+        "stockPrice": 37.97
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2020-06-30",
+        "fiscalYear": "2020",
+        "period": "Q2",
+        "stockPrice": 44.72
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2020-09-30",
+        "fiscalYear": "2020",
+        "period": "Q3",
+        "stockPrice": 34.33
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2020-12-31",
+        "fiscalYear": "2020",
+        "period": "Q4",
+        "stockPrice": 41.22
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2021-03-31",
+        "fiscalYear": "2021",
+        "period": "Q1",
+        "stockPrice": 55.83
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2021-06-30",
+        "fiscalYear": "2021",
+        "period": "Q2",
+        "stockPrice": 63.08
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2021-09-30",
+        "fiscalYear": "2021",
+        "period": "Q3",
+        "stockPrice": 58.82
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2021-12-31",
+        "fiscalYear": "2021",
+        "period": "Q4",
+        "stockPrice": 61.19
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2022-03-31",
+        "fiscalYear": "2022",
+        "period": "Q1",
+        "stockPrice": 82.59
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2022-06-30",
+        "fiscalYear": "2022",
+        "period": "Q2",
+        "stockPrice": 85.64
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2022-09-30",
+        "fiscalYear": "2022",
+        "period": "Q3",
+        "stockPrice": 87.31
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2022-12-30",
+        "fiscalYear": "2022",
+        "period": "Q4",
+        "stockPrice": 110.3
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2023-03-31",
+        "fiscalYear": "2023",
+        "period": "Q1",
+        "stockPrice": 109.66
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2023-06-30",
+        "fiscalYear": "2023",
+        "period": "Q2",
+        "stockPrice": 107.25
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2023-09-29",
+        "fiscalYear": "2023",
+        "period": "Q3",
+        "stockPrice": 117.58
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2023-12-29",
+        "fiscalYear": "2023",
+        "period": "Q4",
+        "stockPrice": 99.98
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2024-03-28",
+        "fiscalYear": "2024",
+        "period": "Q1",
+        "stockPrice": 116.24
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2024-06-28",
+        "fiscalYear": "2024",
+        "period": "Q2",
+        "stockPrice": 115.12
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2024-09-30",
+        "fiscalYear": "2024",
+        "period": "Q3",
+        "stockPrice": 117.22
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2024-12-31",
+        "fiscalYear": "2024",
+        "period": "Q4",
+        "stockPrice": 107.57
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2025-03-31",
+        "fiscalYear": "2025",
+        "period": "Q1",
+        "stockPrice": 118.93
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2025-06-30",
+        "fiscalYear": "2025",
+        "period": "Q2",
+        "stockPrice": 107.8
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2025-09-30",
+        "fiscalYear": "2025",
+        "period": "Q3",
+        "stockPrice": 112.75
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2025-12-31",
+        "fiscalYear": "2025",
+        "period": "Q4",
+        "stockPrice": 120.34
+      },
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2026-02-06",
+        "fiscalYear": "2026",
+        "period": "Q1",
+        "stockPrice": 149.05
+      }
+    ],
+    "ttm": [
+      {
+        "symbol": "XOM",
+        "reportedCurrency": "USD",
+        "date": "2026-02-06",
+        "fiscalYear": "2026",
+        "period": "TTM",
+        "stockPrice": 149.05
+      }
+    ]
   }
 }

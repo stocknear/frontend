@@ -1,124 +1,120 @@
 <script lang="ts">
   import { displayCompanyName, stockTicker } from "$lib/store";
-  import {
-  stock_detail_financials_income_statement,
-} from "$lib/paraglide/messages";
-
   import SEO from "$lib/components/SEO.svelte";
-  import FinancialSection from "$lib/components/FinancialSection.svelte";
+  import FinancialOverviewSection from "$lib/components/FinancialOverviewSection.svelte";
 
   export let data;
 
-  const statementConfig = [
-    // Key Summary Metrics (most important at top)
+  const chartConfig = [
     {
-      propertyName: "revenue",
-      label: "Revenue",
+      key: 'stockPrice',
+      label: 'Stock Price',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'stockPrice', label: 'Price' }],
     },
     {
-      propertyName: "netIncome",
-      label: "Net Income",
+      key: 'revenue',
+      label: 'Revenue',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'revenue', label: 'Revenue' }],
     },
     {
-      propertyName: "eps",
-      growthPropertyName: "growthEPS",
-      label: "EPS (Basic)",
+      key: 'ebitda',
+      label: 'EBITDA',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'ebitda', label: 'EBITDA' }],
     },
     {
-      propertyName: "epsDiluted",
-      label: "EPS (Diluted)",
+      key: 'netIncome',
+      label: 'Net Income',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'netIncome', label: 'Net Income' }],
     },
     {
-      propertyName: "ebitda",
-      label: "EBITDA",
-    },
-    // Profitability Waterfall
-    {
-      propertyName: "grossProfit",
-      label: "Gross Profit",
+      key: 'freeCashFlow',
+      label: 'Free Cash Flow',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'freeCashFlow', label: 'FCF' }],
     },
     {
-      propertyName: "operatingIncome",
-      label: "Operating Income",
+      key: 'eps',
+      label: 'EPS',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'eps', label: 'EPS' }],
     },
     {
-      propertyName: "ebit",
-      label: "EBIT",
+      key: 'cashAndDebt',
+      label: 'Cash & Debt',
+      chartType: 'grouped' as const,
+      metrics: [
+        { key: 'cashAndCashEquivalents', label: 'Cash' },
+        { key: 'longTermDebt', label: 'Long-Term Debt' },
+        { key: 'capitalLeaseObligations', label: 'Lease Obligations' },
+      ],
     },
     {
-      propertyName: "incomeBeforeTax",
-      label: "Pretax Income",
-    },
-    // Costs & Expenses
-    {
-      propertyName: "costOfRevenue",
-      label: "Cost of Revenue",
+      key: 'commonDividendsPaid',
+      label: 'Dividends Paid',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'commonDividendsPaid', label: 'Dividends' }],
     },
     {
-      propertyName: "operatingExpenses",
-      label: "Operating Expenses",
+      key: 'returnOfCapital',
+      label: 'Return of Capital',
+      chartType: 'stacked' as const,
+      metrics: [
+        { key: 'commonStockRepurchased', label: 'Buybacks' },
+        { key: 'commonDividendsPaid', label: 'Dividends' },
+      ],
     },
     {
-      propertyName: "researchAndDevelopmentExpenses",
-      label: "Research & Development",
+      key: 'weightedAverageShsOut',
+      label: 'Shares Outstanding',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'weightedAverageShsOut', label: 'Shares' }],
     },
     {
-      propertyName: "sellingGeneralAndAdministrativeExpenses",
-      label: "Selling & General & Admin",
+      key: 'margins',
+      label: 'Margins',
+      chartType: 'grouped' as const,
+      isMargin: true,
+      metrics: [
+        { key: 'returnOnCapitalEmployed', label: 'ROCE' },
+        { key: 'grossProfitMargin', label: 'Gross' },
+        { key: 'operatingProfitMargin', label: 'Operating' },
+        { key: 'netProfitMargin', label: 'Net' },
+      ],
     },
     {
-      propertyName: "sellingAndMarketingExpenses",
-      label: "Selling & Marketing Expenses",
+      key: 'priceToEarningsRatio',
+      label: 'P/E Ratio',
+      chartType: 'bar' as const,
+      metrics: [{ key: 'priceToEarningsRatio', label: 'P/E' }],
     },
     {
-      propertyName: "costAndExpenses",
-      label: "Cost & Expenses",
-    },
-    {
-      propertyName: "otherExpenses",
-      label: "Other Expenses",
-    },
-    // Interest & Taxes
-    {
-      propertyName: "interestIncome",
-      label: "Interest Income",
-    },
-    {
-      propertyName: "interestExpense",
-      label: "Interest Expense",
-    },
-    {
-      propertyName: "incomeTaxExpense",
-      label: "Income Tax Expense",
-    },
-    // Other Metrics
-    {
-      propertyName: "depreciationAndAmortization",
-      label: "Depreciation & Amortization",
-    },
-    {
-      propertyName: "weightedAverageShsOut",
-      label: "Shares Outstanding (Basic)",
-    },
-    {
-      propertyName: "weightedAverageShsOutDil",
-      label: "Shares Outstanding (Diluted)",
+      key: 'expenses',
+      label: 'Expenses',
+      chartType: 'grouped' as const,
+      metrics: [
+        { key: 'capitalExpenditure', label: 'CapEx' },
+        { key: 'sellingAndMarketingExpenses', label: 'S&M' },
+        { key: 'sellingGeneralAndAdministrativeExpenses', label: 'SG&A' },
+        { key: 'researchAndDevelopmentExpenses', label: 'R&D' },
+      ],
     },
   ];
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Income Statement Analysis - Revenue, Earnings & Profitability Metrics`}
-  description={`Comprehensive income statement analysis for ${$displayCompanyName} (${$stockTicker}) with detailed revenue trends, operating margins, net income, EPS growth, and profitability metrics. Track ${$stockTicker} financial performance with quarterly and annual income statement data, earnings quality analysis, and revenue recognition patterns.`}
-  keywords={`${$stockTicker} income statement, ${$displayCompanyName} revenue, ${$stockTicker} earnings, income statement analysis, profitability metrics, EPS growth, operating margin, net income, revenue analysis, financial performance, earnings quality, EBITDA analysis`}
+  title={`${$displayCompanyName} (${$stockTicker}) Financial Overview - Key Metrics & Charts`}
+  description={`Financial overview for ${$displayCompanyName} (${$stockTicker}) with key metrics including revenue, earnings, cash flow, margins, and valuation ratios. Visual summary of ${$stockTicker} financial performance.`}
+  keywords={`${$stockTicker} financials, ${$displayCompanyName} financial overview, ${$stockTicker} revenue, earnings, cash flow, margins, financial charts`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
-    name: `${$displayCompanyName} (${$stockTicker}) Income Statement Analysis`,
-    headline: `${$displayCompanyName} Financial Performance - Income Statement & Profitability Analysis`,
-    description: `Detailed income statement analysis for ${$displayCompanyName} (${$stockTicker}) including revenue trends, earnings growth, and profitability metrics`,
+    "@type": ["FinancialProduct", "WebPage"],
+    name: `${$displayCompanyName} (${$stockTicker}) Financial Overview`,
+    description: `Financial overview charts for ${$displayCompanyName} (${$stockTicker})`,
     url: `https://stocknear.com/stocks/${$stockTicker}/financials`,
-
     author: {
       "@type": "Organization",
       name: "Stocknear",
@@ -139,12 +135,6 @@
       "@type": "Corporation",
       name: $displayCompanyName,
       tickerSymbol: $stockTicker,
-    },
-    about: {
-      "@type": "Thing",
-      name: "Income Statement Analysis",
-      description:
-        "Financial statement analysis focused on revenue, expenses, and profitability metrics",
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -170,7 +160,7 @@
         {
           "@type": "ListItem",
           position: 4,
-          name: "Financial Statements",
+          name: "Financial Overview",
           item: `https://stocknear.com/stocks/${$stockTicker}/financials`,
         },
       ],
@@ -178,11 +168,7 @@
   }}
 />
 
-<FinancialSection
+<FinancialOverviewSection
   {data}
-  title={stock_detail_financials_income_statement()}
-  statementType="income-statement"
-  {statementConfig}
-  enableFavorites
-  favoriteStorageKey="income_statement"
+  {chartConfig}
 />
