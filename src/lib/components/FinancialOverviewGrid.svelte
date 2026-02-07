@@ -6,8 +6,8 @@
   export let chartConfig: Array<{
     key: string;
     label: string;
-    chartType: 'bar' | 'line' | 'grouped' | 'stacked';
-    metrics: Array<{ key: string; label: string; color?: string }>;
+    chartType: 'bar' | 'line' | 'grouped' | 'stacked' | 'grouped-stacked';
+    metrics: Array<{ key: string; label: string; color?: string; negate?: boolean; stack?: string }>;
     isMargin?: boolean;
     negate?: boolean;
   }> = [];
@@ -43,12 +43,13 @@
       key: m.key,
       label: m.label,
       color: m.color,
+      stack: m.stack,
       values: data.map(row => {
         let val = Number(row[m.key]);
         if (Number.isFinite(val) && (config.isMargin || marginKeys.has(m.key))) {
           val = val * 100;
         }
-        if (Number.isFinite(val) && config.negate) {
+        if (Number.isFinite(val) && (config.negate || m.negate)) {
           val = -val;
         }
         return Number.isFinite(val) ? parseFloat(val.toFixed(2)) : 0;

@@ -8,7 +8,7 @@
   export let metricKey: string;
   export let metricLabel: string;
   export let xList: string[] = [];
-  export let chartType: 'bar' | 'line' | 'grouped' | 'stacked' = 'bar';
+  export let chartType: 'bar' | 'line' | 'grouped' | 'stacked' | 'grouped-stacked' = 'bar';
   export let seriesData: Array<{ key: string; label: string; values: number[]; color?: string }> = [];
   export let isMargin: boolean = false;
   export let onExpand: (metricKey: string, metricLabel: string) => void = () => {};
@@ -71,6 +71,8 @@
       drawGroupedBars(ctx, chartWidth, chartHeight, barCount, barGap);
     } else if (chartType === 'stacked') {
       drawStackedBars(ctx, chartWidth, chartHeight, barCount, barGap);
+    } else if (chartType === 'grouped-stacked') {
+      drawGroupedStackedBars(ctx, chartWidth, chartHeight, barCount, barGap);
     }
 
     drawXLabels(ctx, chartWidth, height, barCount, barGap);
@@ -206,6 +208,73 @@
         ctx.fillStyle = getSeriesColor(s);
         ctx.fillRect(x, y, barWidth, barHeight);
       }
+    }
+  }
+
+  function drawGroupedStackedBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
+    // Group series by their 'stack' property. Series with the same stack
+    // value are stacked; different stack groups sit side-by-side.
+    const stackGroups: Map<string, number[]> = new Map();
+    const groupOrder: string[] = [];
+    seriesData.forEach((s, idx) => {
+      const stackId = (s as any).stack || `__solo_${idx}`;
+      if (!stackGroups.has(stackId)) {
+        stackGroups.set(stackId, []);
+        groupOrder.push(stackId);
+      }
+      stackGroups.get(stackId)!.push(idx);
+    });
+
+    const numGroups = groupOrder.length;
+    const groupWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const subBarGap = 1;
+    const subBarWidth = Math.max(1, (groupWidth - (numGroups - 1) * subBarGap) / numGroups);
+
+    // Find global min/max across all stacked groups
+    let globalMin = 0, globalMax = 0;
+    for (let i = 0; i < barCount; i++) {
+      for (const gId of groupOrder) {
+        const indices = stackGroups.get(gId)!;
+        let posSum = 0, negSum = 0;
+        for (const si of indices) {
+          const v = seriesData[si]?.values[i] || 0;
+          if (v >= 0) posSum += v;
+          else negSum += v;
+        }
+        if (posSum > globalMax) globalMax = posSum;
+        if (negSum < globalMin) globalMin = negSum;
+      }
+    }
+    const valueRange = globalMax - globalMin || 1;
+    const zeroY = CHART_PADDING.top + chartHeight * (globalMax / valueRange);
+
+    for (let i = 0; i < barCount; i++) {
+      const baseX = CHART_PADDING.left + i * (groupWidth + barGap);
+      groupOrder.forEach((gId, gIdx) => {
+        const indices = stackGroups.get(gId)!;
+        const x = baseX + gIdx * (subBarWidth + subBarGap);
+        let posOffset = 0;
+        let negOffset = 0;
+
+        for (const si of indices) {
+          const value = seriesData[si]?.values[i] || 0;
+          const barHeight = Math.abs(value / valueRange) * chartHeight;
+          let y: number;
+          if (value >= 0) {
+            y = zeroY - posOffset - barHeight;
+            posOffset += barHeight;
+          } else {
+            y = zeroY + negOffset;
+            negOffset += barHeight;
+          }
+          ctx.fillStyle = getSeriesColor(si);
+          if (indices.length === 1) {
+            drawRoundedBar(ctx, x, y, subBarWidth, barHeight, value >= 0);
+          } else {
+            ctx.fillRect(x, y, subBarWidth, barHeight);
+          }
+        }
+      });
     }
   }
 

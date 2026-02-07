@@ -5,14 +5,12 @@
     selectedTimePeriod,
   } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
-  import { Button } from "$lib/components/shadcn/button/index.js";
   import FinancialOverviewGrid from "$lib/components/FinancialOverviewGrid.svelte";
   import FinancialChartModal from "$lib/components/FinancialChartModal.svelte";
 
   export let data;
   export let chartConfig;
 
-  let switchDate = false;
   let mergedData: Record<string, any>[] = [];
   let fullStatement: Record<string, any>[] = [];
 
@@ -46,14 +44,7 @@
       (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
     );
 
-  const applyDisplayOrder = (statements: any[] = [], oldestFirst = false) => {
-    const sorted = sortStatementsAscending(statements);
-    return oldestFirst ? sorted : [...sorted].reverse();
-  };
-
   $: {
-    const _switchDateDep = switchDate;
-
     if ($selectedTimePeriod) {
       if ($selectedTimePeriod === "annual") {
         fullStatement = data?.getMergedData?.annual ?? [];
@@ -89,34 +80,9 @@
 
           <div class="grid grid-cols-1 gap-2">
             {#if mergedData?.length > 0}
-              <div class="flex flex-col md:flex-row items-end justify-between">
-                <span class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full">
-                  In {mergedData[0]?.reportedCurrency || 'USD'}
-                </span>
-
-                <div class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2">
-                  <Button
-                    on:click={() => (switchDate = !switchDate)}
-                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
-                    title={switchDate ? "Newest first" : "Oldest first"}
-                  >
-                    <svg
-                      class="shrink-0 w-5 h-5 pointer-events-none"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      style="max-width:40px"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                      ></path>
-                    </svg>
-                  </Button>
-                </div>
-              </div>
+              <span class="text-xs sm:text-sm text-gray-800 dark:text-zinc-300">
+                In {mergedData[0]?.reportedCurrency || 'USD'}
+              </span>
 
               <FinancialOverviewGrid
                 {mergedData}

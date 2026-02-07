@@ -18,13 +18,7 @@
       chartType: 'bar' as const,
       metrics: [{ key: 'revenue', label: 'Revenue' }],
     },
-    {
-      key: 'ebitda',
-      label: 'EBITDA',
-      chartType: 'bar' as const,
-      metrics: [{ key: 'ebitda', label: 'EBITDA', color: '#60A5FA' }],
-    },
-    {
+{
       key: 'netIncome',
       label: 'Net Income',
       chartType: 'bar' as const,
@@ -45,11 +39,11 @@
     {
       key: 'cashAndDebt',
       label: 'Cash & Debt',
-      chartType: 'grouped' as const,
+      chartType: 'grouped-stacked' as const,
       metrics: [
-        { key: 'cashAndCashEquivalents', label: 'Cash', color: '#10B981' },
-        { key: 'longTermDebt', label: 'Long-Term Debt', color: '#B91C1C' },
-        { key: 'capitalLeaseObligations', label: 'Lease Obligations', color: '#F87171' },
+        { key: 'cashAndCashEquivalents', label: 'Cash', color: '#10B981', stack: 'cash' },
+        { key: 'longTermDebt', label: 'Long-Term Debt', color: '#B91C1C', stack: 'debt' },
+        { key: 'capitalLeaseObligations', label: 'Lease Obligations', color: '#F87171', stack: 'debt' },
       ],
     },
     {
@@ -96,9 +90,9 @@
     {
       key: 'expenses',
       label: 'Expenses',
-      chartType: 'grouped' as const,
+      chartType: 'stacked' as const,
       metrics: [
-        { key: 'capitalExpenditure', label: 'CapEx' },
+        { key: 'capitalExpenditure', label: 'CapEx', negate: true },
         { key: 'sellingAndMarketingExpenses', label: 'S&M' },
         { key: 'sellingGeneralAndAdministrativeExpenses', label: 'SG&A' },
         { key: 'researchAndDevelopmentExpenses', label: 'R&D' },
