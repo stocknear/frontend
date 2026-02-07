@@ -5,6 +5,8 @@ import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import { type Locale, locales, baseLocale, cookieName, cookieMaxAge } from "$lib/paraglide/runtime.js";
 import { STOCKNEAR_API_KEY } from "$env/static/private";
 
+const MOCK_MODE = import.meta.env.VITE_MOCK_DATA === 'true';
+
 // Locale detection constants
 const GERMAN_COUNTRY_CODE = "DE";
 
@@ -143,31 +145,38 @@ export const handle = sequence(async ({ event, resolve }) => {
       locale: "en" as Locale,
     };
 
-    const authCookie = event?.request?.headers?.get("cookie") || "";
-    event.locals.pb.authStore?.loadFromCookie(authCookie);
+    if (MOCK_MODE) {
+      event.locals.useMockData = true;
+      event.locals.user = { tier: 'Pro', id: 'mock-user' };
+    } else {
+      const authCookie = event?.request?.headers?.get("cookie") || "";
+      event.locals.pb.authStore?.loadFromCookie(authCookie);
 
-    if (event?.locals?.pb?.authStore?.isValid) {
-      try {
-        await event?.locals?.pb?.collection("users")?.authRefresh();
-        event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
-      } catch (e) {
-        event.locals.pb.authStore.clear();
-        event.locals.user = undefined;
-        console.log(e);
+      if (event?.locals?.pb?.authStore?.isValid) {
+        try {
+          await event?.locals?.pb?.collection("users")?.authRefresh();
+          event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
+        } catch (e) {
+          event.locals.pb.authStore.clear();
+          event.locals.user = undefined;
+          console.log(e);
+        }
       }
     }
 
     const response = await resolve(event);
 
-    const cookieString = event?.locals?.pb?.authStore?.exportToCookie({
-      httpOnly: true,
-      path: "/",
-      sameSite: "lax",
-      secure: true,
-      maxAge: 60 * 60 * 24 * 365,
-    });
+    if (!MOCK_MODE) {
+      const cookieString = event?.locals?.pb?.authStore?.exportToCookie({
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+        secure: true,
+        maxAge: 60 * 60 * 24 * 365,
+      });
 
-    response.headers.append("set-cookie", cookieString);
+      response.headers.append("set-cookie", cookieString);
+    }
     return response;
   }
 
@@ -227,18 +236,23 @@ export const handle = sequence(async ({ event, resolve }) => {
       locale: locale as Locale,
     };
 
-    const authCookie = event?.request?.headers?.get("cookie") || "";
+    if (MOCK_MODE) {
+      event.locals.useMockData = true;
+      event.locals.user = { tier: 'Pro', id: 'mock-user' };
+    } else {
+      const authCookie = event?.request?.headers?.get("cookie") || "";
 
-    event.locals.pb.authStore?.loadFromCookie(authCookie);
+      event.locals.pb.authStore?.loadFromCookie(authCookie);
 
-    if (event?.locals?.pb?.authStore?.isValid) {
-      try {
-        await event?.locals?.pb?.collection("users")?.authRefresh();
-        event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
-      } catch (e) {
-        event.locals.pb.authStore.clear();
-        event.locals.user = undefined;
-        console.log(e);
+      if (event?.locals?.pb?.authStore?.isValid) {
+        try {
+          await event?.locals?.pb?.collection("users")?.authRefresh();
+          event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
+        } catch (e) {
+          event.locals.pb.authStore.clear();
+          event.locals.user = undefined;
+          console.log(e);
+        }
       }
     }
 
@@ -252,16 +266,18 @@ export const handle = sequence(async ({ event, resolve }) => {
       },
     );
 
-    // Use a more compatible way to set the cookie
-    const cookieString = event?.locals?.pb?.authStore?.exportToCookie({
-      httpOnly: true,
-      path: "/",
-      sameSite: "lax",
-      secure: true,
-      maxAge: 60 * 60 * 24 * 365,
-    });
+    if (!MOCK_MODE) {
+      // Use a more compatible way to set the cookie
+      const cookieString = event?.locals?.pb?.authStore?.exportToCookie({
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+        secure: true,
+        maxAge: 60 * 60 * 24 * 365,
+      });
 
-    response.headers.append("set-cookie", cookieString);
+      response.headers.append("set-cookie", cookieString);
+    }
 
     // Set locale cookie for first-time visitors (persists the IP-detected locale)
     if (needsToSetCookie) {

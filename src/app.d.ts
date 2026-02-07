@@ -23,6 +23,7 @@ declare namespace App {
       timestamp?: number;
     } | null;
     locale: Locale;
+    useMockData?: boolean;
   }
   // interface PageData {}
   // interface Platform {}

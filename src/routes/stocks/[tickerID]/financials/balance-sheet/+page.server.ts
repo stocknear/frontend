@@ -1,6 +1,7 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
+import { getMockFinancialStatement } from "$lib/server/mock";
 
 const FREE_COLUMN_LIMIT = 5;
 const PREMIUM_TIERS = new Set(["Plus", "Pro"]);
@@ -89,6 +90,18 @@ export const load = async ({ locals, params }) => {
   const canViewAllHistory = PREMIUM_TIERS.has(user?.tier);
 
   const getData = async () => {
+    if (locals.useMockData) {
+      const mockOutput = getMockFinancialStatement(params.tickerID, 'balance-sheet-statement');
+      return {
+        output: mockOutput,
+        financialLockInfo: {
+          annual: { hasLockedData: false, lockedFiscalYearRange: '', lockedPeriodRange: '' },
+          quarterly: { hasLockedData: false, lockedFiscalYearRange: '', lockedPeriodRange: '' },
+          ttm: { hasLockedData: false, lockedFiscalYearRange: '', lockedPeriodRange: '' },
+        },
+      };
+    }
+
     // make the POST request to the endpoint
     const response = await fetch(apiURL + "/financial-statement", {
       method: "POST",

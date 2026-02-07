@@ -1,5 +1,6 @@
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
+import { getMockBulkData } from "$lib/server/mock";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -129,6 +130,24 @@ export const load = async ({ params, locals }) => {
 
   if (!tickerID) {
     return { error: 'Invalid ticker ID' };
+  }
+
+  if (locals.useMockData) {
+    const stockData = getMockBulkData(tickerID);
+    return {
+      getStockDeck: stockData['/stockdeck'],
+      getAnalystSummary: stockData['/analyst-summary-rating'],
+      getStockQuote: stockData['/stock-quote'],
+      getPrePostQuote: stockData['/pre-post-quote'],
+      getWhyPriceMoved: stockData['/wiim'],
+      getOneDayPrice: stockData['/one-day-price'],
+      getNextEarnings: stockData['/next-earnings'],
+      getEarningsSurprise: stockData['/earnings-surprise'],
+      getNews: stockData['/stock-news'],
+      getUserWatchlist: [],
+      companyName: stockData['/stockdeck'].companyName,
+      getParams: tickerID,
+    };
   }
 
   try {
