@@ -227,10 +227,11 @@
         {metricLabel}
       </h3>
       {#if valueList.length > 0}
-        {@const latestValue = valueList[valueList.length - 1]}
-        {@const previousValue = valueList.length > 1 ? valueList[valueList.length - 2] : null}
-        {@const change = previousValue !== null && previousValue !== 0 
-          ? ((latestValue - previousValue) / Math.abs(previousValue)) * 100 
+        {@const lastIdx = valueList.findLastIndex(v => v !== 0)}
+        {@const latestValue = lastIdx >= 0 ? valueList[lastIdx] : valueList[valueList.length - 1]}
+        {@const previousValue = lastIdx > 0 ? valueList[lastIdx - 1] : null}
+        {@const change = previousValue !== null && previousValue !== 0
+          ? ((latestValue - previousValue) / Math.abs(previousValue)) * 100
           : null}
         <span class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0">
           {isMargin 
