@@ -2640,13 +2640,17 @@ export function calculateCAGR(
   if (years <= 0) return null;
   if (startValue === 0) return null;
   
-  // Handle negative to positive or vice versa transitions
+  // Handle negative to positive transition (recovery from losses)
   if (startValue < 0 && endValue > 0) {
-    // Can't calculate meaningful CAGR when crossing zero
-    return null;
+    const totalGrowth = (endValue - startValue) / Math.abs(startValue);
+    const annualized = (Math.pow(1 + totalGrowth, 1 / years) - 1) * 100;
+    return Number.isFinite(annualized) ? Number(annualized.toFixed(2)) : null;
   }
+  // Handle positive to negative transition (decline into losses)
   if (startValue > 0 && endValue < 0) {
-    return null;
+    const totalDecline = (startValue - endValue) / startValue;
+    const annualized = -(Math.pow(1 + totalDecline, 1 / years) - 1) * 100;
+    return Number.isFinite(annualized) ? Number(annualized.toFixed(2)) : null;
   }
   
   // Both negative - use absolute values and preserve sign

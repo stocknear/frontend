@@ -5,12 +5,10 @@
   import highcharts from "$lib/highcharts.ts";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
-  import { 
-    getMetricOverlayConfig, 
-    hasMetricOverlays, 
+  import {
+    getMetricOverlayConfig,
+    hasMetricOverlays,
     computeDerivedMetric,
-    CHART_COLOR_THEMES,
-    getMetricColorTheme
   } from "$lib/financials/metricOverlays";
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
@@ -24,6 +22,7 @@
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
   export let onClose: () => void = () => {};
   export let userTier: string = "";
+  export let overviewConfig: any = null;
 
   const PREMIUM_TIERS = new Set(["Pro", "Plus"]);
   $: isPremiumUser = PREMIUM_TIERS.has(userTier);
@@ -52,22 +51,29 @@
     "returnOnCapitalEmployed",
     "grossProfitMargin",
     "operatingMargin",
+    "operatingProfitMargin",
     "netProfitMargin",
     "ebitdaMargin",
   ]);
 
-  // Get overlay configuration
+  // Get overlay configuration (disabled when overview multi-series is active)
   $: overlayConfig = getMetricOverlayConfig(metricKey);
-  $: hasOverlays = hasMetricOverlays(metricKey);
+  $: hasOverlays = !overviewConfig && hasMetricOverlays(metricKey);
 
-  // Initialize overlay on metric change
-  $: if (metricKey && overlayConfig) {
-    const primaryOverlay = overlayConfig.overlays.find(o => o.primary);
-    selectedOverlay = primaryOverlay?.key || metricKey;
+  // Reset overlay when metric changes — prevents stale state from previous metric
+  $: if (metricKey) {
+    if (overviewConfig) {
+      selectedOverlay = "";
+    } else if (overlayConfig) {
+      const primaryOverlay = overlayConfig.overlays.find(o => o.primary);
+      selectedOverlay = primaryOverlay?.key || metricKey;
+    } else {
+      selectedOverlay = "";
+    }
   }
 
   // Check if current metric should be displayed as percentage
-  $: isMarginMetric = marginKeys.has(selectedOverlay) || marginKeys.has(metricKey);
+  $: isMarginMetric = overviewConfig?.isMargin || marginKeys.has(selectedOverlay) || marginKeys.has(metricKey);
 
   // Filter data by time range
   function filterByRange(entries: Record<string, any>[], range: string): Record<string, any>[] {
@@ -115,85 +121,48 @@
     return Number.isFinite(numValue) ? numValue : null;
   }
 
-  // Build chart options
-  function buildChartOptions() {
-    if (!data?.length || !metricKey) return null;
-    
-    const sortedData = sortStatementsChronologicallyForCAGR(data);
-    const rangedData = filterByRange(sortedData, selectedRange);
-    
-    // Get the metric key to use (overlay or base metric)
-    const activeKey = selectedOverlay || metricKey;
-    
-    // Extract values
-    const chartData = rangedData
-      .map(entry => ({
-        label: formatDateLabel(entry),
-        value: getOverlayValue(entry, activeKey),
-        rawEntry: entry,
-      }))
-      .filter(item => item.value !== null);
-    
-    if (!chartData.length) return null;
-    
-    const dateList = chartData.map(d => d.label);
-    const valueList = chartData.map(d => isMarginMetric ? (d.value as number) * 100 : d.value);
-    
-    // Get chart color
-    const themeKey = getMetricColorTheme(metricKey);
-    const theme = CHART_COLOR_THEMES[themeKey];
-    const chartColor = $mode === "light" ? theme.primary : theme.secondary;
-    
-    // Check for multi-series overlay (like FCF & SBC)
-    const activeOverlay = overlayConfig?.overlays.find(o => o.key === selectedOverlay);
-    let series: any[] = [];
-    
-    if (activeOverlay?.series && activeOverlay.series.length > 1) {
-      // Multi-series chart
-      const colors = [chartColor, '#F59E0B', '#10B981', '#8B5CF6'];
-      series = activeOverlay.series.map((seriesKey, idx) => {
-        const seriesValues = rangedData.map(entry => {
-          const val = entry?.[seriesKey];
-          if (val === null || val === undefined) return null;
-          const numVal = Number(val);
-          return Number.isFinite(numVal) ? numVal : null;
-        });
-        
-        return {
-          name: seriesKey.replace(/([A-Z])/g, ' $1').trim(),
-          data: seriesValues,
-          color: colors[idx % colors.length],
-          borderColor: colors[idx % colors.length],
-          borderRadius: 2,
-          animation: false,
-        };
-      });
-    } else {
-      // Single series chart
-      series = [{
-        name: metricLabel,
-        data: valueList,
-        color: chartColor,
-        borderColor: chartColor,
-        borderRadius: 2,
-        animation: false,
-      }];
+  // Fallback margin computation for missing ratios (e.g. FY25 not yet reported)
+  function getFallbackMargin(row: Record<string, any>, key: string): number {
+    const revenue = Number(row?.revenue);
+    if (!Number.isFinite(revenue) || revenue === 0) return NaN;
+    switch (key) {
+      case 'grossProfitMargin': {
+        const v = Number(row?.grossProfit);
+        return Number.isFinite(v) ? v / revenue : NaN;
+      }
+      case 'operatingProfitMargin': {
+        const v = Number(row?.operatingIncome);
+        return Number.isFinite(v) ? v / revenue : NaN;
+      }
+      case 'netProfitMargin': {
+        const v = Number(row?.netIncome);
+        return Number.isFinite(v) ? v / revenue : NaN;
+      }
+      case 'returnOnCapitalEmployed': {
+        const ebit = Number(row?.operatingIncome);
+        const denom = Number(row?.totalAssets) - Number(row?.totalCurrentLiabilities);
+        return Number.isFinite(ebit) && Number.isFinite(denom) && denom !== 0 ? ebit / denom : NaN;
+      }
+      default:
+        return NaN;
     }
-    
+  }
+
+  // Shared chart shell — returns the common Highcharts config structure
+  function makeChartShell(dateList: string[], series: any[], stacking?: string) {
+    const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
     return {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#18181b", // zinc-900
+        backgroundColor: $mode === "light" ? "#fff" : "#18181b",
         height: 400,
         animation: false,
         spacing: [20, 10, 20, 10],
       },
       credits: { enabled: false },
-      legend: { 
+      legend: {
         enabled: series.length > 1,
-        itemStyle: {
-          color: $mode === "light" ? "#374151" : "#d4d4d8",
-        },
+        itemStyle: { color: $mode === "light" ? "#374151" : "#d4d4d8" },
       },
       title: {
         text: `<div class="text-lg font-semibold">${$stockTicker} ${metricLabel}</div>`,
@@ -205,28 +174,15 @@
           borderRadius: 3,
           pointPadding: 0.1,
           groupPadding: 0.15,
+          ...(stacking ? { stacking } : {}),
         },
-        spline: {
-          lineWidth: 2,
-          marker: {
-            enabled: true,
-            radius: 3,
-          },
-        },
-        series: {
-          animation: false,
-        },
+        spline: { lineWidth: 2, marker: { enabled: true, radius: 3 } },
+        series: { animation: false },
       },
       xAxis: {
         categories: dateList,
-        crosshair: {
-          color: $mode === "light" ? "#d1d5db" : "#3f3f46",
-          width: 1,
-        },
-        labels: {
-          style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
-          rotation: -45,
-        },
+        crosshair: { color: $mode === "light" ? "#d1d5db" : "#3f3f46", width: 1 },
+        labels: { style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" }, rotation: -45 },
         lineColor: $mode === "light" ? "#e5e7eb" : "#27272a",
       },
       yAxis: {
@@ -251,15 +207,18 @@
         style: { color: "#fff", fontSize: "13px" },
         borderRadius: 8,
         formatter: function () {
-          // Use point.key to get category name (date), not this.x which returns index
           const categoryName = this.points?.[0]?.key ?? this.x;
-          let html = `<div class="px-1 py-1">
-            <div class="font-semibold mb-1">${categoryName}</div>`;
-          this.points?.forEach((point: any) => {
-            const formatted = abbreviateNumber(point.y);
-            const suffix = isMarginMetric ? "%" : "";
+          // Iterate ALL series so null values show as "n/a"
+          const allSeries = this.points?.[0]?.series?.chart?.series || [];
+          const xIdx = typeof this.x === 'number' ? this.x : 0;
+          let html = `<div class="px-1 py-1"><div class="font-semibold mb-1">${categoryName}</div>`;
+          allSeries.forEach((s: any) => {
+            const point = s.data?.[xIdx];
+            const val = point?.y;
+            const formatted = val != null ? abbreviateNumber(val) : 'n/a';
+            const suffix = val != null && isMarginMetric ? '%' : '';
             html += `<div class="flex items-center gap-2">
-              <span style="color: ${point.color}">${point.series.name}:</span>
+              <span style="color: ${s.color}">${s.name}:</span>
               <span class="font-medium">${formatted}${suffix}</span>
             </div>`;
           });
@@ -271,11 +230,120 @@
     };
   }
 
+  // Build multi-series chart for overview composite configs (margins, cash & debt, etc.)
+  function buildOverviewChartOptions() {
+    if (!data?.length || !overviewConfig?.metrics?.length) return null;
+
+    const sortedData = sortStatementsChronologicallyForCAGR(data);
+    const rangedData = filterByRange(sortedData, selectedRange);
+    if (!rangedData.length) return null;
+
+    const dateList = rangedData.map(entry => formatDateLabel(entry));
+    const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
+    const COLORS = [chartColor, '#3B82F6', '#EF4444', '#10B981', '#8B5CF6'];
+    const isMargin = overviewConfig.isMargin || false;
+    const isStacked = overviewConfig.chartType === 'stacked' || overviewConfig.chartType === 'grouped-stacked';
+
+    const series = overviewConfig.metrics.map((m: any, idx: number) => {
+      const values = rangedData.map((entry: any) => {
+        let val = Number(entry?.[m.key]);
+        // Fallback for missing margin ratios
+        if ((!Number.isFinite(val) || val === 0) && marginKeys.has(m.key)) {
+          const fb = getFallbackMargin(entry, m.key);
+          if (Number.isFinite(fb)) val = fb;
+        }
+        if (!Number.isFinite(val)) return null;
+        if (isMargin || marginKeys.has(m.key)) val *= 100;
+        if (overviewConfig.negate || m.negate) val = -val;
+        return parseFloat(val.toFixed(2));
+      });
+
+      return {
+        name: m.label,
+        data: values,
+        color: m.color || COLORS[idx % COLORS.length],
+        borderColor: m.color || COLORS[idx % COLORS.length],
+        borderRadius: 2,
+        animation: false,
+        ...(m.stack ? { stack: m.stack } : {}),
+      };
+    });
+
+    if (!series.some((s: any) => s.data.some((v: any) => v !== null))) return null;
+
+    return makeChartShell(dateList, series, isStacked ? 'normal' : undefined);
+  }
+
+  // Build chart options (single-series default path)
+  function buildChartOptions() {
+    // Route to overview builder for multi-series composite charts
+    if (overviewConfig && overviewConfig.metrics?.length > 1) {
+      return buildOverviewChartOptions();
+    }
+
+    if (!data?.length || !metricKey) return null;
+
+    const sortedData = sortStatementsChronologicallyForCAGR(data);
+    const rangedData = filterByRange(sortedData, selectedRange);
+
+    const activeKey = selectedOverlay || metricKey;
+
+    const chartData = rangedData
+      .map(entry => ({
+        label: formatDateLabel(entry),
+        value: getOverlayValue(entry, activeKey),
+        rawEntry: entry,
+      }))
+      .filter(item => item.value !== null);
+
+    if (!chartData.length) return null;
+
+    const dateList = chartData.map(d => d.label);
+    const valueList = chartData.map(d => isMarginMetric ? (d.value as number) * 100 : d.value);
+
+    const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
+
+    const activeOverlay = overlayConfig?.overlays.find(o => o.key === selectedOverlay);
+    let series: any[] = [];
+
+    if (activeOverlay?.series && activeOverlay.series.length > 1) {
+      const colors = [chartColor, '#F59E0B', '#10B981', '#8B5CF6'];
+      series = activeOverlay.series.map((seriesKey, idx) => {
+        const seriesValues = rangedData.map(entry => {
+          const val = entry?.[seriesKey];
+          if (val === null || val === undefined) return null;
+          const numVal = Number(val);
+          return Number.isFinite(numVal) ? numVal : null;
+        });
+
+        return {
+          name: seriesKey.replace(/([A-Z])/g, ' $1').trim(),
+          data: seriesValues,
+          color: colors[idx % colors.length],
+          borderColor: colors[idx % colors.length],
+          borderRadius: 2,
+          animation: false,
+        };
+      });
+    } else {
+      series = [{
+        name: metricLabel,
+        data: valueList,
+        color: chartColor,
+        borderColor: chartColor,
+        borderRadius: 2,
+        animation: false,
+      }];
+    }
+
+    return makeChartShell(dateList, series);
+  }
+
   // Calculate CAGR values
   $: cagrValues = data?.length > 0 ? calculatePeriodCAGRs(data, selectedOverlay || metricKey, periodType) : { '1Y': null, '2Y': null, '5Y': null, '10Y': null };
 
-  // Update chart when dependencies change
-  $: if (isOpen && metricKey && data?.length > 0) {
+  // Update chart when dependencies change (overviewConfig included for multi-series)
+  $: if (isOpen && metricKey && data?.length > 0 && overviewConfig !== undefined) {
     config = buildChartOptions();
   }
 

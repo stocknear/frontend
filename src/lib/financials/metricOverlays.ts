@@ -78,6 +78,25 @@ export const CHART_COLOR_THEMES = {
 /**
  * Income Statement Metric Overlays
  */
+export const OVERVIEW_COMPUTED_OVERLAYS: MetricOverlayConfig[] = [
+  {
+    baseMetric: 'stockPrice',
+    label: 'Stock Price',
+    colorTheme: 'revenue',
+    overlays: [
+      { key: 'stockPrice', label: 'Stock Price', primary: true, computed: true, formula: 'eps × P/E ratio' },
+    ],
+  },
+  {
+    baseMetric: 'returnOfCapital',
+    label: 'Return of Capital',
+    colorTheme: 'cashflow',
+    overlays: [
+      { key: 'returnOfCapital', label: 'Return of Capital', primary: true, computed: true, formula: 'abs(dividends) + abs(buybacks)' },
+    ],
+  },
+];
+
 export const INCOME_STATEMENT_OVERLAYS: MetricOverlayConfig[] = [
   {
     baseMetric: 'revenue',
@@ -344,6 +363,7 @@ export const RATIOS_OVERLAYS: MetricOverlayConfig[] = [
  * Combined map of all overlays for quick lookup
  */
 export const ALL_METRIC_OVERLAYS: Map<string, MetricOverlayConfig> = new Map([
+  ...OVERVIEW_COMPUTED_OVERLAYS,
   ...INCOME_STATEMENT_OVERLAYS,
   ...CASH_FLOW_OVERLAYS,
   ...BALANCE_SHEET_OVERLAYS,

@@ -2,7 +2,6 @@
   import { onMount, onDestroy, tick } from "svelte";
   import { abbreviateNumber } from "$lib/utils";
   import { mode } from "mode-watcher";
-  import { getMetricColorTheme, CHART_COLOR_THEMES } from "$lib/financials/metricOverlays";
   import Maximize from "lucide-svelte/icons/maximize-2";
 
   export let metricKey: string;
@@ -10,6 +9,7 @@
   export let xList: string[] = [];
   export let valueList: number[] = [];
   export let isMargin: boolean = false;
+  export let chartType: "bar" | "line" = "bar";
   export let onExpand: (metricKey: string, metricLabel: string) => void = () => {};
 
   let canvasElement: HTMLCanvasElement;
@@ -25,11 +25,9 @@
   const CHART_HEIGHT = 160;
   const CHART_PADDING = { top: 10, right: 10, bottom: 35, left: 10 };
 
-  // Get color based on metric type
+  // Consistent amber color matching the overview tab
   function getChartColor(): string {
-    const themeKey = getMetricColorTheme(metricKey);
-    const theme = CHART_COLOR_THEMES[themeKey];
-    return $mode === 'light' ? theme.primary : theme.secondary;
+    return $mode === 'light' ? '#F59E0B' : '#FBBF24';
   }
 
   function drawChart() {
@@ -41,7 +39,7 @@
     // Get device pixel ratio for sharp rendering
     const dpr = window.devicePixelRatio || 1;
     const rect = canvasElement.getBoundingClientRect();
-    
+
     // Set canvas size accounting for device pixel ratio
     canvasElement.width = rect.width * dpr;
     canvasElement.height = CHART_HEIGHT * dpr;
@@ -55,6 +53,16 @@
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
+    const color = getChartColor();
+
+    if (chartType === "line") {
+      drawLineChart(ctx, chartWidth, chartHeight, width, height, color);
+    } else {
+      drawBarChart(ctx, chartWidth, chartHeight, width, height, color);
+    }
+  }
+
+  function drawBarChart(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, width: number, height: number, barColor: string) {
     // Calculate bar dimensions
     const barCount = valueList.length;
     const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
@@ -68,14 +76,11 @@
     // Calculate zero line position
     const zeroY = CHART_PADDING.top + chartHeight * (maxValue / valueRange);
 
-    // Get chart color
-    const barColor = getChartColor();
-
     // Draw bars
     valueList.forEach((value, index) => {
       const x = CHART_PADDING.left + index * (barWidth + barGap);
       const barHeight = Math.abs(value / valueRange) * chartHeight;
-      
+
       let y: number;
       if (value >= 0) {
         y = zeroY - barHeight;
@@ -87,9 +92,8 @@
       ctx.fillStyle = barColor;
       ctx.beginPath();
       const radius = Math.min(2, barWidth / 4);
-      
+
       if (value >= 0) {
-        // Rounded top for positive bars
         ctx.moveTo(x + radius, y);
         ctx.lineTo(x + barWidth - radius, y);
         ctx.quadraticCurveTo(x + barWidth, y, x + barWidth, y + radius);
@@ -98,7 +102,6 @@
         ctx.lineTo(x, y + radius);
         ctx.quadraticCurveTo(x, y, x + radius, y);
       } else {
-        // Rounded bottom for negative bars
         ctx.moveTo(x, y);
         ctx.lineTo(x + barWidth, y);
         ctx.lineTo(x + barWidth, y + barHeight - radius);
@@ -110,7 +113,77 @@
       ctx.fill();
     });
 
-    // Draw x-axis labels (show ~5-6 labels)
+    // Draw x-axis labels
+    drawXLabelsBar(ctx, chartWidth, height);
+  }
+
+  function drawLineChart(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, width: number, height: number, lineColor: string) {
+    const finiteValues = valueList.filter(v => Number.isFinite(v) && v !== 0);
+    if (!finiteValues.length) return;
+
+    let minValue = Math.min(...finiteValues);
+    let maxValue = Math.max(...finiteValues);
+    const padding = (maxValue - minValue) * 0.1 || 1;
+    minValue -= padding;
+    maxValue += padding;
+    const valueRange = maxValue - minValue;
+
+    const stepX = valueList.length > 1 ? chartWidth / (valueList.length - 1) : chartWidth;
+
+    // Draw area fill
+    ctx.beginPath();
+    let started = false;
+    let firstX = 0, lastX = 0;
+    for (let i = 0; i < valueList.length; i++) {
+      const v = valueList[i];
+      if (!Number.isFinite(v) || v === 0) continue;
+      const x = CHART_PADDING.left + i * stepX;
+      const y = CHART_PADDING.top + chartHeight - ((v - minValue) / valueRange) * chartHeight;
+      if (!started) {
+        ctx.moveTo(x, y);
+        firstX = x;
+        started = true;
+      } else {
+        ctx.lineTo(x, y);
+      }
+      lastX = x;
+    }
+    if (started) {
+      ctx.lineTo(lastX, CHART_PADDING.top + chartHeight);
+      ctx.lineTo(firstX, CHART_PADDING.top + chartHeight);
+      ctx.closePath();
+      ctx.fillStyle = lineColor + '18';
+      ctx.fill();
+    }
+
+    // Draw line
+    ctx.beginPath();
+    started = false;
+    for (let i = 0; i < valueList.length; i++) {
+      const v = valueList[i];
+      if (!Number.isFinite(v) || v === 0) continue;
+      const x = CHART_PADDING.left + i * stepX;
+      const y = CHART_PADDING.top + chartHeight - ((v - minValue) / valueRange) * chartHeight;
+      if (!started) {
+        ctx.moveTo(x, y);
+        started = true;
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw x-axis labels
+    drawXLabelsLine(ctx, chartWidth, height, stepX);
+  }
+
+  function drawXLabelsBar(ctx: CanvasRenderingContext2D, chartWidth: number, height: number) {
+    const barCount = valueList.length;
+    const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
+    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+
     const labelStep = Math.max(1, Math.ceil(xList.length / 6));
     ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
     ctx.font = '9px system-ui, -apple-system, sans-serif';
@@ -120,11 +193,28 @@
       if (index % labelStep === 0 || index === xList.length - 1) {
         const x = CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2;
         const y = height - 8;
-        
-        // Rotate text
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(-Math.PI / 6); // -30 degrees
+        ctx.rotate(-Math.PI / 6);
+        ctx.fillText(label, 0, 0);
+        ctx.restore();
+      }
+    });
+  }
+
+  function drawXLabelsLine(ctx: CanvasRenderingContext2D, chartWidth: number, height: number, stepX: number) {
+    const labelStep = Math.max(1, Math.ceil(xList.length / 6));
+    ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
+    ctx.font = '9px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+
+    xList.forEach((label, index) => {
+      if (index % labelStep === 0 || index === xList.length - 1) {
+        const x = CHART_PADDING.left + index * stepX;
+        const y = height - 8;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(-Math.PI / 6);
         ctx.fillText(label, 0, 0);
         ctx.restore();
       }
@@ -136,16 +226,20 @@
 
     const rect = canvasElement.getBoundingClientRect();
     const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
 
     const chartWidth = rect.width - CHART_PADDING.left - CHART_PADDING.right;
-    const barCount = valueList.length;
-    const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
-    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
-
-    // Find which bar is hovered
     const relativeX = x - CHART_PADDING.left;
-    const barIndex = Math.floor(relativeX / (barWidth + barGap));
+
+    let barIndex: number;
+    if (chartType === "line") {
+      const stepX = valueList.length > 1 ? chartWidth / (valueList.length - 1) : chartWidth;
+      barIndex = Math.round(relativeX / stepX);
+    } else {
+      const barCount = valueList.length;
+      const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
+      const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+      barIndex = Math.floor(relativeX / (barWidth + barGap));
+    }
 
     if (barIndex >= 0 && barIndex < valueList.length) {
       const value = valueList[barIndex];
