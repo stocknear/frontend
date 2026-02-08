@@ -12,14 +12,14 @@
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import {
-  stock_detail_financials_download,
-  stock_detail_financials_fiscal_quarter,
-  stock_detail_financials_fiscal_year,
-  stock_detail_financials_in_currency,
-  stock_detail_financials_period_ending,
-  stock_detail_financials_sec_filings,
-  stock_detail_upgrade,
-} from "$lib/paraglide/messages";
+    stock_detail_financials_download,
+    stock_detail_financials_fiscal_quarter,
+    stock_detail_financials_fiscal_year,
+    stock_detail_financials_in_currency,
+    stock_detail_financials_period_ending,
+    stock_detail_financials_sec_filings,
+    stock_detail_upgrade,
+  } from "$lib/paraglide/messages";
   import FinancialTable from "$lib/components/Financial/FinancialTable.svelte";
   import FinancialAISummary from "$lib/components/Financial/FinancialAISummary.svelte";
   import FinancialChartGrid from "$lib/components/Financial/FinancialChartGrid.svelte";
@@ -274,7 +274,7 @@
   $: {
     // Include switchDate in reactive dependencies so toggling order updates both table and chart views
     const _switchDateDep = switchDate;
-    
+
     if ($selectedTimePeriod) {
       if ($selectedTimePeriod === "annual") {
         fullStatement = data?.getData?.annual ?? [];
@@ -368,10 +368,15 @@
                 <span
                   class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full"
                 >
-                  {stock_detail_financials_in_currency({ currency: financialData?.at(0)?.reportedCurrency, range: data?.getProfileData?.fiscalYearRange })}
+                  {stock_detail_financials_in_currency({
+                    currency: financialData?.at(0)?.reportedCurrency,
+                    range: data?.getProfileData?.fiscalYearRange,
+                  })}
                 </span>
 
-                <div class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2">
+                <div
+                  class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2"
+                >
                   <!-- View Controls Group -->
                   <div class="flex flex-row items-center gap-1 sm:gap-1.5">
                     <!-- Chart Mode / Table Mode Toggle -->
@@ -405,7 +410,8 @@
                           stroke-linejoin="round"
                           stroke-width="2"
                           d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                        ></path></svg>
+                        ></path></svg
+                      >
                     </Button>
                   </div>
 
@@ -416,7 +422,9 @@
                       on:click={() => exportFundamentalData("csv")}
                       class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="text-sm">{stock_detail_financials_download()}</span>
+                      <span class="text-sm"
+                        >{stock_detail_financials_download()}</span
+                      >
                       <svg
                         class="{['Pro', 'Plus']?.includes(data?.user?.tier)
                           ? 'hidden'
@@ -426,7 +434,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg>
+                        /></svg
+                      >
                     </Button>
 
                     <!-- AI Financial Summary Button -->
@@ -442,20 +451,35 @@
               {#if hasLockedData}
                 <a
                   href="/pricing"
-                  class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
+                  class="mt-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
                 >
-                  <div class="flex items-center gap-2.5 text-sm text-violet-900 dark:text-violet-200">
-                    <svg class="w-4 h-4 shrink-0 text-violet-500 dark:text-violet-400" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
-                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                  <div
+                    class="flex items-center gap-2.5 text-violet-900 dark:text-violet-200"
+                  >
+                    <svg
+                      class="w-4 h-4 shrink-0 text-violet-500 dark:text-violet-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                     <span>
                       Viewing {financialData.length} periods
                       {#if lockedFiscalYearRange}
-                        <span class="font-medium">&middot; Unlock {lockedFiscalYearRange} for full history</span>
+                        <span class="font-medium"
+                          >&middot; Unlock {lockedFiscalYearRange} for full history</span
+                        >
                       {/if}
                     </span>
                   </div>
-                  <span class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap">
+                  <span
+                    class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap"
+                  >
                     Upgrade &rarr;
                   </span>
                 </a>
@@ -554,13 +578,14 @@
                   </table>
                 </div>
               {/if}
-              
+
               <!-- SEC Filings Links -->
               <div
                 class="sm:flex sm:justify-between text-sm text-gray-800 dark:text-zinc-300"
               >
                 <div class="mt-2 flex ml-auto items-center gap-x-2">
-                  {stock_detail_financials_sec_filings()} <a
+                  {stock_detail_financials_sec_filings()}
+                  <a
                     class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -576,7 +601,8 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      ></path></svg>
+                      ></path></svg
+                    >
                   </a>
                   ·
                   <a
@@ -595,7 +621,8 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      ></path></svg>
+                      ></path></svg
+                    >
                   </a>
                 </div>
               </div>
