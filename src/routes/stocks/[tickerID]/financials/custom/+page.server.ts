@@ -2,10 +2,12 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { mergeAllStatements } from "$lib/financials/mergeStatements";
+import { PREMIUM_TIERS, limitStatements, buildLockInfo } from "$lib/financials/statementHelpers";
 
 export const load = async ({ locals, params }) => {
-  const { apiKey, apiURL } = locals;
+  const { apiKey, apiURL, user } = locals;
   const ticker = params.tickerID;
+  const canViewAllHistory = PREMIUM_TIERS.has(user?.tier);
 
   const fetchStatement = async (statement: string) => {
     const response = await fetch(apiURL + "/financial-statement", {
@@ -82,8 +84,24 @@ export const load = async ({ locals, params }) => {
     }
   }
 
+  // Build lock info from full data, then limit for free users
+  const financialLockInfo = {
+    annual: buildLockInfo(merged.annual, canViewAllHistory),
+    quarterly: buildLockInfo(merged.quarter, canViewAllHistory),
+    ttm: buildLockInfo(merged.ttm, canViewAllHistory),
+  };
+
+  const limitedMerged = canViewAllHistory
+    ? merged
+    : {
+        annual: limitStatements(merged.annual, false),
+        quarter: limitStatements(merged.quarter, false),
+        ttm: limitStatements(merged.ttm, false),
+      };
+
   return {
-    getMergedData: merged,
+    getMergedData: limitedMerged,
+    financialLockInfo,
   };
 };
 
