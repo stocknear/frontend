@@ -55,6 +55,85 @@
         { key: "researchAndDevelopmentExpenses", label: "R&D" },
       ],
     },
+    revenueToProfit: {
+      key: "revenueToProfit",
+      label: "Revenue to Profit",
+      chartType: "grouped" as const,
+      metrics: [
+        { key: "revenue", label: "Revenue", color: "#10B981" },
+        { key: "grossProfit", label: "Gross Profit", color: "#3B82F6" },
+        { key: "operatingIncome", label: "Operating Income", color: "#8B5CF6" },
+        { key: "netIncome", label: "Net Income", color: "#F59E0B" },
+      ],
+    },
+    cashFlowBreakdown: {
+      key: "cashFlowBreakdown",
+      label: "Cash Flow Breakdown",
+      chartType: "grouped" as const,
+      metrics: [
+        { key: "netCashProvidedByOperatingActivities", label: "Operating", color: "#10B981" },
+        { key: "netCashProvidedByInvestingActivities", label: "Investing", color: "#F59E0B" },
+        { key: "netCashProvidedByFinancingActivities", label: "Financing", color: "#3B82F6" },
+      ],
+    },
+    assetsVsLiabilities: {
+      key: "assetsVsLiabilities",
+      label: "Assets vs Liabilities",
+      chartType: "grouped" as const,
+      metrics: [
+        { key: "totalAssets", label: "Assets", color: "#10B981" },
+        { key: "totalLiabilities", label: "Liabilities", color: "#EF4444" },
+        { key: "totalStockholdersEquity", label: "Equity", color: "#3B82F6" },
+      ],
+    },
+    capitalAllocation: {
+      key: "capitalAllocation",
+      label: "Capital Allocation",
+      chartType: "stacked" as const,
+      metrics: [
+        { key: "capitalExpenditure", label: "CapEx", color: "#3B82F6", negate: true },
+        { key: "researchAndDevelopmentExpenses", label: "R&D", color: "#8B5CF6" },
+        { key: "acquisitionsNet", label: "Acquisitions", color: "#F59E0B", negate: true },
+      ],
+    },
+    debtStructure: {
+      key: "debtStructure",
+      label: "Debt Structure",
+      chartType: "stacked" as const,
+      metrics: [
+        { key: "shortTermDebt", label: "Short-Term Debt", color: "#F87171" },
+        { key: "longTermDebt", label: "Long-Term Debt", color: "#B91C1C" },
+        { key: "capitalLeaseObligations", label: "Lease Obligations", color: "#F59E0B" },
+      ],
+    },
+    shareDilution: {
+      key: "shareDilution",
+      label: "Share Dilution",
+      chartType: "grouped" as const,
+      metrics: [
+        { key: "weightedAverageShsOut", label: "Basic Shares", color: "#3B82F6" },
+        { key: "weightedAverageShsOutDil", label: "Diluted Shares", color: "#8B5CF6" },
+      ],
+    },
+    workingCapital: {
+      key: "workingCapital",
+      label: "Working Capital",
+      chartType: "grouped" as const,
+      metrics: [
+        { key: "totalCurrentAssets", label: "Current Assets", color: "#10B981" },
+        { key: "totalCurrentLiabilities", label: "Current Liabilities", color: "#EF4444" },
+      ],
+    },
+    cashGeneration: {
+      key: "cashGeneration",
+      label: "Cash Generation",
+      chartType: "grouped" as const,
+      metrics: [
+        { key: "operatingCashFlow", label: "Operating CF", color: "#10B981" },
+        { key: "capitalExpenditure", label: "CapEx", color: "#EF4444" },
+        { key: "freeCashFlow", label: "FCF", color: "#3B82F6" },
+      ],
+    },
   };
 
   const PRESET_LIST = Object.entries(COMPOSITE_PRESETS).map(([key, cfg]) => ({

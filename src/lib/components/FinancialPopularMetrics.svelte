@@ -13,18 +13,13 @@
   const POPULAR_PRESETS: PopularPreset[] = [
     {
       label: "Profitability",
-      presetKeys: ["stockPrice", "netIncome", "margins", "expenses"],
-      indicatorIds: ["income_grossProfit", "income_operatingIncome", "eps"],
+      presetKeys: ["stockPrice", "revenueToProfit", "margins", "expenses"],
+      indicatorIds: ["eps"],
     },
     {
       label: "Cash Flow",
-      presetKeys: ["freeCashFlow"],
-      indicatorIds: [
-        "cashflow_operatingCashFlow",
-        "cashflow_capitalExpenditure",
-        "cashflow_netChangeInCash",
-        "cashflow_netCashProvidedByOperatingActivities",
-      ],
+      presetKeys: ["cashFlowBreakdown", "cashGeneration", "capitalAllocation"],
+      indicatorIds: [],
     },
     {
       label: "Valuation",
@@ -40,10 +35,8 @@
     },
     {
       label: "Debt & Liquidity",
-      presetKeys: ["cashAndDebt"],
+      presetKeys: ["cashAndDebt", "debtStructure", "workingCapital"],
       indicatorIds: [
-        "balance_totalDebt",
-        "balance_netDebt",
         "ratio_currentRatio",
         "ratio_debtToEquityRatio",
         "ratio_interestCoverageRatio",
@@ -51,11 +44,21 @@
     },
     {
       label: "Shareholder Returns",
-      presetKeys: ["dividendsPaid", "sharesOutstanding"],
+      presetKeys: ["shareDilution"],
       indicatorIds: [
         "cashflow_commonStockRepurchased",
+        "cashflow_commonDividendsPaid",
         "ratio_dividendYieldPercentage",
         "ratio_dividendPayoutRatio",
+      ],
+    },
+    {
+      label: "Balance Sheet",
+      presetKeys: ["assetsVsLiabilities", "workingCapital", "cashAndDebt"],
+      indicatorIds: [
+        "balance_totalDebt",
+        "balance_netDebt",
+        "balance_retainedEarnings",
       ],
     },
     {
