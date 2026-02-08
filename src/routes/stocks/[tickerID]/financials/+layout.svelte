@@ -38,7 +38,7 @@
       return;
     }
     const subSectionMap = {
-      overview: "/financials/overview",
+      custom: "/financials/custom",
       income: "/financials/income",
       "balance-sheet": "/financials/balance-sheet",
       "cash-flow": "/financials/cash-flow",
@@ -68,7 +68,7 @@
     if ($page?.url?.pathname) {
       const parts = $page.url.pathname.split("/");
       const sectionMap = {
-        overview: "overview",
+        custom: "custom",
         income: "income",
         "balance-sheet": "balance-sheet",
         "cash-flow": "cash-flow",
@@ -152,11 +152,11 @@
                 </a>
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
-                    ? `/stocks/${$stockTicker}/financials/overview?query=${$selectedTimePeriod}`
-                    : `/stocks/${$stockTicker}/financials/overview`}
-                  on:click={() => changeSubSection("overview")}
+                    ? `/stocks/${$stockTicker}/financials/custom?query=${$selectedTimePeriod}`
+                    : `/stocks/${$stockTicker}/financials/custom`}
+                  on:click={() => changeSubSection("custom")}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
-                  'overview'
+                  'custom'
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >

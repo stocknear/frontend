@@ -83,6 +83,9 @@
                 </span>
 
                 <div class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2">
+                  <!-- Metric Picker Slot -->
+                  <slot name="picker" />
+
                   <!-- Sort Order Toggle -->
                   <Button
                     on:click={() => (switchDate = !switchDate)}
