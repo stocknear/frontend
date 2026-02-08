@@ -4,6 +4,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import FinancialOverviewSection from "$lib/components/FinancialOverviewSection.svelte";
   import FinancialMetricPicker from "$lib/components/FinancialMetricPicker.svelte";
+  import FinancialPopularMetrics from "$lib/components/FinancialPopularMetrics.svelte";
   import {
     STATEMENT_INDICATORS,
     type StatementIndicatorConfig,
@@ -211,6 +212,12 @@
     saveSelection();
   }
 
+  function handleApplyPopular(presetKeys: string[], indicatorIds: string[]) {
+    selectedPresetKeys = new Set(presetKeys);
+    selectedIds = new Set(indicatorIds.filter((id) => VALID_IDS.has(id)));
+    saveSelection();
+  }
+
   function handleSelectAll() {
     selectedIds = new Set(STATEMENT_INDICATORS.map((i) => i.id));
     selectedPresetKeys = new Set(Object.keys(COMPOSITE_PRESETS));
@@ -301,5 +308,6 @@
       onReset={handleReset}
       onSelectAll={handleSelectAll}
     />
+    <FinancialPopularMetrics onApply={handleApplyPopular} />
   </svelte:fragment>
 </FinancialOverviewSection>
