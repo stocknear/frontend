@@ -13,7 +13,7 @@
   } from "$lib/paraglide/messages";
 
   export let data;
-  let displaySubSection = "overview";
+  let displaySubSection = "income";
 
   function updateQuery(query: string) {
     // Create a new URL object based on the current URL
@@ -103,19 +103,6 @@
               >
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
-                    ? `/stocks/${$stockTicker}/financials/overview?query=${$selectedTimePeriod}`
-                    : `/stocks/${$stockTicker}/financials/overview`}
-                  on:click={() => changeSubSection("overview")}
-                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
-                  'overview'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-                >
-                  Overview
-                </a>
-
-                <a
-                  href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
                     ? `/stocks/${$stockTicker}/financials/?query=${$selectedTimePeriod}`
                     : `/stocks/${$stockTicker}/financials`}
                   on:click={() => changeSubSection("income")}
@@ -162,6 +149,18 @@
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_ratios()}
+                </a>
+                <a
+                  href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
+                    ? `/stocks/${$stockTicker}/financials/overview?query=${$selectedTimePeriod}`
+                    : `/stocks/${$stockTicker}/financials/overview`}
+                  on:click={() => changeSubSection("overview")}
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
+                  'overview'
+                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                >
+                  Custom
                 </a>
 
                 <a
