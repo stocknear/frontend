@@ -13,6 +13,7 @@
     negate?: boolean;
   }> = [];
   export let currentPrice: number | undefined = undefined;
+  export let ghostCount: number = 0;
   export let onExpandChart: (metricKey: string, metricLabel: string) => void = () => {};
 
   function buildXList(data: Record<string, any>[]): string[] {
@@ -88,6 +89,19 @@
     };
   }
 
+  /**
+   * Build ghost placeholder values that look like realistic data.
+   * Uses a deterministic sine pattern at 30-70% of the max real value.
+   */
+  function buildGhostValues(realValues: (number | null)[], count: number): (number | null)[] {
+    if (count <= 0) return [];
+    const numeric = realValues.filter((v): v is number => v != null && v !== 0);
+    const peak = numeric.length > 0 ? Math.max(...numeric.map(Math.abs)) : 100;
+    return Array.from({ length: count }, (_, i) =>
+      parseFloat((peak * (0.3 + 0.4 * Math.abs(Math.sin(i * 2.3)))).toFixed(2))
+    );
+  }
+
   // Single reactive pass: build xList, series, trim, filter — no double computation
   $: xList = buildXList(mergedData);
   $: preparedCharts = chartConfig
@@ -96,18 +110,30 @@
       const hasData = series.some(s => s.values.some(v => v != null && v !== 0));
       const trimmed = trimLeadingZeros(xList, series);
 
+      // Skip ghost bars for stock price chart; cap at 4 to keep visual subtle
+      const effectiveGhostCount = config.key === 'stockPrice' ? 0 : Math.min(ghostCount, 4);
+
+      // Prepend ghost entries
+      const ghostLabels = Array.from({ length: effectiveGhostCount }, () => '');
+      const finalXList = [...ghostLabels, ...trimmed.xList];
+      const finalSeries = trimmed.series.map(s => ({
+        ...s,
+        values: [...buildGhostValues(s.values, effectiveGhostCount), ...s.values],
+      }));
+
       if (config.key === 'stockPrice' && currentPrice != null && Number.isFinite(currentPrice)) {
         return {
           config,
           hasData,
-          xList: [...trimmed.xList, 'Current'],
-          series: trimmed.series.map(s => ({
+          ghostCount: 0,
+          xList: [...finalXList, 'Current'],
+          series: finalSeries.map(s => ({
             ...s,
             values: [...s.values, parseFloat(Number(currentPrice).toFixed(2))],
           })),
         };
       }
-      return { config, hasData, xList: trimmed.xList, series: trimmed.series };
+      return { config, hasData, ghostCount: effectiveGhostCount, xList: finalXList, series: finalSeries };
     })
 ;
 </script>
@@ -128,6 +154,7 @@
             chartType={chart.config.chartType}
             seriesData={chart.series}
             isMargin={chart.config.isMargin || false}
+            ghostCount={chart.ghostCount}
             onExpand={onExpandChart}
           />
         {:else}

@@ -68,6 +68,7 @@ export const buildLockInfo = (statements: any[], canViewAll: boolean) => {
   const { locked } = partitionStatements(statements, canViewAll);
   return {
     hasLockedData: locked.length > 0,
+    lockedCount: locked.length,
     lockedFiscalYearRange: formatLockedRange(locked, getFiscalYearValue),
     lockedPeriodRange: formatLockedRange(locked, getPeriodEndingYearValue),
   };

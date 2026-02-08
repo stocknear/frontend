@@ -10,6 +10,7 @@
   export let chartType: 'bar' | 'line' | 'grouped' | 'stacked' | 'grouped-stacked' = 'bar';
   export let seriesData: Array<{ key: string; label: string; values: (number | null)[]; color?: string; stack?: string }> = [];
   export let isMargin: boolean = false;
+  export let ghostCount: number = 0;
   export let onExpand: (metricKey: string, metricLabel: string) => void = () => {};
 
   const SERIES_COLORS = [
@@ -74,6 +75,30 @@
     }
 
     drawXLabels(ctx, chartWidth, height, barCount, barGap);
+
+    // Ghost overlay: gray wash + gradient fade over locked bars
+    if (ghostCount > 0 && barCount > 0) {
+      const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+      const ghostEndX = CHART_PADDING.left + ghostCount * (barWidth + barGap);
+
+      // Save context, draw gray wash over ghost area
+      ctx.save();
+
+      // Semi-transparent overlay to desaturate ghost bars (CSS blur handles the rest)
+      ctx.fillStyle = $mode === 'light' ? 'rgba(255,255,255,0.35)' : 'rgba(9,9,11,0.35)';
+      ctx.fillRect(CHART_PADDING.left, 0, ghostEndX - CHART_PADDING.left, height);
+
+      // Gradient fade from opaque to transparent at the ghost/real boundary
+      const fadeWidth = Math.min(barWidth * 2, 30);
+      const grad = ctx.createLinearGradient(ghostEndX - fadeWidth, 0, ghostEndX + fadeWidth * 0.5, 0);
+      grad.addColorStop(0, $mode === 'light' ? 'rgba(255,255,255,0)' : 'rgba(9,9,11,0)');
+      grad.addColorStop(0.5, $mode === 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(9,9,11,0.7)');
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.fillRect(ghostEndX - fadeWidth, 0, fadeWidth * 1.5, height);
+
+      ctx.restore();
+    }
   }
 
   function drawLine(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
@@ -342,17 +367,24 @@
     const barIndex = Math.floor(relativeX / (barWidth + barGap));
 
     if (barIndex >= 0 && barIndex < xList.length) {
-      const label = xList[barIndex] || '';
-      const suffix = isMargin ? '%' : '';
-      const lines = seriesData.map(s => {
-        const val = s.values[barIndex];
-        return `${s.label}: ${val == null ? 'n/a' : abbreviateNumber(val) + suffix}`;
-      });
-
-      tooltipData = { label, lines };
-      tooltipX = event.clientX - rect.left;
-      tooltipY = event.clientY - rect.top - 40;
-      tooltipVisible = true;
+      // Ghost bar: show upgrade prompt instead of values
+      if (ghostCount > 0 && barIndex < ghostCount) {
+        tooltipData = { label: 'Locked', lines: ['Upgrade to unlock full history'] };
+        tooltipX = event.clientX - rect.left;
+        tooltipY = event.clientY - rect.top - 40;
+        tooltipVisible = true;
+      } else {
+        const label = xList[barIndex] || '';
+        const suffix = isMargin ? '%' : '';
+        const lines = seriesData.map(s => {
+          const val = s.values[barIndex];
+          return `${s.label}: ${val == null ? 'n/a' : abbreviateNumber(val) + suffix}`;
+        });
+        tooltipData = { label, lines };
+        tooltipX = event.clientX - rect.left;
+        tooltipY = event.clientY - rect.top - 40;
+        tooltipVisible = true;
+      }
     } else {
       tooltipVisible = false;
     }
@@ -480,6 +512,25 @@
         on:mousemove={handleMouseMove}
         on:mouseleave={handleMouseLeave}
       ></canvas>
+
+      {#if ghostCount > 0}
+        {@const totalBars = xList.length || 1}
+        {@const ghostPct = Math.min((ghostCount / totalBars) * 100, 90)}
+        <!-- Blur overlay on ghost portion -->
+        <div
+          class="absolute top-0 left-0 bottom-0 pointer-events-none rounded-l-lg"
+          style="width: {ghostPct}%; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"
+        >
+          <!-- Lock icon centered in ghost area -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200/80 dark:bg-zinc-700/80 shadow-sm">
+              <svg class="w-4.5 h-4.5 text-gray-600 dark:text-zinc-300" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      {/if}
 
       {#if tooltipVisible && tooltipData}
         <div

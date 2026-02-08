@@ -6,7 +6,6 @@
   import FinancialCustomGrid from "$lib/components/Financial/FinancialCustomGrid.svelte";
   import FinancialChartModal from "$lib/components/Financial/FinancialChartModal.svelte";
 
-
   export let data;
   export let chartConfig;
   export let currentPrice: number | undefined = undefined;
@@ -51,6 +50,11 @@
       (a, b) => getStatementTimestamp(a) - getStatementTimestamp(b),
     );
 
+  // Lock info for current period
+  let lockInfo: { hasLockedData: boolean; lockedCount: number; lockedFiscalYearRange: string } = {
+    hasLockedData: false, lockedCount: 0, lockedFiscalYearRange: "",
+  };
+
   $: {
     const periodKey =
       (
@@ -60,6 +64,9 @@
         >
       )[$selectedTimePeriod] || "annual";
     fullStatement = data?.getMergedData?.[periodKey] ?? [];
+
+    const lockKey = periodKey === "quarter" ? "quarterly" : periodKey;
+    lockInfo = data?.financialLockInfo?.[lockKey] ?? { hasLockedData: false, lockedCount: 0, lockedFiscalYearRange: "" };
 
     const sorted = sortStatementsAscending(
       Array.isArray(fullStatement) ? fullStatement : [],
@@ -128,10 +135,33 @@
                 </div>
               </div>
 
+              {#if lockInfo.hasLockedData}
+                <a
+                  href="/pricing"
+                  class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
+                >
+                  <div class="flex items-center gap-2.5 text-sm text-violet-900 dark:text-violet-200">
+                    <svg class="w-4 h-4 shrink-0 text-violet-500 dark:text-violet-400" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>
+                      Viewing {mergedData.length} periods
+                      {#if lockInfo.lockedFiscalYearRange}
+                        <span class="font-medium">&middot; Unlock {lockInfo.lockedFiscalYearRange} for full history</span>
+                      {/if}
+                    </span>
+                  </div>
+                  <span class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap">
+                    Upgrade &rarr;
+                  </span>
+                </a>
+              {/if}
+
               <FinancialCustomGrid
                 {mergedData}
                 {chartConfig}
                 {currentPrice}
+                ghostCount={lockInfo.lockedCount}
                 onExpandChart={handleExpandChart}
               />
             {/if}
