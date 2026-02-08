@@ -1,6 +1,7 @@
 <script lang="ts">
   import { stockTicker } from "$lib/store";
   import { abbreviateNumber, calculatePeriodCAGRs, formatCAGRValue, getCAGRColorClass, sortStatementsChronologicallyForCAGR } from "$lib/utils";
+  import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
   import { Button } from "$lib/components/shadcn/button/index.js";
@@ -41,20 +42,6 @@
     { value: "3Y", label: "3Y" },
     { value: "1Y", label: "1Y" },
   ];
-
-  // Margin keys for percentage display
-  const marginKeys = new Set([
-    "freeCashFlowYield",
-    "returnOnEquity",
-    "returnOnAssets",
-    "returnOnInvestedCapital",
-    "returnOnCapitalEmployed",
-    "grossProfitMargin",
-    "operatingMargin",
-    "operatingProfitMargin",
-    "netProfitMargin",
-    "ebitdaMargin",
-  ]);
 
   // Get overlay configuration (disabled when overview multi-series is active)
   $: overlayConfig = getMetricOverlayConfig(metricKey);
@@ -238,7 +225,9 @@
           allSeries.forEach((s: any) => {
             const point = s.data?.[xIdx];
             const val = point?.y;
-            const formatted = val != null ? abbreviateNumber(val) : 'n/a';
+            const formatted = val != null
+              ? (Math.abs(val) < 1000 ? val?.toFixed(2) : abbreviateNumber(val))
+              : 'n/a';
             const suffix = val != null && isMarginMetric ? '%' : '';
             html += `<div class="flex items-center gap-2">
               <span style="color: ${s.color}">${s.name}:</span>
@@ -373,13 +362,8 @@
   // Calculate CAGR values
   $: cagrValues = data?.length > 0 ? calculatePeriodCAGRs(data, selectedOverlay || metricKey, periodType) : { '1Y': null, '2Y': null, '5Y': null, '10Y': null };
 
-  // Update chart when dependencies change (overviewConfig included for multi-series)
-  $: if (isOpen && metricKey && data?.length > 0 && overviewConfig !== undefined) {
-    config = buildChartOptions();
-  }
-
-  // Update chart when mode/range/overlay changes
-  $: if ($mode !== undefined && isOpen) {
+  // Rebuild chart when any dependency changes
+  $: if (isOpen && metricKey && data?.length > 0 && $mode !== undefined && overviewConfig !== undefined) {
     config = buildChartOptions();
   }
 

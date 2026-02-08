@@ -2,6 +2,7 @@
   import { abbreviateNumber } from "$lib/utils";
   import { stockTicker, getCache, setCache } from "$lib/store";
   import { goto } from "$app/navigation";
+  import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import {
     stock_detail_close,
     stock_detail_financials_bar_chart,
@@ -70,14 +71,6 @@
 
   // Store references to info icon elements
   let infoElements: { [key: string]: HTMLElement } = {};
-
-  const marginKeys = new Set([
-    "freeCashFlowYield",
-    "returnOnEquity",
-    "returnOnAssets",
-    "returnOnInvestedCapital",
-    "returnOnCapitalEmployed",
-  ]);
 
   const isGrowthField = (field?: { key?: string; growthOf?: string }) => {
     if (!field) return false;
@@ -760,6 +753,7 @@
     }
 
     // Initialize tippy for all info elements
+    const tippyInstances: any[] = [];
     Object.entries(infoElements).forEach(([key, element]) => {
       if (!element) return;
 
@@ -767,7 +761,7 @@
       if (!field) return;
       const infoLabel = getDisplayLabel(field);
 
-      tippy(element, {
+      const instance = tippy(element, {
         trigger: "mouseenter focus",
         placement: "bottom",
         theme: "minimal",
@@ -806,6 +800,7 @@
           }
         },
       });
+      tippyInstances.push(instance);
     });
 
     if (isBrowser) {
@@ -814,6 +809,7 @@
     }
 
     return () => {
+      tippyInstances.forEach(t => t.destroy());
       if (isBrowser) {
         document.removeEventListener("pointerdown", handleGlobalPointerDown);
         document.removeEventListener("keydown", handleGlobalKeydown);

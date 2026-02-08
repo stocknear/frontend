@@ -9,6 +9,7 @@
     removeCompanyStrings,
     augmentStatementsWithGrowth,
   } from "$lib/utils";
+  import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import {
   stock_detail_financials_download,
@@ -49,13 +50,6 @@
   let fullStatement = [];
   let hasLockedData = false;
 
-  const marginKeys = new Set([
-    "freeCashFlowYield",
-    "returnOnEquity",
-    "returnOnAssets",
-    "returnOnInvestedCapital",
-    "returnOnCapitalEmployed",
-  ]);
   const PREMIUM_TIERS = new Set(["Pro", "Plus"]);
   const FREE_COLUMN_LIMIT = 5;
 

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import FinancialCustomChartCard from "$lib/components/Financial/FinancialCustomChartCard.svelte";
+  import FinancialChartCard from "$lib/components/Financial/FinancialChartCard.svelte";
   import { selectedTimePeriod } from "$lib/store";
+  import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
 
   export let mergedData: Record<string, any>[] = [];
   export let chartConfig: Array<{
@@ -13,12 +14,6 @@
   }> = [];
   export let currentPrice: number | undefined = undefined;
   export let onExpandChart: (metricKey: string, metricLabel: string) => void = () => {};
-
-  const marginKeys = new Set([
-    "freeCashFlowYield", "returnOnEquity", "returnOnAssets",
-    "returnOnInvestedCapital", "returnOnCapitalEmployed",
-    "grossProfitMargin", "operatingProfitMargin", "netProfitMargin", "ebitdaMargin",
-  ]);
 
   function buildXList(data: Record<string, any>[]): string[] {
     return data.map(row => {
@@ -126,7 +121,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {#each preparedCharts as chart (chart.config.key)}
         {#if chart.hasData}
-          <FinancialCustomChartCard
+          <FinancialChartCard
             metricKey={chart.config.key}
             metricLabel={chart.config.label}
             xList={chart.xList}

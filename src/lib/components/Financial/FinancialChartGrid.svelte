@@ -1,27 +1,14 @@
 <script lang="ts">
   import FinancialChartCard from "$lib/components/Financial/FinancialChartCard.svelte";
+  import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
 
   export let processedData: Record<string, { xList: string[]; valueList: number[]; labelName: string }> = {};
   export let statementConfig: Array<{ propertyName: string; label: string }> = [];
   export let onExpandChart: (metricKey: string, metricLabel: string) => void = () => {};
 
-  // Set of margin/ratio keys that should be displayed as percentages
-  const marginKeys = new Set([
-    "freeCashFlowYield",
-    "returnOnEquity",
-    "returnOnAssets",
-    "returnOnInvestedCapital",
-    "returnOnCapitalEmployed",
-    "grossProfitMargin",
-    "operatingMargin",
-    "netProfitMargin",
-    "ebitdaMargin",
-  ]);
-
-  // Filter out metrics that have no data
   $: validMetrics = statementConfig.filter(config => {
     const data = processedData[config.propertyName];
-    return data && data.valueList && data.valueList.length > 0 && 
+    return data && data.valueList && data.valueList.length > 0 &&
            data.valueList.some(v => v !== 0 && v !== null && v !== undefined);
   });
 </script>
@@ -40,7 +27,7 @@
             metricKey={config.propertyName}
             metricLabel={data.labelName || config.label}
             xList={data.xList}
-            valueList={data.valueList}
+            seriesData={[{ key: config.propertyName, label: config.label, values: data.valueList }]}
             isMargin={marginKeys.has(config.propertyName)}
             onExpand={onExpandChart}
           />
