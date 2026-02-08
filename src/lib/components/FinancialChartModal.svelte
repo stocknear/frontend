@@ -269,15 +269,20 @@
       };
     });
 
-    if (!series.some((s: any) => s.data.some((v: any) => v !== null))) return null;
+    // Drop periods where every series is null (e.g. stock price before history starts)
+    const keep = dateList.map((_: any, i: number) => series.some((s: any) => s.data[i] !== null));
+    const filteredDates = dateList.filter((_: any, i: number) => keep[i]);
+    const filteredSeries = series.map((s: any) => ({ ...s, data: s.data.filter((_: any, i: number) => keep[i]) }));
 
-    return makeChartShell(dateList, series, isStacked ? 'normal' : undefined);
+    if (!filteredSeries.some((s: any) => s.data.some((v: any) => v !== null))) return null;
+
+    return makeChartShell(filteredDates, filteredSeries, isStacked ? 'normal' : undefined);
   }
 
   // Build chart options (single-series default path)
   function buildChartOptions() {
-    // Route to overview builder for multi-series composite charts
-    if (overviewConfig && overviewConfig.metrics?.length > 1) {
+    // Route to overview builder for all overview charts (single or multi-series)
+    if (overviewConfig && overviewConfig.metrics?.length >= 1) {
       return buildOverviewChartOptions();
     }
 
@@ -338,6 +343,9 @@
 
     return makeChartShell(dateList, series);
   }
+
+  // Hide CAGR for multi-series charts (CAGR only makes sense for a single metric)
+  $: hideCAGR = overviewConfig?.metrics?.length > 1;
 
   // Calculate CAGR values
   $: cagrValues = data?.length > 0 ? calculatePeriodCAGRs(data, selectedOverlay || metricKey, periodType) : { '1Y': null, '2Y': null, '5Y': null, '10Y': null };
@@ -532,43 +540,45 @@
         {/if}
       </div>
 
-      <!-- CAGR Footer -->
-      <div class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="text-sm font-medium text-gray-700 dark:text-zinc-300 mr-2">CAGR:</span>
-          {#if isPremiumUser}
-            {#each Object.entries(cagrValues) as [period, value]}
-              <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(value)}">
-                <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
-                <span>{formatCAGRValue(value)}</span>
-              </div>
-            {/each}
-          {:else}
-            {#each Object.entries(cagrValues) as [period]}
-              <button
-                type="button"
-                on:click={() => goto('/pricing')}
-                class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 transition"
-              >
-                <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
-                <svg
-                  class="w-3.5 h-3.5 text-gray-500 dark:text-zinc-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
+      <!-- CAGR Footer (hidden for stacked/grouped-stacked charts) -->
+      {#if !hideCAGR}
+        <div class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-zinc-300 mr-2">CAGR:</span>
+            {#if isPremiumUser}
+              {#each Object.entries(cagrValues) as [period, value]}
+                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(value)}">
+                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
+                  <span>{formatCAGRValue(value)}</span>
+                </div>
+              {/each}
+            {:else}
+              {#each Object.entries(cagrValues) as [period]}
+                <button
+                  type="button"
+                  on:click={() => goto('/pricing')}
+                  class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 transition"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                  />
-                </svg>
-              </button>
-            {/each}
-          {/if}
+                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
+                  <svg
+                    class="w-3.5 h-3.5 text-gray-500 dark:text-zinc-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                    />
+                  </svg>
+                </button>
+              {/each}
+            {/if}
+          </div>
+          <p class="text-xs text-gray-500 dark:text-zinc-500 mt-2">
+            CAGR (Compound Annual Growth Rate) shows the smoothed annual rate of growth over the specified period.
+          </p>
         </div>
-        <p class="text-xs text-gray-500 dark:text-zinc-500 mt-2">
-          CAGR (Compound Annual Growth Rate) shows the smoothed annual rate of growth over the specified period.
-        </p>
-      </div>
+      {/if}
     </div>
   </div>
 {/if}

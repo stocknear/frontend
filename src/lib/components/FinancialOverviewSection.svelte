@@ -28,8 +28,9 @@
     const cfg = chartConfig.find((c: any) => c.key === configKey);
     modalMetricKey = cfg?.metrics?.[0]?.key || configKey;
     modalMetricLabel = label;
-    // Pass full config for multi-series charts so the modal can render all series
-    modalOverviewConfig = cfg && cfg.metrics?.length > 1 ? cfg : null;
+    // Always pass overview config so the modal uses the overview builder
+    // (bypasses the overlay system which doesn't know about stockPrice, etc.)
+    modalOverviewConfig = cfg || null;
     isModalOpen = true;
   }
 
