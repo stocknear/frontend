@@ -5,7 +5,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import FinancialCustomGrid from "$lib/components/Financial/FinancialCustomGrid.svelte";
   import FinancialChartModal from "$lib/components/Financial/FinancialChartModal.svelte";
-  import FinancialAISummary from "$lib/components/Financial/FinancialAISummary.svelte";
+
 
   export let data;
   export let chartConfig;
@@ -125,12 +125,6 @@
                     </svg>
                   </Button>
 
-                  <!-- AI Financial Summary -->
-                  <FinancialAISummary
-                    {data}
-                    periodType={$selectedTimePeriod || "annual"}
-                    statementType="income-statement"
-                  />
                 </div>
               </div>
 
