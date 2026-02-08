@@ -114,7 +114,7 @@
       }
       return { config, hasData, xList: trimmed.xList, series: trimmed.series };
     })
-    .filter(item => item.hasData);
+;
 </script>
 
 <div class="w-full">
@@ -125,15 +125,22 @@
   {:else}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {#each preparedCharts as chart (chart.config.key)}
-        <FinancialOverviewChartCard
-          metricKey={chart.config.key}
-          metricLabel={chart.config.label}
-          xList={chart.xList}
-          chartType={chart.config.chartType}
-          seriesData={chart.series}
-          isMargin={chart.config.isMargin || false}
-          onExpand={onExpandChart}
-        />
+        {#if chart.hasData}
+          <FinancialOverviewChartCard
+            metricKey={chart.config.key}
+            metricLabel={chart.config.label}
+            xList={chart.xList}
+            chartType={chart.config.chartType}
+            seriesData={chart.series}
+            isMargin={chart.config.isMargin || false}
+            onExpand={onExpandChart}
+          />
+        {:else}
+          <div class="flex flex-col items-center justify-center rounded-xl border border-gray-200 dark:border-zinc-700/70 bg-white dark:bg-zinc-950/60 p-6 min-h-[220px]">
+            <span class="text-sm font-semibold text-gray-800 dark:text-zinc-200 mb-2">{chart.config.label}</span>
+            <span class="text-xs text-gray-500 dark:text-zinc-400 text-center">No data available for this indicator.</span>
+          </div>
+        {/if}
       {/each}
     </div>
   {/if}
