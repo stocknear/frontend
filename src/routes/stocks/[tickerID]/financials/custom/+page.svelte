@@ -55,31 +55,6 @@
         { key: "researchAndDevelopmentExpenses", label: "R&D" },
       ],
     },
-    netIncome: {
-      key: "netIncome",
-      label: "Net Income",
-      chartType: "bar" as const,
-      metrics: [{ key: "netIncome", label: "Net Income" }],
-    },
-    freeCashFlow: {
-      key: "freeCashFlow",
-      label: "Free Cash Flow",
-      chartType: "bar" as const,
-      metrics: [{ key: "freeCashFlow", label: "FCF" }],
-    },
-    dividendsPaid: {
-      key: "dividendsPaid",
-      label: "Dividends Paid",
-      chartType: "bar" as const,
-      negate: true,
-      metrics: [{ key: "commonDividendsPaid", label: "Dividends" }],
-    },
-    sharesOutstanding: {
-      key: "sharesOutstanding",
-      label: "Shares Outstanding",
-      chartType: "bar" as const,
-      metrics: [{ key: "weightedAverageShsOut", label: "Shares" }],
-    },
   };
 
   const PRESET_LIST = Object.entries(COMPOSITE_PRESETS).map(([key, cfg]) => ({
@@ -98,10 +73,6 @@
     "cashAndDebt",
     "margins",
     "expenses",
-    "netIncome",
-    "freeCashFlow",
-    "dividendsPaid",
-    "sharesOutstanding",
   ]);
 
   // Indicator lookup map
