@@ -21,18 +21,6 @@
       chartType: "line" as const,
       metrics: [{ key: "stockPrice", label: "Price", color: "#10B981" }],
     },
-    revenue: {
-      key: "revenue",
-      label: "Revenue",
-      chartType: "bar" as const,
-      metrics: [{ key: "revenue", label: "Revenue" }],
-    },
-    eps: {
-      key: "eps",
-      label: "EPS",
-      chartType: "bar" as const,
-      metrics: [{ key: "eps", label: "EPS" }],
-    },
     cashAndDebt: {
       key: "cashAndDebt",
       label: "Cash & Debt",
@@ -41,16 +29,6 @@
         { key: "cashAndCashEquivalents", label: "Cash", color: "#10B981", stack: "cash" },
         { key: "longTermDebt", label: "Long-Term Debt", color: "#B91C1C", stack: "debt" },
         { key: "capitalLeaseObligations", label: "Lease Obligations", color: "#F87171", stack: "debt" },
-      ],
-    },
-    returnOfCapital: {
-      key: "returnOfCapital",
-      label: "Return of Capital",
-      chartType: "stacked" as const,
-      negate: true,
-      metrics: [
-        { key: "commonStockRepurchased", label: "Buybacks" },
-        { key: "commonDividendsPaid", label: "Dividends", color: "#8B5CF6" },
       ],
     },
     margins: {
@@ -65,12 +43,6 @@
         { key: "netProfitMargin", label: "Net" },
       ],
     },
-    peRatio: {
-      key: "priceToEarningsRatio",
-      label: "P/E Ratio",
-      chartType: "line" as const,
-      metrics: [{ key: "priceToEarningsRatio", label: "P/E", color: "#10B981" }],
-    },
     expenses: {
       key: "expenses",
       label: "Expenses",
@@ -82,6 +54,31 @@
         { key: "researchAndDevelopmentExpenses", label: "R&D" },
       ],
     },
+    netIncome: {
+      key: "netIncome",
+      label: "Net Income",
+      chartType: "bar" as const,
+      metrics: [{ key: "netIncome", label: "Net Income" }],
+    },
+    freeCashFlow: {
+      key: "freeCashFlow",
+      label: "Free Cash Flow",
+      chartType: "bar" as const,
+      metrics: [{ key: "freeCashFlow", label: "FCF" }],
+    },
+    dividendsPaid: {
+      key: "dividendsPaid",
+      label: "Dividends Paid",
+      chartType: "bar" as const,
+      negate: true,
+      metrics: [{ key: "commonDividendsPaid", label: "Dividends" }],
+    },
+    sharesOutstanding: {
+      key: "sharesOutstanding",
+      label: "Shares Outstanding",
+      chartType: "bar" as const,
+      metrics: [{ key: "weightedAverageShsOut", label: "Shares" }],
+    },
   };
 
   const PRESET_LIST = Object.entries(COMPOSITE_PRESETS).map(([key, cfg]) => ({
@@ -90,25 +87,20 @@
   }));
 
   // Default selection: same 12 charts as the original hardcoded config
-  const DEFAULT_INDICATOR_IDS = new Set([
-    "income_netIncome",
-    "fcf",
-    "cashflow_commonDividendsPaid",
-    "income_weightedAverageShsOut",
-  ]);
+  const DEFAULT_INDICATOR_IDS = new Set<string>();
 
   // Verify these IDs exist in STATEMENT_INDICATORS
   const VALID_IDS = new Set(STATEMENT_INDICATORS.map((i) => i.id));
 
   const DEFAULT_PRESET_KEYS = new Set([
     "stockPrice",
-    "revenue",
-    "eps",
     "cashAndDebt",
-    "returnOfCapital",
     "margins",
-    "peRatio",
     "expenses",
+    "netIncome",
+    "freeCashFlow",
+    "dividendsPaid",
+    "sharesOutstanding",
   ]);
 
   // Indicator lookup map
@@ -214,8 +206,8 @@
   }
 
   function handleReset() {
-    selectedIds = new Set(DEFAULT_INDICATOR_IDS);
-    selectedPresetKeys = new Set(DEFAULT_PRESET_KEYS);
+    selectedIds = new Set();
+    selectedPresetKeys = new Set();
     saveSelection();
   }
 
