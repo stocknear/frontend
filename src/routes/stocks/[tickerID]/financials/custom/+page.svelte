@@ -27,9 +27,24 @@
       label: "Cash & Debt",
       chartType: "grouped-stacked" as const,
       metrics: [
-        { key: "cashAndCashEquivalents", label: "Cash", color: "#10B981", stack: "cash" },
-        { key: "longTermDebt", label: "Long-Term Debt", color: "#B91C1C", stack: "debt" },
-        { key: "capitalLeaseObligations", label: "Lease Obligations", color: "#F87171", stack: "debt" },
+        {
+          key: "cashAndCashEquivalents",
+          label: "Cash",
+          color: "#10B981",
+          stack: "cash",
+        },
+        {
+          key: "longTermDebt",
+          label: "Long-Term Debt",
+          color: "#B91C1C",
+          stack: "debt",
+        },
+        {
+          key: "capitalLeaseObligations",
+          label: "Lease Obligations",
+          color: "#F87171",
+          stack: "debt",
+        },
       ],
     },
     margins: {
@@ -71,9 +86,21 @@
       label: "Cash Flow Breakdown",
       chartType: "grouped" as const,
       metrics: [
-        { key: "netCashProvidedByOperatingActivities", label: "Operating", color: "#10B981" },
-        { key: "netCashProvidedByInvestingActivities", label: "Investing", color: "#F59E0B" },
-        { key: "netCashProvidedByFinancingActivities", label: "Financing", color: "#3B82F6" },
+        {
+          key: "netCashProvidedByOperatingActivities",
+          label: "Operating",
+          color: "#10B981",
+        },
+        {
+          key: "netCashProvidedByInvestingActivities",
+          label: "Investing",
+          color: "#F59E0B",
+        },
+        {
+          key: "netCashProvidedByFinancingActivities",
+          label: "Financing",
+          color: "#3B82F6",
+        },
       ],
     },
     assetsVsLiabilities: {
@@ -91,9 +118,23 @@
       label: "Capital Allocation",
       chartType: "stacked" as const,
       metrics: [
-        { key: "capitalExpenditure", label: "CapEx", color: "#3B82F6", negate: true },
-        { key: "researchAndDevelopmentExpenses", label: "R&D", color: "#8B5CF6" },
-        { key: "acquisitionsNet", label: "Acquisitions", color: "#F59E0B", negate: true },
+        {
+          key: "capitalExpenditure",
+          label: "CapEx",
+          color: "#3B82F6",
+          negate: true,
+        },
+        {
+          key: "researchAndDevelopmentExpenses",
+          label: "R&D",
+          color: "#8B5CF6",
+        },
+        {
+          key: "acquisitionsNet",
+          label: "Acquisitions",
+          color: "#F59E0B",
+          negate: true,
+        },
       ],
     },
     debtStructure: {
@@ -103,7 +144,11 @@
       metrics: [
         { key: "shortTermDebt", label: "Short-Term Debt", color: "#F87171" },
         { key: "longTermDebt", label: "Long-Term Debt", color: "#B91C1C" },
-        { key: "capitalLeaseObligations", label: "Lease Obligations", color: "#F59E0B" },
+        {
+          key: "capitalLeaseObligations",
+          label: "Lease Obligations",
+          color: "#F59E0B",
+        },
       ],
     },
     shareDilution: {
@@ -111,8 +156,16 @@
       label: "Share Dilution",
       chartType: "grouped" as const,
       metrics: [
-        { key: "weightedAverageShsOut", label: "Basic Shares", color: "#3B82F6" },
-        { key: "weightedAverageShsOutDil", label: "Diluted Shares", color: "#8B5CF6" },
+        {
+          key: "weightedAverageShsOut",
+          label: "Basic Shares",
+          color: "#3B82F6",
+        },
+        {
+          key: "weightedAverageShsOutDil",
+          label: "Diluted Shares",
+          color: "#8B5CF6",
+        },
       ],
     },
     workingCapital: {
@@ -120,8 +173,16 @@
       label: "Working Capital",
       chartType: "grouped" as const,
       metrics: [
-        { key: "totalCurrentAssets", label: "Current Assets", color: "#10B981" },
-        { key: "totalCurrentLiabilities", label: "Current Liabilities", color: "#EF4444" },
+        {
+          key: "totalCurrentAssets",
+          label: "Current Assets",
+          color: "#10B981",
+        },
+        {
+          key: "totalCurrentLiabilities",
+          label: "Current Liabilities",
+          color: "#EF4444",
+        },
       ],
     },
     cashGeneration: {
@@ -346,11 +407,7 @@
   }}
 />
 
-<FinancialCustom
-  {data}
-  {chartConfig}
-  currentPrice={data?.getStockQuote?.price}
->
+<FinancialCustom {data} {chartConfig} currentPrice={data?.getStockQuote?.price}>
   <svelte:fragment slot="picker">
     <FinancialMetricPicker
       {selectedIds}

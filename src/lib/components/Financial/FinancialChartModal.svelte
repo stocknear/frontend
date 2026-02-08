@@ -58,14 +58,37 @@
 
   // Get overlay configuration (disabled when overview multi-series is active)
   $: overlayConfig = getMetricOverlayConfig(metricKey);
-  $: hasOverlays = !overviewConfig && hasMetricOverlays(metricKey);
+
+  // Filter overlays to only those that can produce data from the current dataset
+  function canOverlayProduceData(overlay: any, entries: Record<string, any>[]): boolean {
+    if (!entries?.length) return false;
+    // Check at least one entry produces a non-null value
+    return entries.some(entry => {
+      if (overlay.computed) {
+        return computeDerivedMetric(overlay.key, entry) !== null;
+      }
+      if (overlay.series?.length) {
+        return overlay.series.some((k: string) => {
+          const v = entry?.[k];
+          return v !== null && v !== undefined && Number.isFinite(Number(v));
+        });
+      }
+      const v = entry?.[overlay.key];
+      return v !== null && v !== undefined && Number.isFinite(Number(v));
+    });
+  }
+
+  $: availableOverlays = overlayConfig?.overlays?.filter(
+    (o: any) => canOverlayProduceData(o, data)
+  ) || [];
+  $: hasOverlays = !overviewConfig && availableOverlays.length > 1;
 
   // Reset overlay when metric changes — prevents stale state from previous metric
   $: if (metricKey) {
     if (overviewConfig) {
       selectedOverlay = "";
-    } else if (overlayConfig) {
-      const primaryOverlay = overlayConfig.overlays.find(o => o.primary);
+    } else if (availableOverlays.length > 0) {
+      const primaryOverlay = availableOverlays.find((o: any) => o.primary);
       selectedOverlay = primaryOverlay?.key || metricKey;
     } else {
       selectedOverlay = "";
@@ -109,7 +132,7 @@
   // Get value for current overlay
   function getOverlayValue(entry: Record<string, any>, overlayKey: string): number | null {
     // Check if it's a computed metric
-    const overlay = overlayConfig?.overlays.find(o => o.key === overlayKey);
+    const overlay = availableOverlays.find((o: any) => o.key === overlayKey);
     if (overlay?.computed) {
       return computeDerivedMetric(overlayKey, entry);
     }
@@ -512,9 +535,9 @@
         </div>
 
         <!-- Overlay Tabs (if available) -->
-        {#if hasOverlays && overlayConfig?.overlays}
+        {#if hasOverlays && availableOverlays.length > 1}
           <div class="flex flex-wrap gap-1.5 mt-3">
-            {#each overlayConfig.overlays as overlay}
+            {#each availableOverlays as overlay}
               <button
                 type="button"
                 class="cursor-pointer px-3 py-1 text-xs font-medium rounded-full border transition {selectedOverlay === overlay.key
@@ -533,6 +556,10 @@
       <div class="px-4 sm:px-6 py-4">
         {#if config}
           <div class="w-full" use:highcharts={config}></div>
+        {:else if data?.length > 0}
+          <div class="h-[400px] flex flex-col items-center justify-center text-gray-500 dark:text-zinc-400">
+            <span class="text-sm">No data available for this metric.</span>
+          </div>
         {:else}
           <div class="h-[400px] flex items-center justify-center">
             <span class="loading loading-spinner loading-md text-gray-400"></span>
