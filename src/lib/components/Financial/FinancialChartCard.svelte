@@ -366,25 +366,17 @@
     const relativeX = x - CHART_PADDING.left;
     const barIndex = Math.floor(relativeX / (barWidth + barGap));
 
-    if (barIndex >= 0 && barIndex < xList.length) {
-      // Ghost bar: show upgrade prompt instead of values
-      if (ghostCount > 0 && barIndex < ghostCount) {
-        tooltipData = { label: 'Locked', lines: ['Upgrade to unlock full history'] };
-        tooltipX = event.clientX - rect.left;
-        tooltipY = event.clientY - rect.top - 40;
-        tooltipVisible = true;
-      } else {
-        const label = xList[barIndex] || '';
-        const suffix = isMargin ? '%' : '';
-        const lines = seriesData.map(s => {
-          const val = s.values[barIndex];
-          return `${s.label}: ${val == null ? 'n/a' : abbreviateNumber(val) + suffix}`;
-        });
-        tooltipData = { label, lines };
-        tooltipX = event.clientX - rect.left;
-        tooltipY = event.clientY - rect.top - 40;
-        tooltipVisible = true;
-      }
+    if (barIndex >= 0 && barIndex < xList.length && !(ghostCount > 0 && barIndex < ghostCount)) {
+      const label = xList[barIndex] || '';
+      const suffix = isMargin ? '%' : '';
+      const lines = seriesData.map(s => {
+        const val = s.values[barIndex];
+        return `${s.label}: ${val == null ? 'n/a' : abbreviateNumber(val) + suffix}`;
+      });
+      tooltipData = { label, lines };
+      tooltipX = event.clientX - rect.left;
+      tooltipY = event.clientY - rect.top - 40;
+      tooltipVisible = true;
     } else {
       tooltipVisible = false;
     }
@@ -518,17 +510,23 @@
         {@const ghostPct = Math.min((ghostCount / totalBars) * 100, 90)}
         <!-- Blur overlay on ghost portion -->
         <div
-          class="absolute top-0 left-0 bottom-0 pointer-events-none rounded-l-lg"
-          style="width: {ghostPct}%; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"
+          class="absolute top-0 left-0 bottom-0 rounded-l-lg"
+          style="width: {ghostPct}%; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);"
         >
-          <!-- Lock icon centered in ghost area -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200/80 dark:bg-zinc-700/80 shadow-sm">
-              <svg class="w-4.5 h-4.5 text-gray-600 dark:text-zinc-300" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
+          <div class="absolute inset-0 bg-white/30 dark:bg-zinc-950/30 rounded-l-lg pointer-events-none"></div>
+          <!-- Lock badge linking to /pricing -->
+          <a
+            href="/pricing"
+            class="absolute inset-0 flex items-center justify-center z-10"
+            on:click|stopPropagation
+          >
+            <div class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-violet-200/60 dark:border-violet-700/40 shadow-lg cursor-pointer hover:scale-105 transition-transform">
+              <svg class="w-4 h-4 text-violet-500 dark:text-violet-400" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
               </svg>
+              <span class="text-[9px] font-semibold text-violet-600 dark:text-violet-300">Upgrade</span>
             </div>
-          </div>
+          </a>
         </div>
       {/if}
 
