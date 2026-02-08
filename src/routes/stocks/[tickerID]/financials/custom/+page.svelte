@@ -125,17 +125,23 @@
   // Build chartConfig from selections
   function buildChartConfig(_ids?: Set<string>, _presets?: Set<string>): any[] {
     const configs: any[] = [];
+    const usedKeys = new Set<string>();
 
     // Add preset charts first
     for (const key of selectedPresetKeys) {
       const preset = COMPOSITE_PRESETS[key];
-      if (preset) configs.push(preset);
+      if (preset) {
+        configs.push(preset);
+        usedKeys.add(key);
+      }
     }
 
-    // Add individual indicator charts (use unique id as key to avoid duplicates)
+    // Add individual indicator charts, skip if key already used by a preset
     for (const id of selectedIds) {
+      if (usedKeys.has(id)) continue;
       const ind = indicatorMap.get(id);
       if (!ind) continue;
+      usedKeys.add(ind.id);
       configs.push({
         key: ind.id,
         label: ind.label,

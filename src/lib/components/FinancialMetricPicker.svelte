@@ -192,18 +192,18 @@
     <div
       class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
     >
-      <button
-        on:click={onReset}
-        class="hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 text-sm cursor-pointer"
+      <label
+        on:click={() => { searchQuery = ""; onReset(); }}
+        class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
-        Reset
-      </button>
-      <button
-        on:click={onSelectAll}
-        class="hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 text-sm cursor-pointer"
+        Reset Selection
+      </label>
+      <label
+        on:click={() => { searchQuery = ""; onSelectAll(); }}
+        class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         Select All
-      </button>
+      </label>
     </div>
   </DropdownMenu.Content>
 </DropdownMenu.Root>
