@@ -1,14 +1,11 @@
 <script lang="ts">
-  import {
-    displayCompanyName,
-    selectedTimePeriod,
-  } from "$lib/store";
+  import { displayCompanyName, selectedTimePeriod } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
   import { stock_detail_financials_in_currency } from "$lib/paraglide/messages";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import FinancialOverviewGrid from "$lib/components/FinancialOverviewGrid.svelte";
-  import FinancialChartModal from "$lib/components/FinancialChartModal.svelte";
-  import FinancialAISummary from "$lib/components/FinancialAISummary.svelte";
+  import FinancialCustomGrid from "$lib/components/Financial/FinancialCustomGrid.svelte";
+  import FinancialChartModal from "$lib/components/Financial/FinancialChartModal.svelte";
+  import FinancialAISummary from "$lib/components/Financial/FinancialAISummary.svelte";
 
   export let data;
   export let chartConfig;
@@ -40,7 +37,8 @@
 
   const getStatementTimestamp = (statement?: Record<string, any>) => {
     if (!statement) return 0;
-    const dateValue = statement.date || statement.fiscalDate || statement.fiscalYear;
+    const dateValue =
+      statement.date || statement.fiscalDate || statement.fiscalYear;
     const parsed = Date.parse(dateValue);
     if (!Number.isNaN(parsed)) return parsed;
     const fiscalYear = Number(statement?.fiscalYear);
@@ -54,7 +52,13 @@
     );
 
   $: {
-    const periodKey = ({ annual: 'annual', quarterly: 'quarter', ttm: 'ttm' } as Record<string, string>)[$selectedTimePeriod] || 'annual';
+    const periodKey =
+      (
+        { annual: "annual", quarterly: "quarter", ttm: "ttm" } as Record<
+          string,
+          string
+        >
+      )[$selectedTimePeriod] || "annual";
     fullStatement = data?.getMergedData?.[periodKey] ?? [];
 
     const sorted = sortStatementsAscending(
@@ -66,11 +70,17 @@
 
 <section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
-    <div class="w-full relative flex justify-center items-center overflow-hidden">
+    <div
+      class="w-full relative flex justify-center items-center overflow-hidden"
+    >
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
-          <div class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between">
-            <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <div
+            class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between"
+          >
+            <h1
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               {removeCompanyStrings($displayCompanyName)} Custom Financials
             </h1>
           </div>
@@ -78,11 +88,18 @@
           <div class="grid grid-cols-1 gap-2">
             {#if mergedData?.length > 0}
               <div class="flex flex-col md:flex-row items-end justify-between">
-                <span class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full">
-                  {stock_detail_financials_in_currency({ currency: mergedData[0]?.reportedCurrency || 'USD', range: data?.getProfileData?.fiscalYearRange || '' })}
+                <span
+                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full"
+                >
+                  {stock_detail_financials_in_currency({
+                    currency: mergedData[0]?.reportedCurrency || "USD",
+                    range: data?.getProfileData?.fiscalYearRange || "",
+                  })}
                 </span>
 
-                <div class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2">
+                <div
+                  class="flex flex-row flex-wrap items-center justify-end w-full gap-1.5 sm:gap-2"
+                >
                   <!-- Metric Picker Slot -->
                   <slot name="picker" />
 
@@ -117,7 +134,7 @@
                 </div>
               </div>
 
-              <FinancialOverviewGrid
+              <FinancialCustomGrid
                 {mergedData}
                 {chartConfig}
                 {currentPrice}

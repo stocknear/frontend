@@ -1,5 +1,5 @@
 <script lang="ts">
-  import FinancialChartCard from "$lib/components/FinancialChartCard.svelte";
+  import FinancialChartCard from "$lib/components/Financial/FinancialChartCard.svelte";
 
   export let processedData: Record<string, { xList: string[]; valueList: number[]; labelName: string }> = {};
   export let statementConfig: Array<{ propertyName: string; label: string }> = [];

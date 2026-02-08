@@ -2,9 +2,9 @@
   import { onMount } from "svelte";
   import { displayCompanyName, stockTicker } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
-  import FinancialOverviewSection from "$lib/components/FinancialOverviewSection.svelte";
-  import FinancialMetricPicker from "$lib/components/FinancialMetricPicker.svelte";
-  import FinancialPopularMetrics from "$lib/components/FinancialPopularMetrics.svelte";
+  import FinancialCustom from "$lib/components/Financial/FinancialCustom.svelte";
+  import FinancialMetricPicker from "$lib/components/Financial/FinancialMetricPicker.svelte";
+  import FinancialPopularMetrics from "$lib/components/Financial/FinancialPopularMetrics.svelte";
   import {
     STATEMENT_INDICATORS,
     type StatementIndicatorConfig,
@@ -147,12 +147,8 @@
   // Verify these IDs exist in STATEMENT_INDICATORS
   const VALID_IDS = new Set(STATEMENT_INDICATORS.map((i) => i.id));
 
-  const DEFAULT_PRESET_KEYS = new Set([
-    "stockPrice",
-    "cashAndDebt",
-    "margins",
-    "expenses",
-  ]);
+  const ALL_PRESET_KEYS = Object.keys(COMPOSITE_PRESETS);
+  const DEFAULT_PRESET_KEYS = new Set(ALL_PRESET_KEYS);
 
   // Indicator lookup map
   const indicatorMap = new Map<string, StatementIndicatorConfig>();
@@ -170,8 +166,15 @@
     const configs: any[] = [];
     const usedKeys = new Set<string>();
 
-    // Add preset charts first
+    // Always add Stock Price first when selected
+    if (selectedPresetKeys.has("stockPrice")) {
+      configs.push(COMPOSITE_PRESETS["stockPrice"]);
+      usedKeys.add("stockPrice");
+    }
+
+    // Add remaining preset charts
     for (const key of selectedPresetKeys) {
+      if (usedKeys.has(key)) continue;
       const preset = COMPOSITE_PRESETS[key];
       if (preset) {
         configs.push(preset);
@@ -343,7 +346,7 @@
   }}
 />
 
-<FinancialOverviewSection
+<FinancialCustom
   {data}
   {chartConfig}
   currentPrice={data?.getStockQuote?.price}
@@ -360,4 +363,4 @@
     />
     <FinancialPopularMetrics onApply={handleApplyPopular} />
   </svelte:fragment>
-</FinancialOverviewSection>
+</FinancialCustom>

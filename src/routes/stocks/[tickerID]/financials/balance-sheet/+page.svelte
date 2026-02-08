@@ -5,7 +5,7 @@
 } from "$lib/paraglide/messages";
 
   import SEO from "$lib/components/SEO.svelte";
-  import FinancialSection from "$lib/components/FinancialSection.svelte";
+  import FinancialSection from "$lib/components/Financial/FinancialSection.svelte";
 
   export let data;
 

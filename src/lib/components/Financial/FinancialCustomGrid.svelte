@@ -1,5 +1,5 @@
 <script lang="ts">
-  import FinancialOverviewChartCard from "$lib/components/FinancialOverviewChartCard.svelte";
+  import FinancialCustomChartCard from "$lib/components/Financial/FinancialCustomChartCard.svelte";
   import { selectedTimePeriod } from "$lib/store";
 
   export let mergedData: Record<string, any>[] = [];
@@ -126,7 +126,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {#each preparedCharts as chart (chart.config.key)}
         {#if chart.hasData}
-          <FinancialOverviewChartCard
+          <FinancialCustomChartCard
             metricKey={chart.config.key}
             metricLabel={chart.config.label}
             xList={chart.xList}

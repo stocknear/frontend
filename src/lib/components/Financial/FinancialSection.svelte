@@ -19,10 +19,10 @@
   stock_detail_financials_sec_filings,
   stock_detail_upgrade,
 } from "$lib/paraglide/messages";
-  import FinancialTable from "$lib/components/FinancialTable.svelte";
-  import FinancialAISummary from "$lib/components/FinancialAISummary.svelte";
-  import FinancialChartGrid from "$lib/components/FinancialChartGrid.svelte";
-  import FinancialChartModal from "$lib/components/FinancialChartModal.svelte";
+  import FinancialTable from "$lib/components/Financial/FinancialTable.svelte";
+  import FinancialAISummary from "$lib/components/Financial/FinancialAISummary.svelte";
+  import FinancialChartGrid from "$lib/components/Financial/FinancialChartGrid.svelte";
+  import FinancialChartModal from "$lib/components/Financial/FinancialChartModal.svelte";
   import LayoutGrid from "lucide-svelte/icons/layout-grid";
   import Table from "lucide-svelte/icons/table";
 
