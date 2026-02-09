@@ -58,13 +58,6 @@
 
   // Define all possible rules and their properties
   const allRules = {
-    premiumYield: {
-      label: "Premium Yield",
-      step: ["10%", "5%", "3%", "2%", "1%", "0.5%"],
-      defaultCondition: "over",
-      defaultValue: "any",
-      varType: "percent",
-    },
     annualizedReturn: {
       label: "Annualized Return",
       step: ["100%", "50%", "30%", "20%", "10%", "5%"],
@@ -511,7 +504,7 @@
         name: "Weekly Income",
         rules: [
           { condition: "under", name: "dte", value: "14" },
-          { condition: "over", name: "premiumYield", value: "1%" },
+          { condition: "over", name: "returnVal", value: "1%" },
           { condition: "over", name: "volume", value: "500" },
         ],
       },
@@ -1062,7 +1055,6 @@
     }
   }
 
-  $: charNumber = $screenWidth < 640 ? 20 : 20;
 
   function changeRuleCondition(name: string, state: string) {
     ruleName = name;
@@ -1385,7 +1377,6 @@
     { key: "strike", label: "Strike", align: "right" },
     { key: "expiration", label: "Exp Date", align: "right" },
     { key: "bid", label: "Bid", align: "right" },
-    { key: "premiumYield", label: "Prem Yield", align: "right" },
     { key: "annualizedReturn", label: "Ann. Return", align: "right" },
     { key: "returnVal", label: "Return", align: "right" },
     { key: "profitProb", label: "Profit Prob", align: "right" },
@@ -1401,7 +1392,6 @@
     strike: { order: "none", type: "number" },
     expiration: { order: "none", type: "date" },
     bid: { order: "none", type: "number" },
-    premiumYield: { order: "none", type: "number" },
     annualizedReturn: { order: "none", type: "number" },
     returnVal: { order: "none", type: "number" },
     profitProb: { order: "none", type: "number" },
@@ -1420,10 +1410,8 @@
       const baseColumnsMap = {
         income: [
           { key: "symbol", label: "Symbol", align: "left" },
-          { key: "name", label: "Name", align: "left" },
           { key: "strike", label: "Strike", align: "right" },
           { key: "bid", label: "Bid", align: "right" },
-          { key: "premiumYield", label: "Prem Yield", align: "right" },
           { key: "annualizedReturn", label: "Ann. Return", align: "right" },
           { key: "returnVal", label: "Return", align: "right" },
           { key: "ptnlRtn", label: "Ptnl Rtn", align: "right" },
@@ -1436,7 +1424,6 @@
         ],
         greeks: [
           { key: "symbol", label: "Symbol", align: "left" },
-          { key: "name", label: "Name", align: "left" },
           { key: "strike", label: "Strike", align: "right" },
           { key: "delta", label: "Delta", align: "right" },
           { key: "gamma", label: "Gamma", align: "right" },
@@ -1447,7 +1434,6 @@
         ],
         filters: [
           { key: "symbol", label: "Symbol", align: "left" },
-          { key: "name", label: "Name", align: "left" },
           { key: "strike", label: "Strike", align: "right" },
         ],
       };
@@ -1455,10 +1441,8 @@
       const baseSortOrdersMap = {
         income: {
           symbol: { order: "none", type: "string" },
-          name: { order: "none", type: "string" },
           strike: { order: "none", type: "number" },
           bid: { order: "none", type: "number" },
-          premiumYield: { order: "none", type: "number" },
           annualizedReturn: { order: "none", type: "number" },
           returnVal: { order: "none", type: "number" },
           ptnlRtn: { order: "none", type: "number" },
@@ -1471,7 +1455,6 @@
         },
         greeks: {
           symbol: { order: "none", type: "string" },
-          name: { order: "none", type: "string" },
           strike: { order: "none", type: "number" },
           delta: { order: "none", type: "number" },
           gamma: { order: "none", type: "number" },
@@ -1482,7 +1465,6 @@
         },
         filters: {
           symbol: { order: "none", type: "string" },
-          name: { order: "none", type: "string" },
           strike: { order: "none", type: "number" },
         },
       };
@@ -2509,12 +2491,6 @@
                         >{item?.symbol}</a
                       >
                     </td>
-                  {:else if column.key === "name"}
-                    <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
-                      {item?.name?.length > charNumber
-                        ? item?.name?.slice(0, charNumber) + "..."
-                        : item?.name}
-                    </td>
                   {:else if column.key === "changesPercentage" || column.key === "moneynessPercent"}
                     <td class="text-end text-sm sm:text-[0.95rem]">
                       {#if item[column.key] >= 0}
@@ -2531,7 +2507,7 @@
                         >
                       {/if}
                     </td>
-                  {:else if column.key === "premiumYield" || column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank" || column.key === "pctBeBid" || column.key === "returnVal" || column.key === "ptnlRtn" || column.key === "profitProb"}
+                  {:else if column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank" || column.key === "pctBeBid" || column.key === "returnVal" || column.key === "ptnlRtn" || column.key === "profitProb"}
                     <td class="text-end text-sm sm:text-[0.95rem]">
                       {item[column.key] != null ? item[column.key] + "%" : "n/a"}
                     </td>
