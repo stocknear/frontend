@@ -571,7 +571,6 @@
         label: allRules[row.name]?.label,
         varType: allRules[row.name]?.varType,
       }));
-
     }
   }
 
@@ -782,17 +781,19 @@
           ruleName = "";
         }
       }
-
     }
   }
 
   // Pagination functions
   function updatePaginatedData() {
+    /*
     if (data?.user?.tier !== "Pro") {
       displayResults = filteredData?.slice(0, 6) || [];
       totalPages = 1;
       return;
     }
+      */
+
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
     displayResults = filteredData?.slice(startIndex, endIndex) || [];
@@ -2544,8 +2545,6 @@
             {#each displayResults as item, i}
               <tr
                 class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
-                class:opacity-30={i + 1 === displayResults?.length &&
-                  data?.user?.tier !== "Pro"}
               >
                 {#each columns as column}
                   {#if column.key === "symbol"}
@@ -2641,9 +2640,11 @@
         </table>
       </div>
 
+      <!--
       <div class="-mt-3">
         <UpgradeToPro {data} display={true} />
       </div>
+      -->
 
       {#if displayResults?.length > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
