@@ -107,6 +107,7 @@
     layout_top_analysts,
     layout_unusual_order_flow,
     layout_watchlist,
+    layout_start_new_chat,
   } from "$lib/paraglide/messages.js";
   //import Simulation from "lucide-svelte/icons/radical";
   //import Backtesting from "lucide-svelte/icons/blocks";
@@ -591,6 +592,27 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
+                  class="rounded-full w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 transition"
+                >
+                  <a
+                    class="cursor-pointer w-full flex justify-start items-start"
+                    href="/chat"
+                  >
+                    <div
+                      class="flex flex-row items-center justify-start w-full"
+                    >
+                      <Plus class="w-4 h-4 inline-block mr-2" />
+                      <span class="text-[1rem]">
+                        {layout_start_new_chat()}
+                      </span>
+                    </div>
+                  </a>
+                </Button>
+              </Sheet.Close>
+
+              <Sheet.Close asChild let:builder>
+                <Button
+                  builders={[builder]}
                   type="submit"
                   class="w-full -ml-4 mr-auto rounded-full bg-transparent transition"
                 >
@@ -1041,7 +1063,10 @@
                       </Sheet.Close>
 
                       <div class="ml-4 mt-5">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500">Income Strategy</span>
+                        <span
+                          class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
+                          >Income Strategy</span
+                        >
                       </div>
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -1458,6 +1483,20 @@
                   </a>
 
                   <a
+                    href="/chat"
+                    class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
+                  >
+                    <div
+                      class="shadow px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 transition"
+                    >
+                      <Plus class="w-4 h-4 inline-block mr-2" />
+                      <span class="font-semibold">
+                        {layout_start_new_chat()}
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
                     href="/"
                     class="group flex flex-row items-center ml-9 w-full"
                   >
@@ -1765,7 +1804,10 @@
                               >{layout_options_screener()}</a
                             >
 
-                            <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 ml-4 mt-6">Income Strategy</span>
+                            <span
+                              class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 ml-4 mt-6"
+                              >Income Strategy</span
+                            >
 
                             <a
                               href="/covered-call-screener"
