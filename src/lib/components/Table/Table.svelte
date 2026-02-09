@@ -763,6 +763,7 @@
   let allRows: ColumnRule[] = [
     ...INDICATOR_DEFAULTS,
     { name: "Volume", rule: "volume", type: "decimal" },
+    { name: "Relative Volume", rule: "relativeVolume", type: "percent" },
     { name: "Call Volume", rule: "callVolume", type: "int" },
     { name: "Put Volume", rule: "putVolume", type: "int" },
     { name: "Avg. Volume", rule: "avgVolume", type: "decimal" },
@@ -1055,9 +1056,9 @@
         }
       });
 
-      ruleOfList?.forEach((rule) => {
-        if (!(rule in updatedItem) && rule in item) {
-          newData[rule] = item[rule];
+      ruleOfList?.forEach(({ rule: ruleKey }) => {
+        if (ruleKey && !(ruleKey in updatedItem) && ruleKey in item) {
+          newData[ruleKey] = item[ruleKey];
         }
       });
 
@@ -1556,7 +1557,7 @@
     });
   }
 
-  async function changeTab(tabName) {
+  async function changeTab(tabName, { skipFetch = false } = {}) {
     // Save current indicators ONLY if we're on the indicators tab
     if (
       pagePathName &&
@@ -1604,7 +1605,7 @@
 
     allRows = sortIndicatorCheckMarks(allRows);
 
-    if (downloadWorker) {
+    if (downloadWorker && !skipFetch) {
       await updateStockScreenerData();
     }
   }
@@ -1621,7 +1622,7 @@
 
     // If not on indicators tab, switch to it first
     if (displayTableTab !== "indicators") {
-      await changeTab("indicators");
+      await changeTab("indicators", { skipFetch: true });
     }
 
     // Check if item is already in indicatorsTabRules by rule
