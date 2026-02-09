@@ -25,7 +25,22 @@ export const load = async ({ locals, url }) => {
       return parts.join(" && ");
     };
 
-    const [features, fundamentals, terms] = await Promise.all([
+    // Only fetch Daily if updated today
+    const now = new Date();
+    const todayStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} 00:00:00`;
+    const dailyFilter = [
+      `category = "Daily"`,
+      `updated >= "${todayStart}"`,
+      ...(tagFilter ? [tagFilter] : []),
+    ].join(" && ");
+
+    const [daily, features, fundamentals, terms] = await Promise.all([
+      pb.collection("tutorials").getList(1, 1, {
+        filter: dailyFilter,
+        sort: "-updated",
+        fields,
+        requestKey: "daily",
+      }),
       pb.collection("tutorials").getList(1, 3, {
         filter: buildFilter("Features"),
         sort: "-created",
@@ -55,6 +70,7 @@ export const load = async ({ locals, url }) => {
       tagFilter: tag,
       totalCount,
       categorySections: {
+        Daily: { items: daily.items, totalItems: daily.totalItems },
         Features: { items: features.items, totalItems: features.totalItems },
         Fundamentals: {
           items: fundamentals.items,

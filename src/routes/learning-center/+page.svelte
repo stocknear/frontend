@@ -289,6 +289,39 @@
   {#if data?.view === "all"}
     {@const sections = data.categorySections}
 
+    <!-- Daily "Live Mode" Section -->
+    {#if sections?.Daily?.items?.length > 0}
+      {@const dailyItem = sections.Daily.items[0]}
+      <div class="mb-12">
+        <div class="flex items-center gap-2.5 mb-4">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+          </span>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Live Mode
+          </h2>
+        </div>
+        <a
+          href="/learning-center/article/{convertToSlug(dailyItem?.title)}"
+          class="group block p-5 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+        >
+          <h3
+            class="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition mb-2"
+          >
+            {dailyItem?.title}
+          </h3>
+          <p class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3">
+            {dailyItem?.abstract}
+          </p>
+          <div class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500">
+            <span>Updated {formatDate(dailyItem?.updated)}</span>
+            <span>{dailyItem?.time || 5} min read</span>
+          </div>
+        </a>
+      </div>
+    {/if}
+
     <!-- Features Section -->
     {#if sections?.Features?.items?.length > 0}
       <div class="mb-12">
