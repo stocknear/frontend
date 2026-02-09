@@ -56,10 +56,16 @@ const getPushSubscriptionData = async () => {
   
 
 
+  const [subscriptionData, pushSubscriptionData, discordAccount] = await Promise.all([
+    getSubscriptionData(),
+    getPushSubscriptionData(),
+    getDiscordAccount(),
+  ]);
+
   return {
-    getSubscriptionData: await getSubscriptionData(),
-    getPushSubscriptionData: await getPushSubscriptionData(),
-    getDiscordAccount: await getDiscordAccount(),
+    getSubscriptionData: subscriptionData,
+    getPushSubscriptionData: pushSubscriptionData,
+    getDiscordAccount: discordAccount,
   };
 
 };

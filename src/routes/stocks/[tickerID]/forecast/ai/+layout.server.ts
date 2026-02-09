@@ -53,11 +53,16 @@ export const load = async ({ locals, params }) => {
     }; 
 
 
-  // Make sure to return a promise
+  const [priceAnalysis, historicalPrice, aiScore] = await Promise.all([
+    getPriceAnalysis(),
+    getHistoricalPrice(),
+    getAIScore(),
+  ]);
+
   return {
-    getPriceAnalysis: await getPriceAnalysis(),
-    getHistoricalPrice: await getHistoricalPrice(),
-    getAIScore: await getAIScore(),
+    getPriceAnalysis: priceAnalysis,
+    getHistoricalPrice: historicalPrice,
+    getAIScore: aiScore,
   };
 };
 

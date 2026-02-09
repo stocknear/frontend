@@ -69,10 +69,16 @@ export const load = async ({ locals }) => {
   };
 
 
+  const [getFlowDataResult, getAllStrategiesResult, wsTokenResult] = await Promise.all([
+    getFlowData(),
+    getAllStrategies(),
+    getWsToken(),
+  ]);
+
   return {
-    getFlowData: await getFlowData(),
-    getAllStrategies: await getAllStrategies(),
+    getFlowData: getFlowDataResult,
+    getAllStrategies: getAllStrategiesResult,
     wsURL: wsURL,
-    wsToken: await getWsToken(),
+    wsToken: wsTokenResult,
   };
 };

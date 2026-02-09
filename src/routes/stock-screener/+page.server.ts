@@ -49,9 +49,7 @@ export const load = async ({ locals }) => {
     return output;
   };
 
-  const getStockScreenerData = async () => {
-    const strategyList = await getAllStrategies();
-
+  const getStockScreenerData = async (strategyList) => {
     const strategy = strategyList?.at(0);
     let getRuleOfList = strategy?.rules?.map((item) => item?.name) || [];
     // Ensure all required EMA parameters are included
@@ -73,10 +71,12 @@ export const load = async ({ locals }) => {
     return output;
   };
 
-  // Make sure to return a promise
+  // Fetch strategies once, then use result for screener data
+  const strategyList = await getAllStrategies();
+
   return {
-    getStockScreenerData: await getStockScreenerData(),
-    getAllStrategies: await getAllStrategies(),
+    getStockScreenerData: await getStockScreenerData(strategyList),
+    getAllStrategies: strategyList,
   };
 };
 

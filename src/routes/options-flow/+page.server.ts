@@ -87,12 +87,18 @@ export const load = async ({ locals }) => {
     return null;
   };
 
-  // Make sure to return a promise
+  const [getOptionsFlowFeedData, getOptionsWatchlistData, getAllStrategiesData, wsTokenData] = await Promise.all([
+    getOptionsFlowFeed(),
+    getOptionsWatchlist(),
+    getAllStrategies(),
+    getWsToken(),
+  ]);
+
   return {
-    getOptionsFlowFeed: await getOptionsFlowFeed(),
-    getOptionsWatchlist: await getOptionsWatchlist(),
-    getAllStrategies: await getAllStrategies(),
+    getOptionsFlowFeed: getOptionsFlowFeedData,
+    getOptionsWatchlist: getOptionsWatchlistData,
+    getAllStrategies: getAllStrategiesData,
     wsURL: wsURL,
-    wsToken: await getWsToken(),
+    wsToken: wsTokenData,
   };
 };

@@ -68,11 +68,14 @@ export const load = async ({ locals, params }) => {
     return [];
   };
 
-  // Make sure to return a promise
+  const [insiderTrading, historicalPrice] = await Promise.all([
+    getInsiderTrading(),
+    getHistoricalPrice(),
+  ]);
+
   return {
-    getInsiderTrading: await getInsiderTrading(),
-    getHistoricalPrice: await getHistoricalPrice(),
-    //getInsiderTradingStatistics: await getInsiderTradingStatistics(),
+    getInsiderTrading: insiderTrading,
+    getHistoricalPrice: historicalPrice,
   };
 };
 

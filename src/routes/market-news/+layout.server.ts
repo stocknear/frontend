@@ -58,9 +58,15 @@ export const load = async ({ locals }) => {
 
 
   
+  const [stockNews, marketNews, pressNews] = await Promise.all([
+    getStockNews(),
+    getMarketNews(),
+    getPressNews(),
+  ]);
+
   return {
-    getStockNews: await getStockNews(),
-    getMarketNews: await getMarketNews(),
-    getPressNews: await getPressNews(),
+    getStockNews: stockNews,
+    getMarketNews: marketNews,
+    getPressNews: pressNews,
   };
 };

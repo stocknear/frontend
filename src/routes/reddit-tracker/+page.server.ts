@@ -36,10 +36,14 @@ export const load = async ({ locals, url }) => {
     }
   };
 
-  // Make sure to return a promise
+  const [redditTracker, subreddits] = await Promise.all([
+    getRedditTracker(),
+    getAvailableSubreddits(),
+  ]);
+
   return {
-    getRedditTracker: await getRedditTracker(),
-    availableSubreddits: await getAvailableSubreddits(),
+    getRedditTracker: redditTracker,
+    availableSubreddits: subreddits,
     currentSubreddit: subreddit,
   };
 };

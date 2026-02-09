@@ -36,9 +36,13 @@ export const load = async ({ locals }) => {
     return output;
   };
 
-  // Make sure to return a promise
+  const [news, ipoCalendar] = await Promise.all([
+    getNews(),
+    getIPOCalendar(),
+  ]);
+
   return {
-    getNews: await getNews(),
-    getIPOCalendar: await getIPOCalendar(),
+    getNews: news,
+    getIPOCalendar: ipoCalendar,
   };
 };

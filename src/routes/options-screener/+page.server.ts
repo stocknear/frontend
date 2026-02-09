@@ -61,11 +61,16 @@ export const load = async ({ locals }) => {
   };
 
 
-  // Make sure to return a promise
+  const [screenerData, allStrategies, indexDict] = await Promise.all([
+    getScreenerData(),
+    getAllStrategies(),
+    getIndexDict(),
+  ]);
+
   return {
-    getScreenerData: await getScreenerData(),
-    getAllStrategies: await getAllStrategies(),
-    getIndexDict: await getIndexDict(),
+    getScreenerData: screenerData,
+    getAllStrategies: allStrategies,
+    getIndexDict: indexDict,
   };
 };
 

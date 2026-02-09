@@ -21,9 +21,13 @@ export const load = async ({locals}) => {
     return output;
   };
 
-  // Make sure to return a promise
+  const [tutorialPost, terms] = await Promise.all([
+    getTutorialPost(),
+    getTerms(),
+  ]);
+
   return {
-    getTutorialPost: await getTutorialPost(),
-    getTerms: await getTerms(),
+    getTutorialPost: tutorialPost,
+    getTerms: terms,
   };
 };
