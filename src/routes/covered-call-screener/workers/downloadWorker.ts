@@ -1,17 +1,14 @@
 // Cache to store previous requests
-let cache = new Map();
+let cache: any = null;
 
-const getScreenerData = async (selectedDate) => {
-  // Convert the date into a string key for the cache
-  const ruleKey = JSON.stringify(selectedDate);
-
-  // Check if data for this date is already in the cache
-  if (cache.has(ruleKey)) {
-    return cache.get(ruleKey);
+const getScreenerData = async () => {
+  // Return cached data if available
+  if (cache) {
+    return cache;
   }
 
-  // Fetch new data if it's not in the cache
-  const postData = { selectedDates: [selectedDate] };
+  // Fetch all data (no date filtering)
+  const postData = { selectedDates: [] };
   const response = await fetch("/api/covered-call-screener-data", {
     method: "POST",
     headers: {
@@ -22,15 +19,18 @@ const getScreenerData = async (selectedDate) => {
 
   const output = (await response.json())?.data;
 
-  // Store the new data in the cache
-  cache.set(ruleKey, output);
+  // Store in cache
+  cache = output;
 
   return output;
 };
 
 onmessage = async (event) => {
-  const { selectedDate } = event.data || {};
-  const stockScreenerData = await getScreenerData(selectedDate);
+  const { refresh } = event.data || {};
+  if (refresh) {
+    cache = null;
+  }
+  const stockScreenerData = await getScreenerData();
 
   postMessage({ message: "success", stockScreenerData });
 };

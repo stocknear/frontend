@@ -32,9 +32,6 @@
   let syncWorker: Worker | undefined;
   let downloadWorker: Worker | undefined;
   let searchWorker: Worker | undefined;
-  let expirationList = data?.getScreenerData?.expirationList;
-  let selectedDate = expirationList?.at(0)?.date;
-
   let removeList = false;
 
   let strategyList = data?.getAllStrategies || [];
@@ -258,14 +255,6 @@
     const dd = String(date.getUTCDate()).padStart(2, "0");
     const yy = String(date.getUTCFullYear()).slice(-2);
     return `${mm}/${dd}/${yy}`;
-  };
-
-  const getDTE = (dateString: string): number => {
-    if (!dateString) return 0;
-    const exp = new Date(dateString + "T00:00:00Z");
-    const now = new Date();
-    const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-    return Math.max(0, Math.round((exp.getTime() - today.getTime()) / 86400000));
   };
 
   async function handleCreateStrategy() {
@@ -586,7 +575,7 @@
   const updateStockScreenerData = async () => {
     isLoaded = false;
 
-    downloadWorker.postMessage({ selectedDate: selectedDate });
+    downloadWorker.postMessage({});
   };
 
   async function resetTableSearch() {
@@ -1890,82 +1879,6 @@
               {/if}
             </div>
 
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild let:builder>
-                <Button
-                  builders={[builder]}
-                  class="h-10 w-full sm:w-fit text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400"
-                >
-                  <span class="truncate text-sm"
-                    >{formatDate(selectedDate)} ({getDTE(selectedDate)})</span
-                  >
-                  <svg
-                    class="-mr-1 ml-2 h-5 w-5 inline-block rotate-270 sm:rotate-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    style="max-width:40px"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </Button>
-              </DropdownMenu.Trigger>
-
-              <DropdownMenu.Content
-                side="bottom"
-                align="end"
-                sideOffset={10}
-                alignOffset={0}
-                class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-              >
-                <DropdownMenu.Group class="pb-2"
-                  >{#each expirationList as item, index}
-                    {#if data?.user?.tier === "Pro" || index == 0}
-                      <DropdownMenu.Item
-                        on:click={() => {
-                          selectedDate = item?.date;
-                          updateStockScreenerData();
-                        }}
-                        class="{selectedDate === item?.date
-                          ? 'text-violet-600 dark:text-violet-400'
-                          : ''} sm:hover:text-violet-800 dark:sm:hover:text-violet-400 cursor-pointer"
-                      >
-                        {formatDate(item?.date)} ({getDTE(item?.date)})
-                      </DropdownMenu.Item>
-                    {:else}
-                      <DropdownMenu.Item
-                        on:click={() => goto("/pricing")}
-                        class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                      >
-                        <div class="flex flex-row items-center gap-x-2">
-                          <span>
-                            {formatDate(item?.date)} ({getDTE(item?.date)})
-                          </span>
-                          <svg
-                            class="size-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width: 40px;"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            >
-                            </path>
-                          </svg>
-                        </div>
-                      </DropdownMenu.Item>
-                    {/if}
-                  {/each}</DropdownMenu.Group
-                >
-              </DropdownMenu.Content>
-            </DropdownMenu.Root>
-
             {#if data?.user}
               <label
                 for={!data?.user ? "userLogin" : ""}
@@ -2516,12 +2429,6 @@
       </nav>
     </div>
   </div>
-
-  <h3
-    class="text-[0.95rem] font-semibold mb-2 whitespace-nowrap text-gray-500 dark:text-zinc-400"
-  >
-    Exp Date {formatDate(selectedDate)} ({getDTE(selectedDate)})
-  </h3>
 
   <!--Start Matching Preview-->
   {#if isLoaded}
