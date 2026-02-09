@@ -17,7 +17,7 @@ const getScreenerData = async () => {
     body: JSON.stringify(postData),
   });
 
-  const output = (await response.json())?.data;
+  const output = await response.json();
 
   // Store in cache
   cache = output;
@@ -30,9 +30,9 @@ onmessage = async (event) => {
   if (refresh) {
     cache = null;
   }
-  const stockScreenerData = await getScreenerData();
+  const result = await getScreenerData();
 
-  postMessage({ message: "success", stockScreenerData });
+  postMessage({ message: "success", stockScreenerData: result?.data, totalContracts: result?.totalContracts });
 };
 
 export {};

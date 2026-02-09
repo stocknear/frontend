@@ -1039,6 +1039,25 @@
                           </Button>
                         </div>
                       </Sheet.Close>
+
+                      <div class="ml-4 mt-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500">Income Strategy</span>
+                      </div>
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
+                              href="/covered-call-screener"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >Covered Call Screener</a
+                            >
+                          </Button>
+                        </div>
+                      </Sheet.Close>
                     </Accordion.Content>
                   </Accordion.Item>
                 </Accordion.Root>
@@ -1744,6 +1763,14 @@
                               href="/options-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_screener()}</a
+                            >
+
+                            <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 ml-4 mt-6">Income Strategy</span>
+
+                            <a
+                              href="/covered-call-screener"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >Covered Call Screener</a
                             >
                           </div>
                         </Accordion.Content>

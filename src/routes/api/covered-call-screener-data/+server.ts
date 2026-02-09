@@ -2,9 +2,10 @@ import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey } = locals;
+  const { apiURL, apiKey, user } = locals;
 
-  const postData = { selectedDates: data?.selectedDates };
+  const subscriber = user?.tier === "Pro" ? "Pro" : "Free";
+  const postData = { selectedDates: data?.selectedDates, subscriber };
 
   const response = await fetch(apiURL + "/covered-call-screener-data", {
     method: "POST",

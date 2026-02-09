@@ -17,6 +17,7 @@
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import { writable } from "svelte/store";
@@ -54,6 +55,7 @@
   let displayTableTab = "general";
 
   let stockScreenerData = data?.getScreenerData?.data;
+  let totalContracts = data?.getScreenerData?.totalContracts ?? 0;
 
   // Define all possible rules and their properties
   const allRules = {
@@ -586,6 +588,7 @@
 
   const handleScreenerMessage = (event) => {
     stockScreenerData = event?.data?.stockScreenerData;
+    totalContracts = event?.data?.totalContracts ?? totalContracts;
     shouldLoadWorker.set(true);
   };
 
@@ -785,6 +788,11 @@
 
   // Pagination functions
   function updatePaginatedData() {
+    if (data?.user?.tier !== "Pro") {
+      displayResults = filteredData?.slice(0, 6) || [];
+      totalPages = 1;
+      return;
+    }
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
     displayResults = filteredData?.slice(startIndex, endIndex) || [];
@@ -2339,7 +2347,7 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {filteredData?.length?.toLocaleString("en-US")} Contracts
+      {(data?.user?.tier === "Pro" ? filteredData?.length : totalContracts)?.toLocaleString("en-US")} Contracts
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -2536,9 +2544,10 @@
             />
           </thead>
           <tbody>
-            {#each displayResults as item}
+            {#each displayResults as item, i}
               <tr
                 class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                class:opacity-30={i + 1 === displayResults?.length && data?.user?.tier !== "Pro"}
               >
                 {#each columns as column}
                   {#if column.key === "symbol"}
@@ -2626,7 +2635,11 @@
         </table>
       </div>
 
-      {#if displayResults?.length > 0}
+      <div class="-mt-3">
+        <UpgradeToPro {data} display={true} />
+      </div>
+
+      {#if displayResults?.length > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <div class="flex items-center gap-2">
             <Button

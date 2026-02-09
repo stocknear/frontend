@@ -8,7 +8,9 @@ export const load = async ({ locals }) => {
 
   const getAllStrategies = async () => {
     let output = [];
+    if (user?.tier === 'Pro') {
 
+   
      try {
         output = await pb.collection("coveredCallScreener").getFullList({
         filter: `user="${user?.id}"`,
@@ -19,6 +21,10 @@ export const load = async ({ locals }) => {
     catch(e) {
         output = [];
     }
+     }
+     else {
+      output = []
+     }
 
 
     return output;
@@ -26,9 +32,8 @@ export const load = async ({ locals }) => {
 
 
   const getScreenerData = async () => {
-
-
-    const postData = { selectedDates: [] };
+    const subscriber = user?.tier === "Pro" ? "Pro" : "Free";
+    const postData = { selectedDates: [], subscriber };
     const response = await fetch(apiURL + "/covered-call-screener-data", {
       method: "POST",
       headers: {
