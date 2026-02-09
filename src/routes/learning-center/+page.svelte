@@ -26,9 +26,9 @@
   $: activeTag = data?.tagFilter || "all";
 
   // Server-driven pagination data (category view only)
-  $: currentPage = data?.view === "category" ? data?.currentPage ?? 1 : 1;
-  $: totalPages = data?.view === "category" ? data?.totalPages ?? 1 : 1;
-  $: itemsPerPage = data?.view === "category" ? data?.perPage ?? 15 : 15;
+  $: currentPage = data?.view === "category" ? (data?.currentPage ?? 1) : 1;
+  $: totalPages = data?.view === "category" ? (data?.totalPages ?? 1) : 1;
+  $: itemsPerPage = data?.view === "category" ? (data?.perPage ?? 15) : 15;
 
   // Available tags for filtering
   const availableTags = [
@@ -73,7 +73,8 @@
 
   function buildUrl(overrides: Record<string, string | null> = {}) {
     const params = new URLSearchParams();
-    const cat = overrides.category !== undefined ? overrides.category : activeCategory;
+    const cat =
+      overrides.category !== undefined ? overrides.category : activeCategory;
     const tag = overrides.tag !== undefined ? overrides.tag : activeTag;
     const pg = overrides.page !== undefined ? overrides.page : null;
     const pp = overrides.perPage !== undefined ? overrides.perPage : null;
@@ -100,7 +101,8 @@
     availableTags.find((t) => t.id === activeTag)?.name || "All Tags";
 
   // Total count for SEO structured data
-  $: totalCount = data?.view === "all" ? data?.totalCount ?? 0 : data?.totalItems ?? 0;
+  $: totalCount =
+    data?.view === "all" ? (data?.totalCount ?? 0) : (data?.totalItems ?? 0);
 
   function goToPage(pageNum: number) {
     if (pageNum >= 1 && pageNum <= totalPages) {
@@ -290,13 +292,17 @@
     {@const sections = data.categorySections}
 
     <!-- Daily "Live Mode" Section -->
-    {#if sections?.Daily?.items?.length > 0}
+    {#if sections?.Daily?.items?.length > 0 && !data?.isMarketOpen}
       {@const dailyItem = sections.Daily.items[0]}
       <div class="mb-12">
         <div class="flex items-center gap-2.5 mb-4">
           <span class="relative flex h-2.5 w-2.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"
+            ></span>
           </span>
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
             Live Mode
@@ -314,7 +320,9 @@
           <p class="text-sm text-gray-500 dark:text-zinc-400 line-clamp-2 mb-3">
             {dailyItem?.abstract}
           </p>
-          <div class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500">
+          <div
+            class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500"
+          >
             <span>Updated {formatDate(dailyItem?.updated)}</span>
             <span>{dailyItem?.time || 5} min read</span>
           </div>

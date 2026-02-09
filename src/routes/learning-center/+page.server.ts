@@ -1,3 +1,5 @@
+import { checkMarketHourSSR} from "$lib/utils";
+
 const PAGE_SIZES = [15, 20, 30];
 const DEFAULT_PAGE_SIZE = PAGE_SIZES[0];
 
@@ -11,6 +13,8 @@ export const load = async ({ locals, url }) => {
 
   const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
   const perPage = PAGE_SIZES.includes(perPageParam) ? perPageParam : DEFAULT_PAGE_SIZE;
+
+  const isMarketOpen = checkMarketHourSSR();
 
   const fields = "id,collectionId,title,abstract,category,tags,cover,created,updated,time";
 
@@ -66,6 +70,7 @@ export const load = async ({ locals, url }) => {
 
     return {
       view: "all" as const,
+      isMarketOpen,
       categoryFilter: category,
       tagFilter: tag,
       totalCount,
@@ -94,6 +99,7 @@ export const load = async ({ locals, url }) => {
 
     return {
       view: "category" as const,
+      isMarketOpen,
       categoryFilter: category,
       tagFilter: tag,
       tutorials: result.items,
