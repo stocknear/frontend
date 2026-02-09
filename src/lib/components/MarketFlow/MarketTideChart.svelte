@@ -118,7 +118,7 @@
             },
 
             title: {
-                text: `<h3 class="mt-3 -mb-2">S&P500 Flow</h3>`,
+                text: `<h3 class=""></h3>`,
                 style: {
                     color: $mode === "light" ? "black" : "white",
                 },

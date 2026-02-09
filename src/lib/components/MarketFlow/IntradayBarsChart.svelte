@@ -60,8 +60,8 @@
       credits: { enabled: false },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: $mode === "light" ? "#fff" : "#18191a",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#18191a",
         height: 360,
         animation: false,
       },
@@ -75,7 +75,7 @@
         },
         labels: {
           style: {
-            color: $mode === "light" ? "#09090B" : "white",
+            color: $mode === "light" ? "#18191a" : "white",
             fontSize: "12px",
           },
         },
@@ -236,8 +236,8 @@
               ><path
                 fill="currentColor"
                 d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-              /></svg>
-
+              /></svg
+            >
           </span>
         </button>
       {:else}
@@ -245,7 +245,7 @@
           on:click={() => (selectedInterval = item)}
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                             {selectedInterval === item
-            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+            ? 'bg-white text-gray-900 shadow-sm border border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white'
             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
         >
           {item}m
