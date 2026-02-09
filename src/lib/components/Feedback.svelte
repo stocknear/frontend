@@ -113,7 +113,7 @@
 
 <!-- Floating trigger (bottom-right), like your existing one -->
 {#if !$page.url.pathname.startsWith("/chat")}
-  <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
+  <div class="fixed z-20 bottom-8 sm:bottom-10 right-8 sm:right-16">
     <label
       for="feedbackModalToggle"
       aria-label={feedback_title()}
@@ -161,7 +161,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <!-- Header -->
     <div class="flex items-center justify-between">

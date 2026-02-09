@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import { clearCache } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
+  import ChartNoAxesCombined from "lucide-svelte/icons/chart-no-axes-combined";
 
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -18,6 +19,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import ChartModal from "$lib/components/CoveredCall/ChartModal.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import { writable } from "svelte/store";
@@ -33,6 +35,9 @@
   let downloadWorker: Worker | undefined;
   let searchWorker: Worker | undefined;
   let removeList = false;
+
+  let isChartModalOpen = false;
+  let modalItem: any = null;
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -284,6 +289,16 @@
     const yy = String(date.getUTCFullYear()).slice(-2);
     return `${mm}/${dd}/${yy}`;
   };
+
+  function openChartModal(item) {
+    modalItem = item;
+    isChartModalOpen = true;
+  }
+
+  function closeChartModal() {
+    isChartModalOpen = false;
+    modalItem = null;
+  }
 
   async function handleCreateStrategy() {
     if (["Pro"]?.includes(data?.user?.tier)) {
@@ -2347,7 +2362,10 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {(data?.user?.tier === "Pro" ? filteredData?.length : totalContracts)?.toLocaleString("en-US")} Contracts
+      {(data?.user?.tier === "Pro"
+        ? filteredData?.length
+        : totalContracts
+      )?.toLocaleString("en-US")} Contracts
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -2547,23 +2565,32 @@
             {#each displayResults as item, i}
               <tr
                 class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
-                class:opacity-30={i + 1 === displayResults?.length && data?.user?.tier !== "Pro"}
+                class:opacity-30={i + 1 === displayResults?.length &&
+                  data?.user?.tier !== "Pro"}
               >
                 {#each columns as column}
                   {#if column.key === "symbol"}
                     <td class="whitespace-nowrap text-start">
-                      <a
-                        href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
-                          item?.symbol +
-                          `/options/contract-lookup?contract=${item?.optionSymbol}`}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm"
-                        >{item?.symbol}</a
-                      >
+                      <div class="flex flex-row items-center gap-3">
+                        <a
+                          href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
+                            item?.symbol +
+                            `/options/contract-lookup?contract=${item?.optionSymbol}`}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm"
+                          >{item?.symbol}</a
+                        >
+                        <button
+                          on:click|stopPropagation={() => openChartModal(item)}
+                          class="ml-auto cursor-pointer text-gray-500 dark:text-zinc-400 sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                        >
+                          <ChartNoAxesCombined class="w-4.5 h-4.5" />
+                        </button>
+                      </div>
                     </td>
                   {:else if column.key === "changesPercentage" || column.key === "moneynessPercent"}
-                    <td class="text-end text-sm">
+                    <td class="text-end text-sm whitespace-nowrap">
                       {#if item[column.key] >= 0}
                         <span class="text-emerald-800 dark:text-emerald-400"
                           >+{item[column.key] >= 1000
@@ -2579,29 +2606,29 @@
                       {/if}
                     </td>
                   {:else if column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank" || column.key === "pctBeBid" || column.key === "returnVal" || column.key === "ptnlRtn" || column.key === "profitProb"}
-                    <td class="text-end text-sm">
+                    <td class="text-end text-sm whitespace-nowrap">
                       {item[column.key] != null
                         ? item[column.key] + "%"
                         : "n/a"}
                     </td>
                   {:else if column.key === "volume" || column.key === "oi" || column.key === "dte"}
-                    <td class="text-end text-sm">
+                    <td class="text-end text-sm whitespace-nowrap">
                       {item[column.key] != null
                         ? item[column.key]?.toLocaleString("en-US")
                         : "n/a"}
                     </td>
                   {:else if column.key === "stockPrice" || column.key === "strike" || column.key === "bid" || column.key === "breakeven"}
-                    <td class="text-end text-sm">
+                    <td class="text-end text-sm whitespace-nowrap">
                       {item[column.key] != null
                         ? item[column.key]?.toFixed(2)
                         : "n/a"}
                     </td>
                   {:else if column.key === "expiration"}
-                    <td class="text-end text-sm">
+                    <td class="text-end text-sm whitespace-nowrap">
                       {formatDate(item[column.key])} ({item.dte})
                     </td>
                   {:else if column.key === "delta" || column.key === "gamma" || column.key === "theta" || column.key === "vega"}
-                    <td class="text-end text-sm">
+                    <td class="text-end text-sm whitespace-nowrap">
                       {item[column.key] ?? "n/a"}
                     </td>
                   {:else}
@@ -3056,6 +3083,12 @@
 {/if}
 
 <!--End Login Modal-->
+
+<ChartModal
+  item={modalItem}
+  isOpen={isChartModalOpen}
+  onClose={closeChartModal}
+/>
 
 <style>
   .scroller {
