@@ -22,6 +22,7 @@
 
   import { onDestroy, afterUpdate } from "svelte";
   import { page } from "$app/stores";
+  import ChartNoAxes from "lucide-svelte/icons/chart-no-axes-combined";
 
   import { convertTimestamp } from "$lib/utils";
   import TickerHeader from "$lib/components/TickerHeader.svelte";
@@ -408,13 +409,17 @@
                           class="-mb-1 mt-6 flex justify-end sm:ml-auto w-full ml-auto sm:gap-2 sm:right-5 sm:top-6 sm:mb-0 sm:mt-0 sm:w-auto lg:right-8"
                         >
                           <!-- Mobile: Unified button group -->
-                          <div class="flex items-center w-full shadow rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 sm:hidden">
+                          <div
+                            class="flex items-center w-full shadow rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 sm:hidden"
+                          >
                             <WatchlistButton
                               ticker={$indexTicker}
                               assetType="index"
                               price={data?.getStockQuote?.price}
                             />
-                            <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700"></div>
+                            <div
+                              class="w-px h-5 bg-gray-300 dark:bg-zinc-700"
+                            ></div>
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
@@ -439,19 +444,14 @@
                               </svg>
                               <span>Price Alert</span>
                             </label>
-                            <div class="w-px h-5 bg-gray-300 dark:bg-zinc-700"></div>
+                            <div
+                              class="w-px h-5 bg-gray-300 dark:bg-zinc-700"
+                            ></div>
                             <a
                               href="/chart/{$indexTicker}"
                               class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="size-4 flex-shrink-0"
-                                viewBox="0 0 18 18"
-                                fill="currentColor"
-                              >
-                                <path d="M17 8.2 9 16 1 8.2 3.667 3h10.666zM2.226 8 9 14.602 15.773 8l-2.05-4H4.277zM7 7h1v2H7v1H6V9H5V7h1V5h1zm5-1h1v2h-1v2h-1V8h-1V6h1V5h1z" />
-                              </svg>
+                              <ChartNoAxes class="size-4 flex-shrink-0" />
                               <span>Pro Chart</span>
                             </a>
                           </div>
@@ -486,22 +486,21 @@
                                   <path d="M9.5 13h5M12 10.5v5" />
                                 </g>
                               </svg>
-                              <span class="text-sm overflow-hidden max-w-0 group-hover:max-w-28 group-hover:ml-1.5 transition-all duration-700 ease-out">{index_detail_price_alert()}</span>
+                              <span
+                                class="text-sm overflow-hidden max-w-0 group-hover:max-w-28 group-hover:ml-1.5 transition-all duration-700 ease-out"
+                                >{index_detail_price_alert()}</span
+                              >
                             </label>
                             <a
                               href="/chart/{$indexTicker}"
                               class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title="Pro Chart"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="size-5 flex-shrink-0"
-                                viewBox="0 0 18 18"
-                                fill="currentColor"
+                              <ChartNoAxes class="size-5 flex-shrink-0" />
+                              <span
+                                class="text-sm overflow-hidden max-w-0 group-hover:max-w-24 group-hover:ml-1.5 transition-all duration-700 ease-out"
+                                >Pro Chart</span
                               >
-                                <path d="M17 8.2 9 16 1 8.2 3.667 3h10.666zM2.226 8 9 14.602 15.773 8l-2.05-4H4.277zM7 7h1v2H7v1H6V9H5V7h1V5h1zm5-1h1v2h-1v2h-1V8h-1V6h1V5h1z" />
-                              </svg>
-                              <span class="text-sm overflow-hidden max-w-0 group-hover:max-w-24 group-hover:ml-1.5 transition-all duration-700 ease-out">Pro Chart</span>
                             </a>
                             <StockPriceExport
                               ticker={$indexTicker}
@@ -604,7 +603,6 @@
     assetType="index"
   />
 {/await}
-
 
 <style lang="scss">
   .scrollbar {

@@ -43,6 +43,7 @@
   import * as Accordion from "$lib/components/shadcn/accordion/index.js";
 
   import Home from "lucide-svelte/icons/house";
+  import ChartNoAxes from "lucide-svelte/icons/chart-no-axes-combined";
   import Menu from "lucide-svelte/icons/menu";
   import Stock from "lucide-svelte/icons/chart-candlestick";
   import Calendar from "lucide-svelte/icons/calendar";
@@ -642,7 +643,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Stock
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_stocks()}</span>
                     </Accordion.Trigger>
@@ -712,7 +713,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Layers
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_etfs()}</span>
                     </Accordion.Trigger>
@@ -757,7 +758,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Analyst
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_analyst()}</span>
                     </Accordion.Trigger>
@@ -814,7 +815,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Calendar
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_calendar()}</span>
                     </Accordion.Trigger>
@@ -910,7 +911,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <HandShake
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_congress()}</span>
                     </Accordion.Trigger>
@@ -955,7 +956,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Flow
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_flow_feed()}</span>
                     </Accordion.Trigger>
@@ -1024,7 +1025,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Screener
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_screener()}</span>
                     </Accordion.Trigger>
@@ -1094,7 +1095,7 @@
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Simulation
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto"
                         >Simulation</span
@@ -1146,7 +1147,7 @@
                       class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <Tools
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_tools()}</span>
                     </Accordion.Trigger>
@@ -1252,7 +1253,7 @@
                         class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                       >
                         <Boxes
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                         />
                       </div>
                       <span
@@ -1263,6 +1264,34 @@
                   </a>
                 </Button>
               </Sheet.Close>
+
+              <Sheet.Close asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  type="submit"
+                  class="-ml-4 w-full rounded-full bg-transparent transition"
+                >
+                  <a
+                    href="/chart/NVDA"
+                    class="group flex flex-row items-center w-full -mt-4"
+                  >
+                    <div class="flex flex-row items-center mr-auto">
+                      <div
+                        class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      >
+                        <ChartNoAxes
+                          class="size-6 mr-3 flex-shrink-0 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        />
+                      </div>
+                      <span
+                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                        >Pro Chart</span
+                      >
+                    </div>
+                  </a>
+                </Button>
+              </Sheet.Close>
+
               <!--
               <Sheet.Close asChild let:builder>
                 <Button
@@ -1279,7 +1308,7 @@
                         class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                       >
                         <Backtesting
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                         />
                       </div>
                       <span
@@ -1306,7 +1335,7 @@
                         class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                       >
                         <Newspaper
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
                         />
                       </div>
                       <span
@@ -1918,6 +1947,21 @@
                     <span
                       class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >{layout_hedge_funds()}</span
+                    >
+                  </a>
+
+                  <a
+                    href="/chart/NVDA"
+                    class="group flex flex-row items-center ml-9 w-full mt-3"
+                  >
+                    <div
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    >
+                      <ChartNoAxes class="h-5.5 w-5.5" />
+                    </div>
+                    <span
+                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      >Pro Chart</span
                     >
                   </a>
 
