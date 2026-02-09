@@ -33,7 +33,7 @@ export const load = async ({ locals }) => {
 
   const getScreenerData = async () => {
     const subscriber = user?.tier === "Pro" ? "Pro" : "Free";
-    const postData = { selectedDates: [], subscriber };
+    const postData = { subscriber };
     const response = await fetch(apiURL + "/covered-call-screener-data", {
       method: "POST",
       headers: {
