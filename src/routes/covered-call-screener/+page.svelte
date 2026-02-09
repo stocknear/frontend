@@ -32,7 +32,6 @@
   let isLoaded = false;
   let isFullWidth = false;
   let syncWorker: Worker | undefined;
-  let downloadWorker: Worker | undefined;
   let searchWorker: Worker | undefined;
   let removeList = false;
 
@@ -573,7 +572,6 @@
         varType: allRules[row.name]?.varType,
       }));
 
-      await updateStockScreenerData();
     }
   }
 
@@ -601,23 +599,11 @@
     }
   };
 
-  const handleScreenerMessage = (event) => {
-    stockScreenerData = event?.data?.stockScreenerData;
-    totalContracts = event?.data?.totalContracts ?? totalContracts;
-    shouldLoadWorker.set(true);
-  };
-
   const loadWorker = async () => {
     syncWorker.postMessage({
       stockScreenerData,
       ruleOfList,
     });
-  };
-
-  const updateStockScreenerData = async () => {
-    isLoaded = false;
-
-    downloadWorker.postMessage({});
   };
 
   async function resetTableSearch() {
@@ -797,7 +783,6 @@
         }
       }
 
-      await updateStockScreenerData();
     }
   }
 
@@ -970,12 +955,6 @@
       const SyncWorker = await import("./workers/filterWorker?worker");
       syncWorker = new SyncWorker.default();
       syncWorker.onmessage = handleMessage;
-    }
-
-    if (!downloadWorker) {
-      const DownloadWorker = await import("./workers/downloadWorker?worker");
-      downloadWorker = new DownloadWorker.default();
-      downloadWorker.onmessage = handleScreenerMessage;
     }
 
     if (!searchWorker) {
@@ -1198,7 +1177,7 @@
         valueMappings[ruleName] = "any";
       }
 
-      await updateStockScreenerData();
+      shouldLoadWorker.set(true);
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
         valueMappings[ruleName] = shouldSort ? value?.sort(customSort) : value;
@@ -1210,7 +1189,7 @@
     }
 
     if (ruleCondition[ruleName] === "between" && value.some((v) => v !== "")) {
-      await updateStockScreenerData();
+      shouldLoadWorker.set(true);
     }
   }
 

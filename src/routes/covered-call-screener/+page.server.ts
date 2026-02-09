@@ -49,10 +49,14 @@ export const load = async ({ locals }) => {
   };
 
 
-  // Make sure to return a promise
+  const [screenerData, strategies] = await Promise.all([
+    getScreenerData(),
+    getAllStrategies(),
+  ]);
+
   return {
-    getScreenerData: await getScreenerData(),
-    getAllStrategies: await getAllStrategies(),
+    getScreenerData: screenerData,
+    getAllStrategies: strategies,
   };
 };
 
