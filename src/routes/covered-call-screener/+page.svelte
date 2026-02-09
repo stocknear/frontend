@@ -1377,10 +1377,10 @@
     { key: "strike", label: "Strike", align: "right" },
     { key: "expiration", label: "Exp Date", align: "right" },
     { key: "bid", label: "Bid", align: "right" },
-    { key: "annualizedReturn", label: "Ann. Return", align: "right" },
     { key: "breakeven", label: "BE Bid", align: "right" },
     { key: "pctBeBid", label: "% BE", align: "right" },
     { key: "returnVal", label: "Return", align: "right" },
+    { key: "annualizedReturn", label: "Ann. Return", align: "right" },
     { key: "profitProb", label: "Profit Prob", align: "right" },
     { key: "moneynessPercent", label: "Moneyness", align: "right" },
     { key: "volume", label: "Vol", align: "right" },
@@ -2525,7 +2525,7 @@
                     </td>
                   {:else if column.key === "expiration"}
                     <td class="text-end text-sm sm:text-[0.95rem]">
-                      {formatDate(item[column.key])}
+                      {formatDate(item[column.key])} ({item.dte})
                     </td>
                   {:else if column.key === "delta" || column.key === "gamma" || column.key === "theta" || column.key === "vega"}
                     <td class="text-end text-sm sm:text-[0.95rem]">
