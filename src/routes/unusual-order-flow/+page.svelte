@@ -98,7 +98,6 @@
   let socket: WebSocket | null = null;
   let reconnectAttempts = 0;
   let reconnectInterval: ReturnType<typeof setTimeout> | null = null;
-  const maxReconnectAttempts = 5;
   let muted = false;
   let audio: HTMLAudioElement | null = null;
   let historicalDataLoaded = false;
@@ -1261,6 +1260,24 @@
     return rawData;
   }
 
+  async function refreshWsToken() {
+    try {
+      const response = await fetch("/api/generate-ws-token", {
+        method: "POST",
+      });
+      if (response.ok) {
+        const result = await response.json();
+        if (result?.token) {
+          data.wsToken = result.token;
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to refresh WS token:", e);
+    }
+    return false;
+  }
+
   function connectWebSocket() {
     if (data?.user?.tier !== "Pro" || !data?.wsURL || !data?.wsToken) {
       return;
@@ -1382,26 +1399,32 @@
         }
       });
 
-      socket.addEventListener("close", (event) => {
+      socket.addEventListener("close", async (event) => {
         console.log(
-          "Unusual Order Flow WebSocket connection closed:",
+          "Unusual Order Flow WebSocket closed:",
+          event.code,
           event.reason,
         );
         socket = null;
 
-        if (
-          $isOpen &&
-          modeStatus &&
-          !isComponentDestroyed &&
-          reconnectAttempts < maxReconnectAttempts
-        ) {
-          reconnectAttempts++;
-          console.log(`Attempting to reconnect (${reconnectAttempts}/5)...`);
+        if (!$isOpen || !modeStatus || isComponentDestroyed) return;
 
-          reconnectInterval = setTimeout(() => {
-            connectWebSocket();
-          }, 5000 * reconnectAttempts);
+        // Token expired — refresh before reconnecting
+        if (event.code === 4001) {
+          console.log("Token expired, refreshing...");
+          const refreshed = await refreshWsToken();
+          if (!refreshed) return;
+          reconnectAttempts = 0;
         }
+
+        reconnectAttempts++;
+        const delay = Math.min(5000 * reconnectAttempts, 30000);
+        console.log(
+          `Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts})...`,
+        );
+        reconnectInterval = setTimeout(() => {
+          connectWebSocket();
+        }, delay);
       });
 
       socket.addEventListener("error", (error) => {

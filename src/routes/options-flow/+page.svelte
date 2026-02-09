@@ -207,7 +207,6 @@
   let socket = null;
   let reconnectInterval = null;
   let reconnectAttempts = 0;
-  const maxReconnectAttempts = 5;
   const df = new DateFormatter("en-US", {
     day: "2-digit",
     month: "short",
@@ -1451,6 +1450,24 @@
   // --------------------------------------------
 
   // WebSocket connection functions
+  async function refreshWsToken() {
+    try {
+      const response = await fetch("/api/generate-ws-token", {
+        method: "POST",
+      });
+      if (response.ok) {
+        const result = await response.json();
+        if (result?.token) {
+          data.wsToken = result.token;
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to refresh WS token:", e);
+    }
+    return false;
+  }
+
   function connectWebSocket() {
     if (data?.user?.tier !== "Pro" || !data?.wsURL || !data?.wsToken) {
       return;
@@ -1579,25 +1596,28 @@
         }
       });
 
-      socket.addEventListener("close", (event) => {
-        console.log("Options Flow WebSocket connection closed:", event.reason);
+      socket.addEventListener("close", async (event) => {
+        console.log("Options Flow WebSocket closed:", event.code, event.reason);
         socket = null;
 
-        // Attempt to reconnect if market is open, live mode is on, and not destroyed
-        if (
-          $isOpen &&
-          modeStatus &&
-          !isComponentDestroyed &&
-          reconnectAttempts < maxReconnectAttempts
-        ) {
-          reconnectAttempts++;
-          console.log(
-            `Attempting to reconnect (${reconnectAttempts}/${maxReconnectAttempts})...`,
-          );
-          reconnectInterval = setTimeout(() => {
-            connectWebSocket();
-          }, 5000 * reconnectAttempts); // Exponential backoff
+        if (!$isOpen || !modeStatus || isComponentDestroyed) return;
+
+        // Token expired — refresh before reconnecting
+        if (event.code === 4001) {
+          console.log("Token expired, refreshing...");
+          const refreshed = await refreshWsToken();
+          if (!refreshed) return;
+          reconnectAttempts = 0;
         }
+
+        reconnectAttempts++;
+        const delay = Math.min(5000 * reconnectAttempts, 30000);
+        console.log(
+          `Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts})...`,
+        );
+        reconnectInterval = setTimeout(() => {
+          connectWebSocket();
+        }, delay);
       });
 
       socket.addEventListener("error", (error) => {

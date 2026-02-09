@@ -12,7 +12,7 @@
     calculateChange,
     updateStockList,
   } from "$lib/utils";
-  import { onMount, afterUpdate, onDestroy, tick } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
@@ -1948,47 +1948,44 @@
     }
   });
 
-  let previousList = [];
+  let previousSymbolKey = '';
   let reconnectionTimeout;
 
-  afterUpdate(async () => {
-    // Compare only the symbols to detect changes
-    const currentSymbols = rawData?.map((item) => item?.symbol).sort();
-    const previousSymbols = previousList?.map((item) => item?.symbol).sort();
-
-    // Check if symbols have changed
-    if (
-      JSON.stringify(currentSymbols) !== JSON.stringify(previousSymbols) &&
-      typeof socket !== "undefined"
-    ) {
-      // Update previous list
-      previousList = rawData;
-
-      try {
-        // Close existing socket if open
-        if (socket && socket.readyState !== WebSocket.CLOSED) {
-          socket?.close();
-        }
-
-        // Wait for socket to close
-        await new Promise((resolve) => {
-          socket?.addEventListener("close", resolve, { once: true });
-        });
-
-        // Reconnect with new symbols
-        if ($isOpen) {
-          await websocketRealtimeData();
-          console.log("WebSocket restarted due to watchlist changes");
-        }
-      } catch (error) {
-        console.error("Error restarting WebSocket:", error);
+  async function reconnectForNewSymbols() {
+    try {
+      if (socket && socket.readyState !== WebSocket.CLOSED) {
+        socket?.close();
       }
+
+      await new Promise((resolve) => {
+        socket?.addEventListener("close", resolve, { once: true });
+      });
+
+      if ($isOpen) {
+        await websocketRealtimeData();
+        console.log("WebSocket restarted due to watchlist changes");
+      }
+    } catch (error) {
+      console.error("Error restarting WebSocket:", error);
+    }
+  }
+
+  function handleRawDataChange(data) {
+    const symbolKey = (data?.map((item) => item?.symbol) || []).sort().join(',');
+
+    if (symbolKey === previousSymbolKey) return;
+    previousSymbolKey = symbolKey;
+
+    if (typeof socket !== 'undefined') {
+      reconnectForNewSymbols();
     }
 
     if (includePrePostData) {
       syncPrePostSubscription();
     }
-  });
+  }
+
+  $: handleRawDataChange(rawData);
 
   onDestroy(() => {
     try {
