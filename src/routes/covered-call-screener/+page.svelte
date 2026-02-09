@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { goto } from "$app/navigation";
-  import { clearCache, screenWidth } from "$lib/store";
+  import { clearCache } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
 
   import { toast } from "svelte-sonner";
@@ -342,9 +341,7 @@
 
       checkedItems = new Map(
         ruleOfList
-          ?.filter((rule) =>
-            ["assetType"].includes(rule.name),
-          )
+          ?.filter((rule) => ["assetType"].includes(rule.name))
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
@@ -926,7 +923,10 @@
   function toggleFullWidth() {
     isFullWidth = !isFullWidth;
     try {
-      localStorage.setItem("covered-call-screener-full-width", String(isFullWidth));
+      localStorage.setItem(
+        "covered-call-screener-full-width",
+        String(isFullWidth),
+      );
     } catch (e) {
       console.warn("Failed to save full width preference:", e);
     }
@@ -936,7 +936,9 @@
     loadRowsPerPage();
 
     // Load full width preference
-    const savedFullWidth = localStorage.getItem("covered-call-screener-full-width");
+    const savedFullWidth = localStorage.getItem(
+      "covered-call-screener-full-width",
+    );
     if (savedFullWidth !== null) {
       isFullWidth = savedFullWidth === "true";
     }
@@ -1054,7 +1056,6 @@
       filteredGroupedRules = groupScreenerRules(allRows);
     }
   }
-
 
   function changeRuleCondition(name: string, state: string) {
     ruleName = name;
@@ -1420,8 +1421,16 @@
           { key: "returnVal", label: "Return", align: "right" },
           { key: "ptnlRtn", label: "Ptnl Rtn", align: "right" },
           { key: "ifCalledReturn", label: "If Called Return", align: "right" },
-          { key: "ifCalledAnnualized", label: "If Called Ann.", align: "right" },
-          { key: "downsideProtection", label: "Downside Prot.", align: "right" },
+          {
+            key: "ifCalledAnnualized",
+            label: "If Called Ann.",
+            align: "right",
+          },
+          {
+            key: "downsideProtection",
+            label: "Downside Prot.",
+            align: "right",
+          },
           { key: "breakeven", label: "BE Bid", align: "right" },
           { key: "pctBeBid", label: "% BE", align: "right" },
           { key: "profitProb", label: "Profit Prob", align: "right" },
@@ -1481,7 +1490,10 @@
         newColumns = [...(baseColumnsMap[displayTableTab] || [])];
         sortOrders = { ...(baseSortOrdersMap[displayTableTab] || {}) };
 
-        const rulesList = displayTableTab === "greeks" || displayTableTab === "income" ? [] : displayRules;
+        const rulesList =
+          displayTableTab === "greeks" || displayTableTab === "income"
+            ? []
+            : displayRules;
 
         rulesList?.forEach((rule) => {
           if (!["strike"]?.includes(rule.rule)) {
@@ -1549,8 +1561,7 @@
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400"
-        >Covered Call Screener</span
+      <span class="text-gray-500 dark:text-zinc-400">Covered Call Screener</span
       >
     </li>
   </BreadCrumb>
@@ -1691,9 +1702,7 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">
-                        New Screen
-                      </div>
+                      <div class="text-sm text-start">New Screen</div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -1728,8 +1737,8 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          ></path></svg>
-
+                          ></path></svg
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -1884,8 +1893,8 @@
                           fill-rule="evenodd"
                           d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                           clip-rule="evenodd"
-                        ></path></svg>
-
+                        ></path></svg
+                      >
 
                       <label
                         class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
@@ -1922,7 +1931,8 @@
                   ><path
                     fill="currentColor"
                     d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                  /></svg>
+                  /></svg
+                >
 
                 <div>Save</div>
               </label>
@@ -1967,7 +1977,8 @@
                     ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
                       d="M7.5 6.5h-4v-4"
                     /></g
-                  ></svg>
+                  ></svg
+                >
 
                 <div>Reset All</div>
               </label>
@@ -2019,8 +2030,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path></svg>
-
+                      ></path></svg
+                    >
                   {:else}
                     <svg
                       class="w-6 h-6"
@@ -2116,8 +2127,8 @@
                                           fill-rule="evenodd"
                                           d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                           clip-rule="evenodd"
-                                        ></path></svg>
-
+                                        ></path></svg
+                                      >
                                     </Button>
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content>
@@ -2202,9 +2213,9 @@
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      ></path></svg>
-</button
-                                  >
+                                      ></path></svg
+                                    >
+                                  </button>
                                   <button
                                     on:click={() =>
                                       stepSizeValue(
@@ -2222,9 +2233,9 @@
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      ></path></svg>
-</button
-                                  >
+                                      ></path></svg
+                                    >
+                                  </button>
                                 </div>
                               {/if}
                               <!--End Dropdown for Condition-->
@@ -2349,7 +2360,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg>
+                  /></svg
+                >
               </label>
             {/if}
           </div>
@@ -2358,7 +2370,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder="Search by symbol or name..."
+            placeholder="Search..."
             class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -2379,14 +2391,44 @@
             : ''}"
         >
           {#if isFullWidth}
-            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="4 14 10 14 10 20" /><polyline points="20 10 14 10 14 4" />
-              <line x1="14" y1="10" x2="21" y2="3" /><line x1="3" y1="21" x2="10" y2="14" />
+            <svg
+              class="w-4 h-4 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="4 14 10 14 10 20" /><polyline
+                points="20 10 14 10 14 4"
+              />
+              <line x1="14" y1="10" x2="21" y2="3" /><line
+                x1="3"
+                y1="21"
+                x2="10"
+                y2="14"
+              />
             </svg>
           {:else}
-            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 3 21 3 21 9" /><polyline points="9 21 3 21 3 15" />
-              <line x1="21" y1="3" x2="14" y2="10" /><line x1="3" y1="21" x2="10" y2="14" />
+            <svg
+              class="w-4 h-4 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15 3 21 3 21 9" /><polyline
+                points="9 21 3 21 3 15"
+              />
+              <line x1="21" y1="3" x2="14" y2="10" /><line
+                x1="3"
+                y1="21"
+                x2="10"
+                y2="14"
+              />
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
@@ -2400,18 +2442,31 @@
             title="Reset column order"
             class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
           >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11" stroke-linecap="round" stroke-linejoin="round" />
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         {/if}
       </div>
       <nav class="w-full flex flex-row items-center order-2 lg:order-0">
-        <ul class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap">
+        <ul
+          class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
+        >
           <li>
             <button
               on:click={() => (displayTableTab = "general")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab === 'general'
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
+              'general'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
@@ -2421,7 +2476,8 @@
           <li>
             <button
               on:click={() => (displayTableTab = "income")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab === 'income'
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
+              'income'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
@@ -2431,7 +2487,8 @@
           <li>
             <button
               on:click={() => (displayTableTab = "filters")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab === 'filters'
+              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
+              'filters'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
@@ -2448,7 +2505,8 @@
           <li>
             <button
               on:click={() => (displayTableTab = "greeks")}
-              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab === 'greeks'
+              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full border px-3 py-1 text-sm font-medium transition {displayTableTab ===
+              'greeks'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
@@ -2491,12 +2549,12 @@
                           `/options/contract-lookup?contract=${item?.optionSymbol}`}
                         rel="noopener noreferrer"
                         target="_blank"
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
+                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm"
                         >{item?.symbol}</a
                       >
                     </td>
                   {:else if column.key === "changesPercentage" || column.key === "moneynessPercent"}
-                    <td class="text-end text-sm sm:text-[0.95rem]">
+                    <td class="text-end text-sm">
                       {#if item[column.key] >= 0}
                         <span class="text-emerald-800 dark:text-emerald-400"
                           >+{item[column.key] >= 1000
@@ -2512,30 +2570,36 @@
                       {/if}
                     </td>
                   {:else if column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank" || column.key === "pctBeBid" || column.key === "returnVal" || column.key === "ptnlRtn" || column.key === "profitProb"}
-                    <td class="text-end text-sm sm:text-[0.95rem]">
-                      {item[column.key] != null ? item[column.key] + "%" : "n/a"}
+                    <td class="text-end text-sm">
+                      {item[column.key] != null
+                        ? item[column.key] + "%"
+                        : "n/a"}
                     </td>
                   {:else if column.key === "volume" || column.key === "oi" || column.key === "dte"}
-                    <td class="text-end text-sm sm:text-[0.95rem]">
-                      {item[column.key] != null ? item[column.key]?.toLocaleString("en-US") : "n/a"}
+                    <td class="text-end text-sm">
+                      {item[column.key] != null
+                        ? item[column.key]?.toLocaleString("en-US")
+                        : "n/a"}
                     </td>
-                  {:else if column.key === "stockPrice" || column.key === "strike" || column.key === "bid" || column.key === "ask" || column.key === "close" || column.key === "breakeven"}
-                    <td class="text-end text-sm sm:text-[0.95rem]">
-                      {item[column.key] != null ? item[column.key]?.toFixed(2) : "n/a"}
+                  {:else if column.key === "stockPrice" || column.key === "strike" || column.key === "bid" || column.key === "breakeven"}
+                    <td class="text-end text-sm">
+                      {item[column.key] != null
+                        ? item[column.key]?.toFixed(2)
+                        : "n/a"}
                     </td>
                   {:else if column.key === "expiration"}
-                    <td class="text-end text-sm sm:text-[0.95rem]">
+                    <td class="text-end text-sm">
                       {formatDate(item[column.key])} ({item.dte})
                     </td>
                   {:else if column.key === "delta" || column.key === "gamma" || column.key === "theta" || column.key === "vega"}
-                    <td class="text-end text-sm sm:text-[0.95rem]">
+                    <td class="text-end text-sm">
                       {item[column.key] ?? "n/a"}
                     </td>
                   {:else}
                     {@const rule = displayRules?.find(
                       (r) => r.rule === column.key,
                     )}
-                    <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
+                    <td class="whitespace-nowrap text-sm text-end">
                       {#if rule?.varType === "percentSign"}
                         <span
                           class={item[column.key] > 0
@@ -2570,8 +2634,18 @@
               disabled={currentPage === 1}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <svg class="h-5 w-5 inline-block shrink-0 rotate-90" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
               </svg>
               <span class="hidden sm:inline">Previous</span>
             </Button>
@@ -2588,9 +2662,21 @@
                   builders={[builder]}
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="truncate text-[0.85rem] sm:text-sm">{rowsPerPage} rows</span>
-                  <svg class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >{rowsPerPage} rows</span
+                  >
+                  <svg
+                    class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
                   </svg>
                 </Button>
               </DropdownMenu.Trigger>
@@ -2627,8 +2713,18 @@
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">Next</span>
-              <svg class="h-5 w-5 inline-block shrink-0 -rotate-90" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              <svg
+                class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
               </svg>
             </Button>
           </div>
@@ -2640,8 +2736,18 @@
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             Back to top
-            <svg class="h-5 w-5 inline-block shrink-0 rotate-180" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            <svg
+              class="h-5 w-5 inline-block shrink-0 rotate-180"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </button>
         </div>
@@ -2698,8 +2804,15 @@
             class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
             aria-label="Close modal"
           >
-            <svg class="w-6 h-6 sm:w-7 sm:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-              ><path fill="currentColor" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" /></svg>
+            <svg
+              class="w-6 h-6 sm:w-7 sm:h-7"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              ><path
+                fill="currentColor"
+                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+              /></svg
+            >
           </label>
         </div>
 
@@ -2709,19 +2822,49 @@
         >
           <label for="search" class="sr-only">Search</label>
           <div class="relative w-full max-w-sm">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-400 dark:text-zinc-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
               </svg>
             </div>
 
-            <div class="absolute inset-y-0 right-0 flex items-center pr-2 {searchTerm?.length > 0 ? '' : 'hidden'}">
+            <div
+              class="absolute inset-y-0 right-0 flex items-center pr-2 {searchTerm?.length >
+              0
+                ? ''
+                : 'hidden'}"
+            >
               <button
                 on:click={() => (searchTerm = "")}
                 class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 tabindex="0"
-                ><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px"
-                  ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                ><svg
+                  class="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  style="max-width:40px"
+                  ><path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path></svg
+                >
               </button>
             </div>
 
@@ -2738,12 +2881,16 @@
 
       <div class="">
         {#each searchTerm?.length !== 0 ? Object?.entries(filteredGroupedRules) : Object?.entries(groupedRules) as [category, rules]}
-          <h4 class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white">
+          <h4
+            class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
+          >
             {category}
           </h4>
           <div class="flex flex-wrap">
             {#each rules as row}
-              <div class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <div
+                class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
+              >
                 <input
                   on:click={() => changeRule(row?.rule)}
                   id={row?.rule}
@@ -2752,7 +2899,9 @@
                   class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
                 />
                 <div class="-mt-0.5">
-                  <label for={row?.rule} class="cursor-pointer text-[1rem]">{row?.label}</label>
+                  <label for={row?.rule} class="cursor-pointer text-[1rem]"
+                    >{row?.label}</label
+                  >
                 </div>
               </div>
             {/each}
@@ -2781,14 +2930,33 @@
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
-      <svg class="w-6 h-6 sm:w-7 sm:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-        ><path fill="currentColor" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" /></svg>
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg
+      >
     </label>
-    <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+    <h1
+      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
       New Screen
     </h1>
-    <form on:submit={createStrategy} method="POST" class="space-y-2 pt-5 pb-10 sm:pb-5">
-      <Input id="title" type="text" errors="" label="Screen name" required={true} />
+    <form
+      on:submit={createStrategy}
+      method="POST"
+      class="space-y-2 pt-5 pb-10 sm:pb-5"
+    >
+      <Input
+        id="title"
+        type="text"
+        errors=""
+        label="Screen name"
+        required={true}
+      />
       <button
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
@@ -2812,14 +2980,22 @@
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
-      <svg class="w-6 h-6 sm:w-7 sm:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-        ><path fill="currentColor" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" /></svg>
+      <svg
+        class="w-6 h-6 sm:w-7 sm:h-7"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        ><path
+          fill="currentColor"
+          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Screener
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      Are you sure you want to delete this screener? This action cannot be undone.
+      Are you sure you want to delete this screener? This action cannot be
+      undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
@@ -2834,8 +3010,26 @@
               transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30
               bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
         tabindex="0"
-        ><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"
-          ><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        ><svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4 mr-2"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          ><polyline points="3 6 5 6 21 6"></polyline><path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          ></path><line x1="10" y1="11" x2="10" y2="17"></line><line
+            x1="14"
+            y1="11"
+            x2="14"
+            y2="17"
+          ></line></svg
+        >
         Delete</label
       >
     </div>
@@ -2847,29 +3041,11 @@
 {#if LoginPopup}
   <LoginPopup {form} />
 {/if}
+
 <!--End Login Modal-->
 
 <style>
   .scroller {
     scrollbar-width: thin;
-  }
-
-  .scrollbar {
-    display: grid;
-    grid-gap: 90px;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    grid-auto-flow: column;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-  }
-
-  .scrollbar::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-
-  .scrollbar::-webkit-scrollbar-thumb {
-    background: transparent;
   }
 </style>
