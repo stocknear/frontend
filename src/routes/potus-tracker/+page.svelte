@@ -915,7 +915,7 @@
                             >
                               <img
                                 class="rounded-full border border-red-800 dark:border-red-400"
-                                src="/img/potus.png"
+                                src="/img/potus.webp"
                                 alt="Trump Image"
                                 loading="lazy"
                               />
@@ -1056,7 +1056,7 @@
                         >
                           <img
                             class="rounded-full border border-red-800 dark:border-red-400"
-                            src="/img/potus.png"
+                            src="/img/potus.webp"
                             alt="Trump Image"
                             loading="lazy"
                           />
@@ -1349,7 +1349,7 @@
       <span class="w-10 h-10 rounded-full shrink-0">
         <img
           class="rounded-full border border-red-800 dark:border-red-400"
-          src="/img/potus.png"
+          src="/img/potus.webp"
           alt="Trump Image"
           loading="lazy"
         />
@@ -1436,7 +1436,7 @@
       >
         <img
           class="rounded-full border border-red-800 dark:border-red-400"
-          src="/img/potus.png"
+          src="/img/potus.webp"
           alt="Trump Image"
           loading="lazy"
         />
