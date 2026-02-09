@@ -189,6 +189,40 @@
       category: "Greeks",
       varType: "decimal",
     },
+    breakeven: {
+      label: "BE Bid",
+      step: ["500", "200", "100", "50", "20", "10"],
+      defaultCondition: "over",
+      defaultValue: "any",
+    },
+    pctBeBid: {
+      label: "% BE",
+      step: ["-1%", "-2%", "-3%", "-5%", "-10%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+    },
+    returnVal: {
+      label: "Return",
+      step: ["20%", "10%", "5%", "3%", "1%", "0.5%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+    },
+    ptnlRtn: {
+      label: "Potential Return",
+      step: ["20%", "15%", "10%", "5%", "3%", "1%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+    },
+    profitProb: {
+      label: "Profit Prob",
+      step: ["90%", "80%", "70%", "60%", "50%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+    },
   };
 
   let filteredData = [];
@@ -1346,7 +1380,6 @@
   // Initial columns and sort orders for the "general" tab
   const generalColumns = [
     { key: "symbol", label: "Symbol", align: "left" },
-    { key: "name", label: "Name", align: "left" },
     { key: "stockPrice", label: "Price", align: "right" },
     { key: "changesPercentage", label: "% Change", align: "right" },
     { key: "strike", label: "Strike", align: "right" },
@@ -1354,6 +1387,8 @@
     { key: "bid", label: "Bid", align: "right" },
     { key: "premiumYield", label: "Prem Yield", align: "right" },
     { key: "annualizedReturn", label: "Ann. Return", align: "right" },
+    { key: "returnVal", label: "Return", align: "right" },
+    { key: "profitProb", label: "Profit Prob", align: "right" },
     { key: "moneynessPercent", label: "Moneyness", align: "right" },
     { key: "volume", label: "Vol", align: "right" },
     { key: "oi", label: "OI", align: "right" },
@@ -1361,7 +1396,6 @@
 
   const generalSortOrders = {
     symbol: { order: "none", type: "string" },
-    name: { order: "none", type: "string" },
     stockPrice: { order: "none", type: "number" },
     changesPercentage: { order: "none", type: "number" },
     strike: { order: "none", type: "number" },
@@ -1369,6 +1403,8 @@
     bid: { order: "none", type: "number" },
     premiumYield: { order: "none", type: "number" },
     annualizedReturn: { order: "none", type: "number" },
+    returnVal: { order: "none", type: "number" },
+    profitProb: { order: "none", type: "number" },
     moneynessPercent: { order: "none", type: "number" },
     volume: { order: "none", type: "number" },
     oi: { order: "none", type: "number" },
@@ -1389,10 +1425,14 @@
           { key: "bid", label: "Bid", align: "right" },
           { key: "premiumYield", label: "Prem Yield", align: "right" },
           { key: "annualizedReturn", label: "Ann. Return", align: "right" },
+          { key: "returnVal", label: "Return", align: "right" },
+          { key: "ptnlRtn", label: "Ptnl Rtn", align: "right" },
           { key: "ifCalledReturn", label: "If Called Return", align: "right" },
           { key: "ifCalledAnnualized", label: "If Called Ann.", align: "right" },
           { key: "downsideProtection", label: "Downside Prot.", align: "right" },
-          { key: "breakeven", label: "Breakeven", align: "right" },
+          { key: "breakeven", label: "BE Bid", align: "right" },
+          { key: "pctBeBid", label: "% BE", align: "right" },
+          { key: "profitProb", label: "Profit Prob", align: "right" },
         ],
         greeks: [
           { key: "symbol", label: "Symbol", align: "left" },
@@ -1420,10 +1460,14 @@
           bid: { order: "none", type: "number" },
           premiumYield: { order: "none", type: "number" },
           annualizedReturn: { order: "none", type: "number" },
+          returnVal: { order: "none", type: "number" },
+          ptnlRtn: { order: "none", type: "number" },
           ifCalledReturn: { order: "none", type: "number" },
           ifCalledAnnualized: { order: "none", type: "number" },
           downsideProtection: { order: "none", type: "number" },
           breakeven: { order: "none", type: "number" },
+          pctBeBid: { order: "none", type: "number" },
+          profitProb: { order: "none", type: "number" },
         },
         greeks: {
           symbol: { order: "none", type: "string" },
@@ -2487,7 +2531,7 @@
                         >
                       {/if}
                     </td>
-                  {:else if column.key === "premiumYield" || column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank"}
+                  {:else if column.key === "premiumYield" || column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank" || column.key === "pctBeBid" || column.key === "returnVal" || column.key === "ptnlRtn" || column.key === "profitProb"}
                     <td class="text-end text-sm sm:text-[0.95rem]">
                       {item[column.key] != null ? item[column.key] + "%" : "n/a"}
                     </td>
