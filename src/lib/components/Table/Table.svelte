@@ -1632,11 +1632,11 @@
 
     if (existingIndex >= 0) {
       // Remove the item (but not if it's a default rule)
-      indicatorsTabRules.splice(existingIndex, 1);
+      indicatorsTabRules = indicatorsTabRules.filter((_, i) => i !== existingIndex);
       indicatorsTabCheckedItems.delete(itemName);
     } else {
       // Add the item
-      indicatorsTabRules.push(item);
+      indicatorsTabRules = [...indicatorsTabRules, item];
       indicatorsTabCheckedItems.add(itemName);
     }
 
@@ -2745,11 +2745,11 @@
           : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
       >
         {common_tab_indicators()}
-        {#if indicatorsTabRules && indicatorsTabRules.length > defaultList.length}
+        {#if indicatorsTabRules && indicatorsTabRules.length > INDICATOR_DEFAULTS.length}
           <div
             class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
           >
-            {indicatorsTabRules.length - defaultList.length}
+            {indicatorsTabRules.length - INDICATOR_DEFAULTS.length}
           </div>
         {/if}
       </button>
