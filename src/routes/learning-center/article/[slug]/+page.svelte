@@ -34,7 +34,7 @@
 
   // Build back URL based on article category
   $: backUrl =
-    article?.category && article.category !== "all"
+    article?.category && article.category !== "all" && article.category !== "Daily"
       ? `/learning-center?category=${encodeURIComponent(article.category)}`
       : "/learning-center";
 
