@@ -1359,8 +1359,7 @@
   const initialFeed = data?.getOptionsFlowFeed?.data ?? [];
   const totalOrders = data?.getOptionsFlowFeed?.totalOrders ?? 0;
   const dateString = initialFeed?.at(0)?.date;
-  const nyseDate = new Date(`${dateString}T12:00:00Z`);
-  const formattedNyseDate = nyseDate.toISOString().split("T")[0];
+  const formattedNyseDate = dateString ?? "";
 
   let rawData = prepareInitialFlowData(initialFeed);
 
