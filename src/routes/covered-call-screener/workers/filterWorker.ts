@@ -135,7 +135,7 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
   }
 
   // Categorical checks
-  const categoricalFields = ["assetType", "earningsTime", "payoutFrequency"];
+  const categoricalFields = ["assetType", "earningsTime", "payoutFrequency", "marketCapGroup"];
   if (categoricalFields.includes(ruleName) || categoricalFields.includes(rule.name)) {
     return (item: any) => {
       const itemValue = item[rule.name];
@@ -197,12 +197,30 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
   };
 }
 
+// Derive marketCapGroup label from marketCap value
+function getMarketCapGroup(marketCap: number): string {
+  if (marketCap >= 200_000_000_000) return "Mega-Cap (200B+)";
+  if (marketCap >= 10_000_000_000) return "Large-Cap (10-200B)";
+  if (marketCap >= 2_000_000_000) return "Mid-Cap (2-10B)";
+  if (marketCap >= 300_000_000) return "Small-Cap (300M-2B)";
+  if (marketCap >= 50_000_000) return "Micro-Cap (Under 300M)";
+  return "Nano-Cap (Under 50M)";
+}
+
 async function filterStockScreenerData(
   stockScreenerData: any[],
   ruleOfList: any[]
 ) {
   if (!stockScreenerData?.length || !ruleOfList?.length) {
     return stockScreenerData || [];
+  }
+
+  // Enrich items with marketCapGroup if that rule is active
+  const hasMarketCapGroup = ruleOfList.some(r => r.name === 'marketCapGroup');
+  if (hasMarketCapGroup) {
+    for (const item of stockScreenerData) {
+      item.marketCapGroup = getMarketCapGroup(item.marketCap ?? 0);
+    }
   }
 
   const compiledRules = ruleOfList.map((rule) => {

@@ -58,7 +58,7 @@ const getEarningsDataMap = async () => {
   const response = await fetch("/api/stock-screener-data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ruleOfList: ["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"] }),
+    body: JSON.stringify({ ruleOfList: ["marketCap", "earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"] }),
   });
 
   const data = await response.json();
@@ -69,6 +69,7 @@ const getEarningsDataMap = async () => {
     for (const item of data) {
       if (item?.symbol) {
         map.set(item.symbol, {
+          marketCap: item.marketCap ?? null,
           earningsDate: item.earningsDate ?? null,
           earningsTime: item.earningsTime ?? null,
           earningsRevenueEst: item.earningsRevenueEst ?? null,
@@ -91,7 +92,7 @@ const getEarningsDataMap = async () => {
 };
 
 // Fields that are legitimately nullable (not every stock has an upcoming earnings date)
-const nullableFields = new Set(["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"]);
+const nullableFields = new Set(["marketCap", "earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"]);
 
 // Optimized validation function
 const isValidValue = (value) => {
@@ -138,6 +139,7 @@ onmessage = async (event) => {
       const earnings = item?.symbol && earningsMap.has(item.symbol)
         ? earningsMap.get(item.symbol)
         : null;
+      item.marketCap = earnings?.marketCap ?? null;
       item.earningsDate = earnings?.earningsDate ?? null;
       item.earningsTime = earnings?.earningsTime ?? null;
       item.earningsRevenueEst = earnings?.earningsRevenueEst ?? null;

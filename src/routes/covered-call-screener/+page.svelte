@@ -46,7 +46,7 @@
   let displayRules = [];
   let inputValue = "";
 
-  const checkedRules = ["assetType", "earningsTime", "earningsDate", "payoutFrequency", "exDividendDate"];
+  const checkedRules = ["assetType", "marketCapGroup", "earningsTime", "earningsDate", "payoutFrequency", "exDividendDate"];
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
@@ -123,6 +123,27 @@
       step: ["Stock", "ETF"],
       defaultCondition: "",
       defaultValue: "any",
+    },
+    marketCap: {
+      label: "Market Cap",
+      step: ["100B", "50B", "10B", "1B", "300M", "100M", "10M"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Company Info",
+    },
+    marketCapGroup: {
+      label: "Market Cap Group",
+      step: [
+        "Mega-Cap (200B+)",
+        "Large-Cap (10-200B)",
+        "Mid-Cap (2-10B)",
+        "Small-Cap (300M-2B)",
+        "Micro-Cap (Under 300M)",
+        "Nano-Cap (Under 50M)",
+      ],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Company Info",
     },
     iv: {
       label: "Implied Volatility",
@@ -826,7 +847,11 @@
 
     switch (ruleName) {
       case "assetType":
+      case "marketCapGroup":
+      case "earningsTime":
       case "earningsDate":
+      case "payoutFrequency":
+      case "exDividendDate":
         newRule = {
           name: ruleName,
           value: Array.isArray(valueMappings[ruleName])
@@ -912,12 +937,10 @@
         };
         ruleOfList = [...ruleOfList];
 
-        if (checkedRules.includes(state)) {
-          checkedItems = new Map(
-            ruleOfList
-              ?.filter((rule) => checkedRules.includes(rule.name))
-              ?.map((rule) => [rule.name, new Set(rule.value)]),
-          );
+        // Clear checkedItems so checkboxes reflect the reset
+        if (checkedItems.has(state)) {
+          checkedItems.delete(state);
+          checkedItems = checkedItems;
         }
       } else {
         ruleOfList.splice(index, 1);
@@ -1605,7 +1628,7 @@
     oi: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = ["earningsDate", "earningsTime", "exDividendDate", "payoutFrequency"];
+  const stringTypeRules = ["earningsDate", "earningsTime", "exDividendDate", "payoutFrequency", "marketCapGroup"];
 
   const getType = (key) =>
     stringTypeRules.includes(key) ? "string" : "number";
@@ -2263,6 +2286,10 @@
                               {Array.isArray(valueMappings[row?.rule])
                                 ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
                                 : "Any"}
+                            {:else if row?.rule === "marketCapGroup"}
+                              {Array.isArray(valueMappings[row?.rule])
+                                ? valueMappings[row?.rule]?.map(v => v?.replace(/\s*\(.*?\)/, ""))?.join(", ")
+                                : String(valueMappings[row?.rule])?.replace(/\s*\(.*?\)/, "")}
                             {:else}
                               {ruleCondition[row?.rule]
                                 ?.replace("under", "Under")
@@ -2813,11 +2840,12 @@
                       (r) => r.rule === column.key,
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
-                      {#if ["earningsTime", "payoutFrequency"]?.includes(column.key)}
+                      {#if ["earningsTime", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
                         {item[column.key]
                           ? item[column.key]
                               ?.replace("After Market Close", "After Close")
                               ?.replace("Before Market Open", "Before Open")
+                              ?.replace(/\s*\(.*?\)/, "")
                           : "n/a"}
                       {:else if rule?.varType === "date"}
                         {item[column.key]
