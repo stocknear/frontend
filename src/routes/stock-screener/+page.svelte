@@ -3957,6 +3957,10 @@ const handleKeyDown = (event) => {
                               {Array.isArray(valueMappings[row?.rule])
                                 ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
                                 : "Any"}
+                            {:else if row?.rule === "marketCapGroup"}
+                              {Array.isArray(valueMappings[row?.rule])
+                                ? valueMappings[row?.rule]?.map(v => v?.replace(/\s*\(.*?\)/, ""))?.join(", ")
+                                : String(valueMappings[row?.rule])?.replace(/\s*\(.*?\)/, "")}
                             {:else}
                               {ruleCondition[row?.rule]
                                 ?.replace("under", "Under")
@@ -4623,7 +4627,8 @@ const handleKeyDown = (event) => {
                         {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
                           {item[column.key]
                             ?.replace("After Market Close", "After Close")
-                            ?.replace("Before Market Open", "Before Open")}
+                            ?.replace("Before Market Open", "Before Open")
+                            ?.replace(/\s*\(.*?\)/, "")}
                         {:else if row?.varType && row?.varType === "date"}
                           {new Date(item[column.key]).toLocaleDateString(
                             "en-US",
