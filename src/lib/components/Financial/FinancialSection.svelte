@@ -4,6 +4,7 @@
     stockTicker,
     coolMode,
     selectedTimePeriod,
+    financialHistoryRange,
   } from "$lib/store";
   import {
     removeCompanyStrings,
@@ -75,7 +76,6 @@
   let lockedPeriodRange = "";
   let lockedCount = 0;
   let tableFields = fields;
-  let selectedHistoryRange: HistoryRange = "All";
 
   // Modal state for expanded chart view
   let isModalOpen = false;
@@ -359,7 +359,7 @@
 
       const filteredVisible = filterByHistoryRange(
         visible,
-        selectedHistoryRange,
+        $financialHistoryRange,
         $selectedTimePeriod || "annual",
       );
       financialData = applyDisplayOrder(filteredVisible, _switchDateDep);
@@ -447,7 +447,7 @@
                           builders={[builder]}
                           class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                         >
-                          <span class="text-sm">{selectedHistoryRange}</span>
+                          <span class="text-sm">{$financialHistoryRange}</span>
                           <svg
                             class="-mr-1 ml-1 h-4 w-4"
                             viewBox="0 0 20 20"
@@ -472,8 +472,8 @@
                           {#each HISTORY_RANGE_OPTIONS as option}
                             <DropdownMenu.Item
                               on:click={() =>
-                                (selectedHistoryRange = option.value)}
-                              class="{selectedHistoryRange === option.value
+                                ($financialHistoryRange = option.value)}
+                              class="{$financialHistoryRange === option.value
                                 ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
                                 : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
                             >

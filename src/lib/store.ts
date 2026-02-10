@@ -70,6 +70,9 @@ export const showCookieConsent = writable(<boolean>false);
 export const showCookiePreferences = writable(<boolean>false);
 export const shouldUpdatePriceChart = writable(<boolean>false);
 export const selectedTimePeriod =  writable(<string>"");
+export const financialHistoryRange = writable<
+  "All" | "10Y" | "5Y" | "3Y" | "1Y"
+>("All");
 
 // Chart Mode / Table Mode preference with localStorage persistence (30 days)
 // Default is false (table mode), true = chart mode

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { stockTicker } from "$lib/store";
+  import { stockTicker, financialHistoryRange } from "$lib/store";
   import { abbreviateNumber, calculatePeriodCAGRs, formatCAGRValue, getCAGRColorClass, sortStatementsChronologicallyForCAGR } from "$lib/utils";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { mode } from "mode-watcher";
@@ -30,18 +30,39 @@
 
   // State
   let chartMode: "bar" | "line" = "bar";
-  let selectedRange: string = "All";
+  let selectedRange: "All" | "10Y" | "5Y" | "3Y" | "1Y" = "All";
   let selectedOverlay: string = "";
   let config: any = null;
 
   // Time range options
-  const RANGE_OPTIONS = [
+  const RANGE_OPTIONS: Array<{
+    value: "All" | "10Y" | "5Y" | "3Y" | "1Y";
+    label: string;
+  }> = [
     { value: "All", label: "All" },
     { value: "10Y", label: "10Y" },
     { value: "5Y", label: "5Y" },
     { value: "3Y", label: "3Y" },
     { value: "1Y", label: "1Y" },
   ];
+
+  const normalizeRange = (
+    value: string,
+  ): "All" | "10Y" | "5Y" | "3Y" | "1Y" => {
+    const valid = new Set(["All", "10Y", "5Y", "3Y", "1Y"]);
+    return valid.has(value) ? (value as "All" | "10Y" | "5Y" | "3Y" | "1Y") : "All";
+  };
+
+  // Keep modal range aligned with shared page-level range.
+  $: {
+    const sharedRange = normalizeRange($financialHistoryRange);
+    if (selectedRange !== sharedRange) {
+      selectedRange = sharedRange;
+      if (metricKey && data?.length > 0 && $mode !== undefined) {
+        config = buildChartOptions();
+      }
+    }
+  }
 
   // Get overlay configuration (disabled when overview multi-series is active)
   $: overlayConfig = getMetricOverlayConfig(metricKey);
@@ -397,8 +418,10 @@
     config = buildChartOptions();
   }
 
-  function handleRangeSelect(range: string) {
-    selectedRange = range;
+  function handleRangeSelect(range: "All" | "10Y" | "5Y" | "3Y" | "1Y") {
+    const nextRange = normalizeRange(range);
+    selectedRange = nextRange;
+    $financialHistoryRange = nextRange;
     config = buildChartOptions();
   }
 
