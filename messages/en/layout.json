@@ -50,5 +50,8 @@
   "layout_price_alert": "Price Alert",
   "layout_logout": "Logout",
   "layout_login": "Login",
-  "layout_logo_alt": "Stocknear Logo"
+  "layout_logo_alt": "Stocknear Logo",
+  "layout_income_strategy": "Income Strategy",
+  "layout_covered_call_screener": "Covered Call Screener",
+  "layout_backtesting_strategy": "Backtesting Strategy"
 }

@@ -112,6 +112,9 @@
     layout_unusual_order_flow,
     layout_watchlist,
     layout_start_new_chat,
+    layout_income_strategy,
+    layout_covered_call_screener,
+    layout_backtesting_strategy,
   } from "$lib/paraglide/messages.js";
   //import Simulation from "lucide-svelte/icons/radical";
   //import Backtesting from "lucide-svelte/icons/blocks";
@@ -1108,7 +1111,7 @@
                       <div class="ml-4 mt-5">
                         <span
                           class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
-                          >Income Strategy</span
+                          >{layout_income_strategy()}</span
                         >
                       </div>
                       <Sheet.Close asChild let:builder>
@@ -1121,7 +1124,7 @@
                             <a
                               href="/covered-call-screener"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Covered Call Screener</a
+                              >{layout_covered_call_screener()}</a
                             >
                           </Button>
                         </div>
@@ -1156,7 +1159,7 @@
                             <a
                               href="/backtesting"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Backtesting Strategy</a
+                              >{layout_backtesting_strategy()}</a
                             >
                           </Button>
                         </div>
@@ -1885,13 +1888,13 @@
 
                             <span
                               class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 ml-4 mt-6"
-                              >Income Strategy</span
+                              >{layout_income_strategy()}</span
                             >
 
                             <a
                               href="/covered-call-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Covered Call Screener</a
+                              >{layout_covered_call_screener()}</a
                             >
                           </div>
                         </Accordion.Content>

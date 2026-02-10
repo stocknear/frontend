@@ -57,5 +57,66 @@
   "learning_center_editor_status_published": "Published",
   "learning_center_editor_preview": "Preview",
   "learning_center_editor_edit": "Edit",
-  "learning_center_editor_back": "Back to list"
+  "learning_center_editor_back": "Back to list",
+
+  "learning_center_subtitle": "Master the stock market, one concept at a time",
+
+  "learning_center_category_all": "All",
+  "learning_center_category_features": "Features",
+  "learning_center_category_fundamentals": "Fundamentals",
+  "learning_center_category_terms": "Terms",
+
+  "learning_center_category_desc_features": "How to use Stocknear",
+  "learning_center_category_desc_fundamentals": "Start here if you're new to investing",
+  "learning_center_category_desc_terms": "Financial terms and definitions",
+
+  "learning_center_tag_all": "All Tags",
+  "learning_center_tag_stocks": "Stocks",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Options",
+  "learning_center_tag_sentiment": "Sentiment",
+  "learning_center_tag_prefix": "Tag |",
+
+  "learning_center_view_all": "View all",
+  "learning_center_view_all_count": "View all {count}",
+  "learning_center_min_read": "{time} min read",
+
+  "learning_center_no_articles_tag": "No articles found with the \"{tag}\" tag.",
+  "learning_center_clear_tag_filter": "Clear tag filter",
+
+  "learning_center_page_of": "Page {currentPage} of {totalPages}",
+  "learning_center_items_count": "{count} Items",
+
+  "learning_center_back_to_top": "Back to Top",
+  "learning_center_no_terms_yet": "No terms available yet.",
+  "learning_center_no_articles_category": "No articles in this category yet.",
+
+  "learning_center_table_of_contents": "Table of Contents",
+  "learning_center_share_this_post": "Share This Post",
+  "learning_center_back_to_all_posts": "Back to all posts",
+  "learning_center_edit": "Edit",
+
+  "learning_center_quick_start": "Quick Start",
+  "learning_center_sidebar_top_gainers": "Top Gainers",
+  "learning_center_sidebar_top_losers": "Top Losers",
+  "learning_center_sidebar_analysts": "Analysts",
+  "learning_center_sidebar_stock_screener": "Stock Screener",
+  "learning_center_sidebar_options_flow": "Options Flow",
+  "learning_center_sidebar_earnings_calendar": "Earnings Calendar",
+  "learning_center_sidebar_dividends_calendar": "Dividends Calendar",
+  "learning_center_sidebar_ipo_calendar": "IPO Calendar",
+
+  "learning_center_related_articles": "Related Articles",
+  "learning_center_view_all_articles": "View all articles",
+  "learning_center_share_this_article": "Share this article",
+
+  "learning_center_link_copied": "Link copied to clipboard",
+  "learning_center_link_copy_failed": "Failed to copy link",
+
+  "learning_center_sign_in_to_read": "Sign in to read the full briefing.",
+  "learning_center_briefing_description": "The Daily Market Briefing is available to Stocknear members. Create a free account or sign in to unlock the full analysis.",
+  "learning_center_create_free_account": "Create free account",
+  "learning_center_sign_in": "Sign in",
+
+  "learning_center_click_to_close": "Click anywhere or press ESC to close"
 }

@@ -12,6 +12,32 @@
   import { toast } from "svelte-sonner";
   import { browser } from "$app/environment";
   import { onMount, onDestroy } from "svelte";
+  import {
+    learning_center_table_of_contents,
+    learning_center_share_this_post,
+    learning_center_back_to_all_posts,
+    learning_center_min_read,
+    learning_center_edit,
+    learning_center_quick_start,
+    learning_center_sidebar_top_gainers,
+    learning_center_sidebar_top_losers,
+    learning_center_sidebar_analysts,
+    learning_center_sidebar_stock_screener,
+    learning_center_sidebar_options_flow,
+    learning_center_sidebar_earnings_calendar,
+    learning_center_sidebar_dividends_calendar,
+    learning_center_sidebar_ipo_calendar,
+    learning_center_related_articles,
+    learning_center_view_all_articles,
+    learning_center_share_this_article,
+    learning_center_link_copied,
+    learning_center_link_copy_failed,
+    learning_center_sign_in_to_read,
+    learning_center_briefing_description,
+    learning_center_create_free_account,
+    learning_center_sign_in,
+    learning_center_click_to_close,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -397,13 +423,13 @@
     try {
       await navigator.clipboard.writeText(url);
       linkCopied = true;
-      toast.success("Link copied to clipboard");
+      toast.success(learning_center_link_copied());
       setTimeout(() => {
         linkCopied = false;
         showShareDropdown = false;
       }, 1500);
     } catch (err) {
-      toast.error("Failed to copy link");
+      toast.error(learning_center_link_copy_failed());
     }
   }
 
@@ -548,7 +574,7 @@
                 <h4
                   class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4"
                 >
-                  Table of Contents
+                  {learning_center_table_of_contents()}
                 </h4>
                 <ul
                   class="space-y-2.5 text-sm border-l border-gray-200 dark:border-zinc-800 pl-4"
@@ -576,7 +602,7 @@
               <h4
                 class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4"
               >
-                Share This Post
+                {learning_center_share_this_post()}
               </h4>
               <div class="flex items-center gap-2">
                 <!-- Twitter/X -->
@@ -648,7 +674,7 @@
           class="inline-flex items-center gap-2 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition mb-6"
         >
           <ArrowLeft class="w-4 h-4" />
-          <span class="text-sm font-medium">Back to all posts</span>
+          <span class="text-sm font-medium">{learning_center_back_to_all_posts()}</span>
         </a>
 
         <!-- Cover Image -->
@@ -718,7 +744,7 @@
             <span class="text-gray-300 dark:text-zinc-700">|</span>
             <div class="flex items-center gap-1.5">
               <Clock class="w-4 h-4" />
-              <span>{readingTime} min read</span>
+              <span>{learning_center_min_read({ time: String(readingTime) })}</span>
             </div>
             {#if isAdmin && article?.id}
               <span class="text-gray-300 dark:text-zinc-700">|</span>
@@ -727,7 +753,7 @@
                 class="flex items-center gap-1.5 text-violet-600 dark:text-violet-400 hover:underline"
               >
                 <Pencil class="w-4 h-4" />
-                <span>Edit</span>
+                <span>{learning_center_edit()}</span>
               </a>
             {/if}
           </div>
@@ -750,23 +776,23 @@
           <!-- CTA Section -->
           <div class="text-center pt-8 pb-4">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Sign in to read the full briefing.
+              {learning_center_sign_in_to_read()}
             </h2>
             <p class="text-gray-500 dark:text-zinc-400 mb-8 max-w-md mx-auto">
-              The Daily Market Briefing is available to Stocknear members. Create a free account or sign in to unlock the full analysis.
+              {learning_center_briefing_description()}
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href="/register"
                 class="w-full sm:w-auto px-8 py-3 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm transition"
               >
-                Create free account
+                {learning_center_create_free_account()}
               </a>
               <a
                 href="/login"
                 class="w-full sm:w-auto px-8 py-3 rounded-full border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-violet-400 dark:hover:border-violet-500 font-semibold text-sm transition"
               >
-                Sign in
+                {learning_center_sign_in()}
               </a>
             </div>
           </div>
@@ -785,7 +811,7 @@
         <div class="border-t border-gray-200 dark:border-zinc-800 mt-12 pt-8">
           <div class="flex flex-col items-center gap-4">
             <span class="text-sm font-medium text-gray-500 dark:text-zinc-400"
-              >Share this article</span
+              >{learning_center_share_this_article()}</span
             >
             <div class="flex items-center gap-3">
               <!-- Twitter/X -->
@@ -870,7 +896,7 @@
             <h4
               class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4"
             >
-              Quick Start
+              {learning_center_quick_start()}
             </h4>
             <ul class="space-y-2.5 text-sm">
               <li>
@@ -878,7 +904,7 @@
                   href="/market-mover/gainers"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Top Gainers
+                  {learning_center_sidebar_top_gainers()}
                 </a>
               </li>
               <li>
@@ -886,7 +912,7 @@
                   href="/market-mover/losers"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Top Losers
+                  {learning_center_sidebar_top_losers()}
                 </a>
               </li>
               <li>
@@ -894,7 +920,7 @@
                   href="/analysts"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Analysts
+                  {learning_center_sidebar_analysts()}
                 </a>
               </li>
               <li>
@@ -902,7 +928,7 @@
                   href="/stock-screener"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Stock Screener
+                  {learning_center_sidebar_stock_screener()}
                 </a>
               </li>
               <li>
@@ -910,7 +936,7 @@
                   href="/options-flow"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Options Flow
+                  {learning_center_sidebar_options_flow()}
                 </a>
               </li>
               <li>
@@ -918,7 +944,7 @@
                   href="/earnings-calendar"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Earnings Calendar
+                  {learning_center_sidebar_earnings_calendar()}
                 </a>
               </li>
               <li>
@@ -926,7 +952,7 @@
                   href="/dividends-calendar"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  Dividends Calendar
+                  {learning_center_sidebar_dividends_calendar()}
                 </a>
               </li>
               <li>
@@ -934,7 +960,7 @@
                   href="/ipos"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
-                  IPO Calendar
+                  {learning_center_sidebar_ipo_calendar()}
                 </a>
               </li>
             </ul>
@@ -951,7 +977,7 @@
         <h2
           class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8"
         >
-          Related Articles
+          {learning_center_related_articles()}
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1013,7 +1039,7 @@
                   </div>
                   <div class="flex items-center gap-1">
                     <Clock class="w-3.5 h-3.5" />
-                    <span>{related?.time || 5} min</span>
+                    <span>{learning_center_min_read({ time: String(related?.time || 5) })}</span>
                   </div>
                 </div>
               </div>
@@ -1027,7 +1053,7 @@
             href="/learning-center"
             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-300 dark:hover:border-violet-700 transition"
           >
-            View all articles
+            {learning_center_view_all_articles()}
             <svg
               class="w-4 h-4"
               fill="none"
@@ -1086,7 +1112,7 @@
     <p
       class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm"
     >
-      Click anywhere or press ESC to close
+      {learning_center_click_to_close()}
     </p>
   </div>
 {/if}

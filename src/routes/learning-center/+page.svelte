@@ -12,6 +12,33 @@
     learning_center_structured_articles_description,
     learning_center_structured_description,
     learning_center_structured_name,
+    learning_center_title,
+    learning_center_subtitle,
+    learning_center_category_all,
+    learning_center_category_features,
+    learning_center_category_fundamentals,
+    learning_center_category_terms,
+    learning_center_category_desc_features,
+    learning_center_category_desc_fundamentals,
+    learning_center_category_desc_terms,
+    learning_center_tag_all,
+    learning_center_tag_stocks,
+    learning_center_tag_etf,
+    learning_center_tag_options,
+    learning_center_tag_sentiment,
+    learning_center_tag_prefix,
+    learning_center_view_all,
+    learning_center_view_all_count,
+    learning_center_min_read,
+    learning_center_no_articles_tag,
+    learning_center_clear_tag_filter,
+    learning_center_previous,
+    learning_center_next,
+    learning_center_page_of,
+    learning_center_items_count,
+    learning_center_back_to_top,
+    learning_center_no_terms_yet,
+    learning_center_no_articles_category,
   } from "$lib/paraglide/messages";
   import Calendar from "lucide-svelte/icons/calendar";
   import Clock from "lucide-svelte/icons/clock";
@@ -32,33 +59,33 @@
 
   // Available tags for filtering
   const availableTags = [
-    { id: "all", name: "All Tags" },
-    { id: "Stocks", name: "Stocks" },
-    { id: "ETF", name: "ETF" },
-    { id: "Options", name: "Options" },
-    { id: "Sentiment", name: "Sentiment" },
+    { id: "all", name: learning_center_tag_all() },
+    { id: "Stocks", name: learning_center_tag_stocks() },
+    { id: "ETF", name: learning_center_tag_etf() },
+    { id: "Options", name: learning_center_tag_options() },
+    { id: "Sentiment", name: learning_center_tag_sentiment() },
   ];
 
   // Category metadata
   const categories = [
     {
       id: "all",
-      name: "All",
+      name: learning_center_category_all(),
     },
     {
       id: "Features",
-      name: "Features",
-      description: "How to use Stocknear",
+      name: learning_center_category_features(),
+      description: learning_center_category_desc_features(),
     },
     {
       id: "Fundamentals",
-      name: "Fundamentals",
-      description: "Start here if you're new to investing",
+      name: learning_center_category_fundamentals(),
+      description: learning_center_category_desc_fundamentals(),
     },
     {
       id: "Terms",
-      name: "Terms",
-      description: "Financial terms and definitions",
+      name: learning_center_category_terms(),
+      description: learning_center_category_desc_terms(),
     },
   ];
 
@@ -190,10 +217,10 @@
     <h1
       class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-1"
     >
-      Learning Center
+      {learning_center_title()}
     </h1>
     <p class="text-gray-500 dark:text-zinc-400">
-      Master the stock market, one concept at a time
+      {learning_center_subtitle()}
     </p>
   </div>
 
@@ -226,7 +253,7 @@
           builders={[builder]}
           class="w-full sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
         >
-          <span class="text-sm">Tag | {selectedTagName}</span>
+          <span class="text-sm">{learning_center_tag_prefix()} | {selectedTagName}</span>
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"
             viewBox="0 0 20 20"
@@ -297,10 +324,10 @@
         <div class="flex items-baseline justify-between mb-4">
           <div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Features
+              {learning_center_category_features()}
             </h2>
             <p class="text-sm text-gray-500 dark:text-zinc-400">
-              How to use Stocknear
+              {learning_center_category_desc_features()}
             </p>
           </div>
           {#if sections.Features.totalItems > 3}
@@ -309,7 +336,7 @@
               on:click={() => setCategory("Features")}
               class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
             >
-              View all
+              {learning_center_view_all()}
             </button>
           {/if}
         </div>
@@ -345,7 +372,7 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{item?.time || 5} min read</span>
+                  <span>{learning_center_min_read({ time: String(item?.time || 5) })}</span>
                 </div>
               </div>
             </a>
@@ -360,10 +387,10 @@
         <div class="flex items-baseline justify-between mb-4">
           <div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Fundamentals
+              {learning_center_category_fundamentals()}
             </h2>
             <p class="text-sm text-gray-500 dark:text-zinc-400">
-              Start here if you're new to investing
+              {learning_center_category_desc_fundamentals()}
             </p>
           </div>
           {#if sections.Fundamentals.totalItems > 3}
@@ -372,7 +399,7 @@
               on:click={() => setCategory("Fundamentals")}
               class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
             >
-              View all
+              {learning_center_view_all()}
             </button>
           {/if}
         </div>
@@ -408,7 +435,7 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{item?.time || 5} min read</span>
+                  <span>{learning_center_min_read({ time: String(item?.time || 5) })}</span>
                 </div>
               </div>
             </a>
@@ -423,10 +450,10 @@
         <div class="flex items-baseline justify-between mb-4">
           <div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Terms
+              {learning_center_category_terms()}
             </h2>
             <p class="text-sm text-gray-500 dark:text-zinc-400">
-              Financial terms and definitions
+              {learning_center_category_desc_terms()}
             </p>
           </div>
           {#if sections.Terms.totalItems > 6}
@@ -435,7 +462,7 @@
               on:click={() => setCategory("Terms")}
               class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
             >
-              View all {sections.Terms.totalItems}
+              {learning_center_view_all_count({ count: String(sections.Terms.totalItems) })}
             </button>
           {/if}
         </div>
@@ -475,14 +502,14 @@
     {#if activeTag !== "all" && !sections?.Fundamentals?.items?.length && !sections?.Features?.items?.length && !sections?.Terms?.items?.length}
       <div class="text-center py-12">
         <p class="text-gray-500 dark:text-zinc-400">
-          No articles found with the "{selectedTagName}" tag.
+          {learning_center_no_articles_tag({ tag: selectedTagName })}
         </p>
         <button
           type="button"
           on:click={() => setTag("all")}
           class="cursor-pointer mt-4 text-sm text-violet-600 dark:text-violet-400 hover:underline"
         >
-          Clear tag filter
+          {learning_center_clear_tag_filter()}
         </button>
       </div>
     {/if}
@@ -544,13 +571,13 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="hidden sm:inline ml-1">Previous</span>
+            <span class="hidden sm:inline ml-1">{learning_center_previous()}</span>
           </Button>
 
           <!-- Page info and items per page -->
           <div class="flex items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {learning_center_page_of({ currentPage: String(currentPage), totalPages: String(totalPages) })}
             </span>
 
             <DropdownMenu.Root>
@@ -559,7 +586,7 @@
                   builders={[builder]}
                   class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
-                  <span class="text-sm">{itemsPerPage} Items</span>
+                  <span class="text-sm">{learning_center_items_count({ count: String(itemsPerPage) })}</span>
                   <svg
                     class="ml-1 h-5 w-5"
                     viewBox="0 0 20 20"
@@ -588,7 +615,7 @@
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                         : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
                     >
-                      <span class="text-sm">{option} Items</span>
+                      <span class="text-sm">{learning_center_items_count({ count: String(option) })}</span>
                     </DropdownMenu.Item>
                   {/each}
                 </DropdownMenu.Group>
@@ -602,7 +629,7 @@
             disabled={currentPage === totalPages}
             class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span class="hidden sm:inline mr-1">Next</span>
+            <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg
               class="h-5 w-5 -rotate-90"
               viewBox="0 0 20 20"
@@ -623,7 +650,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to Top
+            {learning_center_back_to_top()}
             <svg
               class="h-5 w-5 inline-block rotate-180"
               viewBox="0 0 20 20"
@@ -640,7 +667,7 @@
       {/if}
     {:else}
       <div class="text-center py-12">
-        <p class="text-gray-500 dark:text-zinc-400">No terms available yet.</p>
+        <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_terms_yet()}</p>
       </div>
     {/if}
   {:else if data?.view === "category"}
@@ -691,7 +718,7 @@
                 </div>
                 <div class="flex items-center gap-1">
                   <Clock class="w-3.5 h-3.5" />
-                  <span>{item?.time || 5} min</span>
+                  <span>{learning_center_min_read({ time: String(item?.time || 5) })}</span>
                 </div>
               </div>
             </div>
@@ -719,13 +746,13 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="hidden sm:inline ml-1">Previous</span>
+            <span class="hidden sm:inline ml-1">{learning_center_previous()}</span>
           </Button>
 
           <!-- Page info and items per page -->
           <div class="flex items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {learning_center_page_of({ currentPage: String(currentPage), totalPages: String(totalPages) })}
             </span>
 
             <DropdownMenu.Root>
@@ -734,7 +761,7 @@
                   builders={[builder]}
                   class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
-                  <span class="text-sm">{itemsPerPage} Items</span>
+                  <span class="text-sm">{learning_center_items_count({ count: String(itemsPerPage) })}</span>
                   <svg
                     class="ml-1 h-5 w-5"
                     viewBox="0 0 20 20"
@@ -763,7 +790,7 @@
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                         : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
                     >
-                      <span class="text-sm">{option} Items</span>
+                      <span class="text-sm">{learning_center_items_count({ count: String(option) })}</span>
                     </DropdownMenu.Item>
                   {/each}
                 </DropdownMenu.Group>
@@ -777,7 +804,7 @@
             disabled={currentPage === totalPages}
             class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span class="hidden sm:inline mr-1">Next</span>
+            <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg
               class="h-5 w-5 -rotate-90"
               viewBox="0 0 20 20"
@@ -798,7 +825,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to Top
+            {learning_center_back_to_top()}
             <svg
               class="h-5 w-5 inline-block rotate-180"
               viewBox="0 0 20 20"
@@ -816,7 +843,7 @@
     {:else}
       <div class="text-center py-12">
         <p class="text-gray-500 dark:text-zinc-400">
-          No articles in this category yet.
+          {learning_center_no_articles_category()}
         </p>
       </div>
     {/if}
