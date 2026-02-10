@@ -7,6 +7,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const postData = {
     ruleOfList: data?.ruleOfList,
     subscriber: user?.tier  ?? "Free",
+    optionContracts: data?.optionContracts || [],
   };
 
   const response = await fetch(apiURL + "/covered-call-screener-data", {

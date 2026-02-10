@@ -41,6 +41,13 @@
   let isChartModalOpen = false;
   let modalItem: any = null;
 
+  const CHART_MODAL_FIELDS = [
+    "bid", "breakeven", "pctBeBid", "moneynessPercent",
+    "returnVal", "annualizedReturn", "ptnlRtn", "ifCalledAnnualized",
+    "profitProb",
+  ];
+  let chartDataCache = new Map<string, any>();
+
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
@@ -464,7 +471,45 @@
     return `${mm}/${dd}/${yy}`;
   };
 
-  function openChartModal(item) {
+  async function openChartModal(item) {
+    // If item already has chart fields (e.g. income tab), use directly
+    if (item.bid != null && item.breakeven != null) {
+      modalItem = item;
+      isChartModalOpen = true;
+      return;
+    }
+
+    // Check cache
+    const key = item.optionSymbol;
+    if (chartDataCache.has(key)) {
+      modalItem = { ...item, ...chartDataCache.get(key) };
+      isChartModalOpen = true;
+      return;
+    }
+
+    // Fetch only this contract's chart fields from the existing API
+    try {
+      const response = await fetch("/api/covered-call-screener-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ruleOfList: CHART_MODAL_FIELDS,
+          optionContracts: [item.optionSymbol],
+        }),
+      });
+      const output = await response.json();
+      const contract = output?.data?.[0];
+      if (contract) {
+        chartDataCache.set(key, contract);
+        modalItem = { ...item, ...contract };
+        isChartModalOpen = true;
+        return;
+      }
+    } catch {
+      // Fall through to show modal with available data
+    }
+
+    // Fallback: show modal with what we have
     modalItem = item;
     isChartModalOpen = true;
   }
