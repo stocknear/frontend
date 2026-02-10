@@ -53,6 +53,7 @@
   import Layers from "lucide-svelte/icons/layers";
   import Boxes from "lucide-svelte/icons/boxes";
   import Newspaper from "lucide-svelte/icons/newspaper";
+  import BookOpen from "lucide-svelte/icons/book-open";
   import Tools from "lucide-svelte/icons/wrench";
   import Gem from "lucide-svelte/icons/gem";
   import Plus from "lucide-svelte/icons/plus";
@@ -86,6 +87,8 @@
     layout_market_heatmap,
     layout_market_mover,
     layout_market_news,
+    layout_daily_briefing,
+    layout_learning_center,
     layout_my_account,
     layout_news_flow,
     layout_new_launches,
@@ -1385,6 +1388,40 @@
                   </a>
                 </Button>
               </Sheet.Close>
+
+              <Sheet.Close asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  type="submit"
+                  class="-ml-4 w-full rounded-full bg-transparent transition"
+                >
+                  <a
+                    href={data?.hasDailyBriefing && data?.isPreMarket && data?.dailyBriefingSlug ? `/learning-center/article/${data.dailyBriefingSlug}` : '/learning-center'}
+                    class="group flex flex-row items-center w-full -mt-8"
+                  >
+                    <div class="flex flex-row items-center mr-auto">
+                      <div
+                        class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      >
+                        <BookOpen
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        />
+                      </div>
+                      <span
+                        class="ml-1 mr-auto text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                        >{data?.hasDailyBriefing && data?.isPreMarket ? layout_daily_briefing() : layout_learning_center()}</span
+                      >
+                      {#if data?.hasDailyBriefing && data?.isPreMarket}
+                        <span class="relative flex h-2 w-2 ml-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                      {/if}
+                    </div>
+                  </a>
+                </Button>
+              </Sheet.Close>
+
               {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
                 <Sheet.Close asChild let:builder>
                   <Button
@@ -2018,6 +2055,28 @@
                       >{layout_market_news()}</span
                     >
                   </a>
+
+                  <a
+                    href={data?.hasDailyBriefing && data?.isPreMarket && data?.dailyBriefingSlug ? `/learning-center/article/${data.dailyBriefingSlug}` : '/learning-center'}
+                    class="group flex flex-row items-center ml-9 w-full mt-3"
+                  >
+                    <div
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    >
+                      <BookOpen class="h-5.5 w-5.5" />
+                    </div>
+                    <span
+                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      >{data?.hasDailyBriefing && data?.isPreMarket ? layout_daily_briefing() : layout_learning_center()}</span
+                    >
+                    {#if data?.hasDailyBriefing && data?.isPreMarket}
+                      <span class="relative flex h-2 w-2 ml-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                      </span>
+                    {/if}
+                  </a>
+
                   {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
                     <a
                       href="/pricing"

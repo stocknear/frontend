@@ -1,5 +1,3 @@
-import { checkMarketHourSSR} from "$lib/utils";
-
 const PAGE_SIZES = [15, 20, 30];
 const DEFAULT_PAGE_SIZE = PAGE_SIZES[0];
 
@@ -14,8 +12,6 @@ export const load = async ({ locals, url }) => {
   const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
   const perPage = PAGE_SIZES.includes(perPageParam) ? perPageParam : DEFAULT_PAGE_SIZE;
 
-  const isMarketOpen = checkMarketHourSSR();
-
   const fields = "id,collectionId,title,abstract,category,tags,cover,created,updated,time";
 
   // Build tag filter fragment
@@ -29,22 +25,7 @@ export const load = async ({ locals, url }) => {
       return parts.join(" && ");
     };
 
-    // Only fetch Daily if updated today
-    const now = new Date();
-    const todayStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} 00:00:00`;
-    const dailyFilter = [
-      `category = "Daily"`,
-      `updated >= "${todayStart}"`,
-      ...(tagFilter ? [tagFilter] : []),
-    ].join(" && ");
-
-    const [daily, features, fundamentals, terms] = await Promise.all([
-      pb.collection("tutorials").getList(1, 1, {
-        filter: dailyFilter,
-        sort: "-updated",
-        fields,
-        requestKey: "daily",
-      }),
+    const [features, fundamentals, terms] = await Promise.all([
       pb.collection("tutorials").getList(1, 3, {
         filter: buildFilter("Features"),
         sort: "-created",
@@ -70,12 +51,10 @@ export const load = async ({ locals, url }) => {
 
     return {
       view: "all" as const,
-      isMarketOpen,
       categoryFilter: category,
       tagFilter: tag,
       totalCount,
       categorySections: {
-        Daily: { items: daily.items, totalItems: daily.totalItems },
         Features: { items: features.items, totalItems: features.totalItems },
         Fundamentals: {
           items: fundamentals.items,
@@ -99,7 +78,6 @@ export const load = async ({ locals, url }) => {
 
     return {
       view: "category" as const,
-      isMarketOpen,
       categoryFilter: category,
       tagFilter: tag,
       tutorials: result.items,

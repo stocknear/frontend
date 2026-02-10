@@ -2590,6 +2590,27 @@ export let allCards = [
 ];
 
 
+export const checkPreMarketHourSSR = () => {
+  const holidays = ["2026-01-01","2026-01-19","2026-02-16","2026-04-03","2026-05-25","2026-06-19","2026-07-03","2026-09-07","2026-11-26","2026-12-25"]
+
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  const etTimeZone = "America/New_York";
+  const nowET = new Date(
+    new Date().toLocaleString("en-US", { timeZone: etTimeZone })
+  );
+
+  const day = nowET.getDay();
+  const hour = nowET.getHours();
+  const minutes = nowET.getMinutes();
+
+  const isWeekend = day === 0 || day === 6;
+  const isHoliday = holidays?.includes(currentDate);
+  const isBeforeOpen = hour < 9 || (hour === 9 && minutes < 30);
+
+  return !isWeekend && !isHoliday && isBeforeOpen;
+};
+
 export const checkMarketHourSSR = () => {
   const holidays = ["2026-01-01","2026-01-19","2026-02-16","2026-04-03","2026-05-25","2026-06-19","2026-07-03","2026-09-07","2026-11-26","2026-12-25"]
 
