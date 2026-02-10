@@ -382,6 +382,11 @@
   const tabExtraRules = {
     general: [],
     income: [
+      "bid",
+      "annualizedReturn",
+      "returnVal",
+      "breakeven",
+      "pctBeBid",
       "ptnlRtn",
       "ifCalledReturn",
       "ifCalledAnnualized",
@@ -1614,13 +1619,7 @@
     { key: "changesPercentage", label: "% Change", align: "right" },
     { key: "strike", label: "Strike", align: "right" },
     { key: "expiration", label: "Exp Date", align: "right" },
-    { key: "bid", label: "Bid", align: "right" },
-    { key: "breakeven", label: "BE Bid", align: "right" },
-    { key: "pctBeBid", label: "% BE", align: "right" },
-    { key: "returnVal", label: "Return", align: "right" },
-    { key: "annualizedReturn", label: "Ann. Return", align: "right" },
     { key: "profitProb", label: "Profit Prob", align: "right" },
-    { key: "moneynessPercent", label: "Moneyness", align: "right" },
     { key: "volume", label: "Vol", align: "right" },
     { key: "oi", label: "OI", align: "right" },
   ];
@@ -1631,13 +1630,7 @@
     changesPercentage: { order: "none", type: "number" },
     strike: { order: "none", type: "number" },
     expiration: { order: "none", type: "date" },
-    bid: { order: "none", type: "number" },
-    annualizedReturn: { order: "none", type: "number" },
-    breakeven: { order: "none", type: "number" },
-    pctBeBid: { order: "none", type: "number" },
-    returnVal: { order: "none", type: "number" },
     profitProb: { order: "none", type: "number" },
-    moneynessPercent: { order: "none", type: "number" },
     volume: { order: "none", type: "number" },
     oi: { order: "none", type: "number" },
   };
@@ -2789,19 +2782,19 @@
                 {#each columns as column}
                   {#if column.key === "symbol"}
                     <td class="whitespace-nowrap text-start">
-                      <div class="flex flex-row items-center gap-3">
+                      <div class="flex flex-row items-center gap-2">
                         <a
                           href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
                             item?.symbol +
                             `/options/contract-lookup?contract=${item?.optionSymbol}`}
                           rel="noopener noreferrer"
                           target="_blank"
-                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm"
+                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm inline-block w-[3.5rem]"
                           >{item?.symbol}</a
                         >
                         <button
                           on:click|stopPropagation={() => openChartModal(item)}
-                          class="ml-auto cursor-pointer text-gray-500 dark:text-zinc-400 sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                          class="cursor-pointer text-gray-500 dark:text-zinc-400 sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                         >
                           <ChartNoAxesCombined class="w-4.5 h-4.5" />
                         </button>
