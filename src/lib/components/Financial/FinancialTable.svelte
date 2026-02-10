@@ -382,15 +382,38 @@
     return isCurrentMargin ? `${formattedValue}%` : formattedValue;
   }
 
-  function formatProfessionalAxisLabel(value: number, isPercent = false): string {
+  function getCompactFractionDigits(valueAbs: number, stepAbs: number): number {
+    if (valueAbs < 1000) return 0;
+
+    const unit =
+      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
+      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
+      valueAbs >= 1_000_000 ? 1_000_000 :
+      1_000;
+
+    const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
+    const stepInUnit = safeStep / unit;
+
+    if (stepInUnit < 0.05) return 2;
+    if (stepInUnit < 0.5) return 1;
+    return 0;
+  }
+
+  function formatProfessionalAxisLabel(
+    value: number,
+    isPercent = false,
+    tickInterval = 0,
+  ): string {
     const safeValue = Number.isFinite(value) ? value : 0;
     const abs = Math.abs(safeValue);
 
     let formatted = "";
     if (abs >= 1000) {
+      const compactDigits = getCompactFractionDigits(abs, Math.abs(tickInterval));
       formatted = new Intl.NumberFormat("en-US", {
         notation: "compact",
-        maximumFractionDigits: 0,
+        maximumFractionDigits: compactDigits,
+        minimumFractionDigits: 0,
       }).format(safeValue);
     } else if (abs >= 10) {
       formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", {
@@ -651,9 +674,13 @@
         labels: {
           style: { color: $mode === "light" ? "black" : "white" },
           formatter: function () {
+            const tickInterval = Number(
+              (this as { axis?: { tickInterval?: number } })?.axis?.tickInterval,
+            );
             return formatProfessionalAxisLabel(
               Number(this.value),
               isMarginMetric,
+              tickInterval,
             );
           },
         },

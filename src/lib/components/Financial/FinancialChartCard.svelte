@@ -40,15 +40,34 @@
     return $mode === 'light' ? palette.light : palette.dark;
   }
 
+  function getCompactFractionDigits(valueAbs: number, stepAbs: number): number {
+    if (valueAbs < 1000) return 0;
+
+    const unit =
+      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
+      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
+      valueAbs >= 1_000_000 ? 1_000_000 :
+      1_000;
+
+    const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
+    const stepInUnit = safeStep / unit;
+
+    if (stepInUnit < 0.05) return 2;
+    if (stepInUnit < 0.5) return 1;
+    return 0;
+  }
+
   function formatYAxisValue(value: number, step: number): string {
     const safe = Number.isFinite(value) ? value : 0;
     const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
     const abs = Math.abs(safe);
 
     if (abs >= 1000) {
+      const compactDigits = getCompactFractionDigits(abs, safeStep);
       const compact = new Intl.NumberFormat("en-US", {
         notation: "compact",
-        maximumFractionDigits: 0,
+        maximumFractionDigits: compactDigits,
+        minimumFractionDigits: 0,
       }).format(safe);
       return isMargin ? `${compact}%` : compact;
     }
@@ -77,9 +96,12 @@
   ) {
     if (!Number.isFinite(minValue) || !Number.isFinite(maxValue)) return;
 
-    const ticks = 4;
+    const ticks = Math.max(3, Math.floor(chartHeight / 36));
     const valueRange = maxValue - minValue;
     const tickStep = valueRange === 0 ? 1 : Math.abs(valueRange / ticks);
+    const minLabelGap = 14;
+    let lastDrawnY = Number.POSITIVE_INFINITY;
+    let lastDrawnLabel = "";
 
     ctx.save();
     ctx.font = '9px system-ui, -apple-system, sans-serif';
@@ -95,13 +117,22 @@
     ctx.lineTo(CHART_PADDING.left, CHART_PADDING.top + chartHeight);
     ctx.stroke();
 
-    for (let i = 0; i <= ticks; i++) {
+    for (let i = ticks; i >= 0; i--) {
       const ratio = i / ticks;
       const y = CHART_PADDING.top + chartHeight * ratio;
       const value = valueRange === 0
         ? maxValue
         : maxValue - valueRange * ratio;
-      ctx.fillText(formatYAxisValue(value, tickStep), CHART_PADDING.left - 6, y);
+      const label = formatYAxisValue(value, tickStep);
+
+      const yDistance = Math.abs(lastDrawnY - y);
+      const tooClose = yDistance < minLabelGap;
+      const duplicateAndClose = label === lastDrawnLabel && yDistance < minLabelGap * 2;
+      if (!tooClose && !duplicateAndClose) {
+        ctx.fillText(label, CHART_PADDING.left - 6, y);
+        lastDrawnY = y;
+        lastDrawnLabel = label;
+      }
 
       // Light horizontal guides make the labels easier to parse.
       if (i > 0 && i < ticks) {
