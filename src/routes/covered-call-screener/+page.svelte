@@ -31,6 +31,8 @@
   let showFilters = true;
   let isLoaded = false;
   let isFullWidth = false;
+  let isDataLoading = false;
+  let pendingDownload = false;
   let syncWorker: Worker | undefined;
   let downloadWorker: Worker | undefined;
   let searchWorker: Worker | undefined;
@@ -639,6 +641,11 @@
   }
 
   async function switchStrategy(item) {
+    isDataLoading = true;
+    pendingDownload = true;
+    originalFilteredData = [];
+    filteredData = [];
+    displayResults = [];
     displayTableTab = "general";
     ruleName = "";
     selectedPopularStrategy = "";
@@ -653,21 +660,20 @@
       valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
     });
 
-    if (ruleOfList?.length === 0) {
-      filteredData = [];
-      currentUnsortedData = [];
-      displayResults = [];
-      currentPage = 1;
-      totalPages = 1;
-    }
+    await updateStockScreenerData();
     checkedItems = new Map(
       ruleOfList
-        ?.filter((rule) => checkedRules?.includes(rule.name))
+        ?.filter((rule) => checkedRules.includes(rule.name))
         ?.map((rule) => [rule.name, new Set(rule.value)]),
     );
   }
 
   async function popularStrategy(state: string) {
+    isDataLoading = true;
+    pendingDownload = true;
+    originalFilteredData = [];
+    filteredData = [];
+    displayResults = [];
     resetTableSearch();
     const strategies = {
       highYield: {
@@ -716,6 +722,8 @@
     const strategy = strategies[state];
     if (strategy) {
       if (selectedPopularStrategy === strategy.name) {
+        isDataLoading = false;
+        pendingDownload = false;
         return;
       }
 
@@ -744,6 +752,11 @@
         label: allRules[row.name]?.label,
         varType: allRules[row.name]?.varType,
       }));
+
+      await updateStockScreenerData();
+    } else {
+      isDataLoading = false;
+      pendingDownload = false;
     }
   }
 
@@ -758,10 +771,14 @@
       ruleOfList?.some((rule) => rule.name === row.rule),
     );
 
+    // Skip stale sync results while waiting for a fresh download
+    if (pendingDownload) return;
+
     filteredData = event.data?.filteredData ?? [];
     originalFilteredData = [...filteredData];
     currentUnsortedData = [...filteredData];
     currentPage = 1;
+    isDataLoading = false;
     if (inputValue?.length > 0) {
       isSearchPending = true;
       search();
@@ -782,10 +799,10 @@
     if (event.data?.message === "success") {
       stockScreenerData = event.data?.stockScreenerData ?? [];
       totalContracts = event.data?.totalContracts ?? 0;
-      // Update the set of available columns from the actual data we received
       if (stockScreenerData.length > 0) {
         lastFetchedRuleSet = new Set(Object.keys(stockScreenerData[0]));
       }
+      pendingDownload = false;
       shouldLoadWorker.set(true);
     }
   };
@@ -913,7 +930,7 @@
     displayTableTab = "general";
     inputValue = "";
     ruleOfList = [];
-    Object?.keys(allRules)?.forEach((ruleName) => {
+    Object.keys(allRules).forEach((ruleName) => {
       ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
       valueMappings[ruleName] = allRules[ruleName].defaultValue;
     });
@@ -926,7 +943,6 @@
     totalPages = 1;
     isSearchPending = false;
     checkedItems = new Map();
-    ruleOfList = [...ruleOfList];
   }
 
   async function handleDeleteRule(state) {
@@ -2573,10 +2589,14 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {(data?.user?.tier === "Pro"
-        ? filteredData?.length
-        : totalContracts
-      )?.toLocaleString("en-US")} Contracts
+      {#if isDataLoading && filteredData?.length === 0}
+        <span class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+      {:else}
+        {(data?.user?.tier === "Pro"
+          ? filteredData?.length
+          : totalContracts
+        )?.toLocaleString("en-US")} Contracts
+      {/if}
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -2757,7 +2777,7 @@
 
   <!--Start Matching Preview-->
   {#if isLoaded}
-    {#if filteredData?.length !== 0}
+    {#if filteredData?.length !== 0 || isDataLoading}
       <div
         class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
       >
@@ -2773,6 +2793,17 @@
             />
           </thead>
           <tbody>
+            {#if isDataLoading && displayResults?.length === 0}
+              {#each Array(10) as _}
+                <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                  {#each columns as column}
+                    <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
+                      <span class="inline-block h-4 {column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                    </td>
+                  {/each}
+                </tr>
+              {/each}
+            {/if}
             {#each displayResults as item, i}
               <tr
                 class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
