@@ -101,6 +101,8 @@
   let searchQuery = "";
   let inputValue = "";
   let isSearchPending = false;
+  let isDataLoading = false;
+  let pendingDownload = false;
   let originalFilteredData = [];
   let currentUnsortedData = []; // Current unsorted data (could be search results or screener results)
   let infoText = {};
@@ -1919,6 +1921,11 @@
   }
 
   async function switchStrategy(item) {
+    isDataLoading = true;
+    pendingDownload = true;
+    originalFilteredData = [];
+    filteredData = [];
+    displayResults = [];
     displayTableTab = "general";
 
     ruleName = "";
@@ -1933,11 +1940,6 @@
         rule.condition || allRules[rule.name].defaultCondition;
       valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
     });
-
-    if (ruleOfList?.length === 0) {
-      filteredData = [];
-      displayResults = [];
-    }
 
     await updateStockScreenerData();
     checkedItems = new Map(
@@ -1961,14 +1963,19 @@
   }
 
   const handleMessage = (event) => {
+    // Always update display rules so the UI shows the active filters
     displayRules = allRows?.filter((row) =>
       ruleOfList?.some((rule) => rule.name === row.rule),
     );
+
+    // Skip stale sync results while waiting for a fresh download
+    if (pendingDownload) return;
 
     filteredData = event.data?.filteredData ?? [];
     originalFilteredData = [...filteredData]; // Store original filtered data for search
     currentUnsortedData = [...filteredData]; // Store current unsorted data
     currentPage = 1; // Reset to first page
+    isDataLoading = false;
     if (inputValue?.length > 0) {
       isSearchPending = true;
       search();
@@ -1980,6 +1987,7 @@
 
   const handleScreenerMessage = (event) => {
     stockScreenerData = event?.data?.stockScreenerData;
+    pendingDownload = false;
     shouldLoadWorker.set(true);
   };
 
@@ -2507,7 +2515,6 @@ const handleKeyDown = (event) => {
 
     shouldLoadWorker.subscribe(async (value) => {
       if (value) {
-        isLoaded = false;
         await loadWorker();
         shouldLoadWorker.set(false); // Reset after worker is loaded
         isLoaded = true;
@@ -2668,7 +2675,7 @@ const handleKeyDown = (event) => {
     return parseValue(a) - parseValue(b);
   }
 
-  async function handleChangeValue(value, { shouldSort = true } = {}) {
+  async function handleChangeValue(value, { shouldSort = true, skipFetch = false } = {}) {
     // Add this check at the beginning of the function
     if (ruleCondition[ruleName] === "between") {
       // Ensure valueMappings[ruleName] is always an array for "between" condition
@@ -2739,7 +2746,7 @@ const handleKeyDown = (event) => {
         valueMappings[ruleName] = "any";
       }
 
-      await updateStockScreenerData();
+      if (!skipFetch) await updateStockScreenerData();
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
         // Apply sorting only if shouldSort is true
@@ -2752,7 +2759,7 @@ const handleKeyDown = (event) => {
     }
 
     // Add this at the end of the function to ensure the filter is applied
-    if (ruleCondition[ruleName] === "between" && value.some((v) => v !== "")) {
+    if (!skipFetch && ruleCondition[ruleName] === "between" && value.some((v) => v !== "")) {
       await updateStockScreenerData();
     }
   }
@@ -2813,6 +2820,11 @@ const handleKeyDown = (event) => {
   }
 
   async function popularStrategy(state: string) {
+    isDataLoading = true;
+    pendingDownload = true;
+    originalFilteredData = [];
+    filteredData = [];
+    displayResults = [];
     resetTableSearch();
     const strategies = {
       earningsVolatility: {
@@ -2928,6 +2940,8 @@ const handleKeyDown = (event) => {
     if (strategy) {
       // If clicking the same strategy again, don't clear the rules
       if (selectedPopularStrategy === strategy.name) {
+        isDataLoading = false;
+        pendingDownload = false;
         return;
       }
 
@@ -2944,10 +2958,13 @@ const handleKeyDown = (event) => {
       ruleOfList?.forEach((row) => {
         ruleName = row?.name;
         ruleCondition[ruleName] = row?.condition;
-        handleChangeValue(row?.value);
+        handleChangeValue(row?.value, { skipFetch: true });
       });
 
       await updateStockScreenerData();
+    } else {
+      isDataLoading = false;
+      pendingDownload = false;
     }
   }
 
@@ -3301,6 +3318,7 @@ const handleKeyDown = (event) => {
         handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
         return;
       }
+      isDataLoading = true;
       await updateStockScreenerData();
     } else if (displayTableTab === "analysts") {
       otherTabRules = [
@@ -3319,6 +3337,7 @@ const handleKeyDown = (event) => {
         handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
         return;
       }
+      isDataLoading = true;
       await updateStockScreenerData();
     } else if (displayTableTab === "dividends") {
       otherTabRules = [
@@ -3337,6 +3356,7 @@ const handleKeyDown = (event) => {
         handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
         return;
       }
+      isDataLoading = true;
       await updateStockScreenerData();
     } else if (displayTableTab === "financials") {
       otherTabRules = [
@@ -3356,6 +3376,7 @@ const handleKeyDown = (event) => {
         handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
         return;
       }
+      isDataLoading = true;
       await updateStockScreenerData();
     }
   }
@@ -4296,9 +4317,13 @@ const handleKeyDown = (event) => {
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {stock_screener_stocks_count({
-        count: filteredData?.length?.toLocaleString("en-US"),
-      })}
+      {#if isDataLoading && filteredData?.length === 0}
+        <span class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+      {:else}
+        {stock_screener_stocks_count({
+          count: filteredData?.length?.toLocaleString("en-US"),
+        })}
+      {/if}
     </h2>
     <div
       class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
@@ -4503,7 +4528,7 @@ const handleKeyDown = (event) => {
 
   <!--Start Matching Preview-->
   {#if isLoaded}
-    {#if filteredData?.length !== 0}
+    {#if filteredData?.length !== 0 || isDataLoading}
       {#if displayTableTab === "general"}
         <div
           class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
@@ -4520,6 +4545,17 @@ const handleKeyDown = (event) => {
               />
             </thead>
             <tbody>
+              {#if isDataLoading && displayResults?.length === 0}
+                {#each Array(10) as _}
+                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                    {#each columns as column}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
+                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      </td>
+                    {/each}
+                  </tr>
+                {/each}
+              {/if}
               {#each displayResults as item}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -4610,6 +4646,17 @@ const handleKeyDown = (event) => {
               />
             </thead>
             <tbody>
+              {#if isDataLoading && displayResults?.length === 0}
+                {#each Array(10) as _}
+                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                    {#each columns as column}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
+                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      </td>
+                    {/each}
+                  </tr>
+                {/each}
+              {/if}
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -4737,6 +4784,17 @@ const handleKeyDown = (event) => {
               />
             </thead>
             <tbody>
+              {#if isDataLoading && displayResults?.length === 0}
+                {#each Array(10) as _}
+                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                    {#each columns as column}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
+                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      </td>
+                    {/each}
+                  </tr>
+                {/each}
+              {/if}
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -4807,6 +4865,17 @@ const handleKeyDown = (event) => {
               />
             </thead>
             <tbody>
+              {#if isDataLoading && displayResults?.length === 0}
+                {#each Array(10) as _}
+                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                    {#each columns as column}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
+                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      </td>
+                    {/each}
+                  </tr>
+                {/each}
+              {/if}
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -4917,6 +4986,17 @@ const handleKeyDown = (event) => {
               />
             </thead>
             <tbody>
+              {#if isDataLoading && displayResults?.length === 0}
+                {#each Array(10) as _}
+                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                    {#each columns as column}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
+                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      </td>
+                    {/each}
+                  </tr>
+                {/each}
+              {/if}
               {#each displayResults as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
