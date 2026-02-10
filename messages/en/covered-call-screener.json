@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Home",
+  "covered_call_screener_breadcrumb_title": "Covered Call Screener",
+
+  "covered_call_screener_seo_title": "Covered Call Screener - Find the Best Covered Call Opportunities",
+  "covered_call_screener_seo_description": "Screen thousands of options for covered call opportunities. Filter by premium yield, annualized return, strike, expiration, and more.",
+  "covered_call_screener_seo_keywords": "covered call screener, options screener, covered calls, premium yield, income strategy",
+  "covered_call_screener_structured_name": "Covered Call Screener",
+  "covered_call_screener_structured_description": "Screen options for covered call opportunities",
+
+  "covered_call_screener_main_title": "Covered Call Screener",
+  "covered_call_screener_contracts_count": "{count} Contracts",
+
+  "covered_call_screener_popular_screens": "Popular Screens",
+  "covered_call_screener_popular_strategies": "Popular Strategies",
+  "covered_call_screener_select_popular": "Select Popular",
+  "covered_call_screener_saved_screens": "Saved Screens",
+  "covered_call_screener_select_screen": "Select Screen",
+  "covered_call_screener_new_screen": "New Screen",
+
+  "covered_call_screener_strategy_high_yield": "High Yield",
+  "covered_call_screener_strategy_conservative": "Conservative",
+  "covered_call_screener_strategy_weekly_income": "Weekly Income",
+  "covered_call_screener_strategy_high_protection": "High Protection",
+  "covered_call_screener_strategy_bluechip_cc": "Blue-Chip Covered Calls",
+
+  "covered_call_screener_filters_count": "Filters ({count})",
+  "covered_call_screener_add_filters": "Add Filters",
+  "covered_call_screener_search_filters": "Search {count} filters...",
+  "covered_call_screener_select_filters_title": "Select Filters ({count})",
+  "covered_call_screener_nothing_found": "Nothing found.",
+
+  "covered_call_screener_save": "Save",
+  "covered_call_screener_save_as_new": "Save as New",
+  "covered_call_screener_reset_all": "Reset All",
+
+  "covered_call_screener_condition_over": "Over",
+  "covered_call_screener_condition_under": "Under",
+  "covered_call_screener_condition_between": "Between",
+  "covered_call_screener_condition_exactly": "Exactly",
+  "covered_call_screener_condition_any": "Any",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Value",
+
+  "covered_call_screener_search_placeholder": "Search...",
+  "covered_call_screener_search_modal_placeholder": "Search...",
+
+  "covered_call_screener_normal_width": "Normal Width",
+  "covered_call_screener_full_width": "Full Width",
+
+  "covered_call_screener_tab_general": "General",
+  "covered_call_screener_tab_income": "Income",
+  "covered_call_screener_tab_filters": "Filters",
+  "covered_call_screener_tab_greeks": "Greeks",
+
+  "covered_call_screener_pagination_previous": "Previous",
+  "covered_call_screener_pagination_next": "Next",
+  "covered_call_screener_pagination_page_of": "Page {current} of {total}",
+  "covered_call_screener_rows_label": "{rows} rows",
+  "covered_call_screener_back_to_top": "Back to top",
+
+  "covered_call_screener_no_results_query": "No results found for \"{query}\"",
+  "covered_call_screener_no_contracts": "No contracts match your criteria.",
+
+  "covered_call_screener_modal_new_title": "New Screen",
+  "covered_call_screener_modal_new_name_label": "Screen name",
+  "covered_call_screener_modal_new_create": "Create",
+
+  "covered_call_screener_modal_delete_title": "Delete Screener",
+  "covered_call_screener_modal_delete_message": "Are you sure you want to delete this screener? This action cannot be undone.",
+  "covered_call_screener_modal_delete_cancel": "Cancel",
+  "covered_call_screener_modal_delete_confirm": "Delete",
+
+  "covered_call_screener_toast_pro_only": "Available only to Pro Member",
+  "covered_call_screener_toast_deleting": "Deleting screener...",
+  "covered_call_screener_toast_deleted": "Screener deleted successfully!",
+  "covered_call_screener_toast_delete_failed": "Delete failed. Please try again.",
+  "covered_call_screener_toast_title_too_long": "Title is too long. Please keep it under 100 characters.",
+  "covered_call_screener_toast_created": "Screener created successfully!",
+  "covered_call_screener_toast_creating": "Creating screener...",
+  "covered_call_screener_toast_create_failed": "Something went wrong. Please try again later!",
+  "covered_call_screener_toast_select_rule": "Please select a rule",
+  "covered_call_screener_toast_saving": "Saving screener...",
+  "covered_call_screener_toast_saved": "Screener saved!",
+  "covered_call_screener_toast_save_failed": "Save failed. Please try again.",
+
+  "covered_call_screener_chart_price_at_expiration": "Price at Expiration ($)",
+  "covered_call_screener_chart_last_price_label": "Last Price: {price}",
+  "covered_call_screener_chart_breakeven_label": "Breakeven: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Profit/Loss ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Underlying Price:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Profit or Loss:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Trade Setup",
+  "covered_call_screener_chart_buy_stock": "Buy Stock @",
+  "covered_call_screener_chart_sell_call": "Sell {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Net (Credit/Debit)",
+  "covered_call_screener_chart_breakeven": "Breakeven",
+  "covered_call_screener_chart_above": "Above",
+  "covered_call_screener_chart_last_price": "Last Price",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Return if Flat",
+  "covered_call_screener_chart_return_if_assigned": "Return if Assigned",
+  "covered_call_screener_chart_probability_of_profit": "Probability of Profit",
+  "covered_call_screener_chart_annualized_abbr": "ann."
+}

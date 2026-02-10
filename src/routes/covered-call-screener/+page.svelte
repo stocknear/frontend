@@ -22,6 +22,79 @@
   import ChartModal from "$lib/components/CoveredCall/ChartModal.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
+  import {
+    covered_call_screener_breadcrumb_home,
+    covered_call_screener_breadcrumb_title,
+    covered_call_screener_seo_title,
+    covered_call_screener_seo_description,
+    covered_call_screener_seo_keywords,
+    covered_call_screener_structured_name,
+    covered_call_screener_structured_description,
+    covered_call_screener_main_title,
+    covered_call_screener_contracts_count,
+    covered_call_screener_popular_screens,
+    covered_call_screener_popular_strategies,
+    covered_call_screener_select_popular,
+    covered_call_screener_saved_screens,
+    covered_call_screener_select_screen,
+    covered_call_screener_new_screen,
+    covered_call_screener_strategy_high_yield,
+    covered_call_screener_strategy_conservative,
+    covered_call_screener_strategy_weekly_income,
+    covered_call_screener_strategy_high_protection,
+    covered_call_screener_strategy_bluechip_cc,
+    covered_call_screener_filters_count,
+    covered_call_screener_add_filters,
+    covered_call_screener_search_filters,
+    covered_call_screener_select_filters_title,
+    covered_call_screener_nothing_found,
+    covered_call_screener_save,
+    covered_call_screener_save_as_new,
+    covered_call_screener_reset_all,
+    covered_call_screener_condition_over,
+    covered_call_screener_condition_under,
+    covered_call_screener_condition_between,
+    covered_call_screener_condition_exactly,
+    covered_call_screener_condition_any,
+    covered_call_screener_input_min,
+    covered_call_screener_input_max,
+    covered_call_screener_input_value,
+    covered_call_screener_search_placeholder,
+    covered_call_screener_search_modal_placeholder,
+    covered_call_screener_normal_width,
+    covered_call_screener_full_width,
+    covered_call_screener_tab_general,
+    covered_call_screener_tab_income,
+    covered_call_screener_tab_filters,
+    covered_call_screener_tab_greeks,
+    covered_call_screener_pagination_previous,
+    covered_call_screener_pagination_next,
+    covered_call_screener_pagination_page_of,
+    covered_call_screener_rows_label,
+    covered_call_screener_back_to_top,
+    covered_call_screener_no_results_query,
+    covered_call_screener_no_contracts,
+    covered_call_screener_modal_new_title,
+    covered_call_screener_modal_new_name_label,
+    covered_call_screener_modal_new_create,
+    covered_call_screener_modal_delete_title,
+    covered_call_screener_modal_delete_message,
+    covered_call_screener_modal_delete_cancel,
+    covered_call_screener_modal_delete_confirm,
+    covered_call_screener_toast_pro_only,
+    covered_call_screener_toast_deleting,
+    covered_call_screener_toast_deleted,
+    covered_call_screener_toast_delete_failed,
+    covered_call_screener_toast_title_too_long,
+    covered_call_screener_toast_created,
+    covered_call_screener_toast_creating,
+    covered_call_screener_toast_create_failed,
+    covered_call_screener_toast_select_rule,
+    covered_call_screener_toast_saving,
+    covered_call_screener_toast_saved,
+    covered_call_screener_toast_save_failed,
+  } from "$lib/paraglide/messages";
+
   import { writable } from "svelte/store";
 
   let shouldLoadWorker = writable(false);
@@ -59,12 +132,22 @@
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
-    { key: "highYield", label: "High Yield" },
-    { key: "conservative", label: "Conservative" },
-    { key: "weeklyIncome", label: "Weekly Income" },
-    { key: "highProtection", label: "High Protection" },
-    { key: "bluechipCC", label: "Blue-Chip Covered Calls" },
+    { key: "highYield", label: covered_call_screener_strategy_high_yield() },
+    { key: "conservative", label: covered_call_screener_strategy_conservative() },
+    { key: "weeklyIncome", label: covered_call_screener_strategy_weekly_income() },
+    { key: "highProtection", label: covered_call_screener_strategy_high_protection() },
+    { key: "bluechipCC", label: covered_call_screener_strategy_bluechip_cc() },
   ];
+
+  function conditionLabel(condition) {
+    switch (condition) {
+      case "over": return covered_call_screener_condition_over();
+      case "under": return covered_call_screener_condition_under();
+      case "between": return covered_call_screener_condition_between();
+      case "exactly": return covered_call_screener_condition_exactly();
+      default: return condition ?? "";
+    }
+  }
 
   let displayTableTab = "general";
 
@@ -526,7 +609,7 @@
         modalCheckbox.checked = true;
       }
     } else {
-      toast.info("Available only to Pro Member", {
+      toast.info(covered_call_screener_toast_pro_only(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
@@ -585,9 +668,9 @@
     })();
 
     return toast?.promise(deletePromise, {
-      loading: "Deleting screener...",
-      success: "Screener deleted successfully!",
-      error: "Delete failed. Please try again.",
+      loading: covered_call_screener_toast_deleting(),
+      success: covered_call_screener_toast_deleted(),
+      error: covered_call_screener_toast_delete_failed(),
       style: `
           border-radius: 5px;
           background: #fff;
@@ -611,7 +694,7 @@
     }
 
     if (title?.length > 100) {
-      toast.error("Title is too long. Please keep it under 100 characters.", {
+      toast.error(covered_call_screener_toast_title_too_long(), {
         style: `
           border-radius: 5px;
           background: #fff;
@@ -644,7 +727,7 @@
         throw new Error("Server did not return a new strategy ID");
       }
 
-      toast.success("Screener created successfully!", {
+      toast.success(covered_call_screener_toast_created(), {
         style: `
           border-radius: 5px;
           background: #fff;
@@ -672,9 +755,9 @@
     })();
 
     return toast.promise(createPromise, {
-      loading: "Creating screener...",
+      loading: covered_call_screener_toast_creating(),
       success: () => "",
-      error: "Something went wrong. Please try again later!",
+      error: covered_call_screener_toast_create_failed(),
       style: `
           border-radius: 5px;
           background: #fff;
@@ -766,13 +849,13 @@
 
     const strategy = strategies[state];
     if (strategy) {
-      if (selectedPopularStrategy === strategy.name) {
+      if (selectedPopularStrategy === state) {
         isDataLoading = false;
         pendingDownload = false;
         return;
       }
 
-      selectedPopularStrategy = strategy.name;
+      selectedPopularStrategy = state;
       ruleOfList = [];
 
       checkedItems.clear();
@@ -918,7 +1001,7 @@
 
   function handleAddRule() {
     if (ruleName === "") {
-      toast.error("Please select a rule", {
+      toast.error(covered_call_screener_toast_select_rule(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -1288,9 +1371,9 @@
 
       if (showMessage) {
         return toast.promise(savePromise, {
-          loading: "Saving screener...",
-          success: "Screener saved!",
-          error: "Save failed. Please try again.",
+          loading: covered_call_screener_toast_saving(),
+          success: covered_call_screener_toast_saved(),
+          error: covered_call_screener_toast_save_failed(),
           style: `
               border-radius: 5px;
               background: #fff;
@@ -1812,14 +1895,14 @@
 </script>
 
 <SEO
-  title="Covered Call Screener - Find the Best Covered Call Opportunities"
-  description="Screen thousands of options for covered call opportunities. Filter by premium yield, annualized return, strike, expiration, and more."
-  keywords="covered call screener, options screener, covered calls, premium yield, income strategy"
+  title={covered_call_screener_seo_title()}
+  description={covered_call_screener_seo_description()}
+  keywords={covered_call_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Covered Call Screener",
-    description: "Screen options for covered call opportunities",
+    name: covered_call_screener_structured_name(),
+    description: covered_call_screener_structured_description(),
     url: "https://stocknear.com/covered-call-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1849,11 +1932,11 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{covered_call_screener_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">Covered Call Screener</span
+      <span class="text-gray-500 dark:text-zinc-400">{covered_call_screener_breadcrumb_title()}</span
       >
     </li>
   </BreadCrumb>
@@ -1865,7 +1948,7 @@
         <h1
           class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          Covered Call Screener
+          {covered_call_screener_main_title()}
         </h1>
       </div>
 
@@ -1874,7 +1957,7 @@
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            Popular Screens
+            {covered_call_screener_popular_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -1885,8 +1968,8 @@
                 >
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
-                      ? selectedPopularStrategy
-                      : "Select Popular"}</span
+                      ? popularStrategyList.find(s => s.key === selectedPopularStrategy)?.label ?? covered_call_screener_select_popular()
+                      : covered_call_screener_select_popular()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1913,7 +1996,7 @@
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
-                  Popular Strategies
+                  {covered_call_screener_popular_strategies()}
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Group>
@@ -1935,7 +2018,7 @@
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            Saved Screens
+            {covered_call_screener_saved_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -1949,7 +2032,7 @@
                       ? strategyList?.find(
                           (item) => item.id === selectedStrategy,
                         )?.title
-                      : "Select Screen"}</span
+                      : covered_call_screener_select_screen()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -1994,7 +2077,7 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">New Screen</div>
+                      <div class="text-sm text-start">{covered_call_screener_new_screen()}</div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -2066,7 +2149,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {`Filters (${ruleOfList?.length})`}
+            {covered_call_screener_filters_count({ count: ruleOfList?.length })}
           </button>
         </div>
       </div>
@@ -2091,7 +2174,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <div>Add Filters</div>
+              <div>{covered_call_screener_add_filters()}</div>
             </label>
 
             <!-- Quick Search Input -->
@@ -2118,7 +2201,7 @@
                 </div>
                 <input
                   type="text"
-                  placeholder={`Search ${allRows?.length} filters...`}
+                  placeholder={covered_call_screener_search_filters({ count: allRows?.length })}
                   bind:value={quickSearchTerm}
                   on:input={handleQuickSearchInput}
                   on:keydown={handleQuickSearchKeydown}
@@ -2205,7 +2288,7 @@
                 <div
                   class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                 >
-                  Nothing found.
+                  {covered_call_screener_nothing_found()}
                 </div>
               {/if}
             </div>
@@ -2226,7 +2309,7 @@
                   /></svg
                 >
 
-                <div>Save</div>
+                <div>{covered_call_screener_save()}</div>
               </label>
 
               {#if strategyList?.length > 0}
@@ -2238,7 +2321,7 @@
                       : ""}
                   on:click={() => {
                     if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
-                      toast.info("Available only to Pro Member", {
+                      toast.info(covered_call_screener_toast_pro_only(), {
                         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
                       });
                     }
@@ -2246,7 +2329,7 @@
                   class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
                 >
                   <Copy class="w-4 h-4 inline-block mr-2" />
-                  <div>Save as New</div>
+                  <div>{covered_call_screener_save_as_new()}</div>
                 </label>
               {/if}
             {/if}
@@ -2272,7 +2355,7 @@
                   ></svg
                 >
 
-                <div>Reset All</div>
+                <div>{covered_call_screener_reset_all()}</div>
               </label>
             {/if}
           </div>
@@ -2350,20 +2433,17 @@
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if valueMappings[row?.rule] === "any"}
-                              Any
+                              {covered_call_screener_condition_any()}
                             {:else if ruleCondition[row?.rule] === "between"}
                               {Array.isArray(valueMappings[row?.rule])
-                                ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
-                                : "Any"}
+                                ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? covered_call_screener_condition_any()}`
+                                : covered_call_screener_condition_any()}
                             {:else if row?.rule === "marketCapGroup"}
                               {Array.isArray(valueMappings[row?.rule])
                                 ? valueMappings[row?.rule]?.map(v => v?.replace(/\s*\(.*?\)/, ""))?.join(", ")
                                 : String(valueMappings[row?.rule])?.replace(/\s*\(.*?\)/, "")}
                             {:else}
-                              {ruleCondition[row?.rule]
-                                ?.replace("under", "Under")
-                                ?.replace("over", "Over")
-                                ?.replace("exactly", "Exactly") ?? ""}
+                              {conditionLabel(ruleCondition[row?.rule])}
                               {valueMappings[row?.rule]}
                             {/if}
                           </span>
@@ -2407,11 +2487,7 @@
                                       class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                     >
                                       <span class="truncate ml-2 text-sm">
-                                        {ruleCondition[ruleName]
-                                          ?.replace("under", "Under")
-                                          ?.replace("over", "Over")
-                                          ?.replace("between", "Between")
-                                          ?.replace("exactly", "Exactly")}
+                                        {conditionLabel(ruleCondition[ruleName])}
                                       </span>
                                       <svg
                                         class="mt-1 -mr-1 ml-1 h-5 w-5 xs:ml-2 ml-0! sm:ml-0 inline-block"
@@ -2429,15 +2505,20 @@
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content>
                                     <DropdownMenu.Group>
-                                      {#each ["Over", "Under", "Between", "Exactly"] as item}
+                                      {#each [
+                                        { value: "Over", label: covered_call_screener_condition_over() },
+                                        { value: "Under", label: covered_call_screener_condition_under() },
+                                        { value: "Between", label: covered_call_screener_condition_between() },
+                                        { value: "Exactly", label: covered_call_screener_condition_exactly() },
+                                      ] as item}
                                         <DropdownMenu.Item
                                           on:click={() =>
                                             changeRuleCondition(
                                               row?.rule,
-                                              item,
+                                              item.value,
                                             )}
                                           class="cursor-pointer text-sm font-normal"
-                                          >{item}</DropdownMenu.Item
+                                          >{item.label}</DropdownMenu.Item
                                         >
                                       {/each}
                                     </DropdownMenu.Group>
@@ -2449,7 +2530,7 @@
                                 <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
                                   <input
                                     type="text"
-                                    placeholder="Min"
+                                    placeholder={covered_call_screener_input_min()}
                                     value={Array?.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -2464,7 +2545,7 @@
                                   </span>
                                   <input
                                     type="text"
-                                    placeholder="Max"
+                                    placeholder={covered_call_screener_input_max()}
                                     value={Array?.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -2478,7 +2559,7 @@
                               {:else}
                                 <input
                                   type="text"
-                                  placeholder="Value"
+                                  placeholder={covered_call_screener_input_value()}
                                   value={valueMappings[row?.rule] !== "any"
                                     ? valueMappings[row?.rule]
                                     : ""}
@@ -2555,10 +2636,7 @@
                                       }}
                                       class="cursor-pointer block w-full border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                     >
-                                      {ruleCondition[row?.rule]?.replace(
-                                        "between",
-                                        "Between",
-                                      )}
+                                      {conditionLabel(ruleCondition[row?.rule])}
                                       {row?.step[index + 1]} - {row?.step[
                                         index
                                       ]}
@@ -2575,10 +2653,7 @@
                                     }}
                                     class="cursor-pointer block w-full border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                   >
-                                    {ruleCondition[row?.rule]
-                                      ?.replace("under", "Under")
-                                      ?.replace("over", "Over")
-                                      ?.replace("exactly", "Exactly")}
+                                    {conditionLabel(ruleCondition[row?.rule])}
                                     {newValue}
                                   </button>
                                 </DropdownMenu.Item>
@@ -2638,10 +2713,7 @@
       {#if isDataLoading && filteredData?.length === 0}
         <span class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
       {:else}
-        {(data?.user?.tier === "Pro"
-          ? filteredData?.length
-          : totalContracts
-        )?.toLocaleString("en-US")} Contracts
+        {covered_call_screener_contracts_count({ count: (data?.user?.tier === "Pro" ? filteredData?.length : totalContracts)?.toLocaleString("en-US") })}
       {/if}
     </h2>
     <div
@@ -2673,7 +2745,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder="Search..."
+            placeholder={covered_call_screener_search_placeholder()}
             class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -2735,7 +2807,7 @@
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth ? "Normal Width" : "Full Width"}</span
+            >{isFullWidth ? covered_call_screener_normal_width() : covered_call_screener_full_width()}</span
           >
         </button>
 
@@ -2773,7 +2845,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              General
+              {covered_call_screener_tab_general()}
             </button>
           </li>
           <li>
@@ -2784,7 +2856,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Income
+              {covered_call_screener_tab_income()}
             </button>
           </li>
           <li>
@@ -2795,7 +2867,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              <span>Filters</span>
+              <span>{covered_call_screener_tab_filters()}</span>
               {#if ruleOfList?.length > 0}
                 <div
                   class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
@@ -2813,7 +2885,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              <span>Greeks</span>
+              <span>{covered_call_screener_tab_greeks()}</span>
             </button>
           </li>
         </ul>
@@ -3020,13 +3092,13 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">Previous</span>
+              <span class="hidden sm:inline">{covered_call_screener_pagination_previous()}</span>
             </Button>
           </div>
 
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {covered_call_screener_pagination_page_of({ current: currentPage, total: totalPages })}
             </span>
 
             <DropdownMenu.Root>
@@ -3036,7 +3108,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{rowsPerPage} rows</span
+                    >{covered_call_screener_rows_label({ rows: rowsPerPage })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -3070,7 +3142,7 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{item} rows</span>
+                        <span class="text-sm">{covered_call_screener_rows_label({ rows: item })}</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -3085,7 +3157,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">Next</span>
+              <span class="hidden sm:inline">{covered_call_screener_pagination_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -3108,7 +3180,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to top
+            {covered_call_screener_back_to_top()}
             <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
@@ -3128,8 +3200,8 @@
     {:else}
       <Infobox
         text={inputValue?.length > 0
-          ? `No results found for "${inputValue}"`
-          : "No contracts match your criteria."}
+          ? covered_call_screener_no_results_query({ query: inputValue })
+          : covered_call_screener_no_contracts()}
       />
     {/if}
   {:else}
@@ -3170,7 +3242,7 @@
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            Select Filters ({allRows?.length})
+            {covered_call_screener_select_filters_title({ count: allRows?.length })}
           </h2>
           <label
             for="ruleModal"
@@ -3245,7 +3317,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder="Search..."
+              placeholder={covered_call_screener_search_modal_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -3282,7 +3354,7 @@
         {/each}
         {#if searchTerm?.length > 0 && Object?.entries(filteredGroupedRules)?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            Nothing found.
+            {covered_call_screener_nothing_found()}
           </div>
         {/if}
       </div>
@@ -3316,7 +3388,7 @@
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      New Screen
+      {covered_call_screener_modal_new_title()}
     </h1>
     <form
       on:submit={createStrategy}
@@ -3327,14 +3399,14 @@
         id="title"
         type="text"
         errors=""
-        label="Screen name"
+        label={covered_call_screener_modal_new_name_label()}
         required={true}
       />
       <button
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        Create
+        {covered_call_screener_modal_new_create()}
       </button>
     </form>
   </div>
@@ -3364,18 +3436,17 @@
       >
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      Delete Screener
+      {covered_call_screener_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      Are you sure you want to delete this screener? This action cannot be
-      undone.
+      {covered_call_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{covered_call_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -3403,7 +3474,7 @@
             y2="17"
           ></line></svg
         >
-        Delete</label
+        {covered_call_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>

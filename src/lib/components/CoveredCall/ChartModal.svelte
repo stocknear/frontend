@@ -4,6 +4,28 @@
   import highcharts from "$lib/highcharts.ts";
   import { screenWidth } from "$lib/store";
 
+  import {
+    covered_call_screener_chart_price_at_expiration,
+    covered_call_screener_chart_last_price_label,
+    covered_call_screener_chart_breakeven_label,
+    covered_call_screener_chart_profit_loss,
+    covered_call_screener_chart_tooltip_underlying,
+    covered_call_screener_chart_tooltip_profit_loss,
+    covered_call_screener_chart_modal_title,
+    covered_call_screener_chart_trade_setup,
+    covered_call_screener_chart_buy_stock,
+    covered_call_screener_chart_sell_call,
+    covered_call_screener_chart_net_credit_debit,
+    covered_call_screener_chart_breakeven,
+    covered_call_screener_chart_above,
+    covered_call_screener_chart_last_price,
+    covered_call_screener_chart_moneyness,
+    covered_call_screener_chart_return_if_flat,
+    covered_call_screener_chart_return_if_assigned,
+    covered_call_screener_chart_probability_of_profit,
+    covered_call_screener_chart_annualized_abbr,
+  } from "$lib/paraglide/messages";
+
   export let item: any = null;
   export let isOpen = false;
   export let onClose: () => void = () => {};
@@ -59,7 +81,7 @@
         min: xMin,
         max: xMax,
         title: {
-          text: `Price at Expiration ($)`,
+          text: covered_call_screener_chart_price_at_expiration(),
           style: { color: $mode === "light" ? "#545454" : "white" },
         },
         labels: { style: { color: $mode === "light" ? "#545454" : "white" } },
@@ -70,7 +92,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `<span class="text-black dark:text-white text-sm">Last Price: ${stockPrice}</span>`,
+              text: `<span class="text-black dark:text-white text-sm">${covered_call_screener_chart_last_price_label({ price: stockPrice })}</span>`,
               style: { color: $mode === "light" ? "black" : "white" },
             },
             zIndex: 5,
@@ -81,7 +103,7 @@
             dashStyle: "Dash",
             width: 1.5,
             label: {
-              text: `<span class="hidden sm:block text-sm" style="color:#10B981">Breakeven: $${breakeven?.toFixed(2)}</span>`,
+              text: `<span class="hidden sm:block text-sm" style="color:#10B981">${covered_call_screener_chart_breakeven_label({ breakeven: breakeven?.toFixed(2) })}</span>`,
               style: { color: "#10B981" },
             },
             zIndex: 5,
@@ -90,7 +112,7 @@
       },
       yAxis: {
         title: {
-          text: "<span class='hidden sm:block'>Profit/Loss ($)</span>",
+          text: `<span class='hidden sm:block'>${covered_call_screener_chart_profit_loss()}</span>`,
           style: { color: $mode === "light" ? "#545454" : "white" },
         },
         gridLineWidth: 1,
@@ -117,11 +139,11 @@
           return `
             <div class="flex flex-col items-start text-sm">
               <div>
-                <span class="font-semibold">Underlying Price:</span> $${underlyingPrice?.toFixed(2)}
+                <span class="font-semibold">${covered_call_screener_chart_tooltip_underlying()}</span> $${underlyingPrice?.toFixed(2)}
                 (<span>${pctChange?.toFixed(2)}%</span>)
               </div>
               <div>
-                <span class="font-semibold">Profit or Loss:</span>
+                <span class="font-semibold">${covered_call_screener_chart_tooltip_profit_loss()}</span>
                 ${profitLoss < 0 ? "-$" : "$"}${Math.abs(profitLoss)?.toLocaleString("en-US")}
               </div>
             </div>
@@ -179,7 +201,7 @@
           <h3
             class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            Covered Call - {item.symbol}
+            {covered_call_screener_chart_modal_title({ symbol: item.symbol })}
           </h3>
           <span class="text-sm text-gray-600 dark:text-zinc-400">
             {item.symbol} @ {item.stockPrice?.toFixed(2)}
@@ -223,17 +245,17 @@
           >
             <div>
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                >Trade Setup</span
+                >{covered_call_screener_chart_trade_setup()}</span
               >
               <div class="text-sm text-gray-700 dark:text-zinc-300">
-                Buy Stock @ {item.stockPrice?.toFixed(2)}
+                {covered_call_screener_chart_buy_stock()} {item.stockPrice?.toFixed(2)}
                 <span class="mx-1 text-gray-400">|</span>
-                Sell {item.strike}C @ {item.bid?.toFixed(2)}
+                {covered_call_screener_chart_sell_call({ strike: item.strike })} {item.bid?.toFixed(2)}
               </div>
             </div>
             <div class="text-right">
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                >Net (Credit/Debit)</span
+                >{covered_call_screener_chart_net_credit_debit()}</span
               >
               <div class="text-sm text-gray-700 dark:text-zinc-300">
                 ${(item.bid * 100)?.toFixed(0)} / ${(
@@ -248,10 +270,10 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
           <div>
             <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Breakeven</span
+              >{covered_call_screener_chart_breakeven()}</span
             >
             <div class="text-sm text-gray-700 dark:text-zinc-300">
-              Above {item.breakeven?.toFixed(2)}
+              {covered_call_screener_chart_above()} {item.breakeven?.toFixed(2)}
               <span
                 class={item.pctBeBid >= 0
                   ? "text-emerald-700 dark:text-emerald-400"
@@ -263,7 +285,7 @@
           </div>
           <div>
             <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Last Price</span
+              >{covered_call_screener_chart_last_price()}</span
             >
             <div class="text-sm text-gray-700 dark:text-zinc-300">
               {item.stockPrice?.toFixed(2)}
@@ -271,7 +293,7 @@
           </div>
           <div>
             <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Moneyness</span
+              >{covered_call_screener_chart_moneyness()}</span
             >
             <div
               class="text-sm {item.moneynessPercent >= 0
@@ -283,23 +305,23 @@
           </div>
           <div>
             <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Return if Flat</span
+              >{covered_call_screener_chart_return_if_flat()}</span
             >
             <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.returnVal}% (ann. {item.annualizedReturn}%)
+              {item.returnVal}% ({covered_call_screener_chart_annualized_abbr()} {item.annualizedReturn}%)
             </div>
           </div>
           <div>
             <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Return if Assigned</span
+              >{covered_call_screener_chart_return_if_assigned()}</span
             >
             <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.ptnlRtn}% (ann. {item.ifCalledAnnualized}%)
+              {item.ptnlRtn}% ({covered_call_screener_chart_annualized_abbr()} {item.ifCalledAnnualized}%)
             </div>
           </div>
           <div>
             <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Probability of Profit</span
+              >{covered_call_screener_chart_probability_of_profit()}</span
             >
             <div class="text-sm text-gray-700 dark:text-zinc-300">
               {item.profitProb}%

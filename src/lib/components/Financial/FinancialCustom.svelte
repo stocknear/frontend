@@ -1,7 +1,20 @@
 <script lang="ts">
   import { displayCompanyName, selectedTimePeriod, financialHistoryRange } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
-  import { stock_detail_financials_in_currency } from "$lib/paraglide/messages";
+  import {
+    stock_detail_financials_in_currency,
+    stock_detail_financials_custom_title,
+    stock_detail_financials_newest_first,
+    stock_detail_financials_oldest_first,
+    stock_detail_financials_viewing_periods,
+    stock_detail_financials_unlock_history,
+    stock_detail_financials_upgrade_arrow,
+    stock_detail_financials_range_all,
+    stock_detail_financials_range_10y,
+    stock_detail_financials_range_5y,
+    stock_detail_financials_range_3y,
+    stock_detail_financials_range_1y,
+  } from "$lib/paraglide/messages";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import FinancialCustomGrid from "$lib/components/Financial/FinancialCustomGrid.svelte";
@@ -17,12 +30,13 @@
 
   type HistoryRange = "All" | "10Y" | "5Y" | "3Y" | "1Y";
   const HISTORY_RANGE_OPTIONS: Array<{ value: HistoryRange; label: string }> = [
-    { value: "All", label: "All" },
-    { value: "10Y", label: "10Y" },
-    { value: "5Y", label: "5Y" },
-    { value: "3Y", label: "3Y" },
-    { value: "1Y", label: "1Y" },
+    { value: "All", label: stock_detail_financials_range_all() },
+    { value: "10Y", label: stock_detail_financials_range_10y() },
+    { value: "5Y", label: stock_detail_financials_range_5y() },
+    { value: "3Y", label: stock_detail_financials_range_3y() },
+    { value: "1Y", label: stock_detail_financials_range_1y() },
   ];
+  const RANGE_LABEL_MAP = Object.fromEntries(HISTORY_RANGE_OPTIONS.map(o => [o.value, o.label]));
 
   const filterByHistoryRange = (
     statements: any[] = [],
@@ -124,7 +138,7 @@
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {removeCompanyStrings($displayCompanyName)} Custom Financials
+              {removeCompanyStrings($displayCompanyName)} {stock_detail_financials_custom_title()}
             </h1>
           </div>
 
@@ -153,7 +167,7 @@
                         builders={[builder]}
                         class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                       >
-                        <span class="text-sm">{$financialHistoryRange}</span>
+                        <span class="text-sm">{RANGE_LABEL_MAP[$financialHistoryRange] || $financialHistoryRange}</span>
                         <svg
                           class="-mr-1 ml-1 h-4 w-4"
                           viewBox="0 0 20 20"
@@ -194,7 +208,7 @@
                   <Button
                     on:click={() => (switchDate = !switchDate)}
                     class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
-                    title={switchDate ? "Newest first" : "Oldest first"}
+                    title={switchDate ? stock_detail_financials_newest_first() : stock_detail_financials_oldest_first()}
                   >
                     <svg
                       class="shrink-0 w-5 h-5 pointer-events-none"
@@ -235,11 +249,10 @@
                       />
                     </svg>
                     <span>
-                      Viewing {mergedData.length} periods
+                      {stock_detail_financials_viewing_periods({ count: mergedData.length })}
                       {#if lockInfo.lockedFiscalYearRange}
                         <span class="font-medium"
-                          >&middot; Unlock {lockInfo.lockedFiscalYearRange} for full
-                          history</span
+                          >&middot; {stock_detail_financials_unlock_history({ range: lockInfo.lockedFiscalYearRange })}</span
                         >
                       {/if}
                     </span>
@@ -247,7 +260,7 @@
                   <span
                     class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap"
                   >
-                    Upgrade &rarr;
+                    {stock_detail_financials_upgrade_arrow()} &rarr;
                   </span>
                 </a>
               {/if}

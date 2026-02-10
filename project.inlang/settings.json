@@ -74,7 +74,8 @@
       "./messages/{locale}/upgrade-to-pro.json",
       "./messages/{locale}/error.json",
       "./messages/{locale}/index.json",
-      "./messages/{locale}/chart.json"
+      "./messages/{locale}/chart.json",
+      "./messages/{locale}/covered-call-screener.json"
     ]
   }
 }

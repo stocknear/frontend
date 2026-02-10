@@ -11,6 +11,10 @@
     stock_detail_financials_line_chart,
     stock_detail_financials_loading,
     stock_detail_financials_peaked_at,
+    stock_detail_financials_range_5y,
+    stock_detail_financials_range_10y,
+    stock_detail_financials_range_max,
+    stock_detail_financials_fy_prefix,
   } from "$lib/paraglide/messages";
 
   import { mode } from "mode-watcher";
@@ -40,9 +44,9 @@
   };
 
   const RANGE_OPTIONS: RangeOption[] = [
-    { value: "5Y", label: "5Y" },
-    { value: "10Y", label: "10Y", locked: true },
-    { value: "MAX", label: "MAX", locked: true },
+    { value: "5Y", label: stock_detail_financials_range_5y() },
+    { value: "10Y", label: stock_detail_financials_range_10y(), locked: true },
+    { value: "MAX", label: stock_detail_financials_range_max(), locked: true },
   ];
 
   let selectedRange = "5Y";
@@ -503,7 +507,7 @@
       const periodLabel =
         entry?.period ?? (currentPeriod === "ttm" ? "TTM" : "");
       if (periodLabel && fiscalYear) {
-        return `${periodLabel} FY ${fiscalYear}`;
+        return `${periodLabel} ${stock_detail_financials_fy_prefix()} ${fiscalYear}`;
       }
       return periodLabel || fiscalYear || "-";
     }

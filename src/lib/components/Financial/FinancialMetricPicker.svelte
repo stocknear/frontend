@@ -5,6 +5,18 @@
     STATEMENT_INDICATORS,
     type StatementIndicatorConfig,
   } from "$lib/financials/statementIndicators";
+  import {
+    stock_detail_financials_indicators,
+    stock_detail_financials_search_indicators,
+    stock_detail_financials_presets,
+    stock_detail_financials_no_indicators_found,
+    stock_detail_financials_reset_selection,
+    stock_detail_financials_select_all,
+    stock_detail_financials_income_statement,
+    stock_detail_financials_balance_sheet_statement,
+    stock_detail_financials_cash_flow_statement,
+    stock_detail_financials_ratios_metrics,
+  } from "$lib/paraglide/messages";
 
   export let selectedIds: Set<string> = new Set();
   export let selectedPresetKeys: Set<string> = new Set();
@@ -23,10 +35,10 @@
   let searchQuery = "";
 
   const GROUPS: { key: string; label: string; statement: string }[] = [
-    { key: "income", label: "Income Statement", statement: "income" },
-    { key: "balance", label: "Balance Sheet", statement: "balance" },
-    { key: "cashflow", label: "Cash Flow", statement: "cashflow" },
-    { key: "ratios", label: "Ratios", statement: "ratios" },
+    { key: "income", label: stock_detail_financials_income_statement(), statement: "income" },
+    { key: "balance", label: stock_detail_financials_balance_sheet_statement(), statement: "balance" },
+    { key: "cashflow", label: stock_detail_financials_cash_flow_statement(), statement: "cashflow" },
+    { key: "ratios", label: stock_detail_financials_ratios_metrics(), statement: "ratios" },
   ];
 
   // Group indicators by statement
@@ -62,7 +74,7 @@
       builders={[builder]}
       class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
-      <span class="text-[0.85rem] sm:text-sm">Indicators</span>
+      <span class="text-[0.85rem] sm:text-sm">{stock_detail_financials_indicators()}</span>
       {#if totalSelected > 0}
         <div
           class="ml-1.5 flex items-center justify-center h-4 min-w-[16px] px-1 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
@@ -103,7 +115,7 @@
           autocomplete="off"
           class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
           type="text"
-          placeholder="Search indicators..."
+          placeholder={stock_detail_financials_search_indicators()}
         />
         {#if searchQuery.length > 0}
           <button
@@ -135,7 +147,7 @@
       <div
         class="text-[10px] uppercase tracking-wider font-semibold text-gray-400 dark:text-zinc-500 px-2 pt-3 pb-1"
       >
-        Presets
+        {stock_detail_financials_presets()}
       </div>
       {#each filteredPresets as preset}
         <DropdownMenu.Item
@@ -184,7 +196,7 @@
 
     {#if filteredGroups.length === 0 && filteredPresets.length === 0}
       <div class="px-2 py-3 text-xs text-gray-500 dark:text-zinc-400 text-center">
-        No indicators found
+        {stock_detail_financials_no_indicators_found()}
       </div>
     {/if}
 
@@ -196,13 +208,13 @@
         on:click={() => { searchQuery = ""; onReset(); }}
         class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
-        Reset Selection
+        {stock_detail_financials_reset_selection()}
       </label>
       <label
         on:click={() => { searchQuery = ""; onSelectAll(); }}
         class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
-        Select All
+        {stock_detail_financials_select_all()}
       </label>
     </div>
   </DropdownMenu.Content>

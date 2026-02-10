@@ -1,6 +1,7 @@
 <script lang="ts">
   import FinancialChartCard from "$lib/components/Financial/FinancialChartCard.svelte";
   import { selectedTimePeriod } from "$lib/store";
+  import { stock_detail_financials_fy_prefix } from "$lib/paraglide/messages";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
 
   export let mergedData: Record<string, any>[] = [];
@@ -19,9 +20,10 @@
   function buildXList(data: Record<string, any>[]): string[] {
     return data.map(row => {
       const year = row.fiscalYear?.slice?.(-2) || '';
+      const fyPrefix = stock_detail_financials_fy_prefix();
       return $selectedTimePeriod === 'annual'
-        ? 'FY' + year
-        : 'FY' + year + ' ' + row.period;
+        ? fyPrefix + year
+        : fyPrefix + year + ' ' + row.period;
     });
   }
 

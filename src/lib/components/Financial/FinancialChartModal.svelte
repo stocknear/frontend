@@ -1,5 +1,17 @@
 <script lang="ts">
   import { stockTicker, financialHistoryRange } from "$lib/store";
+  import {
+    stock_detail_financials_range_all,
+    stock_detail_financials_range_10y,
+    stock_detail_financials_range_5y,
+    stock_detail_financials_range_3y,
+    stock_detail_financials_range_1y,
+    stock_detail_financials_cagr_label,
+    stock_detail_financials_cagr_description,
+    stock_detail_financials_chart_line,
+    stock_detail_financials_chart_bar,
+    stock_detail_financials_fy_prefix,
+  } from "$lib/paraglide/messages";
   import { abbreviateNumber, calculatePeriodCAGRs, formatCAGRValue, getCAGRColorClass, sortStatementsChronologicallyForCAGR } from "$lib/utils";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { mode } from "mode-watcher";
@@ -39,12 +51,13 @@
     value: "All" | "10Y" | "5Y" | "3Y" | "1Y";
     label: string;
   }> = [
-    { value: "All", label: "All" },
-    { value: "10Y", label: "10Y" },
-    { value: "5Y", label: "5Y" },
-    { value: "3Y", label: "3Y" },
-    { value: "1Y", label: "1Y" },
+    { value: "All", label: stock_detail_financials_range_all() },
+    { value: "10Y", label: stock_detail_financials_range_10y() },
+    { value: "5Y", label: stock_detail_financials_range_5y() },
+    { value: "3Y", label: stock_detail_financials_range_3y() },
+    { value: "1Y", label: stock_detail_financials_range_1y() },
   ];
+  const RANGE_LABEL_MAP = Object.fromEntries(RANGE_OPTIONS.map(o => [o.value, o.label]));
 
   const normalizeRange = (
     value: string,
@@ -134,7 +147,7 @@
       const periodLabel = entry?.period || (periodType === "ttm" ? "TTM" : "");
       return periodLabel && fiscalYear ? `${periodLabel} ${fiscalYear}` : fiscalYear;
     }
-    return `FY ${fiscalYear}`;
+    return `${stock_detail_financials_fy_prefix()} ${fiscalYear}`;
   }
 
   // Get value for current overlay
@@ -521,7 +534,7 @@
                 builders={[builder]}
                 class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
               >
-                <span>{selectedRange}</span>
+                <span>{RANGE_LABEL_MAP[selectedRange] || selectedRange}</span>
                 <svg
                   class="-mr-1 ml-1 h-4 w-4"
                   viewBox="0 0 20 20"
@@ -585,10 +598,10 @@
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />
-              <span>Line</span>
+              <span>{stock_detail_financials_chart_line()}</span>
             {:else}
               <BarChart class="w-4 h-4" />
-              <span>Bar</span>
+              <span>{stock_detail_financials_chart_bar()}</span>
             {/if}
           </Button>
         </div>
@@ -630,7 +643,7 @@
       {#if !hideCAGR}
         <div class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-sm font-medium text-gray-700 dark:text-zinc-300 mr-2">CAGR:</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-zinc-300 mr-2">{stock_detail_financials_cagr_label()}</span>
             {#if isPremiumUser}
               {#each Object.entries(cagrValues) as [period, value]}
                 <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(value)}">
@@ -661,7 +674,7 @@
             {/if}
           </div>
           <p class="text-xs text-gray-500 dark:text-zinc-500 mt-2">
-            CAGR (Compound Annual Growth Rate) shows the smoothed annual rate of growth over the specified period.
+            {stock_detail_financials_cagr_description()}
           </p>
         </div>
       {/if}

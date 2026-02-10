@@ -6,6 +6,7 @@
     stock_detail_financials_annual,
     stock_detail_financials_balance_sheet,
     stock_detail_financials_cashflow,
+    stock_detail_financials_custom,
     stock_detail_financials_income,
     stock_detail_financials_quarterly,
     stock_detail_financials_ratios,
@@ -160,7 +161,7 @@
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                     : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
-                  Custom
+                  {stock_detail_financials_custom()}
                 </a>
 
                 <a
