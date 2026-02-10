@@ -31,6 +31,7 @@
   let article = data?.getArticle;
   let relatedArticles = data?.getRelatedArticles || [];
   $: isAdmin = data?.user?.admin === true;
+  $: isDailyLocked = article?.category === "Daily" && !data?.user;
 
   // Build back URL based on article category
   $: backUrl =
@@ -733,15 +734,54 @@
         </header>
 
         <!-- Article Content -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div class="article-content" on:click={handleArticleClick}>
-          {@html processedDescription?.replace(
-            "__VIDEO_SRC__",
-            getImageURL(article?.collectionId, article?.id, article?.video),
-          )}
-        </div>
+        {#if isDailyLocked}
+          <div class="relative">
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div class="article-content max-h-[400px] overflow-hidden" on:click={handleArticleClick}>
+              {@html processedDescription?.replace(
+                "__VIDEO_SRC__",
+                getImageURL(article?.collectionId, article?.id, article?.video),
+              )}
+            </div>
+            <!-- Gradient fade overlay -->
+            <div class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-[#09090B] dark:via-[#09090B]/95 pointer-events-none"></div>
+          </div>
+
+          <!-- CTA Section -->
+          <div class="text-center pt-8 pb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              Sign in to read the full briefing.
+            </h2>
+            <p class="text-gray-500 dark:text-zinc-400 mb-8 max-w-md mx-auto">
+              The Daily Market Briefing is available to Stocknear members. Create a free account or sign in to unlock the full analysis.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href="/register"
+                class="w-full sm:w-auto px-8 py-3 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-semibold text-sm transition"
+              >
+                Create free account
+              </a>
+              <a
+                href="/login"
+                class="w-full sm:w-auto px-8 py-3 rounded-full border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 hover:border-violet-400 dark:hover:border-violet-500 font-semibold text-sm transition"
+              >
+                Sign in
+              </a>
+            </div>
+          </div>
+        {:else}
+          <!-- svelte-ignore a11y-no-static-element-interactions -->
+          <div class="article-content" on:click={handleArticleClick}>
+            {@html processedDescription?.replace(
+              "__VIDEO_SRC__",
+              getImageURL(article?.collectionId, article?.id, article?.video),
+            )}
+          </div>
+        {/if}
 
         <!-- Bottom Share Section -->
+        {#if !isDailyLocked}
         <div class="border-t border-gray-200 dark:border-zinc-800 mt-12 pt-8">
           <div class="flex flex-col items-center gap-4">
             <span class="text-sm font-medium text-gray-500 dark:text-zinc-400"
@@ -820,6 +860,7 @@
             </div>
           </div>
         </div>
+        {/if}
       </article>
 
       <!-- Right Sidebar (Desktop Only) -->
