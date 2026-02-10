@@ -1221,6 +1221,7 @@
     if (strategyList?.length > 0) {
       strategyList.find((item) => item.id === selectedStrategy).rules =
         ruleOfList;
+      strategyList = strategyList;
 
       const postData = {
         strategyId: selectedStrategy,
@@ -1966,7 +1967,7 @@
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
-                        : item?.title} ({item?.rules?.length})
+                        : item?.title} ({item?.id === selectedStrategy ? ruleOfList?.length : item?.rules?.length})
 
                       <label
                         for="deleteStrategy"
