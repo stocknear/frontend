@@ -85,8 +85,6 @@
     stock_screener_structured_name,
   } from "$lib/paraglide/messages";
 
-  //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
-
   import { writable } from "svelte/store";
 
   let shouldLoadWorker = writable(false);
@@ -200,12 +198,12 @@
   let hoverTimeout = null; // Debounce hover events
 
   let stockScreenerData = data?.getStockScreenerData?.filter((item) =>
-    Object?.values(item)?.every(
+    Object.values(item)?.every(
       (value) =>
         value !== null &&
         value !== undefined &&
         (typeof value !== "object" ||
-          Object?.values(value)?.every(
+          Object.values(value)?.every(
             (subValue) => subValue !== null && subValue !== undefined,
           )),
     ),
@@ -1700,7 +1698,7 @@
   let totalPages = 1;
 
   // Generate allRows from allRules
-  $: allRows = Object?.entries(allRules)
+  $: allRows = Object.entries(allRules)
     ?.sort(([, a], [, b]) => a.label.localeCompare(b.label)) // Sort by label
     ?.map(([ruleName, ruleProps]) => ({
       rule: ruleName,
@@ -1742,7 +1740,7 @@
   });
 
   async function handleCreateStrategy() {
-    if (["Pro", "Plus"]?.includes(data?.user?.tier)) {
+    if (["Pro", "Plus"].includes(data?.user?.tier)) {
       const closePopup = document.getElementById("addStrategy");
       closePopup?.dispatchEvent(new MouseEvent("click"));
     } else {
@@ -1800,8 +1798,6 @@
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
-      // return something if you need to chain further
-      return true;
     })();
 
     return toast?.promise(deletePromise, {
@@ -1911,7 +1907,7 @@
     });
   }
 
-  async function resetTableSearch() {
+  function resetTableSearch() {
     inputValue = "";
     filteredData = [...originalFilteredData];
     currentUnsortedData = [...originalFilteredData];
@@ -1944,15 +1940,15 @@
     await updateStockScreenerData();
     checkedItems = new Map(
       ruleOfList
-        ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
+        ?.filter((rule) => checkedRules.includes(rule.name)) // Only include specific rules
         ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
     );
   }
 
   function changeRule(state: string) {
     if (
-      !["Pro", "Plus"]?.includes(data?.user?.tier) &&
-      onlySubscriberRules?.includes(state)
+      !["Pro", "Plus"].includes(data?.user?.tier) &&
+      onlySubscriberRules.includes(state)
     ) {
       goto("/pricing");
     } else {
@@ -2222,7 +2218,6 @@
 
   const selectQuickSearchRule = (rule) => {
     changeRule(rule.rule);
-    //quickSearchTerm = "";
     quickSearchResults = [];
     showQuickSearchDropdown = false;
     selectedQuickSearchIndex = -1;
@@ -2298,18 +2293,10 @@
     );
 
     if (existingRuleIndex !== -1) {
-      const existingRule = ruleOfList[existingRuleIndex];
-      if (existingRule.name === newRule.name) {
-        // Remove the rule instead of showing an error
-        ruleOfList.splice(existingRuleIndex, 1);
-        ruleOfList = [...ruleOfList]; // Trigger reactivity
-      } else {
-        ruleOfList[existingRuleIndex] = newRule;
-        ruleOfList = [...ruleOfList]; // Trigger reactivity
-      }
+      ruleOfList.splice(existingRuleIndex, 1);
+      ruleOfList = [...ruleOfList];
     } else {
       ruleOfList = [...ruleOfList, newRule];
-
       await updateStockScreenerData();
     }
   }
@@ -2319,7 +2306,7 @@
     resetTableSearch();
     displayTableTab = "general";
     ruleOfList = [];
-    Object?.keys(allRules)?.forEach((ruleName) => {
+    Object.keys(allRules).forEach((ruleName) => {
       ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
       valueMappings[ruleName] = allRules[ruleName].defaultValue;
     });
@@ -2327,9 +2314,7 @@
     filteredData = [];
     displayResults = [];
     checkedItems = new Map();
-    ruleOfList = [...ruleOfList];
     await updateStockScreenerData();
-    //await handleSave(false);
   }
 
   async function handleDeleteRule(state) {
@@ -2386,7 +2371,6 @@
           displayResults = [];
           currentPage = 1;
           totalPages = 1;
-          displayResults = [];
         } else if (state === ruleName) {
           ruleName = "";
         }
@@ -2400,10 +2384,8 @@
   function updatePaginatedData() {
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    // Use filteredData for paginated results
-    const dataSource = inputValue?.length > 0 ? filteredData : filteredData;
-    displayResults = dataSource?.slice(startIndex, endIndex) || [];
-    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+    displayResults = filteredData?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
   }
 
   function goToPage(page) {
@@ -2467,16 +2449,6 @@
       console.warn("Failed to save full width preference:", e);
     }
   }
-
-  /*
-const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault(); // prevent the browser's default save action
-      handleSave();
-    }
-  };
-
-*/
 
   let LoginPopup;
 
@@ -2637,7 +2609,7 @@ const handleKeyDown = (event) => {
 
   let checkedItems = new Map(
     ruleOfList
-      ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
+      ?.filter((rule) => checkedRules.includes(rule.name)) // Only include specific rules
       ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
   );
 
@@ -2722,7 +2694,7 @@ const handleKeyDown = (event) => {
       checkedItems?.set(ruleName, new Set([valueKey]));
     }
 
-    if (checkedRules?.includes(ruleName)) {
+    if (checkedRules.includes(ruleName)) {
       searchQuery = "";
       if (!Array.isArray(valueMappings[ruleName])) {
         valueMappings[ruleName] = [];
@@ -2730,9 +2702,9 @@ const handleKeyDown = (event) => {
 
       // Apply sorting only if shouldSort is true
       const sortedValue =
-        shouldSort && Array?.isArray(value) ? value?.sort(customSort) : value;
+        shouldSort && Array.isArray(value) ? value?.sort(customSort) : value;
 
-      const valueKey = Array?.isArray(sortedValue)
+      const valueKey = Array.isArray(sortedValue)
         ? sortedValue.join("-")
         : sortedValue;
 
@@ -2749,7 +2721,7 @@ const handleKeyDown = (event) => {
 
       if (!skipFetch) await updateStockScreenerData();
     } else if (ruleName in valueMappings) {
-      if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
+      if (ruleCondition[ruleName] === "between" && Array.isArray(value)) {
         // Apply sorting only if shouldSort is true
         valueMappings[ruleName] = shouldSort ? value?.sort(customSort) : value;
       } else {
@@ -2781,7 +2753,7 @@ const handleKeyDown = (event) => {
 
     // Round to 2 decimal places for consistency
     number = parseFloat(number?.toFixed(2));
-    const newValue = suffix ? `${number}${suffix}` : Math?.round(number);
+    const newValue = suffix ? `${number}${suffix}` : Math.round(number);
     await handleChangeValue(newValue);
   }
 
@@ -2983,11 +2955,11 @@ const handleKeyDown = (event) => {
               ? sectorList
               : ruleName === "industry"
                 ? industryList
-                : ["analystRating", "topAnalystRating", "score"]?.includes(
+                : ["analystRating", "topAnalystRating", "score"].includes(
                       ruleName,
                     )
                   ? ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"]
-                  : []; //["Compliant", "Non-Compliant"];
+                  : [];
         testList =
           rawList?.filter((item) => {
             const index = item?.toLowerCase();
@@ -3268,7 +3240,7 @@ const handleKeyDown = (event) => {
           "analysts",
           "dividends",
           "financials",
-        ]?.includes(displayTableTab)
+        ].includes(displayTableTab)
           ? tabRuleList
           : displayRules;
         rulesList?.forEach((rule) => {
@@ -3381,39 +3353,6 @@ const handleKeyDown = (event) => {
       await updateStockScreenerData();
     }
   }
-  /*
-  async function handleMouseOver() {
-    if (displayTableTab !== "performance") {
-      hoverStatus = true;
-      otherTabRules = [
-        { name: "marketCap", value: "any" },
-        { name: "change1W", value: "any" },
-        { name: "change1M", value: "any" },
-        { name: "change3M", value: "any" },
-        { name: "change1Y", value: "any" },
-      ];
-      tabRuleList = otherTabRules
-        ?.map((rule) => allRows.find((row) => row.rule === rule.name))
-        ?.filter(Boolean);
-
-      await updateStockScreenerData();
-    } else if (displayTableTab !== "analysts") {
-      hoverStatus = true;
-      otherTabRules = [
-        { name: "marketCap", value: "any" },
-        { name: "analystRating", value: "any" },
-        { name: "analystCounter", value: "any" },
-        { name: "priceTarget", value: "any" },
-        { name: "upside", value: "any" },
-      ];
-      tabRuleList = otherTabRules
-        ?.map((rule) => allRows.find((row) => row.rule === rule.name))
-        ?.filter(Boolean);
-
-      await updateStockScreenerData();
-    }
-  }
-  */
 </script>
 
 <SEO
@@ -3452,8 +3391,6 @@ const handleKeyDown = (event) => {
     },
   }}
 />
-
-<!-- Removed scroll handler, using pagination instead -->
 
 <section
   class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
@@ -3805,7 +3742,7 @@ const handleKeyDown = (event) => {
                     type="button"
                     on:click={() => selectQuickSearchRule(result)}
                   >
-                    {#if onlySubscriberRules?.includes(result?.rule) && !["Plus", "Pro"]?.includes(data?.user?.tier)}
+                    {#if onlySubscriberRules.includes(result?.rule) && !["Plus", "Pro"].includes(data?.user?.tier)}
                       <svg
                         class="w-4 h-4 text-icon inline-block ml-1 mr-2"
                         xmlns="http://www.w3.org/2000/svg"
@@ -4019,7 +3956,7 @@ const handleKeyDown = (event) => {
                         alignOffset={0}
                         class="w-fit min-h-auto max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
-                        {#if !checkedRules?.includes(row?.rule)}
+                        {#if !checkedRules.includes(row?.rule)}
                           <DropdownMenu.Label
                             class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                           >
@@ -4080,7 +4017,7 @@ const handleKeyDown = (event) => {
                                   <input
                                     type="text"
                                     placeholder={stock_screener_input_min()}
-                                    value={Array?.isArray(
+                                    value={Array.isArray(
                                       valueMappings[row?.rule],
                                     )
                                       ? valueMappings[row?.rule]?.at(0)
@@ -4095,7 +4032,7 @@ const handleKeyDown = (event) => {
                                   <input
                                     type="text"
                                     placeholder={stock_screener_input_max()}
-                                    value={Array?.isArray(
+                                    value={Array.isArray(
                                       valueMappings[row?.rule],
                                     )
                                       ? valueMappings[row?.rule]?.at(1)
@@ -4118,7 +4055,7 @@ const handleKeyDown = (event) => {
                                 />
                               {/if}
 
-                              {#if ["over", "under", "exactly"]?.includes(ruleCondition[ruleName]?.toLowerCase())}
+                              {#if ["over", "under", "exactly"].includes(ruleCondition[ruleName]?.toLowerCase())}
                                 <div
                                   class="ml-2 flex touch-manipulation flex-row items-center gap-x-1.5"
                                 >
@@ -4186,7 +4123,7 @@ const handleKeyDown = (event) => {
                                 'sector',
                                 'industry',
                                 'country',
-                              ]?.includes(row?.rule)
+                              ].includes(row?.rule)
                                 ? 'hidden'
                                 : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
                                       focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300"
@@ -4195,7 +4132,7 @@ const handleKeyDown = (event) => {
                           </div>
                         {/if}
                         <DropdownMenu.Group class="min-h-10 mt-2">
-                          {#if !checkedRules?.includes(row?.rule)}
+                          {#if !checkedRules.includes(row?.rule)}
                             {#each row?.step as newValue, index}
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
@@ -4240,7 +4177,7 @@ const handleKeyDown = (event) => {
                                 </DropdownMenu.Item>
                               {/if}
                             {/each}
-                          {:else if checkedRules?.includes(row?.rule)}
+                          {:else if checkedRules.includes(row?.rule)}
                             {#each row?.step as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
@@ -4268,7 +4205,7 @@ const handleKeyDown = (event) => {
                               </DropdownMenu.Item>
                             {/each}
                           {:else}
-                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : row?.rule === "country" ? listOfRelevantCountries : row?.rule === "sector" ? sectorList : row?.rule === "industry" ? industryList : ["analystRating", "topAnalystRating", "score"]?.includes(ruleName) ? ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"] : [] as item}
+                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : row?.rule === "country" ? listOfRelevantCountries : row?.rule === "sector" ? sectorList : row?.rule === "industry" ? industryList : ["analystRating", "topAnalystRating", "score"].includes(ruleName) ? ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"] : [] as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
@@ -4690,7 +4627,7 @@ const handleKeyDown = (event) => {
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
+                        {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency", "marketCapGroup"].includes(column.key)}
                           {#if item[column.key]}
                             {item[column.key]
                               ?.replace("After Market Close", "After Close")
@@ -4735,7 +4672,7 @@ const handleKeyDown = (event) => {
                           {:else}
                             <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                           {/if}
-                        {:else if ["score", "analystRating", "topAnalystRating"]?.includes(column.key)}
+                        {:else if ["score", "analystRating", "topAnalystRating"].includes(column.key)}
                           {#if ["Strong Buy", "Buy"].includes(item[column.key])}
                             <span
                               class=" text-emerald-800 dark:text-emerald-400"
@@ -4902,7 +4839,7 @@ const handleKeyDown = (event) => {
                       >
                         {abbreviateNumber(item?.marketCap)}
                       </td>
-                    {:else if ["analystCounter", "priceTarget", "topAnalystCounter", "topAnalystPriceTarget"]?.includes(column.key)}
+                    {:else if ["analystCounter", "priceTarget", "topAnalystCounter", "topAnalystPriceTarget"].includes(column.key)}
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
@@ -4914,7 +4851,7 @@ const handleKeyDown = (event) => {
                           <span>n/a</span>
                         {/if}
                       </td>
-                    {:else if ["upside", "topAnalystUpside"]?.includes(column.key)}
+                    {:else if ["upside", "topAnalystUpside"].includes(column.key)}
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
@@ -4932,7 +4869,7 @@ const handleKeyDown = (event) => {
                           <span class="">n/a</span>
                         {/if}
                       </td>
-                    {:else if ["analystRating", "topAnalystRating"]?.includes(column.key)}
+                    {:else if ["analystRating", "topAnalystRating"].includes(column.key)}
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
@@ -4971,7 +4908,7 @@ const handleKeyDown = (event) => {
             </tbody>
           </table>
         </div>
-      {:else if ["dividends", "financials"]?.includes(displayTableTab)}
+      {:else if ["dividends", "financials"].includes(displayTableTab)}
         <div
           class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
@@ -5344,7 +5281,7 @@ const handleKeyDown = (event) => {
 
       <!-- Content -->
       <div class="">
-        {#each searchTerm?.length !== 0 ? Object?.entries(filteredGroupedRules) : Object?.entries(groupedRules) as [category, rules]}
+        {#each searchTerm?.length !== 0 ? Object.entries(filteredGroupedRules) : Object.entries(groupedRules) as [category, rules]}
           <h4
             class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
           >
@@ -5355,7 +5292,7 @@ const handleKeyDown = (event) => {
               <div
                 class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1"
               >
-                {#if onlySubscriberRules?.includes(row?.rule) && !["Pro", "Plus"]?.includes(data?.user?.tier)}
+                {#if onlySubscriberRules.includes(row?.rule) && !["Pro", "Plus"].includes(data?.user?.tier)}
                   <label
                     id={row?.rule}
                     on:click={() => changeRule(row?.rule)}
@@ -5396,7 +5333,7 @@ const handleKeyDown = (event) => {
             {/each}
           </div>
         {/each}
-        {#if searchTerm?.length > 0 && Object?.entries(filteredGroupedRules)?.length === 0}
+        {#if searchTerm?.length > 0 && Object.entries(filteredGroupedRules)?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
             {stock_screener_nothing_found()}
           </div>
