@@ -1359,7 +1359,8 @@
   const initialFeed = data?.getOptionsFlowFeed?.data ?? [];
   const totalOrders = data?.getOptionsFlowFeed?.totalOrders ?? 0;
   const dateString = initialFeed?.at(0)?.date;
-  const formattedNyseDate = dateString ?? "";
+  const nyseDate = new Date(`${dateString}T12:00:00Z`);
+  const formattedNyseDate = nyseDate.toISOString().split("T")[0];
 
   let rawData = prepareInitialFlowData(initialFeed);
 
@@ -2197,8 +2198,8 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              ></path></svg>
-
+                              ></path></svg
+                            >
                           </label>
                         </DropdownMenu.Item>
                       {/each}
@@ -2241,8 +2242,8 @@
                       ><path
                         fill="currentColor"
                         d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"
-                      /></svg>
-
+                      /></svg
+                    >
                   {:else}
                     <svg
                       class="w-4 h-4"
@@ -2251,8 +2252,8 @@
                       ><path
                         fill="currentColor"
                         d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"
-                      /></svg>
-
+                      /></svg
+                    >
                   {/if}
                 </div>
               </label>
@@ -2499,8 +2500,8 @@
                             fill-rule="evenodd"
                             d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                             clip-rule="evenodd"
-                          ></path></svg>
-
+                          ></path></svg
+                        >
 
                         <label
                           class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
@@ -2537,7 +2538,8 @@
                     ><path
                       fill="currentColor"
                       d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                    /></svg>
+                    /></svg
+                  >
 
                   <div>{options_flow_save()}</div>
                 </label>
@@ -2582,7 +2584,8 @@
                       ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
                         d="M7.5 6.5h-4v-4"
                       /></g
-                    ></svg>
+                    ></svg
+                  >
 
                   <div>{options_flow_reset_all()}</div>
                 </label>
@@ -2718,8 +2721,8 @@
                                               fill-rule="evenodd"
                                               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                               clip-rule="evenodd"
-                                            ></path></svg>
-
+                                            ></path></svg
+                                          >
                                         </Button>
                                       </DropdownMenu.Trigger>
                                       <DropdownMenu.Content>
@@ -2806,9 +2809,9 @@
                                             stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                          ></path></svg>
-</button
-                                      >
+                                          ></path></svg
+                                        >
+                                      </button>
                                       <button
                                         on:click={() =>
                                           stepSizeValue(
@@ -2826,9 +2829,9 @@
                                             stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                          ></path></svg>
-</button
-                                      >
+                                          ></path></svg
+                                        >
+                                      </button>
                                     </div>
                                   {/if}
                                   <!--End Dropdown for Condition-->
@@ -3556,7 +3559,8 @@
               ><path
                 fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-              /></svg>
+              /></svg
+            >
           </label>
         </div>
 
@@ -3608,9 +3612,9 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M6 18L18 6M6 6l12 12"
-                  ></path></svg>
-</button
-              >
+                  ></path></svg
+                >
+              </button>
             </div>
 
             <input
@@ -3641,8 +3645,8 @@
                     ><path
                       fill="currentColor"
                       d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                    /></svg>
-
+                    /></svg
+                  >
                 </label>
               {:else}
                 <input
@@ -3696,7 +3700,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -3750,7 +3755,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       {options_flow_modal_delete_title()}
@@ -3789,8 +3795,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-{options_flow_modal_delete_confirm()}</label
+          ></line></svg
+        >
+        {options_flow_modal_delete_confirm()}</label
       >
     </div>
   </div>

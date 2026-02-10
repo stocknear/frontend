@@ -519,34 +519,31 @@
       "2026-12-25",
     ];
 
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    // Get the current time in the ET time zone
     const etTimeZone = "America/New_York";
-    const now = new Date();
-    const currentDate = now.toLocaleDateString("en-CA", {
+    const currentTime = new Date().toLocaleString("en-US", {
       timeZone: etTimeZone,
     });
-    const etNow = new Date(
-      now.toLocaleString("en-US", {
-        timeZone: etTimeZone,
-      }),
-    );
 
     // Determine if the NYSE is currently open or closed
-    const currentHour = etNow.getHours();
-    const currentMinute = etNow.getMinutes();
-    const currentDay = etNow.getDay();
-    const isWeekendValue = currentDay === 6 || currentDay === 0;
+    const currentHour = new Date(currentTime).getHours();
+    const isWeekendValue =
+      new Date(currentTime).getDay() === 6 ||
+      new Date(currentTime).getDay() === 0;
     const isBeforeMarketOpenValue =
-      currentHour < 9 || (currentHour === 9 && currentMinute < 30);
+      currentHour < 9 ||
+      (currentHour === 9 && new Date(currentTime).getMinutes() < 30);
     const isAfterMarketCloseValue = currentHour >= 16;
-    const isHolidayValue = holidays.includes(currentDate);
 
-    isHoliday.set(isHolidayValue);
+    isHoliday.set(holidays?.includes(currentDate));
     isOpen.set(
       !(
         isWeekendValue ||
         isBeforeMarketOpenValue ||
         isAfterMarketCloseValue ||
-        isHolidayValue
+        holidays?.includes(currentDate)
       ),
     );
 
