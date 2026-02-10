@@ -91,8 +91,18 @@ const getEarningsDataMap = async () => {
   return map;
 };
 
+// Derive marketCapGroup label from marketCap value
+function getMarketCapGroup(marketCap) {
+  if (marketCap >= 200_000_000_000) return "Mega-Cap (200B+)";
+  if (marketCap >= 10_000_000_000) return "Large-Cap (10-200B)";
+  if (marketCap >= 2_000_000_000) return "Mid-Cap (2-10B)";
+  if (marketCap >= 300_000_000) return "Small-Cap (300M-2B)";
+  if (marketCap >= 50_000_000) return "Micro-Cap (Under 300M)";
+  return "Nano-Cap (Under 50M)";
+}
+
 // Fields that are legitimately nullable (not every stock has an upcoming earnings date)
-const nullableFields = new Set(["marketCap", "earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"]);
+const nullableFields = new Set(["marketCap", "marketCapGroup", "earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"]);
 
 // Optimized validation function
 const isValidValue = (value) => {
@@ -140,6 +150,7 @@ onmessage = async (event) => {
         ? earningsMap.get(item.symbol)
         : null;
       item.marketCap = earnings?.marketCap ?? null;
+      item.marketCapGroup = item.marketCap ? getMarketCapGroup(item.marketCap) : null;
       item.earningsDate = earnings?.earningsDate ?? null;
       item.earningsTime = earnings?.earningsTime ?? null;
       item.earningsRevenueEst = earnings?.earningsRevenueEst ?? null;

@@ -70,6 +70,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     ifCalledReturn: {
       label: "If Called Return",
@@ -77,6 +78,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     ifCalledAnnualized: {
       label: "If Called Annualized",
@@ -84,6 +86,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     downsideProtection: {
       label: "Downside Protection",
@@ -91,6 +94,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     moneynessPercent: {
       label: "% Moneyness",
@@ -98,6 +102,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
+      category: "Options Activity",
     },
     dte: {
       label: "Days to Expiration",
@@ -105,24 +110,28 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "decimal",
+      category: "Options Activity",
     },
     stockPrice: {
       label: "Stock Price",
       step: ["500", "200", "100", "50", "20", "10"],
       defaultCondition: "over",
       defaultValue: "any",
+      category: "Company Info",
     },
     strike: {
       label: "Strike",
       step: ["500", "200", "100", "50", "20"],
       defaultCondition: "over",
       defaultValue: "any",
+      category: "Options Activity",
     },
     assetType: {
       label: "Asset Type",
       step: ["Stock", "ETF"],
       defaultCondition: "",
       defaultValue: "any",
+      category: "Company Info",
     },
     marketCap: {
       label: "Market Cap",
@@ -214,6 +223,7 @@
       step: ["500", "200", "100", "50", "20", "10"],
       defaultCondition: "over",
       defaultValue: "any",
+      category: "Options Activity",
     },
     pctBeBid: {
       label: "% BE",
@@ -221,6 +231,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Options Activity",
     },
     returnVal: {
       label: "Return",
@@ -228,6 +239,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     ptnlRtn: {
       label: "Potential Return",
@@ -235,6 +247,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     profitProb: {
       label: "Profit Prob",
@@ -242,6 +255,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+      category: "Statistics",
     },
     earningsTime: {
       label: "Earnings Time",
