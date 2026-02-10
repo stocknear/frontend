@@ -2355,6 +2355,12 @@
           value: defaultValue,
         };
         ruleOfList = [...ruleOfList]; // Trigger reactivity
+
+        // Clear checkedItems so checkboxes reflect the reset
+        if (checkedItems.has(state)) {
+          checkedItems.delete(state);
+          checkedItems = checkedItems;
+        }
       } else {
         // If already at defaults, remove the rule
         ruleOfList.splice(index, 1);
