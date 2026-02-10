@@ -369,7 +369,6 @@
   let currentUnsortedData = [];
   let displayResults = [];
   let isSearchPending = false;
-  let isTabLoading = false;
 
   // Track which column names are currently available in stockScreenerData
   // Initialize from SSR data so the first value-change skips the downloadWorker
@@ -763,7 +762,6 @@
     originalFilteredData = [...filteredData];
     currentUnsortedData = [...filteredData];
     currentPage = 1;
-    isTabLoading = false;
     if (inputValue?.length > 0) {
       isSearchPending = true;
       search();
@@ -1266,11 +1264,9 @@
 
       if (hasAllColumns && stockScreenerData?.length > 0) {
         // All columns available — re-filter instantly, no network round-trip
-        isTabLoading = false;
         shouldLoadWorker.set(true);
       } else {
         // Need new columns from server
-        isTabLoading = true;
         updateStockScreenerData();
       }
     }
@@ -1284,10 +1280,8 @@
     );
 
     if (hasAllColumns && stockScreenerData?.length > 0) {
-      isTabLoading = false;
       shouldLoadWorker.set(true);
     } else {
-      isTabLoading = true;
       updateStockScreenerData();
     }
   }
@@ -2826,7 +2820,7 @@
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item[column.key] != null}
                         {item[column.key] + "%"}
-                      {:else if isTabLoading}
+                      {:else if !(column.key in item)}
                         <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                       {:else}
                         n/a
@@ -2836,7 +2830,7 @@
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item[column.key] != null}
                         {item[column.key]?.toLocaleString("en-US")}
-                      {:else if isTabLoading}
+                      {:else if !(column.key in item)}
                         <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                       {:else}
                         n/a
@@ -2846,7 +2840,7 @@
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item[column.key] != null}
                         {item[column.key]?.toFixed(2)}
-                      {:else if isTabLoading}
+                      {:else if !(column.key in item)}
                         <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                       {:else}
                         n/a
@@ -2860,7 +2854,7 @@
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item[column.key] != null}
                         {item[column.key]}
-                      {:else if isTabLoading}
+                      {:else if !(column.key in item)}
                         <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                       {:else}
                         n/a
@@ -2877,7 +2871,7 @@
                               ?.replace("After Market Close", "After Close")
                               ?.replace("Before Market Open", "Before Open")
                               ?.replace(/\s*\(.*?\)/, "")}
-                        {:else if isTabLoading}
+                        {:else if !(column.key in item)}
                           <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                         {:else}
                           n/a
@@ -2893,7 +2887,7 @@
                                 timeZone: "UTC",
                               },
                             )}
-                        {:else if isTabLoading}
+                        {:else if !(column.key in item)}
                           <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                         {:else}
                           n/a
