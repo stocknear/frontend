@@ -2074,6 +2074,12 @@
             return true;
           }
 
+          // For predefined tabs, always include the column so skeleton loaders
+          // can show while data is being fetched
+          if (displayTableTab !== "indicators") {
+            return true;
+          }
+
           return availableKeys?.includes(key);
         }),
     ];
@@ -2842,7 +2848,11 @@
                     </button>
                   {/if}
                 {:else if item[column.key] === null || item[column.key] === undefined}
-                  -
+                  {#if !(column.key in item)}
+                    <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                  {:else}
+                    -
+                  {/if}
                 {:else if column.key === "symbol"}
                   {#if editMode}
                     <div class="flex flex-row items-center">
