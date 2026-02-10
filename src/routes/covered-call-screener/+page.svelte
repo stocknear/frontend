@@ -236,28 +236,16 @@
     stockScreenerData?.length > 0 ? Object.keys(stockScreenerData[0]) : [],
   );
 
-  // Column names needed per tab (beyond always-included base fields)
+  // Column names needed per tab beyond what the backend always includes.
+  // General tab columns are already in the backend's always_include set,
+  // so "general" needs nothing extra. Only non-general tabs list extras.
   const tabExtraRules = {
-    general: [
-      "breakeven",
-      "pctBeBid",
-      "returnVal",
-      "annualizedReturn",
-      "profitProb",
-      "moneynessPercent",
-      "volume",
-      "oi",
-    ],
+    general: [],
     income: [
-      "annualizedReturn",
-      "returnVal",
       "ptnlRtn",
       "ifCalledReturn",
       "ifCalledAnnualized",
       "downsideProtection",
-      "breakeven",
-      "pctBeBid",
-      "profitProb",
     ],
     greeks: ["delta", "gamma", "theta", "vega", "iv", "ivRank"],
     filters: [],
