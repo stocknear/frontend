@@ -1449,6 +1449,10 @@
     if (displayTableTab === "indicators") {
       ruleOfList = [...INDICATOR_DEFAULTS];
       checkedItems = new Set(INDICATOR_DEFAULTS.map((item) => item.name));
+      columns = generateColumns(rawData);
+      if (customColumnOrder && customColumnOrder.length > 0) {
+        columns = applyColumnOrder(columns);
+      }
       await updateStockScreenerData();
     }
 
@@ -1481,6 +1485,10 @@
         const merged = mergeSessionColumns(indicatorRows);
         ruleOfList = [...merged];
         checkedItems = new Set([...indicatorsTabCheckedItems]);
+        columns = generateColumns(rawData);
+        if (customColumnOrder && customColumnOrder.length > 0) {
+          columns = applyColumnOrder(columns);
+        }
         await updateStockScreenerData();
       }
 
@@ -1643,6 +1651,12 @@
     // Update the display since we're now on indicators tab
     checkedItems = new Set([...indicatorsTabCheckedItems]);
     ruleOfList = mergeSessionColumns(indicatorsTabRules);
+
+    // Immediately regenerate columns so the new column appears with skeleton loader
+    columns = generateColumns(rawData);
+    if (customColumnOrder && customColumnOrder.length > 0) {
+      columns = applyColumnOrder(columns);
+    }
 
     allRows = sortIndicatorCheckMarks(allRows);
 
