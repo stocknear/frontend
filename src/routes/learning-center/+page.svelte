@@ -701,7 +701,14 @@
                 />
               </div>
             {:else}
-              <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+              <div class="h-40 bg-gray-100 dark:bg-zinc-800">
+                <img
+                  src="/img/premarket-news-cover.webp"
+                  alt="Premarket News Report"
+                  class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
             {/if}
             <div class="flex flex-col flex-1 p-4">
               <h3

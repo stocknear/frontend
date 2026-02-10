@@ -34,7 +34,9 @@
 
   // Build back URL based on article category
   $: backUrl =
-    article?.category && article.category !== "all" && article.category !== "Daily"
+    article?.category &&
+    article.category !== "all" &&
+    article.category !== "Daily"
       ? `/learning-center?category=${encodeURIComponent(article.category)}`
       : "/learning-center";
 
@@ -161,7 +163,9 @@
   // Extract FAQ pairs from article HTML for structured data
   function extractFAQSchema(html) {
     if (!html) return null;
-    const parts = html.split(/(<h2[^>]*>)\s*Frequently Asked Questions\s*<\/h2>/i);
+    const parts = html.split(
+      /(<h2[^>]*>)\s*Frequently Asked Questions\s*<\/h2>/i,
+    );
     if (parts.length < 3) return null;
     const faqHtml = parts.slice(2).join("");
     const questions = [];
@@ -471,7 +475,9 @@
   keywords="stock market education, investment tutorial, {article?.title?.toLowerCase()}, learn investing, trading strategy, financial education, investment guide, stock analysis tutorial"
   image={article?.cover
     ? getImageURL(article?.collectionId, article?.id, article?.cover)
-    : ""}
+    : article?.category === "Daily"
+      ? "/img/premarket-news-cover.webp"
+      : ""}
   structuredData={[
     {
       "@context": "https://schema.org",
@@ -653,6 +659,15 @@
                 article?.id,
                 article?.cover,
               )}
+              alt={article?.title}
+              class="w-full h-64 sm:h-80 lg:h-96 object-cover"
+              loading="lazy"
+            />
+          </div>
+        {:else if article?.category === "Daily"}
+          <div class="mb-8 rounded-2xl overflow-hidden shadow-md">
+            <img
+              src="/img/premarket-news-cover.webp"
               alt={article?.title}
               class="w-full h-64 sm:h-80 lg:h-96 object-cover"
               loading="lazy"
