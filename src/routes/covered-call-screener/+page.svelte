@@ -32,6 +32,7 @@
   let isLoaded = false;
   let isFullWidth = false;
   let syncWorker: Worker | undefined;
+  let downloadWorker: Worker | undefined;
   let searchWorker: Worker | undefined;
   let removeList = false;
 
@@ -605,6 +606,54 @@
     });
   };
 
+  const handleScreenerMessage = (event) => {
+    if (event.data?.message === "success") {
+      stockScreenerData = event.data?.stockScreenerData ?? [];
+      totalContracts = event.data?.totalContracts ?? 0;
+      shouldLoadWorker.set(true);
+    }
+  };
+
+  const updateStockScreenerData = async () => {
+    if (!downloadWorker) return;
+
+    // Collect all rule names from current ruleOfList plus tab-specific columns
+    const tabExtraRules = {
+      general: [
+        "breakeven",
+        "pctBeBid",
+        "returnVal",
+        "annualizedReturn",
+        "profitProb",
+        "moneynessPercent",
+        "volume",
+        "oi",
+      ],
+      income: [
+        "annualizedReturn",
+        "returnVal",
+        "ptnlRtn",
+        "ifCalledReturn",
+        "ifCalledAnnualized",
+        "downsideProtection",
+        "breakeven",
+        "pctBeBid",
+        "profitProb",
+      ],
+      greeks: ["delta", "gamma", "theta", "vega", "iv", "ivRank"],
+      filters: [],
+    };
+
+    const extraRules = tabExtraRules[displayTableTab] || [];
+    const allRuleNames = [
+      ...new Set([...ruleOfList.map((r) => r.name), ...extraRules]),
+    ];
+
+    downloadWorker.postMessage({
+      ruleOfList: allRuleNames.map((name) => ({ name })),
+    });
+  };
+
   async function resetTableSearch() {
     inputValue = "";
     filteredData = [...originalFilteredData];
@@ -958,6 +1007,12 @@
       syncWorker.onmessage = handleMessage;
     }
 
+    if (!downloadWorker) {
+      const DownloadWorker = await import("./workers/downloadWorker?worker");
+      downloadWorker = new DownloadWorker.default();
+      downloadWorker.onmessage = handleScreenerMessage;
+    }
+
     if (!searchWorker) {
       const SearchWorker =
         await import("$lib/workers/tableSearchWorker?worker");
@@ -983,6 +1038,8 @@
   onDestroy(() => {
     syncWorker?.terminate();
     syncWorker = undefined;
+    downloadWorker?.terminate();
+    downloadWorker = undefined;
     searchWorker?.terminate();
     searchWorker = undefined;
     clearCache();
@@ -1044,8 +1101,13 @@
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
       }
-      shouldLoadWorker.set(true);
+      updateStockScreenerData();
     }
+  }
+
+  // When the display tab changes, re-fetch data with the correct columns
+  $: if (displayTableTab && downloadWorker) {
+    updateStockScreenerData();
   }
 
   $: {
@@ -2545,6 +2607,8 @@
             {#each displayResults as item, i}
               <tr
                 class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                class:opacity-30={i + 1 === displayResults?.length &&
+                  data?.user?.tier !== "Pro"}
               >
                 {#each columns as column}
                   {#if column.key === "symbol"}
@@ -2640,11 +2704,9 @@
         </table>
       </div>
 
-      <!--
       <div class="-mt-3">
         <UpgradeToPro {data} display={true} />
       </div>
-      -->
 
       {#if displayResults?.length > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">

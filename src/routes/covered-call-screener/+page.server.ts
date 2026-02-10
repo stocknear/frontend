@@ -31,9 +31,12 @@ export const load = async ({ locals }) => {
   };
 
 
-  const getScreenerData = async () => {
-    const subscriber = "Pro" //user?.tier === "Pro" ? "Pro" : "Free";
-    const postData = { subscriber };
+  const getScreenerData = async (strategyList) => {
+    const subscriber = user?.tier ?? 'Free';
+    const strategy = strategyList?.at(0);
+    const getRuleOfList = strategy?.rules?.map((item) => item?.name) || [];
+
+    const postData = { ruleOfList: getRuleOfList, subscriber };
     const response = await fetch(apiURL + "/covered-call-screener-data", {
       method: "POST",
       headers: {
@@ -49,14 +52,12 @@ export const load = async ({ locals }) => {
   };
 
 
-  const [screenerData, strategies] = await Promise.all([
-    getScreenerData(),
-    getAllStrategies(),
-  ]);
+  // Fetch strategies first, then use result for screener data
+  const strategyList = await getAllStrategies();
 
   return {
-    getScreenerData: screenerData,
-    getAllStrategies: strategies,
+    getScreenerData: await getScreenerData(strategyList),
+    getAllStrategies: strategyList,
   };
 };
 
