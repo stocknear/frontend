@@ -2053,12 +2053,9 @@
       });
     });
 
-    // For predefined tabs, include all rules even if data is missing
-    // For indicators tab (custom indicators), only include rules that exist in data
-    const validRulesList =
-      displayTableTab === "indicators"
-        ? ruleOfList.filter((item) => availableKeys.includes(item.rule))
-        : ruleOfList;
+    // Include all rules so columns render immediately with skeleton loaders
+    // while data is still being fetched
+    const validRulesList = ruleOfList;
 
     // Only use columns from ruleOfList and preferred order that exist in data
     const orderedKeys = [
@@ -2074,13 +2071,7 @@
             return true;
           }
 
-          // For predefined tabs, always include the column so skeleton loaders
-          // can show while data is being fetched
-          if (displayTableTab !== "indicators") {
-            return true;
-          }
-
-          return availableKeys?.includes(key);
+          return true;
         }),
     ];
 
