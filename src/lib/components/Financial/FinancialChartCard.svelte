@@ -31,13 +31,89 @@
   let tooltipData: { label: string; lines: string[] } | null = null;
 
   const CHART_HEIGHT = 160;
-  const CHART_PADDING = { top: 10, right: 10, bottom: 35, left: 10 };
+  const CHART_PADDING = { top: 10, right: 10, bottom: 35, left: 44 };
 
   function getSeriesColor(index: number): string {
     const s = seriesData[index];
     if (s?.color) return s.color;
     const palette = SERIES_COLORS[index % SERIES_COLORS.length];
     return $mode === 'light' ? palette.light : palette.dark;
+  }
+
+  function formatYAxisValue(value: number, step: number): string {
+    const safe = Number.isFinite(value) ? value : 0;
+    const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
+    const abs = Math.abs(safe);
+
+    if (abs >= 1000) {
+      const compact = new Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 0,
+      }).format(safe);
+      return isMargin ? `${compact}%` : compact;
+    }
+
+    let fractionDigits = 0;
+    if (safeStep < 1) {
+      fractionDigits = 2;
+    } else if (safeStep < 10) {
+      fractionDigits = 1;
+    }
+
+    const rounded = Number(safe.toFixed(fractionDigits));
+    const formatted = rounded.toLocaleString("en-US", {
+      maximumFractionDigits: fractionDigits,
+      minimumFractionDigits: 0,
+    });
+    return isMargin ? `${formatted}%` : formatted;
+  }
+
+  function drawYLabels(
+    ctx: CanvasRenderingContext2D,
+    minValue: number,
+    maxValue: number,
+    chartWidth: number,
+    chartHeight: number
+  ) {
+    if (!Number.isFinite(minValue) || !Number.isFinite(maxValue)) return;
+
+    const ticks = 4;
+    const valueRange = maxValue - minValue;
+    const tickStep = valueRange === 0 ? 1 : Math.abs(valueRange / ticks);
+
+    ctx.save();
+    ctx.font = '9px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
+
+    // Y-axis border
+    ctx.strokeStyle = $mode === 'light' ? '#e5e7eb' : '#27272a';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(CHART_PADDING.left, CHART_PADDING.top);
+    ctx.lineTo(CHART_PADDING.left, CHART_PADDING.top + chartHeight);
+    ctx.stroke();
+
+    for (let i = 0; i <= ticks; i++) {
+      const ratio = i / ticks;
+      const y = CHART_PADDING.top + chartHeight * ratio;
+      const value = valueRange === 0
+        ? maxValue
+        : maxValue - valueRange * ratio;
+      ctx.fillText(formatYAxisValue(value, tickStep), CHART_PADDING.left - 6, y);
+
+      // Light horizontal guides make the labels easier to parse.
+      if (i > 0 && i < ticks) {
+        ctx.strokeStyle = $mode === 'light' ? '#f3f4f6' : '#27272a';
+        ctx.beginPath();
+        ctx.moveTo(CHART_PADDING.left, y);
+        ctx.lineTo(CHART_PADDING.left + chartWidth, y);
+        ctx.stroke();
+      }
+    }
+
+    ctx.restore();
   }
 
   function drawChart() {
@@ -112,6 +188,8 @@
     const valueRange = maxValue - minValue || 1;
     const lineColor = getSeriesColor(0);
 
+    drawYLabels(ctx, minValue, maxValue, chartWidth, chartHeight);
+
     const toXY = (value: number | null, index: number) => ({
       x: CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2,
       y: CHART_PADDING.top + chartHeight * (1 - ((value ?? minValue) - minValue) / valueRange),
@@ -150,12 +228,15 @@
   function drawSingleBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
     const rawValues = seriesData[0]?.values || [];
     const numeric = rawValues.filter((v): v is number => v != null);
+    if (!numeric.length) return;
     const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
     const minValue = Math.min(0, ...numeric);
     const maxValue = Math.max(0, ...numeric);
     const valueRange = maxValue - minValue || 1;
     const zeroY = CHART_PADDING.top + chartHeight * (maxValue / valueRange);
     const barColor = getSeriesColor(0);
+
+    drawYLabels(ctx, minValue, maxValue, chartWidth, chartHeight);
 
     rawValues.forEach((raw, index) => {
       if (raw == null) return;
@@ -184,6 +265,8 @@
     }
     const valueRange = globalMax - globalMin || 1;
     const zeroY = CHART_PADDING.top + chartHeight * (globalMax / valueRange);
+
+    drawYLabels(ctx, globalMin, globalMax, chartWidth, chartHeight);
 
     for (let i = 0; i < barCount; i++) {
       const groupX = CHART_PADDING.left + i * (groupWidth + barGap);
@@ -216,6 +299,8 @@
     }
     const valueRange = globalMax - globalMin || 1;
     const zeroY = CHART_PADDING.top + chartHeight * (globalMax / valueRange);
+
+    drawYLabels(ctx, globalMin, globalMax, chartWidth, chartHeight);
 
     for (let i = 0; i < barCount; i++) {
       let posOffset = 0;
@@ -276,6 +361,8 @@
     }
     const valueRange = globalMax - globalMin || 1;
     const zeroY = CHART_PADDING.top + chartHeight * (globalMax / valueRange);
+
+    drawYLabels(ctx, globalMin, globalMax, chartWidth, chartHeight);
 
     for (let i = 0; i < barCount; i++) {
       const baseX = CHART_PADDING.left + i * (groupWidth + barGap);

@@ -158,6 +158,29 @@
     }
   }
 
+  function formatProfessionalAxisLabel(value: number, isPercent = false): string {
+    const safeValue = Number.isFinite(value) ? value : 0;
+    const abs = Math.abs(safeValue);
+
+    let formatted = "";
+    if (abs >= 1000) {
+      formatted = new Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 0,
+      }).format(safeValue);
+    } else if (abs >= 10) {
+      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", {
+        maximumFractionDigits: 1,
+      });
+    } else {
+      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", {
+        maximumFractionDigits: 2,
+      });
+    }
+
+    return isPercent ? `${formatted}%` : formatted;
+  }
+
   // Shared chart shell — returns the common Highcharts config structure
   function makeChartShell(dateList: string[], series: any[], stacking?: string) {
     const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
@@ -201,11 +224,13 @@
         labels: {
           style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
           formatter: function () {
-            const formatted = abbreviateNumber(this.value);
-            return isMarginMetric ? `${formatted}%` : formatted;
+            return formatProfessionalAxisLabel(Number(this.value), isMarginMetric);
           },
         },
-        title: { text: null },
+        title: {
+          text: isMarginMetric ? "Percent (%)" : null,
+          style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
+        },
         opposite: true,
       },
       tooltip: {

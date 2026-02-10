@@ -382,6 +382,29 @@
     return isCurrentMargin ? `${formattedValue}%` : formattedValue;
   }
 
+  function formatProfessionalAxisLabel(value: number, isPercent = false): string {
+    const safeValue = Number.isFinite(value) ? value : 0;
+    const abs = Math.abs(safeValue);
+
+    let formatted = "";
+    if (abs >= 1000) {
+      formatted = new Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 0,
+      }).format(safeValue);
+    } else if (abs >= 10) {
+      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", {
+        maximumFractionDigits: 1,
+      });
+    } else {
+      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", {
+        maximumFractionDigits: 2,
+      });
+    }
+
+    return isPercent ? `${formatted}%` : formatted;
+  }
+
   function getEntryTimestamp(entry: Record<string, any> | undefined) {
     if (!entry?.date) return null;
     const timestamp = Date.parse(entry.date);
@@ -628,11 +651,16 @@
         labels: {
           style: { color: $mode === "light" ? "black" : "white" },
           formatter: function () {
-            const formattedValue = abbreviateNumber(this.value);
-            return isMarginMetric ? `${formattedValue}%` : formattedValue;
+            return formatProfessionalAxisLabel(
+              Number(this.value),
+              isMarginMetric,
+            );
           },
         },
-        title: { text: null },
+        title: {
+          text: isMarginMetric ? "Percent (%)" : null,
+          style: { color: $mode === "light" ? "black" : "white" },
+        },
         opposite: true,
       },
       tooltip: {
