@@ -230,6 +230,45 @@
   let displayResults = [];
   let isSearchPending = false;
 
+  // Track which column names are currently available in stockScreenerData
+  // Initialize from SSR data so the first value-change skips the downloadWorker
+  let lastFetchedRuleSet = new Set(
+    stockScreenerData?.length > 0 ? Object.keys(stockScreenerData[0]) : [],
+  );
+
+  // Column names needed per tab (beyond always-included base fields)
+  const tabExtraRules = {
+    general: [
+      "breakeven",
+      "pctBeBid",
+      "returnVal",
+      "annualizedReturn",
+      "profitProb",
+      "moneynessPercent",
+      "volume",
+      "oi",
+    ],
+    income: [
+      "annualizedReturn",
+      "returnVal",
+      "ptnlRtn",
+      "ifCalledReturn",
+      "ifCalledAnnualized",
+      "downsideProtection",
+      "breakeven",
+      "pctBeBid",
+      "profitProb",
+    ],
+    greeks: ["delta", "gamma", "theta", "vega", "iv", "ivRank"],
+    filters: [],
+  };
+
+  // Compute the set of column names needed for the current state
+  function getNeededColumns() {
+    const extraRules = tabExtraRules[displayTableTab] || [];
+    return new Set([...ruleOfList.map((r) => r.name), ...extraRules]);
+  }
+
   // Update pagination when filteredData changes
   $: if (filteredData && filteredData.length >= 0 && !isSearchPending) {
     updatePaginatedData();
@@ -610,6 +649,10 @@
     if (event.data?.message === "success") {
       stockScreenerData = event.data?.stockScreenerData ?? [];
       totalContracts = event.data?.totalContracts ?? 0;
+      // Update the set of available columns from the actual data we received
+      if (stockScreenerData.length > 0) {
+        lastFetchedRuleSet = new Set(Object.keys(stockScreenerData[0]));
+      }
       shouldLoadWorker.set(true);
     }
   };
@@ -617,37 +660,8 @@
   const updateStockScreenerData = async () => {
     if (!downloadWorker) return;
 
-    // Collect all rule names from current ruleOfList plus tab-specific columns
-    const tabExtraRules = {
-      general: [
-        "breakeven",
-        "pctBeBid",
-        "returnVal",
-        "annualizedReturn",
-        "profitProb",
-        "moneynessPercent",
-        "volume",
-        "oi",
-      ],
-      income: [
-        "annualizedReturn",
-        "returnVal",
-        "ptnlRtn",
-        "ifCalledReturn",
-        "ifCalledAnnualized",
-        "downsideProtection",
-        "breakeven",
-        "pctBeBid",
-        "profitProb",
-      ],
-      greeks: ["delta", "gamma", "theta", "vega", "iv", "ivRank"],
-      filters: [],
-    };
-
-    const extraRules = tabExtraRules[displayTableTab] || [];
-    const allRuleNames = [
-      ...new Set([...ruleOfList.map((r) => r.name), ...extraRules]),
-    ];
+    const neededColumns = getNeededColumns();
+    const allRuleNames = [...neededColumns];
 
     downloadWorker.postMessage({
       ruleOfList: allRuleNames.map((name) => ({ name })),
@@ -1105,13 +1119,35 @@
       displayRules = allRows?.filter((row) =>
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
-      updateStockScreenerData();
+
+      // Check if all needed columns are already in memory
+      const neededColumns = getNeededColumns();
+      const hasAllColumns = [...neededColumns].every((r) =>
+        lastFetchedRuleSet.has(r),
+      );
+
+      if (hasAllColumns && stockScreenerData?.length > 0) {
+        // All columns available — re-filter instantly, no network round-trip
+        shouldLoadWorker.set(true);
+      } else {
+        // Need new columns from server
+        updateStockScreenerData();
+      }
     }
   }
 
-  // When the display tab changes, re-fetch data with the correct columns
+  // When the display tab changes, check if we need new columns or can re-filter instantly
   $: if (displayTableTab && downloadWorker) {
-    updateStockScreenerData();
+    const neededColumns = getNeededColumns();
+    const hasAllColumns = [...neededColumns].every((r) =>
+      lastFetchedRuleSet.has(r),
+    );
+
+    if (hasAllColumns && stockScreenerData?.length > 0) {
+      shouldLoadWorker.set(true);
+    } else {
+      updateStockScreenerData();
+    }
   }
 
   $: {
