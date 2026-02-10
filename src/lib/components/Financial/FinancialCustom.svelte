@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { displayCompanyName, selectedTimePeriod } from "$lib/store";
+  import { displayCompanyName, selectedTimePeriod, financialHistoryRange } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
   import { stock_detail_financials_in_currency } from "$lib/paraglide/messages";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import FinancialCustomGrid from "$lib/components/Financial/FinancialCustomGrid.svelte";
   import FinancialChartModal from "$lib/components/Financial/FinancialChartModal.svelte";
 
@@ -13,6 +14,30 @@
   let mergedData: Record<string, any>[] = [];
   let fullStatement: Record<string, any>[] = [];
   let switchDate = false;
+
+  type HistoryRange = "All" | "10Y" | "5Y" | "3Y" | "1Y";
+  const HISTORY_RANGE_OPTIONS: Array<{ value: HistoryRange; label: string }> = [
+    { value: "All", label: "All" },
+    { value: "10Y", label: "10Y" },
+    { value: "5Y", label: "5Y" },
+    { value: "3Y", label: "3Y" },
+    { value: "1Y", label: "1Y" },
+  ];
+
+  const filterByHistoryRange = (
+    statements: any[] = [],
+    range: HistoryRange = "All",
+    periodType: string = "annual",
+  ) => {
+    if (!Array.isArray(statements) || range === "All") return statements;
+    const yearsByRange: Record<string, number> = { "1Y": 1, "3Y": 3, "5Y": 5, "10Y": 10 };
+    const years = yearsByRange[range];
+    if (!years) return statements;
+    const periodsPerYear = periodType === "annual" ? 1 : 4;
+    const periodsToShow = years * periodsPerYear;
+    const startIndex = Math.max(statements.length - periodsToShow, 0);
+    return statements.slice(startIndex);
+  };
 
   // Modal state
   let isModalOpen = false;
@@ -81,7 +106,8 @@
     const sorted = sortStatementsAscending(
       Array.isArray(fullStatement) ? fullStatement : [],
     );
-    mergedData = switchDate ? [...sorted].reverse() : sorted;
+    const ranged = filterByHistoryRange(sorted, $financialHistoryRange, $selectedTimePeriod || "annual");
+    mergedData = switchDate ? [...ranged].reverse() : ranged;
   }
 </script>
 
@@ -119,6 +145,50 @@
                 >
                   <!-- Metric Picker Slot -->
                   <slot name="picker" />
+
+                  <!-- Time Range Dropdown -->
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        builders={[builder]}
+                        class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                      >
+                        <span class="text-sm">{$financialHistoryRange}</span>
+                        <svg
+                          class="-mr-1 ml-1 h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content
+                      side="bottom"
+                      align="start"
+                      sideOffset={8}
+                      class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+                    >
+                      <DropdownMenu.Group>
+                        {#each HISTORY_RANGE_OPTIONS as option}
+                          <DropdownMenu.Item
+                            on:click={() =>
+                              ($financialHistoryRange = option.value)}
+                            class="{$financialHistoryRange === option.value
+                              ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
+                              : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
+                          >
+                            {option.label}
+                          </DropdownMenu.Item>
+                        {/each}
+                      </DropdownMenu.Group>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
 
                   <!-- Sort Order Toggle -->
                   <Button
