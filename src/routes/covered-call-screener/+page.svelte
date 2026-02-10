@@ -1101,6 +1101,10 @@
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
       }
+      // Update displayRules immediately so filter chips appear instantly
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
       updateStockScreenerData();
     }
   }
