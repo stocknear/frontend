@@ -16,6 +16,7 @@ function convertUnitToValue(input: string | number | string[]): any {
     const nonNumericValues = new Set([
       "any", "stock", "etf",
       "today", "tomorrow", "next 7d", "next 30d", "this month", "next month",
+      "before market open", "after market close",
     ]);
     if (nonNumericValues.has(lowerInput)) return input;
 
@@ -133,7 +134,7 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
   }
 
   // Categorical checks
-  const categoricalFields = ["assetType"];
+  const categoricalFields = ["assetType", "earningsTime"];
   if (categoricalFields.includes(ruleName) || categoricalFields.includes(rule.name)) {
     return (item: any) => {
       const itemValue = item[rule.name];

@@ -51,24 +51,31 @@ const getCoveredCallScreenerData = async (rules) => {
   return output;
 };
 
-// Fetch earningsDate for all symbols from the stock screener API
-const getEarningsDateMap = async () => {
+// Fetch earnings fields for all symbols from the stock screener API
+const getEarningsDataMap = async () => {
   if (earningsCache) return earningsCache;
 
   const response = await fetch("/api/stock-screener-data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ruleOfList: ["earningsDate"] }),
+    body: JSON.stringify({ ruleOfList: ["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst"] }),
   });
 
   const data = await response.json();
 
-  // Build symbol -> earningsDate lookup map
+  // Build symbol -> earnings data lookup map
   const map = new Map();
   if (Array.isArray(data)) {
     for (const item of data) {
       if (item?.symbol) {
-        map.set(item.symbol, item.earningsDate ?? null);
+        map.set(item.symbol, {
+          earningsDate: item.earningsDate ?? null,
+          earningsTime: item.earningsTime ?? null,
+          earningsRevenueEst: item.earningsRevenueEst ?? null,
+          earningsEPSEst: item.earningsEPSEst ?? null,
+          earningsRevenueGrowthEst: item.earningsRevenueGrowthEst ?? null,
+          earningsEPSGrowthEst: item.earningsEPSGrowthEst ?? null,
+        });
       }
     }
   }
@@ -78,7 +85,7 @@ const getEarningsDateMap = async () => {
 };
 
 // Fields that are legitimately nullable (not every stock has an upcoming earnings date)
-const nullableFields = new Set(["earningsDate"]);
+const nullableFields = new Set(["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst"]);
 
 // Optimized validation function
 const isValidValue = (value) => {
@@ -112,19 +119,25 @@ onmessage = async (event) => {
   const { ruleOfList } = event.data || {};
 
   try {
-    // Fetch CC data and earningsDate map in parallel
+    // Fetch CC data and earnings data map in parallel
     const [output, earningsMap] = await Promise.all([
       getCoveredCallScreenerData(ruleOfList),
-      getEarningsDateMap(),
+      getEarningsDataMap(),
     ]);
 
     const rawData = output?.data || [];
 
-    // Enrich each CC item with earningsDate from stock screener
+    // Enrich each CC item with earnings fields from stock screener
     for (const item of rawData) {
-      item.earningsDate = item?.symbol && earningsMap.has(item.symbol)
+      const earnings = item?.symbol && earningsMap.has(item.symbol)
         ? earningsMap.get(item.symbol)
         : null;
+      item.earningsDate = earnings?.earningsDate ?? null;
+      item.earningsTime = earnings?.earningsTime ?? null;
+      item.earningsRevenueEst = earnings?.earningsRevenueEst ?? null;
+      item.earningsEPSEst = earnings?.earningsEPSEst ?? null;
+      item.earningsRevenueGrowthEst = earnings?.earningsRevenueGrowthEst ?? null;
+      item.earningsEPSGrowthEst = earnings?.earningsEPSGrowthEst ?? null;
     }
 
     const stockScreenerData = filterValidItems(rawData);

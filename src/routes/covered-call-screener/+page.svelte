@@ -46,7 +46,7 @@
   let displayRules = [];
   let inputValue = "";
 
-  const checkedRules = ["assetType", "earningsDate"];
+  const checkedRules = ["assetType", "earningsTime", "earningsDate"];
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
@@ -222,6 +222,13 @@
       defaultValue: "any",
       varType: "percent",
     },
+    earningsTime: {
+      label: "Earnings Time",
+      step: ["Before Market Open", "After Market Close"],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Earnings Report",
+    },
     earningsDate: {
       label: "Earnings Date",
       step: [
@@ -235,6 +242,36 @@
       defaultCondition: "",
       defaultValue: "any",
       varType: "date",
+      category: "Earnings Report",
+    },
+    earningsRevenueEst: {
+      label: "Earnings Revenue Estimate",
+      step: ["100B", "50B", "10B", "1B", "100M", "10M"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Earnings Report",
+    },
+    earningsEPSEst: {
+      label: "Earnings EPS Estimate",
+      step: ["10", "5", "3", "2", "1", "0"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Earnings Report",
+    },
+    earningsRevenueGrowthEst: {
+      label: "Revenue Estimated Growth",
+      step: ["100%", "50%", "20%", "10%", "5%", "0%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percentSign",
+      category: "Earnings Report",
+    },
+    earningsEPSGrowthEst: {
+      label: "EPS Estimated Growth",
+      step: ["100%", "50%", "20%", "10%", "5%", "0%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percentSign",
       category: "Earnings Report",
     },
   };
@@ -1515,7 +1552,7 @@
     oi: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = ["earningsDate"];
+  const stringTypeRules = ["earningsDate", "earningsTime"];
 
   const getType = (key) =>
     stringTypeRules.includes(key) ? "string" : "number";
@@ -2723,7 +2760,13 @@
                       (r) => r.rule === column.key,
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
-                      {#if rule?.varType === "date"}
+                      {#if column.key === "earningsTime"}
+                        {item[column.key]
+                          ? item[column.key]
+                              ?.replace("After Market Close", "After Close")
+                              ?.replace("Before Market Open", "Before Open")
+                          : "n/a"}
+                      {:else if rule?.varType === "date"}
                         {item[column.key]
                           ? new Date(item[column.key]).toLocaleDateString(
                               "en-US",
