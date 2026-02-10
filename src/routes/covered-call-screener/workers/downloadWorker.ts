@@ -58,7 +58,7 @@ const getEarningsDataMap = async () => {
   const response = await fetch("/api/stock-screener-data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ruleOfList: ["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst"] }),
+    body: JSON.stringify({ ruleOfList: ["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"] }),
   });
 
   const data = await response.json();
@@ -75,6 +75,12 @@ const getEarningsDataMap = async () => {
           earningsEPSEst: item.earningsEPSEst ?? null,
           earningsRevenueGrowthEst: item.earningsRevenueGrowthEst ?? null,
           earningsEPSGrowthEst: item.earningsEPSGrowthEst ?? null,
+          payoutRatio: item.payoutRatio ?? null,
+          dividendYield: item.dividendYield ?? null,
+          payoutFrequency: item.payoutFrequency ?? null,
+          annualDividend: item.annualDividend ?? null,
+          dividendGrowth: item.dividendGrowth ?? null,
+          exDividendDate: item.exDividendDate ?? null,
         });
       }
     }
@@ -85,7 +91,7 @@ const getEarningsDataMap = async () => {
 };
 
 // Fields that are legitimately nullable (not every stock has an upcoming earnings date)
-const nullableFields = new Set(["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst"]);
+const nullableFields = new Set(["earningsDate", "earningsTime", "earningsRevenueEst", "earningsEPSEst", "earningsRevenueGrowthEst", "earningsEPSGrowthEst", "payoutRatio", "dividendYield", "payoutFrequency", "annualDividend", "dividendGrowth", "exDividendDate"]);
 
 // Optimized validation function
 const isValidValue = (value) => {
@@ -138,6 +144,12 @@ onmessage = async (event) => {
       item.earningsEPSEst = earnings?.earningsEPSEst ?? null;
       item.earningsRevenueGrowthEst = earnings?.earningsRevenueGrowthEst ?? null;
       item.earningsEPSGrowthEst = earnings?.earningsEPSGrowthEst ?? null;
+      item.payoutRatio = earnings?.payoutRatio ?? null;
+      item.dividendYield = earnings?.dividendYield ?? null;
+      item.payoutFrequency = earnings?.payoutFrequency ?? null;
+      item.annualDividend = earnings?.annualDividend ?? null;
+      item.dividendGrowth = earnings?.dividendGrowth ?? null;
+      item.exDividendDate = earnings?.exDividendDate ?? null;
     }
 
     const stockScreenerData = filterValidItems(rawData);

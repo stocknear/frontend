@@ -17,6 +17,7 @@ function convertUnitToValue(input: string | number | string[]): any {
       "any", "stock", "etf",
       "today", "tomorrow", "next 7d", "next 30d", "this month", "next month",
       "before market open", "after market close",
+      "monthly", "quarterly", "semi-annual", "annual",
     ]);
     if (nonNumericValues.has(lowerInput)) return input;
 
@@ -51,8 +52,8 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
   if (ruleValue === "any") return () => true;
   if (Array.isArray(ruleValue) && ruleValue.some((v: any) => v === "any")) return () => true;
 
-  // Date-range checks (earningsDate)
-  if (ruleName === 'earningsdate') {
+  // Date-range checks (earningsDate, exDividendDate)
+  if (ruleName === 'earningsdate' || ruleName === 'exdividenddate') {
     const rawVal = rule.value;
     if (
       rawVal === undefined ||
@@ -103,7 +104,7 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
       if (!label) continue;
       const r = ranges[label];
       if (!r) {
-        console.warn(`Unrecognized earningsDate label: "${label}"`);
+        console.warn(`Unrecognized ${rule.name} label: "${label}"`);
         continue;
       }
       const [start, end] = r;
@@ -116,7 +117,7 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
     }
 
     return (item: any) => {
-      const raw = item?.earningsDate;
+      const raw = item?.[rule.name];
       if (!raw) return false;
 
       let d: Date;
@@ -134,7 +135,7 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
   }
 
   // Categorical checks
-  const categoricalFields = ["assetType", "earningsTime"];
+  const categoricalFields = ["assetType", "earningsTime", "payoutFrequency"];
   if (categoricalFields.includes(ruleName) || categoricalFields.includes(rule.name)) {
     return (item: any) => {
       const itemValue = item[rule.name];

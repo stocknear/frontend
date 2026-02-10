@@ -183,6 +183,7 @@
     "topAnalystRating",
     "halalStocks",
     "score",
+    "marketCapGroup",
     "sector",
     "industry",
     "country",
@@ -1600,6 +1601,20 @@
       defaultValue: "any",
       category: ["Most Popular", "Forecasts, Analysts & Price Targets"],
     },
+    marketCapGroup: {
+      label: "Market Cap Group",
+      step: [
+        "Mega-Cap (200B+)",
+        "Large-Cap (10-200B)",
+        "Mid-Cap (2-10B)",
+        "Small-Cap (300M-2B)",
+        "Micro-Cap (Under 300M)",
+        "Nano-Cap (Under 50M)",
+      ],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Company Info",
+    },
     sector: {
       label: "Sector",
       step: sectorList,
@@ -2238,6 +2253,7 @@
       case "earningsDate":
       case "halalStocks":
       case "score":
+      case "marketCapGroup":
       case "sector":
       case "industry":
       case "country":
@@ -3151,6 +3167,7 @@ const handleKeyDown = (event) => {
     "topAnalystRating",
     "halalStocks",
     "payoutFrequency",
+    "marketCapGroup",
   ];
 
   // Helper to determine the type based on stringTypeRules
@@ -4603,7 +4620,7 @@ const handleKeyDown = (event) => {
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency"]?.includes(column.key)}
+                        {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
                           {item[column.key]
                             ?.replace("After Market Close", "After Close")
                             ?.replace("Before Market Open", "Before Open")}

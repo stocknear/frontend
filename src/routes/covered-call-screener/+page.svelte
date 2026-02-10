@@ -46,7 +46,7 @@
   let displayRules = [];
   let inputValue = "";
 
-  const checkedRules = ["assetType", "earningsTime", "earningsDate"];
+  const checkedRules = ["assetType", "earningsTime", "earningsDate", "payoutFrequency", "exDividendDate"];
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
@@ -273,6 +273,59 @@
       defaultValue: "any",
       varType: "percentSign",
       category: "Earnings Report",
+    },
+    payoutRatio: {
+      label: "Payout Ratio",
+      step: ["100%", "80%", "60%", "40%", "20%", "0%", "-20%", "-40%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+      category: "Dividends",
+    },
+    dividendYield: {
+      label: "Dividend Yield",
+      step: ["50%", "20%", "10%", "5%", "1%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+      category: "Dividends",
+    },
+    payoutFrequency: {
+      label: "Dividend Payout Frequency",
+      step: ["Monthly", "Quarterly", "Semi-Annual", "Annual"],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Dividends",
+    },
+    annualDividend: {
+      label: "Annual Dividend",
+      step: [10, 5, 3, 2, 1, 0],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Dividends",
+    },
+    dividendGrowth: {
+      label: "Dividend Growth",
+      step: ["50%", "20%", "10%", "5%", "3%", "2%", "1%", "0%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "percent",
+      category: "Dividends",
+    },
+    exDividendDate: {
+      label: "Ex-Dividend Date",
+      step: [
+        "Today",
+        "Tomorrow",
+        "Next 7D",
+        "Next 30D",
+        "This Month",
+        "Next Month",
+      ],
+      defaultCondition: "",
+      defaultValue: "any",
+      varType: "date",
+      category: "Dividends",
     },
   };
 
@@ -1552,7 +1605,7 @@
     oi: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = ["earningsDate", "earningsTime"];
+  const stringTypeRules = ["earningsDate", "earningsTime", "exDividendDate", "payoutFrequency"];
 
   const getType = (key) =>
     stringTypeRules.includes(key) ? "string" : "number";
@@ -2760,7 +2813,7 @@
                       (r) => r.rule === column.key,
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
-                      {#if column.key === "earningsTime"}
+                      {#if ["earningsTime", "payoutFrequency"]?.includes(column.key)}
                         {item[column.key]
                           ? item[column.key]
                               ?.replace("After Market Close", "After Close")
