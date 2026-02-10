@@ -11,6 +11,7 @@
   } from "$lib/utils";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import {
     stock_detail_financials_download,
     stock_detail_financials_fiscal_quarter,
@@ -52,6 +53,14 @@
 
   const PREMIUM_TIERS = new Set(["Pro", "Plus"]);
   const FREE_COLUMN_LIMIT = 5;
+  type HistoryRange = "All" | "10Y" | "5Y" | "3Y" | "1Y";
+  const HISTORY_RANGE_OPTIONS: Array<{ value: HistoryRange; label: string }> = [
+    { value: "All", label: "All" },
+    { value: "10Y", label: "10Y" },
+    { value: "5Y", label: "5Y" },
+    { value: "3Y", label: "3Y" },
+    { value: "1Y", label: "1Y" },
+  ];
 
   const fields = statementConfig.map((item) => ({
     label: item.label,
@@ -66,6 +75,7 @@
   let lockedPeriodRange = "";
   let lockedCount = 0;
   let tableFields = fields;
+  let selectedHistoryRange: HistoryRange = "All";
 
   // Modal state for expanded chart view
   let isModalOpen = false;
@@ -136,6 +146,38 @@
       return statements;
     }
     return [...statements].reverse();
+  };
+
+  const filterByHistoryRange = (
+    statements: any[] = [],
+    range: HistoryRange = "All",
+    periodType: string = "annual",
+  ) => {
+    if (!Array.isArray(statements) || range === "All") {
+      return statements;
+    }
+
+    const yearsByRange: Record<Exclude<HistoryRange, "All">, number> = {
+      "1Y": 1,
+      "3Y": 3,
+      "5Y": 5,
+      "10Y": 10,
+    };
+
+    const years = yearsByRange[range as Exclude<HistoryRange, "All">];
+    if (!years) {
+      return statements;
+    }
+
+    const periodsPerYear = periodType === "annual" ? 1 : 4;
+    const periodsToShow = years * periodsPerYear;
+
+    if (periodsToShow <= 0) {
+      return statements;
+    }
+
+    const startIndex = Math.max(statements.length - periodsToShow, 0);
+    return statements.slice(startIndex);
   };
 
   function formatLockedRange(
@@ -315,7 +357,12 @@
         lockedCount = lockedStatements.length;
       }
 
-      financialData = applyDisplayOrder(visible, _switchDateDep);
+      const filteredVisible = filterByHistoryRange(
+        visible,
+        selectedHistoryRange,
+        $selectedTimePeriod || "annual",
+      );
+      financialData = applyDisplayOrder(filteredVisible, _switchDateDep);
       preprocessFinancialData();
     } else {
       financialData = [];
@@ -392,6 +439,50 @@
                         <span class="ml-1.5 text-sm">Chart Mode</span>
                       {/if}
                     </Button>
+
+                    <!-- Time Range Dropdown -->
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                        >
+                          <span class="text-sm">{selectedHistoryRange}</span>
+                          <svg
+                            class="-mr-1 ml-1 h-4 w-4"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="start"
+                        sideOffset={8}
+                        class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+                      >
+                        <DropdownMenu.Group>
+                          {#each HISTORY_RANGE_OPTIONS as option}
+                            <DropdownMenu.Item
+                              on:click={() =>
+                                (selectedHistoryRange = option.value)}
+                              class="{selectedHistoryRange === option.value
+                                ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
+                                : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
+                            >
+                              {option.label}
+                            </DropdownMenu.Item>
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
 
                     <!-- Sort Order Toggle -->
                     <Button
