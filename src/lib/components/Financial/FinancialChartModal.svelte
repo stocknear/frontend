@@ -278,10 +278,7 @@
             );
           },
         },
-        title: {
-          text: isMarginMetric ? "Percent (%)" : null,
-          style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
-        },
+        title: { text: null },
         opposite: true,
       },
       tooltip: {
