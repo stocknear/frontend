@@ -5,6 +5,9 @@ let cache = new Map();
 let lastRules = null;
 let lastRuleKey = null;
 
+// Separate cache for stock screener earningsDate data (shared across all CC rule sets)
+let earningsCache = null;
+
 const getCoveredCallScreenerData = async (rules) => {
   // Fast path: empty rules
   if (!rules?.length) {
@@ -48,6 +51,35 @@ const getCoveredCallScreenerData = async (rules) => {
   return output;
 };
 
+// Fetch earningsDate for all symbols from the stock screener API
+const getEarningsDateMap = async () => {
+  if (earningsCache) return earningsCache;
+
+  const response = await fetch("/api/stock-screener-data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ruleOfList: ["earningsDate"] }),
+  });
+
+  const data = await response.json();
+
+  // Build symbol -> earningsDate lookup map
+  const map = new Map();
+  if (Array.isArray(data)) {
+    for (const item of data) {
+      if (item?.symbol) {
+        map.set(item.symbol, item.earningsDate ?? null);
+      }
+    }
+  }
+
+  earningsCache = map;
+  return map;
+};
+
+// Fields that are legitimately nullable (not every stock has an upcoming earnings date)
+const nullableFields = new Set(["earningsDate"]);
+
 // Optimized validation function
 const isValidValue = (value) => {
   if (value === null || value === undefined) return false;
@@ -64,7 +96,8 @@ const filterValidItems = (data) => {
   const result = [];
   for (const item of data) {
     let isValid = true;
-    for (const value of Object.values(item)) {
+    for (const [key, value] of Object.entries(item)) {
+      if (nullableFields.has(key)) continue;
       if (!isValidValue(value)) {
         isValid = false;
         break;
@@ -79,10 +112,22 @@ onmessage = async (event) => {
   const { ruleOfList } = event.data || {};
 
   try {
-    const output = await getCoveredCallScreenerData(ruleOfList);
-    const stockScreenerData = output?.data
-      ? filterValidItems(output.data)
-      : [];
+    // Fetch CC data and earningsDate map in parallel
+    const [output, earningsMap] = await Promise.all([
+      getCoveredCallScreenerData(ruleOfList),
+      getEarningsDateMap(),
+    ]);
+
+    const rawData = output?.data || [];
+
+    // Enrich each CC item with earningsDate from stock screener
+    for (const item of rawData) {
+      item.earningsDate = item?.symbol && earningsMap.has(item.symbol)
+        ? earningsMap.get(item.symbol)
+        : null;
+    }
+
+    const stockScreenerData = filterValidItems(rawData);
 
     postMessage({
       message: "success",

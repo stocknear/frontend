@@ -46,7 +46,7 @@
   let displayRules = [];
   let inputValue = "";
 
-  const checkedRules = ["assetType"];
+  const checkedRules = ["assetType", "earningsDate"];
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
@@ -221,6 +221,21 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percent",
+    },
+    earningsDate: {
+      label: "Earnings Date",
+      step: [
+        "Today",
+        "Tomorrow",
+        "Next 7D",
+        "Next 30D",
+        "This Month",
+        "Next Month",
+      ],
+      defaultCondition: "",
+      defaultValue: "any",
+      varType: "date",
+      category: "Earnings Report",
     },
   };
 
@@ -721,6 +736,7 @@
 
     switch (ruleName) {
       case "assetType":
+      case "earningsDate":
         newRule = {
           name: ruleName,
           value: Array.isArray(valueMappings[ruleName])
@@ -1268,7 +1284,8 @@
         valueMappings[ruleName] = "any";
       }
 
-      shouldLoadWorker.set(true);
+      // Trigger Svelte reactivity so the $: block syncs into ruleOfList and fires the worker
+      valueMappings = valueMappings;
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
         valueMappings[ruleName] = shouldSort ? value?.sort(customSort) : value;
@@ -1498,7 +1515,7 @@
     oi: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = [];
+  const stringTypeRules = ["earningsDate"];
 
   const getType = (key) =>
     stringTypeRules.includes(key) ? "string" : "number";
@@ -2706,7 +2723,19 @@
                       (r) => r.rule === column.key,
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
-                      {#if rule?.varType === "percentSign"}
+                      {#if rule?.varType === "date"}
+                        {item[column.key]
+                          ? new Date(item[column.key]).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                timeZone: "UTC",
+                              },
+                            )
+                          : "n/a"}
+                      {:else if rule?.varType === "percentSign"}
                         <span
                           class={item[column.key] > 0
                             ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"

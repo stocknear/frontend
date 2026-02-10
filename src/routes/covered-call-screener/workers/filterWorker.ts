@@ -13,7 +13,10 @@ function convertUnitToValue(input: string | number | string[]): any {
     }
 
     const lowerInput = input?.toLowerCase();
-    const nonNumericValues = new Set(["any", "stock", "etf"]);
+    const nonNumericValues = new Set([
+      "any", "stock", "etf",
+      "today", "tomorrow", "next 7d", "next 30d", "this month", "next month",
+    ]);
     if (nonNumericValues.has(lowerInput)) return input;
 
     // Handle percentage values
@@ -46,6 +49,88 @@ function createRuleCheck(rule: any, ruleName: string, ruleValue: any) {
   if (rule?.value === "any") return () => true;
   if (ruleValue === "any") return () => true;
   if (Array.isArray(ruleValue) && ruleValue.some((v: any) => v === "any")) return () => true;
+
+  // Date-range checks (earningsDate)
+  if (ruleName === 'earningsdate') {
+    const rawVal = rule.value;
+    if (
+      rawVal === undefined ||
+      rawVal === null ||
+      (typeof rawVal === 'string' && rawVal.trim().toLowerCase() === 'any') ||
+      (Array.isArray(rawVal) && rawVal.length === 0)
+    ) {
+      return () => true;
+    }
+
+    const now = new Date();
+    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const fmt = (d: Date) => d.toISOString().slice(0, 10);
+
+    const ranges: Record<string, [string, string]> = {
+      'today': [fmt(todayUTC), fmt(todayUTC)],
+      'tomorrow': [
+        fmt(new Date(todayUTC.getTime() + 24 * 60 * 60_000)),
+        fmt(new Date(todayUTC.getTime() + 24 * 60 * 60_000)),
+      ],
+      'next 7d': [
+        fmt(todayUTC),
+        fmt(new Date(todayUTC.getTime() + 6 * 24 * 60 * 60_000)),
+      ],
+      'next 30d': [
+        fmt(todayUTC),
+        fmt(new Date(todayUTC.getTime() + 29 * 24 * 60 * 60_000)),
+      ],
+      'this month': (() => {
+        const start = new Date(Date.UTC(todayUTC.getUTCFullYear(), todayUTC.getUTCMonth(), 1));
+        const end = new Date(Date.UTC(todayUTC.getUTCFullYear(), todayUTC.getUTCMonth() + 1, 0));
+        return [fmt(start), fmt(end)] as [string, string];
+      })(),
+      'next month': (() => {
+        const start = new Date(Date.UTC(todayUTC.getUTCFullYear(), todayUTC.getUTCMonth() + 1, 1));
+        const end = new Date(Date.UTC(todayUTC.getUTCFullYear(), todayUTC.getUTCMonth() + 2, 0));
+        return [fmt(start), fmt(end)] as [string, string];
+      })(),
+    };
+
+    const labels = Array.isArray(rawVal)
+      ? rawVal.map((v: any) => String(v).trim().toLowerCase())
+      : [String(rawVal).trim().toLowerCase()];
+
+    let minDate = '9999-12-31';
+    let maxDate = '0000-01-01';
+    for (const label of labels) {
+      if (!label) continue;
+      const r = ranges[label];
+      if (!r) {
+        console.warn(`Unrecognized earningsDate label: "${label}"`);
+        continue;
+      }
+      const [start, end] = r;
+      if (start < minDate) minDate = start;
+      if (end > maxDate) maxDate = end;
+    }
+
+    if (minDate === '9999-12-31' || maxDate === '0000-01-01') {
+      return () => true;
+    }
+
+    return (item: any) => {
+      const raw = item?.earningsDate;
+      if (!raw) return false;
+
+      let d: Date;
+      if (raw instanceof Date) d = raw;
+      else if (typeof raw === 'number') d = new Date(raw);
+      else d = new Date(String(raw));
+
+      if (isNaN(d.getTime())) return false;
+
+      const itemUTC = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+      const itemDateStr = fmt(itemUTC);
+
+      return itemDateStr >= minDate && itemDateStr <= maxDate;
+    };
+  }
 
   // Categorical checks
   const categoricalFields = ["assetType"];
