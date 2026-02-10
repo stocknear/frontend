@@ -369,6 +369,7 @@
   let currentUnsortedData = [];
   let displayResults = [];
   let isSearchPending = false;
+  let isTabLoading = false;
 
   // Track which column names are currently available in stockScreenerData
   // Initialize from SSR data so the first value-change skips the downloadWorker
@@ -762,6 +763,7 @@
     originalFilteredData = [...filteredData];
     currentUnsortedData = [...filteredData];
     currentPage = 1;
+    isTabLoading = false;
     if (inputValue?.length > 0) {
       isSearchPending = true;
       search();
@@ -1264,9 +1266,11 @@
 
       if (hasAllColumns && stockScreenerData?.length > 0) {
         // All columns available — re-filter instantly, no network round-trip
+        isTabLoading = false;
         shouldLoadWorker.set(true);
       } else {
         // Need new columns from server
+        isTabLoading = true;
         updateStockScreenerData();
       }
     }
@@ -1280,8 +1284,10 @@
     );
 
     if (hasAllColumns && stockScreenerData?.length > 0) {
+      isTabLoading = false;
       shouldLoadWorker.set(true);
     } else {
+      isTabLoading = true;
       updateStockScreenerData();
     }
   }
@@ -2818,21 +2824,33 @@
                     </td>
                   {:else if column.key === "annualizedReturn" || column.key === "ifCalledReturn" || column.key === "ifCalledAnnualized" || column.key === "downsideProtection" || column.key === "iv" || column.key === "ivRank" || column.key === "pctBeBid" || column.key === "returnVal" || column.key === "ptnlRtn" || column.key === "profitProb"}
                     <td class="text-end text-sm whitespace-nowrap">
-                      {item[column.key] != null
-                        ? item[column.key] + "%"
-                        : "n/a"}
+                      {#if item[column.key] != null}
+                        {item[column.key] + "%"}
+                      {:else if isTabLoading}
+                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      {:else}
+                        n/a
+                      {/if}
                     </td>
                   {:else if column.key === "volume" || column.key === "oi" || column.key === "dte"}
                     <td class="text-end text-sm whitespace-nowrap">
-                      {item[column.key] != null
-                        ? item[column.key]?.toLocaleString("en-US")
-                        : "n/a"}
+                      {#if item[column.key] != null}
+                        {item[column.key]?.toLocaleString("en-US")}
+                      {:else if isTabLoading}
+                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      {:else}
+                        n/a
+                      {/if}
                     </td>
                   {:else if column.key === "stockPrice" || column.key === "strike" || column.key === "bid" || column.key === "breakeven"}
                     <td class="text-end text-sm whitespace-nowrap">
-                      {item[column.key] != null
-                        ? item[column.key]?.toFixed(2)
-                        : "n/a"}
+                      {#if item[column.key] != null}
+                        {item[column.key]?.toFixed(2)}
+                      {:else if isTabLoading}
+                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      {:else}
+                        n/a
+                      {/if}
                     </td>
                   {:else if column.key === "expiration"}
                     <td class="text-end text-sm whitespace-nowrap">
@@ -2840,7 +2858,13 @@
                     </td>
                   {:else if column.key === "delta" || column.key === "gamma" || column.key === "theta" || column.key === "vega"}
                     <td class="text-end text-sm whitespace-nowrap">
-                      {item[column.key] ?? "n/a"}
+                      {#if item[column.key] != null}
+                        {item[column.key]}
+                      {:else if isTabLoading}
+                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      {:else}
+                        n/a
+                      {/if}
                     </td>
                   {:else}
                     {@const rule = displayRules?.find(
@@ -2848,15 +2872,19 @@
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
                       {#if ["earningsTime", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
-                        {item[column.key]
-                          ? item[column.key]
+                        {#if item[column.key]}
+                          {item[column.key]
                               ?.replace("After Market Close", "After Close")
                               ?.replace("Before Market Open", "Before Open")
-                              ?.replace(/\s*\(.*?\)/, "")
-                          : "n/a"}
+                              ?.replace(/\s*\(.*?\)/, "")}
+                        {:else if isTabLoading}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        {:else}
+                          n/a
+                        {/if}
                       {:else if rule?.varType === "date"}
-                        {item[column.key]
-                          ? new Date(item[column.key]).toLocaleDateString(
+                        {#if item[column.key]}
+                          {new Date(item[column.key]).toLocaleDateString(
                               "en-US",
                               {
                                 year: "numeric",
@@ -2864,8 +2892,12 @@
                                 day: "numeric",
                                 timeZone: "UTC",
                               },
-                            )
-                          : "n/a"}
+                            )}
+                        {:else if isTabLoading}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        {:else}
+                          n/a
+                        {/if}
                       {:else if rule?.varType === "percentSign"}
                         <span
                           class={item[column.key] > 0
