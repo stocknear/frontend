@@ -4569,11 +4569,23 @@ const handleKeyDown = (event) => {
                       </td>
                     {:else if column.key === "volume"}
                       <td class=" text-sm sm:text-[0.95rem] text-end">
-                        {item?.volume ? abbreviateNumber(item?.volume) : "n/a"}
+                        {#if item?.volume}
+                          {abbreviateNumber(item?.volume)}
+                        {:else if !("volume" in item)}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        {:else}
+                          n/a
+                        {/if}
                       </td>
                     {:else if column.key === "priceToEarningsRatio"}
                       <td class=" text-sm sm:text-[0.95rem] text-end">
-                        {item?.priceToEarningsRatio ?? "n/a"}
+                        {#if item?.priceToEarningsRatio != null}
+                          {item?.priceToEarningsRatio}
+                        {:else if !("priceToEarningsRatio" in item)}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        {:else}
+                          n/a
+                        {/if}
                       </td>
                     {/if}
                   {/each}
@@ -4631,30 +4643,50 @@ const handleKeyDown = (event) => {
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
-                          {item[column.key]
-                            ?.replace("After Market Close", "After Close")
-                            ?.replace("Before Market Open", "Before Open")
-                            ?.replace(/\s*\(.*?\)/, "")}
+                          {#if item[column.key]}
+                            {item[column.key]
+                              ?.replace("After Market Close", "After Close")
+                              ?.replace("Before Market Open", "Before Open")
+                              ?.replace(/\s*\(.*?\)/, "")}
+                          {:else if !(column.key in item)}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {:else}
+                            n/a
+                          {/if}
                         {:else if row?.varType && row?.varType === "date"}
-                          {new Date(item[column.key]).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              timeZone: "UTC",
-                            },
-                          )}
+                          {#if item[column.key]}
+                            {new Date(item[column.key]).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                timeZone: "UTC",
+                              },
+                            )}
+                          {:else if !(column.key in item)}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {:else}
+                            n/a
+                          {/if}
                         {:else if row?.varType && row?.varType === "percentSign"}
-                          <span
-                            class={item[column.key] >= 0
-                              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                              : "text-rose-800 dark:text-rose-400"}
-                          >
-                            {abbreviateNumber(item[column.key])}%
-                          </span>
+                          {#if column.key in item}
+                            <span
+                              class={item[column.key] >= 0
+                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                                : "text-rose-800 dark:text-rose-400"}
+                            >
+                              {abbreviateNumber(item[column.key])}%
+                            </span>
+                          {:else}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {/if}
                         {:else if row?.varType && row?.varType === "percent"}
-                          {abbreviateNumber(item[column.key])}%
+                          {#if column.key in item}
+                            {abbreviateNumber(item[column.key])}%
+                          {:else}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {/if}
                         {:else if ["score", "analystRating", "topAnalystRating"]?.includes(column.key)}
                           {#if ["Strong Buy", "Buy"].includes(item[column.key])}
                             <span
@@ -4669,11 +4701,17 @@ const handleKeyDown = (event) => {
                             <span class=" text-orange-800 dark:text-[#FFA838]"
                               >{item[column.key]}</span
                             >
+                          {:else if !(column.key in item)}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                           {:else}
                             -
                           {/if}
                         {:else}
-                          {abbreviateNumber(item[column.key])}
+                          {#if column.key in item}
+                            {abbreviateNumber(item[column.key])}
+                          {:else}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {/if}
                         {/if}
                       </td>
                     {/if}
@@ -4740,6 +4778,8 @@ const handleKeyDown = (event) => {
                               item[column.key]?.toFixed(2),
                             )}%</span
                           >
+                        {:else if !(column.key in item)}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                         {:else}
                           <span class="">n/a</span>
                         {/if}
@@ -4796,11 +4836,13 @@ const handleKeyDown = (event) => {
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        <span class=""
-                          >{item[column.key]
-                            ? abbreviateNumber(item[column.key])
-                            : "n/a"}</span
-                        >
+                        {#if item[column.key]}
+                          <span>{abbreviateNumber(item[column.key])}</span>
+                        {:else if !(column.key in item)}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        {:else}
+                          <span>n/a</span>
+                        {/if}
                       </td>
                     {:else if ["upside", "topAnalystUpside"]?.includes(column.key)}
                       <td
@@ -4814,6 +4856,8 @@ const handleKeyDown = (event) => {
                           <span class="text-rose-800 dark:text-rose-400"
                             >{item[column.key]?.toFixed(2)}%</span
                           >
+                        {:else if !(column.key in item)}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                         {:else}
                           <span class="">n/a</span>
                         {/if}
@@ -4834,6 +4878,8 @@ const handleKeyDown = (event) => {
                           <span class=" text-orange-800 dark:text-[#FFA838]"
                             >{item[column.key]}</span
                           >
+                        {:else if !(column.key in item)}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
                         {:else}
                           n/a
                         {/if}
@@ -4842,7 +4888,11 @@ const handleKeyDown = (event) => {
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {item[column.key] ?? "n/a"}
+                        {#if column.key in item}
+                          {item[column.key] ?? "n/a"}
+                        {:else}
+                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        {/if}
                       </td>
                     {/if}
                   {/each}
@@ -4900,13 +4950,21 @@ const handleKeyDown = (event) => {
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if row?.varType && row?.varType === "percent"}
-                          {item[column.key]
-                            ? abbreviateNumber(item[column.key]) + "%"
-                            : "n/a"}
+                          {#if item[column.key]}
+                            {abbreviateNumber(item[column.key]) + "%"}
+                          {:else if !(column.key in item)}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {:else}
+                            n/a
+                          {/if}
                         {:else}
-                          {item[column.key]
-                            ? abbreviateNumber(item[column.key])
-                            : "n/a"}
+                          {#if item[column.key]}
+                            {abbreviateNumber(item[column.key])}
+                          {:else if !(column.key in item)}
+                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          {:else}
+                            n/a
+                          {/if}
                         {/if}
                       </td>
                     {/if}
