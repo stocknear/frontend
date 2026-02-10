@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     
     <!-- Default SEO Meta Tags (will be overridden by page-specific ones) -->
@@ -24,6 +24,7 @@
     
     <!-- Additional SEO Tags -->
     <meta name="theme-color" content="#1f2937" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="msapplication-navbutton-color" content="#1f2937" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
@@ -40,11 +41,7 @@
     <link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
     <link rel="manifest" href="%sveltekit.assets%/manifest.json" />
     
-    <!-- Preconnect hints for faster third-party resource loading -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <!-- Third-party preconnects are injected only when consented marketing loads -->
 
     <!-- Marketing/Analytics scripts loaded conditionally in +layout.svelte based on cookie consent -->
 

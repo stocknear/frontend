@@ -126,26 +126,32 @@
   // Bottom navbar scroll hide/show
   let navbarHidden = false;
   let lastScrollY = 0;
+  let scrollRafId: number | undefined = undefined;
   const scrollThreshold = 10;
   const routePrefixes = ["/chart", "/chat"];
 
   function handleScroll() {
     if (!browser) return;
 
-    const currentScrollY = window.scrollY;
-    const scrollDiff = currentScrollY - lastScrollY;
+    // Keep scroll work aligned to paint to reduce handler pressure.
+    if (scrollRafId) return;
+    scrollRafId = window.requestAnimationFrame(() => {
+      const currentScrollY = window.scrollY;
+      const scrollDiff = currentScrollY - lastScrollY;
 
-    // Only trigger if scroll amount exceeds threshold
-    if (Math.abs(scrollDiff) < scrollThreshold) return;
+      // Only trigger if scroll amount exceeds threshold
+      if (Math.abs(scrollDiff) >= scrollThreshold) {
+        // Hide when scrolling down, show when scrolling up
+        if (scrollDiff > 0 && currentScrollY > 100) {
+          navbarHidden = true;
+        } else if (scrollDiff < 0) {
+          navbarHidden = false;
+        }
+        lastScrollY = currentScrollY;
+      }
 
-    // Hide when scrolling down, show when scrolling up
-    if (scrollDiff > 0 && currentScrollY > 100) {
-      navbarHidden = true;
-    } else if (scrollDiff < 0) {
-      navbarHidden = false;
-    }
-
-    lastScrollY = currentScrollY;
+      scrollRafId = undefined;
+    });
   }
 
   //Define web workers:
@@ -159,20 +165,22 @@
   };
 
   const loadWorker = async () => {
-    if ("serviceWorker" in navigator) {
+    if (!data?.user?.id || syncWorker) return;
+
+    if (typeof Worker !== "undefined") {
       const SyncWorker = await import("$lib/workers/notificationWorker?worker");
       syncWorker = new SyncWorker.default();
-      syncWorker.postMessage({ message: { userId: data?.user?.id } });
+      syncWorker.postMessage({ message: { userId: data.user.id } });
       syncWorker.onmessage = handleMessage;
-    } else {
-      // Fallback logic here
-      await fallbackWorker();
+      return;
     }
+
+    // Fallback logic here
+    await fallbackWorker();
   };
 
   async function fallbackWorker() {
     // Implement fallback logic here, e.g., using timers or other techniques
-    console.log("Fallback worker activated");
     const postData = { readed: false };
     const response = await fetch("/api/get-notifications", {
       method: "POST",
@@ -194,6 +202,7 @@
     undefined;
   let marketingScriptTimer: ReturnType<typeof setTimeout> | undefined =
     undefined;
+  let workerLoadTimer: ReturnType<typeof setTimeout> | undefined = undefined;
 
   // GTM loading delay in milliseconds (3 seconds for better PageSpeed scores)
   const GTM_LOAD_DELAY = 3000;
@@ -315,6 +324,10 @@
     marketingScriptsLoaded = true;
   }
 
+  function hasMarketingConsent() {
+    return Boolean(data?.cookieConsent?.marketing);
+  }
+
   // Handle consent change event from CookieConsent component
   function handleConsentChange(
     event: CustomEvent<{
@@ -324,12 +337,13 @@
     }>,
   ) {
     const consent = event.detail;
+
     if (consent.marketing) {
       loadMarketingScripts();
     }
   }
 
-  onMount(async () => {
+  onMount(() => {
     checkMarketHour();
 
     if (!browser) return;
@@ -345,18 +359,22 @@
     if (currentUser && currentUser.id) {
       // User is logged in according to server - ensure client state matches
       $loginData = currentUser;
-      console.log("[Auth] Synchronized logged-in state");
     } else if (!currentUser && $loginData?.id) {
       // Server says logged out but client thinks logged in - clear client state
       $loginData = undefined;
-      console.log("[Auth] Synchronized logged-out state");
     }
 
     // Use optimized service worker registration
     registerServiceWorker();
 
     // User interaction events that trigger early GTM loading
-    const interactionEvents = ["scroll", "click", "touchstart", "keydown"];
+    const interactionEvents = [
+      "scroll",
+      "click",
+      "touchstart",
+      "keydown",
+    ] as const;
+    const marketingConsent = true; //hasMarketingConsent();
 
     // Handler for user interaction - loads GTM immediately on engagement
     const handleUserInteraction = () => {
@@ -374,43 +392,49 @@
       }
 
       // Load marketing scripts immediately on user interaction
-      if (!marketingScriptsLoaded) {
+      loadMarketingScripts();
+      /*
+      if (!marketingScriptsLoaded && hasMarketingConsent()) {
         loadMarketingScripts();
       }
+        */
     };
 
-    // Add interaction listeners (passive for scroll/touch to not block)
-    interactionEvents.forEach((event) => {
-      window.addEventListener(event, handleUserInteraction, {
-        capture: true,
-        passive: true,
-        once: true,
+    if (marketingConsent) {
+      // Add interaction listeners (passive for scroll/touch to not block)
+      interactionEvents.forEach((event) => {
+        window.addEventListener(event, handleUserInteraction, {
+          capture: true,
+          passive: true,
+          once: true,
+        });
       });
-    });
 
-    deferFunction(() => {
-      // Delay GTM loading to 3 seconds after page load for better PageSpeed scores
-      // If user interacts before this, GTM loads immediately via interaction handler
-      marketingScriptTimer = setTimeout(async () => {
-        // Only load marketing scripts if user has consented
-        /*
-        if (data?.cookieConsent?.marketing) {
+      deferFunction(() => {
+        // Delay GTM loading to 3 seconds after page load for better PageSpeed scores
+        // If user interacts before this, GTM loads immediately via interaction handler
+        marketingScriptTimer = setTimeout(() => {
           loadMarketingScripts();
-        }
-          */
-        loadMarketingScripts();
 
-        // Only load worker if user is logged in
-        if (data?.user?.id) {
-          await loadWorker();
-        }
-      }, GTM_LOAD_DELAY);
-    });
+          if (hasMarketingConsent()) {
+            loadMarketingScripts();
+          }
+        }, GTM_LOAD_DELAY);
+      });
+    }
+
+    // Notifications are independent from marketing and should load lazily.
+    if (data?.user?.id) {
+      workerLoadTimer = setTimeout(() => {
+        void loadWorker();
+      }, 2500);
+    }
 
     // Cleanup function
     return () => {
       if (cookieConsentDelayTimer) clearTimeout(cookieConsentDelayTimer);
       if (marketingScriptTimer) clearTimeout(marketingScriptTimer);
+      if (workerLoadTimer) clearTimeout(workerLoadTimer);
 
       // Remove interaction listeners on cleanup
       interactionEvents.forEach((event) => {
@@ -424,18 +448,27 @@
         syncWorker.terminate();
         syncWorker = undefined;
       }
+
+      if (scrollRafId) {
+        window.cancelAnimationFrame(scrollRafId);
+        scrollRafId = undefined;
+      }
     };
   });
 
   onDestroy(() => {
+    if (scrollRafId) {
+      window.cancelAnimationFrame(scrollRafId);
+      scrollRafId = undefined;
+    }
     clearCache();
   });
 
-  beforeNavigate(async () => {
+  beforeNavigate(() => {
     BProgress?.start();
   });
 
-  afterNavigate(async ({ from }) => {
+  afterNavigate(({ from }) => {
     $previousPage = from?.url.pathname || $previousPage;
     BProgress?.done();
   });
@@ -443,7 +476,10 @@
   $: {
     if ($page.url.pathname) {
       // Force reactive update of login data
-      $loginData = data?.user;
+      const nextLoginData = data?.user;
+      if ($loginData !== nextLoginData) {
+        $loginData = nextLoginData;
+      }
       const path = $page.url.pathname;
       isChartRoute = routePrefixes?.some(
         (p) => path === p || path?.startsWith(p + "/"),
@@ -483,31 +519,34 @@
       "2026-12-25",
     ];
 
-    const currentDate = new Date().toISOString().split("T")[0];
-
-    // Get the current time in the ET time zone
     const etTimeZone = "America/New_York";
-    const currentTime = new Date().toLocaleString("en-US", {
+    const now = new Date();
+    const currentDate = now.toLocaleDateString("en-CA", {
       timeZone: etTimeZone,
     });
+    const etNow = new Date(
+      now.toLocaleString("en-US", {
+        timeZone: etTimeZone,
+      }),
+    );
 
     // Determine if the NYSE is currently open or closed
-    const currentHour = new Date(currentTime).getHours();
-    const isWeekendValue =
-      new Date(currentTime).getDay() === 6 ||
-      new Date(currentTime).getDay() === 0;
+    const currentHour = etNow.getHours();
+    const currentMinute = etNow.getMinutes();
+    const currentDay = etNow.getDay();
+    const isWeekendValue = currentDay === 6 || currentDay === 0;
     const isBeforeMarketOpenValue =
-      currentHour < 9 ||
-      (currentHour === 9 && new Date(currentTime).getMinutes() < 30);
+      currentHour < 9 || (currentHour === 9 && currentMinute < 30);
     const isAfterMarketCloseValue = currentHour >= 16;
+    const isHolidayValue = holidays.includes(currentDate);
 
-    isHoliday.set(holidays?.includes(currentDate));
+    isHoliday.set(isHolidayValue);
     isOpen.set(
       !(
         isWeekendValue ||
         isBeforeMarketOpenValue ||
         isAfterMarketCloseValue ||
-        holidays?.includes(currentDate)
+        isHolidayValue
       ),
     );
 
@@ -532,7 +571,10 @@
   }
 </script>
 
-<svelte:window bind:innerWidth={$screenWidth} on:scroll={handleScroll} />
+<svelte:window
+  bind:innerWidth={$screenWidth}
+  on:scroll|passive={handleScroll}
+/>
 
 <ModeWatcher defaultMode={data?.themeMode} />
 
