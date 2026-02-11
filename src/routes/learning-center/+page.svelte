@@ -4,7 +4,6 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
-  import { pb } from "$lib/pocketbase";
   import {
     learning_center_seo_description,
     learning_center_seo_keywords,
@@ -60,13 +59,6 @@
   const searchCache = new Map<string, any>();
   const MAX_CACHE_SIZE = 50;
   const MAX_SEARCH_LENGTH = 100;
-  const VALID_CATEGORIES = ["all", "Features", "Fundamentals", "Terms"];
-  const VALID_TAGS = ["all", "Stocks", "ETF", "Options", "Sentiment"];
-  const fields = "id,collectionId,title,abstract,category,tags,cover,created,updated,time";
-
-  function sanitizeSearch(raw: string): string {
-    return raw.slice(0, MAX_SEARCH_LENGTH).replace(/["\\\(\)=~&|!><]/g, "");
-  }
 
   $: activeCategory = data?.categoryFilter || "all";
   $: activeTag = data?.tagFilter || "all";
@@ -153,48 +145,53 @@
     }
   }
 
-  async function performSearch(query: string, pageNum: number) {
-    // Whitelist category and tag to prevent filter injection
-    const safeCat = VALID_CATEGORIES.includes(activeCategory) ? activeCategory : "all";
-    const safeTag = VALID_TAGS.includes(activeTag) ? activeTag : "all";
-    const sanitized = sanitizeSearch(query);
-    if (!sanitized) return;
+  let searchAbortController: AbortController | null = null;
 
-    const cacheKey = `${safeCat}:${safeTag}:${sanitized}:${pageNum}:${itemsPerPage}`;
+  async function performSearch(query: string, pageNum: number) {
+    const trimmed = query.slice(0, MAX_SEARCH_LENGTH);
+    if (!trimmed) return;
+
+    const cacheKey = `${activeCategory}:${activeTag}:${trimmed}:${pageNum}:${itemsPerPage}`;
 
     if (searchCache.has(cacheKey)) {
       searchResultData = searchCache.get(cacheKey);
-      silentUpdateUrl({ search: sanitized, page: String(pageNum) });
+      silentUpdateUrl({ search: trimmed, page: String(pageNum) });
       return;
     }
 
+    // Cancel any in-flight request
+    searchAbortController?.abort();
+    searchAbortController = new AbortController();
+
     try {
-      const filterParts = [`category = "${safeCat}"`];
-      if (safeTag !== "all") filterParts.push(`tags ~ "${safeTag}"`);
-      filterParts.push(`(title ~ "${sanitized}" || abstract ~ "${sanitized}")`);
-
-      const sort = safeCat === "Terms" ? "title" : "-created";
-
-      const result = await pb.collection("tutorials").getList(pageNum, itemsPerPage, {
-        filter: filterParts.join(" && "),
-        sort,
-        fields,
-        requestKey: `search_${cacheKey}`,
+      const params = new URLSearchParams({
+        category: activeCategory,
+        tag: activeTag,
+        search: trimmed,
+        page: String(pageNum),
+        perPage: String(itemsPerPage),
       });
+
+      const res = await fetch(`/api/search-collection?${params}`, {
+        signal: searchAbortController.signal,
+      });
+
+      if (!res.ok) return;
+      const result = await res.json();
 
       const resultData = {
         view: "category" as const,
-        categoryFilter: safeCat,
-        tagFilter: safeTag,
-        searchFilter: sanitized,
-        tutorials: result.items,
+        categoryFilter: result.category,
+        tagFilter: result.tag,
+        searchFilter: result.search,
+        tutorials: result.tutorials,
         totalItems: result.totalItems,
         totalPages: result.totalPages,
-        currentPage: result.page,
-        perPage: itemsPerPage,
+        currentPage: result.currentPage,
+        perPage: result.perPage,
       };
 
-      // Evict oldest entries if cache is full
+      // Evict oldest entry if cache is full
       if (searchCache.size >= MAX_CACHE_SIZE) {
         const firstKey = searchCache.keys().next().value;
         searchCache.delete(firstKey);
@@ -204,10 +201,10 @@
       // Only apply if the input still matches (user may have typed more)
       if (searchInput.trim() === query) {
         searchResultData = resultData;
-        silentUpdateUrl({ search: sanitized, page: String(pageNum) });
+        silentUpdateUrl({ search: trimmed, page: String(pageNum) });
       }
     } catch (e) {
-      // Silently ignore cancelled requests from rapid typing
+      // Silently ignore aborted requests from rapid typing
     }
   }
 
