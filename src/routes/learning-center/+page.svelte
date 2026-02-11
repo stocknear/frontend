@@ -213,8 +213,7 @@
     const query = searchInput.trim();
 
     if (!query) {
-      searchResultData = null;
-      silentUpdateUrl({ search: null, page: "1" });
+      clearSearch();
       return;
     }
 
@@ -227,8 +226,8 @@
     searchInput = "";
     clearTimeout(searchDebounceTimer);
     searchResultData = null;
-    silentUpdateUrl({ search: null, page: "1" });
-    // Re-focus the input after clearing
+    // Use goto() to re-run the server load with no search filter
+    goto(buildUrl({ search: null, page: "1" }));
     searchInputEl?.focus();
   }
 
