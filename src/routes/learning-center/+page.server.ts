@@ -4,9 +4,23 @@ const DEFAULT_PAGE_SIZE = PAGE_SIZES[0];
 export const load = async ({ locals, url }) => {
   const { pb } = locals;
 
-  const category = url.searchParams.get("category") || "all";
-  const tag = url.searchParams.get("tag") || "all";
-  const search = (url.searchParams.get("search") || "").trim();
+  const VALID_CATEGORIES = ["all", "Features", "Fundamentals", "Terms"];
+  const VALID_TAGS = ["all", "Stocks", "ETF", "Options", "Sentiment"];
+  const MAX_SEARCH_LENGTH = 100;
+
+  const rawCategory = url.searchParams.get("category") || "all";
+  const rawTag = url.searchParams.get("tag") || "all";
+  const rawSearch = (url.searchParams.get("search") || "").trim();
+
+  // Whitelist category and tag to prevent filter injection
+  const category = VALID_CATEGORIES.includes(rawCategory) ? rawCategory : "all";
+  const tag = VALID_TAGS.includes(rawTag) ? rawTag : "all";
+
+  // Sanitize search: strip dangerous chars, limit length
+  const search = rawSearch
+    .slice(0, MAX_SEARCH_LENGTH)
+    .replace(/["\\\(\)=~&|!><]/g, "");
+
   const pageParam = Number(url.searchParams.get("page") ?? "1");
   const perPageParam = Number(url.searchParams.get("perPage") ?? DEFAULT_PAGE_SIZE);
 
@@ -18,10 +32,9 @@ export const load = async ({ locals, url }) => {
   // Build tag filter fragment
   const tagFilter = tag !== "all" ? `tags ~ "${tag}"` : "";
 
-  // Build search filter fragment (sanitize quotes to prevent PB filter injection)
-  const sanitizedSearch = search.replace(/"/g, "");
-  const searchFilter = sanitizedSearch
-    ? `(title ~ "${sanitizedSearch}" || abstract ~ "${sanitizedSearch}")`
+  // Build search filter fragment
+  const searchFilter = search
+    ? `(title ~ "${search}" || abstract ~ "${search}")`
     : "";
 
   if (category === "all") {

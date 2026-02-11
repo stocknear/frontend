@@ -58,7 +58,15 @@
   // Client-side search state + cache
   let searchResultData: any = null; // null = use server data
   const searchCache = new Map<string, any>();
+  const MAX_CACHE_SIZE = 50;
+  const MAX_SEARCH_LENGTH = 100;
+  const VALID_CATEGORIES = ["all", "Features", "Fundamentals", "Terms"];
+  const VALID_TAGS = ["all", "Stocks", "ETF", "Options", "Sentiment"];
   const fields = "id,collectionId,title,abstract,category,tags,cover,created,updated,time";
+
+  function sanitizeSearch(raw: string): string {
+    return raw.slice(0, MAX_SEARCH_LENGTH).replace(/["\\\(\)=~&|!><]/g, "");
+  }
 
   $: activeCategory = data?.categoryFilter || "all";
   $: activeTag = data?.tagFilter || "all";
@@ -146,21 +154,26 @@
   }
 
   async function performSearch(query: string, pageNum: number) {
-    const cacheKey = `${activeCategory}:${activeTag}:${query}:${pageNum}:${itemsPerPage}`;
+    // Whitelist category and tag to prevent filter injection
+    const safeCat = VALID_CATEGORIES.includes(activeCategory) ? activeCategory : "all";
+    const safeTag = VALID_TAGS.includes(activeTag) ? activeTag : "all";
+    const sanitized = sanitizeSearch(query);
+    if (!sanitized) return;
+
+    const cacheKey = `${safeCat}:${safeTag}:${sanitized}:${pageNum}:${itemsPerPage}`;
 
     if (searchCache.has(cacheKey)) {
       searchResultData = searchCache.get(cacheKey);
-      silentUpdateUrl({ search: query, page: String(pageNum) });
+      silentUpdateUrl({ search: sanitized, page: String(pageNum) });
       return;
     }
 
     try {
-      const filterParts = [`category = "${activeCategory}"`];
-      if (activeTag !== "all") filterParts.push(`tags ~ "${activeTag}"`);
-      const sanitized = query.replace(/"/g, "");
+      const filterParts = [`category = "${safeCat}"`];
+      if (safeTag !== "all") filterParts.push(`tags ~ "${safeTag}"`);
       filterParts.push(`(title ~ "${sanitized}" || abstract ~ "${sanitized}")`);
 
-      const sort = activeCategory === "Terms" ? "title" : "-created";
+      const sort = safeCat === "Terms" ? "title" : "-created";
 
       const result = await pb.collection("tutorials").getList(pageNum, itemsPerPage, {
         filter: filterParts.join(" && "),
@@ -171,9 +184,9 @@
 
       const resultData = {
         view: "category" as const,
-        categoryFilter: activeCategory,
-        tagFilter: activeTag,
-        searchFilter: query,
+        categoryFilter: safeCat,
+        tagFilter: safeTag,
+        searchFilter: sanitized,
         tutorials: result.items,
         totalItems: result.totalItems,
         totalPages: result.totalPages,
@@ -181,11 +194,17 @@
         perPage: itemsPerPage,
       };
 
+      // Evict oldest entries if cache is full
+      if (searchCache.size >= MAX_CACHE_SIZE) {
+        const firstKey = searchCache.keys().next().value;
+        searchCache.delete(firstKey);
+      }
       searchCache.set(cacheKey, resultData);
+
       // Only apply if the input still matches (user may have typed more)
       if (searchInput.trim() === query) {
         searchResultData = resultData;
-        silentUpdateUrl({ search: query, page: String(pageNum) });
+        silentUpdateUrl({ search: sanitized, page: String(pageNum) });
       }
     } catch (e) {
       // Silently ignore cancelled requests from rapid typing
@@ -390,6 +409,7 @@
             bind:value={searchInput}
             on:input={handleSearchInput}
             type="text"
+            maxlength={MAX_SEARCH_LENGTH}
             placeholder="Find..."
             class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
           />
