@@ -33,7 +33,8 @@ export const GET: RequestHandler = async ({ locals, url }) => {
   }
 
   try {
-    const filterParts = [`category = "${category}"`];
+    const filterParts: string[] = [];
+    if (category !== "all") filterParts.push(`category = "${category}"`);
     if (tag !== "all") filterParts.push(`tags ~ "${tag}"`);
     filterParts.push(`(title ~ "${search}" || abstract ~ "${search}")`);
 
