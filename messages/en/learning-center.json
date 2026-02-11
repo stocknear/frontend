@@ -75,7 +75,7 @@
   "learning_center_tag_etf": "ETF",
   "learning_center_tag_options": "Options",
   "learning_center_tag_sentiment": "Sentiment",
-  "learning_center_tag_prefix": "Tag |",
+  "learning_center_tag_prefix": "Tag",
 
   "learning_center_view_all": "View all",
   "learning_center_view_all_count": "View all {count}",
@@ -118,5 +118,9 @@
   "learning_center_create_free_account": "Create free account",
   "learning_center_sign_in": "Sign in",
 
-  "learning_center_click_to_close": "Click anywhere or press ESC to close"
+  "learning_center_click_to_close": "Click anywhere or press ESC to close",
+
+  "learning_center_search_placeholder": "Search...",
+  "learning_center_no_search_results": "No results found for \"{query}\".",
+  "learning_center_clear_search": "Clear search"
 }

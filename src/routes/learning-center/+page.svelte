@@ -4,6 +4,7 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
+  import { pb } from "$lib/pocketbase";
   import {
     learning_center_seo_description,
     learning_center_seo_keywords,
@@ -39,6 +40,8 @@
     learning_center_back_to_top,
     learning_center_no_terms_yet,
     learning_center_no_articles_category,
+    learning_center_no_search_results,
+    learning_center_clear_search,
   } from "$lib/paraglide/messages";
   import Calendar from "lucide-svelte/icons/calendar";
   import Clock from "lucide-svelte/icons/clock";
@@ -48,14 +51,32 @@
   export let data;
 
   let itemsPerPageOptions = [15, 20, 30];
+  let searchInput = data?.searchFilter || "";
+  let searchDebounceTimer: ReturnType<typeof setTimeout> | undefined;
+  let searchInputEl: HTMLInputElement;
+
+  // Client-side search state + cache
+  let searchResultData: any = null; // null = use server data
+  const searchCache = new Map<string, any>();
+  const fields = "id,collectionId,title,abstract,category,tags,cover,created,updated,time";
 
   $: activeCategory = data?.categoryFilter || "all";
   $: activeTag = data?.tagFilter || "all";
+  $: activeSearch = searchResultData?.searchFilter ?? (data?.searchFilter || "");
 
-  // Server-driven pagination data (category view only)
-  $: currentPage = data?.view === "category" ? (data?.currentPage ?? 1) : 1;
-  $: totalPages = data?.view === "category" ? (data?.totalPages ?? 1) : 1;
-  $: itemsPerPage = data?.view === "category" ? (data?.perPage ?? 15) : 15;
+  // When server data changes (navigation), reset client search state
+  $: if (data) {
+    searchResultData = null;
+    searchInput = data?.searchFilter || "";
+  }
+
+  // Use client search results when available, otherwise server data
+  $: displayData = searchResultData || data;
+
+  // Pagination from whichever source is active
+  $: currentPage = displayData?.view === "category" ? (displayData?.currentPage ?? 1) : 1;
+  $: totalPages = displayData?.view === "category" ? (displayData?.totalPages ?? 1) : 1;
+  $: itemsPerPage = displayData?.view === "category" ? (displayData?.perPage ?? 15) : 15;
 
   // Available tags for filtering
   const availableTags = [
@@ -105,9 +126,11 @@
     const tag = overrides.tag !== undefined ? overrides.tag : activeTag;
     const pg = overrides.page !== undefined ? overrides.page : null;
     const pp = overrides.perPage !== undefined ? overrides.perPage : null;
+    const sr = overrides.search !== undefined ? overrides.search : activeSearch;
 
     if (cat && cat !== "all") params.set("category", cat);
     if (tag && tag !== "all") params.set("tag", tag);
+    if (sr) params.set("search", sr);
     if (pg && pg !== "1") params.set("page", pg);
     if (pp && pp !== "15") params.set("perPage", pp);
 
@@ -115,12 +138,96 @@
     return `/learning-center${qs ? `?${qs}` : ""}`;
   }
 
+  function silentUpdateUrl(overrides: Record<string, string | null> = {}) {
+    if (browser) {
+      const url = buildUrl(overrides);
+      history.replaceState(history.state, "", url);
+    }
+  }
+
+  async function performSearch(query: string, pageNum: number) {
+    const cacheKey = `${activeCategory}:${activeTag}:${query}:${pageNum}:${itemsPerPage}`;
+
+    if (searchCache.has(cacheKey)) {
+      searchResultData = searchCache.get(cacheKey);
+      silentUpdateUrl({ search: query, page: String(pageNum) });
+      return;
+    }
+
+    try {
+      const filterParts = [`category = "${activeCategory}"`];
+      if (activeTag !== "all") filterParts.push(`tags ~ "${activeTag}"`);
+      const sanitized = query.replace(/"/g, "");
+      filterParts.push(`(title ~ "${sanitized}" || abstract ~ "${sanitized}")`);
+
+      const sort = activeCategory === "Terms" ? "title" : "-created";
+
+      const result = await pb.collection("tutorials").getList(pageNum, itemsPerPage, {
+        filter: filterParts.join(" && "),
+        sort,
+        fields,
+        requestKey: `search_${cacheKey}`,
+      });
+
+      const resultData = {
+        view: "category" as const,
+        categoryFilter: activeCategory,
+        tagFilter: activeTag,
+        searchFilter: query,
+        tutorials: result.items,
+        totalItems: result.totalItems,
+        totalPages: result.totalPages,
+        currentPage: result.page,
+        perPage: itemsPerPage,
+      };
+
+      searchCache.set(cacheKey, resultData);
+      // Only apply if the input still matches (user may have typed more)
+      if (searchInput.trim() === query) {
+        searchResultData = resultData;
+        silentUpdateUrl({ search: query, page: String(pageNum) });
+      }
+    } catch (e) {
+      // Silently ignore cancelled requests from rapid typing
+    }
+  }
+
+  function handleSearchInput() {
+    clearTimeout(searchDebounceTimer);
+    const query = searchInput.trim();
+
+    if (!query) {
+      searchResultData = null;
+      silentUpdateUrl({ search: null, page: "1" });
+      return;
+    }
+
+    searchDebounceTimer = setTimeout(() => {
+      performSearch(query, 1);
+    }, 150);
+  }
+
+  function clearSearch() {
+    searchInput = "";
+    clearTimeout(searchDebounceTimer);
+    searchResultData = null;
+    silentUpdateUrl({ search: null, page: "1" });
+    // Re-focus the input after clearing
+    searchInputEl?.focus();
+  }
+
   function setCategory(categoryId: string) {
-    goto(buildUrl({ category: categoryId, page: null, perPage: null }));
+    searchInput = "";
+    searchResultData = null;
+    searchCache.clear();
+    goto(buildUrl({ category: categoryId, page: null, perPage: null, search: null }));
   }
 
   function setTag(tagId: string) {
-    goto(buildUrl({ tag: tagId, page: "1" }));
+    searchInput = "";
+    searchResultData = null;
+    searchCache.clear();
+    goto(buildUrl({ tag: tagId, page: "1", search: null }));
   }
 
   // Get the display name for the selected tag
@@ -129,18 +236,25 @@
 
   // Total count for SEO structured data
   $: totalCount =
-    data?.view === "all" ? (data?.totalCount ?? 0) : (data?.totalItems ?? 0);
+    displayData?.view === "all" ? (displayData?.totalCount ?? 0) : (displayData?.totalItems ?? 0);
 
   function goToPage(pageNum: number) {
     if (pageNum >= 1 && pageNum <= totalPages) {
-      goto(buildUrl({ page: String(pageNum), perPage: String(itemsPerPage) }));
+      const query = searchInput.trim();
+      if (query) {
+        performSearch(query, pageNum);
+      } else {
+        goto(buildUrl({ page: String(pageNum), perPage: String(itemsPerPage) }));
+      }
       scrollToTop();
     }
   }
 
   function changeItemsPerPage(newItemsPerPage: number) {
     saveItemsPerPage(newItemsPerPage);
-    goto(buildUrl({ page: "1", perPage: String(newItemsPerPage) }));
+    searchCache.clear();
+    searchResultData = null;
+    goto(buildUrl({ page: "1", perPage: String(newItemsPerPage), search: searchInput.trim() || null }));
   }
 
   function saveItemsPerPage(value: number) {
@@ -246,7 +360,42 @@
       </ul>
     </nav>
 
-    <!-- Tag Filter Dropdown -->
+    <!-- Search + Tag Filter -->
+    <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
+      {#if activeCategory !== "all"}
+        <!-- Search Input -->
+        <div class="relative grow sm:grow-0">
+          <div
+            class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+          >
+            {#if searchInput?.length > 0}
+              <label
+                class="cursor-pointer"
+                on:click={clearSearch}
+              >
+                <svg
+                  class="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  ><path
+                    fill="currentColor"
+                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                  /></svg
+                >
+              </label>
+            {/if}
+          </div>
+          <input
+            bind:this={searchInputEl}
+            bind:value={searchInput}
+            on:input={handleSearchInput}
+            type="text"
+            placeholder="Find..."
+            class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
+          />
+        </div>
+      {/if}
+
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button
@@ -302,6 +451,7 @@
         </DropdownMenu.Group>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
+    </div>
   </div>
 
   <!-- Active Category Description -->
@@ -315,8 +465,8 @@
   {/if}
 
   <!-- Show categorized sections when "All" is selected -->
-  {#if data?.view === "all"}
-    {@const sections = data.categorySections}
+  {#if displayData?.view === "all"}
+    {@const sections = displayData.categorySections}
 
     <!-- Features Section -->
     {#if sections?.Features?.items?.length > 0}
@@ -513,11 +663,11 @@
         </button>
       </div>
     {/if}
-  {:else if data?.view === "category" && activeCategory === "Terms"}
+  {:else if displayData?.view === "category" && activeCategory === "Terms"}
     <!-- Terms Filtered View - Alphabetical list -->
-    {#if data?.tutorials?.length > 0}
+    {#if displayData?.tutorials?.length > 0}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {#each data.tutorials as item}
+        {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
             class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
@@ -667,14 +817,25 @@
       {/if}
     {:else}
       <div class="text-center py-12">
-        <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_terms_yet()}</p>
+        {#if activeSearch}
+          <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_search_results({ query: activeSearch })}</p>
+          <button
+            type="button"
+            on:click={clearSearch}
+            class="cursor-pointer mt-4 text-sm text-violet-600 dark:text-violet-400 hover:underline"
+          >
+            {learning_center_clear_search()}
+          </button>
+        {:else}
+          <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_terms_yet()}</p>
+        {/if}
       </div>
     {/if}
-  {:else if data?.view === "category"}
+  {:else if displayData?.view === "category"}
     <!-- Filtered Category View (non-Terms) -->
-    {#if data?.tutorials?.length > 0}
+    {#if displayData?.tutorials?.length > 0}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {#each data.tutorials as item}
+        {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
             class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
@@ -842,9 +1003,20 @@
       {/if}
     {:else}
       <div class="text-center py-12">
-        <p class="text-gray-500 dark:text-zinc-400">
-          {learning_center_no_articles_category()}
-        </p>
+        {#if activeSearch}
+          <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_search_results({ query: activeSearch })}</p>
+          <button
+            type="button"
+            on:click={clearSearch}
+            class="cursor-pointer mt-4 text-sm text-violet-600 dark:text-violet-400 hover:underline"
+          >
+            {learning_center_clear_search()}
+          </button>
+        {:else}
+          <p class="text-gray-500 dark:text-zinc-400">
+            {learning_center_no_articles_category()}
+          </p>
+        {/if}
       </div>
     {/if}
   {/if}

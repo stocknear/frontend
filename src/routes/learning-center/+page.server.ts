@@ -6,6 +6,7 @@ export const load = async ({ locals, url }) => {
 
   const category = url.searchParams.get("category") || "all";
   const tag = url.searchParams.get("tag") || "all";
+  const search = (url.searchParams.get("search") || "").trim();
   const pageParam = Number(url.searchParams.get("page") ?? "1");
   const perPageParam = Number(url.searchParams.get("perPage") ?? DEFAULT_PAGE_SIZE);
 
@@ -17,11 +18,18 @@ export const load = async ({ locals, url }) => {
   // Build tag filter fragment
   const tagFilter = tag !== "all" ? `tags ~ "${tag}"` : "";
 
+  // Build search filter fragment (sanitize quotes to prevent PB filter injection)
+  const sanitizedSearch = search.replace(/"/g, "");
+  const searchFilter = sanitizedSearch
+    ? `(title ~ "${sanitizedSearch}" || abstract ~ "${sanitizedSearch}")`
+    : "";
+
   if (category === "all") {
     // "All" view: fetch limited preview items per category in parallel
     const buildFilter = (cat: string) => {
       const parts = [`category = "${cat}"`];
       if (tagFilter) parts.push(tagFilter);
+      if (searchFilter) parts.push(searchFilter);
       return parts.join(" && ");
     };
 
@@ -53,6 +61,7 @@ export const load = async ({ locals, url }) => {
       view: "all" as const,
       categoryFilter: category,
       tagFilter: tag,
+      searchFilter: search,
       totalCount,
       categorySections: {
         Features: { items: features.items, totalItems: features.totalItems },
@@ -67,6 +76,7 @@ export const load = async ({ locals, url }) => {
     // Category view: single paginated query
     const filterParts = [`category = "${category}"`];
     if (tagFilter) filterParts.push(tagFilter);
+    if (searchFilter) filterParts.push(searchFilter);
     const filter = filterParts.join(" && ");
     const sort = category === "Terms" ? "title" : "-created";
 
@@ -80,6 +90,7 @@ export const load = async ({ locals, url }) => {
       view: "category" as const,
       categoryFilter: category,
       tagFilter: tag,
+      searchFilter: search,
       tutorials: result.items,
       totalItems: result.totalItems,
       totalPages: result.totalPages,

@@ -79,7 +79,7 @@ export const urlPatterns = [
 export let serverAsyncLocalStorage = undefined;
 export const disableAsyncLocalStorage = false;
 export const experimentalMiddlewareLocaleSplitting = false;
-export const isServer = import.meta.env?.SSR ?? typeof window === 'undefined';
+export const isServer = typeof window === 'undefined';
 /** @type {Locale | undefined} */
 // @ts-ignore - injected by bundlers at compile time
 export const experimentalStaticLocale = undefined;
