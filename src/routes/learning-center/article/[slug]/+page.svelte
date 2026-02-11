@@ -2,7 +2,6 @@
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import showdown from "showdown";
-  import Pencil from "lucide-svelte/icons/pencil";
   import ArrowLeft from "lucide-svelte/icons/arrow-left";
   import Calendar from "lucide-svelte/icons/calendar";
   import Link2 from "lucide-svelte/icons/link-2";
@@ -17,7 +16,6 @@
     learning_center_share_this_post,
     learning_center_back_to_all_posts,
     learning_center_min_read,
-    learning_center_edit,
     learning_center_quick_start,
     learning_center_sidebar_top_gainers,
     learning_center_sidebar_top_losers,
@@ -56,7 +54,6 @@
 
   let article = data?.getArticle;
   let relatedArticles = data?.getRelatedArticles || [];
-  $: isAdmin = data?.user?.admin === true;
   $: isDailyLocked = article?.category === "Daily" && !data?.user;
 
   // Build back URL based on article category
@@ -746,16 +743,6 @@
               <Clock class="w-4 h-4" />
               <span>{learning_center_min_read({ time: String(readingTime) })}</span>
             </div>
-            {#if isAdmin && article?.id}
-              <span class="text-gray-300 dark:text-zinc-700">|</span>
-              <a
-                href="/learning-center/editor/{article.id}"
-                class="flex items-center gap-1.5 text-violet-600 dark:text-violet-400 hover:underline"
-              >
-                <Pencil class="w-4 h-4" />
-                <span>{learning_center_edit()}</span>
-              </a>
-            {/if}
           </div>
         </header>
 
@@ -1118,7 +1105,7 @@
 {/if}
 
 <style>
-  /* Article Content Styles - Matching Editor */
+  /* Article Content Styles */
   .article-content {
     font-size: 1.125rem;
     line-height: 1.8;
