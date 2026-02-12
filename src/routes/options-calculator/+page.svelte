@@ -1,6 +1,7 @@
 <script lang="ts">
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import { goto } from "$app/navigation";
   import SEO from "$lib/components/SEO.svelte";
   import { onMount, onDestroy } from "svelte";
   import { abbreviateNumber, buildOptionSymbol } from "$lib/utils";
@@ -465,6 +466,48 @@
     });
   };
 
+  function computeDTE(dateStr: string): number | null {
+    try {
+      const exp = new Date(dateStr + "T00:00:00Z");
+      const now = new Date();
+      const todayUTC = Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+      );
+      const expUTC = Date.UTC(
+        exp.getUTCFullYear(),
+        exp.getUTCMonth(),
+        exp.getUTCDate(),
+      );
+      const diffMs = expUTC - todayUTC;
+      if (diffMs <= 0) return 0;
+      const dayMs = 24 * 60 * 60 * 1000;
+      return Math.ceil(diffMs / dayMs);
+    } catch {
+      return null;
+    }
+  }
+
+  const formatDteLabel = (dateStr: string) => {
+    const dte = computeDTE(dateStr);
+    if (dte == null) return "";
+    return `(${dte} ${dte === 1 ? "day" : "days"})`;
+  };
+
+  const isLockedForFreeTier = (expirationIndex: number) =>
+    !isPro && expirationIndex > 0;
+
+  const getActionPillClass = (action: string | undefined) =>
+    `${action === "Buy"
+      ? "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-700/60 dark:bg-emerald-900/35 dark:text-emerald-300"
+      : "border-rose-200 bg-rose-100 text-rose-700 dark:border-rose-700/60 dark:bg-rose-900/35 dark:text-rose-300"} inline-flex items-center rounded-full border px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
+
+  const getOptionTypePillClass = (optionType: string | undefined) =>
+    `${optionType === "Call"
+      ? "border-sky-200 bg-sky-100 text-sky-700 dark:border-sky-700/60 dark:bg-sky-900/35 dark:text-sky-300"
+      : "border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-700/60 dark:bg-amber-900/35 dark:text-amber-300"} inline-flex items-center rounded-full border px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
+
   const getTickerBasePath = () =>
     `/${["stocks", "stock"].includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}`;
 
@@ -575,6 +618,10 @@
           dateList = Object.keys(optionData);
           item.dateList = dateList;
 
+          if (!isPro && dateList?.length > 0 && item?.date !== dateList[0]) {
+            item.date = dateList[0];
+          }
+
           // Make sure selectedDate exists in the data
           if (!dateList.includes(item?.date) && dateList.length > 0) {
             selectedDate = dateList[0];
@@ -616,7 +663,11 @@
           ) {
             return;
           }
-          if (output?.error && !contractDataWarning) {
+          if (
+            output?.error &&
+            !contractDataWarning &&
+            Number(output?.status) !== 403
+          ) {
             contractDataWarning =
               output?.message || "Contract data unavailable.";
           }
@@ -631,6 +682,10 @@
       } else {
         optionData = rawData?.getData[selectedOptionType] || {};
         dateList = Object.keys(optionData);
+
+        if (!isPro && dateList?.length > 0) {
+          selectedDate = dateList[0];
+        }
 
         // Make sure selectedDate exists in the data
         if (!dateList.includes(selectedDate) && dateList.length > 0) {
@@ -667,7 +722,11 @@
         ) {
           return;
         }
-        if (output?.error && !contractDataWarning) {
+        if (
+          output?.error &&
+          !contractDataWarning &&
+          Number(output?.status) !== 403
+        ) {
           contractDataWarning = output?.message || "Contract data unavailable.";
         }
         selectedOptionPrice = output?.history?.at(-1)?.mark
@@ -810,6 +869,13 @@
   }
 
   async function handleExpirationDate(date, index) {
+    const currentDateList = userStrategy?.[index]?.dateList || [];
+    const targetIndex = currentDateList.indexOf(date);
+    if (isLockedForFreeTier(targetIndex)) {
+      goto("/pricing");
+      return;
+    }
+
     selectedDate = date;
     if (index !== undefined && userStrategy[index]) {
       // Update the specific leg in userStrategy
@@ -1470,10 +1536,17 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
+                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                               >
                                 <span class="truncate text-sm"
-                                  >{formatDate(userStrategy[index]?.date)}</span
+                                  >{formatDate(userStrategy[index]?.date)}
+                                  {#if formatDteLabel(userStrategy[index]?.date)}
+                                    <span
+                                      class="ml-1 text-xs text-gray-500 dark:text-zinc-400"
+                                    >
+                                      {formatDteLabel(userStrategy[index]?.date)}
+                                    </span>
+                                  {/if}</span
                                 >
                                 <svg
                                   class="-mr-1 ml-2 h-5 w-5 inline-block"
@@ -1492,19 +1565,54 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                              side="bottom"
+                              align="end"
+                              sideOffset={10}
+                              alignOffset={0}
+                              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2"
-                                >{#each userStrategy[index]?.dateList as item}
-                                  <DropdownMenu.Item
-                                    on:click={() => {
-                                      handleExpirationDate(item, index);
-                                    }}
-                                    class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
-                                  >
-                                    {formatDate(item)}
-                                  </DropdownMenu.Item>
+                                >{#each userStrategy[index]?.dateList as expirationItem, expirationIndex}
+                                  {#if !isLockedForFreeTier(expirationIndex)}
+                                    <DropdownMenu.Item
+                                      on:click={() => {
+                                        handleExpirationDate(expirationItem, index);
+                                      }}
+                                      class="{userStrategy[index]?.date === expirationItem
+                                        ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                                        : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                                    >
+                                      <span>{formatDate(expirationItem)}</span>
+                                      <span
+                                        class="ml-2 text-xs text-gray-500 dark:text-zinc-400"
+                                        >{formatDteLabel(expirationItem)}</span
+                                      >
+                                    </DropdownMenu.Item>
+                                  {:else}
+                                    <DropdownMenu.Item
+                                      on:click={() => goto("/pricing")}
+                                      class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                                    >
+                                      <span>{formatDate(expirationItem)}</span>
+                                      <span
+                                        class="ml-2 text-xs text-gray-500 dark:text-zinc-400"
+                                        >{formatDteLabel(expirationItem)}</span
+                                      >
+                                      <svg
+                                        class="ml-1 size-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        style="max-width: 40px;"
+                                      >
+                                        <path
+                                          fill-rule="evenodd"
+                                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                          clip-rule="evenodd"
+                                        ></path>
+                                      </svg>
+                                    </DropdownMenu.Item>
+                                  {/if}
                                 {/each}</DropdownMenu.Group
                               >
                             </DropdownMenu.Content>
