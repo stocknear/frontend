@@ -470,7 +470,10 @@
 
   function plotData() {
     // Determine x-axis range based on current stock price and max leg strike
-    const combinedStrategy = [...(userStrategy || []), ...(shareStrategy || [])];
+    const combinedStrategy = [
+      ...(userStrategy || []),
+      ...(shareStrategy || []),
+    ];
 
     if (!combinedStrategy || combinedStrategy.length === 0) {
       return null;
@@ -747,9 +750,7 @@
       return;
     }
 
-    const defaultPrice = currentStockPrice
-      ? +currentStockPrice.toFixed(2)
-      : 0;
+    const defaultPrice = currentStockPrice ? +currentStockPrice.toFixed(2) : 0;
     shareStrategy = [
       ...shareStrategy,
       {
@@ -1170,15 +1171,6 @@
           </div>
 
           <div class="mt-5 mb-5 w-full">
-            <h2
-              class="mt-5 mb-1 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {selectedStrategy}
-            </h2>
-            <p class="mt-3 text-sm text-gray-800 dark:text-zinc-300">
-              {description}
-            </p>
-
             <div class="mt-4">
               <div
                 class="{$screenWidth < 640 && $screenWidth
