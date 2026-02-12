@@ -501,12 +501,12 @@
   const getActionPillClass = (action: string | undefined) =>
     `${action === "Buy"
       ? "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-700/60 dark:bg-emerald-900/35 dark:text-emerald-300"
-      : "border-rose-200 bg-rose-100 text-rose-700 dark:border-rose-700/60 dark:bg-rose-900/35 dark:text-rose-300"} inline-flex items-center rounded-full border px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
+      : "border-rose-200 bg-rose-100 text-rose-700 dark:border-rose-700/60 dark:bg-rose-900/35 dark:text-rose-300"} inline-flex items-center rounded-full border shadow px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
 
   const getOptionTypePillClass = (optionType: string | undefined) =>
     `${optionType === "Call"
-      ? "border-sky-200 bg-sky-100 text-sky-700 dark:border-sky-700/60 dark:bg-sky-900/35 dark:text-sky-300"
-      : "border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-700/60 dark:bg-amber-900/35 dark:text-amber-300"} inline-flex items-center rounded-full border px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
+      ? "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-700/60 dark:bg-emerald-900/35 dark:text-emerald-300"
+      : "border-rose-200 bg-rose-100 text-rose-700 dark:border-rose-700/60 dark:bg-rose-900/35 dark:text-rose-300"} inline-flex items-center rounded-full border shadow px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
 
   const getTickerBasePath = () =>
     `/${["stocks", "stock"].includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}`;
@@ -1518,7 +1518,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleAction(index)}
-                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
+                            class={getActionPillClass(item?.action)}
                             >{item?.action}</label
                           >
                         </td>
@@ -1667,7 +1667,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleOptionType(index)}
-                            class="select-none inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer"
+                            class={getOptionTypePillClass(item?.optionType)}
                             >{item?.optionType}</label
                           >
                         </td>
@@ -1762,7 +1762,7 @@
                           <td class="px-4 whitespace-nowrap py-2">
                             <label
                               on:click={() => handleShareAction(shareIndex)}
-                              class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
+                              class={getActionPillClass(shareItem?.action)}
                               >{shareItem?.action}</label
                             >
                           </td>
