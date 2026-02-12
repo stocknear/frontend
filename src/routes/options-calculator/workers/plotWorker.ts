@@ -738,6 +738,13 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
     const metrics = calculateMetrics(dataPoints);
     let breakEvenPrices = calculateBreakevenPrices(dataPoints);
 
+    // Cap breakeven prices - real strategies have at most ~5 breakevens.
+    // Degenerate cases (e.g. buy+sell same option) produce near-zero payoff
+    // across all prices, yielding hundreds of false breakevens.
+    if (breakEvenPrices.length > 10) {
+      breakEvenPrices = [];
+    }
+
     // Calculate time to expiration and IV for probability/EV calculations
     const riskFreeRate = 0.05;
     const now = new Date();

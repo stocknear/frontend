@@ -3,7 +3,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
   import SEO from "$lib/components/SEO.svelte";
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, untrack } from "svelte";
   import { abbreviateNumber, buildOptionSymbol } from "$lib/utils";
   import { setCache, getCache, screenWidth } from "$lib/store";
   import { Combobox } from "bits-ui";
@@ -89,12 +89,21 @@
   let downloadWorker: Worker | undefined;
   let plotWorker: Worker | undefined;
   let strategyWorker: Worker | undefined;
-  let latestDownloadRequestId = 0;
+  let downloadRequestSequence = 0;
   let latestPlotRequestId = 0;
   let latestStrategyRequestId = 0;
   let latestLoadRequestId = 0;
   let activeSearchRequestId = 0;
   let searchAbortController: AbortController | null = null;
+  const pendingDownloadRequests = new Map<
+    number,
+    {
+      ticker: string;
+      resolve: (value: Record<string, any>) => void;
+      reject: (reason?: any) => void;
+    }
+  >();
+  const inFlightTickerRequests = new Map<string, Promise<Record<string, any>>>();
   let contractDataWarning = "";
   let workerError = "";
 
@@ -122,6 +131,8 @@
   let totalPremium = 0;
   let metrics: Record<string, string> = {};
   let rawData: Record<string, any> = {};
+  let rawDataByTicker: Record<string, any> = {};
+  let stockPriceByTicker: Record<string, number> = {};
   let probabilities: { pop: number; popMaxProfit: number; popMaxLoss: number } =
     {
       pop: 0,
@@ -235,23 +246,77 @@
   let shareStrategy = [];
   let description = prebuiltStrategy[0]?.description;
 
-  const handleDownloadMessage = async (event) => {
-    const { requestId, message, output, error } = event?.data || {};
-
-    if (requestId !== latestDownloadRequestId) {
-      return;
+  const cacheTickerData = (ticker: string, output: Record<string, any>) => {
+    if (!ticker) return;
+    rawDataByTicker[ticker] = output || {};
+    stockPriceByTicker[ticker] = output?.getStockQuote?.price || 0;
+    if (ticker === selectedTicker) {
+      rawData = output || {};
+      currentStockPrice = stockPriceByTicker[ticker] || 0;
     }
+  };
+
+  const handleDownloadMessage = (event) => {
+    const { requestId, message, output, error } = event?.data || {};
+    const pendingRequest = pendingDownloadRequests.get(requestId);
+
+    if (!pendingRequest) return;
+    pendingDownloadRequests.delete(requestId);
 
     if (message === "error") {
-      workerError = error || "Failed to load options data.";
-      isLoaded = false;
+      pendingRequest.reject(
+        new Error(error || "Failed to load options data."),
+      );
       return;
     }
 
-    workerError = "";
-    rawData = output || {};
-    currentStockPrice = rawData?.getStockQuote?.price || 0;
-    await loadData();
+    const normalizedOutput = output || {};
+    cacheTickerData(pendingRequest.ticker, normalizedOutput);
+    pendingRequest.resolve(normalizedOutput);
+  };
+
+  const requestTickerData = async (ticker: string) => {
+    const normalizedTicker = (ticker || selectedTicker || "").toUpperCase();
+    if (!normalizedTicker) {
+      throw new Error("Ticker is required.");
+    }
+
+    if (rawDataByTicker[normalizedTicker]?.getData) {
+      cacheTickerData(normalizedTicker, rawDataByTicker[normalizedTicker]);
+      return rawDataByTicker[normalizedTicker];
+    }
+
+    const existingPromise = inFlightTickerRequests.get(normalizedTicker);
+    if (existingPromise) {
+      return existingPromise;
+    }
+
+    const requestPromise = new Promise<Record<string, any>>(
+      (resolve, reject) => {
+        if (!downloadWorker) {
+          reject(new Error("Download worker is not initialized."));
+          return;
+        }
+        const requestId = ++downloadRequestSequence;
+        pendingDownloadRequests.set(requestId, {
+          ticker: normalizedTicker,
+          resolve,
+          reject,
+        });
+        downloadWorker.postMessage({
+          ticker: normalizedTicker,
+          requestId,
+        });
+      },
+    );
+
+    inFlightTickerRequests.set(normalizedTicker, requestPromise);
+
+    try {
+      return await requestPromise;
+    } finally {
+      inFlightTickerRequests.delete(normalizedTicker);
+    }
   };
 
   const handlePlotMessage = async (event) => {
@@ -508,20 +573,62 @@
       ? "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-700/60 dark:bg-emerald-900/35 dark:text-emerald-300"
       : "border-rose-200 bg-rose-100 text-rose-700 dark:border-rose-700/60 dark:bg-rose-900/35 dark:text-rose-300"} inline-flex items-center rounded-full border shadow px-2 py-0.5 text-sm font-semibold cursor-pointer select-none`;
 
-  const getTickerBasePath = () =>
-    `/${["stocks", "stock"].includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}`;
+  const getTickerBasePath = (
+    ticker?: string,
+    tickerAssetType?: string,
+  ) =>
+    `/${["stocks", "stock"].includes(tickerAssetType || "")
+      ? "stocks"
+      : tickerAssetType === "etf"
+        ? "etf"
+        : "index"}/${ticker || selectedTicker}`;
+
+  const getLegTicker = (leg: Record<string, any>) => leg?.ticker || selectedTicker;
+  const getLegAssetType = (leg: Record<string, any>) =>
+    leg?.assetType || assetType;
+  const getLegUnderlyingPrice = (leg: Record<string, any>) =>
+    stockPriceByTicker[getLegTicker(leg)] ||
+    leg?.underlyingPrice ||
+    currentStockPrice;
+
+  const getUniqueTickers = () => {
+    const strategyLegs = [...(userStrategy || []), ...(shareStrategy || [])];
+    return Array.from(
+      new Set(
+        strategyLegs
+          .map((leg) => getLegTicker(leg))
+          .filter((ticker) => typeof ticker === "string" && ticker.length > 0),
+      ),
+    );
+  };
 
   function plotData() {
     // Determine x-axis range based on current stock price and max leg strike
-    const combinedStrategy = [
+    const combinedStrategyRaw = [
       ...(userStrategy || []),
       ...(shareStrategy || []),
     ];
+    const combinedStrategy = combinedStrategyRaw.map((leg) => ({
+      ...leg,
+      ticker: getLegTicker(leg),
+      assetType: getLegAssetType(leg),
+      underlyingPrice: getLegUnderlyingPrice(leg),
+    }));
 
     if (!combinedStrategy || combinedStrategy.length === 0) {
       return null;
     }
     try {
+      const uniqueTickers = Array.from(
+        new Set(combinedStrategy.map((leg) => leg?.ticker).filter(Boolean)),
+      );
+      const isMultiSymbol = uniqueTickers.length > 1;
+      const primaryTicker = uniqueTickers.includes(selectedTicker)
+        ? selectedTicker
+        : uniqueTickers[0] || selectedTicker;
+      const referencePrice =
+        stockPriceByTicker[primaryTicker] || currentStockPrice || 0;
+
       // Get the expiration date from the first leg (or use a default)
       const expirationDate =
         userStrategy[0]?.date ||
@@ -532,8 +639,11 @@
       latestPlotRequestId += 1;
       plotWorker?.postMessage({
         userStrategy: combinedStrategy,
-        currentStockPrice: currentStockPrice,
+        currentStockPrice: referencePrice,
         expirationDate: expirationDate,
+        axisMode: isMultiSymbol ? "percent" : "price",
+        primaryTicker,
+        referencePrice,
         requestId: latestPlotRequestId,
       });
     } catch (error) {
@@ -752,6 +862,7 @@
         loadRequestId === latestLoadRequestId &&
         tickerAtLoadStart === selectedTicker
       ) {
+        userStrategy = [...userStrategy];
         shouldUpdate = true;
       }
     } catch (error) {
@@ -759,16 +870,23 @@
     }
   }
 
-  async function getStockData() {
+  async function getStockData(ticker = selectedTicker) {
     try {
       isLoaded = false;
-      latestDownloadRequestId += 1;
-      downloadWorker?.postMessage({
-        ticker: selectedTicker,
-        requestId: latestDownloadRequestId,
-      });
+      workerError = "";
+      const output = await requestTickerData(ticker);
+      if (ticker === selectedTicker) {
+        rawData = output || {};
+        currentStockPrice = output?.getStockQuote?.price || 0;
+      }
+      await loadData();
+      return output;
     } catch (error) {
       console.error("Error fetching stock data:", error);
+      workerError =
+        error instanceof Error ? error.message : "Failed to load options data.";
+      isLoaded = false;
+      return null;
     }
   }
 
@@ -1090,6 +1208,13 @@
       downloadWorker.onmessage = handleDownloadMessage;
       downloadWorker.onerror = (error) => {
         workerError = `Download worker error: ${error.message}`;
+        pendingDownloadRequests.forEach((pendingRequest) => {
+          pendingRequest.reject(
+            new Error(`Download worker error: ${error.message}`),
+          );
+        });
+        pendingDownloadRequests.clear();
+        inFlightTickerRequests.clear();
       };
     }
 
@@ -1125,6 +1250,11 @@
       downloadWorker.terminate();
       downloadWorker = undefined;
     }
+    pendingDownloadRequests.forEach((pendingRequest) => {
+      pendingRequest.reject(new Error("Download worker terminated."));
+    });
+    pendingDownloadRequests.clear();
+    inFlightTickerRequests.clear();
     if (plotWorker) {
       plotWorker.terminate();
       plotWorker = undefined;
@@ -1139,17 +1269,14 @@
 
   $: {
     if (shouldUpdate) {
-      isLoaded = false;
       shouldUpdate = false;
-
-      plotData();
-      userStrategy = [...userStrategy];
+      untrack(() => plotData());
     }
   }
 
   $: {
     if ($mode && (userStrategy?.length > 0 || shareStrategy?.length > 0)) {
-      plotData();
+      untrack(() => plotData());
     }
   }
 </script>

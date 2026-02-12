@@ -43,8 +43,6 @@ async function ensureHighcharts() {
 // This saves ~195KB gzipped on pages that don't use charts
 
 export default (node: HTMLElement, config: any) => {
-  const redraw = true;
-  const oneToOne = true;
   let chart: any = null;
   let resizeObserver: ResizeObserver | null = null;
   let currentConfig = config;
@@ -139,16 +137,14 @@ export default (node: HTMLElement, config: any) => {
       if (!newConfig) return;
 
       if (chart) {
-        // For gauge and other special chart types, recreate the chart
-        // to ensure all plotBands and special features are updated correctly
         const chartType = newConfig?.chart?.type;
         if (chartType === 'gauge' || chartType === 'solidgauge') {
           createChart(newConfig);
         } else {
-          chart.update(newConfig, redraw, oneToOne);
+          chart.update(newConfig, false, false);
+          chart.redraw(false);
         }
       } else {
-        // Chart doesn't exist yet, create it
         createChart(newConfig);
       }
     },
