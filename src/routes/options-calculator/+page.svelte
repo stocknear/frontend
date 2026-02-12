@@ -231,6 +231,7 @@
   ];
 
   let userStrategy = [];
+  let shareStrategy = [];
   let description = prebuiltStrategy[0]?.description;
 
   const handleDownloadMessage = async (event) => {
@@ -464,17 +465,27 @@
     });
   };
 
+  const getTickerBasePath = () =>
+    `/${["stocks", "stock"].includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}`;
+
   function plotData() {
     // Determine x-axis range based on current stock price and max leg strike
-    if (!userStrategy || userStrategy.length === 0) {
+    const combinedStrategy = [...(userStrategy || []), ...(shareStrategy || [])];
+
+    if (!combinedStrategy || combinedStrategy.length === 0) {
       return null;
     }
     try {
       // Get the expiration date from the first leg (or use a default)
-      const expirationDate = userStrategy[0]?.date || selectedDate;
+      const expirationDate =
+        userStrategy[0]?.date ||
+        selectedDate ||
+        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .slice(0, 10);
       latestPlotRequestId += 1;
       plotWorker?.postMessage({
-        userStrategy: userStrategy,
+        userStrategy: combinedStrategy,
         currentStockPrice: currentStockPrice,
         expirationDate: expirationDate,
         requestId: latestPlotRequestId,
@@ -728,6 +739,29 @@
     shouldUpdate = true;
   }
 
+  function handleAddShareLeg() {
+    if (shareStrategy?.length >= 5) {
+      toast.error(options_calculator_toast_max_legs(), {
+        style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
+      });
+      return;
+    }
+
+    const defaultPrice = currentStockPrice
+      ? +currentStockPrice.toFixed(2)
+      : 0;
+    shareStrategy = [
+      ...shareStrategy,
+      {
+        legType: "Share",
+        action: "Buy",
+        quantity: 100,
+        sharePrice: defaultPrice,
+      },
+    ];
+    shouldUpdate = true;
+  }
+
   function handleDeleteOptionLeg(index) {
     if (userStrategy?.length === 1) {
       toast.error(options_calculator_toast_one_leg_required(), {
@@ -831,6 +865,46 @@
     }
   }
 
+  function handleShareAction(index: number) {
+    const updatedShares = [...shareStrategy];
+    updatedShares[index].action =
+      updatedShares[index].action === "Buy" ? "Sell" : "Buy";
+    shareStrategy = updatedShares;
+    shouldUpdate = true;
+  }
+
+  function handleDeleteShareLeg(index: number) {
+    shareStrategy = [
+      ...shareStrategy.slice(0, index),
+      ...shareStrategy.slice(index + 1),
+    ];
+    shouldUpdate = true;
+  }
+
+  function handleShareQuantityInput(event: Event, index: number) {
+    const value = (event.target as HTMLInputElement).value;
+    const updatedShares = [...shareStrategy];
+    updatedShares[index].quantity = value === "" ? 0 : +value;
+    shareStrategy = updatedShares;
+
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      shouldUpdate = true;
+    }, 300);
+  }
+
+  function handleSharePriceInput(event: Event, index: number) {
+    const value = (event.target as HTMLInputElement).value;
+    const updatedShares = [...shareStrategy];
+    updatedShares[index].sharePrice = value === "" ? 0 : +value;
+    shareStrategy = updatedShares;
+
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      shouldUpdate = true;
+    }, 300);
+  }
+
   async function search() {
     clearTimeout(timeoutId);
 
@@ -881,6 +955,7 @@
     selectedTicker = data.symbol;
     assetType = data?.type?.toLowerCase() || "stocks";
     contractDataWarning = "";
+    shareStrategy = [];
 
     getStockData();
     inputValue = "";
@@ -899,12 +974,19 @@
       const strategiesToSave = userStrategy.map(
         ({ strikeList, dateList, ...rest }) => rest,
       );
+      const sharesToSave = shareStrategy.map((shareLeg) => ({
+        legType: "Share",
+        action: shareLeg?.action,
+        quantity: shareLeg?.quantity,
+        sharePrice: shareLeg?.sharePrice,
+      }));
 
       // Save the filtered version
       localStorage?.setItem(
         "options-calculator-strategy",
         JSON?.stringify({
           userStrategy: strategiesToSave,
+          shareStrategy: sharesToSave,
           ticker: selectedTicker,
         }),
       );
@@ -927,6 +1009,7 @@
         if (savedStrategy) {
           const parsedData = JSON.parse(savedStrategy);
           userStrategy = parsedData?.userStrategy;
+          shareStrategy = parsedData?.shareStrategy || [];
           selectedTicker = parsedData?.ticker;
         }
       } catch (e) {
@@ -998,7 +1081,7 @@
   }
 
   $: {
-    if ($mode && userStrategy?.length > 0) {
+    if ($mode && (userStrategy?.length > 0 || shareStrategy?.length > 0)) {
       plotData();
     }
   }
@@ -1141,7 +1224,7 @@
                     {#if inputValue?.length !== 0 && inputValue !== selectedTicker}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => changeTicker(searchItem)}
@@ -1167,7 +1250,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
@@ -1185,6 +1268,13 @@
                   class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_add_option_leg()}
+                </button>
+                <button
+                  type="button"
+                  on:click={handleAddShareLeg}
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                >
+                  Add Shares
                 </button>
                 <button
                   type="button"
@@ -1231,7 +1321,7 @@
                         {#each prebuiltStrategy as strategy}
                           <DropdownMenu.Item
                             on:click={() => changeStrategy(strategy)}
-                            class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             <span>{strategy.name}</span>
                             {#if strategy?.sentiment}
@@ -1283,7 +1373,7 @@
 
               {#if workerError}
                 <div
-                  class="mb-3 rounded-lg border border-rose-300/70 bg-rose-50/70 px-3 py-2 text-sm text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-300"
+                  class="mb-3 rounded-2xl border border-rose-300/70 bg-rose-50/70 px-3 py-2 text-sm text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-300"
                 >
                   {workerError}
                 </div>
@@ -1291,7 +1381,7 @@
 
               {#if contractDataWarning}
                 <div
-                  class="mb-3 rounded-lg border border-amber-300/70 bg-amber-50/70 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
+                  class="mb-3 rounded-2xl border border-amber-300/70 bg-amber-50/70 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
                 >
                   {contractDataWarning}
                 </div>
@@ -1299,7 +1389,7 @@
 
               <!-- Table container -->
               <div
-                class="overflow-x-auto rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                class="overflow-x-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
               >
                 <table
                   class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -1380,7 +1470,7 @@
                             value={userStrategy[index]?.quantity}
                             min="0"
                             on:input={(e) => handleQuantityInput(e, index)}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class=" border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
@@ -1419,7 +1509,7 @@
                                     on:click={() => {
                                       handleExpirationDate(item, index);
                                     }}
-                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                    class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                                   >
                                     {formatDate(item)}
                                   </DropdownMenu.Item>
@@ -1465,7 +1555,7 @@
                                     on:click={() => {
                                       handleStrikePrice(item, index);
                                     }}
-                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                    class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                                   >
                                     {item}
                                   </DropdownMenu.Item>
@@ -1488,7 +1578,7 @@
                             min="0"
                             value={userStrategy[index]?.optionPrice}
                             on:input={(e) => handleOptionPriceInput(e, index)}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2 select-none">
@@ -1497,7 +1587,7 @@
                           >
                             <a
                               class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                              href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}/options/contract-lookup?contract=${userStrategy[index]?.optionSymbol}`}
+                              href={`${getTickerBasePath()}/options/contract-lookup?contract=${userStrategy[index]?.optionSymbol}`}
                             >
                               <Link class="w-4 h-4 mt-0.5" />
                             </a>
@@ -1515,6 +1605,112 @@
                 </table>
               </div>
 
+              {#if shareStrategy?.length > 0}
+                <h3
+                  class="mt-6 mb-2 text-base sm:text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+                >
+                  Shares
+                </h3>
+                <div
+                  class="overflow-x-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4"
+                >
+                  <table
+                    class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-gray-700 dark:text-zinc-200 tabular-nums"
+                  >
+                    <thead class="bg-gray-50/80 dark:bg-zinc-900/60">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                        >
+                          {options_calculator_table_symbol()}
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                        >
+                          {options_calculator_table_action()}
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                        >
+                          {options_calculator_table_quantity()}
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                        >
+                          {options_calculator_table_price()}
+                        </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-semibold"
+                        ></th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-sm"
+                    >
+                      {#each shareStrategy as shareItem, shareIndex}
+                        <tr
+                          class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+                        >
+                          <td
+                            class="px-4 whitespace-nowrap font-semibold text-gray-900 dark:text-white"
+                          >
+                            {selectedTicker}
+                          </td>
+                          <td class="px-4 whitespace-nowrap py-2">
+                            <label
+                              on:click={() => handleShareAction(shareIndex)}
+                              class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-sm font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
+                              >{shareItem?.action}</label
+                            >
+                          </td>
+                          <td class="px-4 whitespace-nowrap py-2">
+                            <input
+                              type="number"
+                              min="0"
+                              value={shareItem?.quantity}
+                              on:input={(e) =>
+                                handleShareQuantityInput(e, shareIndex)}
+                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            />
+                          </td>
+                          <td class="px-4 whitespace-nowrap py-2">
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={shareItem?.sharePrice}
+                              on:input={(e) =>
+                                handleSharePriceInput(e, shareIndex)}
+                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-28 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            />
+                          </td>
+                          <td class="px-4 whitespace-nowrap py-2 select-none">
+                            <div class="flex flex-row items-center">
+                              <a
+                                class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                                href={getTickerBasePath()}
+                              >
+                                <Link class="w-4 h-4 mt-0.5" />
+                              </a>
+                              <label
+                                on:click={() =>
+                                  handleDeleteShareLeg(shareIndex)}
+                                class="ml-3 inline-flex items-center cursor-pointer text-gray-500 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              >
+                                <Trash class="w-4 h-4" />
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {/if}
+
               {#if isLoaded && config}
                 <h2
                   class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -1523,7 +1719,7 @@
                 </h2>
 
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={config}
                 ></div>
               {:else}
@@ -1551,7 +1747,7 @@
 
                 <!-- Trade Information Card -->
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4 mb-6 max-w-sm"
+                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4 mb-6 max-w-sm"
                 >
                   {#each userStrategy as item, index}
                     <div>
@@ -1567,6 +1763,20 @@
                       {formatDate(item?.date)}
                       {item?.strike}
                       {item?.optionType} @${item?.optionPrice}
+                    </div>
+                  {/each}
+                  {#each shareStrategy as shareItem, shareIndex}
+                    <div>
+                      Share Leg {shareIndex + 1}
+                    </div>
+                    <div
+                      class="{shareItem?.action === 'Buy'
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : 'text-rose-800 dark:text-rose-400'} font-semibold"
+                    >
+                      {shareItem?.action?.toUpperCase()} +{shareItem?.quantity}
+                      {selectedTicker}
+                      Shares @{shareItem?.sharePrice}
                     </div>
                   {/each}
                 </div>
