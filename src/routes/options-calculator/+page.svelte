@@ -81,13 +81,21 @@
   export let data;
 
   let isPro = data?.user?.tier === "Pro" ? true : false;
-  // State variables with proper types
+  // State variables
   let isLoaded = false;
   let shouldUpdate = false;
   let config: any = null;
   let downloadWorker: Worker | undefined;
   let plotWorker: Worker | undefined;
   let strategyWorker: Worker | undefined;
+  let latestDownloadRequestId = 0;
+  let latestPlotRequestId = 0;
+  let latestStrategyRequestId = 0;
+  let latestLoadRequestId = 0;
+  let activeSearchRequestId = 0;
+  let searchAbortController: AbortController | null = null;
+  let contractDataWarning = "";
+  let workerError = "";
 
   // Strategy selection
   let selectedStrategy = "Long Call";
@@ -95,22 +103,22 @@
   let selectedTicker = "TSLA";
   let assetType = "stocks";
   let selectedAction = "Buy";
-  let selectedOptionPrice: number;
-  let selectedQuantity = 1;
+  let selectedOptionPrice: number | null = null;
+  let selectedQuantity: number | null = 1;
   let debounceTimeout: ReturnType<typeof setTimeout>;
 
   // Market data
-  let currentStockPrice: number;
+  let currentStockPrice = 0;
   let optionData: Record<string, any> = {};
   let dateList: string[] = [];
-  let selectedDate: string;
+  let selectedDate = "";
   let strikeList: number[] = [];
-  let selectedStrike: number;
+  let selectedStrike = 0;
 
   // Option information
-  let optionSymbol: string;
-  let breakEvenPrice: number | null = null;
-  let totalPremium: number;
+  let optionSymbol = "";
+  let breakEvenPrices: number[] = [];
+  let totalPremium = 0;
   let metrics: Record<string, string> = {};
   let rawData: Record<string, any> = {};
   let probabilities: { pop: number; popMaxProfit: number; popMaxLoss: number } =
@@ -226,18 +234,41 @@
   let description = prebuiltStrategy[0]?.description;
 
   const handleDownloadMessage = async (event) => {
-    rawData = event?.data?.output;
+    const { requestId, message, output, error } = event?.data || {};
 
+    if (requestId !== latestDownloadRequestId) {
+      return;
+    }
+
+    if (message === "error") {
+      workerError = error || "Failed to load options data.";
+      isLoaded = false;
+      return;
+    }
+
+    workerError = "";
+    rawData = output || {};
     currentStockPrice = rawData?.getStockQuote?.price || 0;
     await loadData();
   };
 
   const handlePlotMessage = async (event) => {
-    const output = event?.data?.output;
-    metrics = output?.metrics;
-    config = output?.options;
-    breakEvenPrice = output?.breakEvenPrice;
-    totalPremium = output?.totalPremium;
+    const { requestId, message, output, error } = event?.data || {};
+
+    if (requestId !== latestPlotRequestId) {
+      return;
+    }
+
+    if (message === "error") {
+      workerError = error || "Failed to calculate strategy metrics.";
+      isLoaded = false;
+      return;
+    }
+
+    workerError = "";
+    metrics = output?.metrics || {};
+    breakEvenPrices = output?.breakEvenPrices || [];
+    totalPremium = output?.totalPremium || 0;
     probabilities = output?.probabilities || {
       pop: 0,
       popMaxProfit: 0,
@@ -282,7 +313,6 @@
         },
         labels: { style: { color: $mode === "light" ? "#545454" : "white" } },
         plotLines: [
-          // Underlying Price line
           {
             value: currentStockPrice,
             color: $mode === "light" ? "black" : "white",
@@ -294,25 +324,18 @@
             },
             zIndex: 5,
           },
-          // Only add a breakeven line if there is a single leg
-          breakEvenPrice !== null
-            ? {
-                value: breakEvenPrice,
-                color: "#10B981",
-                dashStyle: "Dash",
-                width: $screenWidth < 640 ? 0 : 1.5,
-                label: {
-                  text: `<span class="hidden sm:block text-black dark:text-white text-sm">Breakeven $${
-                    typeof breakEvenPrice === "number"
-                      ? breakEvenPrice?.toFixed(2)
-                      : ""
-                  }</span>`,
-                  style: { color: $mode === "light" ? "black" : "white" },
-                },
-                zIndex: 5,
-              }
-            : null,
-        ]?.filter((line) => line !== null),
+          ...breakEvenPrices.map((price) => ({
+            value: price,
+            color: "#10B981",
+            dashStyle: "Dash",
+            width: $screenWidth < 640 ? 0 : 1.5,
+            label: {
+              text: `<span class="hidden sm:block text-black dark:text-white text-sm">Breakeven $${price.toFixed(2)}</span>`,
+              style: { color: $mode === "light" ? "black" : "white" },
+            },
+            zIndex: 5,
+          })),
+        ],
       },
       yAxis: {
         title: {
@@ -341,8 +364,9 @@
           const profitLoss = this.y;
           const underlyingPctChange =
             ((underlyingPrice - currentStockPrice) / currentStockPrice) * 100;
+          const premiumBase = Math.abs(totalPremium);
           const profitLossPctChange =
-            totalPremium !== 0 ? (profitLoss / totalPremium) * 100 : 0;
+            premiumBase > 0 ? (profitLoss / premiumBase) * 100 : 0;
           return `
           <div class="flex flex-col items-start text-sm">
             <div>
@@ -388,10 +412,23 @@
         },
       ],
     };
+    isLoaded = true;
   };
 
   const handleStrategyMessage = async (event) => {
-    userStrategy = event?.data?.output;
+    const { requestId, message, output, error } = event?.data || {};
+
+    if (requestId !== latestStrategyRequestId) {
+      return;
+    }
+
+    if (message === "error") {
+      workerError = error || "Failed to update strategy.";
+      return;
+    }
+
+    workerError = "";
+    userStrategy = output;
 
     userStrategy = [...userStrategy];
     await loadData();
@@ -401,8 +438,9 @@
   async function changeStrategy(strategy) {
     selectedStrategy = strategy?.name;
     description = strategy?.description;
+    latestStrategyRequestId += 1;
 
-    strategyWorker.postMessage({
+    strategyWorker?.postMessage({
       userStrategy,
       strikeList,
       selectedStrategy,
@@ -412,6 +450,7 @@
       selectedOptionType,
       selectedQuantity,
       selectedStrike,
+      requestId: latestStrategyRequestId,
     });
   }
 
@@ -433,18 +472,20 @@
     try {
       // Get the expiration date from the first leg (or use a default)
       const expirationDate = userStrategy[0]?.date || selectedDate;
-      plotWorker.postMessage({
+      latestPlotRequestId += 1;
+      plotWorker?.postMessage({
         userStrategy: userStrategy,
         currentStockPrice: currentStockPrice,
         expirationDate: expirationDate,
+        requestId: latestPlotRequestId,
       });
     } catch (error) {
       console.error("Error fetching stock data:", error);
     }
   }
 
-  const getContractHistory = async (contractId: string) => {
-    const cacheKey = contractId;
+  const getContractHistory = async (ticker: string, contractId: string) => {
+    const cacheKey = `${ticker}-${contractId}`;
     const cachedData = getCache(cacheKey, "getContractHistory");
 
     if (cachedData) {
@@ -453,7 +494,7 @@
 
     try {
       const postData = {
-        ticker: selectedTicker,
+        ticker,
         contract: contractId,
       };
 
@@ -466,9 +507,17 @@
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Failed to fetch contract history: ${response.statusText}`,
-        );
+        const errorBody = await response.json().catch(() => ({
+          error: `Failed to fetch contract history: ${response.statusText}`,
+        }));
+        return {
+          history: [],
+          error: true,
+          status: response.status,
+          message:
+            errorBody?.error ||
+            `Failed to fetch contract history: ${response.statusText}`,
+        };
       }
 
       const output = await response.json();
@@ -476,19 +525,36 @@
       return output;
     } catch (error) {
       console.error("Error fetching contract history:", error);
-      return { history: [{ mark: 0 }] };
+      return {
+        history: [],
+        error: true,
+        status: 500,
+        message: "Error fetching contract history.",
+      };
     }
   };
 
   async function loadData() {
+    const loadRequestId = ++latestLoadRequestId;
+
     if (!rawData?.getData) {
       console.error("rawData is undefined or invalid in loadData");
       return;
     }
 
     try {
+      const tickerAtLoadStart = selectedTicker;
+      contractDataWarning = "";
+
       if (userStrategy?.length > 0) {
         for (const item of userStrategy) {
+          if (
+            loadRequestId !== latestLoadRequestId ||
+            tickerAtLoadStart !== selectedTicker
+          ) {
+            return;
+          }
+
           optionData = rawData?.getData[item?.optionType] || {};
           selectedOptionType = item?.optionType || "Call";
           selectedQuantity = item?.quantity || 1;
@@ -520,17 +586,30 @@
 
           // Get option price
           optionSymbol = buildOptionSymbol(
-            selectedTicker,
+            tickerAtLoadStart,
             item?.date,
             item?.optionType,
             item?.strike,
           );
 
-          const output = await getContractHistory(optionSymbol);
+          const output = await getContractHistory(
+            tickerAtLoadStart,
+            optionSymbol,
+          );
+          if (
+            loadRequestId !== latestLoadRequestId ||
+            tickerAtLoadStart !== selectedTicker
+          ) {
+            return;
+          }
+          if (output?.error && !contractDataWarning) {
+            contractDataWarning =
+              output?.message || "Contract data unavailable.";
+          }
 
           selectedOptionPrice = output?.history?.at(-1)?.mark
             ? output?.history?.at(-1)?.mark
-            : output?.history?.at(-1)?.close || 0;
+            : output?.history?.at(-1)?.close || item.optionPrice || 0;
           item.optionPrice = selectedOptionPrice;
           item.optionSymbol = optionSymbol;
           item.optionType = selectedOptionType;
@@ -558,13 +637,25 @@
 
         // Get option price
         optionSymbol = buildOptionSymbol(
-          selectedTicker,
+          tickerAtLoadStart,
           selectedDate,
           selectedOptionType,
           selectedStrike,
         );
 
-        const output = await getContractHistory(optionSymbol);
+        const output = await getContractHistory(
+          tickerAtLoadStart,
+          optionSymbol,
+        );
+        if (
+          loadRequestId !== latestLoadRequestId ||
+          tickerAtLoadStart !== selectedTicker
+        ) {
+          return;
+        }
+        if (output?.error && !contractDataWarning) {
+          contractDataWarning = output?.message || "Contract data unavailable.";
+        }
         selectedOptionPrice = output?.history?.at(-1)?.mark
           ? output?.history?.at(-1)?.mark
           : output?.history?.at(-1)?.close || 0;
@@ -584,7 +675,12 @@
           },
         ];
       }
-      shouldUpdate = true;
+      if (
+        loadRequestId === latestLoadRequestId &&
+        tickerAtLoadStart === selectedTicker
+      ) {
+        shouldUpdate = true;
+      }
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -592,8 +688,11 @@
 
   async function getStockData() {
     try {
-      downloadWorker.postMessage({
+      isLoaded = false;
+      latestDownloadRequestId += 1;
+      downloadWorker?.postMessage({
         ticker: selectedTicker,
+        requestId: latestDownloadRequestId,
       });
     } catch (error) {
       console.error("Error fetching stock data:", error);
@@ -733,30 +832,47 @@
   }
 
   async function search() {
-    clearTimeout(timeoutId); // Clear any existing timeout
+    clearTimeout(timeoutId);
 
     if (!inputValue.trim()) {
-      // Skip if query is empty or just whitespace
-      searchBarData = []; // Clear previous results
+      searchBarData = [];
+      if (searchAbortController) {
+        searchAbortController.abort();
+        searchAbortController = null;
+      }
       return;
     }
 
+    const requestId = ++activeSearchRequestId;
+
     timeoutId = setTimeout(async () => {
       try {
+        if (searchAbortController) {
+          searchAbortController.abort();
+        }
+        searchAbortController = new AbortController();
+
         const response = await fetch(
           `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=10`,
+          { signal: searchAbortController.signal },
         );
 
         if (!response.ok) {
           throw new Error(`Search failed: ${response.statusText}`);
         }
 
-        searchBarData = await response.json();
+        const searchOutput = await response.json();
+        if (requestId === activeSearchRequestId) {
+          searchBarData = searchOutput;
+        }
       } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
         console.error("Error during search:", error);
         searchBarData = [];
       }
-    }, 50); // delay
+    }, 250);
   }
 
   async function changeTicker(data) {
@@ -764,11 +880,11 @@
 
     selectedTicker = data.symbol;
     assetType = data?.type?.toLowerCase() || "stocks";
+    contractDataWarning = "";
 
-    await getStockData();
-    await loadData();
+    getStockData();
     inputValue = "";
-    shouldUpdate = true;
+    searchBarData = [];
   }
 
   async function handleSaveStrategy() {
@@ -822,28 +938,51 @@
       const DownloadWorker = await import("./workers/downloadWorker?worker");
       downloadWorker = new DownloadWorker.default();
       downloadWorker.onmessage = handleDownloadMessage;
+      downloadWorker.onerror = (error) => {
+        workerError = `Download worker error: ${error.message}`;
+      };
     }
 
     if (!plotWorker) {
       const PlotWorker = await import("./workers/plotWorker?worker");
       plotWorker = new PlotWorker.default();
       plotWorker.onmessage = handlePlotMessage;
+      plotWorker.onerror = (error) => {
+        workerError = `Plot worker error: ${error.message}`;
+      };
     }
 
     if (!strategyWorker) {
       const StrategyWorker = await import("./workers/strategyWorker?worker");
       strategyWorker = new StrategyWorker.default();
       strategyWorker.onmessage = handleStrategyMessage;
+      strategyWorker.onerror = (error) => {
+        workerError = `Strategy worker error: ${error.message}`;
+      };
     }
 
     await getStockData();
-
-    shouldUpdate = true;
   });
 
   onDestroy(() => {
     if (debounceTimeout) clearTimeout(debounceTimeout);
     if (timeoutId) clearTimeout(timeoutId);
+    if (searchAbortController) {
+      searchAbortController.abort();
+      searchAbortController = null;
+    }
+    if (downloadWorker) {
+      downloadWorker.terminate();
+      downloadWorker = undefined;
+    }
+    if (plotWorker) {
+      plotWorker.terminate();
+      plotWorker = undefined;
+    }
+    if (strategyWorker) {
+      strategyWorker.terminate();
+      strategyWorker = undefined;
+    }
   });
 
   // REACTIVE STATEMENTS
@@ -853,22 +992,14 @@
       isLoaded = false;
       shouldUpdate = false;
 
-      config = plotData();
+      plotData();
       userStrategy = [...userStrategy];
-      isLoaded = true;
     }
   }
 
   $: {
-    if ($mode) {
-      config = plotData();
-    }
-  }
-
-  // Watch for changes to inputValue and trigger search
-  $: {
-    if (inputValue) {
-      search();
+    if ($mode && userStrategy?.length > 0) {
+      plotData();
     }
   }
 </script>
@@ -1116,6 +1247,55 @@
                   </DropdownMenu.Root>
                 </div>
               </div>
+
+              {#if data?.user?.tier !== "Pro"}
+                <a
+                  href="/pricing"
+                  class="mt-3 mb-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
+                >
+                  <div
+                    class="flex items-center gap-2.5 text-violet-900 dark:text-violet-200"
+                  >
+                    <svg
+                      class="w-4 h-4 shrink-0 text-violet-500 dark:text-violet-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span>
+                      Upgrade to Pro to unlock advanced probability and risk
+                      metrics.
+                    </span>
+                  </div>
+                  <span
+                    class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap"
+                  >
+                    Upgrade &rarr;
+                  </span>
+                </a>
+              {/if}
+
+              {#if workerError}
+                <div
+                  class="mb-3 rounded-lg border border-rose-300/70 bg-rose-50/70 px-3 py-2 text-sm text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-300"
+                >
+                  {workerError}
+                </div>
+              {/if}
+
+              {#if contractDataWarning}
+                <div
+                  class="mb-3 rounded-lg border border-amber-300/70 bg-amber-50/70 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
+                >
+                  {contractDataWarning}
+                </div>
+              {/if}
 
               <!-- Table container -->
               <div
@@ -1428,8 +1608,10 @@
                     <div class="flex items-baseline">
                       <span
                         class="text-lg font-semibold text-gray-900 dark:text-white"
-                        >{typeof breakEvenPrice === "number"
-                          ? "$" + breakEvenPrice?.toFixed(2)
+                        >{breakEvenPrices?.length > 0
+                          ? breakEvenPrices
+                              .map((price) => `$${price.toFixed(2)}`)
+                              .join(" / ")
                           : "n/a"}</span
                       >
                     </div>
@@ -1459,7 +1641,9 @@
                     <div class="flex items-baseline">
                       <span
                         class="text-lg font-semibold text-gray-900 dark:text-white"
-                        >${totalPremium?.toLocaleString("en-US", {
+                        >{totalPremium >= 0 ? "$" : "-$"}{Math.abs(
+                          totalPremium,
+                        )?.toLocaleString("en-US", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}

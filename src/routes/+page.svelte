@@ -177,6 +177,7 @@
     <div
       class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
     >
+      <!--
       <div class="flex justify-center mb-5 whitespace-nowrap">
         <div class=" flex justify-center lg:mb-3">
           <a href="/covered-call-screener"
@@ -195,6 +196,7 @@
           >
         </div>
       </div>
+      -->
 
       <div class="mx-auto max-w-3xl text-center">
         <h1

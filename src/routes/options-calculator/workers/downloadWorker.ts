@@ -1,38 +1,51 @@
-// Cache to store previous requests
-let cache = new Map();
+const cache = new Map();
 
 const getStockData = async (ticker) => {
-
-
-  // Check if data for this rule set is already in the cache
   if (cache.has(ticker)) {
-    console.log("Returning cached data");
     return cache.get(ticker);
   }
 
-  const postData = { ticker: ticker };
-      const response = await fetch("/api/options-calculator", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+  const response = await fetch("/api/options-calculator", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ticker }),
+  });
 
+  if (!response.ok) {
+    let errorMessage = `Failed to fetch options calculator data: ${response.statusText}`;
+    try {
+      const errorBody = await response.json();
+      if (errorBody?.error) {
+        errorMessage = errorBody.error;
+      }
+    } catch {
+      // Keep fallback error message.
+    }
+    throw new Error(errorMessage);
+  }
 
-    const output = (await response.json()) || {};
-
+  const output = (await response.json()) || {};
   cache.set(ticker, output);
-
   return output;
 };
 
 onmessage = async (event) => {
-  const { ticker } = event.data;
-  const output = await getStockData(ticker);
-
-   
-  postMessage({ message: "success", output });
+  const { ticker, requestId } = event.data;
+  try {
+    const output = await getStockData(ticker);
+    postMessage({ requestId, message: "success", output });
+  } catch (error) {
+    postMessage({
+      requestId,
+      message: "error",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch options calculator data.",
+    });
+  }
 };
 
 export {};

@@ -367,11 +367,40 @@ const getStrategy =  (userStrategy, strikeList, selectedStrategy, selectedAction
 };
 
 onmessage = async (event) => {
-  const { userStrategy, strikeList, selectedStrategy, selectedAction, selectedDate, selectedOptionPrice, selectedOptionType, selectedQuantity, selectedStrike } = event.data;
-  const output = getStrategy(userStrategy, strikeList, selectedStrategy, selectedAction, selectedDate, selectedOptionPrice, selectedOptionType, selectedQuantity, selectedStrike);
+  const {
+    userStrategy,
+    strikeList,
+    selectedStrategy,
+    selectedAction,
+    selectedDate,
+    selectedOptionPrice,
+    selectedOptionType,
+    selectedQuantity,
+    selectedStrike,
+    requestId,
+  } = event.data;
 
-   
-  postMessage({ message: "success", output });
+  try {
+    const output = getStrategy(
+      userStrategy,
+      strikeList,
+      selectedStrategy,
+      selectedAction,
+      selectedDate,
+      selectedOptionPrice,
+      selectedOptionType,
+      selectedQuantity,
+      selectedStrike,
+    );
+    postMessage({ requestId, message: "success", output });
+  } catch (error) {
+    postMessage({
+      requestId,
+      message: "error",
+      error:
+        error instanceof Error ? error.message : "Failed to update strategy.",
+    });
+  }
 };
 
 export {};

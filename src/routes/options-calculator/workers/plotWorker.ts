@@ -365,7 +365,7 @@
   function calculateProbabilities(
     userStrategy: any[],
     currentStockPrice: number,
-    breakEvenPrice: number | null,
+    _breakEvenPrices: number[],
     dataPoints: number[][],
     expirationDate: string
   ): { pop: number; popMaxProfit: number; popMaxLoss: number } {
@@ -818,41 +818,48 @@ function calculateMetrics(userStrategy): {
   }
 
   
-function calculateBreakevenPrice(dataPoints) {
-let breakEvenPrice = null;
-// Loop over the dataPoints to find a sign change from loss to profit or vice versa
-for (let i = 1; i < dataPoints.length; i++) {
+function calculateBreakevenPrices(dataPoints: number[][]): number[] {
+  const breakEvenPrices: number[] = [];
+  const epsilon = 0.0001;
+
+  const pushUnique = (price: number) => {
+    if (!Number.isFinite(price)) return;
+    const exists = breakEvenPrices.some((p) => Math.abs(p - price) < 0.01);
+    if (!exists) {
+      breakEvenPrices.push(price);
+    }
+  };
+
+  for (let i = 1; i < dataPoints.length; i++) {
     const [prevPrice, prevProfitLoss] = dataPoints[i - 1];
     const [currPrice, currProfitLoss] = dataPoints[i];
 
-    // Check if there is a sign change between consecutive points
-    if (
-    (prevProfitLoss < 0 && currProfitLoss >= 0) ||
-    (prevProfitLoss > 0 && currProfitLoss <= 0)
-    ) {
-    // Linear interpolation to estimate the exact crossing point
-    const priceDiff = currPrice - prevPrice;
-    const profitDiff = currProfitLoss - prevProfitLoss;
-    
-    // Handle edge case where profit difference is zero or very small
-    if (Math.abs(profitDiff) < 0.0001) {
-        // If the difference is negligible, use the midpoint
-        breakEvenPrice = (prevPrice + currPrice) / 2;
-    } else {
-        const ratio = Math.abs(prevProfitLoss) / Math.abs(profitDiff);
-        breakEvenPrice = prevPrice + ratio * priceDiff;
+    if (Math.abs(prevProfitLoss) < epsilon) {
+      pushUnique(prevPrice);
     }
-    break;
-    }
-    
-    // Special case: check if current point is exactly at breakeven (profit/loss = 0)
-    if (Math.abs(currProfitLoss) < 0.0001) {
-        breakEvenPrice = currPrice;
-        break;
-    }
-}
 
-return breakEvenPrice;
+    const hasSignChange =
+      (prevProfitLoss < 0 && currProfitLoss >= 0) ||
+      (prevProfitLoss > 0 && currProfitLoss <= 0);
+
+    if (hasSignChange) {
+      const priceDiff = currPrice - prevPrice;
+      const profitDiff = currProfitLoss - prevProfitLoss;
+
+      if (Math.abs(profitDiff) < epsilon) {
+        pushUnique((prevPrice + currPrice) / 2);
+      } else {
+        const ratio = (0 - prevProfitLoss) / profitDiff;
+        pushUnique(prevPrice + ratio * priceDiff);
+      }
+    }
+
+    if (i === dataPoints.length - 1 && Math.abs(currProfitLoss) < epsilon) {
+      pushUnique(currPrice);
+    }
+  }
+
+  return breakEvenPrices.sort((a, b) => a - b);
 }
 
   const payoffFunctions = {
@@ -898,7 +905,8 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
 
     // Calculate the total premium across all legs
     let totalPremium = userStrategy.reduce((sum, leg) => {
-      return sum + leg.optionPrice * 100 * leg.quantity;
+      const premium = (leg.optionPrice || 0) * 100 * (leg.quantity || 1);
+      return sum + (leg.action === "Buy" ? premium : -premium);
     }, 0);
 
     // Compute the aggregated payoff at each underlying price
@@ -926,7 +934,7 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
     }
 
     const metrics = calculateMetrics(userStrategy);
-    let breakEvenPrice = calculateBreakevenPrice(dataPoints);
+    let breakEvenPrices = calculateBreakevenPrices(dataPoints);
 
     // Calculate time to expiration and IV for probability/EV calculations
     const riskFreeRate = 0.05;
@@ -940,7 +948,7 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
     const probabilities = calculateProbabilities(
       userStrategy,
       currentStockPrice,
-      breakEvenPrice,
+      breakEvenPrices,
       dataPoints,
       expirationDate
     );
@@ -966,17 +974,25 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
       riskFreeRate
     );
 
-    return {metrics, breakEvenPrice, totalPremium, dataPoints, xMin, xMax, probabilities, riskRewardMetrics, positionGreeks};
+    return {metrics, breakEvenPrices, totalPremium, dataPoints, xMin, xMax, probabilities, riskRewardMetrics, positionGreeks};
   }
 
 
   onmessage = async (event) => {
-  const { userStrategy, currentStockPrice, expirationDate } = event.data;
-
-  const output = plotData(userStrategy, currentStockPrice, expirationDate);
-
-
-  postMessage({ message: "success", output });
+  const { userStrategy, currentStockPrice, expirationDate, requestId } = event.data;
+  try {
+    const output = plotData(userStrategy, currentStockPrice, expirationDate);
+    postMessage({ requestId, message: "success", output });
+  } catch (error) {
+    postMessage({
+      requestId,
+      message: "error",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to calculate options metrics.",
+    });
+  }
 };
 
 export {};
