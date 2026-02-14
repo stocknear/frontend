@@ -2,17 +2,18 @@
   import {
     pricing_discount_off,
     pricing_discount_plans,
-    pricing_discount_copied,
-    pricing_discount_click_to_copy,
+    //pricing_discount_copied,
+    //pricing_discount_click_to_copy,
   } from "$lib/paraglide/messages.js";
 
   let copied = false;
-
+  /*
   async function copyPromoCode() {
     await navigator.clipboard.writeText("SAVE50");
     copied = true;
     setTimeout(() => (copied = false), 2000);
   }
+    */
 </script>
 
 <div class="w-full max-w-lg mx-auto mb-8 mt-4">
@@ -28,18 +29,22 @@
           50%
         </span>
         <span
-          class="text-lg sm:text-xl font-medium text-gray-700 dark:text-zinc-400"
+          class="text-lg sm:text-xl font-medium text-muted, dark:text-white"
         >
           {pricing_discount_off()}
         </span>
       </div>
 
       <!-- Description -->
-      <p class="text-center text-sm text-gray-700 dark:text-zinc-400">
-        {pricing_discount_plans()}
-      </p>
+      <div
+        class="flex flex-col items-center -mt-2 text-center text-sm text-muted dark:text-white"
+      >
+        <div class="uppercase font-semibold">Limited Time:</div>
+        <div>🔥 {pricing_discount_plans()}</div>
+      </div>
 
       <!-- Promo code button -->
+      <!--
       <button
         on:click={copyPromoCode}
         type="button"
@@ -82,7 +87,6 @@
           {/if}
         </span>
       </button>
-
       <p class="text-xs text-gray-500 dark:text-zinc-500">
         {#if copied}
           {pricing_discount_copied()}
@@ -90,6 +94,7 @@
           {pricing_discount_click_to_copy()}
         {/if}
       </p>
+            -->
     </div>
   </div>
 </div>
