@@ -355,29 +355,34 @@
         </h2>
       </div>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {#each [{ name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "MT", color: "bg-violet-600" }, { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "SK", color: "bg-emerald-600" }, { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "DR", color: "bg-blue-600" }, { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "JL", color: "bg-amber-600" }, { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "AM", color: "bg-rose-600" }, { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "CW", color: "bg-cyan-600" }] as review}
+        {#each [{ name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "JG", color: "bg-violet-600" }, { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "RC", color: "bg-emerald-600" }, { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "EB", color: "bg-blue-600" }, { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "GF", color: "bg-amber-600" }, { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "PT", color: "bg-rose-600" }, { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "SS", color: "bg-cyan-600" }] as review}
           <div
             class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
           >
-            <!-- Stars -->
-            <div class="flex gap-0.5 mb-4">
-              {#each Array(5) as _}
-                <svg
-                  class="w-4 h-4 text-yellow-400"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                  />
-                </svg>
-              {/each}
+            <!-- Quotation mark + Stars -->
+            <div class="flex items-center justify-between mb-4">
+              <svg class="w-5 h-5 text-gray-300 dark:text-zinc-600" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.28571 7.6C3.78214 7.6 3.3058 7.70062 2.85714 7.85812V7.6C2.85714 6.05562 4.13839 4.8 5.71429 4.8C6.50313 4.8 7.14286 4.17306 7.14286 3.4C7.14286 2.62694 6.50446 2 5.71429 2C2.56339 2 0 4.51125 0 7.6V11.8C0 14.1196 1.91875 16 4.28571 16C6.65268 16 8.57143 14.1196 8.57143 11.8C8.57143 9.48037 6.65179 7.6 4.28571 7.6ZM15.7143 7.6C15.2107 7.6 14.7344 7.70084 14.2857 7.85721V7.6C14.2857 6.05562 15.567 4.8 17.1429 4.8C17.9317 4.8 18.5714 4.17306 18.5714 3.4C18.5714 2.62694 17.9317 2 17.1429 2C13.992 2 11.4286 4.51212 11.4286 7.6V11.8C11.4286 14.1196 13.3473 16 15.7143 16C18.0813 16 20 14.1196 20 11.8C20 9.48037 18.0804 7.6 15.7143 7.6Z" fill="currentColor" />
+              </svg>
+              <div class="flex gap-0.5">
+                {#each Array(5) as _}
+                  <svg
+                    class="w-4 h-4 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    />
+                  </svg>
+                {/each}
+              </div>
             </div>
             <!-- Review text -->
             <p
               class="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed flex-1"
             >
-              "{review.text}"
+              {review.text}
             </p>
             <!-- Author -->
             <div
@@ -637,7 +642,7 @@
               {/each}
             </ul>
             <a
-              href="/market-news"
+              href="/news-flow"
               class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
             >
               {landing_feature_wiim_link()}
@@ -1611,8 +1616,6 @@
       </div>
     </div>
   </section>
-
-
 </div>
 
 {#if LoginPopup}
