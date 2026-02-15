@@ -10,6 +10,7 @@
     landing_hero_subtitle,
     landing_hero_cta_primary,
     landing_hero_cta_secondary,
+    landing_hero_cta_demo,
     landing_hero_badge_investors,
     landing_hero_badge_trustpilot,
     landing_hero_badge_reviews,
@@ -58,22 +59,6 @@
     landing_feature_flow_bullet_3,
     landing_feature_flow_bullet_4,
     landing_feature_flow_link,
-    landing_feature_screener_title,
-    landing_feature_screener_description,
-    landing_feature_screener_bullet_1,
-    landing_feature_screener_bullet_2,
-    landing_feature_screener_bullet_3,
-    landing_feature_screener_bullet_4,
-    landing_feature_screener_link,
-    landing_feature_screener_placeholder,
-    landing_feature_smart_title,
-    landing_feature_smart_description,
-    landing_feature_smart_bullet_1,
-    landing_feature_smart_bullet_2,
-    landing_feature_smart_bullet_3,
-    landing_feature_smart_bullet_4,
-    landing_feature_smart_link,
-    landing_feature_smart_placeholder,
     landing_feature_wiim_title,
     landing_feature_wiim_description,
     landing_feature_wiim_bullet_1,
@@ -86,6 +71,19 @@
     landing_feature_analyst_bullet_2,
     landing_feature_analyst_bullet_3,
     landing_feature_analyst_link,
+    landing_more_tools_title,
+    landing_more_tool_screener_title,
+    landing_more_tool_screener_desc,
+    landing_more_tool_congress_title,
+    landing_more_tool_congress_desc,
+    landing_more_tool_darkpool_title,
+    landing_more_tool_darkpool_desc,
+    landing_more_tool_portfolio_title,
+    landing_more_tool_portfolio_desc,
+    landing_more_tool_screener_link,
+    landing_more_tool_congress_link,
+    landing_more_tool_darkpool_link,
+    landing_more_tool_portfolio_link,
     landing_how_label,
     landing_how_title,
     landing_how_step1_title,
@@ -202,57 +200,8 @@
   export let form;
 
   let LoginPopup: any;
-  let currentSlide = 0;
   let pricingAnnual = true;
-
-  const carouselFeatures = [
-    {
-      title: landing_feature_flow_title,
-      desc: landing_feature_flow_description,
-      image: "/img/landing-page/options-flow.png",
-      href: "/options-flow",
-    },
-    {
-      title: landing_feature_ai_title,
-      desc: landing_feature_ai_description,
-      image: "/img/landing-page/ai-agent.png",
-      href: "/chat",
-    },
-    {
-      title: landing_feature_screener_title,
-      desc: landing_feature_screener_description,
-      image: null,
-      placeholder: landing_feature_screener_placeholder,
-      href: "/stock-screener",
-    },
-    {
-      title: landing_feature_smart_title,
-      desc: landing_feature_smart_description,
-      image: null,
-      placeholder: landing_feature_smart_placeholder,
-      href: "/politicians",
-    },
-    {
-      title: landing_feature_wiim_title,
-      desc: landing_feature_wiim_description,
-      image: "/img/landing-page/wiim-chart.png",
-      href: "/market-news",
-    },
-    {
-      title: landing_feature_analyst_title,
-      desc: landing_feature_analyst_description,
-      image: "/img/landing-page/analyst-chart.png",
-      href: "/analysts",
-    },
-  ];
-
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % carouselFeatures.length;
-  }
-  function prevSlide() {
-    currentSlide =
-      (currentSlide - 1 + carouselFeatures.length) % carouselFeatures.length;
-  }
+  let mobileMenuOpen = false;
 
   onMount(async () => {
     if (!data?.user) {
@@ -316,7 +265,7 @@
       >
     </div>
 
-    <!-- Right side CTAs -->
+    <!-- Right side CTAs + mobile hamburger -->
     <div class="flex items-center gap-3">
       {#if !data?.user}
         <a
@@ -327,7 +276,7 @@
         </a>
         <label
           for="userLogin"
-          class="cursor-pointer inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+          class="cursor-pointer hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
         >
           {landing_hero_cta_primary()}
         </label>
@@ -340,13 +289,74 @@
         </a>
         <a
           href="/pricing"
-          class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+          class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
         >
           {landing_hero_cta_secondary()}
         </a>
       {/if}
+      <!-- Mobile hamburger -->
+      <button
+        on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
+        class="md:hidden flex items-center justify-center h-10 w-10 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+        aria-label="Toggle menu"
+      >
+        {#if mobileMenuOpen}
+          <svg class="w-5 h-5 text-gray-700 dark:text-zinc-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        {:else}
+          <svg class="w-5 h-5 text-gray-700 dark:text-zinc-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        {/if}
+      </button>
     </div>
   </div>
+
+  <!-- Mobile dropdown menu -->
+  {#if mobileMenuOpen}
+    <div class="md:hidden border-t border-gray-200/70 dark:border-zinc-800/70 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl">
+      <div class="px-4 py-4 space-y-3">
+        <a
+          href="#features"
+          on:click={() => (mobileMenuOpen = false)}
+          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        >Features</a>
+        <a
+          href="#pricing"
+          on:click={() => (mobileMenuOpen = false)}
+          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        >Pricing</a>
+        <a
+          href="#faq"
+          on:click={() => (mobileMenuOpen = false)}
+          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        >FAQ</a>
+        <a
+          href="/chat"
+          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        >AI Agent</a>
+        <div class="pt-3 border-t border-gray-200 dark:border-zinc-800">
+          {#if !data?.user}
+            <label
+              for="userLogin"
+              on:click={() => (mobileMenuOpen = false)}
+              class="cursor-pointer w-full inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            >
+              {landing_hero_cta_primary()}
+            </label>
+          {:else}
+            <a
+              href="/"
+              class="w-full inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            >
+              Dashboard
+            </a>
+          {/if}
+        </div>
+      </div>
+    </div>
+  {/if}
 </nav>
 
 <div class="text-gray-700 dark:text-zinc-200 w-full pt-14 sm:pt-16">
@@ -415,135 +425,35 @@
             </label>
           {:else}
             <a
-              href="/pricing"
+              href="/"
               class="inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
             >
-              {landing_hero_cta_secondary()}
+              Dashboard
             </a>
           {/if}
           <a
-            href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            href="#features"
+            class="inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
           >
-            {landing_hero_cta_secondary()}
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {landing_hero_cta_demo()}
           </a>
         </div>
       </div>
     </div>
 
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10">
-      <div class="relative h-[340px] sm:h-[400px]">
-        {#each carouselFeatures as feature, i}
-          {@const total = carouselFeatures.length}
-          {@const offset = (i - currentSlide + total) % total}
-          {@const normalizedOffset =
-            offset > total / 2 ? offset - total : offset}
-          {@const isActive = normalizedOffset === 0}
-          <div
-            class="absolute top-0 left-1/2 w-[80%] sm:w-[55%] lg:w-[40%] max-w-md transition-all duration-500 ease-out"
-            style="
-              transform: translateX(calc(-50% + {normalizedOffset *
-              85}%)) scale({isActive ? 1 : 0.85});
-              opacity: {Math.abs(normalizedOffset) > 1
-              ? 0
-              : isActive
-                ? 1
-                : 0.5};
-              z-index: {isActive ? 20 : 10 - Math.abs(normalizedOffset)};
-              pointer-events: {isActive ? 'auto' : 'none'};
-            "
-          >
-            <a
-              href={feature.href}
-              class="block rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/80 shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-            >
-              {#if feature.image}
-                <img
-                  src={feature.image}
-                  alt={feature.title()}
-                  class="w-full aspect-video object-cover"
-                  loading="lazy"
-                />
-              {:else}
-                <div
-                  class="w-full aspect-video bg-gray-100 dark:bg-zinc-800 flex items-center justify-center p-4"
-                >
-                  <p
-                    class="text-xs text-gray-400 dark:text-zinc-500 text-center"
-                  >
-                    {feature.placeholder?.() ?? ""}
-                  </p>
-                </div>
-              {/if}
-              <div class="p-5 sm:p-6">
-                <h3
-                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
-                >
-                  {feature.title()}
-                </h3>
-                <p
-                  class="mt-2 text-sm text-gray-600 dark:text-zinc-400 line-clamp-2"
-                >
-                  {feature.desc()}
-                </p>
-              </div>
-            </a>
-          </div>
-        {/each}
-      </div>
-
-      <!-- Navigation Arrows -->
-      <button
-        on:click={prevSlide}
-        class="cursor-pointer absolute left-2 sm:left-6 top-[170px] sm:top-[200px] z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-zinc-800/90 border border-gray-200 dark:border-zinc-700 shadow-md hover:bg-white dark:hover:bg-zinc-700 transition"
-        aria-label="Previous slide"
-      >
-        <svg
-          class="w-5 h-5 text-gray-700 dark:text-zinc-200"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <button
-        on:click={nextSlide}
-        class="cursor-pointer absolute right-2 sm:right-6 top-[170px] sm:top-[200px] z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-zinc-800/90 border border-gray-200 dark:border-zinc-700 shadow-md hover:bg-white dark:hover:bg-zinc-700 transition"
-        aria-label="Next slide"
-      >
-        <svg
-          class="w-5 h-5 text-gray-700 dark:text-zinc-200"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
-
-      <!-- Dot Indicators -->
-      <div class="flex justify-center gap-2 mt-4">
-        {#each carouselFeatures as _, i}
-          <button
-            on:click={() => (currentSlide = i)}
-            class="h-2 rounded-full transition-all duration-300 {i ===
-            currentSlide
-              ? 'w-6 bg-violet-600 dark:bg-violet-400'
-              : 'w-2 bg-gray-300 dark:bg-zinc-600 hover:bg-gray-400 dark:hover:bg-zinc-500'}"
-            aria-label="Go to slide {i + 1}"
-          ></button>
-        {/each}
+    <!-- Hero visual: product overview -->
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
+      <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-2xl overflow-hidden">
+        <video
+          class="w-full"
+          src="/video/overview.mp4"
+          poster="/img/landing-page/overview.png"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
       </div>
     </div>
   </section>
@@ -814,131 +724,7 @@
           </div>
         </div>
 
-        <!-- Feature 3: Stock Screener (image right) -->
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          <div class="flex-1 order-2 lg:order-1">
-            <h3
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {landing_feature_screener_title()}
-            </h3>
-            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {landing_feature_screener_description()}
-            </p>
-            <ul class="mt-6 space-y-3">
-              {#each [landing_feature_screener_bullet_1(), landing_feature_screener_bullet_2(), landing_feature_screener_bullet_3(), landing_feature_screener_bullet_4()] as bullet}
-                <li class="flex items-start gap-3">
-                  <svg
-                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
-                </li>
-              {/each}
-            </ul>
-            <a
-              href="/stock-screener"
-              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-            >
-              {landing_feature_screener_link()}
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                /></svg
-              >
-            </a>
-          </div>
-          <div class="flex-1 order-1 lg:order-2 w-full">
-            <!-- PLACEHOLDER: Stock Screener screenshot -->
-            <div
-              class="w-full aspect-video rounded-2xl border-2 border-dashed border-gray-300 dark:border-zinc-600 bg-gray-100 dark:bg-zinc-900/60 flex items-center justify-center p-6"
-            >
-              <p class="text-center text-sm text-gray-500 dark:text-zinc-400">
-                {landing_feature_screener_placeholder()}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Feature 4: Smart Money (image left) -->
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          <div class="flex-1 w-full">
-            <!-- PLACEHOLDER: Smart Money screenshot -->
-            <div
-              class="w-full aspect-video rounded-2xl border-2 border-dashed border-gray-300 dark:border-zinc-600 bg-gray-100 dark:bg-zinc-900/60 flex items-center justify-center p-6"
-            >
-              <p class="text-center text-sm text-gray-500 dark:text-zinc-400">
-                {landing_feature_smart_placeholder()}
-              </p>
-            </div>
-          </div>
-          <div class="flex-1">
-            <h3
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {landing_feature_smart_title()}
-            </h3>
-            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {landing_feature_smart_description()}
-            </p>
-            <ul class="mt-6 space-y-3">
-              {#each [landing_feature_smart_bullet_1(), landing_feature_smart_bullet_2(), landing_feature_smart_bullet_3(), landing_feature_smart_bullet_4()] as bullet}
-                <li class="flex items-start gap-3">
-                  <svg
-                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
-                </li>
-              {/each}
-            </ul>
-            <a
-              href="/politicians"
-              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-            >
-              {landing_feature_smart_link()}
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                /></svg
-              >
-            </a>
-          </div>
-        </div>
-
-        <!-- Feature 5: Why It Moved (image right) -->
+        <!-- Feature 3: Why It Moved (image right) -->
         <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
           <div class="flex-1 order-2 lg:order-1">
             <h3
@@ -998,7 +784,7 @@
           </div>
         </div>
 
-        <!-- Feature 6: Analyst Intelligence (image left) -->
+        <!-- Feature 4: Analyst Intelligence (image left) -->
         <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
           <div class="flex-1 w-full">
             <img
@@ -1056,6 +842,87 @@
               >
             </a>
           </div>
+        </div>
+      </div>
+
+      <!-- More Tools compact grid -->
+      <div class="mt-20 sm:mt-28">
+        <h3 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white text-center mb-10">
+          {landing_more_tools_title()}
+        </h3>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <!-- Stock Screener -->
+          <a href="/stock-screener" class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 h-11 w-11 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
+                <svg class="w-6 h-6 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition">{landing_more_tool_screener_title()}</h4>
+                <p class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">{landing_more_tool_screener_desc()}</p>
+                <span class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400">
+                  {landing_more_tool_screener_link()}
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- Congress & Insider Trading -->
+          <a href="/politicians" class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 h-11 w-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition">{landing_more_tool_congress_title()}</h4>
+                <p class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">{landing_more_tool_congress_desc()}</p>
+                <span class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400">
+                  {landing_more_tool_congress_link()}
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- Dark Pool Tracker -->
+          <a href="/unusual-order-flow" class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 h-11 w-11 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition">{landing_more_tool_darkpool_title()}</h4>
+                <p class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">{landing_more_tool_darkpool_desc()}</p>
+                <span class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400">
+                  {landing_more_tool_darkpool_link()}
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- Portfolio Tracker -->
+          <a href="/portfolio" class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 h-11 w-11 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition">{landing_more_tool_portfolio_title()}</h4>
+                <p class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">{landing_more_tool_portfolio_desc()}</p>
+                <span class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400">
+                  {landing_more_tool_portfolio_link()}
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -1690,24 +1557,30 @@
         {#if !data?.user}
           <label
             for="userLogin"
-            class="cursor-pointer inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            class="cursor-pointer inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
           >
             {landing_cta_primary()}
           </label>
-        {:else}
           <a
             href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+          >
+            {landing_cta_secondary()}
+          </a>
+        {:else}
+          <a
+            href="/"
+            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+          >
+            Dashboard
+          </a>
+          <a
+            href="/pricing"
+            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
           >
             {landing_cta_secondary()}
           </a>
         {/if}
-        <a
-          href="/pricing"
-          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-        >
-          {landing_cta_secondary()}
-        </a>
       </div>
     </div>
   </section>

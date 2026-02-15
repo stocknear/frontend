@@ -4,9 +4,10 @@
   "landing_seo_description": "KI-gestützte Aktienanalyse, Echtzeit-Optionsflow, Smart-Money-Tracking und 50+ Screener-Filter. Schließe dich 10.000+ Investoren an. Kostenlos starten.",
 
   "landing_hero_title": "Institutionelle Börsendaten. Für alle.",
-  "landing_hero_subtitle": "KI-gestützte Analyse, Echtzeit-Optionsflow, Smart-Money-Tracking und 50+ Screener-Filter — alle Tools, die die Wall Street nutzt, jetzt für dich verfügbar.",
+  "landing_hero_subtitle": "Sieh, was Hedgefonds, Kongressabgeordnete und institutionelle Trader kaufen, bevor der Markt reagiert. Echtzeit-Daten, die früher 24.000 $/Jahr kosteten, jetzt ab 0 $.",
   "landing_hero_cta_primary": "Kostenlos starten",
   "landing_hero_cta_secondary": "Preise ansehen",
+  "landing_hero_cta_demo": "Funktionen ansehen",
   "landing_hero_badge_investors": "10.000+ Investoren",
   "landing_hero_badge_trustpilot": "Trustpilot",
   "landing_hero_badge_reviews": "Bewertungen lesen",
@@ -56,7 +57,21 @@
 
   "landing_features_label": "FUNKTIONEN",
   "landing_features_title": "Alles, was du für klügeres Investieren brauchst",
-  "landing_features_subtitle": "Von KI-Research bis hin zu institutionellen Echtzeit-Flussdaten — Tools, die früher Tausende kosteten, jetzt kostenlos zum Start.",
+  "landing_features_subtitle": "Von KI-Research bis hin zu institutionellen Echtzeit-Flussdaten. Tools, die früher Tausende kosteten, jetzt kostenlos zum Start.",
+
+  "landing_more_tools_title": "Plus 50+ weitere Tools für ernsthafte Investoren",
+  "landing_more_tool_screener_title": "Aktien-Screener",
+  "landing_more_tool_screener_desc": "50+ Filter für Fundamentaldaten, Technische Analyse und Optionskennzahlen. Vorgefertigte Strategien für Dividendenwachstum, Value und Momentum.",
+  "landing_more_tool_congress_title": "Kongress- & Insiderhandel",
+  "landing_more_tool_congress_desc": "Verfolge, was Politiker, Hedgefonds-Manager und Unternehmensinsider mit echten Meldedaten kaufen und verkaufen.",
+  "landing_more_tool_darkpool_title": "Dark-Pool-Tracker",
+  "landing_more_tool_darkpool_desc": "Überwache institutionelle Block-Trades und Dark-Pool-Prints, die die meisten Privatanleger nie sehen.",
+  "landing_more_tool_portfolio_title": "Portfolio-Tracker",
+  "landing_more_tool_portfolio_desc": "Verfolge dein P&L, vergleiche mit dem S&P 500 und erhalte KI-gestützte Analyse deiner Positionen.",
+  "landing_more_tool_screener_link": "Screener öffnen",
+  "landing_more_tool_congress_link": "Smart Money verfolgen",
+  "landing_more_tool_darkpool_link": "Dark Pool ansehen",
+  "landing_more_tool_portfolio_link": "Portfolio verfolgen",
 
   "landing_feature_ai_title": "Frag alles über jede Aktie",
   "landing_feature_ai_description": "11 spezialisierte KI-Agenten mit 60+ Echtzeit-Datentools analysieren Aktien, Optionen und Markttrends für dich in Sekunden.",
@@ -114,7 +129,7 @@
   "landing_how_step2_title": "Institutionelle Tools erkunden",
   "landing_how_step2_description": "KI-Agent, Screener, Optionsflow, Smart-Money-Tracking und 10.000+ Aktien — alles sofort verfügbar.",
   "landing_how_step3_title": "Upgrade, wenn du bereit bist",
-  "landing_how_step3_description": "Starte kostenlos mit 10 KI-Credits. Schalte mehr frei mit Plus (10 $/Monat) oder Pro (25 $/Monat).",
+  "landing_how_step3_description": "Starte kostenlos mit 10 KI-Credits/Monat. Upgrade auf Plus (5 $/Monat) oder Pro (15 $/Monat) bei jährlicher Abrechnung, wenn du bereit bist.",
 
   "landing_pricing_label": "PREISE",
   "landing_pricing_title": "Einfache, transparente Preise",
@@ -175,14 +190,14 @@
   "landing_faq_q2_title": "Welche Datenquellen nutzt Stocknear?",
   "landing_faq_q2_answer": "Wir arbeiten mit denselben institutionellen Datenanbietern zusammen, die auch Hedgefonds und Investmentbanken bedienen. Unsere Daten umfassen Echtzeit-Kurse, Finanzberichte, Optionsketten, Insider-Trades, Kongressmeldungen, Analysten-Ratings und mehr.",
   "landing_faq_q3_title": "Was unterscheidet Stocknear von anderen Plattformen?",
-  "landing_faq_q3_answer": "Stocknear kombiniert Echtzeit-Optionsflow, KI-gestützte Aktienanalyse, Dark-Pool-Tracking, Kongresshandels-Daten, Hedgefonds-13F-Meldungen und 50+ Screener-Filter auf einer Plattform. Wir sind außerdem die günstigste Plattform in der gesamten Branche.",
+  "landing_faq_q3_answer": "Stocknear kombiniert Echtzeit-Optionsflow, KI-gestützte Aktienanalyse, Dark-Pool-Tracking, Kongresshandels-Daten, Hedgefonds-13F-Meldungen und 50+ Screener-Filter auf einer Plattform. Die meisten Konkurrenzplattformen verlangen 100-200 $/Monat für vergleichbare Daten. Unser Pro-Plan startet bei 15 $/Monat bei jährlicher Abrechnung.",
   "landing_faq_q4_title": "Kann ich jederzeit kündigen?",
   "landing_faq_q4_answer": "Absolut. Es gibt keine Verträge oder versteckte Gebühren. Du kannst dein Plus- oder Pro-Abonnement mit einem Klick kündigen und behältst den Zugang bis zum Ende deines Abrechnungszeitraums.",
   "landing_faq_q5_title": "Brauche ich Trading-Erfahrung?",
   "landing_faq_q5_answer": "Überhaupt nicht. Unser KI-Agent erklärt alles verständlich, und wir haben 205+ Bildungsartikel, die jedes Konzept von Grundlagen bis zu fortgeschrittenen Strategien abdecken. Die Plattform ist für Anfänger und Profis gleichermaßen gebaut.",
 
-  "landing_cta_title": "Bereit für klügere Investmententscheidungen?",
-  "landing_cta_description": "Schließe dich 10.000+ Investoren an, die mit institutionellen Daten statt mit Bauchgefühl handeln.",
+  "landing_cta_title": "Schluss mit blindem Trading. Starte mit Daten.",
+  "landing_cta_description": "10.000+ Investoren nutzen Stocknear bereits, um Smart Money zu verfolgen, Optionsflow zu analysieren und Trades schneller zu finden. Dein kostenloses Konto ist 30 Sekunden entfernt.",
   "landing_cta_primary": "Kostenlos starten",
   "landing_cta_secondary": "Preise ansehen"
 }
