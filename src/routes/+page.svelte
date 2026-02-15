@@ -3,7 +3,6 @@
   import SEO from "$lib/components/SEO.svelte";
   import Discount from "$lib/components/Discount.svelte";
   import AnimatedList from "$lib/components/magic/AnimatedList.svelte";
-  import SignalPipelineBeams from "$lib/components/magic/SignalPipelineBeams.svelte";
 
   import {
     landing_seo_title,
@@ -213,11 +212,11 @@
   let showPlayButton = false;
   let heroMorphIndex = 0;
 
-  const heroMorphLabels = [
-    landing_feature_ai_title,
-    landing_feature_flow_title,
-    landing_feature_wiim_title,
-    landing_feature_analyst_title,
+  const heroMorphLabels: Array<() => string> = [
+    () => "AI Chat",
+    () => "Options Flow",
+    () => "News Flow",
+    () => "Analyst",
   ];
 
   type RadialFeatureBadge = {
@@ -699,36 +698,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Section 2.3: Signal Pipeline -->
-  <section
-    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-950/45 overflow-hidden"
-  >
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
-      <div class="mx-auto max-w-3xl text-center">
-        <p
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
-        >
-          Signal Pipeline
-        </p>
-        <h2
-          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-        >
-          From Market Noise to Actionable Alerts
-        </h2>
-        <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300">
-          Congress trading, dark pool prints, analyst ratings, earnings,
-          financial data, and AI analysis all flow into one destination:
-          Stocknear.
-        </p>
-      </div>
-
-      <div class="mt-10">
-        <SignalPipelineBeams />
-      </div>
-
     </div>
   </section>
 
