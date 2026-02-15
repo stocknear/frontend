@@ -1,7 +1,7 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import Search from "lucide-svelte/icons/search";
   import { goto } from "$app/navigation";
   import { Combobox } from "bits-ui";
@@ -15,17 +15,27 @@
     searchbar_suggestions,
   } from "$lib/paraglide/messages.js";
 
-  let searchHistory = [];
-  let updatedSearchHistory = [];
-  let searchBarData = [];
+  type SearchItem = {
+    symbol: string;
+    name: string;
+    type: string;
+  };
+
+  const SEARCH_DEBOUNCE_MS = 120;
+
+  let searchHistory: SearchItem[] = [];
+  let updatedSearchHistory: SearchItem[] = [];
+  let searchBarData: SearchItem[] = [];
   let isLoading = false;
-  let timeoutId;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  let historyCommitTimeoutId: ReturnType<typeof setTimeout> | undefined;
+  let focusTimeoutId: ReturnType<typeof setTimeout> | undefined;
+  let searchAbortController: AbortController | null = null;
   let showSuggestions = false;
   let touchedInput = false;
-  let isNavigatingWithSpinner = false; // New state for navigation spinner
+  let isNavigatingWithSpinner = false;
 
-  $: inputValue = "";
-  let nextPage = false;
+  let inputValue = "";
 
   // Clear search input (delayed to run after Combobox internal handler)
   const clearSearchInput = () => {
@@ -35,9 +45,8 @@
       touchedInput = false;
     }, 0);
   };
-  let searchOpen = false;
-  let searchBarModalChecked = false; // Initialize it to false
-  let inputElement;
+  let searchBarModalChecked = false;
+  let inputElement: HTMLInputElement | null = null;
   let isNavigating = false;
 
   const popularList = [
@@ -122,7 +131,6 @@
       }
 
       setTimeout(() => (isNavigating = false), 100);
-      searchOpen = false;
       return;
     }
 
@@ -233,30 +241,55 @@
     }
 
     setTimeout(() => (isNavigating = false), 100);
-    searchOpen = false;
   }
 
   async function search() {
-    isLoading = true;
-    clearTimeout(timeoutId); // Clear any existing timeout
+    const query = inputValue?.trim();
+    clearTimeout(timeoutId);
 
-    if (!inputValue?.trim()) {
-      // Skip if query is empty or just whitespace
-      searchBarData = []; // Clear previous results
+    if (!query) {
+      searchAbortController?.abort();
+      searchAbortController = null;
+      searchBarData = [];
+      showSuggestions = false;
       isLoading = false;
       return;
     }
 
+    isLoading = true;
+
     timeoutId = setTimeout(async () => {
-      const response = await fetch(
-        `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=5`,
-      );
-      searchBarData = await response?.json();
-      isLoading = false;
-    }, 50); // delay
+      searchAbortController?.abort();
+      const controller = new AbortController();
+      searchAbortController = controller;
+
+      try {
+        const response = await fetch(
+          `/api/searchbar?query=${encodeURIComponent(query)}&limit=5`,
+          { signal: controller.signal },
+        );
+        if (!response.ok) {
+          throw new Error(`Search request failed with status ${response.status}`);
+        }
+
+        const payload = await response.json();
+        if (!controller.signal.aborted) {
+          searchBarData = Array.isArray(payload) ? payload : [];
+        }
+      } catch (err: any) {
+        if (err?.name !== "AbortError") {
+          console.error("Searchbar request failed");
+          searchBarData = [];
+        }
+      } finally {
+        if (searchAbortController === controller) {
+          isLoading = false;
+        }
+      }
+    }, SEARCH_DEBOUNCE_MS);
   }
 
-  function handleKeyDown(symbol) {
+  function handleKeyDown(symbol: string) {
     if (isNavigating) return;
 
     const list = Array.from(
@@ -278,7 +311,7 @@
     }
   }
 
-  const handleControlK = async (event) => {
+  const handleControlK = (event: KeyboardEvent) => {
     if (event.ctrlKey && event.key === "k") {
       const keyboardSearch = document.getElementById("combobox-input");
       keyboardSearch?.dispatchEvent(new MouseEvent("click"));
@@ -300,7 +333,8 @@
       const savedRules = localStorage?.getItem("search-history");
 
       if (savedRules) {
-        searchHistory = JSON.parse(savedRules);
+        const parsed = JSON.parse(savedRules);
+        searchHistory = Array.isArray(parsed) ? parsed : [];
       }
     } catch (e) {
       console.log(e);
@@ -310,6 +344,17 @@
     return () => {
       window.removeEventListener("keydown", handleControlK);
     };
+  });
+
+  onDestroy(() => {
+    clearTimeout(timeoutId);
+    clearTimeout(historyCommitTimeoutId);
+    clearTimeout(focusTimeoutId);
+    searchAbortController?.abort();
+    if (typeof window !== "undefined") {
+      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("search-modal-open");
+    }
   });
 
   function handleEnter() {
@@ -327,7 +372,8 @@
 
   $: {
     if (searchBarModalChecked === true && typeof window !== "undefined") {
-      setTimeout(() => inputElement?.focus(), 30);
+      clearTimeout(focusTimeoutId);
+      focusTimeoutId = setTimeout(() => inputElement?.focus(), 30);
       // Page is not scrollable now and hide fixed mobile nav layers.
       document.body.classList.add("overflow-hidden");
       document.body.classList.add("search-modal-open");
@@ -336,7 +382,7 @@
 
   $: {
     if (searchBarModalChecked === false && typeof window !== "undefined") {
-      showSuggestions = "";
+      showSuggestions = false;
       // Clear input when modal closes
       if (!isNavigatingWithSpinner) {
         inputValue = "";
@@ -348,19 +394,16 @@
 
   $: {
     if (
-      (nextPage === true || searchBarModalChecked === false) &&
+      searchBarModalChecked === false &&
       updatedSearchHistory?.length > 0
     ) {
-      (async () => {
-        // Add 500 ms delay is important otherwise bug since #each has searchHistory and updates too quickly and redirects to wrong symbol
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        // Update search history after delay
+      clearTimeout(historyCommitTimeoutId);
+      historyCommitTimeoutId = setTimeout(() => {
+        // Keep a short delay so list updates don't race against navigation.
         searchHistory = updatedSearchHistory;
         updatedSearchHistory = [];
         saveRecentTicker();
-        nextPage = false;
-      })();
+      }, 500);
     }
   }
 
@@ -374,10 +417,8 @@
     }
   }
 
-  $: {
-    if (inputValue) {
-      search();
-    }
+  $: if (inputValue !== undefined) {
+    search();
   }
 </script>
 
