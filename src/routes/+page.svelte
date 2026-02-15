@@ -11,8 +11,6 @@
     landing_hero_subtitle,
     landing_hero_cta_primary,
     landing_hero_cta_secondary,
-    landing_hero_cta_demo,
-    landing_hero_badge_investors,
     landing_reviews_label,
     landing_reviews_title,
     landing_review_1_name,
@@ -210,14 +208,6 @@
   let pricingAnnual = true;
   let heroVideoEl: HTMLVideoElement;
   let showPlayButton = false;
-  let heroMorphIndex = 0;
-
-  const heroMorphLabels: Array<() => string> = [
-    () => "AI Chat",
-    () => "Options Flow",
-    () => "News Flow",
-    () => "Analyst",
-  ];
 
   type RadialFeatureBadge = {
     label: () => string;
@@ -369,23 +359,6 @@
     };
 
     void playHeroVideo();
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    let morphInterval: ReturnType<typeof setInterval> | undefined = undefined;
-    if (!reducedMotion) {
-      morphInterval = setInterval(() => {
-        heroMorphIndex = (heroMorphIndex + 1) % heroMorphLabels.length;
-      }, 2400);
-    }
-
-    return () => {
-      if (morphInterval) {
-        clearInterval(morphInterval);
-      }
-    };
   });
 
   function handlePlayClick() {
@@ -517,28 +490,8 @@
 
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
         <div class="mx-auto max-w-4xl text-center">
-          <div
-            class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 px-3 py-2 text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.2em]"
-          >
-            <span
-              class="rounded-full bg-violet-100 text-violet-700 dark:bg-violet-500/25 dark:text-violet-200 px-2.5 py-1"
-              >{landing_hero_badge_investors()}</span
-            >
-            <span class="h-3.5 w-px bg-gray-300 dark:bg-zinc-700"></span>
-            <span class="relative inline-flex h-5 w-[10.5rem] items-center overflow-hidden text-left sm:w-[13rem]">
-              {#each heroMorphLabels as label, i}
-                <span
-                  class="absolute inset-0 truncate transition-all duration-500 {heroMorphIndex === i
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-2 opacity-0'}"
-                  >{label()}</span
-                >
-              {/each}
-            </span>
-          </div>
-
           <h1
-            class="mt-8 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white leading-tight"
+            class="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white leading-tight"
           >
             {landing_hero_title()}
           </h1>
@@ -562,29 +515,6 @@
               {landing_hero_cta_secondary()}
             </a>
           </div>
-          <a
-            href="#features"
-            class="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-              /><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              /></svg
-            >
-            {landing_hero_cta_demo()}
-          </a>
         </div>
 
         <div class="relative mt-12 mx-auto max-w-5xl">
@@ -737,7 +667,7 @@
         </div>
 
         <div
-          class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-3 sm:p-4 shadow-sm"
+          class="overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-3 sm:p-4 shadow-sm"
         >
           <AnimatedList items={notificationShowcaseItems} delay={1450} maxVisible={5}>
             <svelte:fragment let:item>

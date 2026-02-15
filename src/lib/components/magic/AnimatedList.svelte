@@ -2,7 +2,7 @@
   import { flip } from "svelte/animate";
   import { cubicOut } from "svelte/easing";
   import { onMount } from "svelte";
-  import { fade, fly } from "svelte/transition";
+  import { fly } from "svelte/transition";
 
   type ItemWithId = {
     id?: string | number;
@@ -26,6 +26,9 @@
 
   const getItemKey = (item: ItemWithId, index: number) =>
     item?.id ?? `${item?.ticker ?? "item"}-${item?.timestamp ?? ""}-${index}`;
+
+  const getLayer = (position: number) =>
+    Math.max(1, Math.floor(Math.max(1, maxVisible)) - position);
 
   function resetWithItems(sourceItems: ItemWithId[]) {
     cursor = 0;
@@ -87,13 +90,14 @@
   }
 </script>
 
-<div class={`flex flex-col gap-3 ${className}`}>
+<div class={`relative isolate flex flex-col gap-3 overflow-hidden ${className}`}>
   {#each itemsToShow as item, index (getItemKey(item, index))}
     <div
       animate:flip={{ duration: 300, easing: cubicOut }}
       in:fly={{ y: -8, opacity: 0, duration: 220, easing: cubicOut }}
-      out:fade={{ duration: 180 }}
-      class="w-full"
+      out:fly={{ y: 18, opacity: 0, duration: 240, easing: cubicOut }}
+      class="relative w-full"
+      style={`z-index: ${getLayer(index)};`}
     >
       <slot {item} {index} />
     </div>

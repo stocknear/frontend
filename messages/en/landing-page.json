@@ -1,10 +1,10 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "landing_seo_title": "Institutional-Grade Stock Data for Everyone",
+  "landing_seo_title": "Institutional-Grade Stock Data for Retail Investors",
   "landing_seo_description": "AI-powered stock analysis, real-time options flow, smart money tracking & 200+ screener filters. Join 10,000+ investors. 7-day free trial — plans from $0/mo.",
 
-  "landing_hero_title": "Institutional-Grade Stock Data. For Everyone.",
-  "landing_hero_subtitle": "See what hedge funds, Congress members, and institutional traders are buying before the market moves. Real-time data that used to cost $24,000/year, now starting at $0.",
+  "landing_hero_title": "Institutional-Grade Stock Data. For Retail Investors.",
+  "landing_hero_subtitle": "We simplify complex trading data, making it accessible and actionable for every trader.",
   "landing_hero_cta_primary": "Get Started Free",
   "landing_hero_cta_secondary": "View Pricing",
   "landing_hero_cta_demo": "See It In Action",
