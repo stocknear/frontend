@@ -967,9 +967,7 @@
         modalCheckbox.checked = true;
       }
     } else {
-      toast.info("Available only to Pro Member", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+      goto("/pricing");
     }
   }
 
@@ -2466,9 +2464,7 @@
                         : ""}
                     on:click={() => {
                       if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
-                        toast.info("Available only to Pro Member", {
-                          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                        });
+                        goto("/pricing");
                       }
                     }}
                     class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
