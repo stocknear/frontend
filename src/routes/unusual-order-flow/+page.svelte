@@ -923,6 +923,8 @@
     } else {
       itemSet.add(value);
     }
+    // Reassign to trigger Svelte reactivity (mutation alone doesn't)
+    checkedItems = new Map(checkedItems);
 
     // Specific rule handling for options-related rules
     if (categoricalRules?.includes(ruleName)) {
@@ -2577,7 +2579,9 @@
                                       <input
                                         type="checkbox"
                                         class="rounded"
-                                        checked={isChecked(item, row?.rule)}
+                                        checked={checkedItems
+                                          .get(row?.rule)
+                                          ?.has(item) ?? false}
                                       />
                                       <span class="ml-2">{item}</span>
                                     </label>
