@@ -3,6 +3,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Discount from "$lib/components/Discount.svelte";
   import AnimatedList from "$lib/components/magic/AnimatedList.svelte";
+  import SignalPipelineBeams from "$lib/components/magic/SignalPipelineBeams.svelte";
 
   import {
     landing_seo_title,
@@ -701,6 +702,50 @@
     </div>
   </section>
 
+  <!-- Section 2.3: Signal Pipeline -->
+  <section
+    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-950/45 overflow-hidden"
+  >
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
+      <div class="mx-auto max-w-3xl text-center">
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
+        >
+          Signal Pipeline
+        </p>
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        >
+          From Market Noise to Actionable Alerts
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300">
+          Stocknear ingests realtime catalysts, correlates them inside one
+          signal engine, then routes high-conviction outputs directly into your
+          alerts, watchlist, and risk workflow.
+        </p>
+      </div>
+
+      <div class="mt-10">
+        <SignalPipelineBeams />
+      </div>
+
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a
+          href="/notifications"
+          class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+        >
+          Explore Notifications
+        </a>
+        <a
+          href="/watchlist/stocks"
+          class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+        >
+          Open Watchlist
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Section 2.5: Real-Time Alerts Showcase -->
   <section class="border-t border-gray-300 dark:border-zinc-700">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
@@ -717,8 +762,8 @@
             Real-Time Alerts That Surface What Matters
           </h2>
           <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300 max-w-2xl">
-            See high-signal events the moment they happen, from unusual options
-            activity and analyst changes to price and news alerts.
+            See high-signal events the moment they happen, from earnings
+            releases and analyst changes to price and news alerts.
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
             <a
