@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import Discount from "$lib/components/Discount.svelte";
+  import AnimatedList from "$lib/components/magic/AnimatedList.svelte";
 
   import {
     landing_seo_title,
@@ -12,8 +13,6 @@
     landing_hero_cta_secondary,
     landing_hero_cta_demo,
     landing_hero_badge_investors,
-    landing_hero_badge_trustpilot,
-    landing_hero_badge_reviews,
     landing_reviews_label,
     landing_reviews_title,
     landing_review_1_name,
@@ -211,16 +210,182 @@
   let pricingAnnual = true;
   let heroVideoEl: HTMLVideoElement;
   let showPlayButton = false;
+  let heroMorphIndex = 0;
 
-  onMount(async () => {
-    // Detect autoplay failure (mobile Safari)
-    if (heroVideoEl) {
+  const heroMorphLabels = [
+    landing_feature_ai_title,
+    landing_feature_flow_title,
+    landing_feature_wiim_title,
+    landing_feature_analyst_title,
+  ];
+
+  type RadialFeatureBadge = {
+    label: () => string;
+    href: string;
+    left: string;
+    top: string;
+    rotate: number;
+    toneClass: string;
+  };
+
+  const radialFeatureBadges: RadialFeatureBadge[] = [
+    {
+      label: landing_feature_ai_title,
+      href: "/chat",
+      left: "16%",
+      top: "33%",
+      rotate: -12,
+      toneClass:
+        "border-violet-300/70 bg-violet-100/85 text-violet-800 dark:border-violet-500/45 dark:bg-violet-500/20 dark:text-violet-200",
+    },
+    {
+      label: landing_feature_flow_title,
+      href: "/options-flow",
+      left: "81%",
+      top: "29%",
+      rotate: 10,
+      toneClass:
+        "border-cyan-300/70 bg-cyan-100/85 text-cyan-800 dark:border-cyan-500/45 dark:bg-cyan-500/20 dark:text-cyan-200",
+    },
+    {
+      label: landing_feature_wiim_title,
+      href: "/news-flow",
+      left: "12%",
+      top: "60%",
+      rotate: -8,
+      toneClass:
+        "border-amber-300/70 bg-amber-100/85 text-amber-800 dark:border-amber-500/45 dark:bg-amber-500/20 dark:text-amber-200",
+    },
+    {
+      label: landing_feature_analyst_title,
+      href: "/analysts",
+      left: "85%",
+      top: "58%",
+      rotate: 7,
+      toneClass:
+        "border-emerald-300/70 bg-emerald-100/85 text-emerald-800 dark:border-emerald-500/45 dark:bg-emerald-500/20 dark:text-emerald-200",
+    },
+    {
+      label: landing_more_tool_darkpool_title,
+      href: "/unusual-order-flow",
+      left: "28%",
+      top: "81%",
+      rotate: -5,
+      toneClass:
+        "border-blue-300/70 bg-blue-100/85 text-blue-800 dark:border-blue-500/45 dark:bg-blue-500/20 dark:text-blue-200",
+    },
+    {
+      label: landing_more_tool_portfolio_title,
+      href: "/portfolio",
+      left: "72%",
+      top: "82%",
+      rotate: 6,
+      toneClass:
+        "border-rose-300/70 bg-rose-100/85 text-rose-800 dark:border-rose-500/45 dark:bg-rose-500/20 dark:text-rose-200",
+    },
+  ];
+
+  type NotificationShowcaseItem = {
+    id: string;
+    ticker: string;
+    title: string;
+    detail: string;
+    time: string;
+    link: string;
+    toneClass: string;
+  };
+
+  const notificationShowcaseItems: NotificationShowcaseItem[] = [
+    {
+      id: "nvda-earnings",
+      ticker: "NVDA",
+      title: "Earnings Release",
+      detail: "Quarterly EPS came in 12% above estimates",
+      time: "Just now",
+      link: "/earnings-calendar",
+      toneClass:
+        "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
+    },
+    {
+      id: "aapl-alert",
+      ticker: "AAPL",
+      title: "Price Alert Triggered",
+      detail: "AAPL crossed above $230.00",
+      time: "1m ago",
+      link: "/price-alert",
+      toneClass:
+        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
+    },
+    {
+      id: "tsla-news",
+      ticker: "TSLA",
+      title: "News Flow Update",
+      detail: "Earnings call sentiment turned bullish",
+      time: "2m ago",
+      link: "/news-flow",
+      toneClass:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
+    },
+    {
+      id: "meta-analyst",
+      ticker: "META",
+      title: "Analyst Rating Change",
+      detail: "2 upgrades in the last hour",
+      time: "4m ago",
+      link: "/analysts",
+      toneClass:
+        "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
+    },
+    {
+      id: "msft-insider",
+      ticker: "MSFT",
+      title: "Insider Transaction",
+      detail: "Director reported a new open-market buy",
+      time: "7m ago",
+      link: "/insider-tracker",
+      toneClass:
+        "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
+    },
+    {
+      id: "amzn-dividend",
+      ticker: "AMZN",
+      title: "Dividend Update",
+      detail: "Dividend payout increased in latest announcement",
+      time: "11m ago",
+      link: "/dividends-calendar",
+      toneClass:
+        "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-200",
+    },
+  ];
+
+  onMount(() => {
+    const playHeroVideo = async () => {
+      if (!heroVideoEl) return;
       try {
         await heroVideoEl.play();
       } catch {
         showPlayButton = true;
       }
+    };
+
+    void playHeroVideo();
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    let morphInterval: ReturnType<typeof setInterval> | undefined = undefined;
+    if (!reducedMotion) {
+      morphInterval = setInterval(() => {
+        heroMorphIndex = (heroMorphIndex + 1) % heroMorphLabels.length;
+      }, 2400);
     }
+
+    return () => {
+      if (morphInterval) {
+        clearInterval(morphInterval);
+      }
+    };
   });
 
   function handlePlayClick() {
@@ -344,72 +509,65 @@
 <div class="text-gray-700 dark:text-zinc-200 w-full">
   <!-- Section 1: Hero -->
   <section class="w-full bg-white dark:bg-zinc-950/60">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <div class="relative overflow-hidden">
+      <div class="radial-grid pointer-events-none absolute inset-0"></div>
       <div
-        class="flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.3em]"
-      >
-        <div
-          class="flex items-center gap-2 rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-4 py-2"
-        >
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
-            viewBox="0 0 640 512"
-            class="h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z"
-            ></path>
-          </svg>
-          <span>{landing_hero_badge_investors()}</span>
-        </div>
-        <div
-          class="flex items-center gap-2 rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-4 py-2"
-        >
-          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-            />
-          </svg>
-          <span>4.6/5</span>
-          <span class="font-medium">{landing_hero_badge_trustpilot()}</span>
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://www.trustpilot.com/review/stocknear.com"
-            class="underline underline-offset-4 hover:text-violet-600 dark:hover:text-violet-400 transition"
-          >
-            {landing_hero_badge_reviews()}
-          </a>
-        </div>
-      </div>
+        class="pointer-events-none absolute left-1/2 top-[35%] h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-violet-500/15 blur-3xl"
+      ></div>
 
-      <div class="mx-auto mt-10 text-center max-w-3xl">
-        <h1
-          class="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white leading-tight"
-        >
-          {landing_hero_title()}
-        </h1>
-        <p
-          class="mt-6 text-base sm:text-lg lg:text-xl leading-relaxed text-gray-800 dark:text-zinc-300 max-w-2xl mx-auto"
-        >
-          {landing_hero_subtitle()}
-        </p>
-        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="/register"
-            class="cursor-pointer inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        <div class="mx-auto max-w-4xl text-center">
+          <div
+            class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 px-3 py-2 text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.2em]"
           >
-            {landing_hero_cta_primary()}
-          </a>
+            <span
+              class="rounded-full bg-violet-100 text-violet-700 dark:bg-violet-500/25 dark:text-violet-200 px-2.5 py-1"
+              >{landing_hero_badge_investors()}</span
+            >
+            <span class="h-3.5 w-px bg-gray-300 dark:bg-zinc-700"></span>
+            <span class="relative inline-flex h-5 w-[10.5rem] items-center overflow-hidden text-left sm:w-[13rem]">
+              {#each heroMorphLabels as label, i}
+                <span
+                  class="absolute inset-0 truncate transition-all duration-500 {heroMorphIndex === i
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-2 opacity-0'}"
+                  >{label()}</span
+                >
+              {/each}
+            </span>
+          </div>
+
+          <h1
+            class="mt-8 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white leading-tight"
+          >
+            {landing_hero_title()}
+          </h1>
+          <p
+            class="mt-6 text-base sm:text-lg lg:text-xl leading-relaxed text-gray-800 dark:text-zinc-300 max-w-3xl mx-auto"
+          >
+            {landing_hero_subtitle()}
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/register"
+              class="cursor-pointer inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            >
+              {landing_hero_cta_primary()}
+            </a>
+            <a
+              href="/pricing"
+              class="inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/70 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            >
+              {landing_hero_cta_secondary()}
+            </a>
+          </div>
           <a
             href="#features"
-            class="inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            class="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
           >
             <svg
-              class="w-5 h-5"
+              class="w-4 h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -428,37 +586,67 @@
             {landing_hero_cta_demo()}
           </a>
         </div>
-      </div>
-    </div>
 
-    <!-- Hero visual: product overview -->
-    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
-      <div
-        class="relative rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-2xl overflow-hidden"
-      >
-        <video
-          bind:this={heroVideoEl}
-          class="w-full"
-          src="/video/overview.mp4"
-          poster="/img/landing-page/overview.png"
-          autoplay
-          muted
-          loop
-          playsinline
-        ></video>
-        {#if showPlayButton}
-          <button
-            on:click={handlePlayClick}
-            class="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity hover:bg-black/40"
-            aria-label="Play video"
+        <div class="relative mt-12 mx-auto max-w-5xl">
+          <div
+            class="pointer-events-none absolute left-1/2 top-[46%] hidden h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 lg:block"
           >
-            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg">
-              <svg class="w-7 h-7 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </button>
-        {/if}
+            <div class="radial-ring absolute inset-0 rounded-full"></div>
+            <div class="radial-ring radial-ring-delay absolute inset-[14%] rounded-full"></div>
+            <div class="radial-ring radial-ring-delay-2 absolute inset-[28%] rounded-full"></div>
+          </div>
+
+          <div class="pointer-events-none absolute inset-0 hidden lg:block">
+            {#each radialFeatureBadges as badge}
+              <a
+                href={badge.href}
+                style={`left:${badge.left}; top:${badge.top}; transform: translate(-50%, -50%) rotate(${badge.rotate}deg);`}
+                class="radial-float pointer-events-auto absolute rounded-full border px-3.5 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.12em] shadow-sm backdrop-blur {badge.toneClass}"
+              >
+                {badge.label()}
+              </a>
+            {/each}
+          </div>
+
+          <div
+            class="relative z-10 rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-2xl overflow-hidden bg-white/90 dark:bg-zinc-900/70"
+          >
+            <video
+              bind:this={heroVideoEl}
+              class="w-full"
+              src="/video/overview.mp4"
+              poster="/img/landing-page/overview.png"
+              autoplay
+              muted
+              loop
+              playsinline
+            ></video>
+            {#if showPlayButton}
+              <button
+                on:click={handlePlayClick}
+                class="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity hover:bg-black/40"
+                aria-label="Play video"
+              >
+                <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg">
+                  <svg class="w-7 h-7 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </button>
+            {/if}
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-center gap-2.5 lg:hidden">
+          {#each radialFeatureBadges as badge}
+            <a
+              href={badge.href}
+              class="rounded-full border px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em] {badge.toneClass}"
+            >
+              {badge.label()}
+            </a>
+          {/each}
+        </div>
       </div>
     </div>
   </section>
@@ -508,6 +696,89 @@
           <div class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
             {landing_stats_trial_label()}
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2.5: Real-Time Alerts Showcase -->
+  <section class="border-t border-gray-300 dark:border-zinc-700">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
+      <div class="grid gap-8 lg:grid-cols-[1fr_minmax(0,27rem)] lg:items-center">
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
+          >
+            Notifications
+          </p>
+          <h2
+            class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+          >
+            Real-Time Alerts That Surface What Matters
+          </h2>
+          <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300 max-w-2xl">
+            See high-signal events the moment they happen, from unusual options
+            activity and analyst changes to price and news alerts.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href="/notifications"
+              class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            >
+              Open Notifications
+            </a>
+            <a
+              href="/price-alert"
+              class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            >
+              Create Alert
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-3 sm:p-4 shadow-sm"
+        >
+          <AnimatedList items={notificationShowcaseItems} delay={1450} maxVisible={5}>
+            <svelte:fragment let:item>
+              <a
+                href={item.link}
+                class="group flex items-center gap-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/75 px-3 py-2.5 hover:border-violet-300 dark:hover:border-violet-500/45 transition"
+              >
+                <span
+                  class="avatar h-8 w-8 shrink-0 rounded-full border border-gray-300 bg-gray-100/70 shadow dark:border-zinc-700 dark:bg-zinc-900/60"
+                >
+                  <img
+                    src={`https://financialmodelingprep.com/image-stock/${item.ticker}.png`}
+                    alt={`${item.ticker} logo`}
+                    class="inline-block h-8 w-8 shrink-0 rounded-full p-0.5"
+                    style="clip-path: circle(50%);"
+                    loading="lazy"
+                    on:error={(e) =>
+                      ((e.currentTarget as HTMLImageElement).src = "/pwa-192x192.png")}
+                  />
+                </span>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
+                      {item.ticker}
+                    </span>
+                    <span
+                      class={`rounded-full px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.08em] ${item.toneClass}`}
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+                  <p class="mt-0.5 truncate text-xs text-gray-600 dark:text-zinc-400">
+                    {item.detail}
+                  </p>
+                </div>
+                <span class="text-[0.68rem] text-gray-500 dark:text-zinc-400 whitespace-nowrap">
+                  {item.time}
+                </span>
+              </a>
+            </svelte:fragment>
+          </AnimatedList>
         </div>
       </div>
     </div>
@@ -1682,3 +1953,71 @@
   </section>
 </div>
 
+<style lang="scss">
+  .radial-grid {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.22) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.9), transparent 85%);
+    opacity: 0.7;
+  }
+
+  :global(.dark) .radial-grid {
+    background-image:
+      linear-gradient(to right, rgba(63, 63, 70, 0.45) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(63, 63, 70, 0.45) 1px, transparent 1px);
+    opacity: 0.6;
+  }
+
+  .radial-ring {
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    animation: radialPulse 5.8s ease-in-out infinite;
+  }
+
+  .radial-ring-delay {
+    animation-delay: 0.8s;
+  }
+
+  .radial-ring-delay-2 {
+    animation-delay: 1.6s;
+  }
+
+  .radial-float {
+    animation: radialFloat 6s ease-in-out infinite;
+  }
+
+  .radial-float:nth-child(even) {
+    animation-duration: 6.8s;
+    animation-delay: 0.4s;
+  }
+
+  @keyframes radialPulse {
+    0%,
+    100% {
+      opacity: 0.2;
+      transform: scale(0.96);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes radialFloat {
+    0%,
+    100% {
+      margin-top: 0;
+    }
+    50% {
+      margin-top: -6px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .radial-ring,
+    .radial-float {
+      animation: none;
+    }
+  }
+</style>
