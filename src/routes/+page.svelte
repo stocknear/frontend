@@ -235,14 +235,111 @@
 <SEO
   title={landing_seo_title()}
   description={landing_seo_description()}
-  keywords="stock analysis, options flow, AI stock research, smart money tracking, stock screener, congress trading, hedge fund tracking, institutional data, free stock tools"
-  structuredData={{
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: landing_seo_title(),
-    description: landing_seo_description(),
-    url: "https://stocknear.com",
-  }}
+  keywords="stock analysis, options flow, AI stock research, smart money tracking, stock screener, congress trading, hedge fund tracking, institutional data, free stock tools, dark pool data, unusual options activity"
+  image="https://stocknear.com/img/landing-page/overview.png"
+  twitterCard="summary_large_image"
+  structuredData={[
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "Stocknear",
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Web",
+      url: "https://stocknear.com",
+      description: landing_seo_description(),
+      screenshot: "https://stocknear.com/img/landing-page/overview.png",
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.6",
+        bestRating: "5",
+        ratingCount: "150",
+        reviewCount: "150",
+      },
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Free Plan",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        {
+          "@type": "Offer",
+          name: "Plus Plan (Annual)",
+          price: "5",
+          priceCurrency: "USD",
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: "5",
+            priceCurrency: "USD",
+            unitCode: "MON",
+            referenceQuantity: {
+              "@type": "QuantitativeValue",
+              value: "1",
+              unitCode: "MON",
+            },
+          },
+        },
+        {
+          "@type": "Offer",
+          name: "Pro Plan (Annual)",
+          price: "15",
+          priceCurrency: "USD",
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: "15",
+            priceCurrency: "USD",
+            unitCode: "MON",
+            referenceQuantity: {
+              "@type": "QuantitativeValue",
+              value: "1",
+              unitCode: "MON",
+            },
+          },
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: landing_faq_q1_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q1_answer() },
+        },
+        {
+          "@type": "Question",
+          name: landing_faq_q2_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q2_answer() },
+        },
+        {
+          "@type": "Question",
+          name: landing_faq_q3_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q3_answer() },
+        },
+        {
+          "@type": "Question",
+          name: landing_faq_q4_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q4_answer() },
+        },
+        {
+          "@type": "Question",
+          name: landing_faq_q5_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q5_answer() },
+        },
+        {
+          "@type": "Question",
+          name: landing_faq_q6_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q6_answer() },
+        },
+        {
+          "@type": "Question",
+          name: landing_faq_q7_title(),
+          acceptedAnswer: { "@type": "Answer", text: landing_faq_q7_answer() },
+        },
+      ],
+    },
+  ]}
 />
 
 <div class="text-gray-700 dark:text-zinc-200 w-full">
@@ -367,79 +464,6 @@
     </div>
   </section>
 
-  <!-- User Reviews -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-      <div class="text-center mb-12">
-        <p
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
-        >
-          {landing_reviews_label()}
-        </p>
-        <h2
-          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-        >
-          {landing_reviews_title()}
-        </h2>
-      </div>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {#each [{ name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "JG", color: "bg-violet-600" }, { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "RC", color: "bg-emerald-600" }, { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "EB", color: "bg-blue-600" }, { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "GF", color: "bg-amber-600" }, { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "PT", color: "bg-rose-600" }, { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "SS", color: "bg-cyan-600" }] as review}
-          <div
-            class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
-          >
-            <!-- Quotation mark + Stars -->
-            <div class="flex items-center justify-between mb-4">
-              <svg class="w-5 h-5 text-gray-300 dark:text-zinc-600" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.28571 7.6C3.78214 7.6 3.3058 7.70062 2.85714 7.85812V7.6C2.85714 6.05562 4.13839 4.8 5.71429 4.8C6.50313 4.8 7.14286 4.17306 7.14286 3.4C7.14286 2.62694 6.50446 2 5.71429 2C2.56339 2 0 4.51125 0 7.6V11.8C0 14.1196 1.91875 16 4.28571 16C6.65268 16 8.57143 14.1196 8.57143 11.8C8.57143 9.48037 6.65179 7.6 4.28571 7.6ZM15.7143 7.6C15.2107 7.6 14.7344 7.70084 14.2857 7.85721V7.6C14.2857 6.05562 15.567 4.8 17.1429 4.8C17.9317 4.8 18.5714 4.17306 18.5714 3.4C18.5714 2.62694 17.9317 2 17.1429 2C13.992 2 11.4286 4.51212 11.4286 7.6V11.8C11.4286 14.1196 13.3473 16 15.7143 16C18.0813 16 20 14.1196 20 11.8C20 9.48037 18.0804 7.6 15.7143 7.6Z" fill="currentColor" />
-              </svg>
-              <div class="flex gap-0.5">
-                {#each Array(5) as _}
-                  <svg
-                    class="w-4 h-4 text-yellow-400"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                    />
-                  </svg>
-                {/each}
-              </div>
-            </div>
-            <!-- Review text -->
-            <p
-              class="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed flex-1"
-            >
-              {review.text}
-            </p>
-            <!-- Author -->
-            <div
-              class="flex items-center gap-3 mt-5 pt-5 border-t border-gray-100 dark:border-zinc-800"
-            >
-              <div
-                class="flex-shrink-0 h-10 w-10 rounded-full {review.color} flex items-center justify-center"
-              >
-                <span class="text-xs font-bold text-white"
-                  >{review.initials}</span
-                >
-              </div>
-              <div>
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
-                  {review.name}
-                </div>
-                <div class="text-xs text-gray-500 dark:text-zinc-400">
-                  {review.role}
-                </div>
-              </div>
-            </div>
-          </div>
-        {/each}
-      </div>
-    </div>
-  </section>
-
   <!-- Section 2: Stats Bar -->
   <section
     class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
@@ -490,7 +514,506 @@
     </div>
   </section>
 
-  <!-- Section 3: How It Works -->
+  <!-- Section 3: Feature Showcases -->
+  <section
+    id="features"
+    class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
+  >
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="text-center mb-16">
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
+        >
+          {landing_features_label()}
+        </p>
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        >
+          {landing_features_title()}
+        </h2>
+        <p
+          class="mt-4 max-w-2xl text-lg text-gray-800 dark:text-zinc-300 mx-auto"
+        >
+          {landing_features_subtitle()}
+        </p>
+      </div>
+
+      <div class="space-y-20 sm:space-y-28">
+        <!-- Feature 1: AI Agent (image right) -->
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+          <div class="flex-1 order-2 lg:order-1">
+            <h3
+              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {landing_feature_ai_title()}
+            </h3>
+            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
+              {landing_feature_ai_description()}
+            </p>
+            <ul class="mt-6 space-y-3">
+              {#each [landing_feature_ai_bullet_1(), landing_feature_ai_bullet_2(), landing_feature_ai_bullet_3(), landing_feature_ai_bullet_4()] as bullet}
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
+                </li>
+              {/each}
+            </ul>
+            <a
+              href="/chat"
+              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
+            >
+              {landing_feature_ai_link()}
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </a>
+          </div>
+          <div class="flex-1 order-1 lg:order-2 w-full">
+            <video
+              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
+              src="/video/ai-agent.mp4"
+              poster="/img/landing-page/ai-agent.png"
+              preload="none"
+              autoplay
+              muted
+              loop
+              playsinline
+            ></video>
+          </div>
+        </div>
+
+        <!-- Feature 2: Options Flow (image left) -->
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+          <div class="flex-1 w-full">
+            <img
+              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
+              src="/img/landing-page/options-flow.png"
+              alt="Real-time options flow dashboard showing institutional sweep orders, block trades, and sentiment data"
+              loading="lazy"
+            />
+          </div>
+          <div class="flex-1">
+            <h3
+              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {landing_feature_flow_title()}
+            </h3>
+            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
+              {landing_feature_flow_description()}
+            </p>
+            <ul class="mt-6 space-y-3">
+              {#each [landing_feature_flow_bullet_1(), landing_feature_flow_bullet_2(), landing_feature_flow_bullet_3(), landing_feature_flow_bullet_4()] as bullet}
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
+                </li>
+              {/each}
+            </ul>
+            <a
+              href="/options-flow"
+              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
+            >
+              {landing_feature_flow_link()}
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature 3: Why It Moved (image right) -->
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+          <div class="flex-1 order-2 lg:order-1">
+            <h3
+              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {landing_feature_wiim_title()}
+            </h3>
+            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
+              {landing_feature_wiim_description()}
+            </p>
+            <ul class="mt-6 space-y-3">
+              {#each [landing_feature_wiim_bullet_1(), landing_feature_wiim_bullet_2(), landing_feature_wiim_bullet_3()] as bullet}
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
+                </li>
+              {/each}
+            </ul>
+            <a
+              href="/news-flow"
+              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
+            >
+              {landing_feature_wiim_link()}
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </a>
+          </div>
+          <div class="flex-1 order-1 lg:order-2 w-full">
+            <img
+              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
+              src="/img/landing-page/wiim-chart.png"
+              alt="Why It Moved chart showing stock price catalysts with dollar impact breakdown"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Feature 4: Analyst Intelligence (image left) -->
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+          <div class="flex-1 w-full">
+            <img
+              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
+              src="/img/landing-page/analyst-chart.png"
+              alt="Wall Street analyst ratings dashboard with accuracy rankings and consensus price targets"
+              loading="lazy"
+            />
+          </div>
+          <div class="flex-1">
+            <h3
+              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {landing_feature_analyst_title()}
+            </h3>
+            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
+              {landing_feature_analyst_description()}
+            </p>
+            <ul class="mt-6 space-y-3">
+              {#each [landing_feature_analyst_bullet_1(), landing_feature_analyst_bullet_2(), landing_feature_analyst_bullet_3()] as bullet}
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
+                </li>
+              {/each}
+            </ul>
+            <a
+              href="/analysts"
+              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
+            >
+              {landing_feature_analyst_link()}
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- More Tools compact grid -->
+      <div class="mt-20 sm:mt-28">
+        <h3
+          class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white text-center mb-10"
+        >
+          {landing_more_tools_title()}
+        </h3>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <!-- Stock Screener -->
+          <a
+            href="/stock-screener"
+            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
+          >
+            <div class="flex items-start gap-4">
+              <div
+                class="flex-shrink-0 h-11 w-11 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-violet-600 dark:text-violet-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4
+                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                >
+                  {landing_more_tool_screener_title()}
+                </h4>
+                <p
+                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+                >
+                  {landing_more_tool_screener_desc()}
+                </p>
+                <span
+                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
+                >
+                  {landing_more_tool_screener_link()}
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    ><path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    /></svg
+                  >
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- Congress & Insider Trading -->
+          <a
+            href="/politicians"
+            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
+          >
+            <div class="flex items-start gap-4">
+              <div
+                class="flex-shrink-0 h-11 w-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4
+                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                >
+                  {landing_more_tool_congress_title()}
+                </h4>
+                <p
+                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+                >
+                  {landing_more_tool_congress_desc()}
+                </p>
+                <span
+                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
+                >
+                  {landing_more_tool_congress_link()}
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    ><path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    /></svg
+                  >
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- Dark Pool Tracker -->
+          <a
+            href="/unusual-order-flow"
+            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
+          >
+            <div class="flex items-start gap-4">
+              <div
+                class="flex-shrink-0 h-11 w-11 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                  />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4
+                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                >
+                  {landing_more_tool_darkpool_title()}
+                </h4>
+                <p
+                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+                >
+                  {landing_more_tool_darkpool_desc()}
+                </p>
+                <span
+                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
+                >
+                  {landing_more_tool_darkpool_link()}
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    ><path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    /></svg
+                  >
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- Portfolio Tracker -->
+          <a
+            href="/portfolio"
+            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
+          >
+            <div class="flex items-start gap-4">
+              <div
+                class="flex-shrink-0 h-11 w-11 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-amber-600 dark:text-amber-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4
+                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                >
+                  {landing_more_tool_portfolio_title()}
+                </h4>
+                <p
+                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+                >
+                  {landing_more_tool_portfolio_desc()}
+                </p>
+                <span
+                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
+                >
+                  {landing_more_tool_portfolio_link()}
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    ><path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    /></svg
+                  >
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: How It Works -->
   <section
     class="border-t border-gray-300 dark:border-zinc-700"
   >
@@ -605,7 +1128,7 @@
     </div>
   </section>
 
-  <!-- Section 4: Pricing -->
+  <!-- Section 5: Pricing -->
   <section
     id="pricing"
     class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
@@ -946,7 +1469,80 @@
     </div>
   </section>
 
-  <!-- Section 5: Trust / Social Proof -->
+  <!-- Section 6: Reviews -->
+  <section class="border-t border-gray-300 dark:border-zinc-700">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="text-center mb-12">
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
+        >
+          {landing_reviews_label()}
+        </p>
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        >
+          {landing_reviews_title()}
+        </h2>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {#each [{ name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "JG", color: "bg-violet-600" }, { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "RC", color: "bg-emerald-600" }, { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "EB", color: "bg-blue-600" }, { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "GF", color: "bg-amber-600" }, { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "PT", color: "bg-rose-600" }, { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "SS", color: "bg-cyan-600" }] as review}
+          <div
+            class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
+          >
+            <!-- Quotation mark + Stars -->
+            <div class="flex items-center justify-between mb-4">
+              <svg class="w-5 h-5 text-gray-300 dark:text-zinc-600" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.28571 7.6C3.78214 7.6 3.3058 7.70062 2.85714 7.85812V7.6C2.85714 6.05562 4.13839 4.8 5.71429 4.8C6.50313 4.8 7.14286 4.17306 7.14286 3.4C7.14286 2.62694 6.50446 2 5.71429 2C2.56339 2 0 4.51125 0 7.6V11.8C0 14.1196 1.91875 16 4.28571 16C6.65268 16 8.57143 14.1196 8.57143 11.8C8.57143 9.48037 6.65179 7.6 4.28571 7.6ZM15.7143 7.6C15.2107 7.6 14.7344 7.70084 14.2857 7.85721V7.6C14.2857 6.05562 15.567 4.8 17.1429 4.8C17.9317 4.8 18.5714 4.17306 18.5714 3.4C18.5714 2.62694 17.9317 2 17.1429 2C13.992 2 11.4286 4.51212 11.4286 7.6V11.8C11.4286 14.1196 13.3473 16 15.7143 16C18.0813 16 20 14.1196 20 11.8C20 9.48037 18.0804 7.6 15.7143 7.6Z" fill="currentColor" />
+              </svg>
+              <div class="flex gap-0.5">
+                {#each Array(5) as _}
+                  <svg
+                    class="w-4 h-4 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    />
+                  </svg>
+                {/each}
+              </div>
+            </div>
+            <!-- Review text -->
+            <p
+              class="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed flex-1"
+            >
+              {review.text}
+            </p>
+            <!-- Author -->
+            <div
+              class="flex items-center gap-3 mt-5 pt-5 border-t border-gray-100 dark:border-zinc-800"
+            >
+              <div
+                class="flex-shrink-0 h-10 w-10 rounded-full {review.color} flex items-center justify-center"
+              >
+                <span class="text-xs font-bold text-white"
+                  >{review.initials}</span
+                >
+              </div>
+              <div>
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {review.name}
+                </div>
+                <div class="text-xs text-gray-500 dark:text-zinc-400">
+                  {review.role}
+                </div>
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Trust / Social Proof -->
   <section
     class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
   >
@@ -1035,505 +1631,7 @@
     </div>
   </section>
 
-  <!-- Section 6: Feature Showcases -->
-  <section
-    id="features"
-    class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
-  >
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <div class="text-center mb-16">
-        <p
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
-        >
-          {landing_features_label()}
-        </p>
-        <h2
-          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-        >
-          {landing_features_title()}
-        </h2>
-        <p
-          class="mt-4 max-w-2xl text-lg text-gray-800 dark:text-zinc-300 mx-auto"
-        >
-          {landing_features_subtitle()}
-        </p>
-      </div>
-
-      <div class="space-y-20 sm:space-y-28">
-        <!-- Feature 1: AI Agent (image right) -->
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          <div class="flex-1 order-2 lg:order-1">
-            <h3
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {landing_feature_ai_title()}
-            </h3>
-            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {landing_feature_ai_description()}
-            </p>
-            <ul class="mt-6 space-y-3">
-              {#each [landing_feature_ai_bullet_1(), landing_feature_ai_bullet_2(), landing_feature_ai_bullet_3(), landing_feature_ai_bullet_4()] as bullet}
-                <li class="flex items-start gap-3">
-                  <svg
-                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
-                </li>
-              {/each}
-            </ul>
-            <a
-              href="/chat"
-              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-            >
-              {landing_feature_ai_link()}
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                /></svg
-              >
-            </a>
-          </div>
-          <div class="flex-1 order-1 lg:order-2 w-full">
-            <video
-              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
-              src="/video/ai-agent.mp4"
-              poster="/img/landing-page/ai-agent.png"
-              autoplay
-              muted
-              loop
-              playsinline
-            ></video>
-          </div>
-        </div>
-
-        <!-- Feature 2: Options Flow (image left) -->
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          <div class="flex-1 w-full">
-            <img
-              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
-              src="/img/landing-page/options-flow.png"
-              alt="Options Flow"
-              loading="lazy"
-            />
-          </div>
-          <div class="flex-1">
-            <h3
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {landing_feature_flow_title()}
-            </h3>
-            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {landing_feature_flow_description()}
-            </p>
-            <ul class="mt-6 space-y-3">
-              {#each [landing_feature_flow_bullet_1(), landing_feature_flow_bullet_2(), landing_feature_flow_bullet_3(), landing_feature_flow_bullet_4()] as bullet}
-                <li class="flex items-start gap-3">
-                  <svg
-                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
-                </li>
-              {/each}
-            </ul>
-            <a
-              href="/options-flow"
-              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-            >
-              {landing_feature_flow_link()}
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                /></svg
-              >
-            </a>
-          </div>
-        </div>
-
-        <!-- Feature 3: Why It Moved (image right) -->
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          <div class="flex-1 order-2 lg:order-1">
-            <h3
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {landing_feature_wiim_title()}
-            </h3>
-            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {landing_feature_wiim_description()}
-            </p>
-            <ul class="mt-6 space-y-3">
-              {#each [landing_feature_wiim_bullet_1(), landing_feature_wiim_bullet_2(), landing_feature_wiim_bullet_3()] as bullet}
-                <li class="flex items-start gap-3">
-                  <svg
-                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
-                </li>
-              {/each}
-            </ul>
-            <a
-              href="/news-flow"
-              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-            >
-              {landing_feature_wiim_link()}
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                /></svg
-              >
-            </a>
-          </div>
-          <div class="flex-1 order-1 lg:order-2 w-full">
-            <img
-              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
-              src="/img/landing-page/wiim-chart.png"
-              alt="Why It Moved"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        <!-- Feature 4: Analyst Intelligence (image left) -->
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          <div class="flex-1 w-full">
-            <img
-              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
-              src="/img/landing-page/analyst-chart.png"
-              alt="Analyst Intelligence"
-              loading="lazy"
-            />
-          </div>
-          <div class="flex-1">
-            <h3
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-            >
-              {landing_feature_analyst_title()}
-            </h3>
-            <p class="mt-4 text-gray-800 dark:text-zinc-300 leading-relaxed">
-              {landing_feature_analyst_description()}
-            </p>
-            <ul class="mt-6 space-y-3">
-              {#each [landing_feature_analyst_bullet_1(), landing_feature_analyst_bullet_2(), landing_feature_analyst_bullet_3()] as bullet}
-                <li class="flex items-start gap-3">
-                  <svg
-                    class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span class="text-gray-700 dark:text-zinc-200">{bullet}</span>
-                </li>
-              {/each}
-            </ul>
-            <a
-              href="/analysts"
-              class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-            >
-              {landing_feature_analyst_link()}
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                /></svg
-              >
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- More Tools compact grid -->
-      <div class="mt-20 sm:mt-28">
-        <h3
-          class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white text-center mb-10"
-        >
-          {landing_more_tools_title()}
-        </h3>
-        <div class="grid gap-6 sm:grid-cols-2">
-          <!-- Stock Screener -->
-          <a
-            href="/stock-screener"
-            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
-          >
-            <div class="flex items-start gap-4">
-              <div
-                class="flex-shrink-0 h-11 w-11 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center"
-              >
-                <svg
-                  class="w-6 h-6 text-violet-600 dark:text-violet-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                  />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h4
-                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                >
-                  {landing_more_tool_screener_title()}
-                </h4>
-                <p
-                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
-                >
-                  {landing_more_tool_screener_desc()}
-                </p>
-                <span
-                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
-                >
-                  {landing_more_tool_screener_link()}
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    ><path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    /></svg
-                  >
-                </span>
-              </div>
-            </div>
-          </a>
-          <!-- Congress & Insider Trading -->
-          <a
-            href="/politicians"
-            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
-          >
-            <div class="flex items-start gap-4">
-              <div
-                class="flex-shrink-0 h-11 w-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center"
-              >
-                <svg
-                  class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                  />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h4
-                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                >
-                  {landing_more_tool_congress_title()}
-                </h4>
-                <p
-                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
-                >
-                  {landing_more_tool_congress_desc()}
-                </p>
-                <span
-                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
-                >
-                  {landing_more_tool_congress_link()}
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    ><path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    /></svg
-                  >
-                </span>
-              </div>
-            </div>
-          </a>
-          <!-- Dark Pool Tracker -->
-          <a
-            href="/unusual-order-flow"
-            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
-          >
-            <div class="flex items-start gap-4">
-              <div
-                class="flex-shrink-0 h-11 w-11 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
-              >
-                <svg
-                  class="w-6 h-6 text-blue-600 dark:text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                  />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h4
-                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                >
-                  {landing_more_tool_darkpool_title()}
-                </h4>
-                <p
-                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
-                >
-                  {landing_more_tool_darkpool_desc()}
-                </p>
-                <span
-                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
-                >
-                  {landing_more_tool_darkpool_link()}
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    ><path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    /></svg
-                  >
-                </span>
-              </div>
-            </div>
-          </a>
-          <!-- Portfolio Tracker -->
-          <a
-            href="/portfolio"
-            class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
-          >
-            <div class="flex items-start gap-4">
-              <div
-                class="flex-shrink-0 h-11 w-11 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center"
-              >
-                <svg
-                  class="w-6 h-6 text-amber-600 dark:text-amber-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                  />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h4
-                  class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                >
-                  {landing_more_tool_portfolio_title()}
-                </h4>
-                <p
-                  class="mt-1.5 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
-                >
-                  {landing_more_tool_portfolio_desc()}
-                </p>
-                <span
-                  class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-violet-600 dark:text-violet-400"
-                >
-                  {landing_more_tool_portfolio_link()}
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    ><path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    /></svg
-                  >
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 7: FAQ -->
+  <!-- Section 8: FAQ -->
   <section
     id="faq"
     class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
@@ -1572,7 +1670,7 @@
     </div>
   </section>
 
-  <!-- Section 8: Final CTA -->
+  <!-- Section 9: Final CTA -->
   <section
     class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
   >

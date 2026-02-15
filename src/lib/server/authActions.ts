@@ -12,6 +12,20 @@ function sanitizeFormData(formData: Record<string, unknown>) {
   return safeData;
 }
 
+function resolveOAuthReturnUrl(url: any, request: any) {
+  const returnUrlParam = url.searchParams.get("returnUrl");
+  if (returnUrlParam) {
+    return validateReturnUrl(returnUrlParam, url.origin);
+  }
+
+  const referer = request?.headers?.get("referer");
+  if (referer) {
+    return validateReturnUrl(referer, url.origin);
+  }
+
+  return "/";
+}
+
 /**
  * Shared login action for all pages using LoginPopup.
  * Validates credentials, authenticates with PocketBase, and redirects.
@@ -241,7 +255,6 @@ export const oauth2Action = async ({
   request,
   cookies,
 }: any) => {
-  const path = url?.href?.replace("/oauth2", "");
   const authMethods = (
     await locals?.pb?.collection("users")?.listAuthMethods()
   )?.oauth2;
@@ -267,6 +280,7 @@ export const oauth2Action = async ({
   const authProviderRedirect = `${provider.authUrl}${redirectURL}`;
   const state = provider.state;
   const verifier = provider.codeVerifier;
+  const safeReturnUrl = resolveOAuthReturnUrl(url, request);
 
   cookies.set("state", state, {
     httpOnly: true,
@@ -292,7 +306,17 @@ export const oauth2Action = async ({
     maxAge: 60 * 10,
   });
 
-  cookies.set("path", path, {
+  // Primary callback target after OAuth login (used by /oauth callback route).
+  cookies.set("returnUrl", safeReturnUrl, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true,
+    path: "/",
+    maxAge: 60 * 5,
+  });
+
+  // Keep legacy fallback cookie for compatibility with existing callback logic.
+  cookies.set("path", safeReturnUrl, {
     httpOnly: true,
     sameSite: "lax",
     secure: true,

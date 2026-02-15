@@ -93,7 +93,7 @@
           $page?.url?.pathname
         ) {
           const anchor = document.createElement("a");
-          anchor.href = $page?.url?.pathname;
+          anchor.href = currentPathWithSearch;
           anchor.dataset.sveltekitReload = true;
           document.body.appendChild(anchor);
           anchor.dispatchEvent(new MouseEvent("click"));
@@ -178,7 +178,7 @@
           $page?.url?.pathname
         ) {
           const anchor = document.createElement("a");
-          anchor.href = $page?.url?.pathname;
+          anchor.href = currentPathWithSearch;
           anchor.dataset.sveltekitReload = true;
           document.body.appendChild(anchor);
           anchor.dispatchEvent(new MouseEvent("click"));
@@ -194,6 +194,10 @@
   $: returnUrl = browser
     ? encodeURIComponent($page.url.pathname + $page.url.search)
     : "";
+
+  $: currentPathWithSearch = browser
+    ? $page.url.pathname + $page.url.search
+    : "/";
 </script>
 
 <input type="checkbox" id="userLogin" class="modal-toggle" />
@@ -242,9 +246,7 @@
 
         <div class="relative">
           <form
-            action="?/login&returnUrl={browser
-              ? encodeURIComponent($page.url.pathname + $page.url.search)
-              : ''}"
+            action="?/login&returnUrl={browser ? returnUrl : ''}"
             method="POST"
             use:enhance={submitLogin}
             class="flex flex-col text-start items-center space-y-3 w-full max-w-md md:ml-auto md:mr-auto"
@@ -327,9 +329,7 @@
         <div class="relative">
           <form
             method="POST"
-            action="?/register&returnUrl={browser
-              ? encodeURIComponent($page.url.pathname + $page.url.search)
-              : ''}"
+            action="?/register&returnUrl={browser ? returnUrl : ''}"
             use:enhance={submitRegistration}
             class="flex flex-col text-start items-center space-y-3 w-full max-w-md pt-2 md:ml-auto md:mr-auto"
           >

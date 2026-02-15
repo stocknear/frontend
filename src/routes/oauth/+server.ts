@@ -1,92 +1,93 @@
 import { redirect } from "@sveltejs/kit";
+import { validateReturnUrl } from "$lib/utils";
 
+const REGISTER_STEP_2_URL = "/register?step=2";
 
+function clearOAuthCookies(cookies: any) {
+  cookies.delete("state", { path: "/" });
+  cookies.delete("verifier", { path: "/" });
+  cookies.delete("provider", { path: "/" });
+}
 
 export const GET = async ({ locals, url, cookies }) => {
-  //console.log(url.searchParams);
   const redirectURL = `${url.origin}/oauth`;
 
+  const expectedState = cookies?.get("state");
+  const expectedVerifier = cookies?.get("verifier");
+  const providerSelected = cookies?.get("provider");
 
-  let expectedState = cookies?.get("state");
-  let expectedVerifier = cookies?.get("verifier");
-  let providerSelected = cookies?.get("provider");
+  const state = url.searchParams.get("state");
+  const code = url.searchParams.get("code");
 
-  const state = await url.searchParams.get("state");
-  const code = await url.searchParams.get("code");
-
-
-  //as a side effect this will generate a new code verifier, hence why we need to pass the verifier back in through the cookie
-  const authMethods = (await locals.pb?.collection("users")?.listAuthMethods())?.oauth2;
+  const authMethods = (
+    await locals.pb?.collection("users")?.listAuthMethods()
+  )?.oauth2;
 
   if (!authMethods?.providers) {
-    console.log("No Auth Providers");
-    redirect(302, "/register");
+    clearOAuthCookies(cookies);
+    throw redirect(302, "/register");
   }
 
- const targetItem = authMethods?.providers?.findIndex(
-      (item) => item?.name === providerSelected,
-    );
+  const provider = authMethods.providers.find(
+    (item) => item?.name === providerSelected,
+  );
 
-  const provider = authMethods?.providers[targetItem];
-
-  if (!provider) {
-    console.log("Provider Not Found");
-    redirect(302, "/register");
+  if (
+    !provider ||
+    !code ||
+    !expectedState ||
+    !expectedVerifier ||
+    expectedState !== state
+  ) {
+    clearOAuthCookies(cookies);
+    throw redirect(302, "/register");
   }
 
-  if (expectedState !== state) {
-    console.log("Returned State Does not Match Expected");
-    redirect(302, "/register");
-  }
+  let isNewUser = false;
 
   try {
-    //
-
     const userLogin = await locals.pb
-      ?.collection("users")
+      .collection("users")
       .authWithOAuth2Code(provider.name, code, expectedVerifier, redirectURL);
 
-      if (userLogin?.meta?.isNew) {
-        await locals.pb.collection("users").update(userLogin?.record?.id, {
+    isNewUser = Boolean(userLogin?.meta?.isNew);
+
+    // Don't block signup completion if welcome credits update fails.
+    if (isNewUser && userLogin?.record?.id) {
+      try {
+        await locals.pb.collection("users").update(userLogin.record.id, {
           credits: 10,
-        })
+        });
+      } catch (creditsErr) {
+        console.warn("Failed to set OAuth welcome credits", creditsErr);
       }
-    
+    }
   } catch (err) {
     console.log("Error logging in with OAuth2 user", err);
-    redirect(302, "/register");
+    clearOAuthCookies(cookies);
+    throw redirect(302, "/register");
   }
 
-  // Get return URL from cookie and validate it
+  clearOAuthCookies(cookies);
+
+  // New OAuth users must finish plan selection on register step 2.
+  if (isNewUser) {
+    cookies.delete("returnUrl", { path: "/" });
+    cookies.delete("path", { path: "/" });
+    throw redirect(302, REGISTER_STEP_2_URL);
+  }
+
   const returnUrl = cookies?.get("returnUrl");
   cookies.delete("returnUrl", { path: "/" });
-  
   if (returnUrl) {
-    // Validate the return URL to ensure it's safe
-    try {
-      const targetUrl = new URL(returnUrl, url.origin);
-      if (targetUrl.origin === url.origin) {
-        redirect(302, targetUrl.pathname + targetUrl.search);
-      }
-    } catch {
-      // Invalid URL, redirect to home
-    }
+    throw redirect(302, validateReturnUrl(returnUrl, url.origin));
   }
-  
-  // Fallback to path cookie or home
-  const pathCookie = cookies?.get("path");
-  if (pathCookie) {
-    // SECURITY: Validate path cookie to prevent open redirect
-    try {
-      const targetUrl = new URL(pathCookie, url.origin);
-      if (targetUrl.origin === url.origin) {
-        redirect(302, targetUrl.pathname + targetUrl.search);
-      }
-    } catch {
-      // Invalid URL, fall through to default
-    }
-  }
-  redirect(302, "/");
 
- 
+  const pathCookie = cookies?.get("path");
+  cookies.delete("path", { path: "/" });
+  if (pathCookie) {
+    throw redirect(302, validateReturnUrl(pathCookie, url.origin));
+  }
+
+  throw redirect(302, "/");
 };
