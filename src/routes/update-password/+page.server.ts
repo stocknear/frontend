@@ -1,4 +1,4 @@
-import { redirect, error } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import { updatePasswordSchema } from "$lib/schemas";
 import { fail } from "@sveltejs/kit";
 import { z } from "zod";
@@ -10,22 +10,58 @@ export const load = async ({ locals }) => {
   }
 }
 
-
 export const actions = {
-  updatePassword: async ({ request, locals }) => {
+  updatePassword: async ({ request, locals, fetch }) => {
     const { pb, user } = locals;
 
     const formData = await request.formData();
+    const turnstileToken =
+      formData.get("cf-turnstile-response")?.toString() ?? "";
+
     const postData: Record<string, string> = {};
-    // Build a plain object from the form data.
     for (const [key, value] of formData.entries()) {
-      if (typeof value === "string") {
+      if (typeof value === "string" && key !== "cf-turnstile-response") {
         postData[key] = value;
       }
     }
 
+    // Verify Turnstile token
+    if (!turnstileToken) {
+      return fail(400, {
+        errors: { turnstile: "Please confirm you are not a robot." },
+      });
+    }
+
     try {
-      // Validate form data using your Zod schema.
+      const response = await fetch("/api/turnstile", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ token: turnstileToken }),
+      });
+
+      const turnstileVerification = await response.json();
+
+      if (!response.ok || !turnstileVerification?.success) {
+        return fail(400, {
+          errors: {
+            turnstile:
+              turnstileVerification?.message ??
+              "Turnstile verification failed. Please try again.",
+          },
+        });
+      }
+    } catch (verificationError) {
+      console.error("Turnstile verification error:", verificationError);
+      return fail(400, {
+        errors: {
+          turnstile:
+            "Unable to verify Turnstile response. Please refresh and try again.",
+        },
+      });
+    }
+
+    try {
+      // Validate form data using Zod schema.
       const cleanedData = updatePasswordSchema.parse(postData);
 
       await pb.collection("users").update(user?.id, cleanedData);
@@ -33,7 +69,6 @@ export const actions = {
     } catch (error) {
       console.log(error)
       if (error instanceof z.ZodError) {
-        // Map Zod errors to individual error messages.
         const errors = {
           errorOldPassword:
             error.errors?.find((err) => err.path[0] === "oldPassword")?.message || "You're password is wrong",

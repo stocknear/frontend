@@ -2,7 +2,10 @@
   import { enhance } from "$app/forms";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { tick } from "svelte";
+  import { Turnstile } from "svelte-turnstile";
   import Input from "$lib/components/Input.svelte";
+  import PasswordInput from "$lib/components/PasswordInput.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import {
   update_password_button,
@@ -21,18 +24,31 @@
   export let form;
   let isUpdating = false;
 
+  // Password state for real-time validation
+  let password = "";
+  let passwordConfirm = "";
+  let showTurnstile = true;
+
+  const resetTurnstile = async () => {
+    showTurnstile = false;
+    await tick();
+    showTurnstile = true;
+  };
+
   const submitUpdatePassword = () => {
     isUpdating = true;
     return async ({ result, update }) => {
+      const toastStyle = `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
+
       if (result.type === "success" && result.data?.success) {
-        toast.success(update_password_success(), {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
+        toast.success(update_password_success(), { style: toastStyle });
       } else {
-        toast.error(update_password_error(), {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
+        // Show turnstile error inline, use generic toast for other errors
+        if (!result.data?.errors?.turnstile) {
+          toast.error(update_password_error(), { style: toastStyle });
+        }
       }
+      await resetTurnstile();
       await update();
       isUpdating = false;
     };
@@ -79,22 +95,55 @@
               required
               errors={form?.errors?.errorOldPassword}
             />
-            <Input
+            <PasswordInput
               id="password"
-              name="password"
               label={update_password_new_password_label()}
-              type="password"
-              required
               errors={form?.errors?.errorPassword}
+              disabled={isUpdating}
+              showRequirements={true}
+              showMatchIndicator={true}
+              confirmValue={passwordConfirm}
+              on:input={(e) => (password = e.detail)}
             />
-            <Input
-              id="passwordConfirm"
-              name="passwordConfirm"
-              label={update_password_confirm_label()}
-              type="password"
-              required
-              errors={form?.errors?.errorPasswordConfirm}
-            />
+
+            <div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+              <label for="passwordConfirm" class="label pb-1">
+                <span class="text-muted dark:text-white">{update_password_confirm_label()}</span>
+              </label>
+              <div class="relative">
+                <input
+                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+                  type="password"
+                  id="passwordConfirm"
+                  name="passwordConfirm"
+                  disabled={isUpdating}
+                  bind:value={passwordConfirm}
+                  autocomplete="off"
+                />
+
+                {#if passwordConfirm.length > 0}
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                    {#if password === passwordConfirm && password.length > 0}
+                      <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    {:else}
+                      <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    {/if}
+                  </div>
+                {/if}
+              </div>
+
+              {#if form?.errors?.errorPasswordConfirm}
+                <label for="passwordConfirm" class="py-0 pt-1 text-xs">
+                  <span class="text-red-800 font-semibold dark:font-normal dark:text-error">
+                    {form?.errors?.errorPasswordConfirm}
+                  </span>
+                </label>
+              {/if}
+            </div>
 
             <div class="w-full max-w-lg pt-3">
               {#if !isUpdating}
@@ -115,6 +164,17 @@
                 </label>
               {/if}
             </div>
+
+            {#if showTurnstile}
+              <div class="flex justify-center">
+                <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+              </div>
+            {/if}
+            {#if form?.errors?.turnstile}
+              <p class="text-center text-sm text-error pt-2">
+                {form?.errors?.turnstile}
+              </p>
+            {/if}
           </form>
         </main>
       </div>
