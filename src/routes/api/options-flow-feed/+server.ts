@@ -8,6 +8,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const params = new URLSearchParams();
 
   for (const param of allowedParams) {
+    if (param === "rules" && user?.tier !== "Pro") continue;
     const value = url.searchParams.get(param);
     if (value && value.trim().length > 0) {
       params.set(param, value);
