@@ -136,6 +136,15 @@
 
   let currentAbortController: AbortController | null = null;
 
+  function getFormattedSelectedDate() {
+    if (!selectedDate) return null;
+    const convertDate = new Date(df.format(selectedDate.toDate()));
+    const year = convertDate.getFullYear();
+    const month = String(convertDate.getMonth() + 1).padStart(2, "0");
+    const day = String(convertDate.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   async function fetchTableData({
     page = currentPage,
     pageSize = rowsPerPage,
@@ -148,19 +157,43 @@
     const signal = currentAbortController.signal;
 
     const invocationId = ++requestId;
-    const params = new URLSearchParams({
-      page: String(page),
-      pageSize: String(pageSize),
-      sortKey,
-      sortOrder,
-    });
-    if (filterQuery) params.set("search", filterQuery);
     const activeRules = buildActiveRules();
-    if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
 
     isFetchingPage = true;
     try {
-      const response = await fetch(`/api/options-flow-feed?${params}`, { signal });
+      let response;
+      const formattedDate = getFormattedSelectedDate();
+
+      if (formattedDate) {
+        // Historical mode — fetch from historical endpoint
+        const postData = {
+          selectedDate: formattedDate,
+          rules: activeRules,
+          tickers: filterQuery || "",
+          page,
+          pageSize,
+          sortKey,
+          sortOrder,
+        };
+        response = await fetch("/api/options-historical-flow", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData),
+          signal,
+        });
+      } else {
+        // Live mode — fetch from live feed endpoint
+        const params = new URLSearchParams({
+          page: String(page),
+          pageSize: String(pageSize),
+          sortKey,
+          sortOrder,
+        });
+        if (filterQuery) params.set("search", filterQuery);
+        if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+        response = await fetch(`/api/options-flow-feed?${params}`, { signal });
+      }
+
       if (signal.aborted) return;
       const result = await response.json();
       if (invocationId !== requestId) return;
@@ -197,7 +230,12 @@
   const rowsPerPageOptions = [20, 50, 100];
 
   function handleServerSort(key, order) {
-    fetchTableData({ page: 1, sortKey: key, sortOrder: order });
+    if (order === "none") {
+      // Reset to default sort (newest first)
+      fetchTableData({ page: 1, sortKey: "time", sortOrder: "desc" });
+    } else {
+      fetchTableData({ page: 1, sortKey: key, sortOrder: order });
+    }
   }
 
   function goToPage(pageNumber) {
@@ -1772,47 +1810,8 @@
 
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const convertDate = new Date(df.format(selectedDate?.toDate()));
-      const year = convertDate?.getFullYear();
-      const month = String(convertDate?.getMonth() + 1).padStart(2, "0");
-      const day = String(convertDate?.getDate()).padStart(2, "0");
-      const formattedDate = `${year}-${month}-${day}`;
-
-      try {
-        const activeRules = buildActiveRules();
-        const postData = {
-          selectedDate: formattedDate,
-          rules: activeRules,
-          tickers: filterQuery || "",
-          page: 1,
-          pageSize: rowsPerPage,
-          sortKey: activeSortKey,
-          sortOrder: activeSortOrder,
-        };
-
-        const response = await fetch("/api/options-historical-flow", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(postData),
-        });
-
-        const result = await response?.json();
-        displayedData = prepareInitialFlowData(result.items || []);
-        rawData = displayedData;
-        totalItems = result.total ?? 0;
-        currentPage = result.page ?? 1;
-        totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
-
-        if (result.stats) {
-          applyServerStats(result.stats);
-        }
-      } catch (error) {
-        console.error("Error fetching historical flow:", error);
-        rawData = [];
-        displayedData = [];
-      } finally {
-        isLoaded = true;
-      }
+      // fetchTableData checks selectedDate and routes to historical endpoint
+      await fetchTableData({ page: 1 });
     } else {
       goto("/pricing");
     }
