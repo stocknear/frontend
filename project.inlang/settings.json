@@ -75,7 +75,8 @@
       "./messages/{locale}/error.json",
       "./messages/{locale}/index.json",
       "./messages/{locale}/chart.json",
-      "./messages/{locale}/covered-call-screener.json"
+      "./messages/{locale}/covered-call-screener.json",
+      "./messages/{locale}/landing-page.json"
     ]
   }
 }
