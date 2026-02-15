@@ -832,7 +832,9 @@
       }
     } else {
       ruleOfList = [...ruleOfList, newRule];
-
+      displayRules = allRows?.filter((row) =>
+        ruleOfList.some((rule) => rule.name === row.rule),
+      );
       fetchTableData(1);
     }
   }
