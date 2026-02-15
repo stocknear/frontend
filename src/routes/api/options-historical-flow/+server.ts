@@ -8,7 +8,15 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   if (user?.tier === "Pro") {
     try {
-      const postData = { date: selectedDate };
+      const postData = {
+        date: selectedDate,
+        rules: data?.rules || [],
+        tickers: data?.tickers || "",
+        page: data?.page || 1,
+        pageSize: data?.pageSize || 50,
+        sortKey: data?.sortKey || "time",
+        sortOrder: data?.sortOrder || "desc",
+      };
       const response = await fetch(apiURL + "/options-historical-flow", {
         method: "POST",
         headers: {
@@ -21,10 +29,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       output = await response.json();
     } catch (e) {
       console.error(e);
-      output = [];
+      output = { items: [], total: 0, page: 1, pageSize: 50, stats: null };
     }
   } else {
-    output = [];
+    output = { items: [], total: 0, page: 1, pageSize: 50, stats: null };
   }
 
   return new Response(JSON.stringify(output));

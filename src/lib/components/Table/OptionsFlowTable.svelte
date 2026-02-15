@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { screenWidth } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
   import { onDestroy, onMount } from "svelte";
 
-  import VirtualList from "svelte-tiny-virtual-list";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -14,6 +12,8 @@
   export let displayedData = [];
   export let filteredData = [];
   export let rawData = [];
+  export let isLoading = false;
+  export let onSort: ((key: string, order: string) => void) | undefined = undefined;
 
   // Default columns definition
   const defaultColumns = [
@@ -681,6 +681,12 @@ ${insightData.traderTakeaway}
     currentSortKey = key;
     currentSortOrder = sortOrder;
 
+    // If server-side sort callback is provided, delegate to parent
+    if (onSort) {
+      onSort(key, sortOrder);
+      return;
+    }
+
     const originalData = [...displayedData];
 
     // Reset to original data when 'none'
@@ -936,241 +942,207 @@ ${insightData.traderTakeaway}
 </script>
 
 <div
-  class="w-full overflow-x-auto rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+  class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative transition-opacity duration-200"
+  class:opacity-60={isLoading}
 >
-  <!-- Set a min-width on smaller screens so the grid can show all columns -->
-  <div class="min-w-[1200px]">
-    <!-- Header row using grid -->
+  {#if isLoading}
     <div
-      class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-17 sticky top-0 z-10 border-b border-gray-300 dark:border-zinc-700 font-semibold text-[11px] uppercase tracking-wide"
+      class="pointer-events-none absolute inset-0 bg-white/70 dark:bg-[#0b1220]/70 backdrop-blur-sm"
+      aria-hidden="true"
+    ></div>
+  {/if}
+  <table
+    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+    aria-busy={isLoading}
+  >
+    <thead>
+      <tr class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700">
+        {#each columns as column, i}
+          <th
+            draggable="true"
+            on:dragstart={(e) => handleDragStart(e, i)}
+            on:dragover={(e) => handleDragOver(e, i)}
+            on:dragleave={handleDragLeave}
+            on:drop={(e) => handleDrop(e, i)}
+            on:dragend={handleDragEnd}
+            on:click={() => column.key !== "insight" && sortData(column.key)}
+            class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
+              {dragOverColumnIndex === i && draggedColumnIndex !== i
+              ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
+              : ''}"
+          >
+            <span class="inline-flex items-center gap-1 justify-center">
+              {column.label}
+              {#if column.key !== "insight"}
+                <svg
+                  class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
+                    ? 'rotate-180 inline-block'
+                    : sortOrders[column.key] === 'desc'
+                      ? 'inline-block'
+                      : 'hidden'}"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:50px"
+                  ><path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path></svg>
+              {/if}
+            </span>
+          </th>
+        {/each}
+      </tr>
+    </thead>
+    <tbody
+      class="transition-opacity duration-100 divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+      class:opacity-70={isLoading}
     >
-      {#each columns as column, i}
-        <div
-          draggable="true"
-          on:dragstart={(e) => handleDragStart(e, i)}
-          on:dragover={(e) => handleDragOver(e, i)}
-          on:dragleave={handleDragLeave}
-          on:drop={(e) => handleDrop(e, i)}
-          on:dragend={handleDragEnd}
-          on:click={() => column.key !== "insight" && sortData(column.key)}
-          class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
-            {dragOverColumnIndex === i && draggedColumnIndex !== i
-            ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
-            : ''}"
-        >
-          <span class="inline-flex items-center gap-1 justify-center">
-            {column.label}
-            {#if column.key !== "insight"}
-              <svg
-                class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
-                  ? 'rotate-180 inline-block'
-                  : sortOrders[column.key] === 'desc'
-                    ? 'inline-block'
-                    : 'hidden'}"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                style="max-width:50px"
-                ><path
-                  fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path></svg>
-
-            {/if}
-          </span>
-        </div>
-      {/each}
-    </div>
-
-    <VirtualList
-      width="100%"
-      height={$screenWidth < 640
-        ? data?.user?.tier === "Pro"
-          ? 550
-          : 250
-        : data?.user?.tier === "Pro"
-          ? 850
-          : 250}
-      itemCount={sortedDisplayData.length}
-      itemSize={40}
-    >
-      <svelte:fragment slot="item" let:index let:style>
-        {@const isLockedRow =
-          index + 1 === rawData?.length && data?.user?.tier !== "Pro"}
-        <div
-          {style}
-          class="grid grid-cols-17 gap-0 relative overflow-hidden"
-          class:opacity-30={isLockedRow}
-        >
-          {#each columns as column}
-            {#if column.key === "time"}
-              <div
-                class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
-              >
-                {formatTime(sortedDisplayData[index]?.time)}
-              </div>
-            {:else if column.key === "ticker"}
-              <div
-                on:click|stopPropagation
-                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                <HoverStockChart
-                  symbol={sortedDisplayData[index]?.ticker}
-                  assetType={sortedDisplayData[index]?.underlying_type}
-                  optionSymbol={sortedDisplayData[index]?.option_symbol}
-                />
-              </div>
-            {:else if column.key === "insight"}
-              <div
-                on:click|stopPropagation={() =>
-                  optionsInsight(sortedDisplayData[index])}
-                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                <Spark
-                  class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                />
-              </div>
-            {:else if column.key === "expiry"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {reformatDate(sortedDisplayData[index]?.date_expiration)}
-              </div>
-            {:else if column.key === "dte"}
-              <div
-                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {sortedDisplayData[index]?.dte < 0
-                  ? "expired"
-                  : sortedDisplayData[index]?.dte + "d"}
-              </div>
-            {:else if column.key === "strike"}
-              <div
-                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {sortedDisplayData[index]?.strike_price}
-              </div>
-            {:else if column.key === "callPut"}
-              <div
-                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                  index
-                ]?.put_call === 'Calls'
-                  ? 'text-emerald-800 dark:text-emerald-400'
-                  : 'text-rose-800 dark:text-rose-400'}"
-              >
-                {sortedDisplayData[index]?.put_call}
-              </div>
-            {:else if column.key === "sentiment"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                  index
-                ]?.sentiment === 'Bullish'
-                  ? 'text-emerald-800 dark:text-emerald-400'
-                  : sortedDisplayData[index]?.sentiment === 'Bearish'
-                    ? 'text-rose-800 dark:text-rose-400'
-                    : 'text-orange-800 dark:text-[#C6A755]'}"
-              >
-                {sortedDisplayData[index]?.sentiment}
-              </div>
-            {:else if column.key === "spot"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {sortedDisplayData[index]?.underlying_price}
-              </div>
-            {:else if column.key === "price"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {sortedDisplayData[index]?.price}
-              </div>
-            {:else if column.key === "premium"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {@html abbreviateNumber(
-                  sortedDisplayData[index]?.cost_basis,
-                  false,
-                  true,
-                )}
-              </div>
-            {:else if column.key === "type"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                  index
-                ]?.option_activity_type === 'Sweep'
-                  ? 'text-gray-600 dark:text-[#C6A755]'
-                  : sortedDisplayData[index]?.option_activity_type === 'Block'
-                    ? 'text-gray-600 dark:text-[#FF6B6B]'
-                    : sortedDisplayData[index]?.option_activity_type === 'Large'
-                      ? 'text-gray-600 dark:text-[#4ECDC4]'
-                      : 'text-gray-600 dark:text-[#976DB7]'}"
-              >
-                {sortedDisplayData[index]?.option_activity_type}
-              </div>
-            {:else if column.key === "leg"}
-              <div
-                class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
-                  index
-                ]?.trade_leg_type === 'multi-leg'
-                  ? 'text-gray-600 dark:text-[#FF9500]'
-                  : 'text-gray-600 dark:text-[#7B8794]'}"
-              >
-                {sortedDisplayData[index]?.trade_leg_type === "multi-leg"
-                  ? "Multi"
-                  : "Single"}
-              </div>
-            {:else if column.key === "exec"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {[
-                  'At Ask',
-                  'Above Ask',
-                ]?.includes(sortedDisplayData[index]?.execution_estimate)
-                  ? 'text-gray-600 dark:text-[#C8A32D]'
-                  : ['At Bid', 'Below Bid']?.includes(
-                        sortedDisplayData[index]?.execution_estimate,
-                      )
-                    ? 'text-gray-600 dark:text-[#8F82FE]'
-                    : 'text-gray-600 dark:text-[#A98184]'}"
-              >
-                {sortedDisplayData[index]?.execution_estimate?.replace(
-                  "Midpoint",
-                  "Mid",
-                )}
-              </div>
-            {:else if column.key === "size"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {new Intl.NumberFormat("en", {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                }).format(sortedDisplayData[index]?.size)}
-              </div>
-            {:else if column.key === "vol"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {new Intl.NumberFormat("en", {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                }).format(sortedDisplayData[index]?.volume)}
-              </div>
-            {:else if column.key === "oi"}
-              <div
-                class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-              >
-                {new Intl.NumberFormat("en", {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                }).format(sortedDisplayData[index]?.open_interest)}
-              </div>
-            {/if}
-          {/each}
-        </div>
-      </svelte:fragment>
-    </VirtualList>
-  </div>
+      {#if !sortedDisplayData?.length}
+        <tr>
+          <td
+            colspan={columns.length}
+            class="py-6 text-center text-sm text-gray-800 dark:text-zinc-300"
+          >
+            {isLoading ? "Loading..." : "No data available"}
+          </td>
+        </tr>
+      {:else}
+        {#each sortedDisplayData as item, index}
+          {@const isLockedRow =
+            index + 1 === rawData?.length && data?.user?.tier !== "Pro"}
+          <tr
+            class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+            class:opacity-30={isLockedRow}
+          >
+            {#each columns as column}
+              {#if column.key === "time"}
+                <td class="text-end text-xs sm:text-sm whitespace-nowrap">
+                  {formatTime(item?.time)}
+                </td>
+              {:else if column.key === "ticker"}
+                <td
+                  on:click|stopPropagation
+                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap"
+                >
+                  <HoverStockChart
+                    symbol={item?.ticker}
+                    assetType={item?.underlying_type}
+                    optionSymbol={item?.option_symbol}
+                  />
+                </td>
+              {:else if column.key === "insight"}
+                <td
+                  on:click|stopPropagation={() => optionsInsight(item)}
+                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap"
+                >
+                  <Spark
+                    class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                  />
+                </td>
+              {:else if column.key === "expiry"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                  {reformatDate(item?.date_expiration)}
+                </td>
+              {:else if column.key === "dte"}
+                <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap">
+                  {item?.dte < 0 ? "expired" : item?.dte + "d"}
+                </td>
+              {:else if column.key === "strike"}
+                <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap">
+                  {item?.strike_price}
+                </td>
+              {:else if column.key === "callPut"}
+                <td
+                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap {item?.put_call === 'Calls'
+                    ? 'text-emerald-800 dark:text-emerald-400'
+                    : 'text-rose-800 dark:text-rose-400'}"
+                >
+                  {item?.put_call}
+                </td>
+              {:else if column.key === "sentiment"}
+                <td
+                  class="text-end text-sm sm:text-[1rem] whitespace-nowrap {item?.sentiment === 'Bullish'
+                    ? 'text-emerald-800 dark:text-emerald-400'
+                    : item?.sentiment === 'Bearish'
+                      ? 'text-rose-800 dark:text-rose-400'
+                      : 'text-orange-800 dark:text-[#C6A755]'}"
+                >
+                  {item?.sentiment}
+                </td>
+              {:else if column.key === "spot"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                  {item?.underlying_price}
+                </td>
+              {:else if column.key === "price"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                  {item?.price}
+                </td>
+              {:else if column.key === "premium"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                  {@html abbreviateNumber(item?.cost_basis, false, true)}
+                </td>
+              {:else if column.key === "type"}
+                <td
+                  class="text-end text-sm sm:text-[1rem] whitespace-nowrap {item?.option_activity_type === 'Sweep'
+                    ? 'text-gray-600 dark:text-[#C6A755]'
+                    : item?.option_activity_type === 'Block'
+                      ? 'text-gray-600 dark:text-[#FF6B6B]'
+                      : item?.option_activity_type === 'Large'
+                        ? 'text-gray-600 dark:text-[#4ECDC4]'
+                        : 'text-gray-600 dark:text-[#976DB7]'}"
+                >
+                  {item?.option_activity_type}
+                </td>
+              {:else if column.key === "leg"}
+                <td
+                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap {item?.trade_leg_type === 'multi-leg'
+                    ? 'text-gray-600 dark:text-[#FF9500]'
+                    : 'text-gray-600 dark:text-[#7B8794]'}"
+                >
+                  {item?.trade_leg_type === "multi-leg" ? "Multi" : "Single"}
+                </td>
+              {:else if column.key === "exec"}
+                <td
+                  class="text-end text-sm sm:text-[1rem] whitespace-nowrap {[
+                    'At Ask',
+                    'Above Ask',
+                  ]?.includes(item?.execution_estimate)
+                    ? 'text-gray-600 dark:text-[#C8A32D]'
+                    : ['At Bid', 'Below Bid']?.includes(item?.execution_estimate)
+                      ? 'text-gray-600 dark:text-[#8F82FE]'
+                      : 'text-gray-600 dark:text-[#A98184]'}"
+                >
+                  {item?.execution_estimate?.replace("Midpoint", "Mid")}
+                </td>
+              {:else if column.key === "size"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap tabular-nums">
+                  {new Intl.NumberFormat("en", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(item?.size)}
+                </td>
+              {:else if column.key === "vol"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap tabular-nums">
+                  {new Intl.NumberFormat("en", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(item?.volume)}
+                </td>
+              {:else if column.key === "oi"}
+                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap tabular-nums">
+                  {new Intl.NumberFormat("en", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(item?.open_interest)}
+                </td>
+              {/if}
+            {/each}
+          </tr>
+        {/each}
+      {/if}
+    </tbody>
+  </table>
 </div>
 
 <!-- Options Insight Modal -->

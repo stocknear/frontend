@@ -1,47 +1,18 @@
-export const load = async ({ locals }) => {
+export const load = async ({ locals, url }) => {
   const { apiURL, apiKey, pb, user, wsURL, fastifyURL } = locals;
 
   const getAllStrategies = async () => {
-      let output = [];
-
-       try {
-          output = await pb.collection("optionsFlow").getFullList({
-          filter: `user="${user?.id}"`,
-          });
-              output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
-
-      }
-      catch(e) {
-          output = [];
-      }
-
-
-      return output;
-    };
-
-  const getOptionsFlowFeed = async () => {
-    // Always use limit for Pro users - WebSocket will send remaining historical data
-    const isSubscriber = user?.tier === "Pro";
-    const limitParam = isSubscriber ? "?limit=5000&subscriber=Pro" : "?limit=0&subscriber=Free";
-
-    const response = await fetch(apiURL + "/options-flow-feed" + limitParam, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-    });
-
-    let output = await response.json();
-
-    const totalOrders = output?.totalOrders || 0;
-    
-    const data = output?.orders || [];
-
-    return { data, totalOrders };
-
-    };
-
+    let output = [];
+    try {
+      output = await pb.collection("optionsFlow").getFullList({
+        filter: `user="${user?.id}"`,
+      });
+      output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
+    } catch (e) {
+      output = [];
+    }
+    return output;
+  };
 
   const getOptionsWatchlist = async () => {
     let output;
@@ -55,13 +26,11 @@ export const load = async ({ locals }) => {
         output = { optionsId: [] };
       }
     } catch (e) {
-      //console.log(e)
       output = { optionsId: [] };
     }
     return output;
   };
 
-  // Generate WebSocket token for Pro users
   const getWsToken = async () => {
     if (user?.tier !== "Pro") {
       return null;
@@ -87,12 +56,61 @@ export const load = async ({ locals }) => {
     return null;
   };
 
-  const [getOptionsFlowFeedData, getOptionsWatchlistData, getAllStrategiesData, wsTokenData] = await Promise.all([
-    getOptionsFlowFeed(),
-    getOptionsWatchlist(),
+  // Fetch strategies, watchlist, WS token in parallel
+  const [getAllStrategiesData, getOptionsWatchlistData, wsTokenData] = await Promise.all([
     getAllStrategies(),
+    getOptionsWatchlist(),
     getWsToken(),
   ]);
+
+  // Build paginated request from URL params + saved strategy rules
+  const isSubscriber = user?.tier === "Pro";
+  const activeStrategy = getAllStrategiesData?.at(0);
+  const rules = activeStrategy?.rules || [];
+  const search = url.searchParams.get("query") || "";
+
+  const params = new URLSearchParams({
+    page: "1",
+    pageSize: "50",
+    sortKey: "time",
+    sortOrder: "desc",
+    subscriber: isSubscriber ? "Pro" : "Free",
+  });
+
+  if (search) {
+    params.set("search", search);
+  }
+
+  // Pass saved strategy rules to backend for server-side filtering
+  const activeRules = rules.filter((r: any) =>
+    r.value !== "any" && !(Array.isArray(r.value) && r.value.length === 1 && r.value[0] === "any")
+  );
+  if (activeRules.length > 0) {
+    params.set("rules", JSON.stringify(activeRules));
+  }
+
+  const getOptionsFlowFeed = async () => {
+    try {
+      const response = await fetch(`${apiURL}/options-flow-feed?${params.toString()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": apiKey,
+        },
+      });
+
+      if (!response.ok) {
+        return { items: [], total: 0, page: 1, pageSize: 50, sort: { key: "time", order: "desc" }, stats: null };
+      }
+
+      return await response.json();
+    } catch (e) {
+      console.error("Failed to fetch options flow feed:", e);
+      return { items: [], total: 0, page: 1, pageSize: 50, sort: { key: "time", order: "desc" }, stats: null };
+    }
+  };
+
+  const getOptionsFlowFeedData = await getOptionsFlowFeed();
 
   return {
     getOptionsFlowFeed: getOptionsFlowFeedData,

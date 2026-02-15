@@ -84,84 +84,200 @@
   } from "$lib/paraglide/messages";
 
   import { page } from "$app/stores";
+  import { browser } from "$app/environment";
 
   import OptionsFlowTable from "$lib/components/Table/OptionsFlowTable.svelte";
   import OptionsFlowExport from "$lib/components/OptionsFlowExport.svelte";
-  import { writable } from "svelte/store";
+
+  // Server-side pagination state (initialized after `export let data`)
+  let currentPage;
+  let rowsPerPage;
+  let totalItems;
+  let totalPages;
+  let activeSortKey;
+  let activeSortOrder;
+  let requestId = 0;
+  let isFetchingPage = false;
+
+  function applyServerStats(stats) {
+    if (!stats) return;
+    displayCallVolume = stats.callVolumeSum || 0;
+    displayPutVolume = stats.putVolumeSum || 0;
+    displayCallPremium = stats.callPremiumSum || 0;
+    displayPutPremium = stats.putPremiumSum || 0;
+    displayBullishPremium = stats.bullishPremiumSum || 0;
+    displayBearishPremium = stats.bearishPremiumSum || 0;
+
+    const bCount = stats.bullishCount || 0;
+    const beCount = stats.bearishCount || 0;
+    const nCount = stats.neutralCount || 0;
+
+    if (bCount > beCount) flowSentiment = "Bullish";
+    else if (bCount < beCount) flowSentiment = "Bearish";
+    else if (nCount > beCount && nCount > bCount) flowSentiment = "Neutral";
+    else flowSentiment = "-";
+
+    putCallRatio = displayCallVolume !== 0 ? displayPutVolume / displayCallVolume : 0;
+    callPercentage = displayCallVolume + displayPutVolume !== 0
+      ? Math.floor((displayCallVolume / (displayCallVolume + displayPutVolume)) * 100) : 0;
+    putPercentage = displayCallVolume + displayPutVolume !== 0 ? 100 - callPercentage : 0;
+
+    const totalSentimentPremium = displayBullishPremium + displayBearishPremium;
+    bullishPercentage = totalSentimentPremium !== 0
+      ? Math.round((displayBullishPremium / totalSentimentPremium) * 100) : 0;
+    bearishPercentage = totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
+  }
+
+  function buildActiveRules() {
+    return ruleOfList.filter(
+      (r) => r.value !== "any" && !(Array.isArray(r.value) && r.value.length === 1 && r.value[0] === "any")
+    );
+  }
+
+  async function fetchTableData({
+    page = currentPage,
+    pageSize = rowsPerPage,
+    sortKey = activeSortKey,
+    sortOrder = activeSortOrder,
+  } = {}) {
+    const invocationId = ++requestId;
+    const params = new URLSearchParams({
+      page: String(page),
+      pageSize: String(pageSize),
+      sortKey,
+      sortOrder,
+    });
+    if (filterQuery) params.set("search", filterQuery);
+    const activeRules = buildActiveRules();
+    if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+
+    isFetchingPage = true;
+    try {
+      const response = await fetch(`/api/options-flow-feed?${params}`);
+      const result = await response.json();
+      if (invocationId !== requestId) return;
+
+      displayedData = prepareInitialFlowData(result.items || []);
+      rawData = displayedData;
+      totalItems = result.total ?? 0;
+      currentPage = result.page ?? page;
+      rowsPerPage = result.pageSize ?? pageSize;
+      totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+      activeSortKey = sortKey;
+      activeSortOrder = sortOrder;
+      if (result.stats) applyServerStats(result.stats);
+    } catch (e) {
+      console.error("fetchTableData error:", e);
+    } finally {
+      if (invocationId === requestId) isFetchingPage = false;
+    }
+    isLoaded = true;
+  }
+
+  const rowsPerPageOptions = [20, 50, 100];
+
+  function handleServerSort(key, order) {
+    fetchTableData({ page: 1, sortKey: key, sortOrder: order });
+  }
+
+  function goToPage(pageNumber) {
+    if (pageNumber < 1 || pageNumber > totalPages || isFetchingPage) return;
+    fetchTableData({ page: pageNumber });
+  }
+
+  function changeRowsPerPage(newSize) {
+    if (rowsPerPage === newSize || isFetchingPage) return;
+    saveRowsPerPage(newSize);
+    fetchTableData({ page: 1, pageSize: newSize });
+  }
+
+  function scrollToTop() {
+    if (!browser) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function saveRowsPerPage(value) {
+    if (!browser) return;
+    try {
+      localStorage.setItem("/options-flow_rowsPerPage", String(value));
+    } catch (e) { /* ignore */ }
+  }
+
+  function loadRowsPerPage() {
+    if (!browser) return rowsPerPage;
+    try {
+      const saved = localStorage.getItem("/options-flow_rowsPerPage");
+      const parsed = saved ? Number(saved) : NaN;
+      if (rowsPerPageOptions.includes(parsed)) return parsed;
+    } catch (e) { /* ignore */ }
+    return 50;
+  }
+
+  function buildWsFilters() {
+    const filters: Record<string, any> = {};
+    if (filterQuery) filters.tickers = filterQuery;
+    for (const rule of ruleOfList || []) {
+      if (["put_call", "sentiment", "option_activity_type", "underlying_type", "trade_leg_type", "execution_estimate"].includes(rule.name) && Array.isArray(rule.value)) {
+        filters[rule.name] = rule.value;
+      }
+      if (rule.name === "cost_basis" && rule.condition === "over" && rule.value) {
+        const cleaned = String(rule.value).replace(/[%$,]/g, "").trim().toUpperCase();
+        const multipliers = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
+        const suffix = cleaned.slice(-1);
+        const v = multipliers[suffix] ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix] : parseFloat(cleaned) || 0;
+        if (v > 0) filters.min_cost_basis = v;
+      }
+      if (rule.name === "size" && rule.condition === "over" && rule.value) {
+        const cleaned = String(rule.value).replace(/[%$,]/g, "").trim().toUpperCase();
+        const multipliers = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
+        const suffix = cleaned.slice(-1);
+        const v = multipliers[suffix] ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix] : parseFloat(cleaned) || 0;
+        if (v > 0) filters.min_size = v;
+      }
+    }
+    return filters;
+  }
+
+  function sendFiltersToWebSocket() {
+    if (socket?.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: "filters", filters: buildWsFilters() }));
+    }
+  }
 
   // Column reordering bindings
   let optionsFlowResetColumnOrder: () => void;
   let customColumnOrder: string[] = [];
   let isFullWidth = false;
 
-  // Table search functionality
-  let tableSearchValue = "";
-  let tableSearchDisplayedData = [];
+  // Table search timeout for debouncing
   let tableSearchTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  function tableSearch() {
-    if (tableSearchValue?.length > 0) {
-      // Support comma-separated tickers and exclusions (e.g., "AMD,-SPY,TSLA")
-      const searchTokens = tableSearchValue
-        ?.split(",")
-        ?.map((t) => t?.trim())
-        ?.filter((t) => t?.length > 0);
-
-      const includeTickers = [];
-      const excludeTickers = [];
-
-      searchTokens?.forEach((token) => {
-        if (token?.startsWith("-") && token?.length > 1) {
-          excludeTickers.push(token.slice(1).toUpperCase());
-        } else {
-          includeTickers.push(token?.toUpperCase());
-        }
-      });
-
-      tableSearchDisplayedData = displayedData?.filter((item) => {
-        const itemTicker = item?.ticker?.toUpperCase();
-        if (!itemTicker) return false;
-        if (excludeTickers?.includes(itemTicker)) return false;
-        if (includeTickers?.length > 0) {
-          return includeTickers?.includes(itemTicker);
-        }
-        return true;
-      });
-    } else {
-      tableSearchDisplayedData = displayedData;
-    }
-    // Update summary widgets to reflect the filtered table data
-    calculateStats(tableSearchDisplayedData);
-  }
-
-  function debouncedTableSearch() {
+  function debouncedServerSearch(event) {
+    filterQuery = event.target.value;
     if (tableSearchTimeout) {
       clearTimeout(tableSearchTimeout);
     }
-    tableSearchTimeout = setTimeout(tableSearch, 100);
+    tableSearchTimeout = setTimeout(() => {
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
+    }, 300);
   }
 
-  function resetTableSearch() {
-    tableSearchValue = "";
-    tableSearchDisplayedData = displayedData;
-    // Reset stats to show data for all displayed results
-    calculateStats(tableSearchDisplayedData);
-  }
-
-  // Keep tableSearchDisplayedData in sync with displayedData and recalculate stats
-  $: if (displayedData) {
-    if (tableSearchValue?.length > 0) {
-      tableSearch(); // tableSearch() calls calculateStats internally
-    } else {
-      tableSearchDisplayedData = displayedData;
-      // Recalculate stats when no search filter is active
-      calculateStats(tableSearchDisplayedData);
-    }
+  function resetSearch() {
+    filterQuery = "";
+    fetchTableData({ page: 1 });
+    sendFiltersToWebSocket();
   }
 
   export let data;
-  let shouldLoadWorker = writable(false);
-  let workerSubscription: (() => void) | null = null;
+
+  // Initialize pagination state from SSR data
+  currentPage = data?.getOptionsFlowFeed?.page ?? 1;
+  rowsPerPage = data?.getOptionsFlowFeed?.pageSize ?? 50;
+  totalItems = data?.getOptionsFlowFeed?.total ?? 0;
+  totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+  activeSortKey = data?.getOptionsFlowFeed?.sort?.key ?? "time";
+  activeSortOrder = data?.getOptionsFlowFeed?.sort?.order ?? "desc";
 
   let timeoutId = null;
   let isComponentDestroyed = false;
@@ -191,7 +307,6 @@
   let filterQuery =
     data?.user?.tier === "Pro" ? $page.url.searchParams.get("query") || "" : "";
 
-  let syncWorker: Worker | undefined;
   let ruleName = "";
   let searchTerm = "";
   let showFilters = true;
@@ -436,13 +551,6 @@
     }, 150); // Small delay to allow click events
   };
 
-  let sortWorker: Worker | undefined;
-  let sortWorkerMessageId = 0;
-  const sortWorkerJobs = new Map<
-    number,
-    { resolve: (value: any[]) => void; reject: (reason?: unknown) => void }
-  >();
-
   const sanitizeFlowEntries = (entries: any[] = []) => {
     if (!Array.isArray(entries)) {
       return [];
@@ -511,98 +619,8 @@
     return deduped;
   };
 
-  const calculateTimeRank = (item: any) => {
-    if (!item || typeof item !== "object") {
-      return 0;
-    }
-
-    const dateValue =
-      typeof item.date === "string"
-        ? Number(item.date.replaceAll("-", "")) || 0
-        : 0;
-    const [hours = 0, minutes = 0, seconds = 0] =
-      typeof item.time === "string"
-        ? item.time.split(":").map((value) => Number(value) || 0)
-        : [];
-    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-
-    return dateValue * 100000 + totalSeconds;
-  };
-
-  const compareTimeDesc = (a: any, b: any) =>
-    calculateTimeRank(b) - calculateTimeRank(a);
-
-  const fallbackSort = (entries: any[] = []) =>
-    Array.isArray(entries) ? entries.slice().sort(compareTimeDesc) : [];
-
-  function enqueueSortJob(entries: any[]): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      if (!sortWorker) {
-        resolve(fallbackSort(entries));
-        return;
-      }
-      const jobId = ++sortWorkerMessageId;
-      sortWorkerJobs.set(jobId, { resolve, reject });
-      sortWorker.postMessage({
-        id: jobId,
-        data: entries,
-        key: "time",
-        direction: "desc",
-      });
-    });
-  }
-
-  function rejectPendingSortJobs(reason: unknown) {
-    sortWorkerJobs.forEach(({ reject }) => reject(reason));
-    sortWorkerJobs.clear();
-  }
-
-  async function sortFlowEntries(entries: any[] = []) {
-    if (!Array.isArray(entries) || entries.length <= 1) {
-      return entries ?? [];
-    }
-
-    if (!sortWorker) {
-      return fallbackSort(entries);
-    }
-
-    try {
-      return await enqueueSortJob(entries);
-    } catch (error) {
-      console.error("Options flow sorting worker fallback:", error);
-      return fallbackSort(entries);
-    }
-  }
-
-  async function replaceRawData(entries: any[] = []) {
-    if (!Array.isArray(entries) || entries.length === 0) {
-      rawData = [];
-      return rawData;
-    }
-    const prepared = dedupeFlowEntries(
-      attachDerivedMetrics(sanitizeFlowEntries(entries)),
-    );
-    rawData = await sortFlowEntries(prepared);
-    return rawData;
-  }
-
-  async function mergeRawData(entries: any[] = []) {
-    if (!Array.isArray(entries) || entries.length === 0) {
-      return rawData ?? [];
-    }
-    const incoming = attachDerivedMetrics(sanitizeFlowEntries(entries));
-    const combined = dedupeFlowEntries([
-      ...incoming,
-      ...(Array.isArray(rawData) ? rawData : []),
-    ]);
-    rawData = await sortFlowEntries(combined);
-    return rawData;
-  }
-
   const prepareInitialFlowData = (entries: any[] = []) =>
-    fallbackSort(
-      dedupeFlowEntries(attachDerivedMetrics(sanitizeFlowEntries(entries))),
-    );
+    dedupeFlowEntries(attachDerivedMetrics(sanitizeFlowEntries(entries)));
 
   async function handleDeleteRule(state) {
     // Find the index of the rule to be deleted or updated
@@ -660,7 +678,8 @@
       displayRules = allRows?.filter((row) =>
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
-      shouldLoadWorker.set(true);
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
     }
   }
 
@@ -679,7 +698,8 @@
     displayRules = allRows?.filter((row) =>
       ruleOfList.some((rule) => rule.name === row.rule),
     );
-    displayedData = [...rawData];
+    fetchTableData({ page: 1 });
+    sendFiltersToWebSocket();
   }
 
   async function applyPopularStrategy(state: string) {
@@ -788,7 +808,8 @@
         ]),
     );
 
-    shouldLoadWorker.set(true);
+    fetchTableData({ page: 1 });
+    sendFiltersToWebSocket();
   }
 
   function changeRule(state: string) {
@@ -831,8 +852,9 @@
         ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
     );
 
-    // Trigger the filter system
-    shouldLoadWorker.set(true);
+    // Trigger server-side fetch with new rules
+    fetchTableData({ page: 1 });
+    sendFiltersToWebSocket();
   }
 
   async function handleCreateStrategy() {
@@ -900,8 +922,9 @@
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
-      // Trigger the filter system
-      shouldLoadWorker.set(true);
+      // Trigger server-side fetch with new rules
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
 
       // return something if you need to chain further
       return true;
@@ -1025,8 +1048,9 @@
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
-      // Trigger the filter system
-      shouldLoadWorker.set(true);
+      // Trigger server-side fetch with new rules
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
 
       return output;
     })();
@@ -1150,55 +1174,23 @@
         displayRules = allRows?.filter((row) =>
           ruleOfList.some((rule) => rule.name === row.rule),
         );
+        fetchTableData({ page: 1 });
+        sendFiltersToWebSocket();
       } else {
         ruleOfList[existingRuleIndex] = newRule;
         ruleOfList = [...ruleOfList]; // Trigger reactivity
+        fetchTableData({ page: 1 });
+        sendFiltersToWebSocket();
       }
     } else {
       ruleOfList = [...ruleOfList, newRule];
-
-      shouldLoadWorker.set(true);
+      displayRules = allRows?.filter((row) =>
+        ruleOfList.some((rule) => rule.name === row.rule),
+      );
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
     }
   }
-
-  const loadWorker = async () => {
-    if (!syncWorker) {
-      return;
-    }
-    syncWorker.postMessage({ rawData, ruleOfList, filterQuery });
-  };
-
-  const handleMessage = (event) => {
-    isLoaded = false;
-    displayRules = allRows?.filter((row) =>
-      ruleOfList?.some((rule) => rule.name === row.rule),
-    );
-    filteredData = event.data?.filteredData || [];
-    displayedData = [...filteredData];
-    console.log("handle Message");
-    calculateStats(displayedData);
-
-    // Check if any pending new items passed the filters - only then play audio
-    if (pendingNewItemIds.size > 0 && !muted && audio) {
-      const hasNewFilteredItems = filteredData.some((item) =>
-        pendingNewItemIds.has(item?.id),
-      );
-
-      if (hasNewFilteredItems) {
-        console.log("New items passed filters - playing audio alert");
-        audio?.play()?.catch((error) => {
-          console.log("Audio play failed:", error);
-        });
-      } else {
-        console.log("No new items passed filters - skipping audio");
-      }
-
-      // Clear pending IDs after processing
-      pendingNewItemIds = new Set();
-    }
-
-    isLoaded = true;
-  };
 
   async function changeRuleCondition(name: string, state: string) {
     ruleName = name;
@@ -1319,8 +1311,9 @@
       ruleOfList = [...ruleOfList];
     }
 
-    // Trigger worker load
-    shouldLoadWorker.set(true);
+    // Trigger server-side fetch
+    fetchTableData({ page: 1 });
+    sendFiltersToWebSocket();
   }
 
   async function stepSizeValue(value, condition) {
@@ -1356,15 +1349,12 @@
     new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
   )?.getTime();
 
-  const initialFeed = data?.getOptionsFlowFeed?.data ?? [];
-  const totalOrders = data?.getOptionsFlowFeed?.totalOrders ?? 0;
-  const dateString = initialFeed?.at(0)?.date;
-  const nyseDate = new Date(`${dateString}T12:00:00Z`);
-  const formattedNyseDate = nyseDate.toISOString().split("T")[0];
+  const initialFeed = data?.getOptionsFlowFeed?.items ?? [];
+  const initialStats = data?.getOptionsFlowFeed?.stats ?? null;
 
   let rawData = prepareInitialFlowData(initialFeed);
 
-  let displayedData = [];
+  let displayedData = [...rawData];
 
   let flowSentiment;
   let putCallRatio;
@@ -1381,10 +1371,8 @@
 
   let audio;
   let muted = false;
-  let pendingNewItemIds: Set<string> = new Set(); // Track new item IDs from WebSocket for filtered audio alerts
   let notFound = false;
   let isLoaded = false;
-  let historicalDataLoaded = false;
 
   // Pro users start with modeStatus=true to fetch historical data via WebSocket
   // When market is closed, WebSocket disconnects after historical data is received
@@ -1404,12 +1392,10 @@
       if (data?.user?.tier === "Pro") {
         modeStatus = !modeStatus;
         if (modeStatus === true) {
-          // Switching to live mode
+          // Switching to live mode — re-fetch current page from server
           if (selectedDate !== undefined) {
             selectedDate = undefined;
-            await replaceRawData(data?.getOptionsFlowFeed?.data ?? []);
-            displayedData = [...rawData];
-            shouldLoadWorker.set(true);
+            await fetchTableData({ page: 1 });
           }
           console.log("Switching to live mode - connecting WebSocket");
           connectWebSocket();
@@ -1492,11 +1478,10 @@
         console.log("Options Flow WebSocket connection opened");
         reconnectAttempts = 0;
 
-        // Send initial orderList
-        const orderList = rawData?.map((item) => item?.id) || [];
+        // Send init with filters — server marks all current cache items as "already sent"
         const message = {
           type: "init",
-          orderList: orderList,
+          filters: buildWsFilters(),
         };
         socket.send(JSON.stringify(message));
       });
@@ -1505,90 +1490,28 @@
         try {
           const message = JSON.parse(event.data);
 
-          // Handle historical data batches (sent on init for fast load optimization)
-          if (message?.type === "historical" && Array.isArray(message?.data)) {
-            console.log(
-              `Receiving historical data: ${message.progress}% complete, batch size: ${message.data.length}`,
-            );
-
-            rawData = await mergeRawData(message.data);
-
-            // Only update UI on last batch or periodically to avoid jank
-            if (message.isComplete) {
-              console.log("Historical data loading complete");
-              // Update the orderList to include all items
-              const updatedOrderList = rawData?.map((item) => item?.id) || [];
-              const updateMessage = {
-                type: "update",
-                orderList: updatedOrderList,
-              };
-              socket.send(JSON.stringify(updateMessage));
-
-              // Process filters if needed
-              if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
-                shouldLoadWorker.set(true);
-              } else {
-                displayedData = [...rawData];
-                calculateStats(displayedData);
-              }
-
-              // Mark historical data as loaded
-              historicalDataLoaded = true;
-
-              // If market is closed, disconnect after getting historical data
-              if (!$isOpen) {
-                console.log(
-                  "Market closed - disconnecting WebSocket after historical data",
-                );
-                modeStatus = false;
-                disconnectWebSocket();
-              }
-            }
-            return;
-          }
-
-          // Handle live updates (regular array format)
+          // Handle live updates only (array of new trades)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
-            console.log(
-              "Received new options flow data, length:",
-              newData.length,
-            );
+            // Safety: if server accidentally sends a huge batch, refresh from API instead
+            if (newData.length > 200) {
+              console.warn("WebSocket sent large batch (" + newData.length + " items), refreshing from API");
+              await fetchTableData();
+              return;
+            }
 
-            // Store new item IDs before merging (for filtered audio alerts)
-            const newItemIds = new Set(
-              newData.map((item) => item?.id).filter(Boolean),
-            );
+            console.log("Received new live trades:", newData.length);
 
-            rawData = await mergeRawData(newData);
+            // Prepend new trades to the current page display
+            const prepared = prepareInitialFlowData(newData);
+            displayedData = [...prepared, ...displayedData];
+            rawData = displayedData;
 
-            // Update the orderList to include new items
-            const updatedOrderList = rawData?.map((item) => item?.id) || [];
-            const updateMessage = {
-              type: "update",
-              orderList: updatedOrderList,
-            };
-            socket.send(JSON.stringify(updateMessage));
-
-            // Process filters if needed
-            if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
-              // Store pending new item IDs - audio will play in handleMessage if any pass filters
-              pendingNewItemIds = newItemIds;
-              shouldLoadWorker.set(true);
-              console.log("Should load worker set to true");
-            } else {
-              // No filters active - play audio immediately for any new data
-              displayedData = [...rawData];
-              calculateStats(displayedData);
-              console.log("Updating displayedData and calculating stats");
-
-              // Play notification sound (no filters = all new data is relevant)
-              if (!muted && audio) {
-                console.log("Attempting to play audio (no filters active)...");
-                audio?.play()?.catch((error) => {
-                  console.log("Audio play failed:", error);
-                });
-              }
+            // Play notification sound for new live trades
+            if (!muted && audio) {
+              audio?.play()?.catch((error) => {
+                console.log("Audio play failed:", error);
+              });
             }
           }
         } catch (error) {
@@ -1708,70 +1631,24 @@
 
     audio = new Audio(notifySound);
 
-    if (!sortWorker) {
-      const SortingWorker = await import("./workers/sortingWorker?worker");
-      sortWorker = new SortingWorker.default();
-      sortWorker.onmessage = (event) => {
-        const { id, sortedData } = event.data || {};
-        if (typeof id === "number" && sortWorkerJobs.has(id)) {
-          sortWorkerJobs.get(id)?.resolve(sortedData ?? []);
-          sortWorkerJobs.delete(id);
-        }
-      };
-      sortWorker.onerror = (error) => {
-        console.error("Options Flow sorting worker error:", error);
-        rejectPendingSortJobs(error);
-      };
+    // Apply server stats from SSR data
+    if (initialStats) {
+      applyServerStats(initialStats);
     }
 
-    if (!syncWorker) {
-      const SyncWorker = await import("./workers/filterWorker?worker");
-      syncWorker = new SyncWorker.default();
-      syncWorker.onmessage = handleMessage;
+    // Load saved rows per page preference
+    const storedRows = loadRowsPerPage();
+    if (storedRows !== rowsPerPage) {
+      changeRowsPerPage(storedRows);
     }
-
-    rawData = await sortFlowEntries(rawData);
-
-    if (filterQuery?.length > 0 || ruleOfList?.length !== 0) {
-      // Use non-debounced version for immediate initial load
-    } else {
-      // If no initial filter, set displayedData directly and mark as loaded
-      displayedData = [...rawData];
-      calculateStats(rawData);
-    }
-
-    await loadWorker();
-
-    // Only schedule polling for non-Pro users
-    if (data?.user?.tier !== "Pro") {
-      scheduleNextUpdate(0); // Start polling immediately if market is open for non-Pro users
-    }
-
-    workerSubscription = shouldLoadWorker.subscribe(async (value) => {
-      if (value) {
-        await loadWorker();
-        shouldLoadWorker.set(false); // Reset after worker is loaded
-      }
-    });
 
     isLoaded = true;
   });
 
   onDestroy(async () => {
-    // --- Set the flag on destroy ---
     isComponentDestroyed = true;
-    // --- Clear any pending timeout on destroy ---
     clearScheduledUpdate();
-    // --- Disconnect WebSocket on destroy ---
     disconnectWebSocket();
-    workerSubscription?.();
-    workerSubscription = null;
-
-    if (sortWorker) {
-      sortWorker.terminate();
-      rejectPendingSortJobs(new Error("Sorting worker terminated"));
-      sortWorker = undefined;
-    }
 
     if (audio) {
       audio?.pause();
@@ -1864,83 +1741,65 @@
   }
 
   const getHistoricalFlow = async () => {
-    // Create a delay using setTimeout wrapped in a Promise
     if (data?.user?.tier === "Pro") {
       modeStatus = false;
       isLoaded = false;
 
       // Disconnect WebSocket when viewing historical data
-      console.log("Viewing historical data - disconnecting WebSocket");
       disconnectWebSocket();
 
       displayRules = allRows?.filter((row) =>
         ruleOfList.some((rule) => rule.name === row.rule),
       );
       displayedData = [];
-      calculateStats(displayedData);
 
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      // Make the POST request after the delay
       const convertDate = new Date(df.format(selectedDate?.toDate()));
       const year = convertDate?.getFullYear();
       const month = String(convertDate?.getMonth() + 1).padStart(2, "0");
       const day = String(convertDate?.getDate()).padStart(2, "0");
       const formattedDate = `${year}-${month}-${day}`;
 
-      if (formattedDate === formattedNyseDate) {
-        await replaceRawData(data?.getOptionsFlowFeed?.data ?? []);
-        if (rawData?.length !== 0) {
-          shouldLoadWorker.set(true);
-        }
-      } else {
-        const postData = { selectedDate: formattedDate };
+      try {
+        const activeRules = buildActiveRules();
+        const postData = {
+          selectedDate: formattedDate,
+          rules: activeRules,
+          tickers: filterQuery || "",
+          page: 1,
+          pageSize: rowsPerPage,
+          sortKey: activeSortKey,
+          sortOrder: activeSortOrder,
+        };
 
-        try {
-          const response = await fetch("/api/options-historical-flow", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postData),
-          });
+        const response = await fetch("/api/options-historical-flow", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData),
+        });
 
-          const historicalData = await response?.json();
-          await replaceRawData(historicalData ?? []);
-          if (rawData?.length !== 0) {
-            shouldLoadWorker.set(true);
-          }
-        } catch (error) {
-          console.error("Error fetching historical flow:", error);
-          rawData = [];
-        } finally {
-          isLoaded = true;
+        const result = await response?.json();
+        displayedData = prepareInitialFlowData(result.items || []);
+        rawData = displayedData;
+        totalItems = result.total ?? 0;
+        currentPage = result.page ?? 1;
+        totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+
+        if (result.stats) {
+          applyServerStats(result.stats);
         }
+      } catch (error) {
+        console.error("Error fetching historical flow:", error);
+        rawData = [];
+        displayedData = [];
+      } finally {
+        isLoaded = true;
       }
     } else {
       goto("/pricing");
     }
   };
-
-  function handleInput(event) {
-    filterQuery = event.target.value;
-
-    setTimeout(() => {
-      shouldLoadWorker.set(true);
-    }, 0);
-  }
-
-  function debounce(fn, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        fn.apply(this, args);
-      }, delay);
-    };
-  }
-
-  const debouncedHandleInput = debounce(handleInput, 300);
 
   $: {
     if (searchTerm) {
@@ -1950,17 +1809,6 @@
     }
   }
 
-  $: {
-    if (ruleOfList) {
-      const ruleToUpdate = ruleOfList?.find((rule) => rule?.name === ruleName);
-      if (ruleToUpdate) {
-        ruleToUpdate.value = valueMappings[ruleToUpdate.name];
-        ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
-        ruleOfList = [...ruleOfList];
-        //shouldLoadWorker.set(true);
-      }
-    }
-  }
 </script>
 
 <SEO
@@ -2933,7 +2781,6 @@
         </div>
 
         {#if isLoaded}
-          {#if displayedData?.length > 0}
             <div class="w-full mt-5 m-auto flex justify-center items-center">
               <div
                 class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3"
@@ -3348,12 +3195,7 @@
                 <h2
                   class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {(data?.user?.tier === "Pro"
-                    ? tableSearchValue?.length > 0
-                      ? tableSearchDisplayedData?.length
-                      : displayedData?.length
-                    : totalOrders
-                  )?.toLocaleString("en-US")} Trades
+                  {totalItems?.toLocaleString("en-US")} Trades
                 </h2>
               </div>
               <div
@@ -3366,10 +3208,10 @@
                   <div
                     class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                   >
-                    {#if tableSearchValue?.length > 0}
+                    {#if filterQuery?.length > 0}
                       <label
                         class="cursor-pointer"
-                        on:click={() => resetTableSearch()}
+                        on:click={() => resetSearch()}
                       >
                         <svg
                           class="w-5 h-5"
@@ -3386,8 +3228,8 @@
                   </div>
 
                   <input
-                    bind:value={tableSearchValue}
-                    on:input={debouncedTableSearch}
+                    bind:value={filterQuery}
+                    on:input={debouncedServerSearch}
                     type="text"
                     placeholder={options_flow_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
@@ -3399,7 +3241,7 @@
                 <div class="ml-2 w-fit flex items-center justify-end gap-2">
                   <OptionsFlowExport
                     {data}
-                    rawData={tableSearchDisplayedData}
+                    rawData={displayedData}
                     {selectedDate}
                   />
 
@@ -3476,33 +3318,159 @@
             </div>
 
             <!-- Page wrapper -->
-            {#if tableSearchDisplayedData?.length > 0}
-              <div class="flex w-full m-auto h-full overflow-hidden">
-                <div class="mt-3 w-full overflow-x-auto overflow-hidden">
-                  <OptionsFlowTable
-                    {data}
-                    {optionsWatchlist}
-                    displayedData={tableSearchDisplayedData}
-                    {filteredData}
-                    {rawData}
-                    bind:resetColumnOrder={optionsFlowResetColumnOrder}
-                    bind:customColumnOrder
-                  />
-                  <div class="-mt-3">
-                    <UpgradeToPro {data} display={true} />
+            <div class="flex w-full m-auto h-full overflow-hidden">
+              <div class="mt-3 w-full overflow-x-auto overflow-hidden">
+                <OptionsFlowTable
+                  {data}
+                  {optionsWatchlist}
+                  displayedData={displayedData}
+                  {filteredData}
+                  {rawData}
+                  isLoading={isFetchingPage}
+                  onSort={handleServerSort}
+                  bind:resetColumnOrder={optionsFlowResetColumnOrder}
+                  bind:customColumnOrder
+                />
+
+                <!-- Pagination Controls (hedge-funds style) -->
+                {#if data?.user?.tier === "Pro" && totalItems > 0}
+                  <div
+                    class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+                  >
+                    <!-- Previous button -->
+                    <div class="flex items-center gap-2">
+                      <Button
+                        on:click={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1 || isFetchingPage}
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        <svg
+                          class="h-5 w-5 inline-block shrink-0 rotate-90"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                        <span class="hidden sm:inline">Previous</span>
+                      </Button>
+                    </div>
+
+                    <!-- Page info and rows selector in center -->
+                    <div class="flex flex-row items-center gap-4">
+                      <span class="text-sm text-gray-600 dark:text-zinc-300">
+                        Page {currentPage} of {totalPages}
+                      </span>
+
+                      <DropdownMenu.Root>
+                        <DropdownMenu.Trigger asChild let:builder>
+                          <Button
+                            builders={[builder]}
+                            class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          >
+                            <span class="truncate text-[0.85rem] sm:text-sm"
+                              >Rows: {rowsPerPage}</span
+                            >
+                            <svg
+                              class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width:40px"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </Button>
+                        </DropdownMenu.Trigger>
+
+                        <DropdownMenu.Content
+                          side="bottom"
+                          align="end"
+                          sideOffset={10}
+                          alignOffset={0}
+                          class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        >
+                          <DropdownMenu.Group class="pb-2">
+                            {#each rowsPerPageOptions as item}
+                              <DropdownMenu.Item
+                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              >
+                                <label
+                                  on:click={() => changeRowsPerPage(item)}
+                                  class="inline-flex justify-between w-full items-center cursor-pointer"
+                                >
+                                  <span class="text-sm">Rows: {item}</span>
+                                </label>
+                              </DropdownMenu.Item>
+                            {/each}
+                          </DropdownMenu.Group>
+                        </DropdownMenu.Content>
+                      </DropdownMenu.Root>
+                    </div>
+
+                    <!-- Next button -->
+                    <div class="flex items-center gap-2">
+                      <Button
+                        on:click={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages || isFetchingPage}
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        <span class="hidden sm:inline">Next</span>
+                        <svg
+                          class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </Button>
+                    </div>
                   </div>
+
+                  <!-- Back to Top button -->
+                  <div class="flex justify-center mt-4">
+                    <button
+                      on:click={scrollToTop}
+                      class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    >
+                      Back to Top
+                      <svg
+                        class="h-5 w-5 inline-block shrink-0 rotate-180"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                {/if}
+
+                <div class="-mt-3">
+                  <UpgradeToPro {data} display={true} />
                 </div>
               </div>
-            {:else}
-              <Infobox
-                text={options_flow_no_trades_query({
-                  query: tableSearchValue,
-                })}
-              />
-            {/if}
-          {:else}
-            <Infobox text={options_flow_no_data_filters()} />
-          {/if}
+            </div>
         {:else}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
