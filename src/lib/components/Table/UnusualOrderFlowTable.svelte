@@ -435,7 +435,9 @@
           >
             {#each columns as column (column.key)}
               {#if column.key === "date"}
-                <td class="text-left text-xs sm:text-sm whitespace-nowrap text-gray-500 dark:text-zinc-400 tabular-nums">
+                <td
+                  class="text-left text-sm whitespace-nowrap text-gray-500 dark:text-zinc-400 tabular-nums"
+                >
                   {formatToNewYorkTime(item?.date)}
                 </td>
               {:else if column.key === "ticker"}
@@ -449,39 +451,41 @@
                   />
                 </td>
               {:else if column.key === "price"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {item?.price}
                 </td>
               {:else if column.key === "premium"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {abbreviateNumber(item?.premium, true, true)}
                 </td>
               {:else if column.key === "size"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   }).format(item?.size)}
                 </td>
               {:else if column.key === "volume"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {item?.volume?.toLocaleString("en-US")}
                 </td>
               {:else if column.key === "sizeVolRatio"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {item?.sizeVolRatio > 0.01
                     ? item?.sizeVolRatio?.toFixed(2) + "%"
                     : "< 0.01%"}
                 </td>
               {:else if column.key === "sizeAvgVolRatio"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {item?.sizeAvgVolRatio > 0.01
                     ? item?.sizeAvgVolRatio?.toFixed(2) + "%"
                     : "< 0.01%"}
                 </td>
               {:else if column.key === "transactionType"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap">
-                  <span class="inline-flex items-center justify-end gap-2 w-full">
+                <td class="text-end text-sm whitespace-nowrap">
+                  <span
+                    class="inline-flex items-center justify-end gap-2 w-full"
+                  >
                     <span
                       class={`h-1.5 w-1.5 rounded-full ${
                         isDarkPool
@@ -493,11 +497,11 @@
                   </span>
                 </td>
               {:else if column.key === "exchange"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.exchange}
                 </td>
               {:else if column.key === "assetType"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.assetType}
                 </td>
               {/if}

@@ -1036,54 +1036,24 @@
   let unusualOrderFlowResetColumnOrder: () => void;
   let customColumnOrder = false;
 
-  // Table search
-  let tableSearchValue = "";
-  let tableSearchDisplayedData: any[] = [];
+  // Table search (server-side, like options-flow)
   let tableSearchTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  function tableSearch() {
-    if (!tableSearchValue?.trim()) {
-      tableSearchDisplayedData = [];
-      return;
-    }
-    // Support comma-separated tickers and exclusions (e.g., "AMD,-SPY,TSLA")
-    const searchTokens = tableSearchValue
-      ?.split(",")
-      ?.map((t) => t?.trim())
-      ?.filter((t) => t?.length > 0);
-
-    const includeTickers = [];
-    const excludeTickers = [];
-
-    searchTokens?.forEach((token) => {
-      if (token?.startsWith("-") && token?.length > 1) {
-        excludeTickers.push(token.slice(1).toUpperCase());
-      } else {
-        includeTickers.push(token?.toUpperCase());
-      }
-    });
-
-    tableSearchDisplayedData = displayedData.filter((item: any) => {
-      const itemTicker = item?.ticker?.toUpperCase();
-      if (!itemTicker) return false;
-      if (excludeTickers?.includes(itemTicker)) return false;
-      if (includeTickers?.length > 0) {
-        return includeTickers?.includes(itemTicker);
-      }
-      return true;
-    });
-  }
-
-  function debouncedTableSearch() {
+  function debouncedServerSearch(event) {
+    filterQuery = event.target.value;
     if (tableSearchTimeout) {
       clearTimeout(tableSearchTimeout);
     }
-    tableSearchTimeout = setTimeout(tableSearch, 100);
+    tableSearchTimeout = setTimeout(() => {
+      fetchTableData(1);
+      sendFiltersToWebSocket();
+    }, 300);
   }
 
-  function resetTableSearch() {
-    tableSearchValue = "";
-    tableSearchDisplayedData = [];
+  function resetSearch() {
+    filterQuery = "";
+    fetchTableData(1);
+    sendFiltersToWebSocket();
   }
 
   // Stats variables - populated from server-side stats
@@ -1211,11 +1181,6 @@
 
       // Update stats from server
       updateStatsFromResponse(result.stats);
-
-      // Re-run table search if active
-      if (tableSearchValue?.trim()) {
-        tableSearch();
-      }
 
       // Update WS filters to match
       sendFiltersToWebSocket();
@@ -1414,6 +1379,20 @@
           // Handle live updates (new items matching filters from server)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
+            // Skip WS updates while a REST fetch is in-flight to avoid data race
+            if (isTableLoading) return;
+
+            // Safety: if server accidentally sends a huge batch, refresh from API instead
+            if (newData.length > 200) {
+              console.warn(
+                "WebSocket sent large batch (" +
+                  newData.length +
+                  " items), refreshing from API",
+              );
+              await fetchTableData();
+              return;
+            }
+
             console.log(
               "Received new unusual order flow data, length:",
               newData.length,
@@ -1431,11 +1410,6 @@
               displayedData = [...uniqueNewItems, ...displayedData];
               rawData = displayedData;
               totalItems += uniqueNewItems.length;
-
-              // Re-run table search if active
-              if (tableSearchValue?.trim()) {
-                tableSearch();
-              }
 
               // Play notification sound
               if (!muted && audio) {
@@ -1555,8 +1529,8 @@
 
     audio = new Audio(notifySound);
 
-    if (filterQuery?.length > 0 || ruleOfList?.length !== 0) {
-      // Fetch filtered data from server
+    // Re-fetch if stored pageSize differs from SSR default, or if filters are active
+    if (storedRows !== 50 || filterQuery?.length > 0 || ruleOfList?.length !== 0) {
       await fetchTableData(1);
     }
 
@@ -1625,22 +1599,6 @@
   };
   */
 
-  function handleInput(event) {
-    filterQuery = event.target.value;
-    fetchTableData(1);
-  }
-
-  function debounce(fn, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        fn.apply(this, args);
-      }, delay);
-    };
-  }
-
-  const debouncedHandleInput = debounce(handleInput, 300);
 
   $: {
     if (searchTerm) {
@@ -2891,12 +2849,7 @@
                 <h2
                   class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
-                  {(data?.user?.tier === "Pro"
-                    ? tableSearchValue?.length > 0
-                      ? tableSearchDisplayedData?.length
-                      : totalItems
-                    : totalItems
-                  )?.toLocaleString("en-US")} Trades
+                  {totalItems?.toLocaleString("en-US")} Trades
                 </h2>
               </div>
               <div
@@ -2909,10 +2862,10 @@
                   <div
                     class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                   >
-                    {#if tableSearchValue?.length > 0}
+                    {#if filterQuery?.length > 0}
                       <label
                         class="cursor-pointer"
-                        on:click={() => resetTableSearch()}
+                        on:click={() => resetSearch()}
                       >
                         <svg
                           class="w-5 h-5"
@@ -2929,8 +2882,8 @@
                   </div>
 
                   <input
-                    bind:value={tableSearchValue}
-                    on:input={debouncedTableSearch}
+                    bind:value={filterQuery}
+                    on:input={debouncedServerSearch}
                     type="text"
                     placeholder={unusual_order_flow_search_placeholder()}
                     class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
@@ -3018,20 +2971,11 @@
               </div>
             </div>
 
-            {#if tableSearchValue?.length > 0 && tableSearchDisplayedData?.length === 0}
-              <Infobox
-                text={unusual_order_flow_no_trades_query({
-                  query: tableSearchValue,
-                })}
-              />
-            {:else}
               <div class="flex w-full m-auto h-full overflow-hidden">
                 <div class="mt-3 w-full overflow-x-auto overflow-hidden">
                   <UnusualOrderFlowTable
                     {data}
-                    displayedData={tableSearchDisplayedData?.length > 0
-                      ? tableSearchDisplayedData
-                      : displayedData}
+                    {displayedData}
                     {filteredData}
                     {rawData}
                     isLoading={isTableLoading}
@@ -3178,7 +3122,6 @@
                   </button>
                 </div>
               {/if}
-            {/if}
           {:else}
             <Infobox text={unusual_order_flow_no_data_filters()} />
           {/if}
