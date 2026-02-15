@@ -602,11 +602,11 @@
       >
         <Sheet.Root>
           <Sheet.Trigger asChild let:builder>
-            <Button
-              builders={[builder]}
-              size="icon"
-              class="group rounded-full bg-transparent text-gray-600 dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition"
-            >
+                <Button
+                  builders={[builder]}
+                  size="icon"
+                  class="group rounded-full bg-transparent text-gray-600 dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
+                >
               <Menu
                 class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-gray-600 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
               />
@@ -1546,28 +1546,13 @@
       <div>
         <div class="flex w-full">
           {#if !isChartRoute}
-            <div class="hidden 3xl:block 3xl:w-[300px]">
+            <div class="hidden 3xl:block 3xl:w-[300px] 3xl:shrink-0">
               <aside
-                class="fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-300 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
+                class="sticky top-[72px] z-30 3xl:flex w-64 self-start overflow-x-hidden flex-col xl:border-r border-gray-300 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
               >
                 <nav
                   class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
                 >
-                  <a
-                    href="/"
-                    class="ml-3 mb-3 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:"
-                  >
-                    <img
-                      class="avatar w-9 3xl:w-12 rounded-full"
-                      src="/pwa-192x192.png"
-                      alt={layout_logo_alt()}
-                    />
-                    <span
-                      class="text-gray-900 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 text-lg font-semibold tracking-tight"
-                      >Stocknear</span
-                    >
-                  </a>
-
                   <a
                     href="/chat"
                     class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
