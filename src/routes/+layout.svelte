@@ -134,7 +134,7 @@
   let lastScrollY = 0;
   let scrollRafId: number | undefined = undefined;
   const scrollThreshold = 10;
-  const routePrefixes = ["/chart", "/chat"];
+  const routePrefixes = ["/chart", "/chat", "/landing-page"];
 
   function handleScroll() {
     if (!browser) return;
@@ -595,6 +595,7 @@
 <div class="app text-gray-700 dark:text-zinc-200">
   <div class="flex min-h-screen w-full flex-col bg-white dark:bg-zinc-950">
     <div class="w-full">
+      {#if !$page.url.pathname.startsWith("/landing-page")}
       <div
         class="w-full navbar sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-gray-300 dark:border-zinc-700 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
       >
@@ -1539,6 +1540,7 @@
           </div>
         </div>
       </div>
+      {/if}
       <div>
         <div class="flex w-full">
           {#if !isChartRoute}
@@ -2061,13 +2063,15 @@
           <div class="w-full">
             <main
               class={`w-full ${
-                isChartRoute
-                  ? "overflow-hidden p-0"
-                  : $page.url.pathname.startsWith("/chat")
-                    ? "overflow-y-auto sm:p-4"
-                    : $page.url.pathname.startsWith("/learning-center/article/")
-                      ? "pb-16 sm:pb-0 sm:p-4"
-                      : "overflow-y-auto pb-16 sm:pb-0 sm:p-4"
+                $page.url.pathname.startsWith("/landing-page")
+                  ? "overflow-y-auto p-0"
+                  : isChartRoute
+                    ? "overflow-hidden p-0"
+                    : $page.url.pathname.startsWith("/chat")
+                      ? "overflow-y-auto sm:p-4"
+                      : $page.url.pathname.startsWith("/learning-center/article/")
+                        ? "pb-16 sm:pb-0 sm:p-4"
+                        : "overflow-y-auto pb-16 sm:pb-0 sm:p-4"
               }`}
             >
               <slot />
@@ -2083,7 +2087,7 @@
         </div>
       </div>
       <div>
-        {#if !$page?.url?.pathname?.startsWith("/chat") && !isChartRoute}
+        {#if !$page?.url?.pathname?.startsWith("/chat") && !isChartRoute && !$page?.url?.pathname?.startsWith("/landing-page")}
           <Footer />
         {/if}
       </div>

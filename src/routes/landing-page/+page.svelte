@@ -234,6 +234,50 @@
   }}
 />
 
+<!-- Custom Landing Page Navbar -->
+<nav class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-14 sm:h-16 items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2.5 shrink-0">
+      <img src="/pwa-192x192.png" alt="Stocknear" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full" />
+      <span class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight">Stocknear</span>
+    </a>
+
+    <!-- Nav links (desktop) -->
+    <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-zinc-400">
+      <a href="#features" class="hover:text-gray-900 dark:hover:text-white transition">Features</a>
+      <a href="#pricing" class="hover:text-gray-900 dark:hover:text-white transition">Pricing</a>
+      <a href="#faq" class="hover:text-gray-900 dark:hover:text-white transition">FAQ</a>
+      <a href="/chat" class="hover:text-gray-900 dark:hover:text-white transition">AI Agent</a>
+    </div>
+
+    <!-- Right side CTAs -->
+    <div class="flex items-center gap-3">
+      {#if !data?.user}
+        <a href="/login" class="hidden sm:inline-flex text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition">
+          Log in
+        </a>
+        <label
+          for="userLogin"
+          class="cursor-pointer inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+        >
+          {landing_hero_cta_primary()}
+        </label>
+      {:else}
+        <a href="/" class="hidden sm:inline-flex text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition">
+          Dashboard
+        </a>
+        <a
+          href="/pricing"
+          class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+        >
+          {landing_hero_cta_secondary()}
+        </a>
+      {/if}
+    </div>
+  </div>
+</nav>
+
 <div class="text-gray-700 dark:text-zinc-200 w-full">
 
   <!-- Section 1: Hero -->
@@ -458,7 +502,7 @@
   </section>
 
   <!-- Section 3: Feature Showcases -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
+  <section id="features" class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
       <div class="text-center mb-16">
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4">
@@ -726,7 +770,7 @@
   </section>
 
   <!-- Section 5: Pricing Preview -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
+  <section id="pricing" class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
       <div class="text-center mb-10">
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4">
@@ -952,7 +996,7 @@
   </section>
 
   <!-- Section 7: FAQ -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
+  <section id="faq" class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16">
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
       <div class="text-center mb-12">
         <h2 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
@@ -1019,6 +1063,22 @@
       </div>
     </div>
   </section>
+
+  <!-- Minimal Footer -->
+  <footer class="border-t border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-zinc-500">
+      <div class="flex items-center gap-2">
+        <img src="/pwa-192x192.png" alt="Stocknear" class="h-6 w-6 rounded-full" />
+        <span>&copy; {new Date().getFullYear()} Stocknear. All rights reserved.</span>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="/about" class="hover:text-gray-900 dark:hover:text-white transition">About</a>
+        <a href="/privacy-policy" class="hover:text-gray-900 dark:hover:text-white transition">Privacy</a>
+        <a href="/terms-of-use" class="hover:text-gray-900 dark:hover:text-white transition">Terms</a>
+        <a href="/contact" class="hover:text-gray-900 dark:hover:text-white transition">Contact</a>
+      </div>
+    </div>
+  </footer>
 
 </div>
 
