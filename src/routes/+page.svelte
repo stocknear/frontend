@@ -137,7 +137,6 @@
     landing_trust_title,
     landing_trust_trustpilot,
     landing_trust_rating,
-    landing_trust_reviews,
     landing_trust_badge_data,
     landing_trust_badge_data_desc,
     landing_trust_badge_refund,
@@ -1573,26 +1572,6 @@
         <p class="mt-3 text-lg text-gray-800 dark:text-zinc-300">
           {landing_trust_title()}
         </p>
-        <a
-          href="https://www.trustpilot.com/review/stocknear.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-2 inline-flex items-center gap-1 text-xs text-gray-400 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >
-          {landing_trust_reviews()}
-          <svg
-            class="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            ><path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            /></svg
-          >
-        </a>
       </div>
 
       <!-- Trust badges -->
@@ -1702,5 +1681,4 @@
     </div>
   </section>
 </div>
-
 
