@@ -5,6 +5,10 @@ export const load = async ({ locals }) => {
   const getAllStrategies = async () => {
       let output = [];
 
+      if (user?.tier !== "Pro") {
+        return [];
+      }
+
        try {
           output = await pb.collection("unusualOrderFlow")?.getFullList({
           filter: `user="${user?.id}"`,
@@ -21,13 +25,16 @@ export const load = async ({ locals }) => {
     };
 
   const getFlowData = async () => {
-    // Always use limit for Pro users - WebSocket will send remaining historical data
     const isSubscriber = user?.tier === "Pro";
-    const limitParam = isSubscriber
-      ? "?limit=5000&subscriber=Pro"
-      : "?limit=0&subscriber=Free";
+    const params = new URLSearchParams({
+      page: "1",
+      pageSize: "50",
+      sortKey: "date",
+      sortOrder: "desc",
+      subscriber: isSubscriber ? "Pro" : "Free",
+    });
 
-    const response = await fetch(apiURL + "/unusual-order-feed" + limitParam, {
+    const response = await fetch(apiURL + "/unusual-order-feed?" + params.toString(), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,11 +42,8 @@ export const load = async ({ locals }) => {
       },
     });
     const output = await response.json();
-    const totalOrders = output?.totalOrders || 0;
-    const data = output?.orders || [];
 
-    return { data, totalOrders };
-
+    return output;
   };
 
   // Generate WebSocket token for Pro users

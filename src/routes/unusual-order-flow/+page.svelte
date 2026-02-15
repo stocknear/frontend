@@ -2,6 +2,8 @@
   import notifySound from "$lib/audio/options-flow-reader.mp3";
   import { getCache, setCache, isOpen } from "$lib/store";
 
+  import { goto } from "$app/navigation";
+  import { browser } from "$app/environment";
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -84,10 +86,7 @@
 
   import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
   import UnusualOrderFlowExport from "$lib/components/UnusualOrderFlowExport.svelte";
-  import { writable } from "svelte/store";
-
   export let data;
-  let shouldLoadWorker = writable(false);
 
   let timeoutId = null;
   let isComponentDestroyed = false;
@@ -101,7 +100,6 @@
   let muted = false;
   let audio: HTMLAudioElement | null = null;
   let historicalDataLoaded = false;
-  let pendingNewItemIds: Set<string> = new Set(); // Track new item IDs from WebSocket for filtered audio alerts
 
   // Pro users start with modeStatus=true to fetch historical data via WebSocket
   // When market is closed, WebSocket disconnects after historical data is received
@@ -132,7 +130,6 @@
     data?.user?.tier === "Pro" ? $page.url.searchParams.get("query") || "" : "";
   let pagePathName = $page?.url?.pathname;
 
-  let syncWorker: Worker | undefined;
   let ruleName = "";
   let searchTerm = "";
   let showFilters = true;
@@ -287,7 +284,7 @@
       displayRules = allRows?.filter((row) =>
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
-      shouldLoadWorker.set(true);
+      fetchTableData(1);
     }
   }
 
@@ -306,7 +303,7 @@
     displayRules = allRows?.filter((row) =>
       ruleOfList.some((rule) => rule.name === row.rule),
     );
-    displayedData = rawData;
+    fetchTableData(1);
   }
 
   async function applyPopularStrategy(state: string) {
@@ -400,7 +397,7 @@
         ]),
     );
 
-    shouldLoadWorker.set(true);
+    fetchTableData(1);
   }
 
   async function switchStrategy(item) {
@@ -434,7 +431,7 @@
     );
 
     // Trigger the filter system
-    shouldLoadWorker.set(true);
+    fetchTableData(1);
   }
 
   async function handleCreateStrategy() {
@@ -504,7 +501,7 @@
       );
 
       // Trigger the filter system
-      shouldLoadWorker.set(true);
+      fetchTableData(1);
 
       return true;
     })();
@@ -628,7 +625,7 @@
       );
 
       // Trigger the filter system
-      shouldLoadWorker.set(true);
+      fetchTableData(1);
 
       return output;
     })();
@@ -836,41 +833,12 @@
     } else {
       ruleOfList = [...ruleOfList, newRule];
 
-      shouldLoadWorker.set(true);
+      fetchTableData(1);
     }
   }
 
-  const loadWorker = async () => {
-    syncWorker.postMessage({ rawData, ruleOfList, filterQuery });
-  };
-
-  const handleMessage = (event) => {
-    displayRules = allRows?.filter((row) =>
-      ruleOfList.some((rule) => rule.name === row.rule),
-    );
-    filteredData = event.data?.filteredData ?? [];
-    displayedData = filteredData;
-    console.log("handle Message");
-
-    // Check if any pending new items passed the filters - only then play audio
-    if (pendingNewItemIds.size > 0 && !muted && audio) {
-      const hasNewFilteredItems = filteredData.some((item) =>
-        pendingNewItemIds.has(item?.trackingID),
-      );
-
-      if (hasNewFilteredItems) {
-        console.log("New items passed filters - playing audio alert");
-        audio?.play()?.catch((error) => {
-          console.log("Audio play failed:", error);
-        });
-      } else {
-        console.log("No new items passed filters - skipping audio");
-      }
-
-      // Clear pending IDs after processing
-      pendingNewItemIds = new Set();
-    }
-  };
+  // handleMessage is now unused since we moved to server-side filtering
+  // New WS items are handled directly in the WS message handler
 
   async function changeRuleCondition(name: string, state: string) {
     ruleName = name;
@@ -999,8 +967,8 @@
       ruleOfList = [...ruleOfList];
     }
 
-    // Trigger worker load
-    shouldLoadWorker.set(true);
+    // Trigger server-side fetch
+    fetchTableData(1);
   }
 
   async function stepSizeValue(value, condition) {
@@ -1032,11 +1000,12 @@
     }
   }
 
-  const flowData = data?.getFlowData?.data ?? [];
-  const totalOrders = data?.getFlowData?.totalOrders ?? 0;
+  // SSR data now returns paginated response: { items, total, page, pageSize, totalPages, sort, stats }
+  const ssrFlowData = data?.getFlowData ?? {};
+  const ssrItems = ssrFlowData?.items ?? [];
 
-  const nyseDate = flowData?.at(0)?.date
-    ? new Date(flowData.at(0).date).toLocaleString("en-US", {
+  const nyseDate = ssrItems?.at(0)?.date
+    ? new Date(ssrItems.at(0).date).toLocaleString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -1044,19 +1013,24 @@
       })
     : null;
 
-  let rawData = flowData?.filter((item) =>
-    Object?.values(item)?.every(
-      (value) =>
-        value !== null &&
-        value !== undefined &&
-        (typeof value !== "object" ||
-          Object?.values(value)?.every(
-            (subValue) => subValue !== null && subValue !== undefined,
-          )),
-    ),
-  );
+  let rawData = ssrItems;
+  let displayedData = [...ssrItems];
 
-  let displayedData = [];
+  // Pagination state
+  let currentPage = ssrFlowData?.page ?? 1;
+  let totalItems = ssrFlowData?.total ?? 0;
+  let totalPages = ssrFlowData?.totalPages ?? 1;
+  let pageSize = 50;
+
+  // Sort state
+  let activeSortKey = "date";
+  let activeSortOrder = "desc";
+
+  // Loading state for table
+  let isTableLoading = false;
+
+  // AbortController for cancelling in-flight requests
+  let fetchAbortController: AbortController | null = null;
 
   // Column reordering
   let unusualOrderFlowResetColumnOrder: () => void;
@@ -1112,73 +1086,233 @@
     tableSearchDisplayedData = [];
   }
 
-  // Stats variables
-  let totalVolume = 0;
-  let totalValue = 0;
-  let darkPoolCount = 0;
-  let blockOrderCount = 0;
-  let darkPoolPercentage = 0;
-  let blockOrderPercentage = 0;
-  let stockCount = 0;
-  let etfCount = 0;
-  let stockPercentage = 0;
-  let etfPercentage = 0;
+  // Stats variables - populated from server-side stats
+  let totalVolume = ssrFlowData?.stats?.totalVolume ?? 0;
+  let totalValue = ssrFlowData?.stats?.totalValue ?? 0;
+  let darkPoolCount = ssrFlowData?.stats?.darkPoolCount ?? 0;
+  let blockOrderCount = ssrFlowData?.stats?.blockOrderCount ?? 0;
+  let darkPoolPercentage = ssrFlowData?.stats?.darkPoolPercentage ?? 0;
+  let blockOrderPercentage = ssrFlowData?.stats?.blockOrderPercentage ?? 0;
+  let stockCount = ssrFlowData?.stats?.stockCount ?? 0;
+  let etfCount = ssrFlowData?.stats?.etfCount ?? 0;
+  let stockPercentage = ssrFlowData?.stats?.stockPercentage ?? 0;
+  let etfPercentage = ssrFlowData?.stats?.etfPercentage ?? 0;
 
-  // Reactive stats calculation - use tableSearchDisplayedData when search is active
-  $: {
-    const dataForStats =
-      tableSearchValue?.length > 0 ? tableSearchDisplayedData : displayedData;
-    const stats = dataForStats?.reduce(
-      (acc, item) => {
-        const size = item?.size || 0;
-        const premium = item?.premium || 0;
+  function updateStatsFromResponse(stats: any) {
+    if (!stats) return;
+    totalVolume = stats.totalVolume ?? 0;
+    totalValue = stats.totalValue ?? 0;
+    darkPoolCount = stats.darkPoolCount ?? 0;
+    blockOrderCount = stats.blockOrderCount ?? 0;
+    darkPoolPercentage = stats.darkPoolPercentage ?? 0;
+    blockOrderPercentage = stats.blockOrderPercentage ?? 0;
+    stockCount = stats.stockCount ?? 0;
+    etfCount = stats.etfCount ?? 0;
+    stockPercentage = stats.stockPercentage ?? 0;
+    etfPercentage = stats.etfPercentage ?? 0;
+  }
 
-        acc.totalVolume += size;
-        acc.totalValue += premium;
+  // Map display transaction type values to data values for WS filters
+  const TRANSACTION_TYPE_MAP: Record<string, string> = {
+    "Dark Pool Order": "DP",
+    "Block Order": "B",
+  };
 
-        if (item?.transactionType === "DP") {
-          acc.darkPoolCount += 1;
-        } else if (item?.transactionType === "B") {
-          acc.blockOrderCount += 1;
+  function buildActiveRules(): any[] {
+    return ruleOfList.map((rule: any) => ({ ...rule }));
+  }
+
+  // Build simplified filter object for WebSocket
+  function buildWsFilters(): Record<string, any> {
+    const filters: Record<string, any> = {};
+
+    if (filterQuery) {
+      filters.tickers = filterQuery;
+    }
+
+    for (const rule of ruleOfList) {
+      if (!rule.value || rule.value === "any") continue;
+      if (
+        Array.isArray(rule.value) &&
+        rule.value.length === 1 &&
+        rule.value[0] === "any"
+      )
+        continue;
+
+      if (rule.name === "transactionType" && Array.isArray(rule.value)) {
+        filters.transactionType = rule.value.map(
+          (v: string) => TRANSACTION_TYPE_MAP[v] || v,
+        );
+      } else if (
+        ["assetType", "exchange"].includes(rule.name) &&
+        Array.isArray(rule.value)
+      ) {
+        filters[rule.name] = rule.value;
+      } else if (
+        ["size", "volume", "premium"].includes(rule.name) &&
+        rule.condition === "over"
+      ) {
+        const parsed = parseValue(rule.value);
+        if (!isNaN(parsed)) {
+          filters[`min_${rule.name}`] = parsed;
         }
+      }
+    }
 
-        if (item?.assetType === "Stock") {
-          acc.stockCount += 1;
-        } else if (item?.assetType === "ETF") {
-          acc.etfCount += 1;
-        }
+    return filters;
+  }
 
-        return acc;
-      },
-      {
-        totalVolume: 0,
-        totalValue: 0,
-        darkPoolCount: 0,
-        blockOrderCount: 0,
-        stockCount: 0,
-        etfCount: 0,
-      },
-    );
+  function sendFiltersToWebSocket() {
+    if (socket?.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: "init", filters: buildWsFilters() }));
+    }
+  }
 
-    totalVolume = stats?.totalVolume || 0;
-    totalValue = stats?.totalValue || 0;
-    darkPoolCount = stats?.darkPoolCount || 0;
-    blockOrderCount = stats?.blockOrderCount || 0;
-    stockCount = stats?.stockCount || 0;
-    etfCount = stats?.etfCount || 0;
+  async function fetchTableData(page = 1) {
+    if (data?.user?.tier !== "Pro") return;
 
-    const totalTransactions = darkPoolCount + blockOrderCount;
-    darkPoolPercentage =
-      totalTransactions !== 0
-        ? Math.floor((darkPoolCount / totalTransactions) * 100)
-        : 0;
-    blockOrderPercentage =
-      totalTransactions !== 0 ? 100 - darkPoolPercentage : 0;
+    // Cancel any in-flight request
+    if (fetchAbortController) {
+      fetchAbortController.abort();
+    }
+    fetchAbortController = new AbortController();
 
-    const totalAssets = stockCount + etfCount;
-    stockPercentage =
-      totalAssets !== 0 ? Math.floor((stockCount / totalAssets) * 100) : 0;
-    etfPercentage = totalAssets !== 0 ? 100 - stockPercentage : 0;
+    isTableLoading = true;
+
+    try {
+      const activeRules = buildActiveRules();
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: String(pageSize),
+        sortKey: activeSortKey,
+        sortOrder: activeSortOrder,
+      });
+
+      if (filterQuery) {
+        params.set("search", filterQuery);
+      }
+      if (activeRules.length > 0) {
+        params.set("rules", JSON.stringify(activeRules));
+      }
+
+      const response = await fetch(`/api/unusual-order-feed?${params}`, {
+        signal: fetchAbortController.signal,
+      });
+
+      if (!response.ok) return;
+
+      const result = await response.json();
+
+      displayedData = result.items || [];
+      rawData = displayedData;
+      totalItems = result.total ?? 0;
+      currentPage = result.page ?? 1;
+      totalPages = result.totalPages ?? 1;
+
+      // Update stats from server
+      updateStatsFromResponse(result.stats);
+
+      // Re-run table search if active
+      if (tableSearchValue?.trim()) {
+        tableSearch();
+      }
+
+      // Update WS filters to match
+      sendFiltersToWebSocket();
+    } catch (err: any) {
+      if (err?.name !== "AbortError") {
+        console.error("fetchTableData error:", err);
+      }
+    } finally {
+      isTableLoading = false;
+    }
+  }
+
+  function handleSort(key: string, order: string) {
+    if (order === "none") {
+      activeSortKey = "date";
+      activeSortOrder = "desc";
+    } else {
+      activeSortKey = key;
+      activeSortOrder = order;
+    }
+    fetchTableData(1);
+  }
+
+  const rowsPerPageOptions = [20, 50, 100];
+
+  function goToPage(pageNumber: number) {
+    if (pageNumber < 1 || pageNumber > totalPages || isTableLoading) return;
+    fetchTableData(pageNumber);
+  }
+
+  function changeRowsPerPage(newSize: number) {
+    if (pageSize === newSize || isTableLoading) return;
+    pageSize = newSize;
+    saveRowsPerPage(newSize);
+    fetchTableData(1);
+  }
+
+  function scrollToTop() {
+    if (!browser) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function saveRowsPerPage(value: number) {
+    if (!browser) return;
+    try {
+      localStorage.setItem("/unusual-order-flow_rowsPerPage", String(value));
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function loadRowsPerPage(): number {
+    if (!browser) return pageSize;
+    try {
+      const saved = localStorage.getItem("/unusual-order-flow_rowsPerPage");
+      const parsed = saved ? Number(saved) : NaN;
+      if (rowsPerPageOptions.includes(parsed)) return parsed;
+    } catch (e) {
+      /* ignore */
+    }
+    return 50;
+  }
+
+  async function fetchAllFlowData(): Promise<any[]> {
+    const PAGE_SIZE = 500;
+    const activeRules = buildActiveRules();
+    const allItems: any[] = [];
+    let page = 1;
+    let total = Infinity;
+
+    while (allItems.length < total) {
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: String(PAGE_SIZE),
+        sortKey: activeSortKey,
+        sortOrder: activeSortOrder,
+      });
+
+      if (filterQuery) {
+        params.set("search", filterQuery);
+      }
+      if (activeRules.length > 0) {
+        params.set("rules", JSON.stringify(activeRules));
+      }
+
+      const response = await fetch(`/api/unusual-order-feed?${params}`);
+      if (!response.ok) break;
+
+      const result = await response.json();
+      const items = result.items || [];
+      total = result.total ?? 0;
+      allItems.push(...items);
+      if (items.length < PAGE_SIZE) break;
+      page++;
+    }
+
+    return allItems;
   }
 
   let isLoaded = false;
@@ -1205,59 +1339,6 @@
         }
       }
     }
-  }
-
-  // WebSocket helper functions
-  function buildFlowKey(item: any): string {
-    if (item?.trackingID) {
-      return String(item.trackingID);
-    }
-    const compositeKey = [
-      item?.ticker ?? "",
-      item?.date ?? "",
-      item?.time ?? "",
-      item?.size ?? "",
-      item?.premium ?? "",
-    ]
-      .map((value) => String(value))
-      .join("-");
-    return compositeKey.length > 0 ? compositeKey : JSON.stringify(item);
-  }
-
-  function dedupeFlowEntries(entries: any[] = []): any[] {
-    const seen = new Set<string>();
-    const deduped: any[] = [];
-    for (const entry of entries) {
-      const key = buildFlowKey(entry);
-      if (seen.has(key)) continue;
-      seen.add(key);
-      deduped.push(entry);
-    }
-    return deduped;
-  }
-
-  function sortFlowEntriesByTime(entries: any[] = []): any[] {
-    return [...entries].sort((a, b) => {
-      const dateA = a?.date ?? "";
-      const dateB = b?.date ?? "";
-      const timeA = a?.time ?? "00:00:00";
-      const timeB = b?.time ?? "00:00:00";
-      const dtA = `${dateA} ${timeA}`;
-      const dtB = `${dateB} ${timeB}`;
-      return dtB.localeCompare(dtA); // Descending order (newest first)
-    });
-  }
-
-  async function mergeRawData(entries: any[] = []) {
-    if (!Array.isArray(entries) || entries.length === 0) {
-      return rawData ?? [];
-    }
-    const combined = dedupeFlowEntries([
-      ...entries,
-      ...(Array.isArray(rawData) ? rawData : []),
-    ]);
-    rawData = sortFlowEntriesByTime(combined);
-    return rawData;
   }
 
   async function refreshWsToken() {
@@ -1300,10 +1381,9 @@
         console.log("Unusual Order Flow WebSocket connection opened");
         reconnectAttempts = 0;
 
-        const orderList = rawData?.map((item) => item?.trackingID) || [];
         const message = {
           type: "init",
-          orderList: orderList,
+          filters: buildWsFilters(),
         };
         socket?.send(JSON.stringify(message));
       });
@@ -1312,37 +1392,14 @@
         try {
           const message = JSON.parse(event.data);
 
-          // Handle historical data batches (sent on init for fast load optimization)
+          // Handle historical data batches (legacy - should not happen with new server)
           if (message?.type === "historical" && Array.isArray(message?.data)) {
             console.log(
               `Receiving historical data: ${message.progress}% complete, batch size: ${message.data.length}`,
             );
 
-            rawData = await mergeRawData(message.data);
-
-            // Only update UI on last batch to avoid jank
             if (message.isComplete) {
-              console.log("Historical data loading complete");
-              // Update the orderList to include all items
-              const updatedOrderList =
-                rawData?.map((item) => item?.trackingID) || [];
-              const updateMessage = {
-                type: "update",
-                orderList: updatedOrderList,
-              };
-              socket?.send(JSON.stringify(updateMessage));
-
-              // Process filters if needed
-              if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
-                shouldLoadWorker.set(true);
-              } else {
-                displayedData = [...rawData];
-              }
-
-              // Mark historical data as loaded
               historicalDataLoaded = true;
-
-              // If market is closed, disconnect after getting historical data
               if (!$isOpen) {
                 console.log(
                   "Market closed - disconnecting WebSocket after historical data",
@@ -1354,7 +1411,7 @@
             return;
           }
 
-          // Handle live updates (regular array format)
+          // Handle live updates (new items matching filters from server)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
             console.log(
@@ -1362,32 +1419,26 @@
               newData.length,
             );
 
-            // Store new item IDs before merging (for filtered audio alerts)
-            const newItemIds = new Set(
-              newData.map((item) => item?.trackingID).filter(Boolean),
+            // Prepend new items to displayedData (they're already filtered by server)
+            const existingIds = new Set(
+              displayedData.map((item: any) => item?.trackingID),
+            );
+            const uniqueNewItems = newData.filter(
+              (item: any) => !existingIds.has(item?.trackingID),
             );
 
-            rawData = await mergeRawData(newData);
+            if (uniqueNewItems.length > 0) {
+              displayedData = [...uniqueNewItems, ...displayedData];
+              rawData = displayedData;
+              totalItems += uniqueNewItems.length;
 
-            const updatedOrderList =
-              rawData?.map((item) => item?.trackingID) || [];
-            const updateMessage = {
-              type: "update",
-              orderList: updatedOrderList,
-            };
-            socket?.send(JSON.stringify(updateMessage));
+              // Re-run table search if active
+              if (tableSearchValue?.trim()) {
+                tableSearch();
+              }
 
-            if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
-              // Store pending new item IDs - audio will play in handleMessage if any pass filters
-              pendingNewItemIds = newItemIds;
-              shouldLoadWorker.set(true);
-            } else {
-              // No filters active - play audio immediately for any new data
-              displayedData = [...rawData];
-
-              // Play notification sound (no filters = all new data is relevant)
+              // Play notification sound
               if (!muted && audio) {
-                console.log("Attempting to play audio (no filters active)...");
                 audio?.play()?.catch((error) => {
                   console.log("Audio play failed:", error);
                 });
@@ -1486,6 +1537,12 @@
       muted = JSON.parse(savedMutedState);
     }
 
+    // Load saved rows per page preference
+    const storedRows = loadRowsPerPage();
+    if (storedRows !== pageSize) {
+      pageSize = storedRows;
+    }
+
     ruleOfList?.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition || allRules[rule.name].defaultCondition;
@@ -1498,29 +1555,10 @@
 
     audio = new Audio(notifySound);
 
-    if (!syncWorker) {
-      const SyncWorker = await import("./workers/filterWorker?worker");
-      syncWorker = new SyncWorker.default();
-      syncWorker.onmessage = handleMessage;
-    }
-
     if (filterQuery?.length > 0 || ruleOfList?.length !== 0) {
-      // Use non-debounced version for immediate initial load
-    } else {
-      // If no initial filter, set displayedData directly and mark as loaded
-      displayedData = [...rawData];
+      // Fetch filtered data from server
+      await fetchTableData(1);
     }
-
-    await loadWorker();
-
-    shouldLoadWorker.subscribe(async (value) => {
-      if (value) {
-        isLoaded = false;
-        await loadWorker();
-        shouldLoadWorker.set(false); // Reset after worker is loaded
-        isLoaded = true;
-      }
-    });
 
     isLoaded = true;
   });
@@ -1529,9 +1567,8 @@
     isComponentDestroyed = true;
     disconnectWebSocket();
 
-    if (syncWorker) {
-      syncWorker.terminate();
-      syncWorker = undefined;
+    if (fetchAbortController) {
+      fetchAbortController.abort();
     }
 
     if (audio) {
@@ -1572,7 +1609,7 @@
         });
 
         rawData = await response?.json();
-        shouldLoadWorker.set(true);
+        fetchTableData(1);
       } catch (error) {
         console.error("Error fetching historical flow:", error);
         rawData = [];
@@ -1590,10 +1627,7 @@
 
   function handleInput(event) {
     filterQuery = event.target.value;
-
-    setTimeout(() => {
-      shouldLoadWorker.set(true);
-    }, 0);
+    fetchTableData(1);
   }
 
   function debounce(fn, delay) {
@@ -1623,7 +1657,7 @@
         ruleToUpdate.value = valueMappings[ruleToUpdate.name];
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
-        //shouldLoadWorker.set(true);
+        fetchTableData(1);
       }
     }
   }
@@ -1669,7 +1703,7 @@
       ? 'max-w-full'
       : 'max-w-screen sm:max-w-[1400px]'}"
   >
-    <div class="w-full m-auto min-h-screen">
+    <div class="w-full m-auto min-h-screen mb-20">
       <!--
         <div class="text-sm sm:text-[1rem] breadcrumbs mb-5">
           <ul>
@@ -1739,10 +1773,31 @@
                   <DropdownMenu.Group>
                     {#each popularStrategyList as item}
                       <DropdownMenu.Item
-                        on:click={() => applyPopularStrategy(item?.key)}
+                        on:click={() => {
+                          if (data?.user?.tier !== "Pro") {
+                            goto("/pricing");
+                          } else {
+                            applyPopularStrategy(item?.key);
+                          }
+                        }}
                         class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-300"
                       >
                         {item?.label}
+                        {#if data?.user?.tier !== "Pro"}
+                          <svg
+                            class="ml-1 size-4"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width: 40px;"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                              clip-rule="evenodd"
+                            >
+                            </path>
+                          </svg>
+                        {/if}
                       </DropdownMenu.Item>
                     {/each}
                   </DropdownMenu.Group>
@@ -1852,8 +1907,8 @@
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path></svg>
-
+                            ></path></svg
+                          >
                         </label>
                       </DropdownMenu.Item>
                     {/each}
@@ -1895,8 +1950,8 @@
                     ><path
                       fill="currentColor"
                       d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"
-                    /></svg>
-
+                    /></svg
+                  >
                 {:else}
                   <svg
                     class="w-4 h-4"
@@ -1905,8 +1960,8 @@
                     ><path
                       fill="currentColor"
                       d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"
-                    /></svg>
-
+                    /></svg
+                  >
                 {/if}
               </div>
             </label>
@@ -2150,8 +2205,8 @@
                             fill-rule="evenodd"
                             d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                             clip-rule="evenodd"
-                          ></path></svg>
-
+                          ></path></svg
+                        >
 
                         <label
                           class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
@@ -2188,7 +2243,8 @@
                     ><path
                       fill="currentColor"
                       d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                    /></svg>
+                    /></svg
+                  >
 
                   <div>{unusual_order_flow_save()}</div>
                 </label>
@@ -2233,7 +2289,8 @@
                       ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
                         d="M7.5 6.5h-4v-4"
                       /></g
-                    ></svg>
+                    ></svg
+                  >
 
                   <div>{unusual_order_flow_reset_all()}</div>
                 </label>
@@ -2372,8 +2429,8 @@
                                             fill-rule="evenodd"
                                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                             clip-rule="evenodd"
-                                          ></path></svg>
-
+                                          ></path></svg
+                                        >
                                       </Button>
                                     </DropdownMenu.Trigger>
                                     <DropdownMenu.Content>
@@ -2458,9 +2515,9 @@
                                           stroke-linejoin="round"
                                           stroke-width="2"
                                           d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path></svg>
-</button
-                                    >
+                                        ></path></svg
+                                      >
+                                    </button>
                                     <button
                                       on:click={() =>
                                         stepSizeValue(
@@ -2478,9 +2535,9 @@
                                           stroke-linejoin="round"
                                           stroke-width="2"
                                           d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path></svg>
-</button
-                                    >
+                                        ></path></svg
+                                      >
+                                    </button>
                                   </div>
                                 {/if}
                                 <!--End Dropdown for Condition-->
@@ -2837,8 +2894,8 @@
                   {(data?.user?.tier === "Pro"
                     ? tableSearchValue?.length > 0
                       ? tableSearchDisplayedData?.length
-                      : displayedData?.length
-                    : totalOrders
+                      : totalItems
+                    : totalItems
                   )?.toLocaleString("en-US")} Trades
                 </h2>
               </div>
@@ -2884,10 +2941,9 @@
                 <div class="ml-2 w-fit flex items-center justify-end gap-2">
                   <UnusualOrderFlowExport
                     {data}
-                    rawData={tableSearchDisplayedData?.length > 0
-                      ? tableSearchDisplayedData
-                      : rawData}
+                    {totalItems}
                     {selectedDate}
+                    fetchAllData={fetchAllFlowData}
                   />
 
                   <button
@@ -2978,6 +3034,8 @@
                       : displayedData}
                     {filteredData}
                     {rawData}
+                    isLoading={isTableLoading}
+                    onSort={handleSort}
                     bind:resetColumnOrder={unusualOrderFlowResetColumnOrder}
                     bind:customColumnOrder
                   />
@@ -2986,6 +3044,140 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Pagination Controls -->
+              {#if data?.user?.tier === "Pro" && totalItems > 0}
+                <div
+                  class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+                >
+                  <!-- Previous button -->
+                  <div class="flex items-center gap-2">
+                    <Button
+                      on:click={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1 || isTableLoading}
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <svg
+                        class="h-5 w-5 inline-block shrink-0 rotate-90"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span class="hidden sm:inline">Previous</span>
+                    </Button>
+                  </div>
+
+                  <!-- Page info and rows selector -->
+                  <div class="flex flex-row items-center gap-4">
+                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <span class="truncate text-[0.85rem] sm:text-sm"
+                            >{pageSize} Rows</span
+                          >
+                          <svg
+                            class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      >
+                        <DropdownMenu.Group class="pb-2">
+                          {#each rowsPerPageOptions as item}
+                            <DropdownMenu.Item
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            >
+                              <label
+                                on:click={() => changeRowsPerPage(item)}
+                                class="inline-flex justify-between w-full items-center cursor-pointer"
+                              >
+                                <span class="text-sm">{item} Rows</span>
+                              </label>
+                            </DropdownMenu.Item>
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
+
+                  <!-- Next button -->
+                  <div class="flex items-center gap-2">
+                    <Button
+                      on:click={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages || isTableLoading}
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <span class="hidden sm:inline">Next</span>
+                      <svg
+                        class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </div>
+                </div>
+
+                <!-- Back to Top button -->
+                <div class="flex justify-center mt-4 mb-10">
+                  <button
+                    on:click={scrollToTop}
+                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  >
+                    Back to Top
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-180"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              {/if}
             {/if}
           {:else}
             <Infobox text={unusual_order_flow_no_data_filters()} />
@@ -3046,7 +3238,8 @@
               ><path
                 fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-              /></svg>
+              /></svg
+            >
           </label>
         </div>
 
@@ -3100,9 +3293,9 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M6 18L18 6M6 6l12 12"
-                  ></path></svg>
-</button
-              >
+                  ></path></svg
+                >
+              </button>
             </div>
 
             <input
@@ -3133,8 +3326,8 @@
                     ><path
                       fill="currentColor"
                       d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                    /></svg>
-
+                    /></svg
+                  >
                 </label>
               {:else}
                 <input
@@ -3186,7 +3379,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
       {unusual_order_flow_modal_new_title()}
@@ -3238,7 +3432,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
       {unusual_order_flow_modal_delete_title()}
@@ -3278,8 +3473,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-{unusual_order_flow_modal_delete_confirm()}</label
+          ></line></svg
+        >
+        {unusual_order_flow_modal_delete_confirm()}</label
       >
     </div>
   </div>
@@ -3310,7 +3506,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class=" mb-5 text-center">
       <h3 class="font-bold text-2xl mb-5">{tooltipTitle}</h3>
