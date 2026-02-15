@@ -201,7 +201,6 @@
 
   let LoginPopup: any;
   let pricingAnnual = true;
-  let mobileMenuOpen = false;
 
   onMount(async () => {
     if (!data?.user) {
@@ -219,173 +218,11 @@
     "@type": "WebPage",
     name: landing_seo_title(),
     description: landing_seo_description(),
-    url: "https://stocknear.com/landing-page",
+    url: "https://stocknear.com",
   }}
 />
 
-<!-- Custom Landing Page Navbar -->
-<nav
-  class="fixed inset-x-0 top-0 z-50 w-full border-b border-gray-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl shadow-sm shadow-black/[0.03] dark:shadow-black/20"
->
-  <div
-    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-14 sm:h-16 items-center justify-between"
-  >
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2.5 shrink-0">
-      <img
-        src="/pwa-192x192.png"
-        alt="Stocknear"
-        class="h-8 w-8 sm:h-9 sm:w-9 rounded-full"
-      />
-      <span
-        class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight"
-        >Stocknear</span
-      >
-    </a>
-
-    <!-- Nav links (desktop) -->
-    <div
-      class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-zinc-400"
-    >
-      <a
-        href="#features"
-        class="hover:text-gray-900 dark:hover:text-white transition">Features</a
-      >
-      <a
-        href="#pricing"
-        class="hover:text-gray-900 dark:hover:text-white transition">Pricing</a
-      >
-      <a
-        href="#faq"
-        class="hover:text-gray-900 dark:hover:text-white transition">FAQ</a
-      >
-      <a
-        href="/chat"
-        class="hover:text-gray-900 dark:hover:text-white transition">AI Agent</a
-      >
-    </div>
-
-    <!-- Right side CTAs + mobile hamburger -->
-    <div class="flex items-center gap-3">
-      {#if !data?.user}
-        <a
-          href="/login"
-          class="hidden sm:inline-flex text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-        >
-          Log in
-        </a>
-        <label
-          for="userLogin"
-          class="cursor-pointer hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-        >
-          {landing_hero_cta_primary()}
-        </label>
-      {:else}
-        <a
-          href="/"
-          class="hidden sm:inline-flex text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-        >
-          Dashboard
-        </a>
-        <a
-          href="/pricing"
-          class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-        >
-          {landing_hero_cta_secondary()}
-        </a>
-      {/if}
-      <!-- Mobile hamburger -->
-      <button
-        on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
-        class="md:hidden flex items-center justify-center h-10 w-10 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-        aria-label="Toggle menu"
-      >
-        {#if mobileMenuOpen}
-          <svg
-            class="w-5 h-5 text-gray-700 dark:text-zinc-200"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        {:else}
-          <svg
-            class="w-5 h-5 text-gray-700 dark:text-zinc-200"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        {/if}
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile dropdown menu -->
-  {#if mobileMenuOpen}
-    <div
-      class="md:hidden border-t border-gray-200/70 dark:border-zinc-800/70 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl"
-    >
-      <div class="px-4 py-4 space-y-3">
-        <a
-          href="#features"
-          on:click={() => (mobileMenuOpen = false)}
-          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-          >Features</a
-        >
-        <a
-          href="#pricing"
-          on:click={() => (mobileMenuOpen = false)}
-          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-          >Pricing</a
-        >
-        <a
-          href="#faq"
-          on:click={() => (mobileMenuOpen = false)}
-          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-          >FAQ</a
-        >
-        <a
-          href="/chat"
-          class="block text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-          >AI Agent</a
-        >
-        <div class="pt-3 border-t border-gray-200 dark:border-zinc-800">
-          {#if !data?.user}
-            <label
-              for="userLogin"
-              on:click={() => (mobileMenuOpen = false)}
-              class="cursor-pointer w-full inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-            >
-              {landing_hero_cta_primary()}
-            </label>
-          {:else}
-            <a
-              href="/"
-              class="w-full inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-            >
-              Dashboard
-            </a>
-          {/if}
-        </div>
-      </div>
-    </div>
-  {/if}
-</nav>
-
-<div class="text-gray-700 dark:text-zinc-200 w-full pt-14 sm:pt-16">
+<div class="text-gray-700 dark:text-zinc-200 w-full">
   <!-- Section 1: Hero -->
   <section class="w-full bg-white dark:bg-zinc-950/60">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
@@ -1775,45 +1612,7 @@
     </div>
   </section>
 
-  <!-- Minimal Footer -->
-  <footer
-    class="border-t border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950"
-  >
-    <div
-      class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-zinc-500"
-    >
-      <div class="flex items-center gap-2">
-        <img
-          src="/pwa-192x192.png"
-          alt="Stocknear"
-          class="h-6 w-6 rounded-full"
-        />
-        <span
-          >&copy; {new Date().getFullYear()} Stocknear. All rights reserved.</span
-        >
-      </div>
-      <div class="flex items-center gap-5">
-        <a
-          href="/about"
-          class="hover:text-gray-900 dark:hover:text-white transition">About</a
-        >
-        <a
-          href="/privacy-policy"
-          class="hover:text-gray-900 dark:hover:text-white transition"
-          >Privacy</a
-        >
-        <a
-          href="/terms-of-use"
-          class="hover:text-gray-900 dark:hover:text-white transition">Terms</a
-        >
-        <a
-          href="/contact"
-          class="hover:text-gray-900 dark:hover:text-white transition"
-          >Contact</a
-        >
-      </div>
-    </div>
-  </footer>
+
 </div>
 
 {#if LoginPopup}
