@@ -327,11 +327,10 @@
 
   $: {
     if (searchBarModalChecked === true && typeof window !== "undefined") {
-      if ($screenWidth > 640) {
-        inputElement.focus();
-      }
-      //Page is not scrollable now
+      setTimeout(() => inputElement?.focus(), 30);
+      // Page is not scrollable now and hide fixed mobile nav layers.
       document.body.classList.add("overflow-hidden");
+      document.body.classList.add("search-modal-open");
     }
   }
 
@@ -343,6 +342,7 @@
         inputValue = "";
       }
       document.body.classList?.remove("overflow-hidden");
+      document.body.classList?.remove("search-modal-open");
     }
   }
 
@@ -384,7 +384,7 @@
 <!-- Loading spinner overlay for mobile navigation -->
 {#if isNavigatingWithSpinner}
   <div
-    class="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center"
+    class="fixed inset-0 z-[2147483647] bg-black/50 flex items-center justify-center"
   >
     <div class="relative">
       <label
@@ -561,149 +561,153 @@
 
 <dialog
   id="searchBarModal"
-  class="modal modal-middle fixed inset-0 z-[9999] p-3"
+  class="modal modal-middle fixed inset-0 z-[2147483644] p-0 sm:p-3"
 >
-  <label for="searchBarModal" class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="searchBarModal"
+    class="cursor-pointer modal-backdrop z-[2147483645]"
+  ></label>
 
   <div
-    class="z-999 modal-box min-h-96 overflow-hidden m-auto sm:my-8 sm:h-auto w-full sm:w-3/4 lg:w-1/2 2xl:w-1/3 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="z-[2147483646] modal-box w-screen h-dvh min-h-dvh max-w-none max-h-none overflow-hidden m-0 sm:my-8 sm:mx-auto sm:w-3/4 lg:w-1/2 2xl:w-1/3 sm:h-auto sm:min-h-0 sm:max-h-[90vh] sm:max-w-[42rem] relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border-0 sm:border border-gray-300 dark:border-zinc-700 rounded-none sm:rounded-2xl shadow-none sm:shadow-2xl p-0"
   >
-    <label
-      for="searchBarModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
+    <!-- Mobile header -->
+    <div
+      class="sticky top-0 z-[2147483647] border-b border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2.5"
     >
-      <svg
-        class="w-6 h-6 sm:w-7 sm:h-7"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        ><path
-          fill="currentColor"
-          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
-    </label>
-
-    <!-- Search layout -->
-    <div class="mt-8">
-      <div class="relative">
-        <div
-          class="inline-block cursor-pointer absolute right-5 top-1.5 text-[1.3rem] sm:text-[1.5rem]"
-        >
-          {#if isLoading}
-            <span class="loading loading-spinner loading-sm"></span>
-          {:else if inputValue?.length > 0}
-            <label class="cursor-pointer" on:click={() => (inputValue = "")}>
-              <svg
-                class="w-6 h-6 mt-2 ml-1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                ><path
-                  fill="currentColor"
-                  d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                /></svg>
-
-            </label>
-          {:else}
-            /
-          {/if}
-        </div>
-
-        <label for="modal-search" class="sr-only">
-          {searchbar_search_label()}
-        </label>
-
-        <input
-          id="modal-search"
-          class="focus:outline-none rounded-full w-full bg-white/80 dark:bg-zinc-900/60 border border-gray-300 shadow dark:border-zinc-700 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 py-3 pl-10 pr-4"
-          placeholder={searchbar_placeholder()}
-          bind:value={inputValue}
-          bind:this={inputElement}
-          autocomplete="off"
-          on:keydown={(e) => {
-            if (e.key === "Enter" && inputValue) {
-              handleKeyDown(inputValue);
-            }
-          }}
-        />
-
-        <button
-          class="absolute inset-0 right-auto group"
-          aria-label={searchbar_search_label()}
+      <div class="flex items-center gap-2">
+        <label
+          for="searchBarModal"
+          class="inline-flex cursor-pointer items-center justify-center text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+          aria-label="Close modal"
         >
           <svg
-            class="w-4 h-4 shrink-0 fill-current ml-4 mr-2 text-gray-800 dark:text-zinc-300"
-            viewBox="0 0 16 16"
+            class="h-7 w-7"
             xmlns="http://www.w3.org/2000/svg"
-            ><path
-              d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"
-            />
+            viewBox="0 0 24 24"
+          >
             <path
-              d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z"
+              fill="currentColor"
+              d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12z"
             />
           </svg>
-        </button>
+        </label>
+
+        <div class="relative flex-1">
+          <label for="modal-search" class="sr-only">
+            {searchbar_search_label()}
+          </label>
+          <svg
+            class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-zinc-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+
+          <input
+            id="modal-search"
+            class="focus:outline-none w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-sm text-gray-700 dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:ring-0"
+            placeholder={searchbar_placeholder()}
+            bind:value={inputValue}
+            bind:this={inputElement}
+            autocomplete="off"
+            on:keydown={(e) => {
+              if (e.key === "Enter" && inputValue) {
+                handleKeyDown(inputValue);
+              }
+            }}
+          />
+
+          {#if isLoading}
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 loading loading-spinner loading-sm text-gray-600 dark:text-zinc-300"
+            ></span>
+          {:else if inputValue?.length > 0}
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 transition"
+              on:click={() => (inputValue = "")}
+              aria-label="Clear search"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                />
+              </svg>
+            </button>
+          {/if}
+        </div>
       </div>
     </div>
 
     <div
-      class="w-auto z-40 mt-3 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-950 px-1.5 py-2 outline-hidden"
+      class="h-[calc(100dvh-64px)] sm:h-auto sm:max-h-[calc(90vh-64px)] overflow-y-auto bg-white dark:bg-zinc-900"
     >
       {#if inputValue?.length > 0 && searchBarData?.length > 0}
-        <div
-          class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
-        >
-          {searchbar_suggestions()}
-        </div>
         {#each searchBarData as item}
-          <li
-            class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+          <button
+            type="button"
+            class="w-full cursor-pointer border-b border-gray-200 dark:border-zinc-700 px-4 py-3 text-left text-gray-700 dark:text-zinc-100 transition-colors duration-75 active:bg-gray-100 dark:active:bg-zinc-800"
             on:click={() => handleSearch(item?.symbol, item?.type)}
           >
-            <div class="flex flex-row items-center justify-between w-full">
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-[1rem] font-semibold leading-tight">
+                  {item?.symbol}
+                </div>
+                <div
+                  class="mt-0.5 truncate text-[0.84rem] leading-snug text-gray-500 dark:text-zinc-400"
+                >
+                  {item?.name}
+                </div>
+              </div>
               <span
-                class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
-                >{item?.symbol}</span
+                class="ml-auto shrink-0 text-[0.9rem] font-medium text-gray-600 dark:text-zinc-300"
               >
-              <span
-                class="whitespace-nowrap ml-3 mr-6 text-sm text-gray-600 dark:text-zinc-300 truncate"
-                >{item?.name}</span
-              >
-              <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
-                >{item?.type}</span
-              >
+                {item?.type}
+              </span>
             </div>
-          </li>
+          </button>
         {/each}
       {:else if inputValue?.length === 0 || !showSuggestions}
-        <div
-          class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
-        >
-          {searchHistory?.length > 0
-            ? searchbar_recent()
-            : searchbar_popular()}
-        </div>
         {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
-          <li
-            class="gap-y-1.5 cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+          <button
+            type="button"
+            class="w-full cursor-pointer border-b border-gray-200 dark:border-zinc-700 px-4 py-3 text-left text-gray-700 dark:text-zinc-100 transition-colors duration-75 active:bg-gray-100 dark:active:bg-zinc-800"
             on:click={() => handleSearch(item?.symbol, item?.type)}
           >
-            <div class="flex flex-row items-center justify-between w-full">
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-[1rem] font-semibold leading-tight">
+                  {item?.symbol}
+                </div>
+                <div
+                  class="mt-0.5 truncate text-[0.84rem] leading-snug text-gray-500 dark:text-zinc-400"
+                >
+                  {item?.name}
+                </div>
+              </div>
               <span
-                class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
-                >{item?.symbol}</span
+                class="ml-auto shrink-0 text-[0.9rem] font-medium text-gray-600 dark:text-zinc-300"
               >
-              <span
-                class="whitespace-nowrap ml-3 mr-6 text-sm text-gray-600 dark:text-zinc-300 truncate"
-                >{item?.name}</span
-              >
-              <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
-                >{item?.type}</span
-              >
+                {item?.type}
+              </span>
             </div>
-          </li>
+          </button>
         {/each}
       {:else}
-        <span class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300">
+        <span class="block px-5 py-6 text-sm text-gray-600 dark:text-zinc-300">
           {searchbar_no_results()}
         </span>
       {/if}
