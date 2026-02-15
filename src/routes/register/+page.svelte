@@ -221,7 +221,7 @@
       <!-- ============================================ -->
       <!-- STEP 1: Create Account                       -->
       <!-- ============================================ -->
-      <div class="animate-fade-in-once">
+      <div>
         <!-- Step indicator -->
         <div class="text-center mb-6">
           <span class="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/30 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-400 tracking-wide">
@@ -328,7 +328,7 @@
       <!-- ============================================ -->
       <!-- STEP 2: Choose Plan                          -->
       <!-- ============================================ -->
-      <div class="animate-fade-in-once">
+      <div>
         <!-- Step indicator -->
         <div class="text-center mb-6">
           <span class="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/30 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-400 tracking-wide">

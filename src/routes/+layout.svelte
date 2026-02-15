@@ -479,7 +479,7 @@
     BProgress?.done();
   });
 
-  $: isLandingPage = ($page.url.pathname === "/" && !data?.user) || $page.url.pathname === "/register";
+  $: isLandingPage = ($page.url.pathname === "/" && !data?.user) || $page.url.pathname === "/register" || $page.url.pathname === "/login";
 
   $: {
     if ($page.url.pathname) {
@@ -1446,13 +1446,11 @@
         <div
           class="relative w-full flex flex-row justify-end sm:justify-between items-center gap-2 sm:gap-3"
         >
+          <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
+            <Searchbar />
+          </div>
           {#if !isLandingPage}
-            <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
-              <Searchbar />
-            </div>
             <NotificationBell {data} {hasUnreadElement} />
-          {:else}
-            <div class="flex-1"></div>
           {/if}
 
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && !data?.user}

@@ -37,45 +37,35 @@
   const submitLogin = () => {
     loading = true;
     return async ({ result, update }) => {
+      const toastStyle = `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
+
       switch (result.type) {
         case "success":
           if (form?.notVerified) {
-            toast.error(login_toast_verify_email(), {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            });
+            toast.error(login_toast_verify_email(), { style: toastStyle });
             await update();
             break;
           } else form?.notVerified === false;
           {
-            toast.success(login_toast_success(), {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            });
+            toast.success(login_toast_success(), { style: toastStyle });
             await update();
             break;
           }
         case "redirect":
           isClicked = true;
-          toast.success(login_toast_success(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.success(login_toast_success(), { style: toastStyle });
           await update();
           break;
         case "failure":
           if (result.data?.authFailed) {
-            toast.error(login_toast_auth_failed(), {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            });
+            toast.error(login_toast_auth_failed(), { style: toastStyle });
           } else {
-            toast.error(login_toast_invalid(), {
-              style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-            });
+            toast.error(login_toast_invalid(), { style: toastStyle });
           }
           await update();
           break;
         case "error":
-          toast.error(result.error.message, {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.error(result.error.message, { style: toastStyle });
           break;
         default:
           await update();
@@ -90,40 +80,48 @@
   description={login_seo_description()}
 />
 
-<div
-  class="text-gray-700 dark:text-zinc-200 relative w-full max-w-3xl mx-auto {data?.user
-    ? 'min-h-[500px] sm:min-h-[900px]'
-    : 'min-h-screen'} {oauthLoading ? 'opacity-[0.2]' : ''}"
->
-  <div class="grid grid-cols-1 gap-4">
-    <div class="relative">
-      <a href="/">
+<div class="min-h-screen bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200">
+  <div class="mx-auto max-w-lg px-4 sm:px-6 py-8 sm:py-16">
+
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <a href="/" class="inline-block">
         <img
-          class="m-auto w-16 sm:w-20 rounded-full pt-4"
+          class="w-14 sm:w-16 rounded-full mx-auto"
           src="/pwa-192x192.png"
           alt="Stocknear Logo"
-          loading="lazy"
         />
       </a>
-
-      <h1
-        class="text-center text-2xl sm:text-3xl pt-5 font-semibold tracking-tight text-gray-900 dark:text-white"
-      >
-        {!data?.user ? login_title() : login_title_logged_in()}
-      </h1>
     </div>
 
     {#if !data?.user}
-      <span class="text-sm text-gray-500 dark:text-zinc-400 text-center">
-        {login_subtitle()}
-      </span>
+      <div>
+        <!-- Heading -->
+        <h1 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          {login_title()}
+        </h1>
+        <p class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8">
+          {login_subtitle()}
+        </p>
 
-      <div class="relative w-full max-w-lg m-auto">
+        <!-- Google OAuth (prominent, at top) -->
+        <div class="mb-6">
+          <OAuthButtons on:click={() => (oauthLoading = !oauthLoading)} />
+        </div>
+
+        <!-- Divider -->
+        <div class="divider text-gray-800 dark:text-zinc-300 py-4">
+          <span class="text-[11px] uppercase tracking-[0.3em] z-10">
+            {login_divider()}
+          </span>
+        </div>
+
+        <!-- Email + Password form -->
         <form
           action="?/login"
           method="POST"
           use:enhance={submitLogin}
-          class="flex flex-col items-center space-y-3 pt-4 pl-3 pr-3 sm:pl-0 sm:pr-0 ml-auto mr-auto"
+          class="flex flex-col items-center space-y-3 w-full max-w-md mx-auto"
         >
           <Input
             type="email"
@@ -138,86 +136,65 @@
             label={login_password_label()}
             errors={form?.errors?.password}
           />
-          <div class="w-full max-w-lg">
+          <div class="w-full text-start">
             <a
               href="/reset-password"
-              class="text-sm sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-              >{login_forgot_password()}</a
-            >
+              class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+            >{login_forgot_password()}</a>
           </div>
 
-          <div class="w-full max-w-lg pt-5 m-auto pb-5">
-            {#if !loading && !isClicked}
-              <button
-                type="submit"
-                class="cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
-              >
+          <div class="w-full pt-4 m-auto pb-3">
+            <button
+              type="submit"
+              class="py-3 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-base disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={loading || isClicked}
+              aria-busy={loading || isClicked}
+            >
+              {#if !loading && !isClicked}
                 <span>{login_button()}</span>
-              </button>
-            {:else}
-              <button
-                type="submit"
-                disabled
-                class="w-full rounded-full py-2.5 px-4 font-semibold text-[1rem]
-             bg-gray-900 text-white dark:bg-white dark:text-gray-900
-             opacity-60 cursor-not-allowed border border-gray-900/10 dark:border-white/10
-             flex items-center justify-center gap-1.5"
-              >
-                <span class="loading loading-infinity"></span>
-                <span>{login_button_loading()}</span>
-              </button>
-            {/if}
+              {:else}
+                <span class="flex items-center justify-center gap-2">
+                  <span class="loading loading-infinity"></span>
+                  <span>{login_button_loading()}</span>
+                </span>
+              {/if}
+            </button>
           </div>
         </form>
 
-        <div class="divider text-gray-800 dark:text-zinc-300 py-6">
-          <span class="text-[11px] uppercase tracking-[0.3em] z-10"
-            >{login_divider()}</span
-          >
-        </div>
-
-        <OAuthButtons on:click={() => (oauthLoading = !oauthLoading)} />
-
-        <p
-          class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
-        >
+        <!-- Sign up link -->
+        <p class="text-sm text-center text-gray-500 dark:text-zinc-400 mt-6">
           {login_no_account()}
-          <a
-            href="/register"
-            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition ml-1"
-            >{login_signup_link()}</a
-          >
+          <a href="/register" class="text-violet-700 dark:text-violet-400 hover:underline ml-1">{login_signup_link()}</a>
         </p>
       </div>
     {:else}
-      <p class="mt-2 text-center text-sm text-gray-500 dark:text-zinc-400">
-        {login_logged_in_as({ email: data?.user?.email })}
-      </p>
-      <form class="cursor-pointer" action="/logout" method="POST">
-        <button
-          type="submit"
-          aria-label={login_logout_button()}
-          class="cursor-pointer mx-auto mt-2 flex w-full max-w-xs justify-center rounded-full
-          bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2 text-sm font-semibold
-          hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none
-          focus:ring-offset-0"
-          >{login_logout_button()}
-        </button>
-      </form>
+      <!-- Already logged in -->
+      <div class="text-center">
+        <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          {login_title_logged_in()}
+        </h1>
+        <p class="mt-3 text-sm text-gray-500 dark:text-zinc-400">
+          {login_logged_in_as({ email: data?.user?.email })}
+        </p>
+        <form class="cursor-pointer" action="/logout" method="POST">
+          <button
+            type="submit"
+            aria-label={login_logout_button()}
+            class="cursor-pointer mx-auto mt-4 flex w-full max-w-xs justify-center rounded-full
+              bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2.5 text-sm font-semibold
+              hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none"
+          >{login_logout_button()}</button>
+        </form>
+      </div>
     {/if}
   </div>
 </div>
 
 {#if oauthLoading}
-  <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
-    <div class="relative">
-      <label
-        class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-      >
-        <span
-          class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
-        ></span>
-      </label>
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+    <div class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center shadow-lg">
+      <span class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"></span>
     </div>
   </div>
 {/if}
