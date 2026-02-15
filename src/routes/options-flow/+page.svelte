@@ -1592,6 +1592,9 @@
           // Handle live updates only (array of new trades)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
+            // Skip WS updates while a REST fetch is in-flight to avoid data race
+            if (isFetchingPage) return;
+
             // Safety: if server accidentally sends a huge batch, refresh from API instead
             if (newData.length > 200) {
               console.warn(
