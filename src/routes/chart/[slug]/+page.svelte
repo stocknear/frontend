@@ -7369,18 +7369,70 @@
       $mode === "light" ? "#F9FAFB" : "#4B5563"
     }; font-size: 15px;`;
 
-  async function handleModeChange(newMode: "light" | "dark") {
-    setMode(newMode);
+  type ViewTransitionLike = {
+    ready: Promise<void>;
+  };
 
-    try {
-      await fetch("/api/theme-mode", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: newMode }),
-      });
-    } catch (error) {
-      console.error("Failed to update theme:", error);
+  type ViewTransitionDocument = Document & {
+    startViewTransition?: (
+      callback: () => void | Promise<void>,
+    ) => ViewTransitionLike;
+  };
+
+  async function handleModeChange(
+    newMode: "light" | "dark",
+    sourceEl?: HTMLElement | null,
+  ) {
+    if (newMode === $mode) return;
+
+    const applyMode = async () => {
+      setMode(newMode);
+
+      try {
+        await fetch("/api/theme-mode", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: newMode }),
+        });
+      } catch (error) {
+        console.error("Failed to update theme:", error);
+      }
+    };
+
+    const docWithTransition = document as ViewTransitionDocument;
+    if (typeof docWithTransition.startViewTransition !== "function") {
+      await applyMode();
+      return;
     }
+
+    const fallbackX = window.innerWidth / 2;
+    const fallbackY = 64;
+    const rect = sourceEl?.getBoundingClientRect();
+    const x = rect ? rect.left + rect.width / 2 : fallbackX;
+    const y = rect ? rect.top + rect.height / 2 : fallbackY;
+    const maxRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const transition = docWithTransition.startViewTransition(() => applyMode());
+    await transition.ready;
+
+    const animationOptions: KeyframeAnimationOptions & { pseudoElement: string } = {
+      duration: 420,
+      easing: "ease-in-out",
+      pseudoElement: "::view-transition-new(root)",
+    };
+
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${maxRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      animationOptions,
+    );
   }
 
   let LoginPopup;
@@ -9673,7 +9725,8 @@
                     ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
                     : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                 }`}
-                on:click={() => handleModeChange("light")}
+                on:click={(e) =>
+                  handleModeChange("light", e.currentTarget as HTMLElement)}
               >
                 Light
               </DropdownMenu.Item>
@@ -9683,7 +9736,8 @@
                     ? "text-violet-600 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
                     : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                 }`}
-                on:click={() => handleModeChange("dark")}
+                on:click={(e) =>
+                  handleModeChange("dark", e.currentTarget as HTMLElement)}
               >
                 Dark
               </DropdownMenu.Item>
@@ -13885,6 +13939,12 @@
 {/if}
 
 <style>
+  :global(::view-transition-old(root)),
+  :global(::view-transition-new(root)) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
   :global(.chart-splitpanes .splitpanes__pane) {
     background-color: transparent !important;
   }

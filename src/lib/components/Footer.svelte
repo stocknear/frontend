@@ -1,5 +1,6 @@
 <script lang="ts">
   import { setMode, mode } from "mode-watcher";
+  import AnimatedThemeToggler from "$lib/components/magic/AnimatedThemeToggler.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.ts";
   import {
     setLanguage,
@@ -53,7 +54,7 @@
     window.location.reload();
   }
 
-  async function handleModeChange(newMode) {
+  async function handleModeChange(newMode: "light" | "dark") {
     setMode(newMode);
 
     try {
@@ -198,56 +199,12 @@
             </li>
             -->
             <li class="text-te">
-              <div
-                class="w-fit flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 p-0.5"
-              >
-                <button
-                  id="lightBtn"
-                  on:click={() => handleModeChange("light")}
-                  class="cursor-pointer {$mode === 'light'
-                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                    : ''} text-xs flex items-center gap-x-2 px-3 py-1.5 rounded-full text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white focus:z-10 focus:outline-none transition-all"
-                >
-                  <svg
-                    class="h-4 w-4 -mr-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                    ></path>
-                  </svg>
-                  {footer_light()}
-                  <span class="sr-only">Toggle theme</span>
-                </button>
-                <button
-                  id="darkBtn"
-                  on:click={() => handleModeChange("dark")}
-                  class="cursor-pointer {$mode === 'dark'
-                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                    : ''} text-xs flex items-center gap-x-2 pl-3 pr-2 py-1.5 rounded-full text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white focus:z-10 focus:outline-none transition-all"
-                >
-                  <svg
-                    class="h-4 w-4 -mr-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                    ></path>
-                  </svg>
-                  {footer_dark()}
-                  <span class="sr-only">Toggle theme</span>
-                </button>
-              </div>
+              <AnimatedThemeToggler
+                modeValue={$mode}
+                onToggle={handleModeChange}
+                lightLabel={footer_light()}
+                darkLabel={footer_dark()}
+              />
             </li>
 
             <li>
