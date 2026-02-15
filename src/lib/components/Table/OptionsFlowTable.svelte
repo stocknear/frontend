@@ -13,27 +13,28 @@
   export let filteredData = [];
   export let rawData = [];
   export let isLoading = false;
-  export let onSort: ((key: string, order: string) => void) | undefined = undefined;
+  export let onSort: ((key: string, order: string) => void) | undefined =
+    undefined;
 
   // Default columns definition
   const defaultColumns = [
-    { key: "time", label: "Time", align: "center" },
-    { key: "ticker", label: "Symbol", align: "center" },
+    { key: "time", label: "Time", align: "left" },
+    { key: "ticker", label: "Symbol", align: "left" },
     { key: "insight", label: "", align: "center" },
-    { key: "expiry", label: "Expiry", align: "center" },
-    { key: "dte", label: "DTE", align: "center" },
-    { key: "strike", label: "Strike", align: "center" },
-    { key: "callPut", label: "C/P", align: "center" },
-    { key: "sentiment", label: "Sent.", align: "center" },
-    { key: "spot", label: "Spot", align: "center" },
-    { key: "price", label: "Price", align: "center" },
-    { key: "premium", label: "Prem", align: "center" },
-    { key: "type", label: "Type", align: "center" },
-    { key: "leg", label: "Leg", align: "center" },
-    { key: "exec", label: "Exec", align: "center" },
-    { key: "size", label: "Size", align: "center" },
-    { key: "vol", label: "Vol", align: "center" },
-    { key: "oi", label: "OI", align: "center" },
+    { key: "expiry", label: "Expiry", align: "right" },
+    { key: "dte", label: "DTE", align: "right" },
+    { key: "strike", label: "Strike", align: "right" },
+    { key: "callPut", label: "C/P", align: "right" },
+    { key: "sentiment", label: "Sent.", align: "right" },
+    { key: "spot", label: "Spot", align: "right" },
+    { key: "price", label: "Price", align: "right" },
+    { key: "premium", label: "Prem", align: "right" },
+    { key: "type", label: "Type", align: "right" },
+    { key: "leg", label: "Leg", align: "right" },
+    { key: "exec", label: "Exec", align: "right" },
+    { key: "size", label: "Size", align: "right" },
+    { key: "vol", label: "Vol", align: "right" },
+    { key: "oi", label: "OI", align: "right" },
   ];
 
   let columns = [...defaultColumns];
@@ -956,7 +957,9 @@ ${insightData.traderTakeaway}
     aria-busy={isLoading}
   >
     <thead>
-      <tr class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700">
+      <tr
+        class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+      >
         {#each columns as column, i}
           <th
             draggable="true"
@@ -987,7 +990,8 @@ ${insightData.traderTakeaway}
                     fill-rule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clip-rule="evenodd"
-                  ></path></svg>
+                  ></path></svg
+                >
               {/if}
             </span>
           </th>
@@ -1017,13 +1021,13 @@ ${insightData.traderTakeaway}
           >
             {#each columns as column}
               {#if column.key === "time"}
-                <td class="text-end text-xs sm:text-sm whitespace-nowrap">
+                <td class="text-left text-sm whitespace-nowrap">
                   {formatTime(item?.time)}
                 </td>
               {:else if column.key === "ticker"}
                 <td
                   on:click|stopPropagation
-                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap"
+                  class="text-left text-sm whitespace-nowrap"
                 >
                   <HoverStockChart
                     symbol={item?.ticker}
@@ -1034,27 +1038,28 @@ ${insightData.traderTakeaway}
               {:else if column.key === "insight"}
                 <td
                   on:click|stopPropagation={() => optionsInsight(item)}
-                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap"
+                  class="text-center whitespace-nowrap"
                 >
                   <Spark
                     class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   />
                 </td>
               {:else if column.key === "expiry"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {reformatDate(item?.date_expiration)}
                 </td>
               {:else if column.key === "dte"}
-                <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.dte < 0 ? "expired" : item?.dte + "d"}
                 </td>
               {:else if column.key === "strike"}
-                <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.strike_price}
                 </td>
               {:else if column.key === "callPut"}
                 <td
-                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap {item?.put_call === 'Calls'
+                  class="text-end text-sm whitespace-nowrap {item?.put_call ===
+                  'Calls'
                     ? 'text-emerald-800 dark:text-emerald-400'
                     : 'text-rose-800 dark:text-rose-400'}"
                 >
@@ -1062,7 +1067,8 @@ ${insightData.traderTakeaway}
                 </td>
               {:else if column.key === "sentiment"}
                 <td
-                  class="text-end text-sm sm:text-[1rem] whitespace-nowrap {item?.sentiment === 'Bullish'
+                  class="text-end text-sm whitespace-nowrap {item?.sentiment ===
+                  'Bullish'
                     ? 'text-emerald-800 dark:text-emerald-400'
                     : item?.sentiment === 'Bearish'
                       ? 'text-rose-800 dark:text-rose-400'
@@ -1071,20 +1077,21 @@ ${insightData.traderTakeaway}
                   {item?.sentiment}
                 </td>
               {:else if column.key === "spot"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.underlying_price}
                 </td>
               {:else if column.key === "price"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {item?.price}
                 </td>
               {:else if column.key === "premium"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                <td class="text-end text-sm whitespace-nowrap">
                   {@html abbreviateNumber(item?.cost_basis, false, true)}
                 </td>
               {:else if column.key === "type"}
                 <td
-                  class="text-end text-sm sm:text-[1rem] whitespace-nowrap {item?.option_activity_type === 'Sweep'
+                  class="text-end text-sm whitespace-nowrap {item?.option_activity_type ===
+                  'Sweep'
                     ? 'text-gray-600 dark:text-[#C6A755]'
                     : item?.option_activity_type === 'Block'
                       ? 'text-gray-600 dark:text-[#FF6B6B]'
@@ -1096,7 +1103,8 @@ ${insightData.traderTakeaway}
                 </td>
               {:else if column.key === "leg"}
                 <td
-                  class="text-center text-sm sm:text-[1rem] whitespace-nowrap {item?.trade_leg_type === 'multi-leg'
+                  class="text-end text-sm whitespace-nowrap {item?.trade_leg_type ===
+                  'multi-leg'
                     ? 'text-gray-600 dark:text-[#FF9500]'
                     : 'text-gray-600 dark:text-[#7B8794]'}"
                 >
@@ -1104,33 +1112,35 @@ ${insightData.traderTakeaway}
                 </td>
               {:else if column.key === "exec"}
                 <td
-                  class="text-end text-sm sm:text-[1rem] whitespace-nowrap {[
+                  class="text-end text-sm whitespace-nowrap {[
                     'At Ask',
                     'Above Ask',
                   ]?.includes(item?.execution_estimate)
                     ? 'text-gray-600 dark:text-[#C8A32D]'
-                    : ['At Bid', 'Below Bid']?.includes(item?.execution_estimate)
+                    : ['At Bid', 'Below Bid']?.includes(
+                          item?.execution_estimate,
+                        )
                       ? 'text-gray-600 dark:text-[#8F82FE]'
                       : 'text-gray-600 dark:text-[#A98184]'}"
                 >
                   {item?.execution_estimate?.replace("Midpoint", "Mid")}
                 </td>
               {:else if column.key === "size"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   }).format(item?.size)}
                 </td>
               {:else if column.key === "vol"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   }).format(item?.volume)}
                 </td>
               {:else if column.key === "oi"}
-                <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap tabular-nums">
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
