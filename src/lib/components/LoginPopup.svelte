@@ -2,8 +2,11 @@
   import { enhance } from "$app/forms";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { tick } from "svelte";
+  import { Turnstile } from "svelte-turnstile";
 
   import Input from "$lib/components/Input.svelte";
+  import PasswordInput from "$lib/components/PasswordInput.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { screenWidth } from "$lib/store";
   import { page } from "$app/stores";
@@ -34,6 +37,12 @@
     register_popup_has_account,
     register_popup_sign_in_link,
     register_popup_success,
+    register_toast_invalid,
+    register_toast_disposable_email,
+    register_toast_password_mismatch,
+    register_toast_weak_password,
+    register_toast_invalid_email,
+    register_toast_rate_limited,
   } from "$lib/paraglide/messages";
 
   export let form;
@@ -42,28 +51,37 @@
   let isClicked = false;
   let loading = false;
 
+  // Password state for real-time validation
+  let password = "";
+  let passwordConfirm = "";
+  let showTurnstile = true;
+
+  const resetTurnstile = async () => {
+    showTurnstile = false;
+    await tick();
+    showTurnstile = true;
+  };
+
   const submitLogin = () => {
     loading = true;
     return async ({ result, update }) => {
+      const toastStyle = `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
+
       switch (result.type) {
         case "success":
         case "redirect":
           isClicked = true;
-          toast.success(login_popup_success(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.success(login_popup_success(), { style: toastStyle });
           await update();
           break;
         case "failure":
           toast.error(login_popup_invalid_credentials(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+            style: toastStyle,
           });
           await update();
           break;
         case "error":
-          toast.error(result.error.message, {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.error(result.error.message, { style: toastStyle });
           break;
         default:
           await update();
@@ -89,29 +107,70 @@
   const submitRegistration = () => {
     loading = true;
     return async ({ result, update }) => {
+      const toastStyle = `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
+
       switch (result.type) {
         case "success":
         case "redirect":
           isClicked = true;
-          toast.success(register_popup_success(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.success(register_popup_success(), { style: toastStyle });
           await update();
           break;
         case "failure":
-          toast.error(login_popup_invalid_credentials(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          if (result.data?.rateLimited) {
+            const minutes = result.data?.retryAfter || 15;
+            toast.error(
+              register_toast_rate_limited({ minutes: String(minutes) }),
+              { style: toastStyle },
+            );
+          } else if (result.data?.disposableEmail) {
+            toast.error(register_toast_disposable_email(), {
+              style: toastStyle,
+            });
+          } else if (result.data?.weakPassword) {
+            toast.error(register_toast_weak_password(), {
+              style: toastStyle,
+            });
+          } else if (result.data?.invalidEmail) {
+            toast.error(register_toast_invalid_email(), {
+              style: toastStyle,
+            });
+          } else if (
+            result.data?.errors?.password ||
+            result.data?.errors?.passwordConfirm
+          ) {
+            const passwordError =
+              result.data?.errors?.password?.[0] ||
+              result.data?.errors?.passwordConfirm?.[0] ||
+              "";
+            if (passwordError.toLowerCase().includes("match")) {
+              toast.error(register_toast_password_mismatch(), {
+                style: toastStyle,
+              });
+            } else {
+              toast.error(register_toast_weak_password(), {
+                style: toastStyle,
+              });
+            }
+          } else if (result.data?.errors?.email) {
+            toast.error(register_toast_invalid_email(), {
+              style: toastStyle,
+            });
+          } else if (result.data?.errors?.turnstile) {
+            // Turnstile error shown inline, no toast
+          } else {
+            toast.error(register_toast_invalid(), { style: toastStyle });
+          }
           await update();
           break;
         case "error":
-          toast.error(result.error.message, {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.error(result.error.message, { style: toastStyle });
           break;
         default:
           await update();
       }
+
+      await resetTurnstile();
 
       setTimeout(() => {
         if (
@@ -119,7 +178,7 @@
           $page?.url?.pathname
         ) {
           const anchor = document.createElement("a");
-          anchor.href = "/pricing";
+          anchor.href = $page?.url?.pathname;
           anchor.dataset.sveltekitReload = true;
           document.body.appendChild(anchor);
           anchor.dispatchEvent(new MouseEvent("click"));
@@ -129,26 +188,6 @@
       loading = false;
     };
   };
-
-  /*
-async function handleRegister(event) {
-
-event.preventDefault();
-const formData = new FormData(event.target); // create a FormData object from the form
-
-
-
-const response = await fetch('/api/register', {
-method: 'POST',
-headers: {
-"Content-Type": "application/json","X-API-KEY": apiKey
-},
-body: JSON.stringify(formData)
-});
-
-const output = await response.json();
-}
-*/
 
   let displaySection = "login";
 
@@ -294,8 +333,6 @@ const output = await response.json();
             use:enhance={submitRegistration}
             class="flex flex-col text-start items-center space-y-3 w-full max-w-md pt-2 md:ml-auto md:mr-auto"
           >
-            <!--<Input id="name" label="Your first and last name" value={form?.data?.name} errors={form?.errors?.name} />-->
-
             <Input
               type="email"
               id="email"
@@ -305,21 +342,55 @@ const output = await response.json();
               disabled={loading}
             />
 
-            <Input
-              type="password"
+            <PasswordInput
               id="password"
               label={login_popup_password_label()}
               errors={form?.errors?.password}
               disabled={loading}
+              showRequirements={true}
+              showMatchIndicator={true}
+              confirmValue={passwordConfirm}
+              on:input={(e) => (password = e.detail)}
             />
 
-            <Input
-              type="password"
-              id="passwordConfirm"
-              label={register_popup_confirm_password_label()}
-              errors={form?.errors?.passwordConfirm}
-              disabled={loading}
-            />
+            <div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+              <label for="passwordConfirm" class="label pb-1">
+                <span class="text-muted dark:text-white">{register_popup_confirm_password_label()}</span>
+              </label>
+              <div class="relative">
+                <input
+                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+                  type="password"
+                  id="passwordConfirm"
+                  name="passwordConfirm"
+                  disabled={loading}
+                  bind:value={passwordConfirm}
+                  autocomplete="off"
+                />
+
+                {#if passwordConfirm.length > 0}
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                    {#if password === passwordConfirm && password.length > 0}
+                      <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    {:else}
+                      <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    {/if}
+                  </div>
+                {/if}
+              </div>
+
+              {#if form?.errors?.passwordConfirm}
+                <label for="passwordConfirm" class="py-0 pt-1 text-xs">
+                  <span class="text-red-800 font-semibold dark:font-normal dark:text-error">
+                    {form?.errors?.passwordConfirm}
+                  </span>
+                </label>
+              {/if}
+            </div>
 
             <div class="w-full max-w-lg pt-5 m-auto pb-3">
               <button
@@ -338,6 +409,15 @@ const output = await response.json();
                 {/if}
               </button>
             </div>
+
+            {#if showTurnstile}
+              <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+            {/if}
+            {#if form?.errors?.turnstile}
+              <p class="text-center text-sm text-error pt-2">
+                {form?.errors?.turnstile?.at(0)}
+              </p>
+            {/if}
           </form>
 
           <div class="divider text-gray-800 dark:text-zinc-300 py-6">

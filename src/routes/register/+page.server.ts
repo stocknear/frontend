@@ -17,7 +17,7 @@ export const actions = {
     // SECURITY: Rate limiting based on client IP
     const clientIp = locals.clientIp;
     const rateLimitResult = checkRateLimit(clientIp, "register", RATE_LIMITS.register);
-    
+
     if (!rateLimitResult.allowed) {
       const minutesRemaining = Math.ceil(rateLimitResult.resetIn / 60000);
       return fail(429, {
@@ -98,8 +98,6 @@ export const actions = {
       });
     }
 
-    //let username = generateUsername(formData.name.split(' ').join('')).toLowerCase();
-
     try {
        const newUser = await locals.pb.collection("users").create(formData);
 
@@ -107,28 +105,25 @@ export const actions = {
         'credits': 10,
       });
 
-
       await locals.pb.collection("users").requestVerification(formData.email);
     } catch (err) {
       // SECURITY: Don't log full error object, only safe message
       console.error("Registration error for email:", formData?.email?.substring(0, 3) + "***");
-      
+
       // Check for specific PocketBase errors
       const errorMessage = err?.message || "";
       const errorData = err?.data || {};
-      
+
       // SECURITY: Use generic error for email exists to prevent enumeration
-      // We combine "email exists" with other registration failures
-      if (errorMessage.includes("already in use") || 
+      if (errorMessage.includes("already in use") ||
           errorMessage.includes("already exists") ||
           errorData?.email?.code === "validation_not_unique") {
-        // Return generic error instead of revealing email exists
         return fail(400, {
           data: safeFormData,
           registrationFailed: true,
         });
       }
-      
+
       // Invalid email format
       if (errorData?.email?.code === "validation_is_email" ||
           errorMessage.includes("invalid email")) {
@@ -137,7 +132,7 @@ export const actions = {
           invalidEmail: true,
         });
       }
-      
+
       // Password validation failed
       if (errorData?.password?.code || errorMessage.includes("password")) {
         return fail(400, {
@@ -145,7 +140,7 @@ export const actions = {
           weakPassword: true,
         });
       }
-      
+
       // Generic registration error
       return fail(400, {
         data: safeFormData,
@@ -157,18 +152,8 @@ export const actions = {
       await locals.pb
         .collection("users")
         .authWithPassword(formData.email, formData.password);
-
-      /*
-			if (!locals.pb?.authStore?.model?.verified) {
-				locals.pb.authStore.clear();
-				return {
-					notVerified: true,
-				};
-			}
-			*/
     } catch (err) {
       // User was created but auto-login failed - still redirect to profile
-      // This shouldn't happen normally, but handle gracefully
     }
 
     redirect(301, "/profile");
@@ -178,7 +163,6 @@ export const actions = {
     const authMethods = (await locals?.pb
       ?.collection("users")
       ?.listAuthMethods())?.oauth2;
-
 
     const data = await request?.formData();
     const providerSelected = data?.get("provider");
@@ -194,15 +178,12 @@ export const actions = {
     const targetItem = authMethods?.providers?.findIndex(
       (item) => item?.name === providerSelected,
     );
-  
 
     const provider = authMethods.providers[targetItem];
     const authProviderRedirect = `${provider.authUrl}${redirectURL}`;
     const state = provider.state;
     const verifier = provider.codeVerifier;
 
-    
-    
     cookies.set("state", state, {
       httpOnly: true,
       sameSite: "lax",
