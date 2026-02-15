@@ -36,12 +36,12 @@
     landing_review_6_text,
     landing_stats_investors,
     landing_stats_investors_label,
+    landing_stats_filters,
+    landing_stats_filters_label,
     landing_stats_stocks,
     landing_stats_stocks_label,
-    landing_stats_tools,
-    landing_stats_tools_label,
-    landing_stats_articles,
-    landing_stats_articles_label,
+    landing_stats_trial,
+    landing_stats_trial_label,
     landing_features_label,
     landing_features_title,
     landing_features_subtitle,
@@ -138,6 +138,12 @@
     landing_trust_trustpilot,
     landing_trust_rating,
     landing_trust_reviews,
+    landing_trust_badge_data,
+    landing_trust_badge_data_desc,
+    landing_trust_badge_refund,
+    landing_trust_badge_refund_desc,
+    landing_trust_badge_trial,
+    landing_trust_badge_trial_desc,
     landing_faq_title,
     landing_faq_subtitle,
     landing_faq_q1_title,
@@ -205,12 +211,30 @@
 
   let LoginPopup: any;
   let pricingAnnual = true;
+  let heroVideoEl: HTMLVideoElement;
+  let showPlayButton = false;
 
   onMount(async () => {
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
+
+    // Detect autoplay failure (mobile Safari)
+    if (heroVideoEl) {
+      try {
+        await heroVideoEl.play();
+      } catch {
+        showPlayButton = true;
+      }
+    }
   });
+
+  function handlePlayClick() {
+    if (heroVideoEl) {
+      heroVideoEl.play();
+      showPlayButton = false;
+    }
+  }
 </script>
 
 <SEO
@@ -283,21 +307,12 @@
           {landing_hero_subtitle()}
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          {#if !data?.user}
-            <label
-              for="userLogin"
-              class="cursor-pointer inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-            >
-              {landing_hero_cta_primary()}
-            </label>
-          {:else}
-            <a
-              href="/"
-              class="inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-            >
-              Dashboard
-            </a>
-          {/if}
+          <label
+            for="userLogin"
+            class="cursor-pointer inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+          >
+            {landing_hero_cta_primary()}
+          </label>
           <a
             href="#features"
             class="inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
@@ -328,9 +343,10 @@
     <!-- Hero visual: product overview -->
     <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-12">
       <div
-        class="rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-2xl overflow-hidden"
+        class="relative rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-2xl overflow-hidden"
       >
         <video
+          bind:this={heroVideoEl}
           class="w-full"
           src="/video/overview.mp4"
           poster="/img/landing-page/overview.png"
@@ -339,6 +355,19 @@
           loop
           playsinline
         ></video>
+        {#if showPlayButton}
+          <button
+            on:click={handlePlayClick}
+            class="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity hover:bg-black/40"
+            aria-label="Play video"
+          >
+            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg">
+              <svg class="w-7 h-7 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </button>
+        {/if}
       </div>
     </div>
   </section>
@@ -436,6 +465,16 @@
           <div
             class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
           >
+            {landing_stats_filters()}
+          </div>
+          <div class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
+            {landing_stats_filters_label()}
+          </div>
+        </div>
+        <div class="text-center">
+          <div
+            class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
+          >
             {landing_stats_stocks()}
           </div>
           <div class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
@@ -444,29 +483,564 @@
         </div>
         <div class="text-center">
           <div
-            class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
+            class="text-3xl sm:text-4xl font-bold text-violet-600 dark:text-violet-400"
           >
-            {landing_stats_tools()}
+            {landing_stats_trial()}
           </div>
           <div class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {landing_stats_tools_label()}
-          </div>
-        </div>
-        <div class="text-center">
-          <div
-            class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
-          >
-            {landing_stats_articles()}
-          </div>
-          <div class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {landing_stats_articles_label()}
+            {landing_stats_trial_label()}
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 3: Feature Showcases -->
+  <!-- Section 3: How It Works -->
+  <section
+    class="border-t border-gray-300 dark:border-zinc-700"
+  >
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="text-center mb-14">
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
+        >
+          {landing_how_label()}
+        </p>
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        >
+          {landing_how_title()}
+        </h2>
+      </div>
+      <div class="grid gap-10 sm:grid-cols-3">
+        <!-- Step 1 -->
+        <div class="text-center">
+          <div
+            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/50 mb-5"
+          >
+            <svg
+              class="w-7 h-7 text-violet-600 dark:text-violet-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              />
+            </svg>
+          </div>
+          <div
+            class="text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-2"
+          >
+            1
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {landing_how_step1_title()}
+          </h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+            {landing_how_step1_description()}
+          </p>
+        </div>
+        <!-- Step 2 -->
+        <div class="text-center">
+          <div
+            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/50 mb-5"
+          >
+            <svg
+              class="w-7 h-7 text-violet-600 dark:text-violet-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+              />
+            </svg>
+          </div>
+          <div
+            class="text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-2"
+          >
+            2
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {landing_how_step2_title()}
+          </h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+            {landing_how_step2_description()}
+          </p>
+        </div>
+        <!-- Step 3 -->
+        <div class="text-center">
+          <div
+            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/50 mb-5"
+          >
+            <svg
+              class="w-7 h-7 text-violet-600 dark:text-violet-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+          </div>
+          <div
+            class="text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-2"
+          >
+            3
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {landing_how_step3_title()}
+          </h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+            {landing_how_step3_description()}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Pricing -->
+  <section
+    id="pricing"
+    class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
+  >
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="text-center mb-10">
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
+        >
+          {landing_pricing_label()}
+        </p>
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        >
+          {landing_pricing_title()}
+        </h2>
+        <p class="mt-3 text-base text-gray-600 dark:text-zinc-400">
+          {landing_pricing_subtitle()}
+        </p>
+
+        <!-- Guarantee badges -->
+        <div
+          class="mt-5 flex flex-wrap items-center justify-center gap-2 text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.15em]"
+        >
+          <span
+            class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
+            >{pricing_free_trial()}</span
+          >
+          <span
+            class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
+            >{pricing_cancel_anytime()}</span
+          >
+          <span
+            class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
+            >{pricing_no_hidden_fees()}</span
+          >
+        </div>
+      </div>
+
+      <Discount />
+
+      <!-- Monthly / Annual toggle -->
+      <div
+        class="mb-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
+      >
+        <span
+          class={pricingAnnual
+            ? "text-gray-400 dark:text-zinc-500"
+            : "text-gray-900 dark:text-white"}
+        >
+          {pricing_monthly()}
+        </span>
+        <label class="relative inline-flex cursor-pointer items-center">
+          <input
+            type="checkbox"
+            bind:checked={pricingAnnual}
+            class="peer sr-only"
+          />
+          <span
+            class="h-8 w-16 rounded-full border border-gray-300 dark:border-zinc-600 transition {pricingAnnual
+              ? 'bg-emerald-500'
+              : 'bg-gray-200 dark:bg-zinc-800'}"
+          ></span>
+          <span
+            class="absolute left-1 top-1 h-6 w-6 rounded-full bg-white shadow-md transition peer-checked:translate-x-8"
+          ></span>
+        </label>
+        <span
+          class={pricingAnnual
+            ? "text-gray-900 dark:text-white"
+            : "text-gray-400 dark:text-zinc-500"}
+        >
+          {pricing_annual()}
+        </span>
+        <span
+          class="rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.15em]"
+        >
+          {pricing_save()}
+        </span>
+      </div>
+
+      <!-- Pricing cards -->
+      <div class="grid gap-6 lg:grid-cols-3">
+        <!-- Free -->
+        <div
+          class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
+        >
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
+            {pricing_basic_title()}
+          </h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
+            {pricing_basic_subtitle()}
+          </p>
+          <div class="mt-5 flex items-baseline justify-center gap-1">
+            <span class="text-4xl font-semibold text-gray-900 dark:text-white"
+              >$0</span
+            >
+            <span class="text-sm text-gray-500 dark:text-zinc-400"
+              >{pricing_per_month()}</span
+            >
+          </div>
+          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
+            {#each [pricing_feature_credits_10(), pricing_feature_watchlist_1(), pricing_feature_portfolio_1(), pricing_feature_alerts_3(), pricing_feature_notification()] as feature}
+              <li class="flex items-start gap-2.5">
+                <svg
+                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-400 dark:text-zinc-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
+              </li>
+            {/each}
+          </ul>
+          <div
+            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
+          >
+            <label
+              for="userLogin"
+              class="cursor-pointer w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
+            >
+              {pricing_get_registered()}
+              <svg
+                class="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </label>
+          </div>
+        </div>
+
+        <!-- Plus (highlighted) -->
+        <div
+          class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative"
+        >
+          <div
+            class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider"
+          >
+            Popular
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
+            {pricing_plus_title()}
+          </h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
+            {pricing_plus_subtitle()}
+          </p>
+          <div class="mt-5 flex items-baseline justify-center gap-2">
+            {#if pricingAnnual && !["Pro", "Plus"]?.includes(data?.user?.tier)}
+              <span
+                class="text-xl text-gray-400 dark:text-zinc-500 line-through"
+                >$10</span
+              >
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
+                >$5</span
+              >
+            {:else}
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
+                >{pricingAnnual ? "$10" : "$15"}</span
+              >
+            {/if}
+            <span class="text-sm text-gray-500 dark:text-zinc-400"
+              >{pricing_per_month()}</span
+            >
+          </div>
+          {#if pricingAnnual}
+            <p
+              class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center"
+            >
+              {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+                Billed Annually (<span class="line-through">$120</span> $60)
+              {:else}
+                {pricing_billed_annually_plus()}
+              {/if}
+            </p>
+          {/if}
+          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
+            {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
+              <li class="flex items-start gap-2.5">
+                <svg
+                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-700 dark:text-zinc-200"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
+              </li>
+            {/each}
+          </ul>
+           <div
+            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
+          >
+            <label
+              for="userLogin"
+              class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
+            >
+              {pricing_start_trial()}
+              <svg
+                class="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </label>
+          </div>
+        </div>
+
+        <!-- Pro -->
+        <div
+          class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
+        >
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
+            {pricing_pro_title()}
+          </h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
+            {pricing_pro_subtitle()}
+          </p>
+          <div class="mt-5 flex items-baseline justify-center gap-2">
+            {#if pricingAnnual && !["Pro", "Plus"]?.includes(data?.user?.tier)}
+              <span
+                class="text-xl text-gray-400 dark:text-zinc-500 line-through"
+                >$30</span
+              >
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
+                >$15</span
+              >
+            {:else}
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
+                >{pricingAnnual ? "$30" : "$45"}</span
+              >
+            {/if}
+            <span class="text-sm text-gray-500 dark:text-zinc-400"
+              >{pricing_per_month()}</span
+            >
+          </div>
+          {#if pricingAnnual}
+            <p
+              class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center"
+            >
+              {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+                Billed Annually (<span class="line-through">$360</span> $180)
+              {:else}
+                {pricing_billed_annually_pro()}
+              {/if}
+            </p>
+          {/if}
+          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
+            {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
+              <li class="flex items-start gap-2.5">
+                <svg
+                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-700 dark:text-zinc-200"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
+              </li>
+            {/each}
+          </ul>
+          <div
+            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
+          >
+            <label
+              for="userLogin"
+              class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
+            >
+              {pricing_start_trial()}
+              <svg
+                class="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                /></svg
+              >
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center">
+        <a
+          href="/pricing"
+          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+        >
+          {landing_pricing_cta()}
+          <svg
+            class="w-4 h-4 ml-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            /></svg
+          >
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Trust / Social Proof -->
+  <section
+    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
+  >
+    <div
+      class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20"
+    >
+      <!-- Trustpilot rating -->
+      <div class="text-center mb-12">
+        <div class="flex items-center justify-center gap-1 mb-3">
+          {#each Array(5) as _}
+            <svg
+              class="w-6 h-6 text-yellow-400"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              />
+            </svg>
+          {/each}
+        </div>
+        <div class="text-2xl font-bold text-gray-900 dark:text-white">
+          {landing_trust_rating()}
+          <span class="font-medium text-lg text-gray-600 dark:text-zinc-300 ml-1"
+            >{landing_trust_trustpilot()}</span
+          >
+        </div>
+        <p class="mt-3 text-lg text-gray-800 dark:text-zinc-300">
+          {landing_trust_title()}
+        </p>
+        <a
+          href="https://www.trustpilot.com/review/stocknear.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-flex items-center gap-1 text-xs text-gray-400 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >
+          {landing_trust_reviews()}
+          <svg
+            class="w-3 h-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            /></svg
+          >
+        </a>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="grid gap-6 sm:grid-cols-3">
+        <!-- Institutional-Grade Data -->
+        <div class="text-center rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 mb-4">
+            <svg class="w-6 h-6 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h4 class="text-sm font-semibold text-gray-900 dark:text-white">{landing_trust_badge_data()}</h4>
+          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">{landing_trust_badge_data_desc()}</p>
+        </div>
+        <!-- 30-Day Money Back -->
+        <div class="text-center rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
+            <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z" />
+            </svg>
+          </div>
+          <h4 class="text-sm font-semibold text-gray-900 dark:text-white">{landing_trust_badge_refund()}</h4>
+          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">{landing_trust_badge_refund_desc()}</p>
+        </div>
+        <!-- 7-Day Free Trial -->
+        <div class="text-center rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 mb-4">
+            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h4 class="text-sm font-semibold text-gray-900 dark:text-white">{landing_trust_badge_trial()}</h4>
+          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">{landing_trust_badge_trial_desc()}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Feature Showcases -->
   <section
     id="features"
     class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
@@ -964,577 +1538,6 @@
     </div>
   </section>
 
-  <!-- Section 4: How It Works -->
-  <section
-    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
-  >
-    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <div class="text-center mb-14">
-        <p
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
-        >
-          {landing_how_label()}
-        </p>
-        <h2
-          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-        >
-          {landing_how_title()}
-        </h2>
-      </div>
-      <div class="grid gap-10 sm:grid-cols-3">
-        <!-- Step 1 -->
-        <div class="text-center">
-          <div
-            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/50 mb-5"
-          >
-            <svg
-              class="w-7 h-7 text-violet-600 dark:text-violet-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-              />
-            </svg>
-          </div>
-          <div
-            class="text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-2"
-          >
-            1
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {landing_how_step1_title()}
-          </h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
-            {landing_how_step1_description()}
-          </p>
-        </div>
-        <!-- Step 2 -->
-        <div class="text-center">
-          <div
-            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/50 mb-5"
-          >
-            <svg
-              class="w-7 h-7 text-violet-600 dark:text-violet-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-              />
-            </svg>
-          </div>
-          <div
-            class="text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-2"
-          >
-            2
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {landing_how_step2_title()}
-          </h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
-            {landing_how_step2_description()}
-          </p>
-        </div>
-        <!-- Step 3 -->
-        <div class="text-center">
-          <div
-            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/50 mb-5"
-          >
-            <svg
-              class="w-7 h-7 text-violet-600 dark:text-violet-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-          </div>
-          <div
-            class="text-sm font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-2"
-          >
-            3
-          </div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {landing_how_step3_title()}
-          </h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
-            {landing_how_step3_description()}
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 5: Pricing Preview -->
-  <section
-    id="pricing"
-    class="border-t border-gray-300 dark:border-zinc-700 scroll-mt-16"
-  >
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <div class="text-center mb-10">
-        <p
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
-        >
-          {landing_pricing_label()}
-        </p>
-        <h2
-          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-        >
-          {landing_pricing_title()}
-        </h2>
-        <p class="mt-3 text-base text-gray-600 dark:text-zinc-400">
-          {landing_pricing_subtitle()}
-        </p>
-
-        <!-- Guarantee badges -->
-        <div
-          class="mt-5 flex flex-wrap items-center justify-center gap-2 text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.15em]"
-        >
-          <span
-            class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
-            >{pricing_free_trial()}</span
-          >
-          <span
-            class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
-            >{pricing_cancel_anytime()}</span
-          >
-          <span
-            class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
-            >{pricing_no_hidden_fees()}</span
-          >
-        </div>
-      </div>
-
-      <Discount />
-
-      <!-- Monthly / Annual toggle -->
-      <div
-        class="mb-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
-      >
-        <span
-          class={pricingAnnual
-            ? "text-gray-400 dark:text-zinc-500"
-            : "text-gray-900 dark:text-white"}
-        >
-          {pricing_monthly()}
-        </span>
-        <label class="relative inline-flex cursor-pointer items-center">
-          <input
-            type="checkbox"
-            bind:checked={pricingAnnual}
-            class="peer sr-only"
-          />
-          <span
-            class="h-8 w-16 rounded-full border border-gray-300 dark:border-zinc-600 transition {pricingAnnual
-              ? 'bg-emerald-500'
-              : 'bg-gray-200 dark:bg-zinc-800'}"
-          ></span>
-          <span
-            class="absolute left-1 top-1 h-6 w-6 rounded-full bg-white shadow-md transition peer-checked:translate-x-8"
-          ></span>
-        </label>
-        <span
-          class={pricingAnnual
-            ? "text-gray-900 dark:text-white"
-            : "text-gray-400 dark:text-zinc-500"}
-        >
-          {pricing_annual()}
-        </span>
-        <span
-          class="rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.15em]"
-        >
-          {pricing_save()}
-        </span>
-      </div>
-
-      <!-- Pricing cards -->
-      <div class="grid gap-6 lg:grid-cols-3">
-        <!-- Free -->
-        <div
-          class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
-        >
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
-            {pricing_basic_title()}
-          </h3>
-          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {pricing_basic_subtitle()}
-          </p>
-          <div class="mt-5 flex items-baseline justify-center gap-1">
-            <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-              >$0</span
-            >
-            <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >{pricing_per_month()}</span
-            >
-          </div>
-          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
-            {#each [pricing_feature_credits_10(), pricing_feature_watchlist_1(), pricing_feature_portfolio_1(), pricing_feature_alerts_3(), pricing_feature_notification()] as feature}
-              <li class="flex items-start gap-2.5">
-                <svg
-                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-400 dark:text-zinc-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
-              </li>
-            {/each}
-          </ul>
-          <div
-            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
-          >
-            {#if !data?.user}
-              <label
-                for="userLogin"
-                class="cursor-pointer w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
-              >
-                {pricing_get_registered()}
-                <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
-              </label>
-            {:else}
-              <a
-                href="/pricing"
-                class="w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
-              >
-                {landing_pricing_cta()}
-                <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
-              </a>
-            {/if}
-          </div>
-        </div>
-
-        <!-- Plus (highlighted) -->
-        <div
-          class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative"
-        >
-          <div
-            class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider"
-          >
-            Popular
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
-            {pricing_plus_title()}
-          </h3>
-          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {pricing_plus_subtitle()}
-          </p>
-          <div class="mt-5 flex items-baseline justify-center gap-2">
-            {#if pricingAnnual && !["Pro", "Plus"]?.includes(data?.user?.tier)}
-              <span
-                class="text-xl text-gray-400 dark:text-zinc-500 line-through"
-                >$10</span
-              >
-              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-                >$5</span
-              >
-            {:else}
-              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-                >{pricingAnnual ? "$10" : "$15"}</span
-              >
-            {/if}
-            <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >{pricing_per_month()}</span
-            >
-          </div>
-          {#if pricingAnnual}
-            <p
-              class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center"
-            >
-              {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-                Billed Annually (<span class="line-through">$120</span> $60)
-              {:else}
-                {pricing_billed_annually_plus()}
-              {/if}
-            </p>
-          {/if}
-          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
-            {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
-              <li class="flex items-start gap-2.5">
-                <svg
-                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-700 dark:text-zinc-200"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
-              </li>
-            {/each}
-          </ul>
-          <div
-            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
-          >
-            {#if !data?.user}
-              <label
-                for="userLogin"
-                class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
-              >
-                {pricing_start_trial()}
-                <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
-              </label>
-            {:else}
-              <a
-                href="/pricing"
-                class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
-              >
-                {pricing_start_trial()}
-                <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
-              </a>
-            {/if}
-          </div>
-        </div>
-
-        <!-- Pro -->
-        <div
-          class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
-        >
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
-            {pricing_pro_title()}
-          </h3>
-          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {pricing_pro_subtitle()}
-          </p>
-          <div class="mt-5 flex items-baseline justify-center gap-2">
-            {#if pricingAnnual && !["Pro", "Plus"]?.includes(data?.user?.tier)}
-              <span
-                class="text-xl text-gray-400 dark:text-zinc-500 line-through"
-                >$30</span
-              >
-              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-                >$15</span
-              >
-            {:else}
-              <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-                >{pricingAnnual ? "$30" : "$45"}</span
-              >
-            {/if}
-            <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >{pricing_per_month()}</span
-            >
-          </div>
-          {#if pricingAnnual}
-            <p
-              class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center"
-            >
-              {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-                Billed Annually (<span class="line-through">$360</span> $180)
-              {:else}
-                {pricing_billed_annually_pro()}
-              {/if}
-            </p>
-          {/if}
-          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
-            {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
-              <li class="flex items-start gap-2.5">
-                <svg
-                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-700 dark:text-zinc-200"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
-              </li>
-            {/each}
-          </ul>
-          <div
-            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
-          >
-            {#if !data?.user}
-              <label
-                for="userLogin"
-                class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
-              >
-                {pricing_start_trial()}
-                <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
-              </label>
-            {:else}
-              <a
-                href="/pricing"
-                class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
-              >
-                {pricing_start_trial()}
-                <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
-              </a>
-            {/if}
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-10 text-center">
-        <a
-          href="/pricing"
-          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-        >
-          {landing_pricing_cta()}
-          <svg
-            class="w-4 h-4 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            ><path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            /></svg
-          >
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 6: Trust / Social Proof -->
-  <section
-    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
-  >
-    <div
-      class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center"
-    >
-      <div class="flex items-center justify-center gap-1 mb-4">
-        {#each Array(5) as _}
-          <svg
-            class="w-7 h-7 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-            />
-          </svg>
-        {/each}
-      </div>
-      <div class="text-2xl font-bold text-gray-900 dark:text-white">
-        {landing_trust_rating()}
-        <span class="font-medium text-lg text-gray-600 dark:text-zinc-300 ml-2"
-          >{landing_trust_trustpilot()}</span
-        >
-      </div>
-      <p class="mt-4 text-lg text-gray-800 dark:text-zinc-300">
-        {landing_trust_title()}
-      </p>
-      <a
-        href="https://www.trustpilot.com/review/stocknear.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
-      >
-        {landing_trust_reviews()}
-        <svg
-          class="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          ><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          /></svg
-        >
-      </a>
-    </div>
-  </section>
-
   <!-- Section 7: FAQ -->
   <section
     id="faq"
@@ -1590,33 +1593,18 @@
         {landing_cta_description()}
       </p>
       <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-        {#if !data?.user}
-          <label
-            for="userLogin"
-            class="cursor-pointer inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-          >
-            {landing_cta_primary()}
-          </label>
-          <a
-            href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-          >
-            {landing_cta_secondary()}
-          </a>
-        {:else}
-          <a
-            href="/"
-            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-          >
-            Dashboard
-          </a>
-          <a
-            href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-          >
-            {landing_cta_secondary()}
-          </a>
-        {/if}
+        <label
+          for="userLogin"
+          class="cursor-pointer inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+        >
+          {landing_cta_primary()}
+        </label>
+        <a
+          href="/pricing"
+          class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+        >
+          {landing_cta_secondary()}
+        </a>
       </div>
     </div>
   </section>

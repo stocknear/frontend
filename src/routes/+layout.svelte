@@ -479,6 +479,8 @@
     BProgress?.done();
   });
 
+  $: isLandingPage = $page.url.pathname === "/" && !data?.user;
+
   $: {
     if ($page.url.pathname) {
       // Force reactive update of login data
@@ -1444,10 +1446,14 @@
         <div
           class="relative w-full flex flex-row justify-end sm:justify-between items-center gap-2 sm:gap-3"
         >
-          <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
-            <Searchbar />
-          </div>
-          <NotificationBell {data} {hasUnreadElement} />
+          {#if !isLandingPage}
+            <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
+              <Searchbar />
+            </div>
+            <NotificationBell {data} {hasUnreadElement} />
+          {:else}
+            <div class="flex-1"></div>
+          {/if}
 
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && !data?.user}
             <div class="hidden shrink-0 sm:inline-flex">
@@ -2108,7 +2114,7 @@
 {/if}
 
 <!-- Bottom Navigation Bar -->
-{#if !isChartRoute}
+{#if !isChartRoute && !isLandingPage}
   <nav
     class="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-black dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
            sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
