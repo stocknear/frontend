@@ -150,6 +150,10 @@
     landing_faq_q4_answer,
     landing_faq_q5_title,
     landing_faq_q5_answer,
+    landing_faq_q6_title,
+    landing_faq_q6_answer,
+    landing_faq_q7_title,
+    landing_faq_q7_answer,
     landing_cta_title,
     landing_cta_description,
     landing_cta_primary,
@@ -1548,7 +1552,7 @@
         </p>
       </div>
       <ul class="space-y-4">
-        {#each [{ q: landing_faq_q1_title(), a: landing_faq_q1_answer() }, { q: landing_faq_q2_title(), a: landing_faq_q2_answer() }, { q: landing_faq_q3_title(), a: landing_faq_q3_answer() }, { q: landing_faq_q4_title(), a: landing_faq_q4_answer() }, { q: landing_faq_q5_title(), a: landing_faq_q5_answer() }] as faq}
+        {#each [{ q: landing_faq_q1_title(), a: landing_faq_q1_answer() }, { q: landing_faq_q2_title(), a: landing_faq_q2_answer() }, { q: landing_faq_q3_title(), a: landing_faq_q3_answer() }, { q: landing_faq_q4_title(), a: landing_faq_q4_answer() }, { q: landing_faq_q5_title(), a: landing_faq_q5_answer() }, { q: landing_faq_q6_title(), a: landing_faq_q6_answer() }, { q: landing_faq_q7_title(), a: landing_faq_q7_answer() }] as faq}
           <li
             class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 px-4 sm:px-6"
           >
