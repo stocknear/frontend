@@ -134,12 +134,19 @@
     );
   }
 
+  let currentAbortController: AbortController | null = null;
+
   async function fetchTableData({
     page = currentPage,
     pageSize = rowsPerPage,
     sortKey = activeSortKey,
     sortOrder = activeSortOrder,
   } = {}) {
+    // Cancel any in-flight request
+    if (currentAbortController) currentAbortController.abort();
+    currentAbortController = new AbortController();
+    const signal = currentAbortController.signal;
+
     const invocationId = ++requestId;
     const params = new URLSearchParams({
       page: String(page),
@@ -153,7 +160,8 @@
 
     isFetchingPage = true;
     try {
-      const response = await fetch(`/api/options-flow-feed?${params}`);
+      const response = await fetch(`/api/options-flow-feed?${params}`, { signal });
+      if (signal.aborted) return;
       const result = await response.json();
       if (invocationId !== requestId) return;
 
@@ -167,11 +175,23 @@
       activeSortOrder = sortOrder;
       if (result.stats) applyServerStats(result.stats);
     } catch (e) {
+      if (e?.name === "AbortError") return; // Expected cancellation
       console.error("fetchTableData error:", e);
     } finally {
       if (invocationId === requestId) isFetchingPage = false;
     }
     isLoaded = true;
+  }
+
+  // Debounced wrapper for filter changes — batches rapid clicks into one fetch
+  let filterFetchTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  function debouncedFilterFetch() {
+    if (filterFetchTimeout) clearTimeout(filterFetchTimeout);
+    filterFetchTimeout = setTimeout(() => {
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
+    }, 200);
   }
 
   const rowsPerPageOptions = [20, 50, 100];
@@ -678,8 +698,7 @@
       displayRules = allRows?.filter((row) =>
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
-      fetchTableData({ page: 1 });
-      sendFiltersToWebSocket();
+      debouncedFilterFetch();
     }
   }
 
@@ -1174,21 +1193,18 @@
         displayRules = allRows?.filter((row) =>
           ruleOfList.some((rule) => rule.name === row.rule),
         );
-        fetchTableData({ page: 1 });
-        sendFiltersToWebSocket();
+        debouncedFilterFetch();
       } else {
         ruleOfList[existingRuleIndex] = newRule;
         ruleOfList = [...ruleOfList]; // Trigger reactivity
-        fetchTableData({ page: 1 });
-        sendFiltersToWebSocket();
+        debouncedFilterFetch();
       }
     } else {
       ruleOfList = [...ruleOfList, newRule];
       displayRules = allRows?.filter((row) =>
         ruleOfList.some((rule) => rule.name === row.rule),
       );
-      fetchTableData({ page: 1 });
-      sendFiltersToWebSocket();
+      debouncedFilterFetch();
     }
   }
 
@@ -1313,9 +1329,8 @@
       ruleOfList = [...ruleOfList];
     }
 
-    // Trigger server-side fetch
-    fetchTableData({ page: 1 });
-    sendFiltersToWebSocket();
+    // Trigger server-side fetch (debounced to batch rapid changes)
+    debouncedFilterFetch();
   }
 
   async function stepSizeValue(value, condition) {

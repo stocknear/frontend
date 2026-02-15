@@ -33,7 +33,9 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     );
   }
 
-  const output = await response.json();
-
-  return new Response(JSON.stringify(output));
+  // Stream the body through directly — avoids JSON.parse + JSON.stringify overhead
+  // Note: fetch transparently decompresses gzip, so body is already decompressed
+  return new Response(response.body, {
+    headers: { "Content-Type": "application/json" },
+  });
 };

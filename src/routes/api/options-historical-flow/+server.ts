@@ -4,7 +4,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const selectedDate = data?.selectedDate;
   const { apiURL, apiKey, user } = locals;
-  let output;
 
   if (user?.tier === "Pro") {
     try {
@@ -26,14 +25,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         body: JSON.stringify(postData),
       });
 
-      output = await response.json();
+      // Stream the body through directly — avoids JSON.parse + JSON.stringify overhead
+      return new Response(response.body, {
+        headers: { "Content-Type": "application/json" },
+      });
     } catch (e) {
       console.error(e);
-      output = { items: [], total: 0, page: 1, pageSize: 50, stats: null };
+      return new Response(
+        JSON.stringify({ items: [], total: 0, page: 1, pageSize: 50, stats: null }),
+      );
     }
-  } else {
-    output = { items: [], total: 0, page: 1, pageSize: 50, stats: null };
   }
 
-  return new Response(JSON.stringify(output));
+  return new Response(
+    JSON.stringify({ items: [], total: 0, page: 1, pageSize: 50, stats: null }),
+  );
 };
