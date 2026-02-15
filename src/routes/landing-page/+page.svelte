@@ -155,6 +155,46 @@
     landing_cta_description,
     landing_cta_primary,
     landing_cta_secondary,
+    pricing_free_trial,
+    pricing_cancel_anytime,
+    pricing_no_hidden_fees,
+    pricing_monthly,
+    pricing_annual,
+    pricing_save,
+    pricing_per_month,
+    pricing_basic_title,
+    pricing_basic_subtitle,
+    pricing_plus_title,
+    pricing_plus_subtitle,
+    pricing_pro_title,
+    pricing_pro_subtitle,
+    pricing_feature_credits_10,
+    pricing_feature_watchlist_1,
+    pricing_feature_portfolio_1,
+    pricing_feature_alerts_3,
+    pricing_feature_notification,
+    pricing_get_registered,
+    pricing_feature_credits_150,
+    pricing_feature_watchlist_unlimited,
+    pricing_feature_portfolio_unlimited,
+    pricing_feature_alerts_unlimited,
+    pricing_feature_screener_unlimited,
+    pricing_feature_download_unlimited,
+    pricing_feature_hedgefund,
+    pricing_feature_congress,
+    pricing_feature_no_ads,
+    pricing_start_trial,
+    pricing_billed_annually_plus,
+    pricing_feature_credits_1000,
+    pricing_feature_everything_plus,
+    pricing_feature_watchlist_pro,
+    pricing_feature_portfolio_pro,
+    pricing_feature_options_realtime,
+    pricing_feature_options_flow,
+    pricing_feature_unusual_orders,
+    pricing_feature_pro_chart_unlimited,
+    pricing_feature_discord,
+    pricing_billed_annually_pro,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -236,7 +276,7 @@
 
 <!-- Custom Landing Page Navbar -->
 <nav
-  class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur"
+  class="fixed inset-x-0 top-0 z-50 w-full border-b border-gray-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl shadow-sm shadow-black/[0.03] dark:shadow-black/20"
 >
   <div
     class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-14 sm:h-16 items-center justify-between"
@@ -309,7 +349,7 @@
   </div>
 </nav>
 
-<div class="text-gray-700 dark:text-zinc-200 w-full">
+<div class="text-gray-700 dark:text-zinc-200 w-full pt-14 sm:pt-16">
   <!-- Section 1: Hero -->
   <section class="w-full bg-white dark:bg-zinc-950/60">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
@@ -1162,15 +1202,15 @@
         >
           <span
             class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
-            >{landing_pricing_guarantee_trial()}</span
+            >{pricing_free_trial()}</span
           >
           <span
             class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
-            >{landing_pricing_guarantee_cancel()}</span
+            >{pricing_cancel_anytime()}</span
           >
           <span
             class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1"
-            >{landing_pricing_guarantee_fees()}</span
+            >{pricing_no_hidden_fees()}</span
           >
         </div>
       </div>
@@ -1184,7 +1224,7 @@
             ? "text-gray-400 dark:text-zinc-500"
             : "text-gray-900 dark:text-white"}
         >
-          {landing_pricing_monthly()}
+          {pricing_monthly()}
         </span>
         <label class="relative inline-flex cursor-pointer items-center">
           <input
@@ -1206,12 +1246,12 @@
             ? "text-gray-900 dark:text-white"
             : "text-gray-400 dark:text-zinc-500"}
         >
-          {landing_pricing_annual()}
+          {pricing_annual()}
         </span>
         <span
           class="rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.15em]"
         >
-          {landing_pricing_save()}
+          {pricing_save()}
         </span>
       </div>
 
@@ -1222,21 +1262,21 @@
           class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
         >
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
-            {landing_pricing_free_title()}
+            {pricing_basic_title()}
           </h3>
           <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {landing_pricing_free_subtitle()}
+            {pricing_basic_subtitle()}
           </p>
           <div class="mt-5 flex items-baseline justify-center gap-1">
             <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-              >{landing_pricing_free_price()}</span
+              >$0</span
             >
             <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >{landing_pricing_per_month()}</span
+              >{pricing_per_month()}</span
             >
           </div>
           <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
-            {#each [landing_pricing_free_feature_1(), landing_pricing_free_feature_2(), landing_pricing_free_feature_3(), landing_pricing_free_feature_4(), landing_pricing_free_feature_5(), landing_pricing_free_feature_6()] as feature}
+            {#each [pricing_feature_credits_10(), pricing_feature_watchlist_1(), pricing_feature_portfolio_1(), pricing_feature_alerts_3(), pricing_feature_notification()] as feature}
               <li class="flex items-start gap-2.5">
                 <svg
                   class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-400 dark:text-zinc-500"
@@ -1263,7 +1303,7 @@
                 for="userLogin"
                 class="cursor-pointer w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
               >
-                {landing_pricing_free_cta()}
+                {pricing_get_registered()}
                 <svg
                   class="w-4 h-4 ml-2"
                   fill="none"
@@ -1302,7 +1342,7 @@
 
         <!-- Plus (highlighted) -->
         <div
-          class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative shadow-lg shadow-violet-500/10 dark:shadow-violet-400/5"
+          class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative"
         >
           <div
             class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider"
@@ -1310,13 +1350,13 @@
             Popular
           </div>
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
-            {landing_pricing_plus_title()}
+            {pricing_plus_title()}
           </h3>
           <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {landing_pricing_plus_subtitle()}
+            {pricing_plus_subtitle()}
           </p>
           <div class="mt-5 flex items-baseline justify-center gap-2">
-            {#if pricingAnnual}
+            {#if pricingAnnual && !["Pro", "Plus"]?.includes(data?.user?.tier)}
               <span
                 class="text-xl text-gray-400 dark:text-zinc-500 line-through"
                 >$10</span
@@ -1326,25 +1366,29 @@
               >
             {:else}
               <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-                >$15</span
+                >{pricingAnnual ? "$10" : "$15"}</span
               >
             {/if}
             <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >{landing_pricing_per_month()}</span
+              >{pricing_per_month()}</span
             >
           </div>
           {#if pricingAnnual}
             <p
               class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center"
             >
-              <span class="line-through">$120</span> $60 {landing_pricing_billed_annually()}
+              {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+                Billed Annually (<span class="line-through">$120</span> $60)
+              {:else}
+                {pricing_billed_annually_plus()}
+              {/if}
             </p>
           {/if}
           <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
-            {#each [landing_pricing_plus_feature_1(), landing_pricing_plus_feature_2(), landing_pricing_plus_feature_3(), landing_pricing_plus_feature_4(), landing_pricing_plus_feature_5(), landing_pricing_plus_feature_6(), landing_pricing_plus_feature_7()] as feature}
+            {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
               <li class="flex items-start gap-2.5">
                 <svg
-                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
+                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-700 dark:text-zinc-200"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -1361,14 +1405,14 @@
             {/each}
           </ul>
           <div
-            class="mt-auto pt-5 border-t border-violet-200 dark:border-violet-800/40"
+            class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
           >
             {#if !data?.user}
               <label
                 for="userLogin"
-                class="cursor-pointer w-full py-3 px-4 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
+                class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
               >
-                {landing_pricing_plus_cta()}
+                {pricing_start_trial()}
                 <svg
                   class="w-4 h-4 ml-2"
                   fill="none"
@@ -1385,9 +1429,9 @@
             {:else}
               <a
                 href="/pricing"
-                class="w-full py-3 px-4 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
+                class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
               >
-                {landing_pricing_plus_cta()}
+                {pricing_start_trial()}
                 <svg
                   class="w-4 h-4 ml-2"
                   fill="none"
@@ -1410,13 +1454,13 @@
           class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
         >
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
-            {landing_pricing_pro_title()}
+            {pricing_pro_title()}
           </h3>
           <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-            {landing_pricing_pro_subtitle()}
+            {pricing_pro_subtitle()}
           </p>
           <div class="mt-5 flex items-baseline justify-center gap-2">
-            {#if pricingAnnual}
+            {#if pricingAnnual && !["Pro", "Plus"]?.includes(data?.user?.tier)}
               <span
                 class="text-xl text-gray-400 dark:text-zinc-500 line-through"
                 >$30</span
@@ -1426,25 +1470,29 @@
               >
             {:else}
               <span class="text-4xl font-semibold text-gray-900 dark:text-white"
-                >$45</span
+                >{pricingAnnual ? "$30" : "$45"}</span
               >
             {/if}
             <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >{landing_pricing_per_month()}</span
+              >{pricing_per_month()}</span
             >
           </div>
           {#if pricingAnnual}
             <p
               class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center"
             >
-              <span class="line-through">$360</span> $180 {landing_pricing_billed_annually()}
+              {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+                Billed Annually (<span class="line-through">$360</span> $180)
+              {:else}
+                {pricing_billed_annually_pro()}
+              {/if}
             </p>
           {/if}
           <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
-            {#each [landing_pricing_pro_feature_1(), landing_pricing_pro_feature_2(), landing_pricing_pro_feature_3(), landing_pricing_pro_feature_4(), landing_pricing_pro_feature_5(), landing_pricing_pro_feature_6(), landing_pricing_pro_feature_7()] as feature}
+            {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
               <li class="flex items-start gap-2.5">
                 <svg
-                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400"
+                  class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-700 dark:text-zinc-200"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -1468,7 +1516,7 @@
                 for="userLogin"
                 class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
               >
-                {landing_pricing_pro_cta()}
+                {pricing_start_trial()}
                 <svg
                   class="w-4 h-4 ml-2"
                   fill="none"
@@ -1487,7 +1535,7 @@
                 href="/pricing"
                 class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
               >
-                {landing_pricing_pro_cta()}
+                {pricing_start_trial()}
                 <svg
                   class="w-4 h-4 ml-2"
                   fill="none"
