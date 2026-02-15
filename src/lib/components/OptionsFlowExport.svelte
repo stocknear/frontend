@@ -4,8 +4,9 @@
   import DownloadIcon from "lucide-svelte/icons/download";
 
   export let data: any;
-  export let rawData: any[] = [];
+  export let totalItems: number = 0;
   export let selectedDate: any = undefined; // For historical flow date
+  export let fetchAllData: () => Promise<any[]> = async () => [];
 
   const CREDIT_COST = 100;
 
@@ -119,14 +120,14 @@
       return;
     }
 
-    if (!rawData || rawData.length === 0) {
+    if (totalItems === 0) {
       errorMessage = "No data available to export.";
       return;
     }
 
     isExporting = true;
     errorMessage = "";
-    statusMessage = "Preparing export...";
+    statusMessage = "Fetching all data...";
 
     try {
       // Deduct credits via API
@@ -149,8 +150,16 @@
         throw new Error(message || "Failed to process export.");
       }
 
+      // Fetch ALL data (not just the current page)
+      statusMessage = "Preparing export...";
+      const allData = await fetchAllData();
+
+      if (!allData || allData.length === 0) {
+        throw new Error("No data returned from server.");
+      }
+
       // Generate CSV
-      const csvContent = convertToCSV(rawData);
+      const csvContent = convertToCSV(allData);
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
 
       // Generate filename based on live or historical data
@@ -172,7 +181,7 @@
         data.user.credits = availableCredits;
       }
 
-      statusMessage = "Download started successfully!";
+      statusMessage = `Exported ${allData.length} trades successfully!`;
 
       // Close modal after short delay
       setTimeout(() => {
@@ -232,7 +241,7 @@
       Export options flow data
     </h3>
     <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
-      Download the current options flow table as a CSV file.
+      Export all {totalItems} matching trades as a CSV file.
     </p>
 
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">

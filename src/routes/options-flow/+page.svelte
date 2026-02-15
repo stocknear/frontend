@@ -232,6 +232,56 @@
     isLoaded = true;
   }
 
+  async function fetchAllFlowData(): Promise<any[]> {
+    const PAGE_SIZE = 500;
+    const activeRules = buildActiveRules();
+    const formattedDate = getFormattedSelectedDate();
+    const allItems: any[] = [];
+    let page = 1;
+    let total = Infinity;
+
+    while (allItems.length < total) {
+      let response;
+
+      if (formattedDate) {
+        response = await fetch("/api/options-historical-flow", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            selectedDate: formattedDate,
+            rules: activeRules,
+            tickers: filterQuery || "",
+            page,
+            pageSize: PAGE_SIZE,
+            sortKey: activeSortKey,
+            sortOrder: activeSortOrder,
+          }),
+        });
+      } else {
+        const params = new URLSearchParams({
+          page: String(page),
+          pageSize: String(PAGE_SIZE),
+          sortKey: activeSortKey,
+          sortOrder: activeSortOrder,
+        });
+        if (filterQuery) params.set("search", filterQuery);
+        if (activeRules.length > 0)
+          params.set("rules", JSON.stringify(activeRules));
+        response = await fetch(`/api/options-flow-feed?${params}`);
+      }
+
+      if (!response.ok) break;
+      const result = await response.json();
+      const items = result.items || [];
+      total = result.total ?? 0;
+      allItems.push(...items);
+      if (items.length < PAGE_SIZE) break;
+      page++;
+    }
+
+    return prepareInitialFlowData(allItems);
+  }
+
   // Debounced wrapper for filter changes — batches rapid clicks into one fetch
   let filterFetchTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -342,8 +392,13 @@
 
   function sendFiltersToWebSocket() {
     if (socket?.readyState === WebSocket.OPEN) {
+      // Use "init" instead of "filters" so the server re-marks all cached
+      // items as sent.  The user already has fresh data from the REST fetch,
+      // so only genuinely new items arriving after this point should be
+      // delivered — preventing a large backfill batch that triggers a
+      // second table reload.
       socket.send(
-        JSON.stringify({ type: "filters", filters: buildWsFilters() }),
+        JSON.stringify({ type: "init", filters: buildWsFilters() }),
       );
     }
   }
@@ -3325,8 +3380,9 @@
               <div class="ml-2 w-fit flex items-center justify-end gap-2">
                 <OptionsFlowExport
                   {data}
-                  rawData={displayedData}
+                  {totalItems}
                   {selectedDate}
+                  fetchAllData={fetchAllFlowData}
                 />
 
                 <button
