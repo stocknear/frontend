@@ -95,25 +95,45 @@
     landing_how_step3_description,
     landing_pricing_label,
     landing_pricing_title,
+    landing_pricing_subtitle,
+    landing_pricing_monthly,
+    landing_pricing_annual,
+    landing_pricing_save,
+    landing_pricing_guarantee_trial,
+    landing_pricing_guarantee_cancel,
+    landing_pricing_guarantee_fees,
+    landing_pricing_per_month,
+    landing_pricing_billed_annually,
     landing_pricing_free_title,
+    landing_pricing_free_subtitle,
     landing_pricing_free_price,
     landing_pricing_free_feature_1,
     landing_pricing_free_feature_2,
     landing_pricing_free_feature_3,
     landing_pricing_free_feature_4,
+    landing_pricing_free_feature_5,
+    landing_pricing_free_feature_6,
+    landing_pricing_free_cta,
     landing_pricing_plus_title,
-    landing_pricing_plus_price,
+    landing_pricing_plus_subtitle,
     landing_pricing_plus_feature_1,
     landing_pricing_plus_feature_2,
     landing_pricing_plus_feature_3,
     landing_pricing_plus_feature_4,
+    landing_pricing_plus_feature_5,
+    landing_pricing_plus_feature_6,
+    landing_pricing_plus_feature_7,
+    landing_pricing_plus_cta,
     landing_pricing_pro_title,
-    landing_pricing_pro_price,
+    landing_pricing_pro_subtitle,
     landing_pricing_pro_feature_1,
     landing_pricing_pro_feature_2,
     landing_pricing_pro_feature_3,
     landing_pricing_pro_feature_4,
-    landing_pricing_per_month,
+    landing_pricing_pro_feature_5,
+    landing_pricing_pro_feature_6,
+    landing_pricing_pro_feature_7,
+    landing_pricing_pro_cta,
     landing_pricing_cta,
     landing_trust_title,
     landing_trust_trustpilot,
@@ -142,6 +162,7 @@
 
   let LoginPopup: any;
   let currentSlide = 0;
+  let pricingAnnual = true;
 
   const carouselFeatures = [
     {
@@ -706,72 +727,189 @@
 
   <!-- Section 5: Pricing Preview -->
   <section class="border-t border-gray-300 dark:border-zinc-700">
-    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <div class="text-center mb-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="text-center mb-10">
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4">
           {landing_pricing_label()}
         </p>
         <h2 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
           {landing_pricing_title()}
         </h2>
+        <p class="mt-3 text-base text-gray-600 dark:text-zinc-400">
+          {landing_pricing_subtitle()}
+        </p>
+
+        <!-- Guarantee badges -->
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-2 text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.15em]">
+          <span class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1">{landing_pricing_guarantee_trial()}</span>
+          <span class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1">{landing_pricing_guarantee_cancel()}</span>
+          <span class="rounded-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/60 px-3 py-1">{landing_pricing_guarantee_fees()}</span>
+        </div>
       </div>
-      <div class="grid gap-6 sm:grid-cols-3">
+
+      <!-- Monthly / Annual toggle -->
+      <div class="mb-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold">
+        <span class={pricingAnnual ? 'text-gray-400 dark:text-zinc-500' : 'text-gray-900 dark:text-white'}>
+          {landing_pricing_monthly()}
+        </span>
+        <label class="relative inline-flex cursor-pointer items-center">
+          <input type="checkbox" bind:checked={pricingAnnual} class="peer sr-only" />
+          <span
+            class="h-8 w-16 rounded-full border border-gray-300 dark:border-zinc-600 transition {pricingAnnual ? 'bg-emerald-500' : 'bg-gray-200 dark:bg-zinc-800'}"
+          ></span>
+          <span
+            class="absolute left-1 top-1 h-6 w-6 rounded-full bg-white shadow-md transition peer-checked:translate-x-8"
+          ></span>
+        </label>
+        <span class={pricingAnnual ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-zinc-500'}>
+          {landing_pricing_annual()}
+        </span>
+        <span class="rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.15em]">
+          {landing_pricing_save()}
+        </span>
+      </div>
+
+      <!-- Pricing cards -->
+      <div class="grid gap-6 lg:grid-cols-3">
         <!-- Free -->
-        <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{landing_pricing_free_title()}</h3>
-          <div class="mt-4 flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">{landing_pricing_free_price()}</span>
+        <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">{landing_pricing_free_title()}</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">{landing_pricing_free_subtitle()}</p>
+          <div class="mt-5 flex items-baseline justify-center gap-1">
+            <span class="text-4xl font-semibold text-gray-900 dark:text-white">{landing_pricing_free_price()}</span>
             <span class="text-sm text-gray-500 dark:text-zinc-400">{landing_pricing_per_month()}</span>
           </div>
-          <ul class="mt-6 space-y-3 text-sm">
-            {#each [landing_pricing_free_feature_1(), landing_pricing_free_feature_2(), landing_pricing_free_feature_3(), landing_pricing_free_feature_4()] as feature}
-              <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
+            {#each [landing_pricing_free_feature_1(), landing_pricing_free_feature_2(), landing_pricing_free_feature_3(), landing_pricing_free_feature_4(), landing_pricing_free_feature_5(), landing_pricing_free_feature_6()] as feature}
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-gray-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
               </li>
             {/each}
           </ul>
+          <div class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800">
+            {#if !data?.user}
+              <label
+                for="userLogin"
+                class="cursor-pointer w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
+              >
+                {landing_pricing_free_cta()}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </label>
+            {:else}
+              <a
+                href="/pricing"
+                class="w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
+              >
+                {landing_pricing_cta()}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </a>
+            {/if}
+          </div>
         </div>
-        <!-- Plus -->
-        <div class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-3 py-0.5 text-xs font-semibold text-white uppercase tracking-wider">Popular</div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{landing_pricing_plus_title()}</h3>
-          <div class="mt-4 flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">{landing_pricing_plus_price()}</span>
+
+        <!-- Plus (highlighted) -->
+        <div class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative shadow-lg shadow-violet-500/10 dark:shadow-violet-400/5">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">Popular</div>
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">{landing_pricing_plus_title()}</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">{landing_pricing_plus_subtitle()}</p>
+          <div class="mt-5 flex items-baseline justify-center gap-2">
+            {#if pricingAnnual}
+              <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">$10</span>
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white">$5</span>
+            {:else}
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white">$15</span>
+            {/if}
             <span class="text-sm text-gray-500 dark:text-zinc-400">{landing_pricing_per_month()}</span>
           </div>
-          <ul class="mt-6 space-y-3 text-sm">
-            {#each [landing_pricing_plus_feature_1(), landing_pricing_plus_feature_2(), landing_pricing_plus_feature_3(), landing_pricing_plus_feature_4()] as feature}
-              <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {#if pricingAnnual}
+            <p class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center">
+              <span class="line-through">$120</span> $60 {landing_pricing_billed_annually()}
+            </p>
+          {/if}
+          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
+            {#each [landing_pricing_plus_feature_1(), landing_pricing_plus_feature_2(), landing_pricing_plus_feature_3(), landing_pricing_plus_feature_4(), landing_pricing_plus_feature_5(), landing_pricing_plus_feature_6(), landing_pricing_plus_feature_7()] as feature}
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
               </li>
             {/each}
           </ul>
+          <div class="mt-auto pt-5 border-t border-violet-200 dark:border-violet-800/40">
+            {#if !data?.user}
+              <label
+                for="userLogin"
+                class="cursor-pointer w-full py-3 px-4 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
+              >
+                {landing_pricing_plus_cta()}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </label>
+            {:else}
+              <a
+                href="/pricing"
+                class="w-full py-3 px-4 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
+              >
+                {landing_pricing_plus_cta()}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </a>
+            {/if}
+          </div>
         </div>
+
         <!-- Pro -->
-        <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{landing_pricing_pro_title()}</h3>
-          <div class="mt-4 flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">{landing_pricing_pro_price()}</span>
+        <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">{landing_pricing_pro_title()}</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">{landing_pricing_pro_subtitle()}</p>
+          <div class="mt-5 flex items-baseline justify-center gap-2">
+            {#if pricingAnnual}
+              <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">$30</span>
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white">$15</span>
+            {:else}
+              <span class="text-4xl font-semibold text-gray-900 dark:text-white">$45</span>
+            {/if}
             <span class="text-sm text-gray-500 dark:text-zinc-400">{landing_pricing_per_month()}</span>
           </div>
-          <ul class="mt-6 space-y-3 text-sm">
-            {#each [landing_pricing_pro_feature_1(), landing_pricing_pro_feature_2(), landing_pricing_pro_feature_3(), landing_pricing_pro_feature_4()] as feature}
-              <li class="flex items-start gap-2">
-                <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {#if pricingAnnual}
+            <p class="mt-1 text-xs text-gray-500 dark:text-zinc-500 text-center">
+              <span class="line-through">$360</span> $180 {landing_pricing_billed_annually()}
+            </p>
+          {/if}
+          <ul class="mt-6 mb-6 space-y-2.5 text-sm flex-1">
+            {#each [landing_pricing_pro_feature_1(), landing_pricing_pro_feature_2(), landing_pricing_pro_feature_3(), landing_pricing_pro_feature_4(), landing_pricing_pro_feature_5(), landing_pricing_pro_feature_6(), landing_pricing_pro_feature_7()] as feature}
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 <span class="text-gray-600 dark:text-zinc-300">{feature}</span>
               </li>
             {/each}
           </ul>
+          <div class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800">
+            {#if !data?.user}
+              <label
+                for="userLogin"
+                class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
+              >
+                {landing_pricing_pro_cta()}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </label>
+            {:else}
+              <a
+                href="/pricing"
+                class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
+              >
+                {landing_pricing_pro_cta()}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </a>
+            {/if}
+          </div>
         </div>
       </div>
+
       <div class="mt-10 text-center">
         <a
           href="/pricing"
