@@ -719,9 +719,9 @@
           From Market Noise to Actionable Alerts
         </h2>
         <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300">
-          Stocknear ingests realtime catalysts, correlates them inside one
-          signal engine, then routes high-conviction outputs directly into your
-          alerts, watchlist, and risk workflow.
+          Congress trading, dark pool prints, analyst ratings, earnings,
+          financial data, and AI analysis all flow into one destination:
+          Stocknear.
         </p>
       </div>
 
@@ -729,20 +729,6 @@
         <SignalPipelineBeams />
       </div>
 
-      <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <a
-          href="/notifications"
-          class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-        >
-          Explore Notifications
-        </a>
-        <a
-          href="/watchlist/stocks"
-          class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-        >
-          Open Watchlist
-        </a>
-      </div>
     </div>
   </section>
 
