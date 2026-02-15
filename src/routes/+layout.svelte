@@ -1548,7 +1548,7 @@
           {#if !isChartRoute}
             <div class="hidden 3xl:block 3xl:w-[300px] 3xl:shrink-0">
               <aside
-                class="sidebar-scroll sticky top-[72px] z-30 3xl:flex w-64 self-start max-h-[calc(100dvh-84px)] overflow-x-hidden overflow-y-auto overscroll-contain flex-col xl:border-r border-gray-300 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
+                class="sidebar-scroll sticky top-[72px] z-30 3xl:flex w-64 self-start max-h-[calc(100dvh-84px)] overflow-x-hidden overflow-y-auto overscroll-contain flex-col bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
               >
                 <nav
                   class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
