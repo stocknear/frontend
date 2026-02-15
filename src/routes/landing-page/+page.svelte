@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import Discount from "$lib/components/Discount.svelte";
+
   import {
     landing_seo_title,
     landing_seo_description,
@@ -49,7 +51,6 @@
     landing_feature_ai_bullet_3,
     landing_feature_ai_bullet_4,
     landing_feature_ai_link,
-    landing_feature_ai_placeholder,
     landing_feature_flow_title,
     landing_feature_flow_description,
     landing_feature_flow_bullet_1,
@@ -214,8 +215,7 @@
     {
       title: landing_feature_ai_title,
       desc: landing_feature_ai_description,
-      image: null,
-      placeholder: landing_feature_ai_placeholder,
+      image: "/img/landing-page/ai-agent.png",
       href: "/chat",
     },
     {
@@ -742,14 +742,15 @@
             </a>
           </div>
           <div class="flex-1 order-1 lg:order-2 w-full">
-            <!-- PLACEHOLDER: AI Agent screenshot -->
-            <div
-              class="w-full aspect-video rounded-2xl border-2 border-dashed border-gray-300 dark:border-zinc-600 bg-gray-100 dark:bg-zinc-900/60 flex items-center justify-center p-6"
-            >
-              <p class="text-center text-sm text-gray-500 dark:text-zinc-400">
-                {landing_feature_ai_placeholder()}
-              </p>
-            </div>
+            <video
+              class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
+              src="/video/ai-agent.mp4"
+              poster="/img/landing-page/ai-agent.png"
+              autoplay
+              muted
+              loop
+              playsinline
+            ></video>
           </div>
         </div>
 
@@ -1214,6 +1215,8 @@
           >
         </div>
       </div>
+
+      <Discount />
 
       <!-- Monthly / Annual toggle -->
       <div
