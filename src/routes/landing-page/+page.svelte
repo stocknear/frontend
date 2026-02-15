@@ -11,6 +11,26 @@
     landing_hero_badge_investors,
     landing_hero_badge_trustpilot,
     landing_hero_badge_reviews,
+    landing_reviews_label,
+    landing_reviews_title,
+    landing_review_1_name,
+    landing_review_1_role,
+    landing_review_1_text,
+    landing_review_2_name,
+    landing_review_2_role,
+    landing_review_2_text,
+    landing_review_3_name,
+    landing_review_3_role,
+    landing_review_3_text,
+    landing_review_4_name,
+    landing_review_4_role,
+    landing_review_4_text,
+    landing_review_5_name,
+    landing_review_5_role,
+    landing_review_5_text,
+    landing_review_6_name,
+    landing_review_6_role,
+    landing_review_6_text,
     landing_stats_investors,
     landing_stats_investors_label,
     landing_stats_stocks,
@@ -121,6 +141,57 @@
   export let form;
 
   let LoginPopup: any;
+  let currentSlide = 0;
+
+  const carouselFeatures = [
+    {
+      title: landing_feature_flow_title,
+      desc: landing_feature_flow_description,
+      image: "/img/landing-page/options-flow.png",
+      href: "/options-flow",
+    },
+    {
+      title: landing_feature_ai_title,
+      desc: landing_feature_ai_description,
+      image: null,
+      placeholder: landing_feature_ai_placeholder,
+      href: "/chat",
+    },
+    {
+      title: landing_feature_screener_title,
+      desc: landing_feature_screener_description,
+      image: null,
+      placeholder: landing_feature_screener_placeholder,
+      href: "/stock-screener",
+    },
+    {
+      title: landing_feature_smart_title,
+      desc: landing_feature_smart_description,
+      image: null,
+      placeholder: landing_feature_smart_placeholder,
+      href: "/politicians",
+    },
+    {
+      title: landing_feature_wiim_title,
+      desc: landing_feature_wiim_description,
+      image: "/img/landing-page/wiim-chart.png",
+      href: "/market-news",
+    },
+    {
+      title: landing_feature_analyst_title,
+      desc: landing_feature_analyst_description,
+      image: "/img/landing-page/analyst-chart.png",
+      href: "/analysts",
+    },
+  ];
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % carouselFeatures.length;
+  }
+  function prevSlide() {
+    currentSlide =
+      (currentSlide - 1 + carouselFeatures.length) % carouselFeatures.length;
+  }
 
   onMount(async () => {
     if (!data?.user) {
@@ -210,6 +281,133 @@
           alt="Stocknear Dashboard"
           loading="eager"
         />
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Carousel -->
+  <section class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50 py-12 sm:py-20 overflow-hidden">
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="relative h-[340px] sm:h-[400px]">
+        {#each carouselFeatures as feature, i}
+          {@const total = carouselFeatures.length}
+          {@const offset = ((i - currentSlide + total) % total)}
+          {@const normalizedOffset = offset > total / 2 ? offset - total : offset}
+          {@const isActive = normalizedOffset === 0}
+          <div
+            class="absolute top-0 left-1/2 w-[80%] sm:w-[55%] lg:w-[40%] max-w-md transition-all duration-500 ease-out"
+            style="
+              transform: translateX(calc(-50% + {normalizedOffset * 85}%)) scale({isActive ? 1 : 0.85});
+              opacity: {Math.abs(normalizedOffset) > 1 ? 0 : isActive ? 1 : 0.5};
+              z-index: {isActive ? 20 : 10 - Math.abs(normalizedOffset)};
+              pointer-events: {isActive ? 'auto' : 'none'};
+            "
+          >
+            <a
+              href={feature.href}
+              class="block rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/80 shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              {#if feature.image}
+                <img
+                  src={feature.image}
+                  alt={feature.title()}
+                  class="w-full aspect-video object-cover"
+                  loading="lazy"
+                />
+              {:else}
+                <div class="w-full aspect-video bg-gray-100 dark:bg-zinc-800 flex items-center justify-center p-4">
+                  <p class="text-xs text-gray-400 dark:text-zinc-500 text-center">{feature.placeholder?.() ?? ''}</p>
+                </div>
+              {/if}
+              <div class="p-5 sm:p-6">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">{feature.title()}</h3>
+                <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400 line-clamp-2">{feature.desc()}</p>
+              </div>
+            </a>
+          </div>
+        {/each}
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button
+        on:click={prevSlide}
+        class="absolute left-2 sm:left-6 top-[170px] sm:top-[200px] z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-zinc-800/90 border border-gray-200 dark:border-zinc-700 shadow-md hover:bg-white dark:hover:bg-zinc-700 transition"
+        aria-label="Previous slide"
+      >
+        <svg class="w-5 h-5 text-gray-700 dark:text-zinc-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        on:click={nextSlide}
+        class="absolute right-2 sm:right-6 top-[170px] sm:top-[200px] z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-zinc-800/90 border border-gray-200 dark:border-zinc-700 shadow-md hover:bg-white dark:hover:bg-zinc-700 transition"
+        aria-label="Next slide"
+      >
+        <svg class="w-5 h-5 text-gray-700 dark:text-zinc-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dot Indicators -->
+      <div class="flex justify-center gap-2 mt-4">
+        {#each carouselFeatures as _, i}
+          <button
+            on:click={() => (currentSlide = i)}
+            class="h-2 rounded-full transition-all duration-300 {i === currentSlide
+              ? 'w-6 bg-violet-600 dark:bg-violet-400'
+              : 'w-2 bg-gray-300 dark:bg-zinc-600 hover:bg-gray-400 dark:hover:bg-zinc-500'}"
+            aria-label="Go to slide {i + 1}"
+          ></button>
+        {/each}
+      </div>
+    </div>
+  </section>
+
+  <!-- User Reviews -->
+  <section class="border-t border-gray-300 dark:border-zinc-700">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="text-center mb-12">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4">
+          {landing_reviews_label()}
+        </p>
+        <h2 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+          {landing_reviews_title()}
+        </h2>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {#each [
+          { name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "MT", color: "bg-violet-600" },
+          { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "SK", color: "bg-emerald-600" },
+          { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "DR", color: "bg-blue-600" },
+          { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "JL", color: "bg-amber-600" },
+          { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "AM", color: "bg-rose-600" },
+          { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "CW", color: "bg-cyan-600" },
+        ] as review}
+          <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col">
+            <!-- Stars -->
+            <div class="flex gap-0.5 mb-4">
+              {#each Array(5) as _}
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              {/each}
+            </div>
+            <!-- Review text -->
+            <p class="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed flex-1">
+              "{review.text}"
+            </p>
+            <!-- Author -->
+            <div class="flex items-center gap-3 mt-5 pt-5 border-t border-gray-100 dark:border-zinc-800">
+              <div class="flex-shrink-0 h-10 w-10 rounded-full {review.color} flex items-center justify-center">
+                <span class="text-xs font-bold text-white">{review.initials}</span>
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-gray-900 dark:text-white">{review.name}</div>
+                <div class="text-xs text-gray-500 dark:text-zinc-400">{review.role}</div>
+              </div>
+            </div>
+          </div>
+        {/each}
       </div>
     </div>
   </section>
