@@ -3434,7 +3434,7 @@
                           class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
-                            >Rows: {rowsPerPage}</span
+                            >{rowsPerPage} Rows</span
                           >
                           <svg
                             class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -3468,7 +3468,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">{item}</span>
+                                <span class="text-sm">{item} Rows</span>
                               </label>
                             </DropdownMenu.Item>
                           {/each}

@@ -15,6 +15,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         pageSize: data?.pageSize || 50,
         sortKey: data?.sortKey || "time",
         sortOrder: data?.sortOrder || "desc",
+        subscriber: user?.tier === "Pro" ? "Pro" : "Free",
       };
       const response = await fetch(apiURL + "/options-historical-flow", {
         method: "POST",

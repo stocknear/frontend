@@ -20,27 +20,30 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  // Check if user has enough credits
-  if (user?.credits < CREDIT_COST) {
-    return new Response(
-      JSON.stringify({
-        error: `Insufficient credits. You need ${CREDIT_COST} credits but have ${user?.credits}.`,
-      }),
-      { status: 400 }
-    );
-  }
-
   try {
-    // Deduct credits
-    await pb.collection("users").update(user?.id, {
-      credits: user?.credits - CREDIT_COST,
+    // Atomic decrement — prevents TOCTOU race with concurrent requests
+    const updated = await pb.collection("users").update(user?.id, {
+      "credits-": CREDIT_COST,
     });
+
+    // If credits went negative, rollback and reject
+    if (updated.credits < 0) {
+      await pb.collection("users").update(user?.id, {
+        "credits+": CREDIT_COST,
+      });
+      return new Response(
+        JSON.stringify({
+          error: `Insufficient credits. You need ${CREDIT_COST} credits.`,
+        }),
+        { status: 400 }
+      );
+    }
 
     return new Response(
       JSON.stringify({
         success: true,
         creditsDeducted: CREDIT_COST,
-        remainingCredits: user?.credits - CREDIT_COST,
+        remainingCredits: updated.credits,
       }),
       {
         status: 200,
