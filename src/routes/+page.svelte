@@ -209,16 +209,11 @@
   export let data;
   export let form;
 
-  let LoginPopup: any;
   let pricingAnnual = true;
   let heroVideoEl: HTMLVideoElement;
   let showPlayButton = false;
 
   onMount(async () => {
-    if (!data?.user) {
-      LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
-    }
-
     // Detect autoplay failure (mobile Safari)
     if (heroVideoEl) {
       try {
@@ -307,12 +302,12 @@
           {landing_hero_subtitle()}
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <label
-            for="userLogin"
+          <a
+            href="/register"
             class="cursor-pointer inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
           >
             {landing_hero_cta_primary()}
-          </label>
+          </a>
           <a
             href="#features"
             class="inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
@@ -735,8 +730,8 @@
           <div
             class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
           >
-            <label
-              for="userLogin"
+            <a
+              href="/register"
               class="cursor-pointer w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm"
             >
               {pricing_get_registered()}
@@ -752,7 +747,7 @@
                   d="M9 5l7 7-7 7"
                 /></svg
               >
-            </label>
+            </a>
           </div>
         </div>
 
@@ -823,8 +818,8 @@
            <div
             class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
           >
-            <label
-              for="userLogin"
+            <a
+              href="/register"
               class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm"
             >
               {pricing_start_trial()}
@@ -840,8 +835,8 @@
                   d="M9 5l7 7-7 7"
                 /></svg
               >
-            </label>
-          </div>
+            </a>
+           </div>
         </div>
 
         <!-- Pro -->
@@ -906,8 +901,8 @@
           <div
             class="mt-auto pt-5 border-t border-gray-100 dark:border-zinc-800"
           >
-            <label
-              for="userLogin"
+            <a
+              href="/register"
               class="cursor-pointer w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-gray-900 rounded-full font-semibold transition flex items-center justify-center text-sm"
             >
               {pricing_start_trial()}
@@ -923,7 +918,7 @@
                   d="M9 5l7 7-7 7"
                 /></svg
               >
-            </label>
+            </a>
           </div>
         </div>
       </div>
@@ -1593,12 +1588,12 @@
         {landing_cta_description()}
       </p>
       <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-        <label
-          for="userLogin"
+        <a
+          href="/register"
           class="cursor-pointer inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
         >
           {landing_cta_primary()}
-        </label>
+        </a>
         <a
           href="/pricing"
           class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
@@ -1610,6 +1605,4 @@
   </section>
 </div>
 
-{#if LoginPopup}
-  <svelte:component this={LoginPopup} {form} />
-{/if}
+

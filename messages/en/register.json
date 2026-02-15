@@ -31,5 +31,28 @@
   "register_password_has_number": "Contains a number",
   "register_password_has_special": "Contains a special character",
   "register_passwords_match": "Passwords match",
-  "register_toast_rate_limited": "Too many registration attempts. Please try again in {minutes} minutes."
+  "register_toast_rate_limited": "Too many registration attempts. Please try again in {minutes} minutes.",
+
+  "register_step1_label": "Step 1 of 2",
+  "register_step1_title": "Create your account",
+  "register_step1_subtitle": "Start your 7-day free trial",
+  "register_step1_google": "Continue with Google",
+  "register_step1_email_divider": "Or sign up with email",
+  "register_step1_next": "Next",
+
+  "register_step2_label": "Step 2 of 2",
+  "register_step2_title": "Choose your plan",
+  "register_step2_subtitle": "7-day free trial. 30-day money-back guarantee.",
+  "register_step2_monthly": "Monthly",
+  "register_step2_annual": "Annual",
+  "register_step2_save": "Save 50%",
+  "register_step2_per_month": "/mo",
+  "register_step2_billed_annually": "billed annually",
+  "register_step2_popular": "Popular",
+  "register_step2_start_trial": "Start Free Trial",
+  "register_step2_skip": "Skip for now",
+  "register_step2_plus_title": "Plus",
+  "register_step2_plus_subtitle": "For serious investors",
+  "register_step2_pro_title": "Pro",
+  "register_step2_pro_subtitle": "For professional traders"
 }

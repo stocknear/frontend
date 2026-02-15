@@ -31,5 +31,28 @@
   "register_password_has_number": "Enthält eine Zahl",
   "register_password_has_special": "Enthält ein Sonderzeichen",
   "register_passwords_match": "Passwörter stimmen überein",
-  "register_toast_rate_limited": "Zu viele Registrierungsversuche. Bitte versuche es in {minutes} Minuten erneut."
+  "register_toast_rate_limited": "Zu viele Registrierungsversuche. Bitte versuche es in {minutes} Minuten erneut.",
+
+  "register_step1_label": "Schritt 1 von 2",
+  "register_step1_title": "Konto erstellen",
+  "register_step1_subtitle": "Starte deine 7-Tage-Testphase",
+  "register_step1_google": "Weiter mit Google",
+  "register_step1_email_divider": "Oder mit E-Mail registrieren",
+  "register_step1_next": "Weiter",
+
+  "register_step2_label": "Schritt 2 von 2",
+  "register_step2_title": "Plan auswählen",
+  "register_step2_subtitle": "7-Tage-Testphase. 30-Tage-Geld-zurück-Garantie.",
+  "register_step2_monthly": "Monatlich",
+  "register_step2_annual": "Jährlich",
+  "register_step2_save": "50% sparen",
+  "register_step2_per_month": "/Monat",
+  "register_step2_billed_annually": "jährlich abgerechnet",
+  "register_step2_popular": "Beliebt",
+  "register_step2_start_trial": "Testphase starten",
+  "register_step2_skip": "Vorerst überspringen",
+  "register_step2_plus_title": "Plus",
+  "register_step2_plus_subtitle": "Für ernsthafte Investoren",
+  "register_step2_pro_title": "Pro",
+  "register_step2_pro_subtitle": "Für professionelle Trader"
 }

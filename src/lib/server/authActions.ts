@@ -205,11 +205,11 @@ export const registerAction = async ({
     });
   }
 
-  // Get return URL from query or cookie
+  // Get return URL from query or cookie, default to step 2 of registration
   const returnUrl =
     url.searchParams.get("returnUrl") ||
     cookies.get("returnUrl") ||
-    "/profile";
+    "/register?step=2";
 
   // Remove cookie
   cookies.delete("returnUrl", { path: "/" });

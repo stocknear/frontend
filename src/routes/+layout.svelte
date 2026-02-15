@@ -479,7 +479,7 @@
     BProgress?.done();
   });
 
-  $: isLandingPage = $page.url.pathname === "/" && !data?.user;
+  $: isLandingPage = ($page.url.pathname === "/" && !data?.user) || $page.url.pathname === "/register";
 
   $: {
     if ($page.url.pathname) {
@@ -1458,7 +1458,7 @@
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && !data?.user}
             <div class="hidden shrink-0 sm:inline-flex">
               <a
-                href="/pricing"
+                href="/register"
                 class="inline-flex items-center whitespace-nowrap justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {layout_start_trial()}

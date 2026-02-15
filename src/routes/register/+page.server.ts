@@ -1,6 +1,6 @@
-import { error, fail, redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { registerUserSchema } from "$lib/schemas";
-import { validateData, checkDisposableEmail} from "$lib/utils";
+import { validateData, checkDisposableEmail } from "$lib/utils";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 /**
@@ -12,11 +12,43 @@ function sanitizeFormData(formData: Record<string, unknown>) {
   return safeData;
 }
 
+export async function load({ locals, url }) {
+  const { pb } = locals;
+  const step = url.searchParams.get("step");
+
+  // If user is authenticated and on step 2, let them see plan selection
+  if (pb.authStore.isValid && step === "2") {
+    return {
+      user: locals.user,
+      step: 2,
+    };
+  }
+
+  // If user is authenticated but not on step 2, send to dashboard
+  if (pb.authStore.isValid) {
+    redirect(303, "/dashboard");
+  }
+
+  // Unauthenticated user on step 2 should go back to step 1
+  if (step === "2") {
+    redirect(303, "/register");
+  }
+
+  return {
+    user: null,
+    step: 1,
+  };
+}
+
 export const actions = {
-  register: async ({ locals, request, fetch }) => {
+  register: async ({ locals, request, fetch, url, cookies }) => {
     // SECURITY: Rate limiting based on client IP
     const clientIp = locals.clientIp;
-    const rateLimitResult = checkRateLimit(clientIp, "register", RATE_LIMITS.register);
+    const rateLimitResult = checkRateLimit(
+      clientIp,
+      "register",
+      RATE_LIMITS.register,
+    );
 
     if (!rateLimitResult.allowed) {
       const minutesRemaining = Math.ceil(rateLimitResult.resetIn / 60000);
@@ -99,25 +131,31 @@ export const actions = {
     }
 
     try {
-       const newUser = await locals.pb.collection("users").create(formData);
+      const newUser = await locals.pb.collection("users").create(formData);
 
       await locals.pb.collection("users").update(newUser?.id, {
-        'credits': 10,
+        credits: 10,
       });
 
-      await locals.pb.collection("users").requestVerification(formData.email);
-    } catch (err) {
+      await locals.pb
+        .collection("users")
+        .requestVerification(formData.email);
+    } catch (err: any) {
       // SECURITY: Don't log full error object, only safe message
-      console.error("Registration error for email:", formData?.email?.substring(0, 3) + "***");
+      console.error(
+        "Registration error for email:",
+        formData?.email?.substring(0, 3) + "***",
+      );
 
-      // Check for specific PocketBase errors
       const errorMessage = err?.message || "";
       const errorData = err?.data || {};
 
       // SECURITY: Use generic error for email exists to prevent enumeration
-      if (errorMessage.includes("already in use") ||
-          errorMessage.includes("already exists") ||
-          errorData?.email?.code === "validation_not_unique") {
+      if (
+        errorMessage.includes("already in use") ||
+        errorMessage.includes("already exists") ||
+        errorData?.email?.code === "validation_not_unique"
+      ) {
         return fail(400, {
           data: safeFormData,
           registrationFailed: true,
@@ -125,8 +163,10 @@ export const actions = {
       }
 
       // Invalid email format
-      if (errorData?.email?.code === "validation_is_email" ||
-          errorMessage.includes("invalid email")) {
+      if (
+        errorData?.email?.code === "validation_is_email" ||
+        errorMessage.includes("invalid email")
+      ) {
         return fail(400, {
           data: safeFormData,
           invalidEmail: true,
@@ -153,16 +193,17 @@ export const actions = {
         .collection("users")
         .authWithPassword(formData.email, formData.password);
     } catch (err) {
-      // User was created but auto-login failed - still redirect to profile
+      // User was created but auto-login failed - still redirect to step 2
     }
 
-    redirect(301, "/profile");
+    // Redirect to step 2 (plan selection) instead of /profile
+    redirect(302, "/register?step=2");
   },
 
-   oauth2: async ({ url, locals, request, cookies }) => {
-    const authMethods = (await locals?.pb
-      ?.collection("users")
-      ?.listAuthMethods())?.oauth2;
+  oauth2: async ({ url, locals, request, cookies }) => {
+    const authMethods = (
+      await locals?.pb?.collection("users")?.listAuthMethods()
+    )?.oauth2;
 
     const data = await request?.formData();
     const providerSelected = data?.get("provider");
@@ -176,7 +217,7 @@ export const actions = {
     const redirectURL = `${url.origin}/oauth`;
 
     const targetItem = authMethods?.providers?.findIndex(
-      (item) => item?.name === providerSelected,
+      (item: any) => item?.name === providerSelected,
     );
 
     const provider = authMethods.providers[targetItem];
@@ -208,7 +249,16 @@ export const actions = {
       maxAge: 60 * 60,
     });
 
-    cookies.set("path", "/profile", {
+    // Set returnUrl cookie so OAuth callback redirects to step 2
+    cookies.set("returnUrl", "/register?step=2", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      path: "/",
+      maxAge: 60 * 5,
+    });
+
+    cookies.set("path", "/register?step=2", {
       httpOnly: true,
       sameSite: "lax",
       secure: true,
@@ -216,6 +266,6 @@ export const actions = {
       maxAge: 60,
     });
 
-    redirect(301, authProviderRedirect);
+    redirect(302, authProviderRedirect);
   },
 };
