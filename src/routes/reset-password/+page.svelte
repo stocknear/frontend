@@ -4,6 +4,8 @@
   import { enhance } from "$app/forms";
   import SEO from "$lib/components/SEO.svelte";
   import Input from "$lib/components/Input.svelte";
+  import { Turnstile } from "svelte-turnstile";
+  import { dev } from "$app/environment";
   import {
   reset_password_button,
   reset_password_description,
@@ -20,38 +22,46 @@
 
   let loading = false;
   let isClicked = false;
+  let showTurnstile = true;
+
+  async function resetTurnstile() {
+    showTurnstile = false;
+    await new Promise((r) => setTimeout(r, 50));
+    showTurnstile = true;
+  }
 
   const submitReset = () => {
     loading = true;
     return async ({ result, update }) => {
+      const toastStyle = `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
+
       switch (result.type) {
         case "success":
-          toast.success(reset_password_success(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.success(reset_password_success(), { style: toastStyle });
           await update();
           break;
         case "redirect":
           isClicked = true;
-          toast.success(reset_password_success(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.success(reset_password_success(), { style: toastStyle });
           await update();
           break;
         case "failure":
-          toast.error(reset_password_error(), {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          if (result.data?.rateLimited) {
+            toast.error(`Too many attempts. Please try again in ${result.data?.retryAfter || 15} minutes.`, { style: toastStyle });
+          } else if (result.data?.errors?.turnstile) {
+            toast.error(result.data.errors.turnstile[0], { style: toastStyle });
+          } else {
+            toast.error(reset_password_error(), { style: toastStyle });
+          }
           await update();
           break;
         case "error":
-          toast.error(result.error.message, {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          });
+          toast.error(reset_password_error(), { style: toastStyle });
           break;
         default:
           await update();
       }
+      await resetTurnstile();
       loading = false;
     };
   };
@@ -99,6 +109,10 @@
           value={form?.data?.email ?? ""}
           errors={form?.errors?.email}
         />
+
+        {#if showTurnstile && !dev}
+          <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+        {/if}
 
         <div class="w-full max-w-lg pt-5 m-auto pb-5">
           {#if !loading && !isClicked}

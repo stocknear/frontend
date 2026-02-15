@@ -4,6 +4,7 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { dev } from "$app/environment";
   import Input from "$lib/components/Input.svelte";
   import PasswordInput from "$lib/components/PasswordInput.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -42,6 +43,8 @@
 
       if (result.type === "success" && result.data?.success) {
         toast.success(update_password_success(), { style: toastStyle });
+      } else if (result.data?.rateLimited) {
+        toast.error(`Too many attempts. Please try again in ${result.data?.retryAfter || 15} minutes.`, { style: toastStyle });
       } else {
         // Show turnstile error inline, use generic toast for other errors
         if (!result.data?.errors?.turnstile) {
@@ -165,7 +168,7 @@
               {/if}
             </div>
 
-            {#if showTurnstile}
+            {#if showTurnstile && !dev}
               <div class="flex justify-center">
                 <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
               </div>
