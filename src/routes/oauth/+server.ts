@@ -20,7 +20,7 @@ export const GET = async ({ locals, url, cookies }) => {
 
   if (!authMethods?.providers) {
     console.log("No Auth Providers");
-    redirect(301, "/register");
+    redirect(302, "/register");
   }
 
  const targetItem = authMethods?.providers?.findIndex(
@@ -31,12 +31,12 @@ export const GET = async ({ locals, url, cookies }) => {
 
   if (!provider) {
     console.log("Provider Not Found");
-    redirect(301, "/register");
+    redirect(302, "/register");
   }
 
   if (expectedState !== state) {
-    console.log("Returned State Does not Match Expected", expectedState, state);
-    redirect(301, "/register");
+    console.log("Returned State Does not Match Expected");
+    redirect(302, "/register");
   }
 
   try {
@@ -74,11 +74,19 @@ export const GET = async ({ locals, url, cookies }) => {
   }
   
   // Fallback to path cookie or home
-  if (cookies?.get("path")) {
-    redirect(301, cookies?.get("path"));
-  } else {
-    redirect(302, "/");
+  const pathCookie = cookies?.get("path");
+  if (pathCookie) {
+    // SECURITY: Validate path cookie to prevent open redirect
+    try {
+      const targetUrl = new URL(pathCookie, url.origin);
+      if (targetUrl.origin === url.origin) {
+        redirect(302, targetUrl.pathname + targetUrl.search);
+      }
+    } catch {
+      // Invalid URL, fall through to default
+    }
   }
+  redirect(302, "/");
 
  
 };

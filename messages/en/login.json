@@ -18,5 +18,6 @@
   "login_toast_verify_email": "Please verify your email first",
   "login_toast_success": "Login successfully!",
   "login_toast_invalid": "Invalid credentials",
-  "login_toast_auth_failed": "Invalid email or password. Please try again."
+  "login_toast_auth_failed": "Invalid email or password. Please try again.",
+  "login_toast_rate_limited": "Too many login attempts. Please try again in {minutes} minutes."
 }

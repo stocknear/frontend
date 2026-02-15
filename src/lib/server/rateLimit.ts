@@ -51,13 +51,14 @@ export interface RateLimitResult {
  * @param config - Rate limit configuration
  */
 export function checkRateLimit(
-  identifier: string | undefined,
+  identifier: string | undefined | null,
   action: string,
   config: RateLimitConfig
 ): RateLimitResult {
-  // If no identifier, allow the request (fail open for dev environments)
+  // SECURITY: If no identifier, use a shared fallback key (fail-closed)
+  // This prevents bypassing rate limits by stripping IP headers
   if (!identifier) {
-    return { allowed: true, remaining: config.maxRequests, resetIn: 0 };
+    identifier = "__unknown_ip__";
   }
 
   cleanupExpiredEntries();

@@ -1062,7 +1062,6 @@ export const validateData = async (formData, schema) => {
       errors: null,
     };
   } catch (err) {
-    console.log("Error: ", err);
     const errors = err.flatten();
     return {
       formData: body,

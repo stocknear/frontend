@@ -22,9 +22,12 @@ export const loginAction = async ({ request, locals, url, cookies }: any) => {
     loginUserSchema,
   );
 
+  // SECURITY: Sanitize form data - remove password before returning
+  const safeFormData = sanitizeFormData(formData);
+
   if (errors) {
     return fail(400, {
-      data: formData,
+      data: safeFormData,
       errors: errors.fieldErrors,
     });
   }
@@ -34,8 +37,16 @@ export const loginAction = async ({ request, locals, url, cookies }: any) => {
       .collection("users")
       .authWithPassword(formData.email, formData.password);
   } catch (err: any) {
-    console.log("Error: ", err);
-    throw error(err.status || 500, err.message || "Login failed");
+    // SECURITY: Only log redacted email, never the full error object
+    console.error(
+      "Login failed for:",
+      formData?.email?.substring(0, 3) + "***",
+    );
+    // SECURITY: Always return generic auth failure, never PocketBase internals
+    return fail(400, {
+      data: safeFormData,
+      authFailed: true,
+    });
   }
 
   // Get return URL from query or cookie
@@ -96,46 +107,49 @@ export const registerAction = async ({
     });
   }
 
-  if (!turnstileToken) {
-    return fail(400, {
-      data: safeFormData,
-      errors: {
-        turnstile: ["Please confirm you are not a robot."],
-      },
-    });
-  }
+  // Skip Turnstile verification in dev mode
+  if (!import.meta.env.DEV) {
+    if (!turnstileToken) {
+      return fail(400, {
+        data: safeFormData,
+        errors: {
+          turnstile: ["Please confirm you are not a robot."],
+        },
+      });
+    }
 
-  let turnstileVerification;
-  try {
-    const response = await fetch("/api/turnstile", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ token: turnstileToken }),
-    });
+    let turnstileVerification;
+    try {
+      const response = await fetch("/api/turnstile", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ token: turnstileToken }),
+      });
 
-    turnstileVerification = await response.json();
+      turnstileVerification = await response.json();
 
-    if (!response.ok || !turnstileVerification?.success) {
+      if (!response.ok || !turnstileVerification?.success) {
+        return fail(400, {
+          data: safeFormData,
+          errors: {
+            turnstile: [
+              turnstileVerification?.message ??
+                "Turnstile verification failed. Please try again.",
+            ],
+          },
+        });
+      }
+    } catch (verificationError) {
+      console.error("Turnstile verification error");
       return fail(400, {
         data: safeFormData,
         errors: {
           turnstile: [
-            turnstileVerification?.message ??
-              "Turnstile verification failed. Please try again.",
+            "Unable to verify Turnstile response. Please refresh and try again.",
           ],
         },
       });
     }
-  } catch (verificationError) {
-    console.error("Turnstile verification error:", verificationError);
-    return fail(400, {
-      data: safeFormData,
-      errors: {
-        turnstile: [
-          "Unable to verify Turnstile response. Please refresh and try again.",
-        ],
-      },
-    });
   }
 
   const isEmailDisposable = await checkDisposableEmail(formData?.email);
@@ -235,17 +249,19 @@ export const oauth2Action = async ({
   const data = await request?.formData();
   const providerSelected = data?.get("provider");
 
-  if (!authMethods) {
-    return {
-      authProviderRedirect: "",
-      authProviderState: "",
-    };
+  if (!authMethods?.providers) {
+    return fail(400, { oauthFailed: true });
   }
   const redirectURL = `${url.origin}/oauth`;
 
-  const targetItem = authMethods?.providers?.findIndex(
+  // SECURITY: Validate provider exists before accessing
+  const targetItem = authMethods.providers.findIndex(
     (item: any) => item?.name === providerSelected,
   );
+
+  if (targetItem === -1) {
+    return fail(400, { oauthFailed: true });
+  }
 
   const provider = authMethods.providers[targetItem];
   const authProviderRedirect = `${provider.authUrl}${redirectURL}`;
@@ -257,7 +273,7 @@ export const oauth2Action = async ({
     sameSite: "lax",
     secure: true,
     path: "/",
-    maxAge: 60 * 60,
+    maxAge: 60 * 10,
   });
 
   cookies.set("verifier", verifier, {
@@ -265,7 +281,7 @@ export const oauth2Action = async ({
     sameSite: "lax",
     secure: true,
     path: "/",
-    maxAge: 60 * 60,
+    maxAge: 60 * 10,
   });
 
   cookies.set("provider", providerSelected, {
@@ -273,7 +289,7 @@ export const oauth2Action = async ({
     sameSite: "lax",
     secure: true,
     path: "/",
-    maxAge: 60 * 60,
+    maxAge: 60 * 10,
   });
 
   cookies.set("path", path, {

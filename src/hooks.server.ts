@@ -164,7 +164,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       path: "/",
       sameSite: "lax",
       secure: true,
-      maxAge: 60 * 60 * 24 * 365,
+      maxAge: 60 * 60 * 24 * 90,
     });
 
     response.headers.append("set-cookie", cookieString);
@@ -258,7 +258,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       path: "/",
       sameSite: "lax",
       secure: true,
-      maxAge: 60 * 60 * 24 * 365,
+      maxAge: 60 * 60 * 24 * 90,
     });
 
     response.headers.append("set-cookie", cookieString);

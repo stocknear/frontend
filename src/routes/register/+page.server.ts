@@ -216,17 +216,19 @@ export const actions = {
     const data = await request?.formData();
     const providerSelected = data?.get("provider");
 
-    if (!authMethods) {
-      return {
-        authProviderRedirect: "",
-        authProviderState: "",
-      };
+    if (!authMethods?.providers) {
+      return fail(400, { oauthFailed: true });
     }
     const redirectURL = `${url.origin}/oauth`;
 
-    const targetItem = authMethods?.providers?.findIndex(
+    // SECURITY: Validate provider exists before accessing
+    const targetItem = authMethods.providers.findIndex(
       (item: any) => item?.name === providerSelected,
     );
+
+    if (targetItem === -1) {
+      return fail(400, { oauthFailed: true });
+    }
 
     const provider = authMethods.providers[targetItem];
     const authProviderRedirect = `${provider.authUrl}${redirectURL}`;
@@ -238,7 +240,7 @@ export const actions = {
       sameSite: "lax",
       secure: true,
       path: "/",
-      maxAge: 60 * 60,
+      maxAge: 60 * 10,
     });
 
     cookies.set("verifier", verifier, {
@@ -246,7 +248,7 @@ export const actions = {
       sameSite: "lax",
       secure: true,
       path: "/",
-      maxAge: 60 * 60,
+      maxAge: 60 * 10,
     });
 
     cookies.set("provider", providerSelected, {
@@ -254,7 +256,7 @@ export const actions = {
       sameSite: "lax",
       secure: true,
       path: "/",
-      maxAge: 60 * 60,
+      maxAge: 60 * 10,
     });
 
     // Set returnUrl cookie so OAuth callback redirects to step 2

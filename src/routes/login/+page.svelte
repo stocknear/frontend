@@ -5,6 +5,8 @@
   import { mode } from "mode-watcher";
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
+  import { Turnstile } from "svelte-turnstile";
+  import { dev } from "$app/environment";
   import {
     login_seo_title,
     login_seo_description,
@@ -25,6 +27,7 @@
     login_toast_success,
     login_toast_invalid,
     login_toast_auth_failed,
+    login_toast_rate_limited,
   } from "$lib/paraglide/messages.js";
 
   export let form;
@@ -33,6 +36,13 @@
   let isClicked = false;
   let loading = false;
   let oauthLoading = false;
+  let showTurnstile = true;
+
+  async function resetTurnstile() {
+    showTurnstile = false;
+    await new Promise((r) => setTimeout(r, 50));
+    showTurnstile = true;
+  }
 
   const submitLogin = () => {
     loading = true;
@@ -57,19 +67,24 @@
           await update();
           break;
         case "failure":
-          if (result.data?.authFailed) {
+          if (result.data?.rateLimited) {
+            toast.error(login_toast_rate_limited({ minutes: String(result.data?.retryAfter || 15) }), { style: toastStyle });
+          } else if (result.data?.authFailed) {
             toast.error(login_toast_auth_failed(), { style: toastStyle });
+          } else if (result.data?.errors?.turnstile) {
+            toast.error(result.data.errors.turnstile[0], { style: toastStyle });
           } else {
             toast.error(login_toast_invalid(), { style: toastStyle });
           }
           await update();
           break;
         case "error":
-          toast.error(result.error.message, { style: toastStyle });
+          toast.error(login_toast_invalid(), { style: toastStyle });
           break;
         default:
           await update();
       }
+      await resetTurnstile();
       loading = false;
     };
   };
@@ -142,6 +157,10 @@
               class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
             >{login_forgot_password()}</a>
           </div>
+
+          {#if showTurnstile && !dev}
+            <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+          {/if}
 
           <div class="w-full pt-4 m-auto pb-3">
             <button
