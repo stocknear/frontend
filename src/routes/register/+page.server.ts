@@ -16,6 +16,11 @@ export async function load({ locals, url }) {
   const { pb } = locals;
   const step = url.searchParams.get("step");
 
+  // If user is authenticated and already Pro/Plus, redirect to dashboard
+  if (pb.authStore.isValid && ["Pro", "Plus"].includes(locals.user?.tier)) {
+    redirect(303, "/dashboard");
+  }
+
   // If user is authenticated and on step 2, let them see plan selection
   if (pb.authStore.isValid && step === "2") {
     return {
@@ -77,48 +82,51 @@ export const actions = {
       });
     }
 
-    if (!turnstileToken) {
-      return fail(400, {
-        data: safeFormData,
-        errors: {
-          turnstile: ["Please confirm you are not a robot."],
-        },
-      });
-    }
+    // Skip Turnstile verification in dev mode
+    if (!import.meta.env.DEV) {
+      if (!turnstileToken) {
+        return fail(400, {
+          data: safeFormData,
+          errors: {
+            turnstile: ["Please confirm you are not a robot."],
+          },
+        });
+      }
 
-    let turnstileVerification;
-    try {
-      const response = await fetch("/api/turnstile", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ token: turnstileToken }),
-      });
+      let turnstileVerification;
+      try {
+        const response = await fetch("/api/turnstile", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
 
-      turnstileVerification = await response.json();
+        turnstileVerification = await response.json();
 
-      if (!response.ok || !turnstileVerification?.success) {
+        if (!response.ok || !turnstileVerification?.success) {
+          return fail(400, {
+            data: safeFormData,
+            errors: {
+              turnstile: [
+                turnstileVerification?.message ??
+                  "Turnstile verification failed. Please try again.",
+              ],
+            },
+          });
+        }
+      } catch (verificationError) {
+        console.error("Turnstile verification error:", verificationError);
         return fail(400, {
           data: safeFormData,
           errors: {
             turnstile: [
-              turnstileVerification?.message ??
-                "Turnstile verification failed. Please try again.",
+              "Unable to verify Turnstile response. Please refresh and try again.",
             ],
           },
         });
       }
-    } catch (verificationError) {
-      console.error("Turnstile verification error:", verificationError);
-      return fail(400, {
-        data: safeFormData,
-        errors: {
-          turnstile: [
-            "Unable to verify Turnstile response. Please refresh and try again.",
-          ],
-        },
-      });
     }
 
     const isEmailDisposable = await checkDisposableEmail(formData?.email);

@@ -1449,7 +1449,7 @@
           <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
             <Searchbar />
           </div>
-          {#if !isLandingPage}
+          {#if !($page.url.pathname === "/" && !data?.user)}
             <NotificationBell {data} {hasUnreadElement} />
           {/if}
 

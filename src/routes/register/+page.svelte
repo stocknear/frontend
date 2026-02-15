@@ -9,6 +9,8 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { dev } from "$app/environment";
+  import { openLemonSqueezyUrl } from "$lib/lemonsqueezy";
   import {
     register_seo_title,
     register_seo_description,
@@ -28,6 +30,7 @@
     register_toast_weak_password,
     register_toast_invalid_email,
     register_toast_rate_limited,
+    register_confirm_password_label,
     register_step1_label,
     register_step1_title,
     register_step1_subtitle,
@@ -77,6 +80,7 @@
   let oauthLoading = false;
   let showTurnstile = true;
   let password = "";
+  let confirmPassword = "";
   let pricingAnnual = true;
 
   $: currentStep = data?.step || 1;
@@ -157,43 +161,67 @@
     };
   };
 
-  function openLemonSqueezyUrl(checkoutUrl: string) {
-    window.open(checkoutUrl, "_blank");
+  let affiliateScriptLoad: Promise<void> | null = null;
+
+  function loadLemonSqueezyAffiliate() {
+    if (affiliateScriptLoad) return affiliateScriptLoad;
+
+    affiliateScriptLoad = new Promise<void>((resolve) => {
+      if (typeof window === "undefined") return resolve();
+      if (document.querySelector('script[data-ls-affiliate="1"]'))
+        return resolve();
+
+      (window as any).lemonSqueezyAffiliateConfig = { store: "Stocknear" };
+
+      const script = document.createElement("script");
+      script.defer = true;
+      script.src = "https://lmsqueezy.com/affiliate.js";
+      script.dataset.lsAffiliate = "1";
+      script.onload = () => resolve();
+      script.onerror = () => resolve();
+
+      document.head.appendChild(script);
+    });
+
+    return affiliateScriptLoad;
   }
 
   async function purchasePlan(subscriptionType: string) {
     if (!data?.user) return;
 
+    const isPro = subscriptionType?.toLowerCase() === "pro";
+    const isPlus = subscriptionType?.toLowerCase() === "plus";
+    const isAnnual = Boolean(pricingAnnual);
     const isFreeTrial = !data?.user?.freeTrial;
-    let subId = "";
 
-    if (subscriptionType === "Plus") {
-      if (pricingAnnual) {
-        subId = isFreeTrial
-          ? import.meta.env.VITE_LEMON_SQUEEZY_FREE_TRIAL_ANNUAL_ID_PLUS
-          : import.meta.env.VITE_LEMON_SQUEEZY_ANNUAL_ID_PLUS;
-      } else {
-        subId = isFreeTrial
-          ? import.meta.env.VITE_LEMON_SQUEEZY_FREE_TRIAL_MONTHLY_ID_PLUS
-          : import.meta.env.VITE_LEMON_SQUEEZY_MONTHLY_ID_PLUS;
-      }
-    } else if (subscriptionType === "Pro") {
-      if (pricingAnnual) {
-        subId = isFreeTrial
-          ? import.meta.env.VITE_LEMON_SQUEEZY_FREE_TRIAL_ANNUAL_ID_PRO
-          : import.meta.env.VITE_LEMON_SQUEEZY_ANNUAL_ID_PRO;
-      } else {
-        subId = isFreeTrial
-          ? import.meta.env.VITE_LEMON_SQUEEZY_FREE_TRIAL_MONTHLY_ID_PRO
-          : import.meta.env.VITE_LEMON_SQUEEZY_MONTHLY_ID_PRO;
-      }
+    let plan = "";
+
+    if (isPro) {
+      plan = isAnnual ? "ANNUAL_ID_PRO" : "MONTHLY_ID_PRO";
+    } else if (isPlus) {
+      plan = isAnnual ? "ANNUAL_ID_PLUS" : "MONTHLY_ID_PLUS";
     }
 
-    const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const darkParam = isDarkMode ? "1" : "0";
+    const prefix = isFreeTrial
+      ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
+      : "VITE_LEMON_SQUEEZY_";
 
-    const checkoutUrl = `https://stocknear.lemonsqueezy.com/checkout/buy/${subId}?embed=1&dark=${darkParam}&checkout[email]=${encodeURIComponent(data?.user?.email || "")}&checkout[name]=${encodeURIComponent(data?.user?.username || "")}&checkout[custom][userId]=${encodeURIComponent(data?.user?.id || "")}`;
+    const subId = import.meta.env[`${prefix}${plan}`];
 
+    const isDarkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const checkoutUrl =
+      `https://stocknear.lemonsqueezy.com/checkout/buy/${subId}?` +
+      new URLSearchParams({
+        embed: "1",
+        dark: isDarkMode ? "1" : "0",
+        "checkout[email]": data?.user?.email,
+        "checkout[name]": data?.user?.username,
+        "checkout[custom][userId]": data?.user?.id,
+      })?.toString();
+
+    await loadLemonSqueezyAffiliate();
     openLemonSqueezyUrl(checkoutUrl);
   }
 </script>
@@ -204,7 +232,7 @@
 />
 
 <div class="min-h-screen bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200">
-  <div class="mx-auto max-w-lg px-4 sm:px-6 py-8 sm:py-16">
+  <div class="mx-auto {currentStep === 2 ? 'max-w-3xl' : 'max-w-lg'} px-4 sm:px-6 py-8 sm:py-16">
 
     <!-- Logo -->
     <div class="text-center mb-8">
@@ -274,14 +302,34 @@
             errors={form?.errors?.password}
             disabled={loading}
             showRequirements={true}
-            showMatchIndicator={false}
+            showMatchIndicator={true}
+            confirmValue={confirmPassword}
             on:input={(e) => (password = e.detail)}
           />
 
-          <!-- Hidden passwordConfirm field that mirrors password (no confirm-password for user) -->
-          <input type="hidden" name="passwordConfirm" value={password} />
+          <div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+            <label for="passwordConfirm" class="label pb-1">
+              <span class="text-muted dark:text-white">{register_confirm_password_label()}</span>
+            </label>
+            <input
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              type="password"
+              id="passwordConfirm"
+              name="passwordConfirm"
+              disabled={loading}
+              bind:value={confirmPassword}
+              autocomplete="off"
+            />
+            {#if form?.errors?.passwordConfirm}
+              <label for="passwordConfirm" class="py-0 pt-1 text-xs">
+                <span class="text-red-800 font-semibold dark:font-normal dark:text-error">
+                  {form?.errors?.passwordConfirm[0]}
+                </span>
+              </label>
+            {/if}
+          </div>
 
-          {#if showTurnstile}
+          {#if showTurnstile && !dev}
             <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
           {/if}
           {#if form?.errors?.turnstile}
@@ -364,8 +412,11 @@
 
         <!-- Plan cards -->
         <div class="grid gap-6 sm:grid-cols-2">
-          <!-- Plus -->
-          <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col">
+          <!-- Plus (highlighted) -->
+          <div class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">
+              {register_step2_popular()}
+            </div>
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
               {register_step2_plus_title()}
             </h3>
@@ -398,7 +449,7 @@
             </ul>
             <button
               on:click={() => purchasePlan("Plus")}
-              class="w-full py-3 px-4 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 rounded-full font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition flex items-center justify-center text-sm cursor-pointer"
+              class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm cursor-pointer"
             >
               {register_step2_start_trial()}
               <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -407,11 +458,8 @@
             </button>
           </div>
 
-          <!-- Pro (highlighted) -->
-          <div class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative">
-            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">
-              {register_step2_popular()}
-            </div>
+          <!-- Pro -->
+          <div class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
               {register_step2_pro_title()}
             </h3>
