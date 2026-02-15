@@ -3,6 +3,11 @@ export const load = async ({ locals, url }) => {
 
   const getAllStrategies = async () => {
     let output = [];
+
+     if (user?.tier !== "Pro") {
+      return [];
+    }
+
     try {
       output = await pb.collection("optionsFlow").getFullList({
         filter: `user="${user?.id}"`,
