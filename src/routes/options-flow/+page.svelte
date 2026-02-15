@@ -117,20 +117,35 @@
     else if (nCount > beCount && nCount > bCount) flowSentiment = "Neutral";
     else flowSentiment = "-";
 
-    putCallRatio = displayCallVolume !== 0 ? displayPutVolume / displayCallVolume : 0;
-    callPercentage = displayCallVolume + displayPutVolume !== 0
-      ? Math.floor((displayCallVolume / (displayCallVolume + displayPutVolume)) * 100) : 0;
-    putPercentage = displayCallVolume + displayPutVolume !== 0 ? 100 - callPercentage : 0;
+    putCallRatio =
+      displayCallVolume !== 0 ? displayPutVolume / displayCallVolume : 0;
+    callPercentage =
+      displayCallVolume + displayPutVolume !== 0
+        ? Math.floor(
+            (displayCallVolume / (displayCallVolume + displayPutVolume)) * 100,
+          )
+        : 0;
+    putPercentage =
+      displayCallVolume + displayPutVolume !== 0 ? 100 - callPercentage : 0;
 
     const totalSentimentPremium = displayBullishPremium + displayBearishPremium;
-    bullishPercentage = totalSentimentPremium !== 0
-      ? Math.round((displayBullishPremium / totalSentimentPremium) * 100) : 0;
-    bearishPercentage = totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
+    bullishPercentage =
+      totalSentimentPremium !== 0
+        ? Math.round((displayBullishPremium / totalSentimentPremium) * 100)
+        : 0;
+    bearishPercentage =
+      totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
   }
 
   function buildActiveRules() {
     return ruleOfList.filter(
-      (r) => r.value !== "any" && !(Array.isArray(r.value) && r.value.length === 1 && r.value[0] === "any")
+      (r) =>
+        r.value !== "any" &&
+        !(
+          Array.isArray(r.value) &&
+          r.value.length === 1 &&
+          r.value[0] === "any"
+        ),
     );
   }
 
@@ -190,7 +205,8 @@
           sortOrder,
         });
         if (filterQuery) params.set("search", filterQuery);
-        if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+        if (activeRules.length > 0)
+          params.set("rules", JSON.stringify(activeRules));
         response = await fetch(`/api/options-flow-feed?${params}`, { signal });
       }
 
@@ -258,7 +274,9 @@
     if (!browser) return;
     try {
       localStorage.setItem("/options-flow_rowsPerPage", String(value));
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   function loadRowsPerPage() {
@@ -267,7 +285,9 @@
       const saved = localStorage.getItem("/options-flow_rowsPerPage");
       const parsed = saved ? Number(saved) : NaN;
       if (rowsPerPageOptions.includes(parsed)) return parsed;
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
     return 50;
   }
 
@@ -275,21 +295,45 @@
     const filters: Record<string, any> = {};
     if (filterQuery) filters.tickers = filterQuery;
     for (const rule of ruleOfList || []) {
-      if (["put_call", "sentiment", "option_activity_type", "underlying_type", "trade_leg_type", "execution_estimate"].includes(rule.name) && Array.isArray(rule.value)) {
+      if (
+        [
+          "put_call",
+          "sentiment",
+          "option_activity_type",
+          "underlying_type",
+          "trade_leg_type",
+          "execution_estimate",
+        ].includes(rule.name) &&
+        Array.isArray(rule.value)
+      ) {
         filters[rule.name] = rule.value;
       }
-      if (rule.name === "cost_basis" && rule.condition === "over" && rule.value) {
-        const cleaned = String(rule.value).replace(/[%$,]/g, "").trim().toUpperCase();
+      if (
+        rule.name === "cost_basis" &&
+        rule.condition === "over" &&
+        rule.value
+      ) {
+        const cleaned = String(rule.value)
+          .replace(/[%$,]/g, "")
+          .trim()
+          .toUpperCase();
         const multipliers = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
         const suffix = cleaned.slice(-1);
-        const v = multipliers[suffix] ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix] : parseFloat(cleaned) || 0;
+        const v = multipliers[suffix]
+          ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix]
+          : parseFloat(cleaned) || 0;
         if (v > 0) filters.min_cost_basis = v;
       }
       if (rule.name === "size" && rule.condition === "over" && rule.value) {
-        const cleaned = String(rule.value).replace(/[%$,]/g, "").trim().toUpperCase();
+        const cleaned = String(rule.value)
+          .replace(/[%$,]/g, "")
+          .trim()
+          .toUpperCase();
         const multipliers = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
         const suffix = cleaned.slice(-1);
-        const v = multipliers[suffix] ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix] : parseFloat(cleaned) || 0;
+        const v = multipliers[suffix]
+          ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix]
+          : parseFloat(cleaned) || 0;
         if (v > 0) filters.min_size = v;
       }
     }
@@ -298,7 +342,9 @@
 
   function sendFiltersToWebSocket() {
     if (socket?.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ type: "filters", filters: buildWsFilters() }));
+      socket.send(
+        JSON.stringify({ type: "filters", filters: buildWsFilters() }),
+      );
     }
   }
 
@@ -1550,7 +1596,11 @@
           if (newData && newData.length > 0) {
             // Safety: if server accidentally sends a huge batch, refresh from API instead
             if (newData.length > 200) {
-              console.warn("WebSocket sent large batch (" + newData.length + " items), refreshing from API");
+              console.warn(
+                "WebSocket sent large batch (" +
+                  newData.length +
+                  " items), refreshing from API",
+              );
               await fetchTableData();
               return;
             }
@@ -1824,7 +1874,6 @@
       );
     }
   }
-
 </script>
 
 <SEO
@@ -2775,7 +2824,9 @@
                                         <input
                                           type="checkbox"
                                           class="rounded"
-                                          checked={checkedItems.get(row?.rule)?.has(item) ?? false}
+                                          checked={checkedItems
+                                            .get(row?.rule)
+                                            ?.has(item) ?? false}
                                         />
                                         <span class="ml-2">{item}</span>
                                       </label>
@@ -2797,285 +2848,84 @@
         </div>
 
         {#if isLoaded}
-            <div class="w-full mt-5 m-auto flex justify-center items-center">
+          <div class="w-full mt-5 m-auto flex justify-center items-center">
+            <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3">
+              <!--Start Flow Sentiment-->
               <div
-                class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3"
+                class="flex flex-col w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
               >
-                <!--Start Flow Sentiment-->
-                <div
-                  class="flex flex-col w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
-                >
-                  <div class="flex flex-col items-start justify-between mb-2">
-                    {#if data?.user?.tier === "Pro"}
+                <div class="flex flex-col items-start justify-between mb-2">
+                  {#if data?.user?.tier === "Pro"}
+                    <div
+                      class="flex items-center gap-4 text-[11px] sm:text-xs mb-1 mt-1"
+                    >
+                      <div class="flex items-center gap-1">
+                        <span
+                          class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
+                        ></span>
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Bullish</span
+                        >
+                        <span
+                          class="font-semibold text-emerald-800 dark:text-emerald-400"
+                          >{formatPremium(displayBullishPremium || 0)}</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-1">
+                        <span
+                          class="w-2 h-2 rounded-full bg-rose-500/70 dark:bg-rose-400/70"
+                        ></span>
+                        <span class="text-gray-500 dark:text-zinc-400"
+                          >Bearish</span
+                        >
+                        <span
+                          class="font-semibold text-rose-800 dark:text-rose-400"
+                          >{formatPremium(displayBearishPremium || 0)}</span
+                        >
+                      </div>
+                    </div>
+                    <div class="flex flex-col w-full mt-2">
                       <div
-                        class="flex items-center gap-4 text-[11px] sm:text-xs mb-1 mt-1"
+                        class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700"
                       >
-                        <div class="flex items-center gap-1">
-                          <span
-                            class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
-                          ></span>
-                          <span class="text-gray-500 dark:text-zinc-400"
-                            >Bullish</span
-                          >
-                          <span
-                            class="font-semibold text-emerald-800 dark:text-emerald-400"
-                            >{formatPremium(displayBullishPremium || 0)}</span
-                          >
-                        </div>
-                        <div class="flex items-center gap-1">
-                          <span
-                            class="w-2 h-2 rounded-full bg-rose-500/70 dark:bg-rose-400/70"
-                          ></span>
-                          <span class="text-gray-500 dark:text-zinc-400"
-                            >Bearish</span
-                          >
-                          <span
-                            class="font-semibold text-rose-800 dark:text-rose-400"
-                            >{formatPremium(displayBearishPremium || 0)}</span
-                          >
-                        </div>
-                      </div>
-                      <div class="flex flex-col w-full mt-2">
                         <div
-                          class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700"
+                          class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
+                          style="width: {bullishPercentage}%"
                         >
-                          <div
-                            class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
-                            style="width: {bullishPercentage}%"
-                          >
-                            {#if bullishPercentage >= 15}
-                              <span
-                                class="text-[10px] sm:text-xs font-semibold text-gray-900/80 dark:text-zinc-900/90"
-                                >{bullishPercentage}%</span
-                              >
-                            {/if}
-                          </div>
-                          <div
-                            class="bg-rose-500/70 dark:bg-rose-400/70 h-full transition-all duration-300 flex items-center justify-center"
-                            style="width: {bearishPercentage}%"
-                          >
-                            {#if bearishPercentage >= 15}
-                              <span
-                                class="text-[10px] sm:text-xs font-semibold text-white/90"
-                                >{bearishPercentage}%</span
-                              >
-                            {/if}
-                          </div>
+                          {#if bullishPercentage >= 15}
+                            <span
+                              class="text-[10px] sm:text-xs font-semibold text-gray-900/80 dark:text-zinc-900/90"
+                              >{bullishPercentage}%</span
+                            >
+                          {/if}
+                        </div>
+                        <div
+                          class="bg-rose-500/70 dark:bg-rose-400/70 h-full transition-all duration-300 flex items-center justify-center"
+                          style="width: {bearishPercentage}%"
+                        >
+                          {#if bearishPercentage >= 15}
+                            <span
+                              class="text-[10px] sm:text-xs font-semibold text-white/90"
+                              >{bearishPercentage}%</span
+                            >
+                          {/if}
                         </div>
                       </div>
-                    {:else}
-                      <div class="flex flex-col items-start">
-                        <span
-                          class="text-xs text-gray-500 dark:text-zinc-400 mt-1.5"
-                          >Flow Sentiment</span
-                        >
-                        {#if data?.user?.tier === "Pro"}
-                          <span class="text-start text-lg font-semibold mt-1">
-                            {putCallRatio?.toFixed(3)}
-                          </span>
-                        {:else}
-                          <a href="/pricing" class="flex mt-2">
-                            <svg
-                              class="size-5 text-gray-500 dark:text-white"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              style="max-width: 40px;"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                clip-rule="evenodd"
-                              >
-                              </path>
-                            </svg>
-                          </a>
-                        {/if}
-                      </div>
-                    {/if}
-                  </div>
-                </div>
-
-                <!--End Flow Sentiment-->
-                <!--Start Put/Call-->
-                <div
-                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
-                >
-                  <div class="flex flex-col items-start">
-                    <span class="text-xs text-gray-500 dark:text-zinc-400"
-                      >{options_flow_put_to_call()}</span
-                    >
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-lg font-semibold mt-1">
-                        {putCallRatio?.toFixed(3)}
-                      </span>
-                    {:else}
-                      <a href="/pricing" class="flex mt-2">
-                        <svg
-                          class="size-5 text-gray-500 dark:text-white"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                  <!-- Circular Progress -->
-                  <div class="relative size-14 ml-auto">
-                    <svg
-                      class="size-full w-14 h-14"
-                      viewBox="0 0 36 36"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <!-- Background Circle -->
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                        stroke-width="3"
-                      ></circle>
-                      <!-- Progress Circle inside a group with rotation -->
-                      <g class="origin-center -rotate-90 transform">
-                        <circle
-                          cx="18"
-                          cy="18"
-                          r="16"
-                          fill="none"
-                          class="stroke-current text-[#00D4E4]"
-                          stroke-width="3"
-                          stroke-dasharray="100"
-                          stroke-dashoffset={data?.user?.tier === "Pro"
-                            ? putCallRatio >= 1
-                              ? 0
-                              : 100 - (putCallRatio * 100)?.toFixed(2)
-                            : 100}
-                        ></circle>
-                      </g>
-                    </svg>
-                    <!-- Percentage Text -->
-                    <div
-                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                    >
-                      {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-sm"
-                          >{putCallRatio?.toFixed(2)}</span
-                        >
-                      {:else}
-                        <a href="/pricing" class="flex">
-                          <svg
-                            class="size-4 text-gray-500 dark:text-white"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width: 40px;"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            >
-                            </path>
-                          </svg>
-                        </a>
-                      {/if}
                     </div>
-                  </div>
-                  <!-- End Circular Progress -->
-                </div>
-                <!--End Put/Call-->
-                <!--Start Call Flow-->
-                <div
-                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
-                >
-                  <div class="flex flex-col items-start">
-                    <div class="flex flex-row items-center gap-2">
-                      <span class="text-xs text-gray-500 dark:text-zinc-400"
-                        >{options_flow_call_flow()}</span
+                  {:else}
+                    <div class="flex flex-col items-start">
+                      <span
+                        class="text-xs text-gray-500 dark:text-zinc-400 mt-1.5"
+                        >Flow Sentiment</span
                       >
                       {#if data?.user?.tier === "Pro"}
-                        <span
-                          class="text-sm font-semibold text-emerald-800 dark:text-emerald-400"
-                        >
-                          {formatPremium(displayCallPremium || 0)}
+                        <span class="text-start text-lg font-semibold mt-1">
+                          {putCallRatio?.toFixed(3)}
                         </span>
-                      {/if}
-                    </div>
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-lg font-semibold mt-1">
-                        {new Intl.NumberFormat("en", {
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }).format(displayCallVolume)}
-                      </span>
-                    {:else}
-                      <a href="/pricing" class="flex mt-2">
-                        <svg
-                          class="size-5 text-gray-500 dark:text-white"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                  <!-- Circular Progress -->
-                  <div class="relative size-14 ml-auto">
-                    <svg
-                      class="size-full w-14 h-14"
-                      viewBox="0 0 36 36"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <!-- Background Circle -->
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                        stroke-width="3"
-                      ></circle>
-                      <!-- Progress Circle inside a group with rotation -->
-                      <g class="origin-center -rotate-90 transform">
-                        <circle
-                          cx="18"
-                          cy="18"
-                          r="16"
-                          fill="none"
-                          class="stroke-current text-[#00FC50]"
-                          stroke-width="3"
-                          stroke-dasharray="100"
-                          stroke-dashoffset={data?.user?.tier === "Pro"
-                            ? 100 - callPercentage?.toFixed(2)
-                            : 100}
-                        ></circle>
-                      </g>
-                    </svg>
-                    <!-- Percentage Text -->
-                    <div
-                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                    >
-                      {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-xs"
-                          >{callPercentage}.0%</span
-                        >
                       {:else}
-                        <a href="/pricing" class="flex">
+                        <a href="/pricing" class="flex mt-2">
                           <svg
-                            class="size-4 text-gray-500 dark:text-white"
+                            class="size-5 text-gray-500 dark:text-white"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             style="max-width: 40px;"
@@ -3090,383 +2940,476 @@
                         </a>
                       {/if}
                     </div>
-                  </div>
-                  <!-- End Circular Progress -->
-                </div>
-                <!--End Call Flow-->
-                <!--Start Put Flow-->
-                <div
-                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
-                >
-                  <div class="flex flex-col items-start">
-                    <div class="flex flex-row items-center gap-2">
-                      <span class="text-xs text-gray-500 dark:text-zinc-400"
-                        >{options_flow_put_flow()}</span
-                      >
-                      {#if data?.user?.tier === "Pro"}
-                        <span
-                          class="text-sm font-semibold text-rose-800 dark:text-rose-400"
-                        >
-                          {formatPremium(displayPutPremium || 0)}
-                        </span>
-                      {/if}
-                    </div>
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-lg font-semibold mt-1">
-                        {new Intl.NumberFormat("en", {
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }).format(displayPutVolume)}
-                      </span>
-                    {:else}
-                      <a href="/pricing" class="flex mt-2">
-                        <svg
-                          class="size-5 text-gray-500 dark:text-white"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                  <!-- Circular Progress -->
-                  <div class="relative size-14 ml-auto">
-                    <svg
-                      class="size-full w-14 h-14"
-                      viewBox="0 0 36 36"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <!-- Background Circle -->
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                        stroke-width="3"
-                      ></circle>
-                      <!-- Progress Circle inside a group with rotation -->
-                      <g class="origin-center -rotate-90 transform">
-                        <circle
-                          cx="18"
-                          cy="18"
-                          r="16"
-                          fill="none"
-                          class="stroke-current text-[#FF2F1F]"
-                          stroke-width="3"
-                          stroke-dasharray="100"
-                          stroke-dashoffset={data?.user?.tier === "Pro"
-                            ? 100 - putPercentage?.toFixed(2)
-                            : 100}
-                        ></circle>
-                      </g>
-                    </svg>
-                    <!-- Percentage Text -->
-                    <div
-                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                    >
-                      {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-xs"
-                          >{putPercentage}.0%</span
-                        >
-                      {:else}
-                        <a href="/pricing" class="flex">
-                          <svg
-                            class="size-4 text-gray-500 dark:text-white"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width: 40px;"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            >
-                            </path>
-                          </svg>
-                        </a>
-                      {/if}
-                    </div>
-                  </div>
-                  <!-- End Circular Progress -->
-                </div>
-              </div>
-            </div>
-
-            <!-- Table toolbar: Find, Download, Reset Column Order -->
-
-            <div
-              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
-            >
-              <div
-                class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
-              >
-                <h2
-                  class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-                >
-                  {totalItems?.toLocaleString("en-US")} Trades
-                </h2>
-              </div>
-              <div
-                class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
-              >
-                <!-- Find input -->
-                <div
-                  class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
-                >
-                  <div
-                    class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
-                  >
-                    {#if filterQuery?.length > 0}
-                      <label
-                        class="cursor-pointer"
-                        on:click={() => resetSearch()}
-                      >
-                        <svg
-                          class="w-5 h-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          />
-                        </svg>
-                      </label>
-                    {/if}
-                  </div>
-
-                  <input
-                    bind:value={filterQuery}
-                    on:input={debouncedServerSearch}
-                    type="text"
-                    placeholder={options_flow_search_placeholder()}
-                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-                  />
-                </div>
-
-                <!-- Download + Reset Column Order -->
-
-                <div class="ml-2 w-fit flex items-center justify-end gap-2">
-                  <OptionsFlowExport
-                    {data}
-                    rawData={displayedData}
-                    {selectedDate}
-                  />
-
-                  <button
-                    on:click={toggleFullWidth}
-                    title={isFullWidth
-                      ? "Exit full width"
-                      : "Expand to full width"}
-                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
-                      ? 'border-violet-400 dark:border-violet-500'
-                      : ''}"
-                  >
-                    {#if isFullWidth}
-                      <svg
-                        class="w-4 h-4 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <polyline points="4 14 10 14 10 20" />
-                        <polyline points="20 10 14 10 14 4" />
-                        <line x1="14" y1="10" x2="21" y2="3" />
-                        <line x1="3" y1="21" x2="10" y2="14" />
-                      </svg>
-                    {:else}
-                      <svg
-                        class="w-4 h-4 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <polyline points="15 3 21 3 21 9" />
-                        <polyline points="9 21 3 21 3 15" />
-                        <line x1="21" y1="3" x2="14" y2="10" />
-                        <line x1="3" y1="21" x2="10" y2="14" />
-                      </svg>
-                    {/if}
-                    <span class="truncate text-[0.85rem] sm:text-sm"
-                      >{isFullWidth
-                        ? options_flow_normal_width()
-                        : options_flow_full_width()}</span
-                    >
-                  </button>
-
-                  {#if customColumnOrder?.length > 0}
-                    <button
-                      on:click={() => optionsFlowResetColumnOrder?.()}
-                      title="Reset column order"
-                      class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                    >
-                      <svg
-                        class="w-4 h-4"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
                   {/if}
                 </div>
               </div>
-            </div>
 
-            <!-- Page wrapper -->
-            <div class="flex w-full m-auto h-full overflow-hidden">
-              <div class="mt-3 w-full overflow-x-auto overflow-hidden">
-                <OptionsFlowTable
+              <!--End Flow Sentiment-->
+              <!--Start Put/Call-->
+              <div
+                class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
+              >
+                <div class="flex flex-col items-start">
+                  <span class="text-xs text-gray-500 dark:text-zinc-400"
+                    >{options_flow_put_to_call()}</span
+                  >
+                  {#if data?.user?.tier === "Pro"}
+                    <span class="text-start text-lg font-semibold mt-1">
+                      {putCallRatio?.toFixed(3)}
+                    </span>
+                  {:else}
+                    <a href="/pricing" class="flex mt-2">
+                      <svg
+                        class="size-5 text-gray-500 dark:text-white"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width: 40px;"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        >
+                        </path>
+                      </svg>
+                    </a>
+                  {/if}
+                </div>
+                <!-- Circular Progress -->
+                <div class="relative size-14 ml-auto">
+                  <svg
+                    class="size-full w-14 h-14"
+                    viewBox="0 0 36 36"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <!-- Background Circle -->
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="16"
+                      fill="none"
+                      class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                      stroke-width="3"
+                    ></circle>
+                    <!-- Progress Circle inside a group with rotation -->
+                    <g class="origin-center -rotate-90 transform">
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-[#00D4E4]"
+                        stroke-width="3"
+                        stroke-dasharray="100"
+                        stroke-dashoffset={data?.user?.tier === "Pro"
+                          ? putCallRatio >= 1
+                            ? 0
+                            : 100 - (putCallRatio * 100)?.toFixed(2)
+                          : 100}
+                      ></circle>
+                    </g>
+                  </svg>
+                  <!-- Percentage Text -->
+                  <div
+                    class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                  >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-center text-sm"
+                        >{putCallRatio?.toFixed(2)}</span
+                      >
+                    {:else}
+                      <a href="/pricing" class="flex">
+                        <svg
+                          class="size-4 text-gray-500 dark:text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+                <!-- End Circular Progress -->
+              </div>
+              <!--End Put/Call-->
+              <!--Start Call Flow-->
+              <div
+                class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
+              >
+                <div class="flex flex-col items-start">
+                  <div class="flex flex-row items-center gap-2">
+                    <span class="text-xs text-gray-500 dark:text-zinc-400"
+                      >{options_flow_call_flow()}</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span
+                        class="text-sm font-semibold text-emerald-800 dark:text-emerald-400"
+                      >
+                        {formatPremium(displayCallPremium || 0)}
+                      </span>
+                    {/if}
+                  </div>
+                  {#if data?.user?.tier === "Pro"}
+                    <span class="text-start text-lg font-semibold mt-1">
+                      {new Intl.NumberFormat("en", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }).format(displayCallVolume)}
+                    </span>
+                  {:else}
+                    <a href="/pricing" class="flex mt-2">
+                      <svg
+                        class="size-5 text-gray-500 dark:text-white"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width: 40px;"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        >
+                        </path>
+                      </svg>
+                    </a>
+                  {/if}
+                </div>
+                <!-- Circular Progress -->
+                <div class="relative size-14 ml-auto">
+                  <svg
+                    class="size-full w-14 h-14"
+                    viewBox="0 0 36 36"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <!-- Background Circle -->
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="16"
+                      fill="none"
+                      class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                      stroke-width="3"
+                    ></circle>
+                    <!-- Progress Circle inside a group with rotation -->
+                    <g class="origin-center -rotate-90 transform">
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-[#00FC50]"
+                        stroke-width="3"
+                        stroke-dasharray="100"
+                        stroke-dashoffset={data?.user?.tier === "Pro"
+                          ? 100 - callPercentage?.toFixed(2)
+                          : 100}
+                      ></circle>
+                    </g>
+                  </svg>
+                  <!-- Percentage Text -->
+                  <div
+                    class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                  >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-center text-xs"
+                        >{callPercentage}.0%</span
+                      >
+                    {:else}
+                      <a href="/pricing" class="flex">
+                        <svg
+                          class="size-4 text-gray-500 dark:text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+                <!-- End Circular Progress -->
+              </div>
+              <!--End Call Flow-->
+              <!--Start Put Flow-->
+              <div
+                class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl h-20"
+              >
+                <div class="flex flex-col items-start">
+                  <div class="flex flex-row items-center gap-2">
+                    <span class="text-xs text-gray-500 dark:text-zinc-400"
+                      >{options_flow_put_flow()}</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span
+                        class="text-sm font-semibold text-rose-800 dark:text-rose-400"
+                      >
+                        {formatPremium(displayPutPremium || 0)}
+                      </span>
+                    {/if}
+                  </div>
+                  {#if data?.user?.tier === "Pro"}
+                    <span class="text-start text-lg font-semibold mt-1">
+                      {new Intl.NumberFormat("en", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }).format(displayPutVolume)}
+                    </span>
+                  {:else}
+                    <a href="/pricing" class="flex mt-2">
+                      <svg
+                        class="size-5 text-gray-500 dark:text-white"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width: 40px;"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        >
+                        </path>
+                      </svg>
+                    </a>
+                  {/if}
+                </div>
+                <!-- Circular Progress -->
+                <div class="relative size-14 ml-auto">
+                  <svg
+                    class="size-full w-14 h-14"
+                    viewBox="0 0 36 36"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <!-- Background Circle -->
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="16"
+                      fill="none"
+                      class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                      stroke-width="3"
+                    ></circle>
+                    <!-- Progress Circle inside a group with rotation -->
+                    <g class="origin-center -rotate-90 transform">
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-[#FF2F1F]"
+                        stroke-width="3"
+                        stroke-dasharray="100"
+                        stroke-dashoffset={data?.user?.tier === "Pro"
+                          ? 100 - putPercentage?.toFixed(2)
+                          : 100}
+                      ></circle>
+                    </g>
+                  </svg>
+                  <!-- Percentage Text -->
+                  <div
+                    class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                  >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-center text-xs">{putPercentage}.0%</span
+                      >
+                    {:else}
+                      <a href="/pricing" class="flex">
+                        <svg
+                          class="size-4 text-gray-500 dark:text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+                <!-- End Circular Progress -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Table toolbar: Find, Download, Reset Column Order -->
+
+          <div
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+          >
+            <div
+              class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+            >
+              <h2
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
+                {totalItems?.toLocaleString("en-US")} Trades
+              </h2>
+            </div>
+            <div
+              class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+            >
+              <!-- Find input -->
+              <div
+                class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+              >
+                <div
+                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                >
+                  {#if filterQuery?.length > 0}
+                    <label
+                      class="cursor-pointer"
+                      on:click={() => resetSearch()}
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                        />
+                      </svg>
+                    </label>
+                  {/if}
+                </div>
+
+                <input
+                  bind:value={filterQuery}
+                  on:input={debouncedServerSearch}
+                  type="text"
+                  placeholder={options_flow_search_placeholder()}
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                />
+              </div>
+
+              <!-- Download + Reset Column Order -->
+
+              <div class="ml-2 w-fit flex items-center justify-end gap-2">
+                <OptionsFlowExport
                   {data}
-                  {optionsWatchlist}
-                  displayedData={displayedData}
-                  {filteredData}
-                  {rawData}
-                  isLoading={isFetchingPage}
-                  onSort={handleServerSort}
-                  bind:resetColumnOrder={optionsFlowResetColumnOrder}
-                  bind:customColumnOrder
+                  rawData={displayedData}
+                  {selectedDate}
                 />
 
-                <!-- Pagination Controls (hedge-funds style) -->
-                {#if data?.user?.tier === "Pro" && totalItems > 0}
-                  <div
-                    class="flex flex-row items-center justify-between mt-8 sm:mt-5"
-                  >
-                    <!-- Previous button -->
-                    <div class="flex items-center gap-2">
-                      <Button
-                        on:click={() => goToPage(currentPage - 1)}
-                        disabled={currentPage === 1 || isFetchingPage}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <svg
-                          class="h-5 w-5 inline-block shrink-0 rotate-90"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width:40px"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="hidden sm:inline">Previous</span>
-                      </Button>
-                    </div>
-
-                    <!-- Page info and rows selector in center -->
-                    <div class="flex flex-row items-center gap-4">
-                      <span class="text-sm text-gray-600 dark:text-zinc-300">
-                        Page {currentPage} of {totalPages}
-                      </span>
-
-                      <DropdownMenu.Root>
-                        <DropdownMenu.Trigger asChild let:builder>
-                          <Button
-                            builders={[builder]}
-                            class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                          >
-                            <span class="truncate text-[0.85rem] sm:text-sm"
-                              >Rows: {rowsPerPage}</span
-                            >
-                            <svg
-                              class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              style="max-width:40px"
-                              aria-hidden="true"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                              ></path>
-                            </svg>
-                          </Button>
-                        </DropdownMenu.Trigger>
-
-                        <DropdownMenu.Content
-                          side="bottom"
-                          align="end"
-                          sideOffset={10}
-                          alignOffset={0}
-                          class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-                        >
-                          <DropdownMenu.Group class="pb-2">
-                            {#each rowsPerPageOptions as item}
-                              <DropdownMenu.Item
-                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
-                              >
-                                <label
-                                  on:click={() => changeRowsPerPage(item)}
-                                  class="inline-flex justify-between w-full items-center cursor-pointer"
-                                >
-                                  <span class="text-sm">Rows: {item}</span>
-                                </label>
-                              </DropdownMenu.Item>
-                            {/each}
-                          </DropdownMenu.Group>
-                        </DropdownMenu.Content>
-                      </DropdownMenu.Root>
-                    </div>
-
-                    <!-- Next button -->
-                    <div class="flex items-center gap-2">
-                      <Button
-                        on:click={() => goToPage(currentPage + 1)}
-                        disabled={currentPage === totalPages || isFetchingPage}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <span class="hidden sm:inline">Next</span>
-                        <svg
-                          class="h-5 w-5 inline-block shrink-0 -rotate-90"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width:40px"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </Button>
-                    </div>
-                  </div>
-
-                  <!-- Back to Top button -->
-                  <div class="flex justify-center mt-4">
-                    <button
-                      on:click={scrollToTop}
-                      class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                <button
+                  on:click={toggleFullWidth}
+                  title={isFullWidth
+                    ? "Exit full width"
+                    : "Expand to full width"}
+                  class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                    ? 'border-violet-400 dark:border-violet-500'
+                    : ''}"
+                >
+                  {#if isFullWidth}
+                    <svg
+                      class="w-4 h-4 shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
                     >
-                      Back to Top
+                      <polyline points="4 14 10 14 10 20" />
+                      <polyline points="20 10 14 10 14 4" />
+                      <line x1="14" y1="10" x2="21" y2="3" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  {:else}
+                    <svg
+                      class="w-4 h-4 shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="15 3 21 3 21 9" />
+                      <polyline points="9 21 3 21 3 15" />
+                      <line x1="21" y1="3" x2="14" y2="10" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  {/if}
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >{isFullWidth
+                      ? options_flow_normal_width()
+                      : options_flow_full_width()}</span
+                  >
+                </button>
+
+                {#if customColumnOrder?.length > 0}
+                  <button
+                    on:click={() => optionsFlowResetColumnOrder?.()}
+                    title="Reset column order"
+                    class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                {/if}
+              </div>
+            </div>
+          </div>
+
+          <!-- Page wrapper -->
+          <div class="flex w-full m-auto h-full overflow-hidden">
+            <div class="mt-3 w-full overflow-x-auto overflow-hidden">
+              <OptionsFlowTable
+                {data}
+                {optionsWatchlist}
+                {displayedData}
+                {filteredData}
+                {rawData}
+                isLoading={isFetchingPage}
+                onSort={handleServerSort}
+                bind:resetColumnOrder={optionsFlowResetColumnOrder}
+                bind:customColumnOrder
+              />
+
+              <!-- Pagination Controls (hedge-funds style) -->
+              {#if data?.user?.tier === "Pro" && totalItems > 0}
+                <div
+                  class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+                >
+                  <!-- Previous button -->
+                  <div class="flex items-center gap-2">
+                    <Button
+                      on:click={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1 || isFetchingPage}
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
                       <svg
-                        class="h-5 w-5 inline-block shrink-0 rotate-180"
+                        class="h-5 w-5 inline-block shrink-0 rotate-90"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width:40px"
@@ -3478,15 +3421,120 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                    </button>
+                      <span class="hidden sm:inline">Previous</span>
+                    </Button>
                   </div>
-                {/if}
 
-                <div class="-mt-3">
-                  <UpgradeToPro {data} display={true} />
+                  <!-- Page info and rows selector in center -->
+                  <div class="flex flex-row items-center gap-4">
+                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <span class="truncate text-[0.85rem] sm:text-sm"
+                            >Rows: {rowsPerPage}</span
+                          >
+                          <svg
+                            class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      >
+                        <DropdownMenu.Group class="pb-2">
+                          {#each rowsPerPageOptions as item}
+                            <DropdownMenu.Item
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            >
+                              <label
+                                on:click={() => changeRowsPerPage(item)}
+                                class="inline-flex justify-between w-full items-center cursor-pointer"
+                              >
+                                <span class="text-sm">{item}</span>
+                              </label>
+                            </DropdownMenu.Item>
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
+
+                  <!-- Next button -->
+                  <div class="flex items-center gap-2">
+                    <Button
+                      on:click={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages || isFetchingPage}
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <span class="hidden sm:inline">Next</span>
+                      <svg
+                        class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </div>
                 </div>
+
+                <!-- Back to Top button -->
+                <div class="flex justify-center mt-4 mb-10">
+                  <button
+                    on:click={scrollToTop}
+                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  >
+                    Back to Top
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-180"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              {/if}
+
+              <div class="-mt-3">
+                <UpgradeToPro {data} display={true} />
               </div>
             </div>
+          </div>
         {:else}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
