@@ -223,6 +223,27 @@
           "Add an analyst dashboard screenshot at /static/img/landing-page/analyst-chart.png",
       },
     },
+    {
+      id: "financial-history",
+      title: () => "Financial Charts With 30+ Years of History",
+      description: () =>
+        "Most platforms show a narrow window. Stocknear lets you zoom out across up to 30+ years of revenue, margins, cash flow, and balance-sheet history so you can judge business durability, not just short-term momentum.",
+      bullets: [
+        () => "Validate long-term growth quality before committing capital.",
+        () => "Compare full-cycle performance across bull, bear, and rate regimes.",
+        () => "Spot accounting and cash-flow trend shifts earlier with deeper context.",
+      ],
+      href: "/stocks/AAPL/financials/custom",
+      linkLabel: () => "Explore Financial Charting",
+      media: {
+        kind: "image",
+        src: "/img/landing-page/financial-chart.png",
+        alt: "Financial chart with long-term historical company metrics",
+        placeholderTitle: "Financial History Chart Placeholder",
+        placeholderHint:
+          "Add a financial history screenshot at /static/img/landing-page/financial-chart.png",
+      },
+    },
   ];
 
   type ToolCard = {
