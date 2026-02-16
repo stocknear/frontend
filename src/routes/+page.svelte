@@ -94,6 +94,21 @@
     landing_cta_description,
     landing_cta_primary,
     landing_cta_secondary,
+    landing_pain_label,
+    landing_pain_title,
+    landing_pain_subtitle,
+    landing_pain_1_title,
+    landing_pain_1_detail,
+    landing_pain_2_title,
+    landing_pain_2_detail,
+    landing_pain_3_title,
+    landing_pain_3_detail,
+    landing_alerts_label,
+    landing_alerts_title,
+    landing_alerts_description,
+    landing_alerts_speed,
+    landing_alerts_types,
+    landing_alerts_cta,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -111,19 +126,16 @@
 
   const painPointCards: PainPointCard[] = [
     {
-      title: "Too many tabs, no clear signal",
-      detail:
-        "Retail investors lose time bouncing between scanners, charting apps, and filings before making one decision.",
+      title: landing_pain_1_title(),
+      detail: landing_pain_1_detail(),
     },
     {
-      title: "Important moves arrive too late",
-      detail:
-        "By the time alerts hit social feeds, the best entry is often gone. Speed and context matter together.",
+      title: landing_pain_2_title(),
+      detail: landing_pain_2_detail(),
     },
     {
-      title: "Complex data feels unusable",
-      detail:
-        "Institutional-style data is powerful, but not if it takes analyst-level effort to decode every signal.",
+      title: landing_pain_3_title(),
+      detail: landing_pain_3_detail(),
     },
   ];
 
@@ -816,16 +828,15 @@
         <p
           class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400"
         >
-          Why Investors Switch
+          {landing_pain_label()}
         </p>
         <h2
           class="mt-4 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
         >
-          From noisy workflows to clear decisions
+          {landing_pain_title()}
         </h2>
         <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300">
-          Stocknear removes the biggest friction points retail traders face
-          every day.
+          {landing_pain_subtitle()}
         </p>
       </div>
 
@@ -866,19 +877,17 @@
           <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
           >
-            Never Miss a Move
+            {landing_alerts_label()}
           </p>
           <h2
             class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
           >
-            3 market-moving events in the last 3 minutes.
+            {landing_alerts_title()}
           </h2>
           <p
             class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300 max-w-2xl"
           >
-            Earnings beats, analyst upgrades, insider buys, options flow spikes,
-            and price targets — delivered in under 2 seconds. While others wait
-            for the headline, you've already seen the filing.
+            {landing_alerts_description()}
           </p>
           <div
             class="mt-5 flex items-center gap-4 text-sm text-gray-600 dark:text-zinc-400"
