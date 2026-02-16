@@ -370,8 +370,7 @@
     id: string;
     label: string;
     value: string;
-    valueClass: string;
-    cardClass: string;
+    toneClass: string;
   };
 
   const analystPreviewMetrics: AnalystPreviewMetric[] = [
@@ -379,24 +378,19 @@
       id: "accuracy",
       label: "Price Target Accuracy",
       value: "92%",
-      valueClass: "text-gray-900 dark:text-zinc-900",
-      cardClass: "max-w-[19rem] md:max-w-[22rem]",
+      toneClass: "text-gray-900 dark:text-zinc-100",
     },
     {
       id: "return",
       label: "Average 1-Year Return",
       value: "+43%",
-      valueClass: "text-emerald-700",
-      cardClass:
-        "max-w-[20rem] md:max-w-[24rem] md:ml-[14%] lg:ml-[18%] xl:ml-[22%]",
+      toneClass: "text-emerald-700 dark:text-emerald-300",
     },
     {
       id: "win-rate",
       label: "Win Rate",
       value: "78%",
-      valueClass: "text-gray-900 dark:text-zinc-900",
-      cardClass:
-        "max-w-[17rem] md:max-w-[22rem] ml-auto md:mr-[2%] lg:mr-[4%] xl:mr-[7%]",
+      toneClass: "text-gray-900 dark:text-zinc-100",
     },
   ];
 
@@ -451,25 +445,25 @@
       id: "revenue-growth",
       label: "30Y Revenue Growth",
       value: "+5,840%",
-      toneClass: "text-emerald-300",
+      toneClass: "text-[#b07e00] dark:text-[#fabe24]",
     },
     {
       id: "fcf-margin",
       label: "Avg FCF Margin",
       value: "24.1%",
-      toneClass: "text-cyan-300",
+      toneClass: "text-gray-900 dark:text-zinc-100",
     },
     {
       id: "profit-cycles",
       label: "Profit Cycles Tracked",
       value: "7",
-      toneClass: "text-blue-300",
+      toneClass: "text-gray-900 dark:text-zinc-100",
     },
     {
       id: "history-window",
       label: "History Window",
       value: "1995-2025",
-      toneClass: "text-zinc-100",
+      toneClass: "text-gray-900 dark:text-zinc-100",
     },
   ];
 
@@ -954,79 +948,115 @@
             >
               {#if block.media.kind === "analyst-preview"}
                 <div
-                  class="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gradient-to-br from-indigo-950 via-violet-900 to-blue-900 p-4 shadow-sm sm:p-6"
+                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
                 >
-                  <div
-                    class="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.2),transparent_42%),radial-gradient(circle_at_85%_85%,rgba(255,255,255,0.16),transparent_48%)]"
-                  ></div>
-                  <div class="relative space-y-3.5 sm:space-y-4">
-                    {#each analystPreviewMetrics as metric (metric.id)}
-                      <div
-                        class={`rounded-2xl border border-white/30 bg-white/95 p-4 shadow-[0_10px_24px_rgba(2,6,23,0.25)] sm:p-5 ${metric.cardClass}`}
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p
+                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
                       >
-                        <p
-                          class="text-sm font-medium text-gray-700 sm:text-base"
+                        Wall Street Data
+                      </p>
+                      <h4
+                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
+                      >
+                        Top analyst performance snapshot
+                      </h4>
+                    </div>
+                    <a
+                      href="/analysts"
+                      class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                    >
+                      View profile
+                    </a>
+                  </div>
+
+                  <div
+                    class="mt-4 rounded-xl border border-gray-200 bg-gray-50/80 p-3 dark:border-zinc-700 dark:bg-zinc-950/60"
+                  >
+                    <div class="flex items-center gap-2.5">
+                      <span
+                        class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          class="h-4 w-4"
+                          aria-hidden="true"
                         >
-                          {metric.label}
+                          <path
+                            fill-rule="evenodd"
+                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </span>
+                      <div class="min-w-0">
+                        <p
+                          class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
+                        >
+                          Mizuho analyst profile
                         </p>
-                        <p
-                          class={`mt-2 text-3xl font-semibold tracking-tight sm:text-4xl ${metric.valueClass}`}
-                        >
-                          {metric.value}
+                        <p class="text-xs text-gray-500 dark:text-zinc-400">
+                          Ranked #58 of 9,200 analysts
                         </p>
                       </div>
-                    {/each}
-                  </div>
-                  <div
-                    class="relative mt-4 rounded-xl border border-white/20 bg-black/20 p-3 backdrop-blur-sm sm:p-4"
-                  >
-                    <div class="mb-2.5 flex items-center justify-between">
-                      <p
-                        class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-white/70"
-                      >
-                        Top Analyst Calls
-                      </p>
-                      <a
-                        href="/analysts/58aed4dbb85e9300013bf4d4"
-                        class="text-[0.68rem] font-semibold text-violet-100 hover:text-white"
-                      >
-                        View profile
-                      </a>
                     </div>
-                    <div class="space-y-2">
-                      {#each analystPreviewCalls as call (call.id)}
-                        <a
-                          href="/analysts/58aed4dbb85e9300013bf4d4"
-                          class="flex items-center gap-2.5 rounded-lg border border-white/15 bg-white/10 px-2.5 py-2 text-white/95 transition hover:border-white/35 hover:bg-white/15"
+                    <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                      {#each analystPreviewMetrics as metric (metric.id)}
+                        <div
+                          class="rounded-lg border border-gray-200 bg-white px-2.5 py-2 dark:border-zinc-700 dark:bg-zinc-900/70"
                         >
-                          <img
-                            src={`https://financialmodelingprep.com/image-stock/${call.ticker}.png`}
-                            alt={`${call.ticker} logo`}
-                            class="h-7 w-7 shrink-0 rounded-full border border-white/20 p-0.5"
-                            style="clip-path: circle(50%);"
-                            loading="lazy"
-                            on:error={(e) =>
-                              ((e.currentTarget as HTMLImageElement).src =
-                                "/pwa-192x192.png")}
-                          />
-                          <div class="min-w-0 flex-1">
-                            <p
-                              class="truncate text-xs font-semibold sm:text-sm"
-                            >
-                              {call.company}
-                            </p>
-                            <p class="truncate text-[0.7rem] text-white/70">
-                              {call.action}
-                            </p>
-                          </div>
-                          <span
-                            class={`whitespace-nowrap rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${call.toneClass}`}
+                          <p
+                            class="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-gray-500 dark:text-zinc-400"
                           >
-                            {call.target}
-                          </span>
-                        </a>
+                            {metric.label}
+                          </p>
+                          <p
+                            class={`mt-1 text-sm font-semibold ${metric.toneClass}`}
+                          >
+                            {metric.value}
+                          </p>
+                        </div>
                       {/each}
                     </div>
+                  </div>
+
+                  <div class="mt-3 space-y-2">
+                    {#each analystPreviewCalls as call (call.id)}
+                      <a
+                        href="/analysts/58aed4dbb85e9300013bf4d4"
+                        class="flex items-center gap-2.5 rounded-lg border border-gray-200 px-3 py-2.5 transition hover:border-violet-300 dark:border-zinc-700 dark:hover:border-violet-500/50"
+                      >
+                        <img
+                          src={`https://financialmodelingprep.com/image-stock/${call.ticker}.png`}
+                          alt={`${call.ticker} logo`}
+                          class="h-7 w-7 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
+                          style="clip-path: circle(50%);"
+                          loading="lazy"
+                          on:error={(e) =>
+                            ((e.currentTarget as HTMLImageElement).src =
+                              "/pwa-192x192.png")}
+                        />
+                        <div class="min-w-0 flex-1">
+                          <p
+                            class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
+                          >
+                            {call.company}
+                          </p>
+                          <p
+                            class="truncate text-xs text-gray-600 dark:text-zinc-400"
+                          >
+                            {call.action}
+                          </p>
+                        </div>
+                        <span
+                          class={`whitespace-nowrap rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${call.toneClass}`}
+                        >
+                          {call.target}
+                        </span>
+                      </a>
+                    {/each}
                   </div>
                 </div>
               {:else if block.media.kind === "wiim-preview"}
@@ -1178,102 +1208,99 @@
                 </div>
               {:else if block.media.kind === "financial-preview"}
                 <div
-                  class="relative overflow-hidden rounded-2xl border border-[#1b2538] bg-gradient-to-br from-[#02050c] via-[#060b15] to-[#081225] p-4 shadow-[0_14px_35px_rgba(2,6,23,0.55)] sm:p-6"
+                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
                 >
-                  <div
-                    class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_16%,rgba(16,185,129,0.18),transparent_40%),radial-gradient(circle_at_88%_8%,rgba(59,130,246,0.19),transparent_42%),radial-gradient(circle_at_70%_95%,rgba(139,92,246,0.14),transparent_46%)]"
-                  ></div>
-                  <div class="relative">
-                    <div class="flex items-center justify-between">
-                      <div>
-                        <p
-                          class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-cyan-300/85"
-                        >
-                          Financial History
-                        </p>
-                        <h4
-                          class="mt-1 text-base font-semibold text-zinc-100 sm:text-lg"
-                        >
-                          Company Fundamentals Over 30+ Years
-                        </h4>
-                      </div>
-                      <div
-                        class="inline-flex items-center gap-1 rounded-full border border-[#22304b] bg-[#091021]/95 px-2 py-1 text-[0.62rem] font-semibold text-zinc-400 shadow-sm"
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p
+                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
                       >
-                        <span
-                          class="rounded-full bg-emerald-500 px-2 py-0.5 text-[#04140c]"
-                          >Max</span
-                        >
-                        <span class="px-1">10Y</span>
-                        <span class="px-1">5Y</span>
-                      </div>
+                        Financial History
+                      </p>
+                      <h4
+                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
+                      >
+                        Company fundamentals across full cycles
+                      </h4>
                     </div>
-
                     <div
-                      class="mt-4 rounded-xl border border-[#1f2a3f] bg-[#060c19]/85 p-3 sm:p-4"
+                      class="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-gray-50 px-2 py-1 text-[0.62rem] font-semibold text-gray-600 dark:border-zinc-700 dark:bg-zinc-950/60 dark:text-zinc-300"
+                    >
+                      <span
+                        class="rounded-full bg-[#fabe24] px-2 py-0.5 text-[#3b2f05]"
+                        >Max</span
+                      >
+                      <span class="px-1">10Y</span>
+                      <span class="px-1">5Y</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="mt-4 rounded-xl border border-gray-200 bg-gray-50/80 p-3 dark:border-zinc-700 dark:bg-zinc-950/60"
+                  >
+                    <div
+                      class="relative h-44 rounded-lg border border-gray-200 bg-white px-2 pb-2 pt-5 dark:border-zinc-700 dark:bg-zinc-950/70"
                     >
                       <div
-                        class="relative h-44 rounded-lg bg-gradient-to-b from-[#081121] via-[#050b17] to-[#04070f] px-2 pb-2 pt-5"
+                        class="pointer-events-none absolute inset-x-0 top-5 h-px bg-gray-200 dark:bg-zinc-700"
+                      ></div>
+                      <div
+                        class="pointer-events-none absolute inset-x-0 top-[45%] h-px bg-gray-200 dark:bg-zinc-700"
+                      ></div>
+                      <div
+                        class="pointer-events-none absolute inset-x-0 bottom-2 h-px bg-gray-300 dark:bg-zinc-600"
+                      ></div>
+                      <div
+                        class="absolute inset-x-2 bottom-6 top-7 flex items-end gap-2 sm:gap-3"
                       >
-                        <div
-                          class="pointer-events-none absolute inset-x-0 top-5 h-px bg-[#1b2538]"
-                        ></div>
-                        <div
-                          class="pointer-events-none absolute inset-x-0 top-[45%] h-px bg-[#1b2538]"
-                        ></div>
-                        <div
-                          class="pointer-events-none absolute inset-x-0 bottom-2 h-px bg-[#2a3851]"
-                        ></div>
-                        <div
-                          class="absolute inset-x-2 bottom-6 top-7 flex items-end gap-2 sm:gap-3"
-                        >
-                          {#each financialPreviewBars as bar (bar.id)}
+                        {#each financialPreviewBars as bar, index (bar.id)}
+                          <div
+                            class="flex min-w-0 flex-1 flex-col items-center"
+                          >
                             <div
-                              class="flex min-w-0 flex-1 flex-col items-center"
+                              class="w-full max-w-8 rounded-t-md bg-[#fabe24] shadow-[0_7px_14px_rgba(250,190,36,0.28)]"
+                              style={`height: ${bar.height}px; opacity: ${Math.min(0.45 + index * 0.08, 1)};`}
+                            ></div>
+                            <p
+                              class="mt-1 truncate text-[0.58rem] font-medium text-gray-500 dark:text-zinc-400 sm:text-[0.62rem]"
                             >
-                              <div
-                                class="w-full max-w-8 rounded-t-md bg-gradient-to-t from-emerald-500 via-cyan-400 to-blue-500 shadow-[0_8px_18px_rgba(45,212,191,0.3)]"
-                                style={`height: ${bar.height}px`}
-                              ></div>
-                              <p
-                                class="mt-1 truncate text-[0.58rem] font-medium text-zinc-500 sm:text-[0.62rem]"
-                              >
-                                {bar.year}
-                              </p>
-                            </div>
-                          {/each}
-                        </div>
-                        <div
-                          class="absolute left-2 top-1 rounded-md border border-[#1f2b42] bg-[#0b1529] px-2 py-0.5 text-[0.58rem] font-semibold text-zinc-100 sm:text-[0.62rem]"
-                        >
-                          Revenue
-                        </div>
-                        <div
-                          class="absolute right-2 bottom-8 rounded-md bg-emerald-500/90 px-2 py-0.5 text-[0.58rem] font-semibold text-[#04140c] sm:text-[0.62rem]"
-                        >
-                          2025: $392B
-                        </div>
+                              {bar.year}
+                            </p>
+                          </div>
+                        {/each}
+                      </div>
+                      <div
+                        class="absolute left-2 top-1 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-[0.58rem] font-semibold text-gray-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 sm:text-[0.62rem]"
+                      >
+                        Revenue
+                      </div>
+                      <div
+                        class="absolute right-2 bottom-8 rounded-md bg-[#fabe24] px-2 py-0.5 text-[0.58rem] font-semibold text-[#3b2f05] sm:text-[0.62rem]"
+                      >
+                        2025:
+                        {financialPreviewBars[financialPreviewBars.length - 1]
+                          ?.valueLabel ?? "$392B"}
                       </div>
                     </div>
+                  </div>
 
-                    <div class="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
-                      {#each financialPreviewMetrics as metric (metric.id)}
-                        <div
-                          class="rounded-lg border border-[#1f2a3f] bg-[#091121]/90 px-3 py-2.5"
+                  <div class="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
+                    {#each financialPreviewMetrics as metric (metric.id)}
+                      <div
+                        class="rounded-lg border border-gray-200 bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-950/60"
+                      >
+                        <p
+                          class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400"
                         >
-                          <p
-                            class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-zinc-400"
-                          >
-                            {metric.label}
-                          </p>
-                          <p
-                            class={`mt-1 text-sm font-semibold sm:text-base ${metric.toneClass}`}
-                          >
-                            {metric.value}
-                          </p>
-                        </div>
-                      {/each}
-                    </div>
+                          {metric.label}
+                        </p>
+                        <p
+                          class={`mt-1 text-sm font-semibold sm:text-base ${metric.toneClass}`}
+                        >
+                          {metric.value}
+                        </p>
+                      </div>
+                    {/each}
                   </div>
                 </div>
               {:else if hasMediaFailed(block.id)}
