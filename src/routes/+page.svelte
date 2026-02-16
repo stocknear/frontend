@@ -1383,7 +1383,8 @@
                   <div class="px-3 pb-4 pt-3 sm:px-4 sm:pb-5 space-y-2">
                     {#each wiimPreviewEvents as event (event.id)}
                       <div
-                        class="flex items-start gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-900/75"
+                        class="flex items-start gap-3 rounded-xl border border-gray-200 border-l-[3px] bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-900/75"
+                        style="border-left-color: #10b981;"
                       >
                         <span
                           class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-100 text-[0.6rem] font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200 sm:h-7 sm:w-7 sm:text-xs"
