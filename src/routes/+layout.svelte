@@ -3,6 +3,7 @@
   import { Toaster } from "svelte-sonner";
   import "@bprogress/core/css";
   import { BProgress } from "@bprogress/core";
+  import { GTM_EVENT_SIGNUP } from "$lib/constants/tracking";
 
   import { ModeWatcher, setMode, mode } from "mode-watcher";
   import { page } from "$app/stores";
@@ -213,21 +214,15 @@
   // GTM loading delay in milliseconds (3 seconds for better PageSpeed scores)
   const GTM_LOAD_DELAY = 3000;
 
-  // Add preconnect hints dynamically when we're about to load GTM
-  function addPreconnectHints() {
-    const domains = [
-      "https://www.googletagmanager.com",
-      "https://www.google-analytics.com",
-    ];
-
-    domains.forEach((href) => {
-      if (!document.querySelector(`link[href="${href}"][rel="preconnect"]`)) {
-        const link = document.createElement("link");
-        link.rel = "preconnect";
-        link.href = href;
-        document.head.appendChild(link);
-      }
-    });
+  // Add preconnect hint dynamically when we're about to load GTM
+  function addPreconnectHint() {
+    const href = "https://www.googletagmanager.com";
+    if (!document.querySelector(`link[href="${href}"][rel="preconnect"]`)) {
+      const link = document.createElement("link");
+      link.rel = "preconnect";
+      link.href = href;
+      document.head.appendChild(link);
+    }
   }
 
   // Initialize GTM dataLayer
@@ -244,8 +239,8 @@
     if (document.querySelector('script[src*="googletagmanager.com/gtm.js"]'))
       return;
 
-    // Add preconnect hints just before loading GTM
-    addPreconnectHints();
+    // Add preconnect hint just before loading GTM
+    addPreconnectHint();
 
     const GTM_ID = "GTM-NZBJ9W63";
     const script = document.createElement("script");
@@ -257,81 +252,13 @@
     });
   }
 
-  /*
-  function loadMetaPixel() {
-    if (window.fbq) return;
-
-    (function (
-      f: any,
-      b: Document,
-      e: string,
-      v: string,
-      n?: any,
-      t?: HTMLScriptElement,
-      s?: Element,
-    ) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod
-          ? n.callMethod.apply(n, arguments)
-          : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = true;
-      n.version = "2.0";
-      n.queue = [];
-      t = b.createElement(e) as HTMLScriptElement;
-      t.async = true;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s?.parentNode?.insertBefore(t, s);
-    })(
-      window,
-      document,
-      "script",
-      "https://connect.facebook.net/en_US/fbevents.js",
-    );
-
-    window.fbq("init", "1862625670961244");
-    window.fbq("track", "PageView");
-  }
-
-
-  function loadGoogleAds() {
-    if (
-      window.gtag &&
-      document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
-    )
-      return;
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-11328922950";
-    document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () {
-      window.dataLayer.push(arguments);
-    };
-    window.gtag("js", new Date());
-    window.gtag("config", "AW-11328922950");
-  }
-    */
-
   // Load all marketing scripts (only if consent given)
   function loadMarketingScripts() {
     if (marketingScriptsLoaded) return;
 
     initDataLayer();
     loadGTMScript();
-    //loadMetaPixel();
-    //loadGoogleAds();
     marketingScriptsLoaded = true;
-  }
-
-  function hasMarketingConsent() {
-    return Boolean(data?.cookieConsent?.marketing);
   }
 
   // Handle consent change event from CookieConsent component
@@ -370,6 +297,12 @@
       $loginData = undefined;
     }
 
+    // GTM signup conversion (server-validated via httpOnly cookie in +layout.server.ts)
+    if (data.signupConversion) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: GTM_EVENT_SIGNUP });
+    }
+
     // Use optimized service worker registration
     registerServiceWorker();
 
@@ -380,7 +313,6 @@
       "touchstart",
       "keydown",
     ] as const;
-    const marketingConsent = true; //hasMarketingConsent();
 
     // Handler for user interaction - loads GTM immediately on engagement
     const handleUserInteraction = () => {
@@ -399,35 +331,24 @@
 
       // Load marketing scripts immediately on user interaction
       loadMarketingScripts();
-      /*
-      if (!marketingScriptsLoaded && hasMarketingConsent()) {
-        loadMarketingScripts();
-      }
-        */
     };
 
-    if (marketingConsent) {
-      // Add interaction listeners (passive for scroll/touch to not block)
-      interactionEvents.forEach((event) => {
-        window.addEventListener(event, handleUserInteraction, {
-          capture: true,
-          passive: true,
-          once: true,
-        });
+    // Add interaction listeners (passive for scroll/touch to not block)
+    interactionEvents.forEach((event) => {
+      window.addEventListener(event, handleUserInteraction, {
+        capture: true,
+        passive: true,
+        once: true,
       });
+    });
 
-      deferFunction(() => {
-        // Delay GTM loading to 3 seconds after page load for better PageSpeed scores
-        // If user interacts before this, GTM loads immediately via interaction handler
-        marketingScriptTimer = setTimeout(() => {
-          loadMarketingScripts();
-
-          if (hasMarketingConsent()) {
-            loadMarketingScripts();
-          }
-        }, GTM_LOAD_DELAY);
-      });
-    }
+    deferFunction(() => {
+      // Delay GTM loading to 3 seconds after page load for better PageSpeed scores
+      // If user interacts before this, GTM loads immediately via interaction handler
+      marketingScriptTimer = setTimeout(() => {
+        loadMarketingScripts();
+      }, GTM_LOAD_DELAY);
+    });
 
     // Notifications are independent from marketing and should load lazily.
     if (data?.user?.id) {
@@ -479,7 +400,10 @@
     BProgress?.done();
   });
 
-  $: isLandingPage = ($page.url.pathname === "/" && !data?.user) || $page.url.pathname === "/register" || $page.url.pathname === "/login";
+  $: isLandingPage =
+    ($page.url.pathname === "/" && !data?.user) ||
+    $page.url.pathname === "/register" ||
+    $page.url.pathname === "/login";
 
   $: {
     if ($page.url.pathname) {
@@ -602,11 +526,11 @@
       >
         <Sheet.Root>
           <Sheet.Trigger asChild let:builder>
-                <Button
-                  builders={[builder]}
-                  size="icon"
-                  class="group rounded-full bg-transparent text-gray-600 dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
-                >
+            <Button
+              builders={[builder]}
+              size="icon"
+              class="group rounded-full bg-transparent text-gray-600 dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
+            >
               <Menu
                 class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-gray-600 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
               />
@@ -1401,7 +1325,11 @@
                   class="-ml-4 w-full rounded-full bg-transparent transition"
                 >
                   <a
-                    href={data?.hasDailyBriefing && data?.isPreMarket && data?.dailyBriefingSlug ? `/learning-center/article/${data.dailyBriefingSlug}` : '/learning-center'}
+                    href={data?.hasDailyBriefing &&
+                    data?.isPreMarket &&
+                    data?.dailyBriefingSlug
+                      ? `/learning-center/article/${data.dailyBriefingSlug}`
+                      : "/learning-center"}
                     class="group flex flex-row items-center w-full -mt-8"
                   >
                     <div class="flex flex-row items-center mr-auto">
@@ -1414,19 +1342,24 @@
                       </div>
                       <span
                         class="ml-1 mr-auto text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                        >{data?.hasDailyBriefing && data?.isPreMarket ? layout_daily_briefing() : layout_learning_center()}</span
+                        >{data?.hasDailyBriefing && data?.isPreMarket
+                          ? layout_daily_briefing()
+                          : layout_learning_center()}</span
                       >
                       {#if data?.hasDailyBriefing && data?.isPreMarket}
                         <span class="relative flex h-2 w-2 ml-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                          <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+                          ></span>
+                          <span
+                            class="relative inline-flex rounded-full h-2 w-2 bg-green-500"
+                          ></span>
                         </span>
                       {/if}
                     </div>
                   </a>
                 </Button>
               </Sheet.Close>
-
             </nav>
           </Sheet.Content>
         </Sheet.Root>
@@ -2023,7 +1956,11 @@
                   </a>
 
                   <a
-                    href={data?.hasDailyBriefing && data?.isPreMarket && data?.dailyBriefingSlug ? `/learning-center/article/${data.dailyBriefingSlug}` : '/learning-center'}
+                    href={data?.hasDailyBriefing &&
+                    data?.isPreMarket &&
+                    data?.dailyBriefingSlug
+                      ? `/learning-center/article/${data.dailyBriefingSlug}`
+                      : "/learning-center"}
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
@@ -2033,16 +1970,21 @@
                     </div>
                     <span
                       class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                      >{data?.hasDailyBriefing && data?.isPreMarket ? layout_daily_briefing() : layout_learning_center()}</span
+                      >{data?.hasDailyBriefing && data?.isPreMarket
+                        ? layout_daily_briefing()
+                        : layout_learning_center()}</span
                     >
                     {#if data?.hasDailyBriefing && data?.isPreMarket}
                       <span class="relative flex h-2 w-2 ml-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        <span
+                          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+                        ></span>
+                        <span
+                          class="relative inline-flex rounded-full h-2 w-2 bg-green-500"
+                        ></span>
                       </span>
                     {/if}
                   </a>
-
                 </nav>
               </aside>
             </div>

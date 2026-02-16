@@ -1,5 +1,6 @@
 <script lang="ts">
   import { openLemonSqueezyUrl } from "$lib/lemonsqueezy";
+  import { PURCHASE_COOKIE, PURCHASE_VALUES } from "$lib/constants/tracking";
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
@@ -172,6 +173,18 @@
           "checkout[name]": data?.user?.username,
           "checkout[custom][userId]": data?.user?.id,
         })?.toString();
+
+      // Store purchase value for Google Ads conversion tracking via GTM on /welcome
+      const sub = subscriptionType?.toLowerCase();
+      const annual = Boolean(mode);
+      const purchaseValue = sub === "pro"
+        ? (annual ? PURCHASE_VALUES.pro_annual : PURCHASE_VALUES.pro_monthly)
+        : sub === "plus"
+          ? (annual ? PURCHASE_VALUES.plus_annual : PURCHASE_VALUES.plus_monthly)
+          : 0;
+      if (purchaseValue > 0) {
+        document.cookie = `${PURCHASE_COOKIE}=${purchaseValue}; path=/; max-age=3600; SameSite=Lax`;
+      }
 
       await loadLemonSqueezyAffiliate();
       openLemonSqueezyUrl(checkoutUrl);

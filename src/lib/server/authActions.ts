@@ -2,6 +2,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
+import { SIGNUP_COOKIE } from "$lib/constants/tracking";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -185,6 +186,15 @@ export const registerAction = async ({
     await locals.pb
       .collection("users")
       .authWithPassword(formData.email, formData.password);
+
+    // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
+    cookies.set(SIGNUP_COOKIE, "1", {
+      path: "/",
+      maxAge: 120,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: !import.meta.env.DEV,
+    });
   } catch (err: any) {
     // SECURITY: Don't log full error object, only safe message
     console.error(

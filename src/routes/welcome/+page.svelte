@@ -3,6 +3,7 @@
   import confetti from "canvas-confetti";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import { GTM_EVENT_PURCHASE } from "$lib/constants/tracking";
   import {
   welcome_access_info,
   welcome_cta_button,
@@ -29,7 +30,6 @@
   export let data;
 
   let tier = $page.url.searchParams.get("tier") ?? "";
-  let urlValue = $page.url.searchParams.get("value");
   const emailAddress = "support@stocknear.com";
 
   var duration = 5 * 500;
@@ -37,46 +37,14 @@
   var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
   onMount(async () => {
-    // Extract value from URL or use default based on tier
-    const value = urlValue
-      ? parseFloat(urlValue)
-      : tier === "Plus"
-        ? 10
-        : tier === "Pro"
-          ? 20
-          : null;
-
-    // Only track conversions if marketing consent was given (GDPR compliant)
-    const hasMarketingConsent = data?.cookieConsent?.marketing === true;
-
-    // Meta Pixel conversion tracking (only with consent)
-    if (
-      hasMarketingConsent &&
-      typeof window !== "undefined" &&
-      window.fbq &&
-      value
-    ) {
-      window?.fbq("track", "Purchase", {
-        value: value,
-        currency: "USD",
-        content_ids: [data?.user?.id || "unknown"],
-        content_type: "product",
-        content_name: tier + " Subscription",
-      });
-    }
-
-    // Google Ads conversion tracking (only with consent)
-    if (
-      hasMarketingConsent &&
-      typeof window !== "undefined" &&
-      window.gtag &&
-      value
-    ) {
-      window?.gtag("event", "conversion", {
-        send_to: "AW-11328922950/FfVkCPuTupcbEMbKhpoq",
-        value: value || 1.0,
-        currency: "USD",
-        transaction_id: data?.user?.id || "",
+    // Purchase conversion (server-validated in +page.server.ts)
+    if (data.purchaseConversion) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: GTM_EVENT_PURCHASE,
+        conversionValue: data.purchaseConversion.value,
+        conversionCurrency: "USD",
+        transactionId: data.purchaseConversion.transactionId,
       });
     }
 

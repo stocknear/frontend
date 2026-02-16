@@ -1,5 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import { validateReturnUrl } from "$lib/utils";
+import { SIGNUP_COOKIE } from "$lib/constants/tracking";
 
 const REGISTER_STEP_2_URL = "/register?step=2";
 
@@ -54,6 +55,15 @@ export const GET = async ({ locals, url, cookies }) => {
 
     // Don't block signup completion if welcome credits update fails.
     if (isNewUser && userLogin?.record?.id) {
+      // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
+      cookies.set(SIGNUP_COOKIE, "1", {
+        path: "/",
+        maxAge: 120,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: !import.meta.env.DEV,
+      });
+
       try {
         await locals.pb.collection("users").update(userLogin.record.id, {
           credits: 10,

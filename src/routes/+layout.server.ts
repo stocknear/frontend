@@ -1,4 +1,5 @@
 import { convertToSlug, checkPreMarketHourSSR } from "$lib/utils";
+import { SIGNUP_COOKIE } from "$lib/constants/tracking";
 
 let cachedDaily: { hasDailyBriefing: boolean; dailyBriefingSlug: string | null; cachedAt: number } | null = null;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -58,7 +59,14 @@ async function getDailyBriefing(pb: any) {
   return cachedDaily;
 }
 
-export const load = async ({ locals }) => {
+export const load = async ({ locals, cookies }) => {
+  // Check for signup conversion flag (httpOnly — set by registration handlers)
+  let signupConversion = false;
+  if (cookies.get(SIGNUP_COOKIE)) {
+    signupConversion = true;
+    cookies.delete(SIGNUP_COOKIE, { path: "/" });
+  }
+
   try {
     const { user, wsURL, themeMode, cookieConsent, locale, pb } = locals ?? {};
 
@@ -74,6 +82,7 @@ export const load = async ({ locals }) => {
       isPreMarket,
       hasDailyBriefing,
       dailyBriefingSlug,
+      signupConversion,
     };
   } catch {
     return {
@@ -85,6 +94,7 @@ export const load = async ({ locals }) => {
       isPreMarket: false,
       hasDailyBriefing: false,
       dailyBriefingSlug: null,
+      signupConversion,
     };
   }
 };

@@ -31,15 +31,7 @@ declare namespace App {
 // Global type declarations for tracking scripts
 declare global {
   interface Window {
-    fbq: ((action: string, event: string, params?: Record<string, unknown>) => void) & {
-      callMethod?: (...args: unknown[]) => void;
-      queue: unknown[];
-      loaded: boolean;
-      version: string;
-    };
-    _fbq: typeof window.fbq;
     dataLayer: unknown[];
-    gtag: (...args: unknown[]) => void;
   }
 }
 
