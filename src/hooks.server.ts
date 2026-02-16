@@ -104,7 +104,7 @@ const getClientIp = (event) => {
 };
 
 // Auth refresh cache — avoids hitting PocketBase on every request
-const AUTH_CACHE_TTL = 60_000; // 1 minute
+const AUTH_CACHE_TTL = 5_000; // 10 seconds
 const AUTH_CACHE_MAX = 500;
 const authCache = new Map<string, { user: any; timestamp: number }>();
 
