@@ -468,42 +468,99 @@
 
   type WiimPreviewEvent = {
     id: string;
+    num: number;
     time: string;
+    category: string;
     title: string;
     detail: string;
     impact: string;
+    impactValue: number;
     toneClass: string;
+    markerX: number;
+    markerY: number;
   };
 
   const wiimPreviewEvents: WiimPreviewEvent[] = [
     {
-      id: "pre-market",
+      id: "earnings",
+      num: 1,
       time: "08:31",
-      title: "EPS beat vs consensus",
-      detail: "Quarterly earnings beat estimates by 11.8%",
+      category: "Earnings",
+      title: "EPS $2.40 vs $2.14 expected",
+      detail: "Revenue beat by 4.2% with record services segment",
       impact: "+2.6%",
+      impactValue: 2.6,
       toneClass:
         "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
+      markerX: 68,
+      markerY: 70,
     },
     {
-      id: "open",
-      time: "09:47",
-      title: "Guidance raised for FY26",
-      detail: "Management increased full-year revenue outlook",
-      impact: "+1.9%",
+      id: "guidance",
+      num: 2,
+      time: "09:15",
+      category: "Guidance",
+      title: "FY26 outlook raised to $420-430B",
+      detail: "Management lifted full-year revenue guidance from $405B",
+      impact: "+1.2%",
+      impactValue: 1.2,
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
+      markerX: 120,
+      markerY: 55,
     },
     {
-      id: "mid-day",
-      time: "12:22",
-      title: "Analyst target revisions",
-      detail: "Multiple brokers raised targets after the call",
-      impact: "+1.1%",
+      id: "analysts",
+      num: 3,
+      time: "10:02",
+      category: "Analyst",
+      title: "3 upgrades within 90 minutes",
+      detail: "Goldman, JPMorgan, Barclays all raised price targets",
+      impact: "+0.8%",
+      impactValue: 0.8,
       toneClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
+      markerX: 172,
+      markerY: 44,
+    },
+    {
+      id: "flow",
+      num: 4,
+      time: "11:44",
+      category: "Options",
+      title: "$24M weekly call sweep above ask",
+      detail: "Aggressive institutional call buying detected post-upgrade",
+      impact: "+0.5%",
+      impactValue: 0.5,
+      toneClass:
+        "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
+      markerX: 232,
+      markerY: 38,
+    },
+    {
+      id: "buyback",
+      num: 5,
+      time: "13:10",
+      category: "Corporate",
+      title: "$110B buyback authorized",
+      detail: "Largest single buyback program in company history",
+      impact: "+0.3%",
+      impactValue: 0.3,
+      toneClass:
+        "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
+      markerX: 284,
+      markerY: 32,
     },
   ];
+
+  const wiimTotalExplained = wiimPreviewEvents.reduce(
+    (sum, e) => sum + e.impactValue,
+    0,
+  );
+  const wiimTotalMove = 5.6;
+  const wiimExplainedPct = Math.round(
+    (wiimTotalExplained / wiimTotalMove) * 100,
+  );
 
   onMount(() => {
     const playHeroVideo = async () => {
@@ -1081,144 +1138,160 @@
                 </div>
               {:else if block.media.kind === "wiim-preview"}
                 <div
-                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
+                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70"
                 >
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p
-                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
-                      >
-                        Why Price Moved
-                      </p>
-                      <h4
-                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
-                      >
-                        AAPL intraday move explained
-                      </h4>
+                  <!-- Stock header -->
+                  <div class="flex items-center gap-3 border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5">
+                    <img
+                      src="https://financialmodelingprep.com/image-stock/AAPL.png"
+                      alt="AAPL logo"
+                      class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
+                      style="clip-path: circle(50%);"
+                      loading="lazy"
+                      on:error={(e) =>
+                        ((e.currentTarget as HTMLImageElement).src =
+                          "/pwa-192x192.png")}
+                    />
+                    <div class="min-w-0 flex-1">
+                      <div class="flex items-center gap-2">
+                        <span class="text-sm font-bold text-gray-900 dark:text-white">AAPL</span>
+                        <span class="text-xs text-gray-500 dark:text-zinc-400">Apple Inc.</span>
+                      </div>
+                      <div class="flex items-center gap-2 mt-0.5">
+                        <span class="text-sm font-semibold text-gray-900 dark:text-zinc-100">$237.42</span>
+                        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+$12.62 (+5.6%)</span>
+                      </div>
                     </div>
-                    <span
-                      class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200"
-                    >
-                      +5.4%
-                    </span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="relative flex h-2 w-2">
+                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                      </span>
+                      <span class="text-[0.62rem] font-semibold text-emerald-600 dark:text-emerald-400">Live</span>
+                    </div>
                   </div>
 
-                  <div
-                    class="mt-4 rounded-xl border border-gray-200 bg-gray-50/80 p-3 dark:border-zinc-700 dark:bg-zinc-950/60"
-                  >
-                    <svg
-                      viewBox="0 0 320 110"
-                      class="h-24 w-full text-emerald-500"
-                      role="img"
-                      aria-label="Price trend line"
-                    >
-                      <defs>
-                        <linearGradient
-                          id="wiimTrendGradient"
-                          x1="0%"
-                          y1="0%"
-                          x2="0%"
-                          y2="100%"
-                        >
-                          <stop
-                            offset="0%"
-                            stop-color="currentColor"
-                            stop-opacity="0.25"
-                          ></stop>
-                          <stop
-                            offset="100%"
-                            stop-color="currentColor"
-                            stop-opacity="0"
-                          ></stop>
-                        </linearGradient>
-                      </defs>
-                      <line
-                        x1="8"
-                        y1="18"
-                        x2="312"
-                        y2="18"
-                        stroke="currentColor"
-                        stroke-opacity="0.12"
-                        stroke-width="1"
-                      ></line>
-                      <line
-                        x1="8"
-                        y1="56"
-                        x2="312"
-                        y2="56"
-                        stroke="currentColor"
-                        stroke-opacity="0.12"
-                        stroke-width="1"
-                      ></line>
-                      <line
-                        x1="8"
-                        y1="94"
-                        x2="312"
-                        y2="94"
-                        stroke="currentColor"
-                        stroke-opacity="0.12"
-                        stroke-width="1"
-                      ></line>
-                      <path
-                        d="M10 78 C36 80,62 79,90 77 C116 75,142 76,170 74 C176 73,182 66,188 58 C198 49,210 51,220 55 C234 59,246 47,260 44 C278 40,296 42,310 38 L310 94 L10 94 Z"
-                        fill="url(#wiimTrendGradient)"
-                      ></path>
-                      <line
-                        x1="184"
-                        y1="10"
-                        x2="184"
-                        y2="94"
-                        stroke="#f59e0b"
-                        stroke-opacity="0.9"
-                        stroke-width="1.5"
-                        stroke-dasharray="4 4"
-                      ></line>
-                      <circle cx="188" cy="58" r="3.2" fill="#f59e0b"></circle>
-                      <text
-                        x="190"
-                        y="14"
-                        fill="#f59e0b"
-                        font-size="8"
-                        font-weight="600"
+                  <!-- Chart with numbered event markers -->
+                  <div class="px-4 pt-3 sm:px-5">
+                    <div class="rounded-xl border border-gray-200 bg-gray-50/80 p-2.5 dark:border-zinc-700 dark:bg-zinc-950/60">
+                      <svg
+                        viewBox="0 0 320 120"
+                        class="h-28 w-full"
+                        role="img"
+                        aria-label="AAPL intraday price chart with catalyst markers"
                       >
-                        News hit
-                      </text>
-                      <path
-                        d="M10 78 C36 80,62 79,90 77 C116 75,142 76,170 74 C176 73,182 66,188 58 C198 49,210 51,220 55 C234 59,246 47,260 44 C278 40,296 42,310 38"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                    </svg>
+                        <defs>
+                          <linearGradient id="wiimGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#10b981" stop-opacity="0.22"></stop>
+                            <stop offset="100%" stop-color="#10b981" stop-opacity="0"></stop>
+                          </linearGradient>
+                        </defs>
+                        <!-- Grid lines -->
+                        <line x1="8" y1="15" x2="312" y2="15" stroke="#d1d5db" stroke-opacity="0.3" stroke-width="0.5" class="dark:stroke-zinc-700"></line>
+                        <line x1="8" y1="50" x2="312" y2="50" stroke="#d1d5db" stroke-opacity="0.3" stroke-width="0.5" class="dark:stroke-zinc-700"></line>
+                        <line x1="8" y1="85" x2="312" y2="85" stroke="#d1d5db" stroke-opacity="0.3" stroke-width="0.5" class="dark:stroke-zinc-700"></line>
+                        <!-- Y-axis labels -->
+                        <text x="2" y="18" fill="#9ca3af" font-size="6" class="dark:fill-zinc-500">$238</text>
+                        <text x="2" y="53" fill="#9ca3af" font-size="6" class="dark:fill-zinc-500">$231</text>
+                        <text x="2" y="88" fill="#9ca3af" font-size="6" class="dark:fill-zinc-500">$224</text>
+                        <!-- X-axis time labels -->
+                        <text x="30" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">8:30</text>
+                        <text x="110" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">9:30</text>
+                        <text x="190" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">11:00</text>
+                        <text x="270" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">12:30</text>
+                        <!-- Area fill -->
+                        <path
+                          d="M20 82 C40 80,55 78,68 70 C80 63,100 58,120 55 C140 52,155 48,172 44 C190 40,210 40,232 38 C250 36,268 34,284 32 C295 30,305 29,310 28 L310 98 L20 98 Z"
+                          fill="url(#wiimGrad)"
+                        ></path>
+                        <!-- Price line -->
+                        <path
+                          d="M20 82 C40 80,55 78,68 70 C80 63,100 58,120 55 C140 52,155 48,172 44 C190 40,210 40,232 38 C250 36,268 34,284 32 C295 30,305 29,310 28"
+                          fill="none"
+                          stroke="#10b981"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <!-- Event markers with numbers -->
+                        {#each wiimPreviewEvents as event (event.id)}
+                          <line
+                            x1={event.markerX}
+                            y1={event.markerY + 7}
+                            x2={event.markerX}
+                            y2="98"
+                            stroke="#6b7280"
+                            stroke-opacity="0.18"
+                            stroke-width="1"
+                            stroke-dasharray="2 2"
+                          ></line>
+                          <circle
+                            cx={event.markerX}
+                            cy={event.markerY}
+                            r="8"
+                            fill="white"
+                            stroke="#10b981"
+                            stroke-width="1.5"
+                            class="dark:fill-zinc-900"
+                          ></circle>
+                          <text
+                            x={event.markerX}
+                            y={event.markerY + 3.5}
+                            fill="#10b981"
+                            font-size="8"
+                            font-weight="700"
+                            text-anchor="middle"
+                          >{event.num}</text>
+                        {/each}
+                      </svg>
+                    </div>
                   </div>
 
-                  <div class="mt-3 space-y-2">
+                  <!-- Move breakdown bar -->
+                  <div class="mx-4 mt-3 sm:mx-5">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400">Move explained</span>
+                      <span class="text-[0.62rem] font-bold text-emerald-600 dark:text-emerald-400">{wiimExplainedPct}% of +{wiimTotalMove}% accounted for</span>
+                    </div>
+                    <div class="h-2 w-full rounded-full bg-gray-200 dark:bg-zinc-700 overflow-hidden">
+                      <div
+                        class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                        style={`width: ${wiimExplainedPct}%`}
+                      ></div>
+                    </div>
+                  </div>
+
+                  <!-- Event timeline -->
+                  <div class="px-4 pb-4 pt-3 sm:px-5 sm:pb-5 space-y-1.5">
                     {#each wiimPreviewEvents as event (event.id)}
                       <a
                         href="/news-flow"
-                        class="flex items-start gap-2.5 rounded-lg border border-gray-200 px-3 py-2.5 transition hover:border-violet-300 dark:border-zinc-700 dark:hover:border-violet-500/50"
+                        class="group flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3 py-2 transition hover:border-violet-300 hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-900/75 dark:hover:border-violet-500/45"
                       >
+                        <!-- Numbered marker -->
                         <span
-                          class="mt-0.5 shrink-0 text-[0.68rem] font-semibold text-gray-500 dark:text-zinc-400"
+                          class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[0.6rem] font-bold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200"
                         >
-                          {event.time}
+                          {event.num}
                         </span>
+                        <!-- Content -->
                         <div class="min-w-0 flex-1">
-                          <p
-                            class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
-                          >
+                          <div class="flex items-center gap-1.5">
+                            <span class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.06em] ${event.toneClass}`}>
+                              {event.category}
+                            </span>
+                            <span class="text-[0.62rem] text-gray-400 dark:text-zinc-500">{event.time} ET</span>
+                          </div>
+                          <p class="mt-0.5 truncate text-[0.8rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100">
                             {event.title}
                           </p>
-                          <p
-                            class="truncate text-xs text-gray-600 dark:text-zinc-400"
-                          >
+                          <p class="truncate text-[0.68rem] text-gray-500 dark:text-zinc-400">
                             {event.detail}
                           </p>
                         </div>
+                        <!-- Impact badge -->
                         <span
-                          class={`whitespace-nowrap rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${event.toneClass}`}
+                          class="shrink-0 rounded-lg bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
                         >
                           {event.impact}
                         </span>
