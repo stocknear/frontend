@@ -1405,9 +1405,6 @@
 
                   <!-- Candlestick chart -->
                   <div class="px-3 pt-3 sm:px-4">
-                    <div
-                      class="rounded-xl border border-gray-100 bg-gray-50/60 p-2 dark:border-zinc-800 dark:bg-zinc-950/50"
-                    >
                       <svg
                         viewBox="0 0 400 180"
                         class="h-48 w-full sm:h-56"
@@ -1503,7 +1500,6 @@
                           >
                         {/each}
                       </svg>
-                    </div>
                   </div>
 
                   <!-- Move explained bar -->
@@ -1535,35 +1531,35 @@
                         class="flex items-start gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-900/75"
                       >
                         <span
-                          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-100 text-[0.6rem] font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200"
+                          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-100 text-[0.6rem] font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200 sm:h-7 sm:w-7 sm:text-xs"
                         >
                           {event.num}
                         </span>
                         <div class="min-w-0 flex-1">
                           <div class="flex items-center gap-1.5">
                             <span
-                              class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.06em] ${event.toneClass}`}
+                              class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.06em] sm:text-[0.65rem] sm:px-2 ${event.toneClass}`}
                             >
                               {event.category}
                             </span>
                             <span
-                              class="text-[0.62rem] text-gray-400 dark:text-zinc-500"
+                              class="text-[0.62rem] text-gray-400 dark:text-zinc-500 sm:text-xs"
                               >{event.time} ET</span
                             >
                           </div>
                           <p
-                            class="mt-0.5 text-[0.82rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100"
+                            class="mt-0.5 text-[0.82rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100 sm:text-sm"
                           >
                             {event.title}
                           </p>
                           <p
-                            class="text-[0.7rem] text-gray-500 dark:text-zinc-400"
+                            class="text-[0.7rem] text-gray-500 dark:text-zinc-400 sm:text-[0.8rem]"
                           >
                             {event.detail}
                           </p>
                         </div>
                         <span
-                          class="mt-0.5 shrink-0 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+                          class="mt-0.5 shrink-0 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300 sm:text-sm sm:px-3 sm:py-1.5"
                         >
                           {event.impact}
                         </span>
