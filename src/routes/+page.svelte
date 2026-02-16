@@ -3,8 +3,18 @@
   import SEO from "$lib/components/SEO.svelte";
 
   import {
-    landing_seo_title,
-    landing_seo_description,
+    home_seo_description,
+    home_seo_keywords,
+    home_seo_title,
+    home_structured_description,
+    home_structured_feature_dark_pool_monitoring,
+    home_structured_feature_earnings_volatility,
+    home_structured_feature_implied_volatility,
+    home_structured_feature_live_options_flow,
+    home_structured_feature_market_catalysts,
+    home_structured_feature_options_chain,
+    home_structured_feature_unusual_options_activity,
+    home_structured_name,
     landing_hero_title,
     landing_hero_subtitle,
     landing_hero_cta_primary,
@@ -267,8 +277,7 @@
       title: landing_more_tool_financial_title,
       description: landing_more_tool_financial_desc,
       cta: landing_more_tool_financial_link,
-      iconPath:
-        "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+      iconPath: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
       iconBgClass: "bg-teal-100 dark:bg-teal-900/30",
       iconToneClass: "text-teal-600 dark:text-teal-400",
     },
@@ -284,63 +293,96 @@
   type NotificationShowcaseItem = {
     id: string;
     ticker: string;
+    category: string;
+    iconPath: string;
     title: string;
     detail: string;
+    value: string;
     time: string;
-    link: string;
+    isNew: boolean;
     toneClass: string;
+    iconBgClass: string;
   };
 
   const notificationShowcaseItems: NotificationShowcaseItem[] = [
     {
       id: "nvda-earnings",
       ticker: "NVDA",
-      title: "Earnings Release",
-      detail: "Quarterly EPS came in 12% above estimates",
+      category: "Earnings",
+      iconPath: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+      title: "Q4 EPS beat by 12%",
+      detail: "Revenue $39.3B vs $37.1B expected",
+      value: "+8.2%",
       time: "Just now",
-      link: "/earnings-calendar",
+      isNew: true,
       toneClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
+      iconBgClass:
+        "bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300",
     },
     {
-      id: "aapl-alert",
+      id: "aapl-price",
       ticker: "AAPL",
-      title: "Price Alert Triggered",
-      detail: "AAPL crossed above $230.00",
-      time: "1m ago",
-      link: "/price-alert",
+      category: "Price Alert",
+      iconPath:
+        "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9",
+      title: "Hit your $230 target",
+      detail: "Up $4.20 (+1.9%) since alert was set",
+      value: "$234.20",
+      time: "47s ago",
+      isNew: true,
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
+      iconBgClass:
+        "bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300",
     },
     {
-      id: "tsla-news",
+      id: "tsla-flow",
       ticker: "TSLA",
-      title: "News Flow Update",
-      detail: "Earnings call sentiment turned bullish",
+      category: "Options Flow",
+      iconPath:
+        "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+      title: "$14.2M bearish put block",
+      detail: "Aug 2026 $180 Put — largest TSLA put today",
+      value: "Bearish",
       time: "2m ago",
-      link: "/news-flow",
+      isNew: false,
       toneClass:
-        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
+        "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-200",
+      iconBgClass:
+        "bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-300",
     },
     {
       id: "meta-analyst",
       ticker: "META",
-      title: "Analyst Rating Change",
-      detail: "2 upgrades in the last hour",
+      category: "Analyst",
+      iconPath:
+        "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+      title: "Goldman upgraded to Buy",
+      detail: "Price target raised from $620 to $710 (+14.5%)",
+      value: "+14.5%",
       time: "4m ago",
-      link: "/analysts",
+      isNew: false,
       toneClass:
         "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
+      iconBgClass:
+        "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300",
     },
     {
       id: "msft-insider",
       ticker: "MSFT",
-      title: "Insider Transaction",
-      detail: "Director reported a new open-market buy",
+      category: "Insider",
+      iconPath:
+        "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+      title: "CFO bought $2.1M in shares",
+      detail: "Open-market purchase at $449 — first buy in 18 months",
+      value: "$2.1M",
       time: "7m ago",
-      link: "/insider-tracker",
+      isNew: false,
       toneClass:
         "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
+      iconBgClass:
+        "bg-cyan-100 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-300",
     },
   ];
 
@@ -597,72 +639,37 @@
 </script>
 
 <SEO
-  title={landing_seo_title()}
-  description={landing_seo_description()}
-  keywords="stock analysis, options flow, AI stock research, smart money tracking, stock screener, congress trading, hedge fund tracking, institutional data, free stock tools, dark pool data, unusual options activity"
-  image="https://stocknear.com/img/landing-page/overview.png"
-  twitterCard="summary_large_image"
-  structuredData={[
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      name: "Stocknear",
-      applicationCategory: "FinanceApplication",
-      operatingSystem: "Web",
-      url: "https://stocknear.com",
-      description: landing_seo_description(),
-      screenshot: "https://stocknear.com/img/landing-page/overview.png",
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.6",
-        bestRating: "5",
-        ratingCount: "150",
-        reviewCount: "150",
-      },
-      offers: [
-        {
-          "@type": "Offer",
-          name: "Free Plan",
-          price: "0",
-          priceCurrency: "USD",
-        },
-        {
-          "@type": "Offer",
-          name: "Plus Plan (Annual)",
-          price: "5",
-          priceCurrency: "USD",
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: "5",
-            priceCurrency: "USD",
-            unitCode: "MON",
-            referenceQuantity: {
-              "@type": "QuantitativeValue",
-              value: "1",
-              unitCode: "MON",
-            },
-          },
-        },
-        {
-          "@type": "Offer",
-          name: "Pro Plan (Annual)",
-          price: "15",
-          priceCurrency: "USD",
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: "15",
-            priceCurrency: "USD",
-            unitCode: "MON",
-            referenceQuantity: {
-              "@type": "QuantitativeValue",
-              value: "1",
-              unitCode: "MON",
-            },
-          },
-        },
-      ],
+  title={home_seo_title()}
+  description={home_seo_description()}
+  keywords={home_seo_keywords()}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: home_structured_name(),
+    description: home_structured_description(),
+    url: "https://stocknear.com",
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
     },
-  ]}
+    featureList: [
+      home_structured_feature_live_options_flow(),
+      home_structured_feature_unusual_options_activity(),
+      home_structured_feature_dark_pool_monitoring(),
+      home_structured_feature_implied_volatility(),
+      home_structured_feature_options_chain(),
+      home_structured_feature_earnings_volatility(),
+      home_structured_feature_market_catalysts(),
+    ],
+    provider: {
+      "@type": "Organization",
+      name: home_structured_name(),
+      url: "https://stocknear.com",
+    },
+  }}
 />
 
 <div class="text-gray-700 dark:text-zinc-200 w-full">
@@ -820,90 +827,193 @@
   <section class="border-t border-gray-300 dark:border-zinc-700">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
       <div
-        class="grid gap-8 lg:grid-cols-[1fr_minmax(0,27rem)] lg:items-center"
+        class="grid gap-8 lg:grid-cols-[1fr_minmax(0,28rem)] lg:items-center"
       >
+        <!-- Left copy -->
         <div>
           <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400 mb-4"
           >
-            Notifications
+            Never Miss a Move
           </p>
           <h2
             class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
           >
-            Real-Time Alerts That Surface What Matters
+            5 market-moving events happened in the last 7 minutes.
           </h2>
           <p
             class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300 max-w-2xl"
           >
-            See high-signal events the moment they happen, from earnings
-            releases and analyst changes to price and news alerts.
+            Earnings beats, analyst upgrades, insider buys, options flow spikes,
+            and price targets — delivered in under 2 seconds. While others wait for the headline, you've already seen the filing.
           </p>
+          <div
+            class="mt-5 flex items-center gap-4 text-sm text-gray-600 dark:text-zinc-400"
+          >
+            <div class="flex items-center gap-1.5">
+              <svg
+                class="h-4 w-4 text-emerald-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="13 17 18 12 13 7"></polyline><polyline
+                  points="6 17 11 12 6 7"
+                ></polyline></svg
+              >
+              <span class="font-medium">Avg delivery &lt; 2 sec</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg
+                class="h-4 w-4 text-violet-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"
+                ></path><path d="M13.73 21a2 2 0 01-3.46 0"></path></svg
+              >
+              <span class="font-medium">6 alert types</span>
+            </div>
+          </div>
           <div class="mt-6 flex flex-wrap gap-3">
             <a
-              href="/notifications"
+              href="/register"
               class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
             >
-              Open Notifications
+              Get Started Free
             </a>
             <a
               href="/price-alert"
               class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
             >
-              Create Alert
+              See Alert Types
             </a>
           </div>
         </div>
 
+        <!-- Right card: notification feed -->
         <div
-          class="overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-3 sm:p-4 shadow-sm"
+          class="overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 shadow-sm"
         >
-          <div class="space-y-3">
-            {#each notificationShowcaseItems as item (item.id)}
-              <a
-                href={item.link}
-                class="group flex items-center gap-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/75 px-3 py-2.5 hover:border-violet-300 dark:hover:border-violet-500/45 transition"
+          <!-- Card header -->
+          <div
+            class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-bold text-gray-900 dark:text-white"
+                >Alert Feed</span
               >
+              <span
+                class="rounded-full bg-violet-100 px-2 py-0.5 text-[0.6rem] font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200"
+              >
+                5 new
+              </span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="relative flex h-2 w-2">
                 <span
-                  class="avatar h-8 w-8 shrink-0 rounded-full border border-gray-300 bg-gray-100/70 shadow dark:border-zinc-700 dark:bg-zinc-900/60"
-                >
-                  <img
-                    src={`https://financialmodelingprep.com/image-stock/${item.ticker}.png`}
-                    alt={`${item.ticker} logo`}
-                    class="inline-block h-8 w-8 shrink-0 rounded-full p-0.5"
-                    style="clip-path: circle(50%);"
-                    loading="lazy"
-                    on:error={(e) =>
-                      ((e.currentTarget as HTMLImageElement).src =
-                        "/pwa-192x192.png")}
-                  />
-                </span>
+                  class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+                ></span>
+                <span
+                  class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
+                ></span>
+              </span>
+              <span
+                class="text-[0.62rem] font-semibold text-emerald-600 dark:text-emerald-400"
+                >Live</span
+              >
+            </div>
+          </div>
+
+          <!-- Notification rows -->
+          <div class="divide-y divide-gray-100 dark:divide-zinc-800">
+            {#each notificationShowcaseItems as item, i (item.id)}
+              <div
+                class={`group flex items-center gap-3 px-4 py-3 sm:px-5 transition ${item.isNew ? "bg-violet-50/40 dark:bg-violet-500/[0.04]" : ""}`}
+              >
+                <!-- Logo -->
+                <img
+                  src={`https://financialmodelingprep.com/image-stock/${item.ticker}.png`}
+                  alt={`${item.ticker} logo`}
+                  class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
+                  style="clip-path: circle(50%);"
+                  loading="lazy"
+                  on:error={(e) =>
+                    ((e.currentTarget as HTMLImageElement).src =
+                      "/pwa-192x192.png")}
+                />
+
+                <!-- Content -->
                 <div class="min-w-0 flex-1">
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-1.5 flex-wrap">
                     <span
-                      class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white"
+                      class="text-sm font-bold text-gray-900 dark:text-white"
+                      >{item.ticker}</span
                     >
-                      {item.ticker}
-                    </span>
                     <span
-                      class={`rounded-full px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.08em] ${item.toneClass}`}
+                      class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.04em] ${item.toneClass}`}
                     >
-                      {item.title}
+                      {item.category}
                     </span>
+                    {#if item.isNew}
+                      <span class="relative flex h-1.5 w-1.5">
+                        <span
+                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75"
+                        ></span>
+                        <span
+                          class="relative inline-flex h-1.5 w-1.5 rounded-full bg-violet-500"
+                        ></span>
+                      </span>
+                    {/if}
                   </div>
                   <p
-                    class="mt-0.5 truncate text-xs text-gray-600 dark:text-zinc-400"
+                    class="mt-0.5 truncate text-[0.78rem] font-medium text-gray-800 dark:text-zinc-200"
+                  >
+                    {item.title}
+                  </p>
+                  <p
+                    class="truncate text-[0.68rem] text-gray-500 dark:text-zinc-400"
                   >
                     {item.detail}
                   </p>
                 </div>
-                <span
-                  class="text-[0.68rem] text-gray-500 dark:text-zinc-400 whitespace-nowrap"
-                >
-                  {item.time}
-                </span>
-              </a>
+
+                <!-- Value + time -->
+                <div class="shrink-0 text-right">
+                  <span
+                    class={`text-xs font-bold ${item.toneClass.includes("rose") ? "text-rose-700 dark:text-rose-300" : "text-emerald-700 dark:text-emerald-300"}`}
+                  >
+                    {item.value}
+                  </span>
+                  <p
+                    class="text-[0.6rem] text-gray-400 dark:text-zinc-500 mt-0.5"
+                  >
+                    {item.time}
+                  </p>
+                </div>
+              </div>
             {/each}
+          </div>
+
+          <!-- Footer -->
+          <div
+            class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5 flex items-center justify-between bg-gray-50/50 dark:bg-zinc-950/30"
+          >
+            <p class="text-[0.62rem] text-gray-500 dark:text-zinc-400">
+              <span class="font-semibold text-gray-700 dark:text-zinc-300"
+                >Earnings · Analysts · Insider · Flow · Price · News</span
+              >
+            </p>
+            <span
+              class="text-[0.58rem] font-semibold text-violet-600 dark:text-violet-400"
+            >
+              Delivered in &lt; 2 sec
+            </span>
           </div>
         </div>
       </div>
@@ -998,23 +1108,41 @@
                   class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70"
                 >
                   <!-- Header: total premium anchor + live pulse -->
-                  <div class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5">
+                  <div
+                    class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
+                  >
                     <div>
                       <div class="flex items-center gap-2">
-                        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400">
+                        <p
+                          class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
+                        >
                           Institutional Options Flow
                         </p>
                         <div class="flex items-center gap-1">
                           <span class="relative flex h-2 w-2">
-                            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                            <span
+                              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+                            ></span>
+                            <span
+                              class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
+                            ></span>
                           </span>
-                          <span class="text-[0.6rem] font-semibold text-emerald-600 dark:text-emerald-400">Live</span>
+                          <span
+                            class="text-[0.6rem] font-semibold text-emerald-600 dark:text-emerald-400"
+                            >Live</span
+                          >
                         </div>
                       </div>
-                      <p class="mt-1 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-                        {formatOptionsFlowPremium(optionsFlowPreviewSummary.totalPremium)}
-                        <span class="text-sm font-medium text-gray-500 dark:text-zinc-400 ml-1">in whale premium today</span>
+                      <p
+                        class="mt-1 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl"
+                      >
+                        {formatOptionsFlowPremium(
+                          optionsFlowPreviewSummary.totalPremium,
+                        )}
+                        <span
+                          class="text-sm font-medium text-gray-500 dark:text-zinc-400 ml-1"
+                          >in whale premium today</span
+                        >
                       </p>
                     </div>
                   </div>
@@ -1023,22 +1151,38 @@
                   <div class="px-4 pt-3 sm:px-5">
                     <div class="flex items-center justify-between mb-1.5">
                       <div class="flex items-center gap-1.5">
-                        <span class="inline-block h-2.5 w-2.5 rounded-sm bg-emerald-500"></span>
-                        <span class="text-[0.62rem] font-semibold text-gray-700 dark:text-zinc-300">
+                        <span
+                          class="inline-block h-2.5 w-2.5 rounded-sm bg-emerald-500"
+                        ></span>
+                        <span
+                          class="text-[0.62rem] font-semibold text-gray-700 dark:text-zinc-300"
+                        >
                           Calls {optionsFlowPreviewCallPremiumPct}%
                         </span>
-                        <span class="text-[0.58rem] text-gray-400 dark:text-zinc-500">
-                          ({formatOptionsFlowPremium(optionsFlowPreviewSummary.callPremium)})
+                        <span
+                          class="text-[0.58rem] text-gray-400 dark:text-zinc-500"
+                        >
+                          ({formatOptionsFlowPremium(
+                            optionsFlowPreviewSummary.callPremium,
+                          )})
                         </span>
                       </div>
                       <div class="flex items-center gap-1.5">
-                        <span class="text-[0.58rem] text-gray-400 dark:text-zinc-500">
-                          ({formatOptionsFlowPremium(optionsFlowPreviewSummary.putPremium)})
+                        <span
+                          class="text-[0.58rem] text-gray-400 dark:text-zinc-500"
+                        >
+                          ({formatOptionsFlowPremium(
+                            optionsFlowPreviewSummary.putPremium,
+                          )})
                         </span>
-                        <span class="text-[0.62rem] font-semibold text-gray-700 dark:text-zinc-300">
+                        <span
+                          class="text-[0.62rem] font-semibold text-gray-700 dark:text-zinc-300"
+                        >
                           {optionsFlowPreviewPutPremiumPct}% Puts
                         </span>
-                        <span class="inline-block h-2.5 w-2.5 rounded-sm bg-rose-500"></span>
+                        <span
+                          class="inline-block h-2.5 w-2.5 rounded-sm bg-rose-500"
+                        ></span>
                       </div>
                     </div>
                     <div class="flex h-2.5 w-full overflow-hidden rounded-full">
@@ -1051,8 +1195,11 @@
                         style={`width: ${optionsFlowPreviewPutPremiumPct}%`}
                       ></div>
                     </div>
-                    <p class="mt-1.5 text-[0.6rem] text-gray-400 dark:text-zinc-500">
-                      {optionsFlowPreviewCallPremiumPct > optionsFlowPreviewPutPremiumPct
+                    <p
+                      class="mt-1.5 text-[0.6rem] text-gray-400 dark:text-zinc-500"
+                    >
+                      {optionsFlowPreviewCallPremiumPct >
+                      optionsFlowPreviewPutPremiumPct
                         ? "Big whales are leaning bullish today"
                         : "Big whales are leaning bearish today"}
                     </p>
@@ -1080,24 +1227,40 @@
                         <!-- Content -->
                         <div class="min-w-0 flex-1">
                           <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="text-sm font-bold text-gray-900 dark:text-white">{trade.ticker}</span>
-                            <span class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.04em] ${trade.toneClass}`}>
-                              {trade.sentiment} {trade.flowTag}
+                            <span
+                              class="text-sm font-bold text-gray-900 dark:text-white"
+                              >{trade.ticker}</span
+                            >
+                            <span
+                              class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.04em] ${trade.toneClass}`}
+                            >
+                              {trade.sentiment}
+                              {trade.flowTag}
                             </span>
-                            <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[0.56rem] font-semibold text-gray-600 dark:bg-zinc-800 dark:text-zinc-300">
+                            <span
+                              class="rounded bg-gray-100 px-1.5 py-0.5 text-[0.56rem] font-semibold text-gray-600 dark:bg-zinc-800 dark:text-zinc-300"
+                            >
                               {trade.signal}
                             </span>
                           </div>
-                          <p class="mt-0.5 truncate text-[0.68rem] text-gray-500 dark:text-zinc-400">
-                            {trade.contract} · {trade.execution} · {trade.sizeValue.toLocaleString("en-US")} contracts
+                          <p
+                            class="mt-0.5 truncate text-[0.68rem] text-gray-500 dark:text-zinc-400"
+                          >
+                            {trade.contract} · {trade.execution} · {trade.sizeValue.toLocaleString(
+                              "en-US",
+                            )} contracts
                           </p>
                         </div>
                         <!-- Premium + time -->
                         <div class="shrink-0 text-right">
-                          <p class={`text-sm font-bold ${trade.putCall === "Calls" ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300"}`}>
+                          <p
+                            class={`text-sm font-bold ${trade.putCall === "Calls" ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300"}`}
+                          >
                             {formatOptionsFlowPremium(trade.premiumValue)}
                           </p>
-                          <p class="text-[0.6rem] text-gray-400 dark:text-zinc-500">
+                          <p
+                            class="text-[0.6rem] text-gray-400 dark:text-zinc-500"
+                          >
                             {trade.time}
                           </p>
                         </div>
@@ -1106,11 +1269,18 @@
                   </div>
 
                   <!-- Footer: urgency + context -->
-                  <div class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5 flex items-center justify-between">
+                  <div
+                    class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5 flex items-center justify-between"
+                  >
                     <p class="text-[0.62rem] text-gray-500 dark:text-zinc-400">
-                      <span class="font-semibold text-gray-700 dark:text-zinc-300">{optionsFlowPreviewTrades.length} whale trades</span> spotted in the last 3 hours
+                      <span
+                        class="font-semibold text-gray-700 dark:text-zinc-300"
+                        >{optionsFlowPreviewTrades.length} whale trades</span
+                      > spotted in the last 3 hours
                     </p>
-                    <span class="text-[0.58rem] font-semibold text-violet-600 dark:text-violet-400">
+                    <span
+                      class="text-[0.58rem] font-semibold text-violet-600 dark:text-violet-400"
+                    >
                       Streaming 50,000+ trades/day
                     </span>
                   </div>
@@ -1120,7 +1290,9 @@
                   class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70"
                 >
                   <!-- Stock header -->
-                  <div class="flex items-center gap-3 border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5">
+                  <div
+                    class="flex items-center gap-3 border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
+                  >
                     <img
                       src="https://financialmodelingprep.com/image-stock/AAPL.png"
                       alt="AAPL logo"
@@ -1133,26 +1305,46 @@
                     />
                     <div class="min-w-0 flex-1">
                       <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold text-gray-900 dark:text-white">AAPL</span>
-                        <span class="text-xs text-gray-500 dark:text-zinc-400">Apple Inc.</span>
+                        <span
+                          class="text-sm font-bold text-gray-900 dark:text-white"
+                          >AAPL</span
+                        >
+                        <span class="text-xs text-gray-500 dark:text-zinc-400"
+                          >Apple Inc.</span
+                        >
                       </div>
                       <div class="flex items-center gap-2 mt-0.5">
-                        <span class="text-sm font-semibold text-gray-900 dark:text-zinc-100">$237.42</span>
-                        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+$12.62 (+5.6%)</span>
+                        <span
+                          class="text-sm font-semibold text-gray-900 dark:text-zinc-100"
+                          >$237.42</span
+                        >
+                        <span
+                          class="text-xs font-semibold text-emerald-600 dark:text-emerald-400"
+                          >+$12.62 (+5.6%)</span
+                        >
                       </div>
                     </div>
                     <div class="flex items-center gap-1.5">
                       <span class="relative flex h-2 w-2">
-                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                        <span
+                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+                        ></span>
+                        <span
+                          class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
+                        ></span>
                       </span>
-                      <span class="text-[0.62rem] font-semibold text-emerald-600 dark:text-emerald-400">Live</span>
+                      <span
+                        class="text-[0.62rem] font-semibold text-emerald-600 dark:text-emerald-400"
+                        >Live</span
+                      >
                     </div>
                   </div>
 
                   <!-- Chart with numbered event markers -->
                   <div class="px-4 pt-3 sm:px-5">
-                    <div class="rounded-xl border border-gray-200 bg-gray-50/80 p-2.5 dark:border-zinc-700 dark:bg-zinc-950/60">
+                    <div
+                      class="rounded-xl border border-gray-200 bg-gray-50/80 p-2.5 dark:border-zinc-700 dark:bg-zinc-950/60"
+                    >
                       <svg
                         viewBox="0 0 320 120"
                         class="h-28 w-full"
@@ -1160,24 +1352,111 @@
                         aria-label="AAPL intraday price chart with catalyst markers"
                       >
                         <defs>
-                          <linearGradient id="wiimGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#10b981" stop-opacity="0.22"></stop>
-                            <stop offset="100%" stop-color="#10b981" stop-opacity="0"></stop>
+                          <linearGradient
+                            id="wiimGrad"
+                            x1="0%"
+                            y1="0%"
+                            x2="0%"
+                            y2="100%"
+                          >
+                            <stop
+                              offset="0%"
+                              stop-color="#10b981"
+                              stop-opacity="0.22"
+                            ></stop>
+                            <stop
+                              offset="100%"
+                              stop-color="#10b981"
+                              stop-opacity="0"
+                            ></stop>
                           </linearGradient>
                         </defs>
                         <!-- Grid lines -->
-                        <line x1="8" y1="15" x2="312" y2="15" stroke="#d1d5db" stroke-opacity="0.3" stroke-width="0.5" class="dark:stroke-zinc-700"></line>
-                        <line x1="8" y1="50" x2="312" y2="50" stroke="#d1d5db" stroke-opacity="0.3" stroke-width="0.5" class="dark:stroke-zinc-700"></line>
-                        <line x1="8" y1="85" x2="312" y2="85" stroke="#d1d5db" stroke-opacity="0.3" stroke-width="0.5" class="dark:stroke-zinc-700"></line>
+                        <line
+                          x1="8"
+                          y1="15"
+                          x2="312"
+                          y2="15"
+                          stroke="#d1d5db"
+                          stroke-opacity="0.3"
+                          stroke-width="0.5"
+                          class="dark:stroke-zinc-700"
+                        ></line>
+                        <line
+                          x1="8"
+                          y1="50"
+                          x2="312"
+                          y2="50"
+                          stroke="#d1d5db"
+                          stroke-opacity="0.3"
+                          stroke-width="0.5"
+                          class="dark:stroke-zinc-700"
+                        ></line>
+                        <line
+                          x1="8"
+                          y1="85"
+                          x2="312"
+                          y2="85"
+                          stroke="#d1d5db"
+                          stroke-opacity="0.3"
+                          stroke-width="0.5"
+                          class="dark:stroke-zinc-700"
+                        ></line>
                         <!-- Y-axis labels -->
-                        <text x="2" y="18" fill="#9ca3af" font-size="6" class="dark:fill-zinc-500">$238</text>
-                        <text x="2" y="53" fill="#9ca3af" font-size="6" class="dark:fill-zinc-500">$231</text>
-                        <text x="2" y="88" fill="#9ca3af" font-size="6" class="dark:fill-zinc-500">$224</text>
+                        <text
+                          x="2"
+                          y="18"
+                          fill="#9ca3af"
+                          font-size="6"
+                          class="dark:fill-zinc-500">$238</text
+                        >
+                        <text
+                          x="2"
+                          y="53"
+                          fill="#9ca3af"
+                          font-size="6"
+                          class="dark:fill-zinc-500">$231</text
+                        >
+                        <text
+                          x="2"
+                          y="88"
+                          fill="#9ca3af"
+                          font-size="6"
+                          class="dark:fill-zinc-500">$224</text
+                        >
                         <!-- X-axis time labels -->
-                        <text x="30" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">8:30</text>
-                        <text x="110" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">9:30</text>
-                        <text x="190" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">11:00</text>
-                        <text x="270" y="108" fill="#9ca3af" font-size="6" text-anchor="middle" class="dark:fill-zinc-500">12:30</text>
+                        <text
+                          x="30"
+                          y="108"
+                          fill="#9ca3af"
+                          font-size="6"
+                          text-anchor="middle"
+                          class="dark:fill-zinc-500">8:30</text
+                        >
+                        <text
+                          x="110"
+                          y="108"
+                          fill="#9ca3af"
+                          font-size="6"
+                          text-anchor="middle"
+                          class="dark:fill-zinc-500">9:30</text
+                        >
+                        <text
+                          x="190"
+                          y="108"
+                          fill="#9ca3af"
+                          font-size="6"
+                          text-anchor="middle"
+                          class="dark:fill-zinc-500">11:00</text
+                        >
+                        <text
+                          x="270"
+                          y="108"
+                          fill="#9ca3af"
+                          font-size="6"
+                          text-anchor="middle"
+                          class="dark:fill-zinc-500">12:30</text
+                        >
                         <!-- Area fill -->
                         <path
                           d="M20 82 C40 80,55 78,68 70 C80 63,100 58,120 55 C140 52,155 48,172 44 C190 40,210 40,232 38 C250 36,268 34,284 32 C295 30,305 29,310 28 L310 98 L20 98 Z"
@@ -1219,8 +1498,8 @@
                             fill="#10b981"
                             font-size="8"
                             font-weight="700"
-                            text-anchor="middle"
-                          >{event.num}</text>
+                            text-anchor="middle">{event.num}</text
+                          >
                         {/each}
                       </svg>
                     </div>
@@ -1229,10 +1508,18 @@
                   <!-- Move breakdown bar -->
                   <div class="mx-4 mt-3 sm:mx-5">
                     <div class="flex items-center justify-between mb-1.5">
-                      <span class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400">Move explained</span>
-                      <span class="text-[0.62rem] font-bold text-emerald-600 dark:text-emerald-400">{wiimExplainedPct}% of +{wiimTotalMove}% accounted for</span>
+                      <span
+                        class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400"
+                        >Move explained</span
+                      >
+                      <span
+                        class="text-[0.62rem] font-bold text-emerald-600 dark:text-emerald-400"
+                        >{wiimExplainedPct}% of +{wiimTotalMove}% accounted for</span
+                      >
                     </div>
-                    <div class="h-2 w-full rounded-full bg-gray-200 dark:bg-zinc-700 overflow-hidden">
+                    <div
+                      class="h-2 w-full rounded-full bg-gray-200 dark:bg-zinc-700 overflow-hidden"
+                    >
                       <div
                         class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400"
                         style={`width: ${wiimExplainedPct}%`}
@@ -1256,15 +1543,24 @@
                         <!-- Content -->
                         <div class="min-w-0 flex-1">
                           <div class="flex items-center gap-1.5">
-                            <span class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.06em] ${event.toneClass}`}>
+                            <span
+                              class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.06em] ${event.toneClass}`}
+                            >
                               {event.category}
                             </span>
-                            <span class="text-[0.62rem] text-gray-400 dark:text-zinc-500">{event.time} ET</span>
+                            <span
+                              class="text-[0.62rem] text-gray-400 dark:text-zinc-500"
+                              >{event.time} ET</span
+                            >
                           </div>
-                          <p class="mt-0.5 truncate text-[0.8rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100">
+                          <p
+                            class="mt-0.5 truncate text-[0.8rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100"
+                          >
                             {event.title}
                           </p>
-                          <p class="truncate text-[0.68rem] text-gray-500 dark:text-zinc-400">
+                          <p
+                            class="truncate text-[0.68rem] text-gray-500 dark:text-zinc-400"
+                          >
                             {event.detail}
                           </p>
                         </div>
