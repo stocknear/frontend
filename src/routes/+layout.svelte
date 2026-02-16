@@ -297,12 +297,6 @@
       $loginData = undefined;
     }
 
-    // GTM signup conversion (server-validated via httpOnly cookie in +layout.server.ts)
-    if (data.signupConversion) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: GTM_EVENT_SIGNUP });
-    }
-
     // Use optimized service worker registration
     registerServiceWorker();
 
@@ -435,6 +429,15 @@
     if ($indexTicker && !$clientSideCache[$indexTicker]) {
       $clientSideCache[$indexTicker] = {};
     }
+  }
+
+  // GTM signup conversion (server-validated via httpOnly cookie in +layout.server.ts)
+  // Reactive so it fires when data updates after form action, not just on initial mount
+  let signupConversionFired = false;
+  $: if (browser && data.signupConversion && !signupConversionFired) {
+    signupConversionFired = true;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: GTM_EVENT_SIGNUP });
   }
 
   const checkMarketHour = () => {
