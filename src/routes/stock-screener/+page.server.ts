@@ -32,6 +32,10 @@ export const load = async ({ locals }) => {
   const getAllStrategies = async () => {
     let output = [];
 
+      if (!['Plus','Pro']?.includes(user?.tier)) {
+        return [];
+      }
+
      try {
         output = await pb.collection("stocksScreener").getFullList({
         filter: `user="${user?.id}"`,
