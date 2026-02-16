@@ -1744,9 +1744,7 @@
       const closePopup = document.getElementById("addStrategy");
       closePopup?.dispatchEvent(new MouseEvent("click"));
     } else {
-      toast.info("Available only to Plus or Pro Member", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+      goto("/pricing");
     }
   }
 
@@ -1797,7 +1795,6 @@
           ?.filter((rule) => checkedRules.includes(rule.name))
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
-
     })();
 
     return toast?.promise(deletePromise, {
@@ -2648,7 +2645,10 @@
     return parseValue(a) - parseValue(b);
   }
 
-  async function handleChangeValue(value, { shouldSort = true, skipFetch = false } = {}) {
+  async function handleChangeValue(
+    value,
+    { shouldSort = true, skipFetch = false } = {},
+  ) {
     // Add this check at the beginning of the function
     if (ruleCondition[ruleName] === "between") {
       // Ensure valueMappings[ruleName] is always an array for "between" condition
@@ -2732,7 +2732,11 @@
     }
 
     // Add this at the end of the function to ensure the filter is applied
-    if (!skipFetch && ruleCondition[ruleName] === "between" && value.some((v) => v !== "")) {
+    if (
+      !skipFetch &&
+      ruleCondition[ruleName] === "between" &&
+      value.some((v) => v !== "")
+    ) {
       await updateStockScreenerData();
     }
   }
@@ -3578,7 +3582,9 @@
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
-                        : item?.title} ({item?.id === selectedStrategy ? ruleOfList?.length : item?.rules?.length})
+                        : item?.title} ({item?.id === selectedStrategy
+                        ? ruleOfList?.length
+                        : item?.rules?.length})
 
                       <label
                         for="deleteStrategy"
@@ -3595,8 +3601,8 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          ></path></svg>
-
+                          ></path></svg
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -3750,8 +3756,8 @@
                         ><path
                           fill="currentColor"
                           d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        /></svg>
-
+                        /></svg
+                      >
                     {:else}
                       <svg
                         class="w-4 h-4 text-icon inline-block ml-1 mr-2"
@@ -3762,8 +3768,8 @@
                           fill-rule="evenodd"
                           d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                           clip-rule="evenodd"
-                        ></path></svg>
-
+                        ></path></svg
+                      >
                     {/if}
 
                     <label
@@ -3801,7 +3807,8 @@
                 ><path
                   fill="currentColor"
                   d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                /></svg>
+                /></svg
+              >
 
               <div>{stock_screener_save()}</div>
             </label>
@@ -3838,7 +3845,8 @@
                   ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
                     d="M7.5 6.5h-4v-4"
                   /></g
-                ></svg>
+                ></svg
+              >
 
               <div>{stock_screener_reset_all()}</div>
             </label>
@@ -3889,8 +3897,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path></svg>
-
+                      ></path></svg
+                    >
                   {:else}
                     <svg
                       class="w-6 h-6"
@@ -3924,8 +3932,13 @@
                                 : "Any"}
                             {:else if row?.rule === "marketCapGroup"}
                               {Array.isArray(valueMappings[row?.rule])
-                                ? valueMappings[row?.rule]?.map(v => v?.replace(/\s*\(.*?\)/, ""))?.join(", ")
-                                : String(valueMappings[row?.rule])?.replace(/\s*\(.*?\)/, "")}
+                                ? valueMappings[row?.rule]
+                                    ?.map((v) => v?.replace(/\s*\(.*?\)/, ""))
+                                    ?.join(", ")
+                                : String(valueMappings[row?.rule])?.replace(
+                                    /\s*\(.*?\)/,
+                                    "",
+                                  )}
                             {:else}
                               {ruleCondition[row?.rule]
                                 ?.replace("under", "Under")
@@ -3990,8 +4003,8 @@
                                           fill-rule="evenodd"
                                           d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                           clip-rule="evenodd"
-                                        ></path></svg>
-
+                                        ></path></svg
+                                      >
                                     </Button>
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content>
@@ -4076,9 +4089,9 @@
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      ></path></svg>
-</button
-                                  >
+                                      ></path></svg
+                                    >
+                                  </button>
                                   <button
                                     on:click={() =>
                                       stepSizeValue(
@@ -4096,9 +4109,9 @@
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      ></path></svg>
-</button
-                                  >
+                                      ></path></svg
+                                    >
+                                  </button>
                                 </div>
                               {/if}
                               <!--End Dropdown for Condition-->
@@ -4256,7 +4269,9 @@
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
       {#if isDataLoading && filteredData?.length === 0}
-        <span class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+        <span
+          class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+        ></span>
       {:else}
         {stock_screener_stocks_count({
           count: filteredData?.length?.toLocaleString("en-US"),
@@ -4282,8 +4297,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg>
-
+                  /></svg
+                >
               </label>
             {/if}
           </div>
@@ -4485,10 +4500,23 @@
             <tbody>
               {#if isDataLoading && displayResults?.length === 0}
                 {#each Array(10) as _}
-                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                  <tr
+                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  >
                     {#each columns as column}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
-                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align ===
+                        'left'
+                          ? 'text-start'
+                          : 'text-end'}"
+                      >
+                        <span
+                          class="inline-block h-4 {column.key === 'name'
+                            ? 'w-24'
+                            : column.key === 'symbol'
+                              ? 'w-12'
+                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       </td>
                     {/each}
                   </tr>
@@ -4546,7 +4574,9 @@
                         {#if item?.volume}
                           {abbreviateNumber(item?.volume)}
                         {:else if !("volume" in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           n/a
                         {/if}
@@ -4556,7 +4586,9 @@
                         {#if item?.priceToEarningsRatio != null}
                           {item?.priceToEarningsRatio}
                         {:else if !("priceToEarningsRatio" in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           n/a
                         {/if}
@@ -4586,10 +4618,23 @@
             <tbody>
               {#if isDataLoading && displayResults?.length === 0}
                 {#each Array(10) as _}
-                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                  <tr
+                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  >
                     {#each columns as column}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
-                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align ===
+                        'left'
+                          ? 'text-start'
+                          : 'text-end'}"
+                      >
+                        <span
+                          class="inline-block h-4 {column.key === 'name'
+                            ? 'w-24'
+                            : column.key === 'symbol'
+                              ? 'w-12'
+                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       </td>
                     {/each}
                   </tr>
@@ -4634,7 +4679,9 @@
                               ?.replace("Before Market Open", "Before Open")
                               ?.replace(/\s*\(.*?\)/, "")}
                           {:else if !(column.key in item)}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
                           {:else}
                             n/a
                           {/if}
@@ -4650,7 +4697,9 @@
                               },
                             )}
                           {:else if !(column.key in item)}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
                           {:else}
                             n/a
                           {/if}
@@ -4664,13 +4713,17 @@
                               {abbreviateNumber(item[column.key])}%
                             </span>
                           {:else}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
                           {/if}
                         {:else if row?.varType && row?.varType === "percent"}
                           {#if column.key in item}
                             {abbreviateNumber(item[column.key])}%
                           {:else}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
                           {/if}
                         {:else if ["score", "analystRating", "topAnalystRating"].includes(column.key)}
                           {#if ["Strong Buy", "Buy"].includes(item[column.key])}
@@ -4687,16 +4740,18 @@
                               >{item[column.key]}</span
                             >
                           {:else if !(column.key in item)}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
                           {:else}
                             -
                           {/if}
+                        {:else if column.key in item}
+                          {abbreviateNumber(item[column.key])}
                         {:else}
-                          {#if column.key in item}
-                            {abbreviateNumber(item[column.key])}
-                          {:else}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
-                          {/if}
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {/if}
                       </td>
                     {/if}
@@ -4724,10 +4779,23 @@
             <tbody>
               {#if isDataLoading && displayResults?.length === 0}
                 {#each Array(10) as _}
-                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                  <tr
+                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  >
                     {#each columns as column}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
-                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align ===
+                        'left'
+                          ? 'text-start'
+                          : 'text-end'}"
+                      >
+                        <span
+                          class="inline-block h-4 {column.key === 'name'
+                            ? 'w-24'
+                            : column.key === 'symbol'
+                              ? 'w-12'
+                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       </td>
                     {/each}
                   </tr>
@@ -4775,7 +4843,9 @@
                             )}%</span
                           >
                         {:else if !(column.key in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           <span class="">n/a</span>
                         {/if}
@@ -4805,10 +4875,23 @@
             <tbody>
               {#if isDataLoading && displayResults?.length === 0}
                 {#each Array(10) as _}
-                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                  <tr
+                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  >
                     {#each columns as column}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
-                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align ===
+                        'left'
+                          ? 'text-start'
+                          : 'text-end'}"
+                      >
+                        <span
+                          class="inline-block h-4 {column.key === 'name'
+                            ? 'w-24'
+                            : column.key === 'symbol'
+                              ? 'w-12'
+                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       </td>
                     {/each}
                   </tr>
@@ -4846,7 +4929,9 @@
                         {#if item[column.key]}
                           <span>{abbreviateNumber(item[column.key])}</span>
                         {:else if !(column.key in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           <span>n/a</span>
                         {/if}
@@ -4864,7 +4949,9 @@
                             >{item[column.key]?.toFixed(2)}%</span
                           >
                         {:else if !(column.key in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           <span class="">n/a</span>
                         {/if}
@@ -4886,7 +4973,9 @@
                             >{item[column.key]}</span
                           >
                         {:else if !(column.key in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           n/a
                         {/if}
@@ -4898,7 +4987,9 @@
                         {#if column.key in item}
                           {item[column.key] ?? "n/a"}
                         {:else}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {/if}
                       </td>
                     {/if}
@@ -4926,10 +5017,23 @@
             <tbody>
               {#if isDataLoading && displayResults?.length === 0}
                 {#each Array(10) as _}
-                  <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                  <tr
+                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  >
                     {#each columns as column}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
-                        <span class="inline-block h-4 {column.key === 'name' ? 'w-24' : column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                      <td
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align ===
+                        'left'
+                          ? 'text-start'
+                          : 'text-end'}"
+                      >
+                        <span
+                          class="inline-block h-4 {column.key === 'name'
+                            ? 'w-24'
+                            : column.key === 'symbol'
+                              ? 'w-12'
+                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       </td>
                     {/each}
                   </tr>
@@ -4971,18 +5075,20 @@
                           {#if item[column.key]}
                             {abbreviateNumber(item[column.key]) + "%"}
                           {:else if !(column.key in item)}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
                           {:else}
                             n/a
                           {/if}
+                        {:else if item[column.key]}
+                          {abbreviateNumber(item[column.key])}
+                        {:else if !(column.key in item)}
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
-                          {#if item[column.key]}
-                            {abbreviateNumber(item[column.key])}
-                          {:else if !(column.key in item)}
-                            <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
-                          {:else}
-                            n/a
-                          {/if}
+                          n/a
                         {/if}
                       </td>
                     {/if}
@@ -5210,7 +5316,8 @@
               ><path
                 fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-              /></svg>
+              /></svg
+            >
           </label>
         </div>
 
@@ -5262,9 +5369,9 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M6 18L18 6M6 6l12 12"
-                  ></path></svg>
-</button
-              >
+                  ></path></svg
+                >
+              </button>
             </div>
 
             <input
@@ -5305,7 +5412,8 @@
                       ><path
                         fill="currentColor"
                         d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      /></svg>
+                      /></svg
+                    >
 
                     <div class="">
                       <label for={row?.rule} class="cursor-pointer text-[1rem]"
@@ -5366,7 +5474,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -5420,7 +5529,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       {stock_screener_modal_delete_title()}
@@ -5460,8 +5570,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-{stock_screener_modal_delete_confirm()}</label
+          ></line></svg
+        >
+        {stock_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>
@@ -5490,7 +5601,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class=" mb-5 text-center">
       <h3 class="font-semibold text-2xl mb-5 text-gray-900 dark:text-white">

@@ -3,7 +3,7 @@
   import { clearCache } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
   import ChartNoAxesCombined from "lucide-svelte/icons/chart-no-axes-combined";
-
+  import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { scale, fade } from "svelte/transition";
@@ -81,7 +81,6 @@
     covered_call_screener_modal_delete_message,
     covered_call_screener_modal_delete_cancel,
     covered_call_screener_modal_delete_confirm,
-    covered_call_screener_toast_pro_only,
     covered_call_screener_toast_deleting,
     covered_call_screener_toast_deleted,
     covered_call_screener_toast_delete_failed,
@@ -115,8 +114,14 @@
   let modalItem: any = null;
 
   const CHART_MODAL_FIELDS = [
-    "bid", "breakeven", "pctBeBid", "moneynessPercent",
-    "returnVal", "annualizedReturn", "ptnlRtn", "ifCalledAnnualized",
+    "bid",
+    "breakeven",
+    "pctBeBid",
+    "moneynessPercent",
+    "returnVal",
+    "annualizedReturn",
+    "ptnlRtn",
+    "ifCalledAnnualized",
     "profitProb",
   ];
   let chartDataCache = new Map<string, any>();
@@ -128,24 +133,45 @@
   let displayRules = [];
   let inputValue = "";
 
-  const checkedRules = ["assetType", "marketCapGroup", "earningsTime", "earningsDate", "payoutFrequency", "exDividendDate"];
+  const checkedRules = [
+    "assetType",
+    "marketCapGroup",
+    "earningsTime",
+    "earningsDate",
+    "payoutFrequency",
+    "exDividendDate",
+  ];
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
     { key: "highYield", label: covered_call_screener_strategy_high_yield() },
-    { key: "conservative", label: covered_call_screener_strategy_conservative() },
-    { key: "weeklyIncome", label: covered_call_screener_strategy_weekly_income() },
-    { key: "highProtection", label: covered_call_screener_strategy_high_protection() },
+    {
+      key: "conservative",
+      label: covered_call_screener_strategy_conservative(),
+    },
+    {
+      key: "weeklyIncome",
+      label: covered_call_screener_strategy_weekly_income(),
+    },
+    {
+      key: "highProtection",
+      label: covered_call_screener_strategy_high_protection(),
+    },
     { key: "bluechipCC", label: covered_call_screener_strategy_bluechip_cc() },
   ];
 
   function conditionLabel(condition) {
     switch (condition) {
-      case "over": return covered_call_screener_condition_over();
-      case "under": return covered_call_screener_condition_under();
-      case "between": return covered_call_screener_condition_between();
-      case "exactly": return covered_call_screener_condition_exactly();
-      default: return condition ?? "";
+      case "over":
+        return covered_call_screener_condition_over();
+      case "under":
+        return covered_call_screener_condition_under();
+      case "between":
+        return covered_call_screener_condition_between();
+      case "exactly":
+        return covered_call_screener_condition_exactly();
+      default:
+        return condition ?? "";
     }
   }
 
@@ -609,9 +635,7 @@
         modalCheckbox.checked = true;
       }
     } else {
-      toast.info(covered_call_screener_toast_pro_only(), {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+      goto("/pricing");
     }
   }
 
@@ -1780,7 +1804,13 @@
     oi: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = ["earningsDate", "earningsTime", "exDividendDate", "payoutFrequency", "marketCapGroup"];
+  const stringTypeRules = [
+    "earningsDate",
+    "earningsTime",
+    "exDividendDate",
+    "payoutFrequency",
+    "marketCapGroup",
+  ];
 
   const getType = (key) =>
     stringTypeRules.includes(key) ? "string" : "number";
@@ -1936,7 +1966,8 @@
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">{covered_call_screener_breadcrumb_title()}</span
+      <span class="text-gray-500 dark:text-zinc-400"
+        >{covered_call_screener_breadcrumb_title()}</span
       >
     </li>
   </BreadCrumb>
@@ -1968,7 +1999,9 @@
                 >
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
-                      ? popularStrategyList.find(s => s.key === selectedPopularStrategy)?.label ?? covered_call_screener_select_popular()
+                      ? (popularStrategyList.find(
+                          (s) => s.key === selectedPopularStrategy,
+                        )?.label ?? covered_call_screener_select_popular())
                       : covered_call_screener_select_popular()}</span
                   >
                   <svg
@@ -2077,7 +2110,9 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">{covered_call_screener_new_screen()}</div>
+                      <div class="text-sm text-start">
+                        {covered_call_screener_new_screen()}
+                      </div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -2095,7 +2130,9 @@
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
-                        : item?.title} ({item?.id === selectedStrategy ? ruleOfList?.length : item?.rules?.length})
+                        : item?.title} ({item?.id === selectedStrategy
+                        ? ruleOfList?.length
+                        : item?.rules?.length})
 
                       <label
                         for="deleteStrategy"
@@ -2201,7 +2238,9 @@
                 </div>
                 <input
                   type="text"
-                  placeholder={covered_call_screener_search_filters({ count: allRows?.length })}
+                  placeholder={covered_call_screener_search_filters({
+                    count: allRows?.length,
+                  })}
                   bind:value={quickSearchTerm}
                   on:input={handleQuickSearchInput}
                   on:keydown={handleQuickSearchKeydown}
@@ -2321,9 +2360,7 @@
                       : ""}
                   on:click={() => {
                     if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
-                      toast.info(covered_call_screener_toast_pro_only(), {
-                        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                      });
+                      goto("/pricing");
                     }
                   }}
                   class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
@@ -2440,8 +2477,13 @@
                                 : covered_call_screener_condition_any()}
                             {:else if row?.rule === "marketCapGroup"}
                               {Array.isArray(valueMappings[row?.rule])
-                                ? valueMappings[row?.rule]?.map(v => v?.replace(/\s*\(.*?\)/, ""))?.join(", ")
-                                : String(valueMappings[row?.rule])?.replace(/\s*\(.*?\)/, "")}
+                                ? valueMappings[row?.rule]
+                                    ?.map((v) => v?.replace(/\s*\(.*?\)/, ""))
+                                    ?.join(", ")
+                                : String(valueMappings[row?.rule])?.replace(
+                                    /\s*\(.*?\)/,
+                                    "",
+                                  )}
                             {:else}
                               {conditionLabel(ruleCondition[row?.rule])}
                               {valueMappings[row?.rule]}
@@ -2487,7 +2529,9 @@
                                       class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                     >
                                       <span class="truncate ml-2 text-sm">
-                                        {conditionLabel(ruleCondition[ruleName])}
+                                        {conditionLabel(
+                                          ruleCondition[ruleName],
+                                        )}
                                       </span>
                                       <svg
                                         class="mt-1 -mr-1 ml-1 h-5 w-5 xs:ml-2 ml-0! sm:ml-0 inline-block"
@@ -2505,12 +2549,7 @@
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content>
                                     <DropdownMenu.Group>
-                                      {#each [
-                                        { value: "Over", label: covered_call_screener_condition_over() },
-                                        { value: "Under", label: covered_call_screener_condition_under() },
-                                        { value: "Between", label: covered_call_screener_condition_between() },
-                                        { value: "Exactly", label: covered_call_screener_condition_exactly() },
-                                      ] as item}
+                                      {#each [{ value: "Over", label: covered_call_screener_condition_over() }, { value: "Under", label: covered_call_screener_condition_under() }, { value: "Between", label: covered_call_screener_condition_between() }, { value: "Exactly", label: covered_call_screener_condition_exactly() }] as item}
                                         <DropdownMenu.Item
                                           on:click={() =>
                                             changeRuleCondition(
@@ -2711,9 +2750,16 @@
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
       {#if isDataLoading && filteredData?.length === 0}
-        <span class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+        <span
+          class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+        ></span>
       {:else}
-        {covered_call_screener_contracts_count({ count: (data?.user?.tier === "Pro" ? filteredData?.length : totalContracts)?.toLocaleString("en-US") })}
+        {covered_call_screener_contracts_count({
+          count: (data?.user?.tier === "Pro"
+            ? filteredData?.length
+            : totalContracts
+          )?.toLocaleString("en-US"),
+        })}
       {/if}
     </h2>
     <div
@@ -2807,7 +2853,9 @@
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth ? covered_call_screener_normal_width() : covered_call_screener_full_width()}</span
+            >{isFullWidth
+              ? covered_call_screener_normal_width()
+              : covered_call_screener_full_width()}</span
           >
         </button>
 
@@ -2913,10 +2961,21 @@
           <tbody>
             {#if isDataLoading && displayResults?.length === 0}
               {#each Array(10) as _}
-                <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-none">
+                <tr
+                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                >
                   {#each columns as column}
-                    <td class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align === 'left' ? 'text-start' : 'text-end'}">
-                      <span class="inline-block h-4 {column.key === 'symbol' ? 'w-12' : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                    <td
+                      class="whitespace-nowrap text-sm sm:text-[0.95rem] {column.align ===
+                      'left'
+                        ? 'text-start'
+                        : 'text-end'}"
+                    >
+                      <span
+                        class="inline-block h-4 {column.key === 'symbol'
+                          ? 'w-12'
+                          : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                      ></span>
                     </td>
                   {/each}
                 </tr>
@@ -2970,7 +3029,9 @@
                       {#if item[column.key] != null}
                         {item[column.key] + "%"}
                       {:else if !(column.key in item)}
-                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        <span
+                          class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       {:else}
                         n/a
                       {/if}
@@ -2980,7 +3041,9 @@
                       {#if item[column.key] != null}
                         {item[column.key]?.toLocaleString("en-US")}
                       {:else if !(column.key in item)}
-                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        <span
+                          class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       {:else}
                         n/a
                       {/if}
@@ -2990,7 +3053,9 @@
                       {#if item[column.key] != null}
                         {item[column.key]?.toFixed(2)}
                       {:else if !(column.key in item)}
-                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        <span
+                          class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       {:else}
                         n/a
                       {/if}
@@ -3004,7 +3069,9 @@
                       {#if item[column.key] != null}
                         {item[column.key]}
                       {:else if !(column.key in item)}
-                        <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                        <span
+                          class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                        ></span>
                       {:else}
                         n/a
                       {/if}
@@ -3017,27 +3084,31 @@
                       {#if ["earningsTime", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
                         {#if item[column.key]}
                           {item[column.key]
-                              ?.replace("After Market Close", "After Close")
-                              ?.replace("Before Market Open", "Before Open")
-                              ?.replace(/\s*\(.*?\)/, "")}
+                            ?.replace("After Market Close", "After Close")
+                            ?.replace("Before Market Open", "Before Open")
+                            ?.replace(/\s*\(.*?\)/, "")}
                         {:else if !(column.key in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           n/a
                         {/if}
                       {:else if rule?.varType === "date"}
                         {#if item[column.key]}
                           {new Date(item[column.key]).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                                timeZone: "UTC",
-                              },
-                            )}
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              timeZone: "UTC",
+                            },
+                          )}
                         {:else if !(column.key in item)}
-                          <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                          <span
+                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                          ></span>
                         {:else}
                           n/a
                         {/if}
@@ -3092,13 +3163,18 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">{covered_call_screener_pagination_previous()}</span>
+              <span class="hidden sm:inline"
+                >{covered_call_screener_pagination_previous()}</span
+              >
             </Button>
           </div>
 
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {covered_call_screener_pagination_page_of({ current: currentPage, total: totalPages })}
+              {covered_call_screener_pagination_page_of({
+                current: currentPage,
+                total: totalPages,
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -3108,7 +3184,9 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{covered_call_screener_rows_label({ rows: rowsPerPage })}</span
+                    >{covered_call_screener_rows_label({
+                      rows: rowsPerPage,
+                    })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -3142,7 +3220,11 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{covered_call_screener_rows_label({ rows: item })}</span>
+                        <span class="text-sm"
+                          >{covered_call_screener_rows_label({
+                            rows: item,
+                          })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -3157,7 +3239,9 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">{covered_call_screener_pagination_next()}</span>
+              <span class="hidden sm:inline"
+                >{covered_call_screener_pagination_next()}</span
+              >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -3242,7 +3326,9 @@
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {covered_call_screener_select_filters_title({ count: allRows?.length })}
+            {covered_call_screener_select_filters_title({
+              count: allRows?.length,
+            })}
           </h2>
           <label
             for="ruleModal"
