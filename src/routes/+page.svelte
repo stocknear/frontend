@@ -287,21 +287,20 @@
 
   function markMediaFailed(id: string) {
     if (failedMedia.has(id)) return;
-    failedMedia = new Set([...failedMedia, id]);
+    failedMedia.add(id);
+    failedMedia = failedMedia;
   }
 
   type NotificationShowcaseItem = {
     id: string;
     ticker: string;
     category: string;
-    iconPath: string;
     title: string;
     detail: string;
     value: string;
     time: string;
     isNew: boolean;
     toneClass: string;
-    iconBgClass: string;
   };
 
   const notificationShowcaseItems: NotificationShowcaseItem[] = [
@@ -309,7 +308,6 @@
       id: "nvda-earnings",
       ticker: "NVDA",
       category: "Earnings",
-      iconPath: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
       title: "Q4 EPS beat by 12%",
       detail: "Revenue $39.3B vs $37.1B expected",
       value: "+8.2%",
@@ -317,15 +315,11 @@
       isNew: true,
       toneClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
-      iconBgClass:
-        "bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300",
     },
     {
       id: "aapl-price",
       ticker: "AAPL",
       category: "Price Alert",
-      iconPath:
-        "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9",
       title: "Hit your $230 target",
       detail: "Up $4.20 (+1.9%) since alert was set",
       value: "$234.20",
@@ -333,15 +327,11 @@
       isNew: true,
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
-      iconBgClass:
-        "bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300",
     },
     {
       id: "tsla-flow",
       ticker: "TSLA",
       category: "Options Flow",
-      iconPath:
-        "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
       title: "$14.2M bearish put block",
       detail: "Aug 2026 $180 Put — largest TSLA put today",
       value: "Bearish",
@@ -349,15 +339,11 @@
       isNew: false,
       toneClass:
         "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-200",
-      iconBgClass:
-        "bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-300",
     },
     {
       id: "meta-analyst",
       ticker: "META",
       category: "Analyst",
-      iconPath:
-        "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
       title: "Goldman upgraded to Buy",
       detail: "Price target raised from $620 to $710 (+14.5%)",
       value: "+14.5%",
@@ -365,15 +351,11 @@
       isNew: false,
       toneClass:
         "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
-      iconBgClass:
-        "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300",
     },
     {
       id: "msft-insider",
       ticker: "MSFT",
       category: "Insider",
-      iconPath:
-        "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
       title: "CFO bought $2.1M in shares",
       detail: "Open-market purchase at $449 — first buy in 18 months",
       value: "$2.1M",
@@ -381,8 +363,6 @@
       isNew: false,
       toneClass:
         "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
-      iconBgClass:
-        "bg-cyan-100 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-300",
     },
   ];
 
@@ -636,7 +616,49 @@
     heroVideoUnavailable = true;
     showPlayButton = false;
   }
+
+  const reviewCards = [
+    { name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "JG", color: "bg-violet-600" },
+    { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "RC", color: "bg-emerald-600" },
+    { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "EB", color: "bg-blue-600" },
+    { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "GF", color: "bg-amber-600" },
+    { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "PT", color: "bg-rose-600" },
+    { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "SS", color: "bg-cyan-600" },
+  ];
+
+  function lazyPlayVideo(node: HTMLVideoElement) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            node.play().catch(() => {});
+          } else {
+            node.pause();
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(node);
+    return {
+      destroy() {
+        observer.disconnect();
+      },
+    };
+  }
 </script>
+
+<svelte:head>
+  <link rel="preconnect" href="https://financialmodelingprep.com" />
+  <link rel="dns-prefetch" href="https://financialmodelingprep.com" />
+</svelte:head>
+
+<!-- Shared SVG symbol definitions (rendered once, referenced via <use>) -->
+<svg class="hidden" aria-hidden="true">
+  <symbol id="star-icon" viewBox="0 0 24 24">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </symbol>
+</svg>
 
 <SEO
   title={home_seo_title()}
@@ -743,10 +765,13 @@
                 class="w-full min-h-[20rem] object-cover sm:min-h-[25rem] xl:min-h-[32rem]"
                 src="/video/overview.mp4"
                 poster="/img/landing-page/overview.png"
+                preload="metadata"
                 autoplay
                 muted
                 loop
                 playsinline
+                width="1280"
+                height="720"
                 on:error={handleHeroVideoError}
               ></video>
               {#if showPlayButton}
@@ -943,6 +968,8 @@
                   class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                   style="clip-path: circle(50%);"
                   loading="lazy"
+                  width="36"
+                  height="36"
                   on:error={(e) =>
                     ((e.currentTarget as HTMLImageElement).src =
                       "/pwa-192x192.png")}
@@ -961,14 +988,9 @@
                       {item.category}
                     </span>
                     {#if item.isNew}
-                      <span class="relative flex h-1.5 w-1.5">
-                        <span
-                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75"
-                        ></span>
-                        <span
-                          class="relative inline-flex h-1.5 w-1.5 rounded-full bg-violet-500"
-                        ></span>
-                      </span>
+                      <span
+                        class="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500"
+                      ></span>
                     {/if}
                   </div>
                   <p
@@ -1220,6 +1242,8 @@
                           class="h-8 w-8 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                           style="clip-path: circle(50%);"
                           loading="lazy"
+                          width="32"
+                          height="32"
                           on:error={(e) =>
                             ((e.currentTarget as HTMLImageElement).src =
                               "/pwa-192x192.png")}
@@ -1298,6 +1322,8 @@
                       alt="AAPL logo"
                       class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                       style="clip-path: circle(50%);"
+                      width="36"
+                      height="36"
                       loading="lazy"
                       on:error={(e) =>
                         ((e.currentTarget as HTMLImageElement).src =
@@ -1597,11 +1623,13 @@
                   src={block.media.src}
                   poster={block.media.poster}
                   preload="none"
-                  autoplay
                   muted
                   loop
                   playsinline
+                  width="640"
+                  height="360"
                   on:error={() => markMediaFailed(block.id)}
+                  use:lazyPlayVideo
                 ></video>
               {:else}
                 <img
@@ -1701,7 +1729,7 @@
         </h2>
       </div>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {#each [{ name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "JG", color: "bg-violet-600" }, { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "RC", color: "bg-emerald-600" }, { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "EB", color: "bg-blue-600" }, { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "GF", color: "bg-amber-600" }, { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "PT", color: "bg-rose-600" }, { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "SS", color: "bg-cyan-600" }] as review}
+        {#each reviewCards as review}
           <div
             class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
           >
@@ -1721,14 +1749,8 @@
               </svg>
               <div class="flex gap-0.5">
                 {#each Array(5) as _}
-                  <svg
-                    class="w-4 h-4 text-yellow-400"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                    />
+                  <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#star-icon" />
                   </svg>
                 {/each}
               </div>
@@ -1776,14 +1798,8 @@
       <div class="text-center mb-12">
         <div class="flex items-center justify-center gap-1 mb-3">
           {#each Array(5) as _}
-            <svg
-              class="w-6 h-6 text-yellow-400"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-              />
+            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#star-icon" />
             </svg>
           {/each}
         </div>
