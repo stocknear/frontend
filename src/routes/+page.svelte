@@ -128,6 +128,12 @@
       }
     | {
         kind: "analyst-preview";
+      }
+    | {
+        kind: "financial-preview";
+      }
+    | {
+        kind: "wiim-preview";
       };
 
   type FeatureShowcaseBlock = {
@@ -198,12 +204,7 @@
       href: "/news-flow",
       linkLabel: landing_feature_wiim_link,
       media: {
-        kind: "image",
-        src: "/img/landing-page/wiim-chart.png",
-        alt: "Price catalyst chart with event-by-event impact",
-        placeholderTitle: "Catalyst Chart Placeholder",
-        placeholderHint:
-          "Add a chart screenshot at /static/img/landing-page/wiim-chart.png",
+        kind: "wiim-preview",
       },
     },
     {
@@ -229,18 +230,15 @@
         "Most platforms show a narrow window. Stocknear lets you zoom out across up to 30+ years of revenue, margins, cash flow, and balance-sheet history so you can judge business durability, not just short-term momentum.",
       bullets: [
         () => "Validate long-term growth quality before committing capital.",
-        () => "Compare full-cycle performance across bull, bear, and rate regimes.",
-        () => "Spot accounting and cash-flow trend shifts earlier with deeper context.",
+        () =>
+          "Compare full-cycle performance across bull, bear, and rate regimes.",
+        () =>
+          "Spot accounting and cash-flow trend shifts earlier with deeper context.",
       ],
       href: "/stocks/AAPL/financials/custom",
       linkLabel: () => "Explore Financial Charting",
       media: {
-        kind: "image",
-        src: "/img/landing-page/financial-chart.png",
-        alt: "Financial chart with long-term historical company metrics",
-        placeholderTitle: "Financial History Chart Placeholder",
-        placeholderHint:
-          "Add a financial history screenshot at /static/img/landing-page/financial-chart.png",
+        kind: "financial-preview",
       },
     },
   ];
@@ -436,6 +434,96 @@
       company: "Amazon",
       action: "Target Raised",
       target: "$245 PT",
+      toneClass:
+        "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
+    },
+  ];
+
+  type FinancialPreviewMetric = {
+    id: string;
+    label: string;
+    value: string;
+    toneClass: string;
+  };
+
+  const financialPreviewMetrics: FinancialPreviewMetric[] = [
+    {
+      id: "revenue-growth",
+      label: "30Y Revenue Growth",
+      value: "+5,840%",
+      toneClass: "text-emerald-300",
+    },
+    {
+      id: "fcf-margin",
+      label: "Avg FCF Margin",
+      value: "24.1%",
+      toneClass: "text-cyan-300",
+    },
+    {
+      id: "profit-cycles",
+      label: "Profit Cycles Tracked",
+      value: "7",
+      toneClass: "text-blue-300",
+    },
+    {
+      id: "history-window",
+      label: "History Window",
+      value: "1995-2025",
+      toneClass: "text-zinc-100",
+    },
+  ];
+
+  type FinancialPreviewBar = {
+    id: string;
+    year: string;
+    valueLabel: string;
+    height: number;
+  };
+
+  const financialPreviewBars: FinancialPreviewBar[] = [
+    { id: "y1995", year: "1995", valueLabel: "$7B", height: 24 },
+    { id: "y2000", year: "2000", valueLabel: "$18B", height: 38 },
+    { id: "y2005", year: "2005", valueLabel: "$42B", height: 56 },
+    { id: "y2010", year: "2010", valueLabel: "$92B", height: 78 },
+    { id: "y2015", year: "2015", valueLabel: "$188B", height: 104 },
+    { id: "y2020", year: "2020", valueLabel: "$274B", height: 130 },
+    { id: "y2025", year: "2025", valueLabel: "$392B", height: 150 },
+  ];
+
+  type WiimPreviewEvent = {
+    id: string;
+    time: string;
+    title: string;
+    detail: string;
+    impact: string;
+    toneClass: string;
+  };
+
+  const wiimPreviewEvents: WiimPreviewEvent[] = [
+    {
+      id: "pre-market",
+      time: "08:31",
+      title: "EPS beat vs consensus",
+      detail: "Quarterly earnings beat estimates by 11.8%",
+      impact: "+2.6%",
+      toneClass:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
+    },
+    {
+      id: "open",
+      time: "09:47",
+      title: "Guidance raised for FY26",
+      detail: "Management increased full-year revenue outlook",
+      impact: "+1.9%",
+      toneClass:
+        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
+    },
+    {
+      id: "mid-day",
+      time: "12:22",
+      title: "Analyst target revisions",
+      detail: "Multiple brokers raised targets after the call",
+      impact: "+1.1%",
       toneClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
     },
@@ -870,14 +958,15 @@
                 >
                   <div
                     class="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.2),transparent_42%),radial-gradient(circle_at_85%_85%,rgba(255,255,255,0.16),transparent_48%)]"
-                  >
-                  </div>
+                  ></div>
                   <div class="relative space-y-3.5 sm:space-y-4">
                     {#each analystPreviewMetrics as metric (metric.id)}
                       <div
                         class={`rounded-2xl border border-white/30 bg-white/95 p-4 shadow-[0_10px_24px_rgba(2,6,23,0.25)] sm:p-5 ${metric.cardClass}`}
                       >
-                        <p class="text-sm font-medium text-gray-700 sm:text-base">
+                        <p
+                          class="text-sm font-medium text-gray-700 sm:text-base"
+                        >
                           {metric.label}
                         </p>
                         <p
@@ -921,7 +1010,9 @@
                                 "/pwa-192x192.png")}
                           />
                           <div class="min-w-0 flex-1">
-                            <p class="truncate text-xs font-semibold sm:text-sm">
+                            <p
+                              class="truncate text-xs font-semibold sm:text-sm"
+                            >
                               {call.company}
                             </p>
                             <p class="truncate text-[0.7rem] text-white/70">
@@ -934,6 +1025,253 @@
                             {call.target}
                           </span>
                         </a>
+                      {/each}
+                    </div>
+                  </div>
+                </div>
+              {:else if block.media.kind === "wiim-preview"}
+                <div
+                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
+                >
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p
+                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
+                      >
+                        Why Price Moved
+                      </p>
+                      <h4
+                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
+                      >
+                        AAPL intraday move explained
+                      </h4>
+                    </div>
+                    <span
+                      class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200"
+                    >
+                      +5.4%
+                    </span>
+                  </div>
+
+                  <div
+                    class="mt-4 rounded-xl border border-gray-200 bg-gray-50/80 p-3 dark:border-zinc-700 dark:bg-zinc-950/60"
+                  >
+                    <svg
+                      viewBox="0 0 320 110"
+                      class="h-24 w-full text-emerald-500"
+                      role="img"
+                      aria-label="Price trend line"
+                    >
+                      <defs>
+                        <linearGradient
+                          id="wiimTrendGradient"
+                          x1="0%"
+                          y1="0%"
+                          x2="0%"
+                          y2="100%"
+                        >
+                          <stop
+                            offset="0%"
+                            stop-color="currentColor"
+                            stop-opacity="0.25"
+                          ></stop>
+                          <stop
+                            offset="100%"
+                            stop-color="currentColor"
+                            stop-opacity="0"
+                          ></stop>
+                        </linearGradient>
+                      </defs>
+                      <line
+                        x1="8"
+                        y1="18"
+                        x2="312"
+                        y2="18"
+                        stroke="currentColor"
+                        stroke-opacity="0.12"
+                        stroke-width="1"
+                      ></line>
+                      <line
+                        x1="8"
+                        y1="56"
+                        x2="312"
+                        y2="56"
+                        stroke="currentColor"
+                        stroke-opacity="0.12"
+                        stroke-width="1"
+                      ></line>
+                      <line
+                        x1="8"
+                        y1="94"
+                        x2="312"
+                        y2="94"
+                        stroke="currentColor"
+                        stroke-opacity="0.12"
+                        stroke-width="1"
+                      ></line>
+                      <path
+                        d="M10 78 C36 80,62 79,90 77 C116 75,142 76,170 74 C176 73,182 66,188 58 C198 49,210 51,220 55 C234 59,246 47,260 44 C278 40,296 42,310 38 L310 94 L10 94 Z"
+                        fill="url(#wiimTrendGradient)"
+                      ></path>
+                      <line
+                        x1="184"
+                        y1="10"
+                        x2="184"
+                        y2="94"
+                        stroke="#f59e0b"
+                        stroke-opacity="0.9"
+                        stroke-width="1.5"
+                        stroke-dasharray="4 4"
+                      ></line>
+                      <circle cx="188" cy="58" r="3.2" fill="#f59e0b"></circle>
+                      <text
+                        x="190"
+                        y="14"
+                        fill="#f59e0b"
+                        font-size="8"
+                        font-weight="600"
+                      >
+                        News hit
+                      </text>
+                      <path
+                        d="M10 78 C36 80,62 79,90 77 C116 75,142 76,170 74 C176 73,182 66,188 58 C198 49,210 51,220 55 C234 59,246 47,260 44 C278 40,296 42,310 38"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </div>
+
+                  <div class="mt-3 space-y-2">
+                    {#each wiimPreviewEvents as event (event.id)}
+                      <a
+                        href="/news-flow"
+                        class="flex items-start gap-2.5 rounded-lg border border-gray-200 px-3 py-2.5 transition hover:border-violet-300 dark:border-zinc-700 dark:hover:border-violet-500/50"
+                      >
+                        <span
+                          class="mt-0.5 shrink-0 text-[0.68rem] font-semibold text-gray-500 dark:text-zinc-400"
+                        >
+                          {event.time}
+                        </span>
+                        <div class="min-w-0 flex-1">
+                          <p
+                            class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
+                          >
+                            {event.title}
+                          </p>
+                          <p
+                            class="truncate text-xs text-gray-600 dark:text-zinc-400"
+                          >
+                            {event.detail}
+                          </p>
+                        </div>
+                        <span
+                          class={`whitespace-nowrap rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${event.toneClass}`}
+                        >
+                          {event.impact}
+                        </span>
+                      </a>
+                    {/each}
+                  </div>
+                </div>
+              {:else if block.media.kind === "financial-preview"}
+                <div
+                  class="relative overflow-hidden rounded-2xl border border-[#1b2538] bg-gradient-to-br from-[#02050c] via-[#060b15] to-[#081225] p-4 shadow-[0_14px_35px_rgba(2,6,23,0.55)] sm:p-6"
+                >
+                  <div
+                    class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_16%,rgba(16,185,129,0.18),transparent_40%),radial-gradient(circle_at_88%_8%,rgba(59,130,246,0.19),transparent_42%),radial-gradient(circle_at_70%_95%,rgba(139,92,246,0.14),transparent_46%)]"
+                  ></div>
+                  <div class="relative">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p
+                          class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-cyan-300/85"
+                        >
+                          Financial History
+                        </p>
+                        <h4
+                          class="mt-1 text-base font-semibold text-zinc-100 sm:text-lg"
+                        >
+                          Company Fundamentals Over 30+ Years
+                        </h4>
+                      </div>
+                      <div
+                        class="inline-flex items-center gap-1 rounded-full border border-[#22304b] bg-[#091021]/95 px-2 py-1 text-[0.62rem] font-semibold text-zinc-400 shadow-sm"
+                      >
+                        <span
+                          class="rounded-full bg-emerald-500 px-2 py-0.5 text-[#04140c]"
+                          >Max</span
+                        >
+                        <span class="px-1">10Y</span>
+                        <span class="px-1">5Y</span>
+                      </div>
+                    </div>
+
+                    <div
+                      class="mt-4 rounded-xl border border-[#1f2a3f] bg-[#060c19]/85 p-3 sm:p-4"
+                    >
+                      <div
+                        class="relative h-44 rounded-lg bg-gradient-to-b from-[#081121] via-[#050b17] to-[#04070f] px-2 pb-2 pt-5"
+                      >
+                        <div
+                          class="pointer-events-none absolute inset-x-0 top-5 h-px bg-[#1b2538]"
+                        ></div>
+                        <div
+                          class="pointer-events-none absolute inset-x-0 top-[45%] h-px bg-[#1b2538]"
+                        ></div>
+                        <div
+                          class="pointer-events-none absolute inset-x-0 bottom-2 h-px bg-[#2a3851]"
+                        ></div>
+                        <div
+                          class="absolute inset-x-2 bottom-6 top-7 flex items-end gap-2 sm:gap-3"
+                        >
+                          {#each financialPreviewBars as bar (bar.id)}
+                            <div
+                              class="flex min-w-0 flex-1 flex-col items-center"
+                            >
+                              <div
+                                class="w-full max-w-8 rounded-t-md bg-gradient-to-t from-emerald-500 via-cyan-400 to-blue-500 shadow-[0_8px_18px_rgba(45,212,191,0.3)]"
+                                style={`height: ${bar.height}px`}
+                              ></div>
+                              <p
+                                class="mt-1 truncate text-[0.58rem] font-medium text-zinc-500 sm:text-[0.62rem]"
+                              >
+                                {bar.year}
+                              </p>
+                            </div>
+                          {/each}
+                        </div>
+                        <div
+                          class="absolute left-2 top-1 rounded-md border border-[#1f2b42] bg-[#0b1529] px-2 py-0.5 text-[0.58rem] font-semibold text-zinc-100 sm:text-[0.62rem]"
+                        >
+                          Revenue
+                        </div>
+                        <div
+                          class="absolute right-2 bottom-8 rounded-md bg-emerald-500/90 px-2 py-0.5 text-[0.58rem] font-semibold text-[#04140c] sm:text-[0.62rem]"
+                        >
+                          2025: $392B
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
+                      {#each financialPreviewMetrics as metric (metric.id)}
+                        <div
+                          class="rounded-lg border border-[#1f2a3f] bg-[#091121]/90 px-3 py-2.5"
+                        >
+                          <p
+                            class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-zinc-400"
+                          >
+                            {metric.label}
+                          </p>
+                          <p
+                            class={`mt-1 text-sm font-semibold sm:text-base ${metric.toneClass}`}
+                          >
+                            {metric.value}
+                          </p>
+                        </div>
                       {/each}
                     </div>
                   </div>
