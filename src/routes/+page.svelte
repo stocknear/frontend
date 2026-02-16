@@ -459,28 +459,28 @@
   // --- WIIM Candlestick Chart ---
   type WiimCandle = { o: number; h: number; l: number; c: number };
   const wiimCandles: WiimCandle[] = [
-    { o: 224.80, h: 225.30, l: 224.40, c: 225.00 },
-    { o: 225.00, h: 225.20, l: 224.50, c: 224.70 },
-    { o: 228.20, h: 229.60, l: 227.80, c: 229.30 },
-    { o: 229.30, h: 230.10, l: 228.80, c: 229.70 },
-    { o: 229.70, h: 230.00, l: 229.00, c: 229.20 },
-    { o: 229.20, h: 230.50, l: 229.00, c: 230.30 },
-    { o: 230.30, h: 231.00, l: 229.70, c: 230.80 },
-    { o: 230.80, h: 231.20, l: 230.20, c: 230.50 },
-    { o: 230.50, h: 233.00, l: 230.30, c: 232.80 },
-    { o: 232.80, h: 233.50, l: 232.30, c: 233.00 },
-    { o: 233.00, h: 233.30, l: 232.40, c: 232.60 },
-    { o: 232.60, h: 233.40, l: 232.40, c: 233.20 },
-    { o: 233.20, h: 233.50, l: 232.80, c: 233.00 },
-    { o: 233.00, h: 233.80, l: 232.90, c: 233.60 },
-    { o: 233.60, h: 235.60, l: 233.40, c: 235.30 },
-    { o: 235.30, h: 236.00, l: 234.80, c: 235.50 },
-    { o: 235.50, h: 235.80, l: 234.90, c: 235.10 },
-    { o: 235.10, h: 235.90, l: 234.90, c: 235.70 },
-    { o: 235.70, h: 236.10, l: 235.30, c: 235.50 },
-    { o: 235.50, h: 236.40, l: 235.30, c: 236.10 },
-    { o: 236.10, h: 236.90, l: 235.90, c: 236.70 },
-    { o: 236.70, h: 237.60, l: 236.50, c: 237.42 },
+    { o: 224.8, h: 225.3, l: 224.4, c: 225.0 },
+    { o: 225.0, h: 225.2, l: 224.5, c: 224.7 },
+    { o: 228.2, h: 229.6, l: 227.8, c: 229.3 },
+    { o: 229.3, h: 230.1, l: 228.8, c: 229.7 },
+    { o: 229.7, h: 230.0, l: 229.0, c: 229.2 },
+    { o: 229.2, h: 230.5, l: 229.0, c: 230.3 },
+    { o: 230.3, h: 231.0, l: 229.7, c: 230.8 },
+    { o: 230.8, h: 231.2, l: 230.2, c: 230.5 },
+    { o: 230.5, h: 233.0, l: 230.3, c: 232.8 },
+    { o: 232.8, h: 233.5, l: 232.3, c: 233.0 },
+    { o: 233.0, h: 233.3, l: 232.4, c: 232.6 },
+    { o: 232.6, h: 233.4, l: 232.4, c: 233.2 },
+    { o: 233.2, h: 233.5, l: 232.8, c: 233.0 },
+    { o: 233.0, h: 233.8, l: 232.9, c: 233.6 },
+    { o: 233.6, h: 235.6, l: 233.4, c: 235.3 },
+    { o: 235.3, h: 236.0, l: 234.8, c: 235.5 },
+    { o: 235.5, h: 235.8, l: 234.9, c: 235.1 },
+    { o: 235.1, h: 235.9, l: 234.9, c: 235.7 },
+    { o: 235.7, h: 236.1, l: 235.3, c: 235.5 },
+    { o: 235.5, h: 236.4, l: 235.3, c: 236.1 },
+    { o: 236.1, h: 236.9, l: 235.9, c: 236.7 },
+    { o: 236.7, h: 237.6, l: 236.5, c: 237.42 },
   ];
 
   // Chart geometry (SVG viewBox 0 0 400 180)
@@ -615,12 +615,48 @@
   }
 
   const reviewCards = [
-    { name: landing_review_1_name(), role: landing_review_1_role(), text: landing_review_1_text(), initials: "JG", color: "bg-violet-600" },
-    { name: landing_review_2_name(), role: landing_review_2_role(), text: landing_review_2_text(), initials: "RC", color: "bg-emerald-600" },
-    { name: landing_review_3_name(), role: landing_review_3_role(), text: landing_review_3_text(), initials: "EB", color: "bg-blue-600" },
-    { name: landing_review_4_name(), role: landing_review_4_role(), text: landing_review_4_text(), initials: "GF", color: "bg-amber-600" },
-    { name: landing_review_5_name(), role: landing_review_5_role(), text: landing_review_5_text(), initials: "PT", color: "bg-rose-600" },
-    { name: landing_review_6_name(), role: landing_review_6_role(), text: landing_review_6_text(), initials: "SS", color: "bg-cyan-600" },
+    {
+      name: landing_review_1_name(),
+      role: landing_review_1_role(),
+      text: landing_review_1_text(),
+      initials: "JG",
+      color: "bg-violet-600",
+    },
+    {
+      name: landing_review_2_name(),
+      role: landing_review_2_role(),
+      text: landing_review_2_text(),
+      initials: "RC",
+      color: "bg-emerald-600",
+    },
+    {
+      name: landing_review_3_name(),
+      role: landing_review_3_role(),
+      text: landing_review_3_text(),
+      initials: "EB",
+      color: "bg-blue-600",
+    },
+    {
+      name: landing_review_4_name(),
+      role: landing_review_4_role(),
+      text: landing_review_4_text(),
+      initials: "GF",
+      color: "bg-amber-600",
+    },
+    {
+      name: landing_review_5_name(),
+      role: landing_review_5_role(),
+      text: landing_review_5_text(),
+      initials: "PT",
+      color: "bg-rose-600",
+    },
+    {
+      name: landing_review_6_name(),
+      role: landing_review_6_role(),
+      text: landing_review_6_text(),
+      initials: "SS",
+      color: "bg-cyan-600",
+    },
   ];
 
   function lazyPlayVideo(node: HTMLVideoElement) {
@@ -653,7 +689,9 @@
 <!-- Shared SVG symbol definitions (rendered once, referenced via <use>) -->
 <svg class="hidden" aria-hidden="true">
   <symbol id="star-icon" viewBox="0 0 24 24">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    <path
+      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+    />
   </symbol>
 </svg>
 
@@ -867,7 +905,8 @@
             class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300 max-w-2xl"
           >
             Earnings beats, analyst upgrades, insider buys, options flow spikes,
-            and price targets — delivered in under 2 seconds. While others wait for the headline, you've already seen the filing.
+            and price targets — delivered in under 2 seconds. While others wait
+            for the headline, you've already seen the filing.
           </p>
           <div
             class="mt-5 flex items-center gap-4 text-sm text-gray-600 dark:text-zinc-400"
@@ -1170,9 +1209,7 @@
                   <div class="px-4 pt-3 sm:px-5">
                     <div class="flex items-center justify-between mb-1.5">
                       <div class="flex items-center gap-1.5">
-                        <span
-                          class="inline-block h-2.5 w-2.5 rounded-sm bg-emerald-500"
-                        ></span>
+                        🐂
                         <span
                           class="text-xs font-semibold text-gray-700 dark:text-zinc-300 sm:text-sm"
                         >
@@ -1185,14 +1222,10 @@
                         >
                           {optionsFlowPreviewPutPremiumPct}% Bearish
                         </span>
-                        <span
-                          class="inline-block h-2.5 w-2.5 rounded-sm bg-rose-500"
-                        ></span>
+                        🐻
                       </div>
                     </div>
-                    <div
-                      class="flex h-2.5 w-full overflow-hidden rounded-full"
-                    >
+                    <div class="flex h-2.5 w-full overflow-hidden rounded-full">
                       <div
                         class="bg-emerald-500 transition-all"
                         style={`width: ${optionsFlowPreviewCallPremiumPct}%`}
@@ -1224,9 +1257,7 @@
                               "/pwa-192x192.png")}
                         />
                         <div class="min-w-0 flex-1">
-                          <div
-                            class="flex items-center gap-1.5 flex-wrap"
-                          >
+                          <div class="flex items-center gap-1.5 flex-wrap">
                             <span
                               class="text-sm font-bold text-gray-900 dark:text-white sm:text-base"
                               >{trade.ticker}</span
@@ -1242,8 +1273,7 @@
                             class="mt-0.5 text-xs text-gray-500 dark:text-zinc-400 sm:text-sm"
                           >
                             {trade.contract}
-                            <span
-                              class="text-gray-300 dark:text-zinc-600 mx-1"
+                            <span class="text-gray-300 dark:text-zinc-600 mx-1"
                               >&middot;</span
                             >
                             {trade.signal}
@@ -1338,101 +1368,101 @@
 
                   <!-- Candlestick chart -->
                   <div class="px-3 pt-3 sm:px-4">
-                      <svg
-                        viewBox="0 0 400 180"
-                        class="h-48 w-full sm:h-56"
-                        role="img"
-                        aria-label="AAPL intraday candlestick chart with catalyst markers"
-                      >
-                        <!-- Grid lines + Y-axis labels -->
-                        {#each wiimGridPrices as price}
-                          {@const y = wiimY(price)}
-                          <line
-                            x1={WIIM_C.L}
-                            y1={y}
-                            x2={WIIM_C.W - WIIM_C.R}
-                            y2={y}
-                            stroke="#e5e7eb"
-                            stroke-width="0.5"
-                            class="dark:stroke-zinc-700/60"
-                          ></line>
-                          <text
-                            x={WIIM_C.L - 4}
-                            y={y + 3}
-                            fill="#9ca3af"
-                            font-size="7"
-                            text-anchor="end"
-                            class="dark:fill-zinc-500">${price}</text
-                          >
-                        {/each}
+                    <svg
+                      viewBox="0 0 400 180"
+                      class="h-48 w-full sm:h-56"
+                      role="img"
+                      aria-label="AAPL intraday candlestick chart with catalyst markers"
+                    >
+                      <!-- Grid lines + Y-axis labels -->
+                      {#each wiimGridPrices as price}
+                        {@const y = wiimY(price)}
+                        <line
+                          x1={WIIM_C.L}
+                          y1={y}
+                          x2={WIIM_C.W - WIIM_C.R}
+                          y2={y}
+                          stroke="#e5e7eb"
+                          stroke-width="0.5"
+                          class="dark:stroke-zinc-700/60"
+                        ></line>
+                        <text
+                          x={WIIM_C.L - 4}
+                          y={y + 3}
+                          fill="#9ca3af"
+                          font-size="7"
+                          text-anchor="end"
+                          class="dark:fill-zinc-500">${price}</text
+                        >
+                      {/each}
 
-                        <!-- X-axis time labels -->
-                        {#each wiimTimeLabels as tl}
-                          <text
-                            x={tl.x}
-                            y={WIIM_C.H - 4}
-                            fill="#9ca3af"
-                            font-size="7"
-                            text-anchor="middle"
-                            class="dark:fill-zinc-500">{tl.label}</text
-                          >
-                        {/each}
+                      <!-- X-axis time labels -->
+                      {#each wiimTimeLabels as tl}
+                        <text
+                          x={tl.x}
+                          y={WIIM_C.H - 4}
+                          fill="#9ca3af"
+                          font-size="7"
+                          text-anchor="middle"
+                          class="dark:fill-zinc-500">{tl.label}</text
+                        >
+                      {/each}
 
-                        <!-- Event marker dashed lines (behind candles) -->
-                        {#each wiimEventMarkers as em (em.id)}
-                          <line
-                            x1={em.mx}
-                            y1={WIIM_C.T}
-                            x2={em.mx}
-                            y2={WIIM_C.H - WIIM_C.B}
-                            stroke="#8b5cf6"
-                            stroke-opacity="0.15"
-                            stroke-width="1"
-                            stroke-dasharray="3 2"
-                          ></line>
-                        {/each}
+                      <!-- Event marker dashed lines (behind candles) -->
+                      {#each wiimEventMarkers as em (em.id)}
+                        <line
+                          x1={em.mx}
+                          y1={WIIM_C.T}
+                          x2={em.mx}
+                          y2={WIIM_C.H - WIIM_C.B}
+                          stroke="#8b5cf6"
+                          stroke-opacity="0.15"
+                          stroke-width="1"
+                          stroke-dasharray="3 2"
+                        ></line>
+                      {/each}
 
-                        <!-- Candlesticks -->
-                        {#each wiimCandlePos as cd, i}
-                          <line
-                            x1={cd.cx}
-                            y1={cd.wt}
-                            x2={cd.cx}
-                            y2={cd.wb}
-                            stroke={cd.g ? "#10b981" : "#f43f5e"}
-                            stroke-width="1.2"
-                          ></line>
-                          <rect
-                            x={cd.bx}
-                            y={cd.bt}
-                            width={wiimCW}
-                            height={cd.bh}
-                            fill={cd.g ? "#10b981" : "#f43f5e"}
-                            rx="0.8"
-                          ></rect>
-                        {/each}
+                      <!-- Candlesticks -->
+                      {#each wiimCandlePos as cd, i}
+                        <line
+                          x1={cd.cx}
+                          y1={cd.wt}
+                          x2={cd.cx}
+                          y2={cd.wb}
+                          stroke={cd.g ? "#10b981" : "#f43f5e"}
+                          stroke-width="1.2"
+                        ></line>
+                        <rect
+                          x={cd.bx}
+                          y={cd.bt}
+                          width={wiimCW}
+                          height={cd.bh}
+                          fill={cd.g ? "#10b981" : "#f43f5e"}
+                          rx="0.8"
+                        ></rect>
+                      {/each}
 
-                        <!-- Event marker circles (on top of candles) -->
-                        {#each wiimEventMarkers as em (em.id)}
-                          <circle
-                            cx={em.mx}
-                            cy={12}
-                            r="7.5"
-                            fill="white"
-                            stroke="#7c3aed"
-                            stroke-width="1.5"
-                            class="dark:fill-zinc-900"
-                          ></circle>
-                          <text
-                            x={em.mx}
-                            y={15.5}
-                            fill="#7c3aed"
-                            font-size="8.5"
-                            font-weight="700"
-                            text-anchor="middle">{em.num}</text
-                          >
-                        {/each}
-                      </svg>
+                      <!-- Event marker circles (on top of candles) -->
+                      {#each wiimEventMarkers as em (em.id)}
+                        <circle
+                          cx={em.mx}
+                          cy={12}
+                          r="7.5"
+                          fill="white"
+                          stroke="#7c3aed"
+                          stroke-width="1.5"
+                          class="dark:fill-zinc-900"
+                        ></circle>
+                        <text
+                          x={em.mx}
+                          y={15.5}
+                          fill="#7c3aed"
+                          font-size="8.5"
+                          font-weight="700"
+                          text-anchor="middle">{em.num}</text
+                        >
+                      {/each}
+                    </svg>
                   </div>
 
                   <!-- Move explained bar -->
@@ -1649,7 +1679,12 @@
               </svg>
               <div class="flex gap-0.5">
                 {#each Array(5) as _}
-                  <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg
+                    class="w-4 h-4 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
                     <use href="#star-icon" />
                   </svg>
                 {/each}
@@ -1698,7 +1733,12 @@
       <div class="text-center mb-12">
         <div class="flex items-center justify-center gap-1 mb-3">
           {#each Array(5) as _}
-            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg
+              class="w-6 h-6 text-yellow-400"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
               <use href="#star-icon" />
             </svg>
           {/each}
