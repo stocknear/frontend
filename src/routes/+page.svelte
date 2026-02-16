@@ -299,7 +299,6 @@
     detail: string;
     value: string;
     time: string;
-    isNew: boolean;
     toneClass: string;
   };
 
@@ -312,9 +311,8 @@
       detail: "Revenue $39.3B vs $37.1B expected",
       value: "+8.2%",
       time: "Just now",
-      isNew: true,
       toneClass:
-        "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
     },
     {
       id: "aapl-price",
@@ -324,45 +322,19 @@
       detail: "Up $4.20 (+1.9%) since alert was set",
       value: "$234.20",
       time: "47s ago",
-      isNew: true,
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
-    },
-    {
-      id: "tsla-flow",
-      ticker: "TSLA",
-      category: "Options Flow",
-      title: "$14.2M bearish put block",
-      detail: "Aug 2026 $180 Put — largest TSLA put today",
-      value: "Bearish",
-      time: "2m ago",
-      isNew: false,
-      toneClass:
-        "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-200",
     },
     {
       id: "meta-analyst",
       ticker: "META",
       category: "Analyst",
       title: "Goldman upgraded to Buy",
-      detail: "Price target raised from $620 to $710 (+14.5%)",
+      detail: "Target raised from $620 to $710 (+14.5%)",
       value: "+14.5%",
-      time: "4m ago",
-      isNew: false,
+      time: "3m ago",
       toneClass:
-        "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
-    },
-    {
-      id: "msft-insider",
-      ticker: "MSFT",
-      category: "Insider",
-      title: "CFO bought $2.1M in shares",
-      detail: "Open-market purchase at $449 — first buy in 18 months",
-      value: "$2.1M",
-      time: "7m ago",
-      isNew: false,
-      toneClass:
-        "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
+        "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
     },
   ];
 
@@ -899,7 +871,7 @@
           <h2
             class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
           >
-            5 market-moving events happened in the last 7 minutes.
+            3 market-moving events in the last 3 minutes.
           </h2>
           <p
             class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300 max-w-2xl"
@@ -941,18 +913,12 @@
               <span class="font-medium">6 alert types</span>
             </div>
           </div>
-          <div class="mt-6 flex flex-wrap gap-3">
+          <div class="mt-6">
             <a
               href="/register"
               class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
             >
               Get Started Free
-            </a>
-            <a
-              href="/price-alert"
-              class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-            >
-              See Alert Types
             </a>
           </div>
         </div>
@@ -965,39 +931,18 @@
           <div
             class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
           >
-            <div class="flex items-center gap-2">
-              <span class="text-sm font-bold text-gray-900 dark:text-white"
-                >Alert Feed</span
-              >
-              <span
-                class="rounded-full bg-violet-100 px-2 py-0.5 text-[0.6rem] font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200"
-              >
-                5 new
-              </span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="relative flex h-2 w-2">
-                <span
-                  class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-                ></span>
-                <span
-                  class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
-                ></span>
-              </span>
-              <span
-                class="text-[0.62rem] font-semibold text-emerald-600 dark:text-emerald-400"
-                >Live</span
-              >
-            </div>
+            <span
+              class="text-sm font-bold text-gray-900 dark:text-white sm:text-base"
+              >Alert Feed</span
+            >
           </div>
 
           <!-- Notification rows -->
           <div class="divide-y divide-gray-100 dark:divide-zinc-800">
-            {#each notificationShowcaseItems as item, i (item.id)}
+            {#each notificationShowcaseItems as item (item.id)}
               <div
-                class={`group flex items-center gap-3 px-4 py-3 sm:px-5 transition ${item.isNew ? "bg-violet-50/40 dark:bg-violet-500/[0.04]" : ""}`}
+                class="flex items-center gap-3 px-4 py-3.5 sm:px-5"
               >
-                <!-- Logo -->
                 <img
                   src={`https://financialmodelingprep.com/image-stock/${item.ticker}.png`}
                   alt={`${item.ticker} logo`}
@@ -1010,46 +955,37 @@
                     ((e.currentTarget as HTMLImageElement).src =
                       "/pwa-192x192.png")}
                 />
-
-                <!-- Content -->
                 <div class="min-w-0 flex-1">
                   <div class="flex items-center gap-1.5 flex-wrap">
                     <span
-                      class="text-sm font-bold text-gray-900 dark:text-white"
+                      class="text-sm font-bold text-gray-900 dark:text-white sm:text-base"
                       >{item.ticker}</span
                     >
                     <span
-                      class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.04em] ${item.toneClass}`}
+                      class={`rounded px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.04em] sm:text-[0.68rem] sm:px-2 ${item.toneClass}`}
                     >
                       {item.category}
                     </span>
-                    {#if item.isNew}
-                      <span
-                        class="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500"
-                      ></span>
-                    {/if}
                   </div>
                   <p
-                    class="mt-0.5 truncate text-[0.78rem] font-medium text-gray-800 dark:text-zinc-200"
+                    class="mt-0.5 text-[0.82rem] font-semibold text-gray-800 dark:text-zinc-200 sm:text-sm"
                   >
                     {item.title}
                   </p>
                   <p
-                    class="truncate text-[0.68rem] text-gray-500 dark:text-zinc-400"
+                    class="text-xs text-gray-500 dark:text-zinc-400 sm:text-[0.8rem]"
                   >
                     {item.detail}
                   </p>
                 </div>
-
-                <!-- Value + time -->
                 <div class="shrink-0 text-right">
-                  <span
-                    class={`text-xs font-bold ${item.toneClass.includes("rose") ? "text-rose-700 dark:text-rose-300" : "text-emerald-700 dark:text-emerald-300"}`}
+                  <p
+                    class={`text-sm font-bold sm:text-base ${item.value.startsWith("+") ? "text-emerald-700 dark:text-emerald-300" : "text-gray-900 dark:text-white"}`}
                   >
                     {item.value}
-                  </span>
+                  </p>
                   <p
-                    class="text-[0.6rem] text-gray-400 dark:text-zinc-500 mt-0.5"
+                    class="text-[0.62rem] text-gray-400 dark:text-zinc-500 mt-0.5 sm:text-xs"
                   >
                     {item.time}
                   </p>
@@ -1060,18 +996,16 @@
 
           <!-- Footer -->
           <div
-            class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5 flex items-center justify-between bg-gray-50/50 dark:bg-zinc-950/30"
+            class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5"
           >
-            <p class="text-[0.62rem] text-gray-500 dark:text-zinc-400">
-              <span class="font-semibold text-gray-700 dark:text-zinc-300"
-                >Earnings · Analysts · Insider · Flow · Price · News</span
+            <p
+              class="text-xs text-gray-500 dark:text-zinc-400 sm:text-sm"
+            >
+              Delivered in <span
+                class="font-semibold text-gray-700 dark:text-zinc-300"
+                >&lt; 2 seconds</span
               >
             </p>
-            <span
-              class="text-[0.58rem] font-semibold text-violet-600 dark:text-violet-400"
-            >
-              Delivered in &lt; 2 sec
-            </span>
           </div>
         </div>
       </div>
@@ -1138,21 +1072,9 @@
               </ul>
               <a
                 href={block.href}
-                class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:underline"
+                class="inline-flex items-center justify-center rounded-full px-6 py-2.5 mt-6 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
               >
                 {block.linkLabel()}
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  /></svg
-                >
               </a>
             </div>
 
@@ -1170,27 +1092,11 @@
                     class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
                   >
                     <div>
-                      <div class="flex items-center gap-2">
                         <p
                           class="text-xs font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400 sm:text-sm"
                         >
                           Whale Options Flow
                         </p>
-                        <div class="flex items-center gap-1">
-                          <span class="relative flex h-2 w-2">
-                            <span
-                              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-                            ></span>
-                            <span
-                              class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
-                            ></span>
-                          </span>
-                          <span
-                            class="text-[0.6rem] font-semibold text-emerald-600 dark:text-emerald-400"
-                            >Live</span
-                          >
-                        </div>
-                      </div>
                       <p
                         class="mt-1 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl"
                       >
@@ -1349,20 +1255,6 @@
                           >+$12.62 (+5.6%)</span
                         >
                       </div>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="relative flex h-2 w-2">
-                        <span
-                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-                        ></span>
-                        <span
-                          class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
-                        ></span>
-                      </span>
-                      <span
-                        class="text-[0.62rem] font-semibold text-emerald-600 dark:text-emerald-400"
-                        >Live</span
-                      >
                     </div>
                   </div>
 
