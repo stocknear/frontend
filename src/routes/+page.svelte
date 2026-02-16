@@ -369,7 +369,7 @@
       flowTag: "Call Sweep",
       sentiment: "Bullish",
       putCall: "Calls",
-      contract: "Sep20'26 140C",
+      contract: "Sep 20, 2026 $140 Call",
       execution: "Above Ask",
       premiumValue: 18_400_000,
       sizeValue: 12_400,
@@ -386,7 +386,7 @@
       flowTag: "Put Block",
       sentiment: "Bearish",
       putCall: "Puts",
-      contract: "Aug16'26 180P",
+      contract: "Aug 16, 2026 $180 Put",
       execution: "At Bid",
       premiumValue: 14_200_000,
       sizeValue: 8_950,
@@ -403,7 +403,7 @@
       flowTag: "Call Block",
       sentiment: "Bullish",
       putCall: "Calls",
-      contract: "Jan17'27 260C",
+      contract: "Jan 17, 2027 $260 Call",
       execution: "At Ask",
       premiumValue: 11_700_000,
       sizeValue: 7_100,
@@ -420,7 +420,7 @@
       flowTag: "Put Sweep",
       sentiment: "Bearish",
       putCall: "Puts",
-      contract: "Jul19'26 505P",
+      contract: "Jul 19, 2026 $505 Put",
       execution: "Between",
       premiumValue: 9_600_000,
       sizeValue: 15_200,
@@ -1053,8 +1053,8 @@
                     </div>
                     <p class="mt-1.5 text-[0.6rem] text-gray-400 dark:text-zinc-500">
                       {optionsFlowPreviewCallPremiumPct > optionsFlowPreviewPutPremiumPct
-                        ? "Smart money is leaning bullish today"
-                        : "Smart money is leaning bearish today"}
+                        ? "Big whales are leaning bullish today"
+                        : "Big whales are leaning bearish today"}
                     </p>
                   </div>
 
@@ -1111,7 +1111,7 @@
                       <span class="font-semibold text-gray-700 dark:text-zinc-300">{optionsFlowPreviewTrades.length} whale trades</span> spotted in the last 3 hours
                     </p>
                     <span class="text-[0.58rem] font-semibold text-violet-600 dark:text-violet-400">
-                      Streaming 5,000+ trades/day
+                      Streaming 50,000+ trades/day
                     </span>
                   </div>
                 </div>
