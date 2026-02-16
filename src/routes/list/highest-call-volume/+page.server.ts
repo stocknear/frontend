@@ -1,25 +1,9 @@
-export const load = async ({ locals }) => {
+import { postAPI } from "$lib/server/api";
 
-  const getStocks = async () => {
-    const { apiKey, apiURL } = locals;
-    const postData = { filterList: 'highest-call-volume' };
+export const load = async ({ locals, setHeaders }) => {
+  setHeaders({ "cache-control": "public, max-age=300" });
 
-    const response = await fetch(apiURL + "/list-category", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response.json();
-
-    return output;
-  };
-
-  // Make sure to return a promise
   return {
-    getStocks: await getStocks(),
+    getStocks: await postAPI(locals, "/list-category", { filterList: "highest-call-volume" }),
   };
 };

@@ -1,27 +1,14 @@
+import { getAPI } from "$lib/server/api";
+
 export const load = async ({ locals }) => {
-  const getSectorOverview = async () => {
-    const { apiKey, apiURL } = locals;
+  let output = await getAPI(locals, "/sector-overview");
 
-    const response = await fetch(apiURL + "/sector-overview", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-    });
+  output = output.map(({ sector, ...rest }) => ({
+    ...rest,
+    name: sector,
+  }));
 
-    let output = await response.json();
-
-       output = output.map(({ sector, ...rest }) => ({
-      ...rest,
-      name: sector,
-    }));
-
-    return output;
-  };
-
-  // Make sure to return a promise
   return {
-    getSectorOverview: await getSectorOverview(),
+    getSectorOverview: output,
   };
 };

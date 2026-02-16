@@ -1,40 +1,11 @@
-
-
-import { error, redirect } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
 export const load = async ({ locals, params }) => {
-  const { apiKey, apiURL, user } = locals;
+  let output = await postAPI(locals, "/hottest-contracts", { ticker: params.tickerID });
+  output.openInterest = [];
 
-  const getData = async () => {
-    const postData = {
-      ticker: params.tickerID,
-    };
-
-    const response = await fetch(apiURL + "/hottest-contracts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    let output = await response.json();
-    
-    output.openInterest = []
-
-    return output;
-  }; 
-
-
- 
-  
-
-  // Make sure to return a promise
-  return {
-    getData: await getData(),
-  };
+  return { getData: output };
 };
 
 export const actions = {

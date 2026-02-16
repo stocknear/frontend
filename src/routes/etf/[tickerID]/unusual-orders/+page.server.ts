@@ -1,54 +1,19 @@
-import { error, redirect } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
-
 export const load = async ({ locals, params }) => {
-  const { apiURL, apiKey, user } = locals;
+  const { user } = locals;
   const ticker = params.tickerID;
 
   if (!ticker) {
     return { error: 'Invalid ticker ID' };
   }
 
-  // Define the endpoints you want to fetch in bulk
-  const endpoints = [
-    "/unusual-order-level",
-    "/historical-dark-pool",
-  ];
-
-  // Prepare the payload for the bulk request
-  const postData = {
-    ticker,
-    endpoints
-  };
-
   try {
-    // Fetch bulk data and historical price data in parallel
-    const [bulkResponse, historyResponse] = await Promise.all([
-      fetch(`${apiURL}/bulk-data`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": apiKey,
-        },
-        body: JSON.stringify(postData),
-      }),
-      fetch(`${apiURL}/historical-adj-price`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": apiKey,
-        },
-        body: JSON.stringify({ ticker }),
-      }),
+    const [bulkData, historyData] = await Promise.all([
+      postAPI(locals, "/bulk-data", { ticker, endpoints: ["/unusual-order-level", "/historical-dark-pool"] }),
+      postAPI(locals, "/historical-adj-price", { ticker }),
     ]);
-
-    if (!bulkResponse.ok) {
-      throw new Error("Failed to fetch bulk data");
-    }
-
-    const bulkData = await bulkResponse.json();
-    const historyData = historyResponse.ok ? await historyResponse.json() : [];
 
     // Process analyst ticker history: if user isn't Pro, limit to 3 items
     let priceLevel = bulkData["/unusual-order-level"];

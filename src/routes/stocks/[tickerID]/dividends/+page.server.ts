@@ -1,34 +1,9 @@
-import { error, redirect } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
-export const load = async ({ params, locals }) => {
-  const getStockDividend = async () => {
-    let newsList;
-
-    const { apiURL, apiKey } = locals;
-
-    const postData = {
-      ticker: params.tickerID,
-    };
-
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + "/stock-dividend", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    newsList = await response.json();
-
-    return newsList;
-  };
-
-  // Make sure to return a promise
+export const load = async ({ locals, params }) => {
   return {
-    getStockDividend: await getStockDividend(),
+    getStockDividend: await postAPI(locals, "/stock-dividend", { ticker: params.tickerID }),
   };
 };
 

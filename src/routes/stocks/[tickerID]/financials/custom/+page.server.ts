@@ -1,44 +1,19 @@
-import { error, redirect } from "@sveltejs/kit";
 import { mergeAllStatements } from "$lib/financials/mergeStatements";
 import { PREMIUM_TIERS, limitStatements, buildLockInfo } from "$lib/financials/statementHelpers";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
 export const load = async ({ locals, params }) => {
-  const { apiKey, apiURL, user } = locals;
   const ticker = params.tickerID;
-  const canViewAllHistory = PREMIUM_TIERS.has(user?.tier);
-
-  const fetchStatement = async (statement: string) => {
-    const response = await fetch(apiURL + "/financial-statement", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify({ ticker, statement }),
-    });
-    return response.json();
-  };
-
-  const fetchPrices = async () => {
-    const response = await fetch(apiURL + "/historical-adj-price", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify({ ticker }),
-    });
-    return response.json();
-  };
+  const canViewAllHistory = PREMIUM_TIERS.has(locals.user?.tier);
 
   // Fetch all 5 sources in parallel — price fetch adds no extra latency
   const [income, balance, cashflow, ratios, priceHistory] = await Promise.all([
-    fetchStatement('income-statement'),
-    fetchStatement('balance-sheet-statement'),
-    fetchStatement('cash-flow-statement'),
-    fetchStatement('ratios'),
-    fetchPrices().catch(() => []),
+    postAPI(locals, "/financial-statement", { ticker, statement: 'income-statement' }),
+    postAPI(locals, "/financial-statement", { ticker, statement: 'balance-sheet-statement' }),
+    postAPI(locals, "/financial-statement", { ticker, statement: 'cash-flow-statement' }),
+    postAPI(locals, "/financial-statement", { ticker, statement: 'ratios' }),
+    postAPI(locals, "/historical-adj-price", { ticker }).catch(() => []),
   ]);
 
   const merged = mergeAllStatements(income, balance, cashflow, ratios);

@@ -1,30 +1,10 @@
-export const load = async ({ params, locals, setHeaders }) => {
-    const { apiKey, apiURL } = locals;
+import { postAPI } from "$lib/server/api";
 
-  const getIndustryStocks = async () => {
+export const load = async ({ locals, params, setHeaders }) => {
+  setHeaders({ "cache-control": "public, max-age=3000" });
 
-    const postData = { "filterList": params.slug };
-    const response = await fetch(apiURL + "/industry-stocks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response.json();
-    setHeaders({ "cache-control": "public, max-age=3000" });
-
-    //output = user?.tier !== "Pro" ? output?.slice(0, 5) : output;
-
-
-    return output;
-  };
-
-  // Make sure to return a promise
   return {
     getParams: params.slug,
-    getIndustryStocks: await getIndustryStocks(),
+    getIndustryStocks: await postAPI(locals, "/industry-stocks", { filterList: params.slug }),
   };
 };

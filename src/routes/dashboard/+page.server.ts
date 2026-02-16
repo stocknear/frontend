@@ -1,9 +1,9 @@
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 import { redirect } from "@sveltejs/kit";
 
 /// Constants
-const CACHE_DURATION = 10 * 1000; // 60 seconds
-const REQUEST_TIMEOUT = 5000;
+const CACHE_DURATION = 10 * 1000; // 10 seconds
 
 // LRU Cache implementation
 class LRUCache {
@@ -37,29 +37,14 @@ class LRUCache {
 
 const dashboardCache = new LRUCache();
 
-// Fetch with timeout
-async function fetchWithTimeout(url, options = {}, timeout = REQUEST_TIMEOUT) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  try {
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } finally {
-    clearTimeout(id);
-  }
-}
-
-
 // Load function
 export async function load({ locals }) {
-  const { apiKey, apiURL, locale, pb} = locals;
+  const { locale, pb } = locals;
 
   if (!pb.authStore.isValid) {
-        redirect(303, "/");
-    }
+    redirect(303, "/");
+  }
 
- 
   const cacheKey = `dashboard:${locale}`;
 
   // Check cache
@@ -67,21 +52,11 @@ export async function load({ locals }) {
 
   if (!dashboardData) {
     try {
-      dashboardData = await fetchWithTimeout(
-        `${apiURL}/dashboard-info`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-KEY': apiKey
-          },
-          body: JSON?.stringify({lang: locale ?? 'en'})
-        }
-      );
+      dashboardData = await postAPI(locals, "/dashboard-info", { lang: locale ?? 'en' });
       dashboardCache.set(cacheKey, dashboardData);
     } catch (err) {
       console.error('Dashboard fetch error', err);
-      dashboardData = {}; // or `throw error(500, 'Dashboard fetch failed')` if you want to fail
+      dashboardData = {};
     }
   }
 

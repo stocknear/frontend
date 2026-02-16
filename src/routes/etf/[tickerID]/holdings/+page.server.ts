@@ -1,31 +1,9 @@
-import { error, redirect } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
 export const load = async ({ locals, params }) => {
-  const { apiKey, apiURL } = locals;
-  const getETFHoldings = async () => {
-    const postData = {
-      ticker: params.tickerID,
-    };
-    
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + "/etf-holdings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response?.json();
-
-    return output;
-  };
-
-  // Make sure to return a promise
   return {
-    getETFHoldings: await getETFHoldings(),
+    getETFHoldings: await postAPI(locals, "/etf-holdings", { ticker: params.tickerID }),
   };
 };
 

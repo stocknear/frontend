@@ -1,32 +1,10 @@
+import { postAPI } from "$lib/server/api";
+
 export const load = async ({ locals, params }) => {
-  const getData = async () => {
-    const { apiKey, apiURL } = locals;
-    const postData = {
-      ticker: params.tickerID,
-    };
+  let output = await postAPI(locals, "/fail-to-deliver", { ticker: params.tickerID });
+  if (Array.isArray(output)) {
+    output.sort((a, b) => new Date(a?.date) - new Date(b?.date));
+  }
 
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + "/fail-to-deliver", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response.json();
-    if (Array.isArray(output)) {
-      output.sort((a, b) => new Date(a?.date) - new Date(b?.date));
-    }
-    return output;
-
-  };
-
-  
-
-  // Make sure to return a promise
-  return {
-    getData: await getData(),
-  };
+  return { getData: output };
 };

@@ -1,31 +1,9 @@
-import { error, redirect } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
 export const load = async ({ locals, params }) => {
-  const { apiKey, apiURL, user } = locals;
-
-  const getData = async () => {
-    const postData = {
-      ticker: params.tickerID,
-    };
-
-    const response = await fetch(apiURL + "/options-expected-move", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    let output = await response.json();
-
-   
-    return output;
-  };
-
   return {
-    getData: await getData(),
+    getData: await postAPI(locals, "/options-expected-move", { ticker: params.tickerID }),
   };
 };
 

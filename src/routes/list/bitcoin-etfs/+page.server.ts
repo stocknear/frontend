@@ -1,22 +1,9 @@
-export const load = async ({ locals }) => {
-  const getETFBitcoinList = async () => {
-    const { apiKey, apiURL } = locals;
+import { getAPI } from "$lib/server/api";
 
-    const response = await fetch(apiURL + "/etf-bitcoin-list", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-    });
+export const load = async ({ locals, setHeaders }) => {
+  setHeaders({ "cache-control": "public, max-age=3000" });
 
-    const output = await response.json();
-
-    return output;
-  };
-
-  // Make sure to return a promise
   return {
-    getETFBitcoinList: await getETFBitcoinList(),
+    getETFBitcoinList: await getAPI(locals, "/etf-bitcoin-list"),
   };
 };
