@@ -696,6 +696,11 @@
       class="h-[calc(100dvh-64px)] sm:h-auto sm:max-h-[calc(90vh-64px)] overflow-y-auto bg-white dark:bg-zinc-900"
     >
       {#if inputValue?.length > 0 && searchBarData?.length > 0}
+        <div
+          class="border-b border-gray-200 dark:border-zinc-700 px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-zinc-200"
+        >
+          {searchbar_suggestions()}
+        </div>
         {#each searchBarData as item}
           <button
             type="button"
@@ -704,17 +709,17 @@
           >
             <div class="flex items-center justify-between gap-3">
               <div class="min-w-0">
-                <div class="text-[1rem] font-semibold leading-tight">
+                <div class="text-sm font-semibold leading-tight">
                   {item?.symbol}
                 </div>
                 <div
-                  class="mt-0.5 truncate text-[0.84rem] leading-snug text-gray-500 dark:text-zinc-400"
+                  class="mt-0.5 truncate text-sm leading-snug text-gray-500 dark:text-zinc-400"
                 >
                   {item?.name}
                 </div>
               </div>
               <span
-                class="ml-auto shrink-0 text-[0.9rem] font-medium text-gray-600 dark:text-zinc-300"
+                class="ml-auto shrink-0 text-sm font-medium text-gray-600 dark:text-zinc-300"
               >
                 {item?.type}
               </span>
@@ -722,6 +727,11 @@
           </button>
         {/each}
       {:else if inputValue?.length === 0 || !showSuggestions}
+        <div
+          class="border-b border-gray-200 dark:border-zinc-700 px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-zinc-200"
+        >
+          {searchHistory?.length > 0 ? searchbar_recent() : searchbar_popular()}
+        </div>
         {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
           <button
             type="button"
@@ -730,17 +740,17 @@
           >
             <div class="flex items-center justify-between gap-3">
               <div class="min-w-0">
-                <div class="text-[1rem] font-semibold leading-tight">
+                <div class="text-sm font-semibold leading-tight">
                   {item?.symbol}
                 </div>
                 <div
-                  class="mt-0.5 truncate text-[0.84rem] leading-snug text-gray-500 dark:text-zinc-400"
+                  class="mt-0.5 truncate text-sm leading-snug text-gray-500 dark:text-zinc-400"
                 >
                   {item?.name}
                 </div>
               </div>
               <span
-                class="ml-auto shrink-0 text-[0.9rem] font-medium text-gray-600 dark:text-zinc-300"
+                class="ml-auto shrink-0 text-sm font-medium text-gray-600 dark:text-zinc-300"
               >
                 {item?.type}
               </span>
