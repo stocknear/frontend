@@ -134,6 +134,9 @@
       }
     | {
         kind: "wiim-preview";
+      }
+    | {
+        kind: "options-flow-preview";
       };
 
   type FeatureShowcaseBlock = {
@@ -184,12 +187,7 @@
       linkLabel: landing_feature_flow_link,
       reverse: true,
       media: {
-        kind: "image",
-        src: "/img/landing-page/options-flow.png",
-        alt: "Options flow dashboard with sweeps and block trades",
-        placeholderTitle: "Options Flow Screenshot Placeholder",
-        placeholderHint:
-          "Add a high-resolution screenshot at /static/img/landing-page/options-flow.png",
+        kind: "options-flow-preview",
       },
     },
     {
@@ -365,6 +363,128 @@
         "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
     },
   ];
+
+  type OptionsFlowPreviewTrade = {
+    id: string;
+    ticker: string;
+    company: string;
+    flowTag: string;
+    putCall: "Calls" | "Puts";
+    contract: string;
+    execution: string;
+    premiumValue: number;
+    sizeValue: number;
+    time: string;
+    toneClass: string;
+  };
+
+  const optionsFlowPreviewTrades: OptionsFlowPreviewTrade[] = [
+    {
+      id: "nvda-call-sweep",
+      ticker: "NVDA",
+      company: "NVIDIA",
+      flowTag: "Bullish Call Sweep",
+      putCall: "Calls",
+      contract: "Sep20'26 140C",
+      execution: "Above Ask",
+      premiumValue: 18_400_000,
+      sizeValue: 12_400,
+      time: "09:41 ET",
+      toneClass:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
+    },
+    {
+      id: "tsla-put-block",
+      ticker: "TSLA",
+      company: "Tesla",
+      flowTag: "Bearish Put Block",
+      putCall: "Puts",
+      contract: "Aug16'26 180P",
+      execution: "At Bid",
+      premiumValue: 14_200_000,
+      sizeValue: 8_950,
+      time: "10:18 ET",
+      toneClass:
+        "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-200",
+    },
+    {
+      id: "aapl-call-block",
+      ticker: "AAPL",
+      company: "Apple",
+      flowTag: "Bullish Call Block",
+      putCall: "Calls",
+      contract: "Jan17'27 260C",
+      execution: "At Ask",
+      premiumValue: 11_700_000,
+      sizeValue: 7_100,
+      time: "11:03 ET",
+      toneClass:
+        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
+    },
+    {
+      id: "spy-put-sweep",
+      ticker: "SPY",
+      company: "SPDR S&P 500 ETF",
+      flowTag: "Hedge Put Sweep",
+      putCall: "Puts",
+      contract: "Jul19'26 505P",
+      execution: "Between",
+      premiumValue: 9_600_000,
+      sizeValue: 15_200,
+      time: "12:27 ET",
+      toneClass:
+        "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
+    },
+  ];
+
+  const optionsFlowPreviewSummary = optionsFlowPreviewTrades.reduce(
+    (acc, trade) => {
+      if (trade.putCall === "Calls") {
+        acc.callVolume += trade.sizeValue;
+        acc.callPremium += trade.premiumValue;
+      } else {
+        acc.putVolume += trade.sizeValue;
+        acc.putPremium += trade.premiumValue;
+      }
+      return acc;
+    },
+    {
+      callVolume: 0,
+      putVolume: 0,
+      callPremium: 0,
+      putPremium: 0,
+    },
+  );
+
+  const optionsFlowPreviewPutCallRatio =
+    optionsFlowPreviewSummary.callVolume > 0
+      ? optionsFlowPreviewSummary.putVolume /
+        optionsFlowPreviewSummary.callVolume
+      : 0;
+
+  const optionsFlowPreviewCallPercentage =
+    optionsFlowPreviewSummary.callVolume + optionsFlowPreviewSummary.putVolume >
+    0
+      ? Math.floor(
+          (optionsFlowPreviewSummary.callVolume /
+            (optionsFlowPreviewSummary.callVolume +
+              optionsFlowPreviewSummary.putVolume)) *
+            100,
+        )
+      : 0;
+
+  const optionsFlowPreviewPutPercentage =
+    optionsFlowPreviewSummary.callVolume + optionsFlowPreviewSummary.putVolume >
+    0
+      ? 100 - optionsFlowPreviewCallPercentage
+      : 0;
+
+  function formatOptionsFlowPremium(value: number) {
+    if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`;
+    if (value >= 1e6) return `$${(value / 1e6).toFixed(1)}M`;
+    if (value >= 1e3) return `$${(value / 1e3).toFixed(1)}K`;
+    return `$${value.toFixed(0)}`;
+  }
 
   type AnalystPreviewMetric = {
     id: string;
@@ -1055,6 +1175,157 @@
                         >
                           {call.target}
                         </span>
+                      </a>
+                    {/each}
+                  </div>
+                </div>
+              {:else if block.media.kind === "options-flow-preview"}
+                <div
+                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
+                >
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p
+                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
+                      >
+                        Whale Flow
+                      </p>
+                      <h4
+                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
+                      >
+                        Unusual large options trades in real time
+                      </h4>
+                    </div>
+                    <span
+                      class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200"
+                    >
+                      Live
+                    </span>
+                  </div>
+
+                  <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                    <div
+                      class="rounded-lg border border-gray-200 bg-white px-2.5 py-2 dark:border-zinc-700 dark:bg-zinc-900/70"
+                    >
+                      <p
+                        class="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-gray-500 dark:text-zinc-400"
+                      >
+                        Put/Call
+                      </p>
+                      <p
+                        class="mt-1 text-sm font-semibold text-gray-900 dark:text-zinc-100"
+                      >
+                        {optionsFlowPreviewPutCallRatio.toFixed(3)}
+                      </p>
+                      <p
+                        class="text-[0.66rem] text-gray-500 dark:text-zinc-400"
+                      >
+                        {optionsFlowPreviewPutPercentage}% puts / {optionsFlowPreviewCallPercentage}%
+                        calls
+                      </p>
+                    </div>
+                    <div
+                      class="rounded-lg border border-gray-200 bg-white px-2.5 py-2 dark:border-zinc-700 dark:bg-zinc-900/70"
+                    >
+                      <p
+                        class="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-gray-500 dark:text-zinc-400"
+                      >
+                        Call Flow
+                      </p>
+                      <p
+                        class="mt-1 text-sm font-semibold text-emerald-700 dark:text-emerald-300"
+                      >
+                        {optionsFlowPreviewSummary.callVolume.toLocaleString(
+                          "en-US",
+                        )}
+                      </p>
+                      <p
+                        class="text-[0.66rem] text-gray-500 dark:text-zinc-400"
+                      >
+                        Premium {formatOptionsFlowPremium(
+                          optionsFlowPreviewSummary.callPremium,
+                        )}
+                      </p>
+                    </div>
+                    <div
+                      class="rounded-lg border border-gray-200 bg-white px-2.5 py-2 dark:border-zinc-700 dark:bg-zinc-900/70"
+                    >
+                      <p
+                        class="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-gray-500 dark:text-zinc-400"
+                      >
+                        Put Flow
+                      </p>
+                      <p
+                        class="mt-1 text-sm font-semibold text-rose-700 dark:text-rose-300"
+                      >
+                        {optionsFlowPreviewSummary.putVolume.toLocaleString(
+                          "en-US",
+                        )}
+                      </p>
+                      <p
+                        class="text-[0.66rem] text-gray-500 dark:text-zinc-400"
+                      >
+                        Premium {formatOptionsFlowPremium(
+                          optionsFlowPreviewSummary.putPremium,
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="mt-3 space-y-2">
+                    {#each optionsFlowPreviewTrades as trade (trade.id)}
+                      <a
+                        href="/options-flow"
+                        class="flex items-center gap-2.5 rounded-lg border border-gray-200 px-3 py-2.5 transition hover:border-violet-300 dark:border-zinc-700 dark:hover:border-violet-500/50"
+                      >
+                        <img
+                          src={`https://financialmodelingprep.com/image-stock/${trade.ticker}.png`}
+                          alt={`${trade.ticker} logo`}
+                          class="h-7 w-7 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
+                          style="clip-path: circle(50%);"
+                          loading="lazy"
+                          on:error={(e) =>
+                            ((e.currentTarget as HTMLImageElement).src =
+                              "/pwa-192x192.png")}
+                        />
+                        <div class="min-w-0 flex-1">
+                          <div class="flex items-center gap-2">
+                            <p
+                              class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
+                            >
+                              {trade.ticker}
+                            </p>
+                            <span
+                              class={`rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${trade.toneClass}`}
+                            >
+                              {trade.flowTag}
+                            </span>
+                          </div>
+                          <p
+                            class="truncate text-xs text-gray-600 dark:text-zinc-400"
+                          >
+                            {trade.company} • {trade.contract} • {trade.execution}
+                            •
+                            {trade.putCall}
+                          </p>
+                        </div>
+                        <div class="text-right">
+                          <p
+                            class="text-xs font-semibold text-gray-900 dark:text-zinc-100"
+                          >
+                            {formatOptionsFlowPremium(trade.premiumValue)}
+                          </p>
+                          <p
+                            class="text-[0.66rem] text-gray-500 dark:text-zinc-400"
+                          >
+                            Size {trade.sizeValue.toLocaleString("en-US")}
+                          </p>
+                          <p
+                            class="text-[0.64rem] text-gray-500 dark:text-zinc-400"
+                          >
+                            {trade.time}
+                          </p>
+                        </div>
                       </a>
                     {/each}
                   </div>
