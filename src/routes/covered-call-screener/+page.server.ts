@@ -4,12 +4,14 @@ import { loginAction, registerAction, oauth2Action } from "$lib/server/authActio
 
 export const load = async ({ locals }) => {
   const { apiURL, apiKey, pb, user } = locals;
-
+  
   const getAllStrategies = async () => {
     let output = [];
-    if (user?.tier === 'Pro') {
 
-   
+      if (user?.tier !== "Pro") {
+        return [];
+      }
+
      try {
         output = await pb.collection("coveredCallScreener").getFullList({
         filter: `user="${user?.id}"`,
@@ -20,14 +22,11 @@ export const load = async ({ locals }) => {
     catch(e) {
         output = [];
     }
-     }
-     else {
-      output = []
-     }
 
-
+  
     return output;
   };
+
 
 
   const getScreenerData = async (strategyList) => {
