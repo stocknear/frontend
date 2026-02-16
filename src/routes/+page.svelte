@@ -369,14 +369,11 @@
   type OptionsFlowPreviewTrade = {
     id: string;
     ticker: string;
-    company: string;
     flowTag: string;
     sentiment: "Bullish" | "Bearish";
     putCall: "Calls" | "Puts";
     contract: string;
-    execution: string;
     premiumValue: number;
-    sizeValue: number;
     signal: string;
     time: string;
     toneClass: string;
@@ -387,14 +384,11 @@
     {
       id: "nvda-call-sweep",
       ticker: "NVDA",
-      company: "NVIDIA",
       flowTag: "Call Sweep",
       sentiment: "Bullish",
       putCall: "Calls",
       contract: "Sep 20, 2026 $140 Call",
-      execution: "Above Ask",
-      premiumValue: 18_400_000,
-      sizeValue: 12_400,
+      premiumValue: 22_800_000,
       signal: "50x avg volume",
       time: "09:41 ET",
       toneClass:
@@ -404,14 +398,11 @@
     {
       id: "tsla-put-block",
       ticker: "TSLA",
-      company: "Tesla",
       flowTag: "Put Block",
       sentiment: "Bearish",
       putCall: "Puts",
       contract: "Aug 16, 2026 $180 Put",
-      execution: "At Bid",
-      premiumValue: 14_200_000,
-      sizeValue: 8_950,
+      premiumValue: 16_400_000,
       signal: "Near earnings",
       time: "10:18 ET",
       toneClass:
@@ -421,58 +412,27 @@
     {
       id: "aapl-call-block",
       ticker: "AAPL",
-      company: "Apple",
       flowTag: "Call Block",
       sentiment: "Bullish",
       putCall: "Calls",
       contract: "Jan 17, 2027 $260 Call",
-      execution: "At Ask",
-      premiumValue: 11_700_000,
-      sizeValue: 7_100,
+      premiumValue: 14_700_000,
       signal: "3rd sweep today",
       time: "11:03 ET",
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
       borderColor: "#10b981",
     },
-    {
-      id: "spy-put-sweep",
-      ticker: "SPY",
-      company: "S&P 500 ETF",
-      flowTag: "Put Sweep",
-      sentiment: "Bearish",
-      putCall: "Puts",
-      contract: "Jul 19, 2026 $505 Put",
-      execution: "Between",
-      premiumValue: 9_600_000,
-      sizeValue: 15_200,
-      signal: "Hedge pattern",
-      time: "12:27 ET",
-      toneClass:
-        "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
-      borderColor: "#f43f5e",
-    },
   ];
 
   const optionsFlowPreviewSummary = optionsFlowPreviewTrades.reduce(
     (acc, trade) => {
       acc.totalPremium += trade.premiumValue;
-      if (trade.putCall === "Calls") {
-        acc.callVolume += trade.sizeValue;
-        acc.callPremium += trade.premiumValue;
-      } else {
-        acc.putVolume += trade.sizeValue;
-        acc.putPremium += trade.premiumValue;
-      }
+      if (trade.putCall === "Calls") acc.callPremium += trade.premiumValue;
+      else acc.putPremium += trade.premiumValue;
       return acc;
     },
-    {
-      totalPremium: 0,
-      callVolume: 0,
-      putVolume: 0,
-      callPremium: 0,
-      putPremium: 0,
-    },
+    { totalPremium: 0, callPremium: 0, putPremium: 0 },
   );
 
   const optionsFlowPreviewCallPremiumPct =
@@ -1166,16 +1126,16 @@
                 <div
                   class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70"
                 >
-                  <!-- Header: total premium anchor + live pulse -->
+                  <!-- Header -->
                   <div
                     class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
                   >
                     <div>
                       <div class="flex items-center gap-2">
                         <p
-                          class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
+                          class="text-xs font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400 sm:text-sm"
                         >
-                          Institutional Options Flow
+                          Whale Options Flow
                         </p>
                         <div class="flex items-center gap-1">
                           <span class="relative flex h-2 w-2">
@@ -1206,7 +1166,7 @@
                     </div>
                   </div>
 
-                  <!-- Call/Put sentiment bar -->
+                  <!-- Sentiment bar -->
                   <div class="px-4 pt-3 sm:px-5">
                     <div class="flex items-center justify-between mb-1.5">
                       <div class="flex items-center gap-1.5">
@@ -1214,37 +1174,25 @@
                           class="inline-block h-2.5 w-2.5 rounded-sm bg-emerald-500"
                         ></span>
                         <span
-                          class="text-[0.62rem] font-semibold text-gray-700 dark:text-zinc-300"
+                          class="text-xs font-semibold text-gray-700 dark:text-zinc-300 sm:text-sm"
                         >
-                          Calls {optionsFlowPreviewCallPremiumPct}%
-                        </span>
-                        <span
-                          class="text-[0.58rem] text-gray-400 dark:text-zinc-500"
-                        >
-                          ({formatOptionsFlowPremium(
-                            optionsFlowPreviewSummary.callPremium,
-                          )})
+                          Bullish {optionsFlowPreviewCallPremiumPct}%
                         </span>
                       </div>
                       <div class="flex items-center gap-1.5">
                         <span
-                          class="text-[0.58rem] text-gray-400 dark:text-zinc-500"
+                          class="text-xs font-semibold text-gray-700 dark:text-zinc-300 sm:text-sm"
                         >
-                          ({formatOptionsFlowPremium(
-                            optionsFlowPreviewSummary.putPremium,
-                          )})
-                        </span>
-                        <span
-                          class="text-[0.62rem] font-semibold text-gray-700 dark:text-zinc-300"
-                        >
-                          {optionsFlowPreviewPutPremiumPct}% Puts
+                          {optionsFlowPreviewPutPremiumPct}% Bearish
                         </span>
                         <span
                           class="inline-block h-2.5 w-2.5 rounded-sm bg-rose-500"
                         ></span>
                       </div>
                     </div>
-                    <div class="flex h-2.5 w-full overflow-hidden rounded-full">
+                    <div
+                      class="flex h-2.5 w-full overflow-hidden rounded-full"
+                    >
                       <div
                         class="bg-emerald-500 transition-all"
                         style={`width: ${optionsFlowPreviewCallPremiumPct}%`}
@@ -1254,96 +1202,81 @@
                         style={`width: ${optionsFlowPreviewPutPremiumPct}%`}
                       ></div>
                     </div>
-                    <p
-                      class="mt-1.5 text-[0.6rem] text-gray-400 dark:text-zinc-500"
-                    >
-                      {optionsFlowPreviewCallPremiumPct >
-                      optionsFlowPreviewPutPremiumPct
-                        ? "Big whales are leaning bullish today"
-                        : "Big whales are leaning bearish today"}
-                    </p>
                   </div>
 
                   <!-- Trade feed -->
-                  <div class="px-4 pb-4 pt-3 sm:px-5 sm:pb-5 space-y-1.5">
+                  <div class="px-4 pb-4 pt-3 sm:px-5 sm:pb-5 space-y-2">
                     {#each optionsFlowPreviewTrades as trade (trade.id)}
-                      <a
-                        href="/options-flow"
-                        class="group flex items-center gap-2.5 rounded-xl border border-gray-200 border-l-[3px] bg-white px-3 py-2 transition hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-900/75"
+                      <div
+                        class="flex items-center gap-3 rounded-xl border border-gray-200 border-l-[3px] bg-white px-3 py-3 dark:border-zinc-700 dark:bg-zinc-900/75"
                         style={`border-left-color: ${trade.borderColor};`}
                       >
-                        <!-- Logo -->
                         <img
                           src={`https://financialmodelingprep.com/image-stock/${trade.ticker}.png`}
                           alt={`${trade.ticker} logo`}
-                          class="h-8 w-8 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
+                          class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                           style="clip-path: circle(50%);"
                           loading="lazy"
-                          width="32"
-                          height="32"
+                          width="36"
+                          height="36"
                           on:error={(e) =>
                             ((e.currentTarget as HTMLImageElement).src =
                               "/pwa-192x192.png")}
                         />
-                        <!-- Content -->
                         <div class="min-w-0 flex-1">
-                          <div class="flex items-center gap-1.5 flex-wrap">
+                          <div
+                            class="flex items-center gap-1.5 flex-wrap"
+                          >
                             <span
-                              class="text-sm font-bold text-gray-900 dark:text-white"
+                              class="text-sm font-bold text-gray-900 dark:text-white sm:text-base"
                               >{trade.ticker}</span
                             >
                             <span
-                              class={`rounded px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.04em] ${trade.toneClass}`}
+                              class={`rounded px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.04em] sm:text-[0.68rem] sm:px-2 ${trade.toneClass}`}
                             >
                               {trade.sentiment}
                               {trade.flowTag}
                             </span>
-                            <span
-                              class="rounded bg-gray-100 px-1.5 py-0.5 text-[0.56rem] font-semibold text-gray-600 dark:bg-zinc-800 dark:text-zinc-300"
-                            >
-                              {trade.signal}
-                            </span>
                           </div>
                           <p
-                            class="mt-0.5 truncate text-[0.68rem] text-gray-500 dark:text-zinc-400"
+                            class="mt-0.5 text-xs text-gray-500 dark:text-zinc-400 sm:text-sm"
                           >
-                            {trade.contract} · {trade.execution} · {trade.sizeValue.toLocaleString(
-                              "en-US",
-                            )} contracts
+                            {trade.contract}
+                            <span
+                              class="text-gray-300 dark:text-zinc-600 mx-1"
+                              >&middot;</span
+                            >
+                            {trade.signal}
                           </p>
                         </div>
-                        <!-- Premium + time -->
                         <div class="shrink-0 text-right">
                           <p
-                            class={`text-sm font-bold ${trade.putCall === "Calls" ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300"}`}
+                            class={`text-sm font-bold sm:text-base ${trade.putCall === "Calls" ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300"}`}
                           >
                             {formatOptionsFlowPremium(trade.premiumValue)}
                           </p>
                           <p
-                            class="text-[0.6rem] text-gray-400 dark:text-zinc-500"
+                            class="text-[0.62rem] text-gray-400 dark:text-zinc-500 sm:text-xs"
                           >
                             {trade.time}
                           </p>
                         </div>
-                      </a>
+                      </div>
                     {/each}
                   </div>
 
-                  <!-- Footer: urgency + context -->
+                  <!-- Footer -->
                   <div
-                    class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5 flex items-center justify-between"
+                    class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5"
                   >
-                    <p class="text-[0.62rem] text-gray-500 dark:text-zinc-400">
-                      <span
-                        class="font-semibold text-gray-700 dark:text-zinc-300"
-                        >{optionsFlowPreviewTrades.length} whale trades</span
-                      > spotted in the last 3 hours
-                    </p>
-                    <span
-                      class="text-[0.58rem] font-semibold text-violet-600 dark:text-violet-400"
+                    <p
+                      class="text-xs text-gray-500 dark:text-zinc-400 sm:text-sm"
                     >
-                      Streaming 50,000+ trades/day
-                    </span>
+                      Streaming <span
+                        class="font-semibold text-gray-700 dark:text-zinc-300"
+                        >50,000+</span
+                      > contracts/day
+                    </p>
                   </div>
                 </div>
               {:else if block.media.kind === "wiim-preview"}
