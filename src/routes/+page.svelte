@@ -94,6 +94,48 @@
     landing_cta_description,
     landing_cta_primary,
     landing_cta_secondary,
+    landing_hero_cta_note,
+    landing_card_alert_header,
+    landing_card_alert_cat_earnings,
+    landing_card_alert_cat_price,
+    landing_card_alert_cat_analyst,
+    landing_card_alert_1_title,
+    landing_card_alert_1_detail,
+    landing_card_alert_1_time,
+    landing_card_alert_2_title,
+    landing_card_alert_2_detail,
+    landing_card_alert_2_time,
+    landing_card_alert_3_title,
+    landing_card_alert_3_detail,
+    landing_card_alert_3_time,
+    landing_card_alert_footer_pre,
+    landing_card_alert_footer_value,
+    landing_card_flow_header,
+    landing_card_flow_premium_label,
+    landing_card_flow_bullish,
+    landing_card_flow_bearish,
+    landing_card_flow_1_tag,
+    landing_card_flow_1_signal,
+    landing_card_flow_2_tag,
+    landing_card_flow_2_signal,
+    landing_card_flow_3_tag,
+    landing_card_flow_3_signal,
+    landing_card_flow_footer_pre,
+    landing_card_flow_footer_value,
+    landing_card_flow_footer_post,
+    landing_card_wiim_explained,
+    landing_card_wiim_accounted,
+    landing_card_wiim_cat_earnings,
+    landing_card_wiim_cat_analyst,
+    landing_card_wiim_cat_whale,
+    landing_card_wiim_1_title,
+    landing_card_wiim_1_detail,
+    landing_card_wiim_2_title,
+    landing_card_wiim_2_detail,
+    landing_card_wiim_3_title,
+    landing_card_wiim_3_detail,
+    landing_alerts_stat_speed,
+    landing_alerts_stat_types,
     landing_pain_label,
     landing_pain_title,
     landing_pain_subtitle,
@@ -318,33 +360,33 @@
     {
       id: "nvda-earnings",
       ticker: "NVDA",
-      category: "Earnings",
-      title: "Q4 EPS beat by 12%",
-      detail: "Revenue $39.3B vs $37.1B expected",
+      category: landing_card_alert_cat_earnings(),
+      title: landing_card_alert_1_title(),
+      detail: landing_card_alert_1_detail(),
       value: "+8.2%",
-      time: "Just now",
+      time: landing_card_alert_1_time(),
       toneClass:
         "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
     },
     {
       id: "aapl-price",
       ticker: "AAPL",
-      category: "Price Alert",
-      title: "Hit your $230 target",
-      detail: "Up $4.20 (+1.9%) since alert was set",
+      category: landing_card_alert_cat_price(),
+      title: landing_card_alert_2_title(),
+      detail: landing_card_alert_2_detail(),
       value: "$234.20",
-      time: "47s ago",
+      time: landing_card_alert_2_time(),
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
     },
     {
       id: "meta-analyst",
       ticker: "META",
-      category: "Analyst",
-      title: "Goldman upgraded to Buy",
-      detail: "Target raised from $620 to $710 (+14.5%)",
+      category: landing_card_alert_cat_analyst(),
+      title: landing_card_alert_3_title(),
+      detail: landing_card_alert_3_detail(),
       value: "+14.5%",
-      time: "3m ago",
+      time: landing_card_alert_3_time(),
       toneClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
     },
@@ -354,7 +396,7 @@
     id: string;
     ticker: string;
     flowTag: string;
-    sentiment: "Bullish" | "Bearish";
+    sentiment: string;
     putCall: "Calls" | "Puts";
     contract: string;
     premiumValue: number;
@@ -368,12 +410,12 @@
     {
       id: "nvda-call-sweep",
       ticker: "NVDA",
-      flowTag: "Call Sweep",
-      sentiment: "Bullish",
+      flowTag: landing_card_flow_1_tag(),
+      sentiment: landing_card_flow_bullish(),
       putCall: "Calls",
       contract: "Sep 20, 2026 $140 Call",
       premiumValue: 22_800_000,
-      signal: "50x avg volume",
+      signal: landing_card_flow_1_signal(),
       time: "09:41 ET",
       toneClass:
         "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
@@ -382,12 +424,12 @@
     {
       id: "tsla-put-block",
       ticker: "TSLA",
-      flowTag: "Put Block",
-      sentiment: "Bearish",
+      flowTag: landing_card_flow_2_tag(),
+      sentiment: landing_card_flow_bearish(),
       putCall: "Puts",
       contract: "Aug 16, 2026 $180 Put",
       premiumValue: 16_400_000,
-      signal: "Near earnings",
+      signal: landing_card_flow_2_signal(),
       time: "10:18 ET",
       toneClass:
         "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-200",
@@ -396,12 +438,12 @@
     {
       id: "aapl-call-block",
       ticker: "AAPL",
-      flowTag: "Call Block",
-      sentiment: "Bullish",
+      flowTag: landing_card_flow_3_tag(),
+      sentiment: landing_card_flow_bullish(),
       putCall: "Calls",
       contract: "Jan 17, 2027 $260 Call",
       premiumValue: 14_700_000,
-      signal: "3rd sweep today",
+      signal: landing_card_flow_3_signal(),
       time: "11:03 ET",
       toneClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
@@ -523,9 +565,9 @@
       num: 1,
       candleIndex: 2,
       time: "08:31",
-      category: "Earnings",
-      title: "EPS $2.40 vs $2.14 expected",
-      detail: "Revenue beat by 4.2% — record services segment",
+      category: landing_card_wiim_cat_earnings(),
+      title: landing_card_wiim_1_title(),
+      detail: landing_card_wiim_1_detail(),
       impact: "+2.8%",
       impactValue: 2.8,
       toneClass:
@@ -536,9 +578,9 @@
       num: 2,
       candleIndex: 8,
       time: "10:02",
-      category: "Analyst",
-      title: "3 upgrades within 90 minutes",
-      detail: "Goldman, JPMorgan & Barclays raised targets",
+      category: landing_card_wiim_cat_analyst(),
+      title: landing_card_wiim_2_title(),
+      detail: landing_card_wiim_2_detail(),
       impact: "+1.6%",
       impactValue: 1.6,
       toneClass:
@@ -549,9 +591,9 @@
       num: 3,
       candleIndex: 14,
       time: "11:44",
-      category: "Whale Flow",
-      title: "$24M call sweep above ask",
-      detail: "Aggressive institutional buying post-upgrade",
+      category: landing_card_wiim_cat_whale(),
+      title: landing_card_wiim_3_title(),
+      detail: landing_card_wiim_3_detail(),
       impact: "+0.8%",
       impactValue: 0.8,
       toneClass:
@@ -752,7 +794,7 @@
           </div>
 
           <p class="mt-6 text-sm font-medium text-gray-600 dark:text-zinc-400">
-            No credit card required. Free forever.
+            {landing_hero_cta_note()}
           </p>
         </div>
 
@@ -905,7 +947,7 @@
                   points="6 17 11 12 6 7"
                 ></polyline></svg
               >
-              <span class="font-medium">Avg delivery &lt; 2 sec</span>
+              <span class="font-medium">{landing_alerts_stat_speed()}</span>
             </div>
             <div class="flex items-center gap-1.5">
               <svg
@@ -919,7 +961,7 @@
                 ><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"
                 ></path><path d="M13.73 21a2 2 0 01-3.46 0"></path></svg
               >
-              <span class="font-medium">6 alert types</span>
+              <span class="font-medium">{landing_alerts_stat_types()}</span>
             </div>
           </div>
           <div class="mt-6">
@@ -927,7 +969,7 @@
               href="/register"
               class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
             >
-              Get Started Free
+              {landing_alerts_cta()}
             </a>
           </div>
         </div>
@@ -942,7 +984,7 @@
           >
             <span
               class="text-sm font-bold text-gray-900 dark:text-white sm:text-base"
-              >Alert Feed</span
+              >{landing_card_alert_header()}</span
             >
           </div>
 
@@ -1010,9 +1052,9 @@
             <p
               class="text-xs text-gray-500 dark:text-zinc-400 sm:text-sm"
             >
-              Delivered in <span
+              {landing_card_alert_footer_pre()} <span
                 class="font-semibold text-gray-700 dark:text-zinc-300"
-                >&lt; 2 seconds</span
+                >{landing_card_alert_footer_value()}</span
               >
             </p>
           </div>
@@ -1104,7 +1146,7 @@
                         <p
                           class="text-xs font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400 sm:text-sm"
                         >
-                          Whale Options Flow
+                          {landing_card_flow_header()}
                         </p>
                       <p
                         class="mt-1 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl"
@@ -1114,7 +1156,7 @@
                         )}
                         <span
                           class="text-sm font-medium text-gray-500 dark:text-zinc-400 ml-1"
-                          >in whale premium today</span
+                          >{landing_card_flow_premium_label()}</span
                         >
                       </p>
                     </div>
@@ -1128,14 +1170,14 @@
                         <span
                           class="text-xs font-semibold text-gray-700 dark:text-zinc-300 sm:text-sm"
                         >
-                          Bullish {optionsFlowPreviewCallPremiumPct}%
+                          {landing_card_flow_bullish()} {optionsFlowPreviewCallPremiumPct}%
                         </span>
                       </div>
                       <div class="flex items-center gap-1.5">
                         <span
                           class="text-xs font-semibold text-gray-700 dark:text-zinc-300 sm:text-sm"
                         >
-                          {optionsFlowPreviewPutPremiumPct}% Bearish
+                          {optionsFlowPreviewPutPremiumPct}% {landing_card_flow_bearish()}
                         </span>
                         🐻
                       </div>
@@ -1217,10 +1259,10 @@
                     <p
                       class="text-xs text-gray-500 dark:text-zinc-400 sm:text-sm"
                     >
-                      Streaming <span
+                      {landing_card_flow_footer_pre()} <span
                         class="font-semibold text-gray-700 dark:text-zinc-300"
-                        >50,000+</span
-                      > contracts/day
+                        >{landing_card_flow_footer_value()}</span
+                      > {landing_card_flow_footer_post()}
                     </p>
                   </div>
                 </div>
@@ -1371,11 +1413,11 @@
                     <div class="flex items-center justify-between mb-1.5">
                       <span
                         class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400"
-                        >Move explained</span
+                        >{landing_card_wiim_explained()}</span
                       >
                       <span
                         class="text-[0.62rem] font-bold text-emerald-600 dark:text-emerald-400"
-                        >{wiimExplainedPct}% of +{wiimTotalMove}% accounted for</span
+                        >{wiimExplainedPct}% of +{wiimTotalMove}% {landing_card_wiim_accounted()}</span
                       >
                     </div>
                     <div
