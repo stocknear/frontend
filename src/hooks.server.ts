@@ -2,7 +2,7 @@ import { sequence } from "@sveltejs/kit/hooks";
 import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
-import { type Locale, locales, baseLocale, cookieName, cookieMaxAge } from "$lib/paraglide/runtime.js";
+import { type Locale, locales, baseLocale, cookieName, cookieMaxAge, extractLocaleFromHeader } from "$lib/paraglide/runtime.js";
 import { STOCKNEAR_API_KEY } from "$env/static/private";
 
 // Locale detection constants
@@ -30,9 +30,21 @@ function detectLocaleFromRequest(request: Request): { locale: Locale; needsToSet
     };
   }
 
-  // No valid cookie - detect from Cloudflare IP country
-  const country = request.headers.get("CF-IPCountry");
-  const detectedLocale: Locale = country === GERMAN_COUNTRY_CODE ? "de" : baseLocale;
+  // No valid cookie - detect locale using priority chain:
+  // 1. Browser's Accept-Language header (respects user's explicit language preference)
+  // 2. Cloudflare IP geolocation (fallback for bots/clients without Accept-Language)
+  // 3. Base locale "en" (ultimate fallback)
+  let detectedLocale: Locale = baseLocale;
+
+  const browserLocale = extractLocaleFromHeader(request);
+  if (browserLocale && (locales as readonly string[]).includes(browserLocale)) {
+    detectedLocale = browserLocale as Locale;
+  } else if (!browserLocale) {
+    const country = request.headers.get("CF-IPCountry");
+    if (country === GERMAN_COUNTRY_CODE) {
+      detectedLocale = "de";
+    }
+  }
 
   // Inject cookie into header for paraglideMiddleware to pick up
   const newCookie = `${cookieName}=${detectedLocale}`;
