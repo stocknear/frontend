@@ -52,13 +52,13 @@
     landing_feature_wiim_bullet_2,
     landing_feature_wiim_bullet_3,
     landing_feature_wiim_link,
-    landing_feature_analyst_title,
-    landing_feature_analyst_description,
-    landing_feature_analyst_bullet_1,
-    landing_feature_analyst_bullet_2,
-    landing_feature_analyst_bullet_3,
-    landing_feature_analyst_link,
     landing_more_tools_title,
+    landing_more_tool_analyst_title,
+    landing_more_tool_analyst_desc,
+    landing_more_tool_analyst_link,
+    landing_more_tool_financial_title,
+    landing_more_tool_financial_desc,
+    landing_more_tool_financial_link,
     landing_more_tool_screener_title,
     landing_more_tool_screener_desc,
     landing_more_tool_congress_title,
@@ -127,12 +127,6 @@
         placeholderHint: string;
       }
     | {
-        kind: "analyst-preview";
-      }
-    | {
-        kind: "financial-preview";
-      }
-    | {
         kind: "wiim-preview";
       }
     | {
@@ -161,7 +155,7 @@
         landing_feature_ai_bullet_3,
         landing_feature_ai_bullet_4,
       ],
-      href: "/chat",
+      href: "/register",
       linkLabel: landing_feature_ai_link,
       media: {
         kind: "video",
@@ -183,7 +177,7 @@
         landing_feature_flow_bullet_3,
         landing_feature_flow_bullet_4,
       ],
-      href: "/options-flow",
+      href: "/register",
       linkLabel: landing_feature_flow_link,
       reverse: true,
       media: {
@@ -199,44 +193,10 @@
         landing_feature_wiim_bullet_2,
         landing_feature_wiim_bullet_3,
       ],
-      href: "/news-flow",
+      href: "/register",
       linkLabel: landing_feature_wiim_link,
       media: {
         kind: "wiim-preview",
-      },
-    },
-    {
-      id: "analyst",
-      title: landing_feature_analyst_title,
-      description: landing_feature_analyst_description,
-      bullets: [
-        landing_feature_analyst_bullet_1,
-        landing_feature_analyst_bullet_2,
-        landing_feature_analyst_bullet_3,
-      ],
-      href: "/analysts",
-      linkLabel: landing_feature_analyst_link,
-      reverse: true,
-      media: {
-        kind: "analyst-preview",
-      },
-    },
-    {
-      id: "financial-history",
-      title: () => "Financial Charts With 30+ Years of History",
-      description: () =>
-        "Most platforms show a narrow window. Stocknear lets you zoom out across up to 30+ years of revenue, margins, cash flow, and balance-sheet history so you can judge business durability, not just short-term momentum.",
-      bullets: [
-        () => "Validate long-term growth quality before committing capital.",
-        () =>
-          "Compare full-cycle performance across bull, bear, and rate regimes.",
-        () =>
-          "Spot accounting and cash-flow trend shifts earlier with deeper context.",
-      ],
-      href: "/stocks/AAPL/financials/custom",
-      linkLabel: () => "Explore Financial Charting",
-      media: {
-        kind: "financial-preview",
       },
     },
   ];
@@ -291,6 +251,26 @@
         "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
       iconBgClass: "bg-amber-100 dark:bg-amber-900/30",
       iconToneClass: "text-amber-600 dark:text-amber-400",
+    },
+    {
+      href: "/analysts",
+      title: landing_more_tool_analyst_title,
+      description: landing_more_tool_analyst_desc,
+      cta: landing_more_tool_analyst_link,
+      iconPath:
+        "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+      iconBgClass: "bg-rose-100 dark:bg-rose-900/30",
+      iconToneClass: "text-rose-600 dark:text-rose-400",
+    },
+    {
+      href: "/stocks/AAPL/financials/custom",
+      title: landing_more_tool_financial_title,
+      description: landing_more_tool_financial_desc,
+      cta: landing_more_tool_financial_link,
+      iconPath:
+        "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+      iconBgClass: "bg-teal-100 dark:bg-teal-900/30",
+      iconToneClass: "text-teal-600 dark:text-teal-400",
     },
   ];
 
@@ -485,124 +465,6 @@
     if (value >= 1e3) return `$${(value / 1e3).toFixed(1)}K`;
     return `$${value.toFixed(0)}`;
   }
-
-  type AnalystPreviewMetric = {
-    id: string;
-    label: string;
-    value: string;
-    toneClass: string;
-  };
-
-  const analystPreviewMetrics: AnalystPreviewMetric[] = [
-    {
-      id: "accuracy",
-      label: "Price Target Accuracy",
-      value: "92%",
-      toneClass: "text-gray-900 dark:text-zinc-100",
-    },
-    {
-      id: "return",
-      label: "Average 1-Year Return",
-      value: "+43%",
-      toneClass: "text-emerald-700 dark:text-emerald-300",
-    },
-    {
-      id: "win-rate",
-      label: "Win Rate",
-      value: "78%",
-      toneClass: "text-gray-900 dark:text-zinc-100",
-    },
-  ];
-
-  type AnalystPreviewCall = {
-    id: string;
-    ticker: string;
-    company: string;
-    action: string;
-    target: string;
-    toneClass: string;
-  };
-
-  const analystPreviewCalls: AnalystPreviewCall[] = [
-    {
-      id: "nvda-upgrade",
-      ticker: "NVDA",
-      company: "NVIDIA",
-      action: "Upgrade to Buy",
-      target: "$1,180 PT",
-      toneClass:
-        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
-    },
-    {
-      id: "msft-maintain",
-      ticker: "MSFT",
-      company: "Microsoft",
-      action: "Maintain Overweight",
-      target: "$530 PT",
-      toneClass:
-        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
-    },
-    {
-      id: "amzn-raise",
-      ticker: "AMZN",
-      company: "Amazon",
-      action: "Target Raised",
-      target: "$245 PT",
-      toneClass:
-        "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
-    },
-  ];
-
-  type FinancialPreviewMetric = {
-    id: string;
-    label: string;
-    value: string;
-    toneClass: string;
-  };
-
-  const financialPreviewMetrics: FinancialPreviewMetric[] = [
-    {
-      id: "revenue-growth",
-      label: "30Y Revenue Growth",
-      value: "+5,840%",
-      toneClass: "text-[#b07e00] dark:text-[#fabe24]",
-    },
-    {
-      id: "fcf-margin",
-      label: "Avg FCF Margin",
-      value: "24.1%",
-      toneClass: "text-gray-900 dark:text-zinc-100",
-    },
-    {
-      id: "profit-cycles",
-      label: "Profit Cycles Tracked",
-      value: "7",
-      toneClass: "text-gray-900 dark:text-zinc-100",
-    },
-    {
-      id: "history-window",
-      label: "History Window",
-      value: "1995-2025",
-      toneClass: "text-gray-900 dark:text-zinc-100",
-    },
-  ];
-
-  type FinancialPreviewBar = {
-    id: string;
-    year: string;
-    valueLabel: string;
-    height: number;
-  };
-
-  const financialPreviewBars: FinancialPreviewBar[] = [
-    { id: "y1995", year: "1995", valueLabel: "$7B", height: 24 },
-    { id: "y2000", year: "2000", valueLabel: "$18B", height: 38 },
-    { id: "y2005", year: "2005", valueLabel: "$42B", height: 56 },
-    { id: "y2010", year: "2010", valueLabel: "$92B", height: 78 },
-    { id: "y2015", year: "2015", valueLabel: "$188B", height: 104 },
-    { id: "y2020", year: "2020", valueLabel: "$274B", height: 130 },
-    { id: "y2025", year: "2025", valueLabel: "$392B", height: 150 },
-  ];
 
   type WiimPreviewEvent = {
     id: string;
@@ -1066,120 +928,7 @@
                 ? "order-2 lg:order-1 w-full"
                 : "order-2 w-full"}
             >
-              {#if block.media.kind === "analyst-preview"}
-                <div
-                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
-                >
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p
-                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
-                      >
-                        Wall Street Data
-                      </p>
-                      <h4
-                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
-                      >
-                        Top analyst performance snapshot
-                      </h4>
-                    </div>
-                    <a
-                      href="/analysts"
-                      class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
-                    >
-                      View profile
-                    </a>
-                  </div>
-
-                  <div
-                    class="mt-4 rounded-xl border border-gray-200 bg-gray-50/80 p-3 dark:border-zinc-700 dark:bg-zinc-950/60"
-                  >
-                    <div class="flex items-center gap-2.5">
-                      <span
-                        class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          class="h-4 w-4"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </span>
-                      <div class="min-w-0">
-                        <p
-                          class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
-                        >
-                          Mizuho analyst profile
-                        </p>
-                        <p class="text-xs text-gray-500 dark:text-zinc-400">
-                          Ranked #58 of 9,200 analysts
-                        </p>
-                      </div>
-                    </div>
-                    <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-                      {#each analystPreviewMetrics as metric (metric.id)}
-                        <div
-                          class="rounded-lg border border-gray-200 bg-white px-2.5 py-2 dark:border-zinc-700 dark:bg-zinc-900/70"
-                        >
-                          <p
-                            class="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-gray-500 dark:text-zinc-400"
-                          >
-                            {metric.label}
-                          </p>
-                          <p
-                            class={`mt-1 text-sm font-semibold ${metric.toneClass}`}
-                          >
-                            {metric.value}
-                          </p>
-                        </div>
-                      {/each}
-                    </div>
-                  </div>
-
-                  <div class="mt-3 space-y-2">
-                    {#each analystPreviewCalls as call (call.id)}
-                      <a
-                        href="/analysts/58aed4dbb85e9300013bf4d4"
-                        class="flex items-center gap-2.5 rounded-lg border border-gray-200 px-3 py-2.5 transition hover:border-violet-300 dark:border-zinc-700 dark:hover:border-violet-500/50"
-                      >
-                        <img
-                          src={`https://financialmodelingprep.com/image-stock/${call.ticker}.png`}
-                          alt={`${call.ticker} logo`}
-                          class="h-7 w-7 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
-                          style="clip-path: circle(50%);"
-                          loading="lazy"
-                          on:error={(e) =>
-                            ((e.currentTarget as HTMLImageElement).src =
-                              "/pwa-192x192.png")}
-                        />
-                        <div class="min-w-0 flex-1">
-                          <p
-                            class="truncate text-sm font-semibold text-gray-900 dark:text-zinc-100"
-                          >
-                            {call.company}
-                          </p>
-                          <p
-                            class="truncate text-xs text-gray-600 dark:text-zinc-400"
-                          >
-                            {call.action}
-                          </p>
-                        </div>
-                        <span
-                          class={`whitespace-nowrap rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${call.toneClass}`}
-                        >
-                          {call.target}
-                        </span>
-                      </a>
-                    {/each}
-                  </div>
-                </div>
-              {:else if block.media.kind === "options-flow-preview"}
+              {#if block.media.kind === "options-flow-preview"}
                 <div
                   class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
                 >
@@ -1477,103 +1226,6 @@
                     {/each}
                   </div>
                 </div>
-              {:else if block.media.kind === "financial-preview"}
-                <div
-                  class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-5"
-                >
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p
-                        class="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-zinc-400"
-                      >
-                        Financial History
-                      </p>
-                      <h4
-                        class="mt-1 text-base font-semibold text-gray-900 dark:text-white sm:text-lg"
-                      >
-                        Company fundamentals across full cycles
-                      </h4>
-                    </div>
-                    <div
-                      class="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-gray-50 px-2 py-1 text-[0.62rem] font-semibold text-gray-600 dark:border-zinc-700 dark:bg-zinc-950/60 dark:text-zinc-300"
-                    >
-                      <span
-                        class="rounded-full bg-[#fabe24] px-2 py-0.5 text-[#3b2f05]"
-                        >Max</span
-                      >
-                      <span class="px-1">10Y</span>
-                      <span class="px-1">5Y</span>
-                    </div>
-                  </div>
-
-                  <div
-                    class="mt-4 rounded-xl border border-gray-200 bg-gray-50/80 p-3 dark:border-zinc-700 dark:bg-zinc-950/60"
-                  >
-                    <div
-                      class="relative h-44 rounded-lg border border-gray-200 bg-white px-2 pb-2 pt-5 dark:border-zinc-700 dark:bg-zinc-950/70"
-                    >
-                      <div
-                        class="pointer-events-none absolute inset-x-0 top-5 h-px bg-gray-200 dark:bg-zinc-700"
-                      ></div>
-                      <div
-                        class="pointer-events-none absolute inset-x-0 top-[45%] h-px bg-gray-200 dark:bg-zinc-700"
-                      ></div>
-                      <div
-                        class="pointer-events-none absolute inset-x-0 bottom-2 h-px bg-gray-300 dark:bg-zinc-600"
-                      ></div>
-                      <div
-                        class="absolute inset-x-2 bottom-6 top-7 flex items-end gap-2 sm:gap-3"
-                      >
-                        {#each financialPreviewBars as bar, index (bar.id)}
-                          <div
-                            class="flex min-w-0 flex-1 flex-col items-center"
-                          >
-                            <div
-                              class="w-full max-w-8 rounded-t-md bg-[#fabe24] shadow-[0_7px_14px_rgba(250,190,36,0.28)]"
-                              style={`height: ${bar.height}px; opacity: ${Math.min(0.45 + index * 0.08, 1)};`}
-                            ></div>
-                            <p
-                              class="mt-1 truncate text-[0.58rem] font-medium text-gray-500 dark:text-zinc-400 sm:text-[0.62rem]"
-                            >
-                              {bar.year}
-                            </p>
-                          </div>
-                        {/each}
-                      </div>
-                      <div
-                        class="absolute left-2 top-1 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-[0.58rem] font-semibold text-gray-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 sm:text-[0.62rem]"
-                      >
-                        Revenue
-                      </div>
-                      <div
-                        class="absolute right-2 bottom-8 rounded-md bg-[#fabe24] px-2 py-0.5 text-[0.58rem] font-semibold text-[#3b2f05] sm:text-[0.62rem]"
-                      >
-                        2025:
-                        {financialPreviewBars[financialPreviewBars.length - 1]
-                          ?.valueLabel ?? "$392B"}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
-                    {#each financialPreviewMetrics as metric (metric.id)}
-                      <div
-                        class="rounded-lg border border-gray-200 bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-950/60"
-                      >
-                        <p
-                          class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400"
-                        >
-                          {metric.label}
-                        </p>
-                        <p
-                          class={`mt-1 text-sm font-semibold sm:text-base ${metric.toneClass}`}
-                        >
-                          {metric.value}
-                        </p>
-                      </div>
-                    {/each}
-                  </div>
-                </div>
               {:else if hasMediaFailed(block.id)}
                 <div
                   class="flex min-h-[16rem] items-center justify-center rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gradient-to-br from-gray-100 to-gray-50 p-6 text-center dark:from-zinc-900 dark:to-zinc-950 sm:min-h-[22rem]"
@@ -1624,7 +1276,7 @@
         >
           {landing_more_tools_title()}
         </h3>
-        <div class="mt-8 grid gap-5 sm:grid-cols-2">
+        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {#each additionalToolCards as tool}
             <a
               href={tool.href}
