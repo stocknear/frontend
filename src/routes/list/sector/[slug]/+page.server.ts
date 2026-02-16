@@ -1,9 +1,6 @@
 export const load = async ({ locals, params }) => {
   const { apiKey, apiURL } = locals;
 
-  const getParams = async () => {
-    return params.slug;
-  };
   const getSectorCategory = async () => {
     const postData = { filterList: params.slug };
 
@@ -40,8 +37,7 @@ export const load = async ({ locals, params }) => {
 
   // Make sure to return a promise
   return {
-    getParams: await getParams(),
+    getParams: params.slug,
     getSectorCategory: await getSectorCategory(),
-    //getHistoricalSector: await getHistoricalSector(),
   };
 };

@@ -1,7 +1,4 @@
 export const load = async ({ locals, params }) => {
-  const getParams = async () => {
-    return params.slug;
-  };
   const getExchangeCategory = async () => {
     const { apiKey, apiURL } = locals;
     const postData = { filterList: params.slug };
@@ -23,6 +20,6 @@ export const load = async ({ locals, params }) => {
   // Make sure to return a promise
   return {
     getExchangeCategory: await getExchangeCategory(),
-    getParams: await getParams(),
+    getParams: params.slug,
   };
 };

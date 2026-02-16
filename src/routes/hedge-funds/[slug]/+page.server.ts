@@ -1,10 +1,6 @@
 export const load = async ({ params, locals }) => {
   const { apiURL, apiKey, user } = locals;
 
-  const getCIKNumber = async () => {
-    return params.slug;
-  };
-
   const getHedgeFundsData = async () => {
     const response = await fetch(apiURL + "/cik-data", {
       method: "POST",
@@ -33,6 +29,6 @@ export const load = async ({ params, locals }) => {
 
   return {
     getHedgeFundsData: await getHedgeFundsData(),
-    getCIKNumber: await getCIKNumber(),
+    getCIKNumber: params.slug,
   };
 };

@@ -43,10 +43,15 @@ export const load = async ({ locals, params }) => {
 
   
 
-  // Make sure to return a promise
+  // Fetch both in parallel
+  const [data, historicalPrice] = await Promise.all([
+    getData(),
+    getHistoricalPrice(),
+  ]);
+
   return {
-    getData: await getData(),
-    getHistoricalPrice: await getHistoricalPrice(),
+    getData: data,
+    getHistoricalPrice: historicalPrice,
   };
 };
 

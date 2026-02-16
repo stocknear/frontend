@@ -1,8 +1,4 @@
 export const load = async ({ params, locals }) => {
-  const getProviderName = async () => {
-    return params.slug;
-  };
-
   const getETFProviderData = async () => {
     const { apiKey, apiURL, user } = locals;
     const postData = { etfProvider: params.slug };
@@ -23,6 +19,6 @@ export const load = async ({ params, locals }) => {
   // Make sure to return a promise
   return {
     getETFProviderData: await getETFProviderData(),
-    getProviderName: await getProviderName(),
+    getProviderName: params.slug,
   };
 };

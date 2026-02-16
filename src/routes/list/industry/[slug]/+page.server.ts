@@ -1,10 +1,6 @@
 export const load = async ({ params, locals, setHeaders }) => {
     const { apiKey, apiURL } = locals;
 
-   const getParams = async () => {
-    return params.slug;
-  };
-
   const getIndustryStocks = async () => {
 
     const postData = { "filterList": params.slug };
@@ -28,7 +24,7 @@ export const load = async ({ params, locals, setHeaders }) => {
 
   // Make sure to return a promise
   return {
-        getParams: await getParams(),
+    getParams: params.slug,
     getIndustryStocks: await getIndustryStocks(),
   };
 };
