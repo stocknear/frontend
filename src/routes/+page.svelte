@@ -496,9 +496,74 @@
     return `$${value.toFixed(0)}`;
   }
 
+  // --- WIIM Candlestick Chart ---
+  type WiimCandle = { o: number; h: number; l: number; c: number };
+  const wiimCandles: WiimCandle[] = [
+    { o: 224.80, h: 225.30, l: 224.40, c: 225.00 },
+    { o: 225.00, h: 225.20, l: 224.50, c: 224.70 },
+    { o: 228.20, h: 229.60, l: 227.80, c: 229.30 },
+    { o: 229.30, h: 230.10, l: 228.80, c: 229.70 },
+    { o: 229.70, h: 230.00, l: 229.00, c: 229.20 },
+    { o: 229.20, h: 230.50, l: 229.00, c: 230.30 },
+    { o: 230.30, h: 231.00, l: 229.70, c: 230.80 },
+    { o: 230.80, h: 231.20, l: 230.20, c: 230.50 },
+    { o: 230.50, h: 233.00, l: 230.30, c: 232.80 },
+    { o: 232.80, h: 233.50, l: 232.30, c: 233.00 },
+    { o: 233.00, h: 233.30, l: 232.40, c: 232.60 },
+    { o: 232.60, h: 233.40, l: 232.40, c: 233.20 },
+    { o: 233.20, h: 233.50, l: 232.80, c: 233.00 },
+    { o: 233.00, h: 233.80, l: 232.90, c: 233.60 },
+    { o: 233.60, h: 235.60, l: 233.40, c: 235.30 },
+    { o: 235.30, h: 236.00, l: 234.80, c: 235.50 },
+    { o: 235.50, h: 235.80, l: 234.90, c: 235.10 },
+    { o: 235.10, h: 235.90, l: 234.90, c: 235.70 },
+    { o: 235.70, h: 236.10, l: 235.30, c: 235.50 },
+    { o: 235.50, h: 236.40, l: 235.30, c: 236.10 },
+    { o: 236.10, h: 236.90, l: 235.90, c: 236.70 },
+    { o: 236.70, h: 237.60, l: 236.50, c: 237.42 },
+  ];
+
+  // Chart geometry (SVG viewBox 0 0 400 180)
+  const WIIM_C = { L: 32, R: 8, T: 24, B: 22, W: 400, H: 180 } as const;
+  const wiimPMax = 238.5;
+  const wiimPRange = 15; // 223.5 → 238.5
+  const wiimIW = WIIM_C.W - WIIM_C.L - WIIM_C.R;
+  const wiimIH = WIIM_C.H - WIIM_C.T - WIIM_C.B;
+  const wiimCS = wiimIW / wiimCandles.length;
+  const wiimCW = wiimCS * 0.55;
+
+  function wiimY(price: number) {
+    return WIIM_C.T + (wiimIH * (wiimPMax - price)) / wiimPRange;
+  }
+
+  const wiimCandlePos = wiimCandles.map((c, i) => {
+    const cx = WIIM_C.L + wiimCS * (i + 0.5);
+    const g = c.c >= c.o;
+    const bt = wiimY(Math.max(c.o, c.c));
+    const bb = wiimY(Math.min(c.o, c.c));
+    return {
+      cx,
+      bx: cx - wiimCW / 2,
+      wt: wiimY(c.h),
+      wb: wiimY(c.l),
+      bt,
+      bh: Math.max(bb - bt, 1),
+      g,
+    };
+  });
+
+  const wiimGridPrices = [224, 227, 230, 233, 236];
+  const wiimTimeLabels = [
+    { label: "8:00", i: 0 },
+    { label: "9:30", i: 6 },
+    { label: "11:00", i: 12 },
+    { label: "1:00", i: 20 },
+  ].map((t) => ({ label: t.label, x: WIIM_C.L + wiimCS * (t.i + 0.5) }));
+
   type WiimPreviewEvent = {
     id: string;
     num: number;
+    candleIndex: number;
     time: string;
     category: string;
     title: string;
@@ -506,85 +571,57 @@
     impact: string;
     impactValue: number;
     toneClass: string;
-    markerX: number;
-    markerY: number;
   };
 
   const wiimPreviewEvents: WiimPreviewEvent[] = [
     {
       id: "earnings",
       num: 1,
+      candleIndex: 2,
       time: "08:31",
       category: "Earnings",
       title: "EPS $2.40 vs $2.14 expected",
-      detail: "Revenue beat by 4.2% with record services segment",
-      impact: "+2.6%",
-      impactValue: 2.6,
+      detail: "Revenue beat by 4.2% — record services segment",
+      impact: "+2.8%",
+      impactValue: 2.8,
       toneClass:
         "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
-      markerX: 68,
-      markerY: 70,
-    },
-    {
-      id: "guidance",
-      num: 2,
-      time: "09:15",
-      category: "Guidance",
-      title: "FY26 outlook raised to $420-430B",
-      detail: "Management lifted full-year revenue guidance from $405B",
-      impact: "+1.2%",
-      impactValue: 1.2,
-      toneClass:
-        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
-      markerX: 120,
-      markerY: 55,
     },
     {
       id: "analysts",
-      num: 3,
+      num: 2,
+      candleIndex: 8,
       time: "10:02",
       category: "Analyst",
       title: "3 upgrades within 90 minutes",
-      detail: "Goldman, JPMorgan, Barclays all raised price targets",
-      impact: "+0.8%",
-      impactValue: 0.8,
+      detail: "Goldman, JPMorgan & Barclays raised targets",
+      impact: "+1.6%",
+      impactValue: 1.6,
       toneClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
-      markerX: 172,
-      markerY: 44,
     },
     {
       id: "flow",
-      num: 4,
+      num: 3,
+      candleIndex: 14,
       time: "11:44",
-      category: "Options",
-      title: "$24M weekly call sweep above ask",
-      detail: "Aggressive institutional call buying detected post-upgrade",
-      impact: "+0.5%",
-      impactValue: 0.5,
+      category: "Whale Flow",
+      title: "$24M call sweep above ask",
+      detail: "Aggressive institutional buying post-upgrade",
+      impact: "+0.8%",
+      impactValue: 0.8,
       toneClass:
-        "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200",
-      markerX: 232,
-      markerY: 38,
-    },
-    {
-      id: "buyback",
-      num: 5,
-      time: "13:10",
-      category: "Corporate",
-      title: "$110B buyback authorized",
-      detail: "Largest single buyback program in company history",
-      impact: "+0.3%",
-      impactValue: 0.3,
-      toneClass:
-        "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
-      markerX: 284,
-      markerY: 32,
+        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
     },
   ];
 
+  const wiimEventMarkers = wiimPreviewEvents.map((e) => ({
+    ...e,
+    mx: WIIM_C.L + wiimCS * (e.candleIndex + 0.5),
+  }));
+
   const wiimTotalExplained = wiimPreviewEvents.reduce(
-    (sum, e) => sum + e.impactValue,
+    (s, e) => s + e.impactValue,
     0,
   );
   const wiimTotalMove = 5.6;
@@ -1366,173 +1403,111 @@
                     </div>
                   </div>
 
-                  <!-- Chart with numbered event markers -->
-                  <div class="px-4 pt-3 sm:px-5">
+                  <!-- Candlestick chart -->
+                  <div class="px-3 pt-3 sm:px-4">
                     <div
-                      class="rounded-xl border border-gray-200 bg-gray-50/80 p-2.5 dark:border-zinc-700 dark:bg-zinc-950/60"
+                      class="rounded-xl border border-gray-100 bg-gray-50/60 p-2 dark:border-zinc-800 dark:bg-zinc-950/50"
                     >
                       <svg
-                        viewBox="0 0 320 120"
-                        class="h-28 w-full"
+                        viewBox="0 0 400 180"
+                        class="h-48 w-full sm:h-56"
                         role="img"
-                        aria-label="AAPL intraday price chart with catalyst markers"
+                        aria-label="AAPL intraday candlestick chart with catalyst markers"
                       >
-                        <defs>
-                          <linearGradient
-                            id="wiimGrad"
-                            x1="0%"
-                            y1="0%"
-                            x2="0%"
-                            y2="100%"
-                          >
-                            <stop
-                              offset="0%"
-                              stop-color="#10b981"
-                              stop-opacity="0.22"
-                            ></stop>
-                            <stop
-                              offset="100%"
-                              stop-color="#10b981"
-                              stop-opacity="0"
-                            ></stop>
-                          </linearGradient>
-                        </defs>
-                        <!-- Grid lines -->
-                        <line
-                          x1="8"
-                          y1="15"
-                          x2="312"
-                          y2="15"
-                          stroke="#d1d5db"
-                          stroke-opacity="0.3"
-                          stroke-width="0.5"
-                          class="dark:stroke-zinc-700"
-                        ></line>
-                        <line
-                          x1="8"
-                          y1="50"
-                          x2="312"
-                          y2="50"
-                          stroke="#d1d5db"
-                          stroke-opacity="0.3"
-                          stroke-width="0.5"
-                          class="dark:stroke-zinc-700"
-                        ></line>
-                        <line
-                          x1="8"
-                          y1="85"
-                          x2="312"
-                          y2="85"
-                          stroke="#d1d5db"
-                          stroke-opacity="0.3"
-                          stroke-width="0.5"
-                          class="dark:stroke-zinc-700"
-                        ></line>
-                        <!-- Y-axis labels -->
-                        <text
-                          x="2"
-                          y="18"
-                          fill="#9ca3af"
-                          font-size="6"
-                          class="dark:fill-zinc-500">$238</text
-                        >
-                        <text
-                          x="2"
-                          y="53"
-                          fill="#9ca3af"
-                          font-size="6"
-                          class="dark:fill-zinc-500">$231</text
-                        >
-                        <text
-                          x="2"
-                          y="88"
-                          fill="#9ca3af"
-                          font-size="6"
-                          class="dark:fill-zinc-500">$224</text
-                        >
-                        <!-- X-axis time labels -->
-                        <text
-                          x="30"
-                          y="108"
-                          fill="#9ca3af"
-                          font-size="6"
-                          text-anchor="middle"
-                          class="dark:fill-zinc-500">8:30</text
-                        >
-                        <text
-                          x="110"
-                          y="108"
-                          fill="#9ca3af"
-                          font-size="6"
-                          text-anchor="middle"
-                          class="dark:fill-zinc-500">9:30</text
-                        >
-                        <text
-                          x="190"
-                          y="108"
-                          fill="#9ca3af"
-                          font-size="6"
-                          text-anchor="middle"
-                          class="dark:fill-zinc-500">11:00</text
-                        >
-                        <text
-                          x="270"
-                          y="108"
-                          fill="#9ca3af"
-                          font-size="6"
-                          text-anchor="middle"
-                          class="dark:fill-zinc-500">12:30</text
-                        >
-                        <!-- Area fill -->
-                        <path
-                          d="M20 82 C40 80,55 78,68 70 C80 63,100 58,120 55 C140 52,155 48,172 44 C190 40,210 40,232 38 C250 36,268 34,284 32 C295 30,305 29,310 28 L310 98 L20 98 Z"
-                          fill="url(#wiimGrad)"
-                        ></path>
-                        <!-- Price line -->
-                        <path
-                          d="M20 82 C40 80,55 78,68 70 C80 63,100 58,120 55 C140 52,155 48,172 44 C190 40,210 40,232 38 C250 36,268 34,284 32 C295 30,305 29,310 28"
-                          fill="none"
-                          stroke="#10b981"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></path>
-                        <!-- Event markers with numbers -->
-                        {#each wiimPreviewEvents as event (event.id)}
+                        <!-- Grid lines + Y-axis labels -->
+                        {#each wiimGridPrices as price}
+                          {@const y = wiimY(price)}
                           <line
-                            x1={event.markerX}
-                            y1={event.markerY + 7}
-                            x2={event.markerX}
-                            y2="98"
-                            stroke="#6b7280"
-                            stroke-opacity="0.18"
-                            stroke-width="1"
-                            stroke-dasharray="2 2"
+                            x1={WIIM_C.L}
+                            y1={y}
+                            x2={WIIM_C.W - WIIM_C.R}
+                            y2={y}
+                            stroke="#e5e7eb"
+                            stroke-width="0.5"
+                            class="dark:stroke-zinc-700/60"
                           ></line>
+                          <text
+                            x={WIIM_C.L - 4}
+                            y={y + 3}
+                            fill="#9ca3af"
+                            font-size="7"
+                            text-anchor="end"
+                            class="dark:fill-zinc-500">${price}</text
+                          >
+                        {/each}
+
+                        <!-- X-axis time labels -->
+                        {#each wiimTimeLabels as tl}
+                          <text
+                            x={tl.x}
+                            y={WIIM_C.H - 4}
+                            fill="#9ca3af"
+                            font-size="7"
+                            text-anchor="middle"
+                            class="dark:fill-zinc-500">{tl.label}</text
+                          >
+                        {/each}
+
+                        <!-- Event marker dashed lines (behind candles) -->
+                        {#each wiimEventMarkers as em (em.id)}
+                          <line
+                            x1={em.mx}
+                            y1={WIIM_C.T}
+                            x2={em.mx}
+                            y2={WIIM_C.H - WIIM_C.B}
+                            stroke="#8b5cf6"
+                            stroke-opacity="0.15"
+                            stroke-width="1"
+                            stroke-dasharray="3 2"
+                          ></line>
+                        {/each}
+
+                        <!-- Candlesticks -->
+                        {#each wiimCandlePos as cd, i}
+                          <line
+                            x1={cd.cx}
+                            y1={cd.wt}
+                            x2={cd.cx}
+                            y2={cd.wb}
+                            stroke={cd.g ? "#10b981" : "#f43f5e"}
+                            stroke-width="1.2"
+                          ></line>
+                          <rect
+                            x={cd.bx}
+                            y={cd.bt}
+                            width={wiimCW}
+                            height={cd.bh}
+                            fill={cd.g ? "#10b981" : "#f43f5e"}
+                            rx="0.8"
+                          ></rect>
+                        {/each}
+
+                        <!-- Event marker circles (on top of candles) -->
+                        {#each wiimEventMarkers as em (em.id)}
                           <circle
-                            cx={event.markerX}
-                            cy={event.markerY}
-                            r="8"
+                            cx={em.mx}
+                            cy={12}
+                            r="7.5"
                             fill="white"
-                            stroke="#10b981"
+                            stroke="#7c3aed"
                             stroke-width="1.5"
                             class="dark:fill-zinc-900"
                           ></circle>
                           <text
-                            x={event.markerX}
-                            y={event.markerY + 3.5}
-                            fill="#10b981"
-                            font-size="8"
+                            x={em.mx}
+                            y={15.5}
+                            fill="#7c3aed"
+                            font-size="8.5"
                             font-weight="700"
-                            text-anchor="middle">{event.num}</text
+                            text-anchor="middle">{em.num}</text
                           >
                         {/each}
                       </svg>
                     </div>
                   </div>
 
-                  <!-- Move breakdown bar -->
-                  <div class="mx-4 mt-3 sm:mx-5">
+                  <!-- Move explained bar -->
+                  <div class="mx-3 mt-2.5 sm:mx-4">
                     <div class="flex items-center justify-between mb-1.5">
                       <span
                         class="text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-gray-500 dark:text-zinc-400"
@@ -1553,20 +1528,17 @@
                     </div>
                   </div>
 
-                  <!-- Event timeline -->
-                  <div class="px-4 pb-4 pt-3 sm:px-5 sm:pb-5 space-y-1.5">
+                  <!-- Event timeline — 3 catalysts -->
+                  <div class="px-3 pb-4 pt-3 sm:px-4 sm:pb-5 space-y-2">
                     {#each wiimPreviewEvents as event (event.id)}
-                      <a
-                        href="/news-flow"
-                        class="group flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3 py-2 transition hover:border-violet-300 hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-900/75 dark:hover:border-violet-500/45"
+                      <div
+                        class="flex items-start gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-900/75"
                       >
-                        <!-- Numbered marker -->
                         <span
-                          class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[0.6rem] font-bold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200"
+                          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-100 text-[0.6rem] font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200"
                         >
                           {event.num}
                         </span>
-                        <!-- Content -->
                         <div class="min-w-0 flex-1">
                           <div class="flex items-center gap-1.5">
                             <span
@@ -1580,23 +1552,22 @@
                             >
                           </div>
                           <p
-                            class="mt-0.5 truncate text-[0.8rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100"
+                            class="mt-0.5 text-[0.82rem] font-semibold leading-tight text-gray-900 dark:text-zinc-100"
                           >
                             {event.title}
                           </p>
                           <p
-                            class="truncate text-[0.68rem] text-gray-500 dark:text-zinc-400"
+                            class="text-[0.7rem] text-gray-500 dark:text-zinc-400"
                           >
                             {event.detail}
                           </p>
                         </div>
-                        <!-- Impact badge -->
                         <span
-                          class="shrink-0 rounded-lg bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+                          class="mt-0.5 shrink-0 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
                         >
                           {event.impact}
                         </span>
-                      </a>
+                      </div>
                     {/each}
                   </div>
                 </div>
