@@ -1,4 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
+import crypto from 'node:crypto';
 import webPush from 'web-push';
 import { VAPID_PRIVATE_KEY } from "$env/static/private";
 
@@ -22,7 +23,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   // Extract 'url' from the request body
   const { title, body, key, url, userId } = await request?.json();
 
-  if (apiKey !== key) {
+  // Timing-safe API key comparison to prevent timing attacks
+  const apiKeyBuf = Buffer.from(apiKey ?? '', 'utf8');
+  const keyBuf = Buffer.from(key ?? '', 'utf8');
+  if (apiKeyBuf.length !== keyBuf.length || !crypto.timingSafeEqual(apiKeyBuf, keyBuf)) {
     return new Response(JSON.stringify({ success: false, error: 'Invalid API key' }), { status: 401 });
   }
 

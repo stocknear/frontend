@@ -6,14 +6,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
 
   // Early return if user is not logged in
- /*
   if (!user?.id) {
     return new Response(
       JSON.stringify({ error: "Authentication required" }),
       { status: 401 }
     );
   }
-    */
   const costOfCredit = getCreditFromQuery(data?.query, agentOptions);
 
   if (user?.credits < costOfCredit) {

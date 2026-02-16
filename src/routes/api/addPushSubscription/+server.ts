@@ -13,7 +13,7 @@ export const POST = (async ({ locals, request }) => {
 	filter: `user="${user?.id}"`,
 	});
 
-	if (output?.length > 0) {
+	if (items?.length > 0) {
 		for (const item of items) {
 			await pb.collection("pushSubscription").delete(item?.id);
 		}
