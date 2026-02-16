@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import DashboardView from "$lib/components/Dashboard/DashboardView.svelte";
 
   import {
     home_seo_description,
@@ -712,6 +713,9 @@
   <link rel="dns-prefetch" href="https://financialmodelingprep.com" />
 </svelte:head>
 
+{#if data?.user}
+  <DashboardView {data} {form} />
+{:else}
 <!-- Shared SVG symbol definitions (rendered once, referenced via <use>) -->
 <svg class="hidden" aria-hidden="true">
   <symbol id="star-icon" viewBox="0 0 24 24">
@@ -1821,3 +1825,4 @@
     </div>
   </section>
 </div>
+{/if}

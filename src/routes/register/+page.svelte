@@ -646,7 +646,7 @@
         <!-- Skip for now -->
         <div class="text-center mt-8">
           <a
-            href="/dashboard"
+            href="/"
             class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 transition"
           >
             {register_step2_skip()}

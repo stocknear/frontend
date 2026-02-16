@@ -4,7 +4,6 @@ Allow: /
 
 # Disallow user-specific and private areas
 Disallow: /profile*
-Disallow: /dashboard*
 Disallow: /settings*
 Disallow: /admin*
 Disallow: /api/*

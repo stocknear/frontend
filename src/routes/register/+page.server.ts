@@ -18,7 +18,7 @@ export async function load({ locals, url }) {
 
   // If user is authenticated and already Pro/Plus, redirect to dashboard
   if (pb.authStore.isValid && ["Pro", "Plus"].includes(locals.user?.tier)) {
-    redirect(303, "/dashboard");
+    redirect(303, "/");
   }
 
   // If user is authenticated and on step 2, let them see plan selection
@@ -31,7 +31,7 @@ export async function load({ locals, url }) {
 
   // If user is authenticated but not on step 2, send to dashboard
   if (pb.authStore.isValid) {
-    redirect(303, "/dashboard");
+    redirect(303, "/");
   }
 
   // Unauthenticated user on step 2 should go back to step 1

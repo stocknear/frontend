@@ -103,6 +103,32 @@ const getClientIp = (event) => {
   return undefined;
 };
 
+// Auth refresh cache — avoids hitting PocketBase on every request
+const AUTH_CACHE_TTL = 60_000; // 1 minute
+const AUTH_CACHE_MAX = 500;
+const authCache = new Map<string, { user: any; timestamp: number }>();
+
+async function resolveUser(pb: any): Promise<any> {
+  const token = pb.authStore?.token;
+  if (!token) return undefined;
+
+  const cached = authCache.get(token);
+  if (cached && Date.now() - cached.timestamp < AUTH_CACHE_TTL) {
+    return cached.user;
+  }
+
+  await pb.collection("users").authRefresh();
+  const user = serializeNonPOJOs(pb.authStore.model);
+
+  // Evict oldest if at capacity
+  if (authCache.size >= AUTH_CACHE_MAX) {
+    const oldest = authCache.keys().next().value;
+    authCache.delete(oldest);
+  }
+  authCache.set(token, { user, timestamp: Date.now() });
+  return user;
+}
+
 export const handle = sequence(async ({ event, resolve }) => {
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
   // API routes don't need locale handling and the middleware consumes the request body
@@ -148,8 +174,7 @@ export const handle = sequence(async ({ event, resolve }) => {
 
     if (event?.locals?.pb?.authStore?.isValid) {
       try {
-        await event?.locals?.pb?.collection("users")?.authRefresh();
-        event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
+        event.locals.user = await resolveUser(event.locals.pb);
       } catch (e) {
         event.locals.pb.authStore.clear();
         event.locals.user = undefined;
@@ -233,8 +258,7 @@ export const handle = sequence(async ({ event, resolve }) => {
 
     if (event?.locals?.pb?.authStore?.isValid) {
       try {
-        await event?.locals?.pb?.collection("users")?.authRefresh();
-        event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
+        event.locals.user = await resolveUser(event.locals.pb);
       } catch (e) {
         event.locals.pb.authStore.clear();
         event.locals.user = undefined;
