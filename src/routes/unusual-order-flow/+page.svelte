@@ -88,7 +88,6 @@
   import UnusualOrderFlowExport from "$lib/components/UnusualOrderFlowExport.svelte";
   export let data;
 
-  let timeoutId = null;
   let isComponentDestroyed = false;
   let removeList = false;
   let isFullWidth = false;
@@ -99,10 +98,7 @@
   let reconnectInterval: ReturnType<typeof setTimeout> | null = null;
   let muted = false;
   let audio: HTMLAudioElement | null = null;
-  let historicalDataLoaded = false;
 
-  // Pro users start with modeStatus=true to fetch historical data via WebSocket
-  // When market is closed, WebSocket disconnects after historical data is received
   let modeStatus = data?.user?.tier === "Pro" ? true : false;
 
   let strategyList = data?.getAllStrategies || [];
@@ -284,7 +280,7 @@
       displayRules = allRows?.filter((row) =>
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
-      fetchTableData(1);
+      debouncedFilterFetch();
     }
   }
 
@@ -303,7 +299,7 @@
     displayRules = allRows?.filter((row) =>
       ruleOfList.some((rule) => rule.name === row.rule),
     );
-    fetchTableData(1);
+    debouncedFilterFetch();
   }
 
   async function applyPopularStrategy(state: string) {
@@ -397,7 +393,7 @@
         ]),
     );
 
-    fetchTableData(1);
+    debouncedFilterFetch();
   }
 
   async function switchStrategy(item) {
@@ -431,7 +427,7 @@
     );
 
     // Trigger the filter system
-    fetchTableData(1);
+    debouncedFilterFetch();
   }
 
   async function handleCreateStrategy() {
@@ -499,7 +495,7 @@
       );
 
       // Trigger the filter system
-      fetchTableData(1);
+      debouncedFilterFetch();
 
       return true;
     })();
@@ -623,7 +619,7 @@
       );
 
       // Trigger the filter system
-      fetchTableData(1);
+      debouncedFilterFetch();
 
       return output;
     })();
@@ -824,16 +820,18 @@
         displayRules = allRows?.filter((row) =>
           ruleOfList.some((rule) => rule.name === row.rule),
         );
+        debouncedFilterFetch();
       } else {
         ruleOfList[existingRuleIndex] = newRule;
         ruleOfList = [...ruleOfList]; // Trigger reactivity
+        debouncedFilterFetch();
       }
     } else {
       ruleOfList = [...ruleOfList, newRule];
       displayRules = allRows?.filter((row) =>
         ruleOfList.some((rule) => rule.name === row.rule),
       );
-      fetchTableData(1);
+      debouncedFilterFetch();
     }
   }
 
@@ -969,8 +967,8 @@
       ruleOfList = [...ruleOfList];
     }
 
-    // Trigger server-side fetch
-    fetchTableData(1);
+    // Trigger server-side fetch (debounced to batch rapid changes)
+    debouncedFilterFetch();
   }
 
   async function stepSizeValue(value, condition) {
@@ -1022,17 +1020,18 @@
   let currentPage = ssrFlowData?.page ?? 1;
   let totalItems = ssrFlowData?.total ?? 0;
   let totalPages = ssrFlowData?.totalPages ?? 1;
-  let pageSize = 50;
+  let rowsPerPage = 50;
 
   // Sort state
   let activeSortKey = "date";
   let activeSortOrder = "desc";
 
   // Loading state for table
-  let isTableLoading = false;
+  let isFetchingPage = false;
+  let requestId = 0;
 
   // AbortController for cancelling in-flight requests
-  let fetchAbortController: AbortController | null = null;
+  let currentAbortController: AbortController | null = null;
 
   // Column reordering
   let unusualOrderFlowResetColumnOrder: () => void;
@@ -1047,14 +1046,14 @@
       clearTimeout(tableSearchTimeout);
     }
     tableSearchTimeout = setTimeout(() => {
-      fetchTableData(1);
+      fetchTableData({ page: 1 });
       sendFiltersToWebSocket();
     }, 300);
   }
 
   function resetSearch() {
     filterQuery = "";
-    fetchTableData(1);
+    fetchTableData({ page: 1 });
     sendFiltersToWebSocket();
   }
 
@@ -1091,7 +1090,15 @@
   };
 
   function buildActiveRules(): any[] {
-    return ruleOfList.map((rule: any) => ({ ...rule }));
+    return ruleOfList.filter(
+      (r) =>
+        r.value !== "any" &&
+        !(
+          Array.isArray(r.value) &&
+          r.value.length === 1 &&
+          r.value[0] === "any"
+        ),
+    );
   }
 
   // Build simplified filter object for WebSocket
@@ -1136,88 +1143,101 @@
 
   function sendFiltersToWebSocket() {
     if (socket?.readyState === WebSocket.OPEN) {
+      // Use "init" instead of "filters" so the server re-marks all cached
+      // items as sent.  The user already has fresh data from the REST fetch,
+      // so only genuinely new items arriving after this point should be
+      // delivered — preventing a large backfill batch that triggers a
+      // second table reload.
       socket.send(JSON.stringify({ type: "init", filters: buildWsFilters() }));
     }
   }
 
-  async function fetchTableData(page = 1) {
-    if (data?.user?.tier !== "Pro") return;
+  // Debounced wrapper for filter changes — batches rapid clicks into one fetch
+  let filterFetchTimeout: ReturnType<typeof setTimeout> | null = null;
 
+  function debouncedFilterFetch() {
+    if (filterFetchTimeout) clearTimeout(filterFetchTimeout);
+    filterFetchTimeout = setTimeout(() => {
+      fetchTableData({ page: 1 });
+      sendFiltersToWebSocket();
+    }, 200);
+  }
+
+  async function fetchTableData({
+    page = currentPage,
+    pageSize = rowsPerPage,
+    sortKey = activeSortKey,
+    sortOrder = activeSortOrder,
+  } = {}) {
     // Cancel any in-flight request
-    if (fetchAbortController) {
-      fetchAbortController.abort();
-    }
-    fetchAbortController = new AbortController();
+    if (currentAbortController) currentAbortController.abort();
+    currentAbortController = new AbortController();
+    const signal = currentAbortController.signal;
 
-    isTableLoading = true;
+    const invocationId = ++requestId;
+    const activeRules = buildActiveRules();
 
+    isFetchingPage = true;
     try {
-      const activeRules = buildActiveRules();
       const params = new URLSearchParams({
         page: String(page),
         pageSize: String(pageSize),
-        sortKey: activeSortKey,
-        sortOrder: activeSortOrder,
+        sortKey,
+        sortOrder,
       });
 
-      if (filterQuery) {
-        params.set("search", filterQuery);
-      }
-      if (activeRules.length > 0) {
+      if (filterQuery) params.set("search", filterQuery);
+      if (activeRules.length > 0)
         params.set("rules", JSON.stringify(activeRules));
-      }
 
       const response = await fetch(`/api/unusual-order-feed?${params}`, {
-        signal: fetchAbortController.signal,
+        signal,
       });
 
-      if (!response.ok) return;
-
+      if (signal.aborted) return;
       const result = await response.json();
+      if (invocationId !== requestId) return;
 
       displayedData = result.items || [];
       rawData = displayedData;
       totalItems = result.total ?? 0;
-      currentPage = result.page ?? 1;
-      totalPages = result.totalPages ?? 1;
+      currentPage = result.page ?? page;
+      rowsPerPage = result.pageSize ?? pageSize;
+      totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+      activeSortKey = sortKey;
+      activeSortOrder = sortOrder;
 
       // Update stats from server
-      updateStatsFromResponse(result.stats);
-
-      // Update WS filters to match
-      sendFiltersToWebSocket();
-    } catch (err: any) {
-      if (err?.name !== "AbortError") {
-        console.error("fetchTableData error:", err);
-      }
+      if (result.stats) updateStatsFromResponse(result.stats);
+    } catch (e) {
+      if (e?.name === "AbortError") return; // Expected cancellation
+      console.error("fetchTableData error:", e);
     } finally {
-      isTableLoading = false;
+      if (invocationId === requestId) isFetchingPage = false;
     }
+    isLoaded = true;
   }
 
   function handleSort(key: string, order: string) {
     if (order === "none") {
-      activeSortKey = "date";
-      activeSortOrder = "desc";
+      // Reset to default sort (newest first)
+      fetchTableData({ page: 1, sortKey: "date", sortOrder: "desc" });
     } else {
-      activeSortKey = key;
-      activeSortOrder = order;
+      fetchTableData({ page: 1, sortKey: key, sortOrder: order });
     }
-    fetchTableData(1);
   }
 
   const rowsPerPageOptions = [20, 50, 100];
 
   function goToPage(pageNumber: number) {
-    if (pageNumber < 1 || pageNumber > totalPages || isTableLoading) return;
-    fetchTableData(pageNumber);
+    if (pageNumber < 1 || pageNumber > totalPages || isFetchingPage) return;
+    fetchTableData({ page: pageNumber });
   }
 
   function changeRowsPerPage(newSize: number) {
-    if (pageSize === newSize || isTableLoading) return;
-    pageSize = newSize;
+    if (rowsPerPage === newSize || isFetchingPage) return;
     saveRowsPerPage(newSize);
-    fetchTableData(1);
+    fetchTableData({ page: 1, pageSize: newSize });
   }
 
   function scrollToTop() {
@@ -1235,7 +1255,7 @@
   }
 
   function loadRowsPerPage(): number {
-    if (!browser) return pageSize;
+    if (!browser) return rowsPerPage;
     try {
       const saved = localStorage.getItem("/unusual-order-flow_rowsPerPage");
       const parsed = saved ? Number(saved) : NaN;
@@ -1331,11 +1351,13 @@
       return;
     }
 
+    // Prevent duplicate connections
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
         socket.readyState === WebSocket.OPEN)
     ) {
+      console.log("WebSocket already connected or connecting");
       return;
     }
 
@@ -1348,41 +1370,23 @@
         console.log("Unusual Order Flow WebSocket connection opened");
         reconnectAttempts = 0;
 
+        // Send init with filters
         const message = {
           type: "init",
           filters: buildWsFilters(),
         };
-        socket?.send(JSON.stringify(message));
+        socket.send(JSON.stringify(message));
       });
 
       socket.addEventListener("message", async (event) => {
         try {
           const message = JSON.parse(event.data);
 
-          // Handle historical data batches (legacy - should not happen with new server)
-          if (message?.type === "historical" && Array.isArray(message?.data)) {
-            console.log(
-              `Receiving historical data: ${message.progress}% complete, batch size: ${message.data.length}`,
-            );
-
-            if (message.isComplete) {
-              historicalDataLoaded = true;
-              if (!$isOpen) {
-                console.log(
-                  "Market closed - disconnecting WebSocket after historical data",
-                );
-                modeStatus = false;
-                disconnectWebSocket();
-              }
-            }
-            return;
-          }
-
-          // Handle live updates (new items matching filters from server)
+          // Handle live updates only (array of new trades)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
             // Skip WS updates while a REST fetch is in-flight to avoid data race
-            if (isTableLoading) return;
+            if (isFetchingPage) return;
 
             // Safety: if server accidentally sends a huge batch, refresh from API instead
             if (newData.length > 200) {
@@ -1395,30 +1399,17 @@
               return;
             }
 
-            console.log(
-              "Received new unusual order flow data, length:",
-              newData.length,
-            );
+            console.log("Received new live trades:", newData.length);
 
-            // Prepend new items to displayedData (they're already filtered by server)
-            const existingIds = new Set(
-              displayedData.map((item: any) => item?.trackingID),
-            );
-            const uniqueNewItems = newData.filter(
-              (item: any) => !existingIds.has(item?.trackingID),
-            );
+            // Prepend new trades to the current page display
+            displayedData = [...newData, ...displayedData];
+            rawData = displayedData;
 
-            if (uniqueNewItems.length > 0) {
-              displayedData = [...uniqueNewItems, ...displayedData];
-              rawData = displayedData;
-              totalItems += uniqueNewItems.length;
-
-              // Play notification sound
-              if (!muted && audio) {
-                audio?.play()?.catch((error) => {
-                  console.log("Audio play failed:", error);
-                });
-              }
+            // Play notification sound for new live trades
+            if (!muted && audio) {
+              audio?.play()?.catch((error) => {
+                console.log("Audio play failed:", error);
+              });
             }
           }
         } catch (error) {
@@ -1475,7 +1466,6 @@
   }
 
   // Reactive statement for automatic WebSocket connection
-  // For Pro users: connect to get historical data, stay connected if market is open
   $: if (data?.user?.tier === "Pro" && modeStatus) {
     connectWebSocket();
   } else if (data?.user?.tier !== "Pro" || !modeStatus) {
@@ -1513,12 +1503,6 @@
       muted = JSON.parse(savedMutedState);
     }
 
-    // Load saved rows per page preference
-    const storedRows = loadRowsPerPage();
-    if (storedRows !== pageSize) {
-      pageSize = storedRows;
-    }
-
     ruleOfList?.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition || allRules[rule.name].defaultCondition;
@@ -1531,13 +1515,9 @@
 
     audio = new Audio(notifySound);
 
-    // Re-fetch if stored pageSize differs from SSR default, or if filters are active
-    if (
-      storedRows !== 50 ||
-      filterQuery?.length > 0 ||
-      ruleOfList?.length !== 0
-    ) {
-      await fetchTableData(1);
+    const storedRows = loadRowsPerPage();
+    if (storedRows !== rowsPerPage) {
+      changeRowsPerPage(storedRows);
     }
 
     isLoaded = true;
@@ -1547,8 +1527,8 @@
     isComponentDestroyed = true;
     disconnectWebSocket();
 
-    if (fetchAbortController) {
-      fetchAbortController.abort();
+    if (currentAbortController) {
+      currentAbortController.abort();
     }
 
     if (audio) {
@@ -1613,17 +1593,6 @@
     }
   }
 
-  $: {
-    if (ruleOfList) {
-      const ruleToUpdate = ruleOfList?.find((rule) => rule?.name === ruleName);
-      if (ruleToUpdate) {
-        ruleToUpdate.value = valueMappings[ruleToUpdate.name];
-        ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
-        ruleOfList = [...ruleOfList];
-        fetchTableData(1);
-      }
-    }
-  }
 </script>
 
 <SEO
@@ -2983,7 +2952,7 @@
                   {displayedData}
                   {filteredData}
                   {rawData}
-                  isLoading={isTableLoading}
+                  isLoading={isFetchingPage}
                   onSort={handleSort}
                   bind:resetColumnOrder={unusualOrderFlowResetColumnOrder}
                   bind:customColumnOrder
@@ -3003,7 +2972,7 @@
                 <div class="flex items-center gap-2">
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 1 || isTableLoading}
+                    disabled={currentPage === 1 || isFetchingPage}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
@@ -3036,7 +3005,7 @@
                         class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{pageSize} Rows</span
+                          >{rowsPerPage} Rows</span
                         >
                         <svg
                           class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -3083,7 +3052,7 @@
                 <div class="flex items-center gap-2">
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages || isTableLoading}
+                    disabled={currentPage === totalPages || isFetchingPage}
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
