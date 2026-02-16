@@ -1307,8 +1307,8 @@
                           y1={WIIM_C.T}
                           x2={em.mx}
                           y2={WIIM_C.H - WIIM_C.B}
-                          stroke="#8b5cf6"
-                          stroke-opacity="0.15"
+                          stroke="#a78bfa"
+                          stroke-opacity="0.25"
                           stroke-width="1"
                           stroke-dasharray="3 2"
                         ></line>
@@ -1341,14 +1341,14 @@
                           cy={12}
                           r="7.5"
                           fill="white"
-                          stroke="#7c3aed"
-                          stroke-width="1.5"
+                          stroke="#a78bfa"
+                          stroke-width="2"
                           class="dark:fill-zinc-900"
                         ></circle>
                         <text
                           x={em.mx}
                           y={15.5}
-                          fill="#7c3aed"
+                          fill="#a78bfa"
                           font-size="8.5"
                           font-weight="700"
                           text-anchor="middle">{em.num}</text
