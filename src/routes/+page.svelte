@@ -117,14 +117,18 @@
     },
   ];
 
-  type FeatureMedia = {
-    kind: "image" | "video";
-    src: string;
-    poster?: string;
-    alt: string;
-    placeholderTitle: string;
-    placeholderHint: string;
-  };
+  type FeatureMedia =
+    | {
+        kind: "image" | "video";
+        src: string;
+        poster?: string;
+        alt: string;
+        placeholderTitle: string;
+        placeholderHint: string;
+      }
+    | {
+        kind: "analyst-preview";
+      };
 
   type FeatureShowcaseBlock = {
     id: string;
@@ -215,12 +219,7 @@
       linkLabel: landing_feature_analyst_link,
       reverse: true,
       media: {
-        kind: "image",
-        src: "/img/landing-page/analyst-chart.png",
-        alt: "Analyst ratings, accuracy, and target revisions",
-        placeholderTitle: "Analyst Module Placeholder",
-        placeholderHint:
-          "Add an analyst dashboard screenshot at /static/img/landing-page/analyst-chart.png",
+        kind: "analyst-preview",
       },
     },
     {
@@ -366,6 +365,79 @@
       link: "/insider-tracker",
       toneClass:
         "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-200",
+    },
+  ];
+
+  type AnalystPreviewMetric = {
+    id: string;
+    label: string;
+    value: string;
+    valueClass: string;
+    cardClass: string;
+  };
+
+  const analystPreviewMetrics: AnalystPreviewMetric[] = [
+    {
+      id: "accuracy",
+      label: "Price Target Accuracy",
+      value: "92%",
+      valueClass: "text-gray-900 dark:text-zinc-900",
+      cardClass: "max-w-[19rem] md:max-w-[22rem]",
+    },
+    {
+      id: "return",
+      label: "Average 1-Year Return",
+      value: "+43%",
+      valueClass: "text-emerald-700",
+      cardClass:
+        "max-w-[20rem] md:max-w-[24rem] md:ml-[14%] lg:ml-[18%] xl:ml-[22%]",
+    },
+    {
+      id: "win-rate",
+      label: "Win Rate",
+      value: "78%",
+      valueClass: "text-gray-900 dark:text-zinc-900",
+      cardClass:
+        "max-w-[17rem] md:max-w-[22rem] ml-auto md:mr-[2%] lg:mr-[4%] xl:mr-[7%]",
+    },
+  ];
+
+  type AnalystPreviewCall = {
+    id: string;
+    ticker: string;
+    company: string;
+    action: string;
+    target: string;
+    toneClass: string;
+  };
+
+  const analystPreviewCalls: AnalystPreviewCall[] = [
+    {
+      id: "nvda-upgrade",
+      ticker: "NVDA",
+      company: "NVIDIA",
+      action: "Upgrade to Buy",
+      target: "$1,180 PT",
+      toneClass:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200",
+    },
+    {
+      id: "msft-maintain",
+      ticker: "MSFT",
+      company: "Microsoft",
+      action: "Maintain Overweight",
+      target: "$530 PT",
+      toneClass:
+        "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200",
+    },
+    {
+      id: "amzn-raise",
+      ticker: "AMZN",
+      company: "Amazon",
+      action: "Target Raised",
+      target: "$245 PT",
+      toneClass:
+        "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-200",
     },
   ];
 
@@ -792,7 +864,81 @@
                 ? "order-2 lg:order-1 w-full"
                 : "order-2 w-full"}
             >
-              {#if hasMediaFailed(block.id)}
+              {#if block.media.kind === "analyst-preview"}
+                <div
+                  class="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gradient-to-br from-indigo-950 via-violet-900 to-blue-900 p-4 shadow-sm sm:p-6"
+                >
+                  <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.2),transparent_42%),radial-gradient(circle_at_85%_85%,rgba(255,255,255,0.16),transparent_48%)]"
+                  >
+                  </div>
+                  <div class="relative space-y-3.5 sm:space-y-4">
+                    {#each analystPreviewMetrics as metric (metric.id)}
+                      <div
+                        class={`rounded-2xl border border-white/30 bg-white/95 p-4 shadow-[0_10px_24px_rgba(2,6,23,0.25)] sm:p-5 ${metric.cardClass}`}
+                      >
+                        <p class="text-sm font-medium text-gray-700 sm:text-base">
+                          {metric.label}
+                        </p>
+                        <p
+                          class={`mt-2 text-3xl font-semibold tracking-tight sm:text-4xl ${metric.valueClass}`}
+                        >
+                          {metric.value}
+                        </p>
+                      </div>
+                    {/each}
+                  </div>
+                  <div
+                    class="relative mt-4 rounded-xl border border-white/20 bg-black/20 p-3 backdrop-blur-sm sm:p-4"
+                  >
+                    <div class="mb-2.5 flex items-center justify-between">
+                      <p
+                        class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-white/70"
+                      >
+                        Top Analyst Calls
+                      </p>
+                      <a
+                        href="/analysts/58aed4dbb85e9300013bf4d4"
+                        class="text-[0.68rem] font-semibold text-violet-100 hover:text-white"
+                      >
+                        View profile
+                      </a>
+                    </div>
+                    <div class="space-y-2">
+                      {#each analystPreviewCalls as call (call.id)}
+                        <a
+                          href="/analysts/58aed4dbb85e9300013bf4d4"
+                          class="flex items-center gap-2.5 rounded-lg border border-white/15 bg-white/10 px-2.5 py-2 text-white/95 transition hover:border-white/35 hover:bg-white/15"
+                        >
+                          <img
+                            src={`https://financialmodelingprep.com/image-stock/${call.ticker}.png`}
+                            alt={`${call.ticker} logo`}
+                            class="h-7 w-7 shrink-0 rounded-full border border-white/20 p-0.5"
+                            style="clip-path: circle(50%);"
+                            loading="lazy"
+                            on:error={(e) =>
+                              ((e.currentTarget as HTMLImageElement).src =
+                                "/pwa-192x192.png")}
+                          />
+                          <div class="min-w-0 flex-1">
+                            <p class="truncate text-xs font-semibold sm:text-sm">
+                              {call.company}
+                            </p>
+                            <p class="truncate text-[0.7rem] text-white/70">
+                              {call.action}
+                            </p>
+                          </div>
+                          <span
+                            class={`whitespace-nowrap rounded-full px-2 py-0.5 text-[0.62rem] font-semibold ${call.toneClass}`}
+                          >
+                            {call.target}
+                          </span>
+                        </a>
+                      {/each}
+                    </div>
+                  </div>
+                </div>
+              {:else if hasMediaFailed(block.id)}
                 <div
                   class="flex min-h-[16rem] items-center justify-center rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gradient-to-br from-gray-100 to-gray-50 p-6 text-center dark:from-zinc-900 dark:to-zinc-950 sm:min-h-[22rem]"
                 >
