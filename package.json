@@ -45,7 +45,6 @@
     "got": "^14.4.2",
     "highcharts": "^12.5.0",
     "jsonwebtoken": "^9.0.2",
-    "jspdf": "^3.0.3",
     "katex": "^0.16.11",
     "lucide-svelte": "^0.438.0",
     "luxon": "^3.5.0",

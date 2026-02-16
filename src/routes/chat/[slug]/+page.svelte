@@ -5,7 +5,6 @@
   import Plus from "lucide-svelte/icons/plus";
 
   import { getCreditFromQuery, agentOptions, agentCategory } from "$lib/utils";
-  import { downloadChatPDF } from "$lib/pdfExport";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
@@ -286,18 +285,6 @@
   function handleMessageRelatedQuestion(event) {
     // Handle related question click from ChatMessage component
     handleRelatedQuestionClick(event);
-  }
-
-  async function exportToPDF() {
-    try {
-      const success = await downloadChatPDF(messages);
-      if (!success) {
-        console.error("Failed to export PDF");
-        // You could add a toast notification here
-      }
-    } catch (error) {
-      console.error("Error exporting PDF:", error);
-    }
   }
 
   async function llmChat(userMessage?: string) {
@@ -802,7 +789,6 @@
               isEditMode={editingMessageIndex === index}
               isLatestSystemMessage={index === messages.length - 1}
               allMessages={messages}
-              onExportPDF={exportToPDF}
               {chatId}
               on:rewrite={rewriteResponse}
               on:edit={editMessage}
@@ -822,7 +808,6 @@
               isEditMode={editingMessageIndex === index}
               isLatestSystemMessage={index === messages.length - 1}
               allMessages={messages}
-              onExportPDF={exportToPDF}
               {chatId}
               on:rewrite={rewriteResponse}
               on:edit={editMessage}
@@ -836,8 +821,6 @@
         <!-- sentinel div always at the bottom -->
         <div bind:this={bottomEl}></div>
       </div>
-
-      <!-- Export button moved to ChatMessage component -->
 
       <div
         class="bg-white dark:bg-zinc-950 fixed absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
