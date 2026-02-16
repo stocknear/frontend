@@ -1,8 +1,9 @@
 import type { RequestHandler } from "./$types";
+import { postAPI } from "$lib/server/api";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey, user } = locals;
+  const { user } = locals;
 
   // Security: Check authentication
   if (!user?.id) {
@@ -12,17 +13,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  const postData = { listId: data?.portfolioId, ruleOfList: data?.ruleOfList };
-  const response = await fetch(apiURL + "/get-portfolio", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey,
-    },
-    body: JSON.stringify(postData),
-  });
-
-  const output = await response.json();
-
+  const output = await postAPI(locals, "/get-portfolio", { listId: data?.portfolioId, ruleOfList: data?.ruleOfList });
   return new Response(JSON.stringify(output));
 };

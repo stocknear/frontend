@@ -1,7 +1,7 @@
+import { getAPI } from "$lib/server/api";
+
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ locals, setHeaders }) {
-  const { apiKey, apiURL } = locals;
-  
   try {
     setHeaders({
       'Content-Type': 'application/xml; charset=utf-8',
@@ -9,23 +9,22 @@ export async function GET({ locals, setHeaders }) {
     });
 
     // Fetch stock data
-    const stocksResponse = await fetch(`${apiURL}/full-searchbar`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey
-      }
-    }).then(res => res.json()).catch(() => []);
+    let stocksResponse;
+    try {
+      stocksResponse = await getAPI(locals, "/full-searchbar");
+    } catch {
+      stocksResponse = [];
+    }
 
-    const stocks = stocksResponse?.map(item => ({ 
-      symbol: item?.symbol, 
+    const stocks = stocksResponse?.map(item => ({
+      symbol: item?.symbol,
       type: item?.type,
       lastUpdated: item?.lastUpdated || new Date()
     })) || [];
 
     const website = "https://stocknear.com";
     const currentDate = new Date().toISOString();
-    
+
     // Limit to prevent oversized sitemaps (Google limit: 50,000 URLs)
     const limitedStocks = stocks.slice(0, 25000);
 
@@ -35,10 +34,10 @@ export async function GET({ locals, setHeaders }) {
         : ticker.type === "ETF"
         ? "/etf/"
         : "/index/";
-      
+
       const priority = ticker.type === "Stock" ? 0.8 : ticker.type === "ETF" ? 0.75 : 0.7;
       const lastmod = ticker.lastUpdated ? new Date(ticker.lastUpdated).toISOString() : currentDate;
-      
+
       return `  <url>
     <loc>${website}${basePath}${ticker.symbol}</loc>
     <lastmod>${lastmod}</lastmod>

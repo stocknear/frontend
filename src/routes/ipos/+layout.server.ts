@@ -1,44 +1,9 @@
+import { postAPI } from "$lib/server/api";
+
 export const load = async ({ locals }) => {
-  const { apiKey, apiURL } = locals;
-   const getNews = async () => {
-      const postData = { newsType: "stock-news" };
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + "/market-news", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": apiKey,
-        },
-        body: JSON.stringify(postData),
-      });
-  
-      const output = await response.json();
-  
-      return output;
-    };
-  
-
-  const getIPOCalendar = async () => {
-    // make the POST request to the endpoint
-    const postData = { year: "all" };
-
-    const response = await fetch(apiURL + "/ipo-calendar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response.json();
-
-    return output;
-  };
-
   const [news, ipoCalendar] = await Promise.all([
-    getNews(),
-    getIPOCalendar(),
+    postAPI(locals, "/market-news", { newsType: "stock-news" }),
+    postAPI(locals, "/ipo-calendar", { year: "all" }),
   ]);
 
   return {

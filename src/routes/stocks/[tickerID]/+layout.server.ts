@@ -1,5 +1,6 @@
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
+import { postAPI } from "$lib/server/api";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -33,7 +34,6 @@ const cleanString = (() => {
 
 // Constants
 const CACHE_DURATION =  30 * 1000;
-const REQUEST_TIMEOUT = 2000;
 const ENDPOINTS = Object.freeze([
   "/stockdeck",
   "/analyst-summary-rating",
@@ -74,57 +74,24 @@ class LRUCache {
 
 const dataCache = new LRUCache();
 
-// Optimized fetch function with AbortController and timeout
-const fetchWithTimeout = async (url, options, timeout) => {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-  
-  try {
-    const response = await fetch(url, {
-      ...options,
-      signal: controller.signal
-    });
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    return await response.json();
-  } finally {
-    clearTimeout(timeoutId);
-  }
-};
-
 // Main data fetching function
-const fetchData = async (apiURL, apiKey, endpoint, ticker, lang = "en") => {
-  const cacheKey = `${endpoint}-${ticker}-${lang}`;
+const fetchData = async (locals, ticker, lang = "en") => {
+  const cacheKey = `/bulk-data-${ticker}-${lang}`;
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey
-    },
-    body: JSON.stringify({ ticker, endpoints: ENDPOINTS, lang })
-  };
-
   try {
-    const data = await fetchWithTimeout(
-      `${apiURL}${endpoint}`,
-      options,
-      REQUEST_TIMEOUT
-    );
+    const data = await postAPI(locals, "/bulk-data", { ticker, endpoints: ENDPOINTS, lang });
     dataCache.set(cacheKey, data);
     return data;
   } catch (error) {
-    if (error.name === 'AbortError') {
-      throw new Error(`Request timeout for ${endpoint}`);
-    }
     throw error;
   }
 };
 
 // Main load function with parallel fetching
 export const load = async ({ params, locals }) => {
-  const { apiURL, apiKey, pb, user, locale } = locals;
+  const { pb, user, locale } = locals;
   const { tickerID } = params;
 
   if (!tickerID) {
@@ -133,7 +100,7 @@ export const load = async ({ params, locals }) => {
 
   try {
     const [stockData, userWatchlist] = await Promise.all([
-      fetchData(apiURL, apiKey, "/bulk-data", tickerID, locale ?? "en"),
+      fetchData(locals, tickerID, locale ?? "en"),
       fetchWatchlist(pb, user?.id)
     ]);
 
@@ -149,7 +116,7 @@ export const load = async ({ params, locals }) => {
       '/stock-news': getNews = {}
     } = stockData;
 
-    // 👇 Decide based on market hours
+    // Decide based on market hours
     const getPrePostQuote = checkMarketHourSSR() ?  {} : fetchedPrePostQuote;
     return {
       getStockDeck,

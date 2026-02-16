@@ -1,4 +1,5 @@
 import { error } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import type { PageServerLoad } from "./$types";
 
 // Ticker validation: allows ^SPX, AAPL, BRK.A, BTC-USD formats
@@ -7,7 +8,7 @@ const isValidTicker = (ticker: unknown): ticker is string =>
   typeof ticker === "string" && ticker.length >= 1 && ticker.length <= 20 && TICKER_REGEX.test(ticker.toUpperCase());
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-  const { apiKey, apiURL, wsURL, user, pb } = locals;
+  const { wsURL, user, pb } = locals;
 
   // Validate ticker format
   if (!isValidTicker(params.slug)) {
@@ -15,95 +16,19 @@ export const load: PageServerLoad = async ({ locals, params }) => {
   }
   const ticker = params.slug.toUpperCase();
 
-  const payload = JSON.stringify({ ticker });
-  const headers = {
-    "Content-Type": "application/json",
-    "X-API-KEY": apiKey,
-  };
-
   // Check if user has Pro tier for events endpoints
   const isSubscribed = user?.tier === "Pro";
 
   // Base API calls (always needed)
-  const baseFetches = [
-    fetch(apiURL + "/historical-adj-price", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/one-day-price", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/stock-quote", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/stockdeck", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-    fetch(apiURL + "/get-asset-type", {
-      method: "POST",
-      headers,
-      body: payload,
-    }),
-  ];
+  const [historical, intraday, getStockQuote, getStockDeck, assetTypePayload] = await Promise.all([
+    postAPI(locals, "/historical-adj-price", { ticker }).catch(() => []),
+    postAPI(locals, "/one-day-price", { ticker }).catch(() => []),
+    postAPI(locals, "/stock-quote", { ticker }).catch(() => ({})),
+    postAPI(locals, "/stockdeck", { ticker }).catch(() => ({})),
+    postAPI(locals, "/get-asset-type", { ticker }).catch(() => ({})),
+  ]);
 
-  const [historicalRes, intradayRes, stockQuoteRes, stockDeckRes, assetTypeRes] =
-    await Promise.all(baseFetches);
-
-  let historical = [];
-  if (historicalRes.ok) {
-    try {
-      historical = await historicalRes.json();
-    } catch {
-      historical = [];
-    }
-  }
-
-  let intraday = [];
-  if (intradayRes.ok) {
-    try {
-      intraday = await intradayRes.json();
-    } catch {
-      intraday = [];
-    }
-  }
-
-  let getStockQuote = {};
-  if (stockQuoteRes.ok) {
-    try {
-      getStockQuote = await stockQuoteRes.json();
-    } catch {
-      getStockQuote = {};
-    }
-  }
-
-  let getStockDeck = {};
-  if (stockDeckRes.ok) {
-    try {
-      getStockDeck = await stockDeckRes.json();
-    } catch {
-      getStockDeck = {};
-    }
-  }
-
-  let assetType = "";
-  if (assetTypeRes.ok) {
-    try {
-      const typePayload = await assetTypeRes.json();
-      assetType =
-        typeof typePayload?.assetType === "string"
-          ? typePayload.assetType
-          : "";
-    } catch {
-      assetType = "";
-    }
-  }
+  const assetType = typeof assetTypePayload?.assetType === "string" ? assetTypePayload.assetType : "";
 
   const getAllStrategies = async () => {
     if (!["Pro"]?.includes(user?.tier)) return [];

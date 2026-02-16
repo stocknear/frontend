@@ -1,5 +1,6 @@
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
+import { postAPI } from "$lib/server/api";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -21,7 +22,6 @@ const REMOVE_PATTERNS = {
 
 // Constants
 const CACHE_DURATION = 30 * 1000;
-const REQUEST_TIMEOUT = 2000;
 const ENDPOINTS = Object.freeze([
   "/index-profile",
   "/etf-holdings",
@@ -80,69 +80,32 @@ class LRUCache {
 
 const dataCache = new LRUCache();
 
-// Optimized fetch function with AbortController and timeout
-const fetchWithTimeout = async (url, options, timeout) => {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-  
-  try {
-    const response = await fetch(url, {
-      ...options,
-      signal: controller.signal
-    });
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    return await response.json();
-  } finally {
-    clearTimeout(timeoutId);
-  }
+const INDEX_TO_ETF = {
+  "^spx": "SPY",
+  "^dji": "DIA",
+  "^ixic": "QQQ",
+  "^rut": "IWM",
 };
 
 // Main data fetching function with SPX/SPY handling
-const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
-  const INDEX_TO_ETF = {
-    "^spx": "SPY",     // S&P 500
-    "^dji": "DIA",     // Dow Jones Industrial Average
-    "^ixic": "QQQ",    // Nasdaq-100
-    "^rut": "IWM",     // Russell 2000
-  };
-  
+const fetchData = async (locals, endpoint, ticker) => {
   const useProxyTicker =
     ticker?.toLowerCase() in INDEX_TO_ETF &&
     SPY_PROXY_ENDPOINTS.includes(endpoint);
-  
+
   const effectiveTicker =
     useProxyTicker ? INDEX_TO_ETF[ticker.toLowerCase()] : ticker;
 
-    
-
-  
   const cacheKey = `${endpoint}-${effectiveTicker}`;
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey
-    },
-    body: JSON.stringify({ ticker: effectiveTicker })
-  };
-
   try {
-    const data = await fetchWithTimeout(
-      `${apiURL}${endpoint}`,
-      options,
-      REQUEST_TIMEOUT
-    );
+    const data = await postAPI(locals, endpoint, { ticker: effectiveTicker });
     dataCache.set(cacheKey, data);
     return data;
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.error(`Request timeout for ${endpoint}`);
-    } else {
-      console.error(`Error fetching ${endpoint}:`, error);
-    }
+    console.error(`Error fetching ${endpoint}:`, error);
     return [];
   }
 };
@@ -164,7 +127,7 @@ const getDefaultResponse = (tickerID) => ({
 
 // Main load function with parallel fetching
 export const load = async ({ params, locals }) => {
-  const { apiURL, apiKey, pb, user } = locals;
+  const { pb, user } = locals;
   const { tickerID } = params;
 
   if (!tickerID) {
@@ -173,7 +136,7 @@ export const load = async ({ params, locals }) => {
 
   try {
     const promises = ENDPOINTS.map(endpoint =>
-      fetchData(apiURL, apiKey, endpoint, tickerID)
+      fetchData(locals, endpoint, tickerID)
     );
     promises.push(fetchWatchlist(pb, user?.id));
 

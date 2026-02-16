@@ -1,19 +1,8 @@
 import type { RequestHandler } from "./$types";
+import { postAPI } from "$lib/server/api";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey } = locals;
-
-  const postData = { ticker: data?.ticker, timePeriod: data?.timePeriod };
-  const response = await fetch(apiURL + "/historical-price", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey,
-    },
-    body: JSON.stringify(postData),
-  });
-
-  const output = await response.json();
+  const output = await postAPI(locals, "/historical-price", { ticker: data?.ticker, timePeriod: data?.timePeriod });
   return new Response(JSON.stringify(output));
 };

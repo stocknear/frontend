@@ -1,25 +1,14 @@
 import type { RequestHandler } from "./$types";
+import { postAPI } from "$lib/server/api";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey, user } = locals;
+  const { user } = locals;
 
-  const postData = {
+  const output = await postAPI(locals, "/covered-call-screener-data", {
     ruleOfList: data?.ruleOfList,
-    subscriber: user?.tier  ?? "Free",
+    subscriber: user?.tier ?? "Free",
     optionContracts: data?.optionContracts || [],
-  };
-
-  const response = await fetch(apiURL + "/covered-call-screener-data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey,
-    },
-    body: JSON.stringify(postData),
   });
-
-  const output = await response?.json();
-
   return new Response(JSON.stringify(output));
 };

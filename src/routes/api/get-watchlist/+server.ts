@@ -1,7 +1,8 @@
 import type { RequestHandler } from "./$types";
+import { postAPI } from "$lib/server/api";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { user, pb, apiURL, apiKey } = locals;
+  const { user, pb } = locals;
 
   if (!user?.id) {
     return new Response(
@@ -37,17 +38,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  const postData = { watchListId, ruleOfList: data?.ruleOfList };
-  const response = await fetch(apiURL + "/get-watchlist", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey,
-    },
-    body: JSON.stringify(postData),
-  });
-
-  const output = await response.json();
-
+  const output = await postAPI(locals, "/get-watchlist", { watchListId, ruleOfList: data?.ruleOfList });
   return new Response(JSON.stringify(output));
 };

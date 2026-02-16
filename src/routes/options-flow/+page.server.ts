@@ -1,5 +1,7 @@
+import { getAPI } from "$lib/server/api";
+
 export const load = async ({ locals, url }) => {
-  const { apiURL, apiKey, pb, user, wsURL, fastifyURL } = locals;
+  const { pb, user, wsURL, fastifyURL } = locals;
 
   const getAllStrategies = async () => {
     let output = [];
@@ -96,19 +98,7 @@ export const load = async ({ locals, url }) => {
 
   const getOptionsFlowFeed = async () => {
     try {
-      const response = await fetch(`${apiURL}/options-flow-feed?${params.toString()}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": apiKey,
-        },
-      });
-
-      if (!response.ok) {
-        return { items: [], total: 0, page: 1, pageSize: 50, sort: { key: "time", order: "desc" }, stats: null };
-      }
-
-      return await response.json();
+      return await getAPI(locals, `/options-flow-feed?${params.toString()}`);
     } catch (e) {
       console.error("Failed to fetch options flow feed:", e);
       return { items: [], total: 0, page: 1, pageSize: 50, sort: { key: "time", order: "desc" }, stats: null };

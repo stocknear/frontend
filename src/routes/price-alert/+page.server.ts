@@ -1,3 +1,5 @@
+import { postAPI } from "$lib/server/api";
+
 const TRUTHY_VALUES = new Set(["1", "true", "yes", "y", "on"]);
 
 function toBool(value: unknown): boolean {
@@ -137,7 +139,7 @@ async function cleanupTriggeredPriceAlerts(pb: any, userId: string): Promise<voi
 }
 
 export const load = async ({ locals }) => {
-  const { apiKey, apiURL, user, pb } = locals;
+  const { user, pb } = locals;
 
   const getPriceAlert = async () => {
     if (!user?.id) {
@@ -150,17 +152,7 @@ export const load = async ({ locals }) => {
       console.error("priceAlert cleanup failed:", error);
     }
 
-    const postData = { userId: user.id };
-    const response = await fetch(apiURL + "/get-price-alert", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response.json();
+    const output = await postAPI(locals, "/get-price-alert", { userId: user.id });
 
     output.data = (output?.data || [])
       ?.filter((item) => !toBool(item?.triggered))

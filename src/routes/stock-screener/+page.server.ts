@@ -1,4 +1,4 @@
-import { error, redirect } from "@sveltejs/kit";
+import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
 // Define the EMA parameters to check
@@ -27,49 +27,23 @@ const ensureAllEmaParameters = (params) => {
 };
 
 export const load = async ({ locals }) => {
-  const { apiURL, apiKey,  user, pb } = locals;
+  const { user, pb } = locals;
 
   const getAllStrategies = async () => {
     let output = [];
 
-      if (!['Plus','Pro']?.includes(user?.tier)) {
-        return [];
-      }
+    if (!['Plus','Pro']?.includes(user?.tier)) {
+      return [];
+    }
 
-     try {
-        output = await pb.collection("stocksScreener").getFullList({
+    try {
+      output = await pb.collection("stocksScreener").getFullList({
         filter: `user="${user?.id}"`,
-        });
-            output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
-
+      });
+      output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
+    } catch(e) {
+      output = [];
     }
-    catch(e) {
-        output = [];
-    }
-
-   
-
-    return output;
-  };
-
-  const getStockScreenerData = async (strategyList) => {
-    const strategy = strategyList?.at(0);
-    let getRuleOfList = strategy?.rules?.map((item) => item?.name) || [];
-    // Ensure all required EMA parameters are included
-    ensureAllEmaParameters(getRuleOfList);
-
-    const postData = { ruleOfList: getRuleOfList };
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + "/stock-screener-data", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response.json();
 
     return output;
   };
@@ -77,8 +51,12 @@ export const load = async ({ locals }) => {
   // Fetch strategies once, then use result for screener data
   const strategyList = await getAllStrategies();
 
+  const strategy = strategyList?.at(0);
+  let getRuleOfList = strategy?.rules?.map((item) => item?.name) || [];
+  ensureAllEmaParameters(getRuleOfList);
+
   return {
-    getStockScreenerData: await getStockScreenerData(strategyList),
+    getStockScreenerData: await postAPI(locals, "/stock-screener-data", { ruleOfList: getRuleOfList }),
     getAllStrategies: strategyList,
   };
 };

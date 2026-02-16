@@ -1,5 +1,7 @@
+import { getAPI } from "$lib/server/api";
+
 export const load = async ({ locals }) => {
-  const { apiURL, apiKey, pb, user, wsURL, fastifyURL } = locals;
+  const { pb, user, wsURL, fastifyURL } = locals;
 
 
   const getAllStrategies = async () => {
@@ -34,16 +36,7 @@ export const load = async ({ locals }) => {
       subscriber: isSubscriber ? "Pro" : "Free",
     });
 
-    const response = await fetch(apiURL + "/unusual-order-feed?" + params.toString(), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-    });
-    const output = await response.json();
-
-    return output;
+    return await getAPI(locals, `/unusual-order-feed?${params.toString()}`);
   };
 
   // Generate WebSocket token for Pro users

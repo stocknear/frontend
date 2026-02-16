@@ -1,6 +1,7 @@
-export const load = async ({ parent, locals, fetch }) => {
+import { postAPI } from "$lib/server/api";
+
+export const load = async ({ parent, locals }) => {
   const { getAllPortfolio, activePortfolioId } = await parent();
-  const { apiKey, apiURL } = locals;
 
   // Helper function to parse ticker field
   function parseTickerField(ticker: any) {
@@ -27,7 +28,7 @@ export const load = async ({ parent, locals, fetch }) => {
   }) || []).sort((a: any, b: any) => {
     const dateA = new Date(a?.updated || 0)?.getTime();
     const dateB = new Date(b?.updated || 0)?.getTime();
-    return dateB - dateA; // Descending order (newest first)
+    return dateB - dateA;
   });
 
   // Determine active portfolio
@@ -52,24 +53,12 @@ export const load = async ({ parent, locals, fetch }) => {
   }
 
   try {
-    // Call backend API directly to get portfolio analysis (except bullBear)
-    const response = await fetch(apiURL + "/portfolio-analysis", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-      body: JSON.stringify({
-        portfolioId: displayPortfolio.id,
-        holdings: displayPortfolio.ticker,
-      }),
+    const analysisData = await postAPI(locals, "/portfolio-analysis", {
+      portfolioId: displayPortfolio.id,
+      holdings: displayPortfolio.ticker,
     });
 
-    const analysisData = response.ok ? await response?.json() : null;
-
     // Get bullBear data from PocketBase (not FastAPI)
-    // Supports both new format (sentiment, keyHighlights, risks, outlook)
-    // and old format (bullSay, bearSay) for backward compatibility
     let bullBearData: any = null;
 
     if (displayPortfolio?.bullBear) {
@@ -77,9 +66,7 @@ export const load = async ({ parent, locals, fetch }) => {
         ? JSON.parse(displayPortfolio.bullBear)
         : displayPortfolio.bullBear;
 
-      // Check if it's new format (has sentiment field) or old format (has bullSay/bearSay)
       if (pbBullBear?.sentiment) {
-        // New format - pass through as-is
         bullBearData = {
           sentiment: pbBullBear.sentiment,
           sentimentScore: pbBullBear.sentimentScore,
@@ -89,7 +76,6 @@ export const load = async ({ parent, locals, fetch }) => {
           date: pbBullBear.date || null,
         };
       } else if (pbBullBear?.bullSay || pbBullBear?.bearSay) {
-        // Old format - keep for backward compatibility but component won't auto-display
         bullBearData = {
           bullSays: pbBullBear?.bullSay || "",
           bearSays: pbBullBear?.bearSay || "",
@@ -98,7 +84,6 @@ export const load = async ({ parent, locals, fetch }) => {
       }
     }
 
-    // Override bullBear from FastAPI with PocketBase data
     if (analysisData) {
       analysisData.bullBear = bullBearData;
     }

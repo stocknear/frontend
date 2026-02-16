@@ -1,7 +1,8 @@
 import type { RequestHandler } from "./$types";
+import { postAPI } from "$lib/server/api";
 
 export const GET: RequestHandler = async ({ locals }) => {
-  const { apiURL, apiKey, user } = locals;
+  const { user } = locals;
 
   if (!user?.id) {
     return new Response(
@@ -9,17 +10,7 @@ export const GET: RequestHandler = async ({ locals }) => {
     );
   }
 
-  const postData = { userId: user?.id };
-  const response = await fetch(apiURL + "/get-price-alert", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey,
-    },
-    body: JSON.stringify(postData),
-  });
-
-  let output = await response.json();
+  let output = await postAPI(locals, "/get-price-alert", { userId: user?.id });
 
   output.data = (output?.data || [])
     ?.map((item) => ({

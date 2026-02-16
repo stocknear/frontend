@@ -1,35 +1,15 @@
 import type { RequestHandler } from "./$types";
+import { postAPI } from "$lib/server/api";
 
-export const GET: RequestHandler = async ({ request, locals }) => {
+export const GET: RequestHandler = async ({ locals }) => {
   // For GET requests, use default tickers for demo
   const defaultTickers = ['AAPL', 'GOOGL', 'MSFT'];
-  const timePeriod = 'one-day';
-  const { apiURL, apiKey } = locals;
 
   try {
     const fetchPromises = defaultTickers.map(async (ticker: string) => {
-      const [quoteResponse, priceResponse] = await Promise.all([
-        fetch(apiURL + "/stock-quote", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": apiKey
-          },
-          body: JSON.stringify({ ticker })
-        }),
-        fetch(apiURL + "/one-day-price", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": apiKey
-          },
-          body: JSON.stringify({ ticker })
-        })
-      ]);
-
       const [quote, priceData] = await Promise.all([
-        quoteResponse.json(),
-        priceResponse.json()
+        postAPI(locals, "/stock-quote", { ticker }),
+        postAPI(locals, "/one-day-price", { ticker }),
       ]);
 
       return {
@@ -53,7 +33,6 @@ export const GET: RequestHandler = async ({ request, locals }) => {
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
-  const { apiURL, apiKey } = locals;
 
   const tickerList = data?.tickerList;
   const timePeriod = data?.timePeriod || 'one-day';
@@ -67,39 +46,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   try {
     const fetchPromises = tickerList.map(async (ticker: string) => {
-      // Fetch both quote and price data for each ticker
-      const [quoteResponse, priceResponse] = await Promise.all([
-        fetch(apiURL + "/stock-quote", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": apiKey
-          },
-          body: JSON.stringify({ ticker })
-        }),
-        // Fetch price data based on time period
-        timePeriod === 'one-day' 
-          ? fetch(apiURL + "/one-day-price", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-API-KEY": apiKey
-              },
-              body: JSON.stringify({ ticker })
-            })
-          : fetch(apiURL + "/historical-price", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-API-KEY": apiKey
-              },
-              body: JSON.stringify({ ticker, timePeriod })
-            })
-      ]);
-
       const [quote, priceData] = await Promise.all([
-        quoteResponse.json(),
-        priceResponse.json()
+        postAPI(locals, "/stock-quote", { ticker }),
+        timePeriod === 'one-day'
+          ? postAPI(locals, "/one-day-price", { ticker })
+          : postAPI(locals, "/historical-price", { ticker, timePeriod }),
       ]);
 
       return {
