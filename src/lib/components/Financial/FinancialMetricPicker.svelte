@@ -1,4 +1,5 @@
-<script lang="ts">
+  <script lang="ts">
+  import { tick } from "svelte";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import {
@@ -33,6 +34,8 @@
   export let presets: PresetConfig[] = [];
 
   let searchQuery = "";
+  let isMenuOpen = false;
+  let searchInputEl: HTMLInputElement | null = null;
 
   const GROUPS: { key: string; label: string; statement: string }[] = [
     { key: "income", label: stock_detail_financials_income_statement(), statement: "income" },
@@ -66,9 +69,25 @@
     : presets;
 
   $: totalSelected = selectedIds.size + selectedPresetKeys.size;
+
+  async function focusSearchInput() {
+    await tick();
+    requestAnimationFrame(() => {
+      searchInputEl?.focus();
+      const cursorPos = searchQuery.length;
+      searchInputEl?.setSelectionRange(cursorPos, cursorPos);
+    });
+  }
+
+  function handleMenuOpenChange(nextOpen: boolean) {
+    isMenuOpen = nextOpen;
+    if (nextOpen) {
+      void focusSearchInput();
+    }
+  }
 </script>
 
-<DropdownMenu.Root>
+<DropdownMenu.Root bind:open={isMenuOpen} onOpenChange={handleMenuOpenChange}>
   <DropdownMenu.Trigger asChild let:builder>
     <Button
       builders={[builder]}
@@ -112,6 +131,8 @@
       <div class="relative w-full">
         <input
           bind:value={searchQuery}
+          bind:this={searchInputEl}
+          on:keydown|stopPropagation
           autocomplete="off"
           class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
           type="text"
